@@ -32,7 +32,7 @@
 							/>
 						<span>
 							<input type="number" id="ldap_port" name="ldap_port"
-								class="invisible lwautosave"
+								class="lwautosave"
 								placeholder="<?php p($l->t('Port'));?>" />
 						</span>
 					</div>

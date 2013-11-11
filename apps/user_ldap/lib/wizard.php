@@ -995,9 +995,9 @@ class Wizard extends LDAPUtility {
 		//In case the port is already provided, we will check this first
 		if($port > 0) {
 			$hostInfo = parse_url($host);
-			if(is_array($hostInfo)
+			if(!(is_array($hostInfo)
 				&& isset($hostInfo['scheme'])
-				&& stripos($hostInfo['scheme'], 'ldaps') === false) {
+				&& stripos($hostInfo['scheme'], 'ldaps') !== false)) {
 				$portSettings[] = array('port' => $port, 'tls' => true);
 			}
 			$portSettings[] =array('port' => $port, 'tls' => false);

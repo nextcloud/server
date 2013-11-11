@@ -202,7 +202,7 @@ var LdapWizard = {
 				},
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_base');
-					LdapWizard.showInfoBox('Please specify a port');
+					LdapWizard.showInfoBox('Please specify a Base DN');
 				}
 			);
 		}
@@ -210,28 +210,28 @@ var LdapWizard = {
 
 	checkPort: function() {
 		host = $('#ldap_host').val();
-		user = $('#ldap_dn').val();
-		pass = $('#ldap_agent_password').val();
+		port = $('#ldap_port').val();
 
-		if(host && user && pass) {
+		if(host && !port) {
 			param = 'action=guessPortAndTLS'+
 					'&ldap_serverconfig_chooser='+$('#ldap_serverconfig_chooser').val();
 
 			LdapWizard.showSpinner('#ldap_port');
+			$('#ldap_port').prop('disabled', 'disabled');
 			LdapWizard.ajax(param,
 				function(result) {
 					LdapWizard.applyChanges(result);
 					LdapWizard.hideSpinner('#ldap_port');
 					if($('#ldap_port').val()) {
 						LdapWizard.checkBaseDN();
-						$('#ldap_port').removeClass('invisible');
+						$('#ldap_port').prop('disabled', false);
 						LdapWizard.hideInfoBox();
 					}
 				},
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_port');
-					$('#ldap_port').removeClass('invisible');
-					LdapWizard.showInfoBox('Please specify the BaseDN');
+					$('#ldap_port').prop('disabled', false);
+					LdapWizard.showInfoBox('Please specify the Port');
 				}
 			);
 		}
@@ -459,9 +459,6 @@ var LdapWizard = {
 	},
 
 	init: function() {
-		if($('#ldap_port').val()) {
-			$('#ldap_port').removeClass('invisible');
-		}
 		LdapWizard.basicStatusCheck();
 	},
 
@@ -516,6 +513,8 @@ var LdapWizard = {
 	},
 
 	processChanges: function(triggerObj) {
+		LdapWizard.hideInfoBox();
+		
 		if(triggerObj.id == 'ldap_host'
 		   || triggerObj.id == 'ldap_port'
 		   || triggerObj.id == 'ldap_dn'
