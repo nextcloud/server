@@ -636,7 +636,7 @@ function procesSelection() {
 		if (selectedFiles.length>0) {
 			selection += n('files', '%n file', '%n files', selectedFiles.length);
 		}
-		$('#headerName>span.name').text(selection);
+		$('#headerName span.name').text(selection);
 		$('#modified').text('');
 		$('table').addClass('multiselect');
 	}
