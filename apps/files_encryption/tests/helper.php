@@ -19,36 +19,36 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
-	function testFixPartialFilePath() {
+	function testStripPartialFileExtension() {
 
 		$partFilename = 'testfile.txt.part';
 		$filename = 'testfile.txt';
 
 		$this->assertTrue(Encryption\Helper::isPartialFilePath($partFilename));
 
-		$this->assertEquals('testfile.txt', Encryption\Helper::fixPartialFilePath($partFilename));
+		$this->assertEquals('testfile.txt', Encryption\Helper::stripPartialFileExtension($partFilename));
 
 		$this->assertFalse(Encryption\Helper::isPartialFilePath($filename));
 
-		$this->assertEquals('testfile.txt', Encryption\Helper::fixPartialFilePath($filename));
+		$this->assertEquals('testfile.txt', Encryption\Helper::stripPartialFileExtension($filename));
 	}
 
 
 	/**
 	 * @medium
 	 */
-	function testFixPartialFileWithTransferIdPath() {
+	function testStripPartialFileExtensionWithTransferIdPath() {
 
 		$partFilename = 'testfile.txt.ocTransferId643653835.part';
 		$filename = 'testfile.txt';
 
 		$this->assertTrue(Encryption\Helper::isPartialFilePath($partFilename));
 
-		$this->assertEquals('testfile.txt', Encryption\Helper::fixPartialFilePath($partFilename));
+		$this->assertEquals('testfile.txt', Encryption\Helper::stripPartialFileExtension($partFilename));
 
 		$this->assertFalse(Encryption\Helper::isPartialFilePath($filename));
 
-		$this->assertEquals('testfile.txt', Encryption\Helper::fixPartialFilePath($filename));
+		$this->assertEquals('testfile.txt', Encryption\Helper::stripPartialFileExtension($filename));
 	}
 
 }

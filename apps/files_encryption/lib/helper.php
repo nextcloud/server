@@ -179,7 +179,7 @@ class Helper {
 	 * @return string File path without .part extension
 	 * @note this is needed for reusing keys
 	 */
-	public static function fixPartialFilePath($path) {
+	public static function stripPartialFileExtension($path) {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
 		if ( $extension === 'part' || $extension === 'etmp') {

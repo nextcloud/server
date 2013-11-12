@@ -1138,7 +1138,7 @@ class Util {
 		// Make sure that a share key is generated for the owner too
 		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
 
-		$ownerPath = \OCA\Encryption\Helper::fixPartialFilePath($ownerPath);
+		$ownerPath = \OCA\Encryption\Helper::stripPartialFileExtension($ownerPath);
 
 		$userIds = array();
 		if ($sharingEnabled) {

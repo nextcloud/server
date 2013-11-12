@@ -155,7 +155,7 @@ class Keymanager {
 		if (Helper::isPartialFilePath($targetPath)) {
 
 			$result = $view->file_put_contents(
-				$basePath . '/' . Helper::fixPartialFilePath($targetPath) . '.key', $catfile);
+				$basePath . '/' . Helper::stripPartialFileExtension($targetPath) . '.key', $catfile);
 
 		} else {
 
@@ -184,7 +184,7 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$filename = Helper::fixPartialFilePath($filename);
+		$filename = Helper::stripPartialFileExtension($filename);
 		$filePath_f = ltrim($filename, '/');
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -344,7 +344,7 @@ class Keymanager {
 
 			// try reusing key file if part file
 			if (Helper::isPartialFilePath($shareKeyPath)) {
-				$writePath = $basePath . '/' . Helper::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
+				$writePath = $basePath . '/' . Helper::stripPartialFileExtension($shareKeyPath) . '.' . $userId . '.shareKey';
 			} else {
 				$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
 			}
@@ -380,7 +380,7 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$filename = Helper::fixPartialFilePath($filename);
+		$filename = Helper::stripPartialFileExtension($filename);
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($util->isSystemWideMountPoint($filename)) {
 			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
