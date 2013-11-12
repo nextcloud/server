@@ -152,10 +152,10 @@ class Keymanager {
 		}
 
 		// try reusing key file if part file
-		if (self::isPartialFilePath($targetPath)) {
+		if (Helper::isPartialFilePath($targetPath)) {
 
 			$result = $view->file_put_contents(
-				$basePath . '/' . \OCA\Encryption\Helper::fixPartialFilePath($targetPath) . '.key', $catfile);
+				$basePath . '/' . Helper::fixPartialFilePath($targetPath) . '.key', $catfile);
 
 		} else {
 
@@ -166,22 +166,6 @@ class Keymanager {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return $result;
-
-	}
-
-	/**
-	 * @brief Check if a path is a .part file
-	 * @param string $path Path that may identify a .part file
-	 * @return bool
-	 */
-	public static function isPartialFilePath($path) {
-
-		$extension = pathinfo($path, PATHINFO_EXTENSION);
-		if ( $extension === 'part' || $extension === 'etmp') {
-			return true;
-		} else {
-			return false;
-		}
 
 	}
 
@@ -200,7 +184,7 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$filename = \OCA\Encryption\Helper::fixPartialFilePath($filename);
+		$filename = Helper::fixPartialFilePath($filename);
 		$filePath_f = ltrim($filename, '/');
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -359,8 +343,8 @@ class Keymanager {
 		foreach ($shareKeys as $userId => $shareKey) {
 
 			// try reusing key file if part file
-			if (self::isPartialFilePath($shareKeyPath)) {
-				$writePath = $basePath . '/' . \OCA\Encryption\Helper::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
+			if (Helper::isPartialFilePath($shareKeyPath)) {
+				$writePath = $basePath . '/' . Helper::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
 			} else {
 				$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
 			}
@@ -396,7 +380,7 @@ class Keymanager {
 		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
-		$filename = \OCA\Encryption\Helper::fixPartialFilePath($filename);
+		$filename = Helper::fixPartialFilePath($filename);
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($util->isSystemWideMountPoint($filename)) {
 			$shareKeyPath = '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';

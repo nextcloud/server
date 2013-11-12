@@ -156,6 +156,22 @@ class Helper {
 		return $return;
 	}
 
+	/**
+	 * @brief Check if a path is a .part file
+	 * @param string $path Path that may identify a .part file
+	 * @return bool
+	 */
+	public static function isPartialFilePath($path) {
+
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+		if ( $extension === 'part' || $extension === 'etmp') {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 
 	/**
 	 * @brief Remove .path extension from a file path

@@ -342,7 +342,7 @@ class Proxy extends \OC_FileProxy {
 
 		$fileInfo = false;
 		// get file info from database/cache if not .part file
-		if (!Keymanager::isPartialFilePath($path)) {
+		if (!Helper::isPartialFilePath($path)) {
 			$fileInfo = $view->getFileInfo($path);
 		}
 
@@ -353,7 +353,7 @@ class Proxy extends \OC_FileProxy {
 				$fixSize = $util->getFileSize($path);
 				$fileInfo['unencrypted_size'] = $fixSize;
 				// put file info if not .part file
-				if (!Keymanager::isPartialFilePath($relativePath)) {
+				if (!Helper::isPartialFilePath($relativePath)) {
 					$view->putFileInfo($path, $fileInfo);
 				}
 			}
@@ -372,7 +372,7 @@ class Proxy extends \OC_FileProxy {
 				$fileInfo['unencrypted_size'] = $size;
 
 				// put file info if not .part file
-				if (!Keymanager::isPartialFilePath($relativePath)) {
+				if (!Helper::isPartialFilePath($relativePath)) {
 					$view->putFileInfo($path, $fileInfo);
 				}
 			}
