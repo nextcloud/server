@@ -150,6 +150,9 @@ class MDB2SchemaReader {
 						case 'timestamp':
 							$type = 'datetime';
 							break;
+						case 'numeric':
+							$type = 'decimal';
+							break;
 					}
 					break;
 				case 'length':
