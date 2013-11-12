@@ -67,6 +67,7 @@ class Stream {
 	 * @var \OC\Files\View
 	 */
 	private $rootView; // a fsview object set to '/'
+
 	/**
 	 * @var \OCA\Encryption\Session
 	 */
@@ -528,19 +529,21 @@ class Stream {
 				\OC_FileProxy::$enabled = $proxyStatus;
 			}
 
+			// we need to update the file info for the real file, not for the
+			// part file.
+			$path = Helper::fixPartialFilePath($this->rawPath);
+
 			// get file info
-			$fileInfo = $this->rootView->getFileInfo($this->rawPath);
-			if (!is_array($fileInfo)) {
-				$fileInfo = array();
+			$fileInfo = $this->rootView->getFileInfo($path);
+			if (is_array($fileInfo)) {
+				// set encryption data
+				$fileInfo['encrypted'] = true;
+				$fileInfo['size'] = $this->size;
+				$fileInfo['unencrypted_size'] = $this->unencryptedSize;
+
+				// set fileinfo
+				$this->rootView->putFileInfo($path, $fileInfo);
 			}
-
-			// set encryption data
-			$fileInfo['encrypted'] = true;
-			$fileInfo['size'] = $this->size;
-			$fileInfo['unencrypted_size'] = $this->unencryptedSize;
-
-			// set fileinfo
-			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
 
 		}
 
