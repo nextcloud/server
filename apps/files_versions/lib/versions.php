@@ -156,6 +156,7 @@ class Storage {
 			}
 			foreach ($versions as $v) {
 				unlink($abs_path . $v['version']);
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
 				$versionsSize -= $v['size'];
 			}
 			self::setVersionsSize($uid, $versionsSize);
@@ -465,6 +466,7 @@ class Storage {
 			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$version = current($allVersions);
 				$versionsFileview->unlink($version['path'].'.v'.$version['version']);
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
 				$versionsSize -= $version['size'];
 				$availableSpace += $version['size'];
 				next($allVersions);
@@ -515,6 +517,7 @@ class Storage {
 						if ($version['version'] > $nextVersion) {
 							//distance between two version too small, delete version
 							$versionsFileview->unlink($version['path'] . '.v' . $version['version']);
+							\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'] . '.v' . $version['version']));
 							$size += $version['size'];
 							unset($allVersions[$key]); // update array with all versions
 						} else {
