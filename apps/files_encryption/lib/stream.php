@@ -531,7 +531,7 @@ class Stream {
 
 			// we need to update the file info for the real file, not for the
 			// part file.
-			$path = Helper::fixPartialFilePath($this->rawPath);
+			$path = Helper::stripPartialFileExtension($this->rawPath);
 
 			// get file info
 			$fileInfo = $this->rootView->getFileInfo($path);
