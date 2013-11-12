@@ -57,13 +57,13 @@ class MDB2SchemaReader extends \PHPUnit_Framework_TestCase {
 
 		$this->assertNull($table->getColumn('clobfield')->getLength());
 		$this->assertFalse($table->getColumn('clobfield')->getAutoincrement());
-		$this->assertSame('', $table->getColumn('clobfield')->getDefault());
+		$this->assertNull($table->getColumn('clobfield')->getDefault());
 		$this->assertTrue($table->getColumn('clobfield')->getNotnull());
 		$this->assertInstanceOf('Doctrine\DBAL\Types\TextType', $table->getColumn('clobfield')->getType());
 
 		$this->assertNull($table->getColumn('booleanfield')->getLength());
 		$this->assertFalse($table->getColumn('booleanfield')->getAutoincrement());
-		$this->assertFalse($table->getColumn('booleanfield')->getDefault());
+		$this->assertNull($table->getColumn('booleanfield')->getDefault());
 		$this->assertInstanceOf('Doctrine\DBAL\Types\BooleanType', $table->getColumn('booleanfield')->getType());
 
 		$this->assertTrue($table->getColumn('booleanfield_true')->getDefault());
