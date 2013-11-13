@@ -191,23 +191,6 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
-	function testFixPartialFilePath() {
-
-		$partFilename = 'testfile.txt.part';
-		$filename = 'testfile.txt';
-
-		$this->assertTrue(Encryption\Keymanager::isPartialFilePath($partFilename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($partFilename));
-
-		$this->assertFalse(Encryption\Keymanager::isPartialFilePath($filename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
-	}
-
-	/**
-	 * @medium
-	 */
 	function testRecursiveDelShareKeys() {
 
 		// generate filename

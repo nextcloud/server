@@ -157,6 +157,49 @@ class Helper {
 		return $return;
 	}
 
+	/**
+	 * @brief Check if a path is a .part file
+	 * @param string $path Path that may identify a .part file
+	 * @return bool
+	 */
+	public static function isPartialFilePath($path) {
+
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+		if ( $extension === 'part' || $extension === 'etmp') {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+
+	/**
+	 * @brief Remove .path extension from a file path
+	 * @param string $path Path that may identify a .part file
+	 * @return string File path without .part extension
+	 * @note this is needed for reusing keys
+	 */
+	public static function stripPartialFileExtension($path) {
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+
+		if ( $extension === 'part' || $extension === 'etmp') {
+
+			$newLength = strlen($path) - 5; // 5 = strlen(".part") = strlen(".etmp")
+			$fPath = substr($path, 0, $newLength);
+
+			// if path also contains a transaction id, we remove it too
+			$extension = pathinfo($fPath, PATHINFO_EXTENSION);
+			if(substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
+				$newLength = strlen($fPath) - strlen($extension) -1;
+				$fPath = substr($fPath, 0, $newLength);
+			}
+			return $fPath;
+
+		} else {
+			return $path;
+		}
+	}
 
 	/**
 	 * @brief disable recovery
