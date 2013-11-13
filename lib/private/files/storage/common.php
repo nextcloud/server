@@ -21,11 +21,11 @@ namespace OC\Files\Storage;
  */
 
 abstract class Common implements \OC\Files\Storage\Storage {
-	private $cache;
-	private $scanner;
-	private $permissioncache;
-	private $watcher;
-	private $storageCache;
+	protected $cache;
+	protected $scanner;
+	protected $permissioncache;
+	protected $watcher;
+	protected $storageCache;
 
 	public function __construct($parameters) {
 	}
