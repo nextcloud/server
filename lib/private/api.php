@@ -96,6 +96,7 @@ class OC_API {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
+					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
 			}
@@ -103,6 +104,7 @@ class OC_API {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_NOT_FOUND, 'Api method not found'),
+					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
 			}
@@ -110,6 +112,7 @@ class OC_API {
 			$responses[] = array(
 				'app' => $action['app'],
 				'response' => call_user_func($action['action'], $parameters),
+				'shipped' => OC_App::isShipped($action['app']),
 				);
 		}
 		$response = self::mergeResponses($responses);
@@ -127,7 +130,7 @@ class OC_API {
 	 * merge the returned result objects into one response
 	 * @param array $responses
 	 */
-	private static function mergeResponses($responses) {
+	public static function mergeResponses($responses) {
 		$response = array();
 		// Sort into shipped and thirdparty
 		$shipped = array(
@@ -140,17 +143,17 @@ class OC_API {
 			);
 
 		foreach($responses as $response) {
-			if(OC_App::isShipped($response['app']) || ($response['app'] === 'core')) {
+			if($response['shipped'] || ($response['app'] === 'core')) {
 				if($response['response']->succeeded()) {
-					$shipped['succeeded'][$response['app']] = $response['response'];
+					$shipped['succeeded'][$response['app']] = $response;
 				} else {
-					$shipped['failed'][$response['app']] = $response['response'];
+					$shipped['failed'][$response['app']] = $response;
 				}
 			} else {
 				if($response['response']->succeeded()) {
-					$thirdparty['succeeded'][$response['app']] = $response['response'];
+					$thirdparty['succeeded'][$response['app']] = $response;
 				} else {
-					$thirdparty['failed'][$response['app']] = $response['response'];
+					$thirdparty['failed'][$response['app']] = $response;
 				}
 			}
 		}
@@ -177,10 +180,10 @@ class OC_API {
 		$data = array();
 
 		foreach($responses as $app => $response) {
-			if(OC_App::isShipped($app)) {
-				$data = array_merge_recursive($response->getData(), $data);
+			if($response['shipped']) {
+				$data = array_merge_recursive($response['response']->getData(), $data);
 			} else {
-				$data = array_merge_recursive($data, $response->getData());
+				$data = array_merge_recursive($data, $response['response']->getData());
 			}
 		}
 		$result = new OC_OCS_Result($data, 100);
