@@ -170,7 +170,7 @@ class OC_API {
 			$response = reset($thirdparty['failed']);
 			return $response;
 		} else {
-			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
+			$responses = $thirdparty['succeeded'];
 		}
 		// Merge the successful responses
 		$meta = array();
@@ -182,8 +182,19 @@ class OC_API {
 			} else {
 				$data = array_merge_recursive($data, $response->getData());
 			}
+			$codes[] = $response->getStatusCode();
 		}
-		$result = new OC_OCS_Result($data, 100);
+
+		// Use any non 100 status codes
+		$statusCode = 100;
+		foreach($codes as $code) {
+			if($code != 100) {
+				$statusCode = $code;
+				break;
+			}
+		}
+
+		$result = new OC_OCS_Result($data, $statusCode);
 		return $result;
 	}
 	
