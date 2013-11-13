@@ -56,8 +56,8 @@ class Home extends Storage {
 
 	public function setUp() {
 		$this->tmpDir = \OC_Helper::tmpFolder();
-		$userId = uniqid('user_');
-		$this->user = new DummyUser($userId, $this->tmpDir);
+		$this->userId = uniqid('user_');
+		$this->user = new DummyUser($this->userId, $this->tmpDir);
 		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user));
 	}
 
@@ -65,7 +65,32 @@ class Home extends Storage {
 		\OC_Helper::rmdirr($this->tmpDir);
 	}
 
+	/**
+	 * Tests that the root path matches the data dir
+	 */
 	public function testRoot() {
 		$this->assertEquals($this->tmpDir, $this->instance->getLocalFolder(''));
+	}
+
+	/**
+	 * Tests that the home id is in the format home::user1
+	 */
+	public function testId() {
+		$this->assertEquals('home::' . $this->userId, $this->instance->getId());
+	}
+
+	/**
+	 * Tests that the legacy home id is in the format local::/path/to/datadir/user1/
+	 */
+	public function testLegacyId() {
+		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user, 'legacy' => true));
+		$this->assertEquals('local::' . $this->tmpDir . '/', $this->instance->getId());
+	}
+
+	/**
+	 * Tests that getCache() returns an instance of HomeCache
+	 */
+	public function testGetCacheReturnsHomeCache() {
+		$this->assertInstanceOf('\OC\Files\Cache\HomeCache', $this->instance->getCache());
 	}
 }
