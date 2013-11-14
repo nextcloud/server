@@ -10,6 +10,7 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$dir = \OC\Files\Filesystem::normalizePath($dir);
 $doBreadcrumb = isset( $_GET['breadcrumb'] ) ? true : false;
 $data = array();
 
