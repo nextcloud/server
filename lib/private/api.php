@@ -164,8 +164,16 @@ class OC_API {
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
-			$response = reset($shipped['failed']);
-			return $response['response'];
+			// Merge failed responses if more than one
+			$data = array();
+			$meta = array();
+			foreach($shipped['failed'] as $failure) {
+				$data = array_merge_recursive($data, $failure['response']->getData());
+			}
+			$picked = reset($shipped['failed']);
+			$code = $picked['response']->getStatusCode();
+			$response = new OC_OCS_Result($data, $code);
+			return $response;
 		} elseif(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		} elseif(!empty($thirdparty['failed'])) {
