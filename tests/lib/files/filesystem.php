@@ -69,14 +69,67 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testNormalize() {
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath(''));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('/'));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('/', false));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('//'));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('//', false));
 		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('/path/'));
 		$this->assertEquals('/path/', \OC\Files\Filesystem::normalizePath('/path/', false));
 		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('path'));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\path'));
 		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo//bar/'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo//bar/', false));
 		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo////bar'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/////bar'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/.'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/./'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/bar/./', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/./.'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/././'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/bar/././', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/./bar/'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/./bar/', false));
+		$this->assertEquals('/foo/.bar', \OC\Files\Filesystem::normalizePath('/foo/.bar/'));
+		$this->assertEquals('/foo/.bar/', \OC\Files\Filesystem::normalizePath('/foo/.bar/', false));
+		$this->assertEquals('/foo/.bar/tee', \OC\Files\Filesystem::normalizePath('/foo/.bar/tee'));
+
+		// normalize does not resolve '..' (by design)
+		$this->assertEquals('/foo/..', \OC\Files\Filesystem::normalizePath('/foo/../'));
+
 		if (class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("/foo/baru\xCC\x88"));
+		}
+	}
+
+	public function testNormalizeWindowsPaths() {
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath(''));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\'));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\', false));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\'));
+		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\', false));
+		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path\\'));
+		$this->assertEquals('/path/', \OC\Files\Filesystem::normalizePath('\\path\\', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\bar\\'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\\\bar\\', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\\\\\bar'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\\\\\\\bar'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.'));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.\\'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.\\', false));
+		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\.\\bar\\'));
+		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\.\\bar\\', false));
+		$this->assertEquals('/foo/.bar', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\'));
+		$this->assertEquals('/foo/.bar/', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\', false));
+		$this->assertEquals('/foo/.bar/tee', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\tee'));
+
+		// normalize does not resolve '..' (by design)
+		$this->assertEquals('/foo/..', \OC\Files\Filesystem::normalizePath('\\foo\\..\\'));
+
+		if (class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("\\foo\\baru\xCC\x88"));
 		}
 	}
 
