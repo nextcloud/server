@@ -47,8 +47,13 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 
 	public function constructUrl($path) {
 		if (substr($path, -1)=='/') {
-			$path=substr($path, 0, -1);
+			$path = substr($path, 0, -1);
 		}
+		if (substr($path, 0, 1)=='/') {
+			$path = substr($path, 1);
+		}
+		// remove trailing dots which some versions of samba don't seem to like
+		$path = rtrim($path, '.');
 		$path = urlencode($path);
 		$user = urlencode($this->user);
 		$pass = urlencode($this->password);
