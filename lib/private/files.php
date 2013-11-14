@@ -109,6 +109,9 @@ class OC_Files {
 			$zip = false;
 			$filename = $dir . '/' . $files;
 			$name = $files;
+			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
+				$xsendfile = false;
+			}
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
