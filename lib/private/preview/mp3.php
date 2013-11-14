@@ -25,7 +25,8 @@ class MP3 extends Provider {
 		if(isset($tags['id3v2']['APIC'][0]['data'])) {
 			$picture = @$tags['id3v2']['APIC'][0]['data'];
 			unlink($tmpPath);
-			$image = new \OC_Image($picture);
+			$image = new \OC_Image();
+			$image->loadFromData($picture);
 			return $image->valid() ? $image : $this->getNoCoverThumbnail();
 		}
 
@@ -39,7 +40,8 @@ class MP3 extends Provider {
 			return false;
 		}
 
-		$image = new \OC_Image($icon);
+		$image = new \OC_Image();
+		$image->loadFromFile($icon);
 		return $image->valid() ? $image : false;
 	}
 

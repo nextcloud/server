@@ -36,7 +36,8 @@ if (!\OC_Util::runningOnWindows()) {
 
 				shell_exec($cmd);
 
-				$image = new \OC_Image($tmpPath);
+				$image = new \OC_Image();
+				$image->loadFromFile($tmpPath);
 
 				unlink($absPath);
 				unlink($tmpPath);
