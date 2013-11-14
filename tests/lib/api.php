@@ -66,7 +66,7 @@ class Test_API extends PHPUnit_Framework_TestCase {
 
 		// Two shipped success results
 		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(true, $data1O),
+			$this->buildResponse(true, $data1),
 			$this->buildResponse(true, $data2),
 			));
 		$this->checkResult($result);
