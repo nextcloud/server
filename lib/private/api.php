@@ -185,7 +185,7 @@ class OC_API {
 			} else {
 				$data = array_merge_recursive($data, $response['response']->getData());
 			}
-			$codes[] = $response->getStatusCode();
+			$codes[] = $response['response']->getStatusCode();
 		}
 
 		// Use any non 100 status codes
