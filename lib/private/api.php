@@ -167,11 +167,11 @@ class OC_API {
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
 			$response = reset($shipped['failed']);
-			return $response;
+			return $response['response'];
 		} elseif(!empty($thirdparty['failed'])) {
 			// Return the third party failure result
 			$response = reset($thirdparty['failed']);
-			return $response;
+			return $response['response'];
 		} else {
 			$responses = $thirdparty['succeeded'];
 		}
