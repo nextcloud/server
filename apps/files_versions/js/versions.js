@@ -21,7 +21,7 @@ $(document).ready(function(){
 				// Action to perform when clicked
 				if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
-				var file = $('#dir').val()+'/'+filename;
+				var file = $('#dir').val().replace(/(?!<=\/)$|\/$/, '/' + filename);
 				var createDropDown = true;
 				// Check if drop down is already visible for a different file
 				if (($('#dropdown').length > 0) ) {
