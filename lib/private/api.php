@@ -177,9 +177,16 @@ class OC_API {
 		} elseif(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		} elseif(!empty($thirdparty['failed'])) {
-			// Return the third party failure result
-			$response = reset($thirdparty['failed']);
-			return $response['response'];
+			// Merge failed responses if more than one
+			$data = array();
+			$meta = array();
+			foreach($thirdparty['failed'] as $failure) {
+				$data = array_merge_recursive($data, $failure['response']->getData());
+			}
+			$picked = reset($thirdparty['failed']);
+			$code = $picked['response']->getStatusCode();
+			$response = new OC_OCS_Result($data, $code);
+			return $response;
 		} else {
 			$responses = $thirdparty['succeeded'];
 		}
