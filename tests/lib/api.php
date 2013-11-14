@@ -9,7 +9,7 @@
 class Test_API extends PHPUnit_Framework_TestCase {
 	
 	// Helps build a response variable
-	public function buildResponse($shipped=true, $data=null, $code=100) {
+	function buildResponse($shipped, $data, $code) {
 		return array(
 			'shipped' => $shipped,
 			'response' => new OC_OCS_Result($data, $code),
@@ -18,142 +18,111 @@ class Test_API extends PHPUnit_Framework_TestCase {
 	}
 
 	// Validate details of the result
-	public function checkResult($result, $success=true) {
+	function checkResult($result, $success) {
 		// Check response is of correct type
-		$this->assertEquals('OC_OCS_Result', get_class($result));
-		// CHeck if it succeeded
+		$this->assertInstanceOf('OC_OCS_Result', $result);
+		// Check if it succeeded
+		/** @var $result OC_OCS_Result */
 		$this->assertEquals($success, $result->succeeded());
 	}
 
-	// Test the merging of multiple responses
-	public function testMergeResponses(){
+	function dataProviderTestOneResult() {
+		return array(
+			array(100, true),
+			array(101, true),
+			array(997, false),
+		);
+	}
+
+	/**
+	 * @dataProvider dataProviderTestOneResult
+	 *
+	 * @param $statusCode
+	 * @param $succeeded
+	 */
+	public function testOneResult($statusCode, $succeeded) {
+		// Setup some data arrays
+		$data1 = array(
+			'users' => array(
+				'tom' => array(
+					'key' => 'value',
+				),
+				'frank' => array(
+					'key' => 'value',
+				),
+			));
+
+		// Test merging one success result
+		$response = $this->buildResponse(true, $data1, $statusCode);
+		$result = OC_API::mergeResponses(array($response));
+		$this->assertEquals($response['response'], $result);
+		$this->checkResult($result, $succeeded);
+	}
+
+	function dataProviderTestMergeResponses() {
+		return array(
+			// Two shipped success results
+			array(true, 100, true, 100, true),
+			// Two shipped results, one success and one failure
+			array(true, 100, true, 997, false),
+			// Two shipped results, both failure
+			array(true, 997, true, 997, false),
+			// Two third party success results
+			array(false, 100, false, 100, true),
+			// Two third party results, one success and one failure
+			array(false, 100, false, 997, false),
+			// Two third party results, both failure
+			array(false, 997, false, 997, false),
+			// One of each, both success
+			array(false, 100, true, 100, true),
+			array(true, 100, false, 100, true),
+			// One of each, both failure
+			array(false, 997, true, 997, false),
+			// One of each, shipped success
+			array(false, 997, true, 100, true),
+			// One of each, third party success
+			array(false, 100, true, 997, false),
+		);
+	}
+	/**
+	 * @dataProvider dataProviderTestMergeResponses
+	 *
+	 * Test the merging of multiple responses
+	 * @param $statusCode1
+	 * @param $statusCode2
+	 * @param $succeeded
+	 */
+	public function testMultipleMergeResponses($shipped1, $statusCode1, $shipped2, $statusCode2, $succeeded){
 		// Tests that app responses are merged correctly
 		// Setup some data arrays
 		$data1 = array(
 			'users' => array(
 				'tom' => array(
 					'key' => 'value',
-					),
+				),
 				'frank' => array(
 					'key' => 'value',
-					),
+				),
 			));
 
 		$data2 = array(
 			'users' => array(
 				'tom' => array(
 					'key' => 'newvalue',
-					),
+				),
 				'jan' => array(
 					'key' => 'value',
-					),
+				),
 			));
-		// Test merging one success result
-		$response = $this->buildResponse(true, $data1);
-		$result = OC_API::mergeResponses(array($response));
-		$this->assertEquals($response['response'], $result);
-		$this->checkResult($result);
-
-		$response = $this->buildResponse(true, $data1, 101);
-		$result = OC_API::mergeResponses(array($response));
-		$this->assertEquals($response['response'], $result);
-		$this->checkResult($result);
-
-		$response = $this->buildResponse(true, $data1, 997);
-		$result = OC_API::mergeResponses(array($response));
-		$this->assertEquals($response['response'], $result);
-		$this->checkResult($result, false);
 
 		// Two shipped success results
 		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(true, $data1),
-			$this->buildResponse(true, $data2),
-			));
-		$this->checkResult($result);
+			$this->buildResponse($shipped1, $data1, $statusCode1),
+			$this->buildResponse($shipped2, $data2, $statusCode2),
+		));
+		$this->checkResult($result, $succeeded);
 		$resultData = $result->getData();
 		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// Two shipped results, one success and one failure
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(true, $data1),
-			$this->buildResponse(true, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// Two shipped results, both failure
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(true, $data1, 997),
-			$this->buildResponse(true, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// Two third party success results
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1),
-			$this->buildResponse(false, $data2),
-			));
-		$this->checkResult($result);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// Two third party results, one success and one failure
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1),
-			$this->buildResponse(false, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// Two third party results, both failure
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1, 997),
-			$this->buildResponse(false, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// One of each, both success
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1),
-			$this->buildResponse(true, $data2),
-			));
-		$this->checkResult($result);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// One of each, both failure
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1, 997),
-			$this->buildResponse(true, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// One of each, shipped success
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1, 997),
-			$this->buildResponse(true, $data2),
-			));
-		$this->checkResult($result);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
-		// One of each, third party success
-		$result = OC_API::mergeResponses(array(
-			$this->buildResponse(false, $data1),
-			$this->buildResponse(true, $data2, 997),
-			));
-		$this->checkResult($result, false);
-		$resultData = $result->getData();
-		$this->assertArrayHasKey('jan', $resultData['users']);
-
 	}
 
 }
