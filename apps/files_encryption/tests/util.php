@@ -322,18 +322,12 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		print("\n File Info Encrypted\n");
-		print_r($fileInfoEncrypted);
-
 		$this->assertTrue(is_array($fileInfoEncrypted));
 
 		// encrypt all unencrypted files
 		$util->decryptAll('/' . $this->userId . '/' . 'files');
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
-
-		print("\n File Info Unencrypted\n");
-		print_r($fileInfoUnencrypted);
 
 		$this->assertTrue(is_array($fileInfoUnencrypted));
 
