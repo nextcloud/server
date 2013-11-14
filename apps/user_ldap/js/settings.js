@@ -613,6 +613,8 @@ var LdapWizard = {
 	},
 
 	toggleRawFilter: function(container, moc, mg, stateVar) {
+		//moc = multiselect objectclass
+		//mg = mutliselect groups
 		if($(container).hasClass('invisible')) {
 			$(container).removeClass('invisible');
 			$(moc).multiselect('disable');
@@ -635,6 +637,22 @@ var LdapWizard = {
 								   '#ldap_groupfilter_groups',
 								   'groupFilterGroupSelectState'
   								);
+	},
+
+	toggleRawLoginFilter: function() {
+		container = '#rawLoginFilterContainer';
+		if($(container).hasClass('invisible')) {
+			$(container).removeClass('invisible');
+			action = 'disable';
+			property = 'disabled';
+		} else {
+			$(container).addClass('invisible');
+			action = 'enable';
+			property = false;
+		}
+		$('#ldap_loginfilter_attributes').multiselect(action);
+		$('#ldap_loginfilter_email').prop('disabled', property);
+		$('#ldap_loginfilter_username').prop('disabled', property);
 	},
 
 	toggleRawUserFilter: function() {
@@ -670,6 +688,7 @@ $(document).ready(function() {
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
 	$('#toggleRawGroupFilter').click(LdapWizard.toggleRawGroupFilter);
+	$('#toggleRawLoginFilter').click(LdapWizard.toggleRawLoginFilter);
 	LdapConfiguration.refreshConfig();
 	$('.ldap_action_continue').click(function(event) {
 		event.preventDefault();
