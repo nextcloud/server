@@ -178,6 +178,10 @@ class Cache {
 				if ($file['storage_mtime'] == 0) {
 					$file['storage_mtime'] = $file['mtime'];
 				}
+				if ($file['encrypted']) {
+					$file['encrypted_size'] = $file['size'];
+					$file['size'] = $file['unencrypted_size'];
+				}
 			}
 			return $files;
 		} else {
