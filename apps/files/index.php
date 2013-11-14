@@ -36,6 +36,7 @@ OCP\Util::addscript('files', 'filelist');
 OCP\App::setActiveNavigationEntry('files_index');
 // Load the files
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
+$dir = \OC\Files\Filesystem::normalizePath($dir);
 // Redirect if directory does not exist
 if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
 	header('Location: ' . OCP\Util::getScriptName() . '');
@@ -128,7 +129,7 @@ if ($needUpgrade) {
 	$tmpl = new OCP\Template('files', 'index', 'user');
 	$tmpl->assign('fileList', $list->fetchPage());
 	$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
-	$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($dir));
+	$tmpl->assign('dir', $dir);
 	$tmpl->assign('isCreatable', $isCreatable);
 	$tmpl->assign('permissions', $permissions);
 	$tmpl->assign('files', $files);
