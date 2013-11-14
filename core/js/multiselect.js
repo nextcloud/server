@@ -156,8 +156,6 @@
 					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px';
 					var newWidth=Math.max(button.width(),settings.minWidth);
 					var pos=button.position();
-					button.css('height',button.height());
-					button.css('white-space','nowrap');
 					button.css('width',oldWidth);
 					button.animate({'width':newWidth},undefined,undefined,function(){
 						button.css('width','');
