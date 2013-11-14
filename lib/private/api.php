@@ -159,15 +159,15 @@ class OC_API {
 		}
 
 		// Remove any error responses if there is one shipped response that succeeded
-		if(!empty($shipped['succeeded'])) {
-			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
-		} else if(!empty($shipped['failed'])) {
+		if(!empty($shipped['failed'])) {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
 			$response = reset($shipped['failed']);
 			return $response['response'];
+		} elseif(!empty($shipped['succeeded'])) {
+			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		} elseif(!empty($thirdparty['failed'])) {
 			// Return the third party failure result
 			$response = reset($thirdparty['failed']);
