@@ -569,8 +569,18 @@ var FileList={
 						FileList.updateEmptyContent();
 						Files.updateStorageStatistics();
 					} else {
+						if (result.status === 'error' && result.data.message) {
+							OC.Notification.show(result.data.message);
+						}
+						else {
+							OC.Notification.show(t('files', 'Error deleting file.'));
+						}
+						// hide notification after 10 sec
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
 						$.each(files,function(index,file) {
-							var deleteAction = $('tr[data-file="'+files[i]+'"]').children("td.date").children(".action.delete");
+							var deleteAction = $('tr[data-file="' + file + '"] .action.delete');
 							deleteAction.removeClass('progress-icon').addClass('delete-icon');
 						});
 					}
