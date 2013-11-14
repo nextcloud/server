@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Potrdi brisanje",
 "_%s group found_::_%s groups found_" => array("","","",""),
 "_%s user found_::_%s users found_" => array("","","",""),
+"Save" => "Shrani",
 "Test Configuration" => "Preizkusne nastavitve",
 "Help" => "Pomoč",
 "Add Server Configuration" => "Dodaj nastavitve strežnika",

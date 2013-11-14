@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Store'i nimekirja laadimine ebaõnnestus",
 "Authentication error" => "Autentimise viga",
+"Your full name has been changed." => "Sinu täispikk nimi on muudetud.",
+"Unable to change full name" => "Täispika nime muutmine ebaõnnestus",
 "Group already exists" => "Grupp on juba olemas",
 "Unable to add group" => "Keela grupi lisamine",
 "Email saved" => "Kiri on salvestatud",
@@ -109,6 +111,7 @@ $TRANSLATIONS = array(
 "Current password" => "Praegune parool",
 "New password" => "Uus parool",
 "Change password" => "Muuda parooli",
+"Full Name" => "Täispikk nimi",
 "Email" => "E-post",
 "Your email address" => "Sinu e-posti aadress",
 "Fill in an email address to enable password recovery" => "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress",
@@ -137,6 +140,7 @@ $TRANSLATIONS = array(
 "Other" => "Muu",
 "Username" => "Kasutajanimi",
 "Storage" => "Maht",
+"change full name" => "Muuda täispikka nime",
 "set new password" => "määra uus parool",
 "Default" => "Vaikeväärtus"
 );

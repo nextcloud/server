@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Baieztatu Ezabatzea",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Gorde",
 "Test Configuration" => "Egiaztatu Konfigurazioa",
 "Help" => "Laguntza",
 "Add Server Configuration" => "Gehitu Zerbitzariaren Konfigurazioa",

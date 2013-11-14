@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:39+0000\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-11 08:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -132,6 +132,10 @@ msgstr ""
 
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
+msgstr ""
+
+#: templates/part.settingcontrols.php:2
+msgid "Save"
 msgstr ""
 
 #: templates/part.settingcontrols.php:4

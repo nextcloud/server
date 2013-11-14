@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Select groups" => "Выбрать группы",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Сохранить",
 "Help" => "Помощь",
 "Password" => "Пароль",
 "Back" => "Назад"

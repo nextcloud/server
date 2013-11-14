@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Store'dan liste yüklenemiyor",
 "Authentication error" => "Kimlik doğrulama hatası",
+"Your full name has been changed." => "Tam adınız değiştirildi.",
+"Unable to change full name" => "Tam adınız değiştirilirken hata",
 "Group already exists" => "Grup zaten mevcut",
 "Unable to add group" => "Gruba eklenemiyor",
 "Email saved" => "E-posta kaydedildi",
@@ -109,6 +111,7 @@ $TRANSLATIONS = array(
 "Current password" => "Mevcut parola",
 "New password" => "Yeni parola",
 "Change password" => "Parola değiştir",
+"Full Name" => "Tam Adı",
 "Email" => "Eposta",
 "Your email address" => "E-posta adresiniz",
 "Fill in an email address to enable password recovery" => "Parola kurtarmayı etkinleştirmek için bir eposta adresi girin",
@@ -137,6 +140,7 @@ $TRANSLATIONS = array(
 "Other" => "Diğer",
 "Username" => "Kullanıcı Adı",
 "Storage" => "Depolama",
+"change full name" => "tam adı değiştir",
 "set new password" => "yeni parola belirle",
 "Default" => "Varsayılan"
 );

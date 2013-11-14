@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# miroj <jmiroslav@softhome.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:39+0000\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-11 08:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -68,11 +69,11 @@ msgstr ""
 
 #: js/settings.js:84
 msgid "Keep settings?"
-msgstr ""
+msgstr "Да ги сочувам нагодувањата?"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Не можам да ја додадам конфигурацијата на серверот"
 
 #: js/settings.js:113
 msgid "mappings cleared"
@@ -100,11 +101,11 @@ msgstr ""
 
 #: js/settings.js:694
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Тестот за поврзување е успешен"
 
 #: js/settings.js:699
 msgid "Connection test failed"
-msgstr ""
+msgstr "Тестот за поврзување не е успешен"
 
 #: js/settings.js:709
 msgid "Do you really want to delete the current Server Configuration?"
@@ -112,7 +113,7 @@ msgstr ""
 
 #: js/settings.js:710
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Потврдете го бришењето"
 
 #: lib/wizard.php:78 lib/wizard.php:92
 #, php-format
@@ -135,6 +136,10 @@ msgstr ""
 #: lib/wizard.php:910
 msgid "Could not find the desired feature"
 msgstr ""
+
+#: templates/part.settingcontrols.php:2
+msgid "Save"
+msgstr "Сними"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -210,7 +215,7 @@ msgstr "Може да го скокнете протколот освен ако
 
 #: templates/part.wizard-server.php:36
 msgid "Port"
-msgstr ""
+msgstr "Порта"
 
 #: templates/part.wizard-server.php:44
 msgid "User DN"

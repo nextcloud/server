@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Apstiprināt dzēšanu",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Saglabāt",
 "Test Configuration" => "Testa konfigurācija",
 "Help" => "Palīdzība",
 "Add Server Configuration" => "Pievienot servera konfigurāciju",

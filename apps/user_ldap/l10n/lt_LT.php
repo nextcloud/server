@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "Patvirtinkite trynimą",
 "_%s group found_::_%s groups found_" => array("","",""),
 "_%s user found_::_%s users found_" => array("","",""),
+"Save" => "Išsaugoti",
 "Test Configuration" => "Bandyti konfigūraciją",
 "Help" => "Pagalba",
 "Add Server Configuration" => "Pridėti serverio konfigūraciją",

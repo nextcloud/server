@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Select groups" => "Chọn nhóm",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "Lưu",
 "Help" => "Giúp đỡ",
 "Host" => "Máy chủ",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Bạn có thể bỏ qua các giao thức, ngoại trừ SSL. Sau đó bắt đầu với ldaps://",

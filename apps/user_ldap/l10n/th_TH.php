@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "ยืนยันการลบทิ้ง",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "บันทึก",
 "Help" => "ช่วยเหลือ",
 "Add Server Configuration" => "เพิ่มการกำหนดค่าเซิร์ฟเวอร์",
 "Host" => "โฮสต์",

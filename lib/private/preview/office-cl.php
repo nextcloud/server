@@ -48,7 +48,8 @@ if (!\OC_Util::runningOnWindows()) {
 				return false;
 			}
 
-			$image = new \OC_Image($pdf);
+			$image = new \OC_Image();
+			$image->loadFromData($pdf);
 
 			unlink($absPath);
 			unlink($absPath . '.pdf');

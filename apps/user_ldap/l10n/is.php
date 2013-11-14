@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Error" => "Villa",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "Vista",
 "Test Configuration" => "Prúfa uppsetningu",
 "Help" => "Hjálp",
 "Host" => "Netþjónn",

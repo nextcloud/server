@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Authentication error" => "Tunnistautumisvirhe",
+"Your full name has been changed." => "Koko nimesi on muutettu.",
+"Unable to change full name" => "Koko nimen muuttaminen epäonnistui",
 "Group already exists" => "Ryhmä on jo olemassa",
 "Unable to add group" => "Ryhmän lisäys epäonnistui",
 "Email saved" => "Sähköposti tallennettu",
@@ -46,6 +48,7 @@ $TRANSLATIONS = array(
 "Info, warnings, errors and fatal issues" => "Tiedot, varoitukset, virheet ja vakavat ongelmat",
 "Warnings, errors and fatal issues" => "Varoitukset, virheet ja vakavat ongelmat",
 "Errors and fatal issues" => "Virheet ja vakavat ongelmat",
+"Fatal issues only" => "Vain vakavat ongelmat",
 "Security Warning" => "Turvallisuusvaroitus",
 "Setup Warning" => "Asetusvaroitus",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Lue <a href=\"%s\">asennusohjeet</a> tarkasti.",
@@ -96,6 +99,7 @@ $TRANSLATIONS = array(
 "Current password" => "Nykyinen salasana",
 "New password" => "Uusi salasana",
 "Change password" => "Vaihda salasana",
+"Full Name" => "Koko nimi",
 "Email" => "Sähköpostiosoite",
 "Your email address" => "Sähköpostiosoitteesi",
 "Fill in an email address to enable password recovery" => "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa",
@@ -120,6 +124,7 @@ $TRANSLATIONS = array(
 "Other" => "Muu",
 "Username" => "Käyttäjätunnus",
 "Storage" => "Tallennustila",
+"change full name" => "muuta koko nimi",
 "set new password" => "aseta uusi salasana",
 "Default" => "Oletus"
 );

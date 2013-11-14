@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s utilisateur trouvé","%s utilisateurs trouvés"),
 "Invalid Host" => "Hôte invalide",
 "Could not find the desired feature" => "Impossible de trouver la fonction souhaitée",
+"Save" => "Sauvegarder",
 "Test Configuration" => "Tester la configuration",
 "Help" => "Aide",
 "Limit the access to %s to groups meeting this criteria:" => "Limiter l'accès à %s aux groupes respectant ce critère :",

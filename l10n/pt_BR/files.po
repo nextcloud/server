@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-09 07:01+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "Impossível mover %s - Um arquivo com este nome já existe"
 msgid "Could not move %s"
 msgstr "Impossível mover %s"
 
-#: ajax/newfile.php:56 js/files.js:27
+#: ajax/newfile.php:56 js/files.js:74
 msgid "File name cannot be empty."
 msgstr "O nome do arquivo não pode estar vazio."
 
@@ -54,7 +54,7 @@ msgstr "Não é uma fonte válida"
 msgid "Error while downloading %s to %s"
 msgstr "Erro ao baixar %s para %s"
 
-#: ajax/newfile.php:127
+#: ajax/newfile.php:128
 msgid "Error when creating the file"
 msgstr "Erro ao criar o arquivo"
 
@@ -117,15 +117,15 @@ msgstr "Falha ao escrever no disco"
 msgid "Not enough storage available"
 msgstr "Espaço de armazenamento insuficiente"
 
-#: ajax/upload.php:127 ajax/upload.php:153
+#: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
 msgstr "Falha no envio. Não foi possível obter informações do arquivo."
 
-#: ajax/upload.php:143
+#: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Falha no envio. Não foi possível encontrar o arquivo enviado"
 
-#: ajax/upload.php:170
+#: ajax/upload.php:172
 msgid "Invalid directory."
 msgstr "Diretório inválido."
 
@@ -145,24 +145,24 @@ msgstr "Espaço de armazenamento insuficiente"
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:345
+#: js/file-upload.js:344
 msgid "Could not get result from server."
 msgstr "Não foi possível obter o resultado do servidor."
 
-#: js/file-upload.js:437
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do envio."
 
-#: js/file-upload.js:520
+#: js/file-upload.js:519
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:524 js/filelist.js:364
+#: js/file-upload.js:523 js/filelist.js:371
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Na pasta home 'Shared- Compartilhada' é um nome reservado"
 
-#: js/file-upload.js:526 js/filelist.js:366
+#: js/file-upload.js:525 js/filelist.js:373
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
@@ -186,110 +186,110 @@ msgstr "Excluir permanentemente"
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:854
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:857
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:392
+#: js/filelist.js:399
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:511
+#: js/filelist.js:518
 msgid "replaced {new_name} with {old_name}"
 msgstr "Substituído {old_name} por {new_name} "
 
-#: js/filelist.js:511
+#: js/filelist.js:518
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:582 js/filelist.js:649 js/files.js:587
+#: js/filelist.js:578 js/filelist.js:652 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:583 js/filelist.js:650 js/files.js:593
+#: js/filelist.js:579 js/filelist.js:653 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:590
+#: js/filelist.js:586
 msgid "{dirs} and {files}"
 msgstr "{dirs} e {files}"
 
-#: js/filelist.js:793 js/filelist.js:831
+#: js/filelist.js:796 js/filelist.js:834
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"
 msgstr[1] "Enviando %n arquivos"
 
-#: js/files.js:25
+#: js/files.js:72
 msgid "'.' is an invalid file name."
 msgstr "'.' é um nome de arquivo inválido."
 
-#: js/files.js:34
+#: js/files.js:81
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
-#: js/files.js:46
+#: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!"
 
-#: js/files.js:50
+#: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 
-#: js/files.js:63
+#: js/files.js:110
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "App de encriptação está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
 
-#: js/files.js:67
+#: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Chave do App de Encriptação é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
 
-#: js/files.js:71
+#: js/files.js:118
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Encriptação foi desabilitada mas seus arquivos continuam encriptados. Por favor vá a suas configurações pessoais para descriptar seus arquivos."
 
-#: js/files.js:302
+#: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/files.js:514 js/files.js:552
+#: js/files.js:558 js/files.js:596
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/files.js:514 js/files.js:552
+#: js/files.js:558 js/files.js:596
 msgid "Error"
 msgstr "Erro"
 
-#: js/files.js:569 templates/index.php:56
+#: js/files.js:613 templates/index.php:56
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:570 templates/index.php:68
+#: js/files.js:614 templates/index.php:68
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:571 templates/index.php:70
+#: js/files.js:615 templates/index.php:70
 msgid "Modified"
 msgstr "Modificado"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "Nome da pasta inválido. Uso de 'Shared' é reservado."
 
 #: lib/app.php:88
 #, php-format

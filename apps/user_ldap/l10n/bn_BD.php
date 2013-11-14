@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Error" => "সমস্যা",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Save" => "সংরক্ষণ",
 "Help" => "সহায়িকা",
 "Host" => "হোস্ট",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://",

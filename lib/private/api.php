@@ -96,6 +96,7 @@ class OC_API {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
+					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
 			}
@@ -103,6 +104,7 @@ class OC_API {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_NOT_FOUND, 'Api method not found'),
+					'shipped' => OC_App::isShipped($action['app']),
 					);
 				continue;
 			}
@@ -110,6 +112,7 @@ class OC_API {
 			$responses[] = array(
 				'app' => $action['app'],
 				'response' => call_user_func($action['action'], $parameters),
+				'shipped' => OC_App::isShipped($action['app']),
 				);
 		}
 		$response = self::mergeResponses($responses);
@@ -127,7 +130,7 @@ class OC_API {
 	 * merge the returned result objects into one response
 	 * @param array $responses
 	 */
-	private static function mergeResponses($responses) {
+	public static function mergeResponses($responses) {
 		$response = array();
 		// Sort into shipped and thirdparty
 		$shipped = array(
@@ -140,50 +143,76 @@ class OC_API {
 			);
 
 		foreach($responses as $response) {
-			if(OC_App::isShipped($response['app']) || ($response['app'] === 'core')) {
+			if($response['shipped'] || ($response['app'] === 'core')) {
 				if($response['response']->succeeded()) {
-					$shipped['succeeded'][$response['app']] = $response['response'];
+					$shipped['succeeded'][$response['app']] = $response;
 				} else {
-					$shipped['failed'][$response['app']] = $response['response'];
+					$shipped['failed'][$response['app']] = $response;
 				}
 			} else {
 				if($response['response']->succeeded()) {
-					$thirdparty['succeeded'][$response['app']] = $response['response'];
+					$thirdparty['succeeded'][$response['app']] = $response;
 				} else {
-					$thirdparty['failed'][$response['app']] = $response['response'];
+					$thirdparty['failed'][$response['app']] = $response;
 				}
 			}
 		}
 
 		// Remove any error responses if there is one shipped response that succeeded
-		if(!empty($shipped['succeeded'])) {
-			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
-		} else if(!empty($shipped['failed'])) {
+		if(!empty($shipped['failed'])) {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
-			$response = reset($shipped['failed']);
+			// Merge failed responses if more than one
+			$data = array();
+			$meta = array();
+			foreach($shipped['failed'] as $failure) {
+				$data = array_merge_recursive($data, $failure['response']->getData());
+			}
+			$picked = reset($shipped['failed']);
+			$code = $picked['response']->getStatusCode();
+			$response = new OC_OCS_Result($data, $code);
 			return $response;
+		} elseif(!empty($shipped['succeeded'])) {
+			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		} elseif(!empty($thirdparty['failed'])) {
-			// Return the third party failure result
-			$response = reset($thirdparty['failed']);
+			// Merge failed responses if more than one
+			$data = array();
+			$meta = array();
+			foreach($thirdparty['failed'] as $failure) {
+				$data = array_merge_recursive($data, $failure['response']->getData());
+			}
+			$picked = reset($thirdparty['failed']);
+			$code = $picked['response']->getStatusCode();
+			$response = new OC_OCS_Result($data, $code);
 			return $response;
 		} else {
-			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
+			$responses = $thirdparty['succeeded'];
 		}
 		// Merge the successful responses
 		$meta = array();
 		$data = array();
 
 		foreach($responses as $app => $response) {
-			if(OC_App::isShipped($app)) {
-				$data = array_merge_recursive($response->getData(), $data);
+			if($response['shipped']) {
+				$data = array_merge_recursive($response['response']->getData(), $data);
 			} else {
-				$data = array_merge_recursive($data, $response->getData());
+				$data = array_merge_recursive($data, $response['response']->getData());
+			}
+			$codes[] = $response['response']->getStatusCode();
+		}
+
+		// Use any non 100 status codes
+		$statusCode = 100;
+		foreach($codes as $code) {
+			if($code != 100) {
+				$statusCode = $code;
+				break;
 			}
 		}
-		$result = new OC_OCS_Result($data, 100);
+
+		$result = new OC_OCS_Result($data, $statusCode);
 		return $result;
 	}
 	
@@ -245,6 +274,10 @@ class OC_API {
 		$return = OC_User::login($authUser, $authPw);
 		if ($return === true) {
 			self::$logoutRequired = true;
+
+			// initialize the user's filesystem
+			\OC_Util::setUpFS(\OC_User::getUser());
+
 			return $authUser;
 		}
 
@@ -252,6 +285,10 @@ class OC_API {
 		$loggedIn = OC_User::isLoggedIn();
 		$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
 		if ($loggedIn === true && $ocsApiRequest) {
+
+			// initialize the user's filesystem
+			\OC_Util::setUpFS(\OC_User::getUser());
+
 			return OC_User::getUser();
 		}
 

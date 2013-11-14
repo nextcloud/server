@@ -32,9 +32,32 @@ class Shared_Watcher extends Watcher {
 	 * @param string $path
 	 */
 	public function checkUpdate($path) {
-		if ($path != '') {
-			parent::checkUpdate($path);
+		if ($path != '' && parent::checkUpdate($path)) {
+			// since checkUpdate() has already updated the size of the subdirs,
+			// only apply the update to the owner's parent dirs
+
+			// find last parent before reaching the shared storage root,
+			// which is the actual shared dir from the owner
+			$sepPos = strpos($path, '/');
+			if ($sepPos > 0) {
+				$baseDir = substr($path, 0, $sepPos);
+			} else {
+				$baseDir = $path;
+			}
+
+			// find the path relative to the data dir
+			$file = $this->storage->getFile($baseDir);
+			$view = new \OC\Files\View('/' . $file['fileOwner']);
+
+			// find the owner's storage and path
+			list($storage, $internalPath) = $view->resolvePath($file['path']);
+
+			// update the parent dirs' sizes in the owner's cache
+			$storage->getCache()->correctFolderSize(dirname($internalPath));
+
+			return true;
 		}
+		return false;
 	}
 
 	/**

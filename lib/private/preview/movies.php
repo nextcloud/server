@@ -69,7 +69,8 @@ if (!\OC_Util::runningOnWindows()) {
 				unlink($absPath);
 
 				if ($returnCode === 0) {
-					$image = new \OC_Image($tmpPath);
+					$image = new \OC_Image();
+					$image->loadFromFile($tmpPath);
 					unlink($tmpPath);
 					return $image->valid() ? $image : false;
 				}

@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "Error" => "Ошибка",
 "Upload" => "Загрузка",
+"Save" => "Сохранить",
 "Cancel upload" => "Отмена загрузки",
 "Download" => "Загрузка"
 );

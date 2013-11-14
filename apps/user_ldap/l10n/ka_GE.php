@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Confirm Deletion" => "წაშლის დადასტურება",
 "_%s group found_::_%s groups found_" => array(""),
 "_%s user found_::_%s users found_" => array(""),
+"Save" => "შენახვა",
 "Test Configuration" => "კავშირის ტესტირება",
 "Help" => "დახმარება",
 "Add Server Configuration" => "სერვერის პარამეტრების დამატება",

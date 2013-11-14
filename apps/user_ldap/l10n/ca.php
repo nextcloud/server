@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("S'ha trobat %s usuari","S'han trobat %s usuaris"),
 "Invalid Host" => "Ordinador central no vàlid",
 "Could not find the desired feature" => "La característica desitjada no s'ha trobat",
+"Save" => "Desa",
 "Test Configuration" => "Comprovació de la configuració",
 "Help" => "Ajuda",
 "Limit the access to %s to groups meeting this criteria:" => "Limita l'accés a %s grups que compleixin amb el criteri:",

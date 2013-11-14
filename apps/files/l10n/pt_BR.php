@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "Nome",
 "Size" => "Tamanho",
 "Modified" => "Modificado",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Nome da pasta inválido. Uso de 'Shared' é reservado.",
 "%s could not be renamed" => "%s não pode ser renomeado",
 "Upload" => "Upload",
 "File handling" => "Tratamento de Arquivo",

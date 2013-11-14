@@ -530,6 +530,7 @@ class Trashbin {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
 		$view->unlink('/files_trashbin/files/' . $file);
+		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => '/files_trashbin/files/' . $file));
 		$trashbinSize -= $size;
 		self::setTrashbinSize($user, $trashbinSize);
 

@@ -307,10 +307,18 @@ class Filesystem {
 		$root = \OC_User::getHome($user);
 
 		$userObject = \OC_User::getManager()->get($user);
-		if (\OC\Files\Cache\Storage::exists('local::' . $root . '/') or is_null($userObject)) {
+
+		if (!is_null($userObject)) {
+			// check for legacy home id (<= 5.0.12)
+			if (\OC\Files\Cache\Storage::exists('local::' . $root . '/')) {
+				self::mount('\OC\Files\Storage\Home', array('user' => $userObject, 'legacy' => true), $user);
+			}
+			else {
+				self::mount('\OC\Files\Storage\Home', array('user' => $userObject), $user);
+			}
+		}
+		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
-		} else {
-			self::mount('\OC\Files\Storage\Home', array('user' => $userObject), $user);
 		}
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 
@@ -681,18 +689,32 @@ class Filesystem {
 		}
 		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
+
 		//add leading slash
 		if ($path[0] !== '/') {
 			$path = '/' . $path;
 		}
-		//remove duplicate slashes
-		while (strpos($path, '//') !== false) {
-			$path = str_replace('//', '/', $path);
+
+		// remove '/./'
+		// ugly, but str_replace() can't replace them all in one go
+		// as the replacement itself is part of the search string
+		// which will only be found during the next iteration
+		while (strpos($path, '/./') !== false) {
+			$path = str_replace('/./', '/', $path);
 		}
+		// remove sequences of slashes
+		$path = preg_replace('#/{2,}#', '/', $path);
+
 		//remove trailing slash
 		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
 			$path = substr($path, 0, -1);
 		}
+
+		// remove trailing '/.'
+		if (substr($path, -2) == '/.') {
+			$path = substr($path, 0, -2);
+		}
+
 		//normalize unicode if possible
 		$path = \OC_Util::normalizeUnicode($path);
 

@@ -170,6 +170,12 @@ var FileList={
 			return;
 		}
 		FileList.setCurrentDir(targetDir, changeUrl);
+		$('#fileList').trigger(
+			jQuery.Event('changeDirectory', {
+				dir: targetDir,
+				previousDir: currentDir
+			}
+		));
 		FileList.reload();
 	},
 	linkTo: function(dir) {
@@ -654,19 +660,19 @@ var FileList={
 			$('.summary .filesize').html(humanFileSize(fileSummary.totalSize));
 
 			// Show only what's necessary (may be hidden)
-			if ($dirInfo.html().charAt(0) === "0") {
+			if (fileSummary.totalDirs === 0) {
 				$dirInfo.hide();
 				$connector.hide();
 			} else {
 				$dirInfo.show();
 			}
-			if ($fileInfo.html().charAt(0) === "0") {
+			if (fileSummary.totalFiles === 0) {
 				$fileInfo.hide();
 				$connector.hide();
 			} else {
 				$fileInfo.show();
 			}
-			if ($dirInfo.html().charAt(0) !== "0" && $fileInfo.html().charAt(0) !== "0") {
+			if (fileSummary.totalDirs > 0 && fileSummary.totalFiles > 0) {
 				$connector.show();
 			}
 		}

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-06 20:40+0000\n"
+"POT-Creation-Date: 2013-11-11 05:45-0500\n"
+"PO-Revision-Date: 2013-11-09 07:01+0000\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -147,32 +147,32 @@ msgstr "Espace disponible insuffisant"
 msgid "Upload cancelled."
 msgstr "Envoi annulé."
 
-#: js/file-upload.js:345
+#: js/file-upload.js:344
 msgid "Could not get result from server."
 msgstr "Ne peut recevoir les résultats du serveur."
 
-#: js/file-upload.js:437
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/file-upload.js:520
+#: js/file-upload.js:519
 msgid "URL cannot be empty"
 msgstr "L'URL ne peut pas être vide"
 
-#: js/file-upload.js:524 js/filelist.js:371
+#: js/file-upload.js:523 js/filelist.js:371
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Dans le dossier home, 'Partagé' est un nom de fichier réservé"
 
-#: js/file-upload.js:526 js/filelist.js:373
+#: js/file-upload.js:525 js/filelist.js:373
 msgid "{new_name} already exists"
 msgstr "{new_name} existe déjà"
 
-#: js/file-upload.js:586
+#: js/file-upload.js:585
 msgid "Could not create file"
 msgstr "Impossible de créer le fichier"
 
-#: js/file-upload.js:602
+#: js/file-upload.js:601
 msgid "Could not create folder"
 msgstr "Impossible de créer le dossier"
 
