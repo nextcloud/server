@@ -82,6 +82,18 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	/**
+	 * Unlinks file
+	 * @param string @path
+	 */
+	public function unlink($path) {
+		unlink($this->constructUrl($path));
+		clearstatcache();
+		// smb4php still returns false even on success so
+		// check here whether file was really deleted
+		return !file_exists($path);
+	}
+
+	/**
 	 * check if a file or folder has been updated since $time
 	 * @param string $path
 	 * @param int $time
