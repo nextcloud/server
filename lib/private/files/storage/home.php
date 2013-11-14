@@ -13,6 +13,11 @@ namespace OC\Files\Storage;
  */
 class Home extends Local {
 	/**
+	 * @var string
+	 */
+	protected $id;
+
+	/**
 	 * @var \OC\User\User $user
 	 */
 	protected $user;
@@ -20,11 +25,25 @@ class Home extends Local {
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
 		$datadir = $this->user->getHome();
+		if (isset($arguments['legacy']) && $arguments['legacy']) {
+			// legacy home id (<= 5.0.12)
+			$this->id = 'local::' . $datadir . '/';
+		}
+		else {
+		    $this->id = 'home::' . $this->user->getUID();
+		}
 
 		parent::__construct(array('datadir' => $datadir));
 	}
 
 	public function getId() {
-		return 'home::' . $this->user->getUID();
+		return $this->id;
+	}
+
+	public function getCache($path = '') {
+		if (!isset($this->cache)) {
+			$this->cache = new \OC\Files\Cache\HomeCache($this);
+		}
+		return $this->cache;
 	}
 }
