@@ -107,6 +107,8 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\', false));
 		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\'));
 		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\', false));
+		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path'));
+		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path', false));
 		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path\\'));
 		$this->assertEquals('/path/', \OC\Files\Filesystem::normalizePath('\\path\\', false));
 		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\bar\\'));
