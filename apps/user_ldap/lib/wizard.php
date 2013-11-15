@@ -310,6 +310,13 @@ class Wizard extends LDAPUtility {
 										   ))) {
 			return false;
 		}
+		//make sure the use display name is set
+		$displayName = $this->configuration->ldapGroupDisplayName;
+		if(empty($displayName)) {
+			$d = $this->configuration->getDefaults();
+			$this->applyFind('ldap_group_display_name',
+							 $d['ldap_group_display_name']);
+		}
 		$filter = $this->composeLdapFilter(self::LFILTER_GROUP_LIST);
 
 		$this->applyFind('ldap_group_filter', $filter);
@@ -322,6 +329,12 @@ class Wizard extends LDAPUtility {
 										   'ldapBase',
 										   ))) {
 			return false;
+		}
+		//make sure the use display name is set
+		$displayName = $this->configuration->ldapUserDisplayName;
+		if(empty($displayName)) {
+			$d = $this->configuration->getDefaults();
+			$this->applyFind('ldap_display_name', $d['ldap_display_name']);
 		}
 		$filter = $this->composeLdapFilter(self::LFILTER_USER_LIST);
 		if(!$filter) {
