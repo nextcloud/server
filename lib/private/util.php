@@ -854,8 +854,8 @@ class OC_Util {
 			return true;
 		}
 
-		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
-		if($result == false) {
+		\Patchwork\Utf8\Bootup::initLocale();
+		if ('' === basename('§')) {
 			return false;
 		}
 		return true;
