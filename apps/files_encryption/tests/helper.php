@@ -51,4 +51,17 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('testfile.txt', Encryption\Helper::stripPartialFileExtension($filename));
 	}
 
+	function testGetPathToRealFile() {
+
+		// the relative path to /user/files/ that's what we want to get from getPathToRealFile()
+		$relativePath = "foo/bar/test.txt";
+
+		// test paths
+		$versionPath = "/user/files_versions/foo/bar/test.txt.v456756835";
+		$cachePath = "/user/cache/transferid636483/foo/bar/test.txt";
+
+		$this->assertEquals($relativePath, Encryption\Helper::getPathToRealFile($versionPath));
+		$this->assertEquals($relativePath, Encryption\Helper::getPathToRealFile($cachePath));
+	}
+
 }
