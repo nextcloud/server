@@ -281,6 +281,64 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->util->isSharedPath($path));
 	}
 
+	function testEncryptAll() {
+
+		$filename = "/encryptAll" . time() . ".txt";
+		$util = new Encryption\Util($this->view, $this->userId);
+
+		// disable encryption to upload a unencrypted file
+		\OC_App::disable('files_encryption');
+
+		$this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
+
+		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
+
+		$this->assertTrue(is_array($fileInfoUnencrypted));
+
+		// enable file encryption again
+		\OC_App::enable('files_encryption');
+
+		// encrypt all unencrypted files
+		$util->encryptAll('/' . $this->userId . '/' . 'files');
+
+		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
+
+		$this->assertTrue(is_array($fileInfoEncrypted));
+
+		// check if mtime and etags unchanged
+		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
+		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+
+		$this->view->unlink($this->userId . '/files/' . $filename);
+	}
+
+
+	function testDecryptAll() {
+
+		$filename = "/decryptAll" . time() . ".txt";
+		$util = new Encryption\Util($this->view, $this->userId);
+
+		$this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
+
+		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
+
+		$this->assertTrue(is_array($fileInfoEncrypted));
+
+		// encrypt all unencrypted files
+		$util->decryptAll('/' . $this->userId . '/' . 'files');
+
+		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
+
+		$this->assertTrue(is_array($fileInfoUnencrypted));
+
+		// check if mtime and etags unchanged
+		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
+		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+
+		$this->view->unlink($this->userId . '/files/' . $filename);
+
+	}
+
 	/**
 	 * @large
 	 */

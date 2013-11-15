@@ -717,17 +717,17 @@ class Util {
 			// Encrypt unencrypted files
 			foreach ($found['encrypted'] as $encryptedFile) {
 
-				//get file info
-				$fileInfo = \OC\Files\Filesystem::getFileInfo($encryptedFile['path']);
-
 				//relative to data/<user>/file
 				$relPath = Helper::stripUserFilesPath($encryptedFile['path']);
+
+				//get file info
+				$fileInfo = \OC\Files\Filesystem::getFileInfo($relPath);
 
 				//relative to /data
 				$rawPath = $encryptedFile['path'];
 
 				//get timestamp
-				$timestamp = $this->view->filemtime($rawPath);
+				$timestamp = $fileInfo['mtime'];
 
 				//enable proxy to use OC\Files\View to access the original file
 				\OC_FileProxy::$enabled = true;
@@ -768,10 +768,10 @@ class Util {
 
 				$this->view->rename($relPath . '.part', $relPath);
 
-				$this->view->chroot($fakeRoot);
-
 				//set timestamp
-				$this->view->touch($rawPath, $timestamp);
+				$this->view->touch($relPath, $timestamp);
+
+				$this->view->chroot($fakeRoot);
 
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
@@ -839,7 +839,7 @@ class Util {
 				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
 				// keep timestamp
-				$timestamp = $this->view->filemtime($rawPath);
+				$timestamp = $fileInfo['mtime'];
 
 				// Open plain file handle for binary reading
 				$plainHandle = $this->view->fopen($rawPath, 'rb');
@@ -858,10 +858,10 @@ class Util {
 
 				$this->view->rename($relPath . '.part', $relPath);
 
-				$this->view->chroot($fakeRoot);
-
 				// set timestamp
-				$this->view->touch($rawPath, $timestamp);
+				$this->view->touch($relPath, $timestamp);
+
+				$this->view->chroot($fakeRoot);
 
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
