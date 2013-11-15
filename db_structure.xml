@@ -853,6 +853,24 @@
 			</field>
 
 			<index>
+				<name>item_share_type_index</name>
+				<field>
+					<name>item_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>share_type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>file_source_index</name>
+				<field>
+					<name>file_source</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
 				<name>token_index</name>
 				<field>
 					<name>token</name>
@@ -1063,6 +1081,18 @@
 				<name>categoryid</name>
 				<sorting>ascending</sorting>
 			</field>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		<index>
+			<name>vcategory_objectd_index</name>
 			<field>
 				<name>objid</name>
 				<sorting>ascending</sorting>
