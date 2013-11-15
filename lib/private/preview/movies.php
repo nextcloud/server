@@ -50,13 +50,13 @@ if (!\OC_Util::runningOnWindows()) {
 				file_put_contents($absPath, $firstmb);
 
 				if (self::$avconvBinary) {
-					$cmd = self::$avconvBinary . ' -an -y -ss 1'.
+					$cmd = self::$avconvBinary . ' -an -y -ss 5'.
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				}
 				else {
-					$cmd = self::$ffmpegBinary . ' -y -ss 1' .
+					$cmd = self::$ffmpegBinary . ' -y -ss 5' .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1' .
 						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
