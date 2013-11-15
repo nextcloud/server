@@ -150,6 +150,9 @@ class MDB2SchemaReader {
 						case 'timestamp':
 							$type = 'datetime';
 							break;
+						case 'numeric':
+							$type = 'decimal';
+							break;
 					}
 					break;
 				case 'length':
@@ -193,7 +196,7 @@ class MDB2SchemaReader {
 				} else {
 					$options['default'] = '';
 				}
-				if ($type == 'integer') {
+				if ($type == 'integer' || $type == 'decimal') {
 					$options['default'] = 0;
 				} elseif ($type == 'boolean') {
 					$options['default'] = false;
