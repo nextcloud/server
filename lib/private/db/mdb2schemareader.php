@@ -186,7 +186,7 @@ class MDB2SchemaReader {
 			}
 		}
 		if (isset($name) && isset($type)) {
-			if (empty($options['default'])) {
+			if (isset($options['default']) && empty($options['default'])) {
 				if (empty($options['notnull']) || !$options['notnull']) {
 					unset($options['default']);
 					$options['notnull'] = false;
