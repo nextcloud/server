@@ -108,7 +108,7 @@ class Stream {
 		}
 
 		if($this->relPath === false) {
-			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to user/files or to user/files_versions', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
 			return false;
 		}
 

@@ -90,7 +90,13 @@ class Proxy extends \OC_FileProxy {
 					return true;
 				}
 
-				$handle = fopen('crypt://' . $path . '.etmp', 'w');
+				// create random cache folder
+				$cacheFolder = rand();
+				$path_slices = explode('/', \OC_Filesystem::normalizePath($path));
+				$path_slices[2] = "cache/".$cacheFolder;
+				$tmpPath = implode('/', $path_slices);
+
+				$handle = fopen('crypt://' . $tmpPath, 'w');
 				if (is_resource($handle)) {
 
 					// write data to stream
@@ -104,10 +110,10 @@ class Proxy extends \OC_FileProxy {
 					\OC_FileProxy::$enabled = false;
 
 					// get encrypted content
-					$data = $view->file_get_contents($path . '.etmp');
+					$data = $view->file_get_contents($tmpPath);
 
 					// remove our temp file
-					$view->unlink($path . '.etmp');
+					$view->deleteAll('/' . \OCP\User::getUser() . '/cache/' . $cacheFolder);
 
 					// re-enable proxy - our work is done
 					\OC_FileProxy::$enabled = $proxyStatus;
