@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "Archives of type %s are not supported" => "Arquivos do tipo %s não são suportados",
 "App does not provide an info.xml file" => "A aplicação não disponibiliza um ficheiro info.xml",
 "App can't be installed because of not allowed code in the App" => "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação",
+"App can't be installed because it is not compatible with this version of ownCloud" => "A aplicação não pode ser instalada por não ser compatível com esta versão do ownCloud",
 "App directory already exists" => "A directoria da aplicação já existe",
 "Can't create app folder. Please fix permissions. %s" => "Não foi possível criar a pasta da aplicação. Por favor verifique as permissões. %s",
 "Application is not enabled" => "A aplicação não está activada",

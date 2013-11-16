@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
-"Last-Translator: unixoid <victor.ashirov@gmail.com>\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-16 03:54+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,47 +83,59 @@ msgstr "Сохранить настройки?"
 msgid "Cannot add server configuration"
 msgstr "Не получилось добавить конфигурацию сервера"
 
-#: js/settings.js:113
+#: js/settings.js:127
 msgid "mappings cleared"
 msgstr "Соответствия очищены"
 
-#: js/settings.js:114
+#: js/settings.js:128
 msgid "Success"
 msgstr "Успешно"
 
-#: js/settings.js:119
+#: js/settings.js:133
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/settings.js:660 js/settings.js:669
+#: js/settings.js:674
+msgid "Configuration OK"
+msgstr ""
+
+#: js/settings.js:683
+msgid "Configuration incorrect"
+msgstr ""
+
+#: js/settings.js:692
+msgid "Configuration incomplete"
+msgstr ""
+
+#: js/settings.js:709 js/settings.js:718
 msgid "Select groups"
 msgstr "Выберите группы"
 
-#: js/settings.js:663 js/settings.js:672
+#: js/settings.js:712 js/settings.js:721
 msgid "Select object classes"
 msgstr "Выберите объектные классы"
 
-#: js/settings.js:666
+#: js/settings.js:715
 msgid "Select attributes"
 msgstr "Выберите атрибуты"
 
-#: js/settings.js:694
+#: js/settings.js:741
 msgid "Connection test succeeded"
 msgstr "Проверка соединения удалась"
 
-#: js/settings.js:699
+#: js/settings.js:748
 msgid "Connection test failed"
 msgstr "Проверка соединения не удалась"
 
-#: js/settings.js:709
+#: js/settings.js:757
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Вы действительно хотите удалить существующую конфигурацию сервера?"
 
-#: js/settings.js:710
+#: js/settings.js:758
 msgid "Confirm Deletion"
 msgstr "Подтверждение удаления"
 
-#: lib/wizard.php:78 lib/wizard.php:92
+#: lib/wizard.php:76 lib/wizard.php:90
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -131,7 +143,7 @@ msgstr[0] "%s группа найдена"
 msgstr[1] "%s группы найдены"
 msgstr[2] "%s групп найдено"
 
-#: lib/wizard.php:123
+#: lib/wizard.php:119
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -139,11 +151,11 @@ msgstr[0] "%s пользователь найден"
 msgstr[1] "%s пользователя найдено"
 msgstr[2] "%s пользователей найдено"
 
-#: lib/wizard.php:752 lib/wizard.php:764
+#: lib/wizard.php:740 lib/wizard.php:752
 msgid "Invalid Host"
 msgstr "Неверный сервер"
 
-#: lib/wizard.php:910
+#: lib/wizard.php:913
 msgid "Could not find the desired feature"
 msgstr "Не могу найти требуемой функциональности"
 
@@ -155,7 +167,7 @@ msgstr "Сохранить"
 msgid "Test Configuration"
 msgstr "Проверить конфигурацию"
 
-#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:13
+#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
 msgstr "Помощь"
 
@@ -269,11 +281,11 @@ msgstr "Этот фильтр указывает, какие пользоват�
 msgid "users found"
 msgstr "пользователей найдено"
 
-#: templates/part.wizardcontrols.php:4
+#: templates/part.wizardcontrols.php:5
 msgid "Back"
 msgstr "Назад"
 
-#: templates/part.wizardcontrols.php:7
+#: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Продолжить"
 
@@ -306,145 +318,145 @@ msgstr "Когда галочка снята, эта конфигурация б
 msgid "User Login Filter"
 msgstr "Фильтр учетных записей"
 
-#: templates/settings.php:26
+#: templates/settings.php:25
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\""
 
-#: templates/settings.php:27
+#: templates/settings.php:26
 msgid "Backup (Replica) Host"
 msgstr "Адрес резервного сервера"
 
-#: templates/settings.php:27
+#: templates/settings.php:26
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "Укажите дополнительный резервный сервер. Он должен быть репликой главного LDAP/AD сервера."
 
-#: templates/settings.php:28
+#: templates/settings.php:27
 msgid "Backup (Replica) Port"
 msgstr "Порт резервного сервера"
 
-#: templates/settings.php:29
+#: templates/settings.php:28
 msgid "Disable Main Server"
 msgstr "Отключить главный сервер"
 
-#: templates/settings.php:29
+#: templates/settings.php:28
 msgid "Only connect to the replica server."
 msgstr "Подключаться только к серверу-реплике."
 
-#: templates/settings.php:30
+#: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Нечувствительный к регистру сервер LDAP (Windows)"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
 msgstr "Отключить проверку сертификата SSL."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 #, php-format
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
 msgstr "Не рекомендуется, используйте только в режиме тестирования! Если соединение работает только с этой опцией, импортируйте на ваш %s сервер SSL-сертификат сервера LDAP."
 
-#: templates/settings.php:32
+#: templates/settings.php:31
 msgid "Cache Time-To-Live"
 msgstr "Кэш времени жизни"
 
-#: templates/settings.php:32
+#: templates/settings.php:31
 msgid "in seconds. A change empties the cache."
 msgstr "в секундах. Изменение очистит кэш."
 
-#: templates/settings.php:34
+#: templates/settings.php:33
 msgid "Directory Settings"
 msgstr "Настройки каталога"
 
-#: templates/settings.php:36
+#: templates/settings.php:35
 msgid "User Display Name Field"
 msgstr "Поле отображаемого имени пользователя"
 
-#: templates/settings.php:36
+#: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "Атрибут LDAP, который используется для генерации отображаемого имени пользователя."
 
-#: templates/settings.php:37
+#: templates/settings.php:36
 msgid "Base User Tree"
 msgstr "База пользовательского дерева"
 
-#: templates/settings.php:37
+#: templates/settings.php:36
 msgid "One User Base DN per line"
 msgstr "По одной базовому DN пользователей в строке."
 
-#: templates/settings.php:38
+#: templates/settings.php:37
 msgid "User Search Attributes"
 msgstr "Атрибуты поиска пользоватетелей"
 
-#: templates/settings.php:38 templates/settings.php:41
+#: templates/settings.php:37 templates/settings.php:40
 msgid "Optional; one attribute per line"
 msgstr "Опционально; один атрибут в строке"
 
-#: templates/settings.php:39
+#: templates/settings.php:38
 msgid "Group Display Name Field"
 msgstr "Поле отображаемого имени группы"
 
-#: templates/settings.php:39
+#: templates/settings.php:38
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "Атрибут LDAP, который используется для генерации отображаемого имени группы."
 
-#: templates/settings.php:40
+#: templates/settings.php:39
 msgid "Base Group Tree"
 msgstr "База группового дерева"
 
-#: templates/settings.php:40
+#: templates/settings.php:39
 msgid "One Group Base DN per line"
 msgstr "По одной базовому DN групп в строке."
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "Group Search Attributes"
 msgstr "Атрибуты поиска для группы"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Group-Member association"
 msgstr "Ассоциация Группа-Участник"
 
-#: templates/settings.php:44
+#: templates/settings.php:43
 msgid "Special Attributes"
 msgstr "Специальные атрибуты"
 
-#: templates/settings.php:46
+#: templates/settings.php:45
 msgid "Quota Field"
 msgstr "Поле квоты"
 
-#: templates/settings.php:47
+#: templates/settings.php:46
 msgid "Quota Default"
 msgstr "Квота по умолчанию"
 
-#: templates/settings.php:47
+#: templates/settings.php:46
 msgid "in bytes"
 msgstr "в байтах"
 
-#: templates/settings.php:48
+#: templates/settings.php:47
 msgid "Email Field"
 msgstr "Поле адреса электронной почты"
 
-#: templates/settings.php:49
+#: templates/settings.php:48
 msgid "User Home Folder Naming Rule"
 msgstr "Правило именования домашней папки пользователя"
 
-#: templates/settings.php:49
+#: templates/settings.php:48
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Оставьте пустым для использования имени пользователя (по умолчанию). Иначе укажите атрибут LDAP/AD."
 
-#: templates/settings.php:55
+#: templates/settings.php:54
 msgid "Internal Username"
 msgstr "Внутреннее имя пользователя"
 
-#: templates/settings.php:56
+#: templates/settings.php:55
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -460,15 +472,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "По умолчанию внутреннее имя пользователя будет создано из атрибута UUID. Таким образом имя пользователя становится уникальным и не требует конвертации символов. Внутреннее имя пользователя может состоять только из следующих символов: [ a-zA-Z0-9_.@- ]. Остальные символы замещаются соответствиями из таблицы ASCII или же просто пропускаются. При совпадении к имени будет добавлено или увеличено число. Внутреннее имя пользователя используется для внутренней идентификации пользователя. Также оно является именем по умолчанию для папки пользователя в ownCloud. Оно также является частью URL, к примеру, для всех сервисов *DAV. С помощью данной настройки можно изменить поведение по умолчанию. Чтобы достичь поведения, как было до ownCloud 5, введите атрибут отображаемого имени пользователя в этом поле. Оставьте его пустым для режима по умолчанию. Изменения будут иметь эффект только для новых подключенных (добавленных) пользователей LDAP."
 
-#: templates/settings.php:57
+#: templates/settings.php:56
 msgid "Internal Username Attribute:"
 msgstr "Атрибут для внутреннего имени:"
 
-#: templates/settings.php:58
+#: templates/settings.php:57
 msgid "Override UUID detection"
 msgstr "Переопределить нахождение UUID"
 
-#: templates/settings.php:59
+#: templates/settings.php:58
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -479,19 +491,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "По умолчанию ownCloud определяет атрибут UUID автоматически. Этот атрибут используется для того, чтобы достоверно индентифицировать пользователей и группы LDAP. Также на основании атрибута UUID создается внутреннее имя пользователя, если выше не указано иначе. Вы можете переопределить эту настройку и указать свой атрибут по выбору. Вы должны удостовериться, что выбранный вами атрибут может быть выбран для пользователей и групп, а также то, что он уникальный. Оставьте поле пустым для поведения по умолчанию. Изменения вступят в силу только для новых подключенных (добавленных) пользователей и групп LDAP."
 
-#: templates/settings.php:60
+#: templates/settings.php:59
 msgid "UUID Attribute for Users:"
 msgstr "UUID-атрибуты для пользователей:"
 
-#: templates/settings.php:61
+#: templates/settings.php:60
 msgid "UUID Attribute for Groups:"
 msgstr "UUID-атрибуты для групп:"
 
-#: templates/settings.php:62
+#: templates/settings.php:61
 msgid "Username-LDAP User Mapping"
 msgstr "Соответствия Имя-Пользователь LDAP"
 
-#: templates/settings.php:63
+#: templates/settings.php:62
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -505,10 +517,10 @@ msgid ""
 "experimental stage."
 msgstr "ownCloud использует имена пользователей для хранения и назначения метаданных. Для точной идентификации и распознавания пользователей, каждый пользователь LDAP будет иметь свое внутреннее имя пользователя. Это требует привязки имени пользователя ownCloud к пользователю LDAP. При создании имя пользователя назначается идентификатору UUID пользователя LDAP. Помимо этого кешируется различающееся имя (DN) для уменьшения числа обращений к LDAP, однако оно не используется для идентификации. Если различающееся имя было изменено, об этом станет известно ownCloud. Внутреннее имя ownCloud используется повсеместно в ownCloud. После сброса привязок в базе могут сохраниться остатки старой информации. Сброс привязок не привязан к конфигурации, он повлияет на все LDAP-подключения! Ни в коем случае не рекомендуется сбрасывать привязки, если система уже находится в эксплуатации, только на этапе тестирования."
 
-#: templates/settings.php:64
+#: templates/settings.php:63
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Очистить соответствия Имя-Пользователь LDAP"
 
-#: templates/settings.php:64
+#: templates/settings.php:63
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Очистить соответствия Группа-Группа LDAP"

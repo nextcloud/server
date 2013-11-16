@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-14 20:10+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -493,7 +493,7 @@ msgstr "Sinu failid on krüpteeritud. Kui sa pole taastamise võtit veel määra
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr "Jah, ma tõesti soovin oma parooli praegu nullida"
+msgstr "Jah, ma tõesti soovin oma parooli praegu taastada"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
@@ -758,7 +758,7 @@ msgstr "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasuta
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr "Kontakteeru oma süsteemihalduriga kui see teade püsib või on tekkinud ootamatult."
+msgstr "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult."
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."

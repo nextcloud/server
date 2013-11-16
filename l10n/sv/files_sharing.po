@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
 "Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -56,32 +56,32 @@ msgstr "delning är inaktiverat"
 msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
-#: templates/public.php:17
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s delade mappen %s med dig"
 
-#: templates/public.php:20
+#: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s delade filen %s med dig"
 
-#: templates/public.php:28 templates/public.php:94
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:45 templates/public.php:48
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: templates/public.php:58
+#: templates/public.php:59
 msgid "Cancel upload"
 msgstr "Avbryt uppladdning"
 
-#: templates/public.php:91
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "Ingen förhandsgranskning tillgänglig för"
 
-#: templates/public.php:98
+#: templates/public.php:99
 msgid "Direct link"
 msgstr "Direkt länk"

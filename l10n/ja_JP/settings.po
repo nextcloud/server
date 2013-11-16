@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +31,11 @@ msgstr "認証エラー"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "姓名が変更されました"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "姓名を変更できません"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -223,23 +223,23 @@ msgstr "Japanese (日本語)"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "すべて (致命的な問題、エラー、警告、情報、デバッグ)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "情報と警告、エラー、致命的な問題"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "警告とエラー、致命的な問題"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "エラーと致命的な問題"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "致命的な問題のみ"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -508,7 +508,7 @@ msgstr "パスワードを変更"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "姓名"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -609,7 +609,7 @@ msgstr "デフォルトストレージ"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "ストレージの割り当てを入力してください (例: \"512MB\" や \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -629,7 +629,7 @@ msgstr "ストレージ"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "姓名を変更"
 
 #: templates/users.php:112
 msgid "set new password"

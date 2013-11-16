@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan de lijst niet van de App store laden",
 "Authentication error" => "Authenticatie fout",
+"Your full name has been changed." => "Uw volledige naam is gewijzigd.",
+"Unable to change full name" => "Kan de volledige naam niet wijzigen",
 "Group already exists" => "Groep bestaat al",
 "Unable to add group" => "Niet in staat om groep toe te voegen",
 "Email saved" => "E-mail bewaard",
@@ -109,6 +111,7 @@ $TRANSLATIONS = array(
 "Current password" => "Huidig wachtwoord",
 "New password" => "Nieuw",
 "Change password" => "Wijzig wachtwoord",
+"Full Name" => "Volledige naam",
 "Email" => "E-mailadres",
 "Your email address" => "Uw e-mailadres",
 "Fill in an email address to enable password recovery" => "Vul een mailadres in om je wachtwoord te kunnen herstellen",
@@ -137,6 +140,7 @@ $TRANSLATIONS = array(
 "Other" => "Anders",
 "Username" => "Gebruikersnaam",
 "Storage" => "Opslaglimiet",
+"change full name" => "wijzigen volledige naam",
 "set new password" => "Instellen nieuw wachtwoord",
 "Default" => "Standaard"
 );

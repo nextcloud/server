@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Name" => "Név",
 "Size" => "Méret",
 "Modified" => "Módosítva",
+"Invalid folder name. Usage of 'Shared' is reserved." => "Érvénytelen mappanév. A 'Shared' a rendszer számára fenntartott elnevezés.",
 "%s could not be renamed" => "%s átnevezése nem sikerült",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",

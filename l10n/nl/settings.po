@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +32,11 @@ msgstr "Authenticatie fout"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Uw volledige naam is gewijzigd."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Kan de volledige naam niet wijzigen"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -509,7 +509,7 @@ msgstr "Wijzig wachtwoord"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Volledige naam"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -630,7 +630,7 @@ msgstr "Opslaglimiet"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "wijzigen volledige naam"
 
 #: templates/users.php:112
 msgid "set new password"

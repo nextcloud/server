@@ -9,7 +9,7 @@ $TRANSLATIONS = array(
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Upozornenie:</b> Podpora FTP v PHP nie je povolená alebo nainštalovaná. Nie je možné pripojenie oddielov FTP. Požiadajte administrátora systému, nech ho nainštaluje.",
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Varovanie:</b> nie je nainštalovaná, alebo povolená, podpora Curl v PHP. Nie je možné pripojenie oddielov ownCloud, WebDAV, či GoogleDrive. Prosím požiadajte svojho administrátora systému, nech ju nainštaluje.",
 "External Storage" => "Externé úložisko",
-"Folder name" => "Meno priečinka",
+"Folder name" => "Názov priečinka",
 "External storage" => "Externé úložisko",
 "Configuration" => "Nastavenia",
 "Options" => "Možnosti",
@@ -21,7 +21,7 @@ $TRANSLATIONS = array(
 "Users" => "Používatelia",
 "Delete" => "Zmazať",
 "Enable User External Storage" => "Povoliť externé úložisko",
-"Allow users to mount their own external storage" => "Povoliť používateľom pripojiť ich vlastné externé úložisko",
+"Allow users to mount their own external storage" => "Povoliť používateľom pripojiť si vlastné externé úložisko",
 "SSL root certificates" => "Koreňové SSL certifikáty",
 "Import Root Certificate" => "Importovať koreňový certifikát"
 );

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 17:10+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr "%s s Vami zdieľa »%s«"
+msgstr "%s s vami zdieľa »%s«"
 
 #: ajax/share.php:169
 #, php-format
@@ -31,15 +31,15 @@ msgstr "Nebolo možné odoslať email týmto používateľom: %s "
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr "Mód údržby zapnutý"
+msgstr "Mód údržby je zapnutý"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr "Mód údržby vypnutý"
+msgstr "Mód údržby e vypnutý"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr "Databáza aktualizovaná"
+msgstr "Databáza je aktualizovaná"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
@@ -212,7 +212,7 @@ msgstr "pred rokmi"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr "Výber"
+msgstr "Vybrať"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
@@ -310,11 +310,11 @@ msgstr "Zdieľané s vami používateľom {owner}"
 
 #: js/share.js:212
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Zdieľať s používateľom alebo skupinou ..."
 
 #: js/share.js:218
 msgid "Share link"
-msgstr ""
+msgstr "Zdieľať linku"
 
 #: js/share.js:221
 msgid "Password protect"
@@ -346,7 +346,7 @@ msgstr "Dátum expirácie"
 
 #: js/share.js:274
 msgid "Share via email:"
-msgstr "Zdieľať cez e-mail:"
+msgstr "Zdieľať cez email:"
 
 #: js/share.js:277
 msgid "No people found"
@@ -370,7 +370,7 @@ msgstr "Zrušiť zdieľanie"
 
 #: js/share.js:390
 msgid "notify by email"
-msgstr ""
+msgstr "informovať emailom"
 
 #: js/share.js:393
 msgid "can edit"
@@ -477,7 +477,7 @@ msgstr "Odkaz na obnovenie hesla bol odoslaný na Vašu emailovú adresu.<br>Ak 
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že Vaše používateľské meno a email sú správne?"
+msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že vaše používateľské meno a email sú správne?"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
@@ -494,7 +494,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "Vaše súbory sú šifrované. Ak nemáte povolený kľúč obnovy, nie je spôsob, ako získať po obnove hesla Vaše dáta. Ak nie ste si isí tým, čo robíte, obráťte sa najskôr na administrátora. Naozaj chcete pokračovať?"
+msgstr "Vaše súbory sú šifrované. Ak nemáte povolený kľúč obnovy, nie je spôsob, ako získať po obnove hesla vaše dáta. Ak nie ste si istí tým, čo robíte, obráťte sa najskôr na administrátora. Naozaj chcete pokračovať?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
@@ -502,7 +502,7 @@ msgstr "Áno, želám si teraz obnoviť svoje heslo"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Resetovať"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -534,7 +534,7 @@ msgstr "Aplikácie"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrátor"
+msgstr "Administrácia"
 
 #: strings.php:9
 msgid "Help"
@@ -660,7 +660,7 @@ msgstr "bude použité"
 
 #: templates/installation.php:148
 msgid "Database user"
-msgstr "Hostiteľ databázy"
+msgstr "Používateľ databázy"
 
 #: templates/installation.php:155
 msgid "Database password"
@@ -689,7 +689,7 @@ msgstr "Dokončujem..."
 #: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizáce."
+msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizácie."
 
 #: templates/layout.user.php:71
 msgid "Log out"
@@ -703,11 +703,11 @@ msgstr "Automatické prihlásenie bolo zamietnuté!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kompromitovaný."
+msgstr "V nedávnej dobe ste nezmenili svoje heslo, váš účet môže byť kompromitovaný."
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu"
+msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie vášho účtu"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
@@ -731,7 +731,7 @@ msgstr "Prihlásiť sa"
 
 #: templates/login.php:52
 msgid "Alternative Logins"
-msgstr "Alternatívne prihlasovanie"
+msgstr "Alternatívne prihlásenie"
 
 #: templates/mail.php:15
 #, php-format
@@ -753,11 +753,11 @@ msgstr "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas trvať."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní."
 
 #: templates/update.user.php:5
 msgid ""
@@ -767,4 +767,4 @@ msgstr ""
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Ďakujeme za Vašu trpezlivosť."

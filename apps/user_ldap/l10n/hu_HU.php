@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Nem sikerült törölni a kiszolgáló konfigurációját",
 "The configuration is valid and the connection could be established!" => "A konfiguráció érvényes, és a kapcsolat létrehozható!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem ellenőrizze a kiszolgáló beállításait, és az elérési adatokat.",
+"The configuration is invalid. Please have a look at the logs for further details." => "Érvénytelen konfiguráció. További információkért nézze meg a naplófájlokat!",
 "No action specified" => "Nincs megadva parancs",
 "No configuration specified" => "Nincs megadva konfiguráció",
 "No data specified" => "Nincs adat megadva",

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-16 03:54+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +42,7 @@ msgstr "設定は有効ですが、接続に失敗しました。サーバ設定
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "設定が無効です。詳細はログを確認してください。"
 
 #: ajax/wizard.php:32
 msgid "No action specified"
@@ -76,63 +77,75 @@ msgstr "設定を保持しますか？"
 msgid "Cannot add server configuration"
 msgstr "サーバ設定を追加できません"
 
-#: js/settings.js:113
+#: js/settings.js:127
 msgid "mappings cleared"
 msgstr "マッピングをクリアしました"
 
-#: js/settings.js:114
+#: js/settings.js:128
 msgid "Success"
 msgstr "成功"
 
-#: js/settings.js:119
+#: js/settings.js:133
 msgid "Error"
 msgstr "エラー"
 
-#: js/settings.js:660 js/settings.js:669
+#: js/settings.js:674
+msgid "Configuration OK"
+msgstr ""
+
+#: js/settings.js:683
+msgid "Configuration incorrect"
+msgstr ""
+
+#: js/settings.js:692
+msgid "Configuration incomplete"
+msgstr ""
+
+#: js/settings.js:709 js/settings.js:718
 msgid "Select groups"
 msgstr "グループを選択"
 
-#: js/settings.js:663 js/settings.js:672
+#: js/settings.js:712 js/settings.js:721
 msgid "Select object classes"
 msgstr "オブジェクトクラスを選択"
 
-#: js/settings.js:666
+#: js/settings.js:715
 msgid "Select attributes"
 msgstr "属性を選択"
 
-#: js/settings.js:694
+#: js/settings.js:741
 msgid "Connection test succeeded"
 msgstr "接続テストに成功しました"
 
-#: js/settings.js:699
+#: js/settings.js:748
 msgid "Connection test failed"
 msgstr "接続テストに失敗しました"
 
-#: js/settings.js:709
+#: js/settings.js:757
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "現在のサーバ設定を本当に削除してもよろしいですか？"
 
-#: js/settings.js:710
+#: js/settings.js:758
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
-#: lib/wizard.php:78 lib/wizard.php:92
+#: lib/wizard.php:76 lib/wizard.php:90
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s グループが見つかりました"
 
-#: lib/wizard.php:123
+#: lib/wizard.php:119
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s ユーザが見つかりました"
 
-#: lib/wizard.php:752 lib/wizard.php:764
+#: lib/wizard.php:740 lib/wizard.php:752
 msgid "Invalid Host"
 msgstr "無効なホスト"
 
-#: lib/wizard.php:910
+#: lib/wizard.php:913
 msgid "Could not find the desired feature"
 msgstr "望ましい機能は見つかりませんでした"
 
@@ -144,7 +157,7 @@ msgstr "保存"
 msgid "Test Configuration"
 msgstr "設定をテスト"
 
-#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:13
+#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
 msgstr "ヘルプ"
 
@@ -258,11 +271,11 @@ msgstr "フィルタは、どの LDAP ユーザが %s にアクセスするか�
 msgid "users found"
 msgstr "ユーザが見つかりました"
 
-#: templates/part.wizardcontrols.php:4
+#: templates/part.wizardcontrols.php:5
 msgid "Back"
 msgstr "戻る"
 
-#: templates/part.wizardcontrols.php:7
+#: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "続ける"
 
@@ -295,145 +308,145 @@ msgstr "チェックを外すと、この設定はスキップされます。"
 msgid "User Login Filter"
 msgstr "ユーザログインフィルタ"
 
-#: templates/settings.php:26
+#: templates/settings.php:25
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "ログイン実行時に適用するフィルタを定義します。%%uid にはログイン操作におけるユーザ名が入ります。例： \"uid=%%uid\""
 
-#: templates/settings.php:27
+#: templates/settings.php:26
 msgid "Backup (Replica) Host"
 msgstr "バックアップ（レプリカ）ホスト"
 
-#: templates/settings.php:27
+#: templates/settings.php:26
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "バックアップホストをオプションで指定することができます。メインのLDAP/ADサーバのレプリカである必要があります。"
 
-#: templates/settings.php:28
+#: templates/settings.php:27
 msgid "Backup (Replica) Port"
 msgstr "バックアップ（レプリカ）ポート"
 
-#: templates/settings.php:29
+#: templates/settings.php:28
 msgid "Disable Main Server"
 msgstr "メインサーバを無効にする"
 
-#: templates/settings.php:29
+#: templates/settings.php:28
 msgid "Only connect to the replica server."
 msgstr "レプリカサーバーにのみ接続します。"
 
-#: templates/settings.php:30
+#: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "大文字／小文字を区別しないLDAPサーバ（Windows）"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
 msgstr "SSL証明書の確認を無効にする。"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 #, php-format
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
 msgstr "推奨されません、テストにおいてのみ使用してください！このオプションでのみ接続が動作する場合は、LDAP サーバのSSL証明書を %s サーバにインポートしてください。"
 
-#: templates/settings.php:32
+#: templates/settings.php:31
 msgid "Cache Time-To-Live"
 msgstr "キャッシュのTTL"
 
-#: templates/settings.php:32
+#: templates/settings.php:31
 msgid "in seconds. A change empties the cache."
 msgstr "秒。変更後にキャッシュがクリアされます。"
 
-#: templates/settings.php:34
+#: templates/settings.php:33
 msgid "Directory Settings"
 msgstr "ディレクトリ設定"
 
-#: templates/settings.php:36
+#: templates/settings.php:35
 msgid "User Display Name Field"
 msgstr "ユーザ表示名のフィールド"
 
-#: templates/settings.php:36
+#: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "ユーザの表示名の生成に利用するLDAP属性"
 
-#: templates/settings.php:37
+#: templates/settings.php:36
 msgid "Base User Tree"
 msgstr "ベースユーザツリー"
 
-#: templates/settings.php:37
+#: templates/settings.php:36
 msgid "One User Base DN per line"
 msgstr "1行に1つのユーザベースDN"
 
-#: templates/settings.php:38
+#: templates/settings.php:37
 msgid "User Search Attributes"
 msgstr "ユーザ検索属性"
 
-#: templates/settings.php:38 templates/settings.php:41
+#: templates/settings.php:37 templates/settings.php:40
 msgid "Optional; one attribute per line"
 msgstr "オプション：1行に1属性"
 
-#: templates/settings.php:39
+#: templates/settings.php:38
 msgid "Group Display Name Field"
 msgstr "グループ表示名のフィールド"
 
-#: templates/settings.php:39
+#: templates/settings.php:38
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "ユーザのグループ表示名の生成に利用するLDAP属性"
 
-#: templates/settings.php:40
+#: templates/settings.php:39
 msgid "Base Group Tree"
 msgstr "ベースグループツリー"
 
-#: templates/settings.php:40
+#: templates/settings.php:39
 msgid "One Group Base DN per line"
 msgstr "1行に1つのグループベースDN"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "Group Search Attributes"
 msgstr "グループ検索属性"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Group-Member association"
 msgstr "グループとメンバーの関連付け"
 
-#: templates/settings.php:44
+#: templates/settings.php:43
 msgid "Special Attributes"
 msgstr "特殊属性"
 
-#: templates/settings.php:46
+#: templates/settings.php:45
 msgid "Quota Field"
 msgstr "クォータフィールド"
 
-#: templates/settings.php:47
+#: templates/settings.php:46
 msgid "Quota Default"
 msgstr "クォータのデフォルト"
 
-#: templates/settings.php:47
+#: templates/settings.php:46
 msgid "in bytes"
 msgstr "バイト"
 
-#: templates/settings.php:48
+#: templates/settings.php:47
 msgid "Email Field"
 msgstr "メールフィールド"
 
-#: templates/settings.php:49
+#: templates/settings.php:48
 msgid "User Home Folder Naming Rule"
 msgstr "ユーザのホームフォルダ命名規則"
 
-#: templates/settings.php:49
+#: templates/settings.php:48
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください。"
 
-#: templates/settings.php:55
+#: templates/settings.php:54
 msgid "Internal Username"
 msgstr "内部ユーザ名"
 
-#: templates/settings.php:56
+#: templates/settings.php:55
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -449,15 +462,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "デフォルトでは、内部ユーザ名はUUID属性から作成されます。これにより、ユーザ名がユニークであり、かつ文字の変換が不要であることを保証します。内部ユーザ名には、[ a-zA-Z0-9_.@- ] の文字のみが有効であるという制限があり、その他の文字は対応する ASCII コードに変換されるか単に無視されます。そのため、他のユーザ名との衝突の回数が増加するでしょう。内部ユーザ名は、内部的にユーザを識別するために用いられ、また、ownCloudにおけるデフォルトのホームフォルダ名としても用いられます。例えば*DAVサービスのように、リモートURLの一部でもあります。この設定により、デフォルトの振る舞いを再定義します。ownCloud 5 以前と同じような振る舞いにするためには、以下のフィールドにユーザ表示名の属性を入力します。空にするとデフォルトの振る舞いとなります。変更は新しくマッピング（追加）されたLDAPユーザにおいてのみ有効となります。"
 
-#: templates/settings.php:57
+#: templates/settings.php:56
 msgid "Internal Username Attribute:"
 msgstr "内部ユーザ名属性:"
 
-#: templates/settings.php:58
+#: templates/settings.php:57
 msgid "Override UUID detection"
 msgstr "UUID検出を再定義する"
 
-#: templates/settings.php:59
+#: templates/settings.php:58
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -468,19 +481,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "デフォルトでは、UUID 属性は自動的に検出されます。UUID属性は、LDAPユーザとLDAPグループを間違いなく識別するために利用されます。また、もしこれを指定しない場合は、内部ユーザ名はUUIDに基づいて作成されます。この設定は再定義することができ、あなたの選択した属性を用いることができます。選択した属性がユーザとグループの両方に対して適用でき、かつユニークであることを確認してください。空であればデフォルトの振る舞いとなります。変更は、新しくマッピング（追加）されたLDAPユーザとLDAPグループに対してのみ有効となります。"
 
-#: templates/settings.php:60
+#: templates/settings.php:59
 msgid "UUID Attribute for Users:"
 msgstr "ユーザの UUID 属性:"
 
-#: templates/settings.php:61
+#: templates/settings.php:60
 msgid "UUID Attribute for Groups:"
 msgstr "グループの UUID 属性:"
 
-#: templates/settings.php:62
+#: templates/settings.php:61
 msgid "Username-LDAP User Mapping"
 msgstr "ユーザ名とLDAPユーザのマッピング"
 
-#: templates/settings.php:63
+#: templates/settings.php:62
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -494,10 +507,10 @@ msgid ""
 "experimental stage."
 msgstr "ユーザ名は（メタ）データの保存と割り当てに使用されます。ユーザを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ユーザ名からLDAPユーザへのマッピングが必要であることを意味しています。この生成されたユーザ名は、LDAPユーザのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザ名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、全てのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。"
 
-#: templates/settings.php:64
+#: templates/settings.php:63
 msgid "Clear Username-LDAP User Mapping"
 msgstr "ユーザ名とLDAPユーザのマッピングをクリアする"
 
-#: templates/settings.php:64
+#: templates/settings.php:63
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "グループ名とLDAPグループのマッピングをクリアする"

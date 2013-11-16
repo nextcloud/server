@@ -1,6 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "%s shared »%s« with you" => "%s teilt »%s« mit Ihnen",
+"Turned on maintenance mode" => "Wartungsmodus eingeschaltet",
+"Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
+"Updated database" => "Datenbank aktualisiert",
+"Updating filecache, this may take really long..." => "Aktualisiere Dateicache, dies könnte eine Weile dauern...",
+"Updated filecache" => "Dateicache aktualisiert",
 "Sunday" => "Sonntag",
 "Monday" => "Montag",
 "Tuesday" => "Dienstag",

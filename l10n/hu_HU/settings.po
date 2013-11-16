@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-11 08:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 21:20+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +32,11 @@ msgstr "Azonosítási hiba"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Az Ön teljes nevét módosítottuk."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Nem sikerült megváltoztatni a teljes nevét"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -224,23 +224,23 @@ msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Minden (végzetes hibák, hibák, figyelmeztetések, információk, hibakeresési üzenetek)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Információk, figyelmeztetések, hibák és végzetes hibák"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Figyelmeztetések, hibák és végzetes hibák"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Hibák és végzetes hibák"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Csak a végzetes hibák"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -509,7 +509,7 @@ msgstr "A jelszó megváltoztatása"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Teljes név"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -610,7 +610,7 @@ msgstr "Alapértelmezett tárhely"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Kérjük adja meg a tárolási kvótát (pl.  \"512 MB\" vagy \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -630,7 +630,7 @@ msgstr "Tárhely"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "a teljes név megváltoztatása"
 
 #: templates/users.php:112
 msgid "set new password"

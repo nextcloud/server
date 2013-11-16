@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Elkarbanatutako hau pasahitzarekin babestuta dago",
 "The password is wrong. Try again." => "Pasahitza ez da egokia. Saiatu berriro.",
 "Password" => "Pasahitza",
 "Sorry, this link doesn’t seem to work anymore." => "Barkatu, lotura ez dirudi eskuragarria dagoenik.",
@@ -13,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Deskargatu",
 "Upload" => "Igo",
 "Cancel upload" => "Ezeztatu igoera",
-"No preview available for" => "Ez dago aurrebista eskuragarririk hauentzat "
+"No preview available for" => "Ez dago aurrebista eskuragarririk hauentzat ",
+"Direct link" => "Lotura zuzena"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

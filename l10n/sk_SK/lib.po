@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 17:00+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z danou verziou ownCloudu."
+msgstr "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z touto verziou ownCloudu."
 
 #: private/app.php:255
 msgid "No app name specified"
@@ -109,7 +109,7 @@ msgstr "Nešpecifikovaná cesta pri inštalácii aplikácie z lokálneho súboru
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr "Typ archívu %s nie je podporovaný"
+msgstr "Tento typ archívu %s nie je podporovaný"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
@@ -121,29 +121,29 @@ msgstr "Aplikácia neposkytuje súbor info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr "Aplikácia nemôže byť inštalovaná pre nepovolený kód v aplikácii"
+msgstr "Aplikácia nemôže byť nainštalovaná pre nepovolený kód v aplikácii"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr "Aplikácia nemôže byť inštalovaná pre nekompatibilitu z danou verziou ownCloudu"
+msgstr "Aplikácia nemôže byť nainštalovaná pre nekompatibilitu z touto verziou ownCloudu"
 
 #: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr "Aplikácia nemôže byť inštalovaná pretože obsahuje <shipped>pravý</shipped> štítok, ktorý nie je povolený pre zaslané \"shipped\" aplikácie"
+msgstr "Aplikácia nemôže byť nainštalovaná pretože obsahuje <shipped>pravý</shipped> štítok, ktorý nie je povolený pre zaslané \"shipped\" aplikácie"
 
 #: private/installer.php:152
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "Aplikácia nemôže byť inštalovaná pretože verzia v info.xml/version nezodpovedá verzii špecifikovanej v aplikačnom obchode"
+msgstr "Aplikácia nemôže byť nainštalovaná pretože verzia v info.xml/version nezodpovedá verzii špecifikovanej v obchode s aplikáciami"
 
 #: private/installer.php:162
 msgid "App directory already exists"
-msgstr "Aplikačný adresár už existuje"
+msgstr "Aplikačný priečinok už existuje"
 
 #: private/installer.php:175
 #, php-format
@@ -177,7 +177,7 @@ msgstr "Obrázky"
 #: private/setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr "Zadajte používateľské meno %s databázy.."
+msgstr "Zadajte používateľské meno %s databázy."
 
 #: private/setup/abstractdatabase.php:25
 #, php-format
@@ -270,13 +270,13 @@ msgstr "Zadajte používateľské meno administrátora."
 msgid "Set an admin password."
 msgstr "Zadajte heslo administrátora."
 
-#: private/setup.php:184
+#: private/setup.php:195
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené."
 
-#: private/setup.php:185
+#: private/setup.php:196
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."
@@ -293,15 +293,15 @@ msgstr "pred sekundami"
 #: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pred %n minútou"
+msgstr[1] "pred %n minútami"
 msgstr[2] "pred %n minútami"
 
 #: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pred %n hodinou"
+msgstr[1] "pred %n hodinami"
 msgstr[2] "pred %n hodinami"
 
 #: private/template/functions.php:133
@@ -315,8 +315,8 @@ msgstr "včera"
 #: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pred %n dňom"
+msgstr[1] "pred %n dňami"
 msgstr[2] "pred %n dňami"
 
 #: private/template/functions.php:138
@@ -326,8 +326,8 @@ msgstr "minulý mesiac"
 #: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "pred %n mesiacom"
+msgstr[1] "pred %n mesiacmi"
 msgstr[2] "pred %n mesiacmi"
 
 #: private/template/functions.php:141
@@ -338,6 +338,6 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "pred rokmi"
 
-#: private/template.php:297 public/util.php:103
+#: private/template.php:297 public/util.php:108
 msgid "Caused by:"
 msgstr "Príčina:"
