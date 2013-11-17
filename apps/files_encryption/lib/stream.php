@@ -484,7 +484,7 @@ class Stream {
 			}
 
 			// if private key is not valid redirect user to a error page
-			\OCA\Encryption\Helper::redirectToErrorPage();
+			\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 		}
 
 		if (
