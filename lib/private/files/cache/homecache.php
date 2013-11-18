@@ -37,4 +37,17 @@ class HomeCache extends Cache {
 		}
 		return $totalSize;
 	}
+
+	public function get($path) {
+		$data = parent::get($path);
+		if ($path === '' or $path === '/') {
+			// only the size of the "files" dir counts
+			$filesData = parent::get('files');
+
+			if (isset($filesData['size'])) {
+				$data['size'] = $filesData['size'];
+			}
+		}
+		return $data;
+	}
 }

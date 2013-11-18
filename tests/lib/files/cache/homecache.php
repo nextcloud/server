@@ -92,4 +92,30 @@ class HomeCache extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache($dir1));
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
+
+	public function testRootFolderSizeIsFilesSize() {
+		$dir1 = 'files';
+		$afile = 'test.txt';
+		$fileData = array();
+		$fileData[''] = array('size' => 1500, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory');
+		$fileData[$dir1] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory');
+		$fileData[$afile] = array('size' => 500, 'mtime' => 20);
+
+		$this->cache->put('', $fileData['']);
+		$this->cache->put($dir1, $fileData[$dir1]);
+
+		$this->assertTrue($this->cache->inCache($dir1));
+
+		// check that root size ignored the unknown sizes
+		$data = $this->cache->get('files');
+		$this->assertEquals(1000, $data['size']);
+		$data = $this->cache->get('');
+		$this->assertEquals(1000, $data['size']);
+
+		// clean up
+		$this->cache->remove('');
+		$this->cache->remove($dir1);
+
+		$this->assertFalse($this->cache->inCache($dir1));
+	}
 }
