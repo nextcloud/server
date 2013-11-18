@@ -47,23 +47,47 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 }
 
 /* INPUTS */
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"],
-textarea, select,
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
+textarea,
+select,
 button, .button,
-#quota, .pager li a {
+#quota,
+.pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
 	border-radius: 3px;
 }
-input[type="hidden"] { height:0; width:0; }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], textarea {
+input[type="hidden"] {
+	height: 0;
+	width: 0;
+}
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
+textarea {
 	background: #fff;
 	color: #555;
 	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"] {
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"] {
 	-webkit-appearance:textfield; -moz-appearance:textfield;
 	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
 }
@@ -73,12 +97,18 @@ input[type="number"]:hover, input[type="number"]:focus, input[type="number"]:act
 .searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
 input[type="email"]:hover, input[type="email"]:focus, input[type="email"]:active,
 input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
+input[type="time"]:hover, input[type="time"]:focus, input[type="time"]:active,
 textarea:hover, textarea:focus, textarea:active {
 	color: #333;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1;
 }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
+input[type="time"] {
+	width: 110px;
+	height: 30px;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
 #quota {
 	cursor: default;
 	margin: 30px;
