@@ -18,6 +18,7 @@
 	float: right;
 	z-index: 1010;
 	padding: 10px;
+	font-weight: normal;
 }
 #new>a {
 	padding: 14px 10px;
