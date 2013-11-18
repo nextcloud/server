@@ -127,6 +127,7 @@ class smb {
 		$old_locale = getenv('LC_ALL');
 		putenv('LC_ALL=en_US.UTF-8');
 		$output = popen (SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
+		$gotInfo = false;
 		$info = array ();
 		$info['info']= array ();
 		$mode = '';
@@ -188,7 +189,12 @@ class smb {
 					}
 					trigger_error($regs[0].' params('.$params.')', E_USER_ERROR);
 				case 'error-connect':
-					return false;
+					// connection error can happen after obtaining share list if
+					// NetBIOS is disabled/blocked on the target server,
+					// in which case we keep the info and continue
+					if (!$gotInfo) {
+						return false;
+					}
 			}
 			if ($i) switch ($i[1]) {
 				case 'file':
@@ -196,6 +202,7 @@ class smb {
 				case 'disk':
 				case 'server':
 				case 'workgroup': $info[$i[1]][] = $i[0];
+				$gotInfo = true;
 			}
 		}
 		pclose($output);
