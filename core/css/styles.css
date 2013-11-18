@@ -47,24 +47,47 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 }
 
 /* INPUTS */
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], input[type="time"],
-textarea, select,
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
+textarea,
+select,
 button, .button,
-#quota, .pager li a {
+#quota,
+.pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
 	border-radius: 3px;
 }
-input[type="hidden"] { height:0; width:0; }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], input[type="time"],
+input[type="hidden"] {
+	height: 0;
+	width: 0;
+}
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
 textarea {
 	background: #fff;
 	color: #555;
 	cursor: text;
 	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
 }
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"], input[type="url"], input[type="time"] {
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="time"] {
 	-webkit-appearance:textfield; -moz-appearance:textfield;
 	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
 }
