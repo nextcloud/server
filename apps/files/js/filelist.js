@@ -367,6 +367,37 @@ var FileList={
 						});
 					}
 				});
+	},
+	scrollTo:function(file) {
+		//scroll to and highlight preselected file
+		var $scrolltorow = $('tr[data-file="'+file+'"]');
+		if ($scrolltorow.exists()) {
+			$scrolltorow.addClass('searchresult');
+			$(window).scrollTop($scrolltorow.position().top);
+			//remove highlight when hovered over
+			$scrolltorow.one('hover', function() {
+				$scrolltorow.removeClass('searchresult');
+			});
+		}
+	},
+	filter:function(query) {
+		$('#fileList tr:not(.summary)').each(function(i,e) {
+			if ($(e).data('file').toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+				$(e).addClass("searchresult");
+			} else {
+				$(e).removeClass("searchresult");
+			}
+		});
+		//do not use scrollto to prevent removing searchresult css class
+		var first = $('#fileList tr.searchresult').first();
+		if (first.exists()) {
+			$(window).scrollTop(first.position().top);
+		}
+	},
+	unfilter:function() {
+		$('#fileList tr.searchresult').each(function(i,e) {
+			$(e).removeClass("searchresult");
+		});
 	}
 };
 
