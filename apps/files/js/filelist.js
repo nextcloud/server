@@ -723,7 +723,7 @@ var FileList={
 	},
 	filter:function(query) {
 		$('#fileList tr:not(.summary)').each(function(i,e) {
-			if ($(e).data('file').toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+			if ($(e).data('file').toString().toLowerCase().indexOf(query.toLowerCase()) !== -1) {
 				$(e).addClass("searchresult");
 			} else {
 				$(e).removeClass("searchresult");
