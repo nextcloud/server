@@ -876,7 +876,8 @@ class OC_Helper {
 	 * @return array
 	 */
 	public static function getStorageInfo($path) {
-		$rootInfo = \OC\Files\Filesystem::getFileInfo($path);
+		// return storage info without adding mount points
+		$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
 		$used = $rootInfo['size'];
 		if ($used < 0) {
 			$used = 0;

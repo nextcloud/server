@@ -762,6 +762,8 @@ class View {
 	 * get the filesystem info
 	 *
 	 * @param string $path
+	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * defaults to true
 	 * @return array
 	 *
 	 * returns an associative array with the following keys:
@@ -771,7 +773,7 @@ class View {
 	 * - encrypted
 	 * - versioned
 	 */
-	public function getFileInfo($path) {
+	public function getFileInfo($path, $includeMountPoints = true) {
 		$data = array();
 		if (!Filesystem::isValidPath($path)) {
 			return $data;
@@ -798,7 +800,7 @@ class View {
 			$data = $cache->get($internalPath);
 
 			if ($data and $data['fileid']) {
-				if ($data['mimetype'] === 'httpd/unix-directory') {
+				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
 					$mountPoints = Filesystem::getMountPoints($path);
 					foreach ($mountPoints as $mountPoint) {

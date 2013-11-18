@@ -28,8 +28,8 @@
 class OC_Files {
 	static $tmpFiles = array();
 
-	static public function getFileInfo($path){
-		return \OC\Files\Filesystem::getFileInfo($path);
+	static public function getFileInfo($path, $includeMountPoints = true){
+		return \OC\Files\Filesystem::getFileInfo($path, $includeMountPoints);
 	}
 
 	static public function getDirectoryContent($path){
