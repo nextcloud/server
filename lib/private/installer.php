@@ -147,7 +147,14 @@ class OC_Installer{
 		}
 
 		// check if the ocs version is the same as the version in info.xml/version
-		if(!isset($info['version']) or ($info['version']<>$data['appdata']['version'])) {
+		$versionFile= $extractDir.'/appinfo/version';
+		if(is_file($versionFile)) {
+			$version = trim(file_get_contents($versionFile));
+		}else{
+			$version = trim($info['version']);
+		}
+		
+		if($version<>trim($data['appdata']['version'])) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because the version in info.xml/version is not the same as the version reported from the app store"));
 		}
