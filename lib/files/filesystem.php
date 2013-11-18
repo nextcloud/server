@@ -624,6 +624,8 @@ class Filesystem {
 	 * get the filesystem info
 	 *
 	 * @param string $path
+	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * defaults to true
 	 * @return array
 	 *
 	 * returns an associative array with the following keys:
@@ -633,8 +635,8 @@ class Filesystem {
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFileInfo($path) {
-		return self::$defaultInstance->getFileInfo($path);
+	public static function getFileInfo($path, $includeMountPoints = true) {
+		return self::$defaultInstance->getFileInfo($path, $includeMountPoints);
 	}
 
 	/**
