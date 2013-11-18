@@ -67,6 +67,11 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($storageSize * 3, $cachedData['size']);
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
+		// get cached data excluding mount points
+		$cachedData = $rootView->getFileInfo('/', false);
+		$this->assertEquals($storageSize, $cachedData['size']);
+		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
+
 		$cachedData = $rootView->getFileInfo('/folder');
 		$this->assertEquals($storageSize + $textSize, $cachedData['size']);
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
