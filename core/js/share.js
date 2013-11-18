@@ -190,6 +190,7 @@ OC.Share={
 			}
 			html += '<br />';
 		}
+
 		if (possiblePermissions & OC.PERMISSION_SHARE) {
 			// Determine the Allow Public Upload status.
 			// Used later on to determine if the
@@ -292,7 +293,21 @@ OC.Share={
 				var shareWith = selected.item.value.shareWith;
 				$(this).val(shareWith);
 				// Default permissions are Edit (CRUD) and Share
-				var permissions = OC.PERMISSION_ALL;
+				// Check if these permissions are possible
+				var permissions = OC.PERMISSION_READ;
+				if (possiblePermissions & OC.PERMISSION_UPDATE) {
+					permissions = permissions | OC.PERMISSION_UPDATE;
+				}
+				if (possiblePermissions & OC.PERMISSION_CREATE) {
+					permissions = permissions | OC.PERMISSION_CREATE;
+				}
+				if (possiblePermissions & OC.PERMISSION_DELETE) {
+					permissions = permissions | OC.PERMISSION_DELETE;
+				}
+				if (possiblePermissions & OC.PERMISSION_SHARE) {
+					permissions = permissions | OC.PERMISSION_SHARE;
+				}
+
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, function() {
 					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
