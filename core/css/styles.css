@@ -726,8 +726,6 @@ tbody tr:hover, tr:active { background-color:#f8f8f8; }
 }
 #body-settings .personalblock#quota { position:relative; padding:0; }
 #body-settings #controls+.helpblock { position:relative; margin-top:3em; }
-.personalblock > legend { margin-top:2em; }
-.personalblock > legend, th, dt, label { font-weight:bold; }
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
 #quota div {
