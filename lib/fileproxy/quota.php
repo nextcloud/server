@@ -74,7 +74,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 
 		$view = new \OC\Files\View("/".$owner."/files");
 
-		$rootInfo = $view->getFileInfo('/');
+		$rootInfo = $view->getFileInfo('/', false);
 		$usedSpace = isset($rootInfo['size'])?$rootInfo['size']:0;
 		return $totalSpace - $usedSpace;
 	}
