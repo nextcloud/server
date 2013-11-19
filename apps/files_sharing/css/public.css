@@ -22,11 +22,15 @@ body {
 #public_upload,
 #download {
 	font-weight:700;
-	margin: 0 0.4em 0 0;
+	margin: 0 0 0 .4em;
 	padding: 0 5px;
 	height: 32px;
 	float: left;
 
+}
+
+#openAsPhotoAlbum {
+	font-weight: normal;
 }
 
 .header-right #details {
