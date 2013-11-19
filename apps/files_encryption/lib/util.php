@@ -84,6 +84,8 @@ class Util {
 				$this->privateKeyPath =
 					'/owncloud_private_key/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 				$this->isPublic = true;
+				// make sure that the owners home is mounted
+				\OC\Files\Filesystem::initMountPoints($GLOBALS['fileOwner']);
 			}
 
 		} else {
@@ -99,6 +101,8 @@ class Util {
 				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 			$this->privateKeyPath =
 				$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+			// make sure that the owners home is mounted
+			\OC\Files\Filesystem::initMountPoints($this->userId);
 		}
 	}
 
