@@ -182,8 +182,9 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 1));
 		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 1));
 
-		$this->assertTrue(($ctimeStart - 1) <= $mTime);
-		$this->assertTrue($mTime <= ($ctimeEnd + 1));
+		// check that ($ctimeStart - 1) <= $mTime <= ($ctimeEnd + 1)
+		$this->assertGreaterThanOrEqual(($ctimeStart - 1), $mTime);
+		$this->assertLessThanOrEqual(($ctimeEnd + 1), $mTime);
 		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
@@ -247,6 +248,17 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count($result));
 		$this->assertContains('/sub/logo-wide.svg', $result);
 		$this->assertContains('/sub/logo-wide.png', $result);
+	}
+
+	public function testUnlink() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
+
+		$this->assertTrue($this->instance->file_exists('/lorem.txt'));
+
+		$this->assertTrue($this->instance->unlink('/lorem.txt'));
+
+		$this->assertFalse($this->instance->file_exists('/lorem.txt'));
 	}
 
 	public function testFOpen() {
