@@ -66,6 +66,11 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		if (!$owner) {
 			return -1;
 		}
+		list($rootStorage, $rootInternalPath) = \OC\Files\Filesystem::resolvePath('/' . $owner . '/');
+		// do not apply quota on external storage
+		if ($rootStorage->getId() !== $storage->getId()) {
+			return -1;
+		}
 
 		$totalSpace = $this->getQuota($owner);
 		if($totalSpace == -1) {
