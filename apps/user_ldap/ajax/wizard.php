@@ -53,8 +53,11 @@ switch($action) {
 	case 'determineGroupsForGroups':
 	case 'determineAttributes':
 	case 'getUserListFilter':
+	case 'getLoginFilterMode':
 	case 'getUserLoginFilter':
+	case 'getUserFilterMode':
 	case 'getGroupFilter':
+	case 'getGroupFilterMode':
 	case 'countUsers':
 	case 'countGroups':
 		try {
