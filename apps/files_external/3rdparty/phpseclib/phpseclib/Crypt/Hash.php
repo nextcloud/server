@@ -52,7 +52,6 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMVII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id: Hash.php,v 1.6 2009/11/23 23:37:07 terrafrost Exp $
  * @link       http://phpseclib.sourceforge.net
  */
 
@@ -83,6 +82,15 @@ define('CRYPT_HASH_MODE_HASH',     3);
  * @package Crypt_Hash
  */
 class Crypt_Hash {
+    /**
+     * Hash Parameter
+     *
+     * @see Crypt_Hash::setHash()
+     * @var Integer
+     * @access private
+     */
+    var $hashParam;
+
     /**
      * Byte-length of compression blocks / key (Internal HMAC)
      *
@@ -168,11 +176,24 @@ class Crypt_Hash {
      * Keys can be of any length.
      *
      * @access public
-     * @param String $key
+     * @param optional String $key
      */
     function setKey($key = false)
     {
         $this->key = $key;
+    }
+
+    /**
+     * Gets the hash function.
+     *
+     * As set by the constructor or by the setHash() method.
+     *
+     * @access public
+     * @return String
+     */
+    function getHash()
+    {
+        return $this->hashParam;
     }
 
     /**
@@ -183,7 +204,7 @@ class Crypt_Hash {
      */
     function setHash($hash)
     {
-        $hash = strtolower($hash);
+        $this->hashParam = $hash = strtolower($hash);
         switch ($hash) {
             case 'md5-96':
             case 'sha1-96':
@@ -350,7 +371,7 @@ class Crypt_Hash {
      * Wrapper for MD5
      *
      * @access private
-     * @param String $text
+     * @param String $m
      */
     function _md5($m)
     {
@@ -361,7 +382,7 @@ class Crypt_Hash {
      * Wrapper for SHA1
      *
      * @access private
-     * @param String $text
+     * @param String $m
      */
     function _sha1($m)
     {
@@ -374,7 +395,7 @@ class Crypt_Hash {
      * See {@link http://tools.ietf.org/html/rfc1319 RFC1319}.
      *
      * @access private
-     * @param String $text
+     * @param String $m
      */
     function _md2($m)
     {
@@ -450,7 +471,7 @@ class Crypt_Hash {
      * See {@link http://en.wikipedia.org/wiki/SHA_hash_functions#SHA-256_.28a_SHA-2_variant.29_pseudocode SHA-256 (a SHA-2 variant) pseudocode - Wikipedia}.
      *
      * @access private
-     * @param String $text
+     * @param String $m
      */
     function _sha256($m)
     {
@@ -555,7 +576,7 @@ class Crypt_Hash {
      * Pure-PHP implementation of SHA384 and SHA512
      *
      * @access private
-     * @param String $text
+     * @param String $m
      */
     function _sha512($m)
     {
@@ -784,9 +805,8 @@ class Crypt_Hash {
      * _sha256() adds multiple unsigned 32-bit integers.  Since PHP doesn't support unsigned integers and since the
      * possibility of overflow exists, care has to be taken.  Math_BigInteger() could be used but this should be faster.
      *
-     * @param String $string
-     * @param optional Integer $index
-     * @return String
+     * @param Integer $...
+     * @return Integer
      * @see _sha256()
      * @access private
      */

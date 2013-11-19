@@ -62,55 +62,8 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMVII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id: SSH1.php,v 1.15 2010/03/22 22:01:38 terrafrost Exp $
  * @link       http://phpseclib.sourceforge.net
  */
-
-/**
- * Include Math_BigInteger
- *
- * Used to do RSA encryption.
- */
-if (!class_exists('Math_BigInteger')) {
-    require_once('Math/BigInteger.php');
-}
-
-/**
- * Include Crypt_Null
- */
-//require_once('Crypt/Null.php');
-
-/**
- * Include Crypt_DES
- */
-if (!class_exists('Crypt_DES')) {
-    require_once('Crypt/DES.php');
-}
-
-/**
- * Include Crypt_TripleDES
- */
-if (!class_exists('Crypt_TripleDES')) {
-    require_once('Crypt/TripleDES.php');
-}
-
-/**
- * Include Crypt_RC4
- */
-if (!class_exists('Crypt_RC4')) {
-    require_once('Crypt/RC4.php');
-}
-
-/**
- * Include Crypt_Random
- */
-// the class_exists() will only be called if the crypt_random_string function hasn't been defined and
-// will trigger a call to __autoload() if you're wanting to auto-load classes
-// call function_exists() a second time to stop the require_once from being called outside
-// of the auto loader
-if (!function_exists('crypt_random_string') && !class_exists('Crypt_Random') && !function_exists('crypt_random_string')) {
-    require_once('Crypt/Random.php');
-}
 
 /**#@+
  * Encryption Methods
@@ -495,6 +448,19 @@ class Net_SSH1 {
      */
     function Net_SSH1($host, $port = 22, $timeout = 10, $cipher = NET_SSH1_CIPHER_3DES)
     {
+        if (!class_exists('Math_BigInteger')) {
+            require_once('Math/BigInteger.php');
+        }
+
+        // Include Crypt_Random
+        // the class_exists() will only be called if the crypt_random_string function hasn't been defined and
+        // will trigger a call to __autoload() if you're wanting to auto-load classes
+        // call function_exists() a second time to stop the require_once from being called outside
+        // of the auto loader
+        if (!function_exists('crypt_random_string') && !class_exists('Crypt_Random') && !function_exists('crypt_random_string')) {
+            require_once('Crypt/Random.php');
+        }
+
         $this->protocol_flags = array(
             1  => 'NET_SSH1_MSG_DISCONNECT',
             2  => 'NET_SSH1_SMSG_PUBLIC_KEY',
@@ -636,18 +602,27 @@ class Net_SSH1 {
             //    $this->crypto = new Crypt_Null();
             //    break;
             case NET_SSH1_CIPHER_DES:
+                if (!class_exists('Crypt_DES')) {
+                    require_once('Crypt/DES.php');
+                }
                 $this->crypto = new Crypt_DES();
                 $this->crypto->disablePadding();
                 $this->crypto->enableContinuousBuffer();
                 $this->crypto->setKey(substr($session_key, 0,  8));
                 break;
             case NET_SSH1_CIPHER_3DES:
+                if (!class_exists('Crypt_TripleDES')) {
+                    require_once('Crypt/TripleDES.php');
+                }
                 $this->crypto = new Crypt_TripleDES(CRYPT_DES_MODE_3CBC);
                 $this->crypto->disablePadding();
                 $this->crypto->enableContinuousBuffer();
                 $this->crypto->setKey(substr($session_key, 0, 24));
                 break;
             //case NET_SSH1_CIPHER_RC4:
+            //    if (!class_exists('Crypt_RC4')) {
+            //        require_once('Crypt/RC4.php');
+            //    }
             //    $this->crypto = new Crypt_RC4();
             //    $this->crypto->enableContinuousBuffer();
             //    $this->crypto->setKey(substr($session_key, 0,  16));
@@ -935,7 +910,7 @@ class Net_SSH1 {
      * Returns the output of an interactive shell when no more output is available.
      *
      * Requires PHP 4.3.0 or later due to the use of the stream_select() function.  If you see stuff like
-     * "[00m", you're seeing ANSI escape codes.  According to
+     * "^[[00m", you're seeing ANSI escape codes.  According to
      * {@link http://support.microsoft.com/kb/101875 How to Enable ANSI.SYS in a Command Window}, "Windows NT
      * does not support ANSI escape sequences in Win32 Console applications", so if you're a Windows user,
      * there's not going to be much recourse.
