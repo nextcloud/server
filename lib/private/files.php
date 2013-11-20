@@ -131,9 +131,11 @@ class OC_Files {
 				if ($filesize > -1) {
 					header("Content-Length: ".$filesize);
 				}
-				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
-				if ($storage instanceof \OC\Files\Storage\Local) {
-					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+				if ($xsendfile) {
+					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
+					if ($storage instanceof \OC\Files\Storage\Local) {
+						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+					}
 				}
 			}
 		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
