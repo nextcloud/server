@@ -250,7 +250,7 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->userId, $this->relPath);
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
