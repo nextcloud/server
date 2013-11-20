@@ -225,10 +225,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function isPublicAccess() {
-		if (\OCP\USER::getUser() === false
-			|| (isset($_GET['service']) && $_GET['service'] == 'files'
-				&& isset($_GET['t']))
-		) {
+		if (\OCP\USER::getUser() === false) {
 			return true;
 		} else {
 			return false;
@@ -253,6 +250,35 @@ class Helper {
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
+	}
+
+	public static function getUser($path) {
+
+		$user = \OCP\User::getUser();
+
+		// if we are logged in, than we return the userid
+		if ($user) {
+			return $user;
+		}
+
+		// if no user is logged in we try to access a publically shared files.
+		// In this case we need to try to get the user from the path
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		// it is not a file relative to data/user/files
+		if (count($split) < 2 || $split[1] !== 'files') {
+			return false;
+		}
+
+		$user = $split[0];
+
+		if (\OCP\User::userExists($user)) {
+			return $user;
+		}
+
+		return false;
 	}
 
 	/**

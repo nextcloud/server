@@ -38,7 +38,8 @@ class Util {
 	const MIGRATION_OPEN = 0;         // user still needs to be migrated
 
 	private $view; // OC_FilesystemView object for filesystem operations
-	private $userId; // ID of the currently logged-in user
+	private $userId; // ID of the user we use to encrypt/decrypt files
+	private $ownerId; // ID of the user who accesses the file/folder
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
@@ -58,51 +59,34 @@ class Util {
 	public function __construct(\OC_FilesystemView $view, $userId, $client = false) {
 
 		$this->view = $view;
-		$this->userId = $userId;
 		$this->client = $client;
-		$this->isPublic = false;
 
 		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
 		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
-		// if we are anonymous/public
+		$this->userDir = '/' . $userId;
+		$this->fileFolderName = 'files';
+		$this->userFilesDir =
+				'/' . $userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
+		$this->publicKeyDir = '/' . 'public-keys';
+		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
+		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+		$this->publicKeyPath =
+				$this->publicKeyDir . '/' . $userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+		$this->privateKeyPath =
+				$this->encryptionDir . '/' . $userId . '.private.key'; // e.g. data/admin/admin.private.key
+		// make sure that the owners home is mounted
+		\OC\Files\Filesystem::initMountPoints($userId);
+
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			$this->userId = $this->publicShareKeyId;
-
-			// only handle for files_sharing app
-			if (isset($GLOBALS['app']) && $GLOBALS['app'] === 'files_sharing') {
-				$this->userDir = '/' . $GLOBALS['fileOwner'];
-				$this->fileFolderName = 'files';
-				$this->userFilesDir = '/' . $GLOBALS['fileOwner'] . '/'
-									  . $this->fileFolderName; // TODO: Does this need to be user configurable?
-				$this->publicKeyDir = '/' . 'public-keys';
-				$this->encryptionDir = '/' . $GLOBALS['fileOwner'] . '/' . 'files_encryption';
-				$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-				$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
-				$this->publicKeyPath =
-					$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
-				$this->privateKeyPath =
-					'/owncloud_private_key/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-				$this->isPublic = true;
-				// make sure that the owners home is mounted
-				\OC\Files\Filesystem::initMountPoints($GLOBALS['fileOwner']);
-			}
-
+			$this->ownerId = $userId;
+			$this->isPublic = true;
 		} else {
-			$this->userDir = '/' . $this->userId;
-			$this->fileFolderName = 'files';
-			$this->userFilesDir =
-				'/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-			$this->publicKeyDir = '/' . 'public-keys';
-			$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
-			$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-			$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
-			$this->publicKeyPath =
-				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
-			$this->privateKeyPath =
-				$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-			// make sure that the owners home is mounted
-			\OC\Files\Filesystem::initMountPoints($this->userId);
+			$this->userId = $userId;
+			$this->ownerId = $userId;
+			$this->isPublic = false;
 		}
 	}
 
@@ -1338,7 +1322,7 @@ class Util {
 		// handle public access
 		if ($this->isPublic) {
 			$filename = $path;
-			$fileOwnerUid = $GLOBALS['fileOwner'];
+			$fileOwnerUid = $this->ownerId;
 
 			return array(
 				$fileOwnerUid,

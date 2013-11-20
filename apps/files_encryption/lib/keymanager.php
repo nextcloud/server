@@ -172,16 +172,14 @@ class Keymanager {
 	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param \OC_FilesystemView $view
-	 * @param $userId
+	 * @param \OCA\Encryption\Util $util
 	 * @param $filePath
 	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getFileKey(\OC_FilesystemView $view, $userId, $filePath) {
-
-		$util = new Util($view, \OCP\User::getUser());
+	public static function getFileKey(\OC_FilesystemView $view, $util, $filePath) {
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filename = Helper::stripPartialFileExtension($filename);
@@ -364,20 +362,18 @@ class Keymanager {
 	 * @brief retrieve shareKey for an encrypted file
 	 * @param \OC_FilesystemView $view
 	 * @param string $userId
+	 * @param \OCA\Encryption\Util $util
 	 * @param string $filePath
 	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The sharekey returned is encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getShareKey(\OC_FilesystemView $view, $userId, $filePath) {
+	public static function getShareKey(\OC_FilesystemView $view, $userId, $util, $filePath) {
 
 		// try reusing key file if part file
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
-
-		//here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filename = Helper::stripPartialFileExtension($filename);

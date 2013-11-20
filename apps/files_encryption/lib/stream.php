@@ -250,12 +250,14 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->userId, $this->relPath);
+		$userId = Helper::getUser($this->rawPath);
+		$util = new \OCA\Encryption\Util($this->rootView, $userId);
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $util, $this->relPath);
 
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
