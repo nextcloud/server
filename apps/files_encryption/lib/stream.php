@@ -92,10 +92,14 @@ class Stream {
 
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
-		$this->privateKey = $this->session->getPrivateKey($this->userId);
+		$this->privateKey = $this->session->getPrivateKey();
 
-		$util = new Util($this->rootView, \OCP\USER::getUser());
+		$userId = Helper::getUser($path);
 
+		$util = new Util($this->rootView, $userId);
+
+		// need to get the userId once more from util, because now this can be the
+		// public share key ID
 		$this->userId = $util->getUserId();
 
 		// rawPath is relative to the data directory
@@ -509,7 +513,9 @@ class Stream {
 				// Check if OC sharing api is enabled
 				$sharingEnabled = \OCP\Share::isEnabled();
 
-				$util = new Util($this->rootView, $this->userId);
+				$userId = Helper::getUser($this->rawPath);
+
+				$util = new Util($this->rootView, $userId);
 
 				// Get all users sharing the file includes current user
 				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);

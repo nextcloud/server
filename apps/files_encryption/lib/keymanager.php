@@ -125,8 +125,8 @@ class Keymanager {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		//here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
+		$userId = Helper::getUser($path);
+		$util = new Util($view, $userId);
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -225,7 +225,8 @@ class Keymanager {
 
 		$trimmed = ltrim($path, '/');
 
-		$util = new Util($view, \OCP\User::getUser());
+		$userId = Helper::getUser($path);
+		$util = new Util($view, $userId);
 
 		if($util->isSystemWideMountPoint($path)) {
 			$keyPath = '/files_encryption/keyfiles/' . $trimmed;
@@ -322,8 +323,10 @@ class Keymanager {
 
 		// $shareKeys must be  an array with the following format:
 		// [userId] => [encrypted key]
-		// Here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
+
+		$userId = Helper::getUser($path);
+
+		$util = new Util($view, $userId);
 
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
@@ -441,8 +444,9 @@ class Keymanager {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		//here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
+		$userId = Helper::getUser($filePath);
+
+		$util = new Util($view, $userId);
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
