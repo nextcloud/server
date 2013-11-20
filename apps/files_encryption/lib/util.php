@@ -351,7 +351,7 @@ class Util {
 							// scanning every file like this
 							// will eat server resources :(
 							if (
-								Keymanager::getFileKey($this->view, $this->userId, $relPath)
+								Keymanager::getFileKey($this->view, $this, $relPath)
 								&& $isEncryptedPath
 							) {
 
@@ -1043,10 +1043,10 @@ class Util {
 	private function decryptKeyfile($filePath, $privateKey) {
 
 		// Get the encrypted keyfile
-		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
+		$encKeyfile = Keymanager::getFileKey($this->view, $this, $filePath);
 
 		// The file has a shareKey and must use it for decryption
-		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
+		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $this, $filePath);
 
 		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 
