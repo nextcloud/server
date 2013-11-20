@@ -112,6 +112,7 @@ class Keymanager {
 	 * @brief store file encryption key
 	 *
 	 * @param \OC_FilesystemView $view
+	 * @param \OCA\Encryption\Util $util
 	 * @param string $path relative path of the file, including filename
 	 * @param $userId
 	 * @param $catfile
@@ -120,13 +121,11 @@ class Keymanager {
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setFileKey(\OC_FilesystemView $view, $path, $userId, $catfile) {
+	public static function setFileKey(\OC_FilesystemView $view, $util, $path, $userId, $catfile) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$userId = Helper::getUser($path);
-		$util = new Util($view, $userId);
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -315,18 +314,15 @@ class Keymanager {
 	/**
 	 * @brief store multiple share keys for a single file
 	 * @param \OC_FilesystemView $view
-	 * @param $path
+	 * @param \OCA\Encryption\Util $util
+	 * @param string $path
 	 * @param array $shareKeys
 	 * @return bool
 	 */
-	public static function setShareKeys(\OC_FilesystemView $view, $path, array $shareKeys) {
+	public static function setShareKeys(\OC_FilesystemView $view, $util, $path, array $shareKeys) {
 
 		// $shareKeys must be  an array with the following format:
 		// [userId] => [encrypted key]
-
-		$userId = Helper::getUser($path);
-
-		$util = new Util($view, $userId);
 
 		list($owner, $filename) = $util->getUidAndFilename($path);
 

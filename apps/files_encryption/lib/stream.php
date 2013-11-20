@@ -90,20 +90,20 @@ class Stream {
 			$this->rootView = new \OC_FilesystemView('/');
 		}
 
+		// rawPath is relative to the data directory
+		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
 		$this->privateKey = $this->session->getPrivateKey();
 
-		$userId = Helper::getUser($path);
+		$userId = Helper::getUser($this->rawPath);
 
 		$util = new Util($this->rootView, $userId);
 
 		// need to get the userId once more from util, because now this can be the
 		// public share key ID
 		$this->userId = $util->getUserId();
-
-		// rawPath is relative to the data directory
-		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
 
 		// Strip identifier text from path, this gives us the path relative to data/<user>/files
 		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
@@ -518,7 +518,7 @@ class Stream {
 				$util = new Util($this->rootView, $userId);
 
 				// Get all users sharing the file includes current user
-				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $userId);
 				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
@@ -528,10 +528,10 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $util, $this->relPath, $userId, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
-				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
+				Keymanager::setShareKeys($this->rootView, $util, $this->relPath, $this->encKeyfiles['keys']);
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;

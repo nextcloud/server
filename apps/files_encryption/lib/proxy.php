@@ -47,8 +47,10 @@ class Proxy extends \OC_FileProxy {
 	 */
 	private static function shouldEncrypt($path) {
 
+		$userId = Helper::getUser($path);
+
 		if (\OCP\App::isEnabled('files_encryption') === false || Crypt::mode() !== 'server' ||
-				strpos($path, '/' . \OCP\User::getUser() . '/files') !== 0) {
+				strpos($path, '/' . $userId . '/files') !== 0) {
 			return false;
 		}
 
@@ -243,9 +245,6 @@ class Proxy extends \OC_FileProxy {
 
 		// split the path parts
 		$pathParts = explode('/', $path);
-
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 
 		// FIXME: handling for /userId/cache used by webdav for chunking. The cache chunks are NOT encrypted
 		if (isset($pathParts[2]) && $pathParts[2] === 'cache') {
