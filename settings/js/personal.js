@@ -190,7 +190,7 @@ $(document).ready(function(){
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
-	
+
 	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function(event) {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		if (privateKeyPassword !== '' ) {
@@ -202,7 +202,7 @@ $(document).ready(function(){
 			$('#decryptAll button:button[name="submitDecryptAll"]').attr("disabled", "true");
 		}
 	});
-	
+
 	var uploadparms = {
 		done: function(e, data) {
 			avatarResponseHandler(data.result);
@@ -261,8 +261,9 @@ OC.Encryption = {
 
 OC.Encryption.msg={
 	startDecrypting:function(selector){
+		var spinner = '<img src="'+ OC.imagePath('core', 'loading-small.gif') +'">';
 		$(selector)
-			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') )
+			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
 			.removeClass('success')
 			.removeClass('error')
 			.stop(true, true)
@@ -273,8 +274,7 @@ OC.Encryption.msg={
 			 $(selector).html( data.data.message )
 				.addClass('success')
 				.stop(true, true)
-				.delay(3000)
-				.fadeOut(900);
+				.delay(3000);
 		}else{
 			$(selector).html( data.data.message ).addClass('error');
 		}
