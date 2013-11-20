@@ -367,7 +367,7 @@ class Util {
 							// scanning every file like this
 							// will eat server resources :(
 							if (
-								Keymanager::getFileKey($this->view, $this->userId, $relPath)
+								Keymanager::getFileKey($this->view, $relPath)
 								&& $isEncryptedPath
 							) {
 
@@ -472,22 +472,15 @@ class Util {
 	 */
 	public function isEncryptedPath($path) {
 
-		// Disable encryption proxy so data retrieved is in its
-		// original form
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
+		$relPath = Helper::stripUserFilesPath($path);
 
-		// we only need 24 byte from the last chunk
-		$data = '';
-		$handle = $this->view->fopen($path, 'r');
-		if (is_resource($handle) && !fseek($handle, -24, SEEK_END)) {
-			$data = fgets($handle);
+		$fileKey = Keymanager::getFileKey($this->view, $relPath);
+
+		if ($fileKey === false) {
+			return false;
 		}
 
-		// re-enable proxy
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		return Crypt::isCatfileContent($data);
+		return true;
 
 	}
 
@@ -1059,7 +1052,7 @@ class Util {
 	private function decryptKeyfile($filePath, $privateKey) {
 
 		// Get the encrypted keyfile
-		$encKeyfile = Keymanager::getFileKey($this->view, $this->userId, $filePath);
+		$encKeyfile = Keymanager::getFileKey($this->view, $filePath);
 
 		// The file has a shareKey and must use it for decryption
 		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $filePath);
