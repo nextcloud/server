@@ -90,6 +90,9 @@ switch($action) {
 			exit;
 		}
 		$configuration->saveConfiguration();
+		//clear the cache on save
+		$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+		$connection->clearCache();
 		OCP\JSON::success();
 		break;
 	default:
