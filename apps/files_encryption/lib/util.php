@@ -472,7 +472,11 @@ class Util {
 	 */
 	public function isEncryptedPath($path) {
 
-		$relPath = Helper::stripUserFilesPath($path);
+		$relPath = Helper::getPathToRealFile($path);
+
+		if ($relPath === false) {
+			$relPath = Helper::stripUserFilesPath($path);
+		}
 
 		$fileKey = Keymanager::getFileKey($this->view, $relPath);
 
