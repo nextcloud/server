@@ -142,7 +142,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return false;
 		} else {
 			$directoryHandle = $this->opendir($directory);
-			if(is_resource($directoryHandle)) {
+			if (is_resource($directoryHandle)) {
 				while (($contents = readdir($directoryHandle)) !== false) {
 					if (!\OC\Files\Filesystem::isIgnoredDir($contents)) {
 						$path = $directory . '/' . $contents;
@@ -165,27 +165,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function getMimeType($path) {
-		if (!$this->file_exists($path)) {
-			return false;
-		}
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
-		}
-		$source = $this->fopen($path, 'r');
-		if (!$source) {
+		} elseif ($this->file_exists($path)) {
+			return \OC_Helper::getFileNameMimeType($path);
+		} else {
 			return false;
 		}
-		$head = fread($source, 8192); //8kb should suffice to determine a mimetype
-		if ($pos = strrpos($path, '.')) {
-			$extension = substr($path, $pos);
-		} else {
-			$extension = '';
-		}
-		$tmpFile = \OC_Helper::tmpFile($extension);
-		file_put_contents($tmpFile, $head);
-		$mime = \OC_Helper::getMimeType($tmpFile);
-		unlink($tmpFile);
-		return $mime;
 	}
 
 	public function hash($type, $path, $raw = false) {
@@ -227,7 +213,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	private function addLocalFolder($path, $target) {
 		$dh = $this->opendir($path);
-		if(is_resource($dh)) {
+		if (is_resource($dh)) {
 			while (($file = readdir($dh)) !== false) {
 				if ($file !== '.' and $file !== '..') {
 					if ($this->is_dir($path . '/' . $file)) {
@@ -298,7 +284,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->watcher;
 	}
 
-	public function getStorageCache(){
+	public function getStorageCache() {
 		if (!isset($this->storageCache)) {
 			$this->storageCache = new \OC\Files\Cache\Storage($this);
 		}

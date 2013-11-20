@@ -203,14 +203,6 @@ if (\OC_Util::runningOnWindows()) {
 			return $return;
 		}
 
-		public function getMimeType($path) {
-			if ($this->isReadable($path)) {
-				return \OC_Helper::getMimeType($this->datadir . $path);
-			} else {
-				return false;
-			}
-		}
-
 		private function delTree($dir) {
 			$dirRelative = $dir;
 			$dir = $this->datadir . $dir;
