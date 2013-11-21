@@ -53,16 +53,21 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
-			$quota = self::getUserQuota($user);
-			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
-					if ($mountPoint === '/' . $user . '/'){
+			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
+				// set up quota for home storages, even for other users
+				// which can happen when using sharing
+
+				if ($storage instanceof \OC\Files\Storage\Home) {
+					$user = $storage->getUser()->getUID();
+					$quota = OC_Util::getUserQuota($user);
+					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
 						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
-					} else {
-						return $storage;
 					}
-				});
-			}
+				}
+
+				return $storage;
+			});
+
 			$userDir = '/'.$user.'/files';
 			$userRoot = OC_User::getHome($user);
 			$userDirectory = $userRoot . '/files';
