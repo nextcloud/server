@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "檔案需要逐一下載。",
 "Back to Files" => "回到檔案列表",
 "Selected files too large to generate zip file." => "選擇的檔案太大以致於無法產生壓縮檔。",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "以小分割下載您的檔案，請詢問您的系統管理員。",
 "No source specified when installing app" => "沒有指定應用程式安裝來源",
 "No href specified when installing app from http" => "從 http 安裝應用程式，找不到 href 屬性",
 "No path specified when installing app from local file" => "從本地檔案安裝應用程式時沒有指定路徑",

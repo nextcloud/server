@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "파일을 개별적으로 다운로드해야 합니다.",
 "Back to Files" => "파일로 돌아가기",
 "Selected files too large to generate zip file." => "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "작은 조각들 안에 들어있는 파일들을 받고자 하신다면, 나누어서 받으시거나 혹은 시스템 관리자에게 정중하게 물어보십시오",
 "No source specified when installing app" => "앱을 설치할 때 소스가 지정되지 않았습니다.",
 "No href specified when installing app from http" => "http에서 앱을 설치할 대 href가 지정되지 않았습니다.",
 "No path specified when installing app from local file" => "로컬 파일에서 앱을 설치할 때 경로가 지정되지 않았습니다.",

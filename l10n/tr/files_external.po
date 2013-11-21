@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-27 02:28-0400\n"
-"PO-Revision-Date: 2013-10-21 18:50+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 07:44+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -38,20 +38,20 @@ msgstr "Lütfen Dropbox app key ve secret temin ediniz"
 msgid "Error configuring Google Drive storage"
 msgstr "Google Drive depo yapılandırma hatası"
 
-#: lib/config.php:453
+#: lib/config.php:461
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Uyarı:</b> \"smbclient\" kurulu değil. CIFS/SMB paylaşımlarını bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinize danışın."
 
-#: lib/config.php:457
+#: lib/config.php:465
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Uyarı:</b> PHP içerisinde FTP desteği etkin veya yüklü değil. FTP paylaşımlarını bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinize danışın."
 
-#: lib/config.php:460
+#: lib/config.php:468
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "

@@ -10,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-21 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -74,27 +74,27 @@ msgstr "jūsų valdomos web paslaugos"
 msgid "cannot open \"%s\""
 msgstr "nepavyksta atverti „%s“"
 
-#: private/files.php:226
+#: private/files.php:228
 msgid "ZIP download is turned off."
 msgstr "ZIP atsisiuntimo galimybė yra išjungta."
 
-#: private/files.php:227
+#: private/files.php:229
 msgid "Files need to be downloaded one by one."
 msgstr "Failai turi būti parsiunčiami vienas po kito."
 
-#: private/files.php:228 private/files.php:256
+#: private/files.php:230 private/files.php:258
 msgid "Back to Files"
 msgstr "Atgal į Failus"
 
-#: private/files.php:253
+#: private/files.php:255
 msgid "Selected files too large to generate zip file."
 msgstr "Pasirinkti failai per dideli archyvavimui į ZIP."
 
-#: private/files.php:254
+#: private/files.php:256
 msgid ""
-"Download the files in smaller chunks, seperately or kindly ask your "
+"Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr "Atsisiųskite failus mažesnėmis dalimis atskirai, arba mandagiai prašykite savo administratoriaus."
+msgstr ""
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
@@ -137,17 +137,17 @@ msgid ""
 "which is not allowed for non shipped apps"
 msgstr "Programa negali būti įdiegta, nes turi <shipped>true</shipped> žymę, kuri yra neleistina ne kartu platinamoms programoms"
 
-#: private/installer.php:152
+#: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Programa negali būti įdiegta, nes versija pateikta info.xml/version nesutampa su versija deklaruota programų saugykloje"
 
-#: private/installer.php:162
+#: private/installer.php:169
 msgid "App directory already exists"
 msgstr "Programos aplankas jau egzistuoja"
 
-#: private/installer.php:175
+#: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nepavyksta sukurti aplanko. Prašome pataisyti leidimus. %s"
@@ -272,13 +272,13 @@ msgstr "Nustatyti administratoriaus naudotojo vardą."
 msgid "Set an admin password."
 msgstr "Nustatyti administratoriaus slaptažodį."
 
-#: private/setup.php:184
+#: private/setup.php:195
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta."
 
-#: private/setup.php:185
+#: private/setup.php:196
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prašome pažiūrėkite dar kartą <a href='%s'>diegimo instrukcijas</a>."
@@ -340,6 +340,6 @@ msgstr "praeitais metais"
 msgid "years ago"
 msgstr "prieš metus"
 
-#: private/template.php:297 public/util.php:103
+#: private/template.php:297 public/util.php:108
 msgid "Caused by:"
 msgstr "Iššaukė:"

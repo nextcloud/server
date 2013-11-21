@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 21:40+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "Błąd uwierzytelniania"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Twoja pełna nazwa została zmieniona."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Nie można zmienić pełnej nazwy"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -92,24 +92,24 @@ msgstr "Złe hasło"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Niedostarczony użytkownik"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Podaj hasło odzyskiwania administratora, w przeciwnym razie wszystkie dane użytkownika zostaną utracone"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Błędne hasło odzyskiwania. Sprawdź hasło i spróbuj ponownie."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownika został pomyślnie zaktualizowany."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
@@ -214,7 +214,7 @@ msgstr "Należy podać prawidłowe hasło"
 
 #: js/users.js:481
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Ostrzeżenie: Katalog domowy dla użytkownika \"{user}\" już istnieje"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -222,23 +222,23 @@ msgstr "polski"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Wszystko  (Informacje, ostrzeżenia, błędy i poważne problemy, debug)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Informacje, ostrzeżenia, błędy i poważne problemy"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Ostrzeżenia, błędy i poważne problemy"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Błędy i poważne problemy"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Tylko poważne problemy"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -507,7 +507,7 @@ msgstr "Zmień hasło"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Pełna nazwa"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -566,7 +566,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Użyj tego adresu do <a href=\"%s\" target=\"_blank\">dostępu do twoich plików przez WebDAV</a>"
 
 #: templates/personal.php:146
 msgid "Encryption"
@@ -608,7 +608,7 @@ msgstr "Magazyn domyślny"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Proszę ustawić ograniczenie zasobów (np. \"512 MB\" albo \"12 GB)"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -628,7 +628,7 @@ msgstr "Magazyn"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "Zmień pełna nazwę"
 
 #: templates/users.php:112
 msgid "set new password"

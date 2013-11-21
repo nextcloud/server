@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Error" => "Ошибка",
 "Password" => "Пароль",
 "Warning" => "Предупреждение",
+"Delete" => "Удалить",
 "Username" => "Имя пользователя",
 "Help" => "Помощь"
 );

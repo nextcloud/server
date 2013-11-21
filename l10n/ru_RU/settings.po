@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 07:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: js/users.js:123 templates/users.php:170
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: js/users.js:284
 msgid "add group"
@@ -588,7 +588,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"

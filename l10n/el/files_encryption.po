@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# Marios Bekatoros <>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-19 09:50+0000\n"
+"Last-Translator: Marios Bekatoros <>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgstr "Αποτυχία αλλαγής κωδικού ίσως ο παλιός 
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Το Προσωπικό κλειδί πρόσβασης ενημερώθηκε επιτυχώς"
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
@@ -81,22 +82,22 @@ msgstr ""
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Άγνωστο σφάλμα, παρακαλώ ελέγξτε τις ρυθμίσεις συστήματος ή επικοινωνήστε με τον διαχειριστή σας "
 
 #: hooks/hooks.php:59
 msgid "Missing requirements."
-msgstr ""
+msgstr "Προαπαιτούμενα που απουσιάζουν."
 
 #: hooks/hooks.php:60
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "Παρακαλώ επιβεβαιώστε ότι η PHP 5.3.3  ή νεότερη είναι εγκατεστημένη  και ότι το  OpenSSL μαζί με το PHP extension είναι ενεργοποιήμένο και έχει ρυθμιστεί σωστά. Προς το παρόν, η εφαρμογή κρυπτογράφησης είναι απενεργοποιημένη."
 
 #: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "Οι κάτωθι χρήστες δεν έχουν ρυθμιστεί για κρυπογράφηση:"
 
 #: js/settings-admin.js:13
 msgid "Saving..."
@@ -104,7 +105,7 @@ msgstr "Γίνεται αποθήκευση..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "Πηγαίνε απευθείας στο "
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -121,7 +122,7 @@ msgstr ""
 
 #: templates/settings-admin.php:11
 msgid "Recovery key password"
-msgstr ""
+msgstr "Επαναφορά κωδικού κλειδιού"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
@@ -145,7 +146,7 @@ msgstr ""
 
 #: templates/settings-admin.php:47
 msgid "New Recovery key password"
-msgstr ""
+msgstr "Νέο κλειδί επαναφοράς κωδικού"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
@@ -171,19 +172,19 @@ msgstr ""
 
 #: templates/settings-personal.php:22
 msgid "Old log-in password"
-msgstr ""
+msgstr "Παλαιό συνθηματικό εισόδου"
 
 #: templates/settings-personal.php:28
 msgid "Current log-in password"
-msgstr ""
+msgstr "Τρέχον συνθηματικό πρόσβασης"
 
 #: templates/settings-personal.php:33
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Ενημέρωση Προσωπικού Κλειδού Πρόσβασης"
 
 #: templates/settings-personal.php:42
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης"
 
 #: templates/settings-personal.php:44
 msgid ""

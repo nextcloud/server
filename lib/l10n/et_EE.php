@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Failid tuleb alla laadida ükshaaval.",
 "Back to Files" => "Tagasi failide juurde",
 "Selected files too large to generate zip file." => "Valitud failid on ZIP-faili loomiseks liiga suured.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Laadi failid alla eraldi väiksemate osadena või küsi nõu oma süsteemiadminstraatorilt.",
 "No source specified when installing app" => "Ühegi lähteallikat pole rakendi paigalduseks määratletud",
 "No href specified when installing app from http" => "Ühtegi aadressi pole määratletud rakendi paigalduseks veebist",
 "No path specified when installing app from local file" => "Ühtegi teed pole määratletud paigaldamaks rakendit kohalikust failist",

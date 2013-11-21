@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Die Dateien müssen einzeln heruntergeladen werden.",
 "Back to Files" => "Zurück zu \"Dateien\"",
 "Selected files too large to generate zip file." => "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Lade die Dateien in kleineren, separaten, Stücken herunter oder bitte deinen Administrator.",
 "No source specified when installing app" => "Für die Installation der Applikation wurde keine Quelle angegeben",
 "No href specified when installing app from http" => "Der Link (href) wurde nicht angegeben um die Applikation per http zu installieren",
 "No path specified when installing app from local file" => "Bei der Installation der Applikation aus einer lokalen Datei wurde kein Pfad angegeben",

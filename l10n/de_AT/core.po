@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-30 03:32-0400\n"
-"PO-Revision-Date: 2013-10-30 07:32+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-21 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
@@ -277,12 +277,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:690
-#: js/share.js:702
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719
 msgid "Error"
 msgstr ""
 
-#: js/share.js:160 js/share.js:730
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr ""
 
@@ -302,115 +302,115 @@ msgstr ""
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:213
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:221
+#: js/share.js:222
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:223 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr ""
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:232
+#: js/share.js:233
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Send"
 msgstr ""
 
-#: js/share.js:238
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:272
+#: js/share.js:275
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:275
+#: js/share.js:278
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:305 js/share.js:342
+#: js/share.js:322 js/share.js:359
 msgid "group"
 msgstr ""
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:358
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:380
+#: js/share.js:397
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:388
+#: js/share.js:405
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:391
+#: js/share.js:408
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:393
+#: js/share.js:410
 msgid "access control"
 msgstr ""
 
-#: js/share.js:396
+#: js/share.js:413
 msgid "create"
 msgstr ""
 
-#: js/share.js:399
+#: js/share.js:416
 msgid "update"
 msgstr ""
 
-#: js/share.js:402
+#: js/share.js:419
 msgid "delete"
 msgstr ""
 
-#: js/share.js:405
+#: js/share.js:422
 msgid "share"
 msgstr ""
 
-#: js/share.js:447 js/share.js:677
+#: js/share.js:464 js/share.js:694
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:690
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:702
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:717
+#: js/share.js:734
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:728
+#: js/share.js:745
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:752
+#: js/share.js:769
 msgid "Warning"
 msgstr ""
 
@@ -580,14 +580,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: templates/altmail.php:4
+#: templates/altmail.php:4 templates/mail.php:17
 #, php-format
-msgid ""
-"The share will expire on %s.\n"
-"\n"
+msgid "The share will expire on %s."
 msgstr ""
 
-#: templates/altmail.php:6 templates/mail.php:19
+#: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr ""
 
@@ -732,11 +730,6 @@ msgstr ""
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
-
-#: templates/mail.php:17
-#, php-format
-msgid "The share will expire on %s.<br><br>"
 msgstr ""
 
 #: templates/update.admin.php:3
