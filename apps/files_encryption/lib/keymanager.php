@@ -181,6 +181,7 @@ class Keymanager {
 	 */
 	public static function getFileKey(\OC_FilesystemView $view, $util, $filePath) {
 
+
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filename = Helper::stripPartialFileExtension($filename);
 		$filePath_f = ltrim($filename, '/');

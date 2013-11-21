@@ -268,7 +268,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function rename($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -280,7 +280,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function copy($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;

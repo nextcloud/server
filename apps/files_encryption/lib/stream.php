@@ -497,7 +497,8 @@ class Stream {
 		if (
 				$this->meta['mode'] !== 'r' &&
 				$this->meta['mode'] !== 'rb' &&
-				$this->size > 0
+				$this->size > 0 &&
+				$this->unencryptedSize > 0
 		) {
 
 			// only write keyfiles if it was a new file
