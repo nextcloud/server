@@ -564,7 +564,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	position: fixed;
 	float: left;
 	width: 80px;
-	padding-top: 3.5em;
+	margin-top:45px;
 	z-index: 75;
 	height: 100%;
 	background:#383c43 url('../img/noise.png') repeat;
@@ -624,10 +624,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* Apps management as sticky footer, less obtrusive in the list */
 #navigation .wrapper {
 	min-height: 100%;
-	margin: 0 auto -72px;
+	margin: 0 auto -120px;
 }
 #apps-management, #navigation .push {
-	height: 70px;
+	height: 120px;
 }
 #apps-management {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
