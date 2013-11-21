@@ -1,5 +1,5 @@
 body {
-	background:#ddd;
+	background: #fff;
 }
 
 #header {
@@ -50,11 +50,10 @@ body {
 }
 
 #preview {
-	background:#eee;
-	border-bottom:1px solid #f8f8f8;
-	min-height:30em;
-	text-align:center;
-	margin:45px auto;
+	background: #fff;
+	min-height: 30em;
+	text-align: center;
+	margin: 45px auto 0;
 }
 
 #noPreview {
@@ -62,11 +61,16 @@ body {
 	padding-top:5em;
 }
 
+footer {
+	background: #fff;
+}
+
 p.info {
-	color:#777;
-	text-align:center;
-	width:22em;
-	margin:2em auto;
+	color: #777;
+	text-align: center;
+	width: 22em;
+	margin: 0 auto;
+	padding: 20px;
 }
 
 p.info a {
