@@ -586,6 +586,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	color: #fff;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
 	padding-bottom: 10px;
+	padding-left: 8px; /* prevent shift caused by scrollbar */
 }
 
 	/* icon opacity and hover effect */
