@@ -10,7 +10,7 @@
  * This class gets and sets users avatars.
  */
 
-class OC_Avatar {
+class OC_Avatar implements \OCP\IAvatar {
 
 	private $view;
 

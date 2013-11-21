@@ -5,13 +5,14 @@
  * See the COPYING-README file.
  */
 
-namespace OCP;
+namespace OC;
 
-/**
- * This class provides avatar functionality
+use OCP\IAvatarManager;
+
+/*
+ * This class implements methods to access Avatar functionality
  */
-
-interface IAvatarManager {
+class AvatarManager implements IAvatarManager {
 
 	/**
 	 * @brief return a user specific instance of \OCP\IAvatar
@@ -19,5 +20,7 @@ interface IAvatarManager {
 	 * @param $user string the ownCloud user id
 	 * @return \OCP\IAvatar
 	 */
-	function getAvatar($user);
+	function getAvatar($user) {
+		return new \OC_Avatar($user);
+	}
 }
