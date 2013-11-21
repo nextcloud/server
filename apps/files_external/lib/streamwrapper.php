@@ -42,11 +42,16 @@ abstract class StreamWrapper extends Common {
 	}
 
 	public function isReadable($path) {
-		return true; //not properly supported
+		// at least check whether it exists
+		// subclasses might want to implement this more thoroughly
+		return $this->file_exists($path);
 	}
 
 	public function isUpdatable($path) {
-		return true; //not properly supported
+		// at least check whether it exists
+		// subclasses might want to implement this more thoroughly
+		// a non-existing file/folder isn't updatable
+		return $this->file_exists($path);
 	}
 
 	public function file_exists($path) {
