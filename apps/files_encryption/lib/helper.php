@@ -225,7 +225,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function isPublicAccess() {
-		if (\OCP\USER::getUser() === false) {
+		if (strpos($_SERVER['HTTP_REFERER'], 'public.php') !== false) {
 			return true;
 		} else {
 			return false;
@@ -252,16 +252,22 @@ class Helper {
 		return $relPath;
 	}
 
+	/**
+	 * @brief get user from the path, because we can't assume that \OCP\User::getUser()
+	 *        will always return the right result
+	 * @param type $path
+	 * @return boolean
+	 */
 	public static function getUser($path) {
 
 		$user = \OCP\User::getUser();
 
-		// if we are logged in, than we return the userid
-		if ($user) {
+		// if we are logged in and if we don't come from a public URL, then we return the userid
+		if ($user && strpos($_SERVER['HTTP_REFERER'], 'public.php') === false) {
 			return $user;
 		}
 
-		// if no user is logged in we try to access a publically shared files.
+		// ...otherwise we try to access a publically shared files.
 		// In this case we need to try to get the user from the path
 
 		$trimmed = ltrim($path, '/');
