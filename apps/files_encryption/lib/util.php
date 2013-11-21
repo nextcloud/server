@@ -461,7 +461,7 @@ class Util {
 			$relPath = Helper::stripUserFilesPath($path);
 		}
 
-		$fileKey = Keymanager::getFileKey($this->view, $relPath);
+		$fileKey = Keymanager::getFileKey($this->view, $this, $relPath);
 
 		if ($fileKey === false) {
 			return false;
