@@ -349,7 +349,10 @@ class Proxy extends \OC_FileProxy {
 		$fileInfo = false;
 		// get file info from database/cache if not .part file
 		if (!Helper::isPartialFilePath($path)) {
+			$proxyState = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
 			$fileInfo = $view->getFileInfo($path);
+			\OC_FileProxy::$enabled = $proxyState;
 		}
 
 		// if file is encrypted return real file size

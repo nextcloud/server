@@ -455,22 +455,19 @@ class Util {
 	 */
 	public function isEncryptedPath($path) {
 
-		// Disable encryption proxy so data retrieved is in its
-		// original form
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
+		$relPath = Helper::getPathToRealFile($path);
 
-		// we only need 24 byte from the last chunk
-		$data = '';
-		$handle = $this->view->fopen($path, 'r');
-		if (is_resource($handle) && !fseek($handle, -24, SEEK_END)) {
-			$data = fgets($handle);
+		if ($relPath === false) {
+			$relPath = Helper::stripUserFilesPath($path);
 		}
 
-		// re-enable proxy
-		\OC_FileProxy::$enabled = $proxyStatus;
+		$fileKey = Keymanager::getFileKey($this->view, $relPath);
 
-		return Crypt::isCatfileContent($data);
+		if ($fileKey === false) {
+			return false;
+		}
+
+		return true;
 
 	}
 

@@ -54,7 +54,7 @@ class CommonTest extends \OC\Files\Storage\Common{
 		return $this->storage->stat($path);
 	}
 	public function filetype($path) {
-		return $this->storage->filetype($path);
+		return @$this->storage->filetype($path);
 	}
 	public function isReadable($path) {
 		return $this->storage->isReadable($path);

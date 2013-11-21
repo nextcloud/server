@@ -78,6 +78,8 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	 * @throws Sabre_DAV_Exception_BadRequest
 	 */
 	public function sendFileIdHeader($filePath, Sabre_DAV_INode $node = null) {
+		// we get the node for the given $filePath here because in case of afterCreateFile $node is the parent folder
+		$node = $this->server->tree->getNodeForPath($filePath);
 		if ($node instanceof OC_Connector_Sabre_Node) {
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {
