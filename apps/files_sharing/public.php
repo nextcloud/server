@@ -221,6 +221,8 @@ if (isset($path)) {
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
+			$fileHeader = (!isset($files) or count($files) > 0);
+			$emptyContent = ($allowPublicUploadEnabled and !$fileHeader);
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
@@ -234,6 +236,10 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
+			$folder->assign('fileHeader', $fileHeader);
+			$folder->assign('disableSharing', true);
+			$folder->assign('emptyContent', $emptyContent);
+			$folder->assign('ajaxLoad', false);
 			$tmpl->assign('folder', $folder->fetchPage());
 			$maxInputFileSize = OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
