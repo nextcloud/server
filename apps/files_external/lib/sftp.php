@@ -94,15 +94,17 @@ class SFTP extends \OC\Files\Storage\Common {
 	private function writeHostKeys($keys) {
 		try {
 			$keyPath = $this->hostKeysPath();
-			$fp = fopen($keyPath, 'w');
-			foreach ($keys as $host => $key) {
-				fwrite($fp, $host . '::' . $key . "\n");
+			if ($keyPath && file_exists($keyPath)) {
+				$fp = fopen($keyPath, 'w');
+				foreach ($keys as $host => $key) {
+					fwrite($fp, $host . '::' . $key . "\n");
+				}
+				fclose($fp);
+				return true;
 			}
-			fclose($fp);
-			return true;
 		} catch (\Exception $e) {
-			return false;
 		}
+		return false;
 	}
 
 	private function readHostKeys() {
