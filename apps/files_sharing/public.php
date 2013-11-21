@@ -238,6 +238,7 @@ if (isset($path)) {
 			$folder->assign('usedSpacePercent', 0);
 			$folder->assign('fileHeader', $fileHeader);
 			$folder->assign('disableSharing', true);
+			$folder->assign('trash', false);
 			$folder->assign('emptyContent', $emptyContent);
 			$folder->assign('ajaxLoad', false);
 			$tmpl->assign('folder', $folder->fetchPage());

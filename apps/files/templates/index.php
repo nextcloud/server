@@ -25,7 +25,7 @@
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
 					<a href="#" class="svg"></a>
 			</div>
-			<?php if (!$_['isPublic'] && $_['trash'] ): ?>
+			<?php if ($_['trash']): ?>
 			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
