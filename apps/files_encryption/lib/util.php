@@ -39,7 +39,7 @@ class Util {
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $userId; // ID of the user we use to encrypt/decrypt files
-	private $ownerId; // ID of the user who accesses the file/folder
+	private $keyId; // ID of the key we want to manipulate
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
@@ -60,32 +60,31 @@ class Util {
 
 		$this->view = $view;
 		$this->client = $client;
+		$this->userId = $userId;
 
 		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
 		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
-		$this->userDir = '/' . $userId;
+		$this->userDir = '/' . $this->userId;
 		$this->fileFolderName = 'files';
 		$this->userFilesDir =
 				'/' . $userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
 		$this->publicKeyDir = '/' . 'public-keys';
-		$this->encryptionDir = '/' . $userId . '/' . 'files_encryption';
+		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
 		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
 		$this->publicKeyPath =
-				$this->publicKeyDir . '/' . $userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath =
-				$this->encryptionDir . '/' . $userId . '.private.key'; // e.g. data/admin/admin.private.key
+				$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		// make sure that the owners home is mounted
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
-			$this->userId = $this->publicShareKeyId;
-			$this->ownerId = $userId;
+			$this->keyId = $this->publicShareKeyId;
 			$this->isPublic = true;
 		} else {
-			$this->userId = $userId;
-			$this->ownerId = $userId;
+			$this->keyId = $this->userId;
 			$this->isPublic = false;
 		}
 	}
@@ -172,13 +171,13 @@ class Util {
 			// check if public-key exists but private-key is missing
 			if ($this->view->file_exists($this->publicKeyPath) && !$this->view->file_exists($this->privateKeyPath)) {
 				\OCP\Util::writeLog('Encryption library',
-					'public key exists but private key is missing for "' . $this->userId . '"', \OCP\Util::FATAL);
+					'public key exists but private key is missing for "' . $this->keyId . '"', \OCP\Util::FATAL);
 				return false;
 			} else {
 				if (!$this->view->file_exists($this->publicKeyPath) && $this->view->file_exists($this->privateKeyPath)
 				) {
 					\OCP\Util::writeLog('Encryption library',
-						'private key exists but public key is missing for "' . $this->userId . '"', \OCP\Util::FATAL);
+						'private key exists but public key is missing for "' . $this->keyId . '"', \OCP\Util::FATAL);
 					return false;
 				}
 			}
@@ -1046,7 +1045,7 @@ class Util {
 		$encKeyfile = Keymanager::getFileKey($this->view, $this, $filePath);
 
 		// The file has a shareKey and must use it for decryption
-		$shareKey = Keymanager::getShareKey($this->view, $this->userId, $this, $filePath);
+		$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $filePath);
 
 		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 
@@ -1322,7 +1321,7 @@ class Util {
 		// handle public access
 		if ($this->isPublic) {
 			$filename = $path;
-			$fileOwnerUid = $this->ownerId;
+			$fileOwnerUid = $this->userId;
 
 			return array(
 				$fileOwnerUid,
@@ -1545,6 +1544,13 @@ class Util {
 	 */
 	public function getUserId() {
 		return $this->userId;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getKeyId() {
+		return $this->keyId;
 	}
 
 	/**

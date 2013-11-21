@@ -55,6 +55,7 @@ class Stream {
 	private $rawPath; // The raw path relative to the data dir
 	private $relPath; // rel path to users file dir
 	private $userId;
+	private $keyId;
 	private $handle; // Resource returned by fopen
 	private $meta = array(); // Header / meta for source stream
 	private $writeCache;
@@ -94,16 +95,16 @@ class Stream {
 
 		$this->privateKey = $this->session->getPrivateKey();
 
-		$userId = Helper::getUser($path);
-
-		$util = new Util($this->rootView, $userId);
-
-		// need to get the userId once more from util, because now this can be the
-		// public share key ID
-		$this->userId = $util->getUserId();
-
 		// rawPath is relative to the data directory
 		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+
+		$this->userId = Helper::getUser($this->rawPath);
+
+		$util = new Util($this->rootView, $this->userId);
+
+		// get the key ID which we want to use, canm be the users key or the
+		// public share key
+		$this->keyId = $util->getKeyId();
 
 		// Strip identifier text from path, this gives us the path relative to data/<user>/files
 		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
@@ -254,14 +255,13 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$userId = Helper::getUser($this->rawPath);
-		$util = new \OCA\Encryption\Util($this->rootView, $userId);
+		$util = new \OCA\Encryption\Util($this->rootView, $this->userId);
 		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $util, $this->relPath);
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $util, $this->relPath);
 
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
@@ -508,14 +508,12 @@ class Stream {
 				\OC_FileProxy::$enabled = false;
 
 				// Fetch user's public key
-				$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->userId);
+				$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->keyId);
 
 				// Check if OC sharing api is enabled
 				$sharingEnabled = \OCP\Share::isEnabled();
 
-				$userId = Helper::getUser($this->rawPath);
-
-				$util = new Util($this->rootView, $userId);
+				$util = new Util($this->rootView, $this->userId);
 
 				// Get all users sharing the file includes current user
 				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
@@ -528,7 +526,7 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $this->relPath, $this->keyId, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
 				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
