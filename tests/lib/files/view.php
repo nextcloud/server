@@ -275,18 +275,20 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$rootView = new \OC\Files\View('');
 		$oldCachedData = $rootView->getFileInfo('foo.txt');
+		$newMTime = $oldCachedData['mtime'] + 500;
 
-		$rootView->touch('foo.txt', 500);
+		$rootView->touch('foo.txt', $newMTime);
 
 		$cachedData = $rootView->getFileInfo('foo.txt');
-		$this->assertEquals(500, $cachedData['mtime']);
-		$this->assertEquals($oldCachedData['storage_mtime'], $cachedData['storage_mtime']);
+		$this->assertEquals($newMTime, $cachedData['mtime']);
 
-		$rootView->putFileInfo('foo.txt', array('storage_mtime' => 1000)); //make sure the watcher detects the change
+		// reset mtime to original to make sure the next file access
+		// gets a higher mtime
+		$rootView->touch('foo.txt', $oldCachedData['mtime']);
+
 		$rootView->file_put_contents('foo.txt', 'asd');
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertGreaterThanOrEqual($cachedData['mtime'], $oldCachedData['mtime']);
-		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
 	}
 
 	/**
