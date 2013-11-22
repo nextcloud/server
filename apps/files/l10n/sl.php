@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Ni mogoče preimenovati datoteke",
 "replaced {new_name} with {old_name}" => "preimenovano ime {new_name} z imenom {old_name}",
 "undo" => "razveljavi",
+"Error deleting file." => "Napaka brisanja datoteke.",
 "_%n folder_::_%n folders_" => array("%n mapa","%n mapi","%n mape","%n map"),
 "_%n file_::_%n files_" => array("%n datoteka","%n datoteki","%n datoteke","%n datotek"),
 "{dirs} and {files}" => "{dirs} in {files}",

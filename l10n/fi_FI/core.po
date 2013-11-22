@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 21:05-0500\n"
+"PO-Revision-Date: 2013-11-21 15:22+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -584,7 +584,7 @@ msgstr "Hei sinä!\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n"
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Jakaminen päättyy %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -741,11 +741,11 @@ msgstr "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä."
 
 #: templates/update.user.php:5
 msgid ""

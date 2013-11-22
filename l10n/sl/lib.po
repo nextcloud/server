@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 21:06-0500\n"
+"PO-Revision-Date: 2013-11-21 19:30+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -234,7 +234,7 @@ msgstr "Uporabnik MySQL '%s'@'localhost' že obstaja."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL"
-msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
+msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL"
 
 #: private/setup/mysql.php:91
 #, php-format
@@ -243,11 +243,11 @@ msgstr "Uporabnik MySQL '%s'@'%%' že obstaja."
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
+msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr "Povezava z bazo Oracle ni uspela."
+msgstr "Povezave s sistemom Oracle ni mogoče vzpostaviti."
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"

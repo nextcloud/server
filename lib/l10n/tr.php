@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Dosyaların birer birer indirilmesi gerekmektedir.",
 "Back to Files" => "Dosyalara dön",
 "Selected files too large to generate zip file." => "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür.",
+"Please download the files separately in smaller chunks or kindly ask your administrator." => "Dosyaları ayrı ayrı, küçük parçalar halinde indirin veya yöneticinizden yardım isteyin. ",
 "No source specified when installing app" => "Uygulama kurulurken bir kaynak belirtilmedi",
 "No href specified when installing app from http" => "Uygulama kuruluyorken http'de href belirtilmedi.",
 "No path specified when installing app from local file" => "Uygulama yerel dosyadan kuruluyorken dosya yolu belirtilmedi",

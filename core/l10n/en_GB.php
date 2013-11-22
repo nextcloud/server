@@ -132,6 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Access denied",
 "Cloud not found" => "Cloud not found",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
+"The share will expire on %s." => "The share will expire on %s.",
 "Cheers!" => "Cheers!",
 "Security Warning" => "Security Warning",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)",
