@@ -561,12 +561,13 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation {
-	position: fixed;
-	float: left;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	width: 80px;
 	margin-top:45px;
 	z-index: 75;
-	height: 100%;
 	background:#383c43 url('../img/noise.png') repeat;
 	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
 	/* prevent ugly selection effect on accidental selection */
@@ -624,10 +625,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* Apps management as sticky footer, less obtrusive in the list */
 #navigation .wrapper {
 	min-height: 100%;
-	margin: 0 auto -120px;
+	margin: 0 auto -72px;
 }
 #apps-management, #navigation .push {
-	height: 120px;
+	height: 72px;
 }
 #apps-management {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
