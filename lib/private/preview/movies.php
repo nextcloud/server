@@ -52,7 +52,7 @@ if (!\OC_Util::runningOnWindows()) {
 				if (self::$avconvBinary) {
 					$cmd = self::$avconvBinary . ' -an -y -ss 5'.
 						' -i ' . escapeshellarg($absPath) .
-						' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath) .
+						' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				}
 				else {
