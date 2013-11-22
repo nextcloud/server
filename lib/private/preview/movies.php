@@ -46,7 +46,9 @@ if (!\OC_Util::runningOnWindows()) {
 
 				$handle = $fileview->fopen($path, 'rb');
 
-				$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
+				// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
+				// in some cases 1MB was no enough to generate thumbnail
+				$firstmb = stream_get_contents($handle, 5242880);
 				file_put_contents($absPath, $firstmb);
 
 				if (self::$avconvBinary) {
