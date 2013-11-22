@@ -267,8 +267,8 @@ class OC_Mount_Config {
 										 $applicable,
 										 $isPersonal = false) {
 		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
-		if ($mountPoint === '' || $mountPoint === '/') {
-			// can't mount at root
+		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
+			// can't mount at root or "Shared" folder
 			return false;
 		}
 		if ($isPersonal) {

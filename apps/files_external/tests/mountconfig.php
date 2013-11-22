@@ -44,6 +44,8 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$isPersonal = false;
 		$this->assertEquals(false, OC_Mount_Config::addMountPoint('', $storageClass, array(), $mountType, $applicable, $isPersonal));
 		$this->assertEquals(false, OC_Mount_Config::addMountPoint('/', $storageClass, array(), $mountType, $applicable, $isPersonal));
+		$this->assertEquals(false, OC_Mount_Config::addMountPoint('Shared', $storageClass, array(), $mountType, $applicable, $isPersonal));
+		$this->assertEquals(false, OC_Mount_Config::addMountPoint('/Shared', $storageClass, array(), $mountType, $applicable, $isPersonal));
 
 	}
 }
