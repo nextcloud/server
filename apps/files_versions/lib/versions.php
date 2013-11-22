@@ -328,10 +328,8 @@ class Storage {
 			while (!empty($dirContent)) {
 				$path = reset($dirContent);
 				if ($path['type'] === 'dir') {
-					$intPath = substr($path['path'], strlen('files_versions'));
 					$dirContent = array_merge($dirContent, $view->getDirectoryContent(substr($path['path'], strlen('files_versions'))));
 				} else {
-					$intPath = substr($path['path'], strlen('files_versions'));
 					$size += $view->filesize(substr($path['path'], strlen('files_versions')));
 				}
 				unset($dirContent[key($dirContent)]);
