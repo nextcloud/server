@@ -131,6 +131,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('ActivityManager', function($c) {
 			return new ActivityManager();
 		});
+		$this->registerService('AvatarManager', function($c) {
+			return new AvatarManager();
+		});
 	}
 
 	/**
@@ -168,6 +171,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getTagManager() {
 		return $this->query('TagManager');
+	}
+
+	/**
+	 * Returns the avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatarManager
+	 */
+	function getAvatarManager() {
+		return $this->query('AvatarManager');
 	}
 
 	/**
