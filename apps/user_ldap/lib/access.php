@@ -28,6 +28,8 @@ abstract class Access {
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
+	protected $cookies = array();
+
 	public function setConnector(Connection &$connection) {
 		$this->connection = $connection;
 	}
@@ -59,6 +61,8 @@ abstract class Access {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
+		//all or nothing! otherwise we get in trouble with.
+		$this->initPagedSearch($filter, array($dn), $attr, 99999, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
@@ -893,7 +897,9 @@ abstract class Access {
 		if(!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		return $testConnection->bind();
+		$result=$testConnection->bind();
+		$this->connection->bind();
+		return $result;
 	}
 
 	/**
@@ -1004,7 +1010,7 @@ abstract class Access {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
-			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base, 'UTF-8'))) {
 				$belongsToBase = false;
 			}
 			if($belongsToBase) {
@@ -1029,9 +1035,12 @@ abstract class Access {
 		$offset -= $limit;
 		//we work with cache here
 		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
-		$cookie = $this->connection->getFromCache($cachekey);
-		if(is_null($cookie)) {
-			$cookie = '';
+		$cookie = '';
+		if(isset($this->cookies[$cachekey])) {
+			$cookie = $this->cookies[$cachekey];
+			if(is_null($cookie)) {
+				$cookie = '';
+			}
 		}
 		return $cookie;
 	}
@@ -1048,7 +1057,7 @@ abstract class Access {
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
 			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
-			$cookie = $this->connection->writeToCache($cachekey, $cookie);
+			$this->cookies[$cachekey] = $cookie;
 		}
 	}
 

@@ -125,14 +125,22 @@ class OC_Appconfig{
 	public static function setValue( $app, $key, $value ) {
 		// Does the key exist? yes: update. No: insert
 		if(! self::hasKey($app, $key)) {
-			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` )'
-				.' VALUES( ?, ?, ? )' );
-			$query->execute( array( $app, $key, $value ));
+			OC_DB::executeAudited('
+				INSERT INTO `*PREFIX*appconfig` (
+					`appid`, `configkey`, `configvalue`
+				) VALUES (
+					?, ?, ?
+				)
+				', array( $app, $key, $value )
+			);
 		}
 		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ?'
-				.' WHERE `appid` = ? AND `configkey` = ?' );
-			$query->execute( array( $value, $app, $key ));
+			OC_DB::executeAudited('
+				UPDATE `*PREFIX*appconfig`
+					SET `configvalue` = ?
+				WHERE `appid` = ? AND `configkey` = ?
+				', array( $value, $app, $key )
+			);
 		}
 	}
 

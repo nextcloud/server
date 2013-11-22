@@ -137,4 +137,38 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$result = OC_Helper::recursiveArraySearch($haystack, "NotFound");
 		$this->assertFalse($result);
 	}
+
+	/**
+	 * @dataProvider streamCopyDataProvider
+	 */
+	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
+
+		if (is_string($source)) {
+			$source = fopen($source, 'r');
+		}
+		if (is_string($target)) {
+			$target = fopen($target, 'w');
+		}
+
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+
+		if (is_resource($source)) {
+			fclose($source);
+		}
+		if (is_resource($target)) {
+			fclose($target);
+		}
+
+		$this->assertSame($expectedCount, $count);
+		$this->assertSame($expectedResult, $result);
+	}
+
+
+	function streamCopyDataProvider() {
+		return array(
+			array(0, false, false, false),
+			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
+			array(446, true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
+		);
+	}
 }

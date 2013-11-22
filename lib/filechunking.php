@@ -34,10 +34,19 @@ class OC_FileChunking {
 		return $this->cache;
 	}
 
+	/**
+	 * Stores the given $data under the given $key - the number of stored bytes is returned
+	 *
+	 * @param $index
+	 * @param $data
+	 * @return int
+	 */
 	public function store($index, $data) {
 		$cache = $this->getCache();
 		$name = $this->getPrefix().$index;
 		$cache->set($name, $data);
+
+		return $cache->size($name);
 	}
 
 	public function isComplete() {
@@ -58,10 +67,32 @@ class OC_FileChunking {
 		$count = 0;
 		for($i=0; $i < $this->info['chunkcount']; $i++) {
 			$chunk = $cache->get($prefix.$i);
-			$cache->remove($prefix.$i);
 			$count += fwrite($f, $chunk);
 		}
+
+		$this->cleanup();
 		return $count;
+	}
+
+	/**
+	 * Removes all chunks which belong to this transmission
+	 */
+	public function cleanup() {
+		$cache = $this->getCache();
+		$prefix = $this->getPrefix();
+		for($i=0; $i < $this->info['chunkcount']; $i++) {
+			$cache->remove($prefix.$i);
+		}
+	}
+
+	/**
+	 * Removes one specific chunk
+	 * @param $index
+	 */
+	public function remove($index) {
+		$cache = $this->getCache();
+		$prefix = $this->getPrefix();
+		$cache->remove($prefix.$index);
 	}
 
 	public function signature_split($orgfile, $input) {

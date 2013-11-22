@@ -155,13 +155,13 @@ class Share {
 
 		while ($source !== -1) {
 
-			// Fetch all shares of this file path from DB
+			// Fetch all shares with another user
 			$query = \OC_DB::prepare(
 				'SELECT `share_with`
 				FROM
 				`*PREFIX*share`
 				WHERE
-				`item_source` = ? AND `share_type` = ?'
+				`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
@@ -180,7 +180,7 @@ class Share {
 				FROM
 				`*PREFIX*share`
 				WHERE
-				`item_source` = ? AND `share_type` = ?'
+				`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 			);
 
 			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
@@ -201,7 +201,7 @@ class Share {
 					FROM
 					`*PREFIX*share`
 					WHERE
-					`item_source` = ? AND `share_type` = ?'
+					`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
@@ -293,7 +293,18 @@ class Share {
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
 		}
-		return $result->fetchRow();
+		$row = $result->fetchRow();
+
+		if (!empty($row['expiration'])) {
+			$now = new \DateTime();
+			$expirationDate = new \DateTime($row['expiration'], new \DateTimeZone('UTC'));
+			if ($now > $expirationDate) {
+				self::delete($row['id']);
+				return false;
+			}
+		}
+
+		return $row;
 	}
 
 	/**
@@ -749,10 +760,10 @@ class Share {
 
 	/**
 	* @brief Get the backend class for the specified item type
-	* @param string Item type
-	* @return Sharing backend object
+	* @param string $itemType
+	* @return Share_Backend
 	*/
-	private static function getBackend($itemType) {
+	public static function getBackend($itemType) {
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} else if (isset(self::$backendTypes[$itemType]['class'])) {

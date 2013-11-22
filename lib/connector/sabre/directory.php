@@ -50,23 +50,24 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
-
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			$info = OC_FileChunking::decodeName($name);
 			if (empty($info)) {
 				throw new Sabre_DAV_Exception_NotImplemented();
 			}
-			$chunk_handler = new OC_FileChunking($info);
-			$chunk_handler->store($info['index'], $data);
-			if ($chunk_handler->isComplete()) {
-				$newPath = $this->path . '/' . $info['name'];
-				$chunk_handler->file_assemble($newPath);
-				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+
+			if (!\OC\Files\Filesystem::isCreatable($this->path) &&
+					!\OC\Files\Filesystem::isUpdatable($this->path . '/' . $info['name'])) {
+				throw new \Sabre_DAV_Exception_Forbidden();
 			}
+
+			return $this->createFileChunked($name, $data);
 		} else {
+
+			if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
+
 			$newPath = $this->path . '/' . $name;
 
 			// mark file as partial while uploading (ignored by the scanner)
@@ -88,7 +89,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 
 			// rename to correct path
-			\OC\Files\Filesystem::rename($partpath, $newPath);
+			$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
+			$fileExists = \OC\Files\Filesystem::file_exists($newPath);
+			if ($renameOkay === false || $fileExists === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+				\OC\Files\Filesystem::unlink($partpath);
+				throw new Sabre_DAV_Exception();
+			}
 
 			// allow sync clients to send the mtime along in a header
 			$mtime = OC_Request::hasModificationTime();
@@ -251,7 +258,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * If the array is empty, all properties should be returned
 	 *
 	 * @param array $properties
-	 * @return void
+	 * @return array
 	 */
 	public function getProperties($properties) {
 		$props = parent::getProperties($properties);
@@ -260,5 +267,35 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 				= OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 		}
 		return $props;
+	}
+
+	private function createFileChunked($name, $data)
+	{
+		$info = OC_FileChunking::decodeName($name);
+		if (empty($info)) {
+			throw new Sabre_DAV_Exception_NotImplemented();
+		}
+		$chunk_handler = new OC_FileChunking($info);
+		$bytesWritten = $chunk_handler->store($info['index'], $data);
+
+		//detect aborted upload
+		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
+			if (isset($_SERVER['CONTENT_LENGTH'])) {
+				$expected = $_SERVER['CONTENT_LENGTH'];
+				if ($bytesWritten != $expected) {
+					$chunk_handler->remove($info['index']);
+					throw new Sabre_DAV_Exception_BadRequest(
+						'expected filesize ' . $expected . ' got ' . $bytesWritten);
+				}
+			}
+		}
+
+		if ($chunk_handler->isComplete()) {
+			$newPath = $this->path . '/' . $info['name'];
+			$chunk_handler->file_assemble($newPath);
+			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+		}
+
+		return null;
 	}
 }

@@ -546,6 +546,11 @@ $(document).ready(function() {
 			}
 		});
 	}
+
+	//scroll to and highlight preselected file
+	if (getURLParameter('scrollto')) {
+		FileList.scrollTo(getURLParameter('scrollto'));
+	}
 });
 
 function scanFiles(force, dir, users){
@@ -666,7 +671,7 @@ var folderDropOptions={
 			return false;
 		}
 
-		var target=$.trim($(this).find('.nametext').text());
+		var target = $(this).closest('tr').data('file');
 
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){

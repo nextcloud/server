@@ -7,6 +7,12 @@
 
 namespace Test\Files;
 
+class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
+	public function touch($path, $mtime = null) {
+		return false;
+	}
+}
+
 class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages;
@@ -262,12 +268,38 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->hookPath = $params['path'];
 	}
 
+	function testTouch() {
+		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
+
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+		$oldCachedData = $rootView->getFileInfo('foo.txt');
+		$newMTime = $oldCachedData['mtime'] + 500;
+
+		$rootView->touch('foo.txt', $newMTime);
+
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertEquals($newMTime, $cachedData['mtime']);
+
+		// reset mtime to original to make sure the next file access
+		// gets a higher mtime
+		$rootView->touch('foo.txt', $oldCachedData['mtime']);
+
+		$rootView->file_put_contents('foo.txt', 'asd');
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertGreaterThanOrEqual($cachedData['mtime'], $oldCachedData['mtime']);
+	}
+
 	/**
 	 * @param bool $scan
 	 * @return \OC\Files\Storage\Storage
 	 */
-	private function getTestStorage($scan = true) {
-		$storage = new \OC\Files\Storage\Temporary(array());
+	private function getTestStorage($scan = true, $class = '\OC\Files\Storage\Temporary') {
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 */
+		$storage = new $class(array());
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storage->mkdir('folder');
@@ -281,5 +313,39 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 		$this->storages[] = $storage;
 		return $storage;
+	}
+
+	/**
+	 * @dataProvider resolvePathTestProvider
+	 */
+	public function testResolvePath($expected, $pathToTest) {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+
+		$view = new \OC\Files\View('');
+
+		$result = $view->resolvePath($pathToTest);
+		$this->assertEquals($expected, $result[1]);
+
+		$exists = $view->file_exists($pathToTest);
+		$this->assertTrue($exists);
+
+		$exists = $view->file_exists($result[1]);
+		$this->assertTrue($exists);
+	}
+
+	function resolvePathTestProvider() {
+		return array(
+			array('foo.txt', 'foo.txt'),
+			array('foo.txt', '/foo.txt'),
+			array('folder', 'folder'),
+			array('folder', '/folder'),
+			array('folder', 'folder/'),
+			array('folder', '/folder/'),
+			array('folder/bar.txt', 'folder/bar.txt'),
+			array('folder/bar.txt', '/folder/bar.txt'),
+			array('', ''),
+			array('', '/'),
+		);
 	}
 }

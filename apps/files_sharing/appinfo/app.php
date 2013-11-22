@@ -7,6 +7,7 @@ OC::$CLASSPATH['OC\Files\Cache\Shared_Cache'] = 'files_sharing/lib/cache.php';
 OC::$CLASSPATH['OC\Files\Cache\Shared_Permissions'] = 'files_sharing/lib/permissions.php';
 OC::$CLASSPATH['OC\Files\Cache\Shared_Updater'] = 'files_sharing/lib/updater.php';
 OC::$CLASSPATH['OC\Files\Cache\Shared_Watcher'] = 'files_sharing/lib/watcher.php';
+OC::$CLASSPATH['OCA\Files\Share\Api'] = 'files_sharing/lib/api.php';
 OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');

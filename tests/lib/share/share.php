@@ -535,4 +535,52 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			'Failed asserting that user 3 still has access to test.txt after expiration date has been set.'
 		);
 	}
+
+	protected function getShareByValidToken($token) {
+		$row = OCP\Share::getShareByToken($token);
+		$this->assertInternalType(
+			'array',
+			$row,
+			"Failed asserting that a share for token $token exists."
+		);
+		return $row;
+	}
+
+	public function testShareItemWithLink() {
+		OC_User::setUserId($this->user1);
+		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, OCP\PERMISSION_READ);
+		$this->assertInternalType(
+			'string',
+			$token,
+			'Failed asserting that user 1 successfully shared text.txt as link with token.'
+		);
+
+		// testGetShareByTokenNoExpiration
+		$row = $this->getShareByValidToken($token);
+		$this->assertEmpty(
+			$row['expiration'],
+			'Failed asserting that the returned row does not have an expiration date.'
+		);
+
+		// testGetShareByTokenExpirationValid
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
+			'Failed asserting that user 1 successfully set a future expiration date for the test.txt share.'
+		);
+		$row = $this->getShareByValidToken($token);
+		$this->assertNotEmpty(
+			$row['expiration'],
+			'Failed asserting that the returned row has an expiration date.'
+		);
+
+		// testGetShareByTokenExpirationExpired
+		$this->assertTrue(
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
+			'Failed asserting that user 1 successfully set a past expiration date for the test.txt share.'
+		);
+		$this->assertFalse(
+			OCP\Share::getShareByToken($token),
+			'Failed asserting that an expired share could not be found.'
+		);
+	}
 }

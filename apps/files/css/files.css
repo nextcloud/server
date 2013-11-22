@@ -63,6 +63,9 @@
 tbody tr { background-color:#fff; height:2.5em; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
 tbody tr.selected { background-color:#eee; }
+#filestable tbody tr.searchresult {
+	background-color: rgb(240,240,240);
+}
 tbody a { color:#000; }
 span.extension, span.uploading, td.date { color:#999; }
 span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }

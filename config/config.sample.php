@@ -181,5 +181,8 @@ $CONFIG = array(
 'customclient_ios' => '', //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
 
 // date format to be used while writing to the owncloud logfile
-'logdateformat' => 'F d, Y H:i:s'
+'logdateformat' => 'F d, Y H:i:s',
+
+/* timezone used while writing to the owncloud logfile (default: UTC) */
+'logtimezone' => 'Europe/Berlin',
 );

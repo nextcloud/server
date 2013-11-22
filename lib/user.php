@@ -372,6 +372,8 @@ class OC_User {
 			return self::determineDisplayName($user);
 		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
 			return $_SESSION['display_name'];
+		} else if ( $user = self::getUser() ) {
+			return self::determineDisplayName($user);
 		}
 		else{
 			return false;
@@ -637,20 +639,25 @@ class OC_User {
 	public static function setMagicInCookie($username, $token) {
 		$secure_cookie = OC_Config::getValue("forcessl", false);
 		$expires = time() + OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
-		setcookie("oc_username", $username, $expires, '', '', $secure_cookie);
-		setcookie("oc_token", $token, $expires, '', '', $secure_cookie, true);
-		setcookie("oc_remember_login", true, $expires, '', '', $secure_cookie);
+		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secure_cookie);
+		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secure_cookie, true);
+		setcookie("oc_remember_login", true, $expires, \OC::$WEBROOT, '', $secure_cookie);
 	}
 
 	/**
 	 * @brief Remove cookie for "remember username"
 	 */
 	public static function unsetMagicInCookie() {
-		unset($_COOKIE["oc_username"]);
+		unset($_COOKIE["oc_username"]); //TODO: DI
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie("oc_username", null, -1);
-		setcookie("oc_token", null, -1);
-		setcookie("oc_remember_login", null, -1);
+		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT);
+		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT);
+		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT);
+		// old cookies might be stored under /webroot/ instead of /webroot
+		// and Firefox doesn't like it!
+		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT . '/');
+		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT . '/');
+		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT . '/');
 	}
 }

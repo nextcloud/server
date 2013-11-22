@@ -260,6 +260,7 @@ $(document).ready(function() {
 			  getMimeIcon(result.data.mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 			  });
+			FileActions.display(tr.find('td.filename'), true);
 			} else {
 			  OC.dialogs.alert(result.data.message, t('core', 'Error'));
 			}
@@ -324,6 +325,7 @@ $(document).ready(function() {
 		  getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 		  });
+		  FileActions.display(tr.find('td.filename'), true);
 		});
 		eventSource.listen('error',function(error){
 		  $('#uploadprogressbar').fadeOut();

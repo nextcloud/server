@@ -110,7 +110,9 @@ class View {
 	 * @return array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
-		return Filesystem::resolvePath($this->getAbsolutePath($path));
+		$a = $this->getAbsolutePath($path);
+		$p = Filesystem::normalizePath($a);
+		return Filesystem::resolvePath($p);
 	}
 
 	/**
@@ -252,7 +254,11 @@ class View {
 			$hooks[] = 'write';
 		}
 
-		return $this->basicOperation('touch', $path, $hooks, $mtime);
+		$result = $this->basicOperation('touch', $path, array('write'), $mtime);
+		if (!$result) { //if native touch fails, we emulate it by changing the mtime in the cache
+			$this->putFileInfo($path, array('mtime' => $mtime));
+		}
+		return true;
 	}
 
 	public function file_get_contents($path) {
@@ -698,7 +704,10 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
-		return (strlen($this->fakeRoot) >= strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot)) === $defaultRoot);
+		if($this->fakeRoot === $defaultRoot){
+			return true;
+		}
+		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
 	private function runHooks($hooks, $path, $post = false) {
