@@ -46,17 +46,19 @@ if (!\OC_Util::runningOnWindows()) {
 
 				$handle = $fileview->fopen($path, 'rb');
 
-				$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
+				// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
+				// in some cases 1MB was no enough to generate thumbnail
+				$firstmb = stream_get_contents($handle, 5242880);
 				file_put_contents($absPath, $firstmb);
 
 				if (self::$avconvBinary) {
-					$cmd = self::$avconvBinary . ' -an -y -ss 1'.
+					$cmd = self::$avconvBinary . ' -an -y -ss 5'.
 						' -i ' . escapeshellarg($absPath) .
-						' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath) .
+						' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				}
 				else {
-					$cmd = self::$ffmpegBinary . ' -y -ss 1' .
+					$cmd = self::$ffmpegBinary . ' -y -ss 5' .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1' .
 						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
