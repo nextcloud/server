@@ -54,7 +54,9 @@ class OC_Avatar implements \OCP\IAvatar {
 
 		$img = new OC_Image($data);
 		$type = substr($img->mimeType(), -3);
-		if ($type === 'peg') { $type = 'jpg'; }
+		if ($type === 'peg') {
+			$type = 'jpg';
+		}
 		if ($type !== 'jpg' && $type !== 'png') {
 			$l = \OC_L10N::get('lib');
 			throw new \Exception($l->t("Unknown filetype"));
