@@ -76,20 +76,22 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * @return void
 	 */
 	private function updateAvatar($uid, $dn) {
-		$lastChecked = $this->access->connection->lastJpegPhotoLookup;
+		$lastChecked = \OCP\Config::getUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup', 0);
 		if((time() - $lastChecked) < 86400 ) {
 			//update only once a day
 			return;
 		}
 
 		$jpegPhoto = $this->access->readAttribute($dn, 'jpegPhoto');
-		$this->access->connection->lastJpegPhotoLookup = time();
+		\OCP\Config::setUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup', time());
 		if(!$jpegPhoto || !is_array($jpegPhoto) || !isset($jpegPhoto[0])) {
 			//not set, nothing left to do;
 			return;
 		}
 
-		$image = new \OCP\Image($jpegPhoto[0]);
+		$image = new \OCP\Image();
+		$image->loadFromBase64(base64_encode($jpegPhoto[0]));
+
 		if(!$image->valid()) {
 			\OCP\Util::writeLog('user_ldap', 'jpegPhoto data invalid for '.$dn,
 								\OCP\Util::ERROR);
@@ -103,10 +105,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 								\OCP\Util::ERROR);
 			return;
 		}
-
 		$avatarManager = \OC::$server->getAvatarManager();
 		$avatar = $avatarManager->getAvatar($uid);
-		$avatar->set($image->data());
+		$avatar->set($image);
 	}
 
 	/**
