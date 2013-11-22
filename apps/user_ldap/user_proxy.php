@@ -164,6 +164,15 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
+	 * @brief checks whether the user is allowed to change his avatar in ownCloud
+	 * @param $uid string the ownCloud user name
+	 * @return boolean either the user can or cannot
+	 */
+	public function canChangeAvatar($uid) {
+		return $this->handleRequest($uid, 'canChangeAvatar', array($uid));
+	}
+
+	/**
 	 * @brief Get a list of all display names
 	 * @returns array with  all displayNames (value) and the corresponding uids (key)
 	 *
