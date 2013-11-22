@@ -413,6 +413,22 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check whether user can change his avatar
+	 * @param string $uid The username
+	 * @return bool
+	 *
+	 * Check whether a specified user can change his avatar
+	 */
+	public static function canUserChangeAvatar($uid) {
+		$user = self::getManager()->get($uid);
+		if ($user) {
+			return $user->canChangeAvatar();
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * @brief Check whether user can change his password
 	 * @param string $uid The username
 	 * @return bool
