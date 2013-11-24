@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 21:50+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -381,7 +381,7 @@ msgstr "Dovoli obvestila preko elektronske pošte"
 
 #: templates/admin.php:186
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Dovoli uporabniku poslati obvestila preko elektronske pošte za datoteke v souporabi"
 
 #: templates/admin.php:193
 msgid "Security"
@@ -394,7 +394,7 @@ msgstr "Zahtevaj uporabo HTTPS"
 #: templates/admin.php:208
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Vsili povezavo odjemalca z %s preko šifrirane povezave."
 
 #: templates/admin.php:214
 #, php-format

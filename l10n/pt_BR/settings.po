@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 10:10+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,20 +284,20 @@ msgstr "Localização não funcionando"
 
 #: templates/admin.php:70
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Localidade do sistema não pode ser definido como um que suporta UTF-8."
 
 #: templates/admin.php:74
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Isso significa que pode haver problemas com certos caracteres nos nomes de arquivo."
 
 #: templates/admin.php:78
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Nós sugerimos para instalar os pacotes necessários no seu sistema para suportar uma das seguintes localidades: %s."
 
 #: templates/admin.php:90
 msgid "Internet connection not working"

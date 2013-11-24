@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 09:40+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,11 +55,11 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ebaõnnestunud uuendus \"%s\"."
 
-#: private/avatar.php:60
+#: private/avatar.php:62
 msgid "Unknown filetype"
 msgstr "Tundmatu failitüüp"
 
-#: private/avatar.php:65
+#: private/avatar.php:67
 msgid "Invalid image"
 msgstr "Vigane pilt"
 
@@ -92,7 +92,7 @@ msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Palun laadi failid alla eraldi väiksemate osadena või palu abi oma süsteemihaldurilt."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"

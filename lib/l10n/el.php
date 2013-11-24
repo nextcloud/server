@@ -42,7 +42,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\"",
 "seconds ago" => "δευτερόλεπτα πριν",
-"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n minute ago_::_%n minutes ago_" => array("","%n λεπτά πριν"),
 "_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "σήμερα",
 "yesterday" => "χτες",

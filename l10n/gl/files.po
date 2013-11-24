@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 07:20+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Non se moveu %s - Xa existe un ficheiro con ese nome."
+msgstr "Non foi posíbel mover %s; Xa existe un ficheiro con ese nome."
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
@@ -202,7 +202,7 @@ msgstr "desfacer"
 
 #: js/filelist.js:576
 msgid "Error deleting file."
-msgstr ""
+msgstr "Produciuse un erro ao eliminar o ficheiro."
 
 #: js/filelist.js:594 js/filelist.js:668 js/files.js:631
 msgid "%n folder"

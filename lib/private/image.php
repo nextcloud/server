@@ -414,61 +414,60 @@ class OC_Image {
 	*/
 	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
-		$absPath = \OC\Files\Filesystem::getLocalFile($imagePath);
-		if(!@is_file($absPath) || !file_exists($absPath) || filesize($absPath) < 12 || !is_readable($absPath)) {
+		if(!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
-			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$absPath, OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagePath, OC_Log::DEBUG);
 			return false;
 		}
-		$iType = exif_imagetype($absPath);
+		$iType = exif_imagetype($imagePath);
 		switch ($iType) {
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
-					$this->resource = imagecreatefromgif($absPath);
+					$this->resource = imagecreatefromgif($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, GIF images not supported: '.$absPath,
+						'OC_Image->loadFromFile, GIF images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
-					$this->resource = imagecreatefromjpeg($absPath);
+					$this->resource = imagecreatefromjpeg($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, JPG images not supported: '.$absPath,
+						'OC_Image->loadFromFile, JPG images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
-					$this->resource = imagecreatefrompng($absPath);
+					$this->resource = imagecreatefrompng($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, PNG images not supported: '.$absPath,
+						'OC_Image->loadFromFile, PNG images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
-					$this->resource = imagecreatefromxbm($absPath);
+					$this->resource = imagecreatefromxbm($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, XBM/XPM images not supported: '.$absPath,
+						'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_WBMP:
 				if (imagetypes() & IMG_WBMP) {
-					$this->resource = imagecreatefromwbmp($absPath);
+					$this->resource = imagecreatefromwbmp($imagePath);
 				} else {
 					OC_Log::write('core',
-						'OC_Image->loadFromFile, WBMP images not supported: '.$absPath,
+						'OC_Image->loadFromFile, WBMP images not supported: '.$imagePath,
 						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_BMP:
-					$this->resource = $this->imagecreatefrombmp($absPath);
+					$this->resource = $this->imagecreatefrombmp($imagePath);
 				break;
 			/*
 			case IMAGETYPE_TIFF_II: // (intel byte order)
@@ -497,7 +496,7 @@ class OC_Image {
 			default:
 
 				// this is mostly file created from encrypted file
-				$this->resource = imagecreatefromstring(\OC\Files\Filesystem::file_get_contents($imagePath));
+				$this->resource = imagecreatefromstring(\OC\Files\Filesystem::file_get_contents(\OC\Files\Filesystem::getLocalPath($imagePath)));
 				$iType = IMAGETYPE_PNG;
 				OC_Log::write('core', 'OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;

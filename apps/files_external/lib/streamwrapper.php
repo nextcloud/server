@@ -41,14 +41,6 @@ abstract class StreamWrapper extends Common {
 		return filetype($this->constructUrl($path));
 	}
 
-	public function isReadable($path) {
-		return true; //not properly supported
-	}
-
-	public function isUpdatable($path) {
-		return true; //not properly supported
-	}
-
 	public function file_exists($path) {
 		return file_exists($this->constructUrl($path));
 	}
