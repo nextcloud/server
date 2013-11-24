@@ -300,14 +300,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function isReadable($path) {
-		return true;
-	}
-
-	public function isUpdatable($path) {
-		return true;
-	}
-
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
 
