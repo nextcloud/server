@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 07:30+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,11 +54,11 @@ msgstr "Administración"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Non foi posíbel anovar «%s»."
 
-#: private/avatar.php:60
+#: private/avatar.php:62
 msgid "Unknown filetype"
 msgstr "Tipo de ficheiro descoñecido"
 
-#: private/avatar.php:65
+#: private/avatar.php:67
 msgid "Invalid image"
 msgstr "Imaxe incorrecta"
 
@@ -91,7 +91,7 @@ msgstr "Os ficheiros seleccionados son demasiado grandes como para xerar un fich
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Descargue os ficheiros en fragmentos máis pequenos e por separado, ou pídallos amabelmente ao seu administrador."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"

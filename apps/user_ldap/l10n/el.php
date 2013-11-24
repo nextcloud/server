@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Failed to clear the mappings." => "Αποτυχία εκκαθάρισης των αντιστοιχιών.",
 "Failed to delete the server configuration" => "Αποτυχία διαγραφής ρυθμίσεων διακομιστή",
 "The configuration is valid and the connection could be established!" => "Οι ρυθμίσεις είναι έγκυρες και η σύνδεση μπορεί να πραγματοποιηθεί!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχε η σύνδεση. Παρακαλώ ελέγξτε τις ρυθμίσεις του διακομιστή και τα διαπιστευτήρια.",
@@ -7,6 +8,7 @@ $TRANSLATIONS = array(
 "Take over settings from recent server configuration?" => "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?",
 "Keep settings?" => "Διατήρηση ρυθμίσεων;",
 "Cannot add server configuration" => "Αδυναμία προσθήκης ρυθμίσεων διακομιστή",
+"mappings cleared" => "αντιστοιχίες εκκαθαρίστηκαν",
 "Success" => "Επιτυχία",
 "Error" => "Σφάλμα",
 "Select groups" => "Επιλέξτε ομάδες",
@@ -31,6 +33,7 @@ $TRANSLATIONS = array(
 "You can specify Base DN for users and groups in the Advanced tab" => "Μπορείτε να καθορίσετε το Base DN για χρήστες και ομάδες από την καρτέλα Προηγμένες ρυθμίσεις",
 "Back" => "Επιστροφή",
 "Continue" => "Συνέχεια",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." => "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Το άρθρωμα PHP LDAP δεν είναι εγκατεστημένο και το σύστημα υποστήριξης δεν θα δουλέψει. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να το εγκαταστήσει.",
 "Connection Settings" => "Ρυθμίσεις Σύνδεσης",
 "Configuration Active" => "Ενεργοποιηση ρυθμισεων",
@@ -61,6 +64,8 @@ $TRANSLATIONS = array(
 "in bytes" => "σε bytes",
 "Email Field" => "Email τυπος",
 "User Home Folder Naming Rule" => "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας ",
-"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD."
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD.",
+"Internal Username" => "Εσωτερικό Όνομα Χρήστη",
+"Internal Username Attribute:" => "Ιδιότητα Εσωτερικού Ονόματος Χρήστη:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

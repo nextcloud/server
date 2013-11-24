@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,11 +54,11 @@ msgstr ""
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: private/avatar.php:60
+#: private/avatar.php:62
 msgid "Unknown filetype"
 msgstr ""
 
-#: private/avatar.php:65
+#: private/avatar.php:67
 msgid "Invalid image"
 msgstr ""
 

@@ -160,7 +160,7 @@ $TRANSLATIONS = array(
 "Server side authentication failed!" => "サーバサイドの認証に失敗しました！",
 "Please contact your administrator." => "管理者に問い合わせてください。",
 "Lost your password?" => "パスワードを忘れましたか？",
-"remember" => "パスワードを記憶する",
+"remember" => "自動ログインする",
 "Log in" => "ログイン",
 "Alternative Logins" => "代替ログイン",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>",

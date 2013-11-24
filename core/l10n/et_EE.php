@@ -132,6 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Ligipääs on keelatud",
 "Cloud not found" => "Pilve ei leitud",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei,\n\nlihtsalt annan sulle teada, et %s jagas sulle välja %s.\nVaata seda: %s\n\n",
+"The share will expire on %s." => "Jagamine aegub %s.",
 "Cheers!" => "Terekest!",
 "Security Warning" => "Turvahoiatus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga.",

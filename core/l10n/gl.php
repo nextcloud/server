@@ -132,6 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Acceso denegado",
 "Cloud not found" => "Nube non atopada",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Ola,\n\nsó facerlle saber que %s compartiu %s con vostede.\nVéxao en: %s\n\n",
+"The share will expire on %s." => "Esta compartición caduca o %s.",
 "Cheers!" => "Saúdos!",
 "Security Warning" => "Aviso de seguranza",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "A súa versión de PHP é vulnerábel a un ataque de byte nulo (CVE-2006-7243)",

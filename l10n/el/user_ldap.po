@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-23 21:20+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Αποτυχία εκκαθάρισης των αντιστοιχιών."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -76,7 +77,7 @@ msgstr "Αδυναμία προσθήκης ρυθμίσεων διακομισ�
 
 #: js/settings.js:127
 msgid "mappings cleared"
-msgstr ""
+msgstr "αντιστοιχίες εκκαθαρίστηκαν"
 
 #: js/settings.js:128
 msgid "Success"
@@ -283,7 +284,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές."
 
 #: templates/settings.php:14
 msgid ""
@@ -443,7 +444,7 @@ msgstr "Αφήστε το κενό για το όνομα χρήστη (προε
 
 #: templates/settings.php:54
 msgid "Internal Username"
-msgstr ""
+msgstr "Εσωτερικό Όνομα Χρήστη"
 
 #: templates/settings.php:55
 msgid ""
@@ -463,7 +464,7 @@ msgstr ""
 
 #: templates/settings.php:56
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Ιδιότητα Εσωτερικού Ονόματος Χρήστη:"
 
 #: templates/settings.php:57
 msgid "Override UUID detection"

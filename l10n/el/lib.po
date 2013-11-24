@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-23 01:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -54,11 +54,11 @@ msgstr "Διαχειριστής"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Αποτυχία αναβάθμισης του \"%s\"."
 
-#: private/avatar.php:60
+#: private/avatar.php:62
 msgid "Unknown filetype"
 msgstr "Άγνωστος τύπος αρχείου"
 
-#: private/avatar.php:65
+#: private/avatar.php:67
 msgid "Invalid image"
 msgstr "Μη έγκυρη εικόνα"
 
@@ -293,7 +293,7 @@ msgstr "δευτερόλεπτα πριν"
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n λεπτά πριν"
 
 #: private/template/functions.php:132
 msgid "%n hour ago"
