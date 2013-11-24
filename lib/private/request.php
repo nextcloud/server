@@ -9,6 +9,7 @@
 class OC_Request {
 	/**
 	 * @brief Check overwrite condition
+	 * @param string $type
 	 * @returns bool
 	 */
 	private static function isOverwriteCondition($type = '') {
