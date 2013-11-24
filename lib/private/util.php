@@ -1111,4 +1111,17 @@ class OC_Util {
 		$t = explode('/', $file);
 		return array_pop($t);
 	}
+
+	/**
+	 * A human readable string is generated based on version, channel and build number
+	 * @return string
+	 */
+	public static function getHumanVersion() {
+		$version = OC_Util::getVersionString().' ('.OC_Util::getChannel().')';
+		$build = OC_Util::getBuild();
+		if(!empty($build) and OC_Util::getChannel() === 'daily') {
+			$version .= ' Build:' . $build;
+		}
+		return $version;
+	}
 }
