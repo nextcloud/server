@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Ei suuda faili ümber nimetada",
 "replaced {new_name} with {old_name}" => "asendas nime {old_name} nimega {new_name}",
 "undo" => "tagasi",
+"Error deleting file." => "Viga faili kustutamisel.",
 "_%n folder_::_%n folders_" => array("%n kataloog","%n kataloogi"),
 "_%n file_::_%n files_" => array("%n fail","%n faili"),
 "{dirs} and {files}" => "{dirs} ja {files}",

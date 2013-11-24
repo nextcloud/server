@@ -10,7 +10,7 @@
  * This class gets and sets users avatars.
  */
 
-class OC_Avatar {
+class OC_Avatar implements \OCP\IAvatar {
 
 	private $view;
 
@@ -24,7 +24,7 @@ class OC_Avatar {
 
 	/**
 	 * @brief get the users avatar
-	 * @param $size integer size in px of the avatar, defaults to 64
+	 * @param $size integer size in px of the avatar, avatars are square, defaults to 64
 	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	*/
 	public function get ($size = 64) {
@@ -54,7 +54,9 @@ class OC_Avatar {
 
 		$img = new OC_Image($data);
 		$type = substr($img->mimeType(), -3);
-		if ($type === 'peg') { $type = 'jpg'; }
+		if ($type === 'peg') {
+			$type = 'jpg';
+		}
 		if ($type !== 'jpg' && $type !== 'png') {
 			$l = \OC_L10N::get('lib');
 			throw new \Exception($l->t("Unknown filetype"));

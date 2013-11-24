@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Não foi possível renomear o arquivo",
 "replaced {new_name} with {old_name}" => "Substituído {old_name} por {new_name} ",
 "undo" => "desfazer",
+"Error deleting file." => "Erro eliminando o arquivo.",
 "_%n folder_::_%n folders_" => array("%n pasta","%n pastas"),
 "_%n file_::_%n files_" => array("%n arquivo","%n arquivos"),
 "{dirs} and {files}" => "{dirs} e {files}",

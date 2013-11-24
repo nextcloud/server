@@ -268,14 +268,6 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function isReadable($path) {
-		return true;
-	}
-
-	public function isUpdatable($path) {
-		return true;
-	}
-
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
 

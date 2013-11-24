@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",
 "Selected files too large to generate zip file." => "De geselecteerde bestanden zijn te groot om een zip bestand te maken.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Download de bestanden in kleinere brokken, appart of vraag uw administrator.",
 "No source specified when installing app" => "Geen bron opgegeven bij installatie van de app",
 "No href specified when installing app from http" => "Geen href opgegeven bij installeren van de app vanaf http",
 "No path specified when installing app from local file" => "Geen pad opgegeven bij installeren van de app vanaf een lokaal bestand",

@@ -53,16 +53,21 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
-			$quota = self::getUserQuota($user);
-			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
-					if ($mountPoint === '/' . $user . '/'){
+			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
+				// set up quota for home storages, even for other users
+				// which can happen when using sharing
+
+				if ($storage instanceof \OC\Files\Storage\Home) {
+					$user = $storage->getUser()->getUID();
+					$quota = OC_Util::getUserQuota($user);
+					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
 						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
-					} else {
-						return $storage;
 					}
-				});
-			}
+				}
+
+				return $storage;
+			});
+
 			$userDir = '/'.$user.'/files';
 			$userRoot = OC_User::getHome($user);
 			$userDirectory = $userRoot . '/files';
@@ -351,6 +356,13 @@ class OC_Util {
 			);
 		} else {
 			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
+		}
+
+		if(!OC_Util::isSetLocaleWorking()) {
+			$errors[] = array(
+				'error' => 'Setting locale to en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8 failed',
+				'hint' => 'Please install one of theses locales on your system and restart your webserver.'
+			);
 		}
 
 		$moduleHint = "Please ask your server administrator to install the module.";
@@ -847,8 +859,8 @@ class OC_Util {
 			return true;
 		}
 
-		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
-		if($result == false) {
+		\Patchwork\Utf8\Bootup::initLocale();
+		if ('' === basename('§')) {
 			return false;
 		}
 		return true;

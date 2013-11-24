@@ -59,15 +59,23 @@ if (!$_['has_fileinfo']) {
 }
 
 // is locale working ?
-if (!$_['islocaleworking']) {
+if (!$_['isLocaleWorking']) {
 	?>
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Locale not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php
-			$locales = 'en_US.UTF-8/en_US.UTF8';
-			p($l->t('System locale can\'t be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s.', array($locales, $locales)));
+			$locales = 'en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8';
+			p($l->t('System locale can not be set to a one which supports UTF-8.'));
+			?>
+		<br>
+		<?php
+			p($l->t('This means that there might be problems with certain characters in file names.'));
+		?>
+			<br>
+			<?php
+			p($l->t('We strongly suggest to install the required packages on your system to support one of the following locales: %s.', array($locales)));
 			?>
 	</span>
 

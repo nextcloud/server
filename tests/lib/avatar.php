@@ -22,4 +22,19 @@ class Test_Avatar extends PHPUnit_Framework_TestCase {
 		$avatar->remove();
 		$this->assertEquals(false, $avatar->get());
 	}
+
+	public function testAvatarApi() {
+		$avatarManager = \OC::$server->getAvatarManager();
+		$avatar = $avatarManager->getAvatar(\OC_User::getUser());
+
+		$this->assertEquals(false, $avatar->get());
+
+		$expected = new OC_Image(\OC::$SERVERROOT.'/tests/data/testavatar.png');
+		$expected->resize(64);
+		$avatar->set($expected->data());
+		$this->assertEquals($expected->data(), $avatar->get()->data());
+
+		$avatar->remove();
+		$this->assertEquals(false, $avatar->get());
+	}
 }

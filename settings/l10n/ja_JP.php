@@ -61,7 +61,6 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "モジュール 'fileinfo' が見つかりません",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。",
 "Locale not working" => "ロケールが動作していません",
-"System locale can't be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "システムロケールが %s に設定出来ません。この場合、ファイル名にそのロケールの文字が入っていたときに問題になる可能性があります。必要なパッケージをシステムにインストールして、%s をサポートすることを強くお勧めします。",
 "Internet connection not working" => "インターネット接続が動作していません",
 "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." => "このサーバーはインターネットに接続していません。この場合、外部ストレージのマウント、更新の通知やサードパーティアプリといったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信と言った機能も利用できないかもしれません。全ての機能を利用したいのであれば、このサーバーからインターネットに接続できるようにすることをお勧めします。",
 "Cron" => "Cron",
