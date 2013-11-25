@@ -230,6 +230,22 @@ class OC {
 		}
 	}
 
+	public static function checkSingleUserMode() {
+		$user = OC_User::getUserSession()->getUser();
+		$group = OC_Group::getManager()->get('admin');
+		if ($user && OC_Config::getValue('singleuser', false) && !$group->inGroup($user)) {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
+			$tmpl = new OC_Template('', 'singleuser.user', 'guest');
+			$tmpl->printPage();
+			die();
+		}
+	}
+
 	public static function checkUpgrade($showTemplate = true) {
 		if (OC_Config::getValue('installed', false)) {
 			$installedVersion = OC_Config::getValue('version', '0.0.0');
@@ -652,11 +668,12 @@ class OC {
 		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		OC::tryBasicAuthLogin();
 
-		if (!self::$CLI) {
+		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
 					OC_App::loadApps();
 				}
+				self::checkSingleUserMode();
 				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
