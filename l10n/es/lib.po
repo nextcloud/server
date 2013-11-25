@@ -10,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-29 07:28-0400\n"
-"PO-Revision-Date: 2013-10-28 10:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-21 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -74,27 +74,27 @@ msgstr "Servicios web bajo su control"
 msgid "cannot open \"%s\""
 msgstr "No se puede abrir \"%s\""
 
-#: private/files.php:226
+#: private/files.php:228
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: private/files.php:227
+#: private/files.php:229
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados uno por uno."
 
-#: private/files.php:228 private/files.php:256
+#: private/files.php:230 private/files.php:258
 msgid "Back to Files"
 msgstr "Volver a Archivos"
 
-#: private/files.php:253
+#: private/files.php:255
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 
-#: private/files.php:254
+#: private/files.php:256
 msgid ""
-"Download the files in smaller chunks, seperately or kindly ask your "
+"Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr "Descargue los archivos en trozos más pequeños, por separado o solicítelos amablemente su administrador."
+msgstr ""
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
@@ -137,17 +137,17 @@ msgid ""
 "which is not allowed for non shipped apps"
 msgstr "La aplicación no se puede instalar porque contiene la etiqueta\n<shipped>\ntrue\n</shipped>\nque no está permitida para aplicaciones no distribuidas"
 
-#: private/installer.php:152
+#: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "La aplicación no puede ser instalada por que la versión en info.xml/version no es la misma que la establecida en la app store"
 
-#: private/installer.php:162
+#: private/installer.php:169
 msgid "App directory already exists"
 msgstr "El directorio de la aplicación ya existe"
 
-#: private/installer.php:175
+#: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "No se puede crear la carpeta de la aplicación. Corrija los permisos. %s"
@@ -272,13 +272,13 @@ msgstr "Configurar un nombre de usuario del administrador"
 msgid "Set an admin password."
 msgstr "Configurar la contraseña del administrador."
 
-#: private/setup.php:184
+#: private/setup.php:195
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
-#: private/setup.php:185
+#: private/setup.php:196
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>."
@@ -336,6 +336,6 @@ msgstr "año pasado"
 msgid "years ago"
 msgstr "hace años"
 
-#: private/template.php:297 public/util.php:103
+#: private/template.php:297 public/util.php:108
 msgid "Caused by:"
 msgstr "Causado por:"

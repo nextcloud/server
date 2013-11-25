@@ -134,14 +134,6 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	public function isReadable($path) {
-		return true;//not properly supported
-	}
-
-	public function isUpdatable($path) {
-		return true;//not properly supported
-	}
-
 	public function file_exists($path) {
 		$this->init();
 		$path=$this->cleanPath($path);
@@ -242,6 +234,7 @@ class DAV extends \OC\Files\Storage\Common{
 		} else {
 			$this->file_put_contents($path, '');
 		}
+		return true;
 	}
 
 	public function getFile($path, $target) {
@@ -268,7 +261,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function rename($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -280,7 +273,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function copy($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -323,11 +316,9 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function cleanPath($path) {
-		if ( ! $path || $path[0]=='/') {
-			return substr($path, 1);
-		} else {
-			return $path;
-		}
+		$path = \OC\Files\Filesystem::normalizePath($path);
+		// remove leading slash
+		return substr($path, 1);
 	}
 
 	private function simpleResponse($method, $path, $body, $expected) {

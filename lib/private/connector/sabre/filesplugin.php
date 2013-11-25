@@ -78,6 +78,20 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	 * @throws Sabre_DAV_Exception_BadRequest
 	 */
 	public function sendFileIdHeader($filePath, Sabre_DAV_INode $node = null) {
+		// chunked upload handling
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			list($path, $name) = \Sabre_DAV_URLUtil::splitPath($filePath);
+			$info = OC_FileChunking::decodeName($name);
+			if (!empty($info)) {
+				$filePath = $path . '/' . $info['name'];
+			}
+		}
+
+		// we get the node for the given $filePath here because in case of afterCreateFile $node is the parent folder
+		if (!$this->server->tree->nodeExists($filePath)) {
+			return;
+		}
+		$node = $this->server->tree->getNodeForPath($filePath);
 		if ($node instanceof OC_Connector_Sabre_Node) {
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {

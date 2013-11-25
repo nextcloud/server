@@ -210,14 +210,6 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $return;
 	}
 
-	public function getMimeType($path) {
-		if($this->isReadable($path)) {
-			return \OC_Helper::getMimeType($this->buildPath($path));
-		}else{
-			return false;
-		}
-	}
-
 	private function delTree($dir, $isLogicPath=true) {
 		$dirRelative=$dir;
 		if ($isLogicPath) {

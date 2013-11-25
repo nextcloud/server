@@ -20,6 +20,10 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\TemplateResponse class
+ */
 
 namespace OCP\AppFramework\Http;
 
@@ -29,14 +33,34 @@ namespace OCP\AppFramework\Http;
  */
 class TemplateResponse extends Response {
 
+	/**
+	 * name of the template
+	 * @var string
+	 */
 	protected $templateName;
+
+	/**
+	 * parameters
+	 * @var array
+	 */
 	protected $params;
+
+	/**
+	 * rendering type (admin, user, blank)
+	 * @var string
+	 */
 	protected $renderAs;
+
+	/**
+	 * app name
+	 * @var string
+	 */
 	protected $appName;
 
 	/**
-	 * @param string $templateName the name of the template
+	 * constructor of TemplateResponse
 	 * @param string $appName the name of the app to load the template from
+	 * @param string $templateName the name of the template
 	 */
 	public function __construct($appName, $templateName) {
 		$this->templateName = $templateName;

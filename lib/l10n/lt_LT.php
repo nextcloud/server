@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Failai turi būti parsiunčiami vienas po kito.",
 "Back to Files" => "Atgal į Failus",
 "Selected files too large to generate zip file." => "Pasirinkti failai per dideli archyvavimui į ZIP.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Atsisiųskite failus mažesnėmis dalimis atskirai, arba mandagiai prašykite savo administratoriaus.",
 "No source specified when installing app" => "Nenurodytas šaltinis diegiant programą",
 "No href specified when installing app from http" => "Nenurodytas href diegiant programą iš http",
 "No path specified when installing app from local file" => "Nenurodytas kelias diegiant programą iš vietinio failo",

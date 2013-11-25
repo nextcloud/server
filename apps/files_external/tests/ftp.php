@@ -34,19 +34,19 @@ class FTP extends Storage {
 						  'password' => 'ftp',
 						  'root' => '/',
 						  'secure' => false );
-		$instance = new OC_Filestorage_FTP($config);
+		$instance = new \OC\Files\Storage\FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = true;
-		$instance = new OC_Filestorage_FTP($config);
+		$instance = new \OC\Files\Storage\FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'false';
-		$instance = new OC_Filestorage_FTP($config);
+		$instance = new \OC\Files\Storage\FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'true';
-		$instance = new OC_Filestorage_FTP($config);
+		$instance = new \OC\Files\Storage\FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 	}
 }

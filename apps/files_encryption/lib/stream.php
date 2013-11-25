@@ -250,7 +250,7 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->userId, $this->relPath);
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
@@ -491,7 +491,8 @@ class Stream {
 		if (
 				$this->meta['mode'] !== 'r' &&
 				$this->meta['mode'] !== 'rb' &&
-				$this->size > 0
+				$this->size > 0 &&
+				$this->unencryptedSize > 0
 		) {
 
 			// only write keyfiles if it was a new file

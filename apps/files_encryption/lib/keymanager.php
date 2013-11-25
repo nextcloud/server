@@ -172,14 +172,13 @@ class Keymanager {
 	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param \OC_FilesystemView $view
-	 * @param $userId
 	 * @param $filePath
 	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getFileKey(\OC_FilesystemView $view, $userId, $filePath) {
+	public static function getFileKey(\OC_FilesystemView $view, $filePath) {
 
 		$util = new Util($view, \OCP\User::getUser());
 

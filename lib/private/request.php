@@ -9,6 +9,7 @@
 class OC_Request {
 	/**
 	 * @brief Check overwrite condition
+	 * @param string $type
 	 * @returns bool
 	 */
 	private static function isOverwriteCondition($type = '') {
@@ -99,7 +100,7 @@ class OC_Request {
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
 		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
-			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -4));
+			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -strlen('lib/private/')));
 			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
 			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
 		}
@@ -135,7 +136,18 @@ class OC_Request {
 	 * @returns string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {
-		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		$requestUri = $_SERVER['REQUEST_URI'];
+		// remove too many leading slashes - can be caused by reverse proxy configuration
+		if (strpos($requestUri, '/') === 0) {
+			$requestUri = '/' . ltrim($requestUri, '/');
+		}
+
+		$scriptName = $_SERVER['SCRIPT_NAME'];
+		// in case uri and script name don't match we better throw an exception
+		if (strpos($requestUri, $scriptName) !== 0) {
+			throw new Exception("REQUEST_URI($requestUri) does not start with the SCRIPT_NAME($scriptName)");
+		}
+		$path_info = substr($requestUri, strlen($scriptName));
 		// Remove the query string from REQUEST_URI
 		if ($pos = strpos($path_info, '?')) {
 			$path_info = substr($path_info, 0, $pos);

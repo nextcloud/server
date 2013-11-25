@@ -146,14 +146,6 @@ class Dropbox extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function isReadable($path) {
-		return $this->file_exists($path);
-	}
-
-	public function isUpdatable($path) {
-		return $this->file_exists($path);
-	}
-
 	public function file_exists($path) {
 		if ($path == '' || $path == '/') {
 			return true;
@@ -277,7 +269,11 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
-		return false;
+		if ($this->file_exists($path)) {
+			return false;
+		} else {
+			$this->file_put_contents($path, '');
+		}
 	}
 
 }

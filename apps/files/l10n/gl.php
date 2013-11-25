@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Non se moveu %s - Xa existe un ficheiro con ese nome.",
+"Could not move %s - File with this name already exists" => "Non foi posíbel mover %s; Xa existe un ficheiro con ese nome.",
 "Could not move %s" => "Non foi posíbel mover %s",
 "File name cannot be empty." => "O nome de ficheiro non pode estar baleiro",
 "File name must not contain \"/\". Please choose a different name." => "O nome do ficheiro non pode conter «/». Escolla outro nome.",
@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Non foi posíbel renomear o ficheiro",
 "replaced {new_name} with {old_name}" => "substituír {new_name} por {old_name}",
 "undo" => "desfacer",
+"Error deleting file." => "Produciuse un erro ao eliminar o ficheiro.",
 "_%n folder_::_%n folders_" => array("%n cartafol","%n cartafoles"),
 "_%n file_::_%n files_" => array("%n ficheiro","%n ficheiros"),
 "{dirs} and {files}" => "{dirs} e {files}",

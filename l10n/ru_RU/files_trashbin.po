@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-19 08:26-0400\n"
-"PO-Revision-Date: 2013-10-18 09:31+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 07:50+0000\n"
 "Last-Translator: masensio <masensio@solidgear.es>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Error"
 msgstr "Ошибка"
 
-#: lib/trashbin.php:814 lib/trashbin.php:816
+#: lib/trashbin.php:815 lib/trashbin.php:817
 msgid "restored"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 
 #: templates/index.php:36 templates/index.php:37
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"

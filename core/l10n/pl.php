@@ -61,6 +61,7 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Błąd przy zmianie uprawnień",
 "Shared with you and the group {group} by {owner}" => "Udostępnione tobie i grupie {group} przez {owner}",
 "Shared with you by {owner}" => "Udostępnione tobie przez {owner}",
+"Share link" => "Udostępnij link",
 "Password protect" => "Zabezpiecz hasłem",
 "Password" => "Hasło",
 "Allow Public Upload" => "Pozwól na  publiczne wczytywanie",
@@ -74,6 +75,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Współdzielenie nie jest możliwe",
 "Shared in {item} with {user}" => "Współdzielone w {item} z {user}",
 "Unshare" => "Zatrzymaj współdzielenie",
+"notify by email" => "powiadom przez emaila",
 "can edit" => "może edytować",
 "access control" => "kontrola dostępu",
 "create" => "utwórz",
@@ -119,7 +121,6 @@ $TRANSLATIONS = array(
 "Error untagging" => "Błąd odtagowania",
 "Access forbidden" => "Dostęp zabroniony",
 "Cloud not found" => "Nie odnaleziono chmury",
-"The share will expire on %s.\n\n" => "Udostępnienie wygaśnie w dniu %s.\n\n",
 "Cheers!" => "Pozdrawiam!",
 "Security Warning" => "Ostrzeżenie o zabezpieczeniach",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Twója wersja PHP jest narażona na NULL Byte attack (CVE-2006-7243)",
@@ -152,7 +153,7 @@ $TRANSLATIONS = array(
 "Log in" => "Zaloguj",
 "Alternative Logins" => "Alternatywne loginy",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Cześć,<br><br>Informuję cię że %s udostępnia ci »%s«.\n<br><a href=\"%s\">Zobacz!</a><br><br>",
-"The share will expire on %s.<br><br>" => "Udostępnienie wygaśnie w dniu %s.<br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Aktualizowanie ownCloud do wersji %s. Może to trochę potrwać."
+"Updating ownCloud to version %s, this may take a while." => "Aktualizowanie ownCloud do wersji %s. Może to trochę potrwać.",
+"Thank you for your patience." => "Dziękuję za cierpliwość."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

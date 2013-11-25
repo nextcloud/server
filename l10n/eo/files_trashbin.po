@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 14:38-0500\n"
-"PO-Revision-Date: 2013-11-03 19:30+0000\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 07:44+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Ne povis restaŭriĝi %s"
 msgid "Error"
 msgstr "Eraro"
 
-#: lib/trashbin.php:814 lib/trashbin.php:816
+#: lib/trashbin.php:815 lib/trashbin.php:817
 msgid "restored"
 msgstr "restaŭrita"
 

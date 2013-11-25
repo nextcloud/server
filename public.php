@@ -5,6 +5,7 @@ try {
 
 	require_once 'lib/base.php';
 	OC::checkMaintenanceMode();
+	OC::checkSingleUserMode();
 	if (!isset($_GET['service'])) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
@@ -20,6 +21,7 @@ try {
 
 	OC_Util::checkAppEnabled($app);
 	OC_App::loadApp($app);
+	OC_User::setIncognitoMode(true);
 
 	require_once OC_App::getAppPath($app) .'/'. $parts[1];
 

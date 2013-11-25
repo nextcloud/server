@@ -569,8 +569,18 @@ var FileList={
 						FileList.updateEmptyContent();
 						Files.updateStorageStatistics();
 					} else {
+						if (result.status === 'error' && result.data.message) {
+							OC.Notification.show(result.data.message);
+						}
+						else {
+							OC.Notification.show(t('files', 'Error deleting file.'));
+						}
+						// hide notification after 10 sec
+						setTimeout(function() {
+							OC.Notification.hide();
+						}, 10000);
 						$.each(files,function(index,file) {
-							var deleteAction = $('tr[data-file="'+files[i]+'"]').children("td.date").children(".action.delete");
+							var deleteAction = $('tr[data-file="' + file + '"] .action.delete');
 							deleteAction.removeClass('progress-icon').addClass('delete-icon');
 						});
 					}
@@ -681,8 +691,9 @@ var FileList={
 		var $fileList = $('#fileList');
 		var permissions = $('#permissions').val();
 		var isCreatable = (permissions & OC.PERMISSION_CREATE) !== 0;
-		$('#emptycontent').toggleClass('hidden', !isCreatable || $fileList.find('tr').exists());
-		$('#filestable th').toggleClass('hidden', $fileList.find('tr').exists() === false);
+		var exists = $fileList.find('tr:first').exists();
+		$('#emptycontent').toggleClass('hidden', !isCreatable || exists);
+		$('#filestable th').toggleClass('hidden', !exists);
 	},
 	showMask: function() {
 		// in case one was shown before

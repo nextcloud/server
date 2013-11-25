@@ -121,7 +121,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Pääsy estetty",
 "Cloud not found" => "Pilveä ei löydy",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei sinä!\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
-"The share will expire on %s.\n\n" => "Jakaminen päättyy %s.\n\n",
+"The share will expire on %s." => "Jakaminen päättyy %s.",
 "Security Warning" => "Turvallisuusvaroitus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "PHP-asennuksesi on haavoittuvainen NULL Byte -hyökkäykselle (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Päivitä PHP-asennus varmistaaksesi, että %s on turvallinen käyttää.",
@@ -152,8 +152,9 @@ $TRANSLATIONS = array(
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
-"The share will expire on %s.<br><br>" => "Jakaminen päättyy %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
+"This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",
+"Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä.",
 "Thank you for your patience." => "Kiitos kärsivällisyydestäsi."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

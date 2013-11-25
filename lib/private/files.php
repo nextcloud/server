@@ -131,9 +131,11 @@ class OC_Files {
 				if ($filesize > -1) {
 					header("Content-Length: ".$filesize);
 				}
-				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
-				if ($storage instanceof \OC\Files\Storage\Local) {
-					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+				if ($xsendfile) {
+					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
+					if ($storage instanceof \OC\Files\Storage\Local) {
+						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+					}
 				}
 			}
 		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
@@ -251,7 +253,7 @@ class OC_Files {
 				header("HTTP/1.0 409 Conflict");
 				OC_Template::printErrorPage(
 						$l->t('Selected files too large to generate zip file.'),
-						$l->t('Download the files in smaller chunks, seperately or kindly ask your administrator.')
+						$l->t('Please download the files separately in smaller chunks or kindly ask your administrator.')
 						.'<br/><a href="javascript:history.back()">'
 						. $l->t('Back to Files') . '</a>'
 				);

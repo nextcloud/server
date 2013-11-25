@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Os ficheiros precisam de ser descarregados um por um.",
 "Back to Files" => "Voltar a Ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Descarregue os ficheiros em partes menores, separados ou peça gentilmente ao seu administrador.",
 "Archives of type %s are not supported" => "Arquivos do tipo %s não são suportados",
 "App does not provide an info.xml file" => "A aplicação não disponibiliza um ficheiro info.xml",
 "App can't be installed because of not allowed code in the App" => "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação",

@@ -178,11 +178,19 @@ class OC {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$defaults = new OC_Defaults();
-			OC_Template::printErrorPage(
-				"Can't write into config directory!",
-				'This can usually be fixed by '
-					.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
-			);
+			if (self::$CLI) {
+				echo "Can't write into config directory!\n";
+				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
+				echo "\n";
+				echo "See " . \OC_Helper::linkToDocs('admin-dir_permissions') . "\n";
+				exit;
+			} else {
+				OC_Template::printErrorPage(
+					"Can't write into config directory!",
+					'This can usually be fixed by '
+						.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
+				);
+			}
 		}
 	}
 
@@ -230,6 +238,22 @@ class OC {
 		}
 	}
 
+	public static function checkSingleUserMode() {
+		$user = OC_User::getUserSession()->getUser();
+		$group = OC_Group::getManager()->get('admin');
+		if ($user && OC_Config::getValue('singleuser', false) && !$group->inGroup($user)) {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
+			$tmpl = new OC_Template('', 'singleuser.user', 'guest');
+			$tmpl->printPage();
+			die();
+		}
+	}
+
 	public static function checkUpgrade($showTemplate = true) {
 		if (OC_Config::getValue('installed', false)) {
 			$installedVersion = OC_Config::getValue('version', '0.0.0');
@@ -241,7 +265,7 @@ class OC {
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
 					$minimizerJS->clearCache();
-					OC_Util::addscript('update');
+					OC_Util::addScript('update');
 					$tmpl = new OC_Template('', 'update.admin', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
@@ -480,7 +504,14 @@ class OC {
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
-			OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			if (self::$CLI) {
+				foreach ($errors as $error) {
+					echo $error['error']."\n";
+					echo $error['hint'] . "\n\n";
+				}
+			} else {
+				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			}
 			exit;
 		}
 
@@ -559,12 +590,6 @@ class OC {
 			}
 		}
 
-		// write error into log if locale can't be set
-		if (OC_Util::isSetLocaleWorking() == false) {
-			OC_Log::write('core',
-				'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system',
-				OC_Log::ERROR);
-		}
 		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
 				OC_Util::addScript('backgroundjobs');
@@ -658,11 +683,12 @@ class OC {
 		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		OC::tryBasicAuthLogin();
 
-		if (!self::$CLI) {
+		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
 					OC_App::loadApps();
 				}
+				self::checkSingleUserMode();
 				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {

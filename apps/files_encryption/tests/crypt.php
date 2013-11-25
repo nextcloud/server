@@ -176,7 +176,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($this->dataShort, $retreivedCryptedFile);
 
 		// Get the encrypted keyfile
-		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $this->userId, $filename);
+		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $filename);
 
 		// Attempt to fetch the user's shareKey
 		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
@@ -244,13 +244,13 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$i = 0;
 		while ($i < count($r)-1) {
 			$e[] = $r[$i] . $r[$i+1];
-			$i = $i + 2; 
+			$i = $i + 2;
 		}
 
 		//print_r($e);
 
 		// Get the encrypted keyfile
-		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $this->userId, $filename);
+		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $filename);
 
 		// Attempt to fetch the user's shareKey
 		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
@@ -387,7 +387,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 * @brief test decryption using legacy blowfish method
 	 */
 	function testLegacyDecryptShort() {
-		
+
 		$crypted = $this->legacyEncrypt($this->dataShort, $this->pass);
 
 		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
@@ -401,7 +401,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 * @brief test decryption using legacy blowfish method
 	 */
 	function testLegacyDecryptLong() {
-		
+
 		$crypted = $this->legacyEncrypt($this->dataLong, $this->pass);
 
 		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
@@ -653,8 +653,8 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// tear down
 		$view->unlink($filename);
 	}
-	
-	
+
+
 	/**
 	 * @brief encryption using legacy blowfish method
 	 * @param $data string data to encrypt

@@ -317,10 +317,6 @@ class Google extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function isReadable($path) {
-		return $this->file_exists($path);
-	}
-
 	public function isUpdatable($path) {
 		$file = $this->getDriveFile($path);
 		if ($file) {
