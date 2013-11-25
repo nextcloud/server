@@ -19,14 +19,14 @@ class Disable extends Command {
 			->setName('app:disable')
 			->setDescription('disable an app')
 			->addArgument(
-				'app_id',
+				'app-id',
 				InputArgument::REQUIRED,
 				'disable the specified app'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getArgument('app_id');
+		$appId = $input->getArgument('app-id');
 		if (\OC_App::isEnabled($appId)) {
 			\OC_App::disable($appId);
 			$output->writeln($appId . ' disabled');

@@ -19,14 +19,14 @@ class Enable extends Command {
 			->setName('app:enable')
 			->setDescription('enable an app')
 			->addArgument(
-				'app_id',
+				'app-id',
 				InputArgument::REQUIRED,
 				'enable the specified app'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getArgument('app_id');
+		$appId = $input->getArgument('app-id');
 		if (\OC_App::isEnabled($appId)) {
 			$output->writeln($appId . ' is already enabled');
 		} else if (!\OC_App::getAppPath($appId)) {
