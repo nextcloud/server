@@ -145,7 +145,7 @@ if($_['passwordChangeSupported']) {
 		<h2>
 			<?php p( $l->t( 'Encryption' ) ); ?>
 		</h2>
-		<?php p($l->t( "The encryption app is no longer enabled, decrypt all your file" )); ?>
+		<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
 		<p>
 			<input
 				type="password"
