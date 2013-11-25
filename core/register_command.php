@@ -12,3 +12,4 @@ $application->add(new OC\Core\Command\Db\GenerateChangeScript());
 $application->add(new OC\Core\Command\Upgrade());
 $application->add(new OC\Core\Command\App\Disable());
 $application->add(new OC\Core\Command\App\Enable());
+$application->add(new OC\Core\Command\App\ListApps());
