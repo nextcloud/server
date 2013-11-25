@@ -136,7 +136,10 @@ class OC_Request {
 	 * @returns string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {
-		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		$requestUri = $_SERVER['REQUEST_URI'];
+		// remove too many leading slashes - can be caused by reverse proxy configuration
+		$requestUri = '/' . ltrim($requestUri, '/');
+		$path_info = substr($requestUri, strlen($_SERVER['SCRIPT_NAME']));
 		// Remove the query string from REQUEST_URI
 		if ($pos = strpos($path_info, '?')) {
 			$path_info = substr($path_info, 0, $pos);
