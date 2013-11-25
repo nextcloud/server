@@ -17,7 +17,6 @@ $migrationCompleted = true;
 
 if ($user !== '' && $password !== '') {
 	if (\OCP\User::checkPassword($user, $password)) {
-		error_log("password ok");
 		$util = new Util(new \OC_FilesystemView('/'), $user);
 		if ($util->getMigrationStatus($user) !== Util::MIGRATION_COMPLETED) {
 			$migrationCompleted = false;
