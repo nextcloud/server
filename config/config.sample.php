@@ -235,4 +235,7 @@ $CONFIG = array(
 'openssl' => array(
 	//'config' => '/absolute/location/of/openssl.cnf',
 ),
+
+/* whether usage of the instance should be restricted to admin users only */
+'singleuser' => false,
 );
