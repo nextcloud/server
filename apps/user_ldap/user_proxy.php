@@ -54,6 +54,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	protected  function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
 		foreach($this->backends as $configPrefix => $backend) {
+// 			print("walkBackend '$configPrefix'<br/>");
 		    if($result = call_user_func_array(array($backend, $method), $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
@@ -67,16 +68,17 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * @param $uid string, the uid connected to the request
 	 * @param $method string, the method of the user backend that shall be called
 	 * @param $parameters an array of parameters to be passed
+	 * @param $passOnWhen the result matches this variable
 	 * @return mixed, the result of the method or false
 	 */
-	protected  function callOnLastSeenOn($uid, $method, $parameters) {
+	protected  function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
 		if(!is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
 				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
-				if(!$result) {
+				if($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
 					$userExists = call_user_func_array(
@@ -169,7 +171,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		return $this->handleRequest($uid, 'canChangeAvatar', array($uid));
+		return $this->handleRequest($uid, 'canChangeAvatar', array($uid), true);
 	}
 
 	/**
