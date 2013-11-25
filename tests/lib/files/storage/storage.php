@@ -139,6 +139,12 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->rename('/source.txt', '/target2.txt');
 		$this->assertTrue($this->instance->file_exists('/target2.txt'));
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target2.txt'));
+
+		// move to overwrite
+		$this->instance->rename('/target2.txt', '/target.txt');
+		$this->assertTrue($this->instance->file_exists('/target.txt'));
+		$this->assertFalse($this->instance->file_exists('/target2.txt'));
 		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
 	}
 
