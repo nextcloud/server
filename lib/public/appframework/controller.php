@@ -20,6 +20,10 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\Controller class
+ */
 
 namespace OCP\AppFramework;
 
@@ -34,16 +38,19 @@ use OCP\IRequest;
 abstract class Controller {
 
 	/**
+	 * app container for dependency injection
 	 * @var \OCP\AppFramework\IAppContainer
 	 */
 	protected $app;
 
 	/**
+	 * current request
 	 * @var \OCP\IRequest
 	 */
 	protected $request;
 
 	/**
+	 * constructor of the controller
 	 * @param IAppContainer $app interface to the app
 	 * @param IRequest $request an instance of the request
 	 */

@@ -64,7 +64,7 @@ interface IContainer {
 	 * In case the parameter is false the service will be recreated on every call.
 	 *
 	 * @param string $name
-	 * @param callable $closure
+	 * @param \Closure $closure
 	 * @param bool $shared
 	 * @return void
 	 */
