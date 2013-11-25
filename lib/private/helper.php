@@ -252,7 +252,7 @@ class OC_Helper {
 		if ($bytes < 1024) {
 			return "$bytes B";
 		}
-		$bytes = round($bytes / 1024, 1);
+		$bytes = round($bytes / 1024, 0);
 		if ($bytes < 1024) {
 			return "$bytes kB";
 		}
