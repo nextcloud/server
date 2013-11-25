@@ -269,7 +269,11 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
-		return false;
+		if ($this->file_exists($path)) {
+			return false;
+		} else {
+			$this->file_put_contents($path, '');
+		}
 	}
 
 }

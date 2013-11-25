@@ -561,7 +561,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;

@@ -178,11 +178,19 @@ class OC {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$defaults = new OC_Defaults();
-			OC_Template::printErrorPage(
-				"Can't write into config directory!",
-				'This can usually be fixed by '
-					.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
-			);
+			if (self::$CLI) {
+				echo "Can't write into config directory!\n";
+				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
+				echo "\n";
+				echo "See " . \OC_Helper::linkToDocs('admin-dir_permissions') . "\n";
+				exit;
+			} else {
+				OC_Template::printErrorPage(
+					"Can't write into config directory!",
+					'This can usually be fixed by '
+						.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
+				);
+			}
 		}
 	}
 
@@ -496,7 +504,14 @@ class OC {
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
-			OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			if (self::$CLI) {
+				foreach ($errors as $error) {
+					echo $error['error']."\n";
+					echo $error['hint'] . "\n\n";
+				}
+			} else {
+				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			}
 			exit;
 		}
 
