@@ -20,6 +20,10 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework/IApi interface
+ */
 
 namespace OCP\AppFramework;
 

@@ -20,6 +20,10 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\JSONResponse class
+ */
 
 namespace OCP\AppFramework\Http;
 
@@ -30,10 +34,15 @@ use OCP\AppFramework\Http;
  */
 class JSONResponse extends Response {
 
+	/**
+	 * response data
+	 * @var array|object
+	 */
 	protected $data;
 
 
 	/**
+	 * constructor of JSONResponse
 	 * @param array|object $data the object or array that should be transformed
 	 * @param int $statusCode the Http status code, defaults to 200
 	 */
@@ -55,7 +64,7 @@ class JSONResponse extends Response {
 
 	/**
 	 * Sets values in the data json array
-	 * @param array|object $params an array or object which will be transformed
+	 * @param array|object $data an array or object which will be transformed
 	 *                             to JSON
 	 */
 	public function setData($data){

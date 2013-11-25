@@ -37,6 +37,8 @@ class DB {
 	/**
 	 * Prepare a SQL query
 	 * @param string $query Query string
+	 * @param int $limit Limit of the SQL statement
+	 * @param int $offset Offset of the SQL statement
 	 * @return \MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!

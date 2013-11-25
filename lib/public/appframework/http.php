@@ -20,10 +20,16 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP class
+ */
 
 namespace OCP\AppFramework;
 
-
+/**
+ * Base class which contains constants for HTTP status codes
+ */
 class Http {
 
 	const STATUS_CONTINUE = 100;
