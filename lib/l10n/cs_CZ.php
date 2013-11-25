@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Soubory musí být stahovány jednotlivě.",
 "Back to Files" => "Zpět k souborům",
 "Selected files too large to generate zip file." => "Vybrané soubory jsou příliš velké pro vytvoření ZIP souboru.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stáhněte soubory po menších částech, samostatně, nebo se obraťte na správce.",
 "No source specified when installing app" => "Nebyl zadán zdroj při instalaci aplikace",
 "No href specified when installing app from http" => "Nebyl zadán odkaz pro instalaci aplikace z HTTP",
 "No path specified when installing app from local file" => "Nebyla zadána cesta pro instalaci aplikace z místního souboru",

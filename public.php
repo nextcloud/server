@@ -20,6 +20,7 @@ try {
 
 	OC_Util::checkAppEnabled($app);
 	OC_App::loadApp($app);
+	OC_User::setIncognitoMode(true);
 
 	require_once OC_App::getAppPath($app) .'/'. $parts[1];
 

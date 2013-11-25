@@ -142,7 +142,7 @@ class Updater {
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
 				if ($realPath !== '') {
 					$realPath = dirname($realPath);
-					if($realPath === '/') {
+					if($realPath === DIRECTORY_SEPARATOR ) {
 						$realPath = "";
 					}
 					// check storage for parent in case we change the storage in this step

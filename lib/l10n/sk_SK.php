@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Súbory musia byť nahrávané jeden za druhým.",
 "Back to Files" => "Späť na súbory",
 "Selected files too large to generate zip file." => "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Stiahnite súbory po menších častiach, samostatne, alebo sa obráťte na správcu.",
 "No source specified when installing app" => "Nešpecifikovaný zdroj pri inštalácii aplikácie",
 "No href specified when installing app from http" => "Nešpecifikovaný atribút \"href\" pri inštalácii aplikácie pomocou protokolu \"http\"",
 "No path specified when installing app from local file" => "Nešpecifikovaná cesta pri inštalácii aplikácie z lokálneho súboru",

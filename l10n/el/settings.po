@@ -8,14 +8,15 @@
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
+# vkehayas <vkehayas@gmail.com>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-23 18:10+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,11 +35,11 @@ msgstr "Σφάλμα πιστοποίησης"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Το πλήρες όνομά σας άλλαξε."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η αλλαγή του πλήρους ονόματός σας"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -242,7 +243,7 @@ msgstr ""
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Καίρια ζητήματα μόνο"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -255,7 +256,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Ο κατάλογος δεδομένων και τα αρχεία σας πιθανόν να είναι διαθέσιμα στο διαδίκτυο. Το αρχείο .htaccess δεν δουλεύει. Σας προτείνουμε ανεπιφύλακτα να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος δεδομένων να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο δεδομένων έξω από τη ρίζα του καταλόγου του διακομιστή."
 
 #: templates/admin.php:36
 msgid "Setup Warning"
@@ -287,18 +288,27 @@ msgid "Locale not working"
 msgstr "Η μετάφραση δεν δουλεύει"
 
 #: templates/admin.php:70
-#, php-format
-msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
+msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:82
+#: templates/admin.php:74
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr "Αυτό σημαίνει ότι μπορεί να υπάρχουν προβλήματα με κάποιους χαρακτήρες στα ονόματα αρχείων."
+
+#: templates/admin.php:78
+#, php-format
+msgid ""
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr "Συνιστούμε σοβαρά να εγκαταστήσετε τα απαιτούμενα πακέτα στο σύστημά σας ώστε να υποστηρίζεται μια από τις ακόλουθες ρυθμίσεις τοποθεσίας: %s."
+
+#: templates/admin.php:90
 msgid "Internet connection not working"
 msgstr "Η σύνδεση στο διαδίκτυο δεν δουλεύει"
 
-#: templates/admin.php:85
+#: templates/admin.php:93
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -307,118 +317,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:99
+#: templates/admin.php:107
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:106
+#: templates/admin.php:114
 msgid "Execute one task with each page loaded"
 msgstr "Εκτέλεση μιας διεργασίας με κάθε σελίδα που φορτώνεται"
 
-#: templates/admin.php:114
+#: templates/admin.php:122
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:122
+#: templates/admin.php:130
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:127
+#: templates/admin.php:135
 msgid "Sharing"
 msgstr "Διαμοιρασμός"
 
-#: templates/admin.php:133
+#: templates/admin.php:141
 msgid "Enable Share API"
 msgstr "Ενεργοποίηση API Διαμοιρασμού"
 
-#: templates/admin.php:134
+#: templates/admin.php:142
 msgid "Allow apps to use the Share API"
 msgstr "Να επιτρέπεται στις εφαρμογές να χρησιμοποιούν το API Διαμοιρασμού"
 
-#: templates/admin.php:141
+#: templates/admin.php:149
 msgid "Allow links"
 msgstr "Να επιτρέπονται σύνδεσμοι"
 
-#: templates/admin.php:142
+#: templates/admin.php:150
 msgid "Allow users to share items to the public with links"
 msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
 
-#: templates/admin.php:150
+#: templates/admin.php:158
 msgid "Allow public uploads"
-msgstr ""
-
-#: templates/admin.php:151
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Επιτρέψτε κοινόχρηστο ανέβασμα"
 
 #: templates/admin.php:159
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr "Επιτρέψτε στους χρήστες να καθιστούν άλλους χρήστες ικανούς να ανεβάζουν στους κοινόχρηστους φακέλους τους"
+
+#: templates/admin.php:167
 msgid "Allow resharing"
 msgstr "Να επιτρέπεται ο επαναδιαμοιρασμός"
 
-#: templates/admin.php:160
+#: templates/admin.php:168
 msgid "Allow users to share items shared with them again"
 msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
 
-#: templates/admin.php:167
+#: templates/admin.php:175
 msgid "Allow users to share with anyone"
 msgstr "Να επιτρέπεται ο διαμοιρασμός με οποιονδήποτε"
 
-#: templates/admin.php:170
+#: templates/admin.php:178
 msgid "Allow users to only share with users in their groups"
 msgstr "Να επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
 
-#: templates/admin.php:177
+#: templates/admin.php:185
 msgid "Allow mail notification"
 msgstr ""
 
-#: templates/admin.php:178
+#: templates/admin.php:186
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Επιτρέψτε στο χρήστη να στέλνει ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: templates/admin.php:198
+#: templates/admin.php:206
 msgid "Enforce HTTPS"
 msgstr "Επιβολή χρήσης HTTPS"
 
-#: templates/admin.php:200
+#: templates/admin.php:208
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:206
+#: templates/admin.php:214
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:218
+#: templates/admin.php:226
 msgid "Log"
 msgstr "Καταγραφές"
 
-#: templates/admin.php:219
+#: templates/admin.php:227
 msgid "Log level"
 msgstr "Επίπεδο καταγραφής"
 
-#: templates/admin.php:251
+#: templates/admin.php:259
 msgid "More"
 msgstr "Περισσότερα"
 
-#: templates/admin.php:252
+#: templates/admin.php:260
 msgid "Less"
 msgstr "Λιγότερα"
 
-#: templates/admin.php:258 templates/personal.php:169
+#: templates/admin.php:266 templates/personal.php:169
 msgid "Version"
 msgstr "Έκδοση"
 
-#: templates/admin.php:262 templates/personal.php:172
+#: templates/admin.php:270 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -511,7 +521,7 @@ msgstr "Αλλαγή συνθηματικού"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Πλήρες όνομα"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -586,7 +596,7 @@ msgstr "Συνθηματικό εισόδου"
 
 #: templates/personal.php:159
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Αποκρυπτογράφηση όλων των Αρχείων"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -612,7 +622,7 @@ msgstr "Προκαθορισμένη Αποθήκευση "
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Παρακαλώ εισάγετε επιτρεπόμενα μερίδια αποθηκευτικού χώρου (π.χ. \"512 MB\"  ή \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -632,7 +642,7 @@ msgstr "Αποθήκευση"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "αλλαγή πλήρους ονόματος"
 
 #: templates/users.php:112
 msgid "set new password"

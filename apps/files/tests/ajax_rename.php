@@ -22,9 +22,18 @@
  */
 
 class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
+	private static $user;
 
 	function setUp() {
 		// mock OC_L10n
+		if (!self::$user) {
+			self::$user = uniqid();
+		}
+		\OC_User::createUser(self::$user, 'password');
+		\OC_User::setUserId(self::$user);
+
+		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
+
 		$l10nMock = $this->getMock('\OC_L10N', array('t'), array(), '', false);
 		$l10nMock->expects($this->any())
 			->method('t')
@@ -37,6 +46,12 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 			->method('rename')
 			->will($this->returnValue(true));
 		$this->files = new \OCA\Files\App($viewMock, $l10nMock);
+	}
+
+	function tearDown() {
+		$result = \OC_User::deleteUser(self::$user);
+		$this->assertTrue($result);
+		\OC\Files\Filesystem::tearDown();
 	}
 
 	/**

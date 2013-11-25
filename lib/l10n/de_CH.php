@@ -14,7 +14,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Die Dateien müssen einzeln heruntergeladen werden.",
 "Back to Files" => "Zurück zu \"Dateien\"",
 "Selected files too large to generate zip file." => "Die gewählten Dateien sind zu gross, um eine ZIP-Datei zu erstellen.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Laden Sie die Dateien in kleineren, separaten, Stücken herunter oder bitten Sie Ihren Administrator.",
 "App can't be installed because of not allowed code in the App" => "Anwendung kann wegen nicht erlaubten Codes nicht installiert werden",
 "App directory already exists" => "Anwendungsverzeichnis existiert bereits",
 "Application is not enabled" => "Die Anwendung ist nicht aktiviert",

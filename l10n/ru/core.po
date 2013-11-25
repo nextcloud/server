@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: vsapronov <vladimir.sapronov@gmail.com>\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -296,12 +296,12 @@ msgstr "Общие"
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
-#: js/share.js:704
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/share.js:160 js/share.js:732
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Ошибка при открытии доступа"
 
@@ -321,115 +321,115 @@ msgstr "{owner} открыл доступ для Вас и группы {group} 
 msgid "Shared with you by {owner}"
 msgstr "{owner} открыл доступ для Вас"
 
-#: js/share.js:212
+#: js/share.js:213
 msgid "Share with user or group …"
 msgstr "Поделиться с пользователем или группой..."
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Share link"
 msgstr "Поделиться ссылкой"
 
-#: js/share.js:221
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:223 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Пароль"
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "Разрешить открытую загрузку"
 
-#: js/share.js:232
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "Почтовая ссылка на персону"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Send"
 msgstr "Отправить"
 
-#: js/share.js:238
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Установить срок доступа"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Дата окончания"
 
-#: js/share.js:274
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Поделится через электронную почту:"
 
-#: js/share.js:277
+#: js/share.js:278
 msgid "No people found"
 msgstr "Ни один человек не найден"
 
-#: js/share.js:307 js/share.js:344
+#: js/share.js:322 js/share.js:359
 msgid "group"
 msgstr "группа"
 
-#: js/share.js:318
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Общий доступ не разрешен"
 
-#: js/share.js:360
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Общий доступ к {item} с {user}"
 
-#: js/share.js:382
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Закрыть общий доступ"
 
-#: js/share.js:390
+#: js/share.js:405
 msgid "notify by email"
 msgstr "уведомить по почте"
 
-#: js/share.js:393
+#: js/share.js:408
 msgid "can edit"
 msgstr "может редактировать"
 
-#: js/share.js:395
+#: js/share.js:410
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:398
+#: js/share.js:413
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:401
+#: js/share.js:416
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:404
+#: js/share.js:419
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:407
+#: js/share.js:422
 msgid "share"
 msgstr "открыть доступ"
 
-#: js/share.js:449 js/share.js:679
+#: js/share.js:464 js/share.js:694
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:692
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:704
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
-#: js/share.js:719
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Отправляется ..."
 
-#: js/share.js:730
+#: js/share.js:745
 msgid "Email sent"
 msgstr "Письмо отправлено"
 
-#: js/share.js:754
+#: js/share.js:769
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -599,14 +599,12 @@ msgid ""
 "\n"
 msgstr "Здравствуйте,\n\nпросто даём вам знать, что %s расшарил %s для вас.\nПосмотреть: %s\n\n"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:4 templates/mail.php:17
 #, php-format
-msgid ""
-"The share will expire on %s.\n"
-"\n"
-msgstr "Шара закончится %s\n\n"
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/altmail.php:6 templates/mail.php:19
+#: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr "Приветствуем!"
 
@@ -753,11 +751,6 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Здравствуйте,<br><br>просто даём вам знать, что %s расшарил %s для вас.<br><a href=\"%s\">Посмотреть!</a><br><br>"
 
-#: templates/mail.php:17
-#, php-format
-msgid "The share will expire on %s.<br><br>"
-msgstr "Шара закончится %s.<br><br>"
-
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -770,7 +763,7 @@ msgstr "Производится обновление ownCloud, это може�
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr "Перезагрузите эту страницу через короткое время чтобы продолжить использовать ownCloud."
+msgstr "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud."
 
 #: templates/update.user.php:5
 msgid ""
@@ -780,4 +773,4 @@ msgstr "Обратитесь к вашему системному админис
 
 #: templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr "Спасибо за ваше терпение."
+msgstr "Спасибо за терпение."

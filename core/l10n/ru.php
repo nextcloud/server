@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Доступ запрещён",
 "Cloud not found" => "Облако не найдено",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Здравствуйте,\n\nпросто даём вам знать, что %s расшарил %s для вас.\nПосмотреть: %s\n\n",
-"The share will expire on %s.\n\n" => "Шара закончится %s\n\n",
 "Cheers!" => "Приветствуем!",
 "Security Warning" => "Предупреждение безопасности",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Ваша версия PHP уязвима к атаке NULL Byte (CVE-2006-7243)",
@@ -165,11 +164,10 @@ $TRANSLATIONS = array(
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Здравствуйте,<br><br>просто даём вам знать, что %s расшарил %s для вас.<br><a href=\"%s\">Посмотреть!</a><br><br>",
-"The share will expire on %s.<br><br>" => "Шара закончится %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время.",
 "This ownCloud instance is currently being updated, which may take a while." => "Производится обновление ownCloud, это может занять некоторое время.",
-"Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через короткое время чтобы продолжить использовать ownCloud.",
+"Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
-"Thank you for your patience." => "Спасибо за ваше терпение."
+"Thank you for your patience." => "Спасибо за терпение."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

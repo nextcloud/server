@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-09 01:44-0500\n"
-"PO-Revision-Date: 2013-11-07 08:41+0000\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-21 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uzbek (http://www.transifex.com/projects/p/owncloud/language/uz/)\n"
 "MIME-Version: 1.0\n"
@@ -155,11 +155,11 @@ msgstr ""
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:523 js/filelist.js:371
+#: js/file-upload.js:523 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:525 js/filelist.js:373
+#: js/file-upload.js:525 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr ""
 
@@ -183,37 +183,41 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:857
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:873
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:399
+#: js/filelist.js:405
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:578 js/filelist.js:652 js/files.js:631
+#: js/filelist.js:576
+msgid "Error deleting file."
+msgstr ""
+
+#: js/filelist.js:594 js/filelist.js:668 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:579 js/filelist.js:653 js/files.js:637
+#: js/filelist.js:595 js/filelist.js:669 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 
-#: js/filelist.js:586
+#: js/filelist.js:602
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: js/filelist.js:796 js/filelist.js:834
+#: js/filelist.js:812 js/filelist.js:850
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""

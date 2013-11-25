@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
+"Could not move %s - File with this name already exists" => "%s taşınamadı - Bu isimde dosya zaten var",
 "Could not move %s" => "%s taşınamadı",
 "File name cannot be empty." => "Dosya adı boş olamaz.",
 "File name must not contain \"/\". Please choose a different name." => "Dosya adı \"/\" içermemelidir. Lütfen farklı bir isim seçin.",
@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Dosya adlandırılamadı",
 "replaced {new_name} with {old_name}" => "{new_name} ismi {old_name} ile değiştirildi",
 "undo" => "geri al",
+"Error deleting file." => "Dosya silinirken hata.",
 "_%n folder_::_%n folders_" => array("%n dizin","%n dizin"),
 "_%n file_::_%n files_" => array("%n dosya","%n dosya"),
 "{dirs} and {files}" => "{dirs} ve {files}",

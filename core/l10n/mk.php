@@ -115,7 +115,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Забранет пристап",
 "Cloud not found" => "Облакот не е најден",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Здраво,\n\nСамо да ве известам дека  %s shared %s with you.\nView it: %s\n\n",
-"The share will expire on %s.\n\n" => "Споделувањето ќе заврши на %s.\n\n",
 "Cheers!" => "Поздрав!",
 "Security Warning" => "Безбедносно предупредување",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Вашата верзија на PHP е ранлива на NULL Byte attack (CVE-2006-7243)",

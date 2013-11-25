@@ -129,7 +129,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Přístup zakázán",
 "Cloud not found" => "Cloud nebyl nalezen",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
-"The share will expire on %s.\n\n" => "Sdílení expiruje %s.\n\n",
 "Cheers!" => "Ať slouží!",
 "Security Warning" => "Bezpečnostní upozornění",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Verze vašeho PHP je napadnutelná pomocí techniky \"NULL Byte\" (CVE-2006-7243)",
@@ -162,7 +161,6 @@ $TRANSLATIONS = array(
 "Log in" => "Přihlásit",
 "Alternative Logins" => "Alternativní přihlášení",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej ty tam,<br><br>jen ti chci dát vědět, že %s sdílel »%s« s tebou.<br><a href=\"%s\">Zobrazit!</a><br><br>",
-"The share will expire on %s.<br><br>" => "Sdílení expiruje %s.<br><br>",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";
