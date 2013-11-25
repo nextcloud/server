@@ -10,3 +10,4 @@
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Db\GenerateChangeScript());
 $application->add(new OC\Core\Command\Upgrade());
+$application->add(new OC\Core\Command\Maintenance\SingleUser());
