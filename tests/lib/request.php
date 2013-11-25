@@ -39,8 +39,30 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 
 	function rawPathInfoProvider() {
 		return array(
+			array('/core/ajax/translations.php', 'index.php/core/ajax/translations.php', 'index.php'),
 			array('/core/ajax/translations.php', '/index.php/core/ajax/translations.php', '/index.php'),
 			array('/core/ajax/translations.php', '//index.php/core/ajax/translations.php', '/index.php'),
+		);
+	}
+
+	/**
+	 * @dataProvider rawPathInfoThrowsExceptionProvider
+	 * @expectedException Exception
+	 *
+	 * @param $requestUri
+	 * @param $scriptName
+	 */
+	public function testRawPathInfoThrowsException($requestUri, $scriptName) {
+		$_SERVER['REQUEST_URI'] = $requestUri;
+		$_SERVER['SCRIPT_NAME'] = $scriptName;
+		OC_Request::getRawPathInfo();
+	}
+
+	function rawPathInfoThrowsExceptionProvider() {
+		return array(
+			array('core/ajax/translations.php', '/index.php'),
+			array('/core/ajax/translations.php', '/index.php'),
+			array('//core/ajax/translations.php', '/index.php'),
 		);
 	}
 }

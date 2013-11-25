@@ -138,8 +138,16 @@ class OC_Request {
 	public static function getRawPathInfo() {
 		$requestUri = $_SERVER['REQUEST_URI'];
 		// remove too many leading slashes - can be caused by reverse proxy configuration
-		$requestUri = '/' . ltrim($requestUri, '/');
-		$path_info = substr($requestUri, strlen($_SERVER['SCRIPT_NAME']));
+		if (strpos($requestUri, '/') === 0) {
+			$requestUri = '/' . ltrim($requestUri, '/');
+		}
+
+		$scriptName = $_SERVER['SCRIPT_NAME'];
+		// in case uri and script name don't match we better throw an exception
+		if (strpos($requestUri, $scriptName) !== 0) {
+			throw new Exception("REQUEST_URI($requestUri) does not start with the SCRIPT_NAME($scriptName)");
+		}
+		$path_info = substr($requestUri, strlen($scriptName));
 		// Remove the query string from REQUEST_URI
 		if ($pos = strpos($path_info, '?')) {
 			$path_info = substr($path_info, 0, $pos);
