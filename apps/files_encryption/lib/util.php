@@ -1253,16 +1253,22 @@ class Util {
 
 	/**
 	 * @brief check if files are already migrated to the encryption system
+	 * @param string $uid user Id
 	 * @return migration status, false = in case of no record
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
-	public function getMigrationStatus() {
+	public function getMigrationStatus($uid = null) {
+
+		if($uid && \OCP\User::userExists($uid)) {
+			$userId = $uid;
+		} else {
+			$userId = $this->uid;
+		}
 
 		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
-		$args = array($this->userId);
-
+		$args = array($userId);
 		$query = \OCP\DB::prepare($sql);
 
 		$result = $query->execute($args);
@@ -1282,11 +1288,11 @@ class Util {
 
 		// If no record is found
 		if (empty($migrationStatus)) {
-			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $userId . ", no record found", \OCP\Util::ERROR);
 			// insert missing entry in DB with status open
 			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
 			$args = array(
-				$this->userId,
+				$userId,
 				'server-side',
 				0,
 				self::MIGRATION_OPEN
