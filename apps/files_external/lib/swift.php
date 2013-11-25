@@ -364,7 +364,7 @@ class Swift extends \OC\Files\Storage\Common {
 					'X-Object-Meta-Timestamp' => $mtime
 				)
 			);
-			$object->Update($settings);
+			return $object->Update($settings);
 		} else {
 			$object = $this->container->DataObject();
 			if (is_null($mtime)) {
@@ -377,7 +377,7 @@ class Swift extends \OC\Files\Storage\Common {
 					'X-Object-Meta-Timestamp' => $mtime
 				)
 			);
-			$object->Create($settings);
+			return $object->Create($settings);
 		}
 	}
 

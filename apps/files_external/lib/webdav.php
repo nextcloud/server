@@ -234,6 +234,7 @@ class DAV extends \OC\Files\Storage\Common{
 		} else {
 			$this->file_put_contents($path, '');
 		}
+		return true;
 	}
 
 	public function getFile($path, $target) {
