@@ -44,7 +44,10 @@ class App {
 	 * @param string $methodName the method that you want to call
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
-	public static function main($controllerName, $methodName, IAppContainer $container) {
+	public static function main($controllerName, $methodName, DIContainer $container, array $urlParams = null) {
+		if (!is_null($urlParams)) {
+			$container['urlParams'] = $urlParams;
+		}
 		$controller = $container[$controllerName];
 
 		// initialize the dispatcher and run all the middleware before the controller

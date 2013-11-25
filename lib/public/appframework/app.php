@@ -21,6 +21,7 @@
  */
 
 namespace OCP\AppFramework;
+use OC\AppFramework\routing\RouteConfig;
 
 
 /**
@@ -45,6 +46,16 @@ class App {
 	 */
 	public function getContainer() {
 		return $this->container;
+	}
+
+	/**
+	 * This function is to be called
+	 * @param \OC_Router $router
+	 * @param array $routes
+	 */
+	public function registerRoutes($router, $routes) {
+		$routeConfig = new RouteConfig($this->container, $router, $routes);
+		$routeConfig->register();
 	}
 
 	/**
