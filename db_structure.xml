@@ -496,6 +496,9 @@
 		Stores which groups have which users as admins in an n:m relationship.
 		 - Maps group id (gid) to a set of users (uid)
 		 - Maps user id (uid) to a set of groups (gid)
+
+		NOTE: This could (very likely) be reduced to a single bit in group_user
+		      instead of repeating varchars gid and uid here
 		-->
 		<name>*dbprefix*group_admin</name>
 
