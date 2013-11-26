@@ -783,7 +783,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		Shares of all types (user-to-user, external-via-link, etc.)
+		-->
 		<name>*dbprefix*share</name>
 
 		<declaration>
@@ -797,6 +799,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Constant OCP\Share::SHARE_TYPE_* -->
 			<field>
 				<name>share_type</name>
 				<type>integer</type>
@@ -805,6 +808,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Foreign Key users::uid or NULL -->
 			<field>
 				<name>share_with</name>
 				<type>text</type>
@@ -813,6 +817,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
@@ -821,6 +826,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key share::id or NULL -->
 			<field>
 				<name>parent</name>
 				<type>integer</type>
@@ -828,6 +834,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- E.g. file or folder -->
 			<field>
 				<name>item_type</name>
 				<type>text</type>
@@ -836,6 +843,7 @@
 				<length>64</length>
 			</field>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>item_source</name>
 				<type>text</type>
@@ -852,6 +860,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>file_source</name>
 				<type>integer</type>
@@ -867,6 +876,7 @@
 				<length>512</length>
 			</field>
 
+			<!-- Permission bitfield -->
 			<field>
 				<name>permissions</name>
 				<type>integer</type>
@@ -875,6 +885,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Time of share creation -->
 			<field>
 				<name>stime</name>
 				<type>integer</type>
@@ -883,6 +894,7 @@
 				<length>8</length>
 			</field>
 
+			<!-- Whether the receiver accepted the share, if share_with is set. -->
 			<field>
 				<name>accepted</name>
 				<type>integer</type>
@@ -891,6 +903,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Time of share expiration -->
 			<field>
 				<name>expiration</name>
 				<type>timestamp</type>
