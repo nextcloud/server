@@ -302,6 +302,7 @@ class smb {
 	}
 
 	function rename ($url_from, $url_to) {
+		$replace = false;
 		list ($from, $to) = array (smb::parse_url($url_from), smb::parse_url($url_to));
 		if ($from['host'] <> $to['host'] ||
 			$from['share'] <> $to['share'] ||
@@ -314,7 +315,20 @@ class smb {
 			trigger_error('rename(): error in URL', E_USER_ERROR);
 		}
 		smb::clearstatcache ($url_from);
-		$result = smb::execute ('rename "'.$from['path'].'" "'.$to['path'].'"', $to);
+		$cmd = '';
+		// check if target file exists
+		if (smb::url_stat($url_to)) {
+			// delete target file first
+			$cmd = 'del "' . $to['path'] . '"; ';
+			$replace = true;
+		}
+		$cmd .= 'rename "' . $from['path'] . '" "' . $to['path'] . '"';
+		$result = smb::execute($cmd, $to);
+		if ($replace) {
+			// clear again, else the cache will return the info
+			// from the old file
+			smb::clearstatcache ($url_to);
+		}
 		return $result !== false;
 	}
 
