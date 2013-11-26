@@ -823,10 +823,9 @@ class Share {
 					$date = null;
 				} else {
 					$date = new \DateTime($date);
-					$date = date('Y-m-d H:i', $date->format('U') - $date->getOffset());
 				}
 				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
-				$query->bindValue(1, $date);
+				$query->bindValue(1, $date, 'datetime');
 				foreach ($items as $item) {
 					$query->bindValue(2, (int) $item['id']);
 					$query->execute();
