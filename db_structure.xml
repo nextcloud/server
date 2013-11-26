@@ -9,6 +9,11 @@
 
 	<table>
 
+		<!--
+		Namespaced Key-Value Store for Application Configuration.
+		- Keys are namespaced per appid.
+		- E.g. (core, global_cache_gc_lastrun) -> 1385463286
+		-->
 		<name>*dbprefix*appconfig</name>
 
 		<declaration>
