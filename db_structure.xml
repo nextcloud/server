@@ -659,11 +659,16 @@
 	</table>
 
 	<table>
-
+		<!--
+		Namespaced Key-Value Store for User Preferences
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, cache_version) -> 5
+		-->
 		<name>*dbprefix*preferences</name>
 
 		<declaration>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
