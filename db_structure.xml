@@ -210,7 +210,16 @@
 	</table>
 
 	<table>
-
+		<!--
+		Main file table containing one row for each directory and file.
+		 - Assigns a unique integer fileid to each file (and directory)
+		 - Assigns an etag to each file (and directory)
+		 - Caches various file/dir properties such as:
+		  - path (filename, e.g. files/combinatoricslib-2.0_doc.zip)
+		  - path_hash = md5(path)
+		  - name (basename, e.g. combinatoricslib-2.0_doc.zip)
+		  - size (for directories this is the sum of all contained file sizes)
+		-->
 		<name>*dbprefix*filecache</name>
 
 		<declaration>
@@ -224,6 +233,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key *dbprefix*storages::numeric_id -->
 			<field>
 				<name>storage</name>
 				<type>integer</type>
@@ -248,6 +258,7 @@
 				<length>32</length>
 			</field>
 
+			<!-- Foreign Key *dbprefix*filecache::fileid -->
 			<field>
 				<name>parent</name>
 				<type>integer</type>
@@ -264,6 +275,7 @@
 				<length>250</length>
 			</field>
 
+			<!-- Foreign Key *dbprefix*mimetypes::id -->
 			<field>
 				<name>mimetype</name>
 				<type>integer</type>
@@ -272,6 +284,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key *dbprefix*mimetypes::id -->
 			<field>
 				<name>mimepart</name>
 				<type>integer</type>
