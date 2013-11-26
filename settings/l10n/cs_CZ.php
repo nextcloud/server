@@ -120,7 +120,6 @@ $TRANSLATIONS = array(
 "Help translate" => "Pomoci s překladem",
 "WebDAV" => "WebDAV",
 "Encryption" => "Šifrování",
-"The encryption app is no longer enabled, decrypt all your file" => "Šifrovací aplikace již není zapnuta, odšifrujte všechny své soubory",
 "Log-in password" => "Přihlašovací heslo",
 "Decrypt all Files" => "Odšifrovat všechny soubory",
 "Login Name" => "Přihlašovací jméno",

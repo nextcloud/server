@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -679,7 +679,7 @@ msgstr "即將完成…"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 已經釋出，瞭解更多資訊以進行更新。"
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "登出"
 
@@ -728,6 +728,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "嗨，<br><br>%s 和你分享了 %s ，到<a href=\"%s\">這裡</a>看它<br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "若這個訊息持續出現，請聯絡系統管理員"
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "感謝您的耐心"
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -741,13 +759,3 @@ msgstr "ownCloud 正在升級，請稍待一會。"
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "請稍後重新載入這個頁面就可以繼續使用 ownCloud"
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "若這個訊息持續出現，請聯絡系統管理員"
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "感謝您的耐心"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -589,7 +589,7 @@ msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\n
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Utdelningen kommer att upphöra %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -689,7 +689,7 @@ msgstr "Avslutar ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Logga ut"
 
@@ -738,6 +738,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Tack för ditt tålamod."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -751,13 +769,3 @@ msgstr "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag.
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Var god och ladda om denna sida efter en kort stund för att fortsätta använda ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Tack för ditt tålamod."

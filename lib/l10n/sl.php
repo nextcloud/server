@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"No app name specified" => "Ni podanega imena programa",
 "Help" => "Pomoč",
 "Personal" => "Osebno",
 "Settings" => "Nastavitve",
@@ -14,6 +15,10 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Datoteke je mogoče prejeti le posamično.",
 "Back to Files" => "Nazaj na datoteke",
 "Selected files too large to generate zip file." => "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip.",
+"No source specified when installing app" => "Ni podanega vira med nameščenjem programa",
+"No href specified when installing app from http" => "Ni podanega podatka naslova HREF med nameščenjem programa preko protokola HTTP.",
+"No path specified when installing app from local file" => "Ni podane poti med nameščenjem programa iz krajevne datoteke",
+"Archives of type %s are not supported" => "Arhivi vrste %s niso podprti",
 "App directory already exists" => "Programska mapa že obstaja",
 "Application is not enabled" => "Program ni omogočen",
 "Authentication error" => "Napaka overjanja",

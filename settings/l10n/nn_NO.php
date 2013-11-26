@@ -112,7 +112,6 @@ $TRANSLATIONS = array(
 "Help translate" => "Hjelp oss å omsetja",
 "WebDAV" => "WebDAV",
 "Encryption" => "Kryptering",
-"The encryption app is no longer enabled, decrypt all your file" => "Krypteringsprogrammet er ikkje lenger slått på, dekrypter alle filene dine",
 "Log-in password" => "Innloggingspassord",
 "Decrypt all Files" => "Dekrypter alle filene",
 "Login Name" => "Innloggingsnamn",

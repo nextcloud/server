@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -163,7 +163,7 @@ msgstr "업데이트됨"
 msgid "Select a profile picture"
 msgstr "프로필 사진 선택"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "파일 해독중... 잠시만 기다려주세요, 시간이 걸릴수 있습니다."
 
@@ -582,7 +582,7 @@ msgid "Encryption"
 msgstr "암호화"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
 #: templates/personal.php:154

@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -694,7 +694,7 @@ msgstr "Finalizando..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Salir"
 
@@ -743,6 +743,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Gracias por su paciencia."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -756,13 +774,3 @@ msgstr "Esta versión de owncloud se está actualizando, esto puede demorar un t
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Por favor , recargue esta instancia de onwcloud tras un corto periodo de tiempo y continue usándolo."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Gracias por su paciencia."

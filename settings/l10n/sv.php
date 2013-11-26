@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan inte ladda listan från App Store",
 "Authentication error" => "Fel vid autentisering",
+"Unable to change full name" => "Kunde inte ändra hela namnet",
 "Group already exists" => "Gruppen finns redan",
 "Unable to add group" => "Kan inte lägga till grupp",
 "Email saved" => "E-post sparad",
@@ -103,6 +104,7 @@ $TRANSLATIONS = array(
 "Current password" => "Nuvarande lösenord",
 "New password" => "Nytt lösenord",
 "Change password" => "Ändra lösenord",
+"Full Name" => "Hela namnet",
 "Email" => "E-post",
 "Your email address" => "Din e-postadress",
 "Fill in an email address to enable password recovery" => "Fyll i en e-postadress för att aktivera återställning av lösenord",
@@ -118,7 +120,6 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Använd denna adress till <a href=\"%s\" target=\"_blank\">nå dina Filer via WebDAV</a>",
 "Encryption" => "Kryptering",
-"The encryption app is no longer enabled, decrypt all your file" => "Appen för kryptering är inte längre aktiverad, dekryptera alla dina filer",
 "Log-in password" => "Inloggningslösenord",
 "Decrypt all Files" => "Dekryptera alla filer",
 "Login Name" => "Inloggningsnamn",
@@ -130,6 +131,7 @@ $TRANSLATIONS = array(
 "Other" => "Annat",
 "Username" => "Användarnamn",
 "Storage" => "Lagring",
+"change full name" => "ändra hela namnet",
 "set new password" => "ange nytt lösenord",
 "Default" => "Förvald"
 );

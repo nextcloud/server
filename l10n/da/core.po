@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -687,7 +687,7 @@ msgstr "Færdigbehandling ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s er tilgængelig. Få mere information om, hvordan du opdaterer."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Log ud"
 
@@ -736,6 +736,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hej med dig,<br><br>Dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det her!</a><br><br>Hej"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Tak for din tålmodighed."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -749,13 +767,3 @@ msgstr "Opdatere Owncloud, dette kan tage et stykke tid."
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Tak for din tålmodighed."

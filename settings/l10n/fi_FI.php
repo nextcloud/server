@@ -115,7 +115,6 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",
 "Encryption" => "Salaus",
-"The encryption app is no longer enabled, decrypt all your file" => "Salaussovellus ei ole enää käytössä, pura kaikkien tiedostojesi salaus",
 "Decrypt all Files" => "Pura kaikkien tiedostojen salaus",
 "Login Name" => "Kirjautumisnimi",
 "Create" => "Luo",

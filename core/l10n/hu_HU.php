@@ -164,10 +164,10 @@ $TRANSLATIONS = array(
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Szia!<br><br>Értesítünk, hogy %s megosztotta veled a következőt: »%s«.<br><a href=\"%s\">Ide kattintva tudod megnézni</a><br><br>",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Ha ezt az üzenetet már többször látod akkor keresd meg a rendszer adminját.",
+"Thank you for your patience." => "Köszönjük a türelmét.",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet.",
 "This ownCloud instance is currently being updated, which may take a while." => "Az Owncloud frissítés elezdődött, eltarthat egy ideig.",
-"Please reload this page after a short time to continue using ownCloud." => "Frissitsd az oldalt ha \"Please reload this page after a short time to continue using ownCloud. \"",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Ha ezt az üzenetet már többször látod akkor keresd meg a rendszer adminját.",
-"Thank you for your patience." => "Köszönjük a türelmét."
+"Please reload this page after a short time to continue using ownCloud." => "Frissitsd az oldalt ha \"Please reload this page after a short time to continue using ownCloud. \""
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

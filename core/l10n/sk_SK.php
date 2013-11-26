@@ -163,9 +163,9 @@ $TRANSLATIONS = array(
 "Log in" => "Prihlásiť sa",
 "Alternative Logins" => "Alternatívne prihlásenie",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ahoj,<br><br>chcem ti dať navedomie, že %s zdieľa »%s« s tebou.<br><a href=\"%s\">Zobrazenie tu!</a><br><br>",
+"Thank you for your patience." => "Ďakujeme za Vašu trpezlivosť.",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať.",
 "This ownCloud instance is currently being updated, which may take a while." => "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas trvať.",
-"Please reload this page after a short time to continue using ownCloud." => "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní.",
-"Thank you for your patience." => "Ďakujeme za Vašu trpezlivosť."
+"Please reload this page after a short time to continue using ownCloud." => "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

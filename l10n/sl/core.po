@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -694,7 +694,7 @@ msgstr "Poteka zaključevanje opravila ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odjava"
 
@@ -743,6 +743,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Pozdravljeni,<br><br>oseba %s vam je omogočila souporabo %s.<br>Vir si lahko ogledate na <a href=\"%s\">tem naslovu</a>.<br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Hvala za potrpežljivost!"
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -756,13 +774,3 @@ msgstr "Nastavitev oblaka ownCloud se trenutno posodablja. Opravilo je lahko dol
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Ponovno naložite to stran po krajšem preteku časa in nadaljujte z uporabo oblaka ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Hvala za potrpežljivost!"

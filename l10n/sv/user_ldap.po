@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-24 19:30+0000\n"
+"Last-Translator: kallemooo <karl.h.thoren@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "Konfigurationen är riktig, men Bind felade. Var vänlig och kontrollera
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "Inställningen är ogiltig. Vänligen se ownCloud-loggen för fler detaljer."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
@@ -95,15 +95,15 @@ msgstr "Fel"
 
 #: js/settings.js:674
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfigurationen är OK"
 
 #: js/settings.js:683
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Felaktig konfiguration"
 
 #: js/settings.js:692
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfigurationen är ej komplett"
 
 #: js/settings.js:709 js/settings.js:718
 msgid "Select groups"
