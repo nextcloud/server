@@ -66,7 +66,13 @@
 	</table>
 
 	<table>
-
+		<!--
+		Bidirectional Map for Storage Names and Storage Ids.
+		- Assigns each storage name a unique storage id integer.
+		- Long storage names are hashed.
+		- E.g.                     local::/tmp/ <-> 2
+		- E.g. b5db994aa8c6625100e418406c798269 <-> 27
+		-->
 		<name>*dbprefix*storages</name>
 
 		<declaration>
