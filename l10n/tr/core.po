@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-26 09:02+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -445,6 +445,10 @@ msgstr "İletişim şablonu yüklenirken hata: {error}"
 msgid "No tags selected for deletion."
 msgstr "Silmek için bir etiket seçilmedi."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -737,11 +741,11 @@ msgstr "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Bu ownCloud örneği şu anda tek kullanıcı kipinde."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Bu, örneği sadece yöneticiler kullanabilir demektir."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

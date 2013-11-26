@@ -152,6 +152,8 @@ $TRANSLATIONS = array(
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",
+"This means only administrators can use the instance." => "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ownCloudia.",
 "Thank you for your patience." => "Kiitos kärsivällisyydestäsi.",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
 "This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",

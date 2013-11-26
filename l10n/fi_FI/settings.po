@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-26 09:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,7 +283,7 @@ msgstr "Maa-asetus ei toimi"
 
 #: templates/admin.php:70
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi."
 
 #: templates/admin.php:74
 msgid ""
@@ -582,7 +582,7 @@ msgstr "Salaus"
 
 #: templates/personal.php:148
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "Salaussovellus ei ole enää käytössä, joten pura kaikkien tiedostojesi salaus"
 
 #: templates/personal.php:154
 msgid "Log-in password"

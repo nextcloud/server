@@ -165,6 +165,8 @@ $TRANSLATIONS = array(
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo,<br><br>%s hat %s mit Ihnen geteilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Diese ownClound Instanz befindet sich derzeit im Einzelbenutzermodus.",
+"This means only administrators can use the instance." => "Dies bedeutet, das nur Administratoren diese Instanz nutzen können.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
 "Thank you for your patience." => "Vielen Dank für Ihre Geduld.",
 "Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",

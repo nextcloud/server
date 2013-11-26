@@ -10,13 +10,14 @@
 # JamFX <niko@nik-o-mat.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
+# noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-26 09:02+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -449,6 +450,10 @@ msgstr "Fehler beim Laden der Dialogvorlage: {error}"
 msgid "No tags selected for deletion."
 msgstr "Es wurden keine Schlagwörter zum Löschen ausgewählt."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -741,11 +746,11 @@ msgstr "Hallo,<br/><br/>wollte dich nur kurz informieren, dass %s gerade %s mit 
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Diese ownClound Instanz befindet sich derzeit im Einzelbenutzermodus."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Dies bedeutet, dass diese Instanz nur von Administratoren genutzt werden kann."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

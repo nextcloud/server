@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-26 09:02+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -75,31 +75,31 @@ msgstr "Non indicou como recortar"
 
 #: js/config.php:32
 msgid "Sunday"
-msgstr "Domingo"
+msgstr "domingo"
 
 #: js/config.php:33
 msgid "Monday"
-msgstr "Luns"
+msgstr "luns"
 
 #: js/config.php:34
 msgid "Tuesday"
-msgstr "Martes"
+msgstr "martes"
 
 #: js/config.php:35
 msgid "Wednesday"
-msgstr "Mércores"
+msgstr "mércores"
 
 #: js/config.php:36
 msgid "Thursday"
-msgstr "Xoves"
+msgstr "xoves"
 
 #: js/config.php:37
 msgid "Friday"
-msgstr "Venres"
+msgstr "venres"
 
 #: js/config.php:38
 msgid "Saturday"
-msgstr "Sábado"
+msgstr "sábado"
 
 #: js/config.php:43
 msgid "January"
@@ -442,6 +442,10 @@ msgstr "Produciuse un erro ao cargar o modelo do dialogo: {error}"
 msgid "No tags selected for deletion."
 msgstr "Non se seleccionaron etiquetas para borrado."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -734,11 +738,11 @@ msgstr "Ola,<br><br>Só facerlle saber que %s compartiu «%s» con vostede.<br><
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Esta instancia do ownCloud está actualmente en modo de usuario único."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Isto significa que só os administradores poden utilizar a instancia."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

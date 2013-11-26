@@ -5,6 +5,7 @@
 # Translators:
 # Twiguard, 2013
 # Honza K. <honza889@gmail.com>, 2013
+# liska_, 2013
 # cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"Last-Translator: liska_\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,15 +94,15 @@ msgstr "Chyba"
 
 #: js/settings.js:674
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfigurace v pořádku"
 
 #: js/settings.js:683
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Nesprávná konfigurace"
 
 #: js/settings.js:692
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Nekompletní konfigurace"
 
 #: js/settings.js:709 js/settings.js:718
 msgid "Select groups"
@@ -153,7 +154,7 @@ msgstr "Neplatný hostitel"
 
 #: lib/wizard.php:913
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Nelze nalézt požadovanou vlastnost"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -170,7 +171,7 @@ msgstr "Nápověda"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Omezit přístup k %s uživatelům splňujícím tyto podmínky:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -185,18 +186,18 @@ msgstr "pouze z těchto skupin:"
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Edituj filtr přímo"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Původní filtr LDAP"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Filtr určuje, kteří uživatelé LDAP mají mít přístup k %s instanci."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
@@ -204,7 +205,7 @@ msgstr "nalezené skupiny"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Který atribut má být použit jako přihlašovací jméno:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -271,7 +272,7 @@ msgstr "Omezit přístup k %s uživatelům splňujícím tyto podmínky:"
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Filtr určuje, kteří uživatelé LDAP mají mít přístup k %s instanci."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
