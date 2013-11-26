@@ -957,7 +957,10 @@
 	</table>
 
 	<table>
-
+		<!--
+		Scheduled background jobs.
+		See OC\BackgroundJob\JobList.
+		-->
 		<name>*dbprefix*jobs</name>
 
 		<declaration>
