@@ -142,17 +142,30 @@ class OC_Request {
 			$requestUri = '/' . ltrim($requestUri, '/');
 		}
 
-		$scriptName = $_SERVER['SCRIPT_NAME'];
-		// in case uri and script name don't match we better throw an exception
-		if (strpos($requestUri, $scriptName) !== 0) {
-			throw new Exception("REQUEST_URI($requestUri) does not start with the SCRIPT_NAME($scriptName)");
-		}
-		$path_info = substr($requestUri, strlen($scriptName));
 		// Remove the query string from REQUEST_URI
-		if ($pos = strpos($path_info, '?')) {
-			$path_info = substr($path_info, 0, $pos);
+		if ($pos = strpos($requestUri, '?')) {
+			$requestUri = substr($requestUri, 0, $pos);
 		}
-		return $path_info;
+
+		$scriptName = $_SERVER['SCRIPT_NAME'];
+		$path_info = $requestUri;
+
+		// strip off the script name's dir and file name
+		list($path, $name) = \Sabre_DAV_URLUtil::splitPath($scriptName);
+		if (!empty($path)) {
+			if( $path === $path_info || strpos($path_info, $path.'/') === 0) {
+				$path_info = substr($path_info, strlen($path));
+			} else {
+				throw new Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
+			}
+		}
+		if (strpos($path_info, '/'.$name.'/') === 0) {
+			$path_info = substr($path_info, strlen($name) + 1);
+		}
+		if (strpos($path_info, $name) === 0) {
+			$path_info = substr($path_info, strlen($name));
+		}
+		return rtrim($path_info, '/');
 	}
 
 	/**
