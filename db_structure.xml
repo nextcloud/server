@@ -1194,7 +1194,11 @@
 	</table>
 
 	<table>
-
+		<!--
+		Namespaced Key-Value Store for arbitrary data.
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, foo) -> bar
+		-->
 		<name>*dbprefix*privatedata</name>
 
 		<declaration>
@@ -1209,6 +1213,7 @@
 			<autoincrement>1</autoincrement>
 		</field>
 
+		<!-- Foreign Key users::uid -->
 		<field>
 			<name>user</name>
 			<type>text</type>
