@@ -1055,7 +1055,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		List of tags (category) + a unique tag id (id) per user (uid) and type.
+		-->
 		<name>*dbprefix*vcategory</name>
 
 		<declaration>
@@ -1070,6 +1072,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid</name>
 				<type>text</type>
@@ -1122,7 +1125,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		Object-Tag associations per tag type.
+		-->
 		<name>*dbprefix*vcategory_to_object</name>
 
 		<declaration>
@@ -1136,6 +1141,7 @@
 			<length>4</length>
 		</field>
 
+		<!-- Foreign Key vcategory::id -->
 		<field>
 			<name>categoryid</name>
 			<type>integer</type>
