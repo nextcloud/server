@@ -68,6 +68,7 @@ abstract class StreamWrapper extends Common {
 			}
 		} else {
 			$this->file_put_contents($path, '');
+			return true;
 		}
 	}
 

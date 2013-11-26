@@ -236,7 +236,8 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 	public function testTouchCreateFile() {
 		$this->assertFalse($this->instance->file_exists('foo'));
-		$this->instance->touch('foo');
+		// returns true on success
+		$this->assertTrue($this->instance->touch('foo'));
 		$this->assertTrue($this->instance->file_exists('foo'));
 	}
 
