@@ -577,7 +577,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		Locks held by WebDAV clients via OC_Connector_Sabre_Locks.
+		-->
 		<name>*dbprefix*locks</name>
 
 		<declaration>
@@ -592,6 +594,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
