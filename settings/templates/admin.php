@@ -15,6 +15,20 @@ $levelLabels = array(
 
 <?php
 
+// is ssl working ?
+if (!$_['isConnectedViaHTTPS']) {
+	?>
+<fieldset class="personalblock">
+	<h2><?php p($l->t('Security Warning'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('You are accessing %s with HTTP. We strongly suggest to setup and use HTTPS.', $theme->getTitle())); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 // is htaccess working ?
 if (!$_['htaccessworking']) {
 	?>
