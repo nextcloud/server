@@ -244,7 +244,9 @@ class Share {
 	 * Get the items of item type shared with the current user
 	 * @param string Item type
 	 * @param int Format (optional) Format type must be defined by the backend
+	 * @param mixed Parameters (optional)
 	 * @param int Number of items to return (optional) Returns all by default
+	 * @param bool include collections (optional)
 	 * @return Return depends on format
 	 */
 	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
@@ -258,6 +260,8 @@ class Share {
 	 * @param string $itemType
 	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed Parameters (optional)
+	 * @param bool include collections (optional)
 	 * @return Return depends on format
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
@@ -954,6 +958,7 @@ class Share {
 	 * @param mixed Parameters to pass to formatItems()
 	 * @param int Number of items to return, -1 to return all matches (optional)
 	 * @param bool Include collection item types (optional)
+	 * @param bool TODO (optional)
 	 * @return mixed
 	 *
 	 * See public functions getItem(s)... for parameter usage
@@ -1354,8 +1359,11 @@ class Share {
 	 * @param string Item source
 	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string User or group the item is being shared with
+	 * @param string User that is the owner of shared item
 	 * @param int CRUDS permissions
 	 * @param bool|array Parent folder target (optional)
+	 * @param string token (optional)
+	 * @param string name of the source item (optional)
 	 * @return bool Returns true on success or false on failure
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1593,6 +1601,7 @@ class Share {
 	 * @param string Item source
 	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string User or group the item is being shared with
+	 * @param string User that is the owner of shared item
 	 * @param string The suggested target originating from a reshare (optional)
 	 * @param int The id of the parent group share (optional)
 	 * @return string Item target
@@ -1780,6 +1789,7 @@ class Share {
 	 */
 
 	/**
+	 * Function that is called after a user is deleted. Cleans up the shares of that user.
 	 * @param array arguments
 	 */
 	public static function post_deleteUser($arguments) {
@@ -1796,6 +1806,8 @@ class Share {
 	}
 
 	/**
+	 * Function that is called after a user is added to a group.
+	 * TODO what does it do?
 	 * @param array arguments
 	 */
 	public static function post_addToGroup($arguments) {
@@ -1829,6 +1841,8 @@ class Share {
 	}
 
 	/**
+	 * Function that is called after a user is removed from a group.
+	 * TODO what does it do?
 	 * @param array arguments
 	 */
 	public static function post_removeFromGroup($arguments) {
@@ -1848,6 +1862,7 @@ class Share {
 	}
 
 	/**
+	 * Function that is called after a group is removed. Cleans up the shares to that group.
 	 * @param array arguments
 	 */
 	public static function post_deleteGroup($arguments) {
@@ -1894,7 +1909,7 @@ interface Share_Backend {
 	 * Converts the shared item sources back into the item in the specified format
 	 * @param array Shared items
 	 * @param int Format
-	 * @return ?
+	 * @return TODO
 	 *
 	 * The items array is a 3-dimensional array with the item_source as the
 	 * first key and the share id as the second key to an array with the share
@@ -1923,6 +1938,8 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 
 	/**
 	 * Get the file path of the item
+	 * @param string Item source
+	 * @param string User that is the owner of shared item
 	 */
 	public function getFilePath($itemSource, $uidOwner);
 
