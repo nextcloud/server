@@ -11,7 +11,7 @@ $(document).ready(function(){
 		var user = $('#user').val();
 		var password = $('#password').val();
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: OC.linkTo('files_encryption', 'ajax/getMigrationStatus.php'),
 			dataType: 'json',
 			data: {user: user, password: password},
