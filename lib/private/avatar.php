@@ -44,15 +44,19 @@ class OC_Avatar implements \OCP\IAvatar {
 
 	/**
 	 * @brief sets the users avatar
-	 * @param $data mixed imagedata or path to set a new avatar
+	 * @param $data mixed OC_Image, imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
 	*/
 	public function set ($data) {
-
-		$img = new OC_Image($data);
+		if($data instanceOf OC_Image) {
+			$img = $data;
+			$data = $img->data();
+		} else {
+			$img = new OC_Image($data);
+		}
 		$type = substr($img->mimeType(), -3);
 		if ($type === 'peg') {
 			$type = 'jpg';

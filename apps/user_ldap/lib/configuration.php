@@ -72,6 +72,7 @@ class Configuration {
 		'ldapExpertUsernameAttr' => null,
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
+		'lastJpegPhotoLookup' => null,
 	);
 
 	public function __construct($configPrefix, $autoread = true) {
@@ -330,6 +331,7 @@ class Configuration {
 			'ldap_expert_uuid_user_attr'		=> '',
 			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
+			'last_jpegPhoto_lookup'				=> 0,
 		);
 	}
 
@@ -377,6 +379,7 @@ class Configuration {
 			'ldap_expert_uuid_user_attr' 		=> 'ldapExpertUUIDUserAttr',
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
+			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
 		);
 		return $array;
 	}
