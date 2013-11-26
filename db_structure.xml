@@ -395,11 +395,15 @@
 	</table>
 
 	<table>
-
+		<!--
+		Maps (fileid, user) to an integer which is a permission bitfield.
+		 - E.g. (4, admin) -> 27
+		-->
 		<name>*dbprefix*permissions</name>
 
 		<declaration>
 
+			<!-- Foreign Key *dbprefix*filecache::fileid -->
 			<field>
 				<name>fileid</name>
 				<type>integer</type>
@@ -408,6 +412,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key *dbprefix*users::uid -->
 			<field>
 				<name>user</name>
 				<type>text</type>
