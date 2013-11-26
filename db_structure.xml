@@ -169,7 +169,12 @@
 	</table>
 
 	<table>
-
+		<!--
+		Bidirectional Map for Mimetypes and Mimetype Id
+		- Assigns each mimetype (and supertype) a unique mimetype id integer.
+		- E.g.     application <-> 5
+		- E.g. application/pdf <-> 6
+		-->
 		<name>*dbprefix*mimetypes</name>
 
 		<declaration>
