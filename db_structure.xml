@@ -11,8 +11,8 @@
 
 		<!--
 		Namespaced Key-Value Store for Application Configuration.
-		- Keys are namespaced per appid.
-		- E.g. (core, global_cache_gc_lastrun) -> 1385463286
+		 - Keys are namespaced per appid.
+		 - E.g. (core, global_cache_gc_lastrun) -> 1385463286
 		-->
 		<name>*dbprefix*appconfig</name>
 
@@ -68,10 +68,10 @@
 	<table>
 		<!--
 		Bidirectional Map for Storage Names and Storage Ids.
-		- Assigns each storage name a unique storage id integer.
-		- Long storage names are hashed.
-		- E.g.                     local::/tmp/ <-> 2
-		- E.g. b5db994aa8c6625100e418406c798269 <-> 27
+		 - Assigns each storage name a unique storage id integer.
+		 - Long storage names are hashed.
+		 - E.g.                     local::/tmp/ <-> 2
+		 - E.g. b5db994aa8c6625100e418406c798269 <-> 27
 		-->
 		<name>*dbprefix*storages</name>
 
@@ -171,9 +171,9 @@
 	<table>
 		<!--
 		Bidirectional Map for Mimetypes and Mimetype Id
-		- Assigns each mimetype (and supertype) a unique mimetype id integer.
-		- E.g.     application <-> 5
-		- E.g. application/pdf <-> 6
+		 - Assigns each mimetype (and supertype) a unique mimetype id integer.
+		 - E.g.     application <-> 5
+		 - E.g. application/pdf <-> 6
 		-->
 		<name>*dbprefix*mimetypes</name>
 
