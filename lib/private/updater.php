@@ -37,7 +37,7 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * Check if a new version is available
-	 * @param string $updateUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
+	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array | bool
 	 */
 	public function check($updaterUrl) {
@@ -116,6 +116,10 @@ class Updater extends BasicEmitter {
 		\OC_App::checkAppsRequirements();
 		// load all apps to also upgrade enabled apps
 		\OC_App::loadApps();
+
+		$repair = new Repair();
+		$repair->run();
+
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}
