@@ -1011,7 +1011,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		List of usernames, their display name and login password.
+		-->
 		<name>*dbprefix*users</name>
 
 		<declaration>
