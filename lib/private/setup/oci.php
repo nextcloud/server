@@ -115,7 +115,7 @@ class OCI extends AbstractDatabase {
 		}
 		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
 		$stmt = oci_parse($connection, $query);
-		$un = $this->dbtableprefix.'users';
+		$un = $this->tableprefix.'users';
 		oci_bind_by_name($stmt, ':un', $un);
 		if (!$stmt) {
 			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
