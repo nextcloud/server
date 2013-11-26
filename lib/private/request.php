@@ -159,7 +159,7 @@ class OC_Request {
 				throw new Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
 			}
 		}
-		if (strpos($path_info, '/'.$name.'/') === 0) {
+		if (strpos($path_info, '/'.$name) === 0) {
 			$path_info = substr($path_info, strlen($name) + 1);
 		}
 		if (strpos($path_info, $name) === 0) {
