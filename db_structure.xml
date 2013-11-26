@@ -548,7 +548,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		A simple list of groups.
+		-->
 		<name>*dbprefix*groups</name>
 
 		<declaration>
