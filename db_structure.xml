@@ -722,7 +722,9 @@
 	</table>
 
 	<table>
-
+		<!--
+		WebDAV properties.
+		-->
 		<name>*dbprefix*properties</name>
 
 		<declaration>
@@ -736,6 +738,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
