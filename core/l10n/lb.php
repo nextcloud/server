@@ -143,7 +143,7 @@ $TRANSLATIONS = array(
 "remember" => "verhalen",
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren.",
-"Thank you for your patience." => "Merci fir deng Gedold."
+"Thank you for your patience." => "Merci fir deng Gedold.",
+"Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

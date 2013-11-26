@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Updated"
 msgid "Select a profile picture"
 msgstr "Select a profile picture"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decrypting files... Please wait, this can take some time."
 
@@ -283,20 +283,20 @@ msgstr "Locale not working"
 
 #: templates/admin.php:70
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "System locale can not be set to a one which supports UTF-8."
 
 #: templates/admin.php:74
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "This means that there might be problems with certain characters in file names."
 
 #: templates/admin.php:78
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "We strongly suggest installing the required packages on your system to support one of the following locales: %s."
 
 #: templates/admin.php:90
 msgid "Internet connection not working"
@@ -581,8 +581,8 @@ msgid "Encryption"
 msgstr "Encryption"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "The encryption app is no longer enabled, decrypt all your files"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"

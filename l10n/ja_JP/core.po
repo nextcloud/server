@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 08:10+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -440,6 +440,10 @@ msgstr "メッセージテンプレートの読み込みエラー: {error}"
 msgid "No tags selected for deletion."
 msgstr "削除するタグが選択されていません。"
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -681,7 +685,7 @@ msgstr "終了しています ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。"
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "ログアウト"
 
@@ -730,6 +734,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。"
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "しばらくお待ちください。"
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -743,13 +765,3 @@ msgstr "この ownCloud インスタンスは現在更新中であり、しば�
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。"
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "しばらくお待ちください。"

@@ -7,15 +7,16 @@
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
+# noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-23 16:12+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"Last-Translator: noxin <transifex.com@davidmainzer.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,7 +168,7 @@ msgstr "Aktualisiert"
 msgid "Select a profile picture"
 msgstr "Wähle ein Profilbild"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Entschlüssle Dateien ... Bitte warten, denn dieser Vorgang kann einige Zeit beanspruchen."
 
@@ -586,8 +587,8 @@ msgid "Encryption"
 msgstr "Verschlüsselung"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Die Anwendung zur Verschlüsselung ist nicht länger aktiv, all Ihre Dateien werden entschlüsselt."
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr "Die Verschlüsselungsanwendung ist nicht länger aktiviert, bitte entschlüsseln Sie alle ihre Daten."
 
 #: templates/personal.php:154
 msgid "Log-in password"

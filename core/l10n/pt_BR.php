@@ -165,10 +165,10 @@ $TRANSLATIONS = array(
 "Log in" => "Fazer login",
 "Alternative Logins" => "Logins alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Olá,<br><br>só gostaria que você soubesse que %s compartilhou »%s« com você.<br><a href=\"%s\">Veja isto!</a><br><br",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
+"Thank you for your patience." => "Obrigado pela sua paciência.",
 "Updating ownCloud to version %s, this may take a while." => "Atualizando ownCloud para a versão %s, isto pode levar algum tempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta instância do ownCloud está sendo atualizada, o que pode demorar um pouco.",
-"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
-"Thank you for your patience." => "Obrigado pela sua paciência."
+"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

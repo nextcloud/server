@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -445,6 +445,10 @@ msgstr "Errore durante il caricamento del modello di finestra: {error}"
 msgid "No tags selected for deletion."
 msgstr "Nessuna etichetta selezionata per l'eliminazione."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -586,7 +590,7 @@ msgstr "Ciao,\n\nvolevo informarti che %s ha condiviso %s con te.\nVedi: %s\n\n"
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "La condivisione scadrà il %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -686,7 +690,7 @@ msgstr "Completamento..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Esci"
 
@@ -735,6 +739,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "Questa istanza di ownCloud è in modalità utente singolo."
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "Questo significa che solo gli amministratori possono utilizzare l'istanza."
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Grazie per la pazienza."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -748,13 +770,3 @@ msgstr "Questa istanza di ownCloud è in fase di aggiornamento, potrebbe richied
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Ricarica questa pagina per poter continuare ad usare ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Grazie per la pazienza."

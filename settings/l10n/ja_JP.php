@@ -126,7 +126,6 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください",
 "Encryption" => "暗号化",
-"The encryption app is no longer enabled, decrypt all your file" => "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください",
 "Log-in password" => "ログインパスワード",
 "Decrypt all Files" => "すべてのファイルを複合する",
 "Login Name" => "ログイン名",

@@ -21,6 +21,22 @@ class Dropbox extends Storage {
 		$this->instance = new \OC\Files\Storage\Dropbox($this->config['dropbox']);
 	}
 
+	public function directoryProvider() {
+		// doesn't support leading/trailing spaces
+		return array(array('folder'));
+	}
+
+	public function testDropboxTouchReturnValue() {
+		$this->assertFalse($this->instance->file_exists('foo'));
+
+		// true because succeeded
+		$this->assertTrue($this->instance->touch('foo'));
+		$this->assertTrue($this->instance->file_exists('foo'));
+
+		// false because not supported
+		$this->assertFalse($this->instance->touch('foo'));
+	}
+
 	public function tearDown() {
 		if ($this->instance) {
 			$this->instance->unlink('/');

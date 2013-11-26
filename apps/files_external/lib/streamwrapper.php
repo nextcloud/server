@@ -38,7 +38,7 @@ abstract class StreamWrapper extends Common {
 	}
 
 	public function filetype($path) {
-		return filetype($this->constructUrl($path));
+		return @filetype($this->constructUrl($path));
 	}
 
 	public function file_exists($path) {
@@ -68,6 +68,7 @@ abstract class StreamWrapper extends Common {
 			}
 		} else {
 			$this->file_put_contents($path, '');
+			return true;
 		}
 	}
 

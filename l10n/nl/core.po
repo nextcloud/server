@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -444,6 +444,10 @@ msgstr "Fout bij laden dialoog sjabloon: {error}"
 msgid "No tags selected for deletion."
 msgstr "Geen tags geselecteerd voor verwijdering."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -685,7 +689,7 @@ msgstr "Afronden ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s is beschikbaar. Verkrijg meer informatie over het bijwerken."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Afmelden"
 
@@ -734,6 +738,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hallo daar,<br><br>even een berichtje dat %s »%s« met u deelde.<br><a href=\"%s\">Bekijk hier!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Bedankt voor uw geduld."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -747,13 +769,3 @@ msgstr "Deze ownCloud dienst wordt nu bijgewerkt, dat kan even duren."
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Laad deze pagina straks opnieuw om verder te gaan met ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Bedankt voor uw geduld."

@@ -1,5 +1,8 @@
 <?php
 
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 //encryption app needs to be loaded
 OC_App::loadApp('files_encryption');
 

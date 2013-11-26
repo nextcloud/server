@@ -129,7 +129,7 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın",
 "Encryption" => "Şifreleme",
-"The encryption app is no longer enabled, decrypt all your file" => "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifresini çözün",
+"The encryption app is no longer enabled, please decrypt all your files" => "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifrelemesini kaldırın",
 "Log-in password" => "Oturum açma parolası",
 "Decrypt all Files" => "Tüm dosyaların şifresini çözme",
 "Login Name" => "Giriş Adı",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -442,6 +442,10 @@ msgstr "Error loading dialog template: {error}"
 msgid "No tags selected for deletion."
 msgstr "No tags selected for deletion."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -683,7 +687,7 @@ msgstr "Finishing …"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s is available. Get more information on how to update."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Log out"
 
@@ -732,6 +736,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Contact your system administrator if this message persists or appeared unexpectedly."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Thank you for your patience."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -745,13 +767,3 @@ msgstr "This ownCloud instance is currently being updated, which may take a whil
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Please reload this page after a short time to continue using ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Contact your system administrator if this message persists or appeared unexpectedly."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Thank you for your patience."

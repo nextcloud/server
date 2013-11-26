@@ -139,7 +139,15 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->rename('/source.txt', '/target2.txt');
 		$this->assertTrue($this->instance->file_exists('/target2.txt'));
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
-		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target2.txt'));
+
+		// move to overwrite
+		$testContents = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$this->instance->file_put_contents('/target3.txt', $testContents);
+		$this->instance->rename('/target2.txt', '/target3.txt');
+		$this->assertTrue($this->instance->file_exists('/target3.txt'));
+		$this->assertFalse($this->instance->file_exists('/target2.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target3.txt'));
 	}
 
 	public function testLocal() {
@@ -236,7 +244,8 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 	public function testTouchCreateFile() {
 		$this->assertFalse($this->instance->file_exists('foo'));
-		$this->instance->touch('foo');
+		// returns true on success
+		$this->assertTrue($this->instance->touch('foo'));
 		$this->assertTrue($this->instance->file_exists('foo'));
 	}
 

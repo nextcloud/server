@@ -164,10 +164,10 @@ $TRANSLATIONS = array(
 "Log in" => "Log ind",
 "Alternative Logins" => "Alternative logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej med dig,<br><br>Dette blot for at lade dig vide, at %s har delt \"%s\" med dig.<br><a href=\"%s\">Se det her!</a><br><br>Hej",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
+"Thank you for your patience." => "Tak for din tålmodighed.",
 "Updating ownCloud to version %s, this may take a while." => "Opdatere Owncloud til version %s, dette kan tage et stykke tid.",
 "This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid.",
-"Please reload this page after a short time to continue using ownCloud." => "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
-"Thank you for your patience." => "Tak for din tålmodighed."
+"Please reload this page after a short time to continue using ownCloud." => "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -168,7 +168,7 @@ msgstr "Mise à jour effectuée avec succès"
 msgid "Select a profile picture"
 msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
 
@@ -289,20 +289,20 @@ msgstr "Localisation non fonctionnelle"
 
 #: templates/admin.php:70
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Les paramètres régionaux ne peuvent pas être configurés avec un qui supporte UTF-8."
 
 #: templates/admin.php:74
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichier."
 
 #: templates/admin.php:78
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Nous conseillons vivement d'installer les paquets requis sur votre système pour supporter l'un des paramètres régionaux suivants : %s."
 
 #: templates/admin.php:90
 msgid "Internet connection not working"
@@ -587,8 +587,8 @@ msgid "Encryption"
 msgstr "Chiffrement"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"

@@ -9,14 +9,15 @@
 # Jan Busk, 2013
 # Jan Busk, 2013
 # medialabs, 2013
+# kallemooo <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Kunde inte ändra hela namnet"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -169,7 +170,7 @@ msgstr "Uppdaterad"
 msgid "Select a profile picture"
 msgstr "Välj en profilbild"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
 
@@ -522,7 +523,7 @@ msgstr "Ändra lösenord"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Hela namnet"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -588,8 +589,8 @@ msgid "Encryption"
 msgstr "Kryptering"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Appen för kryptering är inte längre aktiverad, dekryptera alla dina filer"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"
@@ -643,7 +644,7 @@ msgstr "Lagring"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "ändra hela namnet"
 
 #: templates/users.php:112
 msgid "set new password"

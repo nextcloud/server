@@ -132,6 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Ciao,\n\nvolevo informarti che %s ha condiviso %s con te.\nVedi: %s\n\n",
+"The share will expire on %s." => "La condivisione scadrà il %s.",
 "Cheers!" => "Saluti!",
 "Security Warning" => "Avviso di sicurezza",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "La tua versione di PHP è vulnerabile all'attacco NULL Byte (CVE-2006-7243)",
@@ -164,10 +165,12 @@ $TRANSLATIONS = array(
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Questa istanza di ownCloud è in modalità utente singolo.",
+"This means only administrators can use the instance." => "Questo significa che solo gli amministratori possono utilizzare l'istanza.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
+"Thank you for your patience." => "Grazie per la pazienza.",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Questa istanza di ownCloud è in fase di aggiornamento, potrebbe richiedere del tempo.",
-"Please reload this page after a short time to continue using ownCloud." => "Ricarica questa pagina per poter continuare ad usare ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
-"Thank you for your patience." => "Grazie per la pazienza."
+"Please reload this page after a short time to continue using ownCloud." => "Ricarica questa pagina per poter continuare ad usare ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

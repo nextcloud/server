@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -448,6 +448,10 @@ msgstr "Chyba pri načítaní šablóny dialógu: {error}"
 msgid "No tags selected for deletion."
 msgstr "Nie sú vybraté štítky na zmazanie."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -689,7 +693,7 @@ msgstr "Dokončujem..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizácie."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásiť"
 
@@ -738,6 +742,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Ahoj,<br><br>chcem ti dať navedomie, že %s zdieľa »%s« s tebou.<br><a href=\"%s\">Zobrazenie tu!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Ďakujeme za Vašu trpezlivosť."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -751,13 +773,3 @@ msgstr "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr ""
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Ďakujeme za Vašu trpezlivosť."

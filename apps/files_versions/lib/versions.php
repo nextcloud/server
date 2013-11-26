@@ -318,22 +318,21 @@ class Storage {
 	 * @return size of vesions
 	 */
 	private static function calculateSize($uid) {
-		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
-			$versionsRoot = $versions_fileview->getLocalFolder('');
-
-			$iterator = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($versionsRoot),
-				\RecursiveIteratorIterator::CHILD_FIRST
-			);
+		if (\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED) == 'true') {
+			$view = new \OC\Files\View('/' . $uid . '/files_versions');
 
 			$size = 0;
 
-			foreach ($iterator as $path) {
-				if ( preg_match('/^.+\.v(\d+)$/', $path, $match) ) {
-					$relpath = substr($path, strlen($versionsRoot)-1);
-					$size += $versions_fileview->filesize($relpath);
+			$dirContent = $view->getDirectoryContent('/');
+
+			while (!empty($dirContent)) {
+				$path = reset($dirContent);
+				if ($path['type'] === 'dir') {
+					$dirContent = array_merge($dirContent, $view->getDirectoryContent(substr($path['path'], strlen('files_versions'))));
+				} else {
+					$size += $view->filesize(substr($path['path'], strlen('files_versions')));
 				}
+				unset($dirContent[key($dirContent)]);
 			}
 
 			return $size;

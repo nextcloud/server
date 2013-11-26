@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 21:20+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:24+0000\n"
+"Last-Translator: polxmod <paolo.velati@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,7 +165,7 @@ msgstr "Aggiornato"
 msgid "Select a profile picture"
 msgstr "Seleziona un'immagine del profilo"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decifratura dei file in corso... Attendi, potrebbe richiedere del tempo."
 
@@ -584,7 +584,7 @@ msgid "Encryption"
 msgstr "Cifratura"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'applicazione di cifratura non è più abilitata, decifra tutti i tuoi file"
 
 #: templates/personal.php:154

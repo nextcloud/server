@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -443,6 +443,10 @@ msgstr ""
 msgid "No tags selected for deletion."
 msgstr "Tunnisteita ei valittu poistettavaksi."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -684,7 +688,7 @@ msgstr "Valmistellaan…"
 msgid "%s is available. Get more information on how to update."
 msgstr "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
@@ -733,6 +737,24 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>"
 
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "Tämä ownCloud-asennus on parhaillaan single user -tilassa."
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ownCloudia."
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Kiitos kärsivällisyydestäsi."
+
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
@@ -746,13 +768,3 @@ msgstr "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kes
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr ""
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Kiitos kärsivällisyydestäsi."

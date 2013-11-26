@@ -165,10 +165,12 @@ $TRANSLATIONS = array(
 "Log in" => "Giriş yap",
 "Alternative Logins" => "Alternatif Girişler",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!",
+"This ownCloud instance is currently in single user mode." => "Bu ownCloud örneği şu anda tek kullanıcı kipinde.",
+"This means only administrators can use the instance." => "Bu, örneği sadece yöneticiler kullanabilir demektir.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Eğer bu ileti görünmeye devam ederse veya beklenmedik şekilde ortaya çıkmışsa sistem yöneticinizle iletişime geçin.",
+"Thank you for your patience." => "Sabrınız için teşekkür ederiz.",
 "Updating ownCloud to version %s, this may take a while." => "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir.",
 "This ownCloud instance is currently being updated, which may take a while." => "Bu ownCloud örneği şu anda güncelleniyor, bu biraz zaman alabilir.",
-"Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Eğer bu ileti görünmeye devam ederse veya beklenmedik şekilde ortaya çıkmışsa sistem yöneticinizle iletişime geçin.",
-"Thank you for your patience." => "Sabrınız için teşekkür ederiz."
+"Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-21 19:30+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: private/app.php:255
 msgid "No app name specified"
-msgstr ""
+msgstr "Ni podanega imena programa"
 
 #: private/app.php:360
 msgid "Help"
@@ -55,15 +55,15 @@ msgstr "Skrbništvo"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Posodabljanje \"%s\" je spodletelo."
 
-#: private/avatar.php:60
+#: private/avatar.php:62
 msgid "Unknown filetype"
 msgstr "Neznana vrsta datoteke"
 
-#: private/avatar.php:65
+#: private/avatar.php:67
 msgid "Invalid image"
 msgstr "Neveljavna slika"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "spletne storitve pod vašim nadzorom"
 
@@ -96,20 +96,20 @@ msgstr ""
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Ni podanega vira med nameščenjem programa"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Ni podanega podatka naslova HREF med nameščenjem programa preko protokola HTTP."
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Ni podane poti med nameščenjem programa iz krajevne datoteke"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Arhivi vrste %s niso podprti"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"

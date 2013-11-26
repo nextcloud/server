@@ -5,6 +5,7 @@
 # Translators:
 # Twiguard, 2013
 # Honza K. <honza889@gmail.com>, 2013
+# liska_, 2013
 # cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"Last-Translator: liska_\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,7 +167,7 @@ msgstr "Aktualizováno"
 msgid "Select a profile picture"
 msgstr "Vyberte profilový obrázek"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace může trvat nějakou dobu."
 
@@ -225,23 +226,23 @@ msgstr "Česky"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Vše (fatální problémy, chyby, varování, informační, ladící)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "informační, varování, chyby a fatální problémy"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Varování, chyby a fatální problémy"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Chyby a fatální problémy"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Pouze fatální problémy"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -287,20 +288,20 @@ msgstr "Lokalizace nefunguje"
 
 #: templates/admin.php:70
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Není možné nastavit znakovou sadu, která podporuje UTF-8."
 
 #: templates/admin.php:74
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "To znamená, že se mohou vyskytnout problémy s určitými znaky v názvech souborů."
 
 #: templates/admin.php:78
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Velmi doporučujeme nainstalovat na váš systém požadované balíčky podporující jednu z následujících znakových sad: %s."
 
 #: templates/admin.php:90
 msgid "Internet connection not working"
@@ -578,15 +579,15 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Použijte <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">tuto adresu pro přístup k vašim souborům přes WebDAV</a>"
 
 #: templates/personal.php:146
 msgid "Encryption"
 msgstr "Šifrování"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Šifrovací aplikace již není zapnuta, odšifrujte všechny své soubory"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr "Šifrovací aplikace již není spuštěna, dešifrujte prosím všechny své soubory"
 
 #: templates/personal.php:154
 msgid "Log-in password"
