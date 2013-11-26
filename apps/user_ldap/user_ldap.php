@@ -76,8 +76,11 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * @return void
 	 */
 	private function updateAvatar($uid, $dn) {
-		$lastChecked = \OCP\Config::getUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup', 0);
-		if((time() - $lastChecked) < 86400 ) {
+		$hasLoggedIn = \OCP\Config::getUserValue($uid, 'user_ldap',
+												 'firstLoginAccomplished', 0);
+		$lastChecked = \OCP\Config::getUserValue($uid, 'user_ldap',
+												 'lastJpegPhotoLookup', 0);
+		if(($hasLoggedIn !== '1') || (time() - intval($lastChecked)) < 86400 ) {
 			//update only once a day
 			return;
 		}
@@ -105,6 +108,11 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 								\OCP\Util::ERROR);
 			return;
 		}
+
+		if(!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS($uid);
+		}
+
 		$avatarManager = \OC::$server->getAvatarManager();
 		$avatar = $avatarManager->getAvatar($uid);
 		$avatar->set($image);
@@ -160,6 +168,10 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 				return false;
 			}
 
+			\OCP\Config::setUserValue($ocname, 'user_ldap',
+									  'firstLoginAccomplished', 1);
+
+			$this->updateAvatar($ocname, $dn);
 			//give back the display name
 			return $ocname;
 		}
