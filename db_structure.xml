@@ -66,6 +66,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Bidirectional Map for Storage Names and Storage Ids.
 		 - Assigns each storage name a unique storage id integer.
@@ -169,6 +170,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Bidirectional Map for Mimetypes and Mimetype Id
 		 - Assigns each mimetype (and supertype) a unique mimetype id integer.
@@ -210,6 +212,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Main file table containing one row for each directory and file.
 		 - Assigns a unique integer fileid to each file (and directory)
@@ -395,6 +398,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Maps (fileid, user) to an integer which is a permission bitfield.
 		 - E.g. (4, admin) -> 27
@@ -446,6 +450,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Stores which groups have which users as members in an n:m relationship.
 		 - Maps group id (gid) to a set of users (uid)
@@ -492,6 +497,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Stores which groups have which users as admins in an n:m relationship.
 		 - Maps group id (gid) to a set of users (uid)
@@ -548,6 +554,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		A simple list of groups.
 		-->
@@ -577,6 +584,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Locks held by WebDAV clients via OC_Connector_Sabre_Locks.
 		-->
@@ -659,6 +667,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Namespaced Key-Value Store for User Preferences
 		 - Keys are namespaced per userid and appid.
@@ -722,6 +731,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		WebDAV properties.
 		-->
@@ -783,6 +793,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Shares of all types (user-to-user, external-via-link, etc.)
 		-->
@@ -957,6 +968,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Scheduled background jobs.
 		See OC\BackgroundJob\JobList.
@@ -1011,6 +1023,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		List of usernames, their display name and login password.
 		-->
@@ -1055,6 +1068,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		List of tags (category) + a unique tag id (id) per user (uid) and type.
 		-->
@@ -1125,6 +1139,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Object-Tag associations per tag type.
 		-->
@@ -1194,6 +1209,7 @@
 	</table>
 
 	<table>
+
 		<!--
 		Namespaced Key-Value Store for arbitrary data.
 		 - Keys are namespaced per userid and appid.
