@@ -1263,7 +1263,7 @@ class Util {
 		if($uid && \OCP\User::userExists($uid)) {
 			$userId = $uid;
 		} else {
-			$userId = $this->uid;
+			$userId = $this->userId;
 		}
 
 		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
