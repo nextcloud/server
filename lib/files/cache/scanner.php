@@ -36,6 +36,11 @@ class Scanner extends BasicEmitter {
 	 */
 	private $cache;
 
+	/**
+	 * @var \OC\Files\Cache\Permissions $permissionsCache
+	 */
+	private $permissionsCache;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
@@ -46,6 +51,7 @@ class Scanner extends BasicEmitter {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
+		$this->permissionsCache = $storage->getPermissionsCache();
 	}
 
 	/**
@@ -66,6 +72,7 @@ class Scanner extends BasicEmitter {
 			$data['size'] = $this->storage->filesize($path);
 		}
 		$data['etag'] = $this->storage->getETag($path);
+		$data['storage_mtime'] = $data['mtime'];
 		return $data;
 	}
 
@@ -95,7 +102,11 @@ class Scanner extends BasicEmitter {
 					}
 				}
 				$newData = $data;
-				if ($reuseExisting and $cacheData = $this->cache->get($file)) {
+				$cacheData = $this->cache->get($file);
+				if ($cacheData) {
+					$this->permissionsCache->remove($cacheData['fileid']);
+				}
+				if ($reuseExisting and $cacheData) {
 					// prevent empty etag
 					$etag = $cacheData['etag'];
 					$propagateETagChange = false;
@@ -103,7 +114,6 @@ class Scanner extends BasicEmitter {
 						$etag = $data['etag'];
 						$propagateETagChange = true;
 					}
-
 					// only reuse data if the file hasn't explicitly changed
 					if (isset($data['mtime']) && isset($cacheData['mtime']) && $data['mtime'] === $cacheData['mtime']) {
 						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
@@ -181,7 +191,7 @@ class Scanner extends BasicEmitter {
 		$newChildren = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
-			if(is_resource($dh)) {
+			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					$child = ($path) ? $path . '/' . $file : $file;
 					if (!Filesystem::isIgnoredDir($file)) {
@@ -238,9 +248,11 @@ class Scanner extends BasicEmitter {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		while (($path = $this->cache->getIncomplete()) !== false) {
+		$lastPath = null;
+		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path);
 			$this->cache->correctFolderSize($path);
+			$lastPath = $path;
 		}
 	}
 }
