@@ -502,7 +502,6 @@ class Trashbin {
 
 			if ($timestamp) {
 				$keyfile .= '.d' . $timestamp;
-				$sharekey .= '.d' . $timestamp;
 			}
 
 			// disable proxy to prevent recursive calls
@@ -518,6 +517,9 @@ class Trashbin {
 					$rootView->rename($keyfile, $baseDir . '/keyfiles/' . $ownerPath);
 
 					// handle share-keys
+					if ($timestamp) {
+						$sharekey .= '.d' . $timestamp;
+					}
 					$size += self::calculateSize(new \OC\Files\View($sharekey));
 					$rootView->rename($sharekey, $baseDir . '/share-keys/' . $ownerPath);
 				} else {
