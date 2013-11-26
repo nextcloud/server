@@ -492,11 +492,16 @@
 	</table>
 
 	<table>
-
+		<!--
+		Stores which groups have which users as admins in an n:m relationship.
+		 - Maps group id (gid) to a set of users (uid)
+		 - Maps user id (uid) to a set of groups (gid)
+		-->
 		<name>*dbprefix*group_admin</name>
 
 		<declaration>
 
+			<!-- Foreign Key groups::gid -->
 			<field>
 				<name>gid</name>
 				<type>text</type>
@@ -505,6 +510,7 @@
 				<length>64</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid</name>
 				<type>text</type>
