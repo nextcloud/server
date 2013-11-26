@@ -233,7 +233,7 @@
 				<length>4</length>
 			</field>
 
-			<!-- Foreign Key *dbprefix*storages::numeric_id -->
+			<!-- Foreign Key storages::numeric_id -->
 			<field>
 				<name>storage</name>
 				<type>integer</type>
@@ -258,7 +258,7 @@
 				<length>32</length>
 			</field>
 
-			<!-- Foreign Key *dbprefix*filecache::fileid -->
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>parent</name>
 				<type>integer</type>
@@ -275,7 +275,7 @@
 				<length>250</length>
 			</field>
 
-			<!-- Foreign Key *dbprefix*mimetypes::id -->
+			<!-- Foreign Key mimetypes::id -->
 			<field>
 				<name>mimetype</name>
 				<type>integer</type>
@@ -284,7 +284,7 @@
 				<length>4</length>
 			</field>
 
-			<!-- Foreign Key *dbprefix*mimetypes::id -->
+			<!-- Foreign Key mimetypes::id -->
 			<field>
 				<name>mimepart</name>
 				<type>integer</type>
@@ -403,7 +403,7 @@
 
 		<declaration>
 
-			<!-- Foreign Key *dbprefix*filecache::fileid -->
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>fileid</name>
 				<type>integer</type>
@@ -412,7 +412,7 @@
 				<length>4</length>
 			</field>
 
-			<!-- Foreign Key *dbprefix*users::uid -->
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>user</name>
 				<type>text</type>
