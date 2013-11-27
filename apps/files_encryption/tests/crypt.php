@@ -201,7 +201,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// Teardown
 		$this->view->unlink($this->userId . '/files/' . $filename);
 
-		Encryption\Keymanager::deleteFileKey($this->view, $this->userId, $filename);
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 	}
 
 	/**
@@ -287,7 +287,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$this->view->unlink($this->userId . '/files/' . $filename);
 
-		Encryption\Keymanager::deleteFileKey($this->view, $this->userId, $filename);
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 
 	}
 

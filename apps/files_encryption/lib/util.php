@@ -1093,7 +1093,7 @@ class Util {
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
 		if (
-			!Keymanager::setFileKey($this->view, $filePath, $fileOwner, $multiEncKey['data'])
+			!Keymanager::setFileKey($this->view, $filePath, $multiEncKey['data'])
 			|| !Keymanager::setShareKeys($this->view, $filePath, $multiEncKey['keys'])
 		) {
 

@@ -201,7 +201,7 @@ class Proxy extends \OC_FileProxy {
 		list($owner, $ownerPath) = $util->getUidAndFilename($relativePath);
 
 		// Delete keyfile & shareKey so it isn't orphaned
-		if (!Keymanager::deleteFileKey($view, $owner, $ownerPath)) {
+		if (!Keymanager::deleteFileKey($view, $ownerPath)) {
 			\OCP\Util::writeLog('Encryption library',
 				'Keyfile or shareKey could not be deleted for file "' . $ownerPath . '"', \OCP\Util::ERROR);
 		}

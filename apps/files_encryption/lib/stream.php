@@ -102,7 +102,7 @@ class Stream {
 
 		$util = new Util($this->rootView, $this->userId);
 
-		// get the key ID which we want to use, canm be the users key or the
+		// get the key ID which we want to use, can be the users key or the
 		// public share key
 		$this->keyId = $util->getKeyId();
 
@@ -527,7 +527,7 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $this->relPath, $this->keyId, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $this->relPath, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
 				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
