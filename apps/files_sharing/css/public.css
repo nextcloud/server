@@ -1,5 +1,5 @@
 body {
-	background: #fff;
+	height: auto;
 }
 
 #header {
@@ -51,7 +51,6 @@ body {
 
 #preview {
 	background: #fff;
-	min-height: 30em;
 	text-align: center;
 	margin: 45px auto 0;
 }
@@ -62,7 +61,7 @@ body {
 }
 
 footer {
-	background: #fff;
+	margin-top: 45px;
 }
 
 p.info {
