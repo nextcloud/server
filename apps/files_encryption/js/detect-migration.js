@@ -19,8 +19,8 @@ $(document).ready(function(){
 			success: function(response) {
 				if (response.data.migrationCompleted === false) {
 					var message = t('files_encryption', 'Initial encryption started... This can take some time. Please wait.');
-					$('span[id="messageText"]').text(message);
-					$('p[id="message"]').removeClass('hidden').addClass('info');
+					$('#messageText').text(message);
+					$('#message').removeClass('hidden').addClass('info');
 				}
 			}
 		});
