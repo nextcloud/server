@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Ρυθμίσεις Σύνδεσης",
 "Configuration Active" => "Ενεργοποιηση ρυθμισεων",
 "When unchecked, this configuration will be skipped." => "Όταν δεν είναι επιλεγμένο, αυτή η ρύθμιση θα πρέπει να παραλειφθεί. ",
-"User Login Filter" => "User Login Filter",
 "Backup (Replica) Host" => "Δημιουργία αντιγράφων ασφαλείας (Replica) Host ",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Δώστε μια προαιρετική εφεδρική υποδοχή. Πρέπει να είναι ένα αντίγραφο του κύριου LDAP / AD διακομιστη.",
 "Backup (Replica) Port" => "Δημιουργία αντιγράφων ασφαλείας (Replica) Υποδοχη",

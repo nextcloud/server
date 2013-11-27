@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Të dhënat e lidhjes",
 "Configuration Active" => "Konfigurimi Aktiv",
 "When unchecked, this configuration will be skipped." => "Nëse nuk është i zgjedhur, ky konfigurim do të anashkalohet.",
-"User Login Filter" => "Filtri për aksesin e përdoruesit",
 "Backup (Replica) Host" => "Pritësi rezervë (Replika)",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Jepni një pritës rezervë. Duhet të jetë replikimi i serverit AD/LDAP kryesor.",
 "Backup (Replica) Port" => "Porta rezervë (Replika)",

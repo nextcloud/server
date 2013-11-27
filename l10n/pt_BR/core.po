@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-27 12:08-0500\n"
+"PO-Revision-Date: 2013-11-26 16:30+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -445,7 +445,7 @@ msgstr "Nenhuma etiqueta selecionada para deleção."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Por favor recarregue a página"
 
 #: js/update.js:17
 msgid ""
@@ -739,11 +739,11 @@ msgstr "Olá,<br><br>só gostaria que você soubesse que %s compartilhou »%s« 
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Nesta instância ownCloud está em modo de usuário único."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Isso significa que apenas os administradores podem usar o exemplo."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

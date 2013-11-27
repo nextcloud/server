@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Etiketleri düzenle",
 "Error loading dialog template: {error}" => "İletişim şablonu yüklenirken hata: {error}",
 "No tags selected for deletion." => "Silmek için bir etiket seçilmedi.",
+"Please reload the page." => "Lütfen sayfayı yeniden yükleyin.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Güncelleme başarılı. ownCloud'a yönlendiriliyor.",
 "%s password reset" => "%s parola sıfırlama",

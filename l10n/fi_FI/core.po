@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-27 12:08-0500\n"
+"PO-Revision-Date: 2013-11-26 19:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -445,7 +445,7 @@ msgstr "Tunnisteita ei valittu poistettavaksi."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Päivitä sivu."
 
 #: js/update.js:17
 msgid ""
@@ -493,7 +493,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Tiedostosi on salattu. Jos et ole ottanut palautusavainta käyttöön, et voi käyttää tiedostojasi enää salasanan nollauksen jälkeen. Jos et ole varma mitä tehdä, ota yhteys ylläpitoon ennen kuin jatkat. Haluatko varmasti jatkaa?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
@@ -501,7 +501,7 @@ msgstr "Kyllä, haluan nollata salasanani nyt"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Nollaa salasana"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -749,7 +749,7 @@ msgstr "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ow
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."

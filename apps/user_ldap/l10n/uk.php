@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Налаштування З'єднання",
 "Configuration Active" => "Налаштування Активне",
 "When unchecked, this configuration will be skipped." => "Якщо \"галочка\" знята, ця конфігурація буде пропущена.",
-"User Login Filter" => "Фільтр Користувачів, що під'єднуються",
 "Backup (Replica) Host" => "Сервер для резервних копій",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Вкажіть додатковий резервний сервер. Він повинен бути копією головного LDAP/AD сервера.",
 "Backup (Replica) Port" => "Порт сервера для резервних копій",

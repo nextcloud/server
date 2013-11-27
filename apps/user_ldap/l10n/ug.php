@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Port" => "ئېغىز",
 "Password" => "ئىم",
 "Connection Settings" => "باغلىنىش تەڭشىكى",
-"Configuration Active" => "سەپلىمە ئاكتىپ",
-"User Login Filter" => "ئىشلەتكۈچى تىزىمغا كىرىش سۈزگۈچى"
+"Configuration Active" => "سەپلىمە ئاكتىپ"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

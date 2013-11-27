@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "连接设置",
 "Configuration Active" => "现行配置",
 "When unchecked, this configuration will be skipped." => "当反选后，此配置将被忽略。",
-"User Login Filter" => "用户登录过滤",
 "Backup (Replica) Host" => "备份 (镜像) 主机",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "给出一个可选的备份主机。它必须为主 LDAP/AD 服务器的一个镜像。",
 "Backup (Replica) Port" => "备份 (镜像) 端口",

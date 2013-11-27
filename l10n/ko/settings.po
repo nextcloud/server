@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-26 09:02+0000\n"
+"POT-Creation-Date: 2013-11-27 12:08-0500\n"
+"PO-Revision-Date: 2013-11-27 17:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -240,11 +240,18 @@ msgstr ""
 msgid "Fatal issues only"
 msgstr ""
 
-#: templates/admin.php:22
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "보안 경고"
 
 #: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr ""
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -253,57 +260,57 @@ msgid ""
 "root."
 msgstr ""
 
-#: templates/admin.php:36
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "설정 경고"
 
-#: templates/admin.php:39
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: templates/admin.php:40
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr ""
 
-#: templates/admin.php:51
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "모듈 'fileinfo'가 없음"
 
-#: templates/admin.php:54
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP 모듈 'fileinfo'가 존재하지 않습니다. MIME 형식 감지 결과를 향상시키기 위하여 이 모듈을 활성화하는 것을 추천합니다."
 
-#: templates/admin.php:65
+#: templates/admin.php:79
 msgid "Locale not working"
 msgstr "로캘이 작동하지 않음"
 
-#: templates/admin.php:70
+#: templates/admin.php:84
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:74
+#: templates/admin.php:88
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr ""
 
-#: templates/admin.php:78
+#: templates/admin.php:92
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:90
+#: templates/admin.php:104
 msgid "Internet connection not working"
 msgstr "인터넷에 연결할 수 없음"
 
-#: templates/admin.php:93
+#: templates/admin.php:107
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -312,118 +319,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:107
+#: templates/admin.php:121
 msgid "Cron"
 msgstr "크론"
 
-#: templates/admin.php:114
+#: templates/admin.php:128
 msgid "Execute one task with each page loaded"
 msgstr "개별 페이지를 불러올 때마다 실행"
 
-#: templates/admin.php:122
+#: templates/admin.php:136
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:130
+#: templates/admin.php:144
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:135
+#: templates/admin.php:149
 msgid "Sharing"
 msgstr "공유"
 
-#: templates/admin.php:141
+#: templates/admin.php:155
 msgid "Enable Share API"
 msgstr "공유 API 사용하기"
 
-#: templates/admin.php:142
+#: templates/admin.php:156
 msgid "Allow apps to use the Share API"
 msgstr "앱에서 공유 API를 사용할 수 있도록 허용"
 
-#: templates/admin.php:149
+#: templates/admin.php:163
 msgid "Allow links"
 msgstr "링크 허용"
 
-#: templates/admin.php:150
+#: templates/admin.php:164
 msgid "Allow users to share items to the public with links"
 msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
 
-#: templates/admin.php:158
+#: templates/admin.php:172
 msgid "Allow public uploads"
 msgstr "퍼블릭 업로드 허용"
 
-#: templates/admin.php:159
+#: templates/admin.php:173
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:167
+#: templates/admin.php:181
 msgid "Allow resharing"
 msgstr "재공유 허용"
 
-#: templates/admin.php:168
+#: templates/admin.php:182
 msgid "Allow users to share items shared with them again"
 msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid "Allow users to share with anyone"
 msgstr "누구나와 공유할 수 있도록 허용"
 
-#: templates/admin.php:178
+#: templates/admin.php:192
 msgid "Allow users to only share with users in their groups"
 msgstr "사용자가 속해 있는 그룹의 사용자와만 공유할 수 있도록 허용"
 
-#: templates/admin.php:185
+#: templates/admin.php:199
 msgid "Allow mail notification"
 msgstr "메일 알림을 허용"
 
-#: templates/admin.php:186
+#: templates/admin.php:200
 msgid "Allow user to send mail notification for shared files"
 msgstr "사용자에게 공유 파일에 대한 메일 알림을 허용합니다"
 
-#: templates/admin.php:193
+#: templates/admin.php:207
 msgid "Security"
 msgstr "보안"
 
-#: templates/admin.php:206
+#: templates/admin.php:220
 msgid "Enforce HTTPS"
 msgstr "HTTPS 강제 사용"
 
-#: templates/admin.php:208
+#: templates/admin.php:222
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:214
+#: templates/admin.php:228
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:226
+#: templates/admin.php:240
 msgid "Log"
 msgstr "로그"
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Log level"
 msgstr "로그 단계"
 
-#: templates/admin.php:259
+#: templates/admin.php:273
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:260
+#: templates/admin.php:274
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:266 templates/personal.php:169
+#: templates/admin.php:280 templates/personal.php:173
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:270 templates/personal.php:172
+#: templates/admin.php:284 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -534,62 +541,66 @@ msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십
 msgid "Profile picture"
 msgstr "프로필 사진"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
 msgstr "새로이 업로드하기"
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr "파일에서 선택"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr "그림 삭제"
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr ""
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr "대하여"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
 msgstr "프로필 사진을 선택해주세요"
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:126
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:133
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:135
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr ""
 
-#: templates/personal.php:146
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "암호화"
 
-#: templates/personal.php:148
+#: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:154
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr "로그인 비밀번호"
 
-#: templates/personal.php:159
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr "모든 파일 해독"
 

@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "تنظیمات اتصال",
 "Configuration Active" => "پیکربندی فعال",
 "When unchecked, this configuration will be skipped." => "زمانیکه انتخاب نشود، این پیکربندی نادیده گرفته خواهد شد.",
-"User Login Filter" => "فیلتر ورودی کاربر",
 "Backup (Replica) Host" => "پشتیبان گیری (بدل) میزبان",
 "Backup (Replica) Port" => "پشتیبان گیری (بدل) پورت",
 "Disable Main Server" => "غیر فعال کردن سرور اصلی",

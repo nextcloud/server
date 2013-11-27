@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Warning:</b> PHP LDAP modulen er ikke installert, hjelperen vil ikke virke. Vennligst be din system-administrator om å installere den.",
 "Configuration Active" => "Konfigurasjon aktiv",
 "When unchecked, this configuration will be skipped." => "Når ikke huket av så vil denne konfigurasjonen bli hoppet over.",
-"User Login Filter" => "Brukerpålogging filter",
 "Backup (Replica) Host" => "Sikkerhetskopierings (Replica) vert",
 "Case insensitve LDAP server (Windows)" => "Case-insensitiv LDAP tjener (Windows)",
 "Turn off SSL certificate validation." => "Slå av SSL-sertifikat validering",

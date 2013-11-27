@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Konexio Ezarpenak",
 "Configuration Active" => "Konfigurazio Aktiboa",
 "When unchecked, this configuration will be skipped." => "Markatuta ez dagoenean, konfigurazio hau ez da kontutan hartuko.",
-"User Login Filter" => "Erabiltzaileen saioa hasteko iragazkia",
 "Backup (Replica) Host" => "Babeskopia (Replica) Ostalaria",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Eman babeskopia ostalari gehigarri bat. LDAP/AD zerbitzari nagusiaren replica bat izan behar da.",
 "Backup (Replica) Port" => "Babeskopia (Replica) Ataka",

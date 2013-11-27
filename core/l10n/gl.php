@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Editar etiquetas",
 "Error loading dialog template: {error}" => "Produciuse un erro ao cargar o modelo do dialogo: {error}",
 "No tags selected for deletion." => "Non se seleccionaron etiquetas para borrado.",
+"Please reload the page." => "Volva a cargar a páxina.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A actualización non foi satisfactoria, informe deste problema á  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade de ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud.",
 "%s password reset" => "Restabelecer o contrasinal %s",

@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-27 12:08-0500\n"
+"PO-Revision-Date: 2013-11-26 21:10+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -455,7 +455,7 @@ msgstr "No hay etiquetas seleccionadas para borrar."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Vuelva a cargar la página."
 
 #: js/update.js:17
 msgid ""
@@ -598,7 +598,7 @@ msgstr "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMí
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "El objeto dejará de ser compartido el %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -749,11 +749,11 @@ msgstr "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» conti
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Esta instalación de ownCloud se encuentra en modo de usuario único."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Esto quiere decir que solo un administrador puede usarla."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>경고:</b> PHP LDAP 모듈이 비활성화되어 있거나 설치되어 있지 않습니다. 백엔드를 사용할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
 "Connection Settings" => "연결 설정",
 "Configuration Active" => "구성 활성화",
-"User Login Filter" => "사용자 로그인 필터",
 "Backup (Replica) Host" => "백업 (복제) 포트",
 "Backup (Replica) Port" => "백업 (복제) 포트",
 "Disable Main Server" => "주 서버 비활성화",

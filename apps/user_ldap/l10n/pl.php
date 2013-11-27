@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Konfiguracja połączeń",
 "Configuration Active" => "Konfiguracja archiwum",
 "When unchecked, this configuration will be skipped." => "Gdy niezaznaczone, ta konfiguracja zostanie pominięta.",
-"User Login Filter" => "Filtr logowania użytkownika",
 "Backup (Replica) Host" => "Kopia zapasowa (repliki) host",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Dać opcjonalnie  hosta kopii zapasowej . To musi być repliką głównego serwera LDAP/AD.",
 "Backup (Replica) Port" => "Kopia zapasowa (repliki) Port",
