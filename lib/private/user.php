@@ -314,7 +314,7 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		if (\OC::$session->get('user_id')) {
+		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
 			OC_App::loadApps(array('authentication'));
 			self::setupBackends();
 			return self::userExists(\OC::$session->get('user_id'));
@@ -353,7 +353,7 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		if (OC_Group::inGroup($uid, 'admin')) {
+		if (OC_Group::inGroup($uid, 'admin') && self::$incognitoMode === false) {
 			return true;
 		}
 		return false;
