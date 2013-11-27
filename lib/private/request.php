@@ -165,7 +165,7 @@ class OC_Request {
 		if (strpos($path_info, $name) === 0) {
 			$path_info = substr($path_info, strlen($name));
 		}
-		return rtrim($path_info, '/');
+		return $path_info;
 	}
 
 	/**
