@@ -18,7 +18,7 @@
 				<small><?php p($l->t('Please contact your administrator.')); ?></small>
 			</div>
 		<?php endif; ?>
-		<p name="message" class="hidden">
+		<p id="message" class="hidden">
 		</p>
 		<p class="infield grouptop">
 			<input type="text" name="user" id="user" placeholder=""
