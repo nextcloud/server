@@ -86,6 +86,12 @@ class Updater {
 			if ($storageFrom === $storageTo) {
 				$cache = $storageFrom->getCache($internalFrom);
 				$cache->move($internalFrom, $internalTo);
+				if (pathinfo($internalFrom, PATHINFO_EXTENSION) !== pathinfo($internalTo, PATHINFO_EXTENSION)) {
+					// redetect mime type change
+					$mimeType = $storageTo->getMimeType($internalTo);
+					$fileId = $storageTo->getCache()->getId($internalTo);
+					$storageTo->getCache()->update($fileId, array('mimetype' => $mimeType));
+				}
 				$cache->correctFolderSize($internalFrom);
 				$cache->correctFolderSize($internalTo);
 				self::correctFolder($from, time());
