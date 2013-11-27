@@ -1245,7 +1245,6 @@ class Util {
 		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
 		$args = array($this->userId);
-
 		$query = \OCP\DB::prepare($sql);
 
 		$result = $query->execute($args);
@@ -1266,20 +1265,23 @@ class Util {
 		// If no record is found
 		if (empty($migrationStatus)) {
 			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
-			// insert missing entry in DB with status open
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
-			$args = array(
-				$this->userId,
-				'server-side',
-				0,
-				self::MIGRATION_OPEN
-			);
-			$query = \OCP\DB::prepare($sql);
-			$query->execute($args);
+			// insert missing entry in DB with status open if the user exists
+			if (\OCP\User::userExists($this->userId)) {
+				$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
+				$args = array(
+					$this->userId,
+					'server-side',
+					0,
+					self::MIGRATION_OPEN
+				);
+				$query = \OCP\DB::prepare($sql);
+				$query->execute($args);
 
-			return self::MIGRATION_OPEN;
-			// If a record is found
-		} else {
+				return self::MIGRATION_OPEN;
+			} else {
+				return false;
+			}
+		} else { // If a record is found
 			return (int)$migrationStatus[0];
 		}
 
