@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -276,12 +276,12 @@ msgstr ""
 msgid "Share"
 msgstr "பகிர்வு"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
-#: js/share.js:704
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719
 msgid "Error"
 msgstr "வழு"
 
-#: js/share.js:160 js/share.js:732
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "பகிரும் போதான வழு"
 
@@ -301,115 +301,115 @@ msgstr "உங்களுடனும் குழுவுக்கிடை�
 msgid "Shared with you by {owner}"
 msgstr "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
-#: js/share.js:212
+#: js/share.js:213
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:221
+#: js/share.js:222
 msgid "Password protect"
 msgstr "கடவுச்சொல்லை பாதுகாத்தல்"
 
-#: js/share.js:223 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:232
+#: js/share.js:233
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Send"
 msgstr ""
 
-#: js/share.js:238
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "காலாவதி தேதியை குறிப்பிடுக"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "காலவதியாகும் திகதி"
 
-#: js/share.js:274
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "மின்னஞ்சலினூடான பகிர்வு: "
 
-#: js/share.js:277
+#: js/share.js:278
 msgid "No people found"
 msgstr "நபர்கள் யாரும் இல்லை"
 
-#: js/share.js:307 js/share.js:344
+#: js/share.js:322 js/share.js:359
 msgid "group"
 msgstr "குழு"
 
-#: js/share.js:318
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "மீள்பகிர்வதற்கு அனுமதி இல்லை "
 
-#: js/share.js:360
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "{பயனாளர்} உடன் {உருப்படி} பகிரப்பட்டுள்ளது"
 
-#: js/share.js:382
+#: js/share.js:397
 msgid "Unshare"
 msgstr "பகிரப்படாதது"
 
-#: js/share.js:390
+#: js/share.js:405
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:393
+#: js/share.js:408
 msgid "can edit"
 msgstr "தொகுக்க முடியும்"
 
-#: js/share.js:395
+#: js/share.js:410
 msgid "access control"
 msgstr "கட்டுப்பாடான அணுகல்"
 
-#: js/share.js:398
+#: js/share.js:413
 msgid "create"
 msgstr "உருவவாக்கல்"
 
-#: js/share.js:401
+#: js/share.js:416
 msgid "update"
 msgstr "இற்றைப்படுத்தல்"
 
-#: js/share.js:404
+#: js/share.js:419
 msgid "delete"
 msgstr "நீக்குக"
 
-#: js/share.js:407
+#: js/share.js:422
 msgid "share"
 msgstr "பகிர்தல்"
 
-#: js/share.js:449 js/share.js:679
+#: js/share.js:464 js/share.js:694
 msgid "Password protected"
 msgstr "கடவுச்சொல் பாதுகாக்கப்பட்டது"
 
-#: js/share.js:692
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு"
 
-#: js/share.js:704
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு"
 
-#: js/share.js:719
+#: js/share.js:734
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:730
+#: js/share.js:745
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:754
+#: js/share.js:769
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 
@@ -439,6 +439,10 @@ msgstr ""
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
 msgstr ""
 
 #: js/update.js:17
@@ -579,14 +583,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: templates/altmail.php:4
+#: templates/altmail.php:4 templates/mail.php:17
 #, php-format
-msgid ""
-"The share will expire on %s.\n"
-"\n"
+msgid "The share will expire on %s."
 msgstr ""
 
-#: templates/altmail.php:6 templates/mail.php:19
+#: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr ""
 
@@ -684,7 +686,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 
@@ -733,9 +735,22 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
-#: templates/mail.php:17
-#, php-format
-msgid "The share will expire on %s.<br><br>"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
 msgstr ""
 
 #: templates/update.admin.php:3
@@ -750,14 +765,4 @@ msgstr ""
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr ""
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
 msgstr ""

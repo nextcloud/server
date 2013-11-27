@@ -20,7 +20,13 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework/App class
+ */
+
 namespace OCP\AppFramework;
+use OC\AppFramework\routing\RouteConfig;
 
 
 /**
@@ -45,6 +51,28 @@ class App {
 	 */
 	public function getContainer() {
 		return $this->container;
+	}
+
+	/**
+	 * This function is to be called to create single routes and restful routes based on the given $routes array.
+	 *
+	 * Example code in routes.php of tasks app (it will register two restful resources):
+	 * $routes = array(
+	 *		'resources' => array(
+	 *		'lists' => array('url' => '/tasklists'),
+	 *		'tasks' => array('url' => '/tasklists/{listId}/tasks')
+	 *	)
+	 *	);
+	 *
+	 * $a = new TasksApp();
+	 * $a->registerRoutes($this, $routes);
+	 *
+	 * @param \OC_Router $router
+	 * @param array $routes
+	 */
+	public function registerRoutes($router, $routes) {
+		$routeConfig = new RouteConfig($this->container, $router, $routes);
+		$routeConfig->register();
 	}
 
 	/**

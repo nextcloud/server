@@ -114,14 +114,12 @@ class Keymanager {
 	 * @param \OC_FilesystemView $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $path relative path of the file, including filename
-	 * @param $userId
-	 * @param $catfile
-	 * @internal param string $key
+	 * @param string $catfile keyfile content
 	 * @return bool true/false
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setFileKey(\OC_FilesystemView $view, $util, $path, $userId, $catfile) {
+	public static function setFileKey(\OC_FilesystemView $view, $util, $path, $catfile) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -178,7 +176,7 @@ class Keymanager {
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getFileKey(\OC_FilesystemView $view, $util, $filePath) {
+	public static function getFileKey($view, $util, $filePath) {
 
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
@@ -215,13 +213,12 @@ class Keymanager {
 	 * @brief Delete a keyfile
 	 *
 	 * @param \OC_FilesystemView $view
-	 * @param string $userId username
 	 * @param string $path path of the file the key belongs to
 	 * @return bool Outcome of unlink operation
 	 * @note $path must be relative to data/user/files. e.g. mydoc.txt NOT
 	 *       /data/admin/files/mydoc.txt
 	 */
-	public static function deleteFileKey(\OC_FilesystemView $view, $userId, $path) {
+	public static function deleteFileKey(\OC_FilesystemView $view, $path) {
 
 		$trimmed = ltrim($path, '/');
 
@@ -364,7 +361,6 @@ class Keymanager {
 	 * @param string $userId
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $filePath
-	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The sharekey returned is encrypted. Decryption
 	 * of the keyfile must be performed by client code

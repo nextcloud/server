@@ -4,9 +4,7 @@
 </div>
 <div id='notification'></div>
 
-<?php if (isset($_['files']) && count($_['files']) === 0 && $_['dirlisting'] === false && !$_['ajaxLoad']):?>
-	<div id="emptycontent"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
-<?php endif; ?>
+<div id="emptycontent" <?php if (!(isset($_['files']) && count($_['files']) === 0 && $_['dirlisting'] === false && !$_['ajaxLoad'])):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 
 <input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>

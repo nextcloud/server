@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "Nepodařilo se přejmenovat soubor",
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
 "undo" => "vrátit zpět",
+"Error deleting file." => "Chyba při mazání souboru.",
 "_%n folder_::_%n folders_" => array("%n složka","%n složky","%n složek"),
 "_%n file_::_%n files_" => array("%n soubor","%n soubory","%n souborů"),
 "{dirs} and {files}" => "{dirs} a {files}",

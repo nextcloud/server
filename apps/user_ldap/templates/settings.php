@@ -20,9 +20,6 @@
 			<h3><?php p($l->t('Connection Settings'));?></h3>
 			<div>
 				<p><label for="ldap_configuration_active"><?php p($l->t('Configuration Active'));?></label><input type="checkbox" id="ldap_configuration_active" name="ldap_configuration_active" value="1" data-default="<?php p($_['ldap_configuration_active_default']); ?>"  title="<?php p($l->t('When unchecked, this configuration will be skipped.'));?>" /></p>
-				<p><label for="ldap_login_filter"><?php p($l->t('User Login Filter'));?></label><input type="text" id="ldap_login_filter" name="ldap_login_filter"
-					data-default="<?php p($_['ldap_login_filter_default']); ?>"
-					title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>" /></p>
 				<p><label for="ldap_backup_host"><?php p($l->t('Backup (Replica) Host'));?></label><input type="text" id="ldap_backup_host" name="ldap_backup_host" data-default="<?php p($_['ldap_backup_host_default']); ?>" title="<?php p($l->t('Give an optional backup host. It must be a replica of the main LDAP/AD server.'));?>"></p>
 				<p><label for="ldap_backup_port"><?php p($l->t('Backup (Replica) Port'));?></label><input type="number" id="ldap_backup_port" name="ldap_backup_port" data-default="<?php p($_['ldap_backup_port_default']); ?>"  /></p>
 				<p><label for="ldap_override_main_server"><?php p($l->t('Disable Main Server'));?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"  title="<?php p($l->t('Only connect to the replica server.'));?>" /></p>

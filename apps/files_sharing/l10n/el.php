@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
 "The password is wrong. Try again." => "Εσφαλμένο συνθηματικό. Προσπαθήστε ξανά.",
 "Password" => "Συνθηματικό",
 "Sorry, this link doesn’t seem to work anymore." => "Συγγνώμη, αυτός ο σύνδεσμος μοιάζει να μην ισχύει πια.",
@@ -13,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Λήψη",
 "Upload" => "Μεταφόρτωση",
 "Cancel upload" => "Ακύρωση αποστολής",
-"No preview available for" => "Δεν υπάρχει διαθέσιμη προεπισκόπηση για"
+"No preview available for" => "Δεν υπάρχει διαθέσιμη προεπισκόπηση για",
+"Direct link" => "Άμεσος σύνδεσμος"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

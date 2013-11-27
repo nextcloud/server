@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"POT-Creation-Date: 2013-11-26 04:02-0500\n"
+"PO-Revision-Date: 2013-11-26 09:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "Oppdatert"
 msgid "Select a profile picture"
 msgstr "Vel eit profilbilete"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterer filer … Ver venleg og vent, dette kan ta ei stund."
 
@@ -284,18 +284,27 @@ msgid "Locale not working"
 msgstr "Regionaldata fungerer ikkje"
 
 #: templates/admin.php:70
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr ""
+
+#: templates/admin.php:74
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr ""
+
+#: templates/admin.php:78
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "Klarte ikkje endra regionaldata for systemet til %s. Dette vil seia at det kan verta problem med visse teikn i filnamn. Me rår deg sterkt til å installera dei kravde pakkene på systemet ditt så du får støtte for %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr ""
 
-#: templates/admin.php:82
+#: templates/admin.php:90
 msgid "Internet connection not working"
 msgstr "Nettilkoplinga fungerer ikkje"
 
-#: templates/admin.php:85
+#: templates/admin.php:93
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -304,118 +313,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Denne tenaren har ikkje ei fungerande nettilkopling. Dette vil seia at visse funksjonar, som montering av ekstern lagring, meldingar om oppdateringar eller installering av tredjepartsprogram, ikkje vil fungera. Det kan òg henda at du ikkje får tilgang til filene dine utanfrå, eller ikkje får sendt varslingsepostar. Me rår deg til å skru på nettilkoplinga for denne tenaren viss du ønskjer desse funksjonane."
 
-#: templates/admin.php:99
+#: templates/admin.php:107
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:106
+#: templates/admin.php:114
 msgid "Execute one task with each page loaded"
 msgstr "Utfør éi oppgåve for kvar sidelasting"
 
-#: templates/admin.php:114
+#: templates/admin.php:122
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:122
+#: templates/admin.php:130
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:127
+#: templates/admin.php:135
 msgid "Sharing"
 msgstr "Deling"
 
-#: templates/admin.php:133
+#: templates/admin.php:141
 msgid "Enable Share API"
 msgstr "Slå på API-et for deling"
 
-#: templates/admin.php:134
+#: templates/admin.php:142
 msgid "Allow apps to use the Share API"
 msgstr "La app-ar bruka API-et til deling"
 
-#: templates/admin.php:141
+#: templates/admin.php:149
 msgid "Allow links"
 msgstr "Tillat lenkjer"
 
-#: templates/admin.php:142
+#: templates/admin.php:150
 msgid "Allow users to share items to the public with links"
 msgstr "La brukarar dela ting offentleg med lenkjer"
 
-#: templates/admin.php:150
+#: templates/admin.php:158
 msgid "Allow public uploads"
 msgstr "Tillat offentlege opplastingar"
 
-#: templates/admin.php:151
+#: templates/admin.php:159
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "La brukarar tillata andre å lasta opp i deira offentleg delte mapper"
 
-#: templates/admin.php:159
+#: templates/admin.php:167
 msgid "Allow resharing"
 msgstr "Tillat vidaredeling"
 
-#: templates/admin.php:160
+#: templates/admin.php:168
 msgid "Allow users to share items shared with them again"
 msgstr "La brukarar vidaredela delte ting"
 
-#: templates/admin.php:167
+#: templates/admin.php:175
 msgid "Allow users to share with anyone"
 msgstr "La brukarar dela med kven som helst"
 
-#: templates/admin.php:170
+#: templates/admin.php:178
 msgid "Allow users to only share with users in their groups"
 msgstr "La brukarar dela berre med brukarar i deira grupper"
 
-#: templates/admin.php:177
+#: templates/admin.php:185
 msgid "Allow mail notification"
 msgstr ""
 
-#: templates/admin.php:178
+#: templates/admin.php:186
 msgid "Allow user to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 msgid "Security"
 msgstr "Tryggleik"
 
-#: templates/admin.php:198
+#: templates/admin.php:206
 msgid "Enforce HTTPS"
 msgstr "Krev HTTPS"
 
-#: templates/admin.php:200
+#: templates/admin.php:208
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tvingar klientar til å kopla til %s med ei kryptert tilkopling."
 
-#: templates/admin.php:206
+#: templates/admin.php:214
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Ver venleg å kopla til %s med HTTPS (eller skru av SSL-kravet)."
 
-#: templates/admin.php:218
+#: templates/admin.php:226
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:219
+#: templates/admin.php:227
 msgid "Log level"
 msgstr "Log nivå"
 
-#: templates/admin.php:251
+#: templates/admin.php:259
 msgid "More"
 msgstr "Meir"
 
-#: templates/admin.php:252
+#: templates/admin.php:260
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:258 templates/personal.php:169
+#: templates/admin.php:266 templates/personal.php:169
 msgid "Version"
 msgstr "Utgåve"
 
-#: templates/admin.php:262 templates/personal.php:172
+#: templates/admin.php:270 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -574,8 +583,8 @@ msgid "Encryption"
 msgstr "Kryptering"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Krypteringsprogrammet er ikkje lenger slått på, dekrypter alle filene dine"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
 
 #: templates/personal.php:154
 msgid "Log-in password"

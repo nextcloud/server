@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Els fitxers s'han de baixar d'un en un.",
 "Back to Files" => "Torna a Fitxers",
 "Selected files too large to generate zip file." => "Els fitxers seleccionats son massa grans per generar un fitxer zip.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Baixeu els fitxers en trossos petits, de forma separada, o pregunteu a l'administrador.",
 "No source specified when installing app" => "No heu especificat la font en instal·lar l'aplicació",
 "No href specified when installing app from http" => "No heu especificat href en instal·lar l'aplicació des de http",
 "No path specified when installing app from local file" => "No heu seleccionat el camí en instal·lar una aplicació des d'un fitxer local",

@@ -30,19 +30,27 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
-/*
+/**
  * public api to access default strings and urls for your templates
  */
 class Defaults {
 
+	/**
+	 * \OC_Defaults instance to retrieve the defaults
+	 * @return string
+	 */
 	private $defaults;
 
+	/**
+	 * creates a \OC_Defaults instance which is used in all methods to retrieve the
+	 * actual defaults
+	 */
 	function __construct() {
 		$this->defaults = new \OC_Defaults();
 	}
 
 	/**
-	 * @breif get base URL for the organisation behind your ownCloud instance
+	 * get base URL for the organisation behind your ownCloud instance
 	 * @return string
 	 */
 	public function getBaseUrl() {
@@ -50,7 +58,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif link to the desktop sync client
+	 * link to the desktop sync client
 	 * @return string
 	 */
 	public function getSyncClientUrl() {
@@ -58,7 +66,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif base URL to the documentation of your ownCloud instance
+	 * base URL to the documentation of your ownCloud instance
 	 * @return string
 	 */
 	public function getDocBaseUrl() {
@@ -66,7 +74,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif name of your ownCloud instance
+	 * name of your ownCloud instance
 	 * @return string
 	 */
 	public function getName() {
@@ -74,7 +82,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif Entity behind your onwCloud instance
+	 * Entity behind your onwCloud instance
 	 * @return string
 	 */
 	public function getEntity() {
@@ -82,7 +90,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif ownCloud slogan
+	 * ownCloud slogan
 	 * @return string
 	 */
 	public function getSlogan() {
@@ -90,7 +98,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif logo claim
+	 * logo claim
 	 * @return string
 	 */
 	public function getLogoClaim() {
@@ -98,7 +106,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif footer, short version
+	 * footer, short version
 	 * @return string
 	 */
 	public function getShortFooter() {
@@ -106,7 +114,7 @@ class Defaults {
 	}
 
 	/**
-	 * @breif footer, long version
+	 * footer, long version
 	 * @return string
 	 */
 	public function getLongFooter() {

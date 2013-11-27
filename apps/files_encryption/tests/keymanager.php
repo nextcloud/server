@@ -153,7 +153,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		Encryption\Keymanager::setFileKey($this->view, $util, $file, $this->userId, $key);
+		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
 
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 

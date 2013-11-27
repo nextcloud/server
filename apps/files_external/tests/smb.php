@@ -29,6 +29,11 @@ class SMB extends Storage {
 		}
 	}
 
+	public function directoryProvider() {
+		// doesn't support leading/trailing spaces
+		return array(array('folder'));
+	}
+
 	public function testRenameWithSpaces() {
 		$this->instance->mkdir('with spaces');
 		$result = $this->instance->rename('with spaces', 'foo bar');

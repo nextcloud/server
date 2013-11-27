@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-16 03:54+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-18 09:20+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,15 +90,15 @@ msgstr "Viga"
 
 #: js/settings.js:674
 msgid "Configuration OK"
-msgstr ""
+msgstr "Seadistus on korras"
 
 #: js/settings.js:683
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Seadistus on vigane"
 
 #: js/settings.js:692
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Seadistus on puudulik"
 
 #: js/settings.js:709 js/settings.js:718
 msgid "Select groups"

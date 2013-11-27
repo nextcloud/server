@@ -132,7 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Ligipääs on keelatud",
 "Cloud not found" => "Pilve ei leitud",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei,\n\nlihtsalt annan sulle teada, et %s jagas sulle välja %s.\nVaata seda: %s\n\n",
-"The share will expire on %s.\n\n" => "Jagamine aegub %s.\n\n",
+"The share will expire on %s." => "Jagamine aegub %s.",
 "Cheers!" => "Terekest!",
 "Security Warning" => "Turvahoiatus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga.",
@@ -165,11 +165,10 @@ $TRANSLATIONS = array(
 "Log in" => "Logi sisse",
 "Alternative Logins" => "Alternatiivsed sisselogimisviisid",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei,<br><br>lihtsalt annan sulle teada, et %s jagas sulle välja »%s«.<br><a href=\"%s\">Vaata seda!</a><br><br>",
-"The share will expire on %s.<br><br>" => "Jagamine aegub %s.<br><br>",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
+"Thank you for your patience." => "Täname kannatlikkuse eest.",
 "Updating ownCloud to version %s, this may take a while." => "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta.",
 "This ownCloud instance is currently being updated, which may take a while." => "Seda ownCloud instantsi hetkel uuendatakse, võib võtta veidi aega.",
-"Please reload this page after a short time to continue using ownCloud." => "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasutamist.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
-"Thank you for your patience." => "Täname kannatlikkuse eest."
+"Please reload this page after a short time to continue using ownCloud." => "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasutamist."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

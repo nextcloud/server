@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
 "Back to Files" => "ファイルに戻る",
 "Selected files too large to generate zip file." => "選択したファイルはZIPファイルの生成には大きすぎます。",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "ファイルは、小さいファイルに分割されてダウンロードされます。もしくは、管理者にお尋ねください。",
 "No source specified when installing app" => "アプリインストール時のソースが未指定",
 "No href specified when installing app from http" => "アプリインストール時のhttpの URL が未指定",
 "No path specified when installing app from local file" => "アプリインストール時のローカルファイルのパスが未指定",

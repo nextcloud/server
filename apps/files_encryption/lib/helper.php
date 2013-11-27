@@ -225,7 +225,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function isPublicAccess() {
-		if (strpos($_SERVER['HTTP_REFERER'], 'public.php') !== false) {
+		if (\OCP\User::getUser() === false) {
 			return true;
 		} else {
 			return false;
@@ -253,21 +253,21 @@ class Helper {
 	}
 
 	/**
-	 * @brief get user from the path, because we can't assume that \OCP\User::getUser()
-	 *        will always return the right result
-	 * @param type $path
-	 * @return boolean
+	 * @brief try to get the user from the path if no user is logged in
+	 * @param string $path
+	 * @return mixed user or false if we couldn't determine a user
 	 */
 	public static function getUser($path) {
 
 		$user = \OCP\User::getUser();
 
-		// if we are logged in and if we don't come from a public URL, then we return the userid
-		if ($user && strpos($_SERVER['HTTP_REFERER'], 'public.php') === false) {
+
+		// if we are logged in, then we return the userid
+		if ($user) {
 			return $user;
 		}
 
-		// ...otherwise we try to access a publically shared files.
+		// if no user is logged in we try to access a publicly shared files.
 		// In this case we need to try to get the user from the path
 
 		$trimmed = ltrim($path, '/');
@@ -288,10 +288,10 @@ class Helper {
 	}
 
 	/**
-	 * @brief get path to the correspondig file in data/user/files if path points
+	 * @brief get path to the corresponding file in data/user/files if path points
 	 *        to a version or to a file in cache
 	 * @param string $path path to a version or a file in the trash
-	 * @return string path to correspondig file relative to data/user/files
+	 * @return string path to corresponding file relative to data/user/files
 	 */
 	public static function getPathToRealFile($path) {
 		$trimmed = ltrim($path, '/');

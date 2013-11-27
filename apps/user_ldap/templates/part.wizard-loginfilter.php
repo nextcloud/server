@@ -29,6 +29,16 @@
 			</select>
 		</p>
 		<p>
+			<label><a id='toggleRawLoginFilter'>↓ <?php p($l->t('Edit raw filter instead'));?></a></label>
+		</p>
+		<p id="rawLoginFilterContainer" class="invisible">
+			<input type="text" id="ldap_login_filter" name="ldap_login_filter"
+				class="lwautosave"
+				placeholder="<?php p($l->t('Raw LDAP filter'));?>"
+				title="<?php p($l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: "uid=%%uid"'));?>"
+			/>
+		</p>
+		<p>
 			<div class="ldapWizardInfo invisible">&nbsp;</div>
 		</p>
 

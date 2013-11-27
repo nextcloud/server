@@ -54,7 +54,7 @@ abstract class Proxy {
 		return 'group-'.$gid.'-lastSeenOn';
 	}
 
-	abstract protected function callOnLastSeenOn($id, $method, $parameters);
+	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
@@ -64,8 +64,9 @@ abstract class Proxy {
 	 * @param $parameters an array of parameters to be passed
 	 * @return mixed, the result of the specified method
 	 */
-	protected function handleRequest($id, $method, $parameters) {
-		if(!$result = $this->callOnLastSeenOn($id,  $method, $parameters)) {
+	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
+		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
+		if($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}
 		return $result;

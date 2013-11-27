@@ -266,6 +266,11 @@ class OC_Mount_Config {
 										 $mountType,
 										 $applicable,
 										 $isPersonal = false) {
+		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
+		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
+			// can't mount at root or "Shared" folder
+			return false;
+		}
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage

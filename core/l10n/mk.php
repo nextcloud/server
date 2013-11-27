@@ -115,7 +115,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Забранет пристап",
 "Cloud not found" => "Облакот не е најден",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Здраво,\n\nСамо да ве известам дека  %s shared %s with you.\nView it: %s\n\n",
-"The share will expire on %s.\n\n" => "Споделувањето ќе заврши на %s.\n\n",
 "Cheers!" => "Поздрав!",
 "Security Warning" => "Безбедносно предупредување",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Вашата верзија на PHP е ранлива на NULL Byte attack (CVE-2006-7243)",
@@ -144,10 +143,10 @@ $TRANSLATIONS = array(
 "remember" => "запамти",
 "Log in" => "Најава",
 "Alternative Logins" => "Алтернативни најавувања",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
+"Thank you for your patience." => "Благодариме на вашето трпение.",
 "Updating ownCloud to version %s, this may take a while." => "Надградбата на ownCloud на верзијата %s, може да потрае.",
 "This ownCloud instance is currently being updated, which may take a while." => "Оваа инстанца на ownCloud во моментов се надградува, што може малку да потрае.",
-"Please reload this page after a short time to continue using ownCloud." => "Повторно вчитајте ја оваа страница по кратко време за да продолжите да го користите ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
-"Thank you for your patience." => "Благодариме на вашето трпение."
+"Please reload this page after a short time to continue using ownCloud." => "Повторно вчитајте ја оваа страница по кратко време за да продолжите да го користите ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

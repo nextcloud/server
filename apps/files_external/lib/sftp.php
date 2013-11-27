@@ -180,14 +180,6 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function isReadable($path) {
-		return true;
-	}
-
-	public function isUpdatable($path) {
-		return true;
-	}
-
 	public function file_exists($path) {
 		try {
 			return $this->client->stat($this->absPath($path)) !== false;
@@ -293,6 +285,9 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function rename($source, $target) {
 		try {
+			if (!$this->is_dir($target) && $this->file_exists($target)) {
+				$this->unlink($target);
+			}
 			return $this->client->rename(
 				$this->absPath($source),
 				$this->absPath($target)

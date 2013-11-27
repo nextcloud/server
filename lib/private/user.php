@@ -54,6 +54,9 @@ class OC_User {
 
 	private static $_setupedBackends = array();
 
+	// bool, stores if a user want to access a resource anonymously, e.g if he opens a public link
+	private static $incognitoMode = false;
+
 	/**
 	 * @brief registers backend
 	 * @param string $backend name of the backend
@@ -320,6 +323,15 @@ class OC_User {
 	}
 
 	/**
+	 * @brief set incognito mode, e.g. if a user wants to open a public link
+	 * @param bool $status
+	 */
+	public static function setIncognitoMode($status) {
+		self::$incognitoMode = $status;
+
+	}
+
+	/**
 	 * Supplies an attribute to the logout hyperlink. The default behaviour
 	 * is to return an href with '?logout=true' appended. However, it can
 	 * supply any attribute(s) which are valid for <a>.
@@ -354,7 +366,7 @@ class OC_User {
 	 */
 	public static function getUser() {
 		$uid = OC::$session ? OC::$session->get('user_id') : null;
-		if (!is_null($uid)) {
+		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
 		} else {
 			return false;
@@ -407,6 +419,22 @@ class OC_User {
 		$user = self::getManager()->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @brief Check whether user can change his avatar
+	 * @param string $uid The username
+	 * @return bool
+	 *
+	 * Check whether a specified user can change his avatar
+	 */
+	public static function canUserChangeAvatar($uid) {
+		$user = self::getManager()->get($uid);
+		if ($user) {
+			return $user->canChangeAvatar();
 		} else {
 			return false;
 		}

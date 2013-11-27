@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "%s geteilt »%s« mit Ihnen"
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr "Die E-Mail konnte nicht an folgende Benutzer gesendet werden: %s"
+msgstr "An folgende Benutzer konnte keine E-Mail gesendet werden: %s"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -49,11 +49,11 @@ msgstr "Datenbank aktualisiert"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr "Aktualisiere Dateicache, dies könnte eine Weile dauern..."
+msgstr "Aktualisiere Datei-Cache, dies könnte eine Weile dauern..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr "Dateicache aktualisiert"
+msgstr "Datei-Cache aktualisiert"
 
 #: ajax/update.php:26
 #, php-format
@@ -254,7 +254,7 @@ msgstr "Welche Dateien möchten Sie behalten?"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "Wenn Siebeide Versionen auswählen, erhält die kopierte Datei eine Zahl am Ende des Dateinamens."
+msgstr "Wenn Sie beide Versionen auswählen, erhält die kopierte Datei eine Zahl am Ende des Dateinamens."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -284,12 +284,12 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
-#: js/share.js:704
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719
 msgid "Error"
 msgstr "Fehler"
 
-#: js/share.js:160 js/share.js:732
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -309,115 +309,115 @@ msgstr "Von {owner} mit Ihnen und der Gruppe {group} geteilt."
 msgid "Shared with you by {owner}"
 msgstr "Von {owner} mit Ihnen geteilt."
 
-#: js/share.js:212
+#: js/share.js:213
 msgid "Share with user or group …"
 msgstr "Mit Benutzer oder Gruppe teilen ...."
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Share link"
 msgstr "Link teilen"
 
-#: js/share.js:221
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:223 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Passwort"
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "Öffentliches Hochladen erlauben"
 
-#: js/share.js:232
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:238
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Ein Ablaufdatum setzen"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:274
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Mittels einer E-Mail teilen:"
 
-#: js/share.js:277
+#: js/share.js:278
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:307 js/share.js:344
+#: js/share.js:322 js/share.js:359
 msgid "group"
 msgstr "Gruppe"
 
-#: js/share.js:318
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Das Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:360
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Freigegeben in {item} von {user}"
 
-#: js/share.js:382
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:390
+#: js/share.js:405
 msgid "notify by email"
 msgstr "Per E-Mail informieren"
 
-#: js/share.js:393
+#: js/share.js:408
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:395
+#: js/share.js:410
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:398
+#: js/share.js:413
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:401
+#: js/share.js:416
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:404
+#: js/share.js:419
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:407
+#: js/share.js:422
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:449 js/share.js:679
+#: js/share.js:464 js/share.js:694
 msgid "Password protected"
 msgstr "Passwortgeschützt"
 
-#: js/share.js:692
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:704
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:719
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:730
+#: js/share.js:745
 msgid "Email sent"
 msgstr "Email gesendet"
 
-#: js/share.js:754
+#: js/share.js:769
 msgid "Warning"
 msgstr "Warnung"
 
@@ -443,11 +443,15 @@ msgstr "Schlagwörter bearbeiten"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr "Fehler beim Laden der Gesprächsvorlage: {error}"
+msgstr "Fehler beim Laden der Dialogvorlage: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
 msgstr "Es wurden keine Schlagwörter zum Löschen ausgewählt."
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -585,18 +589,16 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Hallo,\n\nich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.\nSchauen Sie es sich an: %s\n\n"
+msgstr "Hallo,\n\n%s hat %s mit Ihnen geteilt.\nSchauen Sie es sich an: %s\n\n"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:4 templates/mail.php:17
 #, php-format
-msgid ""
-"The share will expire on %s.\n"
-"\n"
-msgstr "Die Freigabe wird ablaufen am %s.\n\n"
+msgid "The share will expire on %s."
+msgstr "Die Freigabe wird am %s ablaufen."
 
-#: templates/altmail.php:6 templates/mail.php:19
+#: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "Hallo!"
+msgstr "Noch einen schönen Tag!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -635,7 +637,7 @@ msgstr "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet a
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr "Für Informationen, wie Sie Ihren Server richtig konfigurieren lesen Sie bitte die <a href=\"%s\" target=\"_blank\">Dokumentation</a>."
+msgstr "Bitte lesen Sie die <a href=\"%s\" target=\"_blank\">Dokumentation</a>, um zu erfahren, wie Sie Ihr Server richtig konfigurieren können."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -692,7 +694,7 @@ msgstr "Abschließen ..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -712,7 +714,7 @@ msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr "Serverseitige Authentifizierung fehlgeschlagen!"
+msgstr "Die Authentifizierung auf dem Server ist fehlgeschlagen!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
@@ -739,12 +741,25 @@ msgstr "Alternative Logins"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr "Hallo,<br><br>ich wollte Sie nur wissen lassen, dass %s %s mit Ihnen teilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>"
+msgstr "Hallo,<br><br>%s hat %s mit Ihnen geteilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>"
 
-#: templates/mail.php:17
-#, php-format
-msgid "The share will expire on %s.<br><br>"
-msgstr "Die Freigabe wird ablaufen am %s.<br><br>"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "Diese ownClound Instanz befindet sich derzeit im Einzelbenutzermodus."
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "Dies bedeutet, das nur Administratoren diese Instanz nutzen können."
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Vielen Dank für Ihre Geduld."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -754,18 +769,8 @@ msgstr "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr "Diese OwnCloud-Instanz wird gerade aktualisiert, was eine Weile dauert."
+msgstr "Diese ownCloud-Instanz wird gerade aktualisiert, was eine Weile dauert."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr "Bitte laden Sie diese Seite nach kurzer Zeit neu, um mit der Nutzung von OwnCloud fortzufahren."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Vielen Dank für Ihre Geduld."
+msgstr "Bitte laden Sie diese Seite nach kurzer Zeit neu, um mit der Nutzung von ownCloud fortzufahren."

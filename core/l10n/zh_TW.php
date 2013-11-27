@@ -131,7 +131,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "存取被拒",
 "Cloud not found" => "找不到網頁",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "嗨，\n\n%s 和你分享了 %s ，到這裡看它：%s\n",
-"The share will expire on %s.\n\n" => "分享將於 %s 過期\n",
 "Cheers!" => "太棒了！",
 "Security Warning" => "安全性警告",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "您的 PHP 版本無法抵抗 NULL Byte 攻擊 (CVE-2006-7243)",
@@ -164,11 +163,10 @@ $TRANSLATIONS = array(
 "Log in" => "登入",
 "Alternative Logins" => "其他登入方法",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "嗨，<br><br>%s 和你分享了 %s ，到<a href=\"%s\">這裡</a>看它<br><br>",
-"The share will expire on %s.<br><br>" => "分享將於 %s 過期<br><br>",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "若這個訊息持續出現，請聯絡系統管理員",
+"Thank you for your patience." => "感謝您的耐心",
 "Updating ownCloud to version %s, this may take a while." => "正在將 ownCloud 升級至版本 %s ，這可能需要一點時間。",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud 正在升級，請稍待一會。",
-"Please reload this page after a short time to continue using ownCloud." => "請稍後重新載入這個頁面就可以繼續使用 ownCloud",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "若這個訊息持續出現，請聯絡系統管理員",
-"Thank you for your patience." => "感謝您的耐心"
+"Please reload this page after a short time to continue using ownCloud." => "請稍後重新載入這個頁面就可以繼續使用 ownCloud"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-09 07:01+0000\n"
+"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"PO-Revision-Date: 2013-11-22 08:30+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -125,11 +125,11 @@ msgstr "Nicht genug Speicher vorhanden."
 
 #: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
-msgstr "Hochladen fehlgeschlagen. Dateiinformationen konnten nicht abgerufen werden."
+msgstr "Hochladen fehlgeschlagen. Die Dateiinformationen konnten nicht abgerufen werden."
 
 #: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
-msgstr "Hochladen fehlgeschlagen. Hochgeladene Datei konnte nicht gefunden werden."
+msgstr "Hochladen fehlgeschlagen. Die hochgeladene Datei konnte nicht gefunden werden."
 
 #: ajax/upload.php:172
 msgid "Invalid directory."
@@ -141,7 +141,7 @@ msgstr "Dateien"
 
 #: js/file-upload.js:228
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr "Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist"
+msgstr "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist"
 
 #: js/file-upload.js:239
 msgid "Not enough space available"
@@ -164,17 +164,17 @@ msgstr "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload 
 msgid "URL cannot be empty"
 msgstr "Die URL darf nicht leer sein"
 
-#: js/file-upload.js:523 js/filelist.js:371
+#: js/file-upload.js:523 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Das Benutzerverzeichnis 'Shared' ist ein reservierter Dateiname"
 
-#: js/file-upload.js:525 js/filelist.js:373
+#: js/file-upload.js:525 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr "{new_name} existiert bereits"
 
 #: js/file-upload.js:585
 msgid "Could not create file"
-msgstr "Datei konnte nicht erstellt werden"
+msgstr "Die Datei konnte nicht erstellt werden"
 
 #: js/file-upload.js:601
 msgid "Could not create folder"
@@ -192,39 +192,43 @@ msgstr "Endgültig löschen"
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:857
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:873
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/filelist.js:399
+#: js/filelist.js:405
 msgid "Could not rename file"
 msgstr "Die Datei konnte nicht umbenannt werden"
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} wurde ersetzt durch {new_name}"
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:578 js/filelist.js:652 js/files.js:631
+#: js/filelist.js:576
+msgid "Error deleting file."
+msgstr "Fehler beim Löschen der Datei."
+
+#: js/filelist.js:594 js/filelist.js:668 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n Ordner"
 msgstr[1] "%n Ordner"
 
-#: js/filelist.js:579 js/filelist.js:653 js/files.js:637
+#: js/filelist.js:595 js/filelist.js:669 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n Datei"
 msgstr[1] "%n Dateien"
 
-#: js/filelist.js:586
+#: js/filelist.js:602
 msgid "{dirs} and {files}"
 msgstr "{dirs} und {files}"
 
-#: js/filelist.js:796 js/filelist.js:834
+#: js/filelist.js:812 js/filelist.js:850
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n Datei wird hoch geladen"
@@ -252,14 +256,14 @@ msgstr "Ihr Speicher ist fast voll ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr "Verschlüsselung-App ist aktiviert aber Ihre Schlüssel sind nicht initialisiert. Bitte melden sich nochmals ab und wieder an."
+msgstr "Verschlüsselung-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte melden sich nochmals ab und wieder an."
 
 #: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr "Ungültiger privater Schlüssel für die Verschlüsselung-App. Bitte aktualisieren Sie Ihr privates Schlüssel-Passwort um den Zugriff auf Ihre verschlüsselten Dateien wiederherzustellen."
+msgstr "Ungültiger privater Schlüssel für die Verschlüsselung-App. Bitte aktualisieren Sie Ihr privates Schlüssel-Passwort, um den Zugriff auf Ihre verschlüsselten Dateien wiederherzustellen."
 
 #: js/files.js:118
 msgid ""

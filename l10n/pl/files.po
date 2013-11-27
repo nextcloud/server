@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-11 05:45-0500\n"
-"PO-Revision-Date: 2013-11-09 07:01+0000\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-21 15:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -37,27 +37,27 @@ msgstr "Nazwa pliku nie może być pusta."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Nazwa pliku nie może zawierać \"/\". Proszę wybrać inną nazwę."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Nazwa %s jest już używana w folderze %s. Proszę wybrać inną nazwę."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Niepoprawne źródło"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Błąd podczas pobierania %s do %S"
 
 #: ajax/newfile.php:128
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Błąd przy tworzeniu pliku"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
@@ -65,11 +65,11 @@ msgstr "Nazwa folderu nie może być pusta."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Nazwa folderu nie może zawierać \"/\". Proszę wybrać inną nazwę."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Błąd przy tworzeniu folderu"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -157,23 +157,23 @@ msgstr "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie z
 
 #: js/file-upload.js:519
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL nie może być pusty"
 
-#: js/file-upload.js:523 js/filelist.js:371
+#: js/file-upload.js:523 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "W katalogu domowym \"Shared\" jest zarezerwowana nazwa pliku"
 
-#: js/file-upload.js:525 js/filelist.js:373
+#: js/file-upload.js:525 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr "{new_name} już istnieje"
 
 #: js/file-upload.js:585
 msgid "Could not create file"
-msgstr ""
+msgstr "Nie można utworzyć pliku"
 
 #: js/file-upload.js:601
 msgid "Could not create folder"
-msgstr ""
+msgstr "Nie można utworzyć folderu"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -187,41 +187,45 @@ msgstr "Trwale usuń"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:857
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:873
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/filelist.js:399
+#: js/filelist.js:405
 msgid "Could not rename file"
-msgstr ""
+msgstr "Nie można zmienić nazwy pliku"
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "replaced {new_name} with {old_name}"
 msgstr "zastąpiono {new_name} przez {old_name}"
 
-#: js/filelist.js:518
+#: js/filelist.js:524
 msgid "undo"
 msgstr "cofnij"
 
-#: js/filelist.js:578 js/filelist.js:652 js/files.js:631
+#: js/filelist.js:576
+msgid "Error deleting file."
+msgstr ""
+
+#: js/filelist.js:594 js/filelist.js:668 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n katalog"
 msgstr[1] "%n katalogi"
 msgstr[2] "%n katalogów"
 
-#: js/filelist.js:579 js/filelist.js:653 js/files.js:637
+#: js/filelist.js:595 js/filelist.js:669 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n plik"
 msgstr[1] "%n pliki"
 msgstr[2] "%n plików"
 
-#: js/filelist.js:586
+#: js/filelist.js:602
 msgid "{dirs} and {files}"
 msgstr "{katalogi} and {pliki}"
 
-#: js/filelist.js:796 js/filelist.js:834
+#: js/filelist.js:812 js/filelist.js:850
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Wysyłanie %n pliku"
@@ -293,7 +297,7 @@ msgstr "Modyfikacja"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "Niepoprawna nazwa folderu. Wykorzystanie \"Shared\" jest zarezerwowane."
 
 #: lib/app.php:88
 #, php-format
@@ -362,7 +366,7 @@ msgstr "Anuluj wysyłanie"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Nie masz uprawnień do wczytywania lub tworzenia plików w tym miejscu"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

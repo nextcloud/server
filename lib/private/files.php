@@ -253,7 +253,7 @@ class OC_Files {
 				header("HTTP/1.0 409 Conflict");
 				OC_Template::printErrorPage(
 						$l->t('Selected files too large to generate zip file.'),
-						$l->t('Download the files in smaller chunks, seperately or kindly ask your administrator.')
+						$l->t('Please download the files separately in smaller chunks or kindly ask your administrator.')
 						.'<br/><a href="javascript:history.back()">'
 						. $l->t('Back to Files') . '</a>'
 				);

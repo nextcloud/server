@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-16 03:54+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-21 10:01-0500\n"
+"PO-Revision-Date: 2013-11-16 14:58+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,15 +91,15 @@ msgstr "Hata"
 
 #: js/settings.js:674
 msgid "Configuration OK"
-msgstr ""
+msgstr "Yapılandırma tamam"
 
 #: js/settings.js:683
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Yapılandırma geçersiz"
 
 #: js/settings.js:692
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Yapılandırma tamamlanmamış"
 
 #: js/settings.js:709 js/settings.js:718
 msgid "Select groups"

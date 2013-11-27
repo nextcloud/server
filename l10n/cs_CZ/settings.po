@@ -5,6 +5,7 @@
 # Translators:
 # Twiguard, 2013
 # Honza K. <honza889@gmail.com>, 2013
+# liska_, 2013
 # cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # pstast <petr@stastny.eu>, 2013
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-15 14:00+0000\n"
-"Last-Translator: Twiguard\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"Last-Translator: liska_\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,7 +167,7 @@ msgstr "Aktualizováno"
 msgid "Select a profile picture"
 msgstr "Vyberte profilový obrázek"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace může trvat nějakou dobu."
 
@@ -225,23 +226,23 @@ msgstr "Česky"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Vše (fatální problémy, chyby, varování, informační, ladící)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "informační, varování, chyby a fatální problémy"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Varování, chyby a fatální problémy"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Chyby a fatální problémy"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Pouze fatální problémy"
 
 #: templates/admin.php:22
 msgid "Security Warning"
@@ -286,18 +287,27 @@ msgid "Locale not working"
 msgstr "Lokalizace nefunguje"
 
 #: templates/admin.php:70
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr "Není možné nastavit znakovou sadu, která podporuje UTF-8."
+
+#: templates/admin.php:74
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr "To znamená, že se mohou vyskytnout problémy s určitými znaky v názvech souborů."
+
+#: templates/admin.php:78
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "Systémové nastavení lokalizace nemohlo být nastaveno na %s. To znamená, že se mohou vyskytnout problémy s některými znaky v názvech souborů. Důrazně doporučujeme nainstalovat do vašeho systému balíčky potřebné pro podporu %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr "Velmi doporučujeme nainstalovat na váš systém požadované balíčky podporující jednu z následujících znakových sad: %s."
 
-#: templates/admin.php:82
+#: templates/admin.php:90
 msgid "Internet connection not working"
 msgstr "Připojení k internetu nefunguje"
 
-#: templates/admin.php:85
+#: templates/admin.php:93
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -306,118 +316,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Server nemá funkční připojení k internetu. Některé moduly jako např. externí úložiště, oznámení o dostupných aktualizacích nebo instalace aplikací třetích stran nebudou fungovat. Přístup k souborům z jiných míst a odesílání oznamovacích e-mailů také nemusí fungovat. Pokud si přejete využívat všech vlastností ownCloud, doporučujeme povolit připojení k internetu tomuto serveru."
 
-#: templates/admin.php:99
+#: templates/admin.php:107
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:106
+#: templates/admin.php:114
 msgid "Execute one task with each page loaded"
 msgstr "Spustit jednu úlohu s každým načtením stránky"
 
-#: templates/admin.php:114
+#: templates/admin.php:122
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php je registrován u služby webcron, aby zavolal cron.php jednou za 15 minut přes http."
 
-#: templates/admin.php:122
+#: templates/admin.php:130
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Použít systémovou službu cron pro zavolání cron.php každých 15 minut."
 
-#: templates/admin.php:127
+#: templates/admin.php:135
 msgid "Sharing"
 msgstr "Sdílení"
 
-#: templates/admin.php:133
+#: templates/admin.php:141
 msgid "Enable Share API"
 msgstr "Povolit API sdílení"
 
-#: templates/admin.php:134
+#: templates/admin.php:142
 msgid "Allow apps to use the Share API"
 msgstr "Povolit aplikacím používat API sdílení"
 
-#: templates/admin.php:141
+#: templates/admin.php:149
 msgid "Allow links"
 msgstr "Povolit odkazy"
 
-#: templates/admin.php:142
+#: templates/admin.php:150
 msgid "Allow users to share items to the public with links"
 msgstr "Povolit uživatelům sdílet položky veřejně pomocí odkazů"
 
-#: templates/admin.php:150
+#: templates/admin.php:158
 msgid "Allow public uploads"
 msgstr "Povolit veřejné nahrávání souborů"
 
-#: templates/admin.php:151
+#: templates/admin.php:159
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Povolit uživatelům, aby mohli ostatním umožnit nahrávat do jejich veřejně sdílené složky"
 
-#: templates/admin.php:159
+#: templates/admin.php:167
 msgid "Allow resharing"
 msgstr "Povolit znovu-sdílení"
 
-#: templates/admin.php:160
+#: templates/admin.php:168
 msgid "Allow users to share items shared with them again"
 msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
 
-#: templates/admin.php:167
+#: templates/admin.php:175
 msgid "Allow users to share with anyone"
 msgstr "Povolit uživatelům sdílet s kýmkoliv"
 
-#: templates/admin.php:170
+#: templates/admin.php:178
 msgid "Allow users to only share with users in their groups"
 msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
 
-#: templates/admin.php:177
+#: templates/admin.php:185
 msgid "Allow mail notification"
 msgstr "Povolit e-mailová upozornění"
 
-#: templates/admin.php:178
+#: templates/admin.php:186
 msgid "Allow user to send mail notification for shared files"
 msgstr "Povolit uživatelům odesílat e-mailová upozornění pro sdílené soubory"
 
-#: templates/admin.php:185
+#: templates/admin.php:193
 msgid "Security"
 msgstr "Zabezpečení"
 
-#: templates/admin.php:198
+#: templates/admin.php:206
 msgid "Enforce HTTPS"
 msgstr "Vynutit HTTPS"
 
-#: templates/admin.php:200
+#: templates/admin.php:208
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vynutí připojování klientů k %s šifrovaným spojením."
 
-#: templates/admin.php:206
+#: templates/admin.php:214
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Připojte se k %s skrze HTTPS pro povolení nebo zakázání vynucování SSL."
 
-#: templates/admin.php:218
+#: templates/admin.php:226
 msgid "Log"
 msgstr "Záznam"
 
-#: templates/admin.php:219
+#: templates/admin.php:227
 msgid "Log level"
 msgstr "Úroveň zaznamenávání"
 
-#: templates/admin.php:251
+#: templates/admin.php:259
 msgid "More"
 msgstr "Více"
 
-#: templates/admin.php:252
+#: templates/admin.php:260
 msgid "Less"
 msgstr "Méně"
 
-#: templates/admin.php:258 templates/personal.php:169
+#: templates/admin.php:266 templates/personal.php:169
 msgid "Version"
 msgstr "Verze"
 
-#: templates/admin.php:262 templates/personal.php:172
+#: templates/admin.php:270 templates/personal.php:172
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -569,15 +579,15 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Použijte <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">tuto adresu pro přístup k vašim souborům přes WebDAV</a>"
 
 #: templates/personal.php:146
 msgid "Encryption"
 msgstr "Šifrování"
 
 #: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Šifrovací aplikace již není zapnuta, odšifrujte všechny své soubory"
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr "Šifrovací aplikace již není spuštěna, dešifrujte prosím všechny své soubory"
 
 #: templates/personal.php:154
 msgid "Log-in password"

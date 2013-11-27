@@ -256,7 +256,7 @@ class Share {
 	/**
 	 * Get the item of item type shared with the current user
 	 * @param string $itemType
-	 * @param string $ItemTarget
+	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @return Return depends on format
 	 */
@@ -268,8 +268,8 @@ class Share {
 
 	/**
 	 * Get the item of item type shared with a given user by source
-	 * @param string $ItemType
-	 * @param string $ItemSource
+	 * @param string $itemType
+	 * @param string $itemSource
 	 * @param string $user User user to whom the item was shared
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */

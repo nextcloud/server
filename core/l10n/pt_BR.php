@@ -132,7 +132,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Acesso proibido",
 "Cloud not found" => "Cloud não encontrado",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Olá,\n\ngostaria que você soubesse que %s compartilhou %s com vecê.\nVeja isto: %s\n\n",
-"The share will expire on %s.\n\n" => "O compartilhamento irá expirer em %s.\n\n",
+"The share will expire on %s." => "O compartilhamento irá expirar em %s.",
 "Cheers!" => "Saúde!",
 "Security Warning" => "Aviso de Segurança",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sua versão do PHP está vulnerável ao ataque NULL Byte (CVE-2006-7243)",
@@ -165,11 +165,10 @@ $TRANSLATIONS = array(
 "Log in" => "Fazer login",
 "Alternative Logins" => "Logins alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Olá,<br><br>só gostaria que você soubesse que %s compartilhou »%s« com você.<br><a href=\"%s\">Veja isto!</a><br><br",
-"The share will expire on %s.<br><br>" => "O compartilhamento irá expirar em %s.<br><br>",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
+"Thank you for your patience." => "Obrigado pela sua paciência.",
 "Updating ownCloud to version %s, this may take a while." => "Atualizando ownCloud para a versão %s, isto pode levar algum tempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta instância do ownCloud está sendo atualizada, o que pode demorar um pouco.",
-"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
-"Thank you for your patience." => "Obrigado pela sua paciência."
+"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

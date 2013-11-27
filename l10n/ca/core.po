@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2013-11-26 10:45-0500\n"
+"PO-Revision-Date: 2013-11-26 15:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -278,12 +278,12 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:692
-#: js/share.js:704
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:732
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -303,115 +303,115 @@ msgstr "Compartit amb vos i amb el grup {group} per {owner}"
 msgid "Shared with you by {owner}"
 msgstr "Compartit amb vos per {owner}"
 
-#: js/share.js:212
+#: js/share.js:213
 msgid "Share with user or group …"
 msgstr "Comparteix amb usuari o grup..."
 
-#: js/share.js:218
+#: js/share.js:219
 msgid "Share link"
 msgstr "Enllaç de compartició"
 
-#: js/share.js:221
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:223 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:32
 msgid "Password"
 msgstr "Contrasenya"
 
-#: js/share.js:228
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "Permet pujada pública"
 
-#: js/share.js:232
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "Enllaç per correu electrónic amb la persona"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Send"
 msgstr "Envia"
 
-#: js/share.js:238
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Estableix la data de venciment"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Data de venciment"
 
-#: js/share.js:274
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:277
+#: js/share.js:278
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:307 js/share.js:344
+#: js/share.js:322 js/share.js:359
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:318
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:360
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:382
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:390
+#: js/share.js:405
 msgid "notify by email"
 msgstr "notifica per correu electrònic"
 
-#: js/share.js:393
+#: js/share.js:408
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:395
+#: js/share.js:410
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:398
+#: js/share.js:413
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:401
+#: js/share.js:416
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:404
+#: js/share.js:419
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:407
+#: js/share.js:422
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:449 js/share.js:679
+#: js/share.js:464 js/share.js:694
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:692
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:704
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:719
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:730
+#: js/share.js:745
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
-#: js/share.js:754
+#: js/share.js:769
 msgid "Warning"
 msgstr "Avís"
 
@@ -442,6 +442,10 @@ msgstr "Error en carregar la plantilla de diàleg: {error}"
 #: js/tags.js:261
 msgid "No tags selected for deletion."
 msgstr "No heu seleccionat les etiquetes a eliminar."
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -581,14 +585,12 @@ msgid ""
 "\n"
 msgstr "Ei,\n\nnomés fer-te saber que %s ha compartit %s amb tu.\nMira-ho a: %s\n\n"
 
-#: templates/altmail.php:4
+#: templates/altmail.php:4 templates/mail.php:17
 #, php-format
-msgid ""
-"The share will expire on %s.\n"
-"\n"
-msgstr "El compartit té venciment a %s.\n\n"
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/altmail.php:6 templates/mail.php:19
+#: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr "Salut!"
 
@@ -686,7 +688,7 @@ msgstr "Acabant..."
 msgid "%s is available. Get more information on how to update."
 msgstr "%s està disponible. Obtingueu més informació de com actualitzar."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Surt"
 
@@ -735,10 +737,23 @@ msgid ""
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Ei,<br><br>només fer-te saber que %s ha compartit »%s« amb tu.<br><a href=\"%s\">Mira-ho!</a><br><br>"
 
-#: templates/mail.php:17
-#, php-format
-msgid "The share will expire on %s.<br><br>"
-msgstr "El compartit té venciment a %s.<br><br>"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Gràcies per la paciència."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -753,13 +768,3 @@ msgstr "Aquesta instància d'ownCloud s'està actualitzant i podria trigar una e
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Carregueu de nou aquesta pàgina d'aquí a poc temps per continuar usant ownCloud."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament."
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Gràcies per la paciència."

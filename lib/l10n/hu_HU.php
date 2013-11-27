@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "A fájlokat egyenként kell letölteni.",
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
-"Download the files in smaller chunks, seperately or kindly ask your administrator." => "Tölts le a fileokat kisebb chunkokban, kölün vagy kérj segitséget a rendszergazdádtól.",
 "No source specified when installing app" => "Az alkalmazás telepítéséhez nincs forrás megadva",
 "No href specified when installing app from http" => "Az alkalmazás http-n keresztül történő telepítéséhez nincs href hivetkozás megadva",
 "No path specified when installing app from local file" => "Az alkalmazás helyi telepítéséhez nincs útvonal (mappa) megadva",
