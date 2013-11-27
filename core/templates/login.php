@@ -19,7 +19,7 @@
 			</div>
 		<?php endif; ?>
 		<p id="message" class="hidden">
-			<img src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
+			<img class="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
 			<span id="messageText"></span>
 		</p>
 		<p class="infield grouptop">
