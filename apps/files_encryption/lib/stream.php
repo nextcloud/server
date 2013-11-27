@@ -91,6 +91,7 @@ class Stream {
 			$this->rootView = new \OC_FilesystemView('/');
 		}
 
+
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
 		$this->privateKey = $this->session->getPrivateKey();
@@ -527,10 +528,10 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $this->relPath, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $util, $this->relPath, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
-				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
+				Keymanager::setShareKeys($this->rootView, $util, $this->relPath, $this->encKeyfiles['keys']);
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;

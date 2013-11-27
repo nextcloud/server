@@ -261,6 +261,7 @@ class Helper {
 
 		$user = \OCP\User::getUser();
 
+
 		// if we are logged in, then we return the userid
 		if ($user) {
 			return $user;
