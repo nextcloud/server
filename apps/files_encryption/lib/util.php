@@ -1253,22 +1253,15 @@ class Util {
 
 	/**
 	 * @brief check if files are already migrated to the encryption system
-	 * @param string $uid user Id
 	 * @return migration status, false = in case of no record
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
 	 */
-	public function getMigrationStatus($uid = null) {
-
-		if($uid && \OCP\User::userExists($uid)) {
-			$userId = $uid;
-		} else {
-			$userId = $this->userId;
-		}
+	public function getMigrationStatus() {
 
 		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
 
-		$args = array($userId);
+		$args = array($this->userId);
 		$query = \OCP\DB::prepare($sql);
 
 		$result = $query->execute($args);
@@ -1288,21 +1281,24 @@ class Util {
 
 		// If no record is found
 		if (empty($migrationStatus)) {
-			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $userId . ", no record found", \OCP\Util::ERROR);
-			// insert missing entry in DB with status open
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
-			$args = array(
-				$userId,
-				'server-side',
-				0,
-				self::MIGRATION_OPEN
-			);
-			$query = \OCP\DB::prepare($sql);
-			$query->execute($args);
+			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
+			// insert missing entry in DB with status open if the user exists
+			if (\OCP\User::userExists($this->userId)) {
+				$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
+				$args = array(
+					$this->userId,
+					'server-side',
+					0,
+					self::MIGRATION_OPEN
+				);
+				$query = \OCP\DB::prepare($sql);
+				$query->execute($args);
 
-			return self::MIGRATION_OPEN;
-			// If a record is found
-		} else {
+				return self::MIGRATION_OPEN;
+			} else {
+				return false;
+			}
+		} else { // If a record is found
 			return (int)$migrationStatus[0];
 		}
 
