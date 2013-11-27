@@ -1841,8 +1841,7 @@ class Share {
 	}
 
 	/**
-	 * Function that is called after a user is removed from a group.
-	 * TODO what does it do?
+	 * Function that is called after a user is removed from a group. Shares are cleaned up.
 	 * @param array arguments
 	 */
 	public static function post_removeFromGroup($arguments) {
