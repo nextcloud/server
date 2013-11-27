@@ -7,7 +7,7 @@
 
 
 $(document).ready(function(){
-	$('form[name="login"]').on('submit', function(ev) {
+	$('form[name="login"]').on('submit', function() {
 		var user = $('#user').val();
 		var password = $('#password').val();
 		$.ajax({
@@ -19,7 +19,7 @@ $(document).ready(function(){
 			success: function(response) {
 				if (response.data.migrationCompleted === false) {
 					var message = t('files_encryption', 'Initial encryption started... This can take some time. Please wait.');
-					$('p[id="message"]').html('<img src="' + OC.imagePath('core', 'loading-dark-small.gif') + '"/>  ' + message);
+					$('p[id="message"]').html('<img src="' + OC.imagePath('core', 'loading-dark.gif') + '"/>  ' + message);
 					$('p[id="message"]').removeClass('hidden').addClass('info');
 				}
 			}

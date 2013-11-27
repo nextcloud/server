@@ -283,6 +283,11 @@ input[type="submit"].enabled {
 	opacity: .6;
 }
 
+#body-login p#message img {
+	vertical-align: middle;
+	padding: 5px;
+}
+
 #body-login div.buttons { text-align:center; }
 #body-login p.info {
 	width: 22em;
