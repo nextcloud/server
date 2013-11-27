@@ -38,6 +38,9 @@ class Wizard extends LDAPUtility {
 	const LFILTER_USER_LIST  = 3;
 	const LFILTER_GROUP_LIST = 4;
 
+	const LFILTER_MODE_ASSISTED = 2;
+	const LFILTER_MODE_RAW = 1;
+
 	const LDAP_NW_TIMEOUT = 4;
 
 	/**
@@ -145,6 +148,42 @@ class Wizard extends LDAPUtility {
 		}
 
 		return $this->result;
+	}
+
+	/**
+	 * @brief return the state of the Group Filter Mode
+	 */
+	public function getGroupFilterMode() {
+		$this->getFilterMode('ldapGroupFilterMode');
+		return $this->result;
+	}
+
+	/**
+	 * @brief return the state of the Login Filter Mode
+	 */
+	public function getLoginFilterMode() {
+		$this->getFilterMode('ldapLoginFilterMode');
+		return $this->result;
+	}
+
+	/**
+	 * @brief return the state of the User Filter Mode
+	 */
+	public function getUserFilterMode() {
+		$this->getFilterMode('ldapUserFilterMode');
+		return $this->result;
+	}
+
+	/**
+	 * @brief return the state of the mode of the specified filter
+	 * @param $confkey string, contains the access key of the Configuration
+	 */
+	private function getFilterMode($confkey) {
+		$mode = $this->configuration->$confkey;
+		if(is_null($mode)) {
+			$mode = $this->LFILTER_MODE_ASSISTED;
+		}
+		$this->result->addChange($confkey, $mode);
 	}
 
 	/**

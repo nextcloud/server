@@ -37,6 +37,6 @@ class RouteActionHandler {
 	}
 
 	public function __invoke($params) {
-		App::main($this->controllerName, $this->actionName, $params, $this->container);
+		App::main($this->controllerName, $this->actionName, $this->container, $params);
 	}
 }

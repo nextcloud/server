@@ -145,13 +145,15 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$file = 'unittest-' . time() . '.txt';
 
+		$util = new Encryption\Util($this->view, $this->userId);
+
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key);
+		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
 
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 

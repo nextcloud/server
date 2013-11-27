@@ -157,6 +157,8 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$filename = 'tmp-' . time() . '.test';
 
+		$util = new Encryption\Util(new \OC_FilesystemView(), $this->userId);
+
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/'. $filename, $this->dataShort);
 
 		// Test that data was successfully written
@@ -176,10 +178,10 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($this->dataShort, $retreivedCryptedFile);
 
 		// Get the encrypted keyfile
-		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $filename);
+		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $util, $filename);
 
 		// Attempt to fetch the user's shareKey
-		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
+		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $util, $filename);
 
 		// get session
 		$session = new \OCA\Encryption\Session($this->view);
@@ -199,7 +201,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// Teardown
 		$this->view->unlink($this->userId . '/files/' . $filename);
 
-		Encryption\Keymanager::deleteFileKey($this->view, $this->userId, $filename);
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 	}
 
 	/**
@@ -213,6 +215,8 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// Generate a a random filename
 		$filename = 'tmp-' . time() . '.test';
+
+		$util = new Encryption\Util(new \OC_FilesystemView(), $this->userId);
 
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
@@ -250,10 +254,10 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		//print_r($e);
 
 		// Get the encrypted keyfile
-		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $filename);
+		$encKeyfile = Encryption\Keymanager::getFileKey($this->view, $util, $filename);
 
 		// Attempt to fetch the user's shareKey
-		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $filename);
+		$shareKey = Encryption\Keymanager::getShareKey($this->view, $this->userId, $util, $filename);
 
 		// get session
 		$session = new \OCA\Encryption\Session($this->view);
@@ -283,7 +287,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$this->view->unlink($this->userId . '/files/' . $filename);
 
-		Encryption\Keymanager::deleteFileKey($this->view, $this->userId, $filename);
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 
 	}
 
