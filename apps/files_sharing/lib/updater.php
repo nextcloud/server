@@ -89,9 +89,14 @@ class Shared_Updater {
 	 */
 	static public function deleteHook($params) {
 		self::correctFolders($params['path']);
-		self::removeShare($params['path']);
 	}
 
+	/**
+	 * @param array $params
+	 */
+	static public function postDeleteHook($params) {
+		self::removeShare($params['path']);
+	}
 
 	/**
 	 * @param array $params
