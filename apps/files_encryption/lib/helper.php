@@ -290,7 +290,7 @@ class Helper {
 	 * @brief get path to the corresponding file in data/user/files if path points
 	 *        to a version or to a file in cache
 	 * @param string $path path to a version or a file in the trash
-	 * @return string path to correspondig file relative to data/user/files
+	 * @return string path to corresponding file relative to data/user/files
 	 */
 	public static function getPathToRealFile($path) {
 		$trimmed = ltrim($path, '/');
