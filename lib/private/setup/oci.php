@@ -74,12 +74,12 @@ class OCI extends AbstractDatabase {
 
 			$this->createDBUser($connection);
 
-			\OC_Config::setValue('dbuser', $this->dbusername);
-			\OC_Config::setValue('dbname', $this->dbusername);
+			\OC_Config::setValue('dbuser', $this->dbuser);
+			\OC_Config::setValue('dbname', $this->dbuser);
 			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
 			//create the database not neccessary, oracle implies user = schema
-			//$this->createDatabase($this->dbname, $this->dbusername, $connection);
+			//$this->createDatabase($this->dbname, $this->dbuser, $connection);
 		} else {
 
 			\OC_Config::setValue('dbuser', $this->dbuser);
