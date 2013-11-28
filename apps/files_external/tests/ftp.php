@@ -48,5 +48,17 @@ class FTP extends Storage {
 		$config['secure'] = 'true';
 		$instance = new \OC\Files\Storage\FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+
+		$config['root'] = '';
+		$instance = new \OC\Files\Storage\FTP($config);
+		$this->assertEquals('ftps://ftp:ftp@localhost/somefile.txt', $instance->constructUrl('somefile.txt'));
+
+		$config['root'] = '/abc';
+		$instance = new \OC\Files\Storage\FTP($config);
+		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
+
+		$config['root'] = '/abc/';
+		$instance = new \OC\Files\Storage\FTP($config);
+		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
 	}
 }
