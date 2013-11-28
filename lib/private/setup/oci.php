@@ -140,7 +140,7 @@ class OCI extends AbstractDatabase {
 	 */
 	private function createDBUser($connection) {
 		$name = $this->dbuser;
-		$password = $this->password;
+		$password = $this->dbpassword;
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
