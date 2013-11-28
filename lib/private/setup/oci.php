@@ -29,10 +29,10 @@ class OCI extends AbstractDatabase {
 		\OC_Log::write('setup oracle', 'connect string: ' . $easy_connect_string, \OC_Log::DEBUG);
 		$connection = @oci_connect($this->dbuser, $this->dbpassword, $easy_connect_string);
 		if(!$connection) {
-			$e = oci_error();
-			if (is_array ($e) && isset ($e['message'])) {
+			$errorMessage = $this->getLastError();
+			if ($errorMessage) {
 				throw new \DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
-				$e['message'].' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
+				$errorMessage.' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
 							.' NLS_LANG='.getenv('NLS_LANG')
@@ -206,5 +206,22 @@ class OCI extends AbstractDatabase {
 				array($query, $name, $password)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
+	}
+
+	/**
+	 * @param resource $connection
+	 */
+	protected function getLastError($connection = null) {
+		if ($connection) {
+			$error = oci_error($connection);
+		} else {
+			$error = oci_error();
+		}
+		foreach (array('message', 'code') as $key) {
+			if (isset($error[$key])) {
+				return $error[$key];
+			}
+		}
+		return '';
 	}
 }
