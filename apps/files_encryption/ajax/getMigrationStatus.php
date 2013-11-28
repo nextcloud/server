@@ -10,14 +10,15 @@ use OCA\Encryption\Util;
 
 \OCP\JSON::checkAppEnabled('files_encryption');
 
-$user = isset($_POST['user']) ? $_POST['user'] : '';
+$loginname = isset($_POST['user']) ? $_POST['user'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
 $migrationCompleted = true;
 
-if ($user !== '' && $password !== '') {
-	if (\OCP\User::checkPassword($user, $password)) {
-		$util = new Util(new \OC_FilesystemView('/'), $user);
+if ($loginname !== '' && $password !== '') {
+	$username = \OCP\User::checkPassword($loginname, $password);
+	if ($username) {
+		$util = new Util(new \OC_FilesystemView('/'), $username);
 		if ($util->getMigrationStatus() !== Util::MIGRATION_COMPLETED) {
 			$migrationCompleted = false;
 		}
