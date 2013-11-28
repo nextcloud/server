@@ -318,8 +318,8 @@ class Hooks {
 				// get the parent from current share
 				$parent = $util->getShareParent($params['parent']);
 
-				// if parent is file the it is an 1:1 share
-				if ($parent['item_type'] === 'file') {
+				// if parent has the same type than the child it is a 1:1 share
+				if ($parent['item_type'] === $params['itemType']) {
 
 					// prefix path with Shared
 					$path = '/Shared' . $parent['file_target'];
