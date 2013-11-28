@@ -21,6 +21,8 @@
 		<p id="message" class="hidden">
 			<img class="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
 			<span id="messageText"></span>
+			<!-- the following div ensures that the spinner is always inside the #message div -->
+			<div style="clear: both;"></div>
 		</p>
 		<p class="infield grouptop">
 			<input type="text" name="user" id="user" placeholder=""
