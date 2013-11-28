@@ -508,11 +508,15 @@ $(document).ready(function() {
 		$(this).children('p').remove();
 		
 		// add input field
-		var form=$('<form></form>');
-		var input=$('<input type="text">');
+		var form = $('<form></form>');
+		var input = $('<input type="text">');
+		var newName = $(this).attr('data-newname') || '';
+		if (newName) {
+			input.val(newName);
+		}
 		form.append(input);
 		$(this).append(form);
-
+		var lastPos;
 		var checkInput = function () {
 			var filename = input.val();
 			if (type === 'web' && filename.length === 0) {
@@ -543,6 +547,12 @@ $(document).ready(function() {
 		});
 
 		input.focus();
+		// pre select name up to the extension
+		lastPos = newName.lastIndexOf('.');
+		if (lastPos === -1) {
+			lastPos = newName.length;
+		}
+		input.selectRange(0, lastPos);
 		form.submit(function(event) {
 			event.stopPropagation();
 			event.preventDefault();
