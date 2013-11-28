@@ -37,7 +37,6 @@ try{
 		$mimetype = \OC_Helper::getFileNameMimeType(pathinfo($file, PATHINFO_FILENAME));
 	}
 	$preview->setMimetype($mimetype);
-	$preview->setMimetype($mimetype);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);
 	$preview->setScalingUp($scalingUp);
