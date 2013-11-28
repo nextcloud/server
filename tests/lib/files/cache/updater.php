@@ -202,6 +202,14 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
 	}
 
+	public function testRenameExtension() {
+		$fooCachedData = $this->cache->get('foo.txt');
+		$this->assertEquals('text/plain', $fooCachedData['mimetype']);
+		Filesystem::rename('foo.txt', 'foo.abcd');
+		$fooCachedData = $this->cache->get('foo.abcd');
+		$this->assertEquals('application/octet-stream', $fooCachedData['mimetype']);
+	}
+
 	public function testRenameWithMountPoints() {
 		$storage2 = new \OC\Files\Storage\Temporary(array());
 		$cache2 = $storage2->getCache();
