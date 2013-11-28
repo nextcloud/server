@@ -66,7 +66,7 @@ class Updater {
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($parent);
-			self::correctFolder($parent, time());
+			self::correctFolder($path, time());
 			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
