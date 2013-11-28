@@ -35,6 +35,9 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			if ( ! $this->root || $this->root[0]!='/') {
 				$this->root='/'.$this->root;
 			}
+			if (substr($this->root, -1) !== '/') {
+				$this->root .= '/';
+			}
 		} else {
 			throw new \Exception();
 		}
