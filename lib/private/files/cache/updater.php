@@ -59,10 +59,14 @@ class Updater {
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
 		if ($storage) {
+			$parent = dirname($internalPath);
+			if ($parent === '.') {
+				$parent = '';
+			}
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
-			$cache->correctFolderSize($internalPath);
-			self::correctFolder($path, time());
+			$cache->correctFolderSize($parent);
+			self::correctFolder($parent, time());
 			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
