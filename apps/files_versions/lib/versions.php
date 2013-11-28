@@ -169,7 +169,8 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
 
 			$abs_path = $versions_fileview->getLocalFile($filename . '.v');
-			if (($versions = self::getVersions($uid, $filename))) {
+			$versions = self::getVersions($uid, $filename);
+			if (!empty($versions)) {
 				$versionsSize = self::getVersionsSize($uid);
 				if ($versionsSize === false || $versionsSize < 0) {
 					$versionsSize = self::calculateSize($uid);
