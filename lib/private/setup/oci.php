@@ -51,7 +51,7 @@ class OCI extends AbstractDatabase {
 			." WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
