@@ -173,6 +173,10 @@ class Preview {
 		return $this;
 	}
 
+	/**
+	 * @brief set mimetype explicitely
+	 * @param string $mimetype
+	 */
 	public function setMimetype($mimetype) {
 		$this->mimetype = $mimetype;
 	}
