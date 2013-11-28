@@ -77,6 +77,12 @@ class App {
 		) {
 			// successful rename
 			$meta = $this->view->getFileInfo($dir . '/' . $newname);
+			if ($meta['mimetype'] === 'httpd/unix-directory') {
+				$meta['type'] = 'dir';
+			}
+			else {
+				$meta['type'] = 'file';
+			}
 			$fileinfo = array(
 				'id' => $meta['fileid'],
 				'mime' => $meta['mimetype'],
