@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-03 12:38-0500\n"
-"PO-Revision-Date: 2013-11-03 17:38+0000\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 19:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,10 @@ msgstr ""
 
 #: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
+msgstr ""
+
+#: js/detect-migration.js:21
+msgid "Initial encryption started... This can take some time. Please wait."
 msgstr ""
 
 #: js/settings-admin.js:13

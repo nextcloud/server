@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-27 17:30+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -251,7 +251,7 @@ msgstr "Güvenlik Uyarisi"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "%s konumuna HTTP aracılığıyla erişiyorsunuz. Sunucunuzu HTTPS kullanımını zorlaması üzere yapılandırmanızı şiddetle öneririz."
 
 #: templates/admin.php:39
 msgid ""
@@ -561,7 +561,7 @@ msgstr "PNG veya JPG. Genellikle karedir ancak kesebileceksiniz."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Görüntü resminiz, özgün hesabınız tarafından sağlanıyor."
 
 #: templates/personal.php:101
 msgid "Abort"

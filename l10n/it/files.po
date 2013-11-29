@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 21:00+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 19:08+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,23 +153,23 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento."
 
-#: js/file-upload.js:519
+#: js/file-upload.js:523
 msgid "URL cannot be empty"
 msgstr "L'URL non può essere vuoto."
 
-#: js/file-upload.js:523 js/filelist.js:377
+#: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Nella cartella home 'Shared' è un nome riservato"
 
-#: js/file-upload.js:525 js/filelist.js:379
+#: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr "{new_name} esiste già"
 
-#: js/file-upload.js:585
+#: js/file-upload.js:595
 msgid "Could not create file"
 msgstr "Impossibile creare il file"
 
-#: js/file-upload.js:601
+#: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Impossibile creare la cartella"
 
@@ -185,7 +185,7 @@ msgstr "Elimina definitivamente"
 msgid "Rename"
 msgstr "Rinomina"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:873
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
 msgid "Pending"
 msgstr "In corso"
 
@@ -193,35 +193,35 @@ msgstr "In corso"
 msgid "Could not rename file"
 msgstr "Impossibile rinominare il file"
 
-#: js/filelist.js:524
+#: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
 msgstr "sostituito {new_name} con {old_name}"
 
-#: js/filelist.js:524
+#: js/filelist.js:539
 msgid "undo"
 msgstr "annulla"
 
-#: js/filelist.js:576
+#: js/filelist.js:591
 msgid "Error deleting file."
 msgstr "Errore durante l'eliminazione del file."
 
-#: js/filelist.js:594 js/filelist.js:668 js/files.js:631
+#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n cartella"
 msgstr[1] "%n cartelle"
 
-#: js/filelist.js:595 js/filelist.js:669 js/files.js:637
+#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n file"
 msgstr[1] "%n file"
 
-#: js/filelist.js:602
+#: js/filelist.js:617
 msgid "{dirs} and {files}"
 msgstr "{dirs} e {files}"
 
-#: js/filelist.js:812 js/filelist.js:850
+#: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Caricamento di %n file in corso"
@@ -294,7 +294,7 @@ msgstr "Modificato"
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr "Nome della cartella non valido. L'uso di 'Shared' è riservato."
 
-#: lib/app.php:88
+#: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s non può essere rinominato"
@@ -340,8 +340,16 @@ msgid "New"
 msgstr "Nuovo"
 
 #: templates/index.php:8
+msgid "New text file"
+msgstr ""
+
+#: templates/index.php:8
 msgid "Text file"
 msgstr "File di testo"
+
+#: templates/index.php:10
+msgid "New folder"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Folder"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 11:30+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,15 +91,15 @@ msgstr "エラー"
 
 #: js/settings.js:777
 msgid "Configuration OK"
-msgstr ""
+msgstr "設定OK"
 
 #: js/settings.js:786
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "設定に誤りがあります"
 
 #: js/settings.js:795
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "設定が不完全です"
 
 #: js/settings.js:812 js/settings.js:821
 msgid "Select groups"

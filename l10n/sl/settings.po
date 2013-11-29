@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-27 18:20+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +98,7 @@ msgstr "Ni navedenega uporabnika"
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Podati je treba skrbniško obnovitveno geslo, sicer bodo vsi uporabniški podatki izgubljeni."
 
 #: changepassword/controller.php:79
 msgid ""
@@ -273,7 +273,7 @@ msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja
 #: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Preverite <a href=\"%s\">vodnike namestitve</a>."
 
 #: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
@@ -291,13 +291,13 @@ msgstr "Jezikovne prilagoditve ne delujejo."
 
 #: templates/admin.php:84
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8."
 
 #: templates/admin.php:88
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek."
 
 #: templates/admin.php:92
 #, php-format
@@ -364,7 +364,7 @@ msgstr "Dovoli javno pošiljanje datotek v oblak"
 #: templates/admin.php:173
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Dovoli uporabnikom, da omogočijo drugim uporabnikom, pošiljati datoteke v javno mapo."
 
 #: templates/admin.php:181
 msgid "Allow resharing"
@@ -408,7 +408,7 @@ msgstr "Vsili povezavo odjemalca z %s preko šifrirane povezave."
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Za nastavljanje šifriranja SSL je treba vzpostaviti povezavo z mestom %s preko protokola HTTPS."
 
 #: templates/admin.php:240
 msgid "Log"
@@ -555,7 +555,7 @@ msgstr "Odstrani sliko"
 
 #: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Slika je lahko png ali jpg. Slika naj bo kvadratna, ni pa to pogoj, saj  jo bo mogoče obrezati."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."

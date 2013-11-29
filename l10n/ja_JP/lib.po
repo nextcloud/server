@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 11:30+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,15 +57,15 @@ msgstr "管理"
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"
 
-#: private/avatar.php:60
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "不明なファイルタイプ"
 
-#: private/avatar.php:65
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "無効な画像"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "管理下のウェブサービス"
 
@@ -94,7 +94,7 @@ msgstr "選択したファイルはZIPファイルの生成には大きすぎま
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "少しずつに分けてファイルをダウンロードするか、管理者に問い合わせてください。"
 
 #: private/installer.php:63
 msgid "No source specified when installing app"

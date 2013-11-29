@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-27 18:20+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,7 +258,7 @@ msgstr "Které soubory chcete ponechat?"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněn o číslo."
+msgstr "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněný o číslo."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -315,7 +315,7 @@ msgstr "S Vámi sdílí {owner}"
 
 #: js/share.js:213
 msgid "Share with user or group …"
-msgstr "Sdílej s uživatelem nebo skupinou"
+msgstr "Sdílet s uživatelem nebo skupinou"
 
 #: js/share.js:219
 msgid "Share link"
@@ -325,7 +325,7 @@ msgstr "Sdílet odkaz"
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:38
 msgid "Password"
 msgstr "Heslo"
 
@@ -401,7 +401,7 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
@@ -493,7 +493,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "E-mailem Vám bude zaslán odkaz pro obnovu hesla."
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: templates/login.php:31
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -724,19 +724,19 @@ msgstr "Autentizace na serveru selhala!"
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vašeho správce."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 
@@ -773,8 +773,8 @@ msgstr "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr "Tato instalace ownCloud je právě aktualizována, může to trvat chvíli."
+msgstr "Tato instalace ownCloud je právě aktualizována, může to chvíli trvat."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr "Pro pokračování načtěte, prosím, stránku znovu po chvíli."
+msgstr "Pro pokračování načtěte, prosím, stránku po chvíli znovu."

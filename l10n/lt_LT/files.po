@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 11:20+0000\n"
-"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 19:08+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,23 +154,23 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Failo įkėlimas pradėtas. Jei paliksite šį puslapį, įkėlimas nutrūks."
 
-#: js/file-upload.js:519
+#: js/file-upload.js:523
 msgid "URL cannot be empty"
 msgstr "URL negali būti tuščias."
 
-#: js/file-upload.js:523 js/filelist.js:377
+#: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:525 js/filelist.js:379
+#: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr "{new_name} jau egzistuoja"
 
-#: js/file-upload.js:585
+#: js/file-upload.js:595
 msgid "Could not create file"
 msgstr "Neįmanoma sukurti failo"
 
-#: js/file-upload.js:601
+#: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Neįmanoma sukurti aplanko"
 
@@ -186,7 +186,7 @@ msgstr "Ištrinti negrįžtamai"
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:874
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
 msgid "Pending"
 msgstr "Laukiantis"
 
@@ -194,37 +194,37 @@ msgstr "Laukiantis"
 msgid "Could not rename file"
 msgstr "Neįmanoma pervadinti failo"
 
-#: js/filelist.js:524
+#: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
 msgstr "pakeiskite {new_name} į {old_name}"
 
-#: js/filelist.js:524
+#: js/filelist.js:539
 msgid "undo"
 msgstr "anuliuoti"
 
-#: js/filelist.js:576
+#: js/filelist.js:591
 msgid "Error deleting file."
 msgstr "Klaida trinant failą."
 
-#: js/filelist.js:594 js/filelist.js:668 js/files.js:631
+#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n aplankas"
 msgstr[1] "%n aplankai"
 msgstr[2] "%n aplankų"
 
-#: js/filelist.js:595 js/filelist.js:669 js/files.js:637
+#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n failas"
 msgstr[1] "%n failai"
 msgstr[2] "%n failų"
 
-#: js/filelist.js:602
+#: js/filelist.js:617
 msgid "{dirs} and {files}"
 msgstr "{dirs} ir {files}"
 
-#: js/filelist.js:813 js/filelist.js:851
+#: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Įkeliamas %n failas"
@@ -298,7 +298,7 @@ msgstr "Pakeista"
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr ""
 
-#: lib/app.php:88
+#: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s negali būti pervadintas"
@@ -344,8 +344,16 @@ msgid "New"
 msgstr "Naujas"
 
 #: templates/index.php:8
+msgid "New text file"
+msgstr ""
+
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Teksto failas"
+
+#: templates/index.php:10
+msgid "New folder"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Folder"

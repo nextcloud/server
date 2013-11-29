@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-29 11:30+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -250,7 +250,7 @@ msgstr "セキュリティ警告"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "HTTP 経由で %s にアクセスしています。HTTPS を使用するようにサーバの設定を行うことを強くおすすめします。"
 
 #: templates/admin.php:39
 msgid ""
@@ -292,20 +292,20 @@ msgstr "ロケールが動作していません"
 
 #: templates/admin.php:84
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "システムロケールを UTF-8 をサポートするロケールに設定できません。"
 
 #: templates/admin.php:88
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "これは、ファイル名の特定の文字に問題があることを意味しています。"
 
 #: templates/admin.php:92
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。"
 
 #: templates/admin.php:104
 msgid "Internet connection not working"
@@ -560,7 +560,7 @@ msgstr "png と jpg のいずれか。正方形が理想ですが、切り取っ
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "あなたのアバターは、あなたのオリジナルのアカウントで提供されています。"
 
 #: templates/personal.php:101
 msgid "Abort"
@@ -595,7 +595,7 @@ msgstr "暗号化"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
 #: templates/personal.php:158
 msgid "Log-in password"

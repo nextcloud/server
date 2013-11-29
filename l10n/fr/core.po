@@ -10,13 +10,14 @@
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 # plachance <patlachance@gmail.com>, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
+# RyDroid <rydroid_trans@yahoo.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-28 20:50+0000\n"
+"Last-Translator: etiess <etiess@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -320,7 +321,7 @@ msgstr "Partager le lien"
 msgid "Password protect"
 msgstr "Protéger par un mot de passe"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:38
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -396,7 +397,7 @@ msgstr "supprimer"
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
@@ -450,7 +451,7 @@ msgstr "Aucune balise sélectionnée pour la suppression."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Veuillez recharger la page."
 
 #: js/update.js:17
 msgid ""
@@ -488,7 +489,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Vous allez recevoir un e-mail contenant un lien pour réinitialiser votre mot de passe."
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: templates/login.php:31
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
@@ -588,7 +589,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Bonjour,\n\nJuste pour vous signaler que %s a partagé %s avec vous.\nConsultez-le : %s\n"
+msgstr "Bonjour,\n\nNous vous informons que %s a partagé %s avec vous.\nConsultez-le : %s\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -597,7 +598,7 @@ msgstr "Le partage expirera le %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "Salutations!"
+msgstr "À bientôt !"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -719,19 +720,19 @@ msgstr "L'authentification côté serveur a échoué !"
 msgid "Please contact your administrator."
 msgstr "Veuillez contacter votre administrateur."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Mot de passe perdu ?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "se souvenir de moi"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Logins alternatifs"
 
@@ -740,15 +741,15 @@ msgstr "Logins alternatifs"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr "Bonjour,<br><br>Juste pour vous informer que %s a partagé »%s« avec vous.<br><a href=\"%s\">Consultez-le !</a><br><br>"
+msgstr "Bonjour,<br><br>Nous vous informons que %s a partagé »%s« avec vous.<br><a href=\"%s\">Consultez-le !</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Cette instance de ownCloud est actuellement en mode utilisateur unique."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Cela signifie que uniquement les administrateurs peuvent utiliser l'instance."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

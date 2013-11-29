@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 14:23+0000\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-27 18:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -55,11 +55,11 @@ msgstr "Skrbništvo"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Posodabljanje \"%s\" je spodletelo."
 
-#: private/avatar.php:62
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "Neznana vrsta datoteke"
 
-#: private/avatar.php:67
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "Neveljavna slika"
 
@@ -117,17 +117,17 @@ msgstr ""
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Program je brez datoteke info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Programa ni mogoče namestiti zaradi nedovoljene programske kode."
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Programa ni mogoče namestiti, ker ni skladen z trenutno nameščeno različico oblaka ownCloud."
 
 #: private/installer.php:146
 msgid ""
@@ -139,7 +139,7 @@ msgstr ""
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Program ni mogoče namestiti zaradi neustrezne različice datoteke info.xml. Ta ni enaka različici programa."
 
 #: private/installer.php:169
 msgid "App directory already exists"
@@ -148,7 +148,7 @@ msgstr "Programska mapa že obstaja"
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"

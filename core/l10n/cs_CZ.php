@@ -53,7 +53,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} souborový konflikt","{count} souborové konflikty","{count} souborových konfliktů"),
 "One file conflict" => "Jeden konflikt souboru",
 "Which files do you want to keep?" => "Které soubory chcete ponechat?",
-"If you select both versions, the copied file will have a number added to its name." => "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněn o číslo.",
+"If you select both versions, the copied file will have a number added to its name." => "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněný o číslo.",
 "Cancel" => "Zrušit",
 "Continue" => "Pokračovat",
 "(all selected)" => "(vybráno vše)",
@@ -67,7 +67,7 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Chyba při změně oprávnění",
 "Shared with you and the group {group} by {owner}" => "S Vámi a skupinou {group} sdílí {owner}",
 "Shared with you by {owner}" => "S Vámi sdílí {owner}",
-"Share with user or group …" => "Sdílej s uživatelem nebo skupinou",
+"Share with user or group …" => "Sdílet s uživatelem nebo skupinou",
 "Share link" => "Sdílet odkaz",
 "Password protect" => "Chránit heslem",
 "Password" => "Heslo",
@@ -170,7 +170,7 @@ $TRANSLATIONS = array(
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktujte, prosím, správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",
 "Thank you for your patience." => "Děkuji za trpělivost.",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat.",
-"This ownCloud instance is currently being updated, which may take a while." => "Tato instalace ownCloud je právě aktualizována, může to trvat chvíli.",
-"Please reload this page after a short time to continue using ownCloud." => "Pro pokračování načtěte, prosím, stránku znovu po chvíli."
+"This ownCloud instance is currently being updated, which may take a while." => "Tato instalace ownCloud je právě aktualizována, může to chvíli trvat.",
+"Please reload this page after a short time to continue using ownCloud." => "Pro pokračování načtěte, prosím, stránku po chvíli znovu."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"PO-Revision-Date: 2013-11-28 14:50+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -248,7 +248,7 @@ msgstr "Aviso de seguranza"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Está accedendo a %s a través de HTTP. Suxerímoslle que configure o seu servidor para requirir, no seu canto, o uso de HTTPS."
 
 #: templates/admin.php:39
 msgid ""
@@ -558,7 +558,7 @@ msgstr "Calquera png ou jpg. É preferíbel que sexa cadrada, mais poderá recor
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "O seu avatar é fornecido pola súa conta orixinal."
 
 #: templates/personal.php:101
 msgid "Abort"

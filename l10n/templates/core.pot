@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
+"POT-Creation-Date: 2013-11-29 14:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:38
 msgid "Password"
 msgstr ""
 
@@ -390,7 +390,7 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr ""
 
@@ -482,7 +482,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: templates/login.php:31
 msgid "Username"
 msgstr ""
 
@@ -713,19 +713,19 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr ""
 

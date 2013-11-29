@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Could not rename file" => "ファイルの名前変更ができませんでした",
 "replaced {new_name} with {old_name}" => "{old_name} を {new_name} に置換",
 "undo" => "元に戻す",
+"Error deleting file." => "ファイルの削除エラー。",
 "_%n folder_::_%n folders_" => array("%n 個のフォルダ"),
 "_%n file_::_%n files_" => array("%n 個のファイル"),
 "{dirs} and {files}" => "{dirs} と {files}",
