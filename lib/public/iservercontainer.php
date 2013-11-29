@@ -100,11 +100,15 @@ interface IServerContainer {
 	function getUserSession();
 
 	/**
+	 * Returns the navigation manager
+	 *
 	 * @return \OCP\INavigationManager
 	 */
 	function getNavigationManager();
 
 	/**
+	 * Returns the config manager
+	 *
 	 * @return \OCP\IConfig
 	 */
 	function getConfig();
@@ -117,11 +121,15 @@ interface IServerContainer {
 	function getL10N($app);
 
 	/**
+	 * Returns the URL generator
+	 *
 	 * @return \OCP\IURLGenerator
 	 */
 	function getURLGenerator();
 
 	/**
+	 * Returns the Helper
+	 *
 	 * @return \OCP\IHelper
 	 */
 	function getHelper();
@@ -155,7 +163,8 @@ interface IServerContainer {
 	function getDatabaseConnection();
 
 	/**
-	 * @brief Returns an avatar manager, used for avatar functionality
+	 * Returns an avatar manager, used for avatar functionality
+	 *
 	 * @return \OCP\IAvatarManager
 	 */
 	function getAvatarManager();
