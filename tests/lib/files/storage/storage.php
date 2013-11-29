@@ -254,7 +254,19 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->mkdir('folder/bar');
 		$this->instance->file_put_contents('folder/asd.txt', 'foobar');
 		$this->instance->file_put_contents('folder/bar/foo.txt', 'asd');
-		$this->instance->rmdir('folder');
+		$this->assertTrue($this->instance->rmdir('folder'));
+		$this->assertFalse($this->instance->file_exists('folder/asd.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar'));
+		$this->assertFalse($this->instance->file_exists('folder'));
+	}
+
+	public function testRecursiveUnlink() {
+		$this->instance->mkdir('folder');
+		$this->instance->mkdir('folder/bar');
+		$this->instance->file_put_contents('folder/asd.txt', 'foobar');
+		$this->instance->file_put_contents('folder/bar/foo.txt', 'asd');
+		$this->assertTrue($this->instance->unlink('folder'));
 		$this->assertFalse($this->instance->file_exists('folder/asd.txt'));
 		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
 		$this->assertFalse($this->instance->file_exists('folder/bar'));

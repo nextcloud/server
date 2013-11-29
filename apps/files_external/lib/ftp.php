@@ -61,6 +61,22 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		$url.='://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
 		return $url;
 	}
+
+	/**
+	 * Unlinks file or directory
+	 * @param string @path
+	 */
+	public function unlink($path) {
+		if ($this->is_dir($path)) {
+			return $this->rmdir($path);
+		}
+		else {
+			$url = $this->constructUrl($path);
+			$result = unlink($url);
+			clearstatcache(true, $url);
+			return $result;
+		}
+	}
 	public function fopen($path,$mode) {
 		switch($mode) {
 			case 'r':
