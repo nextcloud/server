@@ -25,8 +25,9 @@ abstract class StreamWrapper extends Common {
 					$this->unlink($path . '/' . $file);
 				}
 			}
-			$success = rmdir($this->constructUrl($path));
-			clearstatcache();
+			$url = $this->constructUrl($path);
+			$success = rmdir($url);
+			clearstatcache(false, $url);
 			return $success;
 		} else {
 			return false;
@@ -46,8 +47,11 @@ abstract class StreamWrapper extends Common {
 	}
 
 	public function unlink($path) {
-		$success = unlink($this->constructUrl($path));
-		clearstatcache();
+		$url = $this->constructUrl($path);
+		$success = unlink($url);
+		// normally unlink() is supposed to do this implicitly,
+		// but doing it anyway just to be sure
+		clearstatcache(false, $url);
 		return $success;
 	}
 
