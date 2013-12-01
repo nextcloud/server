@@ -827,11 +827,12 @@ class Share {
 					$date = null;
 				} else {
 					$date = new \DateTime($date);
-					$date = date('Y-m-d H:i', $date->format('U') - $date->getOffset());
 				}
 				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
+				$query->bindValue(1, $date, 'datetime');
 				foreach ($items as $item) {
-					$query->execute(array($date, $item['id']));
+					$query->bindValue(2, (int) $item['id']);
+					$query->execute();
 				}
 				return true;
 			}
@@ -847,7 +848,8 @@ class Share {
 	protected static function expireItem(array $item) {
 		if (!empty($item['expiration'])) {
 			$now = new \DateTime();
-			$expirationDate = new \DateTime($item['expiration'], new \DateTimeZone('UTC'));
+			$expirationDate = \Doctrine\DBAL\Types\Type::getType('datetime')
+				->convertToPhpValue($item['expiration'], \OC_DB::getConnection()->getDatabasePlatform());
 			if ($now > $expirationDate) {
 				self::unshareItem($item);
 				return true;
