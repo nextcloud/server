@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Save" => "ذخیره",
 "New" => "جدید",
 "Text file" => "فایل متنی",
+"New folder" => "پوشه جدید",
 "Folder" => "پوشه",
 "From link" => "از پیوند",
 "Deleted files" => "فایل های حذف شده",

@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Save" => "保存",
 "New" => "新建",
 "Text file" => "文本文件",
+"New folder" => "添加文件夹",
 "Folder" => "文件夹",
 "From link" => "来自链接",
 "Deleted files" => "已删除文件",

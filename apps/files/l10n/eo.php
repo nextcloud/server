@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Save" => "Konservi",
 "New" => "Nova",
 "Text file" => "Tekstodosiero",
+"New folder" => "Nova dosierujo",
 "Folder" => "Dosierujo",
 "From link" => "El ligilo",
 "Deleted files" => "Forigitaj dosieroj",

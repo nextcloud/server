@@ -72,6 +72,7 @@ $TRANSLATIONS = array(
 "Save" => "Išsaugoti",
 "New" => "Naujas",
 "Text file" => "Teksto failas",
+"New folder" => "Naujas aplankas",
 "Folder" => "Katalogas",
 "From link" => "Iš nuorodos",
 "Deleted files" => "Ištrinti failai",

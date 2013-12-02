@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-12-01 10:50+0000\n"
+"Last-Translator: vsapronov <vladimir.sapronov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -210,7 +210,7 @@ msgstr "отмена"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Ошибка при удалении файла."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -351,7 +351,7 @@ msgstr "Новый"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Новый текстовый файл"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -359,7 +359,7 @@ msgstr "Текстовый файл"
 
 #: templates/index.php:10
 msgid "New folder"
-msgstr ""
+msgstr "Новая папка"
 
 #: templates/index.php:10
 msgid "Folder"

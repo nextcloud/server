@@ -73,6 +73,7 @@ $TRANSLATIONS = array(
 "Save" => "Mentés",
 "New" => "Új",
 "Text file" => "Szövegfájl",
+"New folder" => "Új mappa",
 "Folder" => "Mappa",
 "From link" => "Feltöltés linkről",
 "Deleted files" => "Törölt fájlok",

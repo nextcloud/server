@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Save" => "Lagre",
 "New" => "Ny",
 "Text file" => "Tekstfil",
+"New folder" => "Ny mappe",
 "Folder" => "Mappe",
 "From link" => "Fra link",
 "Deleted files" => "Slettet filer",

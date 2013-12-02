@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-12-01 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -55,15 +55,15 @@ msgstr "관리자"
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 업그레이드에 실패했습니다."
 
-#: private/avatar.php:60
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "알수없는 파일형식"
 
-#: private/avatar.php:65
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "잘못된 그림"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"
 

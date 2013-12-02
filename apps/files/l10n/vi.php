@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Save" => "Lưu",
 "New" => "Mới",
 "Text file" => "Tập tin văn bản",
+"New folder" => "Tạo thư mục",
 "Folder" => "Thư mục",
 "From link" => "Từ liên kết",
 "Deleted files" => "File đã bị xóa",

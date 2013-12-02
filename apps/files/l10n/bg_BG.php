@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "Save" => "Запис",
 "New" => "Ново",
 "Text file" => "Текстов файл",
+"New folder" => "Нова папка",
 "Folder" => "Папка",
 "Cancel upload" => "Спри качването",
 "Nothing in here. Upload something!" => "Няма нищо тук. Качете нещо.",

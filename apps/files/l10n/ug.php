@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "Save" => "ساقلا",
 "New" => "يېڭى",
 "Text file" => "تېكىست ھۆججەت",
+"New folder" => "يېڭى قىسقۇچ",
 "Folder" => "قىسقۇچ",
 "Deleted files" => "ئۆچۈرۈلگەن ھۆججەتلەر",
 "Cancel upload" => "يۈكلەشتىن ۋاز كەچ",

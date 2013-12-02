@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Save" => "Simpan",
 "New" => "Baru",
 "Text file" => "Berkas teks",
+"New folder" => "Map baru",
 "Folder" => "Folder",
 "From link" => "Dari tautan",
 "Deleted files" => "Berkas yang dihapus",

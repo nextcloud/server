@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "Save" => "Αποθήκευση",
 "New" => "Νέο",
 "Text file" => "Αρχείο κειμένου",
+"New folder" => "Νέος κατάλογος",
 "Folder" => "Φάκελος",
 "From link" => "Από σύνδεσμο",
 "Deleted files" => "Διαγραμμένα αρχεία",

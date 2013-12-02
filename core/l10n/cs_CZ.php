@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Editovat štítky",
 "Error loading dialog template: {error}" => "Chyba při načítání šablony dialogu: {error}",
 "No tags selected for deletion." => "Žádné štítky nebyly vybrány ke smazání.",
+"Please reload the page." => "Načtěte stránku znovu, prosím.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">evidence chyb ownCloud</a>",
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizace byla úspěšná. Přesměrovávám na ownCloud.",
 "%s password reset" => "reset hesla %s",

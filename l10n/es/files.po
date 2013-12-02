@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-29 22:20+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -348,7 +348,7 @@ msgstr "Nuevo"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Nuevo archivo de texto"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -356,7 +356,7 @@ msgstr "Archivo de texto"
 
 #: templates/index.php:10
 msgid "New folder"
-msgstr ""
+msgstr "Nueva carpeta"
 
 #: templates/index.php:10
 msgid "Folder"

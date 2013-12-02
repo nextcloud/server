@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,21 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ajax/delete.php:59
+#: ajax/delete.php:63
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr ""
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:43
 #, php-format
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/trash.js:18 js/trash.js:45 js/trash.js:123 js/trash.js:176
+#: js/trash.js:18 js/trash.js:45 js/trash.js:88 js/trash.js:142
 msgid "Error"
 msgstr ""
 
-#: lib/trashbin.php:885 lib/trashbin.php:887
+#: lib/trashbin.php:900 lib/trashbin.php:902
 msgid "restored"
 msgstr ""
 

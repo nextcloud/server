@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-29 20:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +94,7 @@ msgstr "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesiz
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Ladattavan tiedoston maksimikoko ylittää MAX_FILE_SIZE dirketiivin, joka on määritelty HTML-lomakkeessa"
+msgstr "Lähetettävän tiedoston enimmäiskoko ylittää HTML-lomakkeessa määritellyn MAX_FILE_SIZE-säännön"
 
 #: ajax/upload.php:75
 msgid "The uploaded file was only partially uploaded"
@@ -262,7 +262,7 @@ msgstr ""
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr "Salaus poistettiin käytöstä, mutta tiedostosi ovat edelleen salattu. Siirry henkilökohtaisiin asetuksiisi avataksesi tiedostojesi salauksen."
+msgstr "Salaus poistettiin käytöstä, mutta tiedostosi ovat edelleen salattuina. Siirry henkilökohtaisiin asetuksiin avataksesi tiedostojesi salauksen."
 
 #: js/files.js:349
 msgid ""
@@ -297,7 +297,7 @@ msgstr "Virheellinen kansion nimi. 'Shared':n käyttö on varattu."
 #: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
-msgstr "%s ei pysty uudelleen nimeämään"
+msgstr "kohteen %s nimeäminen uudelleen epäonnistui"
 
 #: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
@@ -341,7 +341,7 @@ msgstr "Uusi"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Uusi tekstitiedosto"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -349,7 +349,7 @@ msgstr "Tekstitiedosto"
 
 #: templates/index.php:10
 msgid "New folder"
-msgstr ""
+msgstr "Uusi kansio"
 
 #: templates/index.php:10
 msgid "Folder"

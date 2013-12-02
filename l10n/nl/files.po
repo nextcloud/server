@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 19:00+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +203,7 @@ msgstr "ongedaan maken"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Fout bij verwijderen bestand."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -341,7 +341,7 @@ msgstr "Nieuw"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Nieuw tekstbestand"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -349,7 +349,7 @@ msgstr "Tekstbestand"
 
 #: templates/index.php:10
 msgid "New folder"
-msgstr ""
+msgstr "Nieuwe map"
 
 #: templates/index.php:10
 msgid "Folder"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:30+0000\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 01:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -224,15 +224,15 @@ msgstr "Türkçe"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr "Herşey(Ölümcül konular,hatalar,uyarılar,bilgi, debug)"
+msgstr "Her şey (Ölümcül konular, hatalar, uyarılar, bilgi, hata ayıklama)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr "Bilgi,uyarılar, hatalar ve ölümcül konular"
+msgstr "Bilgi, uyarılar, hatalar ve ölümcül konular"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr "Uyarılar,hatalar ve ölümcül konular"
+msgstr "Uyarılar, hatalar ve ölümcül konular"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
@@ -345,7 +345,7 @@ msgstr "Paylaşım"
 
 #: templates/admin.php:155
 msgid "Enable Share API"
-msgstr "Paylaşım API'sini etkinleştir."
+msgstr "Paylaşım API'sini etkinleştir"
 
 #: templates/admin.php:156
 msgid "Allow apps to use the Share API"
@@ -353,11 +353,11 @@ msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
 #: templates/admin.php:163
 msgid "Allow links"
-msgstr "Bağlantıları izin ver."
+msgstr "Bağlantılara izin ver"
 
 #: templates/admin.php:164
 msgid "Allow users to share items to the public with links"
-msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantılara izin ver"
+msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
 
 #: templates/admin.php:172
 msgid "Allow public uploads"
@@ -497,7 +497,7 @@ msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
 #: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Kullandığınız:<strong>%s</strong> seçilebilecekler: <strong>%s</strong>"
+msgstr "Kullandığınız: <strong>%s</strong>. Seçilebilecekler: <strong>%s</strong>"
 
 #: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
@@ -616,7 +616,7 @@ msgstr "Oluştur"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr "Yönetici kurtarma parolası"
+msgstr "Yönetici Kurtarma Parolası"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
@@ -630,7 +630,7 @@ msgstr "Varsayılan Depolama"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr "Lütfen disk alanı kotasını girin(örnek: \"512MB\" veya \"12GB\")"
+msgstr "Lütfen disk alanı kotasını girin (örnek: \"512MB\" veya \"12GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-21 15:22+0000\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 01:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr "Owncloud yazılımının bu sürümü ile uyumlu  olmadığı için \"%s\" uygulaması kurulamaz."
+msgstr "ownCloud yazılımının bu sürümü ile uyumlu olmadığı için \"%s\" uygulaması kurulamaz."
 
 #: private/app.php:255
 msgid "No app name specified"
@@ -57,15 +57,15 @@ msgstr "Yönetici"
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" yükseltme başarısız oldu."
 
-#: private/avatar.php:60
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "Bilinmeyen dosya türü"
 
-#: private/avatar.php:65
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "Geçersiz resim"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "Bilgileriniz güvenli ve şifreli"
 
@@ -102,7 +102,7 @@ msgstr "Uygulama kurulurken bir kaynak belirtilmedi"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr "Uygulama kuruluyorken http'de href belirtilmedi."
+msgstr "Uygulama kuruluyorken http'de href belirtilmedi"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
@@ -111,7 +111,7 @@ msgstr "Uygulama yerel dosyadan kuruluyorken dosya yolu belirtilmedi"
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr "%s arşiv tipi desteklenmiyor"
+msgstr "%s arşiv türü desteklenmiyor"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
@@ -123,34 +123,34 @@ msgstr "Uygulama info.xml dosyası sağlamıyor"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr "Uygulamada izin verilmeyeden kodlar olduğu için kurulamıyor."
+msgstr "Uygulama, izin verilmeyen kodlar barındırdığından kurulamıyor."
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr "Owncloud versiyonunuz ile uyumsuz olduğu için uygulama kurulamıyor."
+msgstr "ownCloud sürümünüz ile uyumsuz olduğu için uygulama kurulamıyor."
 
 #: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr "Uygulama kurulamıyor. Çünkü  \"non shipped\" uygulamalar için <shipped>true</shipped> tag içermektedir."
+msgstr "Uygulama kurulamıyor. Çünkü \"birlikte gelmeyen\" uygulamalar için <shipped>true</shipped> etiketi içeriyor"
 
 #: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "Uygulama kurulamıyor çünkü info.xml/version ile uygulama marketde belirtilen sürüm aynı değil."
+msgstr "Uygulama kurulamıyor çünkü info.xml/version ile uygulama markette belirtilen sürüm aynı değil"
 
 #: private/installer.php:169
 msgid "App directory already exists"
-msgstr "App dizini zaten mevcut"
+msgstr "Uygulama dizini zaten mevcut"
 
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "app dizini oluşturulamıyor. Lütfen izinleri düzeltin. %s"
+msgstr "Uygulama dizini oluşturulamıyor. Lütfen izinleri düzeltin. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"
@@ -179,12 +179,12 @@ msgstr "Resimler"
 #: private/setup/abstractdatabase.php:22
 #, php-format
 msgid "%s enter the database username."
-msgstr "%s veritabanı kullanıcı adını gir."
+msgstr "%s veritabanı kullanıcı adını girin."
 
 #: private/setup/abstractdatabase.php:25
 #, php-format
 msgid "%s enter the database name."
-msgstr "%s veritabanı adını gir."
+msgstr "%s veritabanı adını girin."
 
 #: private/setup/abstractdatabase.php:28
 #, php-format
@@ -245,7 +245,7 @@ msgstr "MySQL kullanici '%s @ % % zaten var (zaten yazili)"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr "Bu kulanıcıyı MySQL veritabanından kaldır"
+msgstr "Bu kullanıcıyı MySQL veritabanından kaldır"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"

@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "Save" => "Saglabāt",
 "New" => "Jauna",
 "Text file" => "Teksta datne",
+"New folder" => "Jauna mape",
 "Folder" => "Mape",
 "From link" => "No saites",
 "Deleted files" => "Dzēstās datnes",

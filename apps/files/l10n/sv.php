@@ -74,6 +74,7 @@ $TRANSLATIONS = array(
 "Save" => "Spara",
 "New" => "Ny",
 "Text file" => "Textfil",
+"New folder" => "Ny mapp",
 "Folder" => "Mapp",
 "From link" => "Från länk",
 "Deleted files" => "Raderade filer",

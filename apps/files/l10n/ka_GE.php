@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Save" => "შენახვა",
 "New" => "ახალი",
 "Text file" => "ტექსტური ფაილი",
+"New folder" => "ახალი ფოლდერი",
 "Folder" => "საქაღალდე",
 "From link" => "მისამართიდან",
 "Deleted files" => "წაშლილი ფაილები",

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 19:00+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -251,7 +251,7 @@ msgstr "Beveiligingswaarschuwing"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "U bent met %s verbonden over HTTP. We adviseren met klem uw server zo te configureren dat allen HTTPS kan worden gebruikt."
 
 #: templates/admin.php:39
 msgid ""
@@ -293,20 +293,20 @@ msgstr "Taalbestand werkt niet"
 
 #: templates/admin.php:84
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "De systeemtaal kan niet worden ingesteld op een taal die UTF-8 ondersteunt."
 
 #: templates/admin.php:88
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Dat betekent dat er problemen kunnen optreden met bepaalde tekens in bestandsnamen."
 
 #: templates/admin.php:92
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "We adviseren met klem om de noodzakelijke pakketten op uw systeem te installeren om een van de volgende talen te ondersteunen: %s."
 
 #: templates/admin.php:104
 msgid "Internet connection not working"
@@ -561,7 +561,7 @@ msgstr "Of png, of jpg. Bij voorkeur vierkant, maar u kunt bijsnijden."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Uw avatar is verstrekt door uw originele account."
 
 #: templates/personal.php:101
 msgid "Abort"
@@ -596,7 +596,7 @@ msgstr "Versleuteling"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "De crypto app is niet langer geactiveerd, u moet alle bestanden decrypten."
 
 #: templates/personal.php:158
 msgid "Log-in password"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-12-02 13:30+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -273,7 +273,7 @@ msgstr "({count} vybraných)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Chyba pri nahrávaní šablóny existencie súboru"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -320,7 +320,7 @@ msgstr "Zdieľať linku"
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:57 templates/login.php:38
 msgid "Password"
 msgstr "Heslo"
 
@@ -396,7 +396,7 @@ msgstr "vymazať"
 msgid "share"
 msgstr "zdieľať"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Chránené heslom"
 
@@ -450,7 +450,7 @@ msgstr "Nie sú vybraté štítky na zmazanie."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Obnovte prosím stránku."
 
 #: js/update.js:17
 msgid ""
@@ -488,7 +488,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Odkaz pre obnovenie hesla obdržíte e-mailom."
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: templates/login.php:31
 msgid "Username"
 msgstr "Meno používateľa"
 
@@ -593,7 +593,7 @@ msgstr "Ahoj,\n\nchcem ti dať navedomie, že %s zdieľa %s s tebou.\nZobrazenie
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Zdieľanie expiruje %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -719,19 +719,19 @@ msgstr "Autentifikácia na serveri zlyhala!"
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vášho administrátora."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlásenie"
 
@@ -744,17 +744,17 @@ msgstr "Ahoj,<br><br>chcem ti dať navedomie, že %s zdieľa »%s« s tebou.<br>
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Táto inštancia ownCloudu je teraz v jednopoužívateľskom móde."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Len správca systému môže používať túto inštanciu."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."

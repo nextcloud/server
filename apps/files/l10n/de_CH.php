@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "Save" => "Speichern",
 "New" => "Neu",
 "Text file" => "Textdatei",
+"New folder" => "Neues Verzeichnis",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
 "Deleted files" => "Gelöschte Dateien",

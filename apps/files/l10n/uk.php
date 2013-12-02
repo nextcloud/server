@@ -55,6 +55,7 @@ $TRANSLATIONS = array(
 "Save" => "Зберегти",
 "New" => "Створити",
 "Text file" => "Текстовий файл",
+"New folder" => "Нова тека",
 "Folder" => "Тека",
 "From link" => "З посилання",
 "Deleted files" => "Видалено файлів",

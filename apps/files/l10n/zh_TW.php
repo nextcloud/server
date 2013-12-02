@@ -72,6 +72,7 @@ $TRANSLATIONS = array(
 "Save" => "儲存",
 "New" => "新增",
 "Text file" => "文字檔",
+"New folder" => "新資料夾",
 "Folder" => "資料夾",
 "From link" => "從連結",
 "Deleted files" => "回收桶",

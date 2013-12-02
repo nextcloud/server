@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-12-02 11:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -249,7 +249,7 @@ msgstr "Avís de seguretat"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Esteu accedint %s a través de HTTP. Us recomanem fermament que configureu el servidor perquè requereixi HTTPS."
 
 #: templates/admin.php:39
 msgid ""
@@ -291,20 +291,20 @@ msgstr "Locale no funciona"
 
 #: templates/admin.php:84
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "No s'ha pogut establir cap localització del sistema amb suport per UTF-8."
 
 #: templates/admin.php:88
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Això podria comportar problemes amb alguns caràcters en els noms dels fitxer."
 
 #: templates/admin.php:92
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Us recomanem que instal·leu els paquets necessaris en el sistema per donar suport a alguna de les localitzacions següents: %s"
 
 #: templates/admin.php:104
 msgid "Internet connection not working"
@@ -559,7 +559,7 @@ msgstr "Pot ser png o jpg. Idealment quadrada, però podreu retallar-la."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "El vostre compte original proporciona l'avatar."
 
 #: templates/personal.php:101
 msgid "Abort"
@@ -594,7 +594,7 @@ msgstr "Xifrat"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "L'aplicació d'encriptació ja no està activada, desencripteu tots els vostres fitxers"
 
 #: templates/personal.php:158
 msgid "Log-in password"

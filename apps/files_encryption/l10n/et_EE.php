@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Missing requirements." => "Nõutavad on puudu.",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Palun veendu, et on paigaldatud PHP 5.3.3 või uuem ning PHP OpenSSL laiendus on lubatud ning seadistatud korrektselt. Hetkel krüpteerimise rakendus on peatatud.",
 "Following users are not set up for encryption:" => "Järgmised kasutajad pole seadistatud krüpteeringuks:",
+"Initial encryption started... This can take some time. Please wait." => "Algne krüpteerimine käivitati... See võib võtta natuke aega. Palun oota.",
 "Saving..." => "Salvestamine...",
 "Go directly to your " => "Liigu otse oma",
 "personal settings" => "isiklikes seadetes",
