@@ -68,7 +68,7 @@ class OCI extends AbstractDatabase {
 			$this->dbpassword=\OC_Util::generateRandomBytes(30);
 
 			//oracle passwords are treated as identifiers:
-			//  must start with aphanumeric char
+			//  must start with alphanumeric char
 			//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
 			$this->dbpassword=substr($this->dbpassword, 0, 30);
 
@@ -78,7 +78,7 @@ class OCI extends AbstractDatabase {
 			\OC_Config::setValue('dbname', $this->dbuser);
 			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
-			//create the database not neccessary, oracle implies user = schema
+			//create the database not necessary, oracle implies user = schema
 			//$this->createDatabase($this->dbname, $this->dbuser, $connection);
 		} else {
 
@@ -86,7 +86,7 @@ class OCI extends AbstractDatabase {
 			\OC_Config::setValue('dbname', $this->dbname);
 			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
-			//create the database not neccessary, oracle implies user = schema
+			//create the database not necessary, oracle implies user = schema
 			//$this->createDatabase($this->dbname, $this->dbuser, $connection);
 		}
 
@@ -133,9 +133,6 @@ class OCI extends AbstractDatabase {
 	}
 
 	/**
-	 *
-	 * @param String $name
-	 * @param String $password
 	 * @param resource $connection
 	 */
 	private function createDBUser($connection) {
@@ -210,6 +207,7 @@ class OCI extends AbstractDatabase {
 
 	/**
 	 * @param resource $connection
+	 * @return string
 	 */
 	protected function getLastError($connection = null) {
 		if ($connection) {
