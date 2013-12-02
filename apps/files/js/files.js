@@ -524,7 +524,7 @@ $(document).ready(function() {
 	// file space size sync
 	function update_storage_statistics() {
 		var currentDir = $('#dir').val() || '/';
-		$.getJSON(OC.filePath('files','ajax','getstoragestats.php?dir=' + encodeURIComponent(currentDir)),function(response) {
+		$.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
 			Files.updateMaxUploadFilesize(response);
 		});
 	}
