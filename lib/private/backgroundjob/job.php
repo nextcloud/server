@@ -9,16 +9,34 @@
 namespace OC\BackgroundJob;
 
 abstract class Job {
+	/**
+	 * @var int $id
+	 */
 	protected $id;
+
+	/**
+	 * @var int $lastRun
+	 */
 	protected $lastRun;
+
+	/**
+	 * @var mixed $argument
+	 */
 	protected $argument;
 
 	/**
 	 * @param JobList $jobList
+	 * @param \OC\Log $logger
 	 */
-	public function execute($jobList) {
+	public function execute($jobList, $logger = null) {
 		$jobList->setLastRun($this);
-		$this->run($this->argument);
+		try {
+			$this->run($this->argument);
+		} catch (\Exception $e) {
+			if ($logger) {
+				$logger->error('Error while running background job: ' . $e->getMessage());
+			}
+		}
 	}
 
 	abstract protected function run($argument);
