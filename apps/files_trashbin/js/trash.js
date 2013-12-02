@@ -35,7 +35,7 @@ $(document).ready(function() {
 		deleteAction.removeClass('delete-icon').addClass('progress-icon');
 		disableActions();
 		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
-				{files: JSON.stringify([filename]), dirlisting: tr.attr('data-dirlisting')},
+				{files: JSON.stringify([$('#dir').val() + '/' +filename]), dirlisting: tr.attr('data-dirlisting')},
 				function(result) {
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename);
@@ -136,7 +136,8 @@ $(document).ready(function() {
 		var params = {};
 		if (allFiles) {
 			params = {
-			   allfiles: true
+			   allfiles: true,
+			   dir: $('#dir').val()
 			};
 		}
 		else {

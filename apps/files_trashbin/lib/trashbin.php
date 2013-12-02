@@ -565,6 +565,21 @@ class Trashbin {
 	}
 
 	/**
+	 * @brief delete all files from the trash
+	 */
+	public static function deleteAll() {
+		$user = \OCP\User::getUser();
+		$view = new \OC\Files\View('/' . $user);
+		$view->deleteAll('files_trashbin');
+		self::setTrashbinSize($user, 0);
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
+		$query->execute(array($user));
+
+		return true;
+	}
+
+
+	/**
 	 * @brief delete file from trash bin permanently
 	 *
 	 * @param $filename path to the file

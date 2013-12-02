@@ -6,10 +6,18 @@ OCP\JSON::callCheck();
 // "empty trash" command
 $deleteAll = false;
 if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
-	$user = \OCP\User::getUser();
-	$list = OCA\Files_Trashbin\Helper::getTrashFiles('/');
-	$deleteAll = true;
-	$dirlisting = '0';
+	$folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
+	if ($folder === '/') {
+		OCA\Files_Trashbin\Trashbin::deleteAll();
+		$list = array();
+	} else {
+		if ( strlen(dirname($folder)) > 1 ) {
+			$dirlisting = '1';
+		} else {
+			$dirlisting = '0';
+		}
+		$list[] = $folder;
+	}
 }
 else {
 	$files = $_POST['files'];
@@ -19,19 +27,13 @@ else {
 $error = array();
 $success = array();
 
-
 $i = 0;
 foreach ($list as $file) {
 	if ( $dirlisting === '0') {
-		if ($deleteAll) {
-			$filename = $file['name'];
-			$timestamp = $file['timestamp'];
-		}
-		else {
-			$delimiter = strrpos($file, '.d');
-			$filename = substr($file, 0, $delimiter);
-			$timestamp =  substr($file, $delimiter+2);
-		}
+		$file = ltrim($file, '/');
+		$delimiter = strrpos($file, '.d');
+		$filename = substr($file, 0, $delimiter);
+		$timestamp =  substr($file, $delimiter+2);
 	} else {
 		$filename = $file;
 		$timestamp = null;
