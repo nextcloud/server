@@ -10,6 +10,7 @@ OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 OCP\Util::addStyle('files', 'files');
+OCP\Util::addStyle('files_trashbin', 'trash');
 OCP\Util::addScript('files', 'filelist');
 // filelist overrides
 OCP\Util::addScript('files_trashbin', 'filelist');

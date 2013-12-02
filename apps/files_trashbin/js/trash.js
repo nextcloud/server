@@ -66,41 +66,6 @@ $(document).ready(function() {
 		procesSelection();
 	});
 
-	$('#fileList').on('click', 'td.filename a', function(event) {
-		if (event.shiftKey) {
-			event.preventDefault();
-			var last = $(lastChecked).parent().parent().prevAll().length;
-			var first = $(this).parent().parent().prevAll().length;
-			var start = Math.min(first, last);
-			var end = Math.max(first, last);
-			var rows = $(this).parent().parent().parent().children('tr');
-			for (var i = start; i < end; i++) {
-				$(rows).each(function(index) {
-					if (index == i) {
-						var checkbox = $(this).children().children('input:checkbox');
-						$(checkbox).attr('checked', 'checked');
-						$(checkbox).parent().parent().addClass('selected');
-					}
-				});
-			}
-		}
-		var checkbox = $(this).parent().children('input:checkbox');
-		lastChecked = checkbox;
-		if ($(checkbox).attr('checked')) {
-			$(checkbox).removeAttr('checked');
-			$(checkbox).parent().parent().removeClass('selected');
-			$('#select_all').removeAttr('checked');
-		} else {
-			$(checkbox).attr('checked', 'checked');
-			$(checkbox).parent().parent().toggleClass('selected');
-			var selectedCount = $('td.filename input:checkbox:checked').length;
-			if (selectedCount == $('td.filename input:checkbox').length) {
-				$('#select_all').attr('checked', 'checked');
-			}
-		}
-		procesSelection();
-	});
-
 	$('.undelete').click('click', function(event) {
 		event.preventDefault();
 		var files = getSelectedFiles('file');
@@ -182,6 +147,12 @@ $(document).ready(function() {
 				}
 		);
 
+	});
+
+	$('#fileList').on('click', 'td.filename input', function() {
+		var checkbox = $(this).parent().children('input:checkbox');
+		$(checkbox).parent().parent().toggleClass('selected');
+		procesSelection();
 	});
 
 	$('#fileList').on('click', 'td.filename a', function(event) {
