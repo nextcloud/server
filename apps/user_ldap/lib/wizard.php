@@ -432,7 +432,6 @@ class Wizard extends LDAPUtility {
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port '. $p, \OCP\Util::DEBUG);
 				$this->result->addChange('ldap_port', $p);
-				$this->result->addChange('ldap_tls', intval($t));
 				return $this->result;
 			}
 		}
