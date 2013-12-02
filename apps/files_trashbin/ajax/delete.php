@@ -4,8 +4,8 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 // "empty trash" command
-$deleteAll = false;
 if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
+	$deleteAll = true;
 	$folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
 	if ($folder === '/') {
 		OCA\Files_Trashbin\Trashbin::deleteAll();
@@ -20,6 +20,7 @@ if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
 	}
 }
 else {
+	$deleteAll = false;
 	$files = $_POST['files'];
 	$dirlisting = $_POST['dirlisting'];
 	$list = json_decode($files);
