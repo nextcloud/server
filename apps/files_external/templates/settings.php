@@ -60,7 +60,7 @@
 											   class="optional"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
-											   placeholder="<?php p(substr($placeholder, 5)); ?>" />
+											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
 									<?php elseif (strpos($placeholder, '#') !== false): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"
