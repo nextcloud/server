@@ -50,9 +50,9 @@ class OC_Mount_Config {
 				'key' => 'Access Key',
 				'secret' => '*Secret Key',
 				'bucket' => 'Bucket',
-				'hostname' => 'Hostname (optional)',
-				'port' => 'Port (optional)',
-				'region' => 'Region (optional)',
+				'hostname' => '&Hostname (optional)',
+				'port' => '&Port (optional)',
+				'region' => '&Region (optional)',
 				'use_ssl' => '!Enable SSL',
 				'use_path_style' => '!Enable Path Style'));
 
@@ -244,6 +244,7 @@ class OC_Mount_Config {
 				$storage = new $class($options);
 				return $storage->test();
 			} catch (Exception $exception) {
+				\OCP\Util::logException('files_external', $exception);
 				return false;
 			}
 		}
