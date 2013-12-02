@@ -7,11 +7,12 @@ OCP\JSON::callCheck();
 if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
 	$deleteAll = true;
 	$folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
-	if ($folder === '/') {
+	if ($folder === '/' || $folder === '') {
 		OCA\Files_Trashbin\Trashbin::deleteAll();
 		$list = array();
 	} else {
-		if ( strlen(dirname($folder)) > 1 ) {
+		$dirname = dirname($folder);
+		if ( $dirname !== '/' && $dirname !== '.' ) {
 			$dirlisting = '1';
 		} else {
 			$dirlisting = '0';
