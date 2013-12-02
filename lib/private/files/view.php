@@ -159,7 +159,11 @@ class View {
 	}
 
 	public function rmdir($path) {
-		return $this->basicOperation('rmdir', $path, array('delete'));
+		if ($this->is_dir($path)) {
+			return $this->basicOperation('rmdir', $path, array('delete'));
+		} else {
+			return false;
+		}
 	}
 
 	public function opendir($path) {
@@ -712,7 +716,7 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
-		if($this->fakeRoot === $defaultRoot){
+		if ($this->fakeRoot === $defaultRoot) {
 			return true;
 		}
 		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
