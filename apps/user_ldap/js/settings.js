@@ -407,6 +407,7 @@ var LdapWizard = {
 				if($('#rawLoginFilterContainer').hasClass('invisible')) {
 					$('#ldap_loginfilter_attributes').multiselect('enable');
 				}
+				LdapWizard.postInitLoginFilter();
 			},
 			function (result) {
 				//deactivate if no attributes found
@@ -443,10 +444,24 @@ var LdapWizard = {
 					//enable only when raw filter editing is not turned on
 					$('#'+multisel).multiselect('enable');
 				}
+				if(type == 'Users') {
+					//required for initial save
+					filter = $('#ldap_userlist_filter').val();
+					if(!filter) {
+						LdapWizard.saveMultiSelect(multisel,
+									$('#'+multisel).multiselect("getChecked"));
+					}
+					LdapWizard.userFilterAvailableGroupsHasRun = true;
+					LdapWizard.postInitUserFilter();
+				}
 			},
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
 				$('#'+multisel).multiselect('disable');
+				if(type == 'Users') {
+					LdapWizard.userFilterAvailableGroupsHasRun = true;
+					LdapWizard.postInitUserFilter();
+				}
 			}
 		);
 	},
@@ -471,9 +486,23 @@ var LdapWizard = {
 				LdapWizard.hideSpinner('#'+multisel);
 				LdapWizard.applyChanges(result);
 				$('#'+multisel).multiselect('refresh');
+				if(type == 'User') {
+					//required for initial save
+					filter = $('#ldap_userlist_filter').val();
+					if(!filter) {
+						LdapWizard.saveMultiSelect(multisel,
+										$('#'+multisel).multiselect("getChecked"));
+					}
+					LdapWizard.userFilterObjectClassesHasRun = true;
+					LdapWizard.postInitUserFilter();
+				}
 			},
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
+				if(type == 'User') {
+					LdapWizard.userFilterObjectClassesHasRun = true;
+					LdapWizard.postInitUserFilter();
+				}
 				//TODO: error handling
 			}
 		);
@@ -536,10 +565,18 @@ var LdapWizard = {
 		LdapWizard.countGroups();
 	},
 
+	/** init login filter tab section **/
+
 	initLoginFilter: function() {
 		LdapWizard.regardFilterMode('Login');
 		LdapWizard.findAttributes();
 	},
+
+	postInitLoginFilter: function() {
+		LdapWizard.composeFilter('login');
+	},
+
+	/** end of init user filter tab section **/
 
 	initMultiSelect: function(object, id, caption) {
 		object.multiselect({
@@ -553,12 +590,28 @@ var LdapWizard = {
 		});
 	},
 
+	/** init user filter tab section **/
+
+	userFilterObjectClassesHasRun: false,
+	userFilterAvailableGroupsHasRun: false,
+
 	initUserFilter: function() {
+		LdapWizard.userFilterObjectClassesHasRun = false;
+		LdapWizard.userFilterAvailableGroupsHasRun = false;
 		LdapWizard.regardFilterMode('User');
 		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
 		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
-		LdapWizard.countUsers();
 	},
+
+	postInitUserFilter: function() {
+		if(LdapWizard.userFilterObjectClassesHasRun
+		   && LdapWizard.userFilterAvailableGroupsHasRun) {
+			LdapWizard.composeFilter('user');
+			LdapWizard.countUsers();
+		}
+	},
+
+	/** end of init user filter tab section **/
 
 	onTabChange: function(event, ui) {
 		newTabIndex = 0;
@@ -626,8 +679,6 @@ var LdapWizard = {
 				} else if(mode == LdapWizard.filterModeAssisted
 					&& !$('#raw'+subject+'FilterContainer').hasClass('invisible')) {
 					LdapWizard['toggleRaw'+subject+'Filter']();
-				} else {
-					c = $('#raw'+subject+'FilterContainer').hasClass('invisible');
 				}
 			},
 			function (result) {
