@@ -444,7 +444,7 @@ var LdapWizard = {
 					//enable only when raw filter editing is not turned on
 					$('#'+multisel).multiselect('enable');
 				}
-				if(type == 'Users') {
+				if(type === 'Users') {
 					//required for initial save
 					filter = $('#ldap_userlist_filter').val();
 					if(!filter) {
@@ -486,7 +486,7 @@ var LdapWizard = {
 				LdapWizard.hideSpinner('#'+multisel);
 				LdapWizard.applyChanges(result);
 				$('#'+multisel).multiselect('refresh');
-				if(type == 'User') {
+				if(type === 'User') {
 					//required for initial save
 					filter = $('#ldap_userlist_filter').val();
 					if(!filter) {
