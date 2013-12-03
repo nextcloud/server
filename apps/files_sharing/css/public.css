@@ -49,6 +49,10 @@ body {
 	vertical-align:text-bottom;
 }
 
+#controls {
+	left: 0;
+}
+
 #preview {
 	background: #fff;
 	text-align: center;
