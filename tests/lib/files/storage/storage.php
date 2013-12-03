@@ -43,6 +43,13 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Check that the test() function works
+	 */
+	public function testTestFunction() {
+		$this->assertTrue($this->instance->test());
+	}
+
+	/**
 	 * @dataProvider directoryProvider
 	 */
 	public function testDirectories($directory) {
