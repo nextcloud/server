@@ -30,6 +30,8 @@ $l=OC_L10N::get('user_ldap');
 
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 $connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+//needs to be true, otherwise it will also fail with an irritating message
+$_POST['ldap_configuration_active'] = 1;
 if($connection->setConfiguration($_POST)) {
 	//Configuration is okay
 	if($connection->bind()) {
