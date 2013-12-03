@@ -1000,7 +1000,7 @@ class Wizard extends LDAPUtility {
 
 	private function getConnection() {
 		if(!is_null($this->cr)) {
-			return $cr;
+			return $this->cr;
 		}
 		$cr = $this->ldap->connect(
 			$this->configuration->ldapHost.':'.$this->configuration->ldapPort,
