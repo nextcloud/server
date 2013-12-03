@@ -29,7 +29,7 @@ $(document).ready(function() {
 				var itemType = 'file';
 			}
 			var possiblePermissions = $(tr).data('permissions');
-			var appendTo = $(tr).find('td.filename');
+			var appendTo = $(tr).find('.name');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {
 				if ($(tr).data('id') != $('#dropdown').attr('data-item-source')) {
