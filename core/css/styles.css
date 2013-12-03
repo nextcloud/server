@@ -105,8 +105,8 @@ textarea:hover, textarea:focus, textarea:active {
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 input[type="time"] {
-	width: 110px;
-	height: 30px;
+	width: initial;
+	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 #quota {
