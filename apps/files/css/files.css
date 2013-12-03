@@ -14,7 +14,7 @@
 	padding: 0 !important; /* override default control bar button padding */
 }
 #trash {
-	margin-right: 12px;
+	margin-right: 8px;
 	float: right;
 	z-index: 1010;
 	padding: 10px;
