@@ -81,9 +81,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$scheme = ($params['use_ssl'] === 'false') ? 'http' : 'https';
 		$this->test = isset($params['test']);
 		$this->timeout = ( ! isset($params['timeout'])) ? 15 : $params['timeout'];
-		$params['region'] = ( ! isset($params['region'])) ? 'eu-west-1' : $params['region'];
-		$params['hostname'] = ( !isset($params['hostname'])) ? 's3.amazonaws.com' : $params['hostname'];
-		if (!isset($params['port'])) {
+		$params['region'] = ( ! isset($params['region']) || $params['region'] === '' ) ? 'eu-west-1' : $params['region'];
+		$params['hostname'] = ( !isset($params['hostname']) || $params['hostname'] === '' ) ? 's3.amazonaws.com' : $params['hostname'];
+		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
 		$base_url = $scheme.'://'.$params['hostname'].':'.$params['port'].'/';
@@ -507,8 +507,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function test() {
-		$test = $this->s3->get_canonical_user_id();
-		if (isset($test['id']) && $test['id'] != '') {
+		$test = $this->connection->getBucketAcl(array(
+			'Bucket' => $this->bucket,
+		));
+		if (isset($test) && !is_null($test->getPath('Owner/ID'))) {
 			return true;
 		}
 		return false;
