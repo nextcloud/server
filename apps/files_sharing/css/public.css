@@ -1,5 +1,5 @@
 body {
-	background:#ddd;
+	height: auto;
 }
 
 #header {
@@ -22,7 +22,7 @@ body {
 #public_upload,
 #download {
 	font-weight:700;
-	margin: 0 0.4em 0 0;
+	margin: 0 0 0 .4em;
 	padding: 0 5px;
 	height: 32px;
 	float: left;
@@ -49,12 +49,14 @@ body {
 	vertical-align:text-bottom;
 }
 
+#controls {
+	left: 0;
+}
+
 #preview {
-	background:#eee;
-	border-bottom:1px solid #f8f8f8;
-	min-height:30em;
-	text-align:center;
-	margin:45px auto;
+	background: #fff;
+	text-align: center;
+	margin: 45px auto 0;
 }
 
 #noPreview {
@@ -62,11 +64,16 @@ body {
 	padding-top:5em;
 }
 
+footer {
+	margin-top: 45px;
+}
+
 p.info {
-	color:#777;
-	text-align:center;
-	width:22em;
-	margin:2em auto;
+	color: #777;
+	text-align: center;
+	width: 22em;
+	margin: 0 auto;
+	padding: 20px;
 }
 
 p.info a {

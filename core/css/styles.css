@@ -202,12 +202,19 @@ input[type="submit"].enabled {
 	box-sizing: border-box;
 	position: fixed;
 	right: 0;
-	left: 80px;
+	left: 0;
 	height: 44px;
+	width: 100%;
+	padding: 0;
 	margin: 0;
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
+}
+/* account for shift of controls bar due to app navigation */
+#body-user #controls,
+#body-settings #controls {
+	padding-left: 80px;
 }
 #controls .button,
 #controls button,
