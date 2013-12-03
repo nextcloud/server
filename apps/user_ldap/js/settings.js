@@ -566,7 +566,9 @@ var LdapWizard = {
 	},
 
 	postInitLoginFilter: function() {
-		LdapWizard.composeFilter('login');
+		if($('#rawLoginFilterContainer').hasClass('invisible')) {
+			LdapWizard.composeFilter('login');
+		}
 	},
 
 	/** end of init user filter tab section **/
