@@ -9,12 +9,18 @@
 namespace Test\BackgroundJob;
 
 class TestTimedJob extends \OC\BackgroundJob\TimedJob {
-	public function __construct() {
+	private $testCase;
+
+	/**
+	 * @param TimedJob $testCase
+	 */
+	public function __construct($testCase) {
 		$this->setInterval(10);
+		$this->testCase = $testCase;
 	}
 
 	public function run($argument) {
-		throw new JobRun(); //throw an exception so we can detect if this function is called
+		$this->testCase->markRun();
 	}
 }
 
@@ -28,44 +34,37 @@ class TimedJob extends \PHPUnit_Framework_TestCase {
 	 */
 	private $job;
 
+	private $jobRun = false;
+
+	public function markRun() {
+		$this->jobRun = true;
+	}
+
 	public function setup() {
 		$this->jobList = new DummyJobList();
-		$this->job = new TestTimedJob();
+		$this->job = new TestTimedJob($this);
 		$this->jobList->add($this->job);
+		$this->jobRun = false;
 	}
 
 	public function testShouldRunAfterInterval() {
 		$this->job->setLastRun(time() - 12);
-		try {
-			$this->job->execute($this->jobList);
-			$this->fail("job should have run");
-		} catch (JobRun $e) {
-		}
-		$this->assertTrue(true);
+		$this->job->execute($this->jobList);
+		$this->assertTrue($this->jobRun);
 	}
 
 	public function testShouldNotRunWithinInterval() {
 		$this->job->setLastRun(time() - 5);
-		try {
-			$this->job->execute($this->jobList);
-		} catch (JobRun $e) {
-			$this->fail("job should not have run");
-		}
-		$this->assertTrue(true);
+		$this->job->execute($this->jobList);
+		$this->assertFalse($this->jobRun);
 	}
 
 	public function testShouldNotTwice() {
 		$this->job->setLastRun(time() - 15);
-		try {
-			$this->job->execute($this->jobList);
-			$this->fail("job should have run the first time");
-		} catch (JobRun $e) {
-			try {
-				$this->job->execute($this->jobList);
-			} catch (JobRun $e) {
-				$this->fail("job should not have run the second time");
-			}
-		}
-		$this->assertTrue(true);
+		$this->job->execute($this->jobList);
+		$this->assertTrue($this->jobRun);
+		$this->jobRun = false;
+		$this->job->execute($this->jobList);
+		$this->assertFalse($this->jobRun);
 	}
 }
