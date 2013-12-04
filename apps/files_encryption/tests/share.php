@@ -649,9 +649,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	 * @large
 	 */
 	function testRecoveryFile() {
-		$this->markTestIncomplete(
-				'No idea what\'s wrong here, this works perfectly in real-world. removeRecoveryKeys(\'/\') L709 removes correctly the keys, but for some reasons afterwards also the top-level folder "share-keys" is gone...'
-				);
+
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
@@ -754,9 +752,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	 * @large
 	 */
 	function testRecoveryForUser() {
-		$this->markTestIncomplete(
-				'This test drives Jenkins crazy - "Cannot modify header information - headers already sent" - line 811'
-		);
+
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
@@ -889,8 +885,8 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		} catch (Exception $e) {
 			$this->assertEquals(0, strpos($e->getMessage(), "Following users are not set up for encryption"));
 		}
-		
-		
+
+
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
