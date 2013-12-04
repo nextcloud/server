@@ -493,7 +493,7 @@ var createDragShadow = function(event) {
 	var dir=$('#dir').val();
 
 	$(selectedFiles).each(function(i,elem) {
-		var newtr = $('<tr/>').attr('data-dir', dir).attr('data-filename', elem.name);
+		var newtr = $('<tr/>').attr('data-dir', dir).attr('data-filename', elem.name).attr('data-origin', elem.origin);
 		newtr.append($('<td/>').addClass('filename').text(elem.name));
 		newtr.append($('<td/>').addClass('size').text(humanFileSize(elem.size)));
 		tbody.append(newtr);
@@ -511,13 +511,30 @@ var createDragShadow = function(event) {
 };
 
 //options for file drag/drop
+//start&stop handlers needs some cleaning up
 var dragOptions={
 	revert: 'invalid', revertDuration: 300,
 	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow, cursor: 'move',
-	stop: function(event, ui) {
-		$('#fileList tr td.filename').addClass('ui-draggable');
-	}
+		start: function(event, ui){
+			var $selectedFiles = $('td.filename input:checkbox:checked');
+			if($selectedFiles.length > 1){
+				$selectedFiles.parents('tr').fadeTo(250, 0.2);
+			}
+			else{
+				$(this).fadeTo(250, 0.2);
+			}
+		},
+		stop: function(event, ui) {
+			var $selectedFiles = $('td.filename input:checkbox:checked');
+			if($selectedFiles.length > 1){
+				$selectedFiles.parents('tr').fadeTo(250, 1);
+			}
+			else{
+				$(this).fadeTo(250, 1);
+			}
+			$('#fileList tr td.filename').addClass('ui-draggable');
+		}
 };
 // sane browsers support using the distance option
 if ( $('html.ie').length === 0) {
@@ -525,6 +542,7 @@ if ( $('html.ie').length === 0) {
 }
 
 var folderDropOptions={
+	hoverClass: "canDrop",
 	drop: function( event, ui ) {
 		//don't allow moving a file into a selected folder
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
@@ -537,6 +555,11 @@ var folderDropOptions={
 		$(files).each(function(i,row) {
 			var dir = $(row).data('dir');
 			var file = $(row).data('filename');
+							//slapdash selector, tracking down our original element that the clone budded off of.
+				var origin = $('tr[data-id=' + $(row).data('origin') + ']');
+				var td = origin.children('td.filename');
+				var oldBackgroundImage = td.css('background-image');
+				td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
 			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
 				if (result) {
 					if (result.status === 'success') {
@@ -557,6 +580,7 @@ var folderDropOptions={
 				} else {
 					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
+				td.css('background-image', oldBackgroundImage);
 			});
 		});
 	},
@@ -581,6 +605,11 @@ var crumbDropOptions={
 		$(files).each(function(i,row) {
 			var dir = $(row).data('dir');
 			var file = $(row).data('filename');
+			//slapdash selector, tracking down our original element that the clone budded off of.
+			var origin = $('tr[data-id=' + $(row).data('origin') + ']');
+			var td = origin.children('td.filename');
+			var oldBackgroundImage = td.css('background-image');
+			td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
 			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
 				if (result) {
 					if (result.status === 'success') {
@@ -595,6 +624,7 @@ var crumbDropOptions={
 				} else {
 					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 				}
+				td.css('background-image', oldBackgroundImage);
 			});
 		});
 	},
@@ -660,7 +690,8 @@ function getSelectedFilesTrash(property) {
 			mime:$(element).data('mime'),
 			type:$(element).data('type'),
 			size:$(element).data('size'),
-			etag:$(element).data('etag')
+			etag:$(element).data('etag'),
+	 		origin: $(element).data('id')
 		};
 		if (property) {
 			files.push(file[property]);
@@ -780,3 +811,4 @@ function onClickBreadcrumb(e) {
 		FileList.changeDirectory(decodeURIComponent($targetDir));
 	}
 }
+
