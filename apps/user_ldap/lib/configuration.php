@@ -308,7 +308,7 @@ class Configuration {
 			'ldap_user_filter_mode'				=> 0,
 			'ldap_userfilter_objectclass'		=> '',
 			'ldap_userfilter_groups'			=> '',
-			'ldap_login_filter'					=> 'uid=%uid',
+			'ldap_login_filter'					=> '',
 			'ldap_login_filter_mode'			=> 0,
 			'ldap_loginfilter_email'			=> 0,
 			'ldap_loginfilter_username'			=> 1,
