@@ -489,13 +489,17 @@ var LdapWizard = {
 		loginfilter = $('#ldap_login_filter').val();
 
 		//FIXME: activates a manually deactivated configuration.
-		if(host && port && base && 	userfilter && loginfilter) {
+		if(host && port && base && userfilter && loginfilter) {
 			LdapWizard.updateStatusIndicator(true);
 			if($('#ldap_configuration_active').is(':checked')) {
 				return;
 			}
-			$('#ldap_configuration_active').prop('checked', true);
-			LdapWizard.save($('#ldap_configuration_active')[0]);
+			if(!LdapWizard.isConfigurationActiveControlLocked) {
+				//avoids a manually deactivated connection will be activated
+				//upon opening the admin page
+				$('#ldap_configuration_active').prop('checked', true);
+				LdapWizard.save($('#ldap_configuration_active')[0]);
+			}
 		} else {
 			if($('#ldap_configuration_active').is(':checked')) {
 				$('#ldap_configuration_active').prop('checked', false);
@@ -517,9 +521,12 @@ var LdapWizard = {
 		$(id + " + button").css('display', 'inline');
 	},
 
+	isConfigurationActiveControlLocked: true,
+
 	init: function() {
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
+		LdapWizard.isConfigurationActiveControlLocked = false;
 	},
 
 	initGroupFilter: function() {
