@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -291,31 +291,42 @@ msgid ""
 msgstr "Η PHP ενοτητα 'fileinfo' λειπει. Σας συνιστούμε να ενεργοποιήσετε αυτή την ενότητα για να έχετε καλύτερα αποτελέσματα με τον εντοπισμό τύπου MIME. "
 
 #: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr ""
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Η μετάφραση δεν δουλεύει"
 
-#: templates/admin.php:84
+#: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Οι ρυθμίσεις τοποθεσίας συστήματος δεν μπορούν να οριστούν σε κάποιες που δεν υποστηρίζουν UTF-8."
 
-#: templates/admin.php:88
+#: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Αυτό σημαίνει ότι μπορεί να υπάρχουν προβλήματα με κάποιους χαρακτήρες στα ονόματα αρχείων."
 
-#: templates/admin.php:92
+#: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Συνιστούμε σοβαρά να εγκαταστήσετε τα απαιτούμενα πακέτα στο σύστημά σας ώστε να υποστηρίζεται μια από τις ακόλουθες ρυθμίσεις τοποθεσίας: %s."
 
-#: templates/admin.php:104
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "Η σύνδεση στο διαδίκτυο δεν δουλεύει"
 
-#: templates/admin.php:107
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -324,118 +335,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Αυτός ο διακομιστής δεν έχει ενεργή σύνδεση στο διαδίκτυο. Αυτό σημαίνει ότι κάποιες υπηρεσίες όπως η σύνδεση με εξωτερικούς αποθηκευτικούς χώρους, ειδοποιήσεις περί ενημερώσεων ή η εγκατάσταση 3ων εφαρμογών δεν θα είναι διαθέσιμες. Η πρόσβαση απομακρυσμένων αρχείων και η αποστολή ειδοποιήσεων μέσω ηλεκτρονικού ταχυδρομείου μπορεί επίσης να μην είναι διαθέσιμες. Προτείνουμε να ενεργοποιήσετε την πρόσβαση στο διαδίκτυο για αυτόν το διακομιστή εάν θέλετε να χρησιμοποιήσετε όλες τις υπηρεσίες."
 
-#: templates/admin.php:121
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:128
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "Εκτέλεση μιας διεργασίας με κάθε σελίδα που φορτώνεται"
 
-#: templates/admin.php:136
+#: templates/admin.php:150
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω http."
 
-#: templates/admin.php:144
+#: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Χρήση της υπηρεσίας cron του συστήματος για να καλεστεί το αρχείο cron.php κάθε 15 λεπτά."
 
-#: templates/admin.php:149
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Διαμοιρασμός"
 
-#: templates/admin.php:155
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Ενεργοποίηση API Διαμοιρασμού"
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Να επιτρέπεται στις εφαρμογές να χρησιμοποιούν το API Διαμοιρασμού"
 
-#: templates/admin.php:163
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Να επιτρέπονται σύνδεσμοι"
 
-#: templates/admin.php:164
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "Επιτρέψτε κοινόχρηστο ανέβασμα"
 
-#: templates/admin.php:173
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Επιτρέψτε στους χρήστες να καθιστούν άλλους χρήστες ικανούς να ανεβάζουν στους κοινόχρηστους φακέλους τους"
 
-#: templates/admin.php:181
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Να επιτρέπεται ο επαναδιαμοιρασμός"
 
-#: templates/admin.php:182
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Να επιτρέπεται ο διαμοιρασμός με οποιονδήποτε"
 
-#: templates/admin.php:192
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Να επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 msgid "Allow mail notification"
 msgstr "Επιτρέψτε ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
 
-#: templates/admin.php:200
+#: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
 msgstr "Επιτρέψτε στο χρήστη να στέλνει ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
 
-#: templates/admin.php:207
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: templates/admin.php:220
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "Επιβολή χρήσης HTTPS"
 
-#: templates/admin.php:222
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Επιβάλλει τους δέκτες να συνδέονται με το %s μέσω κρυπογραφημένης σύνδεσης."
 
-#: templates/admin.php:228
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Παρακαλώ συνδεθείτε στο %s σας μέσω HTTPS για να ενεργοποιήσετε ή να απενεργοποιήσετε την επιβολή του SSL."
 
-#: templates/admin.php:240
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Καταγραφές"
 
-#: templates/admin.php:241
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Επίπεδο καταγραφής"
 
-#: templates/admin.php:273
+#: templates/admin.php:287
 msgid "More"
 msgstr "Περισσότερα"
 
-#: templates/admin.php:274
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Λιγότερα"
 
-#: templates/admin.php:280 templates/personal.php:173
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Έκδοση"
 
-#: templates/admin.php:284 templates/personal.php:176
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

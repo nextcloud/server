@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -285,31 +285,42 @@ msgid ""
 msgstr "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模組以取得最好的 mime-type 支援。"
 
 #: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr ""
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "語系無法運作"
 
-#: templates/admin.php:84
+#: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:88
+#: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr ""
 
-#: templates/admin.php:92
+#: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:104
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "無網際網路存取"
 
-#: templates/admin.php:107
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -318,118 +329,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。"
 
-#: templates/admin.php:121
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:128
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "當頁面載入時，執行"
 
-#: templates/admin.php:136
+#: templates/admin.php:150
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php"
 
-#: templates/admin.php:144
+#: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "使用系統的 cron 服務每15分鐘呼叫 cron.php 一次"
 
-#: templates/admin.php:149
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "分享"
 
-#: templates/admin.php:155
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "啟用分享 API"
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "允許 apps 使用分享 API"
 
-#: templates/admin.php:163
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "允許連結"
 
-#: templates/admin.php:164
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "允許使用者以結連公開分享檔案"
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "允許任何人上傳"
 
-#: templates/admin.php:173
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "允許使用者將他們公開分享的資料夾設定為「任何人皆可上傳」"
 
-#: templates/admin.php:181
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "允許轉貼分享"
 
-#: templates/admin.php:182
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "允許使用者分享其他使用者分享給他的檔案"
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "允許使用者與任何人分享檔案"
 
-#: templates/admin.php:192
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "僅允許使用者在群組內分享"
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 msgid "Allow mail notification"
 msgstr "允許郵件通知"
 
-#: templates/admin.php:200
+#: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
 msgstr "允許使用者分享檔案時寄出通知郵件"
 
-#: templates/admin.php:207
+#: templates/admin.php:221
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:220
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:222
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "強迫用戶端使用加密連線連接到 %s"
 
-#: templates/admin.php:228
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。"
 
-#: templates/admin.php:240
+#: templates/admin.php:254
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:241
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:273
+#: templates/admin.php:287
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:274
+#: templates/admin.php:288
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:280 templates/personal.php:173
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:284 templates/personal.php:176
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

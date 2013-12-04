@@ -73,6 +73,7 @@ $TRANSLATIONS = array(
 "Maximum input size for ZIP files" => "Dimensione massima per i file ZIP",
 "Save" => "Salva",
 "New" => "Nuovo",
+"New text file" => "Nuovo file di testo",
 "Text file" => "File di testo",
 "New folder" => "Nuova cartella",
 "Folder" => "Cartella",
