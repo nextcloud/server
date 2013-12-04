@@ -691,7 +691,7 @@ function getSelectedFilesTrash(property) {
 			type:$(element).data('type'),
 			size:$(element).data('size'),
 			etag:$(element).data('etag'),
-	 		origin: $(element).data('id')
+			origin: $(element).data('id')
 		};
 		if (property) {
 			files.push(file[property]);
