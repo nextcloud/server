@@ -8,9 +8,6 @@
 
 namespace Test\BackgroundJob;
 
-class JobRun extends \Exception {
-}
-
 /**
  * Class DummyJobList
  *
