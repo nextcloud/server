@@ -66,6 +66,13 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	left: 50%;
 	margin-left: -25%;
 }
+#nojavascript a {
+	color: #ccc;
+	text-decoration: underline;
+}
+#nojavascript a:hover {
+	color: #aaa;
+}
 
 /* INPUTS */
 input[type="text"],

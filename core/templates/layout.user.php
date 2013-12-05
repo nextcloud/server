@@ -37,7 +37,7 @@
 	</head>
 
 	<body id="<?php p($_['bodyid']);?>">
-	<noscript><div id="nojavascript"><div><?php p($l->t('ownCloud requires JavaScript to be enabled for correct operation.  Please enable JavaScript and re-load this interface.')); ?></div></div></noscript>
+	<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('ownCloud requires JavaScript to be enabled for correct operation.  Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and re-load this interface.')); ?></div></div></noscript>
 	<div id="notification-container">
 		<div id="notification"></div>
 		<?php if ($_['updateAvailable']): ?>
