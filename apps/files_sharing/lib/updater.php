@@ -112,8 +112,12 @@ class Shared_Updater {
 	 */
 	static public function shareHook($params) {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$uidOwner = \OCP\User::getUser();
-			$users = \OCP\Share::getUsersItemShared($params['itemType'], $params['fileSource'], $uidOwner, true);
+			if (isset($params['uidOwner'])) {
+				$uidOwner = $params['uidOwner'];
+			} else {
+				$uidOwner = \OCP\User::getUser();
+			}
+			$users = \OCP\Share::getUsersItemShared($params['itemType'], $params['fileSource'], $uidOwner, true, false);
 			if (!empty($users)) {
 				while (!empty($users)) {
 					$reshareUsers = array();
