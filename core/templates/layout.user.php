@@ -37,6 +37,7 @@
 	</head>
 
 	<body id="<?php p($_['bodyid']);?>">
+	<noscript><div id="nojavascript"><div>ownCloud requires JavaScript to be enabled for correct operation.  Please enable JavaScript and re-load this interface.</div></div></noscript>
 	<div id="notification-container">
 		<div id="notification"></div>
 		<?php if ($_['updateAvailable']): ?>

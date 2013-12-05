@@ -46,6 +46,27 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	opacity: 1;
 }
 
+#nojavascript {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 999;
+	width: 100%;
+	text-align: center;
+	background-color: rgba(50,0,0,0.5);
+	color: white;
+	text-shadow: 0px 0px 5px black;
+	line-height: 125%;
+	font-size: x-large;
+}
+#nojavascript div {
+	width: 50%;
+	top: 50%;
+	position: absolute;
+	left: 50%;
+	margin-left: -25%;
+}
+
 /* INPUTS */
 input[type="text"],
 input[type="password"],
