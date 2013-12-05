@@ -61,7 +61,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 }
 #nojavascript div {
 	width: 50%;
-	top: 50%;
+	top: 40%;
 	position: absolute;
 	left: 50%;
 	margin-left: -25%;
