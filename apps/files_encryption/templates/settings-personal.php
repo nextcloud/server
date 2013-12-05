@@ -2,7 +2,7 @@
 	<fieldset class="personalblock">
 		<h2><?php p( $l->t( 'Encryption' ) ); ?></h2>
 
-		<?php if ( ! $_["privateKeySet"] && $_["initialized"] ): ?>
+		<?php if ( $_["initialized"] === '1' ): ?>
 			<p>
 				<a name="changePKPasswd" />
 				<label for="changePrivateKeyPasswd">
