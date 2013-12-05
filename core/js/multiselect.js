@@ -8,7 +8,7 @@
  * @param 'labels' The corresponding labels to show for the checked items.
  * @param 'oncheck' Callback function which will be called when a checkbox/radiobutton is selected. If the function returns false the input will be unchecked.
  * @param 'onuncheck' @see 'oncheck'.
- * @param 'singleSelect' If true radiobuttons will be used instead of checkboxes.
+ * @param 'singleSelect' If true radiobuttons will be used instead of checkboxes. 
  */
 (function( $ ){
 	var multiSelectId=-1;
@@ -27,7 +27,6 @@
 			'onuncheck':false,
 			'minWidth': 'default;'
 		};
-		var slideDuration = 200;
 		$(this).attr('data-msid', multiSelectId);
 		$.extend(settings,options);
 		$.each(this.children(),function(i,option) {
@@ -65,16 +64,16 @@
 		var self = this;
 		self.menuDirection = 'down';
 		button.click(function(event){
-
+			
 			var button=$(this);
 			if(button.parent().children('ul').length>0) {
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(slideDuration,function() {
+					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active down');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(slideDuration,function() {
+					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active up');
 					});
@@ -82,7 +81,7 @@
 				return;
 			}
 			var lists=$('ul.multiselectoptions');
-			lists.slideUp(slideDuration,function(){
+			lists.slideUp(400,function(){
 				lists.remove();
 				$('div.multiselect').removeClass('active');
 				button.addClass('active');
@@ -151,7 +150,7 @@
 						settings.labels.splice(index,1);
 					}
 					var oldWidth=button.width();
-					button.children('span').first().text(settings.labels.length > 0
+					button.children('span').first().text(settings.labels.length > 0 
 						? settings.labels.join(', ')
 						: settings.title);
 					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px';
@@ -222,7 +221,7 @@
 							select.append(option);
 							li.prev().children('input').prop('checked', true).trigger('change');
 							button.parent().data('preventHide',false);
-							button.children('span').first().text(settings.labels.length > 0
+							button.children('span').first().text(settings.labels.length > 0 
 								? settings.labels.join(', ')
 								: settings.title);
 							if(self.menuDirection === 'up') {
@@ -243,7 +242,7 @@
 				});
 				list.append(li);
 			}
-
+			
 			var doSort = function(list, selector) {
 				var rows = list.find('li'+selector).get();
 
@@ -277,14 +276,14 @@
 				});
 				list.addClass('down');
 				button.addClass('down');
-				list.slideDown(slideDuration);
+				list.slideDown();
 			} else {
 				list.css('max-height', $(document).height()-($(document).height()-(pos.top)+50)+'px');
 				list.css({
 					top:pos.top - list.height(),
 					left:pos.left+3,
 					width:(button.outerWidth()-2)+'px'
-
+					
 				});
 				list.detach().insertBefore($(this));
 				list.addClass('up');
@@ -300,19 +299,19 @@
 			if(!button.parent().data('preventHide')) {
 				// How can I save the effect in a var?
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(slideDuration,function() {
+					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active down');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(slideDuration,function() {
+					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active up');
 					});
 				}
 			}
 		});
-
+		
 		return span;
 	};
 })( jQuery );
