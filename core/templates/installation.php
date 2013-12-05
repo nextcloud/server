@@ -6,18 +6,19 @@
 <form action="index.php" method="post">
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
-	<ul class="errors">
+	<fieldset class="warning">
+		<legend><strong><?php p($l->t('Error'));?></strong></legend>
 		<?php foreach($_['errors'] as $err): ?>
-		<li>
+		<p>
 			<?php if(is_array($err)):?>
 				<?php print_unescaped($err['error']); ?>
-				<p class='hint'><?php print_unescaped($err['hint']); ?></p>
+				<span class='hint'><?php print_unescaped($err['hint']); ?></span>
 			<?php else: ?>
 				<?php print_unescaped($err); ?>
 			<?php endif; ?>
-		</li>
+		</p>
 		<?php endforeach; ?>
-	</ul>
+	</fieldset>
 	<?php endif; ?>
 	<?php if($_['vulnerableToNullByte']): ?>
 	<fieldset class="warning">
