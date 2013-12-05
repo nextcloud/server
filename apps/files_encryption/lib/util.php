@@ -108,7 +108,7 @@ class Util {
 	}
 
 	/**
-	 * @breif check if the users private & public key exists
+	 * @brief check if the users private & public key exists
 	 * @return boolean
 	 */
 	public function userKeysExists() {
