@@ -286,7 +286,7 @@ class Scanner extends BasicEmitter {
 	public function backgroundScan() {
 		$lastPath = null;
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-			$this->scan($path);
+			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
 			$this->cache->correctFolderSize($path);
 			$lastPath = $path;
 		}
