@@ -76,6 +76,7 @@ class Configuration {
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
 		'lastJpegPhotoLookup' => null,
+		'ldapNestedGroups' => false,
 	);
 
 	public function __construct($configPrefix, $autoread = true) {
@@ -338,6 +339,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
 			'last_jpegPhoto_lookup'				=> 0,
+			'ldap_nested_groups'		        => 0,
 		);
 	}
 
@@ -389,6 +391,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
+			'ldap_nested_groups'                    => 'ldapNestedGroups',
 		);
 		return $array;
 	}
