@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"POT-Creation-Date: 2013-12-05 22:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,7 @@ msgid "Share"
 msgstr ""
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:38
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgstr ""
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
 #: templates/login.php:31
 msgid "Username"
 msgstr ""
@@ -593,92 +593,92 @@ msgstr ""
 msgid "Cheers!"
 msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr ""
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr ""
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr ""
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr ""
 

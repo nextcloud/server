@@ -117,6 +117,9 @@ $CONFIG = array(
 /* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
 'trashbin_retention_obligation' => 30,
 
+/* Disable/Enable auto expire for the trash bin, by default auto expire is enabled */
+'trashbin_auto_expire' => true,
+
 /* allow user to change his display name, if it is supported by the back-end */
 'allow_user_to_change_display_name' => true,
 
@@ -185,8 +188,8 @@ $CONFIG = array(
 // "datadirectory" => "",
 
 /* Enable maintenance mode to disable ownCloud
-   If you want to prevent users to login to ownCloud before you start doing some maintenance work, 
-   you need to set the value of the maintenance parameter to true. 
+   If you want to prevent users to login to ownCloud before you start doing some maintenance work,
+   you need to set the value of the maintenance parameter to true.
    Please keep in mind that users who are already logged-in are kicked out of ownCloud instantly.
 */
 "maintenance" => false,

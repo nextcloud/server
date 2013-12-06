@@ -101,15 +101,24 @@ class Util {
 			or !$this->view->file_exists($this->publicKeyPath)
 			or !$this->view->file_exists($this->privateKeyPath)
 		) {
-
 			return false;
-
 		} else {
-
 			return true;
-
 		}
+	}
 
+	/**
+	 * @brief check if the users private & public key exists
+	 * @return boolean
+	 */
+	public function userKeysExists() {
+		if (
+				$this->view->file_exists($this->privateKeyPath) &&
+				$this->view->file_exists($this->publicKeyPath)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -761,7 +770,7 @@ class Util {
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
 					'encrypted' => false,
 					'size' => $size,
-					'unencrypted_size' => $size,
+					'unencrypted_size' => 0,
 					'etag' => $fileInfo['etag']
 				));
 

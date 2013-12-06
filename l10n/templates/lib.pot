@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"POT-Creation-Date: 2013-12-05 22:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,17 +173,17 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: private/setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr ""
 
-#: private/setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr ""
 
-#: private/setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr ""
@@ -204,11 +204,11 @@ msgid "MySQL username and/or password not valid"
 msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:147
-#: private/setup/oci.php:154 private/setup/oci.php:165
-#: private/setup/oci.php:172 private/setup/oci.php:181
-#: private/setup/oci.php:189 private/setup/oci.php:198
-#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/oci.php:121 private/setup/oci.php:144
+#: private/setup/oci.php:151 private/setup/oci.php:162
+#: private/setup/oci.php:169 private/setup/oci.php:178
+#: private/setup/oci.php:186 private/setup/oci.php:195
+#: private/setup/oci.php:201 private/setup/postgresql.php:89
 #: private/setup/postgresql.php:98 private/setup/postgresql.php:115
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
@@ -216,10 +216,10 @@ msgid "DB Error: \"%s\""
 msgstr ""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:148
-#: private/setup/oci.php:155 private/setup/oci.php:166
-#: private/setup/oci.php:182 private/setup/oci.php:190
-#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/oci.php:122 private/setup/oci.php:145
+#: private/setup/oci.php:152 private/setup/oci.php:163
+#: private/setup/oci.php:179 private/setup/oci.php:187
+#: private/setup/oci.php:196 private/setup/postgresql.php:90
 #: private/setup/postgresql.php:99 private/setup/postgresql.php:116
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
@@ -252,7 +252,7 @@ msgstr ""
 msgid "Oracle username and/or password not valid"
 msgstr ""
 
-#: private/setup/oci.php:173 private/setup/oci.php:205
+#: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""

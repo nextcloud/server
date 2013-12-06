@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# madeng <jongyoul@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-01 02:20+0000\n"
-"Last-Translator: 책읽는달팽 <bjh13579@gmail.com>\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-03 02:50+0000\n"
+"Last-Translator: madeng <jongyoul@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "%s에게 메일을 보낼 수 없습니다."
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -56,7 +57,7 @@ msgstr "... %d%% 완료됨 ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "이미지나 파일이 없음"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -68,11 +69,11 @@ msgstr "잘못된 이미지"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "사용가능한 프로파일 사진이 없습니다. 재시도 하세요."
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "선택된 데이터가 없습니다."
 
 #: js/config.php:32
 msgid "Sunday"
@@ -229,21 +230,21 @@ msgstr ""
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
+msgstr[0] "{count} 파일 중복"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "하나의 파일이 충돌"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "어느 파일들을 보관하고 싶습니까?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "두 버전을 모두 선택하면, 파일이름에 번호가 추가될 것입니다."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -251,15 +252,15 @@ msgstr "취소"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "계속"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(모두 선택됨)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count}개가 선택됨)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
@@ -428,7 +429,7 @@ msgstr "추가"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "태크 편집"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
@@ -456,7 +457,7 @@ msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s 비밀번호 재설정"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -467,7 +468,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "비밀번호를 초기화 하기 위한 링크가 이메일로 발송되었습니다.<br>만약 수분이내에 메일이 도착하지 않은 경우, 스팸 메일함을 확인하세요.<br>만약 없다면, 메일 관리자에게 문의하세요."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -488,7 +489,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "당신의 파일은 암호화 되어있습니다. 만약 복구키를 가지고 있지 않다면, 비밀번호를 초기화한 후에, 당신의 데이터를 복구할 수 없을 것입니다. 당신이 원하는 것이 확실하지 않다면, 계속진행하기 전에 관리자에게 문의하세요. 계속 진행하시겠습니까?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
@@ -496,7 +497,7 @@ msgstr "네, 전 제 비밀번호를 리셋하길 원합니다"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "재설정"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -587,7 +588,7 @@ msgstr ""
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "화이팅!"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -601,7 +602,7 @@ msgstr "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CV
 #: templates/installation.php:26
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s의 보안을 위하여 PHP 버전을 업데이트하십시오."
 
 #: templates/installation.php:32
 msgid ""
@@ -626,7 +627,7 @@ msgstr ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하세요."
 
 #: templates/installation.php:47
 msgid "Create an <strong>admin account</strong>"
@@ -676,12 +677,12 @@ msgstr "설치 완료"
 
 #: templates/installation.php:184
 msgid "Finishing …"
-msgstr ""
+msgstr "종료중 ..."
 
 #: templates/layout.user.php:43
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s는 사용가능합니다. 업데이트방법에 대해서 더 많은 정보를 얻으세요."
 
 #: templates/layout.user.php:71 templates/singleuser.user.php:8
 msgid "Log out"
@@ -703,11 +704,11 @@ msgstr "계정의 안전을 위하여 암호를 변경하십시오."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "서버 인증 실패!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "관리자에게 문의하세요."
 
 #: templates/login.php:44
 msgid "Lost your password?"

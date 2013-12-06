@@ -6,7 +6,7 @@
 # a.tangemann <a.tangemann@web.de>, 2013
 # arkascha <foss@christian-reiner.info>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
-# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
 # noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-28 12:30+0000\n"
+"POT-Creation-Date: 2013-12-05 22:23-0500\n"
+"PO-Revision-Date: 2013-12-05 13:20+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -291,31 +291,42 @@ msgid ""
 msgstr "Das PHP-Modul 'fileinfo' fehlt. Wir empfehlen Ihnen dieses Modul zu aktivieren, um die besten Resultate bei der Bestimmung der Dateitypen zu erzielen."
 
 #: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr "Ihre PHP-Version ist veraltet"
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr "Ihre PHP-Version ist veraltet. Wir empfehlen dringend auf die Version 5.3.8 oder neuer zu aktualisieren, da ältere Versionen kompromittiert werden können. Es ist möglich, dass diese Installation nicht richtig funktioniert."
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Die Lokalisierung funktioniert nicht"
 
-#: templates/admin.php:84
+#: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Systemgebietsschema kann nicht auf eine UTF-8 unterstützende eingestellt werden."
 
-#: templates/admin.php:88
+#: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Dies bedeutet, dass Probleme mit bestimmten Zeichen in den Dateinamen geben kann."
 
-#: templates/admin.php:92
+#: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Wir empfehlen dringend, die erforderlichen Pakete auf Ihrem System zu installieren, damit eine der folgenden Gebietsschemas unterstützt wird: %s."
 
-#: templates/admin.php:104
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "Keine Internetverbindung"
 
-#: templates/admin.php:107
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -324,118 +335,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Dieser Server hat keine funktionierende Internetverbindung. Dies bedeutet das einige Funktionen wie z.B. das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Internetverbindung für diesen Server zu aktivieren, wenn Sie alle Funktionen nutzen wollen."
 
-#: templates/admin.php:121
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:128
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "Eine Aufgabe bei jedem Laden der Seite ausführen"
 
-#: templates/admin.php:136
+#: templates/admin.php:150
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php ist als Webcron-Dienst registriert, der die cron.php alle 15 Minuten per HTTP aufruft."
 
-#: templates/admin.php:144
+#: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Benutzen Sie den System-Crondienst, um die cron.php alle 15 Minuten aufzurufen."
 
-#: templates/admin.php:149
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Teilen"
 
-#: templates/admin.php:155
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Share-API aktivieren"
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Anwendungen erlauben, die Share-API zu benutzen"
 
-#: templates/admin.php:163
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Links erlauben"
 
-#: templates/admin.php:164
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Benutzern erlauben, Inhalte per öffentlichem Link zu teilen"
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "Öffentliches Hochladen erlauben"
 
-#: templates/admin.php:173
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Erlaubt Benutzern die Freigabe anderer Benutzer in ihren öffentlich freigegebene Ordner hochladen zu dürfen"
 
-#: templates/admin.php:181
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Erlaube Weiterverteilen"
 
-#: templates/admin.php:182
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Erlaubt Benutzern, mit jedem zu teilen"
 
-#: templates/admin.php:192
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Erlaubt Benutzern, nur mit Nutzern in ihrer Gruppe zu teilen"
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 msgid "Allow mail notification"
 msgstr "Mail-Benachrichtigung erlauben"
 
-#: templates/admin.php:200
+#: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
 msgstr "Benutzern erlauben Mail-Benachrichtigungen für freigegebene Dateien zu senden"
 
-#: templates/admin.php:207
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Sicherheit"
 
-#: templates/admin.php:220
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "HTTPS erzwingen"
 
-#: templates/admin.php:222
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Zwingt die Clients, sich über eine verschlüsselte Verbindung zu %s zu verbinden."
 
-#: templates/admin.php:228
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Bitte verbinden Sie sich zu Ihrem %s über HTTPS um die SSL-Erzwingung zu aktivieren oder zu deaktivieren."
 
-#: templates/admin.php:240
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:241
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Log-Level"
 
-#: templates/admin.php:273
+#: templates/admin.php:287
 msgid "More"
 msgstr "Mehr"
 
-#: templates/admin.php:274
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Weniger"
 
-#: templates/admin.php:280 templates/personal.php:173
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:284 templates/personal.php:176
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
