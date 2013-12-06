@@ -770,7 +770,7 @@ class Util {
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
 					'encrypted' => false,
 					'size' => $size,
-					'unencrypted_size' => $size,
+					'unencrypted_size' => 0,
 					'etag' => $fileInfo['etag']
 				));
 
