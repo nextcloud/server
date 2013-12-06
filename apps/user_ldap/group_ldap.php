@@ -334,6 +334,40 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $ldap_groups;
 	}
 
+	/**
+	 * @brief get a list of all groups using a paged search
+	 * @returns array with group names
+	 *
+	 * Returns a list with all groups
+         * Uses a paged search if available to override a
+         * server side search limit.
+         * (active directory has a limit of 1000 by default)
+	 */
+	public function getAllGroups($search = '', $max_groups= 100000, $chunksize=900) {
+		if(!$this->enabled) {
+			return array();
+		}
+		if (! $this->access->connection->hasPagedResultSupport) {
+			return $this->getGroups($search);
+		}
+		$offset = 0;
+		$all_groups = array();
+		while ($offset < $max_groups) {
+			$limit = min($chunksize, $max_groups - $offset);
+			$ldap_groups = $this->getGroups('', $limit, $offset);
+			$nread = count($ldap_groups);
+			\OCP\Util::writeLog('user_ldap', 'getAllGroups('.$search.'): read '.$nread.' at offset '.$offset.' (limit: '.$limit.')', \OCP\Util::DEBUG);
+			if ($nread) {
+				$all_groups = array_merge($all_groups, $ldap_groups);
+				$offset += $nread;
+			}
+			if ($nread < $limit) {
+				break;
+			}
+		}
+		return $all_groups;
+	}
+
 	public function groupMatchesFilter($group) {
 		return (strripos($group, $this->groupSearch) !== false);
 	}
