@@ -423,11 +423,13 @@ class Share {
 	 * @param string Item source
 	 * @param string Owner
 	 * @param bool Include collections
+	 * @praram bool check expire date
 	 * @return Return array of users
 	 */
-	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false) {
+	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
+
 		$users = array();
-		$items = self::getItems($itemType, $itemSource, null, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections);
+		$items = self::getItems($itemType, $itemSource, null, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections, false, $checkExpireDate);
 		if ($items) {
 			foreach ($items as $item) {
 				if ((int)$item['share_type'] === self::SHARE_TYPE_USER) {
@@ -866,12 +868,14 @@ class Share {
 	protected static function unshareItem(array $item) {
 		// Pass all the vars we have for now, they may be useful
 		$hookParams = array(
-			'itemType'		=> $item['item_type'],
-			'itemSource'	=> $item['item_source'],
-			'shareType'		=> $item['share_type'],
-			'shareWith'		=> $item['share_with'],
-			'itemParent'	=> $item['parent'],
+			'itemType'      => $item['item_type'],
+			'itemSource'    => $item['item_source'],
+			'shareType'     => $item['share_type'],
+			'shareWith'     => $item['share_with'],
+			'itemParent'    => $item['parent'],
+			'uidOwner'      => $item['uid_owner'],
 		);
+
 		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams + array(
 			'fileSource'	=> $item['file_source'],
 		));
@@ -961,6 +965,7 @@ class Share {
 	 * @param int Number of items to return, -1 to return all matches (optional)
 	 * @param bool Include collection item types (optional)
 	 * @param bool TODO (optional)
+	 * @prams bool check expire date
 	 * @return mixed
 	 *
 	 * See public functions getItem(s)... for parameter usage
@@ -968,7 +973,7 @@ class Share {
 	 */
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
 		$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
-		$includeCollections = false, $itemShareWithBySource = false) {
+		$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true) {
 		if (!self::isEnabled()) {
 			if ($limit == 1 || (isset($uidOwner) && isset($item))) {
 				return false;
@@ -1108,19 +1113,19 @@ class Share {
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
-					.' `share_type`, `file_source`, `path`, `expiration`, `storage`, `mail_send`';
+					.' `share_type`, `file_source`, `path`, `expiration`, `storage`, `share_with`, `mail_send`, `uid_owner`';
 			} else {
-				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`, `mail_send`';
+				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `expiration`, `mail_send`, `uid_owner`';
 			}
 		} else {
 			if (isset($uidOwner)) {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
 						.' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
-						.' `expiration`, `token`, `storage`, `mail_send`';
+						.' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
-						.' `stime`, `file_source`, `expiration`, `token`, `mail_send`';
+						.' `stime`, `file_source`, `expiration`, `token`, `mail_send`, `uid_owner`';
 				}
 			} else {
 				if ($fileDependent) {
@@ -1234,8 +1239,10 @@ class Share {
 					}
 				}
 			}
-			if (self::expireItem($row)) {
-				continue;
+			if($checkExpireDate) {
+				if (self::expireItem($row)) {
+					continue;
+				}
 			}
 			// Check if resharing is allowed, if not remove share permission
 			if (isset($row['permissions']) && !self::isResharingAllowed()) {
