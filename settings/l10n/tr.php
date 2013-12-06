@@ -61,6 +61,8 @@ $TRANSLATIONS = array(
 "Please double check the <a href=\"%s\">installation guides</a>." => "Lütfen <a href='%s'>kurulum kılavuzlarını</a> tekrar kontrol edin.",
 "Module 'fileinfo' missing" => "Modül 'fileinfo' kayıp",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz.",
+"Your PHP version is outdated" => "PHP sürümünüz eski",
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "PHP sürümünüz eski. Eski sürümlerde sorun olduğundan 5.3.8 veya daha yeni bir sürüme güncellemenizi şiddetle tavsiye ederiz. Bu kurulumun da doğru çalışmaması da olasıdır.",
 "Locale not working" => "Locale çalışmıyor.",
 "System locale can not be set to a one which supports UTF-8." => "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı",
 "This means that there might be problems with certain characters in file names." => "Bu, dosya adlarında belirli karakterlerde problem olabileceği anlamına gelir.",
