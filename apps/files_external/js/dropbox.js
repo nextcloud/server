@@ -23,9 +23,12 @@ $(document).ready(function() {
 							$(token).val(result.access_token);
 							$(token_secret).val(result.access_token_secret);
 							$(configured).val('true');
-							OC.MountConfig.saveStorage(tr);
-							$(tr).find('.configuration input').attr('disabled', 'disabled');
-							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
+							OC.MountConfig.saveStorage(tr, function(status) {
+								if (status) {
+									$(tr).find('.configuration input').attr('disabled', 'disabled');
+									$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
+								}
+							});
 						} else {
 							OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 						}
@@ -77,7 +80,6 @@ $(document).ready(function() {
 		var tr = $(this).parent().parent();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();
 		var app_secret = $(this).parent().find('[data-parameter="app_secret"]').val();
-		var statusSpan = $(tr).find('.status span');
 		if (app_key != '' && app_secret != '') {
 			var tr = $(this).parent().parent();
 			var configured = $(this).parent().find('[data-parameter="configured"]');
@@ -88,10 +90,9 @@ $(document).ready(function() {
 					$(configured).val('false');
 					$(token).val(result.data.request_token);
 					$(token_secret).val(result.data.request_token_secret);
-					OC.MountConfig.saveStorage(tr);
-					statusSpan.removeClass();
-					statusSpan.addClass('waiting');
-					window.location = result.data.url;
+					OC.MountConfig.saveStorage(tr, function() {
+						window.location = result.data.url;
+					});
 				} else {
 					OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 				}
