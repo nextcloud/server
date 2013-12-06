@@ -26,7 +26,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var array tmpDirs
 	 */
-	private $tmpDirs=array();
+	private $tmpDirs = array();
 
 	/**
 	 * @return array
@@ -51,21 +51,21 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testMount() {
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/');
-		$this->assertEquals('/',\OC\Files\Filesystem::getMountPoint('/'));
-		$this->assertEquals('/',\OC\Files\Filesystem::getMountPoint('/some/folder'));
-		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/');
-		$this->assertEquals('',$internalPath);
-		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/some/folder');
-		$this->assertEquals('some/folder',$internalPath);
+		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/');
+		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/'));
+		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/some/folder'));
+		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/');
+		$this->assertEquals('', $internalPath);
+		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/some/folder');
+		$this->assertEquals('some/folder', $internalPath);
 
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/some');
-		$this->assertEquals('/',\OC\Files\Filesystem::getMountPoint('/'));
-		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some/folder'));
-		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some/'));
-		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some'));
-		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/some/folder');
-		$this->assertEquals('folder',$internalPath);
+		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/some');
+		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/'));
+		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some/folder'));
+		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some/'));
+		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some'));
+		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/some/folder');
+		$this->assertEquals('folder', $internalPath);
 	}
 
 	public function testNormalize() {
@@ -136,20 +136,20 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testHooks() {
-		if(\OC\Files\Filesystem::getView()){
+		if (\OC\Files\Filesystem::getView()) {
 			$user = \OC_User::getUser();
-		}else{
-			$user=uniqid();
-			\OC\Files\Filesystem::init($user, '/'.$user.'/files');
+		} else {
+			$user = uniqid();
+			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
 		}
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
 
 		\OC\Files\Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
 
-		$rootView=new \OC\Files\View('');
-		$rootView->mkdir('/'.$user);
-		$rootView->mkdir('/'.$user.'/files');
+		$rootView = new \OC\Files\View('');
+		$rootView->mkdir('/' . $user);
+		$rootView->mkdir('/' . $user . '/files');
 
 //		\OC\Files\Filesystem::file_put_contents('/foo', 'foo');
 		\OC\Files\Filesystem::mkdir('/bar');
@@ -215,7 +215,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
 		$this->assertInstanceOf('\OC\Files\Storage\Home', $homeMount);
-		$this->assertEquals('local::' . $datadir. '/' . $userId . '/', $homeMount->getId());
+		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 
 		\OC_User::deleteUser($userId);
 		// delete storage entry
