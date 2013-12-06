@@ -59,7 +59,7 @@ class EtagTest extends \PHPUnit_Framework_TestCase {
 		Filesystem::file_put_contents('/folder/bar.txt', 'fgh');
 		Filesystem::file_put_contents('/folder/subfolder/qwerty.txt', 'jkl');
 
-		$files = array('/', '/folder', '/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt');
+		$files = array('/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt');
 		$originalEtags = $this->getEtags($files);
 
 		$scanner = new \OC\Files\Utils\Scanner($user1);
