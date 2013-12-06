@@ -425,7 +425,7 @@ $(document).ready(function () {
 		input.blur(function () {
 			var input = $(this),
 				displayName = input.val();
-			input.parent().parent().data('displayname', displayName);
+			input.closest('tr').attr('data-displayName', displayName);
 			input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
 			img.css('display', '');
 		});
