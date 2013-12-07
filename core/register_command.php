@@ -9,6 +9,7 @@
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Db\GenerateChangeScript());
+$application->add(new OC\Core\Command\Db\ConvertFromSqlite());
 $application->add(new OC\Core\Command\Upgrade());
 $application->add(new OC\Core\Command\Maintenance\SingleUser());
 $application->add(new OC\Core\Command\App\Disable());
