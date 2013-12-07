@@ -115,7 +115,7 @@ t.cache = {};
  */
 function n(app, text_singular, text_plural, count, vars) {
 	initL10N(app);
-	var identifier = '_' + text_singular + '__' + text_plural + '_';
+	var identifier = '_' + text_singular + '_::_' + text_plural + '_';
 	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
 		var translation = t.cache[app][identifier];
 		if ($.isArray(translation)) {
