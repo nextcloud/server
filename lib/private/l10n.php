@@ -262,7 +262,7 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	public function n($text_singular, $text_plural, $count, $parameters = array()) {
 		$this->init();
-		$identifier = "_${text_singular}__${text_plural}_";
+		$identifier = "_${text_singular}_::_${text_plural}_";
 		if( array_key_exists($identifier, $this->translations)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
 		}
