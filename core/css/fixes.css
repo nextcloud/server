@@ -58,3 +58,8 @@
 .ie9 #navigation {
 	width: 100px;
 }
+
+/* IE8 isn't able to display transparent background. So it is specified using a gradient */
+.ie8 #nojavascript {
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000'); /* IE */
+}
