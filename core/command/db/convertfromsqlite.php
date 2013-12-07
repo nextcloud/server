@@ -99,6 +99,16 @@ class ConvertFromSqlite extends Command {
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
 		}
+		switch ($type) {
+			case 'mysql':
+			case 'mssql':
+				$connectionParams['charset'] = 'UTF8';
+				break;
+			case 'oci':
+				$connectionParams['charset'] = 'AL32UTF8';
+				break;
+		}
+
 		$toDB = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 
 		// create tables in new database
