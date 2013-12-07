@@ -171,6 +171,18 @@ $(document).ready(function(){
         }
     });
 
+	$('#email').keypress(function(event){
+		// check for enter key and non empyt email
+		if (event.keyCode === 13 && $('#email').val() !== '' ){
+			event.preventDefault()
+			// clear timeout of previous keyup event - prevents duplicate changeEmailAddress call
+			if(typeof timeout !== 'undefined'){
+				clearTimeout(timeout);
+			}
+			changeEmailAddress();
+		}
+	});
+
 	$("#languageinput").change( function(){
 		// Serialize the data
 		var post = $( "#languageinput" ).serialize();
