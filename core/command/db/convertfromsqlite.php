@@ -138,12 +138,30 @@ class ConvertFromSqlite extends Command {
 				return;
 			}
 		}
-		// copy table rows
-		$tables = array_intersect($toTables, $fromTables);
-		foreach($tables as $table) {
-			$output->writeln($table);
-			$this->copyTable($fromDB, $toDB, $table, $output);
+		// enable maintenance mode to prevent changes
+		\OC_Config::setValue('maintenance', true);
+		try {
+			// copy table rows
+			$tables = array_intersect($toTables, $fromTables);
+			foreach($tables as $table) {
+				$output->writeln($table);
+				$this->copyTable($fromDB, $toDB, $table, $output);
+			}
+			// save new database config
+			$dbhost = $hostname;
+			if ($input->getOption('port')) {
+				$dbhost = $hostname.':'.$input->getOption('port');
+			}
+			\OC_Config::setValue('dbtype', $type);
+			\OC_Config::setValue('dbname', $dbname);
+			\OC_Config::setValue('dbhost', $dbhost);
+			\OC_Config::setValue('dbuser', $username);
+			\OC_Config::setValue('dbpassword', $password);
+		} catch(Exception $e) {
+			\OC_Config::setValue('maintenance', false);
+			throw $e;
 		}
+		\OC_Config::setValue('maintenance', false);
 	}
 
 	private function getTables($db) {
