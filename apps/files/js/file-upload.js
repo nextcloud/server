@@ -235,8 +235,8 @@ $(document).ready(function() {
 			
 				//check max upload size
 				if (selection.totalBytes > $('#max_upload').val()) {
-					data.textStatus = 'notenoughspace';
-					data.errorThrown = t('files', 'Not enough space available');
+					data.textStatus = 'sizeexceedlimit';
+					data.errorThrown = t('files', 'File size exceeds upload limit');
 				}
 			
 				// end upload for whole selection on error
