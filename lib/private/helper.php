@@ -828,23 +828,39 @@ class OC_Helper {
 	 * @return number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir) {
-		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
-			$maxUploadFilesize = \OC\Files\SPACE_UNLIMITED;
-		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
-			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
-		} else {
-			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-		}
+		return min(self::freeSpace($dir), self::uploadLimit());
+	}
 
+	/**
+	 * Calculate free space left within user quota
+	 * 
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function freeSpace($dir) {
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		if ($freeSpace !== \OC\Files\SPACE_UNKNOWN) {
 			$freeSpace = max($freeSpace, 0);
-
-			return min($maxUploadFilesize, $freeSpace);
+			return $freeSpace;
 		} else {
-			return $maxUploadFilesize;
+			return INF;
+		}
+	}
+
+	/**
+	 * Calculate PHP upload limit
+	 *
+	 * @return PHP upload file size limit
+	 */
+	public static function uploadLimit() {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
+			return INF;
+		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
+			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			return min($upload_max_filesize, $post_max_size);
 		}
 	}
 
