@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "업로드 취소",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",
 "Download" => "다운로드",
-"Unshare" => "공유 해제",
 "Delete" => "삭제",
 "Upload too large" => "업로드한 파일이 너무 큼",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",

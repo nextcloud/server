@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -377,29 +377,25 @@ msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "공유 해제"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "삭제"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "현재 검색"
 

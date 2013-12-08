@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -380,29 +380,25 @@ msgstr "Ingenting her. Last opp noe!"
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Avslutt deling"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Slett"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Filen er for stor"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filene du prøver å laste opp er for store for å laste opp til denne serveren."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Skanner filer, vennligst vent."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Pågående skanning"
 

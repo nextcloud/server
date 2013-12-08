@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-02 13:30+0000\n"
-"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,7 +284,7 @@ msgid "Share"
 msgstr "Zdieľať"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
@@ -320,7 +320,7 @@ msgstr "Zdieľať linku"
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:38
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Heslo"
 
@@ -487,7 +487,7 @@ msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že vaše používateľské meno
 msgid "You will receive a link to reset your password via Email."
 msgstr "Odkaz pre obnovenie hesla obdržíte e-mailom."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
 #: templates/login.php:31
 msgid "Username"
 msgstr "Meno používateľa"
@@ -532,7 +532,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -599,101 +599,108 @@ msgstr "Zdieľanie expiruje %s."
 msgid "Cheers!"
 msgstr "Za zdravie!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Bezpečnostné varovanie"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Verzia Vášho PHP je napadnuteľná pomocou techniky \"NULL Byte\" (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Aktualizujte prosím vašu inštanciu PHP pre bezpečné používanie %s."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a href=\"%s\" target=\"_blank\">dokumentácie</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Rozšírené"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Používateľ databázy"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr "Dokončujem..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizácie."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásiť"
 

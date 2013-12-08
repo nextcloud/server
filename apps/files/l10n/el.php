@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Ακύρωση αποστολής",
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανεβάστε κάτι!",
 "Download" => "Λήψη",
-"Unshare" => "Σταμάτημα διαμοιρασμού",
 "Delete" => "Διαγραφή",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -374,29 +374,25 @@ msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "ยกเลิกการแชร์"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "ลบ"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"
 

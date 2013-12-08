@@ -58,7 +58,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Anullo ngarkimin",
 "Nothing in here. Upload something!" => "Këtu nuk ka asgje. Ngarko dicka",
 "Download" => "Shkarko",
-"Unshare" => "Hiq ndarjen",
 "Delete" => "Fshi",
 "Upload too large" => "Ngarkimi shumë i madh",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skedarët që po mundoheni të ngarkoni e tejkalojnë madhësinë maksimale të lejuar nga serveri.",

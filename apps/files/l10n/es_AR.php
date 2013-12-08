@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "No hay nada. ¡Subí contenido!",
 "Download" => "Descargar",
-"Unshare" => "Dejar de compartir",
 "Delete" => "Borrar",
 "Upload too large" => "El tamaño del archivo que querés subir es demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que intentás subir sobrepasan el tamaño máximo ",

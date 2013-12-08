@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Nie masz uprawnień do wczytywania lub tworzenia plików w tym miejscu",
 "Nothing in here. Upload something!" => "Pusto. Wyślij coś!",
 "Download" => "Pobierz",
-"Unshare" => "Zatrzymaj współdzielenie",
 "Delete" => "Usuń",
 "Upload too large" => "Ładowany plik jest za duży",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",

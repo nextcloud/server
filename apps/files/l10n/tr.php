@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Buraya dosya yükleme veya oluşturma izniniz yok",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Bir şeyler yükleyin!",
 "Download" => "İndir",
-"Unshare" => "Paylaşılmayan",
 "Delete" => "Sil",
 "Upload too large" => "Yükleme çok büyük",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",

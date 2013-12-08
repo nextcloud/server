@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Önnek nincs jogosultsága ahhoz, hogy ide állományokat töltsön föl, vagy itt újakat hozzon létre",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
 "Download" => "Letöltés",
-"Unshare" => "A megosztás visszavonása",
 "Delete" => "Törlés",
 "Upload too large" => "A feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",

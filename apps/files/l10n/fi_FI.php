@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
-"Unshare" => "Peru jakaminen",
 "Delete" => "Poista",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",

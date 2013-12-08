@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",
 "Download" => "பதிவிறக்குக",
-"Unshare" => "பகிரப்படாதது",
 "Delete" => "நீக்குக",
 "Upload too large" => "பதிவேற்றல் மிகப்பெரியது",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது.",

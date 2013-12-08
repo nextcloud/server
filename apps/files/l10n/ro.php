@@ -63,7 +63,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Anulează încărcarea",
 "Nothing in here. Upload something!" => "Nimic aici. Încarcă ceva!",
 "Download" => "Descarcă",
-"Unshare" => "Anulare",
 "Delete" => "Șterge",
 "Upload too large" => "Fișierul încărcat este prea mare",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierul care l-ai încărcat a depășită limita maximă admisă la încărcare pe acest server.",

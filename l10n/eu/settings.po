@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-07 12:50+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +31,11 @@ msgstr "Autentifikazio errorea"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Zure izena aldatu egin da."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Ezin izan da izena aldatu"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -93,18 +93,18 @@ msgstr "Pasahitz okerra"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Ez da erabiltzailerik zehaztu"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Mesedez eman berreskuratzeko administrazio  pasahitza, bestela erabiltzaile datu guztiak galduko dira"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Berreskuratze administradore pasahitz ez egokia. Medesez egiaztatu pasahitza eta saiatu berriz."
 
 #: changepassword/controller.php:87
 msgid ""
@@ -114,7 +114,7 @@ msgstr ""
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Ezin izan da pasahitza aldatu"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -134,11 +134,11 @@ msgstr "Itxoin mesedez..."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Erroea izan da aplikazioa desgaitzerakoan"
 
 #: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Erroea izan da aplikazioa gaitzerakoan"
 
 #: js/apps.js:125
 msgid "Updating...."
@@ -201,21 +201,21 @@ msgstr "Ezabatu"
 msgid "add group"
 msgstr "gehitu taldea"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Baliozko erabiltzaile izena eman behar da"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Errore bat egon da erabiltzailea sortzean"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Abisua: \"{user}\" erabiltzailearen Home karpeta dagoeneko exisititzen da"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -250,7 +250,7 @@ msgstr "Segurtasun abisua"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "%s HTTP bidez erabiltzen ari zara. Aholkatzen dizugu zure zerbitzaria HTTPS erabil dezan."
 
 #: templates/admin.php:39
 msgid ""
@@ -288,14 +288,14 @@ msgstr "PHP 'fileinfo' modulua falta da. Modulu hau gaitzea aholkatzen dizugu mi
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Zure PHP bertsioa zaharkituta dago"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "Zure PHP bertsioa zaharkituta dago. Gure aholkua 5.3.8 edo bertsio berriago batera eguneratzea da, bertsio zaharragoak arazoak ematen baitituzte. Posible da instalazio honek ez funtzionatzea ongi."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -303,13 +303,13 @@ msgstr "Lokala ez dabil"
 
 #: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Sistemaren lokala ezin da UTF-8 onartzen duen batera ezarri."
 
 #: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Honek esan nahi du fitxategien izenetako karaktere batzuekin arazoak egon daitezkeela."
 
 #: templates/admin.php:106
 #, php-format
@@ -343,11 +343,11 @@ msgstr "Exekutatu zeregin bat orri karga bakoitzean"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php webcron zerbitzu batean erregistratua dago cron.php  15 minuturo http bidez deitzeko."
 
 #: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Erabili sistemaren cron zerbitzua cron.php fitxategia 15 minuturo deitzeko."
 
 #: templates/admin.php:163
 msgid "Sharing"
@@ -396,11 +396,11 @@ msgstr "Baimendu erabiltzaileak bakarrik bere taldeko erabiltzaileekin elkarbana
 
 #: templates/admin.php:213
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Baimendu posta bidezko jakinarazpenak"
 
 #: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Baimendu erabiltzailea posta bidezko jakinarazpenak bidaltzen partekatutako fitxategietarako"
 
 #: templates/admin.php:221
 msgid "Security"
@@ -535,7 +535,7 @@ msgstr "Aldatu pasahitza"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Izena"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -559,7 +559,7 @@ msgstr "Igo berria"
 
 #: templates/personal.php:93
 msgid "Select new from Files"
-msgstr ""
+msgstr "Hautatu berria Fitxategietatik"
 
 #: templates/personal.php:94
 msgid "Remove image"
@@ -567,7 +567,7 @@ msgstr "Irudia ezabatu"
 
 #: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "png edo jpg. Hobe karratua baina mozteko aukera izango duzu."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
@@ -606,15 +606,15 @@ msgstr "Enkriptazioa"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "Enkriptazio aplikazioa ez dago jada gaiturik, mesedez desenkriptatu zure fitxategi guztiak."
 
 #: templates/personal.php:158
 msgid "Log-in password"
-msgstr ""
+msgstr "Saioa hasteko pasahitza"
 
 #: templates/personal.php:163
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Desenkripattu fitxategi guztiak"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -640,7 +640,7 @@ msgstr "Lehenetsitako Biltegiratzea"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Mesedez sartu biltegiratze kouta (adb: \"512 MB\" edo \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -660,7 +660,7 @@ msgstr "Biltegiratzea"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "aldatu izena"
 
 #: templates/users.php:112
 msgid "set new password"
