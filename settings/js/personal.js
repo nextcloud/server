@@ -172,7 +172,7 @@ $(document).ready(function(){
     });
 
 	$('#email').keypress(function(event){
-		// check for enter key and non empyt email
+		// check for enter key and non empty email
 		if (event.keyCode === 13 && $('#email').val() !== '' ){
 			event.preventDefault()
 			// clear timeout of previous keyup event - prevents duplicate changeEmailAddress call
