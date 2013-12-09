@@ -300,7 +300,10 @@ var FileList={
 	},
 	remove:function(name){
 		var fileEl = FileList.findFileEl(name);
-		fileEl.find('td.filename').draggable('destroy');
+		if (fileEl.data('permissions') & OC.PERMISSION_DELETE) {
+			// file is only draggable when delete permissions are set
+			fileEl.find('td.filename').draggable('destroy');
+		}
 		fileEl.remove();
 		FileList.updateFileSummary();
 		if ( ! $('tr[data-file]').exists() ) {
