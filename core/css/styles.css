@@ -302,11 +302,6 @@ input[type="submit"].enabled {
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
 }
-/* account for shift of controls bar due to app navigation */
-#body-user #controls,
-#body-settings #controls {
-	padding-left: 80px;
-}
 #controls .button,
 #controls button,
 #controls input[type='submit'],

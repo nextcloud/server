@@ -84,6 +84,9 @@
 }
 
 #filestable tbody tr { background-color:#fff; height:51px; }
+.app-files #controls {
+	left: 300px;
+}
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -430,4 +433,8 @@ table.dragshadow td.size {
 }
 .mask.transparent{
 	opacity: 0;
+}
+
+.app-files #app-settings input {
+	width: 90%;
 }

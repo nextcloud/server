@@ -89,6 +89,11 @@ if ($trashEnabled) {
     $trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
 }
 
+$nav = new OCP\Template('files', 'appnavigation', '');
+
+$nav->assign('trash', $trashEnabled);
+$nav->assign('trashEmpty', $trashEmpty);
+
 OCP\Util::addscript('files', 'fileactions');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -110,5 +115,6 @@ $tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_
 $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow_links', 'yes'));
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('disableSharing', false);
+$tmpl->assign('appNavigation', $nav);
 
 $tmpl->printPage();

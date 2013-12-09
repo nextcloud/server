@@ -39,4 +39,9 @@ if ($isIE8 && isset($_GET['dir'])){
 $tmpl->assign('dir', $dir);
 $tmpl->assign('disableSharing', true);
 
+$nav = new OCP\Template('files', 'appnavigation', '');
+$nav->assign('trash', true);
+
+$tmpl->assign('appNavigation', $nav);
+
 $tmpl->printPage();
