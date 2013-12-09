@@ -1142,34 +1142,41 @@ class Util {
 	 */
 	public function getMigrationStatus() {
 
-		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
+		if ($this->isPublic) {
 
-		$args = array($this->userId);
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute($args);
-
-		$migrationStatus = array();
-
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+			return self::MIGRATION_COMPLETED;
+			
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-				if (isset($row['migration_status'])) {
-					$migrationStatus[] = $row['migration_status'];
+
+			$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
+
+			$args = array($this->userId);
+
+			$query = \OCP\DB::prepare($sql);
+
+			$result = $query->execute($args);
+
+			$migrationStatus = array();
+
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+			} else {
+				if ($result->numRows() > 0) {
+					$row = $result->fetchRow();
+					if (isset($row['migration_status'])) {
+						$migrationStatus[] = $row['migration_status'];
+					}
 				}
 			}
-		}
 
-		// If no record is found
-		if (empty($migrationStatus)) {
-			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
-			return false;
-			// If a record is found
-		} else {
-			return (int)$migrationStatus[0];
+			// If no record is found
+			if (empty($migrationStatus)) {
+				\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
+				return false;
+				// If a record is found
+			} else {
+				return (int) $migrationStatus[0];
+			}
 		}
 
 	}
