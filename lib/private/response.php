@@ -148,6 +148,20 @@ class OC_Response {
 	}
 
 	/**
+	 * Sets the content disposition header (with possible workarounds)
+	 * @param string $filename file name
+	 * @param string $type disposition type, either 'attachment' or 'inline'
+	 */
+	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
+		if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode( $filename ) . '"' );
+		} else {
+			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode( $filename )
+												 . '; filename="' . rawurlencode( $filename ) . '"' );
+		}
+	}
+
+	/**
 	* @brief Send file as response, checking and setting caching headers
 	* @param $filepath of file to send
 	*/
