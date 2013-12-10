@@ -61,6 +61,8 @@ $TRANSLATIONS = array(
 "Please double check the <a href=\"%s\">installation guides</a>." => "Conntroleer de <a href='%s'>installatie handleiding</a> goed.",
 "Module 'fileinfo' missing" => "Module 'fileinfo' ontbreekt",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "De PHP module 'fileinfo' ontbreekt. We adviseren met klem om deze module te activeren om de beste resultaten te bereiken voor mime-type detectie.",
+"Your PHP version is outdated" => "Uw PHP versie is verouderd",
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Uw PHP versie is verouderd. We adviseren met klem om bij te werken naar versie 5.3.8 of later, omdat oudere versies corrupt kunnen zijn. Het is mogelijk dat deze installatie niet goed werkt.",
 "Locale not working" => "Taalbestand werkt niet",
 "System locale can not be set to a one which supports UTF-8." => "De systeemtaal kan niet worden ingesteld op een taal die UTF-8 ondersteunt.",
 "This means that there might be problems with certain characters in file names." => "Dat betekent dat er problemen kunnen optreden met bepaalde tekens in bestandsnamen.",

@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
 "Download" => "Sťahovanie",
-"Unshare" => "Zrušiť zdieľanie",
 "Delete" => "Zmazať",
 "Upload too large" => "Nahrávanie je príliš veľké",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",

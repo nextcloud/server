@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -377,29 +377,25 @@ msgstr "এখানে কিছুই নেই। কিছু আপলো�
 msgid "Download"
 msgstr "ডাউনলোড"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "ভাগাভাগি বাতিল "
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "মুছে"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "আপলোডের আকারটি অনেক বড়"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন "
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।"
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "বর্তমান স্ক্যানিং"
 

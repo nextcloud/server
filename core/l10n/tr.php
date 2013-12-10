@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Veritabanı sunucusu",
 "Finish setup" => "Kurulumu tamamla",
 "Finishing …" => "Tamamlanıyor ..",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Uygulama, doğru çalışabilmesi için JavaScript'in etkinleştirilmesini gerektiriyor. Lütfen <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript'i etkinleştirin</a> ve bu arayüzü yeniden yükleyin.",
 "%s is available. Get more information on how to update." => "%s mevcut. Güncelleştirme hakkında daha fazla bilgi alın.",
 "Log out" => "Çıkış yap",
 "Automatic logon rejected!" => "Otomatik oturum açma reddedildi!",

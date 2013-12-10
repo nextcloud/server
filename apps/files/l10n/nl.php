@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "U hebt geen toestemming om hier te uploaden of bestanden te maken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Downloaden",
-"Unshare" => "Stop met delen",
 "Delete" => "Verwijder",
 "Upload too large" => "Upload is te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",

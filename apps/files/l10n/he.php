@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
 "Download" => "הורדה",
-"Unshare" => "הסר שיתוף",
 "Delete" => "מחיקה",
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",

@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Ezeztatu igoera",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
 "Download" => "Deskargatu",
-"Unshare" => "Ez elkarbanatu",
 "Delete" => "Ezabatu",
 "Upload too large" => "Igoera handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",

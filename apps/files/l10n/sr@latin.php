@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Save" => "Snimi",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",
 "Download" => "Preuzmi",
-"Unshare" => "Ukljoni deljenje",
 "Delete" => "Obriši",
 "Upload too large" => "Pošiljka je prevelika",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."

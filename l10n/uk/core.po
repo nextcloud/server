@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-03 13:50+0000\n"
-"Last-Translator: volodya327 <volodya327@gmail.com>\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,7 +283,7 @@ msgid "Share"
 msgstr "Поділитися"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Помилка"
 
@@ -319,7 +319,7 @@ msgstr "Опублікувати посилання"
 msgid "Password protect"
 msgstr "Захистити паролем"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:38
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Пароль"
 
@@ -486,7 +486,7 @@ msgstr "Запит завершився невдало !<br>Ви перекон�
 msgid "You will receive a link to reset your password via Email."
 msgstr "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
 #: templates/login.php:31
 msgid "Username"
 msgstr "Ім'я користувача"
@@ -531,7 +531,7 @@ msgstr "Особисте"
 msgid "Users"
 msgstr "Користувачі"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Додатки"
 
@@ -598,101 +598,108 @@ msgstr "Доступ до спільних даних вичерпається %
 msgid "Cheers!"
 msgstr "Будьмо!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Попередження про небезпеку"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Ваша версія PHP вразлива для атак NULL Byte (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Будь ласка, оновіть вашу інсталяцію PHP для використання %s безпеки."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Не доступний безпечний генератор випадкових чисел, будь ласка, активуйте PHP OpenSSL додаток."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Без безпечного генератора випадкових чисел зловмисник може визначити токени скидання пароля і заволодіти Вашим обліковим записом."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "Для отримання інформації, як правильно налаштувати сервер, див. <a href=\"%s\" target=\"_blank\">документацію</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Створити <strong>обліковий запис адміністратора</strong>"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Додатково"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Каталог даних"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Налаштування бази даних"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "буде використано"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Користувач бази даних"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Пароль для бази даних"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Назва бази даних"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Таблиця бази даних"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Хост бази даних"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Завершити налаштування"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr "Завершується ..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s доступний. Отримай більше інформації про те, як оновити."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Вихід"
 

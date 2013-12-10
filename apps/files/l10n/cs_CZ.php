@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Nemáte oprávnění zde nahrávat či vytvářet soubory",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
 "Download" => "Stáhnout",
-"Unshare" => "Zrušit sdílení",
 "Delete" => "Smazat",
 "Upload too large" => "Odesílaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",

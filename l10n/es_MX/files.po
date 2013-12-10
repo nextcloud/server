@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/owncloud/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -377,29 +377,25 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr ""
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr ""
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr ""
 

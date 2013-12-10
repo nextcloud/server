@@ -63,7 +63,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Avbryt opplasting",
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
 "Download" => "Last ned",
-"Unshare" => "Udel",
 "Delete" => "Slett",
 "Upload too large" => "For stor opplasting",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",

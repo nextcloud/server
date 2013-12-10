@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Ni ustreznih dovoljenj za pošiljanje ali ustvarjanje datotek na tem mestu.",
 "Nothing in here. Upload something!" => "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!",
 "Download" => "Prejmi",
-"Unshare" => "Prekliči souporabo",
 "Delete" => "Izbriši",
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",

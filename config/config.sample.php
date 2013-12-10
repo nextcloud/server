@@ -114,6 +114,9 @@ $CONFIG = array(
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
 
+/* memcached hostname and port (Only used when xCache, APC and APCu are absent.) */
+"memcached_server" => array('localhost', 11211),
+
 /* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
 'trashbin_retention_obligation' => 30,
 
