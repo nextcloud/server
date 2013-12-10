@@ -51,7 +51,7 @@
 			<div id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
+					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>
 				<?php if ($_['enableAvatars']): ?>
 				<div class="avatardiv"></div>
@@ -91,7 +91,7 @@
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" src="<?php print_unescaped($entry['icon']); ?>"/>
+							<img class="icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
 							<span>
 								<?php p($entry['name']); ?>
 							</span>
@@ -110,7 +110,7 @@
 					<li>
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<img class="icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<span>
 								<?php p($l->t('Apps')); ?>
 							</span>
