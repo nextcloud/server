@@ -100,7 +100,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		// used extensively in cron job, caching makes sense for nested groups
 		$cache_key = '_groupMembers'.$dn_group;
 		if($this->access->connection->isCached($cache_key)) {
-                        \OCP\Util::writeLog('user_ldap', 'LEO _groupMembers('.$dn_group.') using cached value', \OCP\Util::DEBUG);
 			return $this->access->connection->getFromCache($cache_key);
 		}
 		$groups_seen[$dn_group] = 1;
@@ -158,7 +157,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$groups = array_values($this->_getGroupsByMember($uid));
 		$groups = array_unique($this->access->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
-		\OCP\Util::writeLog('user_ldap', 'LEO _getGroupsByMember('.$uid.'): '.implode(", ", $groups), \OCP\Util::DEBUG);
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
@@ -232,7 +230,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$members = array_keys($this->_groupMembers($groupDN));
-		\OCP\Util::writeLog('user_ldap', 'LEO _groupMembers('.$groupDN.'): '.implode(", ", $members), \OCP\Util::DEBUG);
 		if(!$members) {
 			//in case users could not be retrieved, return empty resultset
 			$this->access->connection->writeToCache($cachekey, array());
