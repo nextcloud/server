@@ -41,6 +41,7 @@ Files={
 		}
 		if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#free_space').val(response.data.freeSpace);
 			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
 			$('#usedSpacePercent').val(response.data.usedSpacePercent);
 			Files.displayStorageWarnings();
