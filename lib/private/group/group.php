@@ -18,7 +18,12 @@ class Group {
 	/**
 	 * @var \OC\User\User[] $users
 	 */
-	private $users;
+	private $users = array();
+
+	/**
+	 * @var bool $usersLoaded
+	 */
+	private $usersLoaded;
 
 	/**
 	 * @var \OC_Group_Backend[] | \OC_Group_Database[] $backend
@@ -26,7 +31,7 @@ class Group {
 	private $backends;
 
 	/**
-	 * @var \OC\Hooks\PublicEmitter $emitter;
+	 * @var \OC\Hooks\PublicEmitter $emitter ;
 	 */
 	private $emitter;
 
@@ -58,7 +63,7 @@ class Group {
 	 * @return \OC\User\User[]
 	 */
 	public function getUsers() {
-		if ($this->users) {
+		if ($this->usersLoaded) {
 			return $this->users;
 		}
 
@@ -74,6 +79,7 @@ class Group {
 		}
 
 		$this->users = $this->getVerifiedUsers($userIds);
+		$this->usersLoaded = true;
 		return $this->users;
 	}
 
@@ -84,8 +90,14 @@ class Group {
 	 * @return bool
 	 */
 	public function inGroup($user) {
+		foreach ($this->users as $cachedUser) {
+			if ($user->getUID() === $cachedUser->getUID()) {
+				return true;
+			}
+		}
 		foreach ($this->backends as $backend) {
 			if ($backend->inGroup($user->getUID(), $this->gid)) {
+				$this->users[] = $user;
 				return true;
 			}
 		}
@@ -179,6 +191,7 @@ class Group {
 	 * @return \OC\User\User[]
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
+		$users = array();
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users = $this->getVerifiedUsers($userIds);
@@ -213,17 +226,17 @@ class Group {
 
 	/**
 	 * @brief returns all the Users from an array that really exists
-	 * @param $userIds an array containing user IDs
-	 * @return an Array with the userId as Key and \OC\User\User as value
+	 * @param string[] $userIds an array containing user IDs
+	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
 	 */
 	private function getVerifiedUsers($userIds) {
-		if(!is_array($userIds)) {
+		if (!is_array($userIds)) {
 			return array();
 		}
 		$users = array();
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
-			if(!is_null($user)) {
+			if (!is_null($user)) {
 				$users[$userId] = $user;
 			}
 		}
