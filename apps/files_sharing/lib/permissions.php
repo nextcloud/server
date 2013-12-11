@@ -42,6 +42,19 @@ class Shared_Permissions extends Permissions {
 		}
 	}
 
+	private function getFile($fileId, $user) {
+		if ($fileId == -1) {
+			return \OCP\PERMISSION_READ;
+		}
+		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE,
+			null, false);
+		if ($source) {
+			return $source['permissions'];
+		} else {
+			return -1;
+		}
+	}
+
 	/**
 	 * set the permissions of a file
 	 *
@@ -82,7 +95,7 @@ class Shared_Permissions extends Permissions {
 		if ($parentId === -1) {
 			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_PERMISSIONS);
 		}
-		$permissions = $this->get($parentId, $user);
+		$permissions = $this->getFile($parentId, $user);
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `parent` = ?');
 		$result = $query->execute(array($parentId));
 		$filePermissions = array();
