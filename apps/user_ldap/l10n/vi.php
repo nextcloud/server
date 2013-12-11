@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "You can specify Base DN for users and groups in the Advanced tab" => "Bạn có thể chỉ định DN cơ bản cho người dùng và các nhóm trong tab Advanced",
 "Back" => "Trở lại",
 "Connection Settings" => "Connection Settings",
-"User Login Filter" => "Lọc người dùng đăng nhập",
 "Backup (Replica) Port" => "Cổng sao lưu (Replica)",
 "Disable Main Server" => "Tắt máy chủ chính",
 "Case insensitve LDAP server (Windows)" => "Trường hợp insensitve LDAP máy chủ (Windows)",

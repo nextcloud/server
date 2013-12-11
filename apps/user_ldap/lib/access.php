@@ -199,7 +199,9 @@ class Access extends LDAPUtility {
 	 */
 	public function username2dn($name) {
 		$dn = $this->ocname2dn($name, true);
-		if($dn) {
+		//Check whether the DN belongs to the Base, to avoid issues on multi-
+		//server setups
+		if($dn && $this->isDNPartOfBase($dn, $this->connection->ldapBaseUsers)) {
 			return $dn;
 		}
 

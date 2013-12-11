@@ -178,11 +178,19 @@ class OC {
 		if (file_exists(OC::$SERVERROOT . "/config/config.php")
 			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$defaults = new OC_Defaults();
-			OC_Template::printErrorPage(
-				"Can't write into config directory!",
-				'This can usually be fixed by '
-					.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
-			);
+			if (self::$CLI) {
+				echo "Can't write into config directory!\n";
+				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
+				echo "\n";
+				echo "See " . \OC_Helper::linkToDocs('admin-dir_permissions') . "\n";
+				exit;
+			} else {
+				OC_Template::printErrorPage(
+					"Can't write into config directory!",
+					'This can usually be fixed by '
+						.'<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
+				);
+			}
 		}
 	}
 
@@ -225,6 +233,22 @@ class OC {
 
 			// render error page
 			$tmpl = new OC_Template('', 'update.user', 'guest');
+			$tmpl->printPage();
+			die();
+		}
+	}
+
+	public static function checkSingleUserMode() {
+		$user = OC_User::getUserSession()->getUser();
+		$group = OC_Group::getManager()->get('admin');
+		if ($user && OC_Config::getValue('singleuser', false) && !$group->inGroup($user)) {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
+			$tmpl = new OC_Template('', 'singleuser.user', 'guest');
 			$tmpl->printPage();
 			die();
 		}
@@ -480,7 +504,14 @@ class OC {
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
-			OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			if (self::$CLI) {
+				foreach ($errors as $error) {
+					echo $error['error']."\n";
+					echo $error['hint'] . "\n\n";
+				}
+			} else {
+				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+			}
 			exit;
 		}
 
@@ -652,11 +683,12 @@ class OC {
 		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		OC::tryBasicAuthLogin();
 
-		if (!self::$CLI) {
+		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!OC_Config::getValue('maintenance', false)) {
 					OC_App::loadApps();
 				}
+				self::checkSingleUserMode();
 				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
@@ -834,7 +866,6 @@ class OC {
 				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
 				OC_User::setUserId($_COOKIE['oc_username']);
-				OC_User::setDisplayName($_COOKIE['oc_username'], $_COOKIE['display_name']);
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}

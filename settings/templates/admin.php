@@ -15,6 +15,20 @@ $levelLabels = array(
 
 <?php
 
+// is ssl working ?
+if (!$_['isConnectedViaHTTPS']) {
+	?>
+<fieldset class="personalblock">
+	<h2><?php p($l->t('Security Warning'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead.', $theme->getTitle())); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 // is htaccess working ?
 if (!$_['htaccessworking']) {
 	?>
@@ -52,6 +66,20 @@ if (!$_['has_fileinfo']) {
 
 		<span class="connectionwarning">
 		<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.')); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
+// is PHP at least at 5.3.8?
+if ($_['old_php']) {
+	?>
+<fieldset class="personalblock">
+	<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
+
+		<span class="connectionwarning">
+		<?php p($l->t('Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly.')); ?>
 	</span>
 
 </fieldset>
@@ -264,7 +292,7 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString().' ('.OC_Util::getChannel().')'); ?>
+	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>

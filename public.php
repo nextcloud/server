@@ -5,6 +5,7 @@ try {
 
 	require_once 'lib/base.php';
 	OC::checkMaintenanceMode();
+	OC::checkSingleUserMode();
 	if (!isset($_GET['service'])) {
 		header('HTTP/1.0 404 Not Found');
 		exit;

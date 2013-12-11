@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Ryšio nustatymai",
 "Configuration Active" => "Konfigūracija aktyvi",
 "When unchecked, this configuration will be skipped." => "Kai nepažymėta, ši konfigūracija bus praleista.",
-"User Login Filter" => "Naudotojo prisijungimo filtras",
 "Backup (Replica) Host" => "Atsarginės kopijos (Replica) mazgas",
 "Backup (Replica) Port" => "Atsarginės kopijos (Replica) prievadas",
 "Disable Main Server" => "Išjungti pagrindinį serverį",

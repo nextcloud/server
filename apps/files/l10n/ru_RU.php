@@ -1,11 +1,14 @@
 <?php
 $TRANSLATIONS = array(
+"File name cannot be empty." => "Имя файла не может быть пустым.",
 "Files" => "Файлы",
 "Share" => "Сделать общим",
 "Rename" => "Переименовать",
 "_%n folder_::_%n folders_" => array("","",""),
 "_%n file_::_%n files_" => array("","",""),
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
+"'.' is an invalid file name." => "'.' является неверным именем файла.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы.",
 "Error" => "Ошибка",
 "Size" => "Размер",
 "Upload" => "Загрузка",

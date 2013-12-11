@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 15:20+0000\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-12-02 13:30+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,10 @@ msgstr "Prosím uistite sa, že PHP verzie 5.3.3 alebo novšej je nainštalovan�
 #: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr "Nasledujúci používatelia nie sú nastavení pre šifrovanie:"
+
+#: js/detect-migration.js:21
+msgid "Initial encryption started... This can take some time. Please wait."
+msgstr "Počiatočné šifrovanie započalo ... To môže nejakú dobu trvať. Čakajte prosím."
 
 #: js/settings-admin.js:13
 msgid "Saving..."

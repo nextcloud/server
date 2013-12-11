@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Continue" => "Videre",
 "Connection Settings" => "Forbindelsesindstillinger ",
 "Configuration Active" => "Konfiguration Aktiv",
-"User Login Filter" => "Bruger Login Filter",
 "Backup (Replica) Host" => "Backup (Replika) Vært",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Opgiv en ikke obligatorisk backup server. Denne skal være en replikation af hoved-LDAP/AD serveren.",
 "Backup (Replica) Port" => "Backup (Replika) Port",

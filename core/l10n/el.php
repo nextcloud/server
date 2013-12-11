@@ -143,9 +143,9 @@ $TRANSLATIONS = array(
 "remember" => "απομνημόνευση",
 "Log in" => "Είσοδος",
 "Alternative Logins" => "Εναλλακτικές Συνδέσεις",
-"Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο.",
-"Please reload this page after a short time to continue using ownCloud." => "Παρακαλώ ανανεώστε αυτή τη σελίδα μετά από ένα σύντομο χρονικό διάστημα ώστε να συνεχίσετε να χρησιμοποιείτε το ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
-"Thank you for your patience." => "Σας ευχαριστούμε για την υπομονή σας."
+"Thank you for your patience." => "Σας ευχαριστούμε για την υπομονή σας.",
+"Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο.",
+"Please reload this page after a short time to continue using ownCloud." => "Παρακαλώ ανανεώστε αυτή τη σελίδα μετά από ένα σύντομο χρονικό διάστημα ώστε να συνεχίσετε να χρησιμοποιείτε το ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

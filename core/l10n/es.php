@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Editar etiquetas",
 "Error loading dialog template: {error}" => "Error cargando plantilla de diálogo: {error}",
 "No tags selected for deletion." => "No hay etiquetas seleccionadas para borrar.",
+"Please reload the page." => "Vuelva a cargar la página.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora.",
 "%s password reset" => "%s restablecer contraseña",
@@ -132,6 +133,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Acceso denegado",
 "Cloud not found" => "No se encuentra la nube",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n",
+"The share will expire on %s." => "El objeto dejará de ser compartido el %s.",
 "Cheers!" => "¡Saludos!",
 "Security Warning" => "Advertencia de seguridad",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Su versión de PHP es vulnerable al ataque de Byte NULL (CVE-2006-7243)",
@@ -164,10 +166,12 @@ $TRANSLATIONS = array(
 "Log in" => "Entrar",
 "Alternative Logins" => "Inicios de sesión alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Esta instalación de ownCloud se encuentra en modo de usuario único.",
+"This means only administrators can use the instance." => "Esto quiere decir que solo un administrador puede usarla.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
+"Thank you for your patience." => "Gracias por su paciencia.",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta versión de owncloud se está actualizando, esto puede demorar un tiempo.",
-"Please reload this page after a short time to continue using ownCloud." => "Por favor , recargue esta instancia de onwcloud tras un corto periodo de tiempo y continue usándolo.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
-"Thank you for your patience." => "Gracias por su paciencia."
+"Please reload this page after a short time to continue using ownCloud." => "Por favor , recargue esta instancia de onwcloud tras un corto periodo de tiempo y continue usándolo."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

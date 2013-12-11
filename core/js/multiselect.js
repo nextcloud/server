@@ -27,6 +27,7 @@
 			'onuncheck':false,
 			'minWidth': 'default;'
 		};
+		var slideDuration = 200;
 		$(this).attr('data-msid', multiSelectId);
 		$.extend(settings,options);
 		$.each(this.children(),function(i,option) {
@@ -68,12 +69,12 @@
 			var button=$(this);
 			if(button.parent().children('ul').length>0) {
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(400,function() {
+					button.parent().children('ul').slideUp(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active down');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(400,function() {
+					button.parent().children('ul').fadeOut(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active up');
 					});
@@ -81,7 +82,7 @@
 				return;
 			}
 			var lists=$('ul.multiselectoptions');
-			lists.slideUp(400,function(){
+			lists.slideUp(slideDuration,function(){
 				lists.remove();
 				$('div.multiselect').removeClass('active');
 				button.addClass('active');
@@ -276,7 +277,7 @@
 				});
 				list.addClass('down');
 				button.addClass('down');
-				list.slideDown();
+				list.slideDown(slideDuration);
 			} else {
 				list.css('max-height', $(document).height()-($(document).height()-(pos.top)+50)+'px');
 				list.css({
@@ -299,12 +300,12 @@
 			if(!button.parent().data('preventHide')) {
 				// How can I save the effect in a var?
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(400,function() {
+					button.parent().children('ul').slideUp(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active down');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(400,function() {
+					button.parent().children('ul').fadeOut(slideDuration,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active up');
 					});

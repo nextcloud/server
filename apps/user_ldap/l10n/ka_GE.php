@@ -33,7 +33,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "კავშირის პარამეტრები",
 "Configuration Active" => "კონფიგურაცია აქტიურია",
 "When unchecked, this configuration will be skipped." => "როცა გადანიშნულია, ეს კონფიგურაცია გამოტოვებული იქნება.",
-"User Login Filter" => "მომხმარებლის ფილტრი",
 "Backup (Replica) Host" => "ბექაფ  (რეპლიკა)  ჰოსტი",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "მიუთითეთ რაიმე ბექაფ ჰოსტი. ის უნდა იყოს ძირითადი LDAP/AD სერვერის რეპლიკა.",
 "Backup (Replica) Port" => "ბექაფ (რეპლიკა) პორტი",

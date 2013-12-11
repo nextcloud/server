@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "users found" => "uzantoj trovitaj",
 "Back" => "Antaŭen",
 "Connection Settings" => "Agordo de konekto",
-"User Login Filter" => "Filtrilo de uzantensaluto",
 "Disable Main Server" => "Malkapabligi la ĉefan servilon",
 "Case insensitve LDAP server (Windows)" => "LDAP-servilo blinda je litergrandeco (Vindozo)",
 "Turn off SSL certificate validation." => "Malkapabligi validkontrolon de SSL-atestiloj.",

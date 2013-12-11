@@ -437,11 +437,11 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
-		if(floatval(phpversion()) < 5.3) {
+		if(version_compare(phpversion(), '5.3.3', '<')) {
 			$errors[] = array(
-				'error'=>'PHP 5.3 is required.',
-				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
-					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.'
+				'error'=>'PHP 5.3.3 or higher is required.',
+				'hint'=>'Please ask your server administrator to update PHP to the latest version.'
+					.' Your PHP version is no longer supported by ownCloud and the PHP community.'
 			);
 			$webServerRestart = true;
 		}
@@ -875,6 +875,14 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief Check if a PHP version older then 5.3.8 is installed.
+	 * @return bool
+	 */
+	public static function isPHPoutdated() {
+		return version_compare(phpversion(), '5.3.8', '<');
+	}
+
+	/**
 	 * @brief Check if the ownCloud server can connect to the internet
 	 * @return bool
 	 */
@@ -1110,5 +1118,18 @@ class OC_Util {
 		$file = rtrim($file, '/');
 		$t = explode('/', $file);
 		return array_pop($t);
+	}
+
+	/**
+	 * A human readable string is generated based on version, channel and build number
+	 * @return string
+	 */
+	public static function getHumanVersion() {
+		$version = OC_Util::getVersionString().' ('.OC_Util::getChannel().')';
+		$build = OC_Util::getBuild();
+		if(!empty($build) and OC_Util::getChannel() === 'daily') {
+			$version .= ' Build:' . $build;
+		}
+		return $version;
 	}
 }

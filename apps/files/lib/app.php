@@ -76,12 +76,25 @@ class App {
 			$this->view->rename($dir . '/' . $oldname, $dir . '/' . $newname)
 		) {
 			// successful rename
-			$result['success'] = true;
-			$result['data'] = array(
-				'dir'		=> $dir,
-				'file'		=> $oldname,
-				'newname'	=> $newname
+			$meta = $this->view->getFileInfo($dir . '/' . $newname);
+			if ($meta['mimetype'] === 'httpd/unix-directory') {
+				$meta['type'] = 'dir';
+			}
+			else {
+				$meta['type'] = 'file';
+			}
+			$fileinfo = array(
+				'id' => $meta['fileid'],
+				'mime' => $meta['mimetype'],
+				'size' => $meta['size'],
+				'etag' => $meta['etag'],
+				'directory' => $dir,
+				'name' => $newname,
+				'isPreviewAvailable' => \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']),
+				'icon' => \OCA\Files\Helper::determineIcon($meta)
 			);
+			$result['success'] = true;
+			$result['data'] = $fileinfo;
 		} else {
 			// rename failed
 			$result['data'] = array(

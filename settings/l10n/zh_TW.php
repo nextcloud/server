@@ -118,7 +118,6 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存取檔案</a>",
 "Encryption" => "加密",
-"The encryption app is no longer enabled, decrypt all your file" => "加密應用程式已經停用，請您解密您所有的檔案",
 "Log-in password" => "登入密碼",
 "Decrypt all Files" => "解密所有檔案",
 "Login Name" => "登入名稱",

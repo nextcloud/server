@@ -24,7 +24,6 @@ $TRANSLATIONS = array(
 "Back" => "Takaisin",
 "Continue" => "Jatka",
 "Connection Settings" => "Yhteysasetukset",
-"User Login Filter" => "Login suodatus",
 "Disable Main Server" => "Poista pääpalvelin käytöstä",
 "Case insensitve LDAP server (Windows)" => "Kirjainkoosta piittamaton LDAP-palvelin (Windows)",
 "Turn off SSL certificate validation." => "Poista käytöstä SSL-varmenteen vahvistus",

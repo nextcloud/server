@@ -59,9 +59,13 @@ class Updater {
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
 		if ($storage) {
+			$parent = dirname($internalPath);
+			if ($parent === '.') {
+				$parent = '';
+			}
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
-			$cache->correctFolderSize($internalPath);
+			$cache->correctFolderSize($parent);
 			self::correctFolder($path, time());
 			self::correctParentStorageMtime($storage, $internalPath);
 		}
@@ -86,6 +90,12 @@ class Updater {
 			if ($storageFrom === $storageTo) {
 				$cache = $storageFrom->getCache($internalFrom);
 				$cache->move($internalFrom, $internalTo);
+				if (pathinfo($internalFrom, PATHINFO_EXTENSION) !== pathinfo($internalTo, PATHINFO_EXTENSION)) {
+					// redetect mime type change
+					$mimeType = $storageTo->getMimeType($internalTo);
+					$fileId = $storageTo->getCache()->getId($internalTo);
+					$storageTo->getCache()->update($fileId, array('mimetype' => $mimeType));
+				}
 				$cache->correctFolderSize($internalFrom);
 				$cache->correctFolderSize($internalTo);
 				self::correctFolder($from, time());

@@ -47,12 +47,15 @@ class Configuration {
 		'ldapUserFilterObjectclass' => null,
 		'ldapUserFilterGroups' => null,
 		'ldapUserFilter' => null,
+		'ldapUserFilterMode' => null,
 		'ldapGroupFilter' => null,
+		'ldapGroupFilterMode' => null,
 		'ldapGroupFilterObjectclass' => null,
 		'ldapGroupFilterGroups' => null,
 		'ldapGroupDisplayName' => null,
 		'ldapGroupMemberAssocAttr' => null,
 		'ldapLoginFilter' => null,
+		'ldapLoginFilterMode' => null,
 		'ldapLoginFilterEmail' => null,
 		'ldapLoginFilterUsername' => null,
 		'ldapLoginFilterAttributes' => null,
@@ -72,6 +75,7 @@ class Configuration {
 		'ldapExpertUsernameAttr' => null,
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
+		'lastJpegPhotoLookup' => null,
 	);
 
 	public function __construct($configPrefix, $autoread = true) {
@@ -301,13 +305,16 @@ class Configuration {
 			'ldap_base_users'					=> '',
 			'ldap_base_groups'					=> '',
 			'ldap_userlist_filter'				=> '',
+			'ldap_user_filter_mode'				=> 0,
 			'ldap_userfilter_objectclass'		=> '',
 			'ldap_userfilter_groups'			=> '',
-			'ldap_login_filter'					=> 'uid=%uid',
+			'ldap_login_filter'					=> '',
+			'ldap_login_filter_mode'			=> 0,
 			'ldap_loginfilter_email'			=> 0,
 			'ldap_loginfilter_username'			=> 1,
 			'ldap_loginfilter_attributes'		=> '',
 			'ldap_group_filter'					=> '',
+			'ldap_group_filter_mode'			=> 0,
 			'ldap_groupfilter_objectclass'		=> '',
 			'ldap_groupfilter_groups'			=> '',
 			'ldap_display_name'					=> 'displayName',
@@ -330,6 +337,7 @@ class Configuration {
 			'ldap_expert_uuid_user_attr'		=> '',
 			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
+			'last_jpegPhoto_lookup'				=> 0,
 		);
 	}
 
@@ -352,11 +360,14 @@ class Configuration {
 			'ldap_userfilter_objectclass' 		=> 'ldapUserFilterObjectclass',
 			'ldap_userfilter_groups'	 		=> 'ldapUserFilterGroups',
 			'ldap_userlist_filter'				=> 'ldapUserFilter',
+			'ldap_user_filter_mode'				=> 'ldapUserFilterMode',
 			'ldap_login_filter'					=> 'ldapLoginFilter',
+			'ldap_login_filter_mode'			=> 'ldapLoginFilterMode',
 			'ldap_loginfilter_email'			=> 'ldapLoginFilterEmail',
 			'ldap_loginfilter_username'			=> 'ldapLoginFilterUsername',
 			'ldap_loginfilter_attributes'		=> 'ldapLoginFilterAttributes',
 			'ldap_group_filter'					=> 'ldapGroupFilter',
+			'ldap_group_filter_mode'			=> 'ldapGroupFilterMode',
 			'ldap_groupfilter_objectclass'		=> 'ldapGroupFilterObjectclass',
 			'ldap_groupfilter_groups'			=> 'ldapGroupFilterGroups',
 			'ldap_display_name'					=> 'ldapUserDisplayName',
@@ -377,6 +388,7 @@ class Configuration {
 			'ldap_expert_uuid_user_attr' 		=> 'ldapExpertUUIDUserAttr',
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
+			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
 		);
 		return $array;
 	}

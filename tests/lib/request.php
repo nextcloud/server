@@ -23,4 +23,51 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 		$scriptName = OC_Request::scriptName();
 		$this->assertEquals('/domain.tld/ownCloud/tests/lib/request.php', $scriptName);
 	}
+
+	/**
+	 * @dataProvider rawPathInfoProvider
+	 * @param $expected
+	 * @param $requestUri
+	 * @param $scriptName
+	 */
+	public function testRawPathInfo($expected, $requestUri, $scriptName) {
+		$_SERVER['REQUEST_URI'] = $requestUri;
+		$_SERVER['SCRIPT_NAME'] = $scriptName;
+		$rawPathInfo = OC_Request::getRawPathInfo();
+		$this->assertEquals($expected, $rawPathInfo);
+	}
+
+	function rawPathInfoProvider() {
+		return array(
+			array('/core/ajax/translations.php', 'index.php/core/ajax/translations.php', 'index.php'),
+			array('/core/ajax/translations.php', '/index.php/core/ajax/translations.php', '/index.php'),
+			array('/core/ajax/translations.php', '//index.php/core/ajax/translations.php', '/index.php'),
+			array('', '/oc/core', '/oc/core/index.php'),
+			array('', '/oc/core/', '/oc/core/index.php'),
+			array('', '/oc/core/index.php', '/oc/core/index.php'),
+			array('/core/ajax/translations.php', '/core/ajax/translations.php', 'index.php'),
+			array('/core/ajax/translations.php', '//core/ajax/translations.php', '/index.php'),
+			array('/core/ajax/translations.php', '/oc/core/ajax/translations.php', '/oc/index.php'),
+			array('/1', '/oc/core/1', '/oc/core/index.php'),
+		);
+	}
+
+	/**
+	 * @dataProvider rawPathInfoThrowsExceptionProvider
+	 * @expectedException Exception
+	 *
+	 * @param $requestUri
+	 * @param $scriptName
+	 */
+	public function testRawPathInfoThrowsException($requestUri, $scriptName) {
+		$_SERVER['REQUEST_URI'] = $requestUri;
+		$_SERVER['SCRIPT_NAME'] = $scriptName;
+		OC_Request::getRawPathInfo();
+	}
+
+	function rawPathInfoThrowsExceptionProvider() {
+		return array(
+			array('/oc/core1', '/oc/core/index.php'),
+		);
+	}
 }

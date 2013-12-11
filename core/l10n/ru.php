@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Изменить метки",
 "Error loading dialog template: {error}" => "Ошибка загрузки шаблона диалога: {error}",
 "No tags selected for deletion." => "Не выбраны меток для удаления.",
+"Please reload the page." => "Пожалуйста, перезагрузите страницу.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
 "%s password reset" => "%s сброс пароля",
@@ -132,6 +133,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Доступ запрещён",
 "Cloud not found" => "Облако не найдено",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Здравствуйте,\n\nпросто даём вам знать, что %s расшарил %s для вас.\nПосмотреть: %s\n\n",
+"The share will expire on %s." => "Доступ пропадет в %s",
 "Cheers!" => "Приветствуем!",
 "Security Warning" => "Предупреждение безопасности",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Ваша версия PHP уязвима к атаке NULL Byte (CVE-2006-7243)",
@@ -164,10 +166,12 @@ $TRANSLATIONS = array(
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Здравствуйте,<br><br>просто даём вам знать, что %s расшарил %s для вас.<br><a href=\"%s\">Посмотреть!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Эта установка ownCloud в настоящее время в однопользовательском режиме.",
+"This means only administrators can use the instance." => "Это значит, что только администраторы могут использовать эту установку.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
+"Thank you for your patience." => "Спасибо за терпение.",
 "Updating ownCloud to version %s, this may take a while." => "Идёт обновление ownCloud до версии %s. Это может занять некоторое время.",
 "This ownCloud instance is currently being updated, which may take a while." => "Производится обновление ownCloud, это может занять некоторое время.",
-"Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
-"Thank you for your patience." => "Спасибо за терпение."
+"Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

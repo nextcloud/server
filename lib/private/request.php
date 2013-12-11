@@ -136,12 +136,40 @@ class OC_Request {
 	 * @returns string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {
-		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
-		// Remove the query string from REQUEST_URI
-		if ($pos = strpos($path_info, '?')) {
-			$path_info = substr($path_info, 0, $pos);
+		$requestUri = $_SERVER['REQUEST_URI'];
+		// remove too many leading slashes - can be caused by reverse proxy configuration
+		if (strpos($requestUri, '/') === 0) {
+			$requestUri = '/' . ltrim($requestUri, '/');
 		}
-		return $path_info;
+
+		// Remove the query string from REQUEST_URI
+		if ($pos = strpos($requestUri, '?')) {
+			$requestUri = substr($requestUri, 0, $pos);
+		}
+
+		$scriptName = $_SERVER['SCRIPT_NAME'];
+		$path_info = $requestUri;
+
+		// strip off the script name's dir and file name
+		list($path, $name) = \Sabre_DAV_URLUtil::splitPath($scriptName);
+		if (!empty($path)) {
+			if( $path === $path_info || strpos($path_info, $path.'/') === 0) {
+				$path_info = substr($path_info, strlen($path));
+			} else {
+				throw new Exception("The requested uri($requestUri) cannot be processed by the script '$scriptName')");
+			}
+		}
+		if (strpos($path_info, '/'.$name) === 0) {
+			$path_info = substr($path_info, strlen($name) + 1);
+		}
+		if (strpos($path_info, $name) === 0) {
+			$path_info = substr($path_info, strlen($name));
+		}
+		if($path_info === '/'){
+			return '';
+		} else {
+			return $path_info;
+		}
 	}
 
 	/**

@@ -91,7 +91,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	public function setOption($link, $option, $value) {
-		$this->invokeLDAPMethod('set_option', $link, $option, $value);
+		return $this->invokeLDAPMethod('set_option', $link, $option, $value);
 	}
 
 	public function sort($link, $result, $sortfilter) {

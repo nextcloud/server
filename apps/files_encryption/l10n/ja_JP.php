@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Missing requirements." => "必要要件が満たされていません。",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。",
 "Following users are not set up for encryption:" => "以下のユーザーは、暗号化設定がされていません：",
+"Initial encryption started... This can take some time. Please wait." => "暗号化の初期化作業を開始しました... この処理にはしばらく時間がかかります。今しばらくお待ちください。",
 "Saving..." => "保存中...",
 "Go directly to your " => "あなたのディレクトリへ",
 "personal settings" => "秘密鍵をアンロックできます",

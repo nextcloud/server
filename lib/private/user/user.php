@@ -140,6 +140,18 @@ class User {
 	}
 
 	/**
+	 * check if the backend allows the user to change his avatar on Personal page
+	 *
+	 * @return bool
+	 */
+	public function canChangeAvatar() {
+		if($this->backend->implementsActions(\OC_USER_BACKEND_PROVIDE_AVATAR)) {
+			return $this->backend->canChangeAvatar($this->uid);
+		}
+		return true;
+	}
+
+	/**
 	 * check if the backend supports changing passwords
 	 *
 	 * @return bool

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -273,7 +273,7 @@ msgstr "({count} vybraných)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Chyba pri nahrávaní šablóny existencie súboru"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -284,7 +284,7 @@ msgid "Share"
 msgstr "Zdieľať"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
@@ -320,7 +320,7 @@ msgstr "Zdieľať linku"
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Heslo"
 
@@ -396,7 +396,7 @@ msgstr "vymazať"
 msgid "share"
 msgstr "zdieľať"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Chránené heslom"
 
@@ -448,6 +448,10 @@ msgstr "Chyba pri načítaní šablóny dialógu: {error}"
 msgid "No tags selected for deletion."
 msgstr "Nie sú vybraté štítky na zmazanie."
 
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr "Obnovte prosím stránku."
+
 #: js/update.js:17
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
@@ -483,8 +487,8 @@ msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že vaše používateľské meno
 msgid "You will receive a link to reset your password via Email."
 msgstr "Odkaz pre obnovenie hesla obdržíte e-mailom."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Meno používateľa"
 
@@ -528,7 +532,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -589,107 +593,114 @@ msgstr "Ahoj,\n\nchcem ti dať navedomie, že %s zdieľa %s s tebou.\nZobrazenie
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Zdieľanie expiruje %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr "Za zdravie!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Bezpečnostné varovanie"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Verzia Vášho PHP je napadnuteľná pomocou techniky \"NULL Byte\" (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Aktualizujte prosím vašu inštanciu PHP pre bezpečné používanie %s."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a href=\"%s\" target=\"_blank\">dokumentácie</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Rozšírené"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Používateľ databázy"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr "Dokončujem..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získajte viac informácií k postupu aktualizácie."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásiť"
 
@@ -715,19 +726,19 @@ msgstr "Autentifikácia na serveri zlyhala!"
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vášho administrátora."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlásenie"
 
@@ -737,6 +748,24 @@ msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
 msgstr "Ahoj,<br><br>chcem ti dať navedomie, že %s zdieľa »%s« s tebou.<br><a href=\"%s\">Zobrazenie tu!</a><br><br>"
+
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "Táto inštancia ownCloudu je teraz v jednopoužívateľskom móde."
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "Len správca systému môže používať túto inštanciu."
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Ďakujeme za Vašu trpezlivosť."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -751,13 +780,3 @@ msgstr "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní."
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr ""
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
-msgstr "Ďakujeme za Vašu trpezlivosť."

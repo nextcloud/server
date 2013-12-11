@@ -461,7 +461,7 @@ OC.Share={
 		if (password != null) {
 			$('#linkPass').show('blind');
 			$('#showPassword').attr('checked', true);
-			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+			$('#linkPassText').attr('placeholder', '**********');
 		}
 		$('#expiration').show();
 		$('#emailPrivateLink #email').show();

@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Modifica etichette",
 "Error loading dialog template: {error}" => "Errore durante il caricamento del modello di finestra: {error}",
 "No tags selected for deletion." => "Nessuna etichetta selezionata per l'eliminazione.",
+"Please reload the page." => "Ricarica la pagina.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "L'aggiornamento non è riuscito. Segnala il problema alla <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunità di ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "L'aggiornamento è stato effettuato correttamente. Stai per essere reindirizzato a ownCloud.",
 "%s password reset" => "Ripristino password di %s",
@@ -132,6 +133,7 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Accesso negato",
 "Cloud not found" => "Nuvola non trovata",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Ciao,\n\nvolevo informarti che %s ha condiviso %s con te.\nVedi: %s\n\n",
+"The share will expire on %s." => "La condivisione scadrà il %s.",
 "Cheers!" => "Saluti!",
 "Security Warning" => "Avviso di sicurezza",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "La tua versione di PHP è vulnerabile all'attacco NULL Byte (CVE-2006-7243)",
@@ -152,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Host del database",
 "Finish setup" => "Termina la configurazione",
 "Finishing …" => "Completamento...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "L'applicazione richiede che JavaScript sia abilitato per un corretto funzionamento. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Abilita JavaScript</a> e ricarica questa interfaccia.",
 "%s is available. Get more information on how to update." => "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento.",
 "Log out" => "Esci",
 "Automatic logon rejected!" => "Accesso automatico rifiutato.",
@@ -164,10 +167,12 @@ $TRANSLATIONS = array(
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Questa istanza di ownCloud è in modalità utente singolo.",
+"This means only administrators can use the instance." => "Ciò significa che solo gli amministratori possono utilizzare l'istanza.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
+"Thank you for your patience." => "Grazie per la pazienza.",
 "Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Questa istanza di ownCloud è in fase di aggiornamento, potrebbe richiedere del tempo.",
-"Please reload this page after a short time to continue using ownCloud." => "Ricarica questa pagina per poter continuare ad usare ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",
-"Thank you for your patience." => "Grazie per la pazienza."
+"Please reload this page after a short time to continue using ownCloud." => "Ricarica questa pagina per poter continuare ad usare ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

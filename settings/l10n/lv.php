@@ -96,7 +96,6 @@ $TRANSLATIONS = array(
 "Help translate" => "Palīdzi tulkot",
 "WebDAV" => "WebDAV",
 "Encryption" => "Šifrēšana",
-"The encryption app is no longer enabled, decrypt all your file" => "Šifrēšanas lietotne ir atslēgta, atšifrējiet visus jūsu failus",
 "Log-in password" => "Pieslēgšanās parole",
 "Decrypt all Files" => "Atšifrēt visus failus",
 "Login Name" => "Ierakstīšanās vārds",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-06 21:43-0500\n"
-"PO-Revision-Date: 2013-11-04 18:30+0000\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 19:00+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,10 @@ msgstr "Wees er zeker van dat PHP5.3.3 of nieuwer is geïstalleerd en dat de Ope
 #: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr "De volgende gebruikers hebben geen configuratie voor encryptie:"
+
+#: js/detect-migration.js:21
+msgid "Initial encryption started... This can take some time. Please wait."
+msgstr "initiële versleuteling gestart... Dit kan even duren, geduld a.u.b."
 
 #: js/settings-admin.js:13
 msgid "Saving..."

@@ -97,6 +97,7 @@ $TRANSLATIONS = array(
 "Add" => "Lisää",
 "Edit tags" => "Muokkaa tunnisteita",
 "No tags selected for deletion." => "Tunnisteita ei valittu poistettavaksi.",
+"Please reload the page." => "Päivitä sivu.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-yhteisölle</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi.",
 "%s password reset" => "%s salasanan nollaus",
@@ -105,7 +106,9 @@ $TRANSLATIONS = array(
 "Request failed!<br>Did you make sure your email/username was right?" => "Pyyntö epäonnistui!<br>Olihan sähköpostiosoitteesi/käyttäjätunnuksesi oikein?",
 "You will receive a link to reset your password via Email." => "Saat sähköpostitse linkin nollataksesi salasanan.",
 "Username" => "Käyttäjätunnus",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" => "Tiedostosi on salattu. Jos et ole ottanut palautusavainta käyttöön, et voi käyttää tiedostojasi enää salasanan nollauksen jälkeen. Jos et ole varma mitä tehdä, ota yhteys ylläpitoon ennen kuin jatkat. Haluatko varmasti jatkaa?",
 "Yes, I really want to reset my password now" => "Kyllä, haluan nollata salasanani nyt",
+"Reset" => "Nollaa salasana",
 "Your password was reset" => "Salasanasi nollattiin",
 "To login page" => "Kirjautumissivulle",
 "New password" => "Uusi salasana",
@@ -140,6 +143,7 @@ $TRANSLATIONS = array(
 "Database host" => "Tietokantapalvelin",
 "Finish setup" => "Viimeistele asennus",
 "Finishing …" => "Valmistellaan…",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Tämä sovellus vaatii toimiakseen JavaScriptin käyttöä. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Ota JavaScript käyttöön</a> ja päivitä tämä käyttöliittymä.",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
 "Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",
@@ -152,9 +156,12 @@ $TRANSLATIONS = array(
 "Log in" => "Kirjaudu sisään",
 "Alternative Logins" => "Vaihtoehtoiset kirjautumiset",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hei sinä!<br><br>%s jakoi kohteen »%s« kanssasi.<br><a href=\"%s\">Tutustu siihen!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",
+"This means only administrators can use the instance." => "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ownCloudia.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
+"Thank you for your patience." => "Kiitos kärsivällisyydestäsi.",
 "Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
 "This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",
-"Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä.",
-"Thank you for your patience." => "Kiitos kärsivällisyydestäsi."
+"Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

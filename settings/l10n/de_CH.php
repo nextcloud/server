@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Help translate" => "Helfen Sie bei der Übersetzung",
 "WebDAV" => "WebDAV",
 "Encryption" => "Verschlüsselung",
-"The encryption app is no longer enabled, decrypt all your file" => "Die Anwendung zur Verschlüsselung ist nicht länger aktiv, all Ihre Dateien werden entschlüsselt. ",
 "Log-in password" => "Login-Passwort",
 "Decrypt all Files" => "Alle Dateien entschlüsseln",
 "Login Name" => "Loginname",

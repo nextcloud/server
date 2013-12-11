@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Editar etiqueta",
 "Error loading dialog template: {error}" => "Erro carregando diálogo de formatação:{error}",
 "No tags selected for deletion." => "Nenhuma etiqueta selecionada para deleção.",
+"Please reload the page." => "Por favor recarregue a página",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A atualização falhou. Por favor, relate este problema para a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A atualização teve êxito. Você será redirecionado ao ownCloud agora.",
 "%s password reset" => "%s redefinir senha",
@@ -153,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Host do banco de dados",
 "Finish setup" => "Concluir configuração",
 "Finishing …" => "Finalizando ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Esta aplicação reque JavaScript habilidado para correta operação.\nPor favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite JavaScript</a> e recarregue esta esta interface.",
 "%s is available. Get more information on how to update." => "%s está disponível. Obtenha mais informações sobre como atualizar.",
 "Log out" => "Sair",
 "Automatic logon rejected!" => "Entrada Automática no Sistema Rejeitada!",
@@ -165,10 +167,12 @@ $TRANSLATIONS = array(
 "Log in" => "Fazer login",
 "Alternative Logins" => "Logins alternativos",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Olá,<br><br>só gostaria que você soubesse que %s compartilhou »%s« com você.<br><a href=\"%s\">Veja isto!</a><br><br",
+"This ownCloud instance is currently in single user mode." => "Nesta instância ownCloud está em modo de usuário único.",
+"This means only administrators can use the instance." => "Isso significa que apenas os administradores podem usar o exemplo.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
+"Thank you for your patience." => "Obrigado pela sua paciência.",
 "Updating ownCloud to version %s, this may take a while." => "Atualizando ownCloud para a versão %s, isto pode levar algum tempo.",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta instância do ownCloud está sendo atualizada, o que pode demorar um pouco.",
-"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
-"Thank you for your patience." => "Obrigado pela sua paciência."
+"Please reload this page after a short time to continue using ownCloud." => "Por favor, atualize esta página depois de um curto período de tempo para continuar usando ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

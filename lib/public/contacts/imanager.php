@@ -119,11 +119,15 @@ namespace OCP\Contacts {
 		function isEnabled();
 
 		/**
+		 * Registers an address book
+		 *
 		 * @param \OCP\IAddressBook $address_book
 		 */
 		function registerAddressBook(\OCP\IAddressBook $address_book);
 
 		/**
+		 * Unregisters an address book
+		 *
 		 * @param \OCP\IAddressBook $address_book
 		 */
 		function unregisterAddressBook(\OCP\IAddressBook $address_book);

@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "連線設定",
 "Configuration Active" => "設定使用中",
 "When unchecked, this configuration will be skipped." => "沒有被勾選時，此設定會被略過。",
-"User Login Filter" => "User Login Filter",
 "Backup (Replica) Host" => "備用主機",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "可以選擇性設定備用主機，必須是 LDAP/AD 中央伺服器的複本。",
 "Backup (Replica) Port" => "備用（複本）連接埠",

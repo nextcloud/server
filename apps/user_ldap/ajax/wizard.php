@@ -53,8 +53,11 @@ switch($action) {
 	case 'determineGroupsForGroups':
 	case 'determineAttributes':
 	case 'getUserListFilter':
+	case 'getLoginFilterMode':
 	case 'getUserLoginFilter':
+	case 'getUserFilterMode':
 	case 'getGroupFilter':
+	case 'getGroupFilterMode':
 	case 'countUsers':
 	case 'countGroups':
 		try {
@@ -87,6 +90,9 @@ switch($action) {
 			exit;
 		}
 		$configuration->saveConfiguration();
+		//clear the cache on save
+		$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+		$connection->clearCache();
 		OCP\JSON::success();
 		break;
 	default:

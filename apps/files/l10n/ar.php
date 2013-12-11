@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "إلغاء رفع الملفات",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Download" => "تحميل",
-"Unshare" => "إلغاء مشاركة",
 "Delete" => "إلغاء",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم.",

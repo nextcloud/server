@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-09 06:39-0500\n"
+"PO-Revision-Date: 2013-12-08 22:10+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,17 +27,17 @@ msgstr "Nem sikerült törölni a hozzárendeléseket."
 msgid "Failed to delete the server configuration"
 msgstr "Nem sikerült törölni a kiszolgáló konfigurációját"
 
-#: ajax/testConfiguration.php:37
+#: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
 msgstr "A konfiguráció érvényes, és a kapcsolat létrehozható!"
 
-#: ajax/testConfiguration.php:40
+#: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem ellenőrizze a kiszolgáló beállításait, és az elérési adatokat."
 
-#: ajax/testConfiguration.php:44
+#: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
@@ -51,11 +51,11 @@ msgstr "Nincs megadva parancs"
 msgid "No configuration specified"
 msgstr "Nincs megadva konfiguráció"
 
-#: ajax/wizard.php:78
+#: ajax/wizard.php:81
 msgid "No data specified"
 msgstr "Nincs adat megadva"
 
-#: ajax/wizard.php:86
+#: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
 msgstr "A(z) %s konfiguráció nem állítható be"
@@ -88,65 +88,65 @@ msgstr "Sikeres végrehajtás"
 msgid "Error"
 msgstr "Hiba"
 
-#: js/settings.js:674
+#: js/settings.js:837
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfiguráció OK"
 
-#: js/settings.js:683
+#: js/settings.js:846
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfiguráió hibás"
 
-#: js/settings.js:692
+#: js/settings.js:855
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfiguráció nincs befejezve"
 
-#: js/settings.js:709 js/settings.js:718
+#: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
 msgstr "Csoportok kiválasztása"
 
-#: js/settings.js:712 js/settings.js:721
+#: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
 msgstr "Objektumosztályok kiválasztása"
 
-#: js/settings.js:715
+#: js/settings.js:878
 msgid "Select attributes"
 msgstr "Attribútumok kiválasztása"
 
-#: js/settings.js:741
+#: js/settings.js:905
 msgid "Connection test succeeded"
 msgstr "A kapcsolatellenőrzés eredménye: sikerült"
 
-#: js/settings.js:748
+#: js/settings.js:912
 msgid "Connection test failed"
 msgstr "A kapcsolatellenőrzés eredménye: nem sikerült"
 
-#: js/settings.js:757
+#: js/settings.js:921
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Tényleg törölni szeretné a kiszolgáló beállításait?"
 
-#: js/settings.js:758
+#: js/settings.js:922
 msgid "Confirm Deletion"
 msgstr "A törlés megerősítése"
 
-#: lib/wizard.php:76 lib/wizard.php:90
+#: lib/wizard.php:79 lib/wizard.php:93
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s csoport van"
 msgstr[1] "%s csoport van"
 
-#: lib/wizard.php:119
+#: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s felhasználó van"
 msgstr[1] "%s felhasználó van"
 
-#: lib/wizard.php:740 lib/wizard.php:752
+#: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
 msgstr "Érvénytelen gépnév"
 
-#: lib/wizard.php:913
+#: lib/wizard.php:951
 msgid "Could not find the desired feature"
 msgstr "A kívánt funkció nem található"
 
@@ -178,11 +178,13 @@ msgid "only from those groups:"
 msgstr "csak ezek a csoportok:"
 
 #: templates/part.wizard-groupfilter.php:25
+#: templates/part.wizard-loginfilter.php:32
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
 msgstr "Inkább közvetlenül megadom a szűrési kifejezést:"
 
 #: templates/part.wizard-groupfilter.php:30
+#: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
 msgstr "Az LDAP szűrőkifejezés"
@@ -212,6 +214,13 @@ msgstr "LDAP e-mail cím:"
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
 msgstr "Más attribútumok:"
+
+#: templates/part.wizard-loginfilter.php:38
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action. Example: \"uid=%%uid\""
+msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül. Például: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -306,148 +315,137 @@ msgid "When unchecked, this configuration will be skipped."
 msgstr "Ha nincs kipipálva, ez a beállítás kihagyódik."
 
 #: templates/settings.php:23
-msgid "User Login Filter"
-msgstr "Szűrő a bejelentkezéshez"
-
-#: templates/settings.php:25
-#, php-format
-msgid ""
-"Defines the filter to apply, when login is attempted. %%uid replaces the "
-"username in the login action. Example: \"uid=%%uid\""
-msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül. Például: \"uid=%%uid\""
-
-#: templates/settings.php:26
 msgid "Backup (Replica) Host"
 msgstr "Másodkiszolgáló (replika)"
 
-#: templates/settings.php:26
+#: templates/settings.php:23
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr "Adjon meg egy opcionális másodkiszolgálót. Ez a fő LDAP/AD kiszolgáló szinkron másolata (replikája) kell legyen."
 
-#: templates/settings.php:27
+#: templates/settings.php:24
 msgid "Backup (Replica) Port"
 msgstr "A másodkiszolgáló (replika) portszáma"
 
-#: templates/settings.php:28
+#: templates/settings.php:25
 msgid "Disable Main Server"
 msgstr "A fő szerver kihagyása"
 
-#: templates/settings.php:28
+#: templates/settings.php:25
 msgid "Only connect to the replica server."
 msgstr "Csak a másodlagos (másolati) kiszolgálóhoz kapcsolódjunk."
 
-#: templates/settings.php:29
+#: templates/settings.php:26
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Az LDAP-kiszolgáló nem tesz különbséget a kis- és nagybetűk között (Windows)"
 
-#: templates/settings.php:30
+#: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
 msgstr "Ne ellenőrizzük az SSL-tanúsítvány érvényességét"
 
-#: templates/settings.php:30
+#: templates/settings.php:27
 #, php-format
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
 msgstr "Használata nem javasolt (kivéve tesztelési céllal). Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát a(z) %s kiszolgálóra!"
 
-#: templates/settings.php:31
+#: templates/settings.php:28
 msgid "Cache Time-To-Live"
 msgstr "A gyorsítótár tárolási időtartama"
 
-#: templates/settings.php:31
+#: templates/settings.php:28
 msgid "in seconds. A change empties the cache."
 msgstr "másodpercben. A változtatás törli a cache tartalmát."
 
-#: templates/settings.php:33
+#: templates/settings.php:30
 msgid "Directory Settings"
 msgstr "Címtár beállítások"
 
-#: templates/settings.php:35
+#: templates/settings.php:32
 msgid "User Display Name Field"
 msgstr "A felhasználónév mezője"
 
-#: templates/settings.php:35
+#: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
 msgstr "Ebből az LDAP attribútumból képződik a felhasználó megjelenítendő neve."
 
-#: templates/settings.php:36
+#: templates/settings.php:33
 msgid "Base User Tree"
 msgstr "A felhasználói fa gyökere"
 
-#: templates/settings.php:36
+#: templates/settings.php:33
 msgid "One User Base DN per line"
 msgstr "Soronként egy felhasználói fa gyökerét adhatjuk meg"
 
-#: templates/settings.php:37
+#: templates/settings.php:34
 msgid "User Search Attributes"
 msgstr "A felhasználók lekérdezett attribútumai"
 
-#: templates/settings.php:37 templates/settings.php:40
+#: templates/settings.php:34 templates/settings.php:37
 msgid "Optional; one attribute per line"
 msgstr "Nem kötelező megadni, soronként egy attribútum"
 
-#: templates/settings.php:38
+#: templates/settings.php:35
 msgid "Group Display Name Field"
 msgstr "A csoport nevének mezője"
 
-#: templates/settings.php:38
+#: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
 msgstr "Ebből az LDAP attribútumból képződik a csoport megjelenítendő neve."
 
-#: templates/settings.php:39
+#: templates/settings.php:36
 msgid "Base Group Tree"
 msgstr "A csoportfa gyökere"
 
-#: templates/settings.php:39
+#: templates/settings.php:36
 msgid "One Group Base DN per line"
 msgstr "Soronként egy csoportfa gyökerét adhatjuk meg"
 
-#: templates/settings.php:40
+#: templates/settings.php:37
 msgid "Group Search Attributes"
 msgstr "A csoportok lekérdezett attribútumai"
 
-#: templates/settings.php:41
+#: templates/settings.php:38
 msgid "Group-Member association"
 msgstr "A csoporttagság attribútuma"
 
-#: templates/settings.php:43
+#: templates/settings.php:40
 msgid "Special Attributes"
 msgstr "Különleges attribútumok"
 
-#: templates/settings.php:45
+#: templates/settings.php:42
 msgid "Quota Field"
 msgstr "Kvóta mező"
 
-#: templates/settings.php:46
+#: templates/settings.php:43
 msgid "Quota Default"
 msgstr "Alapértelmezett kvóta"
 
-#: templates/settings.php:46
+#: templates/settings.php:43
 msgid "in bytes"
 msgstr "bájtban"
 
-#: templates/settings.php:47
+#: templates/settings.php:44
 msgid "Email Field"
 msgstr "Email mező"
 
-#: templates/settings.php:48
+#: templates/settings.php:45
 msgid "User Home Folder Naming Rule"
 msgstr "A home könyvtár elérési útvonala"
 
-#: templates/settings.php:48
+#: templates/settings.php:45
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!"
 
-#: templates/settings.php:54
+#: templates/settings.php:51
 msgid "Internal Username"
 msgstr "Belső felhasználónév"
 
-#: templates/settings.php:55
+#: templates/settings.php:52
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -463,15 +461,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Alapértelmezetten a belső felhasználónév az UUID tulajdonságból jön létre. Ez biztosítja a felhasználónév egyediségét és hogy a nem kell konvertálni a karaktereket benne. A belső felhasználónévnél a megkötés az, hogy csak a következő karakterek engdélyezettek benne: [ a-zA-Z0-9_.@- ]. Ezeken a karaktereken kivül minden karakter le lesz cserélve az adott karakter ASCII kódtáblában használható párjára vagy ha ilyen nincs akkor egyszerűen ki lesz hagyva. Ha így mégis ütköznének a nevek akkor hozzá lesz füzve egy folyamatosan növekvő számláló rész. A  belső felhasználónevet lehet használni a felhasználó azonosítására a programon belül. Illetve ez lesz az alapáértelmezett neve a felhasználó kezdő könyvtárának az ownCloud-ban. Illetve..............................."
 
-#: templates/settings.php:56
+#: templates/settings.php:53
 msgid "Internal Username Attribute:"
 msgstr "A belső felhasználónév attribútuma:"
 
-#: templates/settings.php:57
+#: templates/settings.php:54
 msgid "Override UUID detection"
 msgstr "Az UUID-felismerés felülbírálása"
 
-#: templates/settings.php:58
+#: templates/settings.php:55
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -482,19 +480,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Az UUID attribútum alapértelmezetten felismerésre kerül. Az UUID attribútum segítségével az LDAP felhasználók és csoportok egyértelműen azonosíthatók. A belső felhasználónév is azonos lesz az UUID-vel, ha fentebb nincs másként definiálva. Ezt a beállítást felülbírálhatja és bármely attribútummal helyettesítheti. Ekkor azonban gondoskodnia kell arról, hogy a kiválasztott attribútum minden felhasználó és csoport esetén lekérdezhető és egyedi értékkel bír. Ha a mezőt üresen hagyja, akkor az alapértelmezett attribútum lesz érvényes. Egy esetleges módosítás csak az újonnan hozzárendelt (ill. létrehozott) felhasználókra és csoportokra lesz érvényes."
 
-#: templates/settings.php:59
+#: templates/settings.php:56
 msgid "UUID Attribute for Users:"
 msgstr "A felhasználók UUID attribútuma:"
 
-#: templates/settings.php:60
+#: templates/settings.php:57
 msgid "UUID Attribute for Groups:"
 msgstr "A csoportok UUID attribútuma:"
 
-#: templates/settings.php:61
+#: templates/settings.php:58
 msgid "Username-LDAP User Mapping"
 msgstr "Felhasználó - LDAP felhasználó hozzárendelés"
 
-#: templates/settings.php:62
+#: templates/settings.php:59
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -508,10 +506,10 @@ msgid ""
 "experimental stage."
 msgstr "A felhasználónevek segítségével történik a (meta)adatok tárolása és hozzárendelése. A felhasználók pontos azonosítása céljából minden LDAP felhasználóhoz egy belső felhasználónevet rendelünk. Ezt a felhasználónevet az LDAP felhasználó UUID attribútumához rendeljük hozzá. Ezen túlmenően a DN is tárolásra kerül a gyorsítótárban, hogy csökkentsük az LDAP lekérdezések számát, de a DN-t nem használjuk azonosításra. Ha a DN megváltozik, akkor a rendszer ezt észleli. A belső felhasználóneveket a rendszer igen sok helyen használja, ezért a hozzárendelések törlése sok érvénytelen adatrekordot eredményez az adatbázisban. A hozzárendelések törlése nem függ a konfigurációtól, minden LDAP konfigurációt érint! Ténylegesen működő szolgáltatás esetén sose törölje a hozzárendeléseket, csak tesztelési vagy kísérleti célú szerveren!"
 
-#: templates/settings.php:63
+#: templates/settings.php:60
 msgid "Clear Username-LDAP User Mapping"
 msgstr "A felhasználó - LDAP felhasználó hozzárendelés törlése"
 
-#: templates/settings.php:63
+#: templates/settings.php:60
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "A csoport - LDAP csoport hozzárendelés törlése"

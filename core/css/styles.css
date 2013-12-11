@@ -46,6 +46,34 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	opacity: 1;
 }
 
+#nojavascript {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 999;
+	width: 100%;
+	text-align: center;
+	background-color: rgba(50,0,0,0.5);
+	color: white;
+	text-shadow: 0px 0px 5px black;
+	line-height: 125%;
+	font-size: x-large;
+}
+#nojavascript div {
+	width: 50%;
+	top: 40%;
+	position: absolute;
+	left: 50%;
+	margin-left: -25%;
+}
+#nojavascript a {
+	color: #ccc;
+	text-decoration: underline;
+}
+#nojavascript a:hover {
+	color: #aaa;
+}
+
 /* INPUTS */
 input[type="text"],
 input[type="password"],
@@ -105,8 +133,8 @@ textarea:hover, textarea:focus, textarea:active {
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 input[type="time"] {
-	width: 110px;
-	height: 30px;
+	width: initial;
+	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 #quota {
@@ -201,13 +229,20 @@ input[type="submit"].enabled {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
+	right: 0;
+	left: 0;
 	height: 44px;
 	width: 100%;
-	padding-right: 75px;
+	padding: 0;
 	margin: 0;
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
+}
+/* account for shift of controls bar due to app navigation */
+#body-user #controls,
+#body-settings #controls {
+	padding-left: 80px;
 }
 #controls .button,
 #controls button,
@@ -281,6 +316,11 @@ input[type="submit"].enabled {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);
 	opacity: .6;
+}
+
+#body-login p#message img {
+	vertical-align: middle;
+	padding: 5px;
 }
 
 #body-login div.buttons { text-align:center; }
@@ -481,6 +521,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	color: #ccc;
 }
 
+#body-login .update img.float-spinner {
+	float: left;
+}
+
 #body-user .warning, #body-settings .warning {
 	margin-top: 8px;
 	padding: 5px;
@@ -562,18 +606,18 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation {
 	position: fixed;
-	float: left;
+	top: 0;
+	bottom: 0;
+	left: 0;
 	width: 80px;
-	padding-top: 3.5em;
+	margin-top:45px;
 	z-index: 75;
-	height: 100%;
-	background:#383c43 url('../img/noise.png') repeat;
-	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
+	background: #383c43 url('../img/noise.png') repeat;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-moz-box-sizing:border-box; box-sizing:border-box;
 	/* prevent ugly selection effect on accidental selection */
 	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-}
-#navigation:hover {
-	overflow-y: auto; /* show scrollbar only on hover */
 }
 #apps {
 	height: 100%;
@@ -586,6 +630,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	color: #fff;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
 	padding-bottom: 10px;
+	/* prevent shift caused by scrollbar */
+	padding-left: 8px;
+	width: 64px;
 }
 
 	/* icon opacity and hover effect */
@@ -627,7 +674,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	margin: 0 auto -72px;
 }
 #apps-management, #navigation .push {
-	height: 70px;
+	height: 72px;
 }
 #apps-management {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
@@ -810,15 +857,23 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 #tagsdialog .taglist li:hover, #tagsdialog .taglist li:active { background:#eee; }
 #tagsdialog .addinput { width: 90%; clear: both; }
 
-/* ---- APP SETTINGS ---- */
-.popup { background-color:white; border-radius:10px 10px 10px 10px; box-shadow:0 0 20px #888; color:#333; padding:10px; position:fixed !important; z-index:100; }
+/* ---- APP SETTINGS - LEGACY, DO NOT USE THE POPUP! ---- */
+.popup {
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: 0 0 10px #aaa;
+	color: #333;
+	padding: 10px;
+	position: fixed !important;
+	z-index: 100;
+}
 .popup.topright { top:7em; right:1em; }
 .popup.bottomleft { bottom:1em; left:33em; }
 .popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/close.svg') no-repeat center; }
 .popup h2 { font-weight:bold; font-size:1.2em; }
 .arrow { border-bottom:10px solid white; border-left:10px solid transparent; border-right:10px solid transparent; display:block; height:0; position:absolute; width:0; z-index:201; }
 .arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
-.arrow.up { top:-8px; right:2em; }
+.arrow.up { top:-8px; right:6px; }
 .arrow.down { -webkit-transform:rotate(180deg); -moz-transform:rotate(180deg); -o-transform:rotate(180deg); -ms-transform:rotate(180deg); transform:rotate(180deg); }
 .help-includes {
 	overflow: hidden;

@@ -152,9 +152,6 @@ if (isset($path)) {
 		$tmpl->assign('sharingToken', $token);
 		$tmpl->assign('disableSharing', true);
 		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
-		if (\OCP\App::isEnabled('files_encryption')) {
-			$allowPublicUploadEnabled = false;
-		}
 		if (OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes') === 'no') {
 			$allowPublicUploadEnabled = false;
 		}

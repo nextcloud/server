@@ -31,11 +31,11 @@ abstract class TimedJob extends Job {
 	 * run the job if
 	 *
 	 * @param JobList $jobList
+	 * @param \OC\Log $logger
 	 */
-	public function execute($jobList) {
+	public function execute($jobList, $logger = null) {
 		if ((time() - $this->lastRun) > $this->interval) {
-			$jobList->setLastRun($this);
-			$this->run($this->argument);
+			parent::execute($jobList, $logger);
 		}
 	}
 }

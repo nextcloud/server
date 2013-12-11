@@ -21,6 +21,9 @@ class Storage {
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	const VERSIONS_ROOT = 'files_versions/';
 
+	// files for which we can remove the versions after the delete operation was successful
+	private static $deletedFiles = array();
+
 	private static $max_versions_per_interval = array(
 		//first 10sec, one version every 2sec
 		1 => array('intervalEndsAfter' => 10,      'step' => 2),
@@ -142,25 +145,45 @@ class Storage {
 
 
 	/**
+	 * @brief mark file as deleted so that we can remove the versions if the file is gone
+	 * @param string $path
+	 */
+	public static function markDeletedFile($path) {
+		list($uid, $filename) = self::getUidAndFilename($path);
+		self::$deletedFiles[$path] = array(
+			'uid' => $uid,
+			'filename' => $filename);
+	}
+
+	/**
 	 * Delete versions of a file
 	 */
-	public static function delete($filename) {
-		list($uid, $filename) = self::getUidAndFilename($filename);
-		$versions_fileview = new \OC\Files\View('/'.$uid .'/files_versions');
+	public static function delete($path) {
 
-		$abs_path = $versions_fileview->getLocalFile($filename.'.v');
-		if( ($versions = self::getVersions($uid, $filename)) ) {
-			$versionsSize = self::getVersionsSize($uid);
-			if ( $versionsSize === false || $versionsSize < 0 ) {
-				$versionsSize = self::calculateSize($uid);
+		$deletedFile = self::$deletedFiles[$path];
+		$uid = $deletedFile['uid'];
+		$filename = $deletedFile['filename'];
+
+		if (!\OC\Files\Filesystem::file_exists($path)) {
+
+			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
+
+			$abs_path = $versions_fileview->getLocalFile($filename . '.v');
+			$versions = self::getVersions($uid, $filename);
+			if (!empty($versions)) {
+				$versionsSize = self::getVersionsSize($uid);
+				if ($versionsSize === false || $versionsSize < 0) {
+					$versionsSize = self::calculateSize($uid);
+				}
+				foreach ($versions as $v) {
+					unlink($abs_path . $v['version']);
+					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
+					$versionsSize -= $v['size'];
+				}
+				self::setVersionsSize($uid, $versionsSize);
 			}
-			foreach ($versions as $v) {
-				unlink($abs_path . $v['version']);
-				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
-				$versionsSize -= $v['size'];
-			}
-			self::setVersionsSize($uid, $versionsSize);
 		}
+		unset(self::$deletedFiles[$path]);
 	}
 
 	/**
@@ -263,6 +286,7 @@ class Storage {
 					$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
 					$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version, 'user' => $uid));
 					$versions[$key]['path'] = $filename;
+					$versions[$key]['name'] = $versionedFile;
 					$versions[$key]['size'] = $file['size'];
 				}
 			}
@@ -318,22 +342,21 @@ class Storage {
 	 * @return size of vesions
 	 */
 	private static function calculateSize($uid) {
-		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
-			$versionsRoot = $versions_fileview->getLocalFolder('');
-
-			$iterator = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($versionsRoot),
-				\RecursiveIteratorIterator::CHILD_FIRST
-			);
+		if (\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED) == 'true') {
+			$view = new \OC\Files\View('/' . $uid . '/files_versions');
 
 			$size = 0;
 
-			foreach ($iterator as $path) {
-				if ( preg_match('/^.+\.v(\d+)$/', $path, $match) ) {
-					$relpath = substr($path, strlen($versionsRoot)-1);
-					$size += $versions_fileview->filesize($relpath);
+			$dirContent = $view->getDirectoryContent('/');
+
+			while (!empty($dirContent)) {
+				$path = reset($dirContent);
+				if ($path['type'] === 'dir') {
+					$dirContent = array_merge($dirContent, $view->getDirectoryContent(substr($path['path'], strlen('files_versions'))));
+				} else {
+					$size += $view->filesize(substr($path['path'], strlen('files_versions')));
 				}
+				unset($dirContent[key($dirContent)]);
 			}
 
 			return $size;

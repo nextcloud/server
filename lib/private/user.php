@@ -314,7 +314,7 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		if (\OC::$session->get('user_id')) {
+		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
 			OC_App::loadApps(array('authentication'));
 			self::setupBackends();
 			return self::userExists(\OC::$session->get('user_id'));
@@ -353,7 +353,7 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		if (OC_Group::inGroup($uid, 'admin')) {
+		if (OC_Group::inGroup($uid, 'admin') && self::$incognitoMode === false) {
 			return true;
 		}
 		return false;
@@ -419,6 +419,22 @@ class OC_User {
 		$user = self::getManager()->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @brief Check whether user can change his avatar
+	 * @param string $uid The username
+	 * @return bool
+	 *
+	 * Check whether a specified user can change his avatar
+	 */
+	public static function canUserChangeAvatar($uid) {
+		$user = self::getManager()->get($uid);
+		if ($user) {
+			return $user->canChangeAvatar();
 		} else {
 			return false;
 		}

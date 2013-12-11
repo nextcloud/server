@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 21:06-0500\n"
-"PO-Revision-Date: 2013-11-22 02:06+0000\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "更新済み"
 msgid "Select a profile picture"
 msgstr "プロファイル画像を選択"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "ファイルを複合中... しばらくお待ちください、この処理には少し時間がかかるかもしれません。"
 
@@ -241,11 +241,18 @@ msgstr "エラーと致命的な問題"
 msgid "Fatal issues only"
 msgstr "致命的な問題のみ"
 
-#: templates/admin.php:22
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "セキュリティ警告"
 
 #: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr "HTTP 経由で %s にアクセスしています。HTTPS を使用するようにサーバの設定を行うことを強くおすすめします。"
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -254,57 +261,68 @@ msgid ""
 "root."
 msgstr "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにウェブサーバーを設定するか、ウェブサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。"
 
-#: templates/admin.php:36
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "セットアップ警告"
 
-#: templates/admin.php:39
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
 
-#: templates/admin.php:40
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "<a href=\"%s\">installation guides</a>をもう一度チェックするようにお願いいたします。"
 
-#: templates/admin.php:51
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "モジュール 'fileinfo' が見つかりません"
 
-#: templates/admin.php:54
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。"
 
-#: templates/admin.php:65
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr ""
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "ロケールが動作していません"
 
-#: templates/admin.php:70
+#: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "システムロケールを UTF-8 をサポートするロケールに設定できません。"
 
-#: templates/admin.php:74
+#: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "これは、ファイル名の特定の文字に問題があることを意味しています。"
 
-#: templates/admin.php:78
+#: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。"
 
-#: templates/admin.php:90
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "インターネット接続が動作していません"
 
-#: templates/admin.php:93
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -313,118 +331,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "このサーバーはインターネットに接続していません。この場合、外部ストレージのマウント、更新の通知やサードパーティアプリといったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信と言った機能も利用できないかもしれません。全ての機能を利用したいのであれば、このサーバーからインターネットに接続できるようにすることをお勧めします。"
 
-#: templates/admin.php:107
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:114
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "各ページの読み込み時にタスクを実行する"
 
-#: templates/admin.php:122
+#: templates/admin.php:150
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "HTTPを通して15分間隔で cron.php を実行するように、cron.php は webcron サービスに登録されています。"
 
-#: templates/admin.php:130
+#: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "15分間隔で cron.php ファイルを実行するためにシステムの cron サービスを利用する"
 
-#: templates/admin.php:135
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "共有"
 
-#: templates/admin.php:141
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "共有APIを有効にする"
 
-#: templates/admin.php:142
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "アプリからの共有APIの利用を許可する"
 
-#: templates/admin.php:149
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "リンクを許可する"
 
-#: templates/admin.php:150
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "リンクによりアイテムを公開することを許可する"
 
-#: templates/admin.php:158
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:159
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "公開している共有フォルダへのアップロードを共有しているメンバーにも許可"
 
-#: templates/admin.php:167
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "再共有を許可する"
 
-#: templates/admin.php:168
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "ユーザが共有しているアイテムの再共有を許可する"
 
-#: templates/admin.php:175
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "ユーザが誰とでも共有することを許可する"
 
-#: templates/admin.php:178
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "ユーザにグループ内のユーザとのみ共有を許可する"
 
-#: templates/admin.php:185
+#: templates/admin.php:213
 msgid "Allow mail notification"
 msgstr "メール通知を許可"
 
-#: templates/admin.php:186
+#: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
 msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
 
-#: templates/admin.php:193
+#: templates/admin.php:221
 msgid "Security"
 msgstr "セキュリティ"
 
-#: templates/admin.php:206
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "常にHTTPSを使用する"
 
-#: templates/admin.php:208
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "クライアントから %sへの接続を常に暗号化する。"
 
-#: templates/admin.php:214
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "強制的なSSL接続を有効／無効にするために、HTTPS経由で %s へ接続してください。"
 
-#: templates/admin.php:226
+#: templates/admin.php:254
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:227
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:259
+#: templates/admin.php:287
 msgid "More"
 msgstr "もっと見る"
 
-#: templates/admin.php:260
+#: templates/admin.php:288
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:266 templates/personal.php:169
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:270 templates/personal.php:172
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -535,62 +553,66 @@ msgstr "※パスワード回復を有効にするにはメールアドレスの
 msgid "Profile picture"
 msgstr "プロフィール写真"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
 msgstr "新規にアップロード"
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr "ファイルから新規に選択"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr "画像を削除"
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "png と jpg のいずれか。正方形が理想ですが、切り取って加工することも可能です。"
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr "あなたのアバターは、あなたのオリジナルのアカウントで提供されています。"
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr "中止"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
 msgstr "プロファイル画像として選択"
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "言語"
 
-#: templates/personal.php:126
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:133
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:135
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください"
 
-#: templates/personal.php:146
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "暗号化"
 
-#: templates/personal.php:148
-msgid "The encryption app is no longer enabled, decrypt all your file"
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
-#: templates/personal.php:154
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr "ログインパスワード"
 
-#: templates/personal.php:159
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr "すべてのファイルを複合する"
 

@@ -90,6 +90,7 @@ $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC
 $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableDecryptAll' , $enableDecryptAll);
 $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
+$tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());

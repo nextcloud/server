@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Прекини отпремање",
 "Nothing in here. Upload something!" => "Овде нема ничег. Отпремите нешто!",
 "Download" => "Преузми",
-"Unshare" => "Укини дељење",
 "Delete" => "Обриши",
 "Upload too large" => "Датотека је превелика",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеке које желите да отпремите прелазе ограничење у величини.",

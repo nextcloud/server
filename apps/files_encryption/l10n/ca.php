@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Missing requirements." => "Manca de requisits.",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Assegureu-vos que teniu instal·lat PHP 5.3.3 o una versió superior i que està activat Open SSL i habilitada i configurada correctament l'extensió de PHP. De moment, l'aplicació d'encriptació s'ha desactivat.",
 "Following users are not set up for encryption:" => "Els usuaris següents no estan configurats per a l'encriptació:",
+"Initial encryption started... This can take some time. Please wait." => "La encriptació inicial ha començat... Pot trigar una estona, espereu.",
 "Saving..." => "Desant...",
 "Go directly to your " => "Vés directament a",
 "personal settings" => "arranjament personal",

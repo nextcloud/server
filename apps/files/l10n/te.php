@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Name" => "పేరు",
 "Size" => "పరిమాణం",
 "Save" => "భద్రపరచు",
+"New folder" => "కొత్త సంచయం",
 "Folder" => "సంచయం",
 "Delete" => "తొలగించు"
 );

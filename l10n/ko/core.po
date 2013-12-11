@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# madeng <jongyoul@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-22 02:20+0000\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -27,52 +28,52 @@ msgstr ""
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "%s에게 메일을 보낼 수 없습니다."
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "유지보수 모드 켜기"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "유지보수 모드 끄기"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "데이터베이스 업데이트 됨"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "파일 캐시 업데이트중, 시간이 약간 걸릴수 있습니다..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "파일캐시 업데이트 됨"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% 완료됨 ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "이미지나 파일이 없음"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "알려지지 않은 파일형식"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "잘못된 이미지"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "사용가능한 프로파일 사진이 없습니다. 재시도 하세요."
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "선택된 데이터가 없습니다."
 
 #: js/config.php:32
 msgid "Sunday"
@@ -229,21 +230,21 @@ msgstr ""
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
+msgstr[0] "{count} 파일 중복"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "하나의 파일이 충돌"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "어느 파일들을 보관하고 싶습니까?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "두 버전을 모두 선택하면, 파일이름에 번호가 추가될 것입니다."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -251,15 +252,15 @@ msgstr "취소"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "계속"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(모두 선택됨)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count}개가 선택됨)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
@@ -274,7 +275,7 @@ msgid "Share"
 msgstr "공유"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "오류"
 
@@ -310,7 +311,7 @@ msgstr ""
 msgid "Password protect"
 msgstr "암호 보호"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "암호"
 
@@ -386,7 +387,7 @@ msgstr "삭제"
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
@@ -428,7 +429,7 @@ msgstr "추가"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "태크 편집"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
@@ -437,6 +438,10 @@ msgstr ""
 #: js/tags.js:261
 msgid "No tags selected for deletion."
 msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr "페이지를 새로고침 해주세요"
 
 #: js/update.js:17
 msgid ""
@@ -452,7 +457,7 @@ msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s 비밀번호 재설정"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -463,7 +468,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "비밀번호를 초기화 하기 위한 링크가 이메일로 발송되었습니다.<br>만약 수분이내에 메일이 도착하지 않은 경우, 스팸 메일함을 확인하세요.<br>만약 없다면, 메일 관리자에게 문의하세요."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -473,8 +478,8 @@ msgstr "요청이 실패했습니다!<br>email 주소와 사용자 명을 정확
 msgid "You will receive a link to reset your password via Email."
 msgstr "이메일로 암호 재설정 링크를 보냈습니다."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "사용자 이름"
 
@@ -484,7 +489,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "당신의 파일은 암호화 되어있습니다. 만약 복구키를 가지고 있지 않다면, 비밀번호를 초기화한 후에, 당신의 데이터를 복구할 수 없을 것입니다. 당신이 원하는 것이 확실하지 않다면, 계속진행하기 전에 관리자에게 문의하세요. 계속 진행하시겠습니까?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
@@ -492,7 +497,7 @@ msgstr "네, 전 제 비밀번호를 리셋하길 원합니다"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "재설정"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -518,7 +523,7 @@ msgstr "개인"
 msgid "Users"
 msgstr "사용자"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "앱"
 
@@ -536,7 +541,7 @@ msgstr ""
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "태그가 이미 존재합니다"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
@@ -583,103 +588,110 @@ msgstr ""
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "화이팅!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "보안 경고"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "%s의 보안을 위하여 PHP 버전을 업데이트하십시오."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "안전한 난수 생성기를 사용할 수 없습니다. PHP의 OpenSSL 확장을 활성화해 주십시오."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "안전한 난수 생성기를 사용하지 않으면 공격자가 암호 초기화 토큰을 추측하여 계정을 탈취할 수 있습니다."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하세요."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>관리자 계정</strong> 만들기"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "고급"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "데이터 폴더"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "데이터베이스 설정"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "사용될 예정"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "데이터베이스 사용자"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "데이터베이스 암호"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "데이터베이스 이름"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "데이터베이스 테이블 공간"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "데이터베이스 호스트"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "설치 완료"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
+msgstr "종료중 ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
 msgstr ""
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s는 사용가능합니다. 업데이트방법에 대해서 더 많은 정보를 얻으세요."
 
-#: templates/layout.user.php:71
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "로그아웃"
 
@@ -699,25 +711,25 @@ msgstr "계정의 안전을 위하여 암호를 변경하십시오."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "서버 인증 실패!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "관리자에게 문의하세요."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "암호를 잊으셨습니까?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "기억하기"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "로그인"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "대체 "
 
@@ -726,6 +738,24 @@ msgstr "대체 "
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
+msgstr ""
+
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
 msgstr ""
 
 #: templates/update.admin.php:3
@@ -740,14 +770,4 @@ msgstr ""
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
-
-#: templates/update.user.php:5
-msgid ""
-"Contact your system administrator if this message persists or appeared "
-"unexpectedly."
-msgstr ""
-
-#: templates/update.user.php:6
-msgid "Thank you for your patience."
 msgstr ""

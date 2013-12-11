@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Savienojuma iestatījumi",
 "Configuration Active" => "Konfigurācija ir aktīva",
 "When unchecked, this configuration will be skipped." => "Ja nav atzīmēts, šī konfigurācija tiks izlaista.",
-"User Login Filter" => "Lietotāja ierakstīšanās filtrs",
 "Backup (Replica) Host" => "Rezerves (kopija) serveris",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Norādi rezerves serveri (nav obligāti). Tam ir jābūt galvenā LDAP/AD servera kopijai.",
 "Backup (Replica) Port" => "Rezerves (kopijas) ports",

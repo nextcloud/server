@@ -45,7 +45,7 @@ interface IDBConnection {
 
 	/**
 	 * Used to get the id of the just inserted element
-	 * @param string $tableName the name of the table where we inserted the item
+	 * @param string $table the name of the table where we inserted the item
 	 * @return int the id of the inserted element
 	 */
 	public function lastInsertId($table = null);

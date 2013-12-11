@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Pengaturan Koneksi",
 "Configuration Active" => "Konfigurasi Aktif",
 "When unchecked, this configuration will be skipped." => "Jika tidak dicentang, konfigurasi ini dilewati.",
-"User Login Filter" => "gunakan saringan login",
 "Backup (Replica) Host" => "Host Cadangan (Replika)",
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Berikan pilihan host cadangan. Harus merupakan replika dari server LDAP/AD utama.",
 "Backup (Replica) Port" => "Port Cadangan (Replika)",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
+"POT-Creation-Date: 2013-12-09 06:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,8 +89,12 @@ msgid ""
 "the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:278
 msgid "Following users are not set up for encryption:"
+msgstr ""
+
+#: js/detect-migration.js:21
+msgid "Initial encryption started... This can take some time. Please wait."
 msgstr ""
 
 #: js/settings-admin.js:13

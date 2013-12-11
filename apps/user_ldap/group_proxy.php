@@ -67,16 +67,17 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	 * @param $gid string, the gid connected to the request
 	 * @param $method string, the method of the group backend that shall be called
 	 * @param $parameters an array of parameters to be passed
+	 * @param $passOnWhen the result matches this variable
 	 * @return mixed, the result of the method or false
 	 */
-	protected function callOnLastSeenOn($gid, $method, $parameters) {
+	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getGroupCacheKey($gid);;
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
 		if(!is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
 				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
-				if(!$result) {
+				if($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
 					$groupExists = call_user_func_array(

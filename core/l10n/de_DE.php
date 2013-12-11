@@ -96,12 +96,13 @@ $TRANSLATIONS = array(
 "Email sent" => "Email gesendet",
 "Warning" => "Warnung",
 "The object type is not specified." => "Der Objekttyp ist nicht angegeben.",
-"Enter new" => "c",
+"Enter new" => "Neuen eingeben",
 "Delete" => "Löschen",
 "Add" => "Hinzufügen",
 "Edit tags" => "Schlagwörter bearbeiten",
 "Error loading dialog template: {error}" => "Fehler beim Laden der Dialogvorlage: {error}",
 "No tags selected for deletion." => "Es wurden keine Schlagwörter zum Löschen ausgewählt.",
+"Please reload the page." => "Bitte laden Sie diese Seite neu.",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet.",
 "%s password reset" => "%s-Passwort zurücksetzen",
@@ -153,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Datenbank-Host",
 "Finish setup" => "Installation abschließen",
 "Finishing …" => "Abschließen ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Diese Anwendung benötigt ein aktiviertes JavaScript zum korrekten Betrieb.  Bitte <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktivieren Sie JavaScript</a> und laden Sie diese Schnittstelle neu.",
 "%s is available. Get more information on how to update." => "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
 "Log out" => "Abmelden",
 "Automatic logon rejected!" => "Automatische Anmeldung verweigert!",
@@ -165,10 +167,12 @@ $TRANSLATIONS = array(
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo,<br><br>%s hat %s mit Ihnen geteilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>",
+"This ownCloud instance is currently in single user mode." => "Diese ownClound-Instanz befindet sich derzeit im Einzelbenutzermodus.",
+"This means only administrators can use the instance." => "Dies bedeutet, dass diese Instanz nur von Administratoren genutzt werden kann.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
+"Thank you for your patience." => "Vielen Dank für Ihre Geduld.",
 "Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",
 "This ownCloud instance is currently being updated, which may take a while." => "Diese ownCloud-Instanz wird gerade aktualisiert, was eine Weile dauert.",
-"Please reload this page after a short time to continue using ownCloud." => "Bitte laden Sie diese Seite nach kurzer Zeit neu, um mit der Nutzung von ownCloud fortzufahren.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
-"Thank you for your patience." => "Vielen Dank für Ihre Geduld."
+"Please reload this page after a short time to continue using ownCloud." => "Bitte laden Sie diese Seite nach kurzer Zeit neu, um mit der Nutzung von ownCloud fortzufahren."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
