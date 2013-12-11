@@ -15,7 +15,7 @@
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
-					<input type="hidden" name="MAX_FILE_SIZE" value="<?php p($_['uploadMaxFilesize']) ?>">
+					<input type="hidden" id="max_upload" name="MAX_FILE_SIZE" value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
 					<input type="hidden" id="upload_limit" value="<?php p($_['uploadLimit']) ?>">
 					<input type="hidden" id="free_space" value="<?php p($_['freeSpace']) ?>">
