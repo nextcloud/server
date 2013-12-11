@@ -78,7 +78,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	public function nextEntry($link, $result) {
-		return ldap_next_entry($link, $result);
+		return $this->invokeLDAPMethod('next_entry', $link, $result);
 	}
 
 	public function read($link, $baseDN, $filter, $attr) {
