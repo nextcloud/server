@@ -90,14 +90,12 @@ class Group {
 	 * @return bool
 	 */
 	public function inGroup($user) {
-		foreach ($this->users as $cachedUser) {
-			if ($user->getUID() === $cachedUser->getUID()) {
-				return true;
-			}
+		if (isset($this->users[$user->getUID()])) {
+			return true;
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->inGroup($user->getUID(), $this->gid)) {
-				$this->users[] = $user;
+				$this->users[$user->getUID()] = $user;
 				return true;
 			}
 		}
