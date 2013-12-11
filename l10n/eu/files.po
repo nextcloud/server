@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-10 21:40+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,39 +35,39 @@ msgstr "Fitxategi izena ezin da hutsa izan."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Fitxategi izenak ezin du \"/\" izan. Mesedez hautatu beste izen bat."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "%s izena dagoeneko erabilita dago %s karpetan. Mesdez hautatu izen ezberdina."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Ez da jatorri baliogarria"
 
 #: ajax/newfile.php:94
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Errorea %s %sra deskargatzerakoan"
 
 #: ajax/newfile.php:128
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Errorea fitxategia sortzerakoan"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Karpeta izena ezin da hutsa izan."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Karpeta izenak ezin du \"/\" izan. Mesedez hautatu beste izen bat."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Errorea karpeta sortzerakoan"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -155,11 +155,11 @@ msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.
 
 #: js/file-upload.js:523
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URLa ezin da hutsik egon"
 
 #: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Etxeko (home) karpetan 'Shared' erreserbatutako fitxategi izena da"
 
 #: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
@@ -167,11 +167,11 @@ msgstr "{new_name} dagoeneko existitzen da"
 
 #: js/file-upload.js:595
 msgid "Could not create file"
-msgstr ""
+msgstr "Ezin izan da fitxategia sortu"
 
 #: js/file-upload.js:611
 msgid "Could not create folder"
-msgstr ""
+msgstr "Ezin izan da karpeta sortu"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -191,7 +191,7 @@ msgstr "Zain"
 
 #: js/filelist.js:405
 msgid "Could not rename file"
-msgstr ""
+msgstr "Ezin izan da fitxategia berrizendatu"
 
 #: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
@@ -203,7 +203,7 @@ msgstr "desegin"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Errorea fitxategia ezabatzerakoan."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -292,7 +292,7 @@ msgstr "Aldatuta"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "Baliogabeako karpeta izena. 'Shared' izena erreserbatuta dago."
 
 #: lib/app.php:101
 #, php-format
@@ -341,7 +341,7 @@ msgstr "Berria"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Testu fitxategi berria"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -369,7 +369,7 @@ msgstr "Ezeztatu igoera"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Ez duzu fitxategiak hona igotzeko edo hemen sortzeko baimenik"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

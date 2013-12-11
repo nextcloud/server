@@ -5,15 +5,16 @@
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
+# iLikeIT <dj_dark_junglist@yahoo.com>, 2013
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-11 01:50+0000\n"
+"Last-Translator: iLikeIT <dj_dark_junglist@yahoo.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -685,7 +686,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "このアプリケーションは使用する為、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 "
 
 #: templates/layout.user.php:44
 #, php-format

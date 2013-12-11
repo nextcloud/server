@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-09 06:39-0500\n"
-"PO-Revision-Date: 2013-12-08 20:42+0000\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-11 18:00+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -599,7 +599,7 @@ msgstr "Şerefe!"
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr "Güvenlik Uyarisi"
+msgstr "Güvenlik Uyarısı"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -633,7 +633,7 @@ msgstr "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığ�
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr "Server'ınızı nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">dokümantasyon sayfasını</a> ziyaret edin."
+msgstr "Sunucunuzu nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">belgelendirme sayfasını</a> ziyaret edin."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
