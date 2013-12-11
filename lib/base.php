@@ -527,6 +527,7 @@ class OC {
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
+
 		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
 			&& $_SERVER['PHP_AUTH_USER'] !== self::$session->get('loginname')) {
 			$sessionUser = self::$session->get('loginname');
