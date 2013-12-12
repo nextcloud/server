@@ -15,7 +15,7 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 
 class View extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage[] $storages ;
+	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
 
