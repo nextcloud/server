@@ -153,8 +153,7 @@ class OC_Response {
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
 	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
-		// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
-		if ( preg_match( '/MSIE/', $_SERVER['HTTP_USER_AGENT'] ) or preg_match( '#Android.*Chrome/[.0-9]*#', $_SERVER['HTTP_USER_AGENT'] ) ) {
+		if (OC_Request::isUserAgent(array(OC_Request::USER_AGENT_IE, OC_Request::USER_AGENT_ANDROID_MOBILE_CHROME))) {
 			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode( $filename ) . '"' );
 		} else {
 			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode( $filename )
