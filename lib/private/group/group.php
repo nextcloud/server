@@ -31,7 +31,7 @@ class Group {
 	private $backends;
 
 	/**
-	 * @var \OC\Hooks\PublicEmitter $emitter ;
+	 * @var \OC\Hooks\PublicEmitter $emitter
 	 */
 	private $emitter;
 
