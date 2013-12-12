@@ -850,9 +850,8 @@ class Share {
 	protected static function expireItem(array $item) {
 		if (!empty($item['expiration'])) {
 			$now = new \DateTime();
-			$expirationDate = \Doctrine\DBAL\Types\Type::getType('datetime')
-				->convertToPhpValue($item['expiration'], \OC_DB::getConnection()->getDatabasePlatform());
-			if ($now > $expirationDate) {
+			$expires = new \DateTime($item['expiration']);
+			if ($now > $expires) {
 				self::unshareItem($item);
 				return true;
 			}
