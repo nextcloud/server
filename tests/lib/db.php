@@ -148,14 +148,13 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 
 	public function testUtf8Data() {
 		$table = "*PREFIX*{$this->table2}";
-		$conn = OC_DB::getConnection();
-		$data = array(
-			'uri' => 'uri_1',
-			'fullname' => "Ћö雙喜\xE2\x80\xA2",
-			'carddata' => 'This is a vCard',
-		);
-		$conn->insert($table, $data);
-		$row = $conn->fetchAssoc("SELECT * FROM $table");
-		$this->assertSame($data['fullname'], $row['fullname']);
+		$expected = "Ћö雙喜\xE2\x80\xA2";
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
+		$result = $query->execute(array($expected, 'uri_1', 'This is a vCard'));
+		$this->assertEquals(1, $result);
+
+		$actual = OC_DB::prepare("SELECT `fullname` FROM $table")->execute()->fetchOne();
+		$this->assertSame($expected, $actual);
 	}
 }
