@@ -145,4 +145,17 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $result->numRows());
 
 	}
+
+	public function testUtf8Data() {
+		$table = "*PREFIX*{$this->table2}";
+		$conn = OC_DB::getConnection();
+		$data = array(
+			'uri' => 'uri_1',
+			'fullname' => "Ћö雙喜\xE2\x80\xA2",
+			'carddata' => 'This is a vCard',
+		);
+		$conn->insert($table, $data);
+		$row = $conn->fetchAssoc("SELECT * FROM $table");
+		$this->assertSame($data['fullname'], $row['fullname']);
+	}
 }
