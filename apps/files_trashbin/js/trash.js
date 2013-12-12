@@ -152,6 +152,14 @@ $(document).ready(function() {
 	$('#fileList').on('click', 'td.filename input', function() {
 		var checkbox = $(this).parent().children('input:checkbox');
 		$(checkbox).parent().parent().toggleClass('selected');
+		if ($(checkbox).is(':checked')) {
+			var selectedCount = $('td.filename input:checkbox:checked').length;
+			if (selectedCount === $('td.filename input:checkbox').length) {
+				$('#select_all').prop('checked', true);
+			}
+		} else {
+			$('#select_all').prop('checked',false);
+		}
 		procesSelection();
 	});
 
