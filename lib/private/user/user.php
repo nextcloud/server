@@ -141,8 +141,9 @@ class User {
 		if (!$this->home) {
 			if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
+			} else {
+				$this->home = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
 			}
-			$this->home = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
 		}
 		return $this->home;
 	}
