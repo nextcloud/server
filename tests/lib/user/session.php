@@ -52,9 +52,20 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 	public function testLoginValidPasswordEnabled() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
-		$session->expects($this->once())
+		$session->expects($this->exactly(2))
 			->method('set')
-			->with('user_id', 'foo');
+			->with($this->callback(function($key) {
+						switch($key) {
+							case 'user_id':
+							case 'loginname':
+								return true;
+								break;
+							default:
+								return false;
+								break;
+						}
+					},
+					'foo'));
 
 		$manager = $this->getMock('\OC\User\Manager');
 
