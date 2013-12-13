@@ -113,6 +113,38 @@ class Session implements Emitter, \OCP\IUserSession {
 	}
 
 	/**
+	 * set the login name
+	 *
+	 * @param string login name for the logged in user
+	 */
+	public function setLoginname($loginname) {
+		if (is_null($loginname)) {
+			$this->session->remove('loginname');
+		} else {
+			$this->session->set('loginname', $loginname);
+		}
+	}
+
+	/**
+	 * get the login name of the current user
+	 *
+	 * @return string
+	 */
+	public function getLoginname() {
+		if ($this->activeUser) {
+			return $this->session->get('loginname');
+		} else {
+			$uid = $this->session->get('user_id');
+			if ($uid) {
+				$this->activeUser = $this->manager->get($uid);
+				return $this->session->get('loginname');
+			} else {
+				return null;
+			}
+		}
+	}
+
+	/**
 	 * try to login with the provided credentials
 	 *
 	 * @param string $uid
@@ -126,6 +158,7 @@ class Session implements Emitter, \OCP\IUserSession {
 			if (!is_null($user)) {
 				if ($user->isEnabled()) {
 					$this->setUser($user);
+					$this->setLoginname($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 					return true;
 				} else {
@@ -143,6 +176,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	public function logout() {
 		$this->manager->emit('\OC\User', 'logout');
 		$this->setUser(null);
+		$this->setLoginname(null);
 		$this->unsetMagicInCookie();
 	}
 
