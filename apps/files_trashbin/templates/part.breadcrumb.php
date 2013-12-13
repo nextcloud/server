@@ -3,11 +3,11 @@
 			<img src="<?php print_unescaped(OCP\image_path('core', 'places/home.svg'));?>" class="svg" />
 		</a>
 </div>
-<?php if(count($_["breadcrumb"])):?>
-	<div class="crumb svg"
-		 data-dir='/'>
+<div class="crumb svg"
+	 data-dir='/'>
 	<a href="<?php p($_['baseURL']); ?>"><?php p($l->t("Deleted Files")); ?></a>
-	</div>
+</div>
+<?php if(count($_["breadcrumb"])):?>
 <?php endif;?>
 <?php for($i=0; $i<count($_["breadcrumb"]); $i++):
 	$crumb = $_["breadcrumb"][$i];
