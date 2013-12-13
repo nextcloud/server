@@ -795,7 +795,10 @@ class Wizard extends LDAPUtility {
 		$a = $this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 		$c = $this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($tls) {
-			$this->ldap->startTls($cr);
+			$isTlsWorking = @$this->ldap->startTls($cr);
+			if(!$isTlsWorking) {
+				return false;
+			}
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
@@ -809,7 +812,7 @@ class Wizard extends LDAPUtility {
 			if($ncc) {
 				throw new \Exception('Certificate cannot be validated.');
 			}
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind succesfull with Port '. $port, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind succesfull with Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
 			return true;
 		}
 
