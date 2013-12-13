@@ -471,11 +471,11 @@ OC.Breadcrumb={
 	},
 	_show:function(container, dir, leafname, leaflink){
 		var self = this;
-		
+
 		this._clear(container);
-		
+
 		// show home + path in subdirectories
-		if (dir && dir !== '/') {
+		if (dir) {
 			//add home
 			var link = OC.linkTo('files','index.php');
 
@@ -502,7 +502,7 @@ OC.Breadcrumb={
 				}
 			});
 		}
-		
+
 		//add leafname
 		if (leafname && leaflink) {
 			this._push(container, leafname, leaflink);
