@@ -12,7 +12,14 @@ var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('dat
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
 if (typeof oc_webroot === "undefined") {
-	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+	oc_webroot = location.pathname;
+	var pos = oc_webroot.indexOf('/index.php/');
+	if (pos !== -1) {
+		oc_webroot = oc_webroot.substr(0, pos);
+	}
+	else {
+		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
+	}
 }
 if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
