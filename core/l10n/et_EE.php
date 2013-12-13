@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Andmebaasi host",
 "Finish setup" => "Lõpeta seadistamine",
 "Finishing …" => "Lõpetamine ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "See rakendus vajab toimimiseks JavaScripti. Palun <a href=\"http://enable-javascript.com/\" target=\"_blank\">luba JavaScript</a> ning laadi see leht uuesti.",
 "%s is available. Get more information on how to update." => "%s on saadaval. Vaata lähemalt kuidas uuendada.",
 "Log out" => "Logi välja",
 "Automatic logon rejected!" => "Automaatne sisselogimine lükati tagasi!",

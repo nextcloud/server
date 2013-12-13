@@ -4,6 +4,8 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
+# bobie <maciej.przybecki@gmail.com>, 2013
 # Mariusz Fik <fisiu@opensuse.org>, 2013
 # Michal Plichta <mplichta@gmail.com>, 2013
 # adbrand <pkwiecin@adbrand.pl>, 2013
@@ -11,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-09 12:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-13 14:43-0500\n"
+"PO-Revision-Date: 2013-12-13 14:46+0000\n"
+"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +207,7 @@ msgstr "cofnij"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Błąd podczas usuwania pliku"
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -223,7 +225,7 @@ msgstr[2] "%n plików"
 
 #: js/filelist.js:617
 msgid "{dirs} and {files}"
-msgstr "{katalogi} and {pliki}"
+msgstr "{dirs} and {files}"
 
 #: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
@@ -346,7 +348,7 @@ msgstr "Nowy"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Nowy plik tekstowy"
 
 #: templates/index.php:8
 msgid "Text file"
