@@ -176,8 +176,9 @@ class MDB2SchemaReader {
 					$options['default'] = $default;
 					break;
 				case 'comments':
-					$comment = (string)$child;
-					$options['comment'] = $comment;
+					//FIXME for now we ignore comments https://github.com/doctrine/dbal/pull/407
+					//$comment = (string)$child;
+					//$options['comment'] = $comment;
 					break;
 				case 'primary':
 					$primary = $this->asBool($child);
