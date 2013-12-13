@@ -265,6 +265,7 @@ class OC {
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
 					$minimizerJS->clearCache();
+					OC_Util::addScript('config'); // needed for web root
 					OC_Util::addScript('update');
 					$tmpl = new OC_Template('', 'update.admin', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
