@@ -38,6 +38,11 @@ class User {
 	private $emitter;
 
 	/**
+	 * @var string $home
+	 */
+	private $home;
+
+	/**
 	 * @param string $uid
 	 * @param \OC_User_Backend $backend
 	 * @param Emitter $emitter
@@ -133,10 +138,14 @@ class User {
 	 * @return string
 	 */
 	public function getHome() {
-		if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
-			return $home;
+		if (!$this->home) {
+			if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+				$this->home = $home;
+			} else {
+				$this->home = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
+			}
 		}
-		return \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
+		return $this->home;
 	}
 
 	/**
@@ -145,7 +154,7 @@ class User {
 	 * @return bool
 	 */
 	public function canChangeAvatar() {
-		if($this->backend->implementsActions(\OC_USER_BACKEND_PROVIDE_AVATAR)) {
+		if ($this->backend->implementsActions(\OC_USER_BACKEND_PROVIDE_AVATAR)) {
 			return $this->backend->canChangeAvatar($this->uid);
 		}
 		return true;
