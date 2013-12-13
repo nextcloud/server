@@ -15,7 +15,7 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 
 class View extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage[] $storages;
+	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
 
@@ -472,5 +472,35 @@ class View extends \PHPUnit_Framework_TestCase {
 			array('', ''),
 			array('', '/'),
 		);
+	}
+
+	public function testUTF8Names() {
+		$names = array('虚', '和知しゃ和で', 'regular ascii', 'sɨˈrɪlɪk', 'ѨѬ', 'أنا أحب القراءة كثيرا');
+
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+		foreach ($names as $name) {
+			$rootView->file_put_contents('/' . $name, 'dummy content');
+		}
+
+		$list = $rootView->getDirectoryContent('/');
+
+		$this->assertCount(count($names), $list);
+		foreach ($list as $item) {
+			$this->assertContains($item['name'], $names);
+		}
+
+		$cache = $storage->getCache();
+		$scanner = $storage->getScanner();
+		$scanner->scan('');
+
+		$list = $cache->getFolderContents('');
+
+		$this->assertCount(count($names), $list);
+		foreach ($list as $item) {
+			$this->assertContains($item['name'], $names);
+		}
 	}
 }
