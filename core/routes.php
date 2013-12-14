@@ -23,39 +23,80 @@ $this->create('core_ajax_share', '/core/ajax/share.php')
 // Translations
 $this->create('core_ajax_translations', '/core/ajax/translations.php')
 	->actionInclude('core/ajax/translations.php');
-// VCategories
-$this->create('core_ajax_vcategories_add', '/core/ajax/vcategories/add.php')
-	->actionInclude('core/ajax/vcategories/add.php');
-$this->create('core_ajax_vcategories_delete', '/core/ajax/vcategories/delete.php')
-	->actionInclude('core/ajax/vcategories/delete.php');
-$this->create('core_ajax_vcategories_addtofavorites', '/core/ajax/vcategories/addToFavorites.php')
-	->actionInclude('core/ajax/vcategories/addToFavorites.php');
-$this->create('core_ajax_vcategories_removefromfavorites', '/core/ajax/vcategories/removeFromFavorites.php')
-	->actionInclude('core/ajax/vcategories/removeFromFavorites.php');
-$this->create('core_ajax_vcategories_favorites', '/core/ajax/vcategories/favorites.php')
-	->actionInclude('core/ajax/vcategories/favorites.php');
-$this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
-	->actionInclude('core/ajax/vcategories/edit.php');
+// Tags
+$this->create('core_tags_tags', '/tags/{type}')
+	->get()
+	->action('OC\Core\Tags\Controller', 'getTags')
+	->requirements(array('type'));
+$this->create('core_tags_favorites', '/tags/{type}/favorites')
+	->get()
+	->action('OC\Core\Tags\Controller', 'getFavorites')
+	->requirements(array('type'));
+$this->create('core_tags_ids_for_tag', '/tags/{type}/ids')
+	->get()
+	->action('OC\Core\Tags\Controller', 'getIdsForTag')
+	->requirements(array('type'));
+$this->create('core_tags_favorite', '/tags/{type}/favorite/{id}/')
+	->post()
+	->action('OC\Core\Tags\Controller', 'favorite')
+	->requirements(array('type', 'id'));
+$this->create('core_tags_unfavorite', '/tags/{type}/unfavorite/{id}/')
+	->post()
+	->action('OC\Core\Tags\Controller', 'unFavorite')
+	->requirements(array('type', 'id'));
+$this->create('core_tags_tag', '/tags/{type}/tag/{id}/')
+	->post()
+	->action('OC\Core\Tags\Controller', 'tagAs')
+	->requirements(array('type', 'id'));
+$this->create('core_tags_untag', '/tags/{type}/untag/{id}/')
+	->post()
+	->action('OC\Core\Tags\Controller', 'unTag')
+	->requirements(array('type', 'id'));
+$this->create('core_tags_add', '/tags/{type}/add')
+	->post()
+	->action('OC\Core\Tags\Controller', 'addTag')
+	->requirements(array('type'));
+$this->create('core_tags_delete', '/tags/{type}/delete')
+	->post()
+	->action('OC\Core\Tags\Controller', 'deleteTags')
+	->requirements(array('type'));
 // oC JS config
 $this->create('js_config', '/core/js/config.js')
 	->actionInclude('core/js/config.php');
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
-
-OC::$CLASSPATH['OC_Core_LostPassword_Controller'] = 'core/lostpassword/controller.php';
+$this->create('core_ajax_preview', '/core/preview.png')
+	->actionInclude('core/ajax/preview.php');
 $this->create('core_lostpassword_index', '/lostpassword/')
 	->get()
-	->action('OC_Core_LostPassword_Controller', 'index');
+	->action('OC\Core\LostPassword\Controller', 'index');
 $this->create('core_lostpassword_send_email', '/lostpassword/')
 	->post()
-	->action('OC_Core_LostPassword_Controller', 'sendEmail');
+	->action('OC\Core\LostPassword\Controller', 'sendEmail');
 $this->create('core_lostpassword_reset', '/lostpassword/reset/{token}/{user}')
 	->get()
-	->action('OC_Core_LostPassword_Controller', 'reset');
+	->action('OC\Core\LostPassword\Controller', 'reset');
 $this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{user}')
 	->post()
-	->action('OC_Core_LostPassword_Controller', 'resetPassword');
+	->action('OC\Core\LostPassword\Controller', 'resetPassword');
+
+// Avatar routes
+$this->create('core_avatar_get_tmp', '/avatar/tmp')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getTmpAvatar');
+$this->create('core_avatar_get', '/avatar/{user}/{size}')
+	->get()
+	->action('OC\Core\Avatar\Controller', 'getAvatar');
+$this->create('core_avatar_post', '/avatar/')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postAvatar');
+$this->create('core_avatar_delete', '/avatar/')
+	->delete()
+	->action('OC\Core\Avatar\Controller', 'deleteAvatar');
+$this->create('core_avatar_post_cropped', '/avatar/cropped')
+	->post()
+	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
 
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')

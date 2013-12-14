@@ -90,13 +90,8 @@ namespace OCP {
 		 * @return array of contacts which are arrays of key-value-pairs
 		 */
 		public static function search($pattern, $searchProperties = array(), $options = array()) {
-			$result = array();
-			foreach(self::$address_books as $address_book) {
-				$r = $address_book->search($pattern, $searchProperties, $options);
-				$result = array_merge($result, $r);
-			}
-
-			return $result;
+			$cm = \OC::$server->getContactsManager();
+			return $cm->search($pattern, $searchProperties, $options);
 		}
 
 		/**
@@ -107,14 +102,8 @@ namespace OCP {
 		 * @return bool successful or not
 		 */
 		public static function delete($id, $address_book_key) {
-			if (!array_key_exists($address_book_key, self::$address_books))
-				return null;
-
-			$address_book = self::$address_books[$address_book_key];
-			if ($address_book->getPermissions() & \OCP\PERMISSION_DELETE)
-				return null;
-
-			return $address_book->delete($id);
+			$cm = \OC::$server->getContactsManager();
+			return $cm->delete($id, $address_book_key);
 		}
 
 		/**
@@ -126,15 +115,8 @@ namespace OCP {
 		 * @return array representing the contact just created or updated
 		 */
 		public static function createOrUpdate($properties, $address_book_key) {
-
-			if (!array_key_exists($address_book_key, self::$address_books))
-				return null;
-
-			$address_book = self::$address_books[$address_book_key];
-			if ($address_book->getPermissions() & \OCP\PERMISSION_CREATE)
-				return null;
-
-			return $address_book->createOrUpdate($properties);
+			$cm = \OC::$server->getContactsManager();
+			return $cm->search($properties, $address_book_key);
 		}
 
 		/**
@@ -143,45 +125,40 @@ namespace OCP {
 		 * @return bool true if enabled, false if not
 		 */
 		public static function isEnabled() {
-			return !empty(self::$address_books);
+			$cm = \OC::$server->getContactsManager();
+			return $cm->isEnabled();
 		}
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
 		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
-			self::$address_books[$address_book->getKey()] = $address_book;
+			$cm = \OC::$server->getContactsManager();
+			return $cm->registerAddressBook($address_book);
 		}
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
 		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
-			unset(self::$address_books[$address_book->getKey()]);
+			$cm = \OC::$server->getContactsManager();
+			return $cm->unregisterAddressBook($address_book);
 		}
 
 		/**
 		 * @return array
 		 */
 		public static function getAddressBooks() {
-			$result = array();
-			foreach(self::$address_books as $address_book) {
-				$result[$address_book->getKey()] = $address_book->getDisplayName();
-			}
-
-			return $result;
+			$cm = \OC::$server->getContactsManager();
+			return $cm->getAddressBooks();
 		}
 
 		/**
 		 * removes all registered address book instances
 		 */
 		public static function clear() {
-			self::$address_books = array();
+			$cm = \OC::$server->getContactsManager();
+			$cm->clear();
 		}
-
-		/**
-		 * @var \OCP\IAddressBook[] which holds all registered address books
-		 */
-		private static $address_books = array();
 	}
 }

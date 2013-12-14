@@ -206,14 +206,16 @@ class Google extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
-			while ($file = readdir($dir)) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-					if (!$this->unlink($path.'/'.$file)) {
-						return false;
+			if(is_resource($dir)) {
+				while (($file = readdir($dir)) !== false) {
+					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+						if (!$this->unlink($path.'/'.$file)) {
+							return false;
+						}
 					}
 				}
+				closedir($dir);
 			}
-			closedir($dir);
 			$this->driveFiles = array();
 			return true;
 		} else {
@@ -284,7 +286,7 @@ class Google extends \OC\Files\Storage\Common {
 				// Check if this is a Google Doc
 				if ($this->getMimeType($path) !== $file->getMimeType()) {
 					// Return unknown file size
-					$stat['size'] = \OC\Files\FREE_SPACE_UNKNOWN;
+					$stat['size'] = \OC\Files\SPACE_UNKNOWN;
 				} else {
 					$stat['size'] = $file->getFileSize();
 				}
@@ -313,10 +315,6 @@ class Google extends \OC\Files\Storage\Common {
 				return false;
 			}
 		}
-	}
-
-	public function isReadable($path) {
-		return $this->file_exists($path);
 	}
 
 	public function isUpdatable($path) {

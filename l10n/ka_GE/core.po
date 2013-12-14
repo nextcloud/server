@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -17,49 +17,60 @@ msgstr ""
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "კატეგორიის ტიპი არ არის განხილული."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "არ არის კატეგორია დასამატებლად?"
-
-#: ajax/vcategories/add.php:37
+#: ajax/share.php:169
 #, php-format
-msgid "This category already exists: %s"
-msgstr "კატეგორია უკვე არსებობს: %s"
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
 
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "ობიექტის ტიპი არ არის განხილული."
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr ""
 
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr ""
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr ""
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr ""
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr ""
+
+#: ajax/update.php:26
 #, php-format
-msgid "%s ID not provided."
-msgstr "%s ID არ არის განხილული"
+msgid "... %d%% done ..."
+msgstr ""
 
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "შეცდომა %s–ის ფევორიტებში დამატების დროს."
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
 
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "სარედაქტირებელი კატეგორია არ არის არჩეული "
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
 
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "შეცდომა  %s–ის ფევორიტებიდან წაშლის დროს."
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
 
 #: js/config.php:32
 msgid "Sunday"
@@ -137,234 +148,297 @@ msgstr "ნოემბერი"
 msgid "December"
 msgstr "დეკემბერი"
 
-#: js/js.js:354
+#: js/js.js:387
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:814
+#: js/js.js:858
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 წუთის წინ"
+#: js/js.js:859
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
 
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} წუთის წინ"
+#: js/js.js:860
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
 
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 საათის წინ"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} საათის წინ"
-
-#: js/js.js:819
+#: js/js.js:861
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:820
+#: js/js.js:862
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} დღის წინ"
+#: js/js.js:863
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
 
-#: js/js.js:822
+#: js/js.js:864
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} თვის წინ"
+#: js/js.js:865
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
 
-#: js/js.js:824
+#: js/js.js:866
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:825
+#: js/js.js:867
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:826
+#: js/js.js:868
 msgid "years ago"
 msgstr "წლის წინ"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "არჩევა"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "უარყოფა"
-
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
-msgid "Error loading file picker template"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "კი"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "არა"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "დიახ"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "ობიექტის ტიპი არ არის მითითებული."
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr ""
 
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
-msgid "Error"
-msgstr "შეცდომა"
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] ""
 
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "აპლიკაციის სახელი არ არის მითითებული."
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr ""
 
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "მოთხოვნილი ფაილი  {file} არ არის დაინსტალირებული."
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr ""
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr ""
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "უარყოფა"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr ""
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
+msgstr ""
+
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "გაზიარებული"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "შეცდომა"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "შეცდომა გაზიარების გაუქმების დროს"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "შეცდომა დაშვების ცვლილების დროს"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "გააზიარე შემდეგით:"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "გაუზიარე ლინკით"
+#: js/share.js:219
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "გაგზავნა"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:241
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:243
+#: js/share.js:278
 msgid "No people found"
 msgstr "მომხმარებელი არ არის ნაპოვნი"
 
-#: js/share.js:281
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "ჯგუფი"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:317
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
-#: js/share.js:338
+#: js/share.js:397
 msgid "Unshare"
 msgstr "გაუზიარებადი"
 
-#: js/share.js:350
+#: js/share.js:405
+msgid "notify by email"
+msgstr ""
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:352
+#: js/share.js:410
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:355
+#: js/share.js:413
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:358
+#: js/share.js:416
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:361
+#: js/share.js:419
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:364
+#: js/share.js:422
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:694
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:643
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:655
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:670
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "გაგზავნა ...."
 
-#: js/share.js:681
+#: js/share.js:745
 msgid "Email sent"
 msgstr "იმეილი გაიგზავნა"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "გაფრთხილება"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "ობიექტის ტიპი არ არის მითითებული."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "წაშლა"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "დამატება"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -377,35 +451,36 @@ msgstr "განახლება ვერ განხორციელდ�
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud პაროლის შეცვლა"
+#: lostpassword/controller.php:62
+#, php-format
+msgid "%s password reset"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "მომხმარებლის სახელი"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -413,13 +488,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "პაროლის შეცვლის მოთხოვნა"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -445,7 +520,7 @@ msgstr "პირადი"
 msgid "Users"
 msgstr "მომხმარებელი"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "აპლიკაციები"
 
@@ -456,6 +531,34 @@ msgstr "ადმინისტრატორი"
 #: strings.php:9
 msgid "Help"
 msgstr "დახმარება"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -473,108 +576,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
 msgstr ""
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "კატეგორიების რედაქტირება"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "დამატება"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "უსაფრთხოების გაფრთხილება"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "თქვენი PHP ვერსია შეიცავს საფრთხეს  NULL Byte შეტევებისთვის (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "შემთხვევითი სიმბოლოების გენერატორი არ არსებობს, გთხოვთ ჩართოთ PHP OpenSSL გაფართოება."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "შემთხვევითი სიმბოლოების გენერატორის გარეშე, შემტევმა შეიძლება ამოიცნოს თქვენი პაროლი შეგიცვალოთ ის და დაეუფლოს თქვენს ექაუნთს."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "შექმენი <strong>ადმინ ექაუნტი</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "დამატებითი ფუნქციები"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "მონაცემთა საქაღალდე"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "მონაცემთა ბაზის კონფიგურირება"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "გამოყენებული იქნება"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "მონაცემთა ბაზის მომხმარებელი"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "მონაცემთა ბაზის პაროლი"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "მონაცემთა ბაზის სახელი"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "ბაზის ცხრილის ზომა"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "მონაცემთა ბაზის ჰოსტი"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr ""
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "გამოსვლა"
 
@@ -592,19 +706,27 @@ msgstr "თუ თქვენ არ შეცვლით პაროლს, 
 msgid "Please change your password to secure your account again."
 msgstr "გთხოვთ შეცვალოთ თქვენი პაროლი, თქვენი ანგარიშის დასაცავად."
 
-#: templates/login.php:34
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "დაგავიწყდათ პაროლი?"
 
-#: templates/login.php:39
+#: templates/login.php:49
 msgid "remember"
 msgstr "დამახსოვრება"
 
-#: templates/login.php:41
+#: templates/login.php:52
 msgid "Log in"
 msgstr "შესვლა"
 
-#: templates/login.php:47
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 
@@ -612,18 +734,37 @@ msgstr "ალტერნატიული Login–ი"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
+"href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "წინა"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
 
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "შემდეგი"
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""

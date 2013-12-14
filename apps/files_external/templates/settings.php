@@ -1,8 +1,8 @@
 <form id="files_external">
 	<fieldset class="personalblock">
-	<legend><strong><?php p($l->t('External Storage')); ?></strong></legend>
+	<h2><?php p($l->t('External Storage')); ?></h2>
 		<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
-		<table id="externalStorage" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
+		<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
 			<thead>
 				<tr>
 					<th></th>
@@ -60,7 +60,7 @@
 											   class="optional"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
-											   placeholder="<?php p(substr($placeholder, 5)); ?>" />
+											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
 									<?php elseif (strpos($placeholder, '#') !== false): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"
@@ -138,7 +138,7 @@
 	  enctype="multipart/form-data"
 	  action="<?php p(OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php')); ?>">
 <fieldset class="personalblock">
-		<legend><strong><?php p($l->t('SSL root certificates'));?></strong></legend>
+		<h2><?php p($l->t('SSL root certificates'));?></h2>
 		<table id="sslCertificate" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
 			<tbody width="100%">
 			<?php foreach ($_['certs'] as $rootCert): ?>

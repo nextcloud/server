@@ -16,4 +16,9 @@ $CONFIG = array (
       'writable' => false,
     )
     ),
+
 );
+
+if(substr(strtolower(PHP_OS), 0, 3) == "win") {
+	$CONFIG['openssl'] = array( 'config' => OC::$SERVERROOT.'/tests/data/openssl.cnf');
+}

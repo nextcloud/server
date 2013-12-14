@@ -5,7 +5,7 @@ $(document).ready(function () {
 	});
 	updateEventSource.listen('error', function(message) {
 		$('<span>').addClass('error').append(message).append('<br />').appendTo($('.update'));
-		message = 'Please reload the page.';
+		message = t('core', 'Please reload the page.');
 		$('<span>').addClass('error').append(message).append('<br />').appendTo($('.update'));
 		updateEventSource.close();
 	});

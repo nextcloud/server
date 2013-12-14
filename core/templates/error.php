@@ -1,4 +1,4 @@
-<ul>
+<ul class="error-wide">
 	<?php foreach($_["errors"] as $error):?>
 		<li class='error'>
 			<?php p($error['error']) ?><br/>

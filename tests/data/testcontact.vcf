@@ -1,0 +1,6 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//some random contact software//EN
+N:def;abc;;;
+FN:abc def
+END:VCARD

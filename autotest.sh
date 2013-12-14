@@ -12,6 +12,42 @@ DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
 ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
+DBCONFIGS="sqlite mysql pgsql oci"
+
+function print_syntax {
+	echo -e "Syntax: ./autotest.sh [dbconfigname] [testfile]\n" >&2
+	echo -e "\t\"dbconfigname\" can be one of: $DBCONFIGS" >&2
+	echo -e "\t\"testfile\" is the name of a test file, for example lib/template.php" >&2
+	echo -e "\nExample: ./autotest.sh sqlite lib/template.php" >&2
+	echo "will run the test suite from \"tests/lib/template.php\"" >&2
+	echo -e "\nIf no arguments are specified, all tests will be run with all database configs" >&2
+}
+
+if ! [ -w config -a -w config/config.php ]; then
+	echo "Please enable write permissions on config and config/config.php" >&2
+	exit 1
+fi
+
+if [ $1 ]; then
+	FOUND=0
+	for DBCONFIG in $DBCONFIGS; do
+		if [ $1 = $DBCONFIG ]; then
+			FOUND=1
+			break
+		fi
+	done
+	if [ $FOUND = 0 ]; then
+		echo -e "Unknown database config name \"$1\"\n" >&2
+		print_syntax
+		exit 2
+	fi
+fi
+
+# Back up existing (dev) config if one exists
+if [ -f config/config.php ]; then
+	mv config/config.php config/config-autotest-backup.php
+fi
+
 # use tmpfs for datadir - should speedup unit test execution
 if [ -d /dev/shm ]; then
   DATADIR=/dev/shm/data-autotest$EXECUTOR_NUMBER
@@ -142,10 +178,10 @@ EOF
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
 	php -f enable_all.php
-	if [ "$1" == "sqlite" ] ; then
-		# coverage only with sqlite - causes segfault on ci.tmit.eu - reason unknown
+	if [ -z "$NOCOVERAGE" ]; then
 		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
 	else
+		echo "No coverage"
 		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
 	fi
 }
@@ -155,12 +191,19 @@ EOF
 #
 if [ -z "$1" ]
   then
-	execute_tests 'sqlite'
-	execute_tests 'mysql'
-	execute_tests 'pgsql'
-	execute_tests 'oci'
+	# run all known database configs
+	for DBCONFIG in $DBCONFIGS; do
+		execute_tests $DBCONFIG
+	done
 else
 	execute_tests $1 $2 $3
+fi
+
+cd $BASEDIR
+
+# Restore existing config
+if [ -f config/config-autotest-backup.php ]; then
+	mv config/config-autotest-backup.php config/config.php
 fi
 
 #

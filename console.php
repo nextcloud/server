@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+use Symfony\Component\Console\Application;
+
 $RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 
@@ -20,17 +22,13 @@ if (!OC::$CLI) {
 	exit(0);
 }
 
-if ($argc <= 1) {
-	echo "Usage:" . PHP_EOL;
-	echo " " . basename($argv[0]) . " <command>" . PHP_EOL;
-	exit(0);
+$defaults = new OC_Defaults;
+$application = new Application($defaults->getName(), \OC_Util::getVersionString());
+require_once 'core/register_command.php';
+foreach(OC_App::getAllApps() as $app) {
+	$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
+	if(file_exists($file)) {
+		require $file;
+	}
 }
-
-$command = $argv[1];
-array_shift($argv);
-
-if ($command === 'files:scan') {
-	require_once 'apps/files/console/scan.php';
-} else {
-	echo "Unknown command '$command'" . PHP_EOL;
-}
+$application->run();

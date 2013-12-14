@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-require_once 'smb4php/smb.php';
+require_once __DIR__ . '/../3rdparty/smb4php/smb.php';
 
 class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;
@@ -47,8 +47,13 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 
 	public function constructUrl($path) {
 		if (substr($path, -1)=='/') {
-			$path=substr($path, 0, -1);
+			$path = substr($path, 0, -1);
 		}
+		if (substr($path, 0, 1)=='/') {
+			$path = substr($path, 1);
+		}
+		// remove trailing dots which some versions of samba don't seem to like
+		$path = rtrim($path, '.');
 		$path = urlencode($path);
 		$user = urlencode($this->user);
 		$pass = urlencode($this->password);
@@ -77,6 +82,24 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	/**
+	 * Unlinks file or directory
+	 * @param string @path
+	 */
+	public function unlink($path) {
+		if ($this->is_dir($path)) {
+			$this->rmdir($path);
+		}
+		else {
+			$url = $this->constructUrl($path);
+			unlink($url);
+			clearstatcache(false, $url);
+		}
+		// smb4php still returns false even on success so
+		// check here whether file was really deleted
+		return !file_exists($path);
+	}
+
+	/**
 	 * check if a file or folder has been updated since $time
 	 * @param string $path
 	 * @param int $time
@@ -99,11 +122,13 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	private function shareMTime() {
 		$dh=$this->opendir('');
 		$lastCtime=0;
-		while($file=readdir($dh)) {
-			if ($file!='.' and $file!='..') {
-				$ctime=$this->filemtime($file);
-				if ($ctime>$lastCtime) {
-					$lastCtime=$ctime;
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file!='.' and $file!='..') {
+					$ctime=$this->filemtime($file);
+					if ($ctime>$lastCtime) {
+						$lastCtime=$ctime;
+					}
 				}
 			}
 		}

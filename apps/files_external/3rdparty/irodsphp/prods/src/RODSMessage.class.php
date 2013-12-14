@@ -181,5 +181,3 @@ class RODSMessage
         return $rods_msg->pack();
     }
 }
-
-?>

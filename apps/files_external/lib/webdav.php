@@ -134,14 +134,6 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	public function isReadable($path) {
-		return true;//not properly supported
-	}
-
-	public function isUpdatable($path) {
-		return true;//not properly supported
-	}
-
 	public function file_exists($path) {
 		$this->init();
 		$path=$this->cleanPath($path);
@@ -171,8 +163,9 @@ class DAV extends \OC\Files\Storage\Common{
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');
 				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
-				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$path);
+				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $path));
 				curl_setopt($curl, CURLOPT_FILE, $fp);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 				curl_exec ($curl);
 				curl_close ($curl);
@@ -224,7 +217,7 @@ class DAV extends \OC\Files\Storage\Common{
 				return 0;
 			}
 		} catch(\Exception $e) {
-			return \OC\Files\FREE_SPACE_UNKNOWN;
+			return \OC\Files\SPACE_UNKNOWN;
 		}
 	}
 
@@ -241,6 +234,7 @@ class DAV extends \OC\Files\Storage\Common{
 		} else {
 			$this->file_put_contents($path, '');
 		}
+		return true;
 	}
 
 	public function getFile($path, $target) {
@@ -255,7 +249,7 @@ class DAV extends \OC\Files\Storage\Common{
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
-		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$target);
+		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $target));
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
 		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));
@@ -267,7 +261,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function rename($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -279,7 +273,7 @@ class DAV extends \OC\Files\Storage\Common{
 	public function copy($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
-		$path2=$this->root.$this->cleanPath($path2);
+		$path2=$this->createBaseUri().$this->cleanPath($path2);
 		try {
 			$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -322,11 +316,9 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function cleanPath($path) {
-		if ( ! $path || $path[0]=='/') {
-			return substr($path, 1);
-		} else {
-			return $path;
-		}
+		$path = \OC\Files\Filesystem::normalizePath($path);
+		// remove leading slash
+		return substr($path, 1);
 	}
 
 	private function simpleResponse($method, $path, $body, $expected) {

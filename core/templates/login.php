@@ -1,5 +1,5 @@
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
-<form method="post">
+<form method="post" name="login">
 	<fieldset>
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . OC_Util::sanitizeHTML($_['redirect_url']) . '" />');
@@ -12,6 +12,18 @@
 			<small><?php p($l->t('Please change your password to secure your account again.')); ?></small>
 		</div>
 		<?php endif; ?>
+		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
+			<div class="warning">
+				<?php p($l->t('Server side authentication failed!')); ?><br>
+				<small><?php p($l->t('Please contact your administrator.')); ?></small>
+			</div>
+		<?php endif; ?>
+		<p id="message" class="hidden">
+			<img class="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
+			<span id="messageText"></span>
+			<!-- the following div ensures that the spinner is always inside the #message div -->
+			<div style="clear: both;"></div>
+		</p>
 		<p class="infield grouptop">
 			<input type="text" name="user" id="user" placeholder=""
 				   value="<?php p($_['username']); ?>"<?php p($_['user_autofocus'] ? ' autofocus' : ''); ?>
@@ -21,12 +33,10 @@
 		</p>
 
 		<p class="infield groupbottom">
-			<input type="password" name="password" id="password" value="" data-typetoggle="#show" placeholder=""
+			<input type="password" name="password" id="password" value="" placeholder=""
 				   required<?php p($_['user_autofocus'] ? '' : ' autofocus'); ?> />
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
-			<input type="checkbox" id="show" name="show" />
-			<label for="show"></label>
 		</p>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
@@ -34,9 +44,10 @@
 			<?php p($l->t('Lost your password?')); ?>
 		</a>
 		<?php endif; ?>
-
+		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<input type="checkbox" name="remember_login" value="1" id="remember_login" checked />
 		<label for="remember_login"><?php p($l->t('remember')); ?></label>
+		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>"/>
 	</fieldset>

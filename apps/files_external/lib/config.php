@@ -50,9 +50,9 @@ class OC_Mount_Config {
 				'key' => 'Access Key',
 				'secret' => '*Secret Key',
 				'bucket' => 'Bucket',
-				'hostname' => 'Hostname (optional)',
-				'port' => 'Port (optional)',
-				'region' => 'Region (optional)',
+				'hostname' => '&Hostname (optional)',
+				'port' => '&Port (optional)',
+				'region' => '&Region (optional)',
 				'use_ssl' => '!Enable SSL',
 				'use_path_style' => '!Enable Path Style'));
 
@@ -84,23 +84,35 @@ class OC_Mount_Config {
 				'token' => '#token'),
 				'custom' => 'google');
 
-		$backends['\OC\Files\Storage\SWIFT']=array(
-			'backend' => 'OpenStack Swift',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'token' => '*Token',
-				'root' => '&Root',
-				'secure' => '!Secure ftps://'));
+		if(OC_Mount_Config::checkcurl()) {
+			$backends['\OC\Files\Storage\Swift'] = array(
+				'backend' => 'OpenStack Object Storage',
+				'configuration' => array(
+					'user' => 'Username (required)',
+					'bucket' => 'Bucket (required)',
+					'region' => '&Region (optional for OpenStack Object Storage)',
+					'key' => '*API Key (required for Rackspace Cloud Files)',
+					'tenant' => '&Tenantname (required for OpenStack Object Storage)',
+					'password' => '*Password (required for OpenStack Object Storage)',
+					'service_name' => '&Service Name (required for OpenStack Object Storage)',
+					'url' => '&URL of identity endpoint (required for OpenStack Object Storage)',
+					'timeout' => '&Timeout of HTTP requests in seconds (optional)',
+				)
+			);
+                }
 
-		if(OC_Mount_Config::checksmbclient()) $backends['\OC\Files\Storage\SMB']=array(
-			'backend' => 'SMB / CIFS',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'password' => '*Password',
-				'share' => 'Share',
-				'root' => '&Root'));
+		if (!OC_Util::runningOnWindows()) {
+			if (OC_Mount_Config::checksmbclient()) {
+				$backends['\OC\Files\Storage\SMB'] = array(
+					'backend' => 'SMB / CIFS',
+					'configuration' => array(
+						'host' => 'URL',
+						'user' => 'Username',
+						'password' => '*Password',
+						'share' => 'Share',
+						'root' => '&Root'));
+			}
+		}
 
 		if(OC_Mount_Config::checkcurl()) $backends['\OC\Files\Storage\DAV']=array(
 			'backend' => 'ownCloud / WebDAV',
@@ -232,6 +244,7 @@ class OC_Mount_Config {
 				$storage = new $class($options);
 				return $storage->test();
 			} catch (Exception $exception) {
+				\OCP\Util::logException('files_external', $exception);
 				return false;
 			}
 		}
@@ -254,6 +267,11 @@ class OC_Mount_Config {
 										 $mountType,
 										 $applicable,
 										 $isPersonal = false) {
+		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
+		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
+			// can't mount at root or "Shared" folder
+			return false;
+		}
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
@@ -374,7 +392,7 @@ class OC_Mount_Config {
 		}
 		$result = array();
 		$handle = opendir($path);
-		if ( ! $handle) {
+		if(!is_resource($handle)) {
 			return array();
 		}
 		while (false !== ($file = readdir($handle))) {
@@ -414,9 +432,9 @@ class OC_Mount_Config {
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
 			$output=shell_exec('which smbclient');
-			return (empty($output)?false:true);
+			return !empty($output);
 		}else{
-			return(false);
+			return false;
 		}
 	}
 
@@ -425,9 +443,9 @@ class OC_Mount_Config {
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {
-			return(true);
+			return true;
 		}else{
-			return(false);
+			return false;
 		}
 	}
 
@@ -435,7 +453,7 @@ class OC_Mount_Config {
 	 * check if curl is installed
 	 */
 	public static function checkcurl() {
-		return (function_exists('curl_init'));
+		return function_exists('curl_init');
 	}
 
 	/**
@@ -444,8 +462,10 @@ class OC_Mount_Config {
 	public static function checkDependencies() {
 		$l= new OC_L10N('files_external');
 		$txt='';
-		if(!OC_Mount_Config::checksmbclient()) {
-			$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		if (!OC_Util::runningOnWindows()) {
+			if(!OC_Mount_Config::checksmbclient()) {
+				$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+			}
 		}
 		if(!OC_Mount_Config::checkphpftp()) {
 			$txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
@@ -454,6 +474,6 @@ class OC_Mount_Config {
 			$txt.=$l->t('<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it.').'<br />';
 		}
 
-		return($txt);
+		return $txt;
 	}
 }

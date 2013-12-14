@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-07 19:40+0000\n"
+"POT-Creation-Date: 2013-10-27 02:28-0400\n"
+"PO-Revision-Date: 2013-10-23 16:14+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -23,22 +23,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "Nemožno obnoviť: %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
 msgstr "Verzie"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
 msgstr "Zlyhalo obnovenie súboru {file} na verziu {timestamp}."
 
-#: js/versions.js:79
+#: js/versions.js:86
 msgid "More versions..."
 msgstr "Viac verzií..."
 
-#: js/versions.js:116
+#: js/versions.js:123
 msgid "No other versions available"
 msgstr "Žiadne ďalšie verzie nie sú dostupné"
 
-#: js/versions.js:149
+#: js/versions.js:154
 msgid "Restore"
 msgstr "Obnoviť"

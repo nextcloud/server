@@ -79,11 +79,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		$this->bucket = $params['bucket'];
 		$scheme = ($params['use_ssl'] === 'false') ? 'http' : 'https';
-		$this->test = ( isset($params['test'])) ? true : false;
+		$this->test = isset($params['test']);
 		$this->timeout = ( ! isset($params['timeout'])) ? 15 : $params['timeout'];
-		$params['region'] = ( ! isset($params['region'])) ? 'eu-west-1' : $params['region'];
-		$params['hostname'] = ( !isset($params['hostname'])) ? 's3.amazonaws.com' : $params['hostname'];
-		if (!isset($params['port'])) {
+		$params['region'] = ( ! isset($params['region']) || $params['region'] === '' ) ? 'eu-west-1' : $params['region'];
+		$params['hostname'] = ( !isset($params['hostname']) || $params['hostname'] === '' ) ? 's3.amazonaws.com' : $params['hostname'];
+		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
 		$base_url = $scheme.'://'.$params['hostname'].':'.$params['port'].'/';
@@ -183,17 +183,20 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		$dh = $this->opendir($path);
-		while ($file = readdir($dh)) {
-			if ($file === '.' || $file === '..') {
-				continue;
-			}
 
-			if ($this->is_dir($path . '/' . $file)) {
-				$this->rmdir($path . '/' . $file);
-			} else {
-				$this->unlink($path . '/' . $file);
+		if(is_resource($dh)) {
+			while (($file = readdir($dh)) !== false) {
+				if ($file === '.' || $file === '..') {
+					continue;
+				}
+
+				if ($this->is_dir($path . '/' . $file)) {
+					$this->rmdir($path . '/' . $file);
+				} else {
+					$this->unlink($path . '/' . $file);
+				}
 			}
-               	}
+		}
 
 		try {
 			$result = $this->connection->deleteObject(array(
@@ -295,14 +298,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		return false;
-	}
-
-	public function isReadable($path) {
-		return true;
-	}
-
-	public function isUpdatable($path) {
-		return true;
 	}
 
 	public function unlink($path) {
@@ -464,15 +459,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 
 			$dh = $this->opendir($path1);
-			while ($file = readdir($dh)) {
-				if ($file === '.' || $file === '..') {
-					continue;
-				}
+			if(is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
+					if ($file === '.' || $file === '..') {
+						continue;
+					}
 
-				$source = $path1 . '/' . $file;
-				$target = $path2 . '/' . $file;
-				$this->copy($source, $target);
-                	}
+					$source = $path1 . '/' . $file;
+					$target = $path2 . '/' . $file;
+					$this->copy($source, $target);
+				}
+			}
 		}
 
 		return true;
@@ -510,8 +507,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function test() {
-		$test = $this->s3->get_canonical_user_id();
-		if (isset($test['id']) && $test['id'] != '') {
+		$test = $this->connection->getBucketAcl(array(
+			'Bucket' => $this->bucket,
+		));
+		if (isset($test) && !is_null($test->getPath('Owner/ID'))) {
 			return true;
 		}
 		return false;

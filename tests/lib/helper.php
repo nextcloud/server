@@ -8,40 +8,42 @@
 
 class Test_Helper extends PHPUnit_Framework_TestCase {
 
-	function testHumanFileSize() {
-		$result = OC_Helper::humanFileSize(0);
-		$expected = '0 B';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(1024);
-		$expected = '1 kB';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(10000000);
-		$expected = '9.5 MB';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::humanFileSize(500000000000);
-		$expected = '465.7 GB';
-		$this->assertEquals($result, $expected);
+	/**
+	 * @dataProvider humanFileSizeProvider
+	 */
+	public function testHumanFileSize($expected, $input)
+	{
+		$result = OC_Helper::humanFileSize($input);
+		$this->assertEquals($expected, $result);
 	}
 
-	function testComputerFileSize() {
-		$result = OC_Helper::computerFileSize("0 B");
-		$expected = '0.0';
-		$this->assertEquals($result, $expected);
+	public function humanFileSizeProvider()
+	{
+		return array(
+			array('0 B', 0),
+			array('1 kB', 1024),
+			array('9.5 MB', 10000000),
+			array('465.7 GB', 500000000000),
+			array('454.7 TB', 500000000000000),
+			array('444.1 PB', 500000000000000000),
+		);
+	}
 
-		$result = OC_Helper::computerFileSize("1 kB");
-		$expected = '1024.0';
-		$this->assertEquals($result, $expected);
+	/**
+	 * @dataProvider computerFileSizeProvider
+	 */
+	function testComputerFileSize($expected, $input) {
+		$result = OC_Helper::computerFileSize($input);
+		$this->assertEquals($expected, $result);
+	}
 
-		$result = OC_Helper::computerFileSize("9.5 MB");
-		$expected = '9961472.0';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::computerFileSize("465.7 GB");
-		$expected = '500041567436.8';
-		$this->assertEquals($result, $expected);
+	function computerFileSizeProvider(){
+		return array(
+			array(0.0, "0 B"),
+			array(1024.0, "1 kB"),
+			array(9961472.0, "9.5 MB"),
+			array(500041567436.8, "465.7 GB"),
+		);
 	}
 
 	function testGetMimeType() {
@@ -205,5 +207,40 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			->method('file_exists')
 			->will($this->returnValue(true)); // filename(1) (2) (3).ext exists
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
+	}
+
+	/**
+	 * @dataProvider streamCopyDataProvider
+	 */
+	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
+
+		if (is_string($source)) {
+			$source = fopen($source, 'r');
+		}
+		if (is_string($target)) {
+			$target = fopen($target, 'w');
+		}
+
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+
+		if (is_resource($source)) {
+			fclose($source);
+		}
+		if (is_resource($target)) {
+			fclose($target);
+		}
+
+		$this->assertSame($expectedCount, $count);
+		$this->assertSame($expectedResult, $result);
+	}
+
+
+	function streamCopyDataProvider() {
+		return array(
+			array(0, false, false, false),
+			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
+			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
+			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
+		);
 	}
 }

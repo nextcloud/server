@@ -15,5 +15,3 @@ class RP_CollInp extends RODSPacket
     }
 
 }
-
-?>

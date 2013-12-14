@@ -3,17 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
+# Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # medialabs, 2013
+# kallemooo <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-07 22:26-0500\n"
+"PO-Revision-Date: 2013-12-08 03:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,49 +24,60 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s delade »%s« med dig"
 
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Kategorityp inte angiven."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Ingen kategori att lägga till?"
-
-#: ajax/vcategories/add.php:37
+#: ajax/share.php:169
 #, php-format
-msgid "This category already exists: %s"
-msgstr "Denna kategori finns redan: %s"
+msgid "Couldn't send mail to following users: %s "
+msgstr "Gick inte att skicka e-post till följande användare: %s"
 
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Objekttyp inte angiven."
+#: ajax/update.php:11
+msgid "Turned on maintenance mode"
+msgstr "Aktiverade underhållsläge"
 
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
+#: ajax/update.php:14
+msgid "Turned off maintenance mode"
+msgstr "Deaktiverade underhållsläge"
+
+#: ajax/update.php:17
+msgid "Updated database"
+msgstr "Uppdaterade databasen"
+
+#: ajax/update.php:20
+msgid "Updating filecache, this may take really long..."
+msgstr "Uppdaterar filcache, det kan ta lång tid..."
+
+#: ajax/update.php:23
+msgid "Updated filecache"
+msgstr "Uppdaterade filcache"
+
+#: ajax/update.php:26
 #, php-format
-msgid "%s ID not provided."
-msgstr "%s ID inte angiven."
+msgid "... %d%% done ..."
+msgstr "... %d%% klart ..."
 
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Fel vid tillägg av %s till favoriter."
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr "Ingen bild eller fil har tillhandahållits"
 
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Inga kategorier valda för radering."
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr "Okänd filtyp"
 
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Fel vid borttagning av %s från favoriter."
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr "Ogiltig bild"
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr "Ingen temporär profilbild finns tillgänglig, försök igen"
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr "Ingen beskärdata har angivits"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -141,234 +155,302 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:354
+#: js/js.js:387
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:814
+#: js/js.js:858
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:815
-msgid "1 minute ago"
-msgstr "1 minut sedan"
+#: js/js.js:859
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n minut sedan"
+msgstr[1] "%n minuter sedan"
 
-#: js/js.js:816
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minuter sedan"
+#: js/js.js:860
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n timme sedan"
+msgstr[1] "%n timmar sedan"
 
-#: js/js.js:817
-msgid "1 hour ago"
-msgstr "1 timme sedan"
-
-#: js/js.js:818
-msgid "{hours} hours ago"
-msgstr "{hours} timmar sedan"
-
-#: js/js.js:819
+#: js/js.js:861
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:820
+#: js/js.js:862
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:821
-msgid "{days} days ago"
-msgstr "{days} dagar sedan"
+#: js/js.js:863
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n dag sedan"
+msgstr[1] "%n dagar sedan"
 
-#: js/js.js:822
+#: js/js.js:864
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:823
-msgid "{months} months ago"
-msgstr "{months} månader sedan"
+#: js/js.js:865
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n månad sedan"
+msgstr[1] "%n månader sedan"
 
-#: js/js.js:824
+#: js/js.js:866
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:825
+#: js/js.js:867
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:826
+#: js/js.js:868
 msgid "years ago"
 msgstr "år sedan"
 
-#: js/oc-dialogs.js:117
+#: js/oc-dialogs.js:123
 msgid "Choose"
 msgstr "Välj"
 
-#: js/oc-dialogs.js:122
-msgid "Cancel"
-msgstr "Avbryt"
+#: js/oc-dialogs.js:146
+msgid "Error loading file picker template: {error}"
+msgstr "Fel uppstod för filväljarmall: {error}"
 
-#: js/oc-dialogs.js:141 js/oc-dialogs.js:200
-msgid "Error loading file picker template"
-msgstr "Fel vid inläsning av filväljarens mall"
-
-#: js/oc-dialogs.js:164
+#: js/oc-dialogs.js:172
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:182
 msgid "No"
 msgstr "Nej"
 
-#: js/oc-dialogs.js:185
+#: js/oc-dialogs.js:199
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Objekttypen är inte specificerad."
+#: js/oc-dialogs.js:219
+msgid "Error loading message template: {error}"
+msgstr "Fel uppstod under inläsningen av meddelandemallen: {error}"
 
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:643 js/share.js:655
-msgid "Error"
-msgstr "Fel"
+#: js/oc-dialogs.js:347
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] "{count} filkonflikt"
+msgstr[1] "{count} filkonflikter"
 
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr " Namnet på appen är inte specificerad."
+#: js/oc-dialogs.js:361
+msgid "One file conflict"
+msgstr "En filkonflikt"
 
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Den nödvändiga filen {file} är inte installerad!"
+#: js/oc-dialogs.js:367
+msgid "Which files do you want to keep?"
+msgstr "Vilken fil vill du behålla?"
 
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/oc-dialogs.js:368
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr "Om du väljer båda versionerna kommer de kopierade filerna ha nummer tillagda i filnamnet."
+
+#: js/oc-dialogs.js:376
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: js/oc-dialogs.js:386
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+msgid "(all selected)"
+msgstr "(Alla valda)"
+
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+msgid "({count} selected)"
+msgstr "({count} valda)"
+
+#: js/oc-dialogs.js:457
+msgid "Error loading file exists template"
+msgstr "Fel uppstod filmall existerar"
+
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Delad"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Dela"
 
-#: js/share.js:131 js/share.js:683
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "Fel"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Fel när delning skulle avslutas"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Fel vid ändring av rättigheter"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Delad med dig och gruppen {group} av {owner}"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Delad med dig av {owner}"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "Delad med"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr "Dela med användare eller grupp..."
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "Delad med länk"
+#: js/share.js:219
+msgid "Share link"
+msgstr "Dela länk"
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Lösenordsskydda"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Lösenord"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "Tillåt publik uppladdning"
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "E-posta länk till person"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "Skicka"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Sätt utgångsdatum"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Utgångsdatum"
 
-#: js/share.js:241
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Dela via e-post:"
 
-#: js/share.js:243
+#: js/share.js:278
 msgid "No people found"
 msgstr "Hittar inga användare"
 
-#: js/share.js:281
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "Grupp"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:317
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Delad i {item} med {user}"
 
-#: js/share.js:338
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/share.js:350
+#: js/share.js:405
+msgid "notify by email"
+msgstr "informera via e-post"
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "kan redigera"
 
-#: js/share.js:352
+#: js/share.js:410
 msgid "access control"
 msgstr "åtkomstkontroll"
 
-#: js/share.js:355
+#: js/share.js:413
 msgid "create"
 msgstr "skapa"
 
-#: js/share.js:358
+#: js/share.js:416
 msgid "update"
 msgstr "uppdatera"
 
-#: js/share.js:361
+#: js/share.js:419
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:364
+#: js/share.js:422
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:398 js/share.js:630
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:643
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:655
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:670
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Skickar ..."
 
-#: js/share.js:681
+#: js/share.js:745
 msgid "Email sent"
 msgstr "E-post skickat"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "Varning"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Objekttypen är inte specificerad."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr "Skriv nytt"
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Radera"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Lägg till"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr "Editera taggar"
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr "Fel under laddning utav dialog mall: {fel}"
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr "Inga taggar valda för borttagning."
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -381,35 +463,36 @@ msgstr "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"http
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud."
 
-#: lostpassword/controller.php:60
-msgid "ownCloud password reset"
-msgstr "ownCloud lösenordsåterställning"
+#: lostpassword/controller.php:62
+#, php-format
+msgid "%s password reset"
+msgstr "%s återställ lösenord"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Använd följande länk för att återställa lösenordet: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "Länken för att återställa ditt lösenorden har skickats till din e-postadress<br>Om du inte har erhållit meddelandet inom kort, vänligen kontrollera din skräppost-mapp<br>Om den inte finns där, vänligen kontakta din administratör."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Begäran misslyckades!<br>Är du helt säker på att din e-postadress/användarnamn är korrekt?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du får en länk att återställa ditt lösenord via e-post."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Användarnamn"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -417,13 +500,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Dina filer är krypterade. Om du inte har aktiverat återställningsnyckeln kommer det inte att finnas någon möjlighet att få tillbaka dina filer efter att ditt lösenord har återställts. Om du är osäker, kontakta din systemadministratör innan du fortsätter. Är du verkligen säker på att fortsätta?"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "Ja, jag vill verkligen återställa mitt lösenord nu"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Begär återställning"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "Återställ"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -449,7 +532,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Användare"
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Program"
 
@@ -460,6 +543,34 @@ msgstr "Admin"
 #: strings.php:9
 msgid "Help"
 msgstr "Hjälp"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr "Fel vid laddning utav taggar"
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr "Tagg existerar redan"
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr "Fel vid borttagning utav tagg(ar)"
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr "Fel taggning"
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr "Fel av taggning"
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr "Fel favorisering"
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr "Fel av favorisering "
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -477,108 +588,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\nVi hörs!"
+msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\n"
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Editera kategorier"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr "Utdelningen kommer att upphöra %s."
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Lägg till"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr "Vi höres!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Säkerhetsvarning"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Din version av PHP är sårbar för NULL byte attack (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Var god uppdatera din PHP-installation för att använda %s säkert."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Ingen säker slumptalsgenerator finns tillgänglig. Du bör aktivera PHP OpenSSL-tillägget."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Utan en säker slumptalsgenerator kan angripare få möjlighet att förutsäga lösenordsåterställningar och ta över ditt konto."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Din datakatalog och filer är förmodligen tillgängliga från Internet, eftersom .htaccess-filen inte fungerar."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "För information hur du korrekt konfigurerar din servern, se ownCloud <a href=\"%s\" target=\"_blank\">dokumentationen</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Skapa ett <strong>administratörskonto</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Avancerad"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Datamapp"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Konfigurera databasen"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "kommer att användas"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Databasanvändare"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Lösenord till databasen"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Databasnamn"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Databas tabellutrymme"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Databasserver"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Avsluta installation"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr "Avslutar ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera."
 
-#: templates/layout.user.php:66
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Logga ut"
 
@@ -596,19 +718,27 @@ msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara ma
 msgid "Please change your password to secure your account again."
 msgstr "Ändra genast lösenord för att säkra ditt konto."
 
-#: templates/login.php:34
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr "Servern misslyckades med autentisering!"
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr "Kontakta din administratör."
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: templates/login.php:39
+#: templates/login.php:49
 msgid "remember"
 msgstr "kom ihåg"
 
-#: templates/login.php:41
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Logga in"
 
-#: templates/login.php:47
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternativa inloggningar"
 
@@ -616,18 +746,37 @@ msgstr "Alternativa inloggningar"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>Hörs!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>"
 
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr "föregående"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
 
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr "nästa"
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Tack för ditt tålamod."
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Uppdaterar ownCloud till version %s, detta kan ta en stund."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag."
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr "Var god och ladda om denna sida efter en kort stund för att fortsätta använda ownCloud."

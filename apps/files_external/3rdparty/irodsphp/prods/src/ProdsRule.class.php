@@ -58,5 +58,3 @@ class ProdsRule
         return $result;
     }
 }
-
-?>

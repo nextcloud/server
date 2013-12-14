@@ -5,12 +5,13 @@
 # Translators:
 # bmgmatias <bmgmatias@gmail.com>, 2013
 # FernandoMASilva, 2013
+# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-09 12:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -29,213 +30,277 @@ msgstr "Não foi possível mover o ficheiro %s - Já existe um ficheiro com esse
 msgid "Could not move %s"
 msgstr "Não foi possível move o ficheiro %s"
 
-#: ajax/upload.php:16 ajax/upload.php:45
+#: ajax/newfile.php:56 js/files.js:74
+msgid "File name cannot be empty."
+msgstr "O nome do ficheiro não pode estar vazio."
+
+#: ajax/newfile.php:62
+msgid "File name must not contain \"/\". Please choose a different name."
+msgstr ""
+
+#: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
+#, php-format
+msgid ""
+"The name %s is already used in the folder %s. Please choose a different "
+"name."
+msgstr ""
+
+#: ajax/newfile.php:81
+msgid "Not a valid source"
+msgstr ""
+
+#: ajax/newfile.php:94
+#, php-format
+msgid "Error while downloading %s to %s"
+msgstr ""
+
+#: ajax/newfile.php:128
+msgid "Error when creating the file"
+msgstr ""
+
+#: ajax/newfolder.php:21
+msgid "Folder name cannot be empty."
+msgstr ""
+
+#: ajax/newfolder.php:27
+msgid "Folder name must not contain \"/\". Please choose a different name."
+msgstr ""
+
+#: ajax/newfolder.php:56
+msgid "Error when creating the folder"
+msgstr ""
+
+#: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
 msgstr "Não foi possível criar o diretório de upload"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:27
 msgid "Invalid Token"
 msgstr "Token inválido"
 
-#: ajax/upload.php:59
+#: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
 msgstr "Nenhum ficheiro foi carregado. Erro desconhecido"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:71
 msgid "There is no error, the file uploaded with success"
 msgstr "Não ocorreram erros, o ficheiro foi submetido com sucesso"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "O ficheiro enviado excede o limite permitido na directiva do php.ini upload_max_filesize"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:74
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "O tamanho do ficheiro carregado ultrapassa o valor MAX_FILE_SIZE definido no formulário HTML"
 
-#: ajax/upload.php:70
+#: ajax/upload.php:75
 msgid "The uploaded file was only partially uploaded"
 msgstr "O ficheiro seleccionado foi apenas carregado parcialmente"
 
-#: ajax/upload.php:71
+#: ajax/upload.php:76
 msgid "No file was uploaded"
 msgstr "Nenhum ficheiro foi submetido"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:77
 msgid "Missing a temporary folder"
 msgstr "Está a faltar a pasta temporária"
 
-#: ajax/upload.php:73
+#: ajax/upload.php:78
 msgid "Failed to write to disk"
 msgstr "Falhou a escrita no disco"
 
-#: ajax/upload.php:91
+#: ajax/upload.php:96
 msgid "Not enough storage available"
 msgstr "Não há espaço suficiente em disco"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:127 ajax/upload.php:154
+msgid "Upload failed. Could not get file info."
+msgstr "O carregamento falhou. Não foi possível obter a informação do ficheiro."
+
+#: ajax/upload.php:144
+msgid "Upload failed. Could not find uploaded file"
+msgstr ""
+
+#: ajax/upload.php:172
 msgid "Invalid directory."
 msgstr "Directório Inválido"
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/file-upload.js:11
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Não é possível fazer o envio do ficheiro devido a ser uma pasta ou ter 0 bytes"
+#: js/file-upload.js:228
+msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
+msgstr ""
 
-#: js/file-upload.js:24
+#: js/file-upload.js:239
 msgid "Not enough space available"
 msgstr "Espaço em disco insuficiente!"
 
-#: js/file-upload.js:64
+#: js/file-upload.js:306
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:167 js/files.js:266
+#: js/file-upload.js:344
+msgid "Could not get result from server."
+msgstr "Não foi possível obter o resultado do servidor."
+
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Envio de ficheiro em progresso. Irá cancelar o envio se sair da página agora."
 
-#: js/file-upload.js:233 js/files.js:339
-msgid "URL cannot be empty."
-msgstr "O URL não pode estar vazio."
+#: js/file-upload.js:523
+msgid "URL cannot be empty"
+msgstr ""
 
-#: js/file-upload.js:238 lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Nome da pasta inválido. Palavra 'Shared' é reservado pela ownCloud"
+#: js/file-upload.js:527 js/filelist.js:377
+msgid "In the home folder 'Shared' is a reserved filename"
+msgstr ""
 
-#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
-#: js/files.js:693 js/files.js:731
-msgid "Error"
-msgstr "Erro"
+#: js/file-upload.js:529 js/filelist.js:379
+msgid "{new_name} already exists"
+msgstr "O nome {new_name} já existe"
 
-#: js/fileactions.js:116
+#: js/file-upload.js:595
+msgid "Could not create file"
+msgstr ""
+
+#: js/file-upload.js:611
+msgid "Could not create folder"
+msgstr ""
+
+#: js/fileactions.js:125
 msgid "Share"
 msgstr "Partilhar"
 
-#: js/fileactions.js:126
+#: js/fileactions.js:137
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
-
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "Eliminar"
 
 #: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:303 js/filelist.js:305
-msgid "{new_name} already exists"
-msgstr "O nome {new_name} já existe"
+#: js/filelist.js:405
+msgid "Could not rename file"
+msgstr ""
 
-#: js/filelist.js:303 js/filelist.js:305
-msgid "replace"
-msgstr "substituir"
-
-#: js/filelist.js:303
-msgid "suggest name"
-msgstr "sugira um nome"
-
-#: js/filelist.js:303 js/filelist.js:305
-msgid "cancel"
-msgstr "cancelar"
-
-#: js/filelist.js:350
+#: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
 msgstr "substituido {new_name} por {old_name}"
 
-#: js/filelist.js:350
+#: js/filelist.js:539
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "Executar a tarefa de apagar"
+#: js/filelist.js:591
+msgid "Error deleting file."
+msgstr ""
 
-#: js/filelist.js:458
-msgid "1 file uploading"
-msgstr "A enviar 1 ficheiro"
+#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] "%n pasta"
+msgstr[1] "%n pastas"
 
-#: js/filelist.js:461 js/filelist.js:519
-msgid "files uploading"
-msgstr "A enviar os ficheiros"
+#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n ficheiro"
+msgstr[1] "%n ficheiros"
 
-#: js/files.js:52
+#: js/filelist.js:617
+msgid "{dirs} and {files}"
+msgstr "{dirs} e {files}"
+
+#: js/filelist.js:828 js/filelist.js:866
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] "A carregar %n ficheiro"
+msgstr[1] "A carregar %n ficheiros"
+
+#: js/files.js:72
 msgid "'.' is an invalid file name."
 msgstr "'.' não é um nome de ficheiro válido!"
 
-#: js/files.js:56
-msgid "File name cannot be empty."
-msgstr "O nome do ficheiro não pode estar vazio."
-
-#: js/files.js:64
+#: js/files.js:81
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
-#: js/files.js:78
+#: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "O seu armazenamento está cheio, os ficheiros não podem ser sincronizados."
 
-#: js/files.js:82
+#: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "O seu espaço de armazenamento está quase cheiro ({usedSpacePercent}%)"
 
-#: js/files.js:231
+#: js/files.js:110
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:114
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:118
+msgid ""
+"Encryption was disabled but your files are still encrypted. Please go to "
+"your personal settings to decrypt your files."
+msgstr "A encriptação foi desactivada mas os seus ficheiros continuam encriptados.  Por favor consulte as suas definições pessoais para desencriptar os ficheiros."
+
+#: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "O seu download está a ser preparado. Este processo pode demorar algum tempo se os ficheiros forem grandes."
 
-#: js/files.js:344
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "Nome de pasta inválido. O Uso de 'shared' é reservado para o ownCloud"
+#: js/files.js:558 js/files.js:596
+msgid "Error moving file"
+msgstr "Erro ao mover o ficheiro"
 
-#: js/files.js:744 templates/index.php:67
+#: js/files.js:558 js/files.js:596
+msgid "Error"
+msgstr "Erro"
+
+#: js/files.js:613 templates/index.php:56
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:745 templates/index.php:78
+#: js/files.js:614 templates/index.php:68
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:746 templates/index.php:80
+#: js/files.js:615 templates/index.php:70
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 pasta"
+#: lib/app.php:60
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} pastas"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 ficheiro"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} ficheiros"
-
-#: lib/app.php:73
+#: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s não pode ser renomeada"
 
-#: lib/helper.php:11 templates/index.php:18
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "Carregar"
 
@@ -271,79 +336,71 @@ msgstr "Tamanho máximo para ficheiros ZIP"
 msgid "Save"
 msgstr "Guardar"
 
-#: templates/index.php:7
+#: templates/index.php:5
 msgid "New"
 msgstr "Novo"
 
-#: templates/index.php:10
+#: templates/index.php:8
+msgid "New text file"
+msgstr ""
+
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Ficheiro de texto"
 
-#: templates/index.php:12
+#: templates/index.php:10
+msgid "New folder"
+msgstr "Nova Pasta"
+
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Pasta"
 
-#: templates/index.php:14
+#: templates/index.php:12
 msgid "From link"
 msgstr "Da ligação"
 
-#: templates/index.php:41
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "Ficheiros eliminados"
 
-#: templates/index.php:46
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "Cancelar envio"
 
-#: templates/index.php:52
-msgid "You don’t have write permissions here."
-msgstr "Não tem permissões de escrita aqui."
+#: templates/index.php:40
+msgid "You don’t have permission to upload or create files here"
+msgstr ""
 
-#: templates/index.php:59
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "Vazio. Envie alguma coisa!"
 
-#: templates/index.php:73
+#: templates/index.php:62
 msgid "Download"
 msgstr "Transferir"
 
-#: templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "Deixar de partilhar"
+#: templates/index.php:73 templates/index.php:74
+msgid "Delete"
+msgstr "Eliminar"
 
-#: templates/index.php:105
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Upload muito grande"
 
-#: templates/index.php:107
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor."
 
-#: templates/index.php:112
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Os ficheiros estão a ser analisados, por favor aguarde."
 
-#: templates/index.php:115
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Análise actual"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr "diretório"
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr "diretórios"
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "ficheiro"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "ficheiros"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

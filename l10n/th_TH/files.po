@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-09 12:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -27,213 +27,274 @@ msgstr "ไม่สามารถย้าย %s ได้ - ไฟล์ท�
 msgid "Could not move %s"
 msgstr "ไม่สามารถย้าย %s ได้"
 
-#: ajax/upload.php:16 ajax/upload.php:45
+#: ajax/newfile.php:56 js/files.js:74
+msgid "File name cannot be empty."
+msgstr "ชื่อไฟล์ไม่สามารถเว้นว่างได้"
+
+#: ajax/newfile.php:62
+msgid "File name must not contain \"/\". Please choose a different name."
+msgstr ""
+
+#: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
+#, php-format
+msgid ""
+"The name %s is already used in the folder %s. Please choose a different "
+"name."
+msgstr ""
+
+#: ajax/newfile.php:81
+msgid "Not a valid source"
+msgstr ""
+
+#: ajax/newfile.php:94
+#, php-format
+msgid "Error while downloading %s to %s"
+msgstr ""
+
+#: ajax/newfile.php:128
+msgid "Error when creating the file"
+msgstr ""
+
+#: ajax/newfolder.php:21
+msgid "Folder name cannot be empty."
+msgstr ""
+
+#: ajax/newfolder.php:27
+msgid "Folder name must not contain \"/\". Please choose a different name."
+msgstr ""
+
+#: ajax/newfolder.php:56
+msgid "Error when creating the folder"
+msgstr ""
+
+#: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:27
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:59
+#: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
 msgstr "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:71
 msgid "There is no error, the file uploaded with success"
 msgstr "ไม่พบข้อผิดพลาดใดๆ, ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "ขนาดไฟล์ที่อัพโหลดมีขนาดเกิน upload_max_filesize ที่ระบุไว้ใน php.ini"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:74
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดไฟล์ใหญ่เกินจำนวนที่กำหนดไว้ในคำสั่ง MAX_FILE_SIZE ที่ถูกระบุไว้ในรูปแบบของ HTML"
 
-#: ajax/upload.php:70
+#: ajax/upload.php:75
 msgid "The uploaded file was only partially uploaded"
 msgstr "ไฟล์ถูกอัพโหลดได้เพียงบางส่วนเท่านั้น"
 
-#: ajax/upload.php:71
+#: ajax/upload.php:76
 msgid "No file was uploaded"
 msgstr "ไม่มีไฟล์ที่ถูกอัพโหลด"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:77
 msgid "Missing a temporary folder"
 msgstr "โฟลเดอร์ชั่วคราวเกิดการสูญหาย"
 
-#: ajax/upload.php:73
+#: ajax/upload.php:78
 msgid "Failed to write to disk"
 msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว"
 
-#: ajax/upload.php:91
+#: ajax/upload.php:96
 msgid "Not enough storage available"
 msgstr "เหลือพื้นที่ไม่เพียงสำหรับใช้งาน"
 
-#: ajax/upload.php:123
+#: ajax/upload.php:127 ajax/upload.php:154
+msgid "Upload failed. Could not get file info."
+msgstr ""
+
+#: ajax/upload.php:144
+msgid "Upload failed. Could not find uploaded file"
+msgstr ""
+
+#: ajax/upload.php:172
 msgid "Invalid directory."
 msgstr "ไดเร็กทอรี่ไม่ถูกต้อง"
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/file-upload.js:11
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่ หรือ มีขนาดไฟล์ 0 ไบต์"
+#: js/file-upload.js:228
+msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
+msgstr ""
 
-#: js/file-upload.js:24
+#: js/file-upload.js:239
 msgid "Not enough space available"
 msgstr "มีพื้นที่เหลือไม่เพียงพอ"
 
-#: js/file-upload.js:64
+#: js/file-upload.js:306
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/file-upload.js:167 js/files.js:266
+#: js/file-upload.js:344
+msgid "Could not get result from server."
+msgstr ""
+
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก"
 
-#: js/file-upload.js:233 js/files.js:339
-msgid "URL cannot be empty."
-msgstr "URL ไม่สามารถเว้นว่างได้"
-
-#: js/file-upload.js:238 lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+#: js/file-upload.js:523
+msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:267 js/file-upload.js:283 js/files.js:373 js/files.js:389
-#: js/files.js:693 js/files.js:731
-msgid "Error"
-msgstr "ข้อผิดพลาด"
+#: js/file-upload.js:527 js/filelist.js:377
+msgid "In the home folder 'Shared' is a reserved filename"
+msgstr ""
 
-#: js/fileactions.js:116
+#: js/file-upload.js:529 js/filelist.js:379
+msgid "{new_name} already exists"
+msgstr "{new_name} มีอยู่แล้วในระบบ"
+
+#: js/file-upload.js:595
+msgid "Could not create file"
+msgstr ""
+
+#: js/file-upload.js:611
+msgid "Could not create folder"
+msgstr ""
+
+#: js/fileactions.js:125
 msgid "Share"
 msgstr "แชร์"
 
-#: js/fileactions.js:126
+#: js/fileactions.js:137
 msgid "Delete permanently"
 msgstr ""
-
-#: js/fileactions.js:128 templates/index.php:91 templates/index.php:92
-msgid "Delete"
-msgstr "ลบ"
 
 #: js/fileactions.js:194
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:466
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/filelist.js:303 js/filelist.js:305
-msgid "{new_name} already exists"
-msgstr "{new_name} มีอยู่แล้วในระบบ"
+#: js/filelist.js:405
+msgid "Could not rename file"
+msgstr ""
 
-#: js/filelist.js:303 js/filelist.js:305
-msgid "replace"
-msgstr "แทนที่"
-
-#: js/filelist.js:303
-msgid "suggest name"
-msgstr "แนะนำชื่อ"
-
-#: js/filelist.js:303 js/filelist.js:305
-msgid "cancel"
-msgstr "ยกเลิก"
-
-#: js/filelist.js:350
+#: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
 msgstr "แทนที่ {new_name} ด้วย {old_name} แล้ว"
 
-#: js/filelist.js:350
+#: js/filelist.js:539
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:375
-msgid "perform delete operation"
-msgstr "ดำเนินการตามคำสั่งลบ"
+#: js/filelist.js:591
+msgid "Error deleting file."
+msgstr ""
 
-#: js/filelist.js:458
-msgid "1 file uploading"
-msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
+#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
 
-#: js/filelist.js:461 js/filelist.js:519
-msgid "files uploading"
-msgstr "การอัพโหลดไฟล์"
+#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
 
-#: js/files.js:52
+#: js/filelist.js:617
+msgid "{dirs} and {files}"
+msgstr ""
+
+#: js/filelist.js:828 js/filelist.js:866
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
+
+#: js/files.js:72
 msgid "'.' is an invalid file name."
 msgstr "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง"
 
-#: js/files.js:56
-msgid "File name cannot be empty."
-msgstr "ชื่อไฟล์ไม่สามารถเว้นว่างได้"
-
-#: js/files.js:64
+#: js/files.js:81
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง, '\\', '/', '<', '>', ':', '\"', '|', '?' และ '*' ไม่ได้รับอนุญาตให้ใช้งานได้"
 
-#: js/files.js:78
+#: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "พื้นที่จัดเก็บข้อมูลของคุณเต็มแล้ว ไม่สามารถอัพเดทหรือผสานไฟล์ต่างๆได้อีกต่อไป"
 
-#: js/files.js:82
+#: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "พื้นที่จัดเก็บข้อมูลของคุณใกล้เต็มแล้ว ({usedSpacePercent}%)"
 
-#: js/files.js:231
+#: js/files.js:110
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:114
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:118
+msgid ""
+"Encryption was disabled but your files are still encrypted. Please go to "
+"your personal settings to decrypt your files."
+msgstr ""
+
+#: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "กำลังเตรียมดาวน์โหลดข้อมูล หากไฟล์มีขนาดใหญ่ อาจใช้เวลาสักครู่"
 
-#: js/files.js:344
-msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "ชื่อโฟลเดอร์ไม่ถูกต้อง การใช้งาน 'แชร์' สงวนไว้สำหรับ Owncloud เท่านั้น"
+#: js/files.js:558 js/files.js:596
+msgid "Error moving file"
+msgstr ""
 
-#: js/files.js:744 templates/index.php:67
+#: js/files.js:558 js/files.js:596
+msgid "Error"
+msgstr "ข้อผิดพลาด"
+
+#: js/files.js:613 templates/index.php:56
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:745 templates/index.php:78
+#: js/files.js:614 templates/index.php:68
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:746 templates/index.php:80
+#: js/files.js:615 templates/index.php:70
 msgid "Modified"
 msgstr "แก้ไขแล้ว"
 
-#: js/files.js:763
-msgid "1 folder"
-msgstr "1 โฟลเดอร์"
+#: lib/app.php:60
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr ""
 
-#: js/files.js:765
-msgid "{count} folders"
-msgstr "{count} โฟลเดอร์"
-
-#: js/files.js:773
-msgid "1 file"
-msgstr "1 ไฟล์"
-
-#: js/files.js:775
-msgid "{count} files"
-msgstr "{count} ไฟล์"
-
-#: lib/app.php:73
+#: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
 msgstr ""
 
-#: lib/helper.php:11 templates/index.php:18
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "อัพโหลด"
 
@@ -269,79 +330,71 @@ msgstr "ขนาดไฟล์ ZIP สูงสุด"
 msgid "Save"
 msgstr "บันทึก"
 
-#: templates/index.php:7
+#: templates/index.php:5
 msgid "New"
 msgstr "อัพโหลดไฟล์ใหม่"
 
-#: templates/index.php:10
+#: templates/index.php:8
+msgid "New text file"
+msgstr ""
+
+#: templates/index.php:8
 msgid "Text file"
 msgstr "ไฟล์ข้อความ"
 
-#: templates/index.php:12
+#: templates/index.php:10
+msgid "New folder"
+msgstr ""
+
+#: templates/index.php:10
 msgid "Folder"
 msgstr "แฟ้มเอกสาร"
 
-#: templates/index.php:14
+#: templates/index.php:12
 msgid "From link"
 msgstr "จากลิงก์"
 
-#: templates/index.php:41
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr ""
 
-#: templates/index.php:46
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "ยกเลิกการอัพโหลด"
 
-#: templates/index.php:52
-msgid "You don’t have write permissions here."
+#: templates/index.php:40
+msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/index.php:59
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!"
 
-#: templates/index.php:73
+#: templates/index.php:62
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "ยกเลิกการแชร์"
+#: templates/index.php:73 templates/index.php:74
+msgid "Delete"
+msgstr "ลบ"
 
-#: templates/index.php:105
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป"
 
-#: templates/index.php:107
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: templates/index.php:112
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."
 
-#: templates/index.php:115
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"
-
-#: templates/part.list.php:74
-msgid "directory"
-msgstr ""
-
-#: templates/part.list.php:76
-msgid "directories"
-msgstr ""
-
-#: templates/part.list.php:85
-msgid "file"
-msgstr "ไฟล์"
-
-#: templates/part.list.php:87
-msgid "files"
-msgstr "ไฟล์"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

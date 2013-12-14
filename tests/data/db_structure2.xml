@@ -75,4 +75,47 @@
 
  </table>
 
+ <table>
+  <name>*dbprefix*timestamp</name>
+  <declaration>
+   <field>
+    <name>id</name>
+    <autoincrement>1</autoincrement>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>timestamptest</name>
+    <type>timestamp</type>
+    <default></default>
+    <notnull>false</notnull>
+   </field>
+  </declaration>
+ </table>
+
+ <table>
+  <name>*dbprefix*decimal</name>
+  <declaration>
+   <field>
+    <name>id</name>
+    <autoincrement>1</autoincrement>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>decimaltest</name>
+    <type>decimal</type>
+    <default/>
+    <notnull>true</notnull>
+    <length>15</length>
+   </field>
+  </declaration>
+ </table>
+
 </database>

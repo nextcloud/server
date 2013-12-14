@@ -43,8 +43,8 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$users = $group->getUsers();
 
 		$this->assertEquals(2, count($users));
-		$user1 = $users[0];
-		$user2 = $users[1];
+		$user1 = $users['user1'];
+		$user2 = $users['user2'];
 		$this->assertEquals('user1', $user1->getUID());
 		$this->assertEquals('user2', $user2->getUID());
 	}
@@ -68,9 +68,9 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$users = $group->getUsers();
 
 		$this->assertEquals(3, count($users));
-		$user1 = $users[0];
-		$user2 = $users[1];
-		$user3 = $users[2];
+		$user1 = $users['user1'];
+		$user2 = $users['user2'];
+		$user3 = $users['user3'];
 		$this->assertEquals('user1', $user1->getUID());
 		$this->assertEquals('user2', $user2->getUID());
 		$this->assertEquals('user3', $user3->getUID());

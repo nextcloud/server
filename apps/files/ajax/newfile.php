@@ -20,15 +20,6 @@ if($source) {
 	OC_JSON::callCheck();
 }
 
-if($filename == '') {
-	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
-	exit();
-}
-if(strpos($filename, '/')!==false) {
-	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
-	exit();
-}
-
 function progress($notification_code, $severity, $message, $message_code, $bytes_transferred, $bytes_max) {
 	static $filesize = 0;
 	static $lastsize = 0;
@@ -44,7 +35,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 				if (!isset($filesize)) {
 				} else {
 					$progress = (int)(($bytes_transferred/$filesize)*100);
-					if($progress>$lastsize) {//limit the number or messages send
+					if($progress>$lastsize) { //limit the number or messages send
 						$eventSource->send('progress', $progress);
 					}
 					$lastsize=$progress;
@@ -54,41 +45,84 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
+$l10n = \OC_L10n::get('files');
+
+$result = array(
+	'success' 	=> false,
+	'data'		=> NULL
+	);
+
+if(trim($filename) === '') {
+	$result['data'] = array('message' => $l10n->t('File name cannot be empty.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+if(strpos($filename, '/') !== false) {
+	$result['data'] = array('message' => $l10n->t('File name must not contain "/". Please choose a different name.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+//TODO why is stripslashes used on foldername in newfolder.php but not here?
+$target = $dir.'/'.$filename;
+
+if (\OC\Files\Filesystem::file_exists($target)) {
+	$result['data'] = array('message' => $l10n->t(
+			'The name %s is already used in the folder %s. Please choose a different name.',
+			array($filename, $dir))
+		);
+	OCP\JSON::error($result);
+	exit();
+}
+
 if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
-		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
+		OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Not a valid source') )));
 		exit();
 	}
 
 	$ctx = stream_context_create(null, array('notification' =>'progress'));
 	$sourceStream=fopen($source, 'rb', false, $ctx);
-	$target=$dir.'/'.$filename;
 	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$mime=$meta['mimetype'];
 		$id = $meta['fileid'];
-		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id));
+		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id, 'etag' => $meta['etag']));
 	} else {
-		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
+		$eventSource->send('error', $l10n->t('Error while downloading %s to %s', array($source, $target)));
 	}
 	$eventSource->close();
 	exit();
 } else {
+	$success = false;
+	if (!$content) {
+		$templateManager = OC_Helper::getFileTemplateManager();
+		$mimeType = OC_Helper::getMimetypeDetector()->detectPath($target);
+		$content = $templateManager->getTemplate($mimeType);
+	}
+
 	if($content) {
-		if(\OC\Files\Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
-			$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
-			$id = $meta['fileid'];
-			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
-			exit();
-		}
-	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
-		$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
+		$success = \OC\Files\Filesystem::file_put_contents($target, $content);
+	} else {
+		$success = \OC\Files\Filesystem::touch($target);
+	}
+
+	if($success) {
+		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$id = $meta['fileid'];
-		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id, 'mime' => $meta['mimetype'])));
+		$mime = $meta['mimetype'];
+		$size = $meta['size'];
+		OCP\JSON::success(array('data' => array(
+			'id' => $id,
+			'mime' => $mime,
+			'size' => $size,
+			'content' => $content,
+			'etag' => $meta['etag'],
+		)));
 		exit();
 	}
 }
 
-
-OCP\JSON::error(array("data" => array( "message" => "Error when creating the file" )));
+OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Error when creating the file') )));

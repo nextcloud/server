@@ -23,6 +23,8 @@
 
 namespace OCA\user_ldap;
 
+use OCA\user_ldap\lib\ILDAPWrapper;
+
 class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	private $backends = array();
 	private $refBackend = null;
@@ -31,12 +33,11 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	 * @brief Constructor
 	 * @param $serverConfigPrefixes array containing the config Prefixes
 	 */
-	public function __construct($serverConfigPrefixes) {
-		parent::__construct();
+	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
+		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
-		    $this->backends[$configPrefix] = new \OCA\user_ldap\GROUP_LDAP();
-		    $connector = $this->getConnector($configPrefix);
-			$this->backends[$configPrefix]->setConnector($connector);
+		    $this->backends[$configPrefix] =
+				new \OCA\user_ldap\GROUP_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
@@ -66,16 +67,17 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	 * @param $gid string, the gid connected to the request
 	 * @param $method string, the method of the group backend that shall be called
 	 * @param $parameters an array of parameters to be passed
+	 * @param $passOnWhen the result matches this variable
 	 * @return mixed, the result of the method or false
 	 */
-	protected function callOnLastSeenOn($gid, $method, $parameters) {
+	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getGroupCacheKey($gid);;
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
 		if(!is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
 				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
-				if(!$result) {
+				if($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
 					$groupExists = call_user_func_array(

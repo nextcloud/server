@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Authentication error" => "Error d'autentificacion",
 "Group already exists" => "Lo grop existís ja",
 "Unable to add group" => "Pas capable d'apondre  un grop",
-"Could not enable app. " => "Pòt pas activar app. ",
 "Email saved" => "Corrièl enregistrat",
 "Invalid email" => "Corrièl incorrècte",
 "Unable to delete group" => "Pas capable d'escafar un grop",

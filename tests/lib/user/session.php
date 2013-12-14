@@ -52,19 +52,26 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 	public function testLoginValidPasswordEnabled() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
-		$session->expects($this->once())
+		$session->expects($this->exactly(2))
 			->method('set')
-			->with('user_id', 'foo');
+			->with($this->callback(function($key) {
+						switch($key) {
+							case 'user_id':
+							case 'loginname':
+								return true;
+								break;
+							default:
+								return false;
+								break;
+						}
+					},
+					'foo'));
 
 		$manager = $this->getMock('\OC\User\Manager');
 
 		$backend = $this->getMock('OC_User_Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->once())
-			->method('checkPassword')
-			->with('bar')
-			->will($this->returnValue(true));
 		$user->expects($this->once())
 			->method('isEnabled')
 			->will($this->returnValue(true));
@@ -73,8 +80,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue('foo'));
 
 		$manager->expects($this->once())
-			->method('get')
-			->with('foo')
+			->method('checkPassword')
+			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
 		$userSession = new \OC\User\Session($manager, $session);
@@ -93,16 +100,12 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->once())
-			->method('checkPassword')
-			->with('bar')
-			->will($this->returnValue(true));
-		$user->expects($this->once())
 			->method('isEnabled')
 			->will($this->returnValue(false));
 
 		$manager->expects($this->once())
-			->method('get')
-			->with('foo')
+			->method('checkPassword')
+			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
 		$userSession = new \OC\User\Session($manager, $session);
@@ -119,17 +122,13 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$backend = $this->getMock('OC_User_Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->once())
-			->method('checkPassword')
-			->with('bar')
-			->will($this->returnValue(false));
 		$user->expects($this->never())
 			->method('isEnabled');
 
 		$manager->expects($this->once())
-			->method('get')
-			->with('foo')
-			->will($this->returnValue($user));
+			->method('checkPassword')
+			->with('foo', 'bar')
+			->will($this->returnValue(false));
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
@@ -145,9 +144,9 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$backend = $this->getMock('OC_User_Dummy');
 
 		$manager->expects($this->once())
-			->method('get')
-			->with('foo')
-			->will($this->returnValue(null));
+			->method('checkPassword')
+			->with('foo', 'bar')
+			->will($this->returnValue(false));
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');

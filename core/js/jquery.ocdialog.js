@@ -13,7 +13,7 @@
 			this.originalCss = {
 				display: this.element[0].style.display,
 				width: this.element[0].style.width,
-				height: this.element[0].style.height,
+				height: this.element[0].style.height
 			};
 
 			this.originalTitle = this.element.attr('title');
@@ -39,7 +39,8 @@
 					return;
 				}
 				// Escape
-				if(event.keyCode === 27 && self.options.closeOnEscape) {
+				if(event.keyCode === 27 && event.type === 'keydown' && self.options.closeOnEscape) {
+					event.stopImmediatePropagation();
 					self.close();
 					return false;
 				}
@@ -83,24 +84,28 @@
 			var self = this;
 			switch(key) {
 				case 'title':
-					var $title = $('<h3 class="oc-dialog-title">' + this.options.title
-						+ '</h3>'); //<hr class="oc-dialog-separator" />');
 					if(this.$title) {
-						this.$title.replaceWith($title);
+						this.$title.text(value);
 					} else {
+						var $title = $('<h3 class="oc-dialog-title">'
+							+ value
+							+ '</h3>');
 						this.$title = $title.prependTo(this.$dialog);
 					}
 					this._setSizes();
 					break;
 				case 'buttons':
-					var $buttonrow = $('<div class="oc-dialog-buttonrow" />');
 					if(this.$buttonrow) {
-						this.$buttonrow.replaceWith($buttonrow);
+						this.$buttonrow.empty();
 					} else {
+						var $buttonrow = $('<div class="oc-dialog-buttonrow" />');
 						this.$buttonrow = $buttonrow.appendTo(this.$dialog);
 					}
 					$.each(value, function(idx, val) {
 						var $button = $('<button>').text(val.text);
+						if (val.classes) {
+							$button.addClass(val.classes);
+						}
 						if(val.defaultButton) {
 							$button.addClass('primary');
 							self.$defaultButton = $button;
@@ -124,6 +129,8 @@
 						$closeButton.on('click', function() {
 							self.close();
 						});
+					} else {
+						this.$dialog.find('.oc-dialog-close').remove();
 					}
 					break;
 				case 'width':
@@ -152,7 +159,7 @@
 				content_height -= this.$buttonrow.outerHeight(true);
 			}
 			this.parent = this.$dialog.parent().length > 0 ? this.$dialog.parent() : $('body');
-			content_height = Math.min(content_height, this.parent.height()-20)
+			content_height = Math.min(content_height, this.parent.height()-20);
 			this.element.css({
 				height: content_height + 'px',
 				width: this.$dialog.innerWidth()-20 + 'px'
@@ -187,7 +194,7 @@
 			}
 		},
 		widget: function() {
-			return this.$dialog
+			return this.$dialog;
 		},
 		close: function() {
 			this._destroyOverlay();
@@ -200,10 +207,10 @@
 		},
 		destroy: function() {
 			if(this.$title) {
-				this.$title.remove()
+				this.$title.remove();
 			}
 			if(this.$buttonrow) {
-				this.$buttonrow.remove()
+				this.$buttonrow.remove();
 			}
 
 			if(this.originalTitle) {

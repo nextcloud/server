@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-07 12:22+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -18,63 +19,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
-msgid "The password is wrong. Try again."
+msgid "This share is password-protected"
 msgstr ""
 
 #: templates/authenticate.php:7
+msgid "The password is wrong. Try again."
+msgstr "Kodi është i gabuar. Provojeni përsëri."
+
+#: templates/authenticate.php:10
 msgid "Password"
 msgstr "Kodi"
 
-#: templates/authenticate.php:9
-msgid "Submit"
-msgstr "Parashtro"
-
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Ju kërkojmë ndjesë, kjo lidhje duket sikur nuk punon më."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Arsyet mund të jenë:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "elementi është eliminuar"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "lidhja ka skaduar"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "ndarja është çaktivizuar"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "Për më shumë informacione, ju lutem pyesni personin që iu dërgoi këtë lidhje."
 
-#: templates/public.php:15
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s ndau me ju dosjen %s"
 
-#: templates/public.php:18
+#: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s ndau me ju skedarin %s"
 
-#: templates/public.php:26 templates/public.php:88
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Shkarko"
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
 msgstr "Ngarko"
 
-#: templates/public.php:56
+#: templates/public.php:59
 msgid "Cancel upload"
 msgstr "Anulo ngarkimin"
 
-#: templates/public.php:85
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "Shikimi paraprak nuk është i mundur për"
+
+#: templates/public.php:99
+msgid "Direct link"
+msgstr ""

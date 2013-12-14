@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Personal" => "Persona",
 "Settings" => "Agordo",
 "Users" => "Uzantoj",
-"Apps" => "Aplikaĵoj",
 "Admin" => "Administranto",
 "web services under your control" => "TTT-servoj regataj de vi",
 "ZIP download is turned off." => "ZIP-elŝuto estas malkapabligita.",
@@ -34,18 +33,16 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Starigi administran pasvorton.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita.",
 "Please double check the <a href='%s'>installation guides</a>." => "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",
+"Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”",
 "seconds ago" => "sekundoj antaŭe",
-"1 minute ago" => "antaŭ 1 minuto",
-"%d minutes ago" => "antaŭ %d minutoj",
-"1 hour ago" => "antaŭ 1 horo",
-"%d hours ago" => "antaŭ %d horoj",
+"_%n minute ago_::_%n minutes ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("",""),
 "today" => "hodiaŭ",
 "yesterday" => "hieraŭ",
-"%d days ago" => "antaŭ %d tagoj",
+"_%n day go_::_%n days ago_" => array("",""),
 "last month" => "lastamonate",
-"%d months ago" => "antaŭ %d monatoj",
+"_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "lastajare",
-"years ago" => "jaroj antaŭe",
-"Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”"
+"years ago" => "jaroj antaŭe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

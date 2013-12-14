@@ -2,98 +2,119 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
- #dropdown {
- 	background:#eee;
- 	border-bottom-left-radius:1em;
- 	border-bottom-right-radius:1em;
- 	box-shadow:0 1px 1px #777;
- 	display:block;
- 	margin-right:7em;
- 	position:absolute;
- 	right:0;
- 	width:19em;
- 	z-index:500;
- 	padding:1em;
- }
-
- #shareWithList {
- 	list-style-type:none;
- 	padding:.5em;
- }
-
- #shareWithList li {
- 	padding-top:.1em;
- }
- 
- #shareWithList li:first-child {
-	 white-space:normal;
- }
-
- #shareWithList .cruds {
-	 margin-left:-10px;
- }
-
-#shareWithList .unshare img, #shareWithList .showCruds img {
-	vertical-align:text-bottom; /* properly align icons */
+#dropdown {
+	background:#eee;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow:0 1px 1px #777;
+	display:block;
+	margin-right:7em;
+	position:absolute;
+	right:0;
+	width:25em;
+	z-index:500;
+	padding:1em;
 }
 
- #dropdown label {
- 	font-weight:400;
- }
+#shareWithList {
+	list-style-type:none;
+	padding:.5em;
+}
 
- #dropdown input[type="checkbox"] {
- 	margin:0 .2em 0 .5em;
- }
+	#shareWithList li {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		font-weight: bold;
+		line-height: 21px;
+		white-space: normal;
+	}
 
- a.showCruds {
- 	display:inline;
- 	opacity:.5;
- }
+	#shareWithList .unshare img, #shareWithList .showCruds img {
+		vertical-align:text-bottom; /* properly align icons */
+	}
 
- a.unshare {
- 	display:inline;
- 	float:right;
- 	opacity:.5;
- 	padding:.3em 0 0 .3em !important;
+	#shareWithList label input[type=checkbox]{
+		margin-left: 0;
+	}
+	#shareWithList .username{
+		padding-right: .5em;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 254px;
+		display: inline-block;
+		overflow: hidden;
+		vertical-align: middle;
+	}
+	#shareWithList li label{
+		margin-right: .5em;
+	}
+#dropdown label {
+	font-weight:400;
+	white-space: nowrap;
+}
+
+#dropdown input[type="checkbox"] {
+	margin:0 .2em 0 .5em;
+	vertical-align: middle;
+}
+
+a.showCruds {
+	display:inline;
+	opacity:.5;
+}
+
+a.unshare {
+	display:inline;
+	float:right;
+	opacity:.5;
+	padding:.3em 0 0 .3em !important;
 	margin-top:-5px;
- }
+}
 
- #link {
- 	border-top:1px solid #ddd;
- 	padding-top:.5em;
- }
+#link {
+	border-top:1px solid #ddd;
+	padding-top:.5em;
+}
 
 #dropdown input[type="text"],#dropdown input[type="password"] {
-    width:90%;
+	width:90%;
 }
 
 #dropdown form {
-    font-size: 100%;
-    margin-left: 0;
-    margin-right: 0;
+	font-size: 100%;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 #linkText,#linkPass,#expiration {
- 	display:none;
- }
+	display:none;
+}
 
- #link #showPassword img {
- 	padding-left:.3em;
- 	width:12px;
- }
+#link #showPassword img {
+	padding-left:.3em;
+	width:12px;
+}
 
- .reshare,#link label,#expiration label {
- 	padding-left:.5em;
- }
+.reshare,#link label,#expiration label {
+	padding-left:.5em;
+}
 
- a.showCruds:hover,a.unshare:hover {
- 	opacity:1;
- }
+a.showCruds:hover,a.unshare:hover {
+	opacity:1;
+}
 
-.reshare { white-space:normal; } /* fix shared by text going out of box */
+.reshare { /* fix shared by text going out of box */
+	white-space:normal;
+}
 
 .ui-autocomplete { /* limit dropdown height to 4 1/2 entries */
 	max-height:103px;
 	overflow-y:auto;
 	overflow-x:hidden;
+}
+
+.notCreatable {
+	padding-left: 12px;
+	padding-top: 12px;
+	color: #999;
 }

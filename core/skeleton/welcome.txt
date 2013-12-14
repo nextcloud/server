@@ -1,0 +1,5 @@
+Welcome to your ownCloud account!
+
+This is just an example file for developers and git users. 
+The packaged and released versions will come with better examples.
+

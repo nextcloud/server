@@ -6,18 +6,19 @@
 <form action="index.php" method="post">
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
-	<ul class="errors">
+	<fieldset class="warning">
+		<legend><strong><?php p($l->t('Error'));?></strong></legend>
 		<?php foreach($_['errors'] as $err): ?>
-		<li>
+		<p>
 			<?php if(is_array($err)):?>
 				<?php print_unescaped($err['error']); ?>
-				<p class='hint'><?php print_unescaped($err['hint']); ?></p>
+				<span class='hint'><?php print_unescaped($err['hint']); ?></span>
 			<?php else: ?>
 				<?php print_unescaped($err); ?>
 			<?php endif; ?>
-		</li>
+		</p>
 		<?php endforeach; ?>
-	</ul>
+	</fieldset>
 	<?php endif; ?>
 	<?php if($_['vulnerableToNullByte']): ?>
 	<fieldset class="warning">
@@ -39,7 +40,7 @@
 		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
 		<?php print_unescaped($l->t(
 			'For information how to properly configure your server, please see the <a href="%s" target="_blank">documentation</a>.',
-			$theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html'
+			link_to_docs('admin-install')
 		)); ?></p>
 	</fieldset>
 	<?php endif; ?>
@@ -61,8 +62,14 @@
 		</p>
 	</fieldset>
 
+	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
+	<fieldset id="advancedHeader">
+		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+	</fieldset>
+	<?php endif; ?>
+
+	<?php if(!$_['directoryIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret-dark.svg')); ?>" /></a></legend>
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
@@ -70,7 +77,9 @@
 				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
 		</div>
 	</fieldset>
+	<?php endif; ?>
 
+	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id='databaseField'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
@@ -171,6 +180,7 @@
 		</div>
 		<?php endif; ?>
 	</fieldset>
+	<?php endif; ?>
 
-	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" /></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
 </form>

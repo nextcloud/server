@@ -7,6 +7,15 @@ input#openid, input#webdav { width:20em; }
 
 
 /* PERSONAL */
+#rootcert_import {
+	margin: 0 0 10px 0;
+	display: block;
+}
+
+.personalblock input[type="checkbox"] {
+	position: relative;
+	top: 2px;
+}
 
 /* Sync clients */
 .clientsbox { margin:12px; }
@@ -21,16 +30,28 @@ input#openid, input#webdav { width:20em; }
 input#identity { width:20em; }
 #email { width: 17em; }
 
-.msg.success{ color:#fff; background-color:#0f0; padding:3px; text-shadow:1px 1px #000; }
-.msg.error{ color:#fff; background-color:#f00; padding:3px; text-shadow:1px 1px #000; }
+#avatar .warning {
+	width: 350px;
+}
+
+.msg.success {
+	color: #fff;
+	background-color: #47a447;
+	padding: 3px;
+}
+.msg.error {
+	color: #fff;
+	background-color: #d2322d;
+	padding: 3px;
+}
 
 table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 form { display:inline; }
-table:not(.nostyle) th { height:2em; color:#999; }
-table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th { height:2em; color:#999; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
@@ -41,27 +62,44 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
-table:not(.nostyle) { width:100%; }
-#rightcontent { padding-left: 1em; }
-div.quota { float:right; display:block; position:absolute; right:25em; top:-1px; }
+table.grid { width:100%; }
+#rightcontent { padding-left: 10px; }
+div.quota {
+	float: right;
+	display: block;
+}
 div.quota-select-wrapper { position: relative; }
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}
-select.quota { position:absolute; left:0; top:0; width:10em; }
+#controls select.quota {
+	margin: 3px;
+	margin-right: 10px;
+	height: 37px;
+}
 select.quota-user { position:relative; left:0; top:0; width:10em; }
-div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
+div.quota>span {
+	white-space: nowrap;
+	color: #888;
+	text-shadow: 0 1px 0 #fff;
+}
 select.quota.active { background: #fff; }
 
 /* positioning fixes */
-#newuser { position:relative; top:-3px; }
-#newuser .multiselect { top:1px; }
+#newuser .multiselect {
+	min-width: 150px !important;
+}
+#newuser .multiselect,
+#newusergroups + input[type='submit'] {
+	position: relative;
+	top: 1px;
+}
 #headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
 
 .ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
 .ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
 /* APPS */
-.appinfo { margin: 1em; }
+.appinfo { margin: 1em 40px; }
 h3 { font-size: 1.4em; font-weight: bold; }
 ul.applist a {
 	height: 2.2em;
@@ -72,6 +110,12 @@ ul.applist .app-external {
 }
 li { color:#888; }
 li.active { color:#000; }
+#leftcontent .appwarning {
+	background: #fcc;
+}
+#leftcontent .appwarning:hover {
+	background: #fbb;
+}
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
 small.externalapp.list { float: right; }
 small.recommendedapp { color:#FFF; background-color:#888; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
@@ -90,6 +134,9 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 /* LOG */
 #log { white-space:normal; }
 #lessLog { display:none; }
+table.grid td.date{
+	white-space: nowrap;
+}
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }

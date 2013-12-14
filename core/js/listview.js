@@ -11,11 +11,11 @@ ListView.generateTable=function(collumns){
 	html+='<thead>';
 	html+='</head>';
 	html+='<tbody>';
-	html+'<tr class="template">';
+	html+='<tr class="template">';
 	$.each(collumns,function(index,collumn){
 		html+='<th class="'+collumn.toLower()+'"</th>';
 	});
-	html+'</tr>';
+	html+='</tr>';
 	html+='</tbody>';
 	html='</table>';
 	return $(html);

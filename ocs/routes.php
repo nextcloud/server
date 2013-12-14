@@ -21,14 +21,6 @@ OC_API::register(
 	'core',
 	OC_API::GUEST_AUTH
 	);
-// Activity
-OC_API::register(
-	'get',
-	'/activity',
-	array('OC_OCS_Activity', 'activityGet'),
-	'core',
-	OC_API::USER_AUTH
-	); 
 // Privatedata
 OC_API::register(
 	'get',
@@ -75,3 +67,17 @@ OC_API::register(
 	'core',
 	OC_API::USER_AUTH
 	);
+OC_API::register(
+	'get',
+	'/cloud/users/{userid}',
+	array('OC_OCS_Cloud', 'getUser'),
+	'core',
+	OC_API::USER_AUTH
+);
+OC_API::register(
+	'get',
+	'/cloud/user',
+	array('OC_OCS_Cloud', 'getCurrentUser'),
+	'core',
+	OC_API::USER_AUTH
+);

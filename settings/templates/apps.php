@@ -41,5 +41,6 @@
 		print_unescaped($l->t('<span class="licence"></span>-licensed by <span class="author"></span>'));?></p>
 	<input class="enable hidden" type="submit" />
 	<input class="update hidden" type="submit" value="<?php p($l->t('Update')); ?>" />
+	<div class="warning hidden"></div>
 	</div>
 </div>

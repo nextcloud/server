@@ -1,18 +1,21 @@
 <?php
 $TRANSLATIONS = array(
-"No file was uploaded. Unknown error" => "Файл не был загружен. Неизвестная ошибка",
-"There is no error, the file uploaded with success" => "Ошибки нет, файл успешно загружен",
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Размер загружаемого файла превысил максимально допустимый в директиве MAX_FILE_SIZE, специфицированной в HTML-форме",
-"The uploaded file was only partially uploaded" => "Загружаемый файл был загружен лишь частично",
-"No file was uploaded" => "Файл не был загружен",
-"Missing a temporary folder" => "Отсутствие временной папки",
-"Failed to write to disk" => "Не удалось записать на диск",
-"Not enough storage available" => "Недостаточно места в хранилище",
+"File name cannot be empty." => "Имя файла не может быть пустым.",
+"Files" => "Файлы",
 "Share" => "Сделать общим",
-"Delete" => "Удалить",
+"Rename" => "Переименовать",
+"_%n folder_::_%n folders_" => array("","",""),
+"_%n file_::_%n files_" => array("","",""),
+"_Uploading %n file_::_Uploading %n files_" => array("","",""),
+"'.' is an invalid file name." => "'.' является неверным именем файла.",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы.",
 "Error" => "Ошибка",
-"Name" => "Имя",
+"Size" => "Размер",
+"Upload" => "Загрузка",
+"0 is unlimited" => "0 без ограничений",
 "Save" => "Сохранить",
-"Download" => "Загрузка"
+"Cancel upload" => "Отмена загрузки",
+"Download" => "Загрузка",
+"Delete" => "Удалить"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

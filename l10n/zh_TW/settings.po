@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-09 07:59-0400\n"
-"PO-Revision-Date: 2013-08-09 11:21+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,17 +23,17 @@ msgid "Unable to load list from App Store"
 msgstr "無法從 App Store 讀取清單"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20
+#: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
 msgstr "認證錯誤"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "已更改顯示名稱"
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "無法更改顯示名稱"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -42,10 +42,6 @@ msgstr "群組已存在"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "群組增加失敗"
-
-#: ajax/enableapp.php:11
-msgid "Could not enable app. "
-msgstr "未能啟動此app"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -89,39 +85,88 @@ msgstr "使用者移出群組 %s 錯誤"
 msgid "Couldn't update app."
 msgstr "無法更新應用程式"
 
-#: js/apps.js:35
+#: changepassword/controller.php:20
+msgid "Wrong password"
+msgstr "密碼錯誤"
+
+#: changepassword/controller.php:42
+msgid "No user supplied"
+msgstr "未提供使用者"
+
+#: changepassword/controller.php:74
+msgid ""
+"Please provide an admin recovery password, otherwise all user data will be "
+"lost"
+msgstr "請提供管理者還原密碼，否則會遺失所有使用者資料"
+
+#: changepassword/controller.php:79
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
+msgstr "錯誤的管理者還原密碼"
+
+#: changepassword/controller.php:87
+msgid ""
+"Back-end doesn't support password change, but the users encryption key was "
+"successfully updated."
+msgstr "後端不支援變更密碼，但成功更新使用者的加密金鑰"
+
+#: changepassword/controller.php:92 changepassword/controller.php:103
+msgid "Unable to change password"
+msgstr "無法修改密碼"
+
+#: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "更新至 {appversion}"
 
-#: js/apps.js:41 js/apps.js:81
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "停用"
 
-#: js/apps.js:41 js/apps.js:69 js/apps.js:88
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "啟用"
 
-#: js/apps.js:60
+#: js/apps.js:71
 msgid "Please wait...."
 msgstr "請稍候..."
 
-#: js/apps.js:64 js/apps.js:76 js/apps.js:85 js/apps.js:98
-msgid "Error"
-msgstr "錯誤"
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
+msgid "Error while disabling app"
+msgstr "停用應用程式錯誤"
 
-#: js/apps.js:95
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
+msgid "Error while enabling app"
+msgstr "啓用應用程式錯誤"
+
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "更新中..."
 
-#: js/apps.js:98
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "更新應用程式錯誤"
 
-#: js/apps.js:101
+#: js/apps.js:128
+msgid "Error"
+msgstr "錯誤"
+
+#: js/apps.js:129 templates/apps.php:43
+msgid "Update"
+msgstr "更新"
+
+#: js/apps.js:132
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:118
+#: js/personal.js:220
+msgid "Select a profile picture"
+msgstr "選擇大頭貼"
+
+#: js/personal.js:266
+msgid "Decrypting files... Please wait, this can take some time."
+msgstr "檔案解密中，請稍候。"
+
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "儲存中..."
 
@@ -137,44 +182,75 @@ msgstr "復原"
 msgid "Unable to remove user"
 msgstr "無法刪除用戶"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:87
-#: templates/users.php:112
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
+#: templates/users.php:118
 msgid "Groups"
 msgstr "群組"
 
-#: js/users.js:95 templates/users.php:89 templates/users.php:124
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "群組管理員"
 
-#: js/users.js:115 templates/users.php:164
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users.js:269
+#: js/users.js:284
 msgid "add group"
 msgstr "新增群組"
 
-#: js/users.js:428
+#: js/users.js:451
 msgid "A valid username must be provided"
 msgstr "必須提供一個有效的用戶名"
 
-#: js/users.js:429 js/users.js:435 js/users.js:450
+#: js/users.js:452 js/users.js:458 js/users.js:473
 msgid "Error creating user"
 msgstr "建立用戶時出現錯誤"
 
-#: js/users.js:434
+#: js/users.js:457
 msgid "A valid password must be provided"
 msgstr "一定要提供一個有效的密碼"
 
-#: personal.php:37 personal.php:38
+#: js/users.js:481
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr "警告：使用者 {user} 的家目錄已經存在"
+
+#: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr ""
+
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "安全性警告"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr ""
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -183,48 +259,68 @@ msgid ""
 "root."
 msgstr "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路上面公開存取。Owncloud 所提供的 .htaccess 設定檔並未生效，我們強烈建議您設定您的網頁伺服器以防止資料目錄被公開存取，或將您的資料目錄移出網頁伺服器的 document root 。"
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "設定警告"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。"
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "請參考<a href='%s'>安裝指南</a>。"
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "遺失 'fileinfo' 模組"
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模組以取得最好的 mime-type 支援。"
 
-#: templates/admin.php:58
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr ""
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "語系無法運作"
 
-#: templates/admin.php:63
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr ""
+
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr ""
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔名中的字元有問題，建議您安裝所有所需的套件以支援 %s 。"
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr ""
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "無網際網路存取"
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -233,110 +329,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。"
 
-#: templates/admin.php:92
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:101
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "當頁面載入時，執行"
 
-#: templates/admin.php:111
+#: templates/admin.php:150
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php 已經註冊 webcron 服務，webcron 每分鐘會呼叫 cron.php 一次。"
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php"
 
-#: templates/admin.php:121
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "使用系統的 cron 服務來呼叫 cron.php 每分鐘一次。"
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr "使用系統的 cron 服務每15分鐘呼叫 cron.php 一次"
 
-#: templates/admin.php:128
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "分享"
 
-#: templates/admin.php:134
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "啟用分享 API"
 
-#: templates/admin.php:135
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "允許 apps 使用分享 API"
 
-#: templates/admin.php:142
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "允許連結"
 
-#: templates/admin.php:143
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "允許使用者以結連公開分享檔案"
 
-#: templates/admin.php:151
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "允許任何人上傳"
 
-#: templates/admin.php:152
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "允許使用者將他們公開分享的資料夾設定為「任何人皆可上傳」"
 
-#: templates/admin.php:160
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "允許轉貼分享"
 
-#: templates/admin.php:161
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "允許使用者分享其他使用者分享給他的檔案"
 
-#: templates/admin.php:168
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "允許使用者與任何人分享檔案"
 
-#: templates/admin.php:171
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "僅允許使用者在群組內分享"
 
-#: templates/admin.php:178
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr "允許郵件通知"
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr "允許使用者分享檔案時寄出通知郵件"
+
+#: templates/admin.php:221
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:191
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:193
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "強迫用戶端使用加密連線連接到 %s"
 
-#: templates/admin.php:199
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。"
 
-#: templates/admin.php:211
+#: templates/admin.php:254
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:212
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:243
+#: templates/admin.php:287
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:244
+#: templates/admin.php:288
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:250 templates/personal.php:114
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:254 templates/personal.php:117
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -344,7 +448,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 許可證下發布。"
+msgstr "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社群</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">原始碼</a>在 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 授權許可下發布。"
 
 #: templates/apps.php:13
 msgid "Add your App"
@@ -365,10 +469,6 @@ msgstr "查看應用程式頁面於 apps.owncloud.com"
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>"
-
-#: templates/apps.php:43
-msgid "Update"
-msgstr "更新"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -407,7 +507,7 @@ msgstr "再次顯示首次使用精靈"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:86
+#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
 msgstr "密碼"
 
@@ -431,9 +531,9 @@ msgstr "新密碼"
 msgid "Change password"
 msgstr "變更密碼"
 
-#: templates/personal.php:58 templates/users.php:85
-msgid "Display Name"
-msgstr "顯示名稱"
+#: templates/personal.php:58 templates/users.php:88
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -447,24 +547,72 @@ msgstr "您的電子郵件信箱"
 msgid "Fill in an email address to enable password recovery"
 msgstr "請填入電子郵件信箱以便回復密碼"
 
-#: templates/personal.php:85 templates/personal.php:86
+#: templates/personal.php:86
+msgid "Profile picture"
+msgstr "個人資料照片"
+
+#: templates/personal.php:91
+msgid "Upload new"
+msgstr "上傳新的"
+
+#: templates/personal.php:93
+msgid "Select new from Files"
+msgstr "從已上傳的檔案中選一個"
+
+#: templates/personal.php:94
+msgid "Remove image"
+msgstr "移除圖片"
+
+#: templates/personal.php:95
+msgid "Either png or jpg. Ideally square but you will be able to crop it."
+msgstr "可以使用 png 或 jpg 格式，最好是方形的，但是您之後也可以裁剪它"
+
+#: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr ""
+
+#: templates/personal.php:101
+msgid "Abort"
+msgstr "中斷"
+
+#: templates/personal.php:102
+msgid "Choose as profile image"
+msgstr "設定為大頭貼"
+
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "語言"
 
-#: templates/personal.php:98
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "幫助翻譯"
 
-#: templates/personal.php:104
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:106
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "使用<a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">這個網址</a>來透過 WebDAV 存取您的檔案"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存取檔案</a>"
+
+#: templates/personal.php:150
+msgid "Encryption"
+msgstr "加密"
+
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
+
+#: templates/personal.php:158
+msgid "Log-in password"
+msgstr "登入密碼"
+
+#: templates/personal.php:163
+msgid "Decrypt all Files"
+msgstr "解密所有檔案"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -488,30 +636,34 @@ msgstr "為了修改密碼時能夠取回使用者資料，請輸入另一組還
 msgid "Default Storage"
 msgstr "預設儲存區"
 
-#: templates/users.php:48 templates/users.php:142
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr ""
+
+#: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "無限制"
 
-#: templates/users.php:66 templates/users.php:157
+#: templates/users.php:66 templates/users.php:163
 msgid "Other"
 msgstr "其他"
 
-#: templates/users.php:84
+#: templates/users.php:87
 msgid "Username"
 msgstr "使用者名稱"
 
-#: templates/users.php:91
+#: templates/users.php:94
 msgid "Storage"
 msgstr "儲存區"
 
-#: templates/users.php:102
-msgid "change display name"
-msgstr "修改顯示名稱"
+#: templates/users.php:108
+msgid "change full name"
+msgstr ""
 
-#: templates/users.php:106
+#: templates/users.php:112
 msgid "set new password"
 msgstr "設定新密碼"
 
-#: templates/users.php:137
+#: templates/users.php:143
 msgid "Default"
 msgstr "預設"

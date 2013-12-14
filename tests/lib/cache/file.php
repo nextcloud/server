@@ -20,7 +20,9 @@
 *
 */
 
-class Test_Cache_File extends Test_Cache {
+namespace Test\Cache;
+
+class FileCache extends \Test_Cache {
 	private $user;
 	private $datadir;
 
@@ -30,8 +32,8 @@ class Test_Cache_File extends Test_Cache {
 	
 	public function setUp() {
 		//clear all proxies and hooks so we can do clean testing
-		OC_FileProxy::clearProxies();
-		OC_Hook::clear('OC_Filesystem');
+		\OC_FileProxy::clearProxies();
+		\OC_Hook::clear('OC_Filesystem');
 
 		//disabled atm
 		//enable only the encryption hook if needed
@@ -44,27 +46,27 @@ class Test_Cache_File extends Test_Cache {
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage,array(),'/');
 		$datadir = str_replace('local::', '', $storage->getId());
-		$this->datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
-		OC_Config::setValue('datadirectory', $datadir);
+		$this->datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data');
+		\OC_Config::setValue('datadirectory', $datadir);
 
-		OC_User::clearBackends();
-		OC_User::useBackend(new OC_User_Dummy());
+		\OC_User::clearBackends();
+		\OC_User::useBackend(new \OC_User_Dummy());
 		
 		//login
-		OC_User::createUser('test', 'test');
+		\OC_User::createUser('test', 'test');
 		
-		$this->user=OC_User::getUser();
-		OC_User::setUserId('test');
+		$this->user = \OC_User::getUser();
+		\OC_User::setUserId('test');
 
 		//set up the users dir
-		$rootView=new \OC\Files\View('');
+		$rootView = new \OC\Files\View('');
 		$rootView->mkdir('/test');
 		
-		$this->instance=new OC_Cache_File();
+		$this->instance=new \OC\Cache\File();
 	}
 
 	public function tearDown() {
-		OC_User::setUserId($this->user);
-		OC_Config::setValue('datadirectory', $this->datadir);
+		\OC_User::setUserId($this->user);
+		\OC_Config::setValue('datadirectory', $this->datadir);
 	}
 }

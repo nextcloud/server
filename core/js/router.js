@@ -1,4 +1,4 @@
-OC.router_base_url = OC.webroot + '/index.php',
+OC.router_base_url = OC.webroot + '/index.php';
 OC.Router = {
 	// register your ajax requests to load after the loading of the routes
 	// has finished. otherwise you face problems with race conditions

@@ -52,4 +52,57 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	/**
+	 * Issue #4360: Do not call strtotime() on numeric strings.
+	 */
+	public function testNumericStringToDateTime() {
+		$l = new OC_L10N('test');
+		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', '1234567890'));
+	}
+
+	public function testNumericToDateTime() {
+		$l = new OC_L10N('test');
+		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', 1234567890));
+	}
+
+	/**
+	 * @dataProvider findLanguageData
+	 */
+	public function testFindLanguage($default, $preference, $expected) {
+		OC_User::setUserId(null);
+		if (is_null($default)) {
+			OC_Config::deleteKey('default_language');
+		} else {
+			OC_Config::setValue('default_language', $default);
+		}
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $preference;
+
+		$reflection = new \ReflectionClass('OC_L10N');
+		$prop = $reflection->getProperty('language');
+		$prop->setAccessible(1);
+		$prop->setValue('');
+		$prop->setAccessible(0);
+
+		$this->assertSame($expected, OC_L10N::findLanguage());
+	}
+
+	public function findLanguageData() {
+		return array(
+			// Exact match
+			array(null, 'de-DE,en;q=0.5', 'de_DE'),
+			array(null, 'de-DE,en-US;q=0.8,en;q=0.6', 'de_DE'),
+
+			// Best match
+			array(null, 'de-US,en;q=0.5', 'de'),
+			array(null, 'de-US,en-US;q=0.8,en;q=0.6', 'de'),
+
+			// The default_language config setting overrides browser preferences.
+			array('es_AR', 'de-DE,en;q=0.5', 'es_AR'),
+			array('es_AR', 'de-DE,en-US;q=0.8,en;q=0.6', 'es_AR'),
+
+			// Worst case default to english
+			array(null, '', 'en'),
+			array(null, null, 'en'),
+		);
+	}
 }

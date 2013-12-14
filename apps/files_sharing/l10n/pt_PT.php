@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Esta partilha está protegida por palavra-chave",
 "The password is wrong. Try again." => "Password errada, por favor tente de novo",
-"Password" => "Password",
-"Submit" => "Submeter",
+"Password" => "Palavra-passe",
 "Sorry, this link doesn’t seem to work anymore." => "Desculpe, mas este link parece não estar a funcionar.",
 "Reasons might be:" => "As razões poderão ser:",
 "the item was removed" => "O item foi removido",
@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Transferir",
 "Upload" => "Carregar",
 "Cancel upload" => "Cancelar envio",
-"No preview available for" => "Não há pré-visualização para"
+"No preview available for" => "Não há pré-visualização para",
+"Direct link" => "Link direto"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

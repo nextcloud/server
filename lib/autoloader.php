@@ -16,6 +16,12 @@ class Autoloader {
 	private $classPaths = array();
 
 	/**
+	 * Optional low-latency memory cache for class to path mapping.
+	 * @var \OC\Memcache\Cache
+	 */
+	protected $memoryCache;
+
+	/**
 	 * Add a custom prefix to the autoloader
 	 *
 	 * @param string $prefix
@@ -73,9 +79,10 @@ class Autoloader {
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			// first check for legacy classes if underscores are used
-			$paths[] = 'legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-			$paths[] = strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
+			$paths[] = 'private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
+			$paths[] = 'private/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OC\\') === 0) {
+			$paths[] = 'private/' . strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
 			$paths[] = strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCP\\') === 0) {
 			$paths[] = 'public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
@@ -112,15 +119,38 @@ class Autoloader {
 	 * @return bool
 	 */
 	public function load($class) {
-		$paths = $this->findClass($class);
+		$pathsToRequire = null;
+		if ($this->memoryCache) {
+			$pathsToRequire = $this->memoryCache->get($class);
+		}
 
-		if (is_array($paths)) {
-			foreach ($paths as $path) {
-				if ($fullPath = stream_resolve_include_path($path)) {
-					require_once $fullPath;
+		if (!is_array($pathsToRequire)) {
+			// No cache or cache miss
+			$pathsToRequire = array();
+			foreach ($this->findClass($class) as $path) {
+				$fullPath = stream_resolve_include_path($path);
+				if ($fullPath) {
+					$pathsToRequire[] = $fullPath;
 				}
 			}
+
+			if ($this->memoryCache) {
+				$this->memoryCache->set($class, $pathsToRequire, 60); // cache 60 sec
+			}
 		}
+
+		foreach ($pathsToRequire as $fullPath) {
+			require_once $fullPath;
+		}
+
 		return false;
+	}
+
+	/**
+	 * @brief Sets the optional low-latency cache for class to path mapping.
+	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
+	 */
+	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+		$this->memoryCache = $memoryCache;
 	}
 }

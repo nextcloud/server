@@ -6,7 +6,7 @@
 /apps/inc.php
 
 # ignore all apps except core ones
-/apps*
+/apps*/*
 !/apps/files
 !/apps/files_encryption
 !/apps/files_external
@@ -82,8 +82,13 @@ nbproject
 # Tests
 /tests/phpunit.xml
 
+# Node Modules
+/build/node_modules/
+
 # Tests - auto-generated files
 /data-autotest
 /tests/coverage*
 /tests/autoconfig*
 /tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png

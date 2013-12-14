@@ -77,11 +77,17 @@ var OCdialogs = {
 			self.$filePicker = $tmpl.octemplate({
 				dialog_name: dialog_name,
 				title: title
-			}).data('path', '');
+			}).data('path', '').data('multiselect', multiselect).data('mimetype', mimetype_filter);
 
-			if (modal === undefined) { modal = false };
-			if (multiselect === undefined) { multiselect = false };
-			if (mimetype_filter === undefined) { mimetype_filter = '' };
+			if (modal === undefined) {
+				modal = false;
+			}
+			if (multiselect === undefined) {
+				multiselect = false;
+			}
+			if (mimetype_filter === undefined) {
+				mimetype_filter = '';
+			}
 
 			$('body').append(self.$filePicker);
 
@@ -94,7 +100,7 @@ var OCdialogs = {
 					self._handlePickerClick(event, $(this));
 				});
 				self._fillFilePicker('');
-			}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
+			});
 
 			// build buttons
 			var functionToCall = function() {
@@ -106,7 +112,7 @@ var OCdialogs = {
 							datapath.push(self.$filePicker.data('path') + '/' + $(element).text());
 						});
 					} else {
-						var datapath = self.$filePicker.data('path');
+						datapath = self.$filePicker.data('path');
 						datapath += '/' + self.$filelist.find('.filepicker_element_selected .filename').text();
 					}
 					callback(datapath);
@@ -117,10 +123,6 @@ var OCdialogs = {
 				text: t('core', 'Choose'),
 				click: functionToCall,
 				defaultButton: true
-				},
-				{
-				text: t('core', 'Cancel'),
-				click: function(){self.$filePicker.ocdialog('close'); }
 			}];
 
 			self.$filePicker.ocdialog({
@@ -137,8 +139,12 @@ var OCdialogs = {
 				}
 			});
 		})
-		.fail(function() {
-			alert(t('core', 'Error loading file picker template'));
+		.fail(function(status, error) {
+			// If the method is called while navigating away
+			// from the page, it is probably not needed ;)
+			if(status !== 0) {
+				alert(t('core', 'Error loading file picker template: {error}', {error: error}));
+			}
 		});
 	},
 	/**
@@ -155,7 +161,9 @@ var OCdialogs = {
 				message: content,
 				type: dialog_type
 			});
-			if (modal === undefined) { modal = false };
+			if (modal === undefined) {
+				modal = false;
+			}
 			$('body').append($dlg);
 			var buttonlist = [];
 			switch (buttons) {
@@ -163,7 +171,9 @@ var OCdialogs = {
 					buttonlist = [{
 						text: t('core', 'Yes'),
 						click: function(){
-							if (callback !== undefined) { callback(true) };
+							if (callback !== undefined) {
+								callback(true);
+							}
 							$(dialog_id).ocdialog('close');
 						},
 						defaultButton: true
@@ -171,7 +181,9 @@ var OCdialogs = {
 					{
 						text: t('core', 'No'),
 						click: function(){
-							if (callback !== undefined) { callback(false) };
+							if (callback !== undefined) {
+								callback(false);
+							}
 							$(dialog_id).ocdialog('close');
 						}
 					}];
@@ -179,7 +191,9 @@ var OCdialogs = {
 				case OCdialogs.OK_BUTTON:
 					var functionToCall = function() {
 						$(dialog_id).ocdialog('close');
-						if(callback !== undefined) { callback() };
+						if(callback !== undefined) {
+							callback();
+						}
 					};
 					buttonlist[0] = {
 						text: t('core', 'Ok'),
@@ -187,7 +201,7 @@ var OCdialogs = {
 						defaultButton: true
 					};
 				break;
-			};
+			}
 
 			$(dialog_id).ocdialog({
 				closeOnEscape: true,
@@ -196,9 +210,254 @@ var OCdialogs = {
 			});
 			OCdialogs.dialogs_counter++;
 		})
-		.fail(function() {
-			alert(t('core', 'Error loading file picker template'));
+		.fail(function(status, error) {
+			// If the method is called while navigating away from
+			// the page, we still want to deliver the message.
+			if(status === 0) {
+				alert(title + ': ' + content);
+			} else {
+				alert(t('core', 'Error loading message template: {error}', {error: error}));
+			}
 		});
+	},
+	_fileexistsshown: false,
+	/**
+	 * Displays file exists dialog
+	 * @param {object} data upload object
+	 * @param {object} original file with name, size and mtime
+	 * @param {object} replacement file with name, size and mtime
+	 * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
+	*/
+	fileexists:function(data, original, replacement, controller) {
+		var self = this;
+
+		var getCroppedPreview = function(file) {
+			var deferred = new $.Deferred();
+			// Only process image files.
+			var type = file.type && file.type.split('/').shift();
+			if (window.FileReader && type === 'image') {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var blob = new Blob([e.target.result]);
+					window.URL = window.URL || window.webkitURL;
+					var originalUrl = window.URL.createObjectURL(blob);
+					var image = new Image();
+					image.src = originalUrl;
+					image.onload = function () {
+						var url = crop(image);
+						deferred.resolve(url);
+					}
+				};
+				reader.readAsArrayBuffer(file);
+			} else {
+				deferred.reject();
+			}
+			return deferred;
+		};
+
+		var crop = function(img) {
+			var canvas = document.createElement('canvas'),
+				width = img.width,
+				height = img.height,
+				x, y, size;
+
+			// calculate the width and height, constraining the proportions
+			if (width > height) {
+				y = 0;
+				x = (width - height) / 2;
+			} else {
+				y = (height - width) / 2;
+				x = 0;
+			}
+			size = Math.min(width, height);
+
+			// resize the canvas and draw the image data into it
+			canvas.width = 64;
+			canvas.height = 64;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, x, y, size, size, 0, 0, 64, 64);
+			return canvas.toDataURL("image/png", 0.7);
+		};
+
+		var addConflict = function(conflicts, original, replacement) {
+
+			var conflict = conflicts.find('.template').clone().removeClass('template').addClass('conflict');
+
+			conflict.data('data',data);
+
+			conflict.find('.filename').text(original.name);
+			conflict.find('.original .size').text(humanFileSize(original.size));
+			conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
+			// ie sucks
+			if (replacement.size && replacement.lastModifiedDate) {
+				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
+				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
+			}
+			var path = getPathForPreview(original.name);
+			Files.lazyLoadPreview(path, original.mime, function(previewpath){
+				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
+			}, 96, 96, original.etag);
+			getCroppedPreview(replacement).then(
+				function(path){
+					conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
+				}, function(){
+					Files.getMimeIcon(replacement.type,function(path){
+						conflict.find('.replacement .icon').css('background-image','url(' + path + ')');
+					});
+				}
+			);
+			conflicts.append(conflict);
+
+			//set more recent mtime bold
+			// ie sucks
+			if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+				conflict.find('.replacement .mtime').css('font-weight', 'bold');
+			} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+				conflict.find('.original .mtime').css('font-weight', 'bold');
+			} else {
+				//TODO add to same mtime collection?
+			}
+
+			// set bigger size bold
+			if (replacement.size && replacement.size > original.size) {
+				conflict.find('.replacement .size').css('font-weight', 'bold');
+			} else if (replacement.size && replacement.size < original.size) {
+				conflict.find('.original .size').css('font-weight', 'bold');
+			} else {
+				//TODO add to same size collection?
+			}
+
+			//TODO show skip action for files with same size and mtime in bottom row
+
+		};
+		//var selection = controller.getSelection(data.originalFiles);
+		//if (selection.defaultAction) {
+		//	controller[selection.defaultAction](data);
+		//} else {
+			var dialog_name = 'oc-dialog-fileexists-content';
+			var dialog_id = '#' + dialog_name;
+			if (this._fileexistsshown) {
+				// add conflict
+
+				var conflicts = $(dialog_id+ ' .conflicts');
+				addConflict(conflicts, original, replacement);
+
+				var count = $(dialog_id+ ' .conflict').length;
+				var title = n('files',
+								'{count} file conflict',
+								'{count} file conflicts',
+								count,
+								{count:count}
+							);
+				$(dialog_id).parent().children('.oc-dialog-title').text(title);
+
+				//recalculate dimensions
+				$(window).trigger('resize');
+
+			} else {
+				//create dialog
+				this._fileexistsshown = true;
+				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
+					var title = t('files','One file conflict');
+					var $dlg = $tmpl.octemplate({
+						dialog_name: dialog_name,
+						title: title,
+						type: 'fileexists',
+
+						why: t('files','Which files do you want to keep?'),
+						what: t('files','If you select both versions, the copied file will have a number added to its name.')
+					});
+					$('body').append($dlg);
+
+					var conflicts = $($dlg).find('.conflicts');
+					addConflict(conflicts, original, replacement);
+
+					buttonlist = [{
+							text: t('core', 'Cancel'),
+							classes: 'cancel',
+							click: function(){
+								if ( typeof controller.onCancel !== 'undefined') {
+									controller.onCancel(data);
+								}
+								$(dialog_id).ocdialog('close');
+							}
+						},
+						{
+							text: t('core', 'Continue'),
+							classes: 'continue',
+							click: function(){
+								if ( typeof controller.onContinue !== 'undefined') {
+									controller.onContinue($(dialog_id + ' .conflict'));
+								}
+								$(dialog_id).ocdialog('close');
+							}
+						}];
+
+					$(dialog_id).ocdialog({
+						width: 500,
+						closeOnEscape: true,
+						modal: true,
+						buttons: buttonlist,
+						closeButton: null,
+						close: function(event, ui) {
+								self._fileexistsshown = false;
+							$(this).ocdialog('destroy').remove();
+						}
+					});
+
+					$(dialog_id).css('height','auto');
+
+					//add checkbox toggling actions
+					$(dialog_id).find('.allnewfiles').on('click', function() {
+						var checkboxes = $(dialog_id).find('.conflict .replacement input[type="checkbox"]');
+						checkboxes.prop('checked', $(this).prop('checked'));
+					});
+					$(dialog_id).find('.allexistingfiles').on('click', function() {
+						var checkboxes = $(dialog_id).find('.conflict .original input[type="checkbox"]');
+						checkboxes.prop('checked', $(this).prop('checked'));
+					});
+					$(dialog_id).find('.conflicts').on('click', '.replacement,.original', function() {
+						var checkbox = $(this).find('input[type="checkbox"]');
+						checkbox.prop('checked', !checkbox.prop('checked'));
+					});
+					$(dialog_id).find('.conflicts').on('click', 'input[type="checkbox"]', function() {
+						var checkbox = $(this);
+						checkbox.prop('checked', !checkbox.prop('checked'));
+					});
+
+					//update counters
+					$(dialog_id).on('click', '.replacement,.allnewfiles', function() {
+						var count = $(dialog_id).find('.conflict .replacement input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
+							$(dialog_id).find('.allnewfiles').prop('checked', true);
+							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
+						} else if (count > 0) {
+							$(dialog_id).find('.allnewfiles').prop('checked', false);
+							$(dialog_id).find('.allnewfiles + .count').text(t('files','({count} selected)',{count:count}));
+						} else {
+							$(dialog_id).find('.allnewfiles').prop('checked', false);
+							$(dialog_id).find('.allnewfiles + .count').text('');
+						}
+					});
+					$(dialog_id).on('click', '.original,.allexistingfiles', function(){
+						var count = $(dialog_id).find('.conflict .original input[type="checkbox"]:checked').length;
+						if (count === $(dialog_id+ ' .conflict').length) {
+							$(dialog_id).find('.allexistingfiles').prop('checked', true);
+							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
+						} else if (count > 0) {
+							$(dialog_id).find('.allexistingfiles').prop('checked', false);
+							$(dialog_id).find('.allexistingfiles + .count').text(t('files','({count} selected)',{count:count}));
+						} else {
+							$(dialog_id).find('.allexistingfiles').prop('checked', false);
+							$(dialog_id).find('.allexistingfiles + .count').text('');
+						}
+					});
+				})
+				.fail(function() {
+					alert(t('core', 'Error loading file exists template'));
+				});
+			}
+		//}
 	},
 	_getFilePickerTemplate: function() {
 		var defer = $.Deferred();
@@ -209,8 +468,8 @@ var OCdialogs = {
 				self.$listTmpl = self.$filePickerTemplate.find('.filelist li:first-child').detach();
 				defer.resolve(self.$filePickerTemplate);
 			})
-			.fail(function() {
-				defer.reject();
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				defer.reject(jqXHR.status, errorThrown);
 			});
 		} else {
 			defer.resolve(this.$filePickerTemplate);
@@ -225,18 +484,41 @@ var OCdialogs = {
 				self.$messageTemplate = $(tmpl);
 				defer.resolve(self.$messageTemplate);
 			})
-			.fail(function() {
-				defer.reject();
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				defer.reject(jqXHR.status, errorThrown);
 			});
 		} else {
 			defer.resolve(this.$messageTemplate);
 		}
 		return defer.promise();
 	},
+	_getFileExistsTemplate: function () {
+		var defer = $.Deferred();
+		if (!this.$fileexistsTemplate) {
+			var self = this;
+			$.get(OC.filePath('files', 'templates', 'fileexists.html'), function (tmpl) {
+				self.$fileexistsTemplate = $(tmpl);
+				defer.resolve(self.$fileexistsTemplate);
+			})
+			.fail(function () {
+				defer.reject();
+			});
+		} else {
+			defer.resolve(this.$fileexistsTemplate);
+		}
+		return defer.promise();
+	},
 	_getFileList: function(dir, mimeType) {
+		if (typeof(mimeType) === "string") {
+			mimeType = [mimeType];
+		}
+
 		return $.getJSON(
 			OC.filePath('files', 'ajax', 'rawlist.php'),
-			{dir: dir, mimetype: mimeType}
+			{
+				dir: dir,
+				mimetypes: JSON.stringify(mimeType)
+			}
 		);
 	},
 	_determineValue: function(element) {
@@ -269,7 +551,7 @@ var OCdialogs = {
 			var sorted = dirs.concat(others);
 
 			$.each(sorted, function(idx, entry) {
-				$li = self.$listTmpl.octemplate({
+				var $li = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
@@ -287,13 +569,13 @@ var OCdialogs = {
 	*/
 	_fillSlug: function() {
 		this.$dirTree.empty();
-		var self = this
+		var self = this;
 		var path = this.$filePicker.data('path');
 		var $template = $('<span data-dir="{dir}">{name}</span>');
 		if(path) {
 			var paths = path.split('/');
 			$.each(paths, function(index, dir) {
-				var dir = paths.pop();
+				dir = paths.pop();
 				if(dir === '') {
 					return false;
 				}
@@ -327,7 +609,7 @@ var OCdialogs = {
 			$element.toggleClass('filepicker_element_selected');
 			return;
 		} else if ( $element.data('type') === 'dir' ) {
-			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
+			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'));
 		}
 	}
 };

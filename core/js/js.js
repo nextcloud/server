@@ -12,7 +12,14 @@ var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('dat
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
 if (typeof oc_webroot === "undefined") {
-	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+	oc_webroot = location.pathname;
+	var pos = oc_webroot.indexOf('/index.php/');
+	if (pos !== -1) {
+		oc_webroot = oc_webroot.substr(0, pos);
+	}
+	else {
+		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
+	}
 }
 if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
@@ -69,7 +76,7 @@ function initL10N(app) {
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
 			t.plural_function = new Function("n", code);
 		} else {
-			console.log("Syntax error in language file. Plural-Forms header is invalid ["+plural_forms+"]");
+			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
 		}
 	}
 }
@@ -115,7 +122,7 @@ t.cache = {};
  */
 function n(app, text_singular, text_plural, count, vars) {
 	initL10N(app);
-	var identifier = '_' + text_singular + '__' + text_plural + '_';
+	var identifier = '_' + text_singular + '_::_' + text_plural + '_';
 	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
 		var translation = t.cache[app][identifier];
 		if ($.isArray(translation)) {
@@ -157,6 +164,7 @@ var OC={
 	PERMISSION_UPDATE:2,
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
+	PERMISSION_ALL:31,
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
@@ -321,6 +329,38 @@ var OC={
 		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
 	/**
+	 * Parses a URL query string into a JS map
+	 * @param queryString query string in the format param1=1234&param2=abcde&param3=xyz
+	 * @return map containing key/values matching the URL parameters
+	 */
+	parseQueryString:function(queryString){
+		var parts,
+			components,
+			result = {},
+			key,
+			value;
+		if (!queryString){
+			return null;
+		}
+		if (queryString[0] === '?'){
+			queryString = queryString.substr(1);
+		}
+		parts = queryString.split('&');
+		for (var i = 0; i < parts.length; i++){
+			components = parts[i].split('=');
+			if (!components.length){
+				continue;
+			}
+			key = decodeURIComponent(components[0]);
+			if (!key){
+				continue;
+			}
+			value = components[1];
+			result[key] = value && decodeURIComponent(value);
+		}
+		return result;
+	},
+	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
 	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
@@ -430,9 +470,16 @@ OC.Notification={
 
 OC.Breadcrumb={
 	container:null,
-	crumbs:[],
 	show:function(dir, leafname, leaflink){
-		OC.Breadcrumb.clear();
+		if(!this.container){//default
+			this.container=$('#controls');
+		}
+		this._show(this.container, dir, leafname, leaflink);
+	},
+	_show:function(container, dir, leafname, leaflink){
+		var self = this;
+		
+		this._clear(container);
 		
 		// show home + path in subdirectories
 		if (dir && dir !== '/') {
@@ -449,8 +496,7 @@ OC.Breadcrumb={
 			crumbImg.attr('src',OC.imagePath('core','places/home'));
 			crumbLink.append(crumbImg);
 			crumb.append(crumbLink);
-			OC.Breadcrumb.container.prepend(crumb);
-			OC.Breadcrumb.crumbs.push(crumb);
+			container.prepend(crumb);
 
 			//add path parts
 			var segments = dir.split('/');
@@ -459,20 +505,23 @@ OC.Breadcrumb={
 				if (name !== '') {
 					pathurl = pathurl+'/'+name;
 					var link = OC.linkTo('files','index.php')+'?dir='+encodeURIComponent(pathurl);
-					OC.Breadcrumb.push(name, link);
+					self._push(container, name, link);
 				}
 			});
 		}
 		
 		//add leafname
 		if (leafname && leaflink) {
-				OC.Breadcrumb.push(leafname, leaflink);
+			this._push(container, leafname, leaflink);
 		}
 	},
 	push:function(name, link){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
+		return this._push(OC.Breadcrumb.container, name, link);
+	},
+	_push:function(container, name, link){
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
 
@@ -481,30 +530,30 @@ OC.Breadcrumb={
 		crumbLink.text(name);
 		crumb.append(crumbLink);
 
-		var existing=OC.Breadcrumb.container.find('div.crumb');
+		var existing=container.find('div.crumb');
 		if(existing.length){
 			existing.removeClass('last');
 			existing.last().after(crumb);
 		}else{
-			OC.Breadcrumb.container.prepend(crumb);
+			container.prepend(crumb);
 		}
-		OC.Breadcrumb.crumbs.push(crumb);
 		return crumb;
 	},
 	pop:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').last().remove();
-		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
-		OC.Breadcrumb.crumbs.pop();
+		this.container.find('div.crumb').last().remove();
+		this.container.find('div.crumb').last().addClass('last');
 	},
 	clear:function(){
-		if(!OC.Breadcrumb.container){//default
-			OC.Breadcrumb.container=$('#controls');
+		if(!this.container){//default
+			this.container=$('#controls');
 		}
-		OC.Breadcrumb.container.find('div.crumb').remove();
-		OC.Breadcrumb.crumbs=[];
+		this._clear(this.container);
+	},
+	_clear:function(container) {
+		container.find('div.crumb').remove();
 	}
 };
 
@@ -681,11 +730,17 @@ $(document).ready(function(){
 			}
 		}else if(event.keyCode===27){//esc
 			OC.search.hide();
+			if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+				FileList.unfilter();
+			}
 		}else{
 			var query=$('#searchbox').val();
 			if(OC.search.lastQuery!==query){
 				OC.search.lastQuery=query;
 				OC.search.currentResult=-1;
+				if (FileList && typeof FileList.filter === 'function') { //TODO add hook system
+						FileList.filter(query);
+				}
 				if(query.length>2){
 					OC.search(query);
 				}else{
@@ -698,17 +753,8 @@ $(document).ready(function(){
 	});
 
 	var setShowPassword = function(input, label) {
-		input.showPassword().keyup(function(){
-			if (input.val().length == 0) {
-				label.hide();
-			}
-			else {
-				label.css("display", "inline").show();
-			}
-		});
-		label.hide();
+		input.showPassword().keyup();
 	};
-	setShowPassword($('#password'), $('label[for=show]'));
 	setShowPassword($('#adminpass'), $('label[for=show]'));
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));
@@ -757,13 +803,11 @@ $(document).ready(function(){
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
-	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
-	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
-	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
+	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 
@@ -801,6 +845,13 @@ function formatDate(date){
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
 }
 
+// taken from http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
+function getURLParameter(name) {
+	return decodeURI(
+			(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
+			);
+}
+
 /**
  * takes an absolute timestamp and return a string with a human-friendly relative date
  * @param int a Unix timestamp
@@ -812,15 +863,13 @@ function relative_modified_date(timestamp) {
 	var diffdays = Math.round(diffhours/24);
 	var diffmonths = Math.round(diffdays/31);
 	if(timediff < 60) { return t('core','seconds ago'); }
-	else if(timediff < 120) { return t('core','1 minute ago'); }
-	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
-	else if(timediff < 7200) { return t('core','1 hour ago'); }
-	else if(timediff < 86400) { return t('core','{hours} hours ago',{hours: diffhours}); }
+	else if(timediff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffminutes); }
+	else if(timediff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffhours); }
 	else if(timediff < 86400) { return t('core','today'); }
 	else if(timediff < 172800) { return t('core','yesterday'); }
-	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 2678400) { return n('core', '%n day ago', '%n days ago', diffdays); }
 	else if(timediff < 5184000) { return t('core','last month'); }
-	else if(timediff < 31556926) { return t('core','{months} months ago',{months: diffmonths}); }
+	else if(timediff < 31556926) { return n('core', '%n month ago', '%n months ago', diffmonths); }
 	//else if(timediff < 31556926) { return t('core','months ago'); }
 	else if(timediff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
@@ -869,7 +918,7 @@ OC.set=function(name, value) {
  * @param {type} start
  * @param {type} end
  */
-$.fn.selectRange = function(start, end) {
+jQuery.fn.selectRange = function(start, end) {
 	return this.each(function() {
 		if (this.setSelectionRange) {
 			this.focus();
@@ -882,6 +931,15 @@ $.fn.selectRange = function(start, end) {
 			range.select();
 		}
 	});
+};
+
+/**
+ * check if an element exists.
+ * allows you to write if ($('#myid').exists()) to increase readability
+ * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+ */
+jQuery.fn.exists = function(){
+	return this.length > 0;
 };
 
 /**

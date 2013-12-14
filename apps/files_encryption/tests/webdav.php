@@ -20,14 +20,14 @@
  *
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../lib/base.php');
-require_once realpath(dirname(__FILE__) . '/../lib/crypt.php');
-require_once realpath(dirname(__FILE__) . '/../lib/keymanager.php');
-require_once realpath(dirname(__FILE__) . '/../lib/proxy.php');
-require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
-require_once realpath(dirname(__FILE__) . '/../lib/util.php');
-require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
-require_once realpath(dirname(__FILE__) . '/util.php');
+require_once __DIR__ . '/../../../lib/base.php';
+require_once __DIR__ . '/../lib/crypt.php';
+require_once __DIR__ . '/../lib/keymanager.php';
+require_once __DIR__ . '/../lib/proxy.php';
+require_once __DIR__ . '/../lib/stream.php';
+require_once __DIR__ . '/../lib/util.php';
+require_once __DIR__ . '/../appinfo/app.php';
+require_once __DIR__ . '/util.php';
 
 use OCA\Encryption;
 
@@ -153,7 +153,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Encryption\Crypt::isCatfileContent($encryptedContent));
 
 		// get decrypted file contents
-		$decrypt = file_get_contents('crypt://' . $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files'. $filename);
 
 		// check if file content match with the written content
 		$this->assertEquals($this->dataShort, $decrypt);

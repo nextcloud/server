@@ -2,19 +2,12 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Non foi posíbel eliminar %s permanente",
 "Couldn't restore %s" => "Non foi posíbel restaurar %s",
-"perform restore operation" => "realizar a operación de restauración",
 "Error" => "Erro",
-"delete file permanently" => "eliminar o ficheiro permanentemente",
-"Delete permanently" => "Eliminar permanentemente",
-"Name" => "Nome",
-"Deleted" => "Eliminado",
-"1 folder" => "1 cartafol",
-"{count} folders" => "{count} cartafoles",
-"1 file" => "1 ficheiro",
-"{count} files" => "{count} ficheiros",
 "restored" => "restaurado",
 "Nothing in here. Your trash bin is empty!" => "Aquí non hai nada. O cesto do lixo está baleiro!",
+"Name" => "Nome",
 "Restore" => "Restablecer",
+"Deleted" => "Eliminado",
 "Delete" => "Eliminar",
 "Deleted Files" => "Ficheiros eliminados"
 );
