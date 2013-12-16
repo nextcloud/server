@@ -103,9 +103,8 @@ class Util {
 			}
 
 			// include cause
-			$l = \OC_L10N::get('lib');
 			while (method_exists($ex, 'getPrevious') && $ex = $ex->getPrevious()) {
-				$message .= ' - '.$l->t('Caused by:').' ';
+				$message .= ' - Caused by:' . ' ';
 				$message .= $ex->getMessage();
 				if ($ex->getCode()) {
 					$message .= '[' . $ex->getCode() . '] ';
