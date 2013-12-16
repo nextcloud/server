@@ -182,8 +182,11 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink($path) {
 
-		// let the trashbin handle this
-		if (\OCP\App::isEnabled('files_trashbin')) {
+		$relPath = Helper::stripUserFilesPath($path);
+
+		// skip this method if the trash bin is enabled or if we delete a file
+		// outside of /data/user/files
+		if (\OCP\App::isEnabled('files_trashbin') || $relPath === false) {
 			return true;
 		}
 
