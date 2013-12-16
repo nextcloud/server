@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Error" => "Ошибка",
 "Size" => "Размер",
 "Upload" => "Загрузка",
+"0 is unlimited" => "0 без ограничений",
 "Save" => "Сохранить",
 "Cancel upload" => "Отмена загрузки",
 "Download" => "Загрузка",

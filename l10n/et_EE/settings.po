@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-13 14:43-0500\n"
+"PO-Revision-Date: 2013-12-13 10:10+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,19 +200,19 @@ msgstr "Kustuta"
 msgid "add group"
 msgstr "lisa grupp"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Sisesta nõuetele vastav kasutajatunnus"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Viga kasutaja loomisel"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Hoiatus: kasutaja \"{user}\" kodukataloog on juba olemas"
 
@@ -287,14 +287,14 @@ msgstr "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "PHP versioon on aegunud"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "Sinu PHP versioon on aegunud. Soovitame tungivalt uuenda versioonile 5.3.8 või uuemale, kuna varasemad versioonid on teadaolevalt vigased. On võimalik, et see käesolev paigaldus ei toimi korrektselt."
 
 #: templates/admin.php:93
 msgid "Locale not working"

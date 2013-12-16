@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-02 10:40+0000\n"
+"POT-Creation-Date: 2013-12-11 13:31-0500\n"
+"PO-Revision-Date: 2013-12-09 16:00+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +27,17 @@ msgstr "Nepodarilo sa vymazať mapovania."
 msgid "Failed to delete the server configuration"
 msgstr "Zlyhalo zmazanie nastavenia servera."
 
-#: ajax/testConfiguration.php:37
+#: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
 msgstr "Nastavenie je v poriadku a pripojenie je stabilné."
 
-#: ajax/testConfiguration.php:40
+#: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "Nastavenie je v poriadku, ale pripojenie zlyhalo. Skontrolujte nastavenia servera a prihlasovacie údaje."
 
-#: ajax/testConfiguration.php:44
+#: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
@@ -88,43 +88,43 @@ msgstr "Úspešné"
 msgid "Error"
 msgstr "Chyba"
 
-#: js/settings.js:777
+#: js/settings.js:837
 msgid "Configuration OK"
 msgstr "Konfigurácia je vporiadku"
 
-#: js/settings.js:786
+#: js/settings.js:846
 msgid "Configuration incorrect"
 msgstr "Nesprávna konfigurácia"
 
-#: js/settings.js:795
+#: js/settings.js:855
 msgid "Configuration incomplete"
 msgstr "Nekompletná konfigurácia"
 
-#: js/settings.js:812 js/settings.js:821
+#: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
 msgstr "Vybrať skupinu"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
 msgstr "Vyberte triedy objektov"
 
-#: js/settings.js:818
+#: js/settings.js:878
 msgid "Select attributes"
 msgstr "Vyberte atribúty"
 
-#: js/settings.js:845
+#: js/settings.js:905
 msgid "Connection test succeeded"
 msgstr "Test pripojenia bol úspešný"
 
-#: js/settings.js:852
+#: js/settings.js:912
 msgid "Connection test failed"
 msgstr "Test pripojenia zlyhal"
 
-#: js/settings.js:861
+#: js/settings.js:921
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Naozaj chcete zmazať súčasné nastavenie servera?"
 
-#: js/settings.js:862
+#: js/settings.js:922
 msgid "Confirm Deletion"
 msgstr "Potvrdiť vymazanie"
 
@@ -144,11 +144,11 @@ msgstr[0] "%s nájdený používateľ"
 msgstr[1] "%s nájdení používatelia"
 msgstr[2] "%s nájdených používateľov"
 
-#: lib/wizard.php:779 lib/wizard.php:791
+#: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
 msgstr "Neplatný hostiteľ"
 
-#: lib/wizard.php:952
+#: lib/wizard.php:951
 msgid "Could not find the desired feature"
 msgstr "Nemožno nájsť požadovanú funkciu"
 
@@ -183,13 +183,13 @@ msgstr "len z týchto skupín:"
 #: templates/part.wizard-loginfilter.php:32
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Miesto pre úpravu raw filtra"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr "Surový LDAP filter"
+msgstr "Raw LDAP filter"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format

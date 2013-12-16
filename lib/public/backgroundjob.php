@@ -45,6 +45,7 @@ use \OC\BackgroundJob\JobList;
 class BackgroundJob {
 	/**
 	 * get the execution type of background jobs
+	 *
 	 * @return string
 	 *
 	 * This method returns the type how background jobs are executed. If the user
@@ -56,6 +57,7 @@ class BackgroundJob {
 
 	/**
 	 * sets the background jobs execution type
+	 *
 	 * @param string $type execution type
 	 * @return boolean
 	 *
@@ -83,8 +85,10 @@ class BackgroundJob {
 	 * @return true
 	 */
 	public static function addRegularTask($klass, $method) {
-		self::registerJob('OC\BackgroundJob\Legacy\RegularJob', array($klass, $method));
-		return true;
+		if (!\OC::needUpgrade()) {
+			self::registerJob('OC\BackgroundJob\Legacy\RegularJob', array($klass, $method));
+			return true;
+		}
 	}
 
 	/**

@@ -73,6 +73,7 @@ $TRANSLATIONS = array(
 "Maximum input size for ZIP files" => "ZIPファイルへの最大入力サイズ",
 "Save" => "保存",
 "New" => "新規作成",
+"New text file" => "新規のテキストファイル作成",
 "Text file" => "テキストファイル",
 "New folder" => "新しいフォルダ",
 "Folder" => "フォルダ",

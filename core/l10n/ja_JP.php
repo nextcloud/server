@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "データベースのホスト名",
 "Finish setup" => "セットアップを完了します",
 "Finishing …" => "終了しています ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "このアプリケーションは使用する為、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 ",
 "%s is available. Get more information on how to update." => "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。",
 "Log out" => "ログアウト",
 "Automatic logon rejected!" => "自動ログインは拒否されました！",

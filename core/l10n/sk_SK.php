@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Server databázy",
 "Finish setup" => "Dokončiť inštaláciu",
 "Finishing …" => "Dokončujem...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Táto aplikácia vyžaduje JavaScript a tento musí byť povolený pre správnu funkciu aplikácie. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povoľte JavaScript</a> a znovunačítajte toto rozhranie.",
 "%s is available. Get more information on how to update." => "%s je dostupná. Získajte viac informácií k postupu aktualizácie.",
 "Log out" => "Odhlásiť",
 "Automatic logon rejected!" => "Automatické prihlásenie bolo zamietnuté!",
