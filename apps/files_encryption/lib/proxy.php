@@ -114,6 +114,15 @@ class Proxy extends \OC_FileProxy {
 					// get encrypted content
 					$data = $view->file_get_contents($tmpPath);
 
+					// update file cache for target file
+					$tmpFileInfo = $view->getFileInfo($tmpPath);
+					$fileInfo = $view->getFileInfo($path);
+					if (is_array($fileInfo) && is_array($tmpFileInfo)) {
+						$fileInfo['encrypted'] = true;
+						$fileInfo['unencrypted_size'] = $tmpFileInfo['size'];
+						$view->putFileInfo($path, $fileInfo);
+						}
+
 					// remove our temp file
 					$view->deleteAll('/' . \OCP\User::getUser() . '/cache/' . $cacheFolder);
 
@@ -182,8 +191,11 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink($path) {
 
-		// let the trashbin handle this
-		if (\OCP\App::isEnabled('files_trashbin')) {
+		$relPath = Helper::stripUserFilesPath($path);
+
+		// skip this method if the trash bin is enabled or if we delete a file
+		// outside of /data/user/files
+		if (\OCP\App::isEnabled('files_trashbin') || $relPath === false) {
 			return true;
 		}
 
