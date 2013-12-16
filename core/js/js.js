@@ -48,8 +48,8 @@ function initL10N(app) {
 			t.cache[app] = [];
 		}
 	}
-	if (typeof t.plural_function == 'undefined') {
-		t.plural_function = function (n) {
+	if (typeof t.plural_function[app] == 'undefined') {
+		t.plural_function[app] = function (n) {
 			var p = (n != 1) ? 1 : 0;
 			return { 'nplural' : 2, 'plural' : p };
 		};
@@ -74,7 +74,7 @@ function initL10N(app) {
 			 Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
 			 */
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
-			t.plural_function = new Function("n", code);
+			t.plural_function[app] = new Function("n", code);
 		} else {
 			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
 		}
@@ -110,6 +110,10 @@ function t(app, text, vars, count){
 	}
 }
 t.cache = {};
+// different apps might or might not redefine the nplurals function correctly
+// this is to make sure that a "broken" app doesn't mess up with the
+// other app's plural function
+t.plural_function = {};
 
 /**
  * translate a string
@@ -126,7 +130,7 @@ function n(app, text_singular, text_plural, count, vars) {
 	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
 		var translation = t.cache[app][identifier];
 		if ($.isArray(translation)) {
-			var plural = t.plural_function(count);
+			var plural = t.plural_function[app](count);
 			return t(app, translation[plural.plural], vars, count);
 		}
 	}
