@@ -43,11 +43,17 @@ class User {
 	private $home;
 
 	/**
+	 * @var \OC\AllConfig $config
+	 */
+	private $config;
+
+	/**
 	 * @param string $uid
 	 * @param \OC_User_Backend $backend
-	 * @param Emitter $emitter
+	 * @param \OC\Hooks\Emitter $emitter
+	 * @param \OC\AllConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null) {
+	public function __construct($uid, $backend, $emitter = null, $config = null) {
 		$this->uid = $uid;
 		if ($backend and $backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
 			$this->displayName = $backend->getDisplayName($uid);
@@ -58,6 +64,7 @@ class User {
 		$this->emitter = $emitter;
 		$enabled = \OC_Preferences::getValue($uid, 'core', 'enabled', 'true'); //TODO: DI for OC_Preferences
 		$this->enabled = ($enabled === 'true');
+		$this->config = $config;
 	}
 
 	/**
@@ -175,7 +182,11 @@ class User {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		return $this->backend->implementsActions(\OC_USER_BACKEND_SET_DISPLAYNAME);
+		if ($this->config and $this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+			return false;
+		} else {
+			return $this->backend->implementsActions(\OC_USER_BACKEND_SET_DISPLAYNAME);
+		}
 	}
 
 	/**
