@@ -114,6 +114,15 @@ class Proxy extends \OC_FileProxy {
 					// get encrypted content
 					$data = $view->file_get_contents($tmpPath);
 
+					// update file cache for target file
+					$tmpFileInfo = $view->getFileInfo($tmpPath);
+					$fileInfo = $view->getFileInfo($path);
+					if (is_array($fileInfo) && is_array($tmpFileInfo)) {
+						$fileInfo['encrypted'] = true;
+						$fileInfo['unencrypted_size'] = $tmpFileInfo['size'];
+						$view->putFileInfo($path, $fileInfo);
+						}
+
 					// remove our temp file
 					$view->deleteAll('/' . \OCP\User::getUser() . '/cache/' . $cacheFolder);
 
