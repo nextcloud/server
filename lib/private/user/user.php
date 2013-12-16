@@ -62,9 +62,13 @@ class User {
 		}
 		$this->backend = $backend;
 		$this->emitter = $emitter;
-		$enabled = \OC_Preferences::getValue($uid, 'core', 'enabled', 'true'); //TODO: DI for OC_Preferences
-		$this->enabled = ($enabled === 'true');
 		$this->config = $config;
+		if ($this->config) {
+			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
+			$this->enabled = ($enabled === 'true');
+		} else {
+			$this->enabled = true;
+		}
 	}
 
 	/**
@@ -148,8 +152,10 @@ class User {
 		if (!$this->home) {
 			if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
 				$this->home = $home;
+			} elseif ($this->config) {
+				$this->home = $this->config->getSystemValue('datadirectory') . '/' . $this->uid;
 			} else {
-				$this->home = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
+				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
 			}
 		}
 		return $this->home;
@@ -205,7 +211,9 @@ class User {
 	 */
 	public function setEnabled($enabled) {
 		$this->enabled = $enabled;
-		$enabled = ($enabled) ? 'true' : 'false';
-		\OC_Preferences::setValue($this->uid, 'core', 'enabled', $enabled);
+		if ($this->config) {
+			$enabled = ($enabled) ? 'true' : 'false';
+			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
+		}
 	}
 }
