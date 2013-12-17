@@ -12,6 +12,21 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	protected static $schema_file = 'static://test_db_scheme';
 	protected $test_prefix;
 
+	/**
+	 * @var string
+	 */
+	private $table1;
+
+	/**
+	 * @var string
+	 */
+	private $table2;
+
+	/**
+	 * @var string
+	 */
+	private $table3;
+
 	public function setUp() {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
@@ -154,7 +169,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array($expected, 'uri_1', 'This is a vCard'));
 		$this->assertEquals(1, $result);
 
-		$actual = OC_DB::prepare("SELECT `fullname` FROM $table")->execute()->fetchOne();
+		$actual = OC_DB::prepare("SELECT `fullname` FROM `$table`")->execute()->fetchOne();
 		$this->assertSame($expected, $actual);
 	}
 }
