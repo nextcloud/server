@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-16 14:34+0000\n"
+"POT-Creation-Date: 2013-12-17 16:42-0500\n"
+"PO-Revision-Date: 2013-12-17 15:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -508,7 +508,7 @@ msgstr ""
 
 #: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
-msgstr ""
+msgstr "Clave"
 
 #: templates/personal.php:40
 msgid "Your password was changed"
@@ -649,7 +649,7 @@ msgstr ""
 
 #: templates/users.php:87
 msgid "Username"
-msgstr ""
+msgstr "Usuario"
 
 #: templates/users.php:94
 msgid "Storage"

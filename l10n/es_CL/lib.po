@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-17 11:45+0000\n"
+"POT-Creation-Date: 2013-12-17 16:42-0500\n"
+"PO-Revision-Date: 2013-12-17 15:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr ""
 
 #: private/app.php:384
 msgid "Settings"
-msgstr ""
+msgstr "Configuración"
 
 #: private/app.php:396
 msgid "Users"
@@ -162,7 +162,7 @@ msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: private/search/provider/file.php:27 private/search/provider/file.php:34
 msgid "Text"

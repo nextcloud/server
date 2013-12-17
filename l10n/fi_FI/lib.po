@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-17 11:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-17 16:42-0500\n"
+"PO-Revision-Date: 2013-12-17 11:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,7 +99,7 @@ msgstr "Lähdettä ei määritelty sovellusta asennettaessa"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Href-määritettä ei asetettu asennettaessa sovellusta http:n yli"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
@@ -112,7 +112,7 @@ msgstr "Tyypin %s arkistot eivät ole tuettuja"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Pakettitiedoston avaaminen epäonnistui sovellusta asennettaessa"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"

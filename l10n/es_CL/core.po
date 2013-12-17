@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-16 14:34+0000\n"
+"POT-Creation-Date: 2013-12-17 16:42-0500\n"
+"PO-Revision-Date: 2013-12-17 15:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,7 @@ msgstr ""
 
 #: js/js.js:394
 msgid "Settings"
-msgstr ""
+msgstr "Configuración"
 
 #: js/js.js:865
 msgid "seconds ago"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
-msgstr ""
+msgstr "Clave"
 
 #: js/share.js:229
 msgid "Allow Public Upload"
@@ -483,7 +483,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
 #: templates/login.php:31
 msgid "Username"
-msgstr ""
+msgstr "Usuario"
 
 #: lostpassword/templates/lostpassword.php:25
 msgid ""

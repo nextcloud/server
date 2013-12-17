@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-16 14:34+0000\n"
+"POT-Creation-Date: 2013-12-17 16:42-0500\n"
+"PO-Revision-Date: 2013-12-17 15:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: templates/authenticate.php:10
 msgid "Password"
-msgstr ""
+msgstr "Clave"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -69,7 +69,7 @@ msgstr ""
 
 #: templates/public.php:46 templates/public.php:49
 msgid "Upload"
-msgstr ""
+msgstr "Subir"
 
 #: templates/public.php:59
 msgid "Cancel upload"
