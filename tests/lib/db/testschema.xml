@@ -55,7 +55,7 @@
 			</field>
 			<field>
 				<name>decimalfield_precision_scale</name>
-				<type>decimal</decimal>
+				<type>decimal</type>
 				<precision>12</precision>
 				<scale>2</scale>
 			</field>
