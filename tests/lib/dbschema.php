@@ -103,7 +103,7 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 				break;
 		}
 		
-		$name = $result->fetchOne(); //FIXME checking with '$result->numRows() === 1' does not seem to work?
+		$name = $result->fetchOne();
 		if ($name === $table) {
 			return true;
 		} else {
