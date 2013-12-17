@@ -19,6 +19,10 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+# Addition 17/12/2012 Frank Karlitschek (frank@owncloud.org)
+# On the official website http://www.phpclasses.org/smb4php the
+# license is listed as LGPL so we assume that this is
+# dual-licensed GPL/LGPL
 ###################################################################
 
 define ('SMB4PHP_VERSION', '0.8');
