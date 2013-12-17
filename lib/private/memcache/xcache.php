@@ -44,11 +44,15 @@ class XCache extends Cache {
 	static public function isAvailable(){
 		if (!extension_loaded('xcache')) {
 			return false;
-		} elseif (\OC::$CLI) {
-			return false;
-		}else{
-			return true;
 		}
+		if (\OC::$CLI) {
+			return false;
+		}
+		$var_size = (int) ini_get('xcache.var_size');
+		if (!$var_size) {
+			return false;
+		}
+		return true;
 	}
 }
 
