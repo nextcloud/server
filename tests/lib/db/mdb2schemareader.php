@@ -69,6 +69,9 @@ class MDB2SchemaReader extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($table->getColumn('booleanfield_true')->getDefault());
 		$this->assertFalse($table->getColumn('booleanfield_false')->getDefault());
 
+		$this->assertEquals(12, $table->getColumn('decimalfield_precision_scale')->getPrecision());
+		$this->assertEquals(2, $table->getColumn('decimalfield_precision_scale')->getScale());
+
 		$this->assertCount(2, $table->getIndexes());
 		$this->assertEquals(array('integerfield'), $table->getIndex('primary')->getUnquotedColumns());
 		$this->assertTrue($table->getIndex('primary')->isPrimary());
