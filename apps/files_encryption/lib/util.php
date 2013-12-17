@@ -472,8 +472,20 @@ class Util {
 		// we only need 24 byte from the last chunk
 		$data = '';
 		$handle = $this->view->fopen($path, 'r');
-		if (is_resource($handle) && !fseek($handle, -24, SEEK_END)) {
-			$data = fgets($handle);
+		if (is_resource($handle)) {
+			if (fseek($handle, -24, SEEK_END) === 0) {
+				$data = fgets($handle);
+			} else {
+				// if fseek failed on the storage we create a local copy from the file
+				// and read this one
+				fclose($handle);
+				$localFile = $this->view->getLocalFile($path);
+				$handle = fopen($localFile, 'r');
+				if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+					$data = fgets($handle);
+				}
+			}
+			fclose($handle);
 		}
 
 		// re-enable proxy
