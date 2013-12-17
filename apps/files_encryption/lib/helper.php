@@ -29,6 +29,8 @@ namespace OCA\Encryption;
  */
 class Helper {
 
+	private static $tmpFileMapping; // Map tmp files to files in data/user/files
+
 	/**
 	 * @brief register share related hooks
 	 *
@@ -425,6 +427,28 @@ class Helper {
 	 */
 	public static function escapeGlobPattern($path) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
+
+	/**
+	 * @brief remember from which file the tmp file (getLocalFile() call) was created
+	 * @param string $tmpFile path of tmp file
+	 * @param string $originalFile path of the original file relative to data/
+	 */
+	public static function addTmpFileToMapper($tmpFile, $originalFile) {
+		self::$tmpFileMapping[$tmpFile] = $originalFile;
+	}
+
+	/**
+	 * @brief get the path of the original file
+	 * @param string $tmpFile path of the tmp file
+	 * @return mixed path of the original file or false
+	 */
+	public static function getPathFromTmpFile($tmpFile) {
+		if (isset(self::$tmpFileMapping[$tmpFile])) {
+			return self::$tmpFileMapping[$tmpFile];
+		}
+
+		return false;
 	}
 }
 
