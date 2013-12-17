@@ -39,7 +39,7 @@ class MDB2SchemaReader extends \PHPUnit_Framework_TestCase {
 		$this->assertCount(1, $schema->getTables());
 
 		$table = $schema->getTable('test_table');
-		$this->assertCount(7, $table->getColumns());
+		$this->assertCount(8, $table->getColumns());
 
 		$this->assertEquals(4, $table->getColumn('integerfield')->getLength());
 		$this->assertTrue($table->getColumn('integerfield')->getAutoincrement());
