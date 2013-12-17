@@ -209,10 +209,7 @@ class Proxy extends \OC_FileProxy {
 
 		$util = new Util($view, $userId);
 
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
-		list($owner, $ownerPath) = $util->getUidAndFilename($relativePath);
+		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
 
 		// Delete keyfile & shareKey so it isn't orphaned
 		if (!Keymanager::deleteFileKey($view, $ownerPath)) {
