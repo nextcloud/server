@@ -65,15 +65,15 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 		$this->ready = true;
 
-			$settings = array(
-				'baseUri' => $this->createBaseUri(),
-				'userName' => $this->user,
-				'password' => $this->password,
-			);
+		$settings = array(
+			'baseUri' => $this->createBaseUri(),
+			'userName' => $this->user,
+			'password' => $this->password,
+		);
 
 		$this->client = new \Sabre_DAV_Client($settings);
 
-		if ($this->certPath) {
+		if ($this->secure === true && $this->certPath) {
 			$this->client->addTrustedCertificates($this->certPath);
 		}
 	}
@@ -169,12 +169,14 @@ class DAV extends \OC\Files\Storage\Common{
 				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $path));
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-                                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-                                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-                                if($this->certPath){
-                                  curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
-                                }
-
+				if ($this->secure === true) {
+					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+					curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+					if($this->certPath){
+						curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
+					}
+				}
+				
 				curl_exec ($curl);
 				curl_close ($curl);
 				rewind($fp);
@@ -262,11 +264,13 @@ class DAV extends \OC\Files\Storage\Common{
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
 		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));
 		curl_setopt($curl, CURLOPT_PUT, true);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-                if($this->certPath){
-                  curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
-                }
+		if ($this->secure === true) {
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+			if($this->certPath){
+				curl_setopt($curl, CURLOPT_CAINFO, $this->certPath);
+			}
+		}
 		curl_exec ($curl);
 		curl_close ($curl);
 	}
