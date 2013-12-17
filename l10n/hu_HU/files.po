@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-09 12:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-17 06:45-0500\n"
+"PO-Revision-Date: 2013-12-15 10:40+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,7 +203,7 @@ msgstr "visszavonás"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Hiba a file törlése közben."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -340,7 +341,7 @@ msgstr "Új"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Új szöveges file"
 
 #: templates/index.php:8
 msgid "Text file"

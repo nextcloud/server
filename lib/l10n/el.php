@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "last month" => "τελευταίο μήνα",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "τελευταίο χρόνο",
-"years ago" => "χρόνια πριν",
-"Caused by:" => "Προκλήθηκε από:"
+"years ago" => "χρόνια πριν"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

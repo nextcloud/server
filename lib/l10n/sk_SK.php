@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "minulý mesiac",
 "_%n month ago_::_%n months ago_" => array("pred %n mesiacom","pred %n mesiacmi","pred %n mesiacmi"),
 "last year" => "minulý rok",
-"years ago" => "pred rokmi",
-"Caused by:" => "Príčina:"
+"years ago" => "pred rokmi"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

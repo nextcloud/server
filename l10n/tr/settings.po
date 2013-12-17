@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-11 18:00+0000\n"
+"POT-Creation-Date: 2013-12-17 06:45-0500\n"
+"PO-Revision-Date: 2013-12-15 13:10+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -389,7 +389,7 @@ msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmas
 
 #: templates/admin.php:203
 msgid "Allow users to share with anyone"
-msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
+msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
 
 #: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
@@ -540,7 +540,7 @@ msgstr "Tam Adı"
 
 #: templates/personal.php:73
 msgid "Email"
-msgstr "Eposta"
+msgstr "E-posta"
 
 #: templates/personal.php:75
 msgid "Your email address"
@@ -548,7 +548,7 @@ msgstr "E-posta adresiniz"
 
 #: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
-msgstr "Parola kurtarmayı etkinleştirmek için bir eposta adresi girin"
+msgstr "Parola kurtarmayı etkinleştirmek için bir e-posta adresi girin"
 
 #: templates/personal.php:86
 msgid "Profile picture"
