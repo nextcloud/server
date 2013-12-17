@@ -382,8 +382,7 @@ class OC_Mount_Config {
 	 * @return array
 	 */
 	public static function getCertificates() {
-		$view = \OCP\Files::getStorage('files_external');
-		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external/uploads/';
 		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
 		if ( ! is_dir($path)) {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
@@ -405,8 +404,7 @@ class OC_Mount_Config {
 	 * creates certificate bundle
 	 */
 	public static function createCertificateBundle() {
-		$view = \OCP\Files::getStorage("files_external");
-		$path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external';
 
 		$certs = OC_Mount_Config::getCertificates();
 		$fh_certs = fopen($path."/rootcerts.crt", 'w');
