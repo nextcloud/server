@@ -658,7 +658,12 @@ $(document).ready(function() {
 						});
 						eventSource.listen('error',function(error) {
 							$('#uploadprogressbar').fadeOut();
-							alert(error);
+							var message = (error && error.message) || t('core', 'Error fetching URL');
+							OC.Notification.show(message);
+							//hide notification after 10 sec
+							setTimeout(function() {
+								OC.Notification.hide();
+							}, 10000);
 						});
 						break;
 				}
