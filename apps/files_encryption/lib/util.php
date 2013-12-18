@@ -241,11 +241,9 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-				if (isset($row['recovery_enabled'])) {
-					$recoveryEnabled[] = $row['recovery_enabled'];
-				}
+			$row = $result->fetchRow();
+			if ($row && isset($row['recovery_enabled'])) {
+				$recoveryEnabled[] = $row['recovery_enabled'];
 			}
 		}
 
@@ -289,7 +287,7 @@ class Util {
 			$sql = 'UPDATE `*PREFIX*encryption` SET `recovery_enabled` = ? WHERE `uid` = ?';
 
 			$args = array(
-				$enabled,
+				$enabled ? '1' : '0',
 				$this->userId
 			);
 
@@ -944,8 +942,8 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
+			$row = $result->fetchRow();
+			if ($row) {
 				$path = substr($row['path'], strlen('files'));
 			}
 		}
@@ -1225,11 +1223,9 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-				if (isset($row['migration_status'])) {
-					$migrationStatus[] = $row['migration_status'];
-				}
+			$row = $result->fetchRow();
+			if ($row && isset($row['migration_status'])) {
+				$migrationStatus[] = $row['migration_status'];
 			}
 		}
 
@@ -1409,9 +1405,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-			}
+			$row = $result->fetchRow();
 		}
 
 		return $row;
@@ -1435,9 +1429,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-			}
+			$row = $result->fetchRow();
 		}
 
 		return $row;
@@ -1456,18 +1448,16 @@ class Util {
 
 		$result = $query->execute(array($id));
 
-		$source = array();
+		$source = null;
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$source = $result->fetchRow();
-			}
+			$source = $result->fetchRow();
 		}
 
 		$fileOwner = false;
 
-		if (isset($source['parent'])) {
+		if ($source && isset($source['parent'])) {
 
 			$parent = $source['parent'];
 
@@ -1477,16 +1467,14 @@ class Util {
 
 				$result = $query->execute(array($parent));
 
-				$item = array();
+				$item = null;
 				if (\OCP\DB::isError($result)) {
 					\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				} else {
-					if ($result->numRows() > 0) {
-						$item = $result->fetchRow();
-					}
+					$item = $result->fetchRow();
 				}
 
-				if (isset($item['parent'])) {
+				if ($item && isset($item['parent'])) {
 
 					$parent = $item['parent'];
 
