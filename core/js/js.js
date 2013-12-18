@@ -827,7 +827,7 @@ function humanFileSize(size) {
 	var relativeSize = (size / Math.pow(1024, order)).toFixed(1);
 	if(order < 2){
 		relativeSize = parseFloat(relativeSize).toFixed(0);
-    }
+	}
 	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
