@@ -164,14 +164,25 @@ class Stream {
 	}
 
 	/**
+	 * @brief Returns the current position of the file pointer
+	 * @return int  position of the file pointer
+	 */
+	public function stream_tell() {
+		return ftell($this->handle);
+	}
+
+	/**
 	 * @param $offset
 	 * @param int $whence
+	 * @return bool true if fseek was successful, otherwise false
 	 */
 	public function stream_seek($offset, $whence = SEEK_SET) {
 
 		$this->flush();
 
-		fseek($this->handle, $offset, $whence);
+		// this wrapper needs to return "true" for success.
+		// the fseek call itself returns 0 on succeess
+		return !fseek($this->handle, $offset, $whence);
 
 	}
 
