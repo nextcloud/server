@@ -86,14 +86,14 @@ class DB {
 	 * Start a transaction
 	 */
 	public static function beginTransaction() {
-		return(\OC_DB::beginTransaction());
+		\OC_DB::beginTransaction();
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
-		return(\OC_DB::commit());
+		\OC_DB::commit();
 	}
 
 	/**
