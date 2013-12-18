@@ -41,6 +41,8 @@ class OC_Appconfig {
 
 	private static $cache = array();
 
+	private static $appsLoaded = array();
+
 	/**
 	 * @brief Get all apps using the config
 	 * @return array with app ids
@@ -86,11 +88,14 @@ class OC_Appconfig {
 		if (!isset(self::$cache[$app])) {
 			self::$cache[$app] = array();
 		}
-		$query = OC_DB::prepare('SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
-			. ' WHERE `appid` = ?');
-		$result = $query->execute(array($app));
-		while ($row = $result->fetchRow()) {
-			self::$cache[$app][$row['configkey']] = $row['configvalue'];
+		if (array_search($app, self::$appsLoaded) === false) {
+			$query = OC_DB::prepare('SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
+				. ' WHERE `appid` = ?');
+			$result = $query->execute(array($app));
+			while ($row = $result->fetchRow()) {
+				self::$cache[$app][$row['configkey']] = $row['configvalue'];
+			}
+			self::$appsLoaded[] = $app;
 		}
 		return self::$cache[$app];
 	}
