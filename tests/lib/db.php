@@ -40,6 +40,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->table1 = $this->test_prefix.'cntcts_addrsbks';
 		$this->table2 = $this->test_prefix.'cntcts_cards';
 		$this->table3 = $this->test_prefix.'vcategory';
+		$this->table4 = $this->test_prefix.'decimal';
 	}
 
 	public function tearDown() {
@@ -172,4 +173,32 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$actual = OC_DB::prepare("SELECT `fullname` FROM `$table`")->execute()->fetchOne();
 		$this->assertSame($expected, $actual);
 	}
+
+	public function testDecimal() {
+		$table = "*PREFIX*" . $this->table4;
+		$rowname = 'decimaltest';
+
+		// Insert, select and delete decimal(12,2) values
+		$inserts = array('1337133713.37', '1234567890');
+		$expects = array('1337133713.37', '1234567890.00');
+
+		for ($i = 0; $i < count($inserts); $i++) {
+			$insert = $inserts[$i];
+			$expect = $expects[$i];
+
+			$query = OC_DB::prepare('INSERT INTO `' . $table . '` (`' . $rowname . '`) VALUES (?)');
+			$result = $query->execute(array($insert));
+			$this->assertEquals(1, $result);
+			$query = OC_DB::prepare('SELECT `' . $rowname . '` FROM `' . $table . '`');
+			$result = $query->execute();
+			$this->assertTrue((bool)$result);
+			$row = $result->fetchRow();
+			$this->assertArrayHasKey($rowname, $row);
+			$this->assertEquals($expect, $row[$rowname]);
+			$query = OC_DB::prepare('DELETE FROM `' . $table . '`');
+			$result = $query->execute();
+			$this->assertTrue((bool)$result);
+		}
+	}
+
 }
