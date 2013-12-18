@@ -33,6 +33,7 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Jelenlegi bejelentkezési jelszó",
 "Update Private Key Password" => "Privát kulcs jelszó frissítése",
 "Enable password recovery:" => "Jelszó-visszaállítás bekapcsolása",
-"File recovery settings updated" => "File helyreállítási beállításai frissültek"
+"File recovery settings updated" => "File helyreállítási beállításai frissültek",
+"Could not update file recovery" => "A file helyreállítás nem frissíthető"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

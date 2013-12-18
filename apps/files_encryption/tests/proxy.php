@@ -44,8 +44,10 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC_FilesystemView
 	 */
-	public $view;
+	public $view;     // view in /data/user/files
+	public $rootView; // view on /data/user
 	public $data;
+	public $filename;
 
 	public static function setUpBeforeClass() {
 		// reset backend
@@ -74,9 +76,12 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 		// init filesystem view
 		$this->view = new \OC_FilesystemView('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files');
+		$this->rootView = new \OC_FilesystemView('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 );
 
 		// init short data
 		$this->data = 'hats';
+		$this->filename = 'enc_proxy_tests-' . time() . '.txt';
+
 	}
 
 	public static function tearDownAfterClass() {
@@ -90,21 +95,71 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	 */
 	function testPostFileSize() {
 
-		// generate filename
-		$filename = 'tmp-' . time() . '.txt';
-
-		$this->view->file_put_contents($filename, $this->data);
+		$this->view->file_put_contents($this->filename, $this->data);
 
 		\OC_FileProxy::$enabled = false;
 
-		$unencryptedSize = $this->view->filesize($filename);
+		$unencryptedSize = $this->view->filesize($this->filename);
 
 		\OC_FileProxy::$enabled = true;
 
-		$encryptedSize = $this->view->filesize($filename);
+		$encryptedSize = $this->view->filesize($this->filename);
 
 		$this->assertTrue($encryptedSize !== $unencryptedSize);
 
+		// cleanup
+		$this->view->unlink($this->filename);
+
+	}
+
+	function testPreUnlinkWithoutTrash() {
+
+		// remember files_trashbin state
+		$stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+		// we want to tests with app files_trashbin enabled
+		\OC_App::disable('files_trashbin');
+
+		$this->view->file_put_contents($this->filename, $this->data);
+
+		// create a dummy file that we can delete something outside of data/user/files
+		$this->rootView->file_put_contents("dummy.txt", $this->data);
+
+		// check if all keys are generated
+		$this->assertTrue($this->rootView->file_exists(
+			'/files_encryption/share-keys/'
+			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
+		$this->assertTrue($this->rootView->file_exists(
+			'/files_encryption/keyfiles/' . $this->filename . '.key'));
+
+
+		// delete dummy file outside of data/user/files
+		$this->rootView->unlink("dummy.txt");
+
+		// all keys should still exist
+		$this->assertTrue($this->rootView->file_exists(
+			'/files_encryption/share-keys/'
+			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
+		$this->assertTrue($this->rootView->file_exists(
+			'/files_encryption/keyfiles/' . $this->filename . '.key'));
+
+
+		// delete the file in data/user/files
+		$this->view->unlink($this->filename);
+
+		// now also the keys should be gone
+		$this->assertFalse($this->rootView->file_exists(
+			'/files_encryption/share-keys/'
+			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
+		$this->assertFalse($this->rootView->file_exists(
+			'/files_encryption/keyfiles/' . $this->filename . '.key'));
+
+		if ($stateFilesTrashbin) {
+			OC_App::enable('files_trashbin');
+		}
+		else {
+			OC_App::disable('files_trashbin');
+		}
 	}
 
 }

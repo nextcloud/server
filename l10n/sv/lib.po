@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 04:02-0500\n"
-"PO-Revision-Date: 2013-11-24 19:20+0000\n"
-"Last-Translator: kallemooo <karl.h.thoren@gmail.com>\n"
+"POT-Creation-Date: 2013-12-17 06:45-0500\n"
+"PO-Revision-Date: 2013-12-17 11:45+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,11 +58,11 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
 
-#: private/avatar.php:62
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "Okänd filtyp"
 
-#: private/avatar.php:67
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "Ogiltig bild"
 
@@ -75,23 +75,23 @@ msgstr "webbtjänster under din kontroll"
 msgid "cannot open \"%s\""
 msgstr "Kan inte öppna \"%s\""
 
-#: private/files.php:228
+#: private/files.php:231
 msgid "ZIP download is turned off."
 msgstr "Nerladdning av ZIP är avstängd."
 
-#: private/files.php:229
+#: private/files.php:232
 msgid "Files need to be downloaded one by one."
 msgstr "Filer laddas ner en åt gången."
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:233 private/files.php:261
 msgid "Back to Files"
 msgstr "Tillbaka till Filer"
 
-#: private/files.php:255
+#: private/files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Valda filer är för stora för att skapa zip-fil."
 
-#: private/files.php:256
+#: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -177,17 +177,17 @@ msgstr "Text"
 msgid "Images"
 msgstr "Bilder"
 
-#: private/setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s ange databasanvändare."
 
-#: private/setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s ange databasnamn"
 
-#: private/setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s du får inte använda punkter i databasnamnet"
@@ -208,11 +208,11 @@ msgid "MySQL username and/or password not valid"
 msgstr "MySQL-användarnamnet och/eller lösenordet är felaktigt"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:147
-#: private/setup/oci.php:154 private/setup/oci.php:165
-#: private/setup/oci.php:172 private/setup/oci.php:181
-#: private/setup/oci.php:189 private/setup/oci.php:198
-#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/oci.php:121 private/setup/oci.php:144
+#: private/setup/oci.php:151 private/setup/oci.php:162
+#: private/setup/oci.php:169 private/setup/oci.php:178
+#: private/setup/oci.php:186 private/setup/oci.php:195
+#: private/setup/oci.php:201 private/setup/postgresql.php:89
 #: private/setup/postgresql.php:98 private/setup/postgresql.php:115
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
@@ -220,10 +220,10 @@ msgid "DB Error: \"%s\""
 msgstr "DB error: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:148
-#: private/setup/oci.php:155 private/setup/oci.php:166
-#: private/setup/oci.php:182 private/setup/oci.php:190
-#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/oci.php:122 private/setup/oci.php:145
+#: private/setup/oci.php:152 private/setup/oci.php:163
+#: private/setup/oci.php:179 private/setup/oci.php:187
+#: private/setup/oci.php:196 private/setup/postgresql.php:90
 #: private/setup/postgresql.php:99 private/setup/postgresql.php:116
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
@@ -256,7 +256,7 @@ msgstr "Oracle-anslutning kunde inte etableras"
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle-användarnamnet och/eller lösenordet är felaktigt"
 
-#: private/setup/oci.php:173 private/setup/oci.php:205
+#: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Det felande kommandot var: \"%s\", name: %s, password: %s"
@@ -336,7 +336,3 @@ msgstr "förra året"
 #: private/template/functions.php:142
 msgid "years ago"
 msgstr "år sedan"
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
-msgstr "Orsakad av:"

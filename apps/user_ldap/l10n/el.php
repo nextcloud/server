@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Success" => "Επιτυχία",
 "Error" => "Σφάλμα",
 "Select groups" => "Επιλέξτε ομάδες",
+"Select attributes" => "Επιλογή χαρακτηριστικών",
 "Connection test succeeded" => "Επιτυχημένη δοκιμαστική σύνδεση",
 "Connection test failed" => "Αποτυχημένη δοκιμαστική σύνδεσης.",
 "Do you really want to delete the current Server Configuration?" => "Θέλετε να διαγράψετε τις τρέχουσες ρυθμίσεις του διακομιστή;",

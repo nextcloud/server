@@ -26,6 +26,8 @@ List of activated app:
 
 The content of config/config.php: (Without the database password and passwordsalt)
 
+Are you using external storage, if yes which one:
+
 ### Client configuration
 Browser:
 

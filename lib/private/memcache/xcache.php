@@ -63,7 +63,10 @@ class XCache extends Cache {
 			// AND administration functions are password-protected.
 			return false;
 		}
-
+		$var_size = (int) ini_get('xcache.var_size');
+		if (!$var_size) {
+			return false;
+		}
 		return true;
 	}
 }

@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "last month" => "지난 달",
 "_%n month ago_::_%n months ago_" => array("%n달 전 "),
 "last year" => "작년",
-"years ago" => "년 전",
-"Caused by:" => "원인: "
+"years ago" => "년 전"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

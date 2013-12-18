@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-03 13:30+0000\n"
+"POT-Creation-Date: 2013-12-17 06:45-0500\n"
+"PO-Revision-Date: 2013-12-17 11:45+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -70,23 +70,23 @@ msgstr "підконтрольні Вам веб-сервіси"
 msgid "cannot open \"%s\""
 msgstr ""
 
-#: private/files.php:228
+#: private/files.php:231
 msgid "ZIP download is turned off."
 msgstr "ZIP завантаження вимкнено."
 
-#: private/files.php:229
+#: private/files.php:232
 msgid "Files need to be downloaded one by one."
 msgstr "Файли повинні бути завантаженні послідовно."
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:233 private/files.php:261
 msgid "Back to Files"
 msgstr "Повернутися до файлів"
 
-#: private/files.php:255
+#: private/files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Вибрані фали завеликі для генерування zip файлу."
 
-#: private/files.php:256
+#: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -335,7 +335,3 @@ msgstr "минулого року"
 #: private/template/functions.php:142
 msgid "years ago"
 msgstr "роки тому"
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
-msgstr ""

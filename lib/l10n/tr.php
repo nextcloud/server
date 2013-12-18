@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "geçen ay",
 "_%n month ago_::_%n months ago_" => array("","%n ay önce"),
 "last year" => "geçen yıl",
-"years ago" => "yıl önce",
-"Caused by:" => "Neden olan:"
+"years ago" => "yıl önce"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

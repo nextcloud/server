@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "joan den hilabetean",
 "_%n month ago_::_%n months ago_" => array("orain dela hilabete %n","orain dela %n hilabete"),
 "last year" => "joan den urtean",
-"years ago" => "urte",
-"Caused by:" => "Honek eraginda:"
+"years ago" => "urte"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
