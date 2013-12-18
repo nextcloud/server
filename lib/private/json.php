@@ -116,7 +116,9 @@ class OC_JSON{
 	 * Encode JSON
 	 */
 	public static function encode($data) {
-		array_walk_recursive($data, array('OC_JSON', 'to_string'));
+		if (is_array($data)) {
+			array_walk_recursive($data, array('OC_JSON', 'to_string'));
+		}
 		return json_encode($data);
 	}
 }
