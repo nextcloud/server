@@ -59,6 +59,7 @@ class Helper {
 	 */
 	public static function registerFilesystemHooks() {
 
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Encryption\Hooks', 'preRename');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
 	}
 
