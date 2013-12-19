@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# baden <badaevd@mail.ru>, 2013
 # Den4md <denstarr@mail.md>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-01 10:56+0000\n"
-"Last-Translator: Валерий Шалимов <valerij.shalimov@gmail.com>\n"
+"POT-Creation-Date: 2013-12-19 01:55-0500\n"
+"PO-Revision-Date: 2013-12-18 11:40+0000\n"
+"Last-Translator: baden <badaevd@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr "%s не может быть восстановлен"
 msgid "Error"
 msgstr "Ошибка"
 
-#: lib/trashbin.php:900 lib/trashbin.php:902
+#: lib/trashbin.php:905 lib/trashbin.php:907
 msgid "restored"
 msgstr "восстановлен"
 
@@ -54,8 +55,8 @@ msgstr "Удалён"
 
 #: templates/index.php:34 templates/index.php:35
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
-#: templates/part.breadcrumb.php:9
+#: templates/part.breadcrumb.php:8
 msgid "Deleted Files"
 msgstr "Удаленные файлы"
