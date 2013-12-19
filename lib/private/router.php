@@ -67,7 +67,8 @@ class OC_Router {
 			$this->useCollection($app);
 			require_once $file;
 			$collection = $this->getCollection($app);
-			$this->root->addCollection($collection, '/apps/'.$app);
+			$collection->addPrefix('/apps/'.$app);
+			$this->root->addCollection($collection);
 		}
 		$this->useCollection('root');
 		require_once 'settings/routes.php';
@@ -76,7 +77,8 @@ class OC_Router {
 		// include ocs routes
 		require_once 'ocs/routes.php';
 		$collection = $this->getCollection('ocs');
-		$this->root->addCollection($collection, '/ocs');
+		$collection->addPrefix('/ocs');
+		$this->root->addCollection($collection);
 	}
 
 	protected function getCollection($name) {
