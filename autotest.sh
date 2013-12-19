@@ -13,6 +13,7 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 DBCONFIGS="sqlite mysql pgsql oci"
+PHPUNIT=$(which phpunit)
 
 function print_syntax {
 	echo -e "Syntax: ./autotest.sh [dbconfigname] [testfile]\n" >&2
@@ -22,6 +23,20 @@ function print_syntax {
 	echo "will run the test suite from \"tests/lib/template.php\"" >&2
 	echo -e "\nIf no arguments are specified, all tests will be run with all database configs" >&2
 }
+
+if ! [ -x $PHPUNIT ]; then
+	echo "phpunit executable not found, please install phpunit version >= 3.7" >&2
+	exit 3
+fi
+
+PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
+PHPUNIT_MAJOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f1)
+PHPUNIT_MINOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f2)
+
+if ! [ $PHPUNIT_MAJOR_VERSION -gt 3 -o \( $PHPUNIT_MAJOR_VERSION -eq 3 -a $PHPUNIT_MINOR_VERSION -ge 7 \) ]; then
+	echo "phpunit version >= 3.7 required. Version found: $PHPUNIT_VERSION" >&2
+	exit 4
+fi
 
 if ! [ -w config -a -w config/config.php ]; then
 	echo "Please enable write permissions on config and config/config.php" >&2
@@ -179,10 +194,10 @@ EOF
 	mkdir coverage-html-$1
 	php -f enable_all.php
 	if [ -z "$NOCOVERAGE" ]; then
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
+		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
 	else
 		echo "No coverage"
-		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
+		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
 	fi
 }
 
