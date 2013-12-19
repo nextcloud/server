@@ -132,8 +132,8 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 		$share = Null;
 
-		if ($result && $result->numRows() > 0) {
-				$share = $result->fetchRow();
+		if ($result) {
+			$share = $result->fetchRow();
 		}
 
 		return $share;
