@@ -415,49 +415,6 @@ class Util {
 	}
 
 	/**
-	 * @brief Fetch the last lines of a file efficiently
-	 * @note Safe to use on large files; does not read entire file to memory
-	 * @note Derivative of http://tekkie.flashbit.net/php/tail-functionality-in-php
-	 */
-	public function tail($filename, $numLines) {
-
-		\OC_FileProxy::$enabled = false;
-
-		$text = '';
-		$pos = -1;
-		$handle = $this->view->fopen($filename, 'r');
-
-		while ($numLines > 0) {
-
-			--$pos;
-
-			if (fseek($handle, $pos, SEEK_END) !== 0) {
-
-				rewind($handle);
-				$numLines = 0;
-
-			} elseif (fgetc($handle) === "\n") {
-
-				--$numLines;
-
-			}
-
-			$block_size = (-$pos) % 8192;
-			if ($block_size === 0 || $numLines === 0) {
-
-				$text = fread($handle, ($block_size === 0 ? 8192 : $block_size)) . $text;
-
-			}
-		}
-
-		fclose($handle);
-
-		\OC_FileProxy::$enabled = true;
-
-		return $text;
-	}
-
-	/**
 	 * @brief Check if a given path identifies an encrypted file
 	 * @param string $path
 	 * @return boolean

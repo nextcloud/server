@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-15 10:40+0000\n"
-"Last-Translator: ebela <bela@dandre.hu>\n"
+"POT-Creation-Date: 2013-12-19 01:55-0500\n"
+"PO-Revision-Date: 2013-12-19 06:55+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,12 +48,17 @@ msgstr "A %s név már létezik a %s mappában. Kérem válasszon másik nevet!"
 msgid "Not a valid source"
 msgstr "A kiinduló állomány érvénytelen"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr ""
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Hiba történt miközben %s-t letöltöttük %s-be"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Hiba történt az állomány létrehozásakor"
 
@@ -172,6 +177,10 @@ msgstr "Az állomány nem hozható létre"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "A mappa nem hozható létre"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr ""
 
 #: js/fileactions.js:125
 msgid "Share"

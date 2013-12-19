@@ -82,7 +82,7 @@ return array(
 	'mov'=>'video/quicktime',
 	'webm'=>'video/webm',
 	'wmv'=>'video/x-ms-asf',
-	'py'=>'text/x-script.phyton',
+	'py'=>'text/x-script.python',
 	'vcf' => 'text/vcard',
 	'vcard' => 'text/vcard',
 	'doc'=>'application/msword',
@@ -103,5 +103,9 @@ return array(
 	'markdown' => 'text/markdown',
 	'mdown' => 'text/markdown',
 	'mdwn' => 'text/markdown',
-	'reveal' => 'text/reveal'
+	'reveal' => 'text/reveal',
+	'c' => 'text/x-c',
+	'cc' => 'text/x-c',
+	'cpp' => 'text/x-c++src',
+	'c++' => 'text/x-c++src',
 );

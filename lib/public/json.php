@@ -169,4 +169,12 @@ class JSON {
 	public static function checkAdminUser() {
 		return(\OC_JSON::checkAdminUser());
 	}
+
+	/**
+	 * Encode JSON
+	 * @param array $data
+	 */
+	public static function encode($data) {
+		return(\OC_JSON::encode($data));
+	}
 }

@@ -60,6 +60,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			<index>
+				<name>appconfig_appid_key</name>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 

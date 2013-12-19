@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-09 12:00+0000\n"
+"POT-Creation-Date: 2013-12-19 01:55-0500\n"
+"PO-Revision-Date: 2013-12-19 06:55+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -47,12 +47,17 @@ msgstr "The name %s is already used in the folder %s. Please choose a different 
 msgid "Not a valid source"
 msgstr "Not a valid source"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr ""
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Error whilst downloading %s to %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Error when creating the file"
 
@@ -171,6 +176,10 @@ msgstr "Could not create file"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Could not create folder"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr ""
 
 #: js/fileactions.js:125
 msgid "Share"
