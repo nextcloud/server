@@ -157,6 +157,7 @@ class Session implements Emitter, \OCP\IUserSession {
 		if($user !== false) {
 			if (!is_null($user)) {
 				if ($user->isEnabled()) {
+					session_regenerate_id(true);
 					$this->setUser($user);
 					$this->setLoginname($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
