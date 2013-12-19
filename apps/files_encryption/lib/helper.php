@@ -277,7 +277,7 @@ class Helper {
 		$split = explode('/', $trimmed);
 
 		// it is not a file relative to data/user/files
-		if (count($split) < 2 || $split[1] !== 'files') {
+		if (count($split) < 2 || ($split[1] !== 'files' && $split[1] !== 'cache')) {
 			return false;
 		}
 
