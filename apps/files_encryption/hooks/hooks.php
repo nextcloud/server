@@ -30,6 +30,9 @@ use OC\Files\Filesystem;
  */
 class Hooks {
 
+	// file for which we want to rename the keys after the rename operation was successful
+	private static $renamedFiles = array();
+
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
@@ -480,6 +483,18 @@ class Hooks {
 	}
 
 	/**
+	 * @brief mark file as renamed so that we know the original source after the file was renamed
+	 * @param array $params with the old path and the new path
+	 */
+	public static function preRename($params) {
+		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		list($ownerOld, $pathOld) = $util->getUidAndFilename($params['oldpath']);
+		self::$renamedFiles[$params['oldpath']] = array(
+			'uid' => $ownerOld,
+			'path' => $pathOld);
+	}
+
+	/**
 	 * @brief after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
 	 * @param array with oldpath and newpath
 	 *
@@ -501,19 +516,32 @@ class Hooks {
 		$userId = \OCP\User::getUser();
 		$util = new Util($view, $userId);
 
-		// Format paths to be relative to user files dir
-		if ($util->isSystemWideMountPoint($params['oldpath'])) {
-			$baseDir = 'files_encryption/';
-			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+		if (isset(self::$renamedFiles[$params['oldpath']]['uid']) &&
+				isset(self::$renamedFiles[$params['oldpath']]['path'])) {
+			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
+			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
 		} else {
-			$baseDir = $userId . '/' . 'files_encryption/';
-			$oldKeyfilePath = $baseDir . 'keyfiles/' . $params['oldpath'];
+			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::ERROR);
+			return false;
 		}
 
-		if ($util->isSystemWideMountPoint($params['newpath'])) {
-			$newKeyfilePath =  $baseDir . 'keyfiles/' . $params['newpath'];
+		list($ownerNew, $pathNew) = $util->getUidAndFilename($params['newpath']);
+
+		// Format paths to be relative to user files dir
+		if ($util->isSystemWideMountPoint($pathOld)) {
+			$oldKeyfilePath = 'files_encryption/keyfiles/' . $pathOld;
+			$oldShareKeyPath = 'files_encryption/share-keys/' . $pathOld;
 		} else {
-			$newKeyfilePath = $baseDir . 'keyfiles/' . $params['newpath'];
+			$oldKeyfilePath = $ownerOld . '/' . 'files_encryption/keyfiles/' . $pathOld;
+			$oldShareKeyPath = $ownerOld . '/' . 'files_encryption/share-keys/' . $pathOld;
+		}
+
+		if ($util->isSystemWideMountPoint($pathNew)) {
+			$newKeyfilePath =  'files_encryption/keyfiles/' . $pathNew;
+			$newShareKeyPath =  'files_encryption/share-keys/' . $pathNew;
+		} else {
+			$newKeyfilePath = $ownerNew . '/files_encryption/keyfiles/' . $pathNew;
+			$newShareKeyPath = $ownerNew . '/files_encryption/share-keys/' . $pathNew;
 		}
 
 		// add key ext if this is not an folder
@@ -522,11 +550,11 @@ class Hooks {
 			$newKeyfilePath .= '.key';
 
 			// handle share-keys
-			$localKeyPath = $view->getLocalFile($baseDir . 'share-keys/' . $params['oldpath']);
+			$localKeyPath = $view->getLocalFile($oldShareKeyPath);
 			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
 			$matches = glob($escapedPath . '*.shareKey');
 			foreach ($matches as $src) {
-				$dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
+				$dst = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $src));
 
 				// create destination folder if not exists
 				if (!file_exists(dirname($dst))) {
@@ -538,15 +566,13 @@ class Hooks {
 
 		} else {
 			// handle share-keys folders
-			$oldShareKeyfilePath = $baseDir . 'share-keys/' . $params['oldpath'];
-			$newShareKeyfilePath = $baseDir . 'share-keys/' . $params['newpath'];
 
 			// create destination folder if not exists
-			if (!$view->file_exists(dirname($newShareKeyfilePath))) {
-				$view->mkdir(dirname($newShareKeyfilePath), 0750, true);
+			if (!$view->file_exists(dirname($newShareKeyPath))) {
+				$view->mkdir(dirname($newShareKeyPath), 0750, true);
 			}
 
-			$view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
+			$view->rename($oldShareKeyPath, $newShareKeyPath);
 		}
 
 		// Rename keyfile so it isn't orphaned
@@ -561,18 +587,17 @@ class Hooks {
 		}
 
 		// build the path to the file
-		$newPath = '/' . $userId . '/files' . $params['newpath'];
-		$newPathRelative = $params['newpath'];
+		$newPath = '/' . $ownerNew . '/files' . $pathNew;
 
 		if ($util->fixFileSize($newPath)) {
 			// get sharing app state
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			// get users
-			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $newPathRelative);
+			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $pathNew);
 
 			// update sharing-keys
-			$util->setSharedFileKeyfiles($session, $usersSharing, $newPathRelative);
+			$util->setSharedFileKeyfiles($session, $usersSharing, $pathNew);
 		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
