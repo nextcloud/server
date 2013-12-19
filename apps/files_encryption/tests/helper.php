@@ -8,6 +8,7 @@
 
 
 require_once __DIR__ . '/../lib/helper.php';
+require_once __DIR__ . '/util.php';
 
 use OCA\Encryption;
 
@@ -15,6 +16,18 @@ use OCA\Encryption;
  * Class Test_Encryption_Helper
  */
 class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
+
+	const TEST_ENCRYPTION_HELPER_USER1 = "test-helper-user1";
+
+	public static function setUpBeforeClass() {
+		// create test user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
+	}
+
+	public static function tearDownAfterClass() {
+		// cleanup test user
+		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
+	}
 
 	/**
 	 * @medium
@@ -62,6 +75,30 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($relativePath, Encryption\Helper::getPathToRealFile($versionPath));
 		$this->assertEquals($relativePath, Encryption\Helper::getPathToRealFile($cachePath));
+	}
+
+	function testGetUser() {
+
+		$path1 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/files/foo/bar.txt";
+		$path2 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/cache/foo/bar.txt";
+		$path3 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/thumbnails/foo";
+		$path4 ="/" . "/" . self::TEST_ENCRYPTION_HELPER_USER1;
+
+		// if we are logged-in every path should return the currently logged-in user
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path3));
+
+		// now log out
+		\Test_Encryption_Util::logoutHelper();
+
+		// now we should only get the user from /user/files and user/cache paths
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path1));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path2));
+
+		$this->assertFalse(Encryption\Helper::getUser($path3));
+		$this->assertFalse(Encryption\Helper::getUser($path4));
+
+		// Log-in again
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
 	}
 
 }

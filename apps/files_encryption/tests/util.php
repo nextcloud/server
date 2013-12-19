@@ -416,6 +416,12 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		OCA\Encryption\Hooks::login($params);
 	}
 
+	public static function logoutHelper() {
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::tearDown();
+	}
+
 	/**
 	 * helper function to set migration status to the right value
 	 * to be able to test the migration path
