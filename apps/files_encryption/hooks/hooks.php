@@ -484,7 +484,7 @@ class Hooks {
 
 	/**
 	 * @brief mark file as renamed so that we know the original source after the file was renamed
-	 * @param string $path
+	 * @param array $params with the old path and the new path
 	 */
 	public static function preRename($params) {
 		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
@@ -516,8 +516,15 @@ class Hooks {
 		$userId = \OCP\User::getUser();
 		$util = new Util($view, $userId);
 
-		$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
-		$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
+		if (isset(self::$renamedFiles[$params['oldpath']]['uid']) &&
+				isset(self::$renamedFiles[$params['oldpath']]['path'])) {
+			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
+			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
+		} else {
+			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::ERROR);
+			return false;
+		}
+
 		list($ownerNew, $pathNew) = $util->getUidAndFilename($params['newpath']);
 
 		// Format paths to be relative to user files dir
