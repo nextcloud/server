@@ -63,6 +63,7 @@ class OC_Migration_Content{
 
 		// Optimize the query
 		$query = $this->db->prepare( $query );
+		$query = new OC_DB_StatementWrapper($query, false);
 
 		return $query;
 	}

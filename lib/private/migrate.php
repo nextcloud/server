@@ -451,6 +451,9 @@ class OC_Migrate{
 					'path' => self::$dbpath,
 					'driver' => 'pdo_sqlite',
 			);
+			$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
+			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
+			$connectionParams['tablePrefix'] = '';
 
 			// Try to establish connection
 			self::$migration_database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
