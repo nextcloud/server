@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-19 01:55-0500\n"
-"PO-Revision-Date: 2013-12-19 06:55+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "Virheellinen lähde"
 #: ajax/newfile.php:86
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "Palvelimen ei ole lupa avata verkko-osoitteita. Tarkista palvelimen asetukset"
 
 #: ajax/newfile.php:103
 #, php-format
@@ -180,7 +180,7 @@ msgstr "Kansion luominen epäonnistui"
 
 #: js/file-upload.js:661
 msgid "Error fetching URL"
-msgstr ""
+msgstr "Virhe noutaessa verkko-osoitetta"
 
 #: js/fileactions.js:125
 msgid "Share"

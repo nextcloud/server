@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-19 01:55-0500\n"
-"PO-Revision-Date: 2013-12-19 06:55+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "Keine gültige Quelle"
 #: ajax/newfile.php:86
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "Dem Server ist das Öffnen von URLs nicht erlaubt, bitte die Serverkonfiguration prüfen"
 
 #: ajax/newfile.php:103
 #, php-format
@@ -187,7 +187,7 @@ msgstr "Der Ordner konnte nicht erstellt werden"
 
 #: js/file-upload.js:661
 msgid "Error fetching URL"
-msgstr ""
+msgstr "Fehler beim Abrufen der URL"
 
 #: js/fileactions.js:125
 msgid "Share"

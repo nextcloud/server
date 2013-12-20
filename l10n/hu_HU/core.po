@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-14 22:00+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -151,59 +151,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:394
+#: js/js.js:398
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:865
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:866
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n perccel ezelőtt"
 msgstr[1] "%n perccel ezelőtt"
 
-#: js/js.js:867
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: js/js.js:868
+#: js/js.js:872
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:869
+#: js/js.js:873
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:870
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: js/js.js:871
+#: js/js.js:875
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:872
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: js/js.js:873
+#: js/js.js:877
 msgid "months ago"
 msgstr "több hónapja"
 
-#: js/js.js:874
+#: js/js.js:878
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:875
+#: js/js.js:879
 msgid "years ago"
 msgstr "több éve"
 

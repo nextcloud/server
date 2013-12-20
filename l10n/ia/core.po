@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-13 14:43-0500\n"
-"PO-Revision-Date: 2013-12-13 18:10+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -148,59 +148,59 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Decembre"
 
-#: js/js.js:394
+#: js/js.js:398
 msgid "Settings"
 msgstr "Configurationes"
 
-#: js/js.js:865
+#: js/js.js:869
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:866
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:867
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:868
+#: js/js.js:872
 msgid "today"
 msgstr ""
 
-#: js/js.js:869
+#: js/js.js:873
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:870
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:871
+#: js/js.js:875
 msgid "last month"
 msgstr ""
 
-#: js/js.js:872
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:873
+#: js/js.js:877
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:874
+#: js/js.js:878
 msgid "last year"
 msgstr ""
 
-#: js/js.js:875
+#: js/js.js:879
 msgid "years ago"
 msgstr ""
 
