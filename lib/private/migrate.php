@@ -257,7 +257,7 @@ class OC_Migrate{
 				$userfolder = $extractpath . $json->exporteduser;
 				$newuserfolder = $datadir . '/' . self::$uid;
 				foreach(scandir($userfolder) as $file){
-					if($file !== '.' && $file !== '..' && is_dir($file)) {
+					if($file !== '.' && $file !== '..' && is_dir($userfolder.'/'.$file)) {
 						$file = str_replace(array('/', '\\'), '',  $file);
 
 						// Then copy the folder over
