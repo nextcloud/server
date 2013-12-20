@@ -105,7 +105,7 @@
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
 					<li id="apps-management">
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
-							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<span>
 								<?php p($l->t('Apps')); ?>
