@@ -9,6 +9,7 @@
 
 namespace Test\User;
 
+use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 
 class User extends \PHPUnit_Framework_TestCase {
@@ -205,7 +206,9 @@ class User extends \PHPUnit_Framework_TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$user = new \OC\User\User('foo', $backend);
+		$allConfig = new AllConfig();
+
+		$user = new \OC\User\User('foo', $backend, null, $allConfig);
 		$this->assertEquals(\OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/foo', $user->getHome());
 	}
 
