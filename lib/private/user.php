@@ -243,7 +243,6 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
 		if($uid) {
-			session_regenerate_id(true);
 			self::setUserId($uid);
 			self::setDisplayName($uid);
 			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>'' ));
