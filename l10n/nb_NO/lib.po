@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"POT-Creation-Date: 2013-12-22 01:55-0500\n"
+"PO-Revision-Date: 2013-12-21 07:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -55,11 +55,11 @@ msgstr ""
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Ukjent filtype"
 
 #: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "Ugyldig bilde"
 
 #: private/defaults.php:34
 msgid "web services under your control"
@@ -292,13 +292,13 @@ msgstr "sekunder siden"
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n minutter siden"
 
 #: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n timer siden"
 
 #: private/template/functions.php:133
 msgid "today"
@@ -312,7 +312,7 @@ msgstr "i går"
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dager siden"
 
 #: private/template/functions.php:138
 msgid "last month"
@@ -322,7 +322,7 @@ msgstr "forrige måned"
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dager siden"
 
 #: private/template/functions.php:141
 msgid "last year"

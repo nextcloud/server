@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Filer skal downloades en for en.",
 "Back to Files" => "Tilbage til Filer",
 "Selected files too large to generate zip file." => "De markerede filer er for store til at generere en ZIP-fil.",
+"Please download the files separately in smaller chunks or kindly ask your administrator." => "Hent venligst filerne hver for sig i mindre dele eller spørg din administrator.",
 "No source specified when installing app" => "Ingen kilde angivet under installation af app",
 "No href specified when installing app from http" => "Ingen href angivet under installation af app via http",
 "No path specified when installing app from local file" => "Ingen sti angivet under installation af app fra lokal fil",

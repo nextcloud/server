@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Sappe, 2013
+# lodahl <leiflodahl@gmail.com>, 2013
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-22 01:55-0500\n"
+"PO-Revision-Date: 2013-12-21 16:40+0000\n"
+"Last-Translator: lodahl <leiflodahl@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr "Adgangsfejl"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Dit fulde navn er blevet ændret."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Ikke i stand til at ændre dit fulde navn"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -201,21 +202,21 @@ msgstr "Slet"
 msgid "add group"
 msgstr "Tilføj gruppe"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Fejl ved oprettelse af bruger"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Advarsel: Hjemmemappen for bruger \"{user}\" findes allerede"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -223,23 +224,23 @@ msgstr "Dansk"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Alt (alvorlige fejl, fejl, advarsler, info, debug)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Info, advarsler, fejl og alvorlige fejl"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Advarsler, fejl og alvorlige fejl"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Fejl og alvorlige fejl"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Kun alvorlige fejl"
 
 #: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
@@ -250,7 +251,7 @@ msgstr "Sikkerhedsadvarsel"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Du tilgår %s via HTTP. Vi anbefaler at du konfigurerer din server til i stedet at kræve HTTPS."
 
 #: templates/admin.php:39
 msgid ""
@@ -288,14 +289,14 @@ msgstr "PHP modulet 'fileinfo' mangler. Vi anbefaler stærkt at aktivere dette m
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Din PHP-version er forældet"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "Din PHP-version er forældet. Vi anbefaler at du opgraderer til 5.3.8 eller nyere, fordi ældre versioner har kendte fejl. Det er derfor muligt at installationen ikke fungerer korrekt."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -303,20 +304,20 @@ msgstr "Landestandard fungerer ikke"
 
 #: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Systemets locale kan ikke sættes til et der bruger UTF-8."
 
 #: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Det betyder at der kan være problemer med visse tegn i filnavne."
 
 #: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Vi anbefaler at du installerer den krævede pakke på dit system, for at understøtte følgende locales: %s."
 
 #: templates/admin.php:118
 msgid "Internet connection not working"
@@ -343,11 +344,11 @@ msgstr "Udføre en opgave med hver side indlæst"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php er registreret til at en webcron service skal kalde cron.php hvert 15 minut over http."
 
 #: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Brug systemets cron service til at kalde cron.php hvert 15. minut."
 
 #: templates/admin.php:163
 msgid "Sharing"
@@ -535,7 +536,7 @@ msgstr "Skift kodeord"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Fulde navn"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -571,7 +572,7 @@ msgstr "Enten png eller jpg. Ideelt firkantet men du har mulighed for at beskær
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Din avatar kommer fra din oprindelige konto."
 
 #: templates/personal.php:101
 msgid "Abort"
@@ -598,7 +599,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Brug denne adresse for at <a href=\"%s\" target=\"_blank\">tilgå dine filer via WebDAV</a>"
 
 #: templates/personal.php:150
 msgid "Encryption"
@@ -606,7 +607,7 @@ msgstr "Kryptering"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "Krypteringsprogrammet er ikke længere aktiveret. Dekrypter venligst alle dine filer"
 
 #: templates/personal.php:158
 msgid "Log-in password"
@@ -640,7 +641,7 @@ msgstr "Standard opbevaring"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Indtast venligst lagerkvote (f.eks. \"512 MB\" eller \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -660,7 +661,7 @@ msgstr "Opbevaring"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "ændre fulde navn"
 
 #: templates/users.php:112
 msgid "set new password"
