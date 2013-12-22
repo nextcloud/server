@@ -54,7 +54,7 @@
 		</p>
 		<p class="infield groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass" placeholder=""
-				value="<?php p(OC_Helper::init_var('adminpass')); ?>" />
+				value="<?php p(OC_Helper::init_var('adminpass')); ?>" required />
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
 			<input type="checkbox" id="show" name="show" />
