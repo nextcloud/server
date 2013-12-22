@@ -36,7 +36,9 @@ if(!isset($linkedItem['uid_owner']) || !isset($linkedItem['file_source'])) {
 	exit;
 }
 
-$userId = $linkedItem['uid_owner'];
+$rootLinkItem = OCP\Share::resolveReShare($linkedItem);
+$userId = $rootLinkItem['uid_owner'];
+
 \OC_Util::setupFS($userId);
 \OC\Files\Filesystem::initMountPoints($userId);
 $view = new \OC\Files\View('/' . $userId . '/files');
