@@ -137,10 +137,10 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
 		$this->assertTrue((bool)$result);
-		$row = $result->fetchRow();
-		$this->assertArrayHasKey('carddata', $row);
-		$this->assertEquals($carddata, $row['carddata']);
-		$this->assertEquals(1, $result->numRows());
+		$rowset = $result->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('carddata', $rowset[0]);
+		$this->assertEquals($carddata, $rowset[0]['carddata']);
 
 		// Try to insert a new row
 		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
@@ -153,13 +153,12 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
 		$this->assertTrue((bool)$result);
-		$row = $result->fetchRow();
-		$this->assertArrayHasKey('carddata', $row);
 		// Test that previously inserted data isn't overwritten
-		$this->assertEquals($carddata, $row['carddata']);
 		// And that a new row hasn't been inserted.
-		$this->assertEquals(1, $result->numRows());
-
+		$rowset = $result->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('carddata', $rowset[0]);
+		$this->assertEquals($carddata, $rowset[0]['carddata']);
 	}
 
 	public function testUtf8Data() {

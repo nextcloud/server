@@ -101,28 +101,28 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(\OC_Preferences::deleteKey('Deleteuser', 'deleteapp', 'deletekey'));
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
 		$result = $query->execute(array('Deleteuser', 'deleteapp', 'deletekey'));
-		$this->assertEquals(0, $result->numRows());
+		$this->assertEquals(0, count($result->fetchAll()));
 	}
 
 	public function testDeleteApp() {
 		$this->assertTrue(\OC_Preferences::deleteApp('Deleteuser', 'deleteapp'));
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?');
 		$result = $query->execute(array('Deleteuser', 'deleteapp'));
-		$this->assertEquals(0, $result->numRows());
+		$this->assertEquals(0, count($result->fetchAll()));
 	}
 
 	public function testDeleteUser() {
 		$this->assertTrue(\OC_Preferences::deleteUser('Deleteuser'));
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?');
 		$result = $query->execute(array('Deleteuser'));
-		$this->assertEquals(0, $result->numRows());
+		$this->assertEquals(0, count($result->fetchAll()));
 	}
 
 	public function testDeleteAppFromAllUsers() {
 		$this->assertTrue(\OC_Preferences::deleteAppFromAllUsers('someapp'));
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `appid` = ?');
 		$result = $query->execute(array('someapp'));
-		$this->assertEquals(0, $result->numRows());
+		$this->assertEquals(0, count($result->fetchAll()));
 	}
 }
 

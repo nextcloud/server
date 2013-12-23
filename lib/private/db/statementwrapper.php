@@ -30,25 +30,6 @@ class OC_DB_StatementWrapper {
 	}
 
 	/**
-	 * provide numRows
-	 */
-	public function numRows() {
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if ($type == 'oci') {
-			// OCI doesn't have a queryString, just do a rowCount for now
-			return $this->statement->rowCount();
-		}
-		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
-		$queryString = $this->statement->getWrappedStatement()->queryString;
-		if (preg_match($regex, $queryString, $output) > 0) {
-			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}");
-			return $query->execute($this->lastArguments)->fetchColumn();
-		}else{
-			return $this->statement->rowCount();
-		}
-	}
-
-	/**
 	 * make execute return the result instead of a bool
 	 */
 	public function execute($input=array()) {
