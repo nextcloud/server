@@ -10,6 +10,7 @@ require_once __DIR__.'/../lib/base.php';
 
 OC_App::enable('files_sharing');
 OC_App::enable('files_encryption');
+OC_App::enable('user_ldap');
 OC_App::enable('calendar');
 OC_App::enable('contacts');
 OC_App::enable('apptemplateadvanced');
