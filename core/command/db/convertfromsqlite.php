@@ -16,6 +16,19 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertFromSqlite extends Command {
+	/**
+	 * @var \OC\Config $config
+	 */
+	protected $config;
+
+	/**
+	 * @param \OC\Config $config
+	 */
+	public function __construct($config) {
+		$this->config = $config;
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('db:convert-from-sqlite')
@@ -63,8 +76,8 @@ class ConvertFromSqlite extends Command {
 	);
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		// connect 'from' database
-		$datadir = \OC_Config::getValue( "datadirectory", \OC::$SERVERROOT.'/data' );
-		$name = \OC_Config::getValue( "dbname", "owncloud" );
+		$datadir = $this->config->getValue( "datadirectory", \OC::$SERVERROOT.'/data' );
+		$name = $this->config->getValue( "dbname", "owncloud" );
 		$dbfile = $datadir.'/'.$name.'.db';
 		$connectionParams = array(
 				'path' => $dbfile,
@@ -139,7 +152,7 @@ class ConvertFromSqlite extends Command {
 			}
 		}
 		// enable maintenance mode to prevent changes
-		\OC_Config::setValue('maintenance', true);
+		$this->config->setValue('maintenance', true);
 		try {
 			// copy table rows
 			$tables = array_intersect($toTables, $fromTables);
@@ -152,16 +165,16 @@ class ConvertFromSqlite extends Command {
 			if ($input->getOption('port')) {
 				$dbhost = $hostname.':'.$input->getOption('port');
 			}
-			\OC_Config::setValue('dbtype', $type);
-			\OC_Config::setValue('dbname', $dbname);
-			\OC_Config::setValue('dbhost', $dbhost);
-			\OC_Config::setValue('dbuser', $username);
-			\OC_Config::setValue('dbpassword', $password);
+			$this->config->setValue('dbtype', $type);
+			$this->config->setValue('dbname', $dbname);
+			$this->config->setValue('dbhost', $dbhost);
+			$this->config->setValue('dbuser', $username);
+			$this->config->setValue('dbpassword', $password);
 		} catch(Exception $e) {
-			\OC_Config::setValue('maintenance', false);
+			$this->config->setValue('maintenance', false);
 			throw $e;
 		}
-		\OC_Config::setValue('maintenance', false);
+		$this->config->setValue('maintenance', false);
 	}
 
 	private function getTables($db) {
