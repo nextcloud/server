@@ -52,7 +52,7 @@ class OC_Appconfig {
 	 */
 	public static function getApps() {
 		// No magic in here!
-		$query = OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`');
+		$query = OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig` ORDER BY `appid`');
 		$result = $query->execute();
 
 		$apps = array();
