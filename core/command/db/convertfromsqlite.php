@@ -184,18 +184,14 @@ class ConvertFromSqlite extends Command {
 
 	private function copyTable($fromDB, $toDB, $table, $output) {
 		$progress = $this->getHelperSet()->get('progress');
-		$query = 'SELECT COUNT(*) from '.$table;
+		$query = 'SELECT COUNT(*) FROM '.$table;
 		$count = $fromDB->fetchColumn($query);
-		$query = 'SELECT * from '.$table;
+		$query = 'SELECT * FROM '.$table;
 		$statement = $fromDB->executeQuery($query);
 		$query = 'DELETE FROM '.$table;
 		$toDB->executeUpdate($query);
 		$progress->start($output, $count);
-		if ($count > 100) {
-			$progress->setRedrawFrequency(5);
-		} else {
-			$progress->setRedrawFrequency(1);
-		}
+		$progress->setRedrawFrequency($count > 100 ? 5 : 1);
 		while($row = $statement->fetch()) {
 			$progress->advance();
 			$toDB->insert($table, $row);
