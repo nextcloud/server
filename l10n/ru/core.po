@@ -7,6 +7,7 @@
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # foool <andrglad@mail.ru>, 2013
+# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
 # Mescalinich <insider.junk@gmail.com>, 2013
 # stushev <s-tushev@ya.ru>, 2013
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 17:10+0000\n"
+"Last-Translator: Evgeniy Spitsyn <evgeniy@spitsyn.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -706,7 +707,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Это приложение требует включённый JavaScript для корректной работы. Пожалуйста, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включите JavaScript</a> и перезагрузите интерфейс."
 
 #: templates/layout.user.php:44
 #, php-format

@@ -4,13 +4,15 @@
 # 
 # Translators:
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
+# Park Shinjo <peremen@gmail.com>, 2013
+# 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 14:24+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +22,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "이 공유는 암호로 보호되어 있습니다"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr "비밀번호가 틀립니다. 다시 입력해주세요."
+msgstr "암호가 잘못되었습니다. 다시 입력해 주십시오."
 
 #: templates/authenticate.php:10
 msgid "Password"
@@ -32,7 +34,7 @@ msgstr "암호"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr "죄송합니다만 이 링크는 더이상 작동되지 않습니다."
+msgstr "죄송합니다. 이 링크는 더 이상 작동하지 않습니다."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
@@ -40,19 +42,19 @@ msgstr "이유는 다음과 같을 수 있습니다:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr "이 항목은 삭제되었습니다"
+msgstr "항목이 삭제됨"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr "링크가 만료되었습니다"
+msgstr "링크가 만료됨"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr "공유가 비활성되었습니다"
+msgstr "공유가 비활성화됨"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr "더 자세한 설명은 링크를 보내신 분에게 여쭤보십시오"
+msgstr "자세한 정보는 링크를 보낸 사람에게 문의하십시오."
 
 #: templates/public.php:18
 #, php-format
@@ -82,4 +84,4 @@ msgstr "다음 항목을 미리 볼 수 없음:"
 
 #: templates/public.php:99
 msgid "Direct link"
-msgstr ""
+msgstr "직접 링크"

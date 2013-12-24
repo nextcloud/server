@@ -4,13 +4,15 @@
 # 
 # Translators:
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
+# Shinjo Park <kde@peremen.name>, 2013
+# 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-01 02:20+0000\n"
-"Last-Translator: 책읽는달팽 <bjh13579@gmail.com>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 13:40+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,21 +22,21 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr "복구키가 성공적으로 활성화 되었습니다"
+msgstr "복구 키가 성공적으로 활성화되었습니다"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr "복구키를 활성화 할수 없습니다. 복구키의 비밀번호를 확인해주세요!"
+msgstr "복구 키를 활성화 할 수 없습니다. 복구 키의 암호를 확인해 주세요!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr "복구키가 성공적으로 비활성화 되었습니다"
+msgstr "복구 키가 성공적으로 비활성화 되었습니다"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr "복구키를 비활성화 할수 없습니다. 복구키의 비밀번호를 확인해주세요!"
+msgstr "복구 키를 비활성화 할 수 없습니다. 복구 키의 암호를 확인해주세요!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
@@ -42,11 +44,11 @@ msgstr "암호가 성공적으로 변경되었습니다"
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr "암호를 변경할수 없습니다. 아마도 예전 암호가 정확하지 않은것 같습니다."
+msgstr "암호를 변경할 수 없습니다. 예전 암호가 정확하지 않은 것 같습니다."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr "개인키 암호가 성공적으로 업데이트 됨."
+msgstr "개인 키 암호가 성공적으로 업데이트 됨."
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
@@ -81,18 +83,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:62
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:63
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:281
 msgid "Following users are not set up for encryption:"
 msgstr ""
 
@@ -123,7 +125,7 @@ msgstr ""
 
 #: templates/settings-admin.php:11
 msgid "Recovery key password"
-msgstr "키 비밀번호 복구"
+msgstr "복구 키 암호"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
@@ -139,15 +141,15 @@ msgstr "비활성화"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr "복구 키 비밀번호 변경"
+msgstr "복구 키 암호 변경:"
 
 #: templates/settings-admin.php:40
 msgid "Old Recovery key password"
-msgstr "예전 복구 키 비밀번호"
+msgstr "이전 복구 키 암호"
 
 #: templates/settings-admin.php:47
 msgid "New Recovery key password"
-msgstr "새 복구 키 비밀번호"
+msgstr "새 복구 키 암호"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
@@ -173,7 +175,7 @@ msgstr ""
 
 #: templates/settings-personal.php:22
 msgid "Old log-in password"
-msgstr "예전 로그인 암호"
+msgstr "이전 로그인 암호"
 
 #: templates/settings-personal.php:28
 msgid "Current log-in password"
@@ -199,4 +201,4 @@ msgstr "파일 복구 설정 업데이트됨"
 
 #: templates/settings-personal.php:61
 msgid "Could not update file recovery"
-msgstr "파일 복구를 업데이트 할수 없습니다"
+msgstr "파일 복구를 업데이트 할 수 없습니다"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 23:50+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +76,7 @@ msgstr "\"%s\" açılamıyor"
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
-msgstr "ZIP indirmeleri kapatılmıştır."
+msgstr "ZIP indirmeleri kapatıldı."
 
 #: private/files.php:232
 msgid "Files need to be downloaded one by one."
@@ -88,7 +88,7 @@ msgstr "Dosyalara dön"
 
 #: private/files.php:258
 msgid "Selected files too large to generate zip file."
-msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür."
+msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyük."
 
 #: private/files.php:259
 msgid ""

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-15 13:10+0000\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-23 16:11+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -244,7 +244,7 @@ msgstr "Sadece ölümcül konular"
 
 #: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
-msgstr "Güvenlik Uyarisi"
+msgstr "Güvenlik Uyarısı"
 
 #: templates/admin.php:25
 #, php-format
@@ -425,7 +425,7 @@ msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için l�
 
 #: templates/admin.php:254
 msgid "Log"
-msgstr "Kayıtlar"
+msgstr "Günlük"
 
 #: templates/admin.php:255
 msgid "Log level"
@@ -615,7 +615,7 @@ msgstr "Oturum açma parolası"
 
 #: templates/personal.php:163
 msgid "Decrypt all Files"
-msgstr "Tüm dosyaların şifresini çözme"
+msgstr "Tüm dosyaların şifresini çöz"
 
 #: templates/users.php:21
 msgid "Login Name"
