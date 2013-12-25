@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"POT-Creation-Date: 2013-12-25 01:55-0500\n"
+"PO-Revision-Date: 2013-12-24 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -21,38 +21,38 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr " \"%s\" アプリは、このバージョンのownCloudと互換性がない為、インストールできません。"
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
 msgstr "アプリ名が未指定"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr "ヘルプ"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr "個人"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
 msgstr "設定"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr "ユーザ"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"

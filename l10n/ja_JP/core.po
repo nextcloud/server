@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: iLikeIT <dj_dark_junglist@yahoo.com>\n"
+"POT-Creation-Date: 2013-12-25 01:55-0500\n"
+"PO-Revision-Date: 2013-12-24 08:10+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,7 +195,7 @@ msgstr[0] "%n ヶ月前"
 
 #: js/js.js:877
 msgid "months ago"
-msgstr "月前"
+msgstr "数ヶ月前"
 
 #: js/js.js:878
 msgid "last year"
@@ -203,7 +203,7 @@ msgstr "一年前"
 
 #: js/js.js:879
 msgid "years ago"
-msgstr "年前"
+msgstr "数年前"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
