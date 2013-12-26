@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-26 01:55-0500\n"
+"PO-Revision-Date: 2013-12-25 17:50+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,38 +19,38 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Η εφαρμογή \"%s\" δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση του ownCloud."
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
-msgstr ""
+msgstr "Δεν προδιορίστηκε όνομα εφαρμογής"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr "Προσωπικά"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr "Χρήστες"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr "Διαχειριστής"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Αποτυχία αναβάθμισης του \"%s\"."
@@ -95,38 +96,38 @@ msgstr ""
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε πηγή κατά την εγκατάσταση της εφαρμογής"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε href κατά την εγκατάσταση της εφαρμογής μέσω http "
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε μονοπάτι κατά την εγκατάσταση εφαρμογής από τοπικό αρχείο"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Συλλογές αρχείων τύπου %s δεν υποστηρίζονται"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Αποτυχία ανοίγματος συλλογής αρχείων κατά την εγκατάσταση εφαρμογής"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Η εφαρμογή δεν παρέχει αρχείο info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Η εφαρμογή δεν μπορεί να εγκατασταθεί λόγω μη-επιτρεπόμενου κώδικα μέσα στην Εφαρμογή"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση ownCloud"
 
 #: private/installer.php:146
 msgid ""
@@ -299,7 +300,7 @@ msgstr[1] "%n λεπτά πριν"
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ώρες πριν"
 
 #: private/template/functions.php:133
 msgid "today"
@@ -313,7 +314,7 @@ msgstr "χτες"
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ημέρες πριν"
 
 #: private/template/functions.php:138
 msgid "last month"
@@ -323,7 +324,7 @@ msgstr "τελευταίο μήνα"
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n μήνες πριν"
 
 #: private/template/functions.php:141
 msgid "last year"
