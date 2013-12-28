@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: Marios Bekatoros <>\n"
+"POT-Creation-Date: 2013-12-28 01:55-0500\n"
+"PO-Revision-Date: 2013-12-27 23:02+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,19 +41,19 @@ msgstr "Οι ρυθμίσεις είναι έγκυρες, αλλά απέτυχ
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "Η διαμόρφωση είναι άκυρη. Παρακαλώ ελέγξτε τα αρχεία σφαλμάτων για περαιτέρω λεπτομέρειες."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Καμμία εντολή δεν προσδιορίστηκε"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Καμμία διαμόρφωση δεν προσδιορίστηκε"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Δεν προσδιορίστηκαν δεδομένα"
 
 #: ajax/wizard.php:89
 #, php-format
@@ -90,15 +90,15 @@ msgstr "Σφάλμα"
 
 #: js/settings.js:837
 msgid "Configuration OK"
-msgstr ""
+msgstr "Η διαμόρφωση είναι εντάξει"
 
 #: js/settings.js:846
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Η διαμόρφωση είναι λανθασμένη"
 
 #: js/settings.js:855
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Η διαμόρφωση είναι ελλιπής"
 
 #: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
@@ -106,7 +106,7 @@ msgstr "Επιλέξτε ομάδες"
 
 #: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
-msgstr ""
+msgstr "Επιλογή κλάσης αντικειμένων"
 
 #: js/settings.js:878
 msgid "Select attributes"
@@ -132,23 +132,23 @@ msgstr "Επιβεβαίωση Διαγραφής"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s ομάδα βρέθηκε"
+msgstr[1] "%s ομάδες βρέθηκαν"
 
 #: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s χρήστης βρέθηκε"
+msgstr[1] "%s χρήστες βρέθηκαν"
 
 #: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
-msgstr ""
+msgstr "Άκυρος εξυπηρετητής"
 
 #: lib/wizard.php:951
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Αδυναμία εύρεσης επιθυμητου χαρακτηριστικού"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -165,23 +165,23 @@ msgstr "Βοήθεια"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Περιορισμός πρόσβασης %s σε ομάδες που ταιριάζουν αυτά τα κριτήρια:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "μόνο αυτές οι κλάσεις αντικειμένων:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "μόνο από αυτές τις ομάδες:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Επεξεργασία πρωτογενούς φίλτρου αντί αυτού"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-loginfilter.php:37
@@ -197,11 +197,11 @@ msgstr ""
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "ομάδες βρέθηκαν"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Ποια ιδιότητα θα χρησιμοποιηθεί ως όνομα σύνδεσης:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -213,7 +213,7 @@ msgstr ""
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Άλλες Ιδιότητες:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
@@ -269,7 +269,7 @@ msgstr "Μπορείτε να καθορίσετε το Base DN για χρήσ�
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Περιορισμός πρόσβασης %s σε χρήστες που ταιριάζουν αυτά τα κριτήρια:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -279,7 +279,7 @@ msgstr ""
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "χρήστες βρέθηκαν"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
