@@ -4,14 +4,15 @@
 # 
 # Translators:
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
+# Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-24 01:55-0500\n"
-"PO-Revision-Date: 2013-12-22 13:40+0000\n"
+"POT-Creation-Date: 2013-12-29 01:55-0500\n"
+"PO-Revision-Date: 2013-12-28 13:54+0000\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -54,14 +55,14 @@ msgstr "개인 키 암호가 성공적으로 업데이트 됨."
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "개인 키 암호를 업데이트할 수 없습니다. 이전 암호가 올바르지 않은 것 같습니다."
 
 #: files/error.php:12
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "암호화 앱이 초기화되지 않았습니다! 암호화 앱이 다시 활성화된 것 같습니다. 암호화 앱을 초기화하려면 로그아웃했다 다시 로그인하십시오."
 
 #: files/error.php:16
 #, php-format
@@ -69,38 +70,38 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "개인 키가 올바르지 않습니다! 암호가 %s(예: 회사 디렉터리) 외부에서 변경된 것 같습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 수정하십시오."
 
 #: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr "이 파일을 복호화할 수 없습니다. 공유된 파일일 수도 있습니다. 파일 소유자에게 공유를 다시 요청하십시오."
 
 #: files/error.php:22 files/error.php:27
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "알 수 없는 오류. 시스템 설정을 확인하거나 관리자에게 문의하십시오."
 
 #: hooks/hooks.php:62
 msgid "Missing requirements."
-msgstr ""
+msgstr "요구 사항이 부족합니다."
 
 #: hooks/hooks.php:63
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "PHP 5.3.3 이상 설치 여부, PHP의 OpenSSL 확장 기능 활성화 및 설정 여부를 확인하십시오. 암호화 앱이 비활성화 되었습니다."
 
 #: hooks/hooks.php:281
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "다음 사용자는 암호화를 사용할 수 없습니다:"
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
-msgstr ""
+msgstr "초기 암호화가 시작되었습니다... 시간이 걸릴 수도 있으니 기다려 주십시오."
 
 #: js/settings-admin.js:13
 msgid "Saving..."
@@ -108,7 +109,7 @@ msgstr "저장 중..."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "다음으로 바로 가기: "
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
@@ -121,7 +122,7 @@ msgstr "암호화"
 #: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "복구 키 사용 (암호를 잊었을 때 파일을 복구할 수 있도록 함):"
 
 #: templates/settings-admin.php:11
 msgid "Recovery key password"
@@ -129,7 +130,7 @@ msgstr "복구 키 암호"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "복구 키 암호 재입력"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
@@ -153,7 +154,7 @@ msgstr "새 복구 키 암호"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "새 복구 키 암호 재입력"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"
@@ -161,17 +162,17 @@ msgstr "암호 변경"
 
 #: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "개인 키 암호와 로그인 암호가 일치하지 않습니다:"
 
 #: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "이전 개인 키 암호를 현재 로그인 암호로 설정하십시오."
 
 #: templates/settings-personal.php:14
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr " 이전 암호가 기억나지 않으면 시스템 관리자에게 파일 복구를 요청하십시오."
 
 #: templates/settings-personal.php:22
 msgid "Old log-in password"
@@ -187,13 +188,13 @@ msgstr "개인 키 암호 업데이트"
 
 #: templates/settings-personal.php:42
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "암호 복구 사용:"
 
 #: templates/settings-personal.php:44
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다"
 
 #: templates/settings-personal.php:60
 msgid "File recovery settings updated"
@@ -201,4 +202,4 @@ msgstr "파일 복구 설정 업데이트됨"
 
 #: templates/settings-personal.php:61
 msgid "Could not update file recovery"
-msgstr "파일 복구를 업데이트 할 수 없습니다"
+msgstr "파일 복구를 업데이트할 수 없습니다"

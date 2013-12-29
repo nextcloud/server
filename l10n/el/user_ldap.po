@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-28 01:55-0500\n"
-"PO-Revision-Date: 2013-12-27 23:02+0000\n"
+"POT-Creation-Date: 2013-12-29 01:55-0500\n"
+"PO-Revision-Date: 2013-12-28 23:00+0000\n"
 "Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -187,13 +187,13 @@ msgstr "Επεξεργασία πρωτογενούς φίλτρου αντί α
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Πρωτογενές φίλτρο "
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Το φίλτρο καθορίζει ποιες ομάδες LDAP θα έχουν πρόσβαση στην εγκατάσταση %s."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
@@ -205,11 +205,11 @@ msgstr "Ποια ιδιότητα θα χρησιμοποιηθεί ως όνο�
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "Όνομα χρήστη LDAP:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "Διεύθυνση ηλ. ταχυδρομείου LDAP:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
@@ -220,7 +220,7 @@ msgstr "Άλλες Ιδιότητες:"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειριθεί σύνδεση. Το %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -275,7 +275,7 @@ msgstr "Περιορισμός πρόσβασης %s σε χρήστες που 
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Το φίλτρο καθορίζει ποιοι χρήστες LDAP θα έχουν πρόσβαση στην εγκατάσταση %s."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
@@ -349,7 +349,7 @@ msgstr "Απενεργοποίηση επικύρωσης πιστοποιητι
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Δεν προτείνεται, χρησιμοποιείστε το μόνο για δοκιμές! Εάν η σύνδεση λειτουργεί μόνο με αυτή την επιλογή, εισάγετε το πιστοποιητικό SSL του διακομιστή LDAP στο %s διακομιστή σας."
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
@@ -369,7 +369,7 @@ msgstr "Πεδίο Ονόματος Χρήστη"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Η ιδιότητα LDAP προς χρήση για δημιουργία του προβαλλόμενου ονόματος χρήστη."
 
 #: templates/settings.php:33
 msgid "Base User Tree"
@@ -393,7 +393,7 @@ msgstr "Group Display Name Field"
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Η ιδιότητα LDAP προς χρήση για δημιουργία του προβαλλόμενου ονόματος ομάδας."
 
 #: templates/settings.php:36
 msgid "Base Group Tree"
@@ -459,7 +459,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Εξ ορισμού, το εσωτερικό όνομα χρήστη θα δημιουργηθεί από το χαρακτηριστικό UUID. Αυτό βεβαιώνει ότι το όνομα χρήστη είναι μοναδικό και δεν χρειάζεται μετατροπή χαρακτήρων. Το εσωτερικό όνομα χρήστη έχει τον περιορισμό ότι μόνο αυτοί οι χαρακτήρες επιτρέπονται: [ a-zA-Z0-9_.@- ]. Οι άλλοι χαρακτήρες αντικαθίστανται με τους αντίστοιχους ASCII ή απλά παραλείπονται. Στις συγκρούσεις ένας αριθμός θα προστεθεί / αυξηθεί. Το εσωτερικό όνομα χρήστη χρησιμοποιείται για την αναγνώριση ενός χρήστη εσωτερικά. Είναι επίσης το προεπιλεγμένο όνομα για τον αρχικό φάκελο χρήστη. Αποτελεί επίσης μέρος των απομακρυσμένων διευθύνσεων URL, για παράδειγμα για όλες τις υπηρεσίες *DAV. Με αυτή τη ρύθμιση, η προεπιλεγμένη συμπεριφορά μπορεί να παρακαμφθεί. Για να επιτευχθεί μια παρόμοια συμπεριφορά όπως πριν το ownCloud 5 εισάγετε το χαρακτηριστικό του προβαλλόμενου ονόματος χρήστη στο παρακάτω πεδίο. Αφήστε το κενό για την προεπιλεγμένη λειτουργία. Οι αλλαγές θα έχουν ισχύ μόνο σε νεώτερους (προστιθέμενους) χρήστες LDAP."
 
 #: templates/settings.php:53
 msgid "Internal Username Attribute:"
@@ -467,7 +467,7 @@ msgstr "Ιδιότητα Εσωτερικού Ονόματος Χρήστη:"
 
 #: templates/settings.php:54
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Παράκαμψη ανίχνευσης UUID"
 
 #: templates/settings.php:55
 msgid ""
@@ -478,19 +478,19 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Από προεπιλογή, το χαρακτηριστικό UUID εντοπίζεται αυτόματα. Το χαρακτηριστικό UUID χρησιμοποιείται για την αναγνώριση χωρίς αμφιβολία χρηστών και ομάδων LDAP. Επίσης, το εσωτερικό όνομα χρήστη θα δημιουργηθεί με βάση το UUID, εφόσον δεν ορίζεται διαφορετικά ανωτέρω. Μπορείτε να παρακάμψετε τη ρύθμιση και να ορίσετε ένα χαρακτηριστικό της επιλογής σας. Θα πρέπει να βεβαιωθείτε ότι το χαρακτηριστικό της επιλογής σας μπορεί να ληφθεί για τους χρήστες και τις ομάδες και ότι είναι μοναδικό. Αφήστε το κενό για την προεπιλεγμένη λειτουργία. Οι αλλαγές θα έχουν ισχύ μόνο σε πρόσφατα αντιστοιχισμένους (προστιθέμενους) χρήστες και ομάδες LDAP."
 
 #: templates/settings.php:56
 msgid "UUID Attribute for Users:"
-msgstr ""
+msgstr "Χαρακτηριστικό UUID για Χρήστες:"
 
 #: templates/settings.php:57
 msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "Χαρακτηριστικό UUID για Ομάδες:"
 
 #: templates/settings.php:58
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "Αντιστοίχιση Χρηστών Όνομα Χρήστη-LDAP"
 
 #: templates/settings.php:59
 msgid ""
@@ -504,12 +504,12 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Τα ονόματα χρηστών χρησιμοποιούνται για την αποθήκευση και την ανάθεση (μετα) δεδομένων. Προκειμένου να προσδιοριστούν με ακρίβεια και να αναγνωρίστουν οι χρήστες, κάθε χρήστης LDAP θα έχει ένα εσωτερικό όνομα. Αυτό απαιτεί μια αντιστοίχιση του ονόματος χρήστη με το χρήστη LDAP. Το όνομα χρήστη που δημιουργήθηκε αντιστοιχίζεται στην UUID του χρήστη LDAP. Επιπροσθέτως, το DN αποθηκεύεται προσωρινά (cache) ώστε να μειωθεί η αλληλεπίδραση LDAP, αλλά δεν χρησιμοποιείται για την ταυτοποίηση. Αν το DN αλλάξει, οι αλλαγές θα βρεθούν. Το εσωτερικό όνομα χρήστη χρησιμοποιείται παντού. Η εκκαθάριση των αντιστοιχίσεων θα αφήσει κατάλοιπα παντού. Η εκκαθάριση των αντιστοιχίσεων δεν επηρεάζεται από τη διαμόρφωση, επηρεάζει όλες τις διαμορφώσεις LDAP! Μην διαγράψετε ποτέ τις αντιστοιχίσεις σε ένα λειτουργικό περιβάλλον παρά μόνο σε δοκιμές ή σε πειραματικό στάδιο."
 
 #: templates/settings.php:60
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Διαγραφή αντιστοίχησης Ονόματος Χρήστη LDAP-Χρήστη"
 
 #: templates/settings.php:60
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Διαγραφή αντιστοίχησης Ονόματος Ομάδας-LDAP Ομάδας"
