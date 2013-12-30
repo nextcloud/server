@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: ownCloud Core 6.0.0\n"
+"Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2013-12-30 01:55-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-12-29 13:18+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Akan (http://www.transifex.com/projects/p/owncloud/language/ak/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ak\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -99,7 +99,8 @@ msgid ""
 msgstr ""
 
 #: changepassword/controller.php:79
-msgid "Wrong admin recovery password. Please check the password and try again."
+msgid ""
+"Wrong admin recovery password. Please check the password and try again."
 msgstr ""
 
 #: changepassword/controller.php:87
@@ -244,8 +245,8 @@ msgstr ""
 #: templates/admin.php:25
 #, php-format
 msgid ""
-"You are accessing %s via HTTP. We strongly suggest you configure your server "
-"to require using HTTPS instead."
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
 msgstr ""
 
 #: templates/admin.php:39
@@ -414,7 +415,8 @@ msgstr ""
 #: templates/admin.php:242
 #, php-format
 msgid ""
-"Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
+"Please connect to your %s via HTTPS to enable or disable the SSL "
+"enforcement."
 msgstr ""
 
 #: templates/admin.php:254
@@ -439,11 +441,12 @@ msgstr ""
 
 #: templates/admin.php:298 templates/personal.php:176
 msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
-"\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
-"target=\"_blank\">source code</a> is licensed under the <a href=\"http://www."
-"gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero "
-"General Public License\">AGPL</abbr></a>."
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
 msgstr ""
 
 #: templates/apps.php:13
@@ -463,8 +466,7 @@ msgid "See application page at apps.owncloud.com"
 msgstr ""
 
 #: templates/apps.php:41
-msgid ""
-"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
 #: templates/help.php:4
