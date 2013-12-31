@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-31 01:55-0500\n"
+"PO-Revision-Date: 2013-12-31 03:40+0000\n"
+"Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,58 +17,58 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Apl \"%s\" tidak dapat diinstal karena tidak kompatibel dengan versi ownCloud."
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
-msgstr ""
+msgstr "Tidak ada nama apl yang ditentukan"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr "Bantuan"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr "Pribadi"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
-msgstr "Setelan"
+msgstr "Pengaturan"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr "Pengguna"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Gagal memperbarui \"%s\"."
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tipe berkas tak dikenal"
 
 #: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "Gambar tidak sah"
 
 #: private/defaults.php:34
 msgid "web services under your control"
-msgstr "layanan web dalam kontrol Anda"
+msgstr "layanan web dalam kendali anda"
 
 #: private/files.php:66 private/files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "tidak dapat membuka \"%s\""
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
@@ -80,7 +80,7 @@ msgstr "Berkas harus diunduh satu persatu."
 
 #: private/files.php:233 private/files.php:261
 msgid "Back to Files"
-msgstr "Kembali ke Daftar Berkas"
+msgstr "Kembali ke Berkas"
 
 #: private/files.php:258
 msgid "Selected files too large to generate zip file."
@@ -90,63 +90,63 @@ msgstr "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya."
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Silahkan unduh berkas secara terpisah dalam bentuk potongan kecil atau meminta ke administrator anda."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Tidak ada sumber yang ditentukan saat menginstal apl"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Href tidak ditentukan saat menginstal apl dari http"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Lokasi tidak ditentukan saat menginstal apl dari berkas lokal"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Arsip dengan tipe %s tidak didukung"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Gagal membuka arsip saat menginstal apl"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Apl tidak menyediakan berkas info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Apl tidak dapat diinstal karena terdapat kode yang tidak diizinkan didalam Apl"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Apl tidak dapat diinstal karena tidak kompatibel dengan versi ownCloud"
 
 #: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Apl tidak dapat diinstal karena mengandung tag <shipped>true</shipped> yang tidak diizinkan untuk apl yang bukan bawaan."
 
 #: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Apl tidak dapat diinstal karena versi di info.xml/versi tidak sama dengan versi yang dilansir dari toko apl"
 
 #: private/installer.php:169
 msgid "App directory already exists"
-msgstr ""
+msgstr "Direktori Apl sudah ada"
 
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Tidak dapat membuat folder apl. Silakan perbaiki perizinan. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"
@@ -154,11 +154,11 @@ msgstr "Aplikasi tidak diaktifkan"
 
 #: private/json.php:39 private/json.php:62 private/json.php:73
 msgid "Authentication error"
-msgstr "Galat saat autentikasi"
+msgstr "Galat saat otentikasi"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Token kedaluwarsa. Silakan muat ulang halaman."
+msgstr "Token sudah kedaluwarsa. Silakan muat ulang halaman."
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -185,12 +185,12 @@ msgstr "%s masukkan nama basis data."
 #: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%sAnda tidak boleh menggunakan karakter titik pada nama basis data"
+msgstr "%s anda tidak boleh menggunakan karakter titik pada nama basis data"
 
 #: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Nama pengguna dan/atau sandi MySQL tidak valid: %s"
+msgstr "Nama pengguna dan/atau sandi MySQL tidak sah: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
 #: private/setup/oci.php:114 private/setup/postgresql.php:24
@@ -200,7 +200,7 @@ msgstr "Anda harus memasukkan akun yang sudah ada atau administrator."
 
 #: private/setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
-msgstr "Nama pengguna dan/atau sandi MySQL tidak valid"
+msgstr "Nama pengguna dan/atau sandi MySQL tidak sah"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -245,11 +245,11 @@ msgstr "Hapus pengguna ini dari MySQL."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Koneksi Oracle tidak dapat dibuat"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr "Nama pengguna dan/atau sandi Oracle tidak valid"
+msgstr "Nama pengguna dan/atau sandi Oracle tidak sah"
 
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
@@ -262,11 +262,11 @@ msgstr "Nama pengguna dan/atau sandi PostgreSQL tidak valid"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr "Setel nama pengguna admin."
+msgstr "Atur nama pengguna admin."
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr "Setel sandi admin."
+msgstr "Atur sandi admin."
 
 #: private/setup.php:195
 msgid ""
@@ -282,7 +282,7 @@ msgstr "Silakan periksa ulang <a href='%s'>panduan instalasi</a>."
 #: private/tags.php:194
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr "Tidak dapat menemukan kategori \"%s\""
+msgstr "Tidak menemukan kategori \"%s\""
 
 #: private/template/functions.php:130
 msgid "seconds ago"
@@ -291,12 +291,12 @@ msgstr "beberapa detik yang lalu"
 #: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n menit yang lalu"
 
 #: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n jam yang lalu"
 
 #: private/template/functions.php:133
 msgid "today"
@@ -309,7 +309,7 @@ msgstr "kemarin"
 #: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n hari yang lalu"
 
 #: private/template/functions.php:138
 msgid "last month"
@@ -318,7 +318,7 @@ msgstr "bulan kemarin"
 #: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n bulan yang lalu"
 
 #: private/template/functions.php:141
 msgid "last year"
