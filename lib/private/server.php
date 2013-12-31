@@ -120,7 +120,8 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\L10N\Factory();
 		});
 		$this->registerService('URLGenerator', function($c) {
-			return new \OC\URLGenerator();
+			$config = $this->getConfig();
+			return new \OC\URLGenerator($config);
 		});
 		$this->registerService('AppHelper', function($c) {
 			return new \OC\AppHelper();
@@ -249,7 +250,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OC\Config
+	 * @return \OCP\IConfig
 	 */
 	function getConfig() {
 		return $this->query('AllConfig');
