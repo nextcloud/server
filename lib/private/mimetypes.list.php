@@ -108,4 +108,7 @@ return array(
 	'cc' => 'text/x-c',
 	'cpp' => 'text/x-c++src',
 	'c++' => 'text/x-c++src',
+	'sh' => 'text/x-shellscript',
+	'bash' => 'text/x-shellscript',
+	'sh-lib' => 'text/x-shellscript',
 );
