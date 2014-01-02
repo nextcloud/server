@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-17 11:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-02 01:55-0500\n"
+"PO-Revision-Date: 2014-01-02 00:20+0000\n"
+"Last-Translator: byoship\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/owncloud/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,190 +17,190 @@ msgstr ""
 "Language: es_MX\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "La aplicación \"%s\" no puede ser instalada porque no es compatible con esta versión de ownCloud"
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
-msgstr ""
+msgstr "No se ha especificado nombre de la aplicación"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
-msgstr ""
+msgstr "Personal"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
-msgstr ""
+msgstr "Ajustes"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
-msgstr ""
+msgstr "Administración"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Falló la actualización \"%s\"."
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tipo de archivo desconocido"
 
 #: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "Imagen inválida"
 
 #: private/defaults.php:34
 msgid "web services under your control"
-msgstr ""
+msgstr "Servicios web bajo su control"
 
 #: private/files.php:66 private/files.php:98
 #, php-format
 msgid "cannot open \"%s\""
-msgstr ""
+msgstr "No se puede abrir \"%s\""
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "La descarga en ZIP está desactivada."
 
 #: private/files.php:232
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Los archivos deben ser descargados uno por uno."
 
 #: private/files.php:233 private/files.php:261
 msgid "Back to Files"
-msgstr ""
+msgstr "Volver a Archivos"
 
 #: private/files.php:258
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 
 #: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Descargue los archivos en trozos más pequeños, por separado o solicítelos amablemente a su administrador."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "No se ha especificado origen cuando se ha instalado la aplicación"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "No href especificado cuando se ha instalado la aplicación"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Sin path especificado cuando se ha instalado la aplicación desde el archivo local"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Archivos de tipo %s no son soportados"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Fallo de abrir archivo mientras se instala la aplicación"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "La aplicación no suministra un archivo info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "La aplicación no puede ser instalada por tener código no autorizado en la aplicación"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "La aplicación no se puede instalar porque no es compatible con esta versión de ownCloud"
 
 #: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "La aplicación no se puede instalar porque contiene la etiqueta\n<shipped>\ntrue\n</shipped>\nque no está permitida para aplicaciones no distribuidas"
 
 #: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "La aplicación no puede ser instalada por que la versión en info.xml/version no es la misma que la establecida en la app store"
 
 #: private/installer.php:169
 msgid "App directory already exists"
-msgstr ""
+msgstr "El directorio de la aplicación ya existe"
 
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "No se puede crear la carpeta de la aplicación. Corrija los permisos. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "La aplicación no está habilitada"
 
 #: private/json.php:39 private/json.php:62 private/json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Error de autenticación"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token expirado. Por favor, recarga la página."
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: private/search/provider/file.php:27 private/search/provider/file.php:34
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
 #: private/search/provider/file.php:30
 msgid "Images"
-msgstr ""
+msgstr "Imágenes"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s ingresar el usuario de la base de datos."
 
 #: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s ingresar el nombre de la base de datos"
 
 #: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s puede utilizar puntos en el nombre de la base de datos"
 
 #: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Usuario y/o contraseña de MS SQL no válidos: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
 #: private/setup/oci.php:114 private/setup/postgresql.php:24
 #: private/setup/postgresql.php:70
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Tiene que ingresar una cuenta existente o la del administrador."
 
 #: private/setup/mysql.php:12
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Usuario y/o contraseña de MySQL no válidos"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -212,7 +212,7 @@ msgstr ""
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Error BD: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
 #: private/setup/oci.php:122 private/setup/oci.php:145
@@ -223,111 +223,111 @@ msgstr ""
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Comando infractor: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "Usuario MySQL '%s'@'localhost' ya existe."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Eliminar este usuario de MySQL"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Usuario MySQL '%s'@'%%' ya existe"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Eliminar este usuario de MySQL."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "No se pudo establecer la conexión a Oracle"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Usuario y/o contraseña de Oracle no válidos"
 
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Comando infractor: \"%s\", nombre: %s, contraseña: %s"
 
 #: private/setup/postgresql.php:23 private/setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Usuario y/o contraseña de PostgreSQL no válidos"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "Configurar un nombre de usuario del administrador"
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "Configurar la contraseña del administrador."
 
 #: private/setup.php:195
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
 #: private/setup.php:196
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>."
 
 #: private/tags.php:194
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "No puede encontrar la categoria \"%s\""
 
 #: private/template/functions.php:130
 msgid "seconds ago"
-msgstr ""
+msgstr "hace segundos"
 
 #: private/template/functions.php:131
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n minuto"
+msgstr[1] "Hace %n minutos"
 
 #: private/template/functions.php:132
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n hora"
+msgstr[1] "Hace %n horas"
 
 #: private/template/functions.php:133
 msgid "today"
-msgstr ""
+msgstr "hoy"
 
 #: private/template/functions.php:134
 msgid "yesterday"
-msgstr ""
+msgstr "ayer"
 
 #: private/template/functions.php:136
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n día"
+msgstr[1] "Hace %n días"
 
 #: private/template/functions.php:138
 msgid "last month"
-msgstr ""
+msgstr "mes pasado"
 
 #: private/template/functions.php:139
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hace %n mes"
+msgstr[1] "Hace %n meses"
 
 #: private/template/functions.php:141
 msgid "last year"
-msgstr ""
+msgstr "año pasado"
 
 #: private/template/functions.php:142
 msgid "years ago"
-msgstr ""
+msgstr "hace años"

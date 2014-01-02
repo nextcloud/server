@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-24 01:55-0500\n"
-"PO-Revision-Date: 2013-12-22 23:50+0000\n"
+"POT-Creation-Date: 2014-01-02 01:55-0500\n"
+"PO-Revision-Date: 2013-12-31 15:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,38 +21,38 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "ownCloud yazılımının bu sürümü ile uyumlu olmadığı için \"%s\" uygulaması kurulamaz."
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
 msgstr "Uygulama adı belirtimedli"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr "Yardım"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr "Kişisel"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr "Yönetici"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" yükseltme başarısız oldu."
@@ -106,7 +106,7 @@ msgstr "Uygulama kuruluyorken http'de href belirtilmedi"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr "Uygulama yerel dosyadan kuruluyorken dosya yolu belirtilmedi"
+msgstr "Uygulama yerel dosyadan kurulurken dosya yolu belirtilmedi"
 
 #: private/installer.php:89
 #, php-format
