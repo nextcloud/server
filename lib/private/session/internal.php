@@ -26,8 +26,19 @@ class Internal extends Memory {
 	}
 
 	public function __destruct() {
-		$_SESSION = $this->data;
+		$_SESSION = array_merge($_SESSION, $this->data);
 		session_write_close();
+	}
+
+	/**
+	 * @param string $key
+	 */
+	public function remove($key) {
+		// also remove it from $_SESSION to prevent re-setting the old value during the merge
+		if (isset($_SESSION[$key])) {
+			unset($_SESSION[$key]);
+		}
+		parent::remove($key);
 	}
 
 	public function clear() {

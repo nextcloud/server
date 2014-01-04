@@ -106,7 +106,7 @@ $TRANSLATIONS = array(
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Güncelleme başarılı. ownCloud'a yönlendiriliyor.",
 "%s password reset" => "%s parola sıfırlama",
-"Use the following link to reset your password: {link}" => "Bu bağlantıyı kullanarak parolanızı sıfırlayın: {link}",
+"Use the following link to reset your password: {link}" => "Parolanızı sıfırlamak için bu bağlantıyı kullanın: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Parolanızı değiştirme bağlantısı e-posta adresinize gönderildi.<br>Eğer makül bir süre içerisinde mesajı almadıysanız spam/junk dizinini kontrol ediniz.<br> Eğer orada da bulamazsanız sistem yöneticinize sorunuz.",
 "Request failed!<br>Did you make sure your email/username was right?" => "İstek başarısız!<br>E-posta ve/veya kullanıcı adınızın doğru olduğundan emin misiniz?",
 "You will receive a link to reset your password via Email." => "Parolanızı sıfırlamak için bir bağlantıyı e-posta olarak alacaksınız.",

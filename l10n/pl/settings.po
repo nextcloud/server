@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-21 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 10:40+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,19 +200,19 @@ msgstr "Usuń"
 msgid "add group"
 msgstr "dodaj grupę"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Należy podać prawidłową nazwę użytkownika"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Błąd podczas tworzenia użytkownika"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Należy podać prawidłowe hasło"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Ostrzeżenie: Katalog domowy dla użytkownika \"{user}\" już istnieje"
 
@@ -287,14 +287,14 @@ msgstr "Brak modułu PHP „fileinfo”. Zalecamy włączenie tego modułu, aby 
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Twoja wersja PHP jest za stara"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "Twoja wersja PHP jest za stara. Rekomendujemy przynajmniej wersje 5.3.8. Jeśli masz starsza wersję ownCloud może nie działać poprawnie."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -302,7 +302,7 @@ msgstr "Lokalizacja nie działa"
 
 #: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Ustawienia regionalne systemu nie można ustawić na jeden, który obsługuje UTF-8."
 
 #: templates/admin.php:102
 msgid ""

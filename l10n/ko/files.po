@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# Park Shinjo <peremen@gmail.com>, 2013
+# ujuc Gang <potopro@gmail.com>, 2013
 # ujuc Gang <potopro@gmail.com>, 2013
 # ujuc Gang <potopro@gmail.com>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
@@ -10,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-09 12:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-29 01:55-0500\n"
+"PO-Revision-Date: 2013-12-28 22:06+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,12 +26,12 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함"
+msgstr "항목 %s을(를) 이동시킬 수 없음 - 같은 이름의 파일이 이미 존재함"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr "%s 항목을 이딩시키지 못하였음"
+msgstr "항목 %s을(를) 이동시킬 수 없음"
 
 #: ajax/newfile.php:56 js/files.js:74
 msgid "File name cannot be empty."
@@ -36,43 +39,48 @@ msgstr "파일 이름이 비어 있을 수 없습니다."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "파일 이름에는 \"/\"가 들어갈 수 없습니다. 다른 이름을 사용하십시오."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "이름 %s이(가) 폴더 %s에서 이미 사용 중입니다. 다른 이름을 사용하십시오."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "올바르지 않은 원본"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "서버에서 URL을 열 수 없습니다. 서버 설정을 확인하십시오"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "%s을(를) %s(으)로 다운로드하는 중 오류 발생"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
-msgstr ""
+msgstr "파일 생성 중 오류 발생"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "폴더 이름이 비어있을 수 없습니다."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "폴더 이름에는 \"/\"가 들어갈 수 없습니다. 다른 이름을 사용하십시오."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "폴더 생성 중 오류 발생"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
-msgstr "업로드 디렉터리를 정할수 없습니다"
+msgstr "업로드 디렉터리를 설정할 수 없습니다."
 
 #: ajax/upload.php:27
 msgid "Invalid Token"
@@ -80,7 +88,7 @@ msgstr "잘못된 토큰"
 
 #: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
-msgstr "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다"
+msgstr "파일이 업로드 되지 않았습니다. 알 수 없는 오류입니다"
 
 #: ajax/upload.php:71
 msgid "There is no error, the file uploaded with success"
@@ -119,11 +127,11 @@ msgstr "저장소가 용량이 충분하지 않습니다."
 
 #: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
-msgstr "업로드에 실패했습니다. 파일 정보를 가져올수 없습니다."
+msgstr "업로드에 실패했습니다. 파일 정보를 가져올 수 없습니다."
 
 #: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
-msgstr "업로드에 실패했습니다. 업로드할 파일을 찾을수 없습니다"
+msgstr "업로드에 실패했습니다. 업로드할 파일을 찾을 수 없습니다"
 
 #: ajax/upload.php:172
 msgid "Invalid directory."
@@ -135,7 +143,7 @@ msgstr "파일"
 
 #: js/file-upload.js:228
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr "{filename}을 업로드 할수 없습니다. 폴더이거나 0 바이트 파일입니다."
+msgstr "{filename}을(를) 업로드할 수 없습니다. 폴더이거나 0 바이트 파일입니다."
 
 #: js/file-upload.js:239
 msgid "Not enough space available"
@@ -147,7 +155,7 @@ msgstr "업로드가 취소되었습니다."
 
 #: js/file-upload.js:344
 msgid "Could not get result from server."
-msgstr "서버에서 결과를 가져올수 없습니다."
+msgstr "서버에서 결과를 가져올 수 없습니다."
 
 #: js/file-upload.js:436
 msgid ""
@@ -156,11 +164,11 @@ msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 �
 
 #: js/file-upload.js:523
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL이 비어있을 수 없음"
 
 #: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "'공유됨'은 홈 폴더의 예약된 파일 이름임"
 
 #: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
@@ -168,11 +176,15 @@ msgstr "{new_name}이(가) 이미 존재함"
 
 #: js/file-upload.js:595
 msgid "Could not create file"
-msgstr ""
+msgstr "파일을 만들 수 없음"
 
 #: js/file-upload.js:611
 msgid "Could not create folder"
-msgstr ""
+msgstr "폴더를 만들 수 없음"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "URL을 가져올 수 없음"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -180,7 +192,7 @@ msgstr "공유"
 
 #: js/fileactions.js:137
 msgid "Delete permanently"
-msgstr "영원히 삭제"
+msgstr "영구히 삭제"
 
 #: js/fileactions.js:194
 msgid "Rename"
@@ -192,7 +204,7 @@ msgstr "대기 중"
 
 #: js/filelist.js:405
 msgid "Could not rename file"
-msgstr ""
+msgstr "이름을 변경할 수 없음"
 
 #: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
@@ -200,21 +212,21 @@ msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
 #: js/filelist.js:539
 msgid "undo"
-msgstr "되돌리기"
+msgstr "실행 취소"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "파일 삭제 오류."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] "폴더 %n"
+msgstr[0] "폴더 %n개"
 
 #: js/filelist.js:610 js/filelist.js:684 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] "파일 %n 개"
+msgstr[0] "파일 %n개"
 
 #: js/filelist.js:617
 msgid "{dirs} and {files}"
@@ -223,11 +235,11 @@ msgstr "{dirs} 그리고 {files}"
 #: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] "%n 개의 파일을 업로드중"
+msgstr[0] "파일 %n개 업로드 중"
 
 #: js/files.js:72
 msgid "'.' is an invalid file name."
-msgstr "'.' 는 올바르지 않은 파일 이름 입니다."
+msgstr "'.' 는 올바르지 않은 파일 이름입니다."
 
 #: js/files.js:81
 msgid ""
@@ -247,26 +259,26 @@ msgstr "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오"
 
 #: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다."
 
 #: js/files.js:118
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr "암호화는 해제되어 있지만, 파일은 아직 암호화 되어 있습니다. 개인 설저에 가셔서 암호를 해제하십시오"
+msgstr "암호화는 해제되어 있지만, 파일은 아직 암호화되어 있습니다. 개인 설정에서 파일을 복호화하십시오."
 
 #: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다."
+msgstr "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다."
 
 #: js/files.js:558 js/files.js:596
 msgid "Error moving file"
@@ -290,12 +302,12 @@ msgstr "수정됨"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "폴더 이름이 잘못되었습니다. '공유됨'은 예약된 폴더 이름입니다."
 
 #: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
-msgstr "%s 의 이름을 변경할수 없습니다"
+msgstr "%s의 이름을 변경할 수 없습니다"
 
 #: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
@@ -339,7 +351,7 @@ msgstr "새로 만들기"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "새 텍스트 파일"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -359,7 +371,7 @@ msgstr "링크에서"
 
 #: templates/index.php:29
 msgid "Deleted files"
-msgstr "파일 삭제됨"
+msgstr "삭제된 파일"
 
 #: templates/index.php:34
 msgid "Cancel upload"
@@ -367,7 +379,7 @@ msgstr "업로드 취소"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "여기에 파일을 업로드하거나 만들 권한이 없습니다"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

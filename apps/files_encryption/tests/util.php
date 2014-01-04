@@ -134,6 +134,41 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
+	 * @brief test detection of encrypted files
+	 */
+	function testIsEncryptedPath() {
+
+		$util = new Encryption\Util($this->view, $this->userId);
+
+		self::loginHelper($this->userId);
+
+		$unencryptedFile = '/tmpUnencrypted-' . time() . '.txt';
+		$encryptedFile =  '/tmpEncrypted-' . time() . '.txt';
+
+		// Disable encryption proxy to write a unencrypted file
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$this->view->file_put_contents($this->userId . '/files/' . $unencryptedFile, $this->dataShort);
+
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		// write a encrypted file
+		$this->view->file_put_contents($this->userId . '/files/' . $encryptedFile, $this->dataShort);
+
+		// test if both files are detected correctly
+		$this->assertFalse($util->isEncryptedPath($this->userId . '/files/' . $unencryptedFile));
+		$this->assertTrue($util->isEncryptedPath($this->userId . '/files/' . $encryptedFile));
+
+		// cleanup
+		$this->view->unlink($this->userId . '/files/' . $unencryptedFile, $this->dataShort);
+		$this->view->unlink($this->userId . '/files/' . $encryptedFile, $this->dataShort);
+
+	}
+
+	/**
+	 * @medium
 	 * @brief test setup of encryption directories
 	 */
 	function testSetupServerSide() {
@@ -414,6 +449,12 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$params['uid'] = $user;
 		$params['password'] = $password;
 		OCA\Encryption\Hooks::login($params);
+	}
+
+	public static function logoutHelper() {
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::tearDown();
 	}
 
 	/**

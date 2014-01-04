@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-13 14:43-0500\n"
+"POT-Creation-Date: 2014-01-04 01:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,18 +78,18 @@ msgid ""
 "Unknown error please check your system settings or contact your administrator"
 msgstr ""
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:62
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:63
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now, "
 "the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:278
+#: hooks/hooks.php:281
 msgid "Following users are not set up for encryption:"
 msgstr ""
 

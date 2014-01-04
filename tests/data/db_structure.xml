@@ -216,7 +216,8 @@
     <type>decimal</type>
     <default/>
     <notnull>true</notnull>
-    <length>15</length>
+    <precision>12</precision>
+    <scale>2</scale>
    </field>
   </declaration>
  </table>

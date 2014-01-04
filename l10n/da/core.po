@@ -6,15 +6,16 @@
 # Sappe, 2013
 # claus_chr <claus_chr@webspeed.dk>, 2013
 # kaffeldt <kasper.affeldt@gmail.com>, 2013
+# lodahl <leiflodahl@gmail.com>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-21 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 21:40+0000\n"
+"Last-Translator: lodahl <leiflodahl@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,59 +154,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:858
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:859
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut siden"
 msgstr[1] "%n minutter siden"
 
-#: js/js.js:860
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time siden"
 msgstr[1] "%n timer siden"
 
-#: js/js.js:861
+#: js/js.js:872
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:862
+#: js/js.js:873
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:863
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dage siden"
 
-#: js/js.js:864
+#: js/js.js:875
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:865
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n måned siden"
 msgstr[1] "%n måneder siden"
 
-#: js/js.js:866
+#: js/js.js:877
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:867
+#: js/js.js:878
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:868
+#: js/js.js:879
 msgid "years ago"
 msgstr "år siden"
 
@@ -448,7 +449,7 @@ msgstr "Ingen tags markeret til sletning."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Genindlæs venligst siden"
 
 #: js/update.js:17
 msgid ""
@@ -591,7 +592,7 @@ msgstr "Hej med dig\n\nDette blot for at lade dig vide, at %s har delt %s med di
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Delingen vil udløbe om %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -691,7 +692,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Programmet forudsætter at JavaScript er aktiveret for at kunne afvikles korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Aktiver JavaScript</a> og genindlæs siden.."
 
 #: templates/layout.user.php:44
 #, php-format
@@ -749,11 +750,11 @@ msgstr "Hej med dig,<br><br>Dette blot for at lade dig vide, at %s har delt \"%s
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Denne ownCloud instans er lige nu i enkeltbruger tilstand."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Det betyder at det kun er administrator, som kan benytte ownCloud."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +27,17 @@ msgstr "Falha ao limpar os mapeamentos."
 msgid "Failed to delete the server configuration"
 msgstr "Falha ao deletar a configuração do servidor"
 
-#: ajax/testConfiguration.php:37
+#: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
 msgstr "A configuração é válida e a conexão foi estabelecida!"
 
-#: ajax/testConfiguration.php:40
+#: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "A configuração é válida, mas o Bind falhou. Confira as configurações do servidor e as credenciais."
 
-#: ajax/testConfiguration.php:44
+#: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
@@ -88,43 +88,43 @@ msgstr "Sucesso"
 msgid "Error"
 msgstr "Erro"
 
-#: js/settings.js:777
+#: js/settings.js:837
 msgid "Configuration OK"
 msgstr "Configuração OK"
 
-#: js/settings.js:786
+#: js/settings.js:846
 msgid "Configuration incorrect"
 msgstr "Configuração incorreta"
 
-#: js/settings.js:795
+#: js/settings.js:855
 msgid "Configuration incomplete"
 msgstr "Configuração incompleta"
 
-#: js/settings.js:812 js/settings.js:821
+#: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
 msgstr "Selecionar grupos"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
 msgstr "Selecione classes de objetos"
 
-#: js/settings.js:818
+#: js/settings.js:878
 msgid "Select attributes"
 msgstr "Selecione os atributos"
 
-#: js/settings.js:845
+#: js/settings.js:905
 msgid "Connection test succeeded"
 msgstr "Teste de conexão bem sucedida"
 
-#: js/settings.js:852
+#: js/settings.js:912
 msgid "Connection test failed"
 msgstr "Teste de conexão falhou"
 
-#: js/settings.js:861
+#: js/settings.js:921
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Você quer realmente deletar as atuais Configurações de Servidor?"
 
-#: js/settings.js:862
+#: js/settings.js:922
 msgid "Confirm Deletion"
 msgstr "Confirmar Exclusão"
 
@@ -142,11 +142,11 @@ msgid_plural "%s users found"
 msgstr[0] "usuário %s encontrado"
 msgstr[1] "usuários %s encontrados"
 
-#: lib/wizard.php:779 lib/wizard.php:791
+#: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
 msgstr "Host inválido"
 
-#: lib/wizard.php:952
+#: lib/wizard.php:951
 msgid "Could not find the desired feature"
 msgstr "Não foi possível encontrar a função desejada"
 

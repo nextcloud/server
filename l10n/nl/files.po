@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-09 12:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-23 08:30+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,12 +48,17 @@ msgstr "De naam %s bestaat al in map %s. Kies een andere naam."
 msgid "Not a valid source"
 msgstr "Geen geldige bron"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Server mag geen URS's openen, controleer de server configuratie"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Fout bij downloaden %s naar %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Fout bij creëren bestand"
 
@@ -172,6 +177,10 @@ msgstr "Kon bestand niet creëren"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Kon niet creëren map"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Fout bij ophalen URL"
 
 #: js/fileactions.js:125
 msgid "Share"

@@ -109,7 +109,16 @@ class OC_JSON{
 		if($setContentType) {
 			self::setContentTypeHeader();
 		}
-		array_walk_recursive($data, array('OC_JSON', 'to_string'));
-		echo json_encode($data);
+		echo self::encode($data);
+	}
+
+	/**
+	 * Encode JSON
+	 */
+	public static function encode($data) {
+		if (is_array($data)) {
+			array_walk_recursive($data, array('OC_JSON', 'to_string'));
+		}
+		return json_encode($data);
 	}
 }

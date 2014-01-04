@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-13 14:43-0500\n"
-"PO-Revision-Date: 2013-12-12 02:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-31 01:55-0500\n"
+"PO-Revision-Date: 2013-12-31 03:40+0000\n"
+"Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,57 +20,57 @@ msgstr ""
 #: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s membagikan »%s« dengan anda"
 
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Tidak dapat mengirim Email ke pengguna berikut: %s"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Hidupkan mode perawatan"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Matikan mode perawatan"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Basis data terbaru"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Memperbarui filecache, mungkin memerlukan waktu sangat lama..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Filecache terbaru"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% selesai ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Tidak ada gambar atau file yang disediakan"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tipe berkas tak dikenal"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Gambar tidak sah"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Tidak ada gambar profil sementara yang tersedia, coba lagi"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Tidak ada data krop tersedia"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -148,55 +148,55 @@ msgstr "November"
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:394
+#: js/js.js:398
 msgid "Settings"
-msgstr "Setelan"
+msgstr "Pengaturan"
 
-#: js/js.js:865
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: js/js.js:866
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n menit yang lalu"
 
-#: js/js.js:867
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n jam yang lalu"
 
-#: js/js.js:868
+#: js/js.js:872
 msgid "today"
 msgstr "hari ini"
 
-#: js/js.js:869
+#: js/js.js:873
 msgid "yesterday"
 msgstr "kemarin"
 
-#: js/js.js:870
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n hari yang lalu"
 
-#: js/js.js:871
+#: js/js.js:875
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: js/js.js:872
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n bulan yang lalu"
 
-#: js/js.js:873
+#: js/js.js:877
 msgid "months ago"
 msgstr "beberapa bulan lalu"
 
-#: js/js.js:874
+#: js/js.js:878
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: js/js.js:875
+#: js/js.js:879
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
@@ -206,7 +206,7 @@ msgstr "Pilih"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Galat memuat templat berkas pemilih: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -222,26 +222,26 @@ msgstr "Oke"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Galat memuat templat pesan: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
+msgstr[0] "{count} berkas konflik"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Satu berkas konflik"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Berkas mana yang ingin anda pertahankan?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Jika anda memilih kedua versi, berkas yang disalin akan memiliki nomor yang ditambahkan sesuai namanya."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -249,19 +249,19 @@ msgstr "Batal"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Lanjutkan"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(semua terpilih)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} terpilih)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Galat memuat templat berkas yang sudah ada"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -290,19 +290,19 @@ msgstr "Galat ketika mengubah izin"
 
 #: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Dibagikan dengan Anda dan grup {group} oleh {owner}"
+msgstr "Dibagikan dengan anda dan grup {group} oleh {owner}"
 
 #: js/share.js:189
 msgid "Shared with you by {owner}"
-msgstr "Dibagikan dengan Anda oleh {owner}"
+msgstr "Dibagikan dengan anda oleh {owner}"
 
 #: js/share.js:213
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Bagikan dengan pengguna atau grup ..."
 
 #: js/share.js:219
 msgid "Share link"
-msgstr ""
+msgstr "Bagikan tautan"
 
 #: js/share.js:222
 msgid "Password protect"
@@ -314,7 +314,7 @@ msgstr "Sandi"
 
 #: js/share.js:229
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Izinkan Unggahan Publik"
 
 #: js/share.js:233
 msgid "Email link to person"
@@ -326,7 +326,7 @@ msgstr "Kirim"
 
 #: js/share.js:239
 msgid "Set expiration date"
-msgstr "Setel tanggal kedaluwarsa"
+msgstr "Atur tanggal kedaluwarsa"
 
 #: js/share.js:240
 msgid "Expiration date"
@@ -358,11 +358,11 @@ msgstr "Batalkan berbagi"
 
 #: js/share.js:405
 msgid "notify by email"
-msgstr ""
+msgstr "notifikasi via email"
 
 #: js/share.js:408
 msgid "can edit"
-msgstr "dapat mengedit"
+msgstr "dapat sunting"
 
 #: js/share.js:410
 msgid "access control"
@@ -386,7 +386,7 @@ msgstr "bagikan"
 
 #: js/share.js:694
 msgid "Password protected"
-msgstr "Dilindungi sandi"
+msgstr "Sandi dilindungi"
 
 #: js/share.js:707
 msgid "Error unsetting expiration date"
@@ -394,7 +394,7 @@ msgstr "Galat ketika menghapus tanggal kedaluwarsa"
 
 #: js/share.js:719
 msgid "Error setting expiration date"
-msgstr "Galat ketika menyetel tanggal kedaluwarsa"
+msgstr "Galat ketika mengatur tanggal kedaluwarsa"
 
 #: js/share.js:734
 msgid "Sending ..."
@@ -414,7 +414,7 @@ msgstr "Tipe objek tidak ditentukan."
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "Masukkan baru"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -426,19 +426,19 @@ msgstr "Tambah"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Sunting tag"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Galat memuat templat dialog: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Tidak ada tag yang terpilih untuk dihapus."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Silakan muat ulang halaman."
 
 #: js/update.js:17
 msgid ""
@@ -454,7 +454,7 @@ msgstr "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s sandi diatur ulang"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -465,11 +465,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Tautan untuk mengatur ulang sandi anda telah dikirimkan ke email Anda.<br>Jika anda tidak menerimanya selama waktu yang wajar, periksa folder spam/sampah Anda.<br>Jika tidak ada juga, coba tanyakanlah kepada administrator lokal anda."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Permintaan gagal!<br>Apakah anda yakin email/nama pengguna anda benar?"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
@@ -486,19 +486,19 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Berkas anda terenkripsi. Jika sebelumnya anda belum mengaktifkan kunci pemulihan, tidak akan ada cara lagi untuk mendapatkan data anda kembali setelah sandi anda diatur ulang. Jika anda tidak yakin dengan apa yang harus dilakukan, silakan hubungi administrator anda sebelum melanjutkan. Apakah anda benar-benar ingin melanjutkan?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Ya, Saya sungguh ingin mengatur ulang sandi saya sekarang"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Atur Ulang"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Sandi Anda telah disetel ulang"
+msgstr "Sandi Anda telah diatur ulang"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -510,7 +510,7 @@ msgstr "Sandi baru"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Setel ulang sandi"
+msgstr "Atur ulang sandi"
 
 #: strings.php:5
 msgid "Personal"
@@ -534,31 +534,31 @@ msgstr "Bantuan"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Galat saat memuat tag"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Tag sudah ada"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Galat saat menghapus tag"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Galat saat memberikan tag"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Galat saat menghapus tag"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Galat saat memberikan sebagai favorit"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Galat saat menghapus sebagai favorit"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -576,16 +576,16 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Hai,\n\nhanya supaya anda tahu bahwa %s membagikan %s dengan anda.\nLihat: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Pembagian akan berakhir pada %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "Horee!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -599,7 +599,7 @@ msgstr "Versi PHP Anda rentan terhadap serangan NULL Byte (CVE-2006-7243)"
 #: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Silakan perbarui instalasi PHP anda untuk menggunakan %s dengan aman."
 
 #: templates/installation.php:33
 msgid ""
@@ -617,14 +617,14 @@ msgstr "Tanpa generator acak, penyerang mungkin dapat menebak token penyetelan s
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Kemungkinan direktori data dan berkas Anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi."
+msgstr "Kemungkinan direktori data dan berkas anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi."
 
 #: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan lihat <a href=\"%s\" target=\"_blank\">dokumentasi</a>."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
@@ -674,19 +674,19 @@ msgstr "Selesaikan instalasi"
 
 #: templates/installation.php:185
 msgid "Finishing …"
-msgstr ""
+msgstr "Menyelesaikan ..."
 
 #: templates/layout.user.php:40
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Aplikasi ini memerlukan JavaScript yang diaktifkan untuk beroperasi dengan benar. Silahkan <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktifkan JavaScript</a> and re-load this interface."
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui."
 
 #: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
@@ -700,19 +700,19 @@ msgstr "Masuk otomatis ditolak!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Jika tidak pernah mengubah sandi Anda baru-baru ini, akun Anda mungkin dalam bahaya!"
+msgstr "Jika anda tidak pernah mengubah sandi baru-baru ini, akun anda mungkin dalam bahaya!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Mohon ubah sandi Anda untuk mengamankan kembali akun Anda."
+msgstr "Silakan ubah sandi anda untuk mengamankan kembali akun anda."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Otentikasi dari sisi server gagal!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Silahkan hubungi administrator anda."
 
 #: templates/login.php:44
 msgid "Lost your password?"
@@ -735,25 +735,25 @@ msgstr "Cara Alternatif untuk Masuk"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hai,<br><br>hanya supaya anda tahu bahwa %s membagikan »%s« dengan anda.<br><a href=\"%s\">Lihat!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "ownCloud ini sedang dalam mode pengguna tunggal."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Ini berarti hanya administrator yang dapat menggunakan ownCloud."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Terima kasih atas kesabaran anda."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -763,8 +763,8 @@ msgstr "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa sa
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "ownCloud ini sedang diperbarui, yang mungkin memakan waktu cukup lama."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Muat ulang halaman ini setelah beberapa saat untuk tetap menggunakan ownCloud."

@@ -8,9 +8,13 @@
 
 namespace OC\Memcache;
 
+/**
+ * See http://xcache.lighttpd.net/wiki/XcacheApi for provided constants and
+ * functions etc.
+ */
 class XCache extends Cache {
 	/**
-	 * entries in XCache gets namespaced to prevent collisions between owncloud instances and users
+	 * entries in XCache gets namespaced to prevent collisions between ownCloud instances and users
 	 */
 	protected function getNameSpace() {
 		return $this->prefix;
@@ -37,24 +41,32 @@ class XCache extends Cache {
 	}
 
 	public function clear($prefix='') {
-		xcache_unset_by_prefix($this->getNamespace().$prefix);
+		if (function_exists('xcache_unset_by_prefix')) {
+			return xcache_unset_by_prefix($this->getNamespace().$prefix);
+		} else {
+			// Since we can not clear by prefix, we just clear the whole cache.
+			xcache_clear_cache(\XC_TYPE_VAR, 0);
+		}
 		return true;
 	}
 
 	static public function isAvailable(){
 		if (!extension_loaded('xcache')) {
 			return false;
-		} elseif (\OC::$CLI) {
-			return false;
-		}else{
-			return true;
 		}
-	}
-}
-
-if(!function_exists('xcache_unset_by_prefix')) {
-	function xcache_unset_by_prefix($prefix) {
-		// Since we can't clear targetted cache, we'll clear all. :(
-		xcache_clear_cache(\XC_TYPE_VAR, 0);
+		if (\OC::$CLI) {
+			return false;
+		}
+		if (!function_exists('xcache_unset_by_prefix') && ini_get('xcache.admin.enable_auth')) {
+			// We do not want to use XCache if we can not clear it without
+			// using the administration function xcache_clear_cache()
+			// AND administration functions are password-protected.
+			return false;
+		}
+		$var_size = (int) ini_get('xcache.var_size');
+		if (!$var_size) {
+			return false;
+		}
+		return true;
 	}
 }

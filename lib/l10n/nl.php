@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "vorige maand",
 "_%n month ago_::_%n months ago_" => array("%n maand geleden","%n maanden geleden"),
 "last year" => "vorig jaar",
-"years ago" => "jaar geleden",
-"Caused by:" => "Gekomen door:"
+"years ago" => "jaar geleden"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
