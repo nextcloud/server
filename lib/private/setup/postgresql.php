@@ -10,13 +10,21 @@ class PostgreSQL extends AbstractDatabase {
 		$e_user = addslashes($this->dbuser);
 		$e_password = addslashes($this->dbpassword);
 
+        // Eduardo: 04/01/2013
+        // Fix database with port connection
+		if(strpos($e_host, ':')) {
+			list($e_host, $port)=explode(':', $e_host, 2);
+		} else {
+			$port=false;
+		}
+
 		//check if the database user has admin rights
-		$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
+		$connection_string = "host='$e_host' dbname=postgres user='$e_user' port='$port' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
 			// Try if we can connect to the DB with the specified name
 			$e_dbname = addslashes($this->dbname);
-			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
+			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port'  password='$e_password'";
 			$connection = @pg_connect($connection_string);
 
 			if(!$connection)
@@ -63,7 +71,15 @@ class PostgreSQL extends AbstractDatabase {
 		$e_user = addslashes($this->dbuser);
 		$e_password = addslashes($this->dbpassword);
 
-		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
+        // Eduardo: 04/01/2013
+        // Fix database with port connection
+		if(strpos($e_host, ':')) {
+			list($e_host, $port)=explode(':', $e_host, 2);
+		} else {
+			$port=false;
+		}
+
+		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port'  password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
 			throw new \DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
