@@ -6,13 +6,13 @@
 # DeeJaVu <ddejjavvu@gmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-24 01:55-0500\n"
-"PO-Revision-Date: 2013-12-23 16:11+0000\n"
+"POT-Creation-Date: 2014-01-04 01:55-0500\n"
+"PO-Revision-Date: 2014-01-03 14:10+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -508,7 +508,7 @@ msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
 #: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Kullandığınız: <strong>%s</strong>. Seçilebilecekler: <strong>%s</strong>"
+msgstr "Kullandığınız: <strong>%s</strong>. Kullanılabilir alan: <strong>%s</strong>"
 
 #: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
