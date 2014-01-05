@@ -10,8 +10,8 @@ class PostgreSQL extends AbstractDatabase {
 		$e_user = addslashes($this->dbuser);
 		$e_password = addslashes($this->dbpassword);
 
-        // Eduardo: 04/01/2013
-        // Fix database with port connection
+		// Eduardo: 04/01/2013
+		// Fix database with port connection
 		if(strpos($e_host, ':')) {
 			list($e_host, $port)=explode(':', $e_host, 2);
 		} else {
@@ -71,8 +71,8 @@ class PostgreSQL extends AbstractDatabase {
 		$e_user = addslashes($this->dbuser);
 		$e_password = addslashes($this->dbpassword);
 
-        // Eduardo: 04/01/2013
-        // Fix database with port connection
+	        // Eduardo: 04/01/2013
+        	// Fix database with port connection
 		if(strpos($e_host, ':')) {
 			list($e_host, $port)=explode(':', $e_host, 2);
 		} else {
