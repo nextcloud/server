@@ -6,13 +6,13 @@
 # Fatih Aşıcı <fatih.asici@gmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-02 01:55-0500\n"
-"PO-Revision-Date: 2013-12-31 15:20+0000\n"
+"POT-Creation-Date: 2014-01-05 01:55-0500\n"
+"PO-Revision-Date: 2014-01-04 20:50+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +303,7 @@ msgstr "{owner} tarafından sizinle ve {group} ile paylaştırılmış"
 
 #: js/share.js:189
 msgid "Shared with you by {owner}"
-msgstr "{owner} trafından sizinle paylaştırıldı"
+msgstr "{owner} tarafından sizinle paylaşıldı"
 
 #: js/share.js:213
 msgid "Share with user or group …"
