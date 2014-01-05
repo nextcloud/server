@@ -431,7 +431,7 @@ class OC_Mount_Config {
 	 */
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
-			$output=shell_exec('which smbclient');
+			$output=shell_exec('which smbclient 2> /dev/null');
 			return !empty($output);
 		}else{
 			return false;
