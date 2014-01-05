@@ -836,7 +836,10 @@ function humanFileSize(size) {
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
 	var relativeSize = (size / Math.pow(1024, order)).toFixed(1);
-	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
+	if(order < 2){
+		relativeSize = parseFloat(relativeSize).toFixed(0);
+	}
+	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
 	return relativeSize + ' ' + readableFormat;
