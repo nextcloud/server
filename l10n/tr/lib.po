@@ -6,13 +6,13 @@
 # Caner BAŞARAN <basaran.caner@gmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-02 01:55-0500\n"
-"PO-Revision-Date: 2013-12-31 15:40+0000\n"
+"POT-Creation-Date: 2014-01-06 01:55-0500\n"
+"PO-Revision-Date: 2014-01-05 16:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr "Geçersiz resim"
 
 #: private/defaults.php:34
 msgid "web services under your control"
-msgstr "Bilgileriniz güvenli ve şifreli"
+msgstr "kontrolünüzün altındaki web hizmetleri"
 
 #: private/files.php:66 private/files.php:98
 #, php-format

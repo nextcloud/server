@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-04 01:55-0500\n"
-"PO-Revision-Date: 2014-01-03 14:10+0000\n"
+"POT-Creation-Date: 2014-01-06 01:55-0500\n"
+"PO-Revision-Date: 2014-01-05 16:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -344,7 +344,7 @@ msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcron hizmetine kaydedildi."
+msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcron hizmetine kaydedilir."
 
 #: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
@@ -377,7 +377,7 @@ msgstr "Herkes tarafından yüklemeye izin ver"
 #: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver."
+msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver"
 
 #: templates/admin.php:195
 msgid "Allow resharing"
@@ -414,14 +414,14 @@ msgstr "HTTPS bağlantısına zorla"
 #: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr "İstemcileri %s a şifreli bir bağlantı ile bağlanmaya zorlar."
+msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
 #: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen ,%s a HTTPS ile bağlanın."
+msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen ,%s'a HTTPS ile bağlanın."
 
 #: templates/admin.php:254
 msgid "Log"
