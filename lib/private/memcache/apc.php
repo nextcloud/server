@@ -9,15 +9,8 @@
 namespace OC\Memcache;
 
 class APC extends Cache {
-	/**
-	 * entries in APC gets namespaced to prevent collisions between owncloud instances and users
-	 */
-	protected function getNameSpace() {
-		return $this->prefix;
-	}
-
 	public function get($key) {
-		$result = apc_fetch($this->getNamespace() . $key, $success);
+		$result = apc_fetch($this->getPrefix() . $key, $success);
 		if (!$success) {
 			return null;
 		}
@@ -25,26 +18,22 @@ class APC extends Cache {
 	}
 
 	public function set($key, $value, $ttl = 0) {
-		return apc_store($this->getNamespace() . $key, $value, $ttl);
+		return apc_store($this->getPrefix() . $key, $value, $ttl);
 	}
 
 	public function hasKey($key) {
-		return apc_exists($this->getNamespace() . $key);
+		return apc_exists($this->getPrefix() . $key);
 	}
 
 	public function remove($key) {
-		return apc_delete($this->getNamespace() . $key);
+		return apc_delete($this->getPrefix() . $key);
 	}
 
 	public function clear($prefix = '') {
-		$ns = $this->getNamespace() . $prefix;
-		$cache = apc_cache_info('user');
-		foreach ($cache['cache_list'] as $entry) {
-			if (strpos($entry['info'], $ns) === 0) {
-				apc_delete($entry['info']);
-			}
-		}
-		return true;
+		$ns = $this->getPrefix() . $prefix;
+		$ns = preg_quote($ns, '/');
+		$iter = new \APCIterator('user', '/^' . $ns . '/');
+		return apc_delete($iter);
 	}
 
 	static public function isAvailable() {
