@@ -142,6 +142,13 @@ interface IServerContainer {
 	function getCache();
 
 	/**
+	 * Returns an ICache instance
+	 *
+	 * @return \OCP\ICache
+	 */
+	function getMemCache();
+
+	/**
 	 * Returns the current session
 	 *
 	 * @return \OCP\ISession

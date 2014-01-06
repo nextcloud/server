@@ -10,12 +10,25 @@ namespace OC\Memcache;
 
 class Factory {
 	/**
+	 * @var string $globalPrefix
+	 */
+	private $globalPrefix;
+
+	/**
+	 * @param string $globalPrefix
+	 */
+	public function __construct($globalPrefix) {
+		$this->globalPrefix = $globalPrefix;
+	}
+
+	/**
 	 * get a cache instance, will return null if no backend is available
 	 *
 	 * @param string $prefix
 	 * @return \OC\Memcache\Cache
 	 */
 	function create($prefix = '') {
+		$prefix = $this->globalPrefix . '/' . $prefix;
 		if (XCache::isAvailable()) {
 			return new XCache($prefix);
 		} elseif (APCu::isAvailable()) {

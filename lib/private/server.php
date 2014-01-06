@@ -137,7 +137,8 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new UserCache();
 		});
 		$this->registerService('MemCache', function ($c) {
-			$factory = new \OC\Memcache\Factory();
+			$instanceId = \OC_Util::getInstanceId();
+			$factory = new \OC\Memcache\Factory($instanceId);
 			return $factory->create();
 		});
 		$this->registerService('ActivityManager', function($c) {
