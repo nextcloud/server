@@ -66,6 +66,7 @@ return array(
 	'xlsx'=>'application/msexcel',
 	'php'=>'application/x-php',
 	'exe'=>'application/x-ms-dos-executable',
+	'msi' => 'application/x-msi',
 	'pl'=>'application/x-pearl',
 	'py'=>'application/x-python',
 	'blend'=>'application/x-blender',
@@ -96,7 +97,5 @@ return array(
 	'impress' => 'text/impress',
 	'ai' => 'application/illustrator',
 	'epub' => 'application/epub+zip',
-	'mobi' => 'application/x-mobipocket-ebook',
-	'exe' => 'application',
-	'msi' => 'application'
+	'mobi' => 'application/x-mobipocket-ebook'
 );
