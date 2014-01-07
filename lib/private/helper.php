@@ -859,10 +859,12 @@ class OC_Helper {
 			return false;
 		}
 		$disabled = explode(',', ini_get('disable_functions'));
+		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
-		$disabled = explode(', ', ini_get('suhosin.executor.func.blacklist'));
+		$disabled = explode(',', ini_get('suhosin.executor.func.blacklist'));
+		$disabled = array_map('trim', $disabled);
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
