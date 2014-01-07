@@ -858,7 +858,7 @@ class OC_Helper {
 		if (!function_exists($function_name)) {
 			return false;
 		}
-		$disabled = explode(', ', ini_get('disable_functions'));
+		$disabled = explode(',', ini_get('disable_functions'));
 		if (in_array($function_name, $disabled)) {
 			return false;
 		}
