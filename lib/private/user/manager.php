@@ -270,4 +270,22 @@ class Manager extends PublicEmitter {
 		}
 		return false;
 	}
+
+	/**
+	 * returns how many users per backend exist (if supported by backend)
+	 *
+	 * @return array with backend class as key and count number as value
+	 */
+	public function countUsers() {
+		$userCountStatistics = array();
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(\OC_USER_BACKEND_COUNT_USERS)) {
+				$backendusers = $backend->countUsers();
+				if($backendusers !== false) {
+					$userCountStatistics[get_class($backend)] = $backendusers;
+				}
+			}
+		}
+		return $userCountStatistics;
+	}
 }
