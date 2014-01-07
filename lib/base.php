@@ -479,7 +479,7 @@ class OC {
 
 		// setup 3rdparty autoloader
 		$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
-		if (@file_exists($vendorAutoLoad)) {
+		if (file_exists($vendorAutoLoad)) {
 			require_once $vendorAutoLoad;
 		}
 
