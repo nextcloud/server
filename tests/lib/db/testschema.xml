@@ -53,6 +53,12 @@
 				<type>boolean</type>
 				<default>false</default>
 			</field>
+			<field>
+				<name>decimalfield_precision_scale</name>
+				<type>decimal</type>
+				<precision>12</precision>
+				<scale>2</scale>
+			</field>
 
 			<index>
 				<name>index_primary</name>

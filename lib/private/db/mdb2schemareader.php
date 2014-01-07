@@ -184,6 +184,14 @@ class MDB2SchemaReader {
 					$primary = $this->asBool($child);
 					$options['primary'] = $primary;
 					break;
+				case 'precision':
+					$precision = (string)$child;
+					$options['precision'] = $precision;
+					break;
+				case 'scale':
+					$scale = (string)$child;
+					$options['scale'] = $scale;
+					break;
 				default:
 					throw new \DomainException('Unknown element: ' . $child->getName());
 
