@@ -18,7 +18,7 @@ function findBinaryPath($program) {
 
 // movie preview is currently not supported on Windows
 if (!\OC_Util::runningOnWindows()) {
-	$isExecEnabled = !in_array('exec', explode(', ', ini_get('disable_functions')));
+	$isExecEnabled = \OC_Helper::is_function_enabled('exec');
 	$ffmpegBinary = null;
 	$avconvBinary = null;
 
