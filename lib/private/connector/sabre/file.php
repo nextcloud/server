@@ -64,7 +64,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $this->path . rand() . '.part';
+		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
 
 		// if file is located in /Shared we write the part file to the users
 		// root folder because we can't create new files in /shared
