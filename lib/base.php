@@ -410,8 +410,6 @@ class OC {
 		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
 		self::$loader->registerPrefix('Symfony\\Component\\Console', 'symfony/console');
-		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
-		self::$loader->registerPrefix('Sabre_', '3rdparty');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		spl_autoload_register(array(self::$loader, 'load'));
 
@@ -478,6 +476,12 @@ class OC {
 			}
 		}
 		OC_Util::isSetLocaleWorking();
+
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
+		if (file_exists($vendorAutoLoad)) {
+			require_once $vendorAutoLoad;
+		}
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
