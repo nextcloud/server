@@ -3,60 +3,58 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
-# vkehayas <vkehayas@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2014-01-07 01:55-0500\n"
-"PO-Revision-Date: 2014-01-06 21:15+0000\n"
-"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
+"PO-Revision-Date: 2014-01-06 23:45+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Urdu (http://www.transifex.com/projects/p/owncloud/language/ur/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
+"Language: ur\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/delete.php:63
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "Αδύνατη η μόνιμη διαγραφή του %s"
+msgstr ""
 
 #: ajax/undelete.php:43
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "Αδυναμία επαναφοράς %s"
+msgstr ""
 
 #: js/trash.js:18 js/trash.js:45 js/trash.js:88 js/trash.js:142
 msgid "Error"
-msgstr "Σφάλμα"
+msgstr ""
 
 #: lib/trashbin.php:905 lib/trashbin.php:907
 msgid "restored"
-msgstr "επαναφέρθηκαν"
+msgstr ""
 
 #: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!"
+msgstr ""
 
 #: templates/index.php:20
 msgid "Name"
-msgstr "Όνομα"
+msgstr ""
 
 #: templates/index.php:23 templates/index.php:25
 msgid "Restore"
-msgstr "Επαναφορά"
+msgstr ""
 
 #: templates/index.php:31
 msgid "Deleted"
-msgstr "Διαγραμμένα"
+msgstr ""
 
 #: templates/index.php:34 templates/index.php:35
 msgid "Delete"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: templates/part.breadcrumb.php:8
 msgid "Deleted Files"
-msgstr "Διαγραμμένα Αρχεία"
+msgstr ""

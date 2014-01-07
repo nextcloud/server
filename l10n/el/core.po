@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-04 01:55-0500\n"
-"PO-Revision-Date: 2014-01-02 17:40+0000\n"
+"POT-Creation-Date: 2014-01-07 01:55-0500\n"
+"PO-Revision-Date: 2014-01-06 20:50+0000\n"
 "Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -161,55 +161,55 @@ msgstr "Δεκέμβριος"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:877
+#: js/js.js:880
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:878
+#: js/js.js:881
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:879
+#: js/js.js:882
 msgid "years ago"
 msgstr "χρόνια πριν"
 
