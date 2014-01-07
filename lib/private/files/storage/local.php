@@ -224,7 +224,7 @@ if (\OC_Util::runningOnWindows()) {
 		/**
 		* @brief Tries to get the filesize via various workarounds if necessary.
 		* @param string $fullPath
-		* @return mixed Number of bytes as float on success and workaround necessary, null otherwise.
+		* @return mixed Number of bytes on success and workaround necessary, null otherwise.
 		*/
 		private static function getFileSizeWithTricks($fullPath) {
 			if (PHP_INT_SIZE === 4) {
@@ -249,7 +249,7 @@ if (\OC_Util::runningOnWindows()) {
 		/**
 		* @brief Tries to get the filesize via a CURL HEAD request.
 		* @param string $fullPath
-		* @return mixed Number of bytes as float on success, null otherwise.
+		* @return mixed Number of bytes on success, null otherwise.
 		*/
 		private static function getFileSizeFromCurl($fullPath) {
 			if (function_exists('curl_init')) {
@@ -263,7 +263,7 @@ if (\OC_Util::runningOnWindows()) {
 					$matches = array();
 					preg_match('/Content-Length: (\d+)/', $data, $matches);
 					if (isset($matches[1])) {
-						return (float) $matches[1];
+						return 0 + $matches[1];
 					}
 				}
 			}
@@ -274,7 +274,7 @@ if (\OC_Util::runningOnWindows()) {
 		/**
 		* @brief Tries to get the filesize via COM and exec().
 		* @param string $fullPath
-		* @return mixed Number of bytes as float on success, null otherwise.
+		* @return mixed Number of bytes on success, null otherwise.
 		*/
 		private static function getFileSizeFromOS($fullPath) {
 			$name = strtolower(php_uname('s'));
@@ -287,11 +287,11 @@ if (\OC_Util::runningOnWindows()) {
 				}
 			} else if (strpos($name, 'bsd') !== false) {
 				if (\OC_Helper::is_function_enabled('exec')) {
-					return (float)exec('stat -f %z ' . escapeshellarg($fullPath));
+					return 0 + exec('stat -f %z ' . escapeshellarg($fullPath));
 				}
 			} else if (strpos($name, 'linux') !== false) {
 				if (\OC_Helper::is_function_enabled('exec')) {
-					return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
+					return 0 + exec('stat -c %s ' . escapeshellarg($fullPath));
 				}
 			} else {
 				\OC_Log::write('core',
