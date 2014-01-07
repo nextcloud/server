@@ -7,7 +7,7 @@
  */
 //both, libreoffice backend and php fallback, need imagick
 if (extension_loaded('imagick')) {
-	$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
+	$isShellExecEnabled = \OC_Helper::is_function_enabled('shell_exec');
 
 	// LibreOffice preview is currently not supported on Windows
 	if (!\OC_Util::runningOnWindows()) {
