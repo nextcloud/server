@@ -159,6 +159,9 @@ class OC_Setup {
 		$content.= "</IfModule>\n";
 		$content.= "AddDefaultCharset utf-8\n";
 		$content.= "Options -Indexes\n";
+		$content.= "<IfModule pagespeed_module>\n";
+		$content.= "ModPagespeed Off\n";
+		$content.= "</IfModule>\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
 		self::protectDataDirectory();
