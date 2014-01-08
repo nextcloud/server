@@ -38,3 +38,6 @@ DirectoryIndex index.php index.html
 </IfModule>
 AddDefaultCharset utf-8
 Options -Indexes
+<IfModule pagespeed_module>
+        ModPagespeed Off
+</IfModule>
