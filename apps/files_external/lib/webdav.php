@@ -79,7 +79,7 @@ class DAV extends \OC\Files\Storage\Common{
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
-	private function createBaseUri() {
+	protected function createBaseUri() {
 		$baseUri='http';
 		if ($this->secure) {
 			$baseUri.='s';

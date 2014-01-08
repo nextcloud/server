@@ -114,14 +114,24 @@ class OC_Mount_Config {
 			}
 		}
 
-		if(OC_Mount_Config::checkcurl()) $backends['\OC\Files\Storage\DAV']=array(
-			'backend' => 'ownCloud / WebDAV',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'password' => '*Password',
-				'root' => '&Root',
-				'secure' => '!Secure https://'));
+		if(OC_Mount_Config::checkcurl()){
+		   	$backends['\OC\Files\Storage\DAV']=array(
+				'backend' => 'WebDAV',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Root',
+					'secure' => '!Secure https://'));
+		   	$backends['\OC\Files\Storage\OwnCloud']=array(
+				'backend' => 'ownCloud',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Remote subfolder',
+					'secure' => '!Secure https://'));
+		}
 
 		$backends['\OC\Files\Storage\SFTP']=array(
 			'backend' => 'SFTP',
