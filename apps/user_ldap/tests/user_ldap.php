@@ -408,4 +408,58 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 
 	//no test for getDisplayNames, because it just invokes getUsers and
 	//getDisplayName
+
+	public function testCountUsers() {
+		$access = $this->getAccessMock();
+
+		$access->connection->expects($this->once())
+			   ->method('__get')
+			   ->will($this->returnCallback(function($name) {
+					if($name === 'ldapLoginFilter') {
+						return 'uid=%uid';
+					}
+					return null;
+			   }));
+
+		$access->expects($this->once())
+			   ->method('countUsers')
+			   ->will($this->returnCallback(function($filter, $a, $b, $c) {
+				   if($filter !== 'uid=*') {
+					   return false;
+				   }
+				   return 5;
+			   }));
+
+		$backend = new UserLDAP($access);
+
+		$result = $backend->countUsers();
+		$this->assertEquals(5, $result);
+	}
+
+	public function testCountUsersFailing() {
+		$access = $this->getAccessMock();
+
+		$access->connection->expects($this->once())
+			   ->method('__get')
+			   ->will($this->returnCallback(function($name) {
+					if($name === 'ldapLoginFilter') {
+						return 'invalidFilter';
+					}
+					return null;
+			   }));
+
+		$access->expects($this->once())
+			   ->method('countUsers')
+			   ->will($this->returnCallback(function($filter, $a, $b, $c) {
+				   if($filter !== 'uid=*') {
+					   return false;
+				   }
+				   return 5;
+			   }));
+
+		$backend = new UserLDAP($access);
+
+		$result = $backend->countUsers();
+		$this->assertFalse($result);
+	}
 }
