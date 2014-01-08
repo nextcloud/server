@@ -282,7 +282,11 @@ class Manager extends PublicEmitter {
 			if ($backend->implementsActions(\OC_USER_BACKEND_COUNT_USERS)) {
 				$backendusers = $backend->countUsers();
 				if($backendusers !== false) {
-					$userCountStatistics[get_class($backend)] = $backendusers;
+					if(isset($userCountStatistics[get_class($backend)])) {
+						$userCountStatistics[get_class($backend)] += $backendusers;
+					} else {
+						$userCountStatistics[get_class($backend)] = $backendusers;
+					}
 				}
 			}
 		}
