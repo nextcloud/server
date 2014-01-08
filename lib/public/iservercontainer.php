@@ -142,11 +142,11 @@ interface IServerContainer {
 	function getCache();
 
 	/**
-	 * Returns an ICache instance
+	 * Returns an \OCP\CacheFactory instance
 	 *
-	 * @return \OCP\ICache
+	 * @return \OCP\CacheFactory
 	 */
-	function getMemCache();
+	function getMemCacheFactory();
 
 	/**
 	 * Returns the current session

@@ -300,7 +300,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * Returns an ICache instance
+	 * Returns an \OCP\CacheFactory instance
 	 *
 	 * @return \OCP\CacheFactory
 	 */
