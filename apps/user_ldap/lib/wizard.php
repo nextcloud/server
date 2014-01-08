@@ -812,7 +812,7 @@ class Wizard extends LDAPUtility {
 			if($ncc) {
 				throw new \Exception('Certificate cannot be validated.');
 			}
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind succesfull with Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successfull to Port '. $port . ' TLS ' . intval($tls), \OCP\Util::DEBUG);
 			return true;
 		}
 
