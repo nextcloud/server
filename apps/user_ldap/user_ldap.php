@@ -363,7 +363,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD
 			| OC_USER_BACKEND_GET_HOME
 			| OC_USER_BACKEND_GET_DISPLAYNAME
-			| OC_USER_BACKEND_PROVIDE_AVATAR)
+			| OC_USER_BACKEND_PROVIDE_AVATAR
+			| OC_USER_BACKEND_COUNT_USERS)
 			& $actions);
 	}
 
@@ -372,5 +373,18 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 */
 	public function hasUserListings() {
 		return true;
+	}
+
+	/**
+	 * counts the users in LDAP
+	 *
+	 * @return int | bool
+	 */
+	public function countUsers() {
+		$o = $this->access->connection->ldapLoginFilter;
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', '*', $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$entries = $this->access->countUsers($filter);
+		return $entries;
 	}
 }
