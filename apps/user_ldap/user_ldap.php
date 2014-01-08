@@ -381,7 +381,6 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * @return int | bool
 	 */
 	public function countUsers() {
-		$o = $this->access->connection->ldapLoginFilter;
 		$filter = \OCP\Util::mb_str_replace(
 			'%uid', '*', $this->access->connection->ldapLoginFilter, 'UTF-8');
 		$entries = $this->access->countUsers($filter);
