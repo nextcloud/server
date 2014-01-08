@@ -23,7 +23,7 @@ class PostgreSQL extends AbstractDatabase {
 		if(!$connection) {
 			// Try if we can connect to the DB with the specified name
 			$e_dbname = addslashes($this->dbname);
-			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port'  password='$e_password'";
+			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port' password='$e_password'";
 			$connection = @pg_connect($connection_string);
 
 			if(!$connection)
@@ -77,7 +77,7 @@ class PostgreSQL extends AbstractDatabase {
 			$port=false;
 		}
 
-		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port'  password='$e_password'";
+		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
 			throw new \DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
