@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-31 01:55-0500\n"
-"PO-Revision-Date: 2013-12-31 03:40+0000\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"PO-Revision-Date: 2014-01-07 07:10+0000\n"
 "Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -152,51 +152,51 @@ msgstr "Desember"
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n menit yang lalu"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n jam yang lalu"
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "today"
 msgstr "hari ini"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "yesterday"
 msgstr "kemarin"
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n hari yang lalu"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n bulan yang lalu"
 
-#: js/js.js:877
+#: js/js.js:880
 msgid "months ago"
 msgstr "beberapa bulan lalu"
 
-#: js/js.js:878
+#: js/js.js:881
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: js/js.js:879
+#: js/js.js:882
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 

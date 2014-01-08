@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-07 01:55-0500\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,23 +71,23 @@ msgstr ""
 msgid "cannot open \"%s\""
 msgstr ""
 
-#: files.php:231
+#: files.php:226
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: files.php:232
+#: files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:233 files.php:261
+#: files.php:228 files.php:256
 msgid "Back to Files"
 msgstr ""
 
-#: files.php:258
+#: files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
-#: files.php:259
+#: files.php:254
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
