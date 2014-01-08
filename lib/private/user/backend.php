@@ -39,6 +39,7 @@ define('OC_USER_BACKEND_GET_DISPLAYNAME',	0x00010000);
 define('OC_USER_BACKEND_SET_DISPLAYNAME',	0x00100000);
 define('OC_USER_BACKEND_PROVIDE_AVATAR',	0x01000000);
 define('OC_USER_BACKEND_COUNT_USERS',		0x10000000);
+//more actions cannot be defined without breaking 32bit platforms!
 
 /**
  * Abstract base class for user management. Provides methods for querying backend
