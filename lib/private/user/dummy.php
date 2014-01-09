@@ -123,4 +123,13 @@ class OC_User_Dummy extends OC_User_Backend {
 	public function hasUserListings() {
 		return true;
 	}
+
+	/**
+	 * counts the users in the database
+	 *
+	 * @return int | bool
+	 */
+	public function countUsers() {
+		return 0;
+	}
 }

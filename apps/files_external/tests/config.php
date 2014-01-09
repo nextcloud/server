@@ -23,6 +23,13 @@ return array(
 		'password'=>'test',
 		'root'=>'/owncloud/files/webdav.php',
 	),
+	'owncloud'=>array(
+		'run'=>true,
+		'host'=>'localhost/owncloud',
+		'user'=>'test',
+		'password'=>'test',
+		'root'=>'',
+	),
 	'google'=>array(
 		'run'=> false,
 		'configured' => 'true',

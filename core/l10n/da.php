@@ -153,7 +153,7 @@ $TRANSLATIONS = array(
 "Database tablespace" => "Database tabelplads",
 "Database host" => "Databasehost",
 "Finish setup" => "Afslut opsætning",
-"Finishing …" => "Færdigbehandling ...",
+"Finishing …" => "Færdigbehandler ...",
 "This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Programmet forudsætter at JavaScript er aktiveret for at kunne afvikles korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Aktiver JavaScript</a> og genindlæs siden..",
 "%s is available. Get more information on how to update." => "%s er tilgængelig. Få mere information om, hvordan du opdaterer.",
 "Log out" => "Log ud",
