@@ -242,7 +242,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			$fileExists = $fs->file_exists($targetPath);
 			if ($renameOkay === false || $fileExists === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				$fs->unlink($targetPath);
+				// only delete if an error occurred and the target file was already created
+				if ($fileExists) {
+					$fs->unlink($targetPath);
+				}
 				throw new Sabre_DAV_Exception();
 			}
 

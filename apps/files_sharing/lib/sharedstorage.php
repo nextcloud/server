@@ -293,29 +293,20 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
-		// Check for partial files
-		if (pathinfo($path1, PATHINFO_EXTENSION) === 'part') {
-			if ($oldSource = $this->getSourcePath($path1)) {
+		// Renaming/moving is only allowed within shared folders
+		$pos1 = strpos($path1, '/', 1);
+		$pos2 = strpos($path2, '/', 1);
+		if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
+			$newSource = $this->getSourcePath(dirname($path2)) . '/' . basename($path2);
+			// Within the same folder, we only need UPDATE permissions
+			if (dirname($path1) == dirname($path2) and $this->isUpdatable($path1)) {
 				list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
-				$newInternalPath = substr($oldInternalPath, 0, -5);
+				list(, $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
 				return $storage->rename($oldInternalPath, $newInternalPath);
-			}
-		} else {
-			// Renaming/moving is only allowed within shared folders
-			$pos1 = strpos($path1, '/', 1);
-			$pos2 = strpos($path2, '/', 1);
-			if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
-				$newSource = $this->getSourcePath(dirname($path2)) . '/' . basename($path2);
-				// Within the same folder, we only need UPDATE permissions
-				if (dirname($path1) == dirname($path2) and $this->isUpdatable($path1)) {
-					list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
-					list(, $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
-					return $storage->rename($oldInternalPath, $newInternalPath);
-					// otherwise DELETE and CREATE permissions required
-				} elseif ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
-					$rootView = new \OC\Files\View('');
-					return $rootView->rename($oldSource, $newSource);
-				}
+				// otherwise DELETE and CREATE permissions required
+			} elseif ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
+				$rootView = new \OC\Files\View('');
+				return $rootView->rename($oldSource, $newSource);
 			}
 		}
 		return false;
