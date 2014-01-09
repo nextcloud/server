@@ -18,7 +18,15 @@ class Memcached extends Cache {
 		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
 			self::$cache = new \Memcached();
-			$servers = \OC_Config::getValue('memcached_servers', array(array('localhost', 11211)));
+			$servers = \OC_Config::getValue('memcached_servers');
+			if (!$servers) {
+				$server = \OC_Config::getValue('memcached_server');
+				if ($server) {
+					$servers = array($server);
+				} else {
+					$servers = array(array('localhost', 11211));
+				}
+			}
 			self::$cache->addServers($servers);
 		}
 	}
