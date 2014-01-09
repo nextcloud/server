@@ -17,7 +17,7 @@ class DAV extends \OC\Files\Storage\Common {
 	private $certPath;
 	private $ready;
 	/**
-	 * @var \Sabre_DAV_Client
+	 * @var \Sabre\DAV\Client
 	 */
 	private $client;
 
@@ -71,7 +71,7 @@ class DAV extends \OC\Files\Storage\Common {
 			'password' => $this->password,
 		);
 
-		$this->client = new \Sabre_DAV_Client($settings);
+		$this->client = new \Sabre\DAV\Client($settings);
 
 		if ($this->secure === true && $this->certPath) {
 			$this->client->addTrustedCertificates($this->certPath);
@@ -252,7 +252,7 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
-			} catch (\Sabre_DAV_Exception_NotImplemented $e) {
+			} catch (\Sabre\DAV\Exception\NotImplemented $e) {
 				return false;
 			}
 		} else {

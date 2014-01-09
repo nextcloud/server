@@ -7,7 +7,7 @@
  *
  */
 
-class OC_Connector_Sabre_Exception_FileLocked extends Sabre_DAV_Exception {
+class OC_Connector_Sabre_Exception_FileLocked extends \Sabre\DAV\Exception {
 
 	public function __construct($message = "", $code = 0, Exception $previous = null) {
 		if($previous instanceof \OCP\Files\LockNotAcquiredException) {

@@ -9,7 +9,7 @@
  * @license AGPL3
  */
 
-class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
+class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 {
 
 	// namespace
@@ -18,22 +18,22 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	/**
 	 * Reference to main server object
 	 *
-	 * @var Sabre_DAV_Server
+	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
 
 	/**
 	 * This initializes the plugin.
 	 *
-	 * This function is called by Sabre_DAV_Server, after
+	 * This function is called by \Sabre\DAV\Server, after
 	 * addPlugin is called.
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param Sabre_DAV_Server $server
+	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
-	public function initialize(Sabre_DAV_Server $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 
 		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}id';
@@ -49,12 +49,12 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	 * Adds all ownCloud-specific properties
 	 *
 	 * @param string $path
-	 * @param Sabre_DAV_INode $node
+	 * @param \Sabre\DAV\INode $node
 	 * @param array $requestedProperties
 	 * @param array $returnedProperties
 	 * @return void
 	 */
-	public function beforeGetProperties($path, Sabre_DAV_INode $node, array &$requestedProperties, array &$returnedProperties) {
+	public function beforeGetProperties($path, \Sabre\DAV\INode $node, array &$requestedProperties, array &$returnedProperties) {
 
 		if ($node instanceof OC_Connector_Sabre_Node) {
 
@@ -84,13 +84,13 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 
 	/**
 	 * @param string $filePath
-	 * @param Sabre_DAV_INode $node
-	 * @throws Sabre_DAV_Exception_BadRequest
+	 * @param \Sabre\DAV\INode $node
+	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function sendFileIdHeader($filePath, Sabre_DAV_INode $node = null) {
+	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			list($path, $name) = \Sabre_DAV_URLUtil::splitPath($filePath);
+			list($path, $name) = \Sabre\DAV\URLUtil::splitPath($filePath);
 			$info = OC_FileChunking::decodeName($name);
 			if (!empty($info)) {
 				$filePath = $path . '/' . $info['name'];

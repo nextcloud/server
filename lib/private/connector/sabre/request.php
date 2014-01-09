@@ -21,7 +21,7 @@
  *
  */
 
-class OC_Connector_Sabre_Request extends Sabre_HTTP_Request {
+class OC_Connector_Sabre_Request extends \Sabre\HTTP\Request {
 	/**
 	 * Returns the requested uri
 	 *

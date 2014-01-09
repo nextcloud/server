@@ -25,7 +25,7 @@
  * like request timeout.
  */
 
-class OC_DAVClient extends \Sabre_DAV_Client {
+class OC_DAVClient extends \Sabre\DAV\Client {
 
 	protected $requestTimeout;
 

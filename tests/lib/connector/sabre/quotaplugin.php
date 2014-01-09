@@ -9,7 +9,7 @@
 class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Sabre_DAV_Server
+	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
 
@@ -20,7 +20,7 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
 
 	private function init($quota) {
 		$view = $this->buildFileViewMock($quota);
-		$this->server = new Sabre_DAV_Server();
+		$this->server = new \Sabre\DAV\Server();
 		$this->plugin = new OC_Connector_Sabre_QuotaPlugin($view);
 		$this->plugin->initialize($this->server);
 	}
@@ -30,7 +30,7 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
 	 */
 	public function testLength($expected, $headers) {
 		$this->init(0);
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request($headers);
 		$length = $this->plugin->getLength();
 		$this->assertEquals($expected, $length);
 	}
@@ -41,19 +41,19 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
 	public function testCheckQuota($quota, $headers) {
 		$this->init($quota);
 
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new Sabre\HTTP\Request($headers);
 		$result = $this->plugin->checkQuota('');
 		$this->assertTrue($result);
 	}
 
 	/**
-	 * @expectedException Sabre_DAV_Exception_InsufficientStorage
+	 * @expectedException \Sabre\DAV\Exception\InsufficientStorage
 	 * @dataProvider quotaExceededProvider
 	 */
 	public function testCheckExceededQuota($quota, $headers) {
 		$this->init($quota);
 
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new Sabre\HTTP\Request($headers);
 		$this->plugin->checkQuota('');
 	}
 

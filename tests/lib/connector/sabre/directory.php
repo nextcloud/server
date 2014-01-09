@@ -23,7 +23,7 @@ class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre_DAV_Exception_Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testCreateSharedFileFails() {
 		$dir = $this->getRootDir();
@@ -31,7 +31,7 @@ class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre_DAV_Exception_Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testCreateSharedFolderFails() {
 		$dir = $this->getRootDir();
@@ -39,7 +39,7 @@ class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre_DAV_Exception_Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDeleteSharedFolderFails() {
 		$dir = $this->getRootDir();
