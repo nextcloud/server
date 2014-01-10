@@ -12,7 +12,7 @@ Files={
 		$.each(uploadingFiles,function(index,file) {
 			if(typeof file['abort'] === 'function') {
 				file.abort();
-				var filename = $('tr').filterAttr('data-file',index);
+				var filename = FileList.findFileEl(index);
 				filename.hide();
 				filename.find('input[type="checkbox"]').removeAttr('checked');
 				filename.removeClass('selected');
@@ -164,7 +164,7 @@ $(document).ready(function() {
 			procesSelection();
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
-			var tr=$('tr').filterAttr('data-file',filename);
+			var tr = FileList.findFileEl(filename);
 			var renaming=tr.data('renaming');
 			if(!renaming && !FileList.isLoading(filename)){
 				FileActions.currentFile = $(this).parent();
@@ -363,7 +363,7 @@ $(document).ready(function() {
 							if (result.status == 'success') {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
-								var tr=$('tr').filterAttr('data-file',name);
+								var tr=FileList.findFileEl(name);
 								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
@@ -383,7 +383,7 @@ $(document).ready(function() {
 							if (result.status == 'success') {
 								var date=new Date();
 								FileList.addDir(name,0,date,hidden);
-								var tr=$('tr').filterAttr('data-file',name);
+								var tr=FileList.findFileEl(name);
 								tr.attr('data-id', result.data.id);
 							} else {
 								OC.dialogs.alert(result.data.message, 'Error');
@@ -427,7 +427,7 @@ $(document).ready(function() {
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
 						FileList.addFile(localName,size,date,false,hidden);
-						var tr=$('tr').filterAttr('data-file',localName);
+						var tr=FileList.findFileEl(localName);
 						tr.data('mime',mime).data('id',id);
 						tr.attr('data-id', id);
 						getMimeIcon(mime,function(path){
@@ -682,10 +682,12 @@ var folderDropOptions={
 				if (result) {
 					if (result.status === 'success') {
 						//recalculate folder size
-						var oldSize = $('#fileList tr').filterAttr('data-file',target).data('size');
-						var newSize = oldSize + $('#fileList tr').filterAttr('data-file',file).data('size');
-						$('#fileList tr').filterAttr('data-file',target).data('size', newSize);
-						$('#fileList tr').filterAttr('data-file',target).find('td.filesize').text(humanFileSize(newSize));
+						var oldFile = FileList.findFileEl(target);
+						var newFile = FileList.findFileEl(file);
+						var oldSize = oldFile.data('size');
+						var newSize = oldSize + newFile.data('size');
+						oldFile.data('size', newSize);
+						oldFile.find('td.filesize').text(humanFileSize(newSize));
 
 						FileList.remove(file);
 						procesSelection();
@@ -830,7 +832,7 @@ function getMimeIcon(mime, ready){
 getMimeIcon.cache={};
 
 function getUniqueName(name){
-	if($('tr').filterAttr('data-file',name).length>0){
+	if (FileList.findFileEl(name).exists()) {
 		var parts=name.split('.');
 		var extension = "";
 		if (parts.length > 1) {

@@ -22,7 +22,7 @@ $(document).ready(function() {
 			} else {
 				var item = $('#dir').val() + '/' + filename;
 			}
-			var tr = $('tr').filterAttr('data-file', filename);
+			var tr = FileList.findFileEl(filename);
 			if ($(tr).data('type') == 'dir') {
 				var itemType = 'folder';
 			} else {

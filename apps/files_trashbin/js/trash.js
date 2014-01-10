@@ -3,9 +3,9 @@ $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Restore', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/undelete.png'), function(filename) {
-			var tr=$('tr').filterAttr('data-file', filename);
+			var tr = FileList.findFileEl(filename);
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
-			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
+			var undeleteAction = tr.children("td.date");
 			var files = tr.attr('data-file');
 			undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
@@ -28,8 +28,8 @@ $(document).ready(function() {
 		}, function (filename) {
 			$('.tipsy').remove();
 
-			var tr=$('tr').filterAttr('data-file', filename);
-			var deleteAction = $('tr').filterAttr('data-file',filename).children("td.date").children(".action.delete");
+			var tr = FileList.findFileEl(filename);
+			var deleteAction = tr.children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'delete file permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files = tr.attr('data-file');
@@ -100,7 +100,7 @@ $(document).ready(function() {
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 
 			for (var i=0; i<files.length; i++) {
-				var undeleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date");
+				var undeleteAction = $FileList.findFileEl(files[i]).children("td.date");
 				undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			}
 
@@ -126,7 +126,7 @@ $(document).ready(function() {
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 
 			for (var i=0; i<files.length; i++) {
-				var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date");
+				var deleteAction = FileList.findFileEl(files[i]).children("td.date");
 				deleteAction[0].innerHTML = deleteAction[0].innerHTML+spinner;
 			}
 
@@ -149,7 +149,7 @@ $(document).ready(function() {
 			event.preventDefault();
 		}
 		var filename = $(this).parent().parent().attr('data-file');
-		var tr = $('tr').filterAttr('data-file',filename);
+		var tr = FileList.findFileEl(filename);
 		var renaming = tr.data('renaming');
 		if(!renaming && !FileList.isLoading(filename)){
 			if(mime.substr(0, 5) === 'text/'){ //no texteditor for now

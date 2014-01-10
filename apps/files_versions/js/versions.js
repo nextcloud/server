@@ -54,11 +54,11 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-
+			var htmlEl, fileEl;
 			// first decide which kind of dialog we need
 			if (versions) {
 
-				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
+				var html = '<div id="dropdown" class="drop drop-versions">';
 				html += '<div id="private">';
 				html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
 				html += '<option value=""></option>';
@@ -68,16 +68,19 @@ function createVersionsDropdown(filename, files) {
 				html += '<input id="link" style="display:none; width:90%;" />';
 
 			} else {
-				var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
+				var html = '<div id="dropdown" class="drop drop-versions">';
 				html += '<div style="text-align:center;">No other versions available</div></div>';
 			}
 
 			if (filename) {
-				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
+				fileEl = FileList.findFileEl(filename);
+				fileEl.addClass('mouseOver');
+				htmlEl = $(html);
+				htmlEl.appendTo(fileEl.find('td.filename'));
 			} else {
-				$(html).appendTo($('thead .share'));
+				htmlEl.appendTo($('thead .share'));
 			}
+			htmlEl.attr('data-file', files);
 
 			$("#makelink").click(function() {
 				goToVersionPage(historyUrl);
@@ -140,10 +143,7 @@ function createVersionsDropdown(filename, files) {
 		version.appendTo('#found_versions');
 	}
 
-	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
-
-
 }
 
 $(this).click(
