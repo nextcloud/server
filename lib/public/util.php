@@ -486,4 +486,13 @@ class Util {
 	public static function uploadLimit() {
 		return \OC_Helper::uploadLimit();
 	}
+
+	/**
+	 * Returns whether the given file name is valid
+	 * @param $file string file name to check
+	 * @return bool true if the file name is valid, false otherwise
+	 */
+	public static function isValidFileName($file) {
+		return \OC_Util::isValidFileName($file);
+	}
 }
