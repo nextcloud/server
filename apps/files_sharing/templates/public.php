@@ -53,20 +53,8 @@
 			</div>
 
 		</div>
-
-		<div id="additional_controls" style="display:none">
-			<div id="uploadprogresswrapper">
-				<div id="uploadprogressbar"></div>
-				<input id="cancel_upload_button" type="button" class="stop" style="display:none"
-				       value="<?php p($l->t('Cancel upload'));?>"
-					/>
-			</div>
-
-
-
-
+		<div>
 			<?php endif; ?>
-
 		</div>
 	</div></header>
 <div id="content">
