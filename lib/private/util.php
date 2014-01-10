@@ -892,6 +892,11 @@ class OC_Util {
 			return false;
 		}
 
+		// in case the connection is via proxy return true to avoid connecting to owncloud.org
+		if(OC_Config::getValue('proxy', '') != '') {
+			return true;
+		}
+
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80);
 		if ($connected) {
