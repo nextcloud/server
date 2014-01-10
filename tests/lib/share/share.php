@@ -149,6 +149,26 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	protected function shareUserTestFileWithUser($sharer, $receiver) {
+		OC_User::setUserId($sharer);
+		$this->assertTrue(
+			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $receiver, OCP\PERMISSION_READ | OCP\PERMISSION_SHARE),
+			'Failed asserting that ' . $sharer . ' successfully shared text.txt with ' . $receiver . '.'
+		);
+		$this->assertContains(
+			'test.txt',
+			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that test.txt is a shared file of ' . $sharer . '.'
+		);
+
+		OC_User::setUserId($receiver);
+		$this->assertContains(
+			'test.txt',
+			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that ' . $receiver . ' has access to test.txt after initial sharing.'
+		);
+	}
+
 	public function testShareWithUser() {
 		// Invalid shares
 		$message = 'Sharing test.txt failed, because the user '.$this->user1.' is the item owner';
@@ -585,25 +605,55 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testUnshareAll() {
-		$this->shareUserOneTestFileWithUserTwo();
+		$this->shareUserTestFileWithUser($this->user1, $this->user2);
+		$this->shareUserTestFileWithUser($this->user2, $this->user3);
+		$this->shareUserTestFileWithUser($this->user3, $this->user4);
 		$this->shareUserOneTestFileWithGroupOne();
 
 		OC_User::setUserId($this->user1);
 		$this->assertEquals(
 			array('test.txt', 'test.txt'),
 			OCP\Share::getItemsShared('test', 'test.txt'),
-			'Failed asserting that the test.txt file is shared exactly two times.'
+			'Failed asserting that the test.txt file is shared exactly two times by user1.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemsShared('test', 'test.txt'),
+			'Failed asserting that the test.txt file is shared exactly once by user2.'
+		);
+
+		OC_User::setUserId($this->user3);
+		$this->assertEquals(
+			array('test.txt'),
+			OCP\Share::getItemsShared('test', 'test.txt'),
+			'Failed asserting that the test.txt file is shared exactly once by user3.'
 		);
 
 		$this->assertTrue(
 			OCP\Share::unshareAll('test', 'test.txt'),
-			'Failed asserting that user 1 successfully unshared all shares of the test.txt share.'
+			'Failed asserting that user 3 successfully unshared all shares of the test.txt share.'
 		);
 
 		$this->assertEquals(
 			array(),
 			OCP\Share::getItemsShared('test'),
-			'Failed asserting that both shares of the test.txt file have been removed.'
+			'Failed asserting that the share of the test.txt file by user 3 has been removed.'
+		);
+
+		OC_User::setUserId($this->user1);
+		$this->assertEquals(
+			array(),
+			OCP\Share::getItemsShared('test'),
+			'Failed asserting that both shares of the test.txt file by user 1 have been removed.'
+		);
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(
+			array(),
+			OCP\Share::getItemsShared('test'),
+			'Failed asserting that the share of the test.txt file by user 2 has been removed.'
 		);
 	}
 }
