@@ -71,7 +71,7 @@ var FileActions = {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
-		if ($('tr[data-file="'+file+'"]').data('renaming')) {
+		if (FileList.findFileEl(file).data('renaming')) {
 			return;
 		}
 
