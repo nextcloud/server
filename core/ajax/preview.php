@@ -7,7 +7,7 @@
  */
 \OC_Util::checkLoggedIn();
 
-$file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
+$file = array_key_exists('file', $_GET) ? (string) $_GET['file'] : '';
 $maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : '36';
 $maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : '36';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
@@ -25,6 +25,7 @@ if($maxX === 0 || $maxY === 0) {
 	\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
 	exit;
 }
+
 
 try{
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
