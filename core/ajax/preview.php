@@ -26,7 +26,6 @@ if($maxX === 0 || $maxY === 0) {
 	exit;
 }
 
-
 try{
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
 	$preview->setFile($file);
