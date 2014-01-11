@@ -65,6 +65,12 @@ class ConvertFromSqlite extends Command {
 				InputOption::VALUE_REQUIRED,
 				'the password of the database to convert to. Will be asked when not specified'
 			)
+			->addOption(
+				'clear-schema',
+				null,
+				InputOption::VALUE_NONE,
+				'remove all tables from the destination database'
+			)
 		;
 	}
 
@@ -124,7 +130,20 @@ class ConvertFromSqlite extends Command {
 
 		$toDB = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 
+		// Clearing schema in new database
+		if ($input->getOption('clear-schema')) {
+			$schemaManager = $toDB->getSchemaManager();
+			$toTables = $schemaManager->listTableNames();
+			if (!empty($toTables)) {
+				$output->writeln('Clearing schema in new database');
+			}
+			foreach($toTables as $table) {
+				$schemaManager->dropTable($table);
+			}
+		}
+
 		// create tables in new database
+		$output->writeln('Creating schema in new database');
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
 		$apps = \OC_App::getEnabledApps();
@@ -188,8 +207,6 @@ class ConvertFromSqlite extends Command {
 		$count = $fromDB->fetchColumn($query);
 		$query = 'SELECT * FROM '.$table;
 		$statement = $fromDB->executeQuery($query);
-		$query = 'DELETE FROM '.$table;
-		$toDB->executeUpdate($query);
 		$progress->start($output, $count);
 		$progress->setRedrawFrequency($count > 100 ? 5 : 1);
 		while($row = $statement->fetch()) {
