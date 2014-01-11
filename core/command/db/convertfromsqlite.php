@@ -194,7 +194,11 @@ class ConvertFromSqlite extends Command {
 		$progress->setRedrawFrequency($count > 100 ? 5 : 1);
 		while($row = $statement->fetch()) {
 			$progress->advance();
-			$toDB->insert($table, $row);
+			$data = array();
+			foreach ($row as $columnName => $value) {
+				$data[$toDB->quoteIdentifier($columnName)] = $value;
+			}
+			$toDB->insert($table, $data);
 		}
 		$progress->finish();
 	}
