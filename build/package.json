@@ -1,0 +1,19 @@
+{
+        "name": "owncloud-js-tests",
+        "description": "ownCloud tests",
+        "version": "0.0.1",
+        "author": {
+                "name": "Vincent Petry",
+                "email": "pvince81@owncloud.com"
+        },
+        "private": true,
+        "homepage": "https://github.com/owncloud/",
+        "contributors": [],
+        "dependencies": {},
+        "devDependencies": {
+                "karma": "*",
+                "karma-jasmine": "*",
+                "karma-junit-reporter": "*"
+        },
+        "engine": "node >= 0.8"
+}
