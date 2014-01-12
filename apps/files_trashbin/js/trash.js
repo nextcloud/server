@@ -3,8 +3,8 @@ $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
-			var tr = $('tr').filterAttr('data-file', filename);
-			var deleteAction = $('tr').filterAttr('data-file', filename).children("td.date").children(".action.delete");
+			var tr = FileList.findFileEl(filename);
+			var deleteAction = tr.children("td.date").children(".action.delete");
 			deleteAction.removeClass('delete-icon').addClass('progress-icon');
 			disableActions();
 			$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'),
@@ -30,8 +30,8 @@ $(document).ready(function() {
 		return OC.imagePath('core', 'actions/delete');
 	}, function(filename) {
 		$('.tipsy').remove();
-		var tr = $('tr').filterAttr('data-file', filename);
-		var deleteAction = $('tr').filterAttr('data-file', filename).children("td.date").children(".action.delete");
+		var tr = FileList.findFileEl(filename);
+		var deleteAction = tr.children("td.date").children(".action.delete");
 		deleteAction.removeClass('delete-icon').addClass('progress-icon');
 		disableActions();
 		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		var dirlisting = getSelectedFiles('dirlisting')[0];
 		disableActions();
 		for (var i = 0; i < files.length; i++) {
-			var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
+			var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
 			deleteAction.removeClass('delete-icon').addClass('progress-icon');
 		}
 
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		}
 		else {
 			for (var i = 0; i < files.length; i++) {
-				var deleteAction = $('tr').filterAttr('data-file', files[i]).children("td.date").children(".action.delete");
+				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
 				deleteAction.removeClass('delete-icon').addClass('progress-icon');
 			}
 		}
@@ -169,7 +169,7 @@ $(document).ready(function() {
 			event.preventDefault();
 		}
 		var filename = $(this).parent().parent().attr('data-file');
-		var tr = $('tr').filterAttr('data-file',filename);
+		var tr = FileList.findFileEl(filename);
 		var renaming = tr.data('renaming');
 		if(!renaming && !FileList.isLoading(filename)){
 			if(mime.substr(0, 5) === 'text/'){ //no texteditor for now

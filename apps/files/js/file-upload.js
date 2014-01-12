@@ -222,6 +222,14 @@ $(document).ready(function() {
 			
 				//examine file
 				var file = data.files[0];
+				try {
+					// FIXME: not so elegant... need to refactor that method to return a value
+					Files.isFileNameValid(file.name);
+				}
+				catch (errorMessage) {
+					data.textStatus = 'invalidcharacters';
+					data.errorThrown = errorMessage;
+				}
 			
 				if (file.type === '' && file.size === 4096) {
 					data.textStatus = 'dirorzero';
@@ -605,7 +613,7 @@ $(document).ready(function() {
 								if (result.status === 'success') {
 									var date=new Date();
 									FileList.addDir(name, 0, date, hidden);
-									var tr=$('tr[data-file="'+name+'"]');
+									var tr = FileList.findFileEl(name);
 									tr.attr('data-id', result.data.id);
 								} else {
 									OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
@@ -647,7 +655,7 @@ $(document).ready(function() {
 							$('#uploadprogressbar').fadeOut();
 							var date = new Date();
 							FileList.addFile(localName, size, date, false, hidden);
-							var tr = $('tr[data-file="'+localName+'"]');
+							var tr = FileList.findFileEl(localName);
 							tr.data('mime', mime).data('id', id);
 							tr.attr('data-id', id);
 							var path = $('#dir').val()+'/'+localName;
