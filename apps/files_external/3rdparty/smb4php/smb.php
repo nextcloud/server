@@ -130,7 +130,7 @@ class smb {
 		// this put env is necessary to read the output of smbclient correctly
 		$old_locale = getenv('LC_ALL');
 		putenv('LC_ALL=en_US.UTF-8');
-		$output = popen (SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
+		$output = popen ('TZ=UTC '.SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
 		$gotInfo = false;
 		$info = array ();
 		$info['info']= array ();
