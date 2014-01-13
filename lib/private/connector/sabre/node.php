@@ -85,19 +85,24 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return void
 	 */
 	public function setName($name) {
+		$fs = $this->getFS();
 
 		// rename is only allowed if the update privilege is granted
-		if (!\OC\Files\Filesystem::isUpdatable($this->path)) {
+		if (!$fs->isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
 		list($parentPath, ) = Sabre_DAV_URLUtil::splitPath($this->path);
 		list(, $newName) = Sabre_DAV_URLUtil::splitPath($name);
 
+		if (!\OCP\Util::isValidFileName($newName)) {
+			throw new \Sabre_DAV_Exception_BadRequest();
+		}
+
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		\OC\Files\Filesystem::rename($this->path, $newPath);
+		$fs->rename($this->path, $newPath);
 
 		$this->path = $newPath;
 
