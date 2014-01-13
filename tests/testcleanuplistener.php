@@ -58,7 +58,7 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 	}
 
 	private function unlinkDir($dir) {
-		if ($dh = opendir($dir)) {
+		if ($dh = @opendir($dir)) {
 			while (($file = readdir($dh)) !== false) {
 				if ($file === '..' || $file === '.') {
 					continue;
@@ -68,12 +68,12 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 					$this->unlinkDir($path);
 				}
 				else {
-					unlink($path);
+					@unlink($path);
 				}
 			}
 			closedir($dh);
 		}
-		rmdir($dir);
+		@rmdir($dir);
 	}
 
 	private function cleanStrayDataFiles() {
