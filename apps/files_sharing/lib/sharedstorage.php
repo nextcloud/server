@@ -279,14 +279,6 @@ class Shared extends \OC\Files\Storage\Common {
 			if ($this->isDeletable($path)) {
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 				return $storage->unlink($internalPath);
-			} else if (dirname($path) == '/' || dirname($path) == '.') {
-				// Unshare the file from the user if in the root of the Shared folder
-				if ($this->is_dir($path)) {
-					$itemType = 'folder';
-				} else {
-					$itemType = 'file';
-				}
-				return \OCP\Share::unshareFromSelf($itemType, $path);
 			}
 		}
 		return false;
