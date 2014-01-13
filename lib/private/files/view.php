@@ -963,12 +963,15 @@ class View {
 	 * change file metadata
 	 *
 	 * @param string $path
-	 * @param array $data
+	 * @param array | \OCP\Files\FileInfo $data
 	 * @return int
 	 *
 	 * returns the fileid of the updated file
 	 */
 	public function putFileInfo($path, $data) {
+		if ($data instanceof FileInfo) {
+			$data = $data->getData();
+		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage

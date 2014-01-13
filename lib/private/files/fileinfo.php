@@ -146,4 +146,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess, \JsonSerializable {
 	public function getType() {
 		return $this->data['type'];
 	}
+
+	public function getData(){
+		return $this->data;
+	}
 }
