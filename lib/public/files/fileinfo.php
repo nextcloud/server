@@ -1,25 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: robin
- * Date: 1/13/14
- * Time: 1:45 PM
+ * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
 namespace OCP\Files;
 
-interface FileInfo extends \ArrayAccess, \JsonSerializable {
+interface FileInfo {
 	const TYPE_FILE = 'file';
 	const TYPE_FOLDER = 'folder';
-
-	public function offsetSet($offset, $value);
-
-	public function offsetGet($offset);
-
-	public function offsetUnset($offset);
-
-	public function offsetExists($offset);
-
-	public function jsonSerialize();
 
 	/**
 	 * Get the Etag of the file or folder
