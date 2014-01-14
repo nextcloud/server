@@ -65,9 +65,6 @@
 	top: 44px;
 	width: 100%;
 }
-#filestable, #controls {
-	min-width: 680px;
-}
 #filestable tbody tr { background-color:#fff; height:2.5em; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
