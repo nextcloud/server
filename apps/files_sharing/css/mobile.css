@@ -1,0 +1,18 @@
+@media only screen and (max-width: 600px) {
+
+/* make header and controls bar scroll up for more view of content on small screens */
+#header,
+#controls {
+	position: absolute;
+}
+
+/* hide size and date columns */
+table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+	display: none;
+}
+
+
+}
