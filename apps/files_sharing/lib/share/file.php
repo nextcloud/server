@@ -172,7 +172,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$source['fileOwner'] = $fileOwner;
 			return $source;
 		}
-		\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::ERROR);
+		\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::DEBUG);
 		return false;
 	}
 
