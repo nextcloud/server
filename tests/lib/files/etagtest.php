@@ -11,6 +11,12 @@ namespace Test\Files;
 use OC\Files\Filesystem;
 use OCP\Share;
 
+class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
+	public function touch($path, $mtime = null) {
+		return false;
+	}
+}
+
 class EtagTest extends \PHPUnit_Framework_TestCase {
 	private $datadir;
 
@@ -66,6 +72,23 @@ class EtagTest extends \PHPUnit_Framework_TestCase {
 		$scanner->backgroundScan('/');
 
 		$this->assertEquals($originalEtags, $this->getEtags($files));
+	}
+
+	public function testTouchNotSupported() {
+		$storage = new TemporaryNoTouch(array());
+		$scanner = $storage->getScanner();
+		Filesystem::mount($storage, array(), '/test/');
+		$past = time() - 100;
+		$storage->file_put_contents('test', 'foobar');
+		$scanner->scan('');
+		$view = new \OC\Files\View('');
+		$info = $view->getFileInfo('/test/test');
+
+		$view->touch('/test/test', $past);
+		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
+
+		$info2 = $view->getFileInfo('/test/test');
+		$this->assertEquals($info['etag'], $info2['etag']);
 	}
 
 	private function getEtags($files) {
