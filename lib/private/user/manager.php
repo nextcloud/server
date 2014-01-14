@@ -35,7 +35,16 @@ class Manager extends PublicEmitter {
 	 */
 	private $cachedUsers = array();
 
-	public function __construct() {
+	/**
+	 * @var \OC\AllConfig $config
+	 */
+	private $config;
+
+	/**
+	 * @param \OC\AllConfig $config
+	 */
+	public function __construct($config = null) {
+		$this->config = $config;
 		$cachedUsers = $this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			$i = array_search($user, $cachedUsers);
@@ -103,7 +112,7 @@ class Manager extends PublicEmitter {
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
 		}
-		$this->cachedUsers[$uid] = new User($uid, $backend, $this);
+		$this->cachedUsers[$uid] = new User($uid, $backend, $this, $this->config);
 		return $this->cachedUsers[$uid];
 	}
 
@@ -141,7 +150,7 @@ class Manager extends PublicEmitter {
 	 */
 	public function checkPassword($loginname, $password) {
 		foreach ($this->backends as $backend) {
-			if($backend->implementsActions(\OC_USER_BACKEND_CHECK_PASSWORD)) {
+			if ($backend->implementsActions(\OC_USER_BACKEND_CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginname, $password);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
@@ -234,7 +243,7 @@ class Manager extends PublicEmitter {
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {
 			throw new \Exception('Only the following characters are allowed in a username:'
-			. ' "a-z", "A-Z", "0-9", and "_.@-"');
+				. ' "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
 		if (trim($uid) == '') {

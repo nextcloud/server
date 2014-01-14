@@ -38,11 +38,22 @@ class User {
 	private $emitter;
 
 	/**
+	 * @var string $home
+	 */
+	private $home;
+
+	/**
+	 * @var \OC\AllConfig $config
+	 */
+	private $config;
+
+	/**
 	 * @param string $uid
 	 * @param \OC_User_Backend $backend
-	 * @param Emitter $emitter
+	 * @param \OC\Hooks\Emitter $emitter
+	 * @param \OC\AllConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null) {
+	public function __construct($uid, $backend, $emitter = null, $config = null) {
 		$this->uid = $uid;
 		if ($backend and $backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
 			$this->displayName = $backend->getDisplayName($uid);
@@ -51,8 +62,13 @@ class User {
 		}
 		$this->backend = $backend;
 		$this->emitter = $emitter;
-		$enabled = \OC_Preferences::getValue($uid, 'core', 'enabled', 'true'); //TODO: DI for OC_Preferences
-		$this->enabled = ($enabled === 'true');
+		$this->config = $config;
+		if ($this->config) {
+			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
+			$this->enabled = ($enabled === 'true');
+		} else {
+			$this->enabled = true;
+		}
 	}
 
 	/**
@@ -133,10 +149,16 @@ class User {
 	 * @return string
 	 */
 	public function getHome() {
-		if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
-			return $home;
+		if (!$this->home) {
+			if ($this->backend->implementsActions(\OC_USER_BACKEND_GET_HOME) and $home = $this->backend->getHome($this->uid)) {
+				$this->home = $home;
+			} elseif ($this->config) {
+				$this->home = $this->config->getSystemValue('datadirectory') . '/' . $this->uid;
+			} else {
+				$this->home = \OC::$SERVERROOT . '/data/' . $this->uid;
+			}
 		}
-		return \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/' . $this->uid; //TODO switch to Config object once implemented
+		return $this->home;
 	}
 
 	/**
@@ -145,7 +167,7 @@ class User {
 	 * @return bool
 	 */
 	public function canChangeAvatar() {
-		if($this->backend->implementsActions(\OC_USER_BACKEND_PROVIDE_AVATAR)) {
+		if ($this->backend->implementsActions(\OC_USER_BACKEND_PROVIDE_AVATAR)) {
 			return $this->backend->canChangeAvatar($this->uid);
 		}
 		return true;
@@ -166,7 +188,11 @@ class User {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		return $this->backend->implementsActions(\OC_USER_BACKEND_SET_DISPLAYNAME);
+		if ($this->config and $this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+			return false;
+		} else {
+			return $this->backend->implementsActions(\OC_USER_BACKEND_SET_DISPLAYNAME);
+		}
 	}
 
 	/**
@@ -185,7 +211,9 @@ class User {
 	 */
 	public function setEnabled($enabled) {
 		$this->enabled = $enabled;
-		$enabled = ($enabled) ? 'true' : 'false';
-		\OC_Preferences::setValue($this->uid, 'core', 'enabled', $enabled);
+		if ($this->config) {
+			$enabled = ($enabled) ? 'true' : 'false';
+			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
+		}
 	}
 }
