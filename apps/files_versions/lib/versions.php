@@ -98,7 +98,6 @@ class Storage {
 
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
 			$users_view = new \OC\Files\View('/'.$uid);
-			$versions_view = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// check if filename is a directory
 			if($files_view->is_dir($filename)) {
@@ -132,7 +131,10 @@ class Storage {
 			\OC_FileProxy::$enabled = false;
 
 			// store a new version of a file
-			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+			$mtime = $users_view->filemtime('files'.$filename);
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'. $mtime);
+			// call getFileInfo to enforce a file cache entry for the new version
+			$users_view->getFileInfo('files_versions'.$filename.'.v'.$mtime);
 
 			// reset proxy state
 			\OC_FileProxy::$enabled = $proxyStatus;

@@ -77,6 +77,7 @@ function goToVersionPage(url){
 function createVersionsDropdown(filename, files) {
 
 	var start = 0;
+	var fileEl;
 
 	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 	html += '<div id="private">';
@@ -86,8 +87,9 @@ function createVersionsDropdown(filename, files) {
 	html += '<input type="button" value="'+ t('files_versions', 'More versions...') + '" name="show-more-versions" id="show-more-versions" style="display: none;" />';
 
 	if (filename) {
-		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
+		fileEl = FileList.findFileEl(filename);
+		fileEl.addClass('mouseOver');
+		$(html).appendTo(fileEl.find('td.filename'));
 	} else {
 		$(html).appendTo($('thead .share'));
 	}
@@ -138,7 +140,7 @@ function createVersionsDropdown(filename, files) {
 
 		var preview = '<img class="preview" src="'+revision.preview+'"/>';
 
-		var download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
+		var download ='<a href="' + path + "?file=" + encodeURIComponent(files) + '&revision=' + revision.version + '">';
 		download+='<img';
 		download+=' src="' + OC.imagePath('core', 'actions/download') + '"';
 		download+=' name="downloadVersion" />';
@@ -146,8 +148,7 @@ function createVersionsDropdown(filename, files) {
 		download+='</a>';
 
 		var revert='<span class="revertVersion"';
-		revert+=' id="' + revision.version + '"';
-		revert+=' value="' + files + '">';
+		revert+=' id="' + revision.version + '">';
 		revert+='<img';
 		revert+=' src="' + OC.imagePath('core', 'actions/history') + '"';
 		revert+=' name="revertVersion"';
@@ -156,14 +157,13 @@ function createVersionsDropdown(filename, files) {
 		var version=$('<li/>');
 		version.attr('value', revision.version);
 		version.html(preview + download + revert);
+		// add file here for proper name escaping
+		version.find('span.revertVersion').attr('value', files);
 
 		version.appendTo('#found_versions');
 	}
 
-	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
-
-
 }
 
 $(this).click(

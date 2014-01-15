@@ -282,7 +282,7 @@ $(document).ready(function() {
 			procesSelection();
 		} else {
 			var filename=$(this).parent().parent().attr('data-file');
-			var tr=$('tr[data-file="'+filename+'"]');
+			var tr = FileList.findFileEl(filename);
 			var renaming=tr.data('renaming');
 			if (!renaming && !FileList.isLoading(filename)) {
 				FileActions.currentFile = $(this).parent();
@@ -541,10 +541,12 @@ var folderDropOptions={
 				if (result) {
 					if (result.status === 'success') {
 						//recalculate folder size
-						var oldSize = $('#fileList tr[data-file="'+target+'"]').data('size');
-						var newSize = oldSize + $('#fileList tr[data-file="'+file+'"]').data('size');
-						$('#fileList tr[data-file="'+target+'"]').data('size', newSize);
-						$('#fileList tr[data-file="'+target+'"]').find('td.filesize').text(humanFileSize(newSize));
+						var oldFile = FileList.findFileEl(target);
+						var newFile = FileList.findFileEl(file);
+						var oldSize = oldFile.data('size');
+						var newSize = oldSize + newFile.data('size');
+						oldFile.data('size', newSize);
+						oldFile.find('td.filesize').text(humanFileSize(newSize));
 
 						FileList.remove(file);
 						procesSelection();
@@ -738,7 +740,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 }
 
 function getUniqueName(name) {
-	if ($('tr[data-file="'+name+'"]').exists()) {
+	if (FileList.findFileEl(name).exists()) {
 		var parts=name.split('.');
 		var extension = "";
 		if (parts.length > 1) {
