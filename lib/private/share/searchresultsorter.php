@@ -27,7 +27,7 @@ class SearchResultSorter {
 
 	/**
 	 * User and Group names matching the search term at the beginning shall appear
-	 * on top of the share dialog.
+	 * on top of the share dialog. Following entries in alphabetical order.
 	 * Callback function for usort. http://php.net/usort
 	 */
 	public function sort($a, $b) {
@@ -41,8 +41,9 @@ class SearchResultSorter {
 		$i = mb_strpos($nameA, $this->search, 0, $this->encoding);
 		$j = mb_strpos($nameB, $this->search, 0, $this->encoding);
 
-		if($i === $j) {
-			return 0;
+		if($i === $j || $i > 0 && $j > 0) {
+			return strcmp(mb_strtolower($nameA, $this->encoding),
+						  mb_strtolower($nameB, $this->encoding));
 		} elseif ($i === 0) {
 			return -1;
 		} else {
