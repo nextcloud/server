@@ -1,10 +1,5 @@
 @media only screen and (max-width: 600px) {
 
-/* make header and controls bar scroll up for more view of content on small screens */
-#header,
-#controls {
-	position: absolute;
-}
 
 /* hide size and date columns */
 table th#headerSize,
@@ -12,6 +7,16 @@ table td.filesize,
 table th#headerDate,
 table td.date {
 	display: none;
+}
+
+/* restrict length of displayed filename to prevent overflow */
+table td.filename .nametext {
+	max-width: 80% !important;
+}
+/* and to make room for download button on hover */
+table tr:hover td.filename .nametext,
+table tr:focus td.filename .nametext {
+	max-width: 60% !important;
 }
 
 
