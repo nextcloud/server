@@ -354,32 +354,11 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						break;
 					}
 				}
-				usort($shareWith, 'sortSearchFirst');
+				$sorter = new \OC\Share\SearchResultSorter($_GET['search'],
+														   'label');
+				usort($shareWith, array($sorter, 'sort'));
 				OC_JSON::success(array('data' => $shareWith));
 			}
 			break;
-	}
-}
-
-
-/**
- * User and Group names matching the search term at the beginning shall appear
- * on top of the share dialog.
- * Callback function for usort. http://php.net/usort
- */
-function sortSearchFirst($a, $b) {
-	$enc = 'UTF-8';
-	$nameA = mb_strtolower($a['label'], $enc);
-	$nameB = mb_strtolower($b['label'], $enc);
-	$term = mb_strtolower($_GET['search'], $enc);
-	$i = mb_strpos($nameA, $term, 0, 'UTF-8');
-	$j = mb_strpos($nameB, $term, 0, 'UTF-8');
-
-	if($i === $j) {
-		return 0;
-	} elseif ($i === 0) {
-		return -1;
-	} else {
-		return 1;
 	}
 }
