@@ -225,7 +225,8 @@ if (isset($path)) {
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
-			$folder->assign('isCreatable', false);
+			$folder->assign('isCreatable', $allowPublicUploadEnabled);
+			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
 			$folder->assign('publicUploadEnabled', 'no');

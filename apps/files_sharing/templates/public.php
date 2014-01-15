@@ -14,57 +14,7 @@
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
-			<?php if (isset($_['folder'])): ?>
-				<span id="details"><?php p($l->t('%s shared the folder %s with you',
-						array($_['displayName'], $_['filename']))) ?></span>
-			<?php else: ?>
-				<span id="details"><?php p($l->t('%s shared the file %s with you',
-						array($_['displayName'], $_['filename']))) ?></span>
-			<?php endif; ?>
-
-
-			<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
-				<a href="<?php p($_['downloadURL']); ?>" class="button" id="download"><img
-						class="svg" alt="Download" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"
-						/><span><?php p($l->t('Download'))?></span></a>
-			<?php endif; ?>
-
-			<?php if ($_['allowPublicUploadEnabled']):?>
-
-
-			<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-			<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
-			<input type="hidden" id="uploadMaxFilesize" name="uploadMaxFilesize" value="<?php p($_['uploadMaxFilesize']) ?>" />
-			<input type="hidden" id="uploadMaxHumanFilesize" name="uploadMaxHumanFilesize" value="<?php p($_['uploadMaxHumanFilesize']) ?>" />
-			<input type="hidden" id="directory_path" name="directory_path" value="<?php p($_['directory_path']) ?>" />
-			<?php if($_['uploadMaxFilesize'] >= 0):?>
-				<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
-				       value="<?php p($_['uploadMaxFilesize']) ?>">
-			<?php endif;?>
-
-
-			<div id="data-upload-form" class="button" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
-				<input id="file_upload_start" type="file" name="files[]" data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" multiple>
-				<a href="#" id="publicUploadButtonMock" class="svg">
-					<span><?php p($l->t('Upload'))?></span>
-				</a>
-			</div>
-
-		</div>
-
-		<div id="additional_controls" style="display:none">
-			<div id="uploadprogresswrapper">
-				<div id="uploadprogressbar"></div>
-				<input id="cancel_upload_button" type="button" class="stop" style="display:none"
-				       value="<?php p($l->t('Cancel upload'));?>"
-					/>
-			</div>
-
-
-
-
-			<?php endif; ?>
-
+			<span id="details"><?php p($l->t('shared by %s', array($_['displayName']))) ?></span>
 		</div>
 	</div></header>
 <div id="content">
@@ -96,7 +46,7 @@
 					</li>
 				</ul>
 			<?php endif; ?>
-			<div class="directLink"><label for="directLink"><?php p($l->t('Direct link')) ?></label><input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>"></input></div>
+			<div class="directLink"><label for="directLink"><?php p($l->t('Direct link')) ?></label><input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>"></div>
 		<?php endif; ?>
 	</div>
 	<footer>

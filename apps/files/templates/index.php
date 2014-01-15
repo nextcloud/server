@@ -18,6 +18,10 @@
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
+					<?php if(isset($_['dirToken'])):?>
+					<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+					<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
+					<?php endif;?>
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -26,7 +30,7 @@
 					<a href="#" class="svg"></a>
 			</div>
 			<?php if ($_['trash']): ?>
-			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
@@ -44,7 +48,7 @@
 
 <div id="emptycontent" <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
+<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
