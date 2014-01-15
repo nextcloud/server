@@ -40,13 +40,19 @@
 				<ul id="noPreview">
 					<li class="error">
 						<?php p($l->t('No preview available for').' '.$_['filename']); ?><br />
-						<a href="<?php p($_['downloadURL']); ?>" id="download"><img class="svg" alt="Download"
-						                                                            src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"
-								/><?php p($l->t('Download'))?></a>
 					</li>
 				</ul>
 			<?php endif; ?>
-			<div class="directLink"><label for="directLink"><?php p($l->t('Direct link')) ?></label><input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>"></div>
+			<div class="button">
+				<a href="<?php p($_['downloadURL']); ?>" id="download">
+					<img class="svg" alt="Download" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
+					<?php p($l->t('Download %s', array($_['filename'])))?>
+				</a>
+			</div>
+			<div class="directLink">
+				<label for="directLink"><?php p($l->t('Direct link')) ?></label>
+				<input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>">
+			</div>
 		<?php endif; ?>
 	</div>
 	<footer>
