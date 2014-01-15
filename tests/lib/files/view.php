@@ -545,4 +545,21 @@ class View extends \PHPUnit_Framework_TestCase {
 			$this->assertContains($item['name'], $names);
 		}
 	}
+
+	public function testTouchNotSupported() {
+		$storage = new TemporaryNoTouch(array());
+		$scanner = $storage->getScanner();
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$past = time() - 100;
+		$storage->file_put_contents('test', 'foobar');
+		$scanner->scan('');
+		$view = new \OC\Files\View('');
+		$info = $view->getFileInfo('/test/test');
+
+		$view->touch('/test/test', $past);
+		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
+
+		$info2 = $view->getFileInfo('/test/test');
+		$this->assertEquals($info['etag'], $info2['etag']);
+	}
 }
