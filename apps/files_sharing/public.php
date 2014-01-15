@@ -111,6 +111,7 @@ if (isset($path)) {
 		}
 	}
 	$basePath = $path;
+	$rootName = basename($path);
 	if (isset($_GET['path']) && \OC\Files\Filesystem::isReadable($basePath . $_GET['path'])) {
 		$getPath = \OC\Files\Filesystem::normalizePath($_GET['path']);
 		$path .= $getPath;
@@ -216,6 +217,7 @@ if (isset($path)) {
 			$list->assign('sharingroot', $basePath);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+			$breadcrumbNav->assign('rootBreadCrumb', $rootName);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
 			$fileHeader = (!isset($files) or count($files) > 0);
