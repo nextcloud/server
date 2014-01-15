@@ -9,8 +9,6 @@ function fileDownloadPath(dir, file) {
 
 $(document).ready(function() {
 
-	$('#data-upload-form').tipsy({gravity:'ne', fade:true});
-
 	if (typeof FileActions !== 'undefined') {
 		var mimetype = $('#mimetype').val();
 		// Show file preview if previewer is available, images are already handled by the template
@@ -56,15 +54,6 @@ $(document).ready(function() {
 			dirToken: $('#dirToken').val(),
 			subdir: $('input#dir').val()
 		};
-	});
-
-	// Add Uploadprogress Wrapper to controls bar
-	$('#controls').append($('#additional_controls div#uploadprogresswrapper'));
-
-	// Cancel upload trigger
-	$('#cancel_upload_button').click(function() {
-		OC.Upload.cancelUploads();
-		procesSelection();
 	});
 
 	$('#directLink').focus();
