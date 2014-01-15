@@ -377,7 +377,7 @@ function sortSearchFirst($a, $b) {
 
 	if($i === $j) {
 		return 0;
-	} else if ($i === 0) {
+	} elseif ($i === 0) {
 		return -1;
 	} else {
 		return 1;
