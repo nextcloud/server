@@ -418,8 +418,6 @@ var OC={
 					}
 					if(!SVGSupport()) {
 						replaceSVG();
-					} else {
-						SVGSupport.checkMimeType();
 					}
 				}).show();
 			}, 'html');
