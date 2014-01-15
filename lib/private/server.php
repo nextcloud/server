@@ -5,6 +5,7 @@ namespace OC;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
+use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
@@ -34,7 +35,6 @@ class Server extends SimpleContainer implements IServerContainer {
 				$requesttoken = false;
 			}
 
-
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -46,7 +46,6 @@ class Server extends SimpleContainer implements IServerContainer {
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
 						? $_SERVER['REQUEST_METHOD']
 						: null,
-					'params' => $params,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
 				)
@@ -70,10 +69,18 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new Root($manager, $view, $user);
 		});
 		$this->registerService('UserManager', function($c) {
-			return new \OC\User\Manager();
+			/**
+			 * @var SimpleContainer $c
+			 * @var \OC\AllConfig $config
+			 */
+			$config = $c->query('AllConfig');
+			return new \OC\User\Manager($config);
 		});
 		$this->registerService('UserSession', function($c) {
-			/** @var $c SimpleContainer */
+			/**
+			 * @var SimpleContainer $c
+			 * @var \OC\User\Manager $manager
+			 */
 			$manager = $c->query('UserManager');
 			$userSession = new \OC\User\Session($manager, \OC::$session);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
@@ -121,13 +128,21 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\L10N\Factory();
 		});
 		$this->registerService('URLGenerator', function($c) {
-			return new \OC\URLGenerator();
+			/** @var $c SimpleContainer */
+			$config = $c->query('AllConfig');
+			return new \OC\URLGenerator($config);
 		});
 		$this->registerService('AppHelper', function($c) {
 			return new \OC\AppHelper();
 		});
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
+		});
+		$this->registerService('ActivityManager', function($c) {
+			return new ActivityManager();
+		});
+		$this->registerService('AvatarManager', function($c) {
+			return new AvatarManager();
 		});
 	}
 
@@ -166,6 +181,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getTagManager() {
 		return $this->query('TagManager');
+	}
+
+	/**
+	 * Returns the avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatarManager
+	 */
+	function getAvatarManager() {
+		return $this->query('AvatarManager');
 	}
 
 	/**
@@ -235,7 +259,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OC\Config
+	 * @return \OCP\IConfig
 	 */
 	function getConfig() {
 		return $this->query('AllConfig');
@@ -288,6 +312,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection() {
-		return \OC_DB::getConnection();
+		return new ConnectionWrapper(\OC_DB::getConnection());
+	}
+
+	/**
+	 * Returns the activity manager
+	 *
+	 * @return \OCP\Activity\IManager
+	 */
+	function getActivityManager() {
+		return $this->query('ActivityManager');
 	}
 }

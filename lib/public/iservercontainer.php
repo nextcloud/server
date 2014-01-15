@@ -20,6 +20,14 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * Server container interface
+ *
+ */
+
+// use OCP namespace for all classes that are considered public.
+// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
 
@@ -92,11 +100,15 @@ interface IServerContainer {
 	function getUserSession();
 
 	/**
+	 * Returns the navigation manager
+	 *
 	 * @return \OCP\INavigationManager
 	 */
 	function getNavigationManager();
 
 	/**
+	 * Returns the config manager
+	 *
 	 * @return \OCP\IConfig
 	 */
 	function getConfig();
@@ -109,11 +121,15 @@ interface IServerContainer {
 	function getL10N($app);
 
 	/**
+	 * Returns the URL generator
+	 *
 	 * @return \OCP\IURLGenerator
 	 */
 	function getURLGenerator();
 
 	/**
+	 * Returns the Helper
+	 *
 	 * @return \OCP\IHelper
 	 */
 	function getHelper();
@@ -133,10 +149,24 @@ interface IServerContainer {
 	function getSession();
 
 	/**
+	 * Returns the activity manager
+	 *
+	 * @return \OCP\Activity\IManager
+	 */
+	function getActivityManager();
+
+	/**
 	 * Returns the current session
 	 *
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection();
+
+	/**
+	 * Returns an avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatarManager
+	 */
+	function getAvatarManager();
 
 }

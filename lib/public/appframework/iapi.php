@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -21,6 +20,10 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework/IApi interface
+ */
 
 namespace OCP\AppFramework;
 
@@ -67,59 +70,6 @@ interface IApi {
 	 */
 	function add3rdPartyStyle($name);
 
-	/**
-	 * Returns the translation object
-	 * @return \OC_L10N the translation object
-	 *
-	 * FIXME: returns private object / should be retrieved from teh ServerContainer
-	 */
-	function getTrans();
-
-
-	/**
-	 * Returns the URL for a route
-	 * @param string $routeName the name of the route
-	 * @param array $arguments an array with arguments which will be filled into the url
-	 * @return string the url
-	 */
-	function linkToRoute($routeName, $arguments=array());
-
-
-	/**
-	 * Returns an URL for an image or file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	function linkTo($file, $appName=null);
-
-
-	/**
-	 * Returns the link to an image, like link to but only with prepending img/
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	function imagePath($file, $appName = null);
-
-
-	/**
-	 * Makes an URL absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 *
-	 * FIXME: function should live in Request / Response
-	 */
-	function getAbsoluteURL($url);
-
-
-	/**
-	 * links to a file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 * @deprecated replaced with linkToRoute()
-	 * @return string the url
-	 */
-	function linkToAbsolute($file, $appName = null);
-
 
 	/**
 	 * Checks if an app is enabled
@@ -127,25 +77,5 @@ interface IApi {
 	 * @return bool true if app is enabled
 	 */
 	public function isAppEnabled($appName);
-
-
-	/**
-	 * Writes a function into the error log
-	 * @param string $msg the error message to be logged
-	 * @param int $level the error level
-	 *
-	 * FIXME: add logger instance to ServerContainer
-	 */
-	function log($msg, $level = null);
-
-
-	/**
-	 * Returns a template
-	 * @param string $templateName the name of the template
-	 * @param string $renderAs how it should be rendered
-	 * @param string $appName the name of the app
-	 * @return \OCP\Template a new template
-	 */
-	function getTemplate($templateName, $renderAs='user', $appName=null);
 
 }

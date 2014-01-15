@@ -29,8 +29,14 @@ if($maxX === 0 || $maxY === 0) {
 }
 
 try{
-	$preview = new \OC\Preview(\OC_User::getUser(), 'files_trashbin/files');
-	$preview->setFile($file);
+	$preview = new \OC\Preview(\OC_User::getUser(), 'files_trashbin/files', $file);
+	$view = new \OC\Files\View('/'.\OC_User::getUser(). '/files_trashbin/files');
+	if ($view->is_dir($file)) {
+		$mimetype = 'httpd/unix-directory';
+	} else {
+		$mimetype = \OC_Helper::getFileNameMimeType(pathinfo($file, PATHINFO_FILENAME));
+	}
+	$preview->setMimetype($mimetype);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);
 	$preview->setScalingUp($scalingUp);

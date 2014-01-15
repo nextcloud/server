@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-21 08:10-0400\n"
-"PO-Revision-Date: 2013-08-19 19:20+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-02 17:27-0500\n"
+"PO-Revision-Date: 2013-11-30 19:00+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,75 +45,96 @@ msgstr "Wachtwoord succesvol gewijzigd."
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd."
 
-#: ajax/updatePrivateKeyPassword.php:51
+#: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
 msgstr "Privésleutel succesvol bijgewerkt."
 
-#: ajax/updatePrivateKeyPassword.php:53
+#: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
 msgstr "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het oude wachtwoord onjuist."
 
-#: files/error.php:7
+#: files/error.php:12
 msgid ""
-"Your private key is not valid! Likely your password was changed outside the "
-"ownCloud system (e.g. your corporate directory). You can update your private"
-" key password in your personal settings to recover access to your encrypted "
-"files."
-msgstr "Uw privésleutel is niet geldig! Misschien was uw wachtwoord van buitenaf gewijzigd. U kunt het wachtwoord van uw privésleutel aanpassen in uw persoonlijke instellingen om toegang tot uw versleutelde bestanden te vergaren."
+"Encryption app not initialized! Maybe the encryption app was re-enabled "
+"during your session. Please try to log out and log back in to initialize the"
+" encryption app."
+msgstr "Crypto app niet geïnitialiseerd. Misschien werd de crypto app geheractiveerd tijdens de sessie. Log uit en log daarna opnieuw in om de crypto app te initialiseren."
 
-#: hooks/hooks.php:41
+#: files/error.php:16
+#, php-format
+msgid ""
+"Your private key is not valid! Likely your password was changed outside of "
+"%s (e.g. your corporate directory). You can update your private key password"
+" in your personal settings to recover access to your encrypted files."
+msgstr "Uw privésleutel is niet geldig! Waarschijnlijk is uw wachtwoord gewijzigd buiten %s (bijv. uw corporate directory). U kunt uw privésleutel wachtwoord in uw persoonlijke instellingen bijwerken om toegang te krijgen tot uw versleutelde bestanden."
+
+#: files/error.php:19
+msgid ""
+"Can not decrypt this file, probably this is a shared file. Please ask the "
+"file owner to reshare the file with you."
+msgstr "Kan dit bestand niet ontcijferen, waarschijnlijk is het een gedeeld bestand, Vraag de eigenaar om het bestand opnieuw met u te delen."
+
+#: files/error.php:22 files/error.php:27
+msgid ""
+"Unknown error please check your system settings or contact your "
+"administrator"
+msgstr "Onbekende fout, Controleer uw systeeminstellingen of neem contact op met uw systeembeheerder"
+
+#: hooks/hooks.php:59
 msgid "Missing requirements."
 msgstr "Missende benodigdheden."
 
-#: hooks/hooks.php:42
+#: hooks/hooks.php:60
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Wees er zeker van dat PHP5.3.3 of nieuwer is geïstalleerd en dat de OpenSSL PHP extensie is ingeschakeld en correct geconfigureerd. De versleutel-app is voorlopig uitgeschakeld."
 
-#: hooks/hooks.php:249
+#: hooks/hooks.php:273
 msgid "Following users are not set up for encryption:"
 msgstr "De volgende gebruikers hebben geen configuratie voor encryptie:"
 
-#: js/settings-admin.js:11
+#: js/detect-migration.js:21
+msgid "Initial encryption started... This can take some time. Please wait."
+msgstr "initiële versleuteling gestart... Dit kan even duren, geduld a.u.b."
+
+#: js/settings-admin.js:13
 msgid "Saving..."
 msgstr "Opslaan"
 
-#: templates/invalid_private_key.php:5
-msgid ""
-"Your private key is not valid! Maybe the your password was changed from "
-"outside."
-msgstr "Uw privésleutel is niet geldig. Misschien was uw wachtwoord van buitenaf gewijzigd."
+#: templates/invalid_private_key.php:8
+msgid "Go directly to your "
+msgstr "Ga meteen naar uw"
 
-#: templates/invalid_private_key.php:7
-msgid "You can unlock your private key in your "
-msgstr "U kunt uw privésleutel deblokkeren in uw"
-
-#: templates/invalid_private_key.php:7
+#: templates/invalid_private_key.php:8
 msgid "personal settings"
 msgstr "persoonlijke instellingen"
 
-#: templates/settings-admin.php:5 templates/settings-personal.php:4
+#: templates/settings-admin.php:4 templates/settings-personal.php:3
 msgid "Encryption"
 msgstr "Versleuteling"
 
-#: templates/settings-admin.php:10
+#: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):"
 
-#: templates/settings-admin.php:14
+#: templates/settings-admin.php:11
 msgid "Recovery key password"
 msgstr "Wachtwoord herstelsleulel"
 
-#: templates/settings-admin.php:21 templates/settings-personal.php:54
+#: templates/settings-admin.php:14
+msgid "Repeat Recovery key password"
+msgstr "Herhaal het herstelsleutel wachtwoord"
+
+#: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
 msgstr "Geactiveerd"
 
-#: templates/settings-admin.php:29 templates/settings-personal.php:62
+#: templates/settings-admin.php:29 templates/settings-personal.php:59
 msgid "Disabled"
 msgstr "Gedeactiveerd"
 
@@ -121,58 +142,62 @@ msgstr "Gedeactiveerd"
 msgid "Change recovery key password:"
 msgstr "Wijzig wachtwoord herstelsleutel:"
 
-#: templates/settings-admin.php:41
+#: templates/settings-admin.php:40
 msgid "Old Recovery key password"
 msgstr "Oude wachtwoord herstelsleutel"
 
-#: templates/settings-admin.php:48
+#: templates/settings-admin.php:47
 msgid "New Recovery key password"
 msgstr "Nieuwe wachtwoord herstelsleutel"
 
 #: templates/settings-admin.php:53
+msgid "Repeat New Recovery key password"
+msgstr "Herhaal het nieuwe herstelsleutel wachtwoord"
+
+#: templates/settings-admin.php:58
 msgid "Change Password"
 msgstr "Wijzigen wachtwoord"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Het wachtwoord van uw privésleutel komt niet meer overeen met uw inlogwachtwoord:"
 
-#: templates/settings-personal.php:14
+#: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
 msgstr "Stel het wachtwoord van uw oude privésleutel in op uw huidige inlogwachtwoord."
 
-#: templates/settings-personal.php:16
+#: templates/settings-personal.php:14
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Als u uw oude wachtwoord niet meer weet, kunt u uw beheerder vragen uw bestanden terug te halen."
 
-#: templates/settings-personal.php:24
+#: templates/settings-personal.php:22
 msgid "Old log-in password"
 msgstr "Oude wachtwoord"
 
-#: templates/settings-personal.php:30
+#: templates/settings-personal.php:28
 msgid "Current log-in password"
 msgstr "Huidige wachtwoord"
 
-#: templates/settings-personal.php:35
+#: templates/settings-personal.php:33
 msgid "Update Private Key Password"
 msgstr "Bijwerken wachtwoord Privésleutel"
 
-#: templates/settings-personal.php:45
+#: templates/settings-personal.php:42
 msgid "Enable password recovery:"
 msgstr "Activeren wachtwoord herstel:"
 
-#: templates/settings-personal.php:47
+#: templates/settings-personal.php:44
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Het activeren van deze optie maakt het mogelijk om uw versleutelde bestanden te benaderen als uw wachtwoord kwijt is"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:60
 msgid "File recovery settings updated"
 msgstr "Bestandsherstel instellingen bijgewerkt"
 
-#: templates/settings-personal.php:64
+#: templates/settings-personal.php:61
 msgid "Could not update file recovery"
 msgstr "Kon bestandsherstel niet bijwerken"

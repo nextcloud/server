@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Delingen er beskyttet af kodeord",
 "The password is wrong. Try again." => "Kodeordet er forkert. Prøv igen.",
 "Password" => "Kodeord",
-"Submit" => "Send",
 "Sorry, this link doesn’t seem to work anymore." => "Desværre, dette link ser ikke ud til at fungerer længere.",
 "Reasons might be:" => "Årsagen kan være:",
 "the item was removed" => "Filen blev fjernet",
@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Download",
 "Upload" => "Upload",
 "Cancel upload" => "Fortryd upload",
-"No preview available for" => "Forhåndsvisning ikke tilgængelig for"
+"No preview available for" => "Forhåndsvisning ikke tilgængelig for",
+"Direct link" => "Direkte link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

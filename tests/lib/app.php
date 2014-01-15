@@ -79,4 +79,17 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(OC_App::isAppVersionCompatible($oc, $app));
 	}
 
+	/**
+	 * Tests that the app order is correct
+	 */
+	public function testGetEnabledAppsIsSorted() {
+		$apps = \OC_App::getEnabledApps(true);
+		// copy array
+		$sortedApps = $apps;
+		sort($sortedApps);
+		// 'files' is always on top
+		unset($sortedApps[array_search('files', $sortedApps)]);
+		array_unshift($sortedApps, 'files');
+		$this->assertEquals($sortedApps, $apps);
+	}
 }

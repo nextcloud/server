@@ -38,7 +38,11 @@
 					'tabindex' 	:	$element.attr('tabindex'),
 					'autocomplete'	:	'off'
 				});
-					
+
+				if($element.attr('placeholder') !== undefined) {
+					$clone.attr('placeholder', $element.attr('placeholder'));
+				}
+
 				return $clone;
 			
 			};

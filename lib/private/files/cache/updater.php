@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Cache;
+
 use OCP\Util;
 
 /**
@@ -42,6 +43,7 @@ class Updater {
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
 			self::correctFolder($path, $storage->filemtime($internalPath));
+			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
 
@@ -57,10 +59,15 @@ class Updater {
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
 		if ($storage) {
+			$parent = dirname($internalPath);
+			if ($parent === '.') {
+				$parent = '';
+			}
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
-			$cache->correctFolderSize($internalPath);
+			$cache->correctFolderSize($parent);
 			self::correctFolder($path, time());
+			self::correctParentStorageMtime($storage, $internalPath);
 		}
 	}
 
@@ -83,15 +90,41 @@ class Updater {
 			if ($storageFrom === $storageTo) {
 				$cache = $storageFrom->getCache($internalFrom);
 				$cache->move($internalFrom, $internalTo);
+				if (pathinfo($internalFrom, PATHINFO_EXTENSION) !== pathinfo($internalTo, PATHINFO_EXTENSION)) {
+					// redetect mime type change
+					$mimeType = $storageTo->getMimeType($internalTo);
+					$fileId = $storageTo->getCache()->getId($internalTo);
+					$storageTo->getCache()->update($fileId, array('mimetype' => $mimeType));
+				}
 				$cache->correctFolderSize($internalFrom);
 				$cache->correctFolderSize($internalTo);
 				self::correctFolder($from, time());
 				self::correctFolder($to, time());
+				self::correctParentStorageMtime($storageFrom, $internalFrom);
+				self::correctParentStorageMtime($storageTo, $internalTo);
 			} else {
 				self::deleteUpdate($from);
 				self::writeUpdate($to);
 			}
 		}
+	}
+
+	/**
+	 * @brief get file owner and path
+	 * @param string $filename
+	 * @return array with the oweners uid and the owners path
+	 */
+	private static function getUidAndFilename($filename) {
+
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+
+		if ($uid != \OCP\User::getUser()) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/' . $uid . '/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, '/files/' . $filename);
 	}
 
 	/**
@@ -102,25 +135,49 @@ class Updater {
 	 */
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
-			$parent = dirname($path);
-			if ($parent === '.' || $parent === '\\') {
-				$parent = '';
-			}
+
+			list($owner, $realPath) = self::getUidAndFilename(dirname($path));
+
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 * @var string $internalPath
 			 */
-			list($storage, $internalPath) = self::resolvePath($parent);
-			if ($storage) {
-				$cache = $storage->getCache();
-				$id = $cache->getId($internalPath);
-				if ($id !== -1) {
-					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
-					self::correctFolder($parent, $time);
+			$view = new \OC\Files\View('/' . $owner);
+
+			list($storage, $internalPath) = $view->resolvePath($realPath);
+			$cache = $storage->getCache();
+			$id = $cache->getId($internalPath);
+
+			while ($id !== -1) {
+				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+				if ($realPath !== '') {
+					$realPath = dirname($realPath);
+					if($realPath === DIRECTORY_SEPARATOR ) {
+						$realPath = "";
+					}
+					// check storage for parent in case we change the storage in this step
+					list($storage, $internalPath) = $view->resolvePath($realPath);
+					$cache = $storage->getCache();
+					$id = $cache->getId($internalPath);
 				} else {
-					Util::writeLog('core', 'Path not in cache: '.$internalPath, Util::ERROR);
+					$id = -1;
 				}
 			}
+		}
+	}
+
+	/**
+	 * update the storage_mtime of the parent
+	 *
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param string $internalPath
+	 */
+	static private function correctParentStorageMtime($storage, $internalPath) {
+		$cache = $storage->getCache();
+		$parentId = $cache->getParentId($internalPath);
+		$parent = dirname($internalPath);
+		if ($parentId != -1) {
+			$cache->update($parentId, array('storage_mtime' => $storage->filemtime($parent)));
 		}
 	}
 

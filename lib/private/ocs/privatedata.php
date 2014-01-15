@@ -22,45 +22,87 @@
 *
 */
 
+
 class OC_OCS_Privatedata {
 
+	/**
+	 * read keys
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy/123
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/getattribute/testy
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function get($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
-		$key = addslashes(strip_tags($parameters['key']));
-		$result = OC_OCS::getData($user, $app, $key);
-		$xml = array();
-		foreach($result as $i=>$log) {
-			$xml[$i]['key']=$log['key'];
-			$xml[$i]['app']=$log['app'];
-			$xml[$i]['value']=$log['value'];
+		$key = isset($parameters['key']) ? addslashes(strip_tags($parameters['key'])) : null;
+		
+		if(empty($key)) {
+			$query = \OCP\DB::prepare('SELECT `key`, `app`, `value`  FROM `*PREFIX*privatedata` WHERE `user` = ? AND `app` = ? ');
+			$result = $query->execute(array($user, $app));
+		} else {
+			$query = \OCP\DB::prepare('SELECT `key`, `app`, `value`  FROM `*PREFIX*privatedata` WHERE `user` = ? AND `app` = ? AND `key` = ? ');
+			$result = $query->execute(array($user, $app, $key));
 		}
+		
+		$xml = array();
+		while ($row = $result->fetchRow()) {
+			$data=array();
+			$data['key']=$row['key'];
+			$data['app']=$row['app'];
+			$data['value']=$row['value'];
+		 	$xml[] = $data;
+		}
+
 		return new OC_OCS_Result($xml);
-		//TODO: replace 'privatedata' with 'attribute' once a new libattice has been released that works with it
 	}
 
+	/**
+	 * set a key
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/setattribute/testy/123  --data "value=foobar"
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function set($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
 		$value = OC_OCS::readData('post', 'value', 'text');
-		if(OC_Preferences::setValue($user, $app, $key, $value)) {
-			return new OC_OCS_Result(null, 100);
+
+		// update in DB
+		$query = \OCP\DB::prepare('UPDATE `*PREFIX*privatedata` SET `value` = ?  WHERE `user` = ? AND `app` = ? AND `key` = ?');
+		$numRows = $query->execute(array($value, $user, $app, $key));
+                
+		if ($numRows === false || $numRows === 0) {
+			// store in DB
+			$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*privatedata` (`user`, `app`, `key`, `value`)' . ' VALUES(?, ?, ?, ?)');
+			$query->execute(array($user, $app, $key, $value));
 		}
+
+		return new OC_OCS_Result(null, 100);
 	}
 
+	/**
+	 * delete a key
+	 * test: curl http://login:passwd@oc/core/ocs/v1.php/privatedata/deleteattribute/testy/123 --data "post=1"
+	 * @param array $parameters The OCS parameter
+	 * @return \OC_OCS_Result
+	 */
 	public static function delete($parameters) {
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
+		if (!isset($parameters['app']) or !isset($parameters['key'])) {
+			//key and app are NOT optional here
+			return new OC_OCS_Result(null, 101);
+		}
+
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
-		if($key==="" or $app==="") {
-			return new OC_OCS_Result(null, 101); //key and app are NOT optional here
-		}
-		if(OC_Preferences::deleteKey($user, $app, $key)) {
-			return new OC_OCS_Result(null, 100);
-		}
+
+		// delete in DB
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*privatedata`  WHERE `user` = ? AND `app` = ? AND `key` = ? ');
+		$query->execute(array($user, $app, $key ));
+
+		return new OC_OCS_Result(null, 100);
 	}
 }
+

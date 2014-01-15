@@ -35,18 +35,21 @@
 				<?php endif; ?>
 		<?php endif; ?>
 			>
-		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
+		<?php if(!isset($_['readonly']) || !$_['readonly']): ?>
+			<input id="select-<?php p($file['id']); ?>" type="checkbox" />
+			<label for="select-<?php p($file['id']); ?>"></label>
+		<?php endif; ?>
 		<?php if($file['type'] === 'dir'): ?>
 			<?php if( $_['dirlisting'] ): ?>
-				<a class="name" href="<?php p($_['baseURL'].'/'.$name); ?>" title="">
+				<a class="name dir" href="<?php p($_['baseURL'].'/'.$name); ?>" title="">
 			<?php else: ?>
-				<a class="name" href="<?php p($_['baseURL'].'/'.$name.'.d'.$file['timestamp']); ?>" title="">
+				<a class="name dir" href="<?php p($_['baseURL'].'/'.$name.'.d'.$file['timestamp']); ?>" title="">
 			<?php endif; ?>
 		<?php else: ?>
 			<?php if( $_['dirlisting'] ): ?>
-				<a class="name" href="<?php p($_['downloadURL'].'/'.$name); ?>" title="">
+				<a class="name file" href="<?php p($_['downloadURL'].'/'.$name); ?>" title="">
 			<?php else: ?>
-				<a class="name" href="<?php p($_['downloadURL'].'/'.$name.'.d'.$file['timestamp']);?>" title="">
+				<a class="name file" href="<?php p($_['downloadURL'].'/'.$name.'.d'.$file['timestamp']);?>" title="">
 			<?php endif; ?>
 		<?php endif; ?>
 			<span class="nametext">

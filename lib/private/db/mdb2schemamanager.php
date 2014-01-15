@@ -19,6 +19,8 @@ class MDB2SchemaManager {
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
+		$this->conn->close();
+		$this->conn->connect();
 	}
 
 	/**
@@ -53,7 +55,7 @@ class MDB2SchemaManager {
 	 * @param string $file file to read structure from
 	 * @return bool
 	 */
-	public function updateDbFromStructure($file) {
+	public function updateDbFromStructure($file, $generateSql = false) {
 		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
@@ -61,6 +63,7 @@ class MDB2SchemaManager {
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 
 		// remove tables we don't know about
+		/** @var $table \Doctrine\DBAL\Schema\Table */
 		foreach($fromSchema->getTables() as $table) {
 			if (!$toSchema->hasTable($table->getName())) {
 				$fromSchema->dropTable($table->getName());
@@ -77,9 +80,12 @@ class MDB2SchemaManager {
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 
 		$platform = $this->conn->getDatabasePlatform();
-		$tables = $schemaDiff->newTables + $schemaDiff->changedTables + $schemaDiff->removedTables;
-		foreach($tables as $tableDiff) {
+		foreach($schemaDiff->changedTables as $tableDiff) {
 			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
+		}
+		
+		if ($generateSql) {
+			return $this->generateChangeScript($schemaDiff);
 		}
 
 		return $this->executeSchemaChange($schemaDiff);
@@ -106,6 +112,7 @@ class MDB2SchemaManager {
 		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
+		/** @var $table \Doctrine\DBAL\Schema\Table */
 		foreach($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());
 		}
@@ -146,5 +153,21 @@ class MDB2SchemaManager {
 		}
 		$this->conn->commit();
 		return true;
+	}
+
+	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return string
+	 */
+	public function generateChangeScript($schema) {
+
+		$script = '';
+		$sqls = $schema->toSql($this->conn->getDatabasePlatform());
+		foreach($sqls as $sql) {
+			$script .= $sql . ';';
+			$script .= PHP_EOL;
+		}
+
+		return $script;
 	}
 }

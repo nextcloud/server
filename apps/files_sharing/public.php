@@ -28,7 +28,7 @@ function determineIcon($file, $sharingRoot, $sharingToken) {
 	$relativePath = substr($file['path'], 6);
 	$relativePath = substr($relativePath, strlen($sharingRoot));
 	if($file['isPreviewAvailable']) {
-		return OCP\publicPreview_icon($relativePath, $sharingToken);
+		return OCP\publicPreview_icon($relativePath, $sharingToken) . '&c=' . $file['etag'];
 	}
 	return OCP\mimetype_icon($file['mimetype']);
 }
@@ -77,6 +77,7 @@ if (isset($path)) {
 				$hasher = new PasswordHash(8, $forcePortable);
 				if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''),
 											 $linkItem['share_with']))) {
+					OCP\Util::addStyle('files_sharing', 'authenticate');
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
 					$tmpl->assign('wrongpw', true);
@@ -101,6 +102,7 @@ if (isset($path)) {
 				|| \OC::$session->get('public_link_authenticated') !== $linkItem['id']
 			) {
 				// Prompt for password
+				OCP\Util::addStyle('files_sharing', 'authenticate');
 				$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 				$tmpl->assign('URL', $url);
 				$tmpl->printPage();
@@ -147,11 +149,9 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$tmpl->assign('dirToken', $linkItem['token']);
+		$tmpl->assign('sharingToken', $token);
 		$tmpl->assign('disableSharing', true);
 		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
-		if (\OCP\App::isEnabled('files_encryption')) {
-			$allowPublicUploadEnabled = false;
-		}
 		if (OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes') === 'no') {
 			$allowPublicUploadEnabled = false;
 		}
@@ -218,6 +218,8 @@ if (isset($path)) {
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
+			$fileHeader = (!isset($files) or count($files) > 0);
+			$emptyContent = ($allowPublicUploadEnabled and !$fileHeader);
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
@@ -231,9 +233,15 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
+			$folder->assign('fileHeader', $fileHeader);
+			$folder->assign('disableSharing', true);
+			$folder->assign('trash', false);
+			$folder->assign('emptyContent', $emptyContent);
+			$folder->assign('ajaxLoad', false);
 			$tmpl->assign('folder', $folder->fetchPage());
+			$maxInputFileSize = OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
-						&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
+						&& ( $maxInputFileSize === 0 || $totalSize <= $maxInputFileSize);
 			$tmpl->assign('allowZipDownload', intval($allowZip));
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));

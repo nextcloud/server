@@ -35,7 +35,7 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetApps() {
-		$query = \OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`');
+		$query = \OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*appconfig` ORDER BY `appid`');
 		$result = $query->execute();
 		$expected = array();
 		while ($row = $result->fetchRow()) {

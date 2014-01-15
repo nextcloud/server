@@ -4,9 +4,30 @@
  * See the COPYING-README file.
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
+$levelLabels = array(
+	$l->t( 'Everything (fatal issues, errors, warnings, info, debug)' ),
+	$l->t( 'Info, warnings, errors and fatal issues' ),
+	$l->t( 'Warnings, errors and fatal issues' ),
+	$l->t( 'Errors and fatal issues' ),
+	$l->t( 'Fatal issues only' ),
+);
 ?>
 
 <?php
+
+// is ssl working ?
+if (!$_['isConnectedViaHTTPS']) {
+	?>
+<fieldset class="personalblock">
+	<h2><?php p($l->t('Security Warning'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead.', $theme->getTitle())); ?>
+	</span>
+
+</fieldset>
+<?php
+}
 
 // is htaccess working ?
 if (!$_['htaccessworking']) {
@@ -30,7 +51,7 @@ if (!$_['isWebDavWorking']) {
 
 	<span class="securitywarning">
 		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', $theme->getDocBaseUrl().'/server/5.0/admin_manual/installation.html')); ?>
+		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', link_to_docs('admin-install'))); ?>
 	</span>
 
 </fieldset>
@@ -51,16 +72,38 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
+// is PHP at least at 5.3.8?
+if ($_['old_php']) {
+	?>
+<fieldset class="personalblock">
+	<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
+
+		<span class="connectionwarning">
+		<?php p($l->t('Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly.')); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 // is locale working ?
-if (!$_['islocaleworking']) {
+if (!$_['isLocaleWorking']) {
 	?>
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Locale not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php
-			$locales = 'en_US.UTF-8/en_US.UTF8';
-			p($l->t('System locale can\'t be set to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s.', array($locales, $locales)));
+			$locales = 'en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8';
+			p($l->t('System locale can not be set to a one which supports UTF-8.'));
+			?>
+		<br>
+		<?php
+			p($l->t('This means that there might be problems with certain characters in file names.'));
+		?>
+			<br>
+			<?php
+			p($l->t('We strongly suggest to install the required packages on your system to support one of the following locales: %s.', array($locales)));
 			?>
 	</span>
 
@@ -104,7 +147,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_webcron">Webcron</label><br/>
-				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php once a minute over http.")); ?></em>
+				<em><?php p($l->t("cron.php is registered at a webcron service to call cron.php every 15 minutes over http.")); ?></em>
 	</p>
 	<p>
 				<input type="radio" name="mode" value="cron"
@@ -112,13 +155,13 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use systems cron service to call the cron.php file once a minute.")); ?></em>
+				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15 minutes.")); ?></em>
 	</p>
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<table class="shareAPI nostyle">
+	<table class="shareAPI">
 		<tr>
 			<td id="enable">
 				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
@@ -176,10 +219,10 @@ if (!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock" id="security">
 	<h2><?php p($l->t('Security'));?></h2>
-	<table class="nostyle">
+	<table>
 		<tr>
 			<td id="enable">
-				<input type="checkbox" name="forcessl"  id="enforceHTTPSEnabled"
+				<input type="checkbox" name="forcessl"  id="forcessl"
 					<?php if ($_['enforceHTTPSEnabled']) {
 						print_unescaped('checked="checked" ');
 						print_unescaped('value="false"');
@@ -210,14 +253,15 @@ if (!$_['internetconnectionworking']) {
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
-	<option value='<?php p($_['loglevel'])?>'><?php p($levels[$_['loglevel']])?></option>
-	<?php for ($i = 0; $i < 5; $i++):
-	if ($i !== $_['loglevel']):?>
-		<option value='<?php p($i)?>'><?php p($levels[$i])?></option>
-		<?php endif;
-endfor;?>
+<?php for ($i = 0; $i < 5; $i++):
+	$selected = '';
+	if ($i == $_['loglevel']):
+		$selected = 'selected="selected"';
+	endif; ?>
+		<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
+<?php endfor;?>
 </select>
-	<table id="log">
+	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
 			<td>
@@ -229,7 +273,7 @@ endfor;?>
 			<td>
 				<?php p($entry->message);?>
 			</td>
-			<td>
+			<td class="date">
 				<?php if(is_int($entry->time)){
 					p(OC_Util::formatDate($entry->time));
 				} else {
@@ -248,7 +292,7 @@ endfor;?>
 
 <fieldset class="personalblock">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getVersionString()); ?>
+	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>

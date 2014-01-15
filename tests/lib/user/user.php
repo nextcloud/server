@@ -9,6 +9,7 @@
 
 namespace Test\User;
 
+use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 
 class User extends \PHPUnit_Framework_TestCase {
@@ -87,6 +88,75 @@ class User extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($user->setPassword('bar',''));
 	}
 
+	public function testChangeAvatarSupportedYes() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		require_once 'avataruserdummy.php';
+		$backend = $this->getMock('Avatar_User_Dummy');
+		$backend->expects($this->once())
+			->method('canChangeAvatar')
+			->with($this->equalTo('foo'))
+			->will($this->returnValue(true));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC_USER_BACKEND_PROVIDE_AVATAR) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		$user = new \OC\User\User('foo', $backend);
+		$this->assertTrue($user->canChangeAvatar());
+	}
+
+	public function testChangeAvatarSupportedNo() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		require_once 'avataruserdummy.php';
+		$backend = $this->getMock('Avatar_User_Dummy');
+		$backend->expects($this->once())
+			->method('canChangeAvatar')
+			->with($this->equalTo('foo'))
+			->will($this->returnValue(false));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC_USER_BACKEND_PROVIDE_AVATAR) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		$user = new \OC\User\User('foo', $backend);
+		$this->assertFalse($user->canChangeAvatar());
+	}
+
+	public function testChangeAvatarNotSupported() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		require_once 'avataruserdummy.php';
+		$backend = $this->getMock('Avatar_User_Dummy');
+		$backend->expects($this->never())
+			->method('canChangeAvatar');
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+					return false;
+			}));
+
+		$user = new \OC\User\User('foo', $backend);
+		$this->assertTrue($user->canChangeAvatar());
+	}
+
 	public function testDelete() {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
@@ -136,7 +206,9 @@ class User extends \PHPUnit_Framework_TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$user = new \OC\User\User('foo', $backend);
+		$allConfig = new AllConfig();
+
+		$user = new \OC\User\User('foo', $backend, null, $allConfig);
 		$this->assertEquals(\OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/foo', $user->getHome());
 	}
 

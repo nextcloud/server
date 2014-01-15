@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -21,17 +20,25 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\Response class
+ */
 
 namespace OCP\AppFramework\Http;
 
+use OCP\AppFramework\Http;
 
 /**
- * Base class for responses. Also used to just send headers
+ * Base class for responses. Also used to just send headers.
+ *
+ * It handles headers, HTTP status code, last modified and ETag.
  */
 class Response {
 
 	/**
-	 * @var array default headers
+	 * Headers - defaults to ['Cache-Control' => 'no-cache, must-revalidate']
+	 * @var array
 	 */
 	private $headers = array(
 		'Cache-Control' => 'no-cache, must-revalidate'
@@ -39,18 +46,21 @@ class Response {
 
 
 	/**
+	 * HTTP status code - defaults to STATUS OK
 	 * @var string
 	 */
 	private $status = Http::STATUS_OK;
 
 
 	/**
+	 * Last modified date
 	 * @var \DateTime
 	 */
 	private $lastModified;
 
 
 	/**
+	 * ETag
 	 * @var string
 	 */
 	private $ETag;
@@ -64,7 +74,7 @@ class Response {
 	public function cacheFor($cacheSeconds) {
 
 		if($cacheSeconds > 0) {
-			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . 
+			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds .
 				', must-revalidate');
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, must-revalidate');
@@ -94,16 +104,16 @@ class Response {
 	 */
 	public function getHeaders() {
 		$mergeWith = array();
-		
+
 		if($this->lastModified) {
-			$mergeWith['Last-Modified'] = 
+			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
 
 		if($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
-			
+
 		return array_merge($mergeWith, $this->headers);
 	}
 
@@ -135,6 +145,7 @@ class Response {
 
 
 	/**
+	 * Get the ETag
 	 * @return string the etag
 	 */
 	public function getETag() {
@@ -143,6 +154,7 @@ class Response {
 
 
 	/**
+	 * Get "last modified" date
 	 * @return string RFC2822 formatted last modified date
 	 */
 	public function getLastModified() {
@@ -151,6 +163,7 @@ class Response {
 
 
 	/**
+	 * Set the ETag
 	 * @param string $ETag
 	 */
 	public function setETag($ETag) {
@@ -159,6 +172,7 @@ class Response {
 
 
 	/**
+	 * Set "last modified" date
 	 * @param \DateTime $lastModified
 	 */
 	public function setLastModified($lastModified) {

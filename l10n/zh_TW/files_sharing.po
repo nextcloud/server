@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/authenticate.php:4
+msgid "This share is password-protected"
+msgstr "這個分享有密碼保護"
+
+#: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "請檢查您的密碼並再試一次"
 
-#: templates/authenticate.php:7
+#: templates/authenticate.php:10
 msgid "Password"
 msgstr "密碼"
-
-#: templates/authenticate.php:9
-msgid "Submit"
-msgstr "送出"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -54,28 +54,32 @@ msgstr "分享功能已停用"
 msgid "For more info, please ask the person who sent this link."
 msgstr "請詢問告訴您此連結的人以瞭解更多"
 
-#: templates/public.php:15
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s 和您分享了資料夾 %s "
 
-#: templates/public.php:18
+#: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s 和您分享了檔案 %s"
 
-#: templates/public.php:26 templates/public.php:92
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "下載"
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
 msgstr "上傳"
 
-#: templates/public.php:56
+#: templates/public.php:59
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: templates/public.php:89
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "無法預覽"
+
+#: templates/public.php:99
+msgid "Direct link"
+msgstr ""

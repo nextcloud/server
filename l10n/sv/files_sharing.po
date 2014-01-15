@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # Stefan Gagner <stefan@mei-ya.se>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,16 +21,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/authenticate.php:4
+msgid "This share is password-protected"
+msgstr "Den här delningen är lösenordsskyddad"
+
+#: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Lösenordet är fel. Försök igen."
 
-#: templates/authenticate.php:7
+#: templates/authenticate.php:10
 msgid "Password"
 msgstr "Lösenord"
-
-#: templates/authenticate.php:9
-msgid "Submit"
-msgstr "Skicka"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -55,28 +56,32 @@ msgstr "delning är inaktiverat"
 msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
-#: templates/public.php:15
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s delade mappen %s med dig"
 
-#: templates/public.php:18
+#: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s delade filen %s med dig"
 
-#: templates/public.php:26 templates/public.php:92
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: templates/public.php:56
+#: templates/public.php:59
 msgid "Cancel upload"
 msgstr "Avbryt uppladdning"
 
-#: templates/public.php:89
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "Ingen förhandsgranskning tillgänglig för"
+
+#: templates/public.php:99
+msgid "Direct link"
+msgstr "Direkt länk"

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -19,48 +19,48 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "E pamundur të shkarkohet lista nga App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20 changepassword/controller.php:55
 msgid "Authentication error"
-msgstr "Veprim i gabuar gjatë vërtetimit të identitetit"
+msgstr "Gabim autentifikimi"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
+msgid "Your full name has been changed."
 msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
+msgid "Unable to change full name"
 msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Grupi ekziston"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "E pamundur të shtohet grupi"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Email u ruajt"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Email jo i vlefshëm"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "E pamundur të fshihet grupi"
 
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr ""
+msgstr "E pamundur të fshihet përdoruesi"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "Gjuha u ndryshua"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
@@ -68,21 +68,21 @@ msgstr "Kërkesë e pavlefshme"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administratorët nuk mund të heqin vehten prej grupit admin"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "E pamundur t'i shtohet përdoruesi grupit %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "E pamundur të hiqet përdoruesi nga grupi %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "E pamundur të përditësohet app."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
@@ -115,110 +115,141 @@ msgstr ""
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Përditësim për {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
-msgstr ""
+msgstr "Çaktivizo"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
-msgstr ""
+msgstr "Aktivizo"
 
 #: js/apps.js:71
 msgid "Please wait...."
-msgstr ""
+msgstr "Ju lutem prisni..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
-msgstr ""
+msgstr "Duke përditësuar..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
-msgstr ""
+msgstr "Gabim gjatë përditësimit të app"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
-msgstr "Veprim i gabuar"
+msgstr "Gabim"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
-msgstr "Azhurno"
+msgstr "Përditësim"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
-msgstr ""
+msgstr "I përditësuar"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
 #: js/personal.js:287
 msgid "Saving..."
-msgstr ""
+msgstr "Duke ruajtur..."
 
 #: js/users.js:47
 msgid "deleted"
-msgstr ""
+msgstr "fshirë"
 
 #: js/users.js:47
 msgid "undo"
-msgstr "anulo"
+msgstr "anullo veprimin"
 
 #: js/users.js:79
 msgid "Unable to remove user"
-msgstr ""
+msgstr "E pamundur të fshiet përdoruesi"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
-msgstr ""
+msgstr "Grupet"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
-msgstr ""
+msgstr "Grupi Admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
-msgstr "Elimino"
+msgstr "Fshi"
 
-#: js/users.js:277
+#: js/users.js:284
 msgid "add group"
-msgstr ""
+msgstr "shto grup"
 
-#: js/users.js:436
+#: js/users.js:451
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Duhet të jepni një emër të vlefshëm përdoruesi"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:452 js/users.js:458 js/users.js:473
 msgid "Error creating user"
-msgstr ""
+msgstr "Gabim gjatë krijimit të përdoruesit"
 
-#: js/users.js:442
+#: js/users.js:457
 msgid "A valid password must be provided"
+msgstr "Duhet të jepni një fjalëkalim te vlefshëm"
+
+#: js/users.js:481
+msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
+msgstr "Shqip"
+
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
 msgstr ""
 
-#: templates/admin.php:15
-msgid "Security Warning"
-msgstr "Paralajmërim sigurie"
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr ""
 
-#: templates/admin.php:18
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr ""
+
+#: templates/admin.php:22 templates/admin.php:36
+msgid "Security Warning"
+msgstr "Njoftim për sigurinë"
+
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr ""
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -227,48 +258,68 @@ msgid ""
 "root."
 msgstr ""
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
-msgstr ""
+msgstr "Lajmërim konfigurimi"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkronizimin e skedarëve sepse ndërfaqja WebDAV mund të jetë e dëmtuar."
+msgstr "Web Serveri juaj nuk është konfigurar sic duhet në mënyre që të lejojë sinkronizimin e skedare pasi ndërfaqja WevDAV duket të jetë e demtuar."
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr ""
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Mungon moduli 'fileinfo'"
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
+msgstr "Moduli PHP 'fileinfo' mungon. Ju këshillojmë me këmbngulje të aktivizoni këtë modul për të arritur rezultate më të mirame identifikimin e tipeve te ndryshme MIME."
+
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
 msgstr ""
 
-#: templates/admin.php:58
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
+msgstr "Locale nuk është funksional"
+
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:63
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr ""
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Lidhja me internetin nuk është funksionale"
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -277,110 +328,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:92
-msgid "Cron"
-msgstr ""
-
-#: templates/admin.php:99
-msgid "Execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:107
-msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr ""
-
-#: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
-
-#: templates/admin.php:120
-msgid "Sharing"
-msgstr ""
-
-#: templates/admin.php:126
-msgid "Enable Share API"
-msgstr ""
-
-#: templates/admin.php:127
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:134
-msgid "Allow links"
-msgstr ""
-
 #: templates/admin.php:135
-msgid "Allow users to share items to the public with links"
-msgstr ""
+msgid "Cron"
+msgstr "Cron"
 
-#: templates/admin.php:143
-msgid "Allow public uploads"
-msgstr ""
+#: templates/admin.php:142
+msgid "Execute one task with each page loaded"
+msgstr "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara"
 
-#: templates/admin.php:144
+#: templates/admin.php:150
 msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
 msgstr ""
 
-#: templates/admin.php:152
-msgid "Allow resharing"
-msgstr ""
-
-#: templates/admin.php:153
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:160
-msgid "Allow users to share with anyone"
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
 #: templates/admin.php:163
-msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgid "Sharing"
+msgstr "Ndarje"
+
+#: templates/admin.php:169
+msgid "Enable Share API"
+msgstr "Aktivizo API për ndarjet"
 
 #: templates/admin.php:170
+msgid "Allow apps to use the Share API"
+msgstr "Lejoni aplikacionet të përdorin share API"
+
+#: templates/admin.php:177
+msgid "Allow links"
+msgstr "Lejo lidhjet"
+
+#: templates/admin.php:178
+msgid "Allow users to share items to the public with links"
+msgstr "Lejoni përdoruesit të ndajnë elementët publikisht nëpermjet lidhjeve"
+
+#: templates/admin.php:186
+msgid "Allow public uploads"
+msgstr "Lejo ngarkimin publik"
+
+#: templates/admin.php:187
+msgid ""
+"Allow users to enable others to upload into their publicly shared folders"
+msgstr "Lejo përdoruesit të mundësojnë të tjerët që të ngarkojnë materiale në dosjen e tyre publike"
+
+#: templates/admin.php:195
+msgid "Allow resharing"
+msgstr "Lejo ri-ndarjen"
+
+#: templates/admin.php:196
+msgid "Allow users to share items shared with them again"
+msgstr "Lejoni përdoruesit të ndjanë dhe ata elementë të ndarë më parë ngë të tjerë"
+
+#: templates/admin.php:203
+msgid "Allow users to share with anyone"
+msgstr "Lejo përdoruesit të ndajnë me cilindo"
+
+#: templates/admin.php:206
+msgid "Allow users to only share with users in their groups"
+msgstr "Lejoni përdoruesit të ndajnë vetëm me përdorues të të njëjtit grup"
+
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:221
 msgid "Security"
-msgstr ""
+msgstr "Siguria"
 
-#: templates/admin.php:183
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Detyro HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:191
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:203
+#: templates/admin.php:254
 msgid "Log"
-msgstr ""
+msgstr "Historik aktiviteti"
 
-#: templates/admin.php:204
+#: templates/admin.php:255
 msgid "Log level"
-msgstr ""
+msgstr "Niveli i Historikut"
 
-#: templates/admin.php:235
+#: templates/admin.php:287
 msgid "More"
-msgstr ""
+msgstr "Më tepër"
 
-#: templates/admin.php:236
+#: templates/admin.php:288
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
-msgstr ""
+msgstr "Versioni"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -388,197 +447,205 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Zhvilluar nga <a href=\"http://ownCloud.org/contact\" target=\"_blank\">Komuniteti OwnCloud</a>, gjithashtu <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> është licensuar me anë të <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:13
 msgid "Add your App"
-msgstr ""
+msgstr "Shtoni apliakcionin tuaj"
 
 #: templates/apps.php:28
 msgid "More Apps"
-msgstr ""
+msgstr "Apliakcione të tjera"
 
 #: templates/apps.php:33
 msgid "Select an App"
-msgstr ""
+msgstr "Zgjidhni një Aplikacion"
 
 #: templates/apps.php:39
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Shihni faqen e aplikacionit tek apps.owncloud.com"
 
 #: templates/apps.php:41
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licensuar nga <span class=\"author\"></span>"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentacion përdoruesi"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentacion administratori"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Dokumentacion online"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forumi"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker - ndjekja e problemeve"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Suport komercial"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Merrni app-et për sinkronizimin e skedarëve tuaj"
+msgstr "Bëni që aplikacionet të sinkronizojnë skedarët tuaj"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Rishfaq përsëri fazat për hapjen e herës së parë"
 
 #: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Ju keni përdorur <strong>%s</strong> nga <strong>%s</strong> të mundshme "
 
 #: templates/personal.php:39 templates/users.php:23 templates/users.php:89
 msgid "Password"
-msgstr "Kodi"
+msgstr "Fjalëkalim"
 
 #: templates/personal.php:40
 msgid "Your password was changed"
-msgstr ""
+msgstr "fjalëkalimi juaj u ndryshua"
 
 #: templates/personal.php:41
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Nuk është e mundur të ndryshohet fjalëkalimi"
 
 #: templates/personal.php:42
 msgid "Current password"
-msgstr ""
+msgstr "Fjalëkalimi aktual"
 
 #: templates/personal.php:44
 msgid "New password"
-msgstr "Kodi i ri"
+msgstr "Fjalëkalimi i ri"
 
 #: templates/personal.php:46
 msgid "Change password"
-msgstr ""
+msgstr "Ndrysho fjalëkalimin"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
+msgid "Full Name"
 msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
-msgstr "Email-i"
+msgstr "Email"
 
 #: templates/personal.php:75
 msgid "Your email address"
-msgstr ""
+msgstr "Adresa juaj email"
 
 #: templates/personal.php:76
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Jepni një adresë email për të aktivizuar rigjetjen e fjalëkalimit"
 
 #: templates/personal.php:86
 msgid "Profile picture"
 msgstr ""
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
 msgstr ""
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr ""
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr ""
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr ""
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr ""
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
-msgstr ""
+msgstr "Gjuha"
 
-#: templates/personal.php:119
+#: templates/personal.php:130
 msgid "Help translate"
-msgstr ""
+msgstr "Ndihmoni në përkthim"
 
-#: templates/personal.php:125
+#: templates/personal.php:137
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
 msgstr ""
 
-#: templates/personal.php:138
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr ""
 
-#: templates/personal.php:140
-msgid "The encryption app is no longer enabled, decrypt all your file"
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:146
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:151
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr ""
 
 #: templates/users.php:21
 msgid "Login Name"
-msgstr ""
+msgstr "Emri i Përdoruesit"
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Krijo"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Rigjetja e fjalëkalimit të Admin"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Jepni fjalëkalimin e rigjetjes për të rigjetur skedarët e përdoruesit gjatë ndryshimit të fjalëkalimit"
 
 #: templates/users.php:42
 msgid "Default Storage"
+msgstr "Vendruajtje e paracaktuar/Default Storage"
+
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr ""
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
-msgstr ""
+msgstr "E pakufizuar"
 
 #: templates/users.php:66 templates/users.php:163
 msgid "Other"
-msgstr "Të tjera"
+msgstr "Tjetër"
 
 #: templates/users.php:87
 msgid "Username"
@@ -586,16 +653,16 @@ msgstr "Përdoruesi"
 
 #: templates/users.php:94
 msgid "Storage"
-msgstr ""
+msgstr "Vendruajtja/Storage"
 
 #: templates/users.php:108
-msgid "change display name"
+msgid "change full name"
 msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"
-msgstr ""
+msgstr "vendos fjalëkalim të ri"
 
 #: templates/users.php:143
 msgid "Default"
-msgstr ""
+msgstr "Paracaktuar"

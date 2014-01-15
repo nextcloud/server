@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# volkangezer <volkangezer@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-13 14:43-0500\n"
+"PO-Revision-Date: 2013-12-13 19:00+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,63 +19,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/authenticate.php:4
-msgid "The password is wrong. Try again."
-msgstr ""
+msgid "This share is password-protected"
+msgstr "Bu paylaşım parola korumalı"
 
 #: templates/authenticate.php:7
+msgid "The password is wrong. Try again."
+msgstr "Parola hatalı. Yeniden deneyin."
+
+#: templates/authenticate.php:10
 msgid "Password"
 msgstr "Parola"
 
-#: templates/authenticate.php:9
-msgid "Submit"
-msgstr "Gönder"
-
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Üzgünüz, bu bağlantı artık çalışıyor gibi görünmüyor"
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Sebepleri şunlar olabilir:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "öge kaldırılmış"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "bağlantı süresi dolmuş"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "paylaşım devre dışı"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
-
-#: templates/public.php:15
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s sizinle paylaşılan  %s klasör"
+msgstr "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin."
 
 #: templates/public.php:18
 #, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s sizinle paylaşılan  %s klasör"
+msgid "%s shared the folder %s with you"
+msgstr "%s, %s klasörünü sizinle paylaştı"
 
-#: templates/public.php:26 templates/public.php:92
+#: templates/public.php:21
+#, php-format
+msgid "%s shared the file %s with you"
+msgstr "%s, %s dosyasını sizinle paylaştı"
+
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "İndir"
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
 msgstr "Yükle"
 
-#: templates/public.php:56
+#: templates/public.php:59
 msgid "Cancel upload"
 msgstr "Yüklemeyi iptal et"
 
-#: templates/public.php:89
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "Kullanılabilir önizleme yok"
+
+#: templates/public.php:99
+msgid "Direct link"
+msgstr "Doğrudan bağlantı"

@@ -31,7 +31,7 @@ function changeDisplayName(){
         // Ajax foo
         $.post( 'ajax/changedisplayname.php', post, function(data){
             if( data.status === "success" ){
-                $('#oldDisplayName').text($('#displayName').val());
+                $('#oldDisplayName').val($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
                 updateAvatar();
@@ -171,11 +171,6 @@ $(document).ready(function(){
         }
     });
 
-	$("#languageinput").chosen();
-	// Show only the not selectable optgroup
-	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").hide();
-
 	$("#languageinput").change( function(){
 		// Serialize the data
 		var post = $( "#languageinput" ).serialize();
@@ -195,7 +190,7 @@ $(document).ready(function(){
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
-	
+
 	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function(event) {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		if (privateKeyPassword !== '' ) {
@@ -207,7 +202,7 @@ $(document).ready(function(){
 			$('#decryptAll button:button[name="submitDecryptAll"]').attr("disabled", "true");
 		}
 	});
-	
+
 	var uploadparms = {
 		done: function(e, data) {
 			avatarResponseHandler(data.result);
@@ -266,8 +261,9 @@ OC.Encryption = {
 
 OC.Encryption.msg={
 	startDecrypting:function(selector){
+		var spinner = '<img src="'+ OC.imagePath('core', 'loading-small.gif') +'">';
 		$(selector)
-			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') )
+			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
 			.removeClass('success')
 			.removeClass('error')
 			.stop(true, true)
@@ -278,8 +274,7 @@ OC.Encryption.msg={
 			 $(selector).html( data.data.message )
 				.addClass('success')
 				.stop(true, true)
-				.delay(3000)
-				.fadeOut(900);
+				.delay(3000);
 		}else{
 			$(selector).html( data.data.message ).addClass('error');
 		}

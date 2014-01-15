@@ -7,6 +7,15 @@ input#openid, input#webdav { width:20em; }
 
 
 /* PERSONAL */
+#rootcert_import {
+	margin: 0 0 10px 0;
+	display: block;
+}
+
+.personalblock input[type="checkbox"] {
+	position: relative;
+	top: 2px;
+}
 
 /* Sync clients */
 .clientsbox { margin:12px; }
@@ -41,8 +50,8 @@ table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 form { display:inline; }
-table:not(.nostyle) th { height:2em; color:#999; }
-table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th { height:2em; color:#999; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
@@ -53,25 +62,23 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
-table:not(.nostyle) { width:100%; }
-#rightcontent { padding-left: 1em; }
+table.grid { width:100%; }
+#rightcontent { padding-left: 10px; }
 div.quota {
 	float: right;
 	display: block;
-	position: absolute;
-	right: 216px;
-	top: 0;
 }
 div.quota-select-wrapper { position: relative; }
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}
-select.quota { position:absolute; left:0; top:0; width:10em; }
+#controls select.quota {
+	margin: 3px;
+	margin-right: 10px;
+	height: 37px;
+}
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 div.quota>span {
-	position: absolute;
-	right: 0;
 	white-space: nowrap;
-	top: 12px;
 	color: #888;
 	text-shadow: 0 1px 0 #fff;
 }
@@ -127,6 +134,9 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 /* LOG */
 #log { white-space:normal; }
 #lessLog { display:none; }
+table.grid td.date{
+	white-space: nowrap;
+}
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }

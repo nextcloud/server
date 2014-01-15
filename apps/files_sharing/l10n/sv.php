@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Den här delningen är lösenordsskyddad",
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",
 "Password" => "Lösenord",
-"Submit" => "Skicka",
 "Sorry, this link doesn’t seem to work anymore." => "Tyvärr, denna länk verkar inte fungera längre.",
 "Reasons might be:" => "Orsaker kan vara:",
 "the item was removed" => "objektet togs bort",
@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Ladda ner",
 "Upload" => "Ladda upp",
 "Cancel upload" => "Avbryt uppladdning",
-"No preview available for" => "Ingen förhandsgranskning tillgänglig för"
+"No preview available for" => "Ingen förhandsgranskning tillgänglig för",
+"Direct link" => "Direkt länk"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

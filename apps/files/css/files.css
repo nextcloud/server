@@ -8,16 +8,19 @@
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
 
-#new, #trash {
+#new {
 	z-index: 1010;
 	float: left;
 	padding: 0 !important; /* override default control bar button padding */
 }
 #trash {
-	margin-right: 12px;
+	margin-right: 8px;
 	float: right;
+	z-index: 1010;
+	padding: 10px;
+	font-weight: normal;
 }
-#new>a, #trash>a {
+#new>a {
 	padding: 14px 10px;
 	position: relative;
 	top: 7px;
@@ -47,7 +50,13 @@
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; padding-top: 7px; padding-bottom: 7px;}
 
-
+#new .error, #fileList .error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
+}
 
 /* FILE TABLE */
 
@@ -57,6 +66,9 @@
 	width: 100%;
 }
 #filestable tbody tr { background-color:#fff; height:40px; }
+#filestable, #controls {
+	min-width: 680px;
+}
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -159,8 +171,6 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0
 }
 .modified {
 	position: relative;
-	top: 11px;
-	left: 5px;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
@@ -176,6 +186,9 @@ table td.filename .nametext {
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
 table td.filename form { font-size:.85em; margin-left:48px; margin-right:48px; }
 
+.ie8 input[type="checkbox"]{
+	padding: 0;
+}
 
 /* File checkboxes */
 #fileList tr td.filename>input[type="checkbox"]:first-child {
@@ -238,22 +251,12 @@ table td.filename form { font-size:.85em; margin-left:48px; margin-right:48px; }
 	top: 14px;
 	right: 0;
 }
-#fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
-	background-color: rgba(240,240,240,0.898);
-	box-shadow: -5px 0 7px rgba(240,240,240,0.898);
-}
-#fileList tr.selected:hover .fileactions, #fileList tr.mouseOver .fileactions { /* slightly darker color for selected rows */
-	background-color: rgba(230,230,230,.9);
-	box-shadow: -5px 0 7px rgba(230,230,230,.9);
-}
 
 #fileList img.move2trash { display:inline; margin:-.5em 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	top: 0;
-	margin: 0;
-	padding: 15px 14px 19px !important;
+	padding: 9px 14px 19px !important;
 }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
@@ -323,8 +326,9 @@ table.dragshadow {
 	width:auto;
 }
 table.dragshadow td.filename {
-	padding-left:36px;
+	padding-left:60px;
 	padding-right:16px;
+	height: 36px;
 }
 table.dragshadow td.size {
 	padding-right:8px;

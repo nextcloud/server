@@ -29,10 +29,10 @@ class OCI extends AbstractDatabase {
 		\OC_Log::write('setup oracle', 'connect string: ' . $easy_connect_string, \OC_Log::DEBUG);
 		$connection = @oci_connect($this->dbuser, $this->dbpassword, $easy_connect_string);
 		if(!$connection) {
-			$e = oci_error();
-			if (is_array ($e) && isset ($e['message'])) {
+			$errorMessage = $this->getLastError();
+			if ($errorMessage) {
 				throw new \DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
-				$e['message'].' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
+				$errorMessage.' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
 							.' NLS_LANG='.getenv('NLS_LANG')
@@ -51,7 +51,7 @@ class OCI extends AbstractDatabase {
 			." WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
@@ -68,25 +68,25 @@ class OCI extends AbstractDatabase {
 			$this->dbpassword=\OC_Util::generateRandomBytes(30);
 
 			//oracle passwords are treated as identifiers:
-			//  must start with aphanumeric char
+			//  must start with alphanumeric char
 			//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
 			$this->dbpassword=substr($this->dbpassword, 0, 30);
 
 			$this->createDBUser($connection);
 
-			\OC_Config::setValue('dbuser', $this->dbusername);
-			\OC_Config::setValue('dbname', $this->dbusername);
+			\OC_Config::setValue('dbuser', $this->dbuser);
+			\OC_Config::setValue('dbname', $this->dbuser);
 			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
-			//create the database not neccessary, oracle implies user = schema
-			//$this->createDatabase($this->dbname, $this->dbusername, $connection);
+			//create the database not necessary, oracle implies user = schema
+			//$this->createDatabase($this->dbname, $this->dbuser, $connection);
 		} else {
 
 			\OC_Config::setValue('dbuser', $this->dbuser);
 			\OC_Config::setValue('dbname', $this->dbname);
 			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
-			//create the database not neccessary, oracle implies user = schema
+			//create the database not necessary, oracle implies user = schema
 			//$this->createDatabase($this->dbname, $this->dbuser, $connection);
 		}
 
@@ -115,10 +115,10 @@ class OCI extends AbstractDatabase {
 		}
 		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
 		$stmt = oci_parse($connection, $query);
-		$un = $this->dbtableprefix.'users';
+		$un = $this->tableprefix.'users';
 		oci_bind_by_name($stmt, ':un', $un);
 		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
@@ -133,25 +133,22 @@ class OCI extends AbstractDatabase {
 	}
 
 	/**
-	 *
-	 * @param String $name
-	 * @param String $password
 	 * @param resource $connection
 	 */
 	private function createDBUser($connection) {
 		$name = $this->dbuser;
-		$password = $this->password;
+		$password = $this->dbpassword;
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		oci_bind_by_name($stmt, ':un', $name);
 		$result = oci_execute($stmt);
 		if(!$result) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
@@ -162,14 +159,14 @@ class OCI extends AbstractDatabase {
 			$query = 'CREATE USER '.$name.' IDENTIFIED BY "'.$password.'" DEFAULT TABLESPACE '.$this->dbtablespace;
 			$stmt = oci_parse($connection, $query);
 			if (!$stmt) {
-				$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 			//oci_bind_by_name($stmt, ':un', $name);
 			$result = oci_execute($stmt);
 			if(!$result) {
-				$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s", name: %s, password: %s',
 					array($query, $name, $password)) . '<br />';
 				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
@@ -178,7 +175,7 @@ class OCI extends AbstractDatabase {
 			$query = "ALTER USER :un IDENTIFIED BY :pw";
 			$stmt = oci_parse($connection, $query);
 			if (!$stmt) {
-				$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
@@ -186,7 +183,7 @@ class OCI extends AbstractDatabase {
 			oci_bind_by_name($stmt, ':pw', $password);
 			$result = oci_execute($stmt);
 			if(!$result) {
-				$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 				$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
@@ -195,16 +192,34 @@ class OCI extends AbstractDatabase {
 		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s"', array($query)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		$result = oci_execute($stmt);
 		if(!$result) {
-			$entry = $this->trans->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry = $this->trans->t('DB Error: "%s"', array($this->getLastError($connection))) . '<br />';
 			$entry .= $this->trans->t('Offending command was: "%s", name: %s, password: %s',
 				array($query, $name, $password)) . '<br />';
 			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
+	}
+
+	/**
+	 * @param resource $connection
+	 * @return string
+	 */
+	protected function getLastError($connection = null) {
+		if ($connection) {
+			$error = oci_error($connection);
+		} else {
+			$error = oci_error();
+		}
+		foreach (array('message', 'code') as $key) {
+			if (isset($error[$key])) {
+				return $error[$key];
+			}
+		}
+		return '';
 	}
 }

@@ -50,9 +50,9 @@ class OC_Mount_Config {
 				'key' => 'Access Key',
 				'secret' => '*Secret Key',
 				'bucket' => 'Bucket',
-				'hostname' => 'Hostname (optional)',
-				'port' => 'Port (optional)',
-				'region' => 'Region (optional)',
+				'hostname' => '&Hostname (optional)',
+				'port' => '&Port (optional)',
+				'region' => '&Region (optional)',
 				'use_ssl' => '!Enable SSL',
 				'use_path_style' => '!Enable Path Style'));
 
@@ -84,14 +84,22 @@ class OC_Mount_Config {
 				'token' => '#token'),
 				'custom' => 'google');
 
-		$backends['\OC\Files\Storage\SWIFT']=array(
-			'backend' => 'OpenStack Swift',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'token' => '*Token',
-				'root' => '&Root',
-				'secure' => '!Secure ftps://'));
+		if(OC_Mount_Config::checkcurl()) {
+			$backends['\OC\Files\Storage\Swift'] = array(
+				'backend' => 'OpenStack Object Storage',
+				'configuration' => array(
+					'user' => 'Username (required)',
+					'bucket' => 'Bucket (required)',
+					'region' => '&Region (optional for OpenStack Object Storage)',
+					'key' => '*API Key (required for Rackspace Cloud Files)',
+					'tenant' => '&Tenantname (required for OpenStack Object Storage)',
+					'password' => '*Password (required for OpenStack Object Storage)',
+					'service_name' => '&Service Name (required for OpenStack Object Storage)',
+					'url' => '&URL of identity endpoint (required for OpenStack Object Storage)',
+					'timeout' => '&Timeout of HTTP requests in seconds (optional)',
+				)
+			);
+                }
 
 		if (!OC_Util::runningOnWindows()) {
 			if (OC_Mount_Config::checksmbclient()) {
@@ -106,14 +114,24 @@ class OC_Mount_Config {
 			}
 		}
 
-		if(OC_Mount_Config::checkcurl()) $backends['\OC\Files\Storage\DAV']=array(
-			'backend' => 'ownCloud / WebDAV',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'password' => '*Password',
-				'root' => '&Root',
-				'secure' => '!Secure https://'));
+		if(OC_Mount_Config::checkcurl()){
+		   	$backends['\OC\Files\Storage\DAV']=array(
+				'backend' => 'WebDAV',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Root',
+					'secure' => '!Secure https://'));
+		   	$backends['\OC\Files\Storage\OwnCloud']=array(
+				'backend' => 'ownCloud',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Remote subfolder',
+					'secure' => '!Secure https://'));
+		}
 
 		$backends['\OC\Files\Storage\SFTP']=array(
 			'backend' => 'SFTP',
@@ -236,6 +254,7 @@ class OC_Mount_Config {
 				$storage = new $class($options);
 				return $storage->test();
 			} catch (Exception $exception) {
+				\OCP\Util::logException('files_external', $exception);
 				return false;
 			}
 		}
@@ -258,6 +277,11 @@ class OC_Mount_Config {
 										 $mountType,
 										 $applicable,
 										 $isPersonal = false) {
+		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
+		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
+			// can't mount at root or "Shared" folder
+			return false;
+		}
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
@@ -368,8 +392,7 @@ class OC_Mount_Config {
 	 * @return array
 	 */
 	public static function getCertificates() {
-		$view = \OCP\Files::getStorage('files_external');
-		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external/uploads/';
 		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
 		if ( ! is_dir($path)) {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
@@ -391,8 +414,7 @@ class OC_Mount_Config {
 	 * creates certificate bundle
 	 */
 	public static function createCertificateBundle() {
-		$view = \OCP\Files::getStorage("files_external");
-		$path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external';
 
 		$certs = OC_Mount_Config::getCertificates();
 		$fh_certs = fopen($path."/rootcerts.crt", 'w');
@@ -417,7 +439,7 @@ class OC_Mount_Config {
 	 */
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
-			$output=shell_exec('which smbclient');
+			$output=shell_exec('which smbclient 2> /dev/null');
 			return !empty($output);
 		}else{
 			return false;

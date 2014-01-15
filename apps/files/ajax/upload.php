@@ -7,6 +7,8 @@ OCP\JSON::setContentTypeHeader('text/plain');
 // If not, check the login.
 // If no token is sent along, rely on login only
 
+$allowedPermissions = OCP\PERMISSION_ALL;
+
 $l = OC_L10N::get('files');
 if (empty($_POST['dirToken'])) {
 	// The standard case, files are uploaded through logged in users :)
@@ -17,6 +19,9 @@ if (empty($_POST['dirToken'])) {
 		die();
 	}
 } else {
+	// return only read permissions for public upload
+	$allowedPermissions = OCP\PERMISSION_READ;
+
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
 	if ($linkItem === false) {
 		OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Invalid Token')))));
@@ -110,30 +115,36 @@ if (strpos($dir, '..') === false) {
 			|| (isset($_POST['resolution']) && $_POST['resolution']==='replace')
 		) {
 			// upload and overwrite file
-			if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
-				
-				// updated max file size after upload
-				$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
-				
-				$meta = \OC\Files\Filesystem::getFileInfo($target);
-				if ($meta === false) {
-					$error = $l->t('Upload failed. Could not get file info.');
+			try
+			{
+				if (is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+
+					// updated max file size after upload
+					$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
+
+					$meta = \OC\Files\Filesystem::getFileInfo($target);
+					if ($meta === false) {
+						$error = $l->t('Upload failed. Could not get file info.');
+					} else {
+						$result[] = array('status' => 'success',
+							'mime' => $meta['mimetype'],
+							'mtime' => $meta['mtime'],
+							'size' => $meta['size'],
+							'id' => $meta['fileid'],
+							'name' => basename($target),
+							'etag' => $meta['etag'],
+							'originalname' => $files['tmp_name'][$i],
+							'uploadMaxFilesize' => $maxUploadFileSize,
+							'maxHumanFilesize' => $maxHumanFileSize,
+							'permissions' => $meta['permissions'] & $allowedPermissions
+						);
+					}
+
 				} else {
-					$result[] = array('status' => 'success',
-						'mime' => $meta['mimetype'],
-						'mtime' => $meta['mtime'],
-						'size' => $meta['size'],
-						'id' => $meta['fileid'],
-						'name' => basename($target),
-						'originalname' => $files['tmp_name'][$i],
-						'uploadMaxFilesize' => $maxUploadFileSize,
-						'maxHumanFilesize' => $maxHumanFileSize,
-						'permissions' => $meta['permissions'],
-					);
+					$error = $l->t('Upload failed. Could not find uploaded file');
 				}
-				
-			} else {
-				$error = $l->t('Upload failed. Could not find uploaded file');
+			} catch(Exception $ex) {
+				$error = $ex->getMessage();
 			}
 			
 		} else {
@@ -148,10 +159,11 @@ if (strpos($dir, '..') === false) {
 					'size' => $meta['size'],
 					'id' => $meta['fileid'],
 					'name' => basename($target),
+					'etag' => $meta['etag'],
 					'originalname' => $files['tmp_name'][$i],
 					'uploadMaxFilesize' => $maxUploadFileSize,
 					'maxHumanFilesize' => $maxHumanFileSize,
-					'permissions' => $meta['permissions'],
+					'permissions' => $meta['permissions'] & $allowedPermissions
 				);
 			}
 		}
@@ -164,5 +176,5 @@ if ($error === false) {
 	OCP\JSON::encodedPrint($result);
 	exit();
 } else {
-	OCP\JSON::error(array('data' => array_merge(array('message' => $error), $storageStats)));
+	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error), $storageStats))));
 }

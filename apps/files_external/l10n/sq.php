@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Groups" => "Grupet",
 "Users" => "Përdoruesit",
 "Delete" => "Elimino"
 );

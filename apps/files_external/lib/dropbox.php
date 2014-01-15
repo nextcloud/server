@@ -50,6 +50,22 @@ class Dropbox extends \OC\Files\Storage\Common {
 		}
 	}
 
+	private function deleteMetaData($path) {
+		$path = $this->root.$path;
+		if (isset($this->metaData[$path])) {
+			unset($this->metaData[$path]);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief Returns the path's metadata
+	 * @param $path path for which to return the metadata
+	 * @param $list if true, also return the directory's contents
+	 * @return directory contents if $list is true, file metadata if $list is
+	 * false, null if the file doesn't exist or "false" if the operation failed
+	 */
 	private function getMetaData($path, $list = false) {
 		$path = $this->root.$path;
 		if ( ! $list && isset($this->metaData[$path])) {
@@ -62,24 +78,35 @@ class Dropbox extends \OC\Files\Storage\Common {
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
+				$contents = array();
 				if ($response && isset($response['contents'])) {
-					$contents = $response['contents'];
 					// Cache folder's contents
-					foreach ($contents as $file) {
-						$this->metaData[$path.'/'.basename($file['path'])] = $file;
+					foreach ($response['contents'] as $file) {
+						if (!isset($file['is_deleted']) || !$file['is_deleted']) {
+							$this->metaData[$path.'/'.basename($file['path'])] = $file;
+							$contents[] = $file;
+						}
 					}
 					unset($response['contents']);
+				}
+				if (!isset($response['is_deleted']) || !$response['is_deleted']) {
 					$this->metaData[$path] = $response;
 				}
-				$this->metaData[$path] = $response;
 				// Return contents of folder only
 				return $contents;
 			} else {
 				try {
 					$response = $this->dropbox->getMetaData($path, 'false');
-					$this->metaData[$path] = $response;
-					return $response;
+					if (!isset($response['is_deleted']) || !$response['is_deleted']) {
+						$this->metaData[$path] = $response;
+						return $response;
+					}
+					return null;
 				} catch (\Exception $exception) {
+					if ($exception instanceof \Dropbox_Exception_NotFound) {
+						// don't log, might be a file_exist check
+						return false;
+					}
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
@@ -108,7 +135,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 	public function opendir($path) {
 		$contents = $this->getMetaData($path, true);
-		if ($contents) {
+		if ($contents !== false) {
 			$files = array();
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
@@ -146,14 +173,6 @@ class Dropbox extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function isReadable($path) {
-		return $this->file_exists($path);
-	}
-
-	public function isUpdatable($path) {
-		return $this->file_exists($path);
-	}
-
 	public function file_exists($path) {
 		if ($path == '' || $path == '/') {
 			return true;
@@ -165,9 +184,9 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function unlink($path) {
-		$path = $this->root.$path;
 		try {
-			$this->dropbox->delete($path);
+			$this->dropbox->delete($this->root.$path);
+			$this->deleteMetaData($path);
 			return true;
 		} catch (\Exception $exception) {
 			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
@@ -176,10 +195,14 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
-		$path1 = $this->root.$path1;
-		$path2 = $this->root.$path2;
 		try {
-			$this->dropbox->move($path1, $path2);
+			// overwrite if target file exists and is not a directory
+			$destMetaData = $this->getMetaData($path2);
+			if (isset($destMetaData) && $destMetaData !== false && !$destMetaData['is_dir']) {
+				$this->unlink($path2);
+			}
+			$this->dropbox->move($this->root.$path1, $this->root.$path2);
+			$this->deleteMetaData($path1);
 			return true;
 		} catch (\Exception $exception) {
 			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
@@ -277,7 +300,12 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
-		return false;
+		if ($this->file_exists($path)) {
+			return false;
+		} else {
+			$this->file_put_contents($path, '');
+		}
+		return true;
 	}
 
 }

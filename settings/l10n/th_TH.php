@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Current password" => "รหัสผ่านปัจจุบัน",
 "New password" => "รหัสผ่านใหม่",
 "Change password" => "เปลี่ยนรหัสผ่าน",
-"Display Name" => "ชื่อที่ต้องการแสดง",
 "Email" => "อีเมล",
 "Your email address" => "ที่อยู่อีเมล์ของคุณ",
 "Fill in an email address to enable password recovery" => "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้",
@@ -83,7 +82,6 @@ $TRANSLATIONS = array(
 "Other" => "อื่นๆ",
 "Username" => "ชื่อผู้ใช้งาน",
 "Storage" => "พื้นที่จัดเก็บข้อมูล",
-"change display name" => "เปลี่ยนชื่อที่ต้องการให้แสดง",
 "set new password" => "ตั้งค่ารหัสผ่านใหม่",
 "Default" => "ค่าเริ่มต้น"
 );

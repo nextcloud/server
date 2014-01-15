@@ -2,7 +2,7 @@
 	<fieldset class="personalblock">
 	<h2><?php p($l->t('External Storage')); ?></h2>
 		<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) print_unescaped(''.$_['dependencies'].''); ?>
-		<table id="externalStorage" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
+		<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
 			<thead>
 				<tr>
 					<th></th>
@@ -60,7 +60,7 @@
 											   class="optional"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
-											   placeholder="<?php p(substr($placeholder, 5)); ?>" />
+											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
 									<?php elseif (strpos($placeholder, '#') !== false): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"

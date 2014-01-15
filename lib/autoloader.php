@@ -16,6 +16,12 @@ class Autoloader {
 	private $classPaths = array();
 
 	/**
+	 * Optional low-latency memory cache for class to path mapping.
+	 * @var \OC\Memcache\Cache
+	 */
+	protected $memoryCache;
+
+	/**
 	 * Add a custom prefix to the autoloader
 	 *
 	 * @param string $prefix
@@ -112,44 +118,39 @@ class Autoloader {
 	 * @param string $class
 	 * @return bool
 	 */
-	protected $memoryCache = null;
-	protected $constructingMemoryCache = true; // hack to prevent recursion
 	public function load($class) {
-		// Does this PHP have an in-memory cache? We cache the paths there
-		if ($this->constructingMemoryCache && !$this->memoryCache) {
-			$this->constructingMemoryCache = false;
-			try {
-				$this->memoryCache = \OC\Memcache\Factory::createLowLatency('Autoloader');
-			} catch(\Exception $ex) {
-				// no caching then - fine with me
-			}
-		}
+		$pathsToRequire = null;
 		if ($this->memoryCache) {
 			$pathsToRequire = $this->memoryCache->get($class);
-			if (is_array($pathsToRequire)) {
-				foreach ($pathsToRequire as $path) {
-					require_once $path;
-				}
-				return false;
-			}
 		}
 
-		// Use the normal class loading path
-		$paths = $this->findClass($class);
-		if (is_array($paths)) {
+		if (!is_array($pathsToRequire)) {
+			// No cache or cache miss
 			$pathsToRequire = array();
-			foreach ($paths as $path) {
-				if ($fullPath = stream_resolve_include_path($path)) {
-					require_once $fullPath;
+			foreach ($this->findClass($class) as $path) {
+				$fullPath = stream_resolve_include_path($path);
+				if ($fullPath) {
 					$pathsToRequire[] = $fullPath;
 				}
 			}
 
-			// Save in our memory cache
 			if ($this->memoryCache) {
 				$this->memoryCache->set($class, $pathsToRequire, 60); // cache 60 sec
 			}
 		}
+
+		foreach ($pathsToRequire as $fullPath) {
+			require_once $fullPath;
+		}
+
 		return false;
+	}
+
+	/**
+	 * @brief Sets the optional low-latency cache for class to path mapping.
+	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
+	 */
+	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+		$this->memoryCache = $memoryCache;
 	}
 }

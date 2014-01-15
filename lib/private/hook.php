@@ -97,4 +97,12 @@ class OC_Hook{
 			self::$registered=array();
 		}
 	}
+
+	/**
+	 * DO NOT USE!
+	 * For unit tests ONLY!
+	 */
+	static public function getHooks() {
+		return self::$registered;
+	}
 }

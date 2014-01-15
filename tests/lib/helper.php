@@ -208,4 +208,39 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(true)); // filename(1) (2) (3).ext exists
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
 	}
+
+	/**
+	 * @dataProvider streamCopyDataProvider
+	 */
+	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
+
+		if (is_string($source)) {
+			$source = fopen($source, 'r');
+		}
+		if (is_string($target)) {
+			$target = fopen($target, 'w');
+		}
+
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+
+		if (is_resource($source)) {
+			fclose($source);
+		}
+		if (is_resource($target)) {
+			fclose($target);
+		}
+
+		$this->assertSame($expectedCount, $count);
+		$this->assertSame($expectedResult, $result);
+	}
+
+
+	function streamCopyDataProvider() {
+		return array(
+			array(0, false, false, false),
+			array(0, false, \OC::$SERVERROOT . '/tests/data/lorem.txt', false),
+			array(filesize(\OC::$SERVERROOT . '/tests/data/lorem.txt'), true, \OC::$SERVERROOT . '/tests/data/lorem.txt', \OC::$SERVERROOT . '/tests/data/lorem-copy.txt'),
+			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
+		);
+	}
 }

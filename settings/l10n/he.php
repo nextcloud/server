@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "לא ניתן לטעון רשימה מה־App Store",
 "Authentication error" => "שגיאת הזדהות",
-"Your display name has been changed." => "שם התצוגה שלך הוחלף.",
-"Unable to change display name" => "לא ניתן לשנות את שם התצוגה",
 "Group already exists" => "הקבוצה כבר קיימת",
 "Unable to add group" => "לא ניתן להוסיף קבוצה",
 "Email saved" => "הדוא״ל נשמר",
@@ -81,7 +79,6 @@ $TRANSLATIONS = array(
 "Current password" => "ססמה נוכחית",
 "New password" => "ססמה חדשה",
 "Change password" => "שינוי ססמה",
-"Display Name" => "שם תצוגה",
 "Email" => "דואר אלקטרוני",
 "Your email address" => "כתובת הדוא״ל שלך",
 "Fill in an email address to enable password recovery" => "נא למלא את כתובת הדוא״ל שלך כדי לאפשר שחזור ססמה",
@@ -98,7 +95,6 @@ $TRANSLATIONS = array(
 "Other" => "אחר",
 "Username" => "שם משתמש",
 "Storage" => "אחסון",
-"change display name" => "החלפת שם התצוגה",
 "set new password" => "הגדרת ססמה חדשה",
 "Default" => "בררת מחדל"
 );

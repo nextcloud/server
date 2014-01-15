@@ -28,8 +28,8 @@ if(is_null($userstatus)) {
 
 // Return Success story
 if( OC_User::setDisplayName( $username, $displayName )) {
-	OC_JSON::success(array("data" => array( "message" => $l->t('Your display name has been changed.'), "username" => $username, 'displayName' => $displayName )));
+	OC_JSON::success(array("data" => array( "message" => $l->t('Your full name has been changed.'), "username" => $username, 'displayName' => $displayName )));
 }
 else{
-	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change display name"), 'displayName' => OC_User::getDisplayName($username) )));
+	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change full name"), 'displayName' => OC_User::getDisplayName($username) )));
 }

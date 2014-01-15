@@ -24,6 +24,7 @@
 
 namespace OC\AppFramework\Http;
 
+use OC\AppFramework\Http;
 
 //require_once(__DIR__ . "/../classloader.php");
 
