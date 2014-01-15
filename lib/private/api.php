@@ -33,7 +33,7 @@ class OC_API {
 	const USER_AUTH = 1;
 	const SUBADMIN_AUTH = 2;
 	const ADMIN_AUTH = 3;
-	
+
 	/**
 	 * API Response Codes
 	 */
@@ -41,13 +41,13 @@ class OC_API {
 	const RESPOND_SERVER_ERROR = 996;
 	const RESPOND_NOT_FOUND = 998;
 	const RESPOND_UNKNOWN_ERROR = 999;
-	
+
 	/**
 	 * api actions
 	 */
 	protected static $actions = array();
 	private static $logoutRequired = false;
-	
+
 	/**
 	 * registers an api call
 	 * @param string $method the http method
@@ -58,7 +58,7 @@ class OC_API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 */
-	public static function register($method, $url, $action, $app, 
+	public static function register($method, $url, $action, $app,
 				$authLevel = OC_API::USER_AUTH,
 				$defaults = array(),
 				$requirements = array()) {
@@ -75,7 +75,7 @@ class OC_API {
 		}
 		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
 	}
-	
+
 	/**
 	 * handles an api call
 	 * @param array $parameters
@@ -125,7 +125,7 @@ class OC_API {
 
 		self::respond($response, $format);
 	}
-	
+
 	/**
 	 * merge the returned result objects into one response
 	 * @param array $responses
@@ -166,32 +166,31 @@ class OC_API {
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
 			// Merge failed responses if more than one
 			$data = array();
-			$meta = array();
 			foreach($shipped['failed'] as $failure) {
 				$data = array_merge_recursive($data, $failure['response']->getData());
 			}
 			$picked = reset($shipped['failed']);
 			$code = $picked['response']->getStatusCode();
-			$response = new OC_OCS_Result($data, $code);
+			$meta = $picked['response']->getMeta();
+			$response = new OC_OCS_Result($data, $code, $meta['message']);
 			return $response;
 		} elseif(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		} elseif(!empty($thirdparty['failed'])) {
 			// Merge failed responses if more than one
 			$data = array();
-			$meta = array();
 			foreach($thirdparty['failed'] as $failure) {
 				$data = array_merge_recursive($data, $failure['response']->getData());
 			}
 			$picked = reset($thirdparty['failed']);
 			$code = $picked['response']->getStatusCode();
-			$response = new OC_OCS_Result($data, $code);
+			$meta = $picked['response']->getMeta();
+			$response = new OC_OCS_Result($data, $code, $meta['message']);
 			return $response;
 		} else {
 			$responses = $thirdparty['succeeded'];
 		}
 		// Merge the successful responses
-		$meta = array();
 		$data = array();
 
 		foreach($responses as $app => $response) {
@@ -200,22 +199,25 @@ class OC_API {
 			} else {
 				$data = array_merge_recursive($data, $response['response']->getData());
 			}
-			$codes[] = $response['response']->getStatusCode();
+			$codes[] = array('code' => $response['response']->getStatusCode(),
+				'meta' => $response['response']->getMeta());
 		}
 
 		// Use any non 100 status codes
 		$statusCode = 100;
+		$statusMessage = null;
 		foreach($codes as $code) {
-			if($code != 100) {
-				$statusCode = $code;
+			if($code['code'] != 100) {
+				$statusCode = $code['code'];
+				$statusMessage = $code['meta']['message'];
 				break;
 			}
 		}
 
-		$result = new OC_OCS_Result($data, $statusCode);
+		$result = new OC_OCS_Result($data, $statusCode, $statusMessage);
 		return $result;
 	}
-	
+
 	/**
 	 * authenticate the api call
 	 * @param array $action the action details as supplied to OC_API::register()
@@ -261,8 +263,8 @@ class OC_API {
 				return false;
 				break;
 		}
-	} 
-	
+	}
+
 	/**
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
@@ -294,7 +296,7 @@ class OC_API {
 
 		return false;
 	}
-	
+
 	/**
 	 * respond to a call
 	 * @param OC_OCS_Result $result
@@ -343,5 +345,5 @@ class OC_API {
 			}
 		}
 	}
-	
+
 }

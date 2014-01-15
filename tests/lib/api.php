@@ -7,12 +7,12 @@
  */
 
 class Test_API extends PHPUnit_Framework_TestCase {
-	
+
 	// Helps build a response variable
-	function buildResponse($shipped, $data, $code) {
+	function buildResponse($shipped, $data, $code, $message=null) {
 		return array(
 			'shipped' => $shipped,
-			'response' => new OC_OCS_Result($data, $code),
+			'response' => new OC_OCS_Result($data, $code, $message),
 			'app' => uniqid('testapp_', true),
 			);
 	}
@@ -64,24 +64,24 @@ class Test_API extends PHPUnit_Framework_TestCase {
 			// Two shipped success results
 			array(true, 100, true, 100, true),
 			// Two shipped results, one success and one failure
-			array(true, 100, true, 997, false),
+			array(true, 100, true, 998, false),
 			// Two shipped results, both failure
-			array(true, 997, true, 997, false),
+			array(true, 997, true, 998, false),
 			// Two third party success results
 			array(false, 100, false, 100, true),
 			// Two third party results, one success and one failure
-			array(false, 100, false, 997, false),
+			array(false, 100, false, 998, false),
 			// Two third party results, both failure
-			array(false, 997, false, 997, false),
+			array(false, 997, false, 998, false),
 			// One of each, both success
 			array(false, 100, true, 100, true),
 			array(true, 100, false, 100, true),
 			// One of each, both failure
-			array(false, 997, true, 997, false),
+			array(false, 997, true, 998, false),
 			// One of each, shipped success
 			array(false, 997, true, 100, true),
 			// One of each, third party success
-			array(false, 100, true, 997, false),
+			array(false, 100, true, 998, false),
 		);
 	}
 	/**
@@ -117,12 +117,25 @@ class Test_API extends PHPUnit_Framework_TestCase {
 
 		// Two shipped success results
 		$result = OC_API::mergeResponses(array(
-			$this->buildResponse($shipped1, $data1, $statusCode1),
-			$this->buildResponse($shipped2, $data2, $statusCode2),
+			$this->buildResponse($shipped1, $data1, $statusCode1, "message1"),
+			$this->buildResponse($shipped2, $data2, $statusCode2, "message2"),
 		));
 		$this->checkResult($result, $succeeded);
 		$resultData = $result->getData();
+		$resultMeta = $result->getMeta();
+		$resultStatusCode = $result->getStatusCode();
+
 		$this->assertArrayHasKey('jan', $resultData['users']);
+
+		// check if the returned status message matches the selected status code
+		if ($resultStatusCode === 997) {
+			$this->assertEquals('message1', $resultMeta['message']);
+		} elseif ($resultStatusCode === 998) {
+			$this->assertEquals('message2', $resultMeta['message']);
+		} elseif ($resultStatusCode === 100) {
+			$this->assertEquals(null, $resultMeta['message']);
+		}
+
 	}
 
 }
