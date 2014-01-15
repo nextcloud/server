@@ -189,7 +189,6 @@ class Trashbin {
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
 				if ($owner !== $user) {
-					//$rootView->copy($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp);
 					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
 				}
 				$rootView->rename($owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
@@ -248,7 +247,6 @@ class Trashbin {
 				if ($rootView->is_dir($keyfile)) {
 					$size += self::calculateSize(new \OC\Files\View($keyfile));
 					if ($owner !== $user) {
-						//$rootView->copy($keyfile, $owner . '/files_trashbin/keyfiles/' . basename($ownerPath) . '.d' . $timestamp);
 						self::copy_recursive($keyfile, $owner . '/files_trashbin/keyfiles/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
 					}
 					$rootView->rename($keyfile, $user . '/files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
@@ -267,7 +265,6 @@ class Trashbin {
 			if ($rootView->is_dir($sharekeys)) {
 				$size += self::calculateSize(new \OC\Files\View($sharekeys));
 				if ($owner !== $user) {
-					//$rootView->copy($sharekeys, $owner . '/files_trashbin/share-keys/' . basename($ownerPath) . '.d' . $timestamp);
 					self::copy_recursive($sharekeys, $owner . '/files_trashbin/share-keys/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
 				}
 				$rootView->rename($sharekeys, $user . '/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
