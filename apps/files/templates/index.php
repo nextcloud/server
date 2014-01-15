@@ -1,6 +1,7 @@
 <div id="controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
 		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?>">
+			<?php if(!isset($_['dirToken'])):?>
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
@@ -12,6 +13,7 @@
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
+			<?php endif;?>
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
