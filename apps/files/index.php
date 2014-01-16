@@ -136,10 +136,10 @@ if ($needUpgrade) {
 	$tmpl->assign('files', $files);
 	$tmpl->assign('trash', $trashEnabled);
 	$tmpl->assign('trashEmpty', $trashEmpty);
-	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize); // minimium of freeSpace and uploadLimit
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('freeSpace', $freeSpace);
-	$tmpl->assign('uploadLimit', $uploadLimit);
+	$tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->assign('isPublic', false);
