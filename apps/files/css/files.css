@@ -219,6 +219,11 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	width: 50px;
 	z-index: 5;
 }
+#fileList tr td.filename>input[type="checkbox"]{
+	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
+	 * to prevent it to increase the height */
+	position: absolute;
+}
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
 }
