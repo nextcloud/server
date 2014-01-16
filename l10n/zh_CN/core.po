@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# hanfeng <appweb.cn@gmail.com>, 2013
 # Xuetian Weng <wengxt@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -20,14 +21,15 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 向您分享了 »%s«"
 
-#: ajax/share.php:227
-msgid "group"
-msgstr "组"
+#: ajax/share.php:169
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -54,56 +56,17 @@ msgstr "文件缓存已更新"
 msgid "... %d%% done ..."
 msgstr "...已完成 %d%% ..."
 
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "未提供分类类型。"
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "没有可添加分类？"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "此分类已存在：%s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "未提供对象类型。"
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID未提供。"
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "向收藏夹中新增%s时出错。"
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "没有选择要删除的类别"
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "从收藏夹中移除%s时出错。"
-
 #: avatar/controller.php:62
 msgid "No image or file provided"
 msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "未知的文件类型"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "无效的图像"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -189,55 +152,55 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:866
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:867
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分钟前"
 
-#: js/js.js:868
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小时前"
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 月前"
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "years ago"
 msgstr "年前"
 
@@ -304,154 +267,182 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "未指定对象类型。"
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
-msgid "Error"
-msgstr "错误"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "未指定应用名称。"
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "所需文件{file}未安装！"
-
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "已共享"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "错误"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "共享时出错"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "取消共享时出错"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "修改权限时出错"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 共享给您及 {group} 组"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "{owner} 与您共享"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "分享之"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "共享链接"
+#: js/share.js:219
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "允许公开上传"
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "发送链接到个人"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "发送"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "设置过期日期"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "过期日期"
 
-#: js/share.js:242
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "通过Email共享"
 
-#: js/share.js:245
+#: js/share.js:278
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:283
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "组"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:319
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "在 {item} 与 {user} 共享。"
 
-#: js/share.js:340
+#: js/share.js:397
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:352
+#: js/share.js:405
+msgid "notify by email"
+msgstr ""
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:354
+#: js/share.js:410
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:357
+#: js/share.js:413
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:360
+#: js/share.js:416
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:363
+#: js/share.js:419
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:366
+#: js/share.js:422
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:694
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:645
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:657
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:672
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:683
+#: js/share.js:745
 msgid "Email sent"
 msgstr "邮件已发送"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "警告"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "未指定对象类型。"
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "删除"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "增加"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -473,27 +464,27 @@ msgstr "重置 %s 的密码"
 msgid "Use the following link to reset your password: {link}"
 msgstr "使用以下链接重置您的密码：{link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "重置密码的链接已发送到您的邮箱。<br>如果您觉得在合理的时间内还未收到邮件，请查看 spam/junk 目录。<br>如果没有在那里，请询问您的本地管理员。"
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "请求失败<br>您确定您的邮箱/用户名是正确的？"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "您将会收到包含可以重置密码链接的邮件。"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "用户名"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -501,13 +492,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "您的文件已加密。如果您不启用恢复密钥，您将无法在重设密码后取回文件。如果您不太确定，请在继续前联系您的管理员。您真的要继续吗？"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "使得，我真的要现在重设密码"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "请求重置"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "重置"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -533,7 +524,7 @@ msgstr "个人"
 msgid "Users"
 msgstr "用户"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "应用"
 
@@ -544,6 +535,34 @@ msgstr "管理"
 #: strings.php:9
 msgid "Help"
 msgstr "帮助"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -561,108 +580,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "您好，\n\n%s 向您分享了 %s。\n查看： %s"
+msgstr ""
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "编辑分类"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "增加"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "安全警告"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "你的PHP版本容易受到空字节攻击 (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "为保证安全使用 %s 请更新您的PHP。"
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "随机数生成器无效，请启用PHP的OpenSSL扩展"
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "没有安全随机码生成器，攻击者可能会猜测密码重置信息从而窃取您的账户"
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "您的数据目录和文件可能可以直接被互联网访问，因为 .htaccess 并未正常工作。"
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "关于如何配置服务器，请参见 <a href=\"%s\" target=\"_blank\">此文档</a>。"
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr ""
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "注销"
 
@@ -680,19 +710,27 @@ msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码，以保护您的账户安全。"
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:37
+#: templates/login.php:49
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:39
+#: templates/login.php:52
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:45
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 
@@ -700,10 +738,37 @@ msgstr "其他登录方式"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "您好，<br><br>%s 向您分享了 »%s«。<br><a href=\"%s\">查看</a>"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "更新 ownCloud 到版本 %s，这可能需要一些时间。"
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""

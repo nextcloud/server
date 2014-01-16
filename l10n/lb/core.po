@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Michel Weimerskirch <michel@weimerskirch.net>, 2013
+# sim0n <sim0n@trypill.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-28 01:55-0500\n"
+"PO-Revision-Date: 2013-12-27 13:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -18,90 +19,52 @@ msgstr ""
 "Language: lb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "Den/D' %s huet »%s« mat dir gedeelt"
 
-#: ajax/share.php:227
-msgid "group"
-msgstr "Grupp"
+#: ajax/share.php:169
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Maintenance Modus ass un"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Maintenance Modus ass aus"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Datebank ass geupdate ginn"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "De Fichier Cache gëtt geupdate, des ka laang daueren..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "De Fichier Cache ass geupdate ginn"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Typ vun der Kategorie net uginn."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Keng Kategorie fir bäizesetzen?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Dës Kategorie existéiert schon: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Typ vum Objet net uginn."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID net uginn."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Feeler beim dobäisetze vun %s bei d'Favoritten."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Keng Kategorien ausgewielt fir ze läschen."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Feeler beim läsche vun %s aus de Favoritten."
+msgstr "... %d%% fäerdeg ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Kee Bild oder Fichier uginn"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Onbekannten Fichier Typ"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Ongülteg d'Bild"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -187,59 +150,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Astellungen"
 
-#: js/js.js:866
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "Sekonnen hir"
 
-#: js/js.js:867
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n Minutt hir"
+msgstr[1] "%n Minutten hir"
 
-#: js/js.js:868
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "today"
 msgstr "haut"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "yesterday"
 msgstr "gëschter"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "last month"
 msgstr "leschte Mount"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "months ago"
 msgstr "Méint hir"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last year"
 msgstr "Lescht Joer"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "years ago"
 msgstr "Joren hir"
 
@@ -279,7 +242,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Weieng Fichieren wëlls de gär behalen?"
 
 #: js/oc-dialogs.js:368
 msgid ""
@@ -293,168 +256,196 @@ msgstr "Ofbriechen"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Weider"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(all ausgewielt)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} ausgewielt)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Den Typ vum Object ass net uginn."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
-msgid "Error"
-msgstr "Feeler"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Den Numm vun der App ass net uginn."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "De benéidegte Fichier {file} ass net installéiert!"
-
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Gedeelt"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Deelen"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "Feeler"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Feeler beim Deelen"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Feeler beim Annuléiere vum Deelen"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Feeler beim Ännere vun de Rechter"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Gedeelt mat dir an der Grupp {group} vum {owner}"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Gedeelt mat dir vum {owner}"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "Deele mat"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "Mat Link deelen"
+#: js/share.js:219
+msgid "Share link"
+msgstr "Link deelen"
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Passwuertgeschützt"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Passwuert"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "Ëffentlechen Upload erlaaben"
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "Link enger Persoun mailen"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "Schécken"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Verfallsdatum setzen"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Verfallsdatum"
 
-#: js/share.js:242
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Via E-Mail deelen:"
 
-#: js/share.js:245
+#: js/share.js:278
 msgid "No people found"
 msgstr "Keng Persoune fonnt"
 
-#: js/share.js:283
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "Grupp"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Weiderdeelen ass net erlaabt"
 
-#: js/share.js:319
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Gedeelt an {item} mat {user}"
 
-#: js/share.js:340
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Net méi deelen"
 
-#: js/share.js:352
+#: js/share.js:405
+msgid "notify by email"
+msgstr "via e-mail Bescheed ginn"
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "kann änneren"
 
-#: js/share.js:354
+#: js/share.js:410
 msgid "access control"
 msgstr "Zougrëffskontroll"
 
-#: js/share.js:357
+#: js/share.js:413
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:360
+#: js/share.js:416
 msgid "update"
 msgstr "aktualiséieren"
 
-#: js/share.js:363
+#: js/share.js:419
 msgid "delete"
 msgstr "läschen"
 
-#: js/share.js:366
+#: js/share.js:422
 msgid "share"
 msgstr "deelen"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Passwuertgeschützt"
 
-#: js/share.js:645
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Feeler beim Läsche vum Verfallsdatum"
 
-#: js/share.js:657
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Feeler beim Setze vum Verfallsdatum"
 
-#: js/share.js:672
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Gëtt geschéckt..."
 
-#: js/share.js:683
+#: js/share.js:745
 msgid "Email sent"
 msgstr "Email geschéckt"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "Warnung"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Den Typ vum Object ass net uginn."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr "Gëff nei an"
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Läschen"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Dobäisetzen"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr "Tags editéieren"
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -470,33 +461,33 @@ msgstr "Den Update war erfollegräich.  Du gëss elo bei d'ownCloud ëmgeleet."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s Passwuert ass nei gesat"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "De Link fir d'Passwuert zréckzesetzen gouf un deng E-Mail-Adress geschéckt.<br>Falls du d'Mail net an den nächste Minutte kriss, kuck w.e.gl. an dengem Spam-Dossier.<br>Wann do och keng Mail ass, fro w.e.gl. däin Adminstrateur."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Ufro feelfeschloen!<br>Hues du séchergestallt dass deng Email respektiv däi Benotzernumm korrekt sinn?"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du kriss e Link fir däi Passwuert zréckzesetze via Email geschéckt."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Benotzernumm"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -504,13 +495,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Deng Fichiere si verschlësselt. Falls du de Recuperatiouns-Schlëssel net aktivéiert hues, gëtt et keng Méiglechkeet nees un deng Daten ze komme wann däi Passwuert muss zréckgesat ginn. Falls du net sécher bass wat s de maache soll, kontaktéier w.e.gl däin Administrateur bevir s de weidermëss. Wëlls de wierklech weidermaachen?"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "Jo, ech wëll mäi Passwuert elo zrécksetzen"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Zrécksetzung ufroen"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "Zeréck setzen"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -536,7 +527,7 @@ msgstr "Perséinlech"
 msgid "Users"
 msgstr "Benotzer"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Applikatiounen"
 
@@ -547,6 +538,34 @@ msgstr "Admin"
 #: strings.php:9
 msgid "Help"
 msgstr "Hëllef"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr "Fehler beim Taggen"
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr "Fehler beim Tag läschen"
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -564,108 +583,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "Hallo,\n\nech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.\nKucken: %s\n\nE schéine Bonjour!"
+msgstr ""
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Kategorien editéieren"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Dobäisetzen"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr "Prost!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Sécherheets-Warnung"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Deng PHP-Versioun ass verwonnbar duerch d'NULL-Byte-Attack (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Aktualiséier w.e.gl deng PHP-Installatioun fir %s sécher kennen ze benotzen."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Et ass kee sécheren Zoufallsgenerator verfügbar. Aktivéier w.e.gl d'OpenSSL-Erweiderung vu PHP."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Ouni e sécheren Zoufallsgenerator kann en Ugräifer d'Passwuert-Zrécksetzungs-Schlësselen viraussoen an en Account iwwerhuelen."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Däin Daten-Dossier an deng Fichieren si wahrscheinlech iwwert den Internet accessibel well den .htaccess-Fichier net funktionnéiert."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "En <strong>Admin-Account</strong> uleeën"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Avancéiert"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Daten-Dossier"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "D'Datebank konfiguréieren"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "wärt benotzt ginn"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Datebank-Benotzer"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Datebank-Passwuert"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Datebank Numm"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Tabelle-Plaz vun der Datebank"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Datebank-Server"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Installatioun ofschléissen"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr "Schléissen of ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ass verfügbar. Kréi méi Informatiounen doriwwer wéi d'Aktualiséierung ofleeft."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Ofmellen"
 
@@ -683,19 +713,27 @@ msgstr "Falls du däi Passwuert net viru kuerzem geännert hues, kéint däin Ac
 msgid "Please change your password to secure your account again."
 msgstr "Änner w.e.gl däi Passwuert fir däin Account nees ofzesécheren."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Passwuert vergiess?"
 
-#: templates/login.php:37
+#: templates/login.php:49
 msgid "remember"
 msgstr "verhalen"
 
-#: templates/login.php:39
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Umellen"
 
-#: templates/login.php:45
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternativ Umeldungen"
 
@@ -703,10 +741,37 @@ msgstr "Alternativ Umeldungen"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "Hallo,<br><br>ech wëll just Bescheed soen dass den/d' %s,  »%s« mat dir gedeelt huet.<br><a href=\"%s\">Kucken!</a><br><br>E schéine Bonjour!"
+"href=\"%s\">View it!</a><br><br>"
+msgstr ""
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Merci fir deng Gedold."
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""

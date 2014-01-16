@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-05 22:23-0500\n"
+"PO-Revision-Date: 2013-12-05 18:30+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,12 +29,12 @@ msgid "Authentication error"
 msgstr "Napaka med overjanjem"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Prikazano ime je bilo spremenjeno."
+msgid "Your full name has been changed."
+msgstr "Vaše polno ime je spremenjeno."
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Prikazanega imena ni mogoče spremeniti."
+msgid "Unable to change full name"
+msgstr "Ni mogoče spremeniti polnega imena"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -88,42 +88,42 @@ msgstr "Programa ni mogoče posodobiti."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Napačno geslo"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Ni navedenega uporabnika"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Podati je treba skrbniško obnovitveno geslo, sicer bodo vsi uporabniški podatki izgubljeni."
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Napačno navedeno skrbniško obnovitveno geslo. Preverite geslo in poskusite znova."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Hrbtišče programa ne podpira spreminjanja gesla, je pa uspešno posodobljeno uporabniško šifriranje."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Ni mogoče spremeniti gesla"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
 msgstr "Posodobi na {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Onemogoči"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Omogoči"
 
@@ -131,41 +131,41 @@ msgstr "Omogoči"
 msgid "Please wait...."
 msgstr "Počakajte ..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Napaka onemogočanja programa"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Napaka omogočanja programa"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Poteka posodabljanje ..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Prišlo je do napake med posodabljanjem programa."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Napaka"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Posodobi"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Posodobljeno"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Izbor slike profila"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Poteka odšifriranje datotek ... Opravilo je lahko dolgotrajno."
 
 #: js/personal.js:287
 msgid "Saving..."
@@ -183,206 +183,265 @@ msgstr "razveljavi"
 msgid "Unable to remove user"
 msgstr "Uporabnika ni mogoče odstraniti"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Skupine"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Skrbnik skupine"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Izbriši"
 
-#: js/users.js:277
+#: js/users.js:284
 msgid "add group"
 msgstr "dodaj skupino"
 
-#: js/users.js:436
+#: js/users.js:451
 msgid "A valid username must be provided"
 msgstr "Navedeno mora biti veljavno uporabniško ime"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:452 js/users.js:458 js/users.js:473
 msgid "Error creating user"
 msgstr "Napaka ustvarjanja uporabnika"
 
-#: js/users.js:442
+#: js/users.js:457
 msgid "A valid password must be provided"
 msgstr "Navedeno mora biti veljavno geslo"
+
+#: js/users.js:481
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr "Opozorilo: osebna mapa uporabnika \"{user}\" že obstaja"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Slovenščina"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr "Vse (podrobnosti, opozorila, hrošče, napake in usodne dogodke)"
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr "Podrobnosti, opozorila, napake in usodne dogodke"
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr "Opozorila, napake in usodne dogodke"
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr "Napake in usodne dogodke"
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr "Le usodne dogodke"
+
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "Varnostno opozorilo"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr "Dostop do %s poteka preko HTTP. Priporočljivo je nastaviti strežnik na privzeto uporabo varne povezave preko protokola HTTPS."
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Vaša podatkovna mapa in datoteke so najverjetneje dosegljive preko interneta. Datoteka .htaccess ni ustrezno nastavljena. Priporočljivo je nastaviti spletni strežnik tako, da podatkovna mapa ni prosto dostopna. To je mogoče zagotoviti tudi tako, da je mapa premaknjena iz neustrezne korenske v podrejeno mapo ."
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "Opozorilo nastavitve"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena."
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Preverite <a href=\"%s\">vodnike namestitve</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "Manjka modul 'fileinfo'."
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Manjka modul PHP 'fileinfo'. Priporočljivo je omogočiti ta modul za popolno zaznavanje vrst MIME."
 
-#: templates/admin.php:58
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr "Nameščena različica PHP je zastarela"
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr "Nameščena različica PHP je zastarela. Priporočljivo je posodobiti namestitev na različico 5.3.8 ali novejše, saj starejše različice ne podpirajo vseh zmožnosti. Mogoče je, da namestitev ne deluje pravilno."
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Jezikovne prilagoditve ne delujejo."
 
-#: templates/admin.php:63
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8."
+
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek."
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr ""
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr "Priporočljivo je namestiti zahtevane pakete v sistem za podporo ene izmed navedenih jezikovnih možnosti: %s"
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "Internetna povezava ne deluje."
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Na voljo ni delujoče internetne povezave. To pomeni, da nekaterih možnosti, kot so priklapljanje zunanje shrambe, obveščanja o posodobitvah in nameščanje programov tretje roke ni podprto. Dostop do datotek z oddaljenih mest in pošiljanje obvestil preko elektronske pošte je verjetno še vedno mogoče. Za omogočanje vseh zmožnosti mora biti vzpostavljena tudi ustrezna internetna povezava."
 
-#: templates/admin.php:92
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Periodično opravilo"
 
-#: templates/admin.php:99
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "Izvedi eno nalogo z vsako naloženo stranjo."
 
-#: templates/admin.php:107
+#: templates/admin.php:150
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr ""
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr "Datoteka cron.php je vpisana v storitvi webcron za potrditev sklica vsakih 15 minut pri povezavi preko HTTP."
 
-#: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr ""
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr "Uporabi storitev periodičnih opravil za klic datoteke cron.php vsakih 15 minut."
 
-#: templates/admin.php:120
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Souporaba"
 
-#: templates/admin.php:126
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Omogoči API souporabe"
 
-#: templates/admin.php:127
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Dovoli programom uporabo vmesnika API souporabe"
 
-#: templates/admin.php:134
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Dovoli povezave"
 
-#: templates/admin.php:135
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Uporabnikom dovoli souporabo predmetov z javnimi povezavami"
 
-#: templates/admin.php:143
+#: templates/admin.php:186
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Dovoli javno pošiljanje datotek v oblak"
 
-#: templates/admin.php:144
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Dovoli uporabnikom, da omogočijo drugim uporabnikom, pošiljati datoteke v javno mapo."
 
-#: templates/admin.php:152
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Dovoli nadaljnjo souporabo"
 
-#: templates/admin.php:153
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Uporabnikom dovoli nadaljnjo souporabo predmetov"
 
-#: templates/admin.php:160
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Uporabnikom dovoli souporabo s komerkoli"
 
-#: templates/admin.php:163
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Uporabnikom dovoli souporabo z ostalimi uporabniki njihove skupine"
 
-#: templates/admin.php:170
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr "Dovoli obvestila preko elektronske pošte"
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr "Dovoli uporabniku poslati obvestila preko elektronske pošte za datoteke v souporabi"
+
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Varnost"
 
-#: templates/admin.php:183
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "Zahtevaj uporabo HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Vsili povezavo odjemalca z %s preko šifrirane povezave."
 
-#: templates/admin.php:191
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Za nastavljanje šifriranja SSL je treba vzpostaviti povezavo z mestom %s preko protokola HTTPS."
 
-#: templates/admin.php:203
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Dnevnik"
 
-#: templates/admin.php:204
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Raven beleženja"
 
-#: templates/admin.php:235
+#: templates/admin.php:287
 msgid "More"
 msgstr "Več"
 
-#: templates/admin.php:236
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Manj"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Različica"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -474,8 +533,8 @@ msgid "Change password"
 msgstr "Spremeni geslo"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Prikazano ime"
+msgid "Full Name"
+msgstr "Polno ime"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -493,64 +552,68 @@ msgstr "Vpišite osebni elektronski naslov in s tem omogočite obnovitev gesla"
 msgid "Profile picture"
 msgstr "Slika profila"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
-msgstr ""
-
-#: templates/personal.php:92
-msgid "Select new from Files"
-msgstr ""
+msgstr "Pošlji novo"
 
 #: templates/personal.php:93
-msgid "Remove image"
-msgstr ""
+msgid "Select new from Files"
+msgstr "Izberi novo iz menija datotek"
 
 #: templates/personal.php:94
+msgid "Remove image"
+msgstr "Odstrani sliko"
+
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Slika je lahko png ali jpg. Slika naj bo kvadratna, ni pa to pogoj, saj  jo bo mogoče obrezati."
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr "Podoba je podana v izvornem računu."
+
+#: templates/personal.php:101
 msgid "Abort"
-msgstr ""
+msgstr "Prekini"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Izberi kot sliko profila"
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "Jezik"
 
-#: templates/personal.php:119
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "Sodelujte pri prevajanju"
 
-#: templates/personal.php:125
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr ""
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Uporabite naslov <a href=\"%s\" target=\"_blank\"> za dostop do datotek rpeko sistema WebDAV</a>."
 
-#: templates/personal.php:138
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: templates/personal.php:140
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr ""
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr "Program za šifriranje ni več omogočen. Odšifrirati je treba vse datoteke."
 
-#: templates/personal.php:146
+#: templates/personal.php:158
 msgid "Log-in password"
-msgstr ""
+msgstr "Prijavno geslo"
 
-#: templates/personal.php:151
+#: templates/personal.php:163
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Odšifriraj vse datoteke"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -562,17 +625,21 @@ msgstr "Ustvari"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr "Obnovitev administratorjevega gesla"
+msgstr "Obnovitev skrbniškega gesla"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr "Vnesite geslo za obnovitev, ki ga boste uporabljali za obnovitev datotek uporabnikov med spremembo gesla"
+msgstr "Vnesite geslo, ki omogoča obnovitev uporabniških datotek med spreminjanjem gesla"
 
 #: templates/users.php:42
 msgid "Default Storage"
 msgstr "Privzeta shramba"
+
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr "Vnesite količinsko omejitev prostora (na primer: \"512 MB\" ali \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -591,8 +658,8 @@ msgid "Storage"
 msgstr "Shramba"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "spremeni prikazano ime"
+msgid "change full name"
+msgstr "Spremeni polno ime"
 
 #: templates/users.php:112
 msgid "set new password"

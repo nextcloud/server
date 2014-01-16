@@ -29,6 +29,8 @@ namespace OCA\Encryption;
  */
 class Helper {
 
+	private static $tmpFileMapping; // Map tmp files to files in data/user/files
+
 	/**
 	 * @brief register share related hooks
 	 *
@@ -59,6 +61,7 @@ class Helper {
 	 */
 	public static function registerFilesystemHooks() {
 
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Encryption\Hooks', 'preRename');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
 	}
 
@@ -69,6 +72,7 @@ class Helper {
 	public static function registerAppHooks() {
 
 		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
+		\OCP\Util::connectHook('OC_App', 'post_disable', 'OCA\Encryption\Hooks', 'postEnable');
 	}
 
 	/**
@@ -156,6 +160,49 @@ class Helper {
 		return $return;
 	}
 
+	/**
+	 * @brief Check if a path is a .part file
+	 * @param string $path Path that may identify a .part file
+	 * @return bool
+	 */
+	public static function isPartialFilePath($path) {
+
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+		if ( $extension === 'part') {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+
+	/**
+	 * @brief Remove .path extension from a file path
+	 * @param string $path Path that may identify a .part file
+	 * @return string File path without .part extension
+	 * @note this is needed for reusing keys
+	 */
+	public static function stripPartialFileExtension($path) {
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+
+		if ( $extension === 'part') {
+
+			$newLength = strlen($path) - 5; // 5 = strlen(".part") = strlen(".etmp")
+			$fPath = substr($path, 0, $newLength);
+
+			// if path also contains a transaction id, we remove it too
+			$extension = pathinfo($fPath, PATHINFO_EXTENSION);
+			if(substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
+				$newLength = strlen($fPath) - strlen($extension) -1;
+				$fPath = substr($fPath, 0, $newLength);
+			}
+			return $fPath;
+
+		} else {
+			return $path;
+		}
+	}
 
 	/**
 	 * @brief disable recovery
@@ -181,10 +228,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function isPublicAccess() {
-		if (\OCP\USER::getUser() === false
-			|| (isset($_GET['service']) && $_GET['service'] == 'files'
-				&& isset($_GET['t']))
-		) {
+		if (\OCP\User::getUser() === false) {
 			return true;
 		} else {
 			return false;
@@ -212,39 +256,115 @@ class Helper {
 	}
 
 	/**
-	 * @brief get path to the correspondig file in data/user/files
+	 * @brief try to get the user from the path if no user is logged in
+	 * @param string $path
+	 * @return mixed user or false if we couldn't determine a user
+	 */
+	public static function getUser($path) {
+
+		$user = \OCP\User::getUser();
+
+
+		// if we are logged in, then we return the userid
+		if ($user) {
+			return $user;
+		}
+
+		// if no user is logged in we try to access a publicly shared files.
+		// In this case we need to try to get the user from the path
+
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		// it is not a file relative to data/user/files
+		if (count($split) < 2 || ($split[1] !== 'files' && $split[1] !== 'cache')) {
+			return false;
+		}
+
+		$user = $split[0];
+
+		if (\OCP\User::userExists($user)) {
+			return $user;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @brief get path to the corresponding file in data/user/files if path points
+	 *        to a version or to a file in cache
 	 * @param string $path path to a version or a file in the trash
-	 * @return string path to correspondig file relative to data/user/files
+	 * @return string path to corresponding file relative to data/user/files
 	 */
 	public static function getPathToRealFile($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
+		$result = false;
 
-		if (count($split) < 3 || $split[1] !== "files_versions") {
-			return false;
+		if (count($split) >= 3 && ($split[1] === "files_versions" || $split[1] === 'cache')) {
+			$sliced = array_slice($split, 2);
+			$result = implode('/', $sliced);
+			if ($split[1] === "files_versions") {
+				// we skip user/files
+				$sliced = array_slice($split, 2);
+				$relPath = implode('/', $sliced);
+				//remove the last .v
+				$result = substr($relPath, 0, strrpos($relPath, '.v'));
+			}
+			if ($split[1] === "cache") {
+				// we skip /user/cache/transactionId
+				$sliced = array_slice($split, 3);
+				$result = implode('/', $sliced);
+				//prepare the folders
+				self::mkdirr($path, new \OC\Files\View('/'));
+			}
 		}
 
-		$sliced = array_slice($split, 2);
-		$realPath = implode('/', $sliced);
-		//remove the last .v
-		$realPath = substr($realPath, 0, strrpos($realPath, '.v'));
+		return $result;
+	}
 
-		return $realPath;
+	/**
+	 * @brief create directory recursively
+	 * @param string $path
+	 * @param \OC\Files\View $view
+	 */
+	public static function mkdirr($path, $view) {
+		$dirname = \OC_Filesystem::normalizePath(dirname($path));
+		$dirParts = explode('/', $dirname);
+		$dir = "";
+		foreach ($dirParts as $part) {
+			$dir = $dir . '/' . $part;
+			if (!$view->file_exists($dir)) {
+				$view->mkdir($dir);
+			}
+		}
 	}
 
 	/**
 	 * @brief redirect to a error page
 	 */
-	public static function redirectToErrorPage($session) {
+	public static function redirectToErrorPage($session, $errorCode = null) {
 
-		$init = $session->getInitialized();
+		if ($errorCode === null) {
+			$init = $session->getInitialized();
+			switch ($init) {
+				case \OCA\Encryption\Session::INIT_EXECUTED:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR;
+					break;
+				case \OCA\Encryption\Session::NOT_INITIALIZED:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_NOT_INITIALIZED_ERROR;
+					break;
+				default:
+					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
+			}
+		}
 
 		$location = \OC_Helper::linkToAbsolute('apps/files_encryption/files', 'error.php');
 		$post = 0;
 		if(count($_POST) > 0) {
 			$post = 1;
 			}
-			header('Location: ' . $location . '?p=' . $post . '&i=' . $init);
+			header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
 			exit();
 	}
 
@@ -305,6 +425,28 @@ class Helper {
 	 */
 	public static function escapeGlobPattern($path) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	}
+
+	/**
+	 * @brief remember from which file the tmp file (getLocalFile() call) was created
+	 * @param string $tmpFile path of tmp file
+	 * @param string $originalFile path of the original file relative to data/
+	 */
+	public static function addTmpFileToMapper($tmpFile, $originalFile) {
+		self::$tmpFileMapping[$tmpFile] = $originalFile;
+	}
+
+	/**
+	 * @brief get the path of the original file
+	 * @param string $tmpFile path of the tmp file
+	 * @return mixed path of the original file or false
+	 */
+	public static function getPathFromTmpFile($tmpFile) {
+		if (isset(self::$tmpFileMapping[$tmpFile])) {
+			return self::$tmpFileMapping[$tmpFile];
+		}
+
+		return false;
 	}
 }
 

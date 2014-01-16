@@ -50,6 +50,8 @@ try {
 
 	session_write_close();
 
+	$logger = \OC_Log::$object;
+
 	// Don't do anything if ownCloud has not been installed
 	if (!OC_Config::getValue('installed', false)) {
 		exit(0);
@@ -98,7 +100,7 @@ try {
 		$jobList = new \OC\BackgroundJob\JobList();
 		$jobs = $jobList->getAll();
 		foreach ($jobs as $job) {
-			$job->execute($jobList);
+			$job->execute($jobList, $logger);
 		}
 	} else {
 		// We call cron.php from some website
@@ -109,7 +111,7 @@ try {
 			// Work and success :-)
 			$jobList = new \OC\BackgroundJob\JobList();
 			$job = $jobList->getNext();
-			$job->execute($jobList);
+			$job->execute($jobList, $logger);
 			$jobList->setLastJob($job);
 			OC_JSON::success();
 		}

@@ -172,7 +172,7 @@ class Config {
 		$result = @file_put_contents($this->configFilename, $content);
 		if (!$result) {
 			$defaults = new \OC_Defaults;
-			$url = $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html#set-the-directory-permissions';
+			$url = \OC_Helper::linkToDocs('admin-dir-permissions');
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by '

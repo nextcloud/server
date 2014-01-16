@@ -22,21 +22,37 @@
  */
 
 class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
+	private static $user;
 
 	function setUp() {
 		// mock OC_L10n
+		if (!self::$user) {
+			self::$user = uniqid();
+		}
+		\OC_User::createUser(self::$user, 'password');
+		\OC_User::setUserId(self::$user);
+
+		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
+
 		$l10nMock = $this->getMock('\OC_L10N', array('t'), array(), '', false);
 		$l10nMock->expects($this->any())
 			->method('t')
 			->will($this->returnArgument(0));
-		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath'), array(), '', false);
+		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath', 'getFileInfo'), array(), '', false);
 		$viewMock->expects($this->any())
 			->method('normalizePath')
 			->will($this->returnArgument(0));
 		$viewMock->expects($this->any())
 			->method('rename')
 			->will($this->returnValue(true));
+		$this->viewMock = $viewMock;
 		$this->files = new \OCA\Files\App($viewMock, $l10nMock);
+	}
+
+	function tearDown() {
+		$result = \OC_User::deleteUser(self::$user);
+		$this->assertTrue($result);
+		\OC\Files\Filesystem::tearDown();
 	}
 
 	/**
@@ -64,17 +80,28 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$oldname = 'Shared';
 		$newname = 'new_name';
 
-		$result = $this->files->rename($dir, $oldname, $newname);
-		$expected = array(
-			'success'	=> true,
-			'data'		=> array(
-				'dir'		=> $dir,
-				'file'		=> $oldname,
-				'newname'	=> $newname
-			)
-		);
+		$this->viewMock->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(array(
+				'fileid' => 123,
+				'type' => 'dir',
+				'mimetype' => 'httpd/unix-directory',
+				'size' => 18,
+				'etag' => 'abcdef',
+				'directory' => '/',
+				'name' => 'new_name',
+			)));
 
-		$this->assertEquals($expected, $result);
+		$result = $this->files->rename($dir, $oldname, $newname);
+
+		$this->assertTrue($result['success']);
+		$this->assertEquals(123, $result['data']['id']);
+		$this->assertEquals('new_name', $result['data']['name']);
+		$this->assertEquals('/test', $result['data']['directory']);
+		$this->assertEquals(18, $result['data']['size']);
+		$this->assertEquals('httpd/unix-directory', $result['data']['mime']);
+		$this->assertEquals(\OC_Helper::mimetypeIcon('dir'), $result['data']['icon']);
+		$this->assertFalse($result['data']['isPreviewAvailable']);
 	}
 
 	/**
@@ -88,7 +115,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$result = $this->files->rename($dir, $oldname, $newname);
 		$expected = array(
 			'success'	=> false,
-			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
+			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved.")
 		);
 
 		$this->assertEquals($expected, $result);
@@ -102,16 +129,29 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$oldname = 'oldname';
 		$newname = 'newname';
 
-		$result = $this->files->rename($dir, $oldname, $newname);
-		$expected = array(
-			'success'	=> true,
-			'data'		=> array(
-				'dir'		=> $dir,
-				'file'		=> $oldname,
-				'newname'	=> $newname
-			)
-		);
+		$this->viewMock->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(array(
+				'fileid' => 123,
+				'type' => 'dir',
+				'mimetype' => 'httpd/unix-directory',
+				'size' => 18,
+				'etag' => 'abcdef',
+				'directory' => '/',
+				'name' => 'new_name',
+			)));
 
-		$this->assertEquals($expected, $result);
+
+		$result = $this->files->rename($dir, $oldname, $newname);
+
+		$this->assertTrue($result['success']);
+		$this->assertEquals(123, $result['data']['id']);
+		$this->assertEquals('newname', $result['data']['name']);
+		$this->assertEquals('/', $result['data']['directory']);
+		$this->assertEquals(18, $result['data']['size']);
+		$this->assertEquals('httpd/unix-directory', $result['data']['mime']);
+		$this->assertEquals('abcdef', $result['data']['etag']);
+		$this->assertEquals(\OC_Helper::mimetypeIcon('dir'), $result['data']['icon']);
+		$this->assertFalse($result['data']['isPreviewAvailable']);
 	}
 }

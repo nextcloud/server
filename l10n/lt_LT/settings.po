@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dr. ROX <to.dr.rox@gmail.com>, 2013
 # fizikiukas <fizikiukas@gmail.com>, 2013
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
 # Liudas <liudas@aksioma.lt>, 2013
@@ -10,10 +11,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:17-0400\n"
-"PO-Revision-Date: 2013-09-29 08:49+0000\n"
-"Last-Translator: Liudas Ališauskas <liudas.alisauskas@gmail.com>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-04 18:12-0500\n"
+"PO-Revision-Date: 2013-12-04 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,12 +32,12 @@ msgid "Authentication error"
 msgstr "Autentikacijos klaida"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Jūsų rodomas vardas buvo pakeistas."
+msgid "Your full name has been changed."
+msgstr ""
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Nepavyksta pakeisti rodomą vardą"
+msgid "Unable to change full name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -161,7 +162,7 @@ msgstr "Atnaujinti"
 msgid "Updated"
 msgstr "Atnaujinta"
 
-#: js/personal.js:221
+#: js/personal.js:220
 msgid "Select a profile picture"
 msgstr "Pažymėkite profilio paveikslėlį"
 
@@ -169,7 +170,7 @@ msgstr "Pažymėkite profilio paveikslėlį"
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Iššifruojami failai... Prašome palaukti, tai gali užtrukti."
 
-#: js/personal.js:288
+#: js/personal.js:287
 msgid "Saving..."
 msgstr "Saugoma..."
 
@@ -185,44 +186,75 @@ msgstr "anuliuoti"
 msgid "Unable to remove user"
 msgstr "Nepavyko ištrinti vartotojo"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Grupės"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupės administratorius"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: js/users.js:277
+#: js/users.js:284
 msgid "add group"
 msgstr "pridėti grupę"
 
-#: js/users.js:436
+#: js/users.js:451
 msgid "A valid username must be provided"
 msgstr "Vartotojo vardas turi būti tinkamas"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:452 js/users.js:458 js/users.js:473
 msgid "Error creating user"
 msgstr "Klaida kuriant vartotoją"
 
-#: js/users.js:442
+#: js/users.js:457
 msgid "A valid password must be provided"
 msgstr "Slaptažodis turi būti tinkamas"
+
+#: js/users.js:481
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr "Įspėjimas: Vartotojo \"{user}\" namų aplankas jau egzistuoja"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Kalba"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr ""
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr ""
+
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "Saugumo pranešimas"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr ""
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -231,48 +263,68 @@ msgid ""
 "root."
 msgstr "Jūsų duomenų katalogas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess neveikia. Mes labai rekomenduojame sukonfigūruoti serverį taip, kad katalogas nebūtų daugiau pasiekiamas, arba iškelkite duomenis kitur iš webserverio šakninio aplanko."
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "Nustatyti perspėjimą"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta."
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Prašome pažiūrėkite dar kartą <a href=\"%s\">diegimo instrukcijas</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "Trūksta 'fileinfo' modulio"
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą."
 
-#: templates/admin.php:58
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr ""
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr ""
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Lokalė neveikia"
 
-#: templates/admin.php:63
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr ""
+
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr ""
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "Negalima nustatyti sistemos lokalės į %s. Tai reiškia, kad gali būti problemų su tam tikrais simboliais failų pavadinimuose. Labai rekomenduojame įdiegti reikalingus paketus Jūsų sistemoje, kad palaikyti %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr ""
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "Nėra interneto ryšio"
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -281,110 +333,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Šis serveris neturi veikiančio ryšio. Tai reiškia, kas kai kurios funkcijos kaip išorinės saugyklos prijungimas, perspėjimai apie atnaujinimus ar trečių šalių programų įdiegimas neveikia. Failų pasiekimas iš kitur ir pranešimų siuntimas el. paštu gali taip pat neveikti. Rekomenduojame įjungti interneto ryšį šiame serveryje, jei norite naudoti visas funkcijas."
 
-#: templates/admin.php:92
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:99
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu"
 
-#: templates/admin.php:107
+#: templates/admin.php:150
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kartą per minutę per http."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http."
 
-#: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Naudoti sistemos planuotų užduočių paslaugą, kad iškvieti cron.php kartą per minutę."
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr "Naudoti sistemos planuotų užduočių paslaugą, kad iškvieti cron.php kas 15 minučių."
 
-#: templates/admin.php:120
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Dalijimasis"
 
-#: templates/admin.php:126
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Įjungti Share API"
 
-#: templates/admin.php:127
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Leidžia programoms naudoti Share API"
 
-#: templates/admin.php:134
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Lesti nuorodas"
 
-#: templates/admin.php:135
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Leisti naudotojams viešai dalintis elementais su nuorodomis"
 
-#: templates/admin.php:143
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "Leisti viešus įkėlimus"
 
-#: templates/admin.php:144
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Leisti naudotojams įgalinti kitus įkelti į savo viešai dalinamus aplankus"
 
-#: templates/admin.php:152
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Leisti dalintis"
 
-#: templates/admin.php:153
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Leisti naudotojams toliau dalintis elementais pasidalintais su jais"
 
-#: templates/admin.php:160
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Leisti naudotojams dalintis su bet kuo"
 
-#: templates/admin.php:163
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Leisti naudotojams dalintis tik su naudotojais savo grupėje"
 
-#: templates/admin.php:170
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr "Leisti el. pašto perspėjimą"
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr "Leisti naudotojui siųsti perspėjimą el. laišku dėl bendrinamų failų"
+
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Saugumas"
 
-#: templates/admin.php:183
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "Reikalauti HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Verčia klientus jungtis prie %s per šifruotą ryšį."
 
-#: templates/admin.php:191
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Prašome prisijungti prie savo %s per HTTPS, kad įjungti ar išjungti SSL reikalavimą."
 
-#: templates/admin.php:203
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Žurnalas"
 
-#: templates/admin.php:204
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Žurnalo išsamumas"
 
-#: templates/admin.php:235
+#: templates/admin.php:287
 msgid "More"
 msgstr "Daugiau"
 
-#: templates/admin.php:236
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Mažiau"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -476,8 +536,8 @@ msgid "Change password"
 msgstr "Pakeisti slaptažodį"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Rodyti vardą"
+msgid "Full Name"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Email"
@@ -495,62 +555,66 @@ msgstr "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą"
 msgid "Profile picture"
 msgstr "Profilio paveikslėlis"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
 msgstr "Įkelti naują"
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr "Pasirinkti naują iš failų"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr "Pašalinti paveikslėlį"
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Arba png arba jpg. Geriausia kvadratinį, bet galėsite jį apkarpyti."
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr ""
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr "Atšaukti"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
 msgstr "Pasirinkite profilio paveiksliuką"
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "Kalba"
 
-#: templates/personal.php:119
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "Padėkite išversti"
 
-#: templates/personal.php:125
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Naudokite šį adresą, kad <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">pasiekti savo failus per WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "Šifravimas"
 
-#: templates/personal.php:140
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "Šifravimo programa nebėra įjungta, iššifruokite visus savo failus"
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr ""
 
-#: templates/personal.php:146
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr "Prisijungimo slaptažodis"
 
-#: templates/personal.php:151
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr "Iššifruoti visus failus"
 
@@ -576,6 +640,10 @@ msgstr "Įveskite atkūrimo slaptažodį, kad atkurti naudotojo failus keičiant
 msgid "Default Storage"
 msgstr "Numatytas saugojimas"
 
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr ""
+
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Neribota"
@@ -593,8 +661,8 @@ msgid "Storage"
 msgstr "Saugojimas"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "keisti rodomą vardą"
+msgid "change full name"
+msgstr ""
 
 #: templates/users.php:112
 msgid "set new password"

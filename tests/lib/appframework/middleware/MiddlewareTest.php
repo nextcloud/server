@@ -25,7 +25,7 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\Middleware;
+use OCP\AppFramework\Middleware;
 
 
 class ChildMiddleware extends Middleware {};
@@ -44,10 +44,10 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp(){
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMock('OC\AppFramework\Core\API',
+		$this->api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
 					array(), array('test'));
 
-		$this->controller = $this->getMock('OC\AppFramework\Controller\Controller',
+		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($this->api, new Request()));
 		$this->exception = new \Exception();
 		$this->response = $this->getMock('OCP\AppFramework\Http\Response');

@@ -22,23 +22,35 @@
 }
 
 #shareWithList li {
-	padding-top:2px;
-}
-
-#shareWithList li:first-child {
-	white-space:normal;
-}
-
-#shareWithList .cruds {
-	margin-left:-10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: bold;
+	line-height: 21px;
+	white-space: normal;
 }
 
 #shareWithList .unshare img, #shareWithList .showCruds img {
 	vertical-align:text-bottom; /* properly align icons */
 }
 
+#shareWithList label input[type=checkbox]{
+	margin-left: 0;
+}
+#shareWithList .username{
+	padding-right: 8px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 254px;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+}
+#shareWithList li label{
+	margin-right: 8px;
+}
 #dropdown label {
 	font-weight:400;
+	white-space: nowrap;
 }
 
 #dropdown input[type="checkbox"] {
@@ -98,4 +110,10 @@ a.showCruds:hover,a.unshare:hover {
 	max-height:103px;
 	overflow-y:auto;
 	overflow-x:hidden;
+}
+
+.notCreatable {
+	padding-left: 12px;
+	padding-top: 12px;
+	color: #999;
 }

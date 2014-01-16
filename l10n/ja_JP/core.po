@@ -5,15 +5,16 @@
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # plazmism <gomidori@live.jp>, 2013
+# iLikeIT <dj_dark_junglist@yahoo.com>, 2013
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-30 10:16-0400\n"
-"PO-Revision-Date: 2013-09-30 06:25+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-25 01:55-0500\n"
+"PO-Revision-Date: 2013-12-24 08:10+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,14 +22,15 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%sが あなたと »%s«を共有しました"
 
-#: ajax/share.php:227
-msgid "group"
-msgstr "グループ"
+#: ajax/share.php:169
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr "次のユーザにメールを送信できませんでした: %s"
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -54,45 +56,6 @@ msgstr "ファイルキャッシュ更新完了"
 #, php-format
 msgid "... %d%% done ..."
 msgstr "... %d%% 完了 ..."
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "カテゴリタイプは提供されていません。"
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "追加するカテゴリはありませんか？"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "このカテゴリはすでに存在します: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "オブジェクトタイプは提供されていません。"
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID は提供されていません。"
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "お気に入りに %s を追加エラー"
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "削除するカテゴリが選択されていません。"
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "お気に入りから %s の削除エラー"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -190,57 +153,57 @@ msgstr "11月"
 msgid "December"
 msgstr "12月"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:866
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:867
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: js/js.js:868
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] "%n 時間後"
+msgstr[0] "%n 時間前"
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] "%n 日後"
+msgstr[0] "%n 日前"
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] "%n カ月後"
+msgstr[0] "%n ヶ月前"
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "months ago"
-msgstr "月前"
+msgstr "数ヶ月前"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "years ago"
-msgstr "年前"
+msgstr "数年前"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -305,154 +268,182 @@ msgstr "({count} 選択)"
 msgid "Error loading file exists template"
 msgstr "既存ファイルのテンプレートの読み込みエラー"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "オブジェクタイプが指定されていません。"
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:656 js/share.js:668
-msgid "Error"
-msgstr "エラー"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "アプリ名がしていされていません。"
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "必要なファイル {file} がインストールされていません！"
-
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "共有中"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "共有"
 
-#: js/share.js:131 js/share.js:696
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "エラー"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "共有解除でエラー発生"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "権限変更でエラー発生"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "あなたと {owner} のグループ {group} で共有中"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "共有者"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr "ユーザもしくはグループと共有 ..."
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "URLリンクで共有"
+#: js/share.js:219
+msgid "Share link"
+msgstr "URLで共有"
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "パスワード保護"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "パスワード"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr "アップロードを許可"
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "メールリンク"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "送信"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "有効期限を設定"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "有効期限"
 
-#: js/share.js:242
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "メール経由で共有:"
 
-#: js/share.js:245
+#: js/share.js:278
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/share.js:283
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "グループ"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "再共有は許可されていません"
 
-#: js/share.js:319
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "{item} 内で {user} と共有中"
 
-#: js/share.js:340
+#: js/share.js:397
 msgid "Unshare"
 msgstr "共有解除"
 
-#: js/share.js:352
-msgid "can edit"
-msgstr "編集可能"
+#: js/share.js:405
+msgid "notify by email"
+msgstr "メールで通知"
 
-#: js/share.js:354
+#: js/share.js:408
+msgid "can edit"
+msgstr "編集を許可"
+
+#: js/share.js:410
 msgid "access control"
 msgstr "アクセス権限"
 
-#: js/share.js:357
+#: js/share.js:413
 msgid "create"
 msgstr "作成"
 
-#: js/share.js:360
+#: js/share.js:416
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:363
+#: js/share.js:419
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:366
+#: js/share.js:422
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:400 js/share.js:643
+#: js/share.js:694
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:656
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:668
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:683
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:694
+#: js/share.js:745
 msgid "Email sent"
 msgstr "メールを送信しました"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "警告"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "オブジェクタイプが指定されていません。"
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr "新規に入力"
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "削除"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "追加"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr "タグを編集"
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr "メッセージテンプレートの読み込みエラー: {error}"
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr "削除するタグが選択されていません。"
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr "ページをリロードしてください。"
 
 #: js/update.js:17
 msgid ""
@@ -474,27 +465,27 @@ msgstr "%s パスワードリセット"
 msgid "Use the following link to reset your password: {link}"
 msgstr "パスワードをリセットするには次のリンクをクリックして下さい: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "パスワードリセットのリンクをあなたのメールアドレスに送信しました。<br>しばらくたっても受信出来ない場合は、スパム／迷惑メールフォルダを確認して下さい。<br>もしそこにもない場合は、管理者に問い合わせてください。"
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "リクエストに失敗しました！<br>あなたのメール／ユーザ名が正しいことを確認しましたか？"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "メールでパスワードをリセットするリンクが届きます。"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "ユーザー名"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -502,13 +493,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "ファイルが暗号化されています。復旧キーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？"
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr "はい、今すぐパスワードをリセットします。"
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "リセットを要求します。"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "リセット"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -534,7 +525,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "ユーザ"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "アプリ"
 
@@ -545,6 +536,34 @@ msgstr "管理"
 #: strings.php:9
 msgid "Help"
 msgstr "ヘルプ"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr "タグの読み込みエラー"
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr "タグはすでに存在します"
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr "タグの削除エラー"
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr "タグの付与エラー"
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr "タグの解除エラー"
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr "お気に入りに追加エラー"
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr "お気に入りから削除エラー"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -562,108 +581,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n\nそれでは。"
+msgstr "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n"
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "カテゴリを編集"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr "共有は %s で有効期限が切れます。"
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "追加"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr "それでは！"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "セキュリティ警告"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "%s を安全に利用する為に インストールされているPHPをアップデートしてください。"
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にして下さい。"
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "セキュアな乱数生成器が無い場合、攻撃者がパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。"
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。"
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "サーバーを適正に設定する情報は、こちらの<a href=\"%s\" target=\"_blank\">ドキュメント</a>を参照してください。"
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>管理者アカウント</strong>を作成してください"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "詳細設定"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "データフォルダ"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "データベースを設定してください"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "が使用されます"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "データベースのユーザ名"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "データベースのパスワード"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "データベース名"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "データベースの表領域"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "データベースのホスト名"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "セットアップを完了します"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr "終了しています ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr "このアプリケーションは使用する為、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 "
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s が利用可能です。更新方法に関してさらに情報を取得して下さい。"
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "ログアウト"
 
@@ -681,19 +711,27 @@ msgstr "最近パスワードを変更していない場合、あなたのアカ
 msgid "Please change your password to secure your account again."
 msgstr "アカウント保護の為、パスワードを再度の変更をお願いいたします。"
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr "サーバサイドの認証に失敗しました！"
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr "管理者に問い合わせてください。"
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "パスワードを忘れましたか？"
 
-#: templates/login.php:37
+#: templates/login.php:49
 msgid "remember"
-msgstr "パスワードを記憶する"
+msgstr "自動ログインする"
 
-#: templates/login.php:39
+#: templates/login.php:52
 msgid "Log in"
 msgstr "ログイン"
 
-#: templates/login.php:45
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "代替ログイン"
 
@@ -701,10 +739,37 @@ msgstr "代替ログイン"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>それでは。"
+"href=\"%s\">View it!</a><br><br>"
+msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "この ownCloud インスタンスは、現在シングルユーザモードです。"
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "これは、管理者のみがインスタンスを利用できることを意味しています。"
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。"
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "しばらくお待ちください。"
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr "この ownCloud インスタンスは現在更新中であり、しばらく時間がかかります。"
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"

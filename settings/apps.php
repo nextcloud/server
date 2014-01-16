@@ -28,24 +28,7 @@ OC_App::loadApps();
 OC_Util::addStyle( "settings", "settings" );
 OC_App::setActiveNavigationEntry( "core_apps" );
 
-function app_sort( $a, $b ) {
-
-	if ($a['active'] !== $b['active']) {
-
-		return $b['active'] - $a['active'];
-
-	}
-
-	if ($a['internal'] !== $b['internal']) {
-		return $b['internal'] - $a['internal'];
-	}
-
-	return strcmp($a['name'], $b['name']);
-
-}
-
 $combinedApps = OC_App::listAllApps();
-usort( $combinedApps, 'app_sort' );
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
 

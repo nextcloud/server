@@ -114,8 +114,14 @@ $CONFIG = array(
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
 
+/* memcached hostname and port (Only used when xCache, APC and APCu are absent.) */
+"memcached_server" => array('localhost', 11211),
+
 /* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
 'trashbin_retention_obligation' => 30,
+
+/* Disable/Enable auto expire for the trash bin, by default auto expire is enabled */
+'trashbin_auto_expire' => true,
 
 /* allow user to change his display name, if it is supported by the back-end */
 'allow_user_to_change_display_name' => true,
@@ -129,6 +135,12 @@ $CONFIG = array(
 /* Are we connected to the internet or are we running in a closed network? */
 "has_internet_connection" => true,
 
+/* Check if the ownCloud WebDAV server is working correctly. Can be disabled if not needed in special situations*/
+"check_for_working_webdav" => true,
+
+/* Check if .htaccess protection of data is working correctly. Can be disabled if not needed in special situations*/
+"check_for_working_htaccess" => true,
+
 /* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
@@ -141,9 +153,15 @@ $CONFIG = array(
 /* date format to be used while writing to the owncloud logfile */
 'logdateformat' => 'F d, Y H:i:s',
 
+/* timezone used while writing to the owncloud logfile (default: UTC) */
+'logtimezone' => 'Europe/Berlin',
+
 /* Append all database queries and parameters to the log file.
  (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
+
+/* Enable or disable the logging of IP addresses in case of webform auth failures */
+"log_authfailip" => false,
 
 /*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
@@ -172,7 +190,11 @@ $CONFIG = array(
  */
 // "datadirectory" => "",
 
-/* Enable maintenance mode to disable ownCloud */
+/* Enable maintenance mode to disable ownCloud
+   If you want to prevent users to login to ownCloud before you start doing some maintenance work,
+   you need to set the value of the maintenance parameter to true.
+   Please keep in mind that users who are already logged-in are kicked out of ownCloud instantly.
+*/
 "maintenance" => false,
 
 "apps_paths" => array(
@@ -219,4 +241,7 @@ $CONFIG = array(
 'openssl' => array(
 	//'config' => '/absolute/location/of/openssl.cnf',
 ),
+
+/* whether usage of the instance should be restricted to admin users only */
+'singleuser' => false,
 );

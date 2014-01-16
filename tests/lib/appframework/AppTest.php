@@ -38,9 +38,9 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	private $controllerMethod;
 
 	protected function setUp() {
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test');
+		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', array());
 		$this->controller = $this->getMockBuilder(
-			'OC\AppFramework\Controller\Controller')
+			'OCP\AppFramework\Controller')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->dispatcher = $this->getMockBuilder(
@@ -56,6 +56,7 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 		$this->container[$this->controllerName] = $this->controller;
 		$this->container['Dispatcher'] = $this->dispatcher;
+		$this->container['urlParams'] = array();
 	}
 
 
@@ -69,7 +70,7 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 		$this->expectOutputString('');
 
-		App::main($this->controllerName, $this->controllerMethod, array(),
+		App::main($this->controllerName, $this->controllerMethod,
 			$this->container);
 	}
 

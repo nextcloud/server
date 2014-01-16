@@ -70,6 +70,74 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
+	 * @brief reads jpegPhoto and set is as avatar if available
+	 * @param $uid string ownCloud user name
+	 * @param $dn string the user's LDAP DN
+	 * @return void
+	 */
+	private function updateAvatar($uid, $dn) {
+		$hasLoggedIn = \OCP\Config::getUserValue($uid, 'user_ldap',
+												 'firstLoginAccomplished', 0);
+		$lastChecked = \OCP\Config::getUserValue($uid, 'user_ldap',
+												 'lastJpegPhotoLookup', 0);
+		if(($hasLoggedIn !== '1') || (time() - intval($lastChecked)) < 86400 ) {
+			//update only once a day
+			return;
+		}
+
+		$jpegPhoto = $this->access->readAttribute($dn, 'jpegPhoto');
+		\OCP\Config::setUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup', time());
+		if(!$jpegPhoto || !is_array($jpegPhoto) || !isset($jpegPhoto[0])) {
+			//not set, nothing left to do;
+			return;
+		}
+
+		$image = new \OCP\Image();
+		$image->loadFromBase64(base64_encode($jpegPhoto[0]));
+
+		if(!$image->valid()) {
+			\OCP\Util::writeLog('user_ldap', 'jpegPhoto data invalid for '.$dn,
+								\OCP\Util::ERROR);
+			return;
+		}
+		//make sure it is a square and not bigger than 128x128
+		$size = min(array($image->width(), $image->height(), 128));
+		if(!$image->centerCrop($size)) {
+			\OCP\Util::writeLog('user_ldap',
+								'croping image for avatar failed for '.$dn,
+								\OCP\Util::ERROR);
+			return;
+		}
+
+		if(!\OC\Files\Filesystem::$loaded) {
+			\OC_Util::setupFS($uid);
+		}
+
+		$avatarManager = \OC::$server->getAvatarManager();
+		$avatar = $avatarManager->getAvatar($uid);
+		$avatar->set($image);
+	}
+
+	/**
+	 * @brief checks whether the user is allowed to change his avatar in ownCloud
+	 * @param $uid string the ownCloud user name
+	 * @return boolean either the user can or cannot
+	 */
+	public function canChangeAvatar($uid) {
+		$dn = $this->access->username2dn($uid);
+		if(!$dn) {
+			return false;
+		}
+		$jpegPhoto = $this->access->readAttribute($dn, 'jpegPhoto');
+		if(!$jpegPhoto || !is_array($jpegPhoto) || !isset($jpegPhoto[0])) {
+			//The user is allowed to change his avatar in ownCloud only if no
+			//avatar is provided by LDAP
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
@@ -100,6 +168,10 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 				return false;
 			}
 
+			\OCP\Config::setUserValue($ocname, 'user_ldap',
+									  'firstLoginAccomplished', 1);
+
+			$this->updateAvatar($ocname, $dn);
 			//give back the display name
 			return $ocname;
 		}
@@ -173,6 +245,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 		$this->access->connection->writeToCache('userExists'.$uid, true);
 		$this->updateQuota($dn);
+		$this->updateAvatar($uid, $dn);
 		return true;
 	}
 
@@ -289,7 +362,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	public function implementsActions($actions) {
 		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD
 			| OC_USER_BACKEND_GET_HOME
-			| OC_USER_BACKEND_GET_DISPLAYNAME)
+			| OC_USER_BACKEND_GET_DISPLAYNAME
+			| OC_USER_BACKEND_PROVIDE_AVATAR
+			| OC_USER_BACKEND_COUNT_USERS)
 			& $actions);
 	}
 
@@ -298,5 +373,17 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 */
 	public function hasUserListings() {
 		return true;
+	}
+
+	/**
+	 * counts the users in LDAP
+	 *
+	 * @return int | bool
+	 */
+	public function countUsers() {
+		$filter = \OCP\Util::mb_str_replace(
+			'%uid', '*', $this->access->connection->ldapLoginFilter, 'UTF-8');
+		$entries = $this->access->countUsers($filter);
+		return $entries;
 	}
 }

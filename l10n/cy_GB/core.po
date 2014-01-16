@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -18,14 +18,15 @@ msgstr ""
 "Language: cy_GB\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: ajax/share.php:227
-msgid "group"
-msgstr "grŵp"
+#: ajax/share.php:169
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr ""
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
@@ -51,45 +52,6 @@ msgstr ""
 #, php-format
 msgid "... %d%% done ..."
 msgstr ""
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Math o gategori heb ei ddarparu."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Dim categori i'w ychwanegu?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Mae'r categori hwn eisoes yn bodoli: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Math o wrthrych heb ei ddarparu."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID heb ei ddarparu."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Gwall wrth ychwanegu %s at ffefrynnau."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Ni ddewiswyd categorïau i'w dileu."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Gwall wrth dynnu %s o ffefrynnau."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -187,15 +149,15 @@ msgstr "Tachwedd"
 msgid "December"
 msgstr "Rhagfyr"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Gosodiadau"
 
-#: js/js.js:866
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "eiliad yn ôl"
 
-#: js/js.js:867
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
@@ -203,7 +165,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: js/js.js:868
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
@@ -211,15 +173,15 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "today"
 msgstr "heddiw"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "yesterday"
 msgstr "ddoe"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
@@ -227,11 +189,11 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "last month"
 msgstr "mis diwethaf"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
@@ -239,15 +201,15 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "months ago"
 msgstr "misoedd yn ôl"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last year"
 msgstr "y llynedd"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "years ago"
 msgstr "blwyddyn yn ôl"
 
@@ -317,154 +279,182 @@ msgstr ""
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Nid yw'r math o wrthrych wedi cael ei nodi."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
-msgid "Error"
-msgstr "Gwall"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Nid yw enw'r pecyn wedi cael ei nodi."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Nid yw'r ffeil ofynnol {file} wedi ei gosod!"
-
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Rhannwyd"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Rhannu"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "Gwall"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Gwall wrth rannu"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Gwall wrth ddad-rannu"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Gwall wrth newid caniatâd"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Rhannwyd â chi a'r grŵp {group} gan {owner}"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "Rhannwyd â chi gan {owner}"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "Rhannu gyda"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr ""
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "Dolen ar gyfer rhannu"
+#: js/share.js:219
+msgid "Share link"
+msgstr ""
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Diogelu cyfrinair"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Cyfrinair"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "E-bostio dolen at berson"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "Anfon"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Gosod dyddiad dod i ben"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Dyddiad dod i ben"
 
-#: js/share.js:242
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Rhannu drwy e-bost:"
 
-#: js/share.js:245
+#: js/share.js:278
 msgid "No people found"
 msgstr "Heb ganfod pobl"
 
-#: js/share.js:283
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "grŵp"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Does dim hawl ail-rannu"
 
-#: js/share.js:319
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Rhannwyd yn {item} â {user}"
 
-#: js/share.js:340
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Dad-rannu"
 
-#: js/share.js:352
+#: js/share.js:405
+msgid "notify by email"
+msgstr ""
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "yn gallu golygu"
 
-#: js/share.js:354
+#: js/share.js:410
 msgid "access control"
 msgstr "rheolaeth mynediad"
 
-#: js/share.js:357
+#: js/share.js:413
 msgid "create"
 msgstr "creu"
 
-#: js/share.js:360
+#: js/share.js:416
 msgid "update"
 msgstr "diweddaru"
 
-#: js/share.js:363
+#: js/share.js:419
 msgid "delete"
 msgstr "dileu"
 
-#: js/share.js:366
+#: js/share.js:422
 msgid "share"
 msgstr "rhannu"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Diogelwyd â chyfrinair"
 
-#: js/share.js:645
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Gwall wrth ddad-osod dyddiad dod i ben"
 
-#: js/share.js:657
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Gwall wrth osod dyddiad dod i ben"
 
-#: js/share.js:672
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Yn anfon ..."
 
-#: js/share.js:683
+#: js/share.js:745
 msgid "Email sent"
 msgstr "Anfonwyd yr e-bost"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "Rhybudd"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Nid yw'r math o wrthrych wedi cael ei nodi."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Dileu"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Ychwanegu"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
 
 #: js/update.js:17
 msgid ""
@@ -486,27 +476,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
 msgstr "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol."
 
-#: lostpassword/templates/lostpassword.php:12
+#: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
 msgstr "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost."
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Byddwch yn derbyn dolen drwy e-bost i ailosod eich cyfrinair."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Enw defnyddiwr"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -514,13 +504,13 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:24
+#: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Gwneud cais i ailosod"
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -546,7 +536,7 @@ msgstr "Personol"
 msgid "Users"
 msgstr "Defnyddwyr"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Pecynnau"
 
@@ -557,6 +547,34 @@ msgstr "Gweinyddu"
 #: strings.php:9
 msgid "Help"
 msgstr "Cymorth"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -574,108 +592,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
 msgstr ""
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Golygu categorïau"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr ""
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Ychwanegu"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Rhybudd Diogelwch"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Mae eich fersiwn PHP yn agored i ymosodiad NULL Byte (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Does dim cynhyrchydd rhifau hap diogel ar gael, galluogwch estyniad PHP OpenSSL."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Heb gynhyrchydd rhifau hap diogel efallai y gall ymosodwr ragweld tocynnau ailosod cyfrinair a meddiannu eich cyfrif."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Mwy na thebyg fod modd cyrraedd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. "
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crewch <strong>gyfrif gweinyddol</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Uwch"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Plygell data"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Cyflunio'r gronfa ddata"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "ddefnyddir"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Defnyddiwr cronfa ddata"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Cyfrinair cronfa ddata"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Enw cronfa ddata"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Tablespace cronfa ddata"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Gwesteiwr cronfa ddata"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Gorffen sefydlu"
 
-#: templates/layout.user.php:41
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr ""
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru."
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Allgofnodi"
 
@@ -693,19 +722,27 @@ msgstr "Os na wnaethoch chi newid eich cyfrinair yn ddiweddar, gall eich cyfrif 
 msgid "Please change your password to secure your account again."
 msgstr "Newidiwch eich cyfrinair i ddiogleu eich cyfrif eto."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Wedi colli'ch cyfrinair?"
 
-#: templates/login.php:37
+#: templates/login.php:49
 msgid "remember"
 msgstr "cofio"
 
-#: templates/login.php:39
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Mewngofnodi"
 
-#: templates/login.php:45
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Mewngofnodiadau Amgen"
 
@@ -713,10 +750,37 @@ msgstr "Mewngofnodiadau Amgen"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
+"href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr ""

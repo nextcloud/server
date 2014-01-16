@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-07 07:27+0000\n"
+"POT-Creation-Date: 2013-10-21 13:01-0400\n"
+"PO-Revision-Date: 2013-10-21 17:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Acoli (http://www.transifex.com/projects/p/owncloud/language/ach/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/authenticate.php:4
-msgid "The password is wrong. Try again."
+msgid "This share is password-protected"
 msgstr ""
 
 #: templates/authenticate.php:7
-msgid "Password"
+msgid "The password is wrong. Try again."
 msgstr ""
 
-#: templates/authenticate.php:9
-msgid "Submit"
+#: templates/authenticate.php:10
+msgid "Password"
 msgstr ""
 
 #: templates/part.404.php:3
@@ -53,28 +53,32 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:15
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:18
+#: templates/public.php:20
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:26 templates/public.php:92
+#: templates/public.php:28 templates/public.php:94
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:45 templates/public.php:48
 msgid "Upload"
 msgstr ""
 
-#: templates/public.php:56
+#: templates/public.php:58
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/public.php:89
+#: templates/public.php:91
 msgid "No preview available for"
+msgstr ""
+
+#: templates/public.php:98
+msgid "Direct link"
 msgstr ""

@@ -61,11 +61,17 @@ var FileActions = {
 		var actions = this.get(mime, type, permissions);
 		return actions[name];
 	},
-	display: function (parent) {
+	/**
+	 * Display file actions for the given element
+	 * @param parent "td" element of the file for which to display actions
+	 * @param triggerEvent if true, triggers the fileActionsReady on the file
+	 * list afterwards (false by default)
+	 */
+	display: function (parent, triggerEvent) {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
-		if ($('tr[data-file="'+file+'"]').data('renaming')) {
+		if (FileList.findFileEl(file).data('renaming')) {
 			return;
 		}
 
@@ -137,6 +143,10 @@ var FileActions = {
 			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
+
+		if (triggerEvent){
+			$('#fileList').trigger(jQuery.Event("fileActionsReady"));
+		}
 	},
 	getCurrentFile: function () {
 		return FileActions.currentFile.parent().attr('data-file');
@@ -177,20 +187,7 @@ $(document).ready(function () {
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 	return OC.imagePath('core', 'actions/delete');
 }, function (filename) {
-	if (OC.Upload.cancelUpload($('#dir').val(), filename)) {
-		if (filename.substr) {
-			filename = [filename];
-		}
-		$.each(filename, function (index, file) {
-			var filename = $('tr').filterAttr('data-file', file);
-			filename.hide();
-			filename.find('input[type="checkbox"]').removeAttr('checked');
-			filename.removeClass('selected');
-		});
-		procesSelection();
-	} else {
-		FileList.do_delete(filename);
-	}
+	FileList.do_delete(filename);
 	$('.tipsy').remove();
 });
 

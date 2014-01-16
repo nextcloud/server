@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -21,10 +20,12 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework\HTTP\TemplateResponse class
+ */
 
 namespace OCP\AppFramework\Http;
-
-use OC\AppFramework\Core\API;
 
 
 /**
@@ -32,22 +33,38 @@ use OC\AppFramework\Core\API;
  */
 class TemplateResponse extends Response {
 
+	/**
+	 * name of the template
+	 * @var string
+	 */
 	protected $templateName;
+
+	/**
+	 * parameters
+	 * @var array
+	 */
 	protected $params;
-	protected $api;
+
+	/**
+	 * rendering type (admin, user, blank)
+	 * @var string
+	 */
 	protected $renderAs;
+
+	/**
+	 * app name
+	 * @var string
+	 */
 	protected $appName;
 
 	/**
-	 * @param API $api an API instance
+	 * constructor of TemplateResponse
+	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
-	 * @param string $appName optional if you want to include a template from
-	 *                        a different app
 	 */
-	public function __construct(API $api, $templateName, $appName=null) {
+	public function __construct($appName, $templateName) {
 		$this->templateName = $templateName;
 		$this->appName = $appName;
-		$this->api = $api;
 		$this->params = array();
 		$this->renderAs = 'user';
 	}
@@ -108,13 +125,7 @@ class TemplateResponse extends Response {
 	 */
 	public function render(){
 
-		if($this->appName !== null){
-			$appName = $this->appName;
-		} else {
-			$appName = $this->api->getAppName();
-		}
-
-		$template = $this->api->getTemplate($this->templateName, $this->renderAs, $appName);
+		$template = new \OCP\Template($this->appName, $this->templateName, $this->renderAs);
 
 		foreach($this->params as $key => $value){
 			$template->assign($key, $value);

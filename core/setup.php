@@ -6,6 +6,7 @@ if( file_exists( $autosetup_file )) {
 	OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', OC_Log::INFO);
 	include $autosetup_file;
 	$_POST = array_merge ($_POST, $AUTOCONFIG);
+	$_REQUEST = array_merge ($_REQUEST, $AUTOCONFIG);
 }
 
 $dbIsSet = isset($_POST['dbtype']);
@@ -19,6 +20,8 @@ if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
 	}
 }
 
+OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
+OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
 OC_Util::addScript('setup');
 
 $hasSQLite = class_exists('SQLite3');

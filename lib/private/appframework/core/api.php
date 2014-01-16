@@ -100,133 +100,12 @@ class API implements IApi{
 
 
 	/**
-	 * Returns the translation object
-	 * @return \OC_L10N the translation object
-	 */
-	public function getTrans(){
-		# TODO: use public api
-		return \OC_L10N::get($this->appName);
-	}
-
-
-	/**
-	 * Returns the URL for a route
-	 * @param string $routeName the name of the route
-	 * @param array $arguments an array with arguments which will be filled into the url
-	 * @return string the url
-	 */
-	public function linkToRoute($routeName, $arguments=array()){
-		return \OCP\Util::linkToRoute($routeName, $arguments);
-	}
-
-
-	/**
-	 * Returns an URL for an image or file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	public function linkTo($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::linkTo($appName, $file);
-	}
-
-
-	/**
-	 * Returns the link to an image, like link to but only with prepending img/
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 */
-	public function imagePath($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::imagePath($appName, $file);
-	}
-
-
-	/**
-	 * Makes an URL absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 */
-	public function getAbsoluteURL($url){
-		# TODO: use public api
-		return \OC_Helper::makeURLAbsolute($url);
-	}
-
-
-	/**
-	 * links to a file
-	 * @param string $file the name of the file
-	 * @param string $appName the name of the app, defaults to the current one
-	 * @deprecated replaced with linkToRoute()
-	 * @return string the url
-	 */
-	public function linkToAbsolute($file, $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-		return \OCP\Util::linkToAbsolute($appName, $file);
-	}
-
-
-	/**
-	 * Checks if the CSRF check was correct
-	 * @return bool true if CSRF check passed
-	 */
-	public function passesCSRFCheck(){
-		# TODO: use public api
-		return \OC_Util::isCallRegistered();
-	}
-
-
-	/**
 	 * Checks if an app is enabled
 	 * @param string $appName the name of an app
 	 * @return bool true if app is enabled
 	 */
 	public function isAppEnabled($appName){
 		return \OCP\App::isEnabled($appName);
-	}
-
-
-	/**
-	 * Writes a function into the error log
-	 * @param string $msg the error message to be logged
-	 * @param int $level the error level
-	 */
-	public function log($msg, $level=null){
-		switch($level){
-			case 'debug':
-				$level = \OCP\Util::DEBUG;
-				break;
-			case 'info':
-				$level = \OCP\Util::INFO;
-				break;
-			case 'warn':
-				$level = \OCP\Util::WARN;
-				break;
-			case 'fatal':
-				$level = \OCP\Util::FATAL;
-				break;
-			default:
-				$level = \OCP\Util::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->appName, $msg, $level);
-	}
-
-
-	/**
-	 * turns an owncloud path into a path on the filesystem
-	 * @param string path the path to the file on the oc filesystem
-	 * @return string the filepath in the filesystem
-	 */
-	public function getLocalFilePath($path){
-		# TODO: use public api
-		return \OC_Filesystem::getLocalFile($path);
 	}
 
 
@@ -275,15 +154,6 @@ class API implements IApi{
 		}
 	}
 
-	/**
-	 * Gets the content of an URL by using CURL or a fallback if it is not
-	 * installed
-	 * @param string $url the url that should be fetched
-	 * @return string the content of the webpage
-	 */
-	public function getUrlContent($url) {
-		return \OC_Util::getUrlContent($url);
-	}
 
 	/**
 	 * Register a backgroundjob task
@@ -293,25 +163,6 @@ class API implements IApi{
 	 */
 	public function addRegularTask($className, $methodName) {
 		\OCP\Backgroundjob::addRegularTask($className, $methodName);
-	}
-
-	/**
-	 * Returns a template
-	 * @param string $templateName the name of the template
-	 * @param string $renderAs how it should be rendered
-	 * @param string $appName the name of the app
-	 * @return \OCP\Template a new template
-	 */
-	public function getTemplate($templateName, $renderAs='user', $appName=null){
-		if($appName === null){
-			$appName = $this->appName;
-		}
-
-		if($renderAs === 'blank'){
-			return new \OCP\Template($appName, $templateName);
-		} else {
-			return new \OCP\Template($appName, $templateName, $renderAs);
-		}
 	}
 
 
@@ -329,20 +180,5 @@ class API implements IApi{
 		\OCP\App::registerAdmin($appName, $mainPath);
 	}
 
-
-	/**
-	 * get the filesystem info
-	 *
-	 * @param string $path
-	 * @return array with the following keys:
-	 * - size
-	 * - mtime
-	 * - mimetype
-	 * - encrypted
-	 * - versioned
-	 */
-	public function getFileInfo($path) {
-		return \OC\Files\Filesystem::getFileInfo($path);
-	}
 
 }

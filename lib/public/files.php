@@ -1,24 +1,24 @@
 <?php
 /**
-* ownCloud
-*
-* @author Frank Karlitschek
-* @copyright 2012 Frank Karlitschek frank@owncloud.org
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * ownCloud
+ *
+ * @author Frank Karlitschek
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 /**
  * Public interface of ownCloud for apps to use.
@@ -36,9 +36,8 @@ namespace OCP;
  */
 class Files {
 	/**
-	 * @brief Recusive deletion of folders
-	 * @param string $dir path to the folder
-	 *
+	 * Recusive deletion of folders
+	 * @param string path to the folder
 	 * @return bool
 	 */
 	static function rmdirr( $dir ) {
@@ -46,7 +45,7 @@ class Files {
 	}
 
 	/**
-	 * get the mimetype form a local file
+	 * Get the mimetype form a local file
 	 * @param string path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
@@ -56,17 +55,16 @@ class Files {
 	}
 
 	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $query
+	 * Search for files by mimetype
+	 * @param string mimetype
 	 * @return array
 	 */
-	static public function searchByMime($mimetype) {
+	static public function searchByMime( $mimetype ) {
 		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
 	}
 
 	/**
-	 * copy the contents of one stream to another
+	 * Copy the contents of one stream to another
 	 * @param resource source
 	 * @param resource target
 	 * @return int the number of bytes copied
@@ -77,7 +75,7 @@ class Files {
 	}
 
 	/**
-	 * create a temporary file with an unique filename
+	 * Create a temporary file with an unique filename
 	 * @param string postfix
 	 * @return string
 	 *
@@ -88,7 +86,7 @@ class Files {
 	}
 
 	/**
-	 * create a temporary folder with an unique filename
+	 * Create a temporary folder with an unique filename
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
@@ -99,9 +97,8 @@ class Files {
 
 	/**
 	 * Adds a suffix to the name in case the file exists
-	 *
-	 * @param $path
-	 * @param $filename
+	 * @param string path
+	 * @param string filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileName( $path, $filename ) {
@@ -109,8 +106,9 @@ class Files {
 	}
 
 	/**
+	 * Gets the Storage for an app - creates the needed folder if they are not
+	 * existant
 	 * @param string appid
-	 * @param $app app
 	 * @return \OC\Files\View
 	 */
 	public static function getStorage( $app ) {

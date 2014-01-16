@@ -138,7 +138,7 @@ class JobList {
 		$job = new $class();
 		$job->setId($row['id']);
 		$job->setLastRun($row['last_run']);
-		$job->setArgument(json_decode($row['argument']));
+		$job->setArgument(json_decode($row['argument'], true));
 		return $job;
 	}
 

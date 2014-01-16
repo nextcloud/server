@@ -99,9 +99,13 @@ class Shared_Cache extends Cache {
 			$data['fileid'] = (int)$data['fileid'];
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
+			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
+			if ($data['storage_mtime'] === 0) {
+				$data['storage_mtime'] = $data['mtime'];
+			}
 			return $data;
 		}
 		return false;
@@ -228,69 +232,73 @@ class Shared_Cache extends Cache {
 	 */
 	public function search($pattern) {
 
+		$where = '`name` LIKE ? AND ';
+
 		// normalize pattern
-		$pattern = $this->normalize($pattern);
+		$value = $this->normalize($pattern);
 
-		$ids = $this->getAll();
+		return $this->searchWithWhere($where, $value);
 
-		$files = array();
-		
-		// divide into 1k chunks
-		$chunks = array_chunk($ids, 1000);
-		
-		foreach ($chunks as $chunk) {
-			$placeholders = join(',', array_fill(0, count($chunk), '?'));
-
-			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					`encrypted`, `unencrypted_size`, `etag`
-					FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `fileid` IN (' . $placeholders . ')';
-			
-			$result = \OC_DB::executeAudited($sql, array_merge(array($pattern), $chunk));
-			
-			while ($row = $result->fetchRow()) {
-				if (substr($row['path'], 0, 6)==='files/') {
-					$row['path'] = substr($row['path'],6); // remove 'files/' from path as it's relative to '/Shared'
-				}
-				$row['mimetype'] = $this->getMimetype($row['mimetype']);
-				$row['mimepart'] = $this->getMimetype($row['mimepart']);
-				$files[] = $row;
-			}
-		}
-		return $files;
 	}
 
 	/**
 	 * search for files by mimetype
 	 *
-	 * @param string $part1
-	 * @param string $part2
+	 * @param string $mimetype
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
+
 		if (strpos($mimetype, '/')) {
-			$where = '`mimetype` = ?';
+			$where = '`mimetype` = ? AND ';
 		} else {
-			$where = '`mimepart` = ?';
+			$where = '`mimepart` = ? AND ';
 		}
-		$mimetype = $this->getMimetypeId($mimetype);
+
+		$value = $this->getMimetypeId($mimetype);
+
+		return $this->searchWithWhere($where, $value);
+
+	}
+	
+	/**
+	 * The maximum number of placeholders that can be used in an SQL query.
+	 * Value MUST be <= 1000 for oracle:
+	 * see ORA-01795 maximum number of expressions in a list is 1000
+	 * FIXME we should get this from doctrine as other DBs allow a lot more placeholders
+	 */
+	const MAX_SQL_CHUNK_SIZE = 1000;
+	
+	/**
+	 * search for files with a custom where clause and value
+	 * the $wherevalue will be array_merge()d with the file id chunks
+	 *
+	 * @param string $sqlwhere
+	 * @param string $wherevalue
+	 * @return array
+	 */
+	private function searchWithWhere($sqlwhere, $wherevalue, $chunksize = self::MAX_SQL_CHUNK_SIZE) {
+
 		$ids = $this->getAll();
 
 		$files = array();
 		
-		// divide into 1k chunks
-		$chunks = array_chunk($ids, 1000);
+		// divide into chunks
+		$chunks = array_chunk($ids, $chunksize);
 		
 		foreach ($chunks as $chunk) {
-			$placeholders = join(',', array_fill(0, count($ids), '?'));
+			$placeholders = join(',', array_fill(0, count($chunk), '?'));
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 					`encrypted`, `unencrypted_size`, `etag`
-					FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN (' . $placeholders . ')';
+					FROM `*PREFIX*filecache` WHERE ' . $sqlwhere . ' `fileid` IN (' . $placeholders . ')';
 			
-			$result = \OC_DB::executeAudited($sql, array_merge(array($mimetype), $chunk));
+			$stmt = \OC_DB::prepare($sql);
+
+			$result = $stmt->execute(array_merge(array($wherevalue), $chunk));
 
 			while ($row = $result->fetchRow()) {
-				if (substr($row['path'], 0, 6)==='files/') {
-					$row['path'] = substr($row['path'],6); // remove 'files/' from path as it's relative to '/Shared'
+				if (substr($row['path'], 0, 6) === 'files/') {
+					$row['path'] = substr($row['path'], 6); // remove 'files/' from path as it's relative to '/Shared'
 				}
 				$row['mimetype'] = $this->getMimetype($row['mimetype']);
 				$row['mimepart'] = $this->getMimetype($row['mimepart']);

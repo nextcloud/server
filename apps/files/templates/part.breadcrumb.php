@@ -1,10 +1,12 @@
-<?php if(count($_["breadcrumb"])):?>
-	<div class="crumb" data-dir=''>
-		<a href="<?php print_unescaped($_['baseURL']); ?>">
+<div class="crumb <?php if(!count($_["breadcrumb"])) p('last');?>" data-dir=''>
+	<a href="<?php print_unescaped($_['baseURL']); ?>">
+		<?php if(isset($_['rootBreadCrumb'])):
+			echo $_['rootBreadCrumb'];
+		else:?>
 			<img src="<?php print_unescaped(OCP\image_path('core', 'places/home.svg'));?>" class="svg" />
-		</a>
-	</div>
-<?php endif;?>
+		<?php endif;?>
+	</a>
+</div>
 <?php for($i=0; $i<count($_["breadcrumb"]); $i++):
 	$crumb = $_["breadcrumb"][$i];
 	$dir = \OCP\Util::encodePath($crumb["dir"]); ?>

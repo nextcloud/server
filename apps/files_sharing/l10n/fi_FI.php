@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"This share is password-protected" => "Tämä jako on suojattu salasanalla",
 "The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",
-"Submit" => "Lähetä",
 "Sorry, this link doesn’t seem to work anymore." => "Valitettavasti linkki ei vaikuta enää toimivan.",
 "Reasons might be:" => "Mahdollisia syitä:",
 "the item was removed" => "kohde poistettiin",
@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Download" => "Lataa",
 "Upload" => "Lähetä",
 "Cancel upload" => "Peru lähetys",
-"No preview available for" => "Ei esikatselua kohteelle"
+"No preview available for" => "Ei esikatselua kohteelle",
+"Direct link" => "Suora linkki"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,7 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"No category to add?" => "ထည့်ရန်ခေါင်းစဉ်မရှိဘူးလား",
-"No categories selected for deletion." => "ဖျက်ရန်အတွက်ခေါင်းစဉ်မရွေးထားပါ",
 "January" => "ဇန်နဝါရီ",
 "February" => "ဖေဖော်ဝါရီ",
 "March" => "မတ်",
@@ -40,6 +38,7 @@ $TRANSLATIONS = array(
 "delete" => "ဖျက်မည်",
 "share" => "ဝေမျှမည်",
 "Password protected" => "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်",
+"Add" => "ပေါင်းထည့်",
 "You will receive a link to reset your password via Email." => "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။",
 "Username" => "သုံးစွဲသူအမည်",
 "Your password was reset" => "သင်၏စကားဝှက်ကိုပြန်ဖော်ပြီးပါပြီ။",
@@ -50,7 +49,6 @@ $TRANSLATIONS = array(
 "Admin" => "အက်ဒမင်",
 "Help" => "အကူအညီ",
 "Cloud not found" => "မတွေ့ရှိမိပါ",
-"Add" => "ပေါင်းထည့်",
 "Security Warning" => "လုံခြုံရေးသတိပေးချက်",
 "Create an <strong>admin account</strong>" => "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်",
 "Advanced" => "အဆင့်မြင့်",

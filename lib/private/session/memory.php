@@ -11,7 +11,7 @@ namespace OC\Session;
 /**
  * Class Internal
  *
- * store session data in an in-memory array, not persistance
+ * store session data in an in-memory array, not persistent
  *
  * @package OC\Session
  */

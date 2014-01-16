@@ -25,9 +25,10 @@ $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
 $tmpl->assign('internetconnectionworking', OC_Util::isInternetConnectionEnabled() ? OC_Util::isInternetConnectionWorking() : false);
-$tmpl->assign('islocaleworking', OC_Util::isSetLocaleWorking());
+$tmpl->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
+$tmpl->assign('old_php', OC_Util::isPHPoutdated());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
 

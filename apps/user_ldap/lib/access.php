@@ -28,6 +28,8 @@ class Access extends LDAPUtility {
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
+	protected $cookies = array();
+
 	public function __construct(Connection $connection, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
@@ -60,6 +62,8 @@ class Access extends LDAPUtility {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
+		//all or nothing! otherwise we get in trouble with.
+		$this->initPagedSearch($filter, array($dn), $attr, 99999, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
@@ -195,7 +199,9 @@ class Access extends LDAPUtility {
 	 */
 	public function username2dn($name) {
 		$dn = $this->ocname2dn($name, true);
-		if($dn) {
+		//Check whether the DN belongs to the Base, to avoid issues on multi-
+		//server setups
+		if($dn && $this->isDNPartOfBase($dn, $this->connection->ldapBaseUsers)) {
 			return $dn;
 		}
 
@@ -288,7 +294,7 @@ class Access extends LDAPUtility {
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
-		$uuid = $this->getUUID($dn);
+		$uuid = $this->getUUID($dn, $isUser);
 		if($uuid) {
 			$query = \OCP\DB::prepare('
 				SELECT `owncloud_name`
@@ -352,7 +358,7 @@ class Access extends LDAPUtility {
 		}
 
 		//if everything else did not help..
-		\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
+		\OCP\Util::writeLog('user_ldap', 'Could not create unique name for '.$dn.'.', \OCP\Util::INFO);
 		return false;
 	}
 
@@ -580,7 +586,9 @@ class Access extends LDAPUtility {
 		');
 
 		//feed the DB
-		$insRows = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
+		$insRows = $insert->execute(array($dn, $ocname,
+										  $this->getUUID($dn, $isUser), $dn,
+										  $ocname));
 
 		if(\OCP\DB::isError($insRows)) {
 			return false;
@@ -626,6 +634,10 @@ class Access extends LDAPUtility {
 		return $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 	}
 
+	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
+		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+	}
+
 	/**
 	 * @brief executes an LDAP search, optimized for Groups
 	 * @param $filter the LDAP filter for the search
@@ -639,61 +651,68 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief executes an LDAP search
+	 * @brief prepares and executes an LDAP search operation
 	 * @param $filter the LDAP filter for the search
 	 * @param $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
-	 * @returns array with the search result
-	 *
-	 * Executes an LDAP search
+	 * @param $limit optional, maximum results to be counted
+	 * @param $offset optional, a starting point
+	 * @returns array with the search result as first value and pagedSearchOK as
+	 * second | false if not successful
 	 */
-	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(mb_strtolower($attr, 'UTF-8'));
 		}
 
 		// See if we have a resource, in case not cancel with message
-		$link_resource = $this->connection->getConnectionResource();
-		if(!$this->ldap->isResource($link_resource)) {
+		$cr = $this->connection->getConnectionResource();
+		if(!$this->ldap->isResource($cr)) {
 			// Seems like we didn't find any resource.
 			// Return an empty array just like before.
 			\OCP\Util::writeLog('user_ldap', 'Could not search, because resource is missing.', \OCP\Util::DEBUG);
-			return array();
+			return false;
 		}
 
 		//check wether paged search should be attempted
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
-		$linkResources = array_pad(array(), count($base), $link_resource);
+		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
-		$error = $this->ldap->errno($link_resource);
+		$error = $this->ldap->errno($cr);
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
-				'Error when searching: '.$this->ldap->error($link_resource).
-					' code '.$this->ldap->errno($link_resource),
+				'Error when searching: '.$this->ldap->error($cr).
+					' code '.$this->ldap->errno($cr),
 				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
-			return array();
+			return false;
 		}
 
-		// Do the server-side sorting
-		foreach(array_reverse($attr) as $sortAttr){
-			foreach($sr as $searchResource) {
-				$this->ldap->sort($link_resource, $searchResource, $sortAttr);
-			}
-		}
+		return array($sr, $pagedSearchOK);
+	}
 
-		$findings = array();
-		foreach($sr as $key => $res) {
-		    $findings = array_merge($findings, $this->ldap->getEntries($link_resource, $res ));
-		}
+	/**
+	 * @brief processes an LDAP paged search operation
+	 * @param $sr the array containing the LDAP search resources
+	 * @param $filter the LDAP filter for the search
+	 * @param $base an array containing the LDAP subtree(s) that shall be searched
+	 * @param $iFoundItems number of results in the search operation
+	 * @param $limit maximum results to be counted
+	 * @param $offset a starting point
+	 * @param $pagedSearchOK whether a paged search has been executed
+	 * @param $skipHandling required for paged search when cookies to
+	 * prior results need to be gained
+	 * @returns array with the search result as first value and pagedSearchOK as
+	 * second | false if not successful
+	 */
+	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		if($pagedSearchOK) {
-			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
+			$cr = $this->connection->getConnectionResource();
 			foreach($sr as $key => $res) {
 				$cookie = null;
-				if($this->ldap->controlPagedResultResponse($link_resource, $res, $cookie)) {
-					\OCP\Util::writeLog('user_ldap', 'Set paged search cookie', \OCP\Util::INFO);
+				if($this->ldap->controlPagedResultResponse($cr, $res, $cookie)) {
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
@@ -705,7 +724,7 @@ class Access extends LDAPUtility {
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
 			// flag here, so the callee knows how to deal with it.
-			if($findings['count'] <= $limit) {
+			if($iFoundItems <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
@@ -713,6 +732,86 @@ class Access extends LDAPUtility {
 				\OCP\Util::writeLog('user_ldap', 'Paged search failed :(', \OCP\Util::INFO);
 			}
 		}
+	}
+
+	/**
+	 * @brief executes an LDAP search, but counts the results only
+	 * @param $filter the LDAP filter for the search
+	 * @param $base an array containing the LDAP subtree(s) that shall be searched
+	 * @param $attr optional, array, one or more attributes that shall be
+	 * retrieved. Results will according to the order in the array.
+	 * @param $limit optional, maximum results to be counted
+	 * @param $offset optional, a starting point
+	 * @param $skipHandling indicates whether the pages search operation is
+	 * completed
+	 * @returns int | false if the search could not be initialized
+	 *
+	 */
+	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
+		$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
+		if($search === false) {
+			return false;
+		}
+		list($sr, $pagedSearchOK) = $search;
+		$cr = $this->connection->getConnectionResource();
+		$counter = 0;
+		foreach($sr as $key => $res) {
+			$count = $this->ldap->countEntries($cr, $res);
+		    if($count !== false) {
+				$counter += $count;
+			}
+		}
+
+		$this->processPagedSearchStatus($sr, $filter, $base, $counter, $limit,
+										$offset, $pagedSearchOK, $skipHandling);
+
+		return $counter;
+	}
+
+	/**
+	 * @brief executes an LDAP search
+	 * @param $filter the LDAP filter for the search
+	 * @param $base an array containing the LDAP subtree(s) that shall be searched
+	 * @param $attr optional, array, one or more attributes that shall be
+	 * retrieved. Results will according to the order in the array.
+	 * @returns array with the search result
+	 *
+	 * Executes an LDAP search
+	 */
+	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+		$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
+		if($search === false) {
+			return array();
+		}
+		list($sr, $pagedSearchOK) = $search;
+		$cr = $this->connection->getConnectionResource();
+
+		if($skipHandling) {
+			//i.e. result do not need to be fetched, we just need the cookie
+			//thus pass 1 or any other value as $iFoundItems because it is not
+			//used
+			$this->processPagedSearchStatus($sr, $filter, $base, 1, $limit,
+											$offset, $pagedSearchOK,
+											$skipHandling);
+			return;
+		}
+
+		// Do the server-side sorting
+		foreach(array_reverse($attr) as $sortAttr){
+			foreach($sr as $searchResource) {
+				$this->ldap->sort($cr, $searchResource, $sortAttr);
+			}
+		}
+
+		$findings = array();
+		foreach($sr as $key => $res) {
+		    $findings = array_merge($findings, $this->ldap->getEntries($cr	, $res ));
+		}
+
+		$this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+										$limit, $offset, $pagedSearchOK,
+										$skipHandling);
 
 		// if we're here, probably no connection resource is returned.
 		// to make ownCloud behave nicely, we simply give back an empty array.
@@ -829,7 +928,7 @@ class Access extends LDAPUtility {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if($filter[0] !== '(') {
+		    if(!empty($filter) && $filter[0] !== '(') {
 				$filter = '('.$filter.')';
 		    }
 		    $combinedFilter.=$filter;
@@ -896,7 +995,9 @@ class Access extends LDAPUtility {
 		if(!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		return $testConnection->bind();
+		$result=$testConnection->bind();
+		$this->connection->bind();
+		return $result;
 	}
 
 	/**
@@ -905,55 +1006,67 @@ class Access extends LDAPUtility {
 	 * @param $force the detection should be run, even if it is not set to auto
 	 * @returns true on success, false otherwise
 	 */
-	private function detectUuidAttribute($dn, $force = false) {
-		if(($this->connection->ldapUuidAttribute !== 'auto') && !$force) {
+	private function detectUuidAttribute($dn, $isUser = true, $force = false) {
+		if($isUser) {
+			$uuidAttr     = 'ldapUuidUserAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		} else {
+			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
+		}
+
+		if(($this->connection->$uuidAttr !== 'auto') && !$force) {
 			return true;
 		}
 
-		$fixedAttribute = $this->connection->ldapExpertUUIDAttr;
-		if(!empty($fixedAttribute)) {
-			$this->connection->ldapUuidAttribute = $fixedAttribute;
+		if(!empty($uuidOverride) && !$force) {
+			$this->connection->$uuidAttr = $uuidOverride;
 			return true;
 		}
 
-		//for now, supported (known) attributes are entryUUID, nsuniqueid, objectGUID
+		//for now, supported attributes are entryUUID, nsuniqueid, objectGUID
 		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid');
 
 		foreach($testAttributes as $attribute) {
-			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
-
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
-				\OCP\Util::writeLog('user_ldap', 'Setting '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
-				$this->connection->ldapUuidAttribute = $attribute;
+				\OCP\Util::writeLog('user_ldap',
+									'Setting '.$attribute.' as '.$uuidAttr,
+									\OCP\Util::DEBUG);
+				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
-			\OCP\Util::writeLog('user_ldap',
-				'The looked for uuid attr is not '.$attribute.', result was '.print_r($value, true),
-				\OCP\Util::DEBUG);
 		}
+		\OCP\Util::writeLog('user_ldap',
+							'Could not autodetect the UUID attribute',
+							\OCP\Util::ERROR);
 
 		return false;
 	}
 
-	public function getUUID($dn) {
-		if($this->detectUuidAttribute($dn)) {
-			\OCP\Util::writeLog('user_ldap',
-				'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute,
-				\OCP\Util::DEBUG);
-			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
-			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
-				$this->detectUuidAttribute($dn, true);
-				$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+	public function getUUID($dn, $isUser = true) {
+		if($isUser) {
+			$uuidAttr     = 'ldapUuidUserAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		} else {
+			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
+		}
+
+		$uuid = false;
+		if($this->detectUuidAttribute($dn, $isUser)) {
+			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
+			if( !is_array($uuid)
+				&& !empty($uuidOverride)
+				&& $this->detectUuidAttribute($dn, $isUser, true)) {
+					$uuid = $this->readAttribute($dn,
+												 $this->connection->$uuidAttr);
 			}
 			if(is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
 				$uuid = $uuid[0];
-			} else {
-				$uuid = false;
 			}
-		} else {
-			$uuid = false;
 		}
+
 		return $uuid;
 	}
 
@@ -1007,7 +1120,7 @@ class Access extends LDAPUtility {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
-			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base, 'UTF-8'))) {
 				$belongsToBase = false;
 			}
 			if($belongsToBase) {
@@ -1032,9 +1145,12 @@ class Access extends LDAPUtility {
 		$offset -= $limit;
 		//we work with cache here
 		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
-		$cookie = $this->connection->getFromCache($cachekey);
-		if(is_null($cookie)) {
-			$cookie = '';
+		$cookie = '';
+		if(isset($this->cookies[$cachekey])) {
+			$cookie = $this->cookies[$cachekey];
+			if(is_null($cookie)) {
+				$cookie = '';
+			}
 		}
 		return $cookie;
 	}
@@ -1051,7 +1167,7 @@ class Access extends LDAPUtility {
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
 			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
-			$cookie = $this->connection->writeToCache($cachekey, $cookie);
+			$this->cookies[$cachekey] = $cookie;
 		}
 	}
 

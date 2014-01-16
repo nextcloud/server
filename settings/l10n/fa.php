@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "قادر به بارگذاری لیست از فروشگاه اپ نیستم",
 "Authentication error" => "خطا در اعتبار سنجی",
-"Your display name has been changed." => "نام نمایش شما تغییر یافته است.",
-"Unable to change display name" => "امکان تغییر نام نمایشی شما وجود ندارد",
 "Group already exists" => "این گروه در حال حاضر موجود است",
 "Unable to add group" => "افزودن گروه امکان پذیر نیست",
 "Email saved" => "ایمیل ذخیره شد",
@@ -83,7 +81,6 @@ $TRANSLATIONS = array(
 "Current password" => "گذرواژه کنونی",
 "New password" => "گذرواژه جدید",
 "Change password" => "تغییر گذر واژه",
-"Display Name" => "نام نمایشی",
 "Email" => "ایمیل",
 "Your email address" => "پست الکترونیکی شما",
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
@@ -91,7 +88,6 @@ $TRANSLATIONS = array(
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">access your Files via WebDAV</a>" => "استفاده ابن آدرس <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\"> برای دسترسی فایل های شما از طریق WebDAV </a>",
 "Encryption" => "رمزگذاری",
 "Login Name" => "نام کاربری",
 "Create" => "ایجاد کردن",
@@ -102,7 +98,6 @@ $TRANSLATIONS = array(
 "Other" => "دیگر",
 "Username" => "نام کاربری",
 "Storage" => "حافظه",
-"change display name" => "تغییر نام نمایشی",
 "set new password" => "تنظیم کلمه عبور جدید",
 "Default" => "پیش فرض"
 );

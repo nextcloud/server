@@ -2,8 +2,11 @@
 	<div id="notification" style="display: none;"></div>
 </div>
 
+<input type="hidden" id="filesApp" name="filesApp" value="1">
+<input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php p($_['downloadURL']) ?>" id="downloadURL">
+<input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <header><div id="header">
@@ -13,10 +16,10 @@
 		<div class="header-right">
 			<?php if (isset($_['folder'])): ?>
 				<span id="details"><?php p($l->t('%s shared the folder %s with you',
-						array($_['displayName'], $_['fileTarget']))) ?></span>
+						array($_['displayName'], $_['filename']))) ?></span>
 			<?php else: ?>
 				<span id="details"><?php p($l->t('%s shared the file %s with you',
-						array($_['displayName'], $_['fileTarget']))) ?></span>
+						array($_['displayName'], $_['filename']))) ?></span>
 			<?php endif; ?>
 
 
@@ -86,13 +89,14 @@
 			<?php else: ?>
 				<ul id="noPreview">
 					<li class="error">
-						<?php p($l->t('No preview available for').' '.$_['fileTarget']); ?><br />
+						<?php p($l->t('No preview available for').' '.$_['filename']); ?><br />
 						<a href="<?php p($_['downloadURL']); ?>" id="download"><img class="svg" alt="Download"
 						                                                            src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"
 								/><?php p($l->t('Download'))?></a>
 					</li>
 				</ul>
 			<?php endif; ?>
+			<div class="directLink"><label for="directLink"><?php p($l->t('Direct link')) ?></label><input id="directLink" type="text" readonly value="<?php p($_['downloadURL']); ?>"></input></div>
 		<?php endif; ?>
 	</div>
 	<footer>

@@ -24,7 +24,7 @@
 
 namespace OC\AppFramework\DependencyInjection;
 
-use OC\AppFramework\Http\Http;
+use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Core\API;
@@ -35,6 +35,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\IMiddleWare;
+use OCP\AppFramework\Middleware;
 use OCP\IServerContainer;
 
 
@@ -49,9 +50,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 * Put your class dependencies in here
 	 * @param string $appName the name of the app
 	 */
-	public function __construct($appName){
+	public function __construct($appName, $urlParams = array()){
 
 		$this['AppName'] = $appName;
+		$this['urlParams'] = $urlParams;
 
 		$this->registerParameter('ServerContainer', \OC::$server);
 
@@ -66,6 +68,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			/** @var $c SimpleContainer */
 			/** @var $server IServerContainer */
 			$server = $c->query('ServerContainer');
+			$server->registerParameter('urlParams', $c['urlParams']);
 			return $server->getRequest();
 		});
 
@@ -85,15 +88,17 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		/**
 		 * Middleware
 		 */
-		$this['SecurityMiddleware'] = $this->share(function($c){
-			return new SecurityMiddleware($c['API'], $c['Request']);
+		$app = $this;
+		$this['SecurityMiddleware'] = $this->share(function($c) use ($app){
+			return new SecurityMiddleware($app, $c['Request']);
 		});
 
-		$this['MiddlewareDispatcher'] = $this->share(function($c){
+        $middleWares = $this->middleWares;
+		$this['MiddlewareDispatcher'] = $this->share(function($c) use ($middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 
-			foreach($this->middleWares as $middleWare) {
+			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($middleWare);
 			}
 
@@ -129,10 +134,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
-	 * @param IMiddleWare $middleWare
+	 * @param Middleware $middleWare
 	 * @return boolean
 	 */
-	function registerMiddleWare(IMiddleWare $middleWare) {
+	function registerMiddleWare(Middleware $middleWare) {
 		array_push($this->middleWares, $middleWare);
 	}
 
@@ -142,5 +147,50 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 */
 	function getAppName() {
 		return $this->query('AppName');
+	}
+
+	/**
+	 * @return boolean
+	 */
+	function isLoggedIn() {
+		return \OC_User::isLoggedIn();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	function isAdminUser() {
+		$uid = $this->getUserId();
+		return \OC_User::isAdminUser($uid);
+	}
+
+	private function getUserId() {
+		return \OC::$session->get('user_id');
+	}
+
+	/**
+	 * @param $message
+	 * @param $level
+	 * @return mixed
+	 */
+	function log($message, $level) {
+		switch($level){
+			case 'debug':
+				$level = \OCP\Util::DEBUG;
+				break;
+			case 'info':
+				$level = \OCP\Util::INFO;
+				break;
+			case 'warn':
+				$level = \OCP\Util::WARN;
+				break;
+			case 'fatal':
+				$level = \OCP\Util::FATAL;
+				break;
+			default:
+				$level = \OCP\Util::ERROR;
+				break;
+		}
+		\OCP\Util::writeLog($this->getAppName(), $message, $level);
 	}
 }

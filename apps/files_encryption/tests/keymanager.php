@@ -145,13 +145,15 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$file = 'unittest-' . time() . '.txt';
 
+		$util = new Encryption\Util($this->view, $this->userId);
+
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key);
+		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
 
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 
@@ -186,23 +188,6 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$sslInfoPrivate = openssl_pkey_get_details($resPrivate);
 
 		$this->assertArrayHasKey('key', $sslInfoPrivate);
-	}
-
-	/**
-	 * @medium
-	 */
-	function testFixPartialFilePath() {
-
-		$partFilename = 'testfile.txt.part';
-		$filename = 'testfile.txt';
-
-		$this->assertTrue(Encryption\Keymanager::isPartialFilePath($partFilename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($partFilename));
-
-		$this->assertFalse(Encryption\Keymanager::isPartialFilePath($filename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
 	}
 
 	/**

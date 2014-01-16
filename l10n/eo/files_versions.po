@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 06:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-06 21:43-0500\n"
+"PO-Revision-Date: 2013-11-03 19:40+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,22 +23,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "Ne eblas malfari: %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
 msgstr "Versioj"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "Malsukcesis returnigo de {file} al la revizio {timestamp}."
 
-#: js/versions.js:79
+#: js/versions.js:86
 msgid "More versions..."
-msgstr ""
+msgstr "Pli da versioj..."
 
-#: js/versions.js:116
+#: js/versions.js:123
 msgid "No other versions available"
-msgstr ""
+msgstr "Ne disponeblas aliaj versioj"
 
-#: js/versions.js:149
+#: js/versions.js:154
 msgid "Restore"
 msgstr "Restaŭri"

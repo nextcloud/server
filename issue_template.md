@@ -18,7 +18,15 @@ Database:
 
 PHP version:
 
-ownCloud version:
+ownCloud version: (see ownCloud admin page)
+
+Updated from an older ownCloud or fresh install:
+
+List of activated app:
+
+The content of config/config.php: (Without the database password and passwordsalt)
+
+Are you using external storage, if yes which one:
 
 ### Client configuration
 Browser:

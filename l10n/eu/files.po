@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:44-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -29,220 +29,286 @@ msgstr "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da"
 msgid "Could not move %s"
 msgstr "Ezin dira fitxategiak mugitu %s"
 
-#: ajax/upload.php:16 ajax/upload.php:45
+#: ajax/newfile.php:56 js/files.js:74
+msgid "File name cannot be empty."
+msgstr "Fitxategi izena ezin da hutsa izan."
+
+#: ajax/newfile.php:62
+msgid "File name must not contain \"/\". Please choose a different name."
+msgstr "Fitxategi izenak ezin du \"/\" izan. Mesedez hautatu beste izen bat."
+
+#: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
+#, php-format
+msgid ""
+"The name %s is already used in the folder %s. Please choose a different "
+"name."
+msgstr "%s izena dagoeneko erabilita dago %s karpetan. Mesdez hautatu izen ezberdina."
+
+#: ajax/newfile.php:81
+msgid "Not a valid source"
+msgstr "Ez da jatorri baliogarria"
+
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr ""
+
+#: ajax/newfile.php:103
+#, php-format
+msgid "Error while downloading %s to %s"
+msgstr "Errorea %s %sra deskargatzerakoan"
+
+#: ajax/newfile.php:140
+msgid "Error when creating the file"
+msgstr "Errorea fitxategia sortzerakoan"
+
+#: ajax/newfolder.php:21
+msgid "Folder name cannot be empty."
+msgstr "Karpeta izena ezin da hutsa izan."
+
+#: ajax/newfolder.php:27
+msgid "Folder name must not contain \"/\". Please choose a different name."
+msgstr "Karpeta izenak ezin du \"/\" izan. Mesedez hautatu beste izen bat."
+
+#: ajax/newfolder.php:56
+msgid "Error when creating the folder"
+msgstr "Errorea karpeta sortzerakoan"
+
+#: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
 msgstr "Ezin da igoera direktorioa ezarri."
 
-#: ajax/upload.php:22
+#: ajax/upload.php:27
 msgid "Invalid Token"
 msgstr "Lekuko baliogabea"
 
-#: ajax/upload.php:59
+#: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
 msgstr "Ez da fitxategirik igo. Errore ezezaguna"
 
-#: ajax/upload.php:66
+#: ajax/upload.php:71
 msgid "There is no error, the file uploaded with success"
 msgstr "Ez da errorerik egon, fitxategia ongi igo da"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:72
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:74
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Igotako fitxategia HTML formularioan zehaztutako MAX_FILE_SIZE direktiba baino handidagoa da."
 
-#: ajax/upload.php:70
+#: ajax/upload.php:75
 msgid "The uploaded file was only partially uploaded"
 msgstr "Igotako fitxategiaren zati bat bakarrik igo da"
 
-#: ajax/upload.php:71
+#: ajax/upload.php:76
 msgid "No file was uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: ajax/upload.php:72
+#: ajax/upload.php:77
 msgid "Missing a temporary folder"
 msgstr "Aldi bateko karpeta falta da"
 
-#: ajax/upload.php:73
+#: ajax/upload.php:78
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
 
-#: ajax/upload.php:91
+#: ajax/upload.php:96
 msgid "Not enough storage available"
 msgstr "Ez dago behar aina leku erabilgarri,"
 
-#: ajax/upload.php:120 ajax/upload.php:143
+#: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Igoerak huts egin du. Ezin izan da fitxategiaren informazioa eskuratu."
 
-#: ajax/upload.php:136
+#: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Igoerak huts egin du. Ezin izan da igotako fitxategia aurkitu"
 
-#: ajax/upload.php:160
+#: ajax/upload.php:172
 msgid "Invalid directory."
 msgstr "Baliogabeko karpeta."
 
-#: appinfo/app.php:12
+#: appinfo/app.php:11
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: js/file-upload.js:244
+#: js/file-upload.js:228
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Ezin da {filename} igo karpeta bat delako edo 0 byte dituelako"
 
-#: js/file-upload.js:255
+#: js/file-upload.js:239
 msgid "Not enough space available"
 msgstr "Ez dago leku nahikorik."
 
-#: js/file-upload.js:322
+#: js/file-upload.js:306
 msgid "Upload cancelled."
 msgstr "Igoera ezeztatuta"
 
-#: js/file-upload.js:356
+#: js/file-upload.js:344
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Ezin da zerbitzaritik emaitzik lortu"
 
-#: js/file-upload.js:446
+#: js/file-upload.js:436
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
 
-#: js/file-upload.js:520
-msgid "URL cannot be empty."
-msgstr "URLa ezin da hutsik egon."
+#: js/file-upload.js:523
+msgid "URL cannot be empty"
+msgstr "URLa ezin da hutsik egon"
 
-#: js/file-upload.js:525 lib/app.php:53
-msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
-msgstr "Karpeta izne baliogabea. \"Shared\" karpeta erabilpena OwnCloudentzat erreserbaturik dago."
+#: js/file-upload.js:527 js/filelist.js:377
+msgid "In the home folder 'Shared' is a reserved filename"
+msgstr "Etxeko (home) karpetan 'Shared' erreserbatutako fitxategi izena da"
 
-#: js/file-upload.js:557 js/file-upload.js:573 js/files.js:507 js/files.js:545
-msgid "Error"
-msgstr "Errorea"
-
-#: js/fileactions.js:119
-msgid "Share"
-msgstr "Elkarbanatu"
-
-#: js/fileactions.js:131
-msgid "Delete permanently"
-msgstr "Ezabatu betirako"
-
-#: js/fileactions.js:197
-msgid "Rename"
-msgstr "Berrizendatu"
-
-#: js/filelist.js:71 js/filelist.js:74 js/filelist.js:788
-msgid "Pending"
-msgstr "Zain"
-
-#: js/filelist.js:416 js/filelist.js:418
+#: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
 msgstr "{new_name} dagoeneko existitzen da"
 
-#: js/filelist.js:416 js/filelist.js:418
-msgid "replace"
-msgstr "ordeztu"
+#: js/file-upload.js:595
+msgid "Could not create file"
+msgstr "Ezin izan da fitxategia sortu"
 
-#: js/filelist.js:416
-msgid "suggest name"
-msgstr "aholkatu izena"
+#: js/file-upload.js:611
+msgid "Could not create folder"
+msgstr "Ezin izan da karpeta sortu"
 
-#: js/filelist.js:416 js/filelist.js:418
-msgid "cancel"
-msgstr "ezeztatu"
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr ""
 
-#: js/filelist.js:463
+#: js/fileactions.js:125
+msgid "Share"
+msgstr "Elkarbanatu"
+
+#: js/fileactions.js:137
+msgid "Delete permanently"
+msgstr "Ezabatu betirako"
+
+#: js/fileactions.js:194
+msgid "Rename"
+msgstr "Berrizendatu"
+
+#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
+msgid "Pending"
+msgstr "Zain"
+
+#: js/filelist.js:405
+msgid "Could not rename file"
+msgstr "Ezin izan da fitxategia berrizendatu"
+
+#: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
 msgstr " {new_name}-k {old_name} ordezkatu du"
 
-#: js/filelist.js:463
+#: js/filelist.js:539
 msgid "undo"
 msgstr "desegin"
 
-#: js/filelist.js:533 js/filelist.js:599 js/files.js:576
+#: js/filelist.js:591
+msgid "Error deleting file."
+msgstr "Errorea fitxategia ezabatzerakoan."
+
+#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "karpeta %n"
 msgstr[1] "%n karpeta"
 
-#: js/filelist.js:534 js/filelist.js:600 js/files.js:582
+#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "fitxategi %n"
 msgstr[1] "%n fitxategi"
 
-#: js/filelist.js:541
+#: js/filelist.js:617
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} eta {files}"
 
-#: js/filelist.js:731 js/filelist.js:769
+#: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Fitxategi %n igotzen"
 msgstr[1] "%n fitxategi igotzen"
 
-#: js/files.js:25
+#: js/files.js:72
 msgid "'.' is an invalid file name."
 msgstr "'.' ez da fitxategi izen baliogarria."
 
-#: js/files.js:29
-msgid "File name cannot be empty."
-msgstr "Fitxategi izena ezin da hutsa izan."
-
-#: js/files.js:37
+#: js/files.js:81
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
 
-#: js/files.js:51
+#: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Zure biltegiratzea beterik dago, ezingo duzu aurrerantzean fitxategirik igo edo sinkronizatu!"
 
-#: js/files.js:55
+#: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Zure biltegiratzea nahiko beterik dago (%{usedSpacePercent})"
 
-#: js/files.js:67
+#: js/files.js:110
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr "Enkriptazio aplikazioa gaituta dago baina zure gakoak ez daude konfiguratuta, mesedez saioa bukatu eta berriro hasi"
+
+#: js/files.js:114
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr "Enkriptazio aplikaziorako gako pribatu okerra. Mesedez eguneratu zure gako pribatuaren pasahitza zure ezarpen pertsonaletan zure enkriptatuko fitxategietarako sarrera berreskuratzeko."
+
+#: js/files.js:118
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Enkriptazioa desgaitua izan da baina zure fitxategiak oraindik enkriptatuta daude. Mesedez  jo zure ezarpen pertsonaletara zure fitxategiak dekodifikatzeko."
 
-#: js/files.js:296
+#: js/files.js:349
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak handiak badira. "
 
-#: js/files.js:507 js/files.js:545
+#: js/files.js:558 js/files.js:596
 msgid "Error moving file"
-msgstr ""
+msgstr "Errorea fitxategia mugitzean"
 
-#: js/files.js:558 templates/index.php:61
+#: js/files.js:558 js/files.js:596
+msgid "Error"
+msgstr "Errorea"
+
+#: js/files.js:613 templates/index.php:56
 msgid "Name"
 msgstr "Izena"
 
-#: js/files.js:559 templates/index.php:73
+#: js/files.js:614 templates/index.php:68
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:560 templates/index.php:75
+#: js/files.js:615 templates/index.php:70
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: lib/app.php:73
+#: lib/app.php:60
+msgid "Invalid folder name. Usage of 'Shared' is reserved."
+msgstr "Baliogabeako karpeta izena. 'Shared' izena erreserbatuta dago."
+
+#: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s ezin da berrizendatu"
 
-#: lib/helper.php:11 templates/index.php:17
+#: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
 msgstr "Igo"
 
@@ -278,65 +344,69 @@ msgstr "ZIP fitxategien gehienezko tamaina"
 msgid "Save"
 msgstr "Gorde"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "Berria"
 
-#: templates/index.php:9
+#: templates/index.php:8
+msgid "New text file"
+msgstr "Testu fitxategi berria"
+
+#: templates/index.php:8
 msgid "Text file"
 msgstr "Testu fitxategia"
 
-#: templates/index.php:11
+#: templates/index.php:10
+msgid "New folder"
+msgstr "Karpeta berria"
+
+#: templates/index.php:10
 msgid "Folder"
 msgstr "Karpeta"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "From link"
 msgstr "Estekatik"
 
-#: templates/index.php:33
+#: templates/index.php:29
 msgid "Deleted files"
 msgstr "Ezabatutako fitxategiak"
 
-#: templates/index.php:39
+#: templates/index.php:34
 msgid "Cancel upload"
 msgstr "Ezeztatu igoera"
 
-#: templates/index.php:45
-msgid "You don’t have write permissions here."
-msgstr "Ez duzu hemen idazteko baimenik."
+#: templates/index.php:40
+msgid "You don’t have permission to upload or create files here"
+msgstr "Ez duzu fitxategiak hona igotzeko edo hemen sortzeko baimenik"
 
-#: templates/index.php:50
+#: templates/index.php:45
 msgid "Nothing in here. Upload something!"
 msgstr "Ez dago ezer. Igo zerbait!"
 
-#: templates/index.php:67
+#: templates/index.php:62
 msgid "Download"
 msgstr "Deskargatu"
 
-#: templates/index.php:80 templates/index.php:81
-msgid "Unshare"
-msgstr "Ez elkarbanatu"
-
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: templates/index.php:100
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Igoera handiegia da"
 
-#: templates/index.php:102
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira."
 
-#: templates/index.php:107
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 
-#: templates/index.php:110
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Orain eskaneatzen ari da"
 

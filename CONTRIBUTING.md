@@ -8,7 +8,10 @@ If you have questions about how to install or use ownCloud, please direct these 
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
-* This repository is *only* for issues within the ownCloud core code. This also includes the apps: files, encryption, external storage, sharing, deleted files, versions, LDAP, and WebDAV Auth
+  - Go to one of the repositories, click "issues" and type any word in the top search/command bar.
+  - You can also filter by appending e. g. "state:open" to the search string.
+  - More info on [search syntax within github](https://help.github.com/articles/searching-issues)
+* This repository ([core](https://github.com/owncloud/core/issues)) is *only* for issues within the ownCloud core code. This also includes the apps: files, encryption, external storage, sharing, deleted files, versions, LDAP, and WebDAV Auth
 * The issues in other components should be reported in their respective repositories: 
   - [Android client](https://github.com/owncloud/android/issues)
   - [iOS client](https://github.com/owncloud/ios-issues/issues)
@@ -17,6 +20,7 @@ If you have questions about how to install or use ownCloud, please direct these 
       - [Bookmarks](https://github.com/owncloud/bookmarks/issues)
       - [Calendar](https://github.com/owncloud/calendar/issues)
       - [Contacts](https://github.com/owncloud/contacts/issues)
+      - [Documents](https://github.com/owncloud/documents/issues)
       - [Mail](https://github.com/owncloud/mail/issues)
       - [Media/Music](https://github.com/owncloud/media/issues)
       - [News](https://github.com/owncloud/news/issues)

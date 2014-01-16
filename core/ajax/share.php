@@ -41,7 +41,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$_POST['itemSource'],
 						$shareType,
 						$shareWith,
-						$_POST['permissions']
+						$_POST['permissions'],
+						$_POST['itemSourceName']
 					);
 
 					if (is_string($token)) {
@@ -83,7 +84,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
-	case 'informRecipients':
+		case 'informRecipients':
 
 			$l = OC_L10N::get('core');
 
@@ -293,7 +294,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				while ($count < 15 && count($users) == $limit) {
 					$limit = 15 - $count;
 					if ($sharePolicy == 'groups_only') {
-						$users = OC_Group::DisplayNamesInGroups($groups, $_GET['search'], $limit, $offset);
+						$users = OC_Group::DisplayNamesInGroups($usergroups, $_GET['search'], $limit, $offset);
 					} else {
 						$users = OC_User::getDisplayNames($_GET['search'], $limit, $offset);
 					}
@@ -305,8 +306,9 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							&& $uid != OC_User::getUser()) {
 							$shareWith[] = array(
 								'label' => $displayName,
-								'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER,
-								'shareWith' => $uid)
+								'value' => array(
+									'shareType' => OCP\Share::SHARE_TYPE_USER,
+									'shareWith' => $uid)
 							);
 							$count++;
 						}
@@ -324,7 +326,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 							|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
 							|| !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
 							$shareWith[] = array(
-								'label' => $group.' ('.$l->t('group').')',
+								'label' => $group,
 								'value' => array(
 									'shareType' => OCP\Share::SHARE_TYPE_GROUP,
 									'shareWith' => $group
