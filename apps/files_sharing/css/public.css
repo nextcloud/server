@@ -60,11 +60,9 @@ p.info a {
 }
 
 #imgframe {
-	height:75%;
-	padding-bottom:2em;
-	padding-top:2em;
-	width:80%;
-	margin:0 auto;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 35px;
 }
 
 #imgframe img {
