@@ -1,4 +1,4 @@
-<div id="controls">
+<div id="controls" class="trash-controls">
 	<?php print_unescaped($_['breadcrumb']); ?>
 		<div id="file_action_panel"></div>
 </div>
@@ -10,7 +10,7 @@
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 
-<table id="filestable">
+<table id="filestable" class="trash-filestable">
 	<thead>
 		<tr>
 			<th id='headerName'>

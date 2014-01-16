@@ -1,3 +1,5 @@
 #fileList td a.file, #fileList td a.file span {
     cursor: default;
 }
+.trash-controls { top: 45px; }
+.trash-filestable { top: 5px !important; } /* To avoid the clashes with #filestable in files */

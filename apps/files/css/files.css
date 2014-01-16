@@ -144,7 +144,7 @@ table.multiselect #headerName {
 	position: relative;
 	width: 100%;
 }
-table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.selection, table th.selection, table td.fileaction { width:32px; text-align:center; }
 table td.filename a.name {
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
@@ -162,8 +162,8 @@ table td.filename input.filename {
 	margin-left: 2px;
 	cursor: text;
 }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em .3em; }
-table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
+table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0; }
 
 #modified {
 	position: absolute;
@@ -184,7 +184,7 @@ table td.filename .nametext {
 	max-width: 800px;
 }
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
-table td.filename form { font-size:.85em; margin-left:48px; margin-right:48px; }
+table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
@@ -252,11 +252,11 @@ table td.filename form { font-size:.85em; margin-left:48px; margin-right:48px; }
 	right: 0;
 }
 
-#fileList img.move2trash { display:inline; margin:-.5em 0; padding:16px 8px 16px 8px !important; float:right; }
+#fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	padding: 9px 14px 19px !important;
+	padding: 28px 14px 19px !important;
 }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
