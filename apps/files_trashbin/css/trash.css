@@ -2,4 +2,4 @@
     cursor: default;
 }
 .trash-controls { top: 45px; }
-.trash-filestable { top: 5px !important; } /* To avoid the clashes with #filestable in files */
+.trash-filestable { top: -35px !important; } /* To avoid the clashes with #filestable in files */
