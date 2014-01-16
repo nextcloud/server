@@ -9,7 +9,7 @@
 
 
 <ul id="leftcontent" class="applist">
-	<?php if (OC_Util::getEditionString() === ''): ?>
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?> …</a>
 	</li>
@@ -26,7 +26,7 @@
 	</li>
 	<?php endforeach;?>
 
-	<?php if (OC_Util::getEditionString() === ''): ?>
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://apps.owncloud.com"><?php p($l->t('More Apps'));?> …</a>
 	</li>
