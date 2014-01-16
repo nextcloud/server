@@ -43,9 +43,9 @@
 					</li>
 				</ul>
 			<?php endif; ?>
-			<div class="button">
-				<a href="<?php p($_['downloadURL']); ?>" id="download">
-					<img class="svg" alt="Download" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
+			<div class="directDownload">
+				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
+					<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
 					<?php p($l->t('Download %s', array($_['filename'])))?>
 				</a>
 			</div>

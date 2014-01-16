@@ -88,13 +88,20 @@ thead{
 	margin: 0;
 }
 
+.directDownload,
 .directLink {
 	margin-bottom: 20px;
 }
+	.directDownload .button img {
+		vertical-align: text-bottom;
+	}
 	.directLink label {
 		font-weight: normal;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		opacity: .5;
 	}
 	.directLink input {
-		margin-left: 10px;
+		margin-left: 5px;
 		width: 300px;
 	}
