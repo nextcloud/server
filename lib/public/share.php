@@ -655,7 +655,15 @@ class Share {
 	 * @return Returns true on success or false on failure
 	 */
 	public static function unshareAll($itemType, $itemSource) {
-		if ($shares = self::getItemShared($itemType, $itemSource)) {
+		// Get all of the owners of shares of this item.
+		$query = \OC_DB::prepare( 'SELECT `uid_owner` from `*PREFIX*share` WHERE `item_type`=? AND `item_source`=?' );
+		$result = $query->execute(array($itemType, $itemSource));
+		$shares = array();
+		// Add each owner's shares to the array of all shares for this item.
+		while ($row = $result->fetchRow()) {
+			$shares = array_merge($shares, self::getItems($itemType, $itemSource, null, null, $row['uid_owner']));
+		}
+		if (!empty($shares)) {
 			// Pass all the vars we have for now, they may be useful
 			$hookParams = array(
 				'itemType' => $itemType,
