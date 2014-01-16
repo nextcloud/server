@@ -12,16 +12,19 @@ class SearchResultSorter {
 	private $search;
 	private $encoding;
 	private $key;
+	private $log;
 
 	/**
 	 * @param $search the search term as was given by the user
 	 * @param $key the array key containing the value that should be compared
 	 * against
 	 * @param $encoding optional, encoding to use, defaults to UTF-8
+	 * @param $log optional, an \OC\Log instance
 	 */
-	public function __construct($search, $key, $encoding = 'UTF-8') {
+	public function __construct($search, $key, $encoding = 'UTF-8', \OC\Log $log = null) {
 		$this->encoding = $encoding;
 		$this->key = $key;
+		$this->log = is_null($log) ? new \OC\Log() : $log;
 		$this->search = mb_strtolower($search, $this->encoding);
 	}
 
@@ -32,8 +35,8 @@ class SearchResultSorter {
 	 */
 	public function sort($a, $b) {
 		if(!isset($a[$this->key]) || !isset($b[$this->key])) {
-			\OCP\Util::writeLog('core', 'Sharing: cannot sort due to missing'.
-										'array key', \OC_Log::ERROR);
+			$this->log->error('Sharing dialogue: cannot sort due to missing array key',
+							  array('app' => 'core'));
 			return 0;
 		}
 		$nameA = mb_strtolower($a[$this->key], $this->encoding);

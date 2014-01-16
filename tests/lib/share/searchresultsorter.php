@@ -37,4 +37,11 @@ class Test_Share_Search extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($result[2]['foobar'] === 'Bicyclerepairwoman');
 		$this->assertTrue($result[3]['foobar'] === 'woot');
 	}
+
+	/**
+     * @expectedException PHPUnit_Framework_Error
+     */
+	public function testSortWrongLog() {
+		$sorter = new \OC\Share\SearchResultSorter('foo', 'bar', 'UTF-8', 'foobar');
+	}
 }
