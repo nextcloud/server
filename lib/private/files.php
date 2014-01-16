@@ -21,6 +21,12 @@
  *
  */
 
+class GET_TYPE {
+	const FILE = 1;
+	const ZIP_FILES = 2;
+	const ZIP_DIR = 3;
+}
+
 /**
  * Class for fileserver access
  *
@@ -34,6 +40,21 @@ class OC_Files {
 
 	static public function getDirectoryContent($path){
 		return \OC\Files\Filesystem::getDirectoryContent($path);
+	}
+
+	private static function sendHeaders($filename, $name, $zip = false) {
+		OC_Response::setContentDispositionHeader($name, 'attachment');
+		header('Content-Transfer-Encoding: binary');
+		OC_Response::disableCaching();
+		if ($zip) {
+			header('Content-Type: application/zip');
+		} else {
+			$filesize = \OC\Files\Filesystem::filesize($filename);
+			header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
+			if ($filesize > -1) {
+				header("Content-Length: ".$filesize);
+			}
+		}
 	}
 
 	/**
@@ -56,87 +77,43 @@ class OC_Files {
 		}
 
 		if (is_array($files)) {
-			self::validateZipDownload($dir, $files);
-			$executionTime = intval(ini_get('max_execution_time'));
-			set_time_limit(0);
-			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				$l = OC_L10N::get('lib');
-				throw new Exception($l->t('cannot open "%s"', array($filename)));
-			}
-			foreach ($files as $file) {
-				$file = $dir . '/' . $file;
-				if (\OC\Files\Filesystem::is_file($file)) {
-					$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
-					self::$tmpFiles[] = $tmpFile;
-					$zip->addFile($tmpFile, basename($file));
-				} elseif (\OC\Files\Filesystem::is_dir($file)) {
-					self::zipAddDir($file, $zip);
-				}
-			}
-			$zip->close();
-			if ($xsendfile) {
-				$filename = OC_Helper::moveToNoClean($filename);
-			}
+			$get_type = GET_TYPE::ZIP_FILES;
 			$basename = basename($dir);
 			if ($basename) {
 				$name = $basename . '.zip';
 			} else {
 				$name = 'owncloud.zip';
 			}
-			
-			set_time_limit($executionTime);
-		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
+			$filename = $dir . '/' . $name;
+		} else {
+			$filename = $dir . '/' . $files;
+			if (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
+				$get_type = GET_TYPE::ZIP_DIR;
+				$name = $files . '.zip';
+			} else {
+				$get_type = GET_TYPE::FILE;
+				$name = $files;
+			}
+		}
+
+		if ($get_type === GET_TYPE::FILE) {
+			$zip = false;
+			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
+				$xsendfile = false;
+			}
+		} else {
 			self::validateZipDownload($dir, $files);
-			$executionTime = intval(ini_get('max_execution_time'));
-			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				$l = OC_L10N::get('lib');
 				throw new Exception($l->t('cannot open "%s"', array($filename)));
 			}
-			$file = $dir . '/' . $files;
-			self::zipAddDir($file, $zip);
-			$zip->close();
-			if ($xsendfile) {
-				$filename = OC_Helper::moveToNoClean($filename);
-			}
-			$name = $files . '.zip';
-			set_time_limit($executionTime);
-		} else {
-			$zip = false;
-			$filename = $dir . '/' . $files;
-			$name = $files;
-			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
-				$xsendfile = false;
-			}
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			OC_Response::setContentDispositionHeader($name, 'attachment');
-			header('Content-Transfer-Encoding: binary');
-			OC_Response::disableCaching();
-			if ($zip) {
-				ini_set('zlib.output_compression', 'off');
-				header('Content-Type: application/zip');
-				header('Content-Length: ' . filesize($filename));
-				self::addSendfileHeader($filename);
-			}else{
-				$filesize = \OC\Files\Filesystem::filesize($filename);
-				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
-				if ($filesize > -1) {
-					header("Content-Length: ".$filesize);
-				}
-				if ($xsendfile) {
-					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
-					if ($storage instanceof \OC\Files\Storage\Local) {
-						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
-					}
-				}
-			}
-		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
+			self::sendHeaders($filename, $name, $zip);
+		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template('', '404', 'guest');
 			$tmpl->assign('file', $name);
@@ -149,19 +126,49 @@ class OC_Files {
 			return ;
 		}
 		if ($zip) {
-			$handle = fopen($filename, 'r');
-			if ($handle) {
-				$chunkSize = 8 * 1024; // 1 MB chunks
-				while (!feof($handle)) {
-					echo fread($handle, $chunkSize);
-					flush();
+			$executionTime = intval(ini_get('max_execution_time'));
+			set_time_limit(0);
+			if ($get_type === GET_TYPE::ZIP_FILES) {
+				foreach ($files as $file) {
+					$file = $dir . '/' . $file;
+					if (\OC\Files\Filesystem::is_file($file)) {
+						$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
+						self::$tmpFiles[] = $tmpFile;
+						$zip->addFile($tmpFile, basename($file));
+					} elseif (\OC\Files\Filesystem::is_dir($file)) {
+						self::zipAddDir($file, $zip);
+					}
+				}
+			} elseif ($get_type === GET_TYPE::ZIP_DIR) {
+				$file = $dir . '/' . $files;
+				self::zipAddDir($file, $zip);
+			}
+			$zip->close();
+			if ($xsendfile) {
+				$filename = OC_Helper::moveToNoClean($filename);
+				self::addSendfileHeader($filename);
+			} else {
+				$handle = fopen($filename, 'r');
+				if ($handle) {
+					$chunkSize = 8 * 1024; // 1 MB chunks
+					while (!feof($handle)) {
+						echo fread($handle, $chunkSize);
+						flush();
+					}
 				}
 			}
-			if (!$xsendfile) {
-				unlink($filename);
+			set_time_limit($executionTime);
+		} else {
+			if ($xsendfile) {
+				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
+				if ($storage instanceof \OC\Files\Storage\Local) {
+					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+				} else {
+					\OC\Files\Filesystem::readfile($filename);
+				}
+			} else {
+				\OC\Files\Filesystem::readfile($filename);
 			}
-		}else{
-			\OC\Files\Filesystem::readfile($filename);
 		}
 		foreach (self::$tmpFiles as $tmpFile) {
 			if (file_exists($tmpFile) and is_file($tmpFile)) {
@@ -175,7 +182,7 @@ class OC_Files {
 			header("X-Sendfile: " . $filename);
  		}
  		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
-			if (isset($_SERVER['HTTP_RANGE']) && 
+			if (isset($_SERVER['HTTP_RANGE']) &&
 				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
 				$filelength = filesize($filename);
  				if ($range[2] === "") {
@@ -188,7 +195,7 @@ class OC_Files {
  				header("X-Sendfile: " . $filename);
  			}
 		}
-		
+
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			header("X-Accel-Redirect: " . $filename);
 		}
