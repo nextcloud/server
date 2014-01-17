@@ -612,11 +612,12 @@ function procesSelection() {
 		return el.type==='dir';
 	});
 	if (selectedFiles.length === 0 && selectedFolders.length === 0) {
-		$('#headerName>span.name').text(t('files','Name'));
+		$('#headerName span.name').text(t('files','Name'));
 		$('#headerSize').text(t('files','Size'));
 		$('#modified').text(t('files','Modified'));
 		$('table').removeClass('multiselect');
 		$('.selectedActions').hide();
+		$('#select_all').removeAttr('checked');
 	}
 	else {
 		$('.selectedActions').show();
