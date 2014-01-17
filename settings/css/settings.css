@@ -129,7 +129,6 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .app:hover, .app:active { max-width: inherit; }
 
 .appslink { text-decoration: underline; }
-.doclink { text-decoration: underline; }
 .score { color:#666; font-weight:bold; font-size:0.8em; }
 
 .appinfo .documentation {
