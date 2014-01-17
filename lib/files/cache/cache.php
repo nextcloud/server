@@ -91,6 +91,10 @@ class Cache {
 	 * @return int
 	 */
 	public function getMimetypeId($mime) {
+		if (empty($mime)) {
+			// Can not insert empty string into Oracle NOT NULL column.
+			$mime = 'application/octet-stream';
+		}
 		if (!isset($this->mimetypeIds[$mime])) {
 			$result = \OC_DB::executeAudited(
 				'SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?',

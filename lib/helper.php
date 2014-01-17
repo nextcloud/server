@@ -390,7 +390,6 @@ class OC_Helper {
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
 	static function getMimeType($path) {
-		$isWrapped=(strpos($path, '://')!==false) and (substr($path, 0, 7)=='file://');
 
 		if (@is_dir($path)) {
 			// directories are easy
@@ -414,9 +413,11 @@ class OC_Helper {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
 				$mimeType=substr($info, 0, strpos($info, ';'));
+				return empty($mimeType) ? 'application/octet-stream' : $mimeType;
 			}
 			finfo_close($finfo);
 		}
+		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
 		if (!$isWrapped and $mimeType=='application/octet-stream' && function_exists("mime_content_type")) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
@@ -431,6 +432,11 @@ class OC_Helper {
 
 			//trim the newline
 			$mimeType = trim($reply);
+
+			if (empty($mimeType)) {
+				$mimeType = 'application/octet-stream';
+			}
+
 
 		}
 		return $mimeType;
