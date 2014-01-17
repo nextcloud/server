@@ -51,7 +51,7 @@ class OC_Files {
 			$xsendfile = true;
 		}
 
-		if (is_array($files) && count($files) == 1) {
+		if (is_array($files) && count($files) === 1) {
 			$files = $files[0];
 		}
 
@@ -178,7 +178,7 @@ class OC_Files {
 			if (isset($_SERVER['HTTP_RANGE']) && 
 				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
 				$filelength = filesize($filename);
- 				if ($range[2] == "") {
+ 				if ($range[2] === "") {
  					$range[2] = $filelength - 1;
  				}
  				header("Content-Range: bytes $range[1]-$range[2]/" . $filelength);
@@ -280,7 +280,7 @@ class OC_Files {
 		}
 
 		//don't allow user to break his config -- broken or malicious size input
-		if (intval($size) == 0) {
+		if (intval($size) === 0) {
 			return false;
 		}
 
@@ -302,7 +302,7 @@ class OC_Files {
 			if ($content !== null) {
 				$htaccess = $content;
 			}
-			if ($hasReplaced == 0) {
+			if ($hasReplaced === 0) {
 				$htaccess .= "\n" . $setting;
 			}
 		}
