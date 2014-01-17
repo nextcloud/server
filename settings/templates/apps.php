@@ -34,6 +34,11 @@
 		class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
 	<span class="score"></span>
 	<p class="description"></p>
+	<p class="documentation hidden">
+		<?php p($l->t("Documentation:"));?>
+		<span class="userDocumentation appslink"></span>
+		<span class="adminDocumentation appslink"></span>
+	</p>
 	<img src="" class="preview hidden" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php
 		p($l->t('See application page at apps.owncloud.com'));?></a></p>
