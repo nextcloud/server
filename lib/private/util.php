@@ -312,7 +312,7 @@ class OC_Util {
 			.'" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
+		if(!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 			$errors[] = array(
 				'error' => "Can't write into config directory",
 				'hint' => 'This can usually be fixed by '
