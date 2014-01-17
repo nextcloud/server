@@ -169,9 +169,9 @@ class Cache extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(916, $this->cache->calculateFolderSize($file1));
 		// direct cache entry retrieval returns the original values
-		$cacheResult = $this->cache->get($file1);
-		$this->assertEquals(1025, $cacheResult['size']);
-		$this->assertEquals(916, $cacheResult['unencrypted_size']);
+		$entry = $this->cache->get($file1);
+		$this->assertEquals(1025, $entry['size']);
+		$this->assertEquals(916, $entry['unencrypted_size']);
 
 		$this->cache->remove($file2);
 		$this->cache->remove($file3);

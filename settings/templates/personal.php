@@ -44,6 +44,8 @@ if($_['passwordChangeSupported']) {
 			placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
+		<br/>
+		<div class="strengthify-wrapper"></div>
 	</fieldset>
 </form>
 <?php

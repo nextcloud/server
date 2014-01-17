@@ -7,9 +7,9 @@ $(document).ready(function() {
 		oracle:!!$('#hasOracle').val(),
 		mssql:!!$('#hasMSSQL').val()
 	};
-	
+
 	$('#selectDbType').buttonset();
-	
+
 	if($('#hasSQLite').val()){
 		$('#use_other_db').hide();
 		$('#use_oracle_db').hide();
@@ -63,17 +63,27 @@ $(document).ready(function() {
 		form.submit();
 		return false;
 	});
-	
+
 	// Expand latest db settings if page was reloaded on error
 	var currentDbType = $('input[type="radio"]:checked').val();
-	
+
 	if (currentDbType === undefined){
 		$('input[type="radio"]').first().click();
 	}
-	
+
 	if (currentDbType === 'sqlite' || (dbtypes.sqlite && currentDbType === undefined)){
 		$('#datadirContent').hide(250);
 		$('#databaseField').hide(250);
 	}
-	
+
+	$('#adminpass').strengthify({
+		zxcvbn: OC.linkTo('3rdparty','zxcvbn/js/zxcvbn.js'),
+		titles: [
+			t('core', 'Very weak password'),
+			t('core', 'Weak password'),
+			t('core', 'So-so password'),
+			t('core', 'Good password'),
+			t('core', 'Strong password')
+		]
+	});
 });
