@@ -117,7 +117,7 @@ class Proxy extends \OC_FileProxy {
 					// update file cache for target file
 					$tmpFileInfo = $view->getFileInfo($tmpPath);
 					$fileInfo = $view->getFileInfo($path);
-					if (is_array($fileInfo) && is_array($tmpFileInfo)) {
+					if ($fileInfo && $tmpFileInfo) {
 						$fileInfo['encrypted'] = true;
 						$fileInfo['unencrypted_size'] = $tmpFileInfo['size'];
 						$view->putFileInfo($path, $fileInfo);
@@ -365,7 +365,7 @@ class Proxy extends \OC_FileProxy {
 		}
 
 		// if file is encrypted return real file size
-		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+		if ($fileInfo && $fileInfo['encrypted'] === true) {
 			// try to fix unencrypted file size if it doesn't look plausible
 			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
 				$fixSize = $util->getFileSize($path);
