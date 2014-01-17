@@ -36,8 +36,8 @@
 	<p class="description"></p>
 	<p class="documentation hidden">
 		<?php p($l->t("Documentation:"));?>
-		<span class="userDocumentation appslink"></span>
-		<span class="adminDocumentation appslink"></span>
+		<span class="userDocumentation doclink"></span>
+		<span class="adminDocumentation doclink"></span>
 	</p>
 	<img src="" class="preview hidden" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php
