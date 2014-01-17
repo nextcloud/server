@@ -70,7 +70,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (app.internal === false) {
 			page.find('span.score').show();
 			page.find('p.appslink').show();
-			page.find('a').attr('href', 'http://apps.owncloud.com/content/show.php?content=' + app.id);
+			page.find('a.appslink').attr('href', 'http://apps.owncloud.com/content/show.php?content=' + app.id);
 			page.find('small.externalapp').hide();
 		} else {
 			page.find('p.appslink').hide();
