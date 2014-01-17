@@ -34,6 +34,8 @@
 
 			<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
+			<input type="hidden" id="upload_limit" value="<?php p($_['uploadLimit']) ?>">
+			<input type="hidden" id="free_space" value="<?php p($_['freeSpace']) ?>">
 			<input type="hidden" id="uploadMaxFilesize" name="uploadMaxFilesize" value="<?php p($_['uploadMaxFilesize']) ?>" />
 			<input type="hidden" id="uploadMaxHumanFilesize" name="uploadMaxHumanFilesize" value="<?php p($_['uploadMaxHumanFilesize']) ?>" />
 			<input type="hidden" id="directory_path" name="directory_path" value="<?php p($_['directory_path']) ?>" />
