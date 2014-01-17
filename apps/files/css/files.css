@@ -115,8 +115,6 @@ table th#headerDate, table td.date {
 	box-sizing: border-box;
 	position: relative;
 	min-width: 176px;
-	display: block;
-	height: 51px;
 }
 
 /* Multiselect bar */
