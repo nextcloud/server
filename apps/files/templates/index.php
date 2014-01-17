@@ -32,7 +32,7 @@
 					<a href="#" class="svg"></a>
 			</div>
 			<?php if ($_['trash']): ?>
-			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>>
+			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?> />
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
@@ -50,7 +50,7 @@
 
 <div id="emptycontent" <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
+<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>" />
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
