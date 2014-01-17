@@ -20,6 +20,8 @@ var FileList={
 			Files.setupDragAndDrop();
 		}
 		FileList.updateFileSummary();
+		procesSelection();
+		
 		$fileList.trigger(jQuery.Event("updated"));
 	},
 	createRow:function(type, name, iconurl, linktarget, size, lastModified, permissions) {
