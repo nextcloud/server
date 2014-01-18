@@ -173,8 +173,10 @@ class BackgroundJob {
 	 * @return int id of task
 	 */
 	public static function addQueuedTask($app, $class, $method, $parameters) {
-		self::registerJob('OC\BackgroundJob\Legacy\QueuedJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
-		return true;
+		if (!\OC::needUpgrade()) {
+			self::registerJob('OC\BackgroundJob\Legacy\QueuedJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
+			return true;
+		}
 	}
 
 	/**
