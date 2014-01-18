@@ -416,6 +416,9 @@ var OC={
 							throw e;
 						});
 					}
+					if(!SVGSupport()) {
+						replaceSVG();
+					}
 				}).show();
 			}, 'html');
 		}
