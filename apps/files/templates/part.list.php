@@ -18,7 +18,7 @@ $totalsize = 0; ?>
 		data-size="<?php p($file['size']);?>"
 		data-etag="<?php p($file['etag']);?>"
 		data-permissions="<?php p($file['permissions']); ?>">
-		<?php if($file['isPreviewAvailable']): ?>
+		<?php if(isset($file['isPreviewAvailable']) and $file['isPreviewAvailable']): ?>
 		<td class="filename svg preview-icon"
 		<?php else: ?>
 		<td class="filename svg"

@@ -189,8 +189,8 @@ if (isset($path)) {
 					} else {
 						$i['extension'] = '';
 					}
-					$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 				}
+				$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
 				$i['icon'] = determineIcon($i, $basePath, $token);
