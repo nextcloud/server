@@ -103,8 +103,8 @@ class OC {
 			get_include_path()
 		);
 
-		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/test_config/')) {
-			self::$configDir = OC::$SERVERROOT . '/test_config/';
+		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
