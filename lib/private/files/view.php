@@ -801,6 +801,7 @@ class View {
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
+		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$permissionsCache = $storage->getPermissionsCache($internalPath);
@@ -811,10 +812,12 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
 				$watcher = $storage->getWatcher($internalPath);
-				$watcher->checkUpdate($internalPath);
+				$data = $watcher->checkUpdate($internalPath);
 			}
 
-			$data = $cache->get($internalPath);
+			if (!is_array($data)) {
+				$data = $cache->get($internalPath);
+			}
 
 			if ($data and $data['fileid']) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
