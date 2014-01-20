@@ -418,6 +418,65 @@ class Storage {
 	}
 
 	/**
+	 * @brief get list of files we want to expire
+	 * @param int $currentTime timestamp of current time
+	 * @param array $versions list of versions
+	 * @return array containing the list of to deleted versions and the size of them
+	 */
+	protected static function getExpireList($time, $versions) {
+
+		$size = 0;
+		$toDelete = array();  // versions we want to delete
+
+		$versions = array_reverse($versions); // newest version first
+
+		$interval = 1;
+		$step = Storage::$max_versions_per_interval[$interval]['step'];
+		if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
+			$nextInterval = -1;
+		} else {
+			$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+		}
+
+		$firstVersion = reset($versions);
+		$firstKey = key($versions);
+		$prevTimestamp = $firstVersion['version'];
+		$nextVersion = $firstVersion['version'] - $step;
+		unset($versions[$firstKey]);
+
+		foreach ($versions as $key => $version) {
+			$newInterval = true;
+			while ($newInterval) {
+				if ($nextInterval == -1 || $prevTimestamp > $nextInterval) {
+					if ($version['version'] > $nextVersion) {
+						//distance between two version too small, mark to delete
+						$toDelete[$key] = $version['path'] . '.v' . $version['version'];
+						$size += $version['size'];
+						\OCP\Util::writeLog('files_versions', 'Mark to expire '. $version['path'] .' next version should be ' . $nextVersion . " or smaller. (prevTimestamp: " . $prevTimestamp . "; step: " . $step, \OCP\Util::DEBUG);
+					} else {
+						$nextVersion = $version['version'] - $step;
+						$prevTimestamp = $version['version'];
+					}
+					$newInterval = false; // version checked so we can move to the next one
+				} else { // time to move on to the next interval
+					$interval++;
+					$step = Storage::$max_versions_per_interval[$interval]['step'];
+					$nextVersion = $prevTimestamp - $step;
+					if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
+						$nextInterval = -1;
+					} else {
+						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+					}
+					$newInterval = true; // we changed the interval -> check same version with new interval
+				}
+			}
+		}
+
+		return array($toDelete, $size);
+
+	}
+
+	/**
 	 * @brief Erase a file's versions which exceed the set quota
 	 */
 	private static function expire($filename, $versionsSize = null, $offset = 0) {
@@ -461,31 +520,33 @@ class Storage {
 				$availableSpace = $quota - $offset;
 			}
 
-
-			// with the  probability of 0.1% we reduce the number of all versions not only for the current file
-			$random = rand(0, 1000);
-			if ($random == 0) {
-				$allFiles = true;
-			} else {
-				$allFiles = false;
-			}
-
 			$allVersions = Storage::getVersions($uid, $filename);
-			$versionsByFile[$filename] = $allVersions;
 
-			$sizeOfDeletedVersions = self::delOldVersions($versionsByFile, $allVersions, $versionsFileview);
+			$time = time();
+			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions);
+
 			$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
 
 			// if still not enough free space we rearrange the versions from all files
-			if ($availableSpace <= 0 || $allFiles) {
+			if ($availableSpace <= 0) {
 				$result = Storage::getAllVersions($uid);
-				$versionsByFile = $result['by_file'];
 				$allVersions = $result['all'];
 
-				$sizeOfDeletedVersions = self::delOldVersions($versionsByFile, $allVersions, $versionsFileview);
+				foreach ($result['by_file'] as $versions) {
+					list($toDeleteNew, $size) = self::getExpireList($time, $versions);
+					$toDelete = array_merge($toDelete, $toDeleteNew);
+					$sizeOfDeletedVersions += $size;
+				}
 				$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 				$versionsSize = $versionsSize - $sizeOfDeletedVersions;
+			}
+
+			foreach($toDelete as $key => $path) {
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path));
+				$versionsFileview->unlink($path);
+				unset($allVersions[$key]); // update array with the versions we keep
+				\OCP\Util::writeLog('files_versions', "Expire: " . $path, \OCP\Util::DEBUG);
 			}
 
 			// Check if enough space is available after versions are rearranged.
@@ -497,6 +558,7 @@ class Storage {
 				$version = current($allVersions);
 				$versionsFileview->unlink($version['path'].'.v'.$version['version']);
 				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
+				\OCP\Util::writeLog('files_versions', 'running out of space! Delete oldest version: ' . $version['path'].'.v'.$version['version'] , \OCP\Util::DEBUG);
 				$versionsSize -= $version['size'];
 				$availableSpace += $version['size'];
 				next($allVersions);
@@ -507,69 +569,6 @@ class Storage {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @brief delete old version from a given list of versions
-	 *
-	 * @param array $versionsByFile list of versions ordered by files
-	 * @param array $allVversions all versions across multiple files
-	 * @param $versionsFileview \OC\Files\View on data/user/files_versions
-	 * @return size of releted versions
-	 */
-	private static function delOldVersions($versionsByFile, &$allVersions, $versionsFileview) {
-
-		$time = time();
-		$size = 0;
-
-		// delete old versions for every given file
-		foreach ($versionsByFile as $versions) {
-			$versions = array_reverse($versions); // newest version first
-
-			$interval = 1;
-			$step = Storage::$max_versions_per_interval[$interval]['step'];
-			if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
-				$nextInterval = -1;
-			} else {
-				$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
-			}
-
-			$firstVersion = reset($versions);
-			$firstKey = key($versions);
-			$prevTimestamp = $firstVersion['version'];
-			$nextVersion = $firstVersion['version'] - $step;
-			unset($versions[$firstKey]);
-
-			foreach ($versions as $key => $version) {
-				$newInterval = true;
-				while ($newInterval) {
-					if ($nextInterval == -1 || $version['version'] >= $nextInterval) {
-						if ($version['version'] > $nextVersion) {
-							//distance between two version too small, delete version
-							$versionsFileview->unlink($version['path'] . '.v' . $version['version']);
-							\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'] . '.v' . $version['version']));
-							$size += $version['size'];
-							unset($allVersions[$key]); // update array with all versions
-						} else {
-							$nextVersion = $version['version'] - $step;
-						}
-						$newInterval = false; // version checked so we can move to the next one
-					} else { // time to move on to the next interval
-						$interval++;
-						$step = Storage::$max_versions_per_interval[$interval]['step'];
-						$nextVersion = $prevTimestamp - $step;
-						if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
-							$nextInterval = -1;
-						} else {
-							$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
-						}
-						$newInterval = true; // we changed the interval -> check same version with new interval
-					}
-				}
-				$prevTimestamp = $version['version'];
-			}
-		}
-		return $size;
 	}
 
 	/**
