@@ -21,6 +21,7 @@
     <autoincrement>1</autoincrement>
     <unsigned>true</unsigned>
     <length>4</length>
+    <comments>This is the id</comments>
    </field>
 
    <field>
