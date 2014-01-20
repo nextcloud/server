@@ -97,7 +97,7 @@ module.exports = function(config) {
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		reporters: ['dots', 'junit'],
+		reporters: ['dots', 'junit', 'coverage'],
 
 		junitReporter: {
 			outputFile: 'tests/autotest-results-js.xml'
@@ -106,6 +106,17 @@ module.exports = function(config) {
 		// web server port
 		port: 9876,
 
+		preprocessors: {
+			'apps/files/js/*.js': 'coverage'
+		},
+
+		coverageReporter: {
+			dir:'tests/karma-coverage',
+			reporters: [
+				{ type: 'html' },
+				{ type: 'cobertura' }
+			]
+		},
 
 		// enable / disable colors in the output (reporters and logs)
 		colors: true,

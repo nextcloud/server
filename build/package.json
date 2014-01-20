@@ -13,7 +13,8 @@
         "devDependencies": {
                 "karma": "*",
                 "karma-jasmine": "*",
-                "karma-junit-reporter": "*"
+                "karma-junit-reporter": "*",
+	            "karma-coverage": "*"
         },
         "engine": "node >= 0.8"
 }
