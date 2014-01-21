@@ -365,7 +365,7 @@ class Share {
 			return false;
 		}
 
-		// password protected shares need to me authenticated
+		// password protected shares need to be authenticated
 		if ($checkPasswordProtection && !\OCP\Share::checkPasswordProtectedShare($row)) {
 			return false;
 		}
@@ -1905,6 +1905,12 @@ class Share {
 	 */
 	public static function checkPasswordProtectedShare(array $linkItem) {
 		if (!isset($linkItem['share_with'])) {
+			return true;
+		}
+		if (!isset($linkItem['share_type'])) {
+			return true;
+		}
+		if (!isset($linkItem['id'])) {
 			return true;
 		}
 
