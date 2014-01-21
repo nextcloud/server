@@ -261,11 +261,12 @@ class Storage {
 
 	/**
 	 * @brief get a list of all available versions of a file in descending chronological order
-	 * @param $uid user id from the owner of the file
-	 * @param $filename file to find versions of, relative to the user files dir
+	 * @param string $uid user id from the owner of the file
+	 * @param string $filename file to find versions of, relative to the user files dir
+	 * @param string $userFullPath
 	 * @returns array
 	 */
-	public static function getVersions($uid, $filename) {
+	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
 		// fetch for old versions
 		$view = new \OC\Files\View('/' . $uid . '/' . self::VERSIONS_ROOT);
@@ -286,7 +287,11 @@ class Storage {
 					$versions[$key]['cur'] = 0;
 					$versions[$key]['version'] = $version;
 					$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
-					$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $filename, 'version' => $version, 'user' => $uid));
+					if (empty($userFullPath)) {
+						$versions[$key]['preview'] = '';
+					} else {
+						$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $userFullPath, 'version' => $version));
+					}
 					$versions[$key]['path'] = $filename;
 					$versions[$key]['name'] = $versionedFile;
 					$versions[$key]['size'] = $file['size'];
@@ -508,8 +513,8 @@ class Storage {
 	 * @brief delete old version from a given list of versions
 	 *
 	 * @param array $versionsByFile list of versions ordered by files
-	 * @param array $allVversions all versions accross multiple files
-	 * @param $versionsFileview OC\Files\View on data/user/files_versions
+	 * @param array $allVversions all versions across multiple files
+	 * @param $versionsFileview \OC\Files\View on data/user/files_versions
 	 * @return size of releted versions
 	 */
 	private static function delOldVersions($versionsByFile, &$allVersions, $versionsFileview) {
