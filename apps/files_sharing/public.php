@@ -35,7 +35,7 @@ function determineIcon($file, $sharingRoot, $sharingToken) {
 
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
-	$linkItem = OCP\Share::getShareByToken($token);
+	$linkItem = OCP\Share::getShareByToken($token, false);
 	if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
 		// seems to be a valid share
 		$type = $linkItem['item_type'];
