@@ -43,10 +43,10 @@ if (isset($_GET['t'])) {
 		$shareOwner = $linkItem['uid_owner'];
 		$path = null;
 		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
-		$fileOwner = $rootLinkItem['uid_owner'];
-		if (isset($fileOwner)) {
+		if (isset($rootLinkItem['uid_owner'])) {
+			OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
 			OC_Util::tearDownFS();
-			OC_Util::setupFS($fileOwner);
+			OC_Util::setupFS($rootLinkItem['uid_owner']);
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
