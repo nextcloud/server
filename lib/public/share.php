@@ -347,11 +347,11 @@ class Share {
 	}
 
 	/**
-	 * Get the item shared by a token
-	 * @param string token
-	 * @return Item
+	 * Based on the given token the share information will be returned - password protected shares will be verified
+	 * @param string $token
+	 * @return array | bool false will be returned in case the token is unknown or unauthorized
 	 */
-	public static function getShareByToken($token) {
+	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
 		if (\OC_DB::isError($result)) {
@@ -361,6 +361,12 @@ class Share {
 		if (is_array($row) and self::expireItem($row)) {
 			return false;
 		}
+
+		// password protected shares need to me authenticated
+		if ($checkPasswordProtection && !\OCP\Share::checkPasswordProtectedShare($row)) {
+			return false;
+		}
+
 		return $row;
 	}
 
@@ -1888,6 +1894,28 @@ class Share {
 		}
 	}
 
+	/**
+	 * In case a password protected link is not yet authenticated this function will return false
+	 *
+	 * @param array $linkItem
+	 * @return bool
+	 */
+	public static function checkPasswordProtectedShare(array $linkItem) {
+		if (!isset($linkItem['share_with'])) {
+			return true;
+		}
+
+		if ($linkItem['share_type'] != \OCP\Share::SHARE_TYPE_LINK) {
+			return true;
+		}
+
+		if ( \OC::$session->exists('public_link_authenticated')
+			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /**
