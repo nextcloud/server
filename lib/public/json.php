@@ -167,7 +167,7 @@ class JSON {
 	* @return string json formatted string if not admin user.
 	*/
 	public static function checkAdminUser() {
-		return(\OC_JSON::checkAdminUser());
+		\OC_JSON::checkAdminUser();
 	}
 
 	/**
@@ -176,5 +176,13 @@ class JSON {
 	 */
 	public static function encode($data) {
 		return(\OC_JSON::encode($data));
+	}
+
+	/**
+	 * Check is a given user exists - send json error msg if not
+	 * @param string $user
+	 */
+	public static function checkUserExists($user) {
+		\OC_JSON::checkUserExists($user);
 	}
 }
