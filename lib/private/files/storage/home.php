@@ -63,4 +63,14 @@ class Home extends Local {
 	public function getUser() {
 		return $this->user;
 	}
+	
+	/**
+	 * get the owner of a path
+	 *
+	 * @param string $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return $this->getUser()->getUID();
+	}
 }
