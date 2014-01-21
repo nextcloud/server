@@ -143,7 +143,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = $this->randomKey;
 
-		$file = 'unittest-' . time() . '.txt';
+		$file = 'unittest-' . uniqid() . '.txt';
 
 		$util = new Encryption\Util($this->view, $this->userId);
 
@@ -196,7 +196,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	function testRecursiveDelShareKeys() {
 
 		// generate filename
-		$filename = '/tmp-' . time() . '.txt';
+		$filename = '/tmp-' . uniqid() . '.txt';
 
 		// create folder structure
 		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');

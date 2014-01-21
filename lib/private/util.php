@@ -51,6 +51,10 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 
+		if ($user != '' && !OCP\User::userExists($user)) {
+			return false;
+		}
+
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
 			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
