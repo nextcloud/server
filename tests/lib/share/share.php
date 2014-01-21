@@ -25,6 +25,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	protected $userBackend;
 	protected $user1;
 	protected $user2;
+	protected $user3;
+	protected $user4;
 	protected $groupBackend;
 	protected $group1;
 	protected $group2;
@@ -655,5 +657,45 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			OCP\Share::getItemsShared('test'),
 			'Failed asserting that the share of the test.txt file by user 2 has been removed.'
 		);
+	}
+
+	/**
+	 * @dataProvider checkPasswordProtectedShareDataProvider
+	 * @param $expected
+	 * @param $item
+	 */
+	public function testCheckPasswordProtectedShare($expected, $item) {
+		\OC::$session->set('public_link_authenticated', 100);
+		$result = \OCP\Share::checkPasswordProtectedShare($item);
+		$this->assertEquals($expected, $result);
+	}
+
+	function checkPasswordProtectedShareDataProvider() {
+		return array(
+			array(true, array()),
+			array(true, array('share_with' => null)),
+			array(true, array('share_with' => '')),
+			array(true, array('share_with' => '1234567890', 'share_type' => '1')),
+			array(true, array('share_with' => '1234567890', 'share_type' => 1)),
+			array(true, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 100)),
+			array(true, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 100)),
+			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 101)),
+			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 101)),
+		);
+
+		/*
+		if (!isset($linkItem['share_with'])) {
+			return true;
+		}
+
+		if ($linkItem['share_type'] != \OCP\Share::SHARE_TYPE_LINK) {
+			return true;
+		}
+
+		if ( \OC::$session->exists('public_link_authenticated')
+			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
+			return true;
+		}
+		 * */
 	}
 }
