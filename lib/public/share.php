@@ -358,6 +358,9 @@ class Share {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
 		}
 		$row = $result->fetchRow();
+		if ($row === false) {
+			return false;
+		}
 		if (is_array($row) and self::expireItem($row)) {
 			return false;
 		}
