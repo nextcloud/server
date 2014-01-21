@@ -1,0 +1,240 @@
+.icon {
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+
+
+/* general assets */
+
+.icon-breadcrumb {
+	background-image: url('../img/breadcrumb.svg');
+}
+
+.icon-loading {
+	background-image: url('../img/loading.gif');
+}
+.icon-loading-dark {
+	background-image: url('../img/loading-dark.gif');
+}
+.icon-loading-small {
+	background-image: url('../img/loading-small.gif');
+}
+
+.icon-noise {
+	background-image: url('../img/noise.png');
+	background-repeat: no-repeat;
+}
+
+
+
+
+/* action icons */
+
+.icon-add {
+	background-image: url('../img/actions/add.svg');
+}
+
+.icon-caret {
+	background-image: url('../img/actions/caret.svg');
+}
+.icon-caret-dark {
+	background-image: url('../img/actions/caret-dark.svg');
+}
+
+.icon-checkmark {
+	background-image: url('../img/actions/checkmark.svg');
+}
+
+.icon-clock {
+	background-image: url('../img/actions/clock.svg');
+}
+
+.icon-close {
+	background-image: url('../img/actions/close.svg');
+}
+
+.icon-confirm {
+	background-image: url('../img/actions/confirm.svg');
+}
+
+.icon-delete {
+	background-image: url('../img/actions/delete.svg');
+}
+.icon-delete-hover {
+	background-image: url('../img/actions/delete-hover.svg');
+}
+
+.icon-download {
+	background-image: url('../img/actions/download.svg');
+}
+
+.icon-history {
+	background-image: url('../img/actions/history.svg');
+}
+
+.icon-info {
+	background-image: url('../img/actions/info.svg');
+}
+
+.icon-lock {
+	background-image: url('../img/actions/lock.svg');
+}
+
+.icon-logout {
+	background-image: url('../img/actions/logout.svg');
+}
+
+.icon-mail {
+	background-image: url('../img/actions/mail.svg');
+}
+
+.icon-more {
+	background-image: url('../img/actions/more.svg');
+}
+
+.icon-password {
+	background-image: url('../img/actions/password.svg');
+}
+
+.icon-pause {
+	background-image: url('../img/actions/pause.svg');
+}
+.icon-pause-big {
+	background-image: url('../img/actions/pause-big.svg');
+}
+
+.icon-play {
+	background-image: url('../img/actions/play.svg');
+}
+.icon-play-add {
+	background-image: url('../img/actions/play-add.svg');
+}
+.icon-play-big {
+	background-image: url('../img/actions/play-big.svg');
+}
+.icon-play-next {
+	background-image: url('../img/actions/play-next.svg');
+}
+.icon-play-previous {
+	background-image: url('../img/actions/play-previous.svg');
+}
+
+.icon-public {
+	background-image: url('../img/actions/public.svg');
+}
+
+.icon-rename {
+	background-image: url('../img/actions/rename.svg');
+}
+
+.icon-search {
+	background-image: url('../img/actions/search.svg');
+}
+
+.icon-settings {
+	background-image: url('../img/actions/settings.svg');
+}
+
+.icon-share {
+	background-image: url('../img/actions/share.svg');
+}
+.icon-shared {
+	background-image: url('../img/actions/shared.svg');
+}
+
+.icon-sound {
+	background-image: url('../img/actions/sound.svg');
+}
+.icon-sound-off {
+	background-image: url('../img/actions/sound-off.svg');
+}
+
+.icon-star {
+	background-image: url('../img/actions/star.svg');
+}
+
+.icon-starred {
+	background-image: url('../img/actions/starred.svg');
+}
+
+.icon-toggle {
+	background-image: url('../img/actions/toggle.svg');
+}
+
+.icon-triangle-e {
+	background-image: url('../img/actions/triangle-e.svg');
+}
+.icon-triangle-n {
+	background-image: url('../img/actions/triangle-n.svg');
+}
+.icon-triangle-s {
+	background-image: url('../img/actions/triangle-s.svg');
+}
+
+.icon-upload {
+	background-image: url('../img/actions/upload.svg');
+}
+.icon-upload-white {
+	background-image: url('../img/actions/upload-white.svg');
+}
+
+.icon-user {
+	background-image: url('../img/actions/user.svg');
+}
+
+.icon-view-close {
+	background-image: url('../img/actions/view-close.svg');
+}
+.icon-view-next {
+	background-image: url('../img/actions/view-next.svg');
+}
+.icon-view-pause {
+	background-image: url('../img/actions/view-pause.svg');
+}
+.icon-view-play {
+	background-image: url('../img/actions/view-play.svg');
+}
+.icon-view-previous {
+	background-image: url('../img/actions/view-previous.svg');
+}
+
+
+
+
+/* places icons */
+
+.icon-calendar-dark {
+	background-image: url('../img/places/calendar-dark.svg');
+}
+
+.icon-contacts-dark {
+	background-image: url('../img/places/contacts-dark.svg');
+}
+
+.icon-file {
+	background-image: url('../img/places/file.svg');
+}
+.icon-files {
+	background-image: url('../img/places/files.svg');
+}
+.icon-folder {
+	background-image: url('../img/places/folder.svg');
+}
+
+.icon-home {
+	background-image: url('../img/places/home.svg');
+}
+
+.icon-link {
+	background-image: url('../img/places/link.svg');
+}
+
+.icon-music {
+	background-image: url('../img/places/music.svg');
+}
+
+.icon-picture {
+	background-image: url('../img/places/picture.svg');
+}
