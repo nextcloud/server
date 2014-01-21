@@ -113,7 +113,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	function testWebdavPUT() {
 
 		// generate filename
-		$filename = '/tmp-' . time() . '.txt';
+		$filename = '/tmp-' . uniqid() . '.txt';
 
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'OPTIONS';

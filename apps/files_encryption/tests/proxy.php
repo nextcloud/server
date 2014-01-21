@@ -80,7 +80,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 		// init short data
 		$this->data = 'hats';
-		$this->filename = 'enc_proxy_tests-' . time() . '.txt';
+		$this->filename = 'enc_proxy_tests-' . uniqid() . '.txt';
 
 	}
 
