@@ -382,7 +382,7 @@ class OC_DB {
 
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( self::isError($result)) {
-				throw new DatabaseException($result->getMessage(), $query);
+				throw new DatabaseException(self::getErrorMessage($result), $query);
 			}
 		}else{
 			try{
@@ -1117,10 +1117,8 @@ class OC_DB {
 	 */
 	public static function getErrorMessage($error) {
 		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
-			$msg = $error->getCode() . ': ' . $error->getMessage();
-			if (defined('DEBUG') && DEBUG) {
-				$msg .= '(' . $error->getDebugInfo() . ')';
-			}
+			$msg = $error->getCode() . ': ' . $error->getMessage()
+				 . ' (' . $error->getDebugInfo() . ')';
 		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
 			$msg = self::$PDO->errorCode() . ': ';
 			$errorInfo = self::$PDO->errorInfo();
