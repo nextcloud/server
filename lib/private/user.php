@@ -205,6 +205,9 @@ class OC_User {
 				// Delete user files in /data/
 				OC_Helper::rmdirr(\OC_User::getHome($uid));
 
+				// Delete the users entry in the storage table
+				\OC\Files\Cache\Storage::remove('home::' . $uid);
+
 				// Remove it from the Cache
 				self::getManager()->delete($uid);
 			}
