@@ -402,7 +402,7 @@ class Storage {
 		$result = array();
 
 		foreach ($versions as $key => $value) {
-			$size = $view->filesize($value['path']);
+			$size = $view->filesize(self::VERSIONS_ROOT.'/'.$value['path'].'.v'.$value['timestamp']);
 			$filename = $value['path'];
 
 			$result['all'][$key]['version'] = $value['timestamp'];
