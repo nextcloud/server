@@ -5,7 +5,8 @@ $source = $_GET['source'];
 $start = $_GET['start'];
 list ($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($source);
 $count = 5; //show the newest revisions
-if( ($versions = OCA\Files_Versions\Storage::getVersions($uid, $filename)) ) {
+$versions = OCA\Files_Versions\Storage::getVersions($uid, $filename, $source);
+if( $versions ) {
 
 	$endReached = false;
 	if (count($versions) <= $start+$count) {

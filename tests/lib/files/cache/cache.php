@@ -137,6 +137,52 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar'));
 	}
 
+	public function testEncryptedFolder() {
+		$file1 = 'folder';
+		$file2 = 'folder/bar';
+		$file3 = 'folder/foo';
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+		$fileData = array();
+		$fileData['bar'] = array('size' => 1000, 'unencrypted_size' => 900, 'encrypted' => 1, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$fileData['foo'] = array('size' => 20, 'unencrypted_size' => 16, 'encrypted' => 1, 'mtime' => 25, 'mimetype' => 'foo/file');
+
+		$this->cache->put($file1, $data1);
+		$this->cache->put($file2, $fileData['bar']);
+		$this->cache->put($file3, $fileData['foo']);
+
+		$content = $this->cache->getFolderContents($file1);
+		$this->assertEquals(count($content), 2);
+		foreach ($content as $cachedData) {
+			$data = $fileData[$cachedData['name']];
+			// indirect retrieval swaps  unencrypted_size and size
+			$this->assertEquals($data['unencrypted_size'], $cachedData['size']);
+		}
+
+		$file4 = 'folder/unkownSize';
+		$fileData['unkownSize'] = array('size' => -1, 'mtime' => 25, 'mimetype' => 'foo/file');
+		$this->cache->put($file4, $fileData['unkownSize']);
+
+		$this->assertEquals(-1, $this->cache->calculateFolderSize($file1));
+
+		$fileData['unkownSize'] = array('size' => 5, 'mtime' => 25, 'mimetype' => 'foo/file');
+		$this->cache->put($file4, $fileData['unkownSize']);
+
+		$this->assertEquals(916, $this->cache->calculateFolderSize($file1));
+		// direct cache entry retrieval returns the original values
+		$entry = $this->cache->get($file1);
+		$this->assertEquals(1025, $entry['size']);
+		$this->assertEquals(916, $entry['unencrypted_size']);
+
+		$this->cache->remove($file2);
+		$this->cache->remove($file3);
+		$this->cache->remove($file4);
+		$this->assertEquals(0, $this->cache->calculateFolderSize($file1));
+
+		$this->cache->remove('folder');
+		$this->assertFalse($this->cache->inCache('folder/foo'));
+		$this->assertFalse($this->cache->inCache('folder/bar'));
+	}
+
 	public function testRootFolderSizeForNonHomeStorage() {
 		$dir1 = 'knownsize';
 		$dir2 = 'unknownsize';

@@ -16,7 +16,7 @@
 		<div class="header-right">
 			<span id="details"><?php p($l->t('shared by %s', array($_['displayName']))) ?></span>
 		</div>
-	</div></header>
+</header>
 <div id="content">
 	<div id="preview">
 		<?php if (isset($_['folder'])): ?>

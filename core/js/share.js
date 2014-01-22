@@ -181,7 +181,8 @@ OC.Share={
 	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
 		var data = OC.Share.loadItem(itemType, itemSource);
-		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'"" data-item-source-name="'+filename+'">';
+		var dropDownEl;
+		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: escapeHTML(data.reshare.share_with), owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
@@ -239,7 +240,8 @@ OC.Share={
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
 			html += '<input id="expirationDate" type="text" placeholder="'+t('core', 'Expiration date')+'" style="display:none; width:90%;" />';
 			html += '</div>';
-			$(html).appendTo(appendTo);
+			dropDownEl = $(html);
+			dropDownEl = dropDownEl.appendTo(appendTo);
 			// Reset item shares
 			OC.Share.itemShares = [];
 			if (data.shares) {
@@ -332,8 +334,10 @@ OC.Share={
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';
-			$(html).appendTo(appendTo);
+			dropDownEl = $(html);
+			dropDownEl.appendTo(appendTo);
 		}
+		dropDownEl.attr('data-item-source-name', filename);
 		$('#dropdown').show('blind', function() {
 			OC.Share.droppedDown = true;
 		});

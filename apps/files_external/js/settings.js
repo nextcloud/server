@@ -12,7 +12,7 @@ function updateStatus(statusEl, result){
 }
 
 OC.MountConfig={
-	saveStorage:function(tr) {
+	saveStorage:function(tr, callback) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if (mountPoint == '') {
 			return false;
@@ -84,9 +84,15 @@ OC.MountConfig={
 						},
 						success: function(result) {
 							status = updateStatus(statusSpan, result);
+							if (callback) {
+								callback(status);
+							}
 						},
 						error: function(result){
 							status = updateStatus(statusSpan, result);
+							if (callback) {
+								callback(status);
+							}
 						}
 					});
 				});
@@ -137,9 +143,15 @@ OC.MountConfig={
 					},
 					success: function(result) {
 						status = updateStatus(statusSpan, result);
+						if (callback) {
+							callback(status);
+						}
 					},
 					error: function(result){
 						status = updateStatus(statusSpan, result);
+						if (callback) {
+							callback(status);
+						}
 					}
 				});
 			}

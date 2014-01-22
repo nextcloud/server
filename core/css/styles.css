@@ -341,7 +341,7 @@ input[type="submit"].enabled {
 	margin-bottom: 20px;
 	text-align: left;
 }
-#body-login form #adminaccount { margin-bottom:5px; }
+#body-login form #adminaccount { margin-bottom:15px; }
 #body-login form fieldset legend, #datadirContent label {
 	width: 100%;
 	font-weight: bold;
@@ -359,6 +359,21 @@ input[type="submit"].enabled {
 #body-login #showAdvanced img {
 	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
 	margin-left: -4px;
+}
+
+/* strengthify wrapper */
+#body-login .strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	left: 15px;
+	top: -21px;
+	width: 252px;
+}
+
+/* tipsy for the strengthify wrapper looks better with following font settings */
+#body-login .tipsy-inner {
+	font-weight: bold;
+	color: #ccc;
 }
 
 /* Icons for username and password fields to better recognize them */

@@ -32,11 +32,14 @@ $(document).ready(function() {
 							if (result && result.status == 'success') {
 								$(token).val(result.data.token);
 								$(configured).val('true');
-								OC.MountConfig.saveStorage(tr);
-								$(tr).find('.configuration input').attr('disabled', 'disabled');
-								$(tr).find('.configuration').append($('<span/>')
-									.attr('id', 'access')
-									.text(t('files_external', 'Access granted')));
+								OC.MountConfig.saveStorage(tr, function(status) {
+									if (status) {
+										$(tr).find('.configuration input').attr('disabled', 'disabled');
+										$(tr).find('.configuration').append($('<span/>')
+											.attr('id', 'access')
+											.text(t('files_external', 'Access granted')));
+									}
+								});
 							} else {
 								OC.dialogs.alert(result.data.message,
 									t('files_external', 'Error configuring Google Drive storage')
@@ -99,7 +102,6 @@ $(document).ready(function() {
 		var configured = $(this).parent().find('[data-parameter="configured"]');
 		var client_id = $(this).parent().find('[data-parameter="client_id"]').val();
 		var client_secret = $(this).parent().find('[data-parameter="client_secret"]').val();
-		var statusSpan = $(tr).find('.status span');
 		if (client_id != '' && client_secret != '') {
 			var token = $(this).parent().find('[data-parameter="token"]');
 			$.post(OC.filePath('files_external', 'ajax', 'google.php'),
@@ -112,10 +114,9 @@ $(document).ready(function() {
 					if (result && result.status == 'success') {
 						$(configured).val('false');
 						$(token).val('false');
-						OC.MountConfig.saveStorage(tr);
-						statusSpan.removeClass();
-						statusSpan.addClass('waiting');
-						window.location = result.data.url;
+						OC.MountConfig.saveStorage(tr, function(status) {
+							window.location = result.data.url;
+						});
 					} else {
 						OC.dialogs.alert(result.data.message,
 							t('files_external', 'Error configuring Google Drive storage')

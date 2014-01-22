@@ -555,6 +555,10 @@ class OC_App{
 			}elseif($child->getName()=='description') {
 				$xml=(string)$child->asXML();
 				$data[$child->getName()]=substr($xml, 13, -14);//script <description> tags
+			}elseif($child->getName()=='documentation') {
+				foreach($child as $subchild) {
+					$data["documentation"][$subchild->getName()] = (string)$subchild;
+				}
 			}else{
 				$data[$child->getName()]=(string)$child;
 			}
