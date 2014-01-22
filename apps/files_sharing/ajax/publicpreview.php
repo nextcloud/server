@@ -39,6 +39,7 @@ if(!isset($linkedItem['uid_owner']) || !isset($linkedItem['file_source'])) {
 $rootLinkItem = OCP\Share::resolveReShare($linkedItem);
 $userId = $rootLinkItem['uid_owner'];
 
+OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
 \OC_Util::setupFS($userId);
 \OC\Files\Filesystem::initMountPoints($userId);
 $view = new \OC\Files\View('/' . $userId . '/files');

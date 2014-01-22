@@ -12,17 +12,10 @@ if(!\OC_App::isEnabled('files_versions')){
 }
 
 $file = array_key_exists('file', $_GET) ? (string) urldecode($_GET['file']) : '';
-$user = array_key_exists('user', $_GET) ? $_GET['user'] : '';
 $maxX = array_key_exists('x', $_GET) ? (int) $_GET['x'] : 44;
 $maxY = array_key_exists('y', $_GET) ? (int) $_GET['y'] : 44;
 $version = array_key_exists('version', $_GET) ? $_GET['version'] : '';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool) $_GET['scalingup'] : true;
-
-if($user === '') {
-	\OC_Response::setStatus(400); //400 Bad Request
-	\OC_Log::write('versions-preview', 'No user parameter was passed', \OC_Log::DEBUG);
-	exit;
-}
 
 if($file === '' && $version === '') {
 	\OC_Response::setStatus(400); //400 Bad Request
@@ -36,7 +29,8 @@ if($maxX === 0 || $maxY === 0) {
 	exit;
 }
 
-try{
+try {
+	list($user, $file) = \OCA\Files_Versions\Storage::getUidAndFilename($file);
 	$preview = new \OC\Preview($user, 'files_versions', $file.'.v'.$version);
 	$mimetype = \OC_Helper::getFileNameMimeType($file);
 	$preview->setMimetype($mimetype);

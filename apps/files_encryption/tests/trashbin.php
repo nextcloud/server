@@ -119,7 +119,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	function testDeleteFile() {
 
 		// generate filename
-		$filename = 'tmp-' . time() . '.txt';
+		$filename = 'tmp-' . uniqid() . '.txt';
 
 		// save file with content
 		$cryptedFile = file_put_contents('crypt:///' .\Test_Encryption_Trashbin::TEST_ENCRYPTION_TRASHBIN_USER1. '/files/'. $filename, $this->dataShort);
@@ -223,7 +223,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	function testPermanentDeleteFile() {
 
 		// generate filename
-		$filename = 'tmp-' . time() . '.txt';
+		$filename = 'tmp-' . uniqid() . '.txt';
 
 		// save file with content
 		$cryptedFile = file_put_contents('crypt:///' .$this->userId. '/files/' . $filename, $this->dataShort);

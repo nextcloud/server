@@ -612,11 +612,12 @@ function procesSelection() {
 		return el.type==='dir';
 	});
 	if (selectedFiles.length === 0 && selectedFolders.length === 0) {
-		$('#headerName>span.name').text(t('files','Name'));
+		$('#headerName span.name').text(t('files','Name'));
 		$('#headerSize').text(t('files','Size'));
 		$('#modified').text(t('files','Modified'));
 		$('table').removeClass('multiselect');
 		$('.selectedActions').hide();
+		$('#select_all').removeAttr('checked');
 	}
 	else {
 		$('.selectedActions').show();
@@ -719,7 +720,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 			console.warn('Files.lazyLoadPreview(): missing etag argument');
 		}
 
-		if ( $('#publicUploadButtonMock').length ) {
+		if ( $('#public_upload').length ) {
 			urlSpec.t = $('#dirToken').val();
 			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
 		} else {

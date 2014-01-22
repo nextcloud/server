@@ -131,6 +131,12 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .appslink { text-decoration: underline; }
 .score { color:#666; font-weight:bold; font-size:0.8em; }
 
+.appinfo .documentation {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+
 /* LOG */
 #log { white-space:normal; }
 #lessLog { display:none; }

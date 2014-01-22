@@ -40,7 +40,7 @@ class Watcher {
 	 * check $path for updates
 	 *
 	 * @param string $path
-	 * @return boolean true if path was updated, false otherwise
+	 * @return boolean | array true if path was updated, otherwise the cached data is returned
 	 */
 	public function checkUpdate($path) {
 		$cachedEntry = $this->cache->get($path);
@@ -56,7 +56,7 @@ class Watcher {
 			$this->cache->correctFolderSize($path);
 			return true;
 		}
-		return false;
+		return $cachedEntry;
 	}
 
 	/**
