@@ -141,10 +141,13 @@ thead{
 .directLink {
 	margin-bottom: 20px;
 }
-	.directLink label {
-		font-weight: normal;
-	}
-	.directLink input {
-		margin-left: 10px;
-		width: 300px;
-	}
+.directLink label {
+	font-weight: normal;
+}
+.directLink input {
+	margin-left: 10px;
+	width: 300px;
+}
+.public_actions {
+	padding: 4px;
+}

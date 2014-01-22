@@ -59,7 +59,8 @@ $(document).ready(function() {
 	});
 
 	// Add Uploadprogress Wrapper to controls bar
-	$('#controls').append($('#additional_controls div#uploadprogresswrapper'));
+	$('#controls').append($('#controls .actions div#uploadprogresswrapper'));
+	$('#uploadprogresswrapper').addClass('public_actions');
 
 	// Cancel upload trigger
 	$('#cancel_upload_button').click(function() {
