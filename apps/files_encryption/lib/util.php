@@ -2,9 +2,10 @@
 /**
  * ownCloud
  *
- * @author Sam Tuke, Frank Karlitschek
+ * @author Sam Tuke, Frank Karlitschek, Bjoern Schiessle
  * @copyright 2012 Sam Tuke <samtuke@owncloud.com>,
- * Frank Karlitschek <frank@owncloud.org>
+ * Frank Karlitschek <frank@owncloud.org>,
+ * Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -1376,59 +1377,32 @@ class Util {
 		}
 	}
 
-
 	/**
 	 * @brief go recursively through a dir and collect all files and sub files.
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
 	public function getAllFiles($dir) {
-
 		$result = array();
+		$dirList = array($dir);
 
-		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath(
-			$this->userFilesDir . '/' . $dir));
+		while ($dirList) {
+			$dir = array_pop($dirList);
+			$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath(
+					$this->userFilesDir . '/' . $dir));
 
-		// handling for re shared folders
-		$pathSplit = explode('/', $dir);
-
-		foreach ($content as $c) {
-
-			$sharedPart = $pathSplit[sizeof($pathSplit) - 1];
-			$targetPathSplit = array_reverse(explode('/', $c['path']));
-
-			$path = '';
-
-			// rebuild path
-			foreach ($targetPathSplit as $pathPart) {
-
-				if ($pathPart !== $sharedPart) {
-
-					$path = '/' . $pathPart . $path;
-
+			foreach ($content as $c) {
+				$usersPath = isset($c['usersPath']) ? $c['usersPath'] : $c['path'];
+				if ($c['type'] === 'dir') {
+					$dirList[] = substr($usersPath, strlen("files"));
 				} else {
-
-					break;
-
+					$result[] = substr($usersPath, strlen("files"));
 				}
-
 			}
 
-			$path = $dir . $path;
-
-			if ($c['type'] === 'dir') {
-
-				$result = array_merge($result, $this->getAllFiles($path));
-
-			} else {
-
-				$result[] = $path;
-
-			}
 		}
 
 		return $result;
-
 	}
 
 	/**
