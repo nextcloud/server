@@ -543,15 +543,16 @@ class Storage {
 			foreach ($versions as $key => $version) {
 				$newInterval = true;
 				while ($newInterval) {
-					if ($nextInterval == -1 || $version['version'] >= $nextInterval) {
+					if ($nextInterval == -1 || $prevTimestamp > $nextInterval) {
 						if ($version['version'] > $nextVersion) {
 							//distance between two version too small, delete version
-							$versionsFileview->unlink($version['path'] . '.v' . $version['version']);
 							\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'] . '.v' . $version['version']));
+							$versionsFileview->unlink($version['path'] . '.v' . $version['version']);
 							$size += $version['size'];
 							unset($allVersions[$key]); // update array with all versions
 						} else {
 							$nextVersion = $version['version'] - $step;
+							$prevTimestamp = $version['version'];
 						}
 						$newInterval = false; // version checked so we can move to the next one
 					} else { // time to move on to the next interval
@@ -566,7 +567,6 @@ class Storage {
 						$newInterval = true; // we changed the interval -> check same version with new interval
 					}
 				}
-				$prevTimestamp = $version['version'];
 			}
 		}
 		return $size;
