@@ -264,7 +264,7 @@ class Storage {
 	 * @param string $uid user id from the owner of the file
 	 * @param string $filename file to find versions of, relative to the user files dir
 	 * @param string $userFullPath
-	 * @returns array
+	 * @returns array versions newest first
 	 */
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
@@ -397,12 +397,13 @@ class Storage {
 			}
 		}
 
-		ksort($versions);
+		// newest first
+		krsort($versions);
 
 		$result = array();
 
 		foreach ($versions as $key => $value) {
-			$size = $view->filesize($value['path']);
+			$size = $view->filesize(self::VERSIONS_ROOT.'/'.$value['path'].'.v'.$value['timestamp']);
 			$filename = $value['path'];
 
 			$result['all'][$key]['version'] = $value['timestamp'];
@@ -524,7 +525,6 @@ class Storage {
 
 		// delete old versions for every given file
 		foreach ($versionsByFile as $versions) {
-			$versions = array_reverse($versions); // newest version first
 
 			$interval = 1;
 			$step = Storage::$max_versions_per_interval[$interval]['step'];
