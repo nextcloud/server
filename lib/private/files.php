@@ -20,6 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+require_once( 'ZipStreamer/ZipStreamer.php' );
 
 class GET_TYPE {
 	const FILE = 1;
@@ -32,8 +33,6 @@ class GET_TYPE {
  *
  */
 class OC_Files {
-	static $tmpFiles = array();
-
 	static public function getFileInfo($path, $includeMountPoints = true){
 		return \OC\Files\Filesystem::getFileInfo($path, $includeMountPoints);
 	}
@@ -103,12 +102,7 @@ class OC_Files {
 			}
 		} else {
 			self::validateZipDownload($dir, $files);
-			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				$l = OC_L10N::get('lib');
-				throw new Exception($l->t('cannot open "%s"', array($filename)));
-			}
+			$zip = new ZipStreamer(false);
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
@@ -132,9 +126,9 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
-						self::$tmpFiles[] = $tmpFile;
-						$zip->addFile($tmpFile, basename($file));
+						$fh = \OC\Files\Filesystem::fopen($file, 'r');
+						$zip->addFileFromStream($fh, basename($file));
+						fclose($fh);
 					} elseif (\OC\Files\Filesystem::is_dir($file)) {
 						self::zipAddDir($file, $zip);
 					}
@@ -143,20 +137,7 @@ class OC_Files {
 				$file = $dir . '/' . $files;
 				self::zipAddDir($file, $zip);
 			}
-			$zip->close();
-			if ($xsendfile) {
-				$filename = OC_Helper::moveToNoClean($filename);
-				self::addSendfileHeader($filename);
-			} else {
-				$handle = fopen($filename, 'r');
-				if ($handle) {
-					$chunkSize = 8 * 1024; // 1 MB chunks
-					while (!feof($handle)) {
-						echo fread($handle, $chunkSize);
-						flush();
-					}
-				}
-			}
+			$zip->finalize();
 			set_time_limit($executionTime);
 		} else {
 			if ($xsendfile) {
@@ -168,11 +149,6 @@ class OC_Files {
 				}
 			} else {
 				\OC\Files\Filesystem::readfile($filename);
-			}
-		}
-		foreach (self::$tmpFiles as $tmpFile) {
-			if (file_exists($tmpFile) and is_file($tmpFile)) {
-				unlink($tmpFile);
 			}
 		}
 	}
@@ -210,9 +186,9 @@ class OC_Files {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;
 			if(\OC\Files\Filesystem::is_file($file)) {
-				$tmpFile=\OC\Files\Filesystem::toTmpFile($file);
-				OC_Files::$tmpFiles[]=$tmpFile;
-				$zip->addFile($tmpFile, $internalDir.$filename);
+				$fh = \OC\Files\Filesystem::fopen($file, 'r');
+				$zip->addFileFromStream($fh, $internalDir.$filename);
+				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				self::zipAddDir($file, $zip, $internalDir);
 			}
