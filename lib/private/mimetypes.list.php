@@ -36,6 +36,8 @@ return array(
 	'c++' => 'text/x-c++src',
 	'doc'=>'application/msword',
 	'docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	'dot'=>'application/msword',
+	'dotx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 	'dv'=>'video/dv',
 	'epub' => 'application/epub+zip',
 	'exe'=>'application/x-ms-dos-executable',
