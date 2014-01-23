@@ -119,8 +119,12 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$subject = (string)$l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
 					$expiration = null;
 					if (isset($items[0]['expiration'])) {
-						$date = new DateTime($items[0]['expiration']);
-						$expiration = $date->format('Y-m-d');
+						try {
+							$date = new DateTime($items[0]['expiration']);
+							$expiration = $date->format('Y-m-d');
+						} catch (Exception $e) {
+							\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
+						}
 					}
 
 					if ($itemType === 'folder') {
@@ -191,6 +195,17 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$file = $_POST['file'];
 			$to_address = $_POST['toaddress'];
 
+			$expiration = null;
+			if (isset($_POST['expiration']) && $_POST['expiration'] !== '') {
+				try {
+					$date = new DateTime($_POST['expiration']);
+					$expiration = $date->format('Y-m-d');
+				} catch (Exception $e) {
+					\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
+				}
+
+			}
+
 			// enable l10n support
 			$l = OC_L10N::get('core');
 
@@ -202,6 +217,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$content->assign ('type', $type);
 			$content->assign ('user_displayname', $displayName);
 			$content->assign ('filename', $file);
+			$content->assign('expiration', $expiration);
 			$text = $content->fetchPage();
 
 			$content = new OC_Template("core", "altmail", "");
@@ -209,6 +225,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$content->assign ('type', $type);
 			$content->assign ('user_displayname', $displayName);
 			$content->assign ('filename', $file);
+			$content->assign('expiration', $expiration);
 			$alttext = $content->fetchPage();
 
 			$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
