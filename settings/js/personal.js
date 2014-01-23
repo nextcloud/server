@@ -165,12 +165,29 @@ $(document).ready(function(){
 
     $('#email').keyup(function(){
         if ($('#email').val() !== '' ){
+            // if this is the enter key changeEmailAddress() is already invoked
+            // so it doesn't need to be triggered again
+            if(event.keyCode === 13) {
+                return;
+            }
             if(typeof timeout !== 'undefined'){
                 clearTimeout(timeout);
             }
             timeout = setTimeout('changeEmailAddress()',1000);
         }
     });
+
+	$('#email').keypress(function(event){
+		// check for enter key and non empty email
+		if (event.keyCode === 13 && $('#email').val() !== '' ){
+			event.preventDefault()
+			// clear timeout of previous keyup event - prevents duplicate changeEmailAddress call
+			if(typeof timeout !== 'undefined'){
+				clearTimeout(timeout);
+			}
+			changeEmailAddress();
+		}
+	});
 
 	$("#languageinput").change( function(){
 		// Serialize the data
