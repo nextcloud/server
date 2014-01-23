@@ -23,7 +23,7 @@
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg"></a>
+					<a href="#" class="svg icon icon-upload"></a>
 			</div>
 			<?php if ($_['trash']): ?>
 			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?>></input>
