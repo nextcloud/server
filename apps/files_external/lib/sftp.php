@@ -226,14 +226,6 @@ class SFTP extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function writeBack($tmpFile) {
-		if (array_key_exists($tmpFile, self::$tempFiles)) {
-			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
-			unlink($tmpFile);
-			unset(self::$tempFiles[$tmpFile]);
-		}
-	}
-
 	public function touch($path, $mtime=null) {
 		try {
 			if (!is_null($mtime)) {
