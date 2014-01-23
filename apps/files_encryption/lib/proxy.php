@@ -37,6 +37,7 @@ namespace OCA\Encryption;
 class Proxy extends \OC_FileProxy {
 
 	private static $blackList = null; //mimetypes blacklisted from encryption
+	private static $unencryptedSizes = array(); // remember unencrypted size
 
 	/**
 	 * Check if a file requires encryption
@@ -114,14 +115,12 @@ class Proxy extends \OC_FileProxy {
 					// get encrypted content
 					$data = $view->file_get_contents($tmpPath);
 
-					// update file cache for target file
+					// store new unenecrypted size so that it can be updated
+					// in the post proxy
 					$tmpFileInfo = $view->getFileInfo($tmpPath);
-					$fileInfo = $view->getFileInfo($path);
-					if (is_array($fileInfo) && is_array($tmpFileInfo)) {
-						$fileInfo['encrypted'] = true;
-						$fileInfo['unencrypted_size'] = $tmpFileInfo['size'];
-						$view->putFileInfo($path, $fileInfo);
-						}
+					if ( isset($tmpFileInfo['size']) ) {
+						self::$unencryptedSizes[\OC_Filesystem::normalizePath($path)] = $tmpFileInfo['size'];
+					}
 
 					// remove our temp file
 					$view->deleteAll('/' . \OCP\User::getUser() . '/cache/' . $cacheFolder);
@@ -134,6 +133,24 @@ class Proxy extends \OC_FileProxy {
 
 		return true;
 
+	}
+
+	/**
+	 * @brief update file cache with the new unencrypted size after file was written
+	 * @param string $path
+	 * @param mixed $result
+	 * @return mixed
+	 */
+	public function postFile_put_contents($path, $result) {
+		$normalizedPath = \OC_Filesystem::normalizePath($path);
+		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
+			$view = new \OC_FilesystemView('/');
+			$view->putFileInfo($normalizedPath,
+					array('encrypted' => true, 'encrypted_size' => self::$unencryptedSizes[$normalizedPath]));
+			unset(self::$unencryptedSizes[$normalizedPath]);
+		}
+
+		return $result;
 	}
 
 	/**
