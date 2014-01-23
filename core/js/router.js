@@ -3,9 +3,12 @@ OC.Router = {
 	// register your ajax requests to load after the loading of the routes
 	// has finished. otherwise you face problems with race conditions
 	registerLoadedCallback: function(callback){
+		if (!this.routes_request){
+			return;
+		}
 		this.routes_request.done(callback);
 	},
-	routes_request: $.ajax(OC.router_base_url + '/core/routes.json', {
+	routes_request: !window.TESTING && $.ajax(OC.router_base_url + '/core/routes.json', {
 		dataType: 'json',
 		success: function(jsondata) {
 			if (jsondata.status === 'success') {
@@ -75,4 +78,4 @@ OC.Router = {
 
 		return OC.router_base_url + url;
 	}
-};
+}
