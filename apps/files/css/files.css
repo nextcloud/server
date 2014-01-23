@@ -145,7 +145,6 @@ table.multiselect thead th {
 }
 table.multiselect #headerName {
 	position: relative;
-	width: 100%;
 }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name {

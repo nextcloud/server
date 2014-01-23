@@ -72,9 +72,8 @@ p.info a {
 	max-width:100%;
 }
 
-thead{
-	background-color: white;
-	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
+thead {
+	padding-left: 0 !important; /* fixes multiselect bar offset on shared page */
 }
 
 #data-upload-form {
