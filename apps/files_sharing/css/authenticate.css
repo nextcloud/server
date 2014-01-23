@@ -11,16 +11,13 @@
 	margin:	6px;
 }
 
-input[type="submit"]{
+input[type='submit'] {
 	width: 45px;
 	height: 45px;
 	margin:	6px;
-	background-image: url('%webroot%/core/img/actions/confirm.svg');
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
-#body-login input[type="submit"] {
+#body-login input[type='submit'] {
 	position: absolute;
 	top: 0px;
 }
