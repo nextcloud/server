@@ -182,6 +182,7 @@ class OC_Helper {
 			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+			'application/msaccess' => 'database',
 		);
 
 		if (isset($alias[$mimetype])) {

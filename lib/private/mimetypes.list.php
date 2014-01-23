@@ -24,6 +24,7 @@
  * Array mapping file extensions to mimetypes (in alphabetical order).
  */
 return array(
+	'accdb'=>'application/msaccess',
 	'ai' => 'application/illustrator',
 	'avi'=>'video/x-msvideo',
 	'bash' => 'text/x-shellscript',
@@ -60,6 +61,7 @@ return array(
 	'markdown' => 'text/markdown',
 	'mdown' => 'text/markdown',
 	'md' => 'text/markdown',
+	'mdb'=>'application/msaccess',
 	'mdwn' => 'text/markdown',
 	'mobi' => 'application/x-mobipocket-ebook',
 	'mov'=>'video/quicktime',
