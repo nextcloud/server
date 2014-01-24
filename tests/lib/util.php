@@ -88,6 +88,15 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		OC_Config::deleteKey('mail_domain');
 	}
 
+	function testGetConfiguredEmailAddressFromConfig() {
+		OC_Config::setValue('mail_domain', 'example.com');
+		OC_Config::setValue('mail_from_address', 'owncloud');
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('owncloud@example.com', $email);
+		OC_Config::deleteKey('mail_domain');
+		OC_Config::deleteKey('mail_from_address');
+	}
+
 	function testGetInstanceIdGeneratesValidId() {
 		OC_Config::deleteKey('instanceid');
 		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());

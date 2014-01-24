@@ -256,6 +256,7 @@ class Util {
 	 *     it would return 'lostpassword-noreply@example.com'
 	 */
 	public static function getDefaultEmailAddress($user_part) {
+		$user_part = \OC_Config::getValue('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
