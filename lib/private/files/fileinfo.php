@@ -122,7 +122,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess, \JsonSerializable {
 	/**
 	 * @return int
 	 */
-	public function getMtime() {
+	public function getMTime() {
 		return $this->data['mtime'];
 	}
 
@@ -149,5 +149,41 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess, \JsonSerializable {
 
 	public function getData(){
 		return $this->data;
+	}
+
+	/**
+	 * @param int $permissions
+	 * @return bool
+	 */
+	protected function checkPermissions($permissions) {
+		return ($this->getPermissions() & $permissions) === $permissions;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isReadable() {
+		return $this->checkPermissions(\OCP\PERMISSION_READ);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isUpdateable() {
+		return $this->checkPermissions(\OCP\PERMISSION_UPDATE);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isDeletable() {
+		return $this->checkPermissions(\OCP\PERMISSION_DELETE);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isShareable() {
+		return $this->checkPermissions(\OCP\PERMISSION_SHARE);
 	}
 }

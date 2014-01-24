@@ -107,4 +107,32 @@ interface FileInfo {
 	 * @return \OCP\Files\FileInfo::TYPE_FILE | \OCP\Files\FileInfo::TYPE_FOLDER
 	 */
 	public function getType();
+
+	/**
+	 * Check if the file or folder is readable
+	 *
+	 * @return bool
+	 */
+	public function isReadable();
+
+	/**
+	 * Check if a file is writable
+	 *
+	 * @return bool
+	 */
+	public function isUpdateable();
+
+	/**
+	 * Check if a file or folder can be deleted
+	 *
+	 * @return bool
+	 */
+	public function isDeletable();
+
+	/**
+	 * Check if a file or folder can be shared
+	 *
+	 * @return bool
+	 */
+	public function isShareable();
 }
