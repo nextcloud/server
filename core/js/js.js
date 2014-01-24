@@ -364,6 +364,34 @@ var OC={
 		}
 		return result;
 	},
+
+	/**
+	 * Builds a URL query from a JS map.
+	 * @param params parameter map
+	 * @return string containing a URL query (without question) mark
+	 */
+	buildQueryString: function(params) {
+		var s = '';
+		var first = true;
+		if (!params) {
+			return s;
+		}
+		for (var key in params) {
+			var value = params[key];
+			if (first) {
+				first = false;
+			}
+			else {
+				s += '&';
+			}
+			s += encodeURIComponent(key);
+			if (value !== null && typeof(value) !== 'undefined') {
+				s += '=' + encodeURIComponent(value);
+			}
+		}
+		return s;
+	},
+
 	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
