@@ -146,29 +146,27 @@ if($_['passwordChangeSupported']) {
 };?>
 
 <?php if($_['enableDecryptAll']): ?>
-<form id="decryptAll">
-	<fieldset class="personalblock">
-		<h2>
-			<?php p( $l->t( 'Encryption' ) ); ?>
-		</h2>
-		<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
-		<p>
-			<input
-				type="password"
-				name="privateKeyPassword"
-				id="privateKeyPassword" />
-			<label for="privateKeyPassword"><?php p($l->t( "Log-in password" )); ?></label>
-			<br />
-			<button
-				type="button"
-				disabled
-				name="submitDecryptAll"><?php p($l->t( "Decrypt all Files" )); ?>
-			</button>
-			<span class="msg"></span>
-		</p>
+<fieldset class="personalblock" id="decryptAll">
+	<h2>
+		<?php p( $l->t( 'Encryption' ) ); ?>
+	</h2>
+	<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
+	<p>
+		<input
+			type="password"
+			name="privateKeyPassword"
+			id="privateKeyPassword" />
+		<label for="privateKeyPassword"><?php p($l->t( "Log-in password" )); ?></label>
 		<br />
-	</fieldset>
-</form>
+		<button
+			type="button"
+			disabled
+			name="submitDecryptAll"><?php p($l->t( "Decrypt all Files" )); ?>
+		</button>
+		<span class="msg"></span>
+	</p>
+	<br />
+</fieldset>
 <?php endif; ?>
 
 <fieldset class="personalblock">
