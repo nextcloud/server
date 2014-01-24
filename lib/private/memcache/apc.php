@@ -50,6 +50,8 @@ class APC extends Cache {
 	static public function isAvailable() {
 		if (!extension_loaded('apc')) {
 			return false;
+		} elseif (!ini_get('apc.enabled')) {
+			return false;
 		} elseif (!ini_get('apc.enable_cli') && \OC::$CLI) {
 			return false;
 		} else {
