@@ -246,8 +246,8 @@ $(document).ready(function() {
 				if (selection.totalBytes > $('#free_space').val()) {
 					data.textStatus = 'notenoughspace';
 					data.errorThrown = t('files', 'Not enough free space, you are uploading {size1} but only {size2} is left', {
-						'{size1}': humanFileSize(selection.totalBytes),
-						'{size2}': humanFileSize($('#free_space').val())
+						'size1': humanFileSize(selection.totalBytes),
+						'size2': humanFileSize($('#free_space').val())
 					});
 				}
 			
