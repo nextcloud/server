@@ -144,7 +144,7 @@ interface IServerContainer {
 	/**
 	 * Returns an \OCP\CacheFactory instance
 	 *
-	 * @return \OCP\CacheFactory
+	 * @return \OCP\ICacheFactory
 	 */
 	function getMemCacheFactory();
 

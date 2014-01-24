@@ -8,17 +8,19 @@
 
 namespace OCP;
 
-interface CacheFactory{
+interface ICacheFactory{
 	/**
 	 * Get a memory cache instance
 	 *
+	 * All entries added trough the cache instance will be namespaced by $prefix to prevent collisions between apps
+	 *
 	 * @param string $prefix
-	 * @return $return \OCP\ICache
+	 * @return \OCP\ICache
 	 */
 	public function create($prefix = '');
 
 	/**
-	 * Check if a memory cache backend is available
+	 * Check if any memory cache backend is available
 	 *
 	 * @return bool
 	 */

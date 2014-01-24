@@ -8,7 +8,9 @@
 
 namespace OC\Memcache;
 
-class Factory {
+use \OCP\ICacheFactory;
+
+class Factory implements ICacheFactory {
 	/**
 	 * @var string $globalPrefix
 	 */
