@@ -39,9 +39,11 @@ if($_['passwordChangeSupported']) {
 		<h2><?php p($l->t('Password'));?></h2>
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
-		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
+		<input type="password" id="pass1" name="oldpassword"
+			placeholder="<?php echo $l->t('Current password');?>" autocomplete="off" />
 		<input type="password" id="pass2" name="personal-password"
-			placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
+			placeholder="<?php echo $l->t('New password');?>"
+			data-typetoggle="#personal-show" autocomplete="off" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 		<br/>
