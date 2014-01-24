@@ -32,10 +32,12 @@ describe('FileList tests', function() {
 	});
 	it('generates file element with correct attributes when calling addFile', function() {
 		var lastMod = new Date(10000);
+		// note: download_url is actually the link target, not the actual download URL...
 		var $tr = FileList.addFile('testName.txt', 1234, lastMod, false, false, {download_url: 'test/download/url'});
 
 		expect($tr).toBeDefined();
 		expect($tr[0].tagName.toLowerCase()).toEqual('tr');
+		expect($tr.find('a:first').attr('href')).toEqual('test/download/url');
 		expect($tr.attr('data-type')).toEqual('file');
 		expect($tr.attr('data-file')).toEqual('testName.txt');
 		expect($tr.attr('data-size')).toEqual('1234');
@@ -53,5 +55,9 @@ describe('FileList tests', function() {
 		expect($tr.attr('data-size')).toEqual('1234');
 		expect($tr.attr('data-permissions')).toEqual('31');
 		//expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
+	});
+	it('returns correct download URL', function() {
+		expect(FileList.getDownloadUrl('some file.txt')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?files=some%20file.txt&dir=%2Fsubdir&download');
+		expect(FileList.getDownloadUrl('some file.txt', '/anotherpath/abc')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?files=some%20file.txt&dir=%2Fanotherpath%2Fabc&download');
 	});
 });

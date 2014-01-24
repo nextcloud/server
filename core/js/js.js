@@ -253,6 +253,12 @@ var OC={
 		return link;
 	},
 	/**
+	 * Redirect to the target URL, can also be used for downloads.
+	 */
+	redirect: function(targetUrl) {
+		window.location = targetUrl;
+	},
+	/**
 	 * get the absolute path to an image file
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
