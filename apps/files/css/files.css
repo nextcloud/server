@@ -103,7 +103,7 @@ table td {
 }
 table th#headerName {
 	position: relative;
-	width: 100em; /* not really sure why this works better than 100% … table styling */
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
 #headerName-container {
@@ -145,6 +145,7 @@ table.multiselect thead th {
 }
 table.multiselect #headerName {
 	position: relative;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name {
