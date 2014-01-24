@@ -206,6 +206,8 @@ $(document).ready(function(){
 
 	$('button:button[name="submitDecryptAll"]').click(function() {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
+		$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+		$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
 
@@ -214,6 +216,8 @@ $(document).ready(function(){
 		if (privateKeyPassword !== '' ) {
 			$('#decryptAll button:button[name="submitDecryptAll"]').removeAttr("disabled");
 			if(event.which === 13) {
+				$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 				OC.Encryption.decryptAll(privateKeyPassword);
 			}
 		} else {
@@ -280,6 +284,7 @@ OC.Encryption = {
 		$.post('ajax/decryptall.php', {password:password}, function(data) {
 			if (data.status === "error") {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+				$('#decryptAll input:password[name="privateKeyPassword"]').removeAttr("disabled");
 			} else {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
 			}
