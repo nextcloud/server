@@ -254,10 +254,9 @@ OC.Encryption = {
 			} else {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
 			}
-		}
-		);
+		});
 	}
-}
+};
 
 OC.Encryption.msg={
 	startDecrypting:function(selector){
