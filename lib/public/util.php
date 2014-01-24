@@ -254,6 +254,10 @@ class Util {
 	 * Example: when given lostpassword-noreply as $user_part param,
 	 *     and is currently accessed via http(s)://example.com/,
 	 *     it would return 'lostpassword-noreply@example.com'
+	 *
+	 * If the configuration value 'mail_from_address' is set in
+	 * config.php, this value will override the $user_part that
+	 * is passed to this function
 	 */
 	public static function getDefaultEmailAddress($user_part) {
 		$user_part = \OC_Config::getValue('mail_from_address', $user_part);
