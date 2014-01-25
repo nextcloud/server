@@ -33,9 +33,9 @@
 	width: 100% !important;
 	height: 50px;
 	background-color: lightyellow;
-	border-radius: 0.5em;
-	padding: 0.6em 0.5em 0.4em !important;
-	margin-bottom: 0.3em;
+	border-radius: 8px;
+	padding: 10px 8px 6px !important;
+	margin-bottom: 5px;
 }
 
 #ldapWizard1 .hostPortCombinator {
@@ -68,17 +68,17 @@
 }
 
 .ldapwarning {
-	margin-left: 1.4em;
+	margin-left: 22px;
 	color: #FF3B3B;
 }
 
 .wizSpinner {
 	height: 15px;
-	margin: 0.3em;
+	margin: 5px;
 }
 
 .ldapSettingControls {
-	margin-top: 3ex;
+	margin-top: 3px;
 }
 
 #ldap fieldset p label {
@@ -110,10 +110,6 @@ select[multiple=multiple] + button {
 	max-width: 40%;
 }
 
-.ldapwarning {
-	margin-left: 22px;
-	color: #FF3B3B;
-}
 .ldap_config_state_indicator_sign {
 	display: inline-block;
 	height: 16px;
