@@ -57,7 +57,6 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 
-table.grid { width:100%; }
 div.quota {
 	float: right;
 	display: block;

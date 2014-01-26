@@ -14,30 +14,29 @@ unset($items['admin']);
 $_['subadmingroups'] = array_flip($items);
 ?>
 
-<div id="controls">
-	<form id="newuser" autocomplete="off">
-		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" /> <input
-			type="password" id="newuserpassword"
-			placeholder="<?php p($l->t('Password'))?>" /> <select
-			class="groupsselect"
-			id="newusergroups" data-placeholder="groups"
-			title="<?php p($l->t('Groups'))?>" multiple="multiple">
-			<?php foreach($_["groups"] as $group): ?>
-			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
-			<?php endforeach;?>
-		</select> <input type="submit" value="<?php p($l->t('Create'))?>" />
-	</form>
-	<?php if((bool)$_['recoveryAdminEnabled']): ?>
-	<div class="recoveryPassword">
-	<input id="recoveryPassword"
-		   type="password"
-		   placeholder="<?php p($l->t('Admin Recovery Password'))?>"
-		   title="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"
-		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
-	</div>
-	<?php endif; ?>
-	<div class="quota">
-		<span><?php p($l->t('Default Storage'));?></span>
+<!-- THE APP NAVIGATION LEFT CONTENT AREA -->
+<div id="app-navigation">
+	<ul>
+		<!-- Add new group -->
+		<li>
+			<input type="text" placeholder="<?php p($l->t('Group')); ?>..." />
+			<button><?php p($l->t('Add')); ?></button>
+		</li>
+		<!-- Everyone -->
+		<li>
+			<a href="#"><?php p($l->t('Everyone')); ?></a>
+		</li>
+		<!--List of Groups-->
+		<?php foreach($_["groups"] as $group): ?>
+		<li>
+			<a href="#"><?php p($group['name']);?></a>
+		</li>
+	<?php endforeach; ?>
+	</ul>
+	<!-- Default storage -->
+	<div class="app-settings">
+		<div class="quota">
+			<span><?php p($l->t('Default Storage'));?></span>
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
 				<option
@@ -73,9 +72,32 @@ $_['subadmingroups'] = array_flip($items);
 					</option>
 				</select>
 			<?php endif; ?>
+		</div>
 	</div>
 </div>
-
+<div id="controls">
+	<form id="newuser" autocomplete="off">
+		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" /> <input
+			type="password" id="newuserpassword"
+			placeholder="<?php p($l->t('Password'))?>" /> <select
+			class="groupsselect"
+			id="newusergroups" data-placeholder="groups"
+			title="<?php p($l->t('Groups'))?>" multiple="multiple">
+			<?php foreach($_["groups"] as $group): ?>
+			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
+			<?php endforeach;?>
+		</select> <input type="submit" value="<?php p($l->t('Create'))?>" />
+	</form>
+	<?php if((bool)$_['recoveryAdminEnabled']): ?>
+	<div class="recoveryPassword">
+	<input id="recoveryPassword"
+		   type="password"
+		   placeholder="<?php p($l->t('Admin Recovery Password'))?>"
+		   title="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"
+		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
+	</div>
+	<?php endif; ?>
+</div>
 <table class="hascontrols grid" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>
 		<tr>
