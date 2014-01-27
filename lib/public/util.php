@@ -88,14 +88,18 @@ class Util {
 	 * @param Exception $ex exception to log
 	 */
 	public static function logException( $app, \Exception $ex ) {
-		$message = $ex->getMessage();
+		$class = get_class($ex);
+		if ($class !== 'Exception') {
+			$message = $class . ': ';
+		}
+		$message .= $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
 		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
-			$stack = explode('#', $ex->getTraceAsString());
+			$stack = explode("\n", $ex->getTraceAsString());
 			// first element is empty
 			array_shift($stack);
 			foreach ($stack as $s) {
