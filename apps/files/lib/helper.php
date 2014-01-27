@@ -5,13 +5,13 @@ namespace OCA\Files;
 class Helper
 {
 	public static function buildFileStorageStatistics($dir) {
-		$l = new \OC_L10N('files');
-		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir);
-		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
-
 		// information about storage capacities
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
+
+		$l = new \OC_L10N('files');
+		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
+		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
+		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,

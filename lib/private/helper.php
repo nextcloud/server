@@ -824,13 +824,16 @@ class OC_Helper {
 	/**
 	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
 	 *
-	 * @param $dir the current folder where the user currently operates
+	 * @param string $dir the current folder where the user currently operates
+	 * @param int $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
 	 * @return number of bytes representing
 	 */
-	public static function maxUploadFilesize($dir) {
+	public static function maxUploadFilesize($dir, $freeSpace = null) {
 		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if (is_null($freeSpace)) {
+			$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		}
 		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
 			$maxUploadFilesize = \OC\Files\SPACE_UNLIMITED;
 		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
