@@ -16,11 +16,17 @@ class Quota extends Wrapper {
 	protected $quota;
 
 	/**
+	 * @var string $freeSpaceRoot
+	 */
+	protected $sizeRoot;
+
+	/**
 	 * @param array $parameters
 	 */
 	public function __construct($parameters) {
 		$this->storage = $parameters['storage'];
 		$this->quota = $parameters['quota'];
+		$this->freeSpaceRoot = isset($parameters['root']) ? $parameters['root'] : '';
 	}
 
 	protected function getSize($path) {
@@ -43,7 +49,7 @@ class Quota extends Wrapper {
 		if ($this->quota < 0) {
 			return $this->storage->free_space($path);
 		} else {
-			$used = $this->getSize('');
+			$used = $this->getSize($this->freeSpaceRoot);
 			if ($used < 0) {
 				return \OC\Files\SPACE_NOT_COMPUTED;
 			} else {

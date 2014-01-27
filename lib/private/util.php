@@ -65,7 +65,7 @@ class OC_Util {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
 					}
 				}
 
