@@ -16,7 +16,7 @@ class Quota extends Wrapper {
 	protected $quota;
 
 	/**
-	 * @var string $freeSpaceRoot
+	 * @var string $sizeRoot
 	 */
 	protected $sizeRoot;
 
