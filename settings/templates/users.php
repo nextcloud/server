@@ -75,7 +75,7 @@ $_['subadmingroups'] = array_flip($items);
 		</div>
 	</div>
 </div>
-<div id="controls">
+<div id="user-controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" /> <input
 			type="password" id="newuserpassword"
