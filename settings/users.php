@@ -18,6 +18,17 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 $users = array();
 $groups = array();
 
+if (isset($_GET['offset'])) {
+	$offset = $_GET['offset'];
+} else {
+	$offset = 0;
+}
+if (isset($_GET['limit'])) {
+	$limit = $_GET['limit'];
+} else {
+	$limit = 10;
+}
+
 $isadmin = OC_User::isAdminUser(OC_User::getUser());
 $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
@@ -65,9 +76,13 @@ foreach($accessibleusers as $uid => $displayName) {
 	);
 }
 
-foreach( $accessiblegroups as $i ) {
-	// Do some more work here soon
-	$groups[] = array( "name" => $i );
+foreach( $accessiblegroups as $gid ) {
+	$groups[] = array(
+		'id' => str_replace(' ','', $gid ),
+		'name' => $gid,
+		'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset),
+		'isAdmin' => !OC_User::isAdminUser($gid),
+	);
 }
 
 $tmpl = new OC_Template( "settings", "users", "user" );

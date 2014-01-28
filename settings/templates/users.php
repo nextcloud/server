@@ -29,7 +29,10 @@ $_['subadmingroups'] = array_flip($items);
 		<!--List of Groups-->
 		<?php foreach($_["groups"] as $group): ?>
 		<li>
-			<a href="#"><?php p($group['name']);?></a>
+			<a href="#"><?php p($group['name']); ?></a>
+			<span class="utils">
+				<span class="usercount"><?php p(count($group['useringroup'])); ?></span>
+			</span>
 		</li>
 	<?php endforeach; ?>
 	</ul>
