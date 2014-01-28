@@ -530,6 +530,47 @@ $(document).ready(function () {
 			}
 		);
 	});
+	$('#newgroup').submit(function (event) {
+		event.preventDefault();
+		var groupname = $('#newgroupname').val();
+		if ($.trim(groupname) === '') {
+			OC.dialogs.alert(
+				t('settings', 'A valid groupname must be provided'),
+				t('settings', 'Error creating group'));
+			return false;
+		}
+		$.post(
+			OC.filePath('settings', 'ajax', 'creategroup.php'),
+			{
+				groupname : groupname
+			},
+			function (result) {
+				if (result.status !== 'success') {
+					OC.dialogs.alert(result.data.message,
+						t('settings', 'Error creating group'));
+				} else {
+					if (result.data.groupname) {
+						var addedGroups = result.data.groupname;
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					}
+					if (result.data.homeExists){
+						OC.Notification.hide();
+						OC.Notification.show(t('settings', 'Warning: Home directory for user "{group}" already exists', {group: result.data.groupname}));
+						if (UserList.notificationTimeout){
+							window.clearTimeout(UserList.notificationTimeout);
+						}
+						UserList.notificationTimeout = window.setTimeout(
+							function(){
+								OC.Notification.hide();
+								UserList.notificationTimeout = null;
+							}, 10000);
+					}
+				}
+
+			}
+		)
+	});
+
 	// Handle undo notifications
 	OC.Notification.hide();
 	$('#notification').on('click', '.undo', function () {
