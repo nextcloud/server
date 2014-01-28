@@ -65,7 +65,7 @@ tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:h
 tr:hover>td.remove>a { float:right; }
 
 div.quota {
-	float: right;
+	margin: 10px;
 	display: block;
 }
 div.quota-select-wrapper { position: relative; }
