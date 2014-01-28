@@ -220,9 +220,7 @@ class Api {
 				$shareWith = isset($_POST['password']) ? $_POST['password'] : null;
 				//check public link share
 				$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
-				$encryptionEnabled = \OC_App::isEnabled('files_encryption');
-				if(isset($_POST['publicUpload']) &&
-						($encryptionEnabled || $publicUploadEnabled !== 'yes')) {
+				if(isset($_POST['publicUpload']) && $publicUploadEnabled !== 'yes') {
 					return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 				}
 				$publicUpload = isset($_POST['publicUpload']) ? $_POST['publicUpload'] : 'false';
@@ -321,11 +319,8 @@ class Api {
 		$permissions = isset($params['_put']['permissions']) ? (int)$params['_put']['permissions'] : null;
 
 		$publicUploadStatus = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
-		$encryptionEnabled = \OC_App::isEnabled('files_encryption');
-		$publicUploadEnabled = false;
-		if(!$encryptionEnabled && $publicUploadStatus === 'yes') {
-			$publicUploadEnabled = true;
-		}
+		$publicUploadEnabled = ($publicUploadStatus === 'yes') ? true : false;
+
 
 		// only change permissions for public shares if public upload is enabled
 		// and we want to set permissions to 1 (read only) or 7 (allow upload)
@@ -363,8 +358,7 @@ class Api {
 	private static function updatePublicUpload($share, $params) {
 
 		$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
-		$encryptionEnabled = \OC_App::isEnabled('files_encryption');
-		if($encryptionEnabled || $publicUploadEnabled !== 'yes') {
+		if($publicUploadEnabled !== 'yes') {
 			return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 		}
 
