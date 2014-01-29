@@ -43,7 +43,18 @@ describe('FileActions tests', function() {
 
 		// actions defined after cal
 		expect($tr.find('.action[data-action=Download]').length).toEqual(1);
-		expect($tr.find('.action[data-action=Rename]').length).toEqual(1);
+		expect($tr.find('.nametext .action[data-action=Rename]').length).toEqual(1);
+		expect($tr.find('.action.delete').length).toEqual(1);
+	});
+	it('calling display() twice correctly replaces file actions', function() {
+		var $tr = FileList.addFile('testName.txt', 1234, new Date(), false, false, {download_url: 'test/download/url'});
+
+		FileActions.display($tr.find('td.filename'), true);
+		FileActions.display($tr.find('td.filename'), true);
+
+		// actions defined after cal
+		expect($tr.find('.action[data-action=Download]').length).toEqual(1);
+		expect($tr.find('.nametext .action[data-action=Rename]').length).toEqual(1);
 		expect($tr.find('.action.delete').length).toEqual(1);
 	});
 	it('redirects to download URL when clicking download', function() {
