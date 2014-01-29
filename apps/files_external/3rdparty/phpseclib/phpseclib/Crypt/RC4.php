@@ -14,7 +14,7 @@
  *  - {@link http://en.wikipedia.org/wiki/RC4 - Wikipedia: RC4}
  *
  * RC4 is also known as ARCFOUR or ARC4.  The reason is elaborated upon at Wikipedia.  This class is named RC4 and not
- * ARCFOUR or ARC4 because RC4 is how it is refered to in the SSH1 specification.
+ * ARCFOUR or ARC4 because RC4 is how it is referred to in the SSH1 specification.
  *
  * Here's a short example of how to use this library:
  * <code>
@@ -41,10 +41,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -58,9 +58,17 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMVII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id: RC4.php,v 1.8 2009/06/09 04:00:38 terrafrost Exp $
  * @link       http://phpseclib.sourceforge.net
  */
+
+/**
+ * Include Crypt_Base
+ *
+ * Base cipher class
+ */
+if (!class_exists('Crypt_Base')) {
+    require_once('Base.php');
+}
 
 /**#@+
  * @access private
@@ -69,11 +77,11 @@
 /**
  * Toggles the internal implementation
  */
-define('CRYPT_RC4_MODE_INTERNAL', 1);
+define('CRYPT_RC4_MODE_INTERNAL', CRYPT_MODE_INTERNAL);
 /**
  * Toggles the mcrypt implementation
  */
-define('CRYPT_RC4_MODE_MCRYPT', 2);
+define('CRYPT_RC4_MODE_MCRYPT', CRYPT_MODE_MCRYPT);
 /**#@-*/
 
 /**#@+
@@ -92,7 +100,57 @@ define('CRYPT_RC4_DECRYPT', 1);
  * @access  public
  * @package Crypt_RC4
  */
-class Crypt_RC4 {
+class Crypt_RC4 extends Crypt_Base {
+    /**
+     * Block Length of the cipher
+     *
+     * RC4 is a stream cipher 
+     * so we the block_size to 0
+     *
+     * @see Crypt_Base::block_size
+     * @var Integer 
+     * @access private
+     */
+    var $block_size = 0;
+
+    /**
+     * The default password key_size used by setPassword()
+     *
+     * @see Crypt_Base::password_key_size
+     * @see Crypt_Base::setPassword()
+     * @var Integer
+     * @access private
+     */
+    var $password_key_size = 128; // = 1024 bits
+
+    /**
+     * The namespace used by the cipher for its constants.
+     *
+     * @see Crypt_Base::const_namespace
+     * @var String
+     * @access private
+     */
+    var $const_namespace = 'RC4';
+
+
+    /**
+     * The mcrypt specific name of the cipher
+     *
+     * @see Crypt_Base::cipher_name_mcrypt
+     * @var String
+     * @access private
+     */
+    var $cipher_name_mcrypt = 'arcfour';
+
+    /**
+     * Holds whether performance-optimized $inline_crypt() can/should be used.
+     *
+     * @see Crypt_Base::inline_crypt
+     * @var mixed
+     * @access private
+     */
+    var $use_inline_crypt = false; // currently not available
+
     /**
      * The Key
      *
@@ -103,190 +161,26 @@ class Crypt_RC4 {
     var $key = "\0";
 
     /**
-     * The Key Stream for encryption
-     *
-     * If CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT, this will be equal to the mcrypt object
+     * The Key Stream for decryption and encryption
      *
      * @see Crypt_RC4::setKey()
      * @var Array
      * @access private
      */
-    var $encryptStream = false;
-
-    /**
-     * The Key Stream for decryption
-     *
-     * If CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT, this will be equal to the mcrypt object
-     *
-     * @see Crypt_RC4::setKey()
-     * @var Array
-     * @access private
-     */
-    var $decryptStream = false;
-
-    /**
-     * The $i and $j indexes for encryption
-     *
-     * @see Crypt_RC4::_crypt()
-     * @var Integer
-     * @access private
-     */
-    var $encryptIndex = 0;
-
-    /**
-     * The $i and $j indexes for decryption
-     *
-     * @see Crypt_RC4::_crypt()
-     * @var Integer
-     * @access private
-     */
-    var $decryptIndex = 0;
-
-    /**
-     * The Encryption Algorithm
-     *
-     * Only used if CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT.  Only possible values are MCRYPT_RC4 or MCRYPT_ARCFOUR.
-     *
-     * @see Crypt_RC4::Crypt_RC4()
-     * @var Integer
-     * @access private
-     */
-    var $mode;
-
-    /**
-     * Continuous Buffer status
-     *
-     * @see Crypt_RC4::enableContinuousBuffer()
-     * @var Boolean
-     * @access private
-     */
-    var $continuousBuffer = false;
+    var $stream;
 
     /**
      * Default Constructor.
      *
      * Determines whether or not the mcrypt extension should be used.
      *
+     * @see Crypt_Base::Crypt_Base()
      * @return Crypt_RC4
      * @access public
      */
     function Crypt_RC4()
     {
-        if ( !defined('CRYPT_RC4_MODE') ) {
-            switch (true) {
-                case extension_loaded('mcrypt') && (defined('MCRYPT_ARCFOUR') || defined('MCRYPT_RC4')) && in_array('arcfour', mcrypt_list_algorithms()):
-                    define('CRYPT_RC4_MODE', CRYPT_RC4_MODE_MCRYPT);
-                    break;
-                default:
-                    define('CRYPT_RC4_MODE', CRYPT_RC4_MODE_INTERNAL);
-            }
-        }
-
-        switch ( CRYPT_RC4_MODE ) {
-            case CRYPT_RC4_MODE_MCRYPT:
-                switch (true) {
-                    case defined('MCRYPT_ARCFOUR'):
-                        $this->mode = MCRYPT_ARCFOUR;
-                        break;
-                    case defined('MCRYPT_RC4');
-                        $this->mode = MCRYPT_RC4;
-                }
-                $this->encryptStream = mcrypt_module_open($this->mode, '', MCRYPT_MODE_STREAM, '');
-                $this->decryptStream = mcrypt_module_open($this->mode, '', MCRYPT_MODE_STREAM, '');
-
-        }
-    }
-
-    /**
-     * Sets the key.
-     *
-     * Keys can be between 1 and 256 bytes long.  If they are longer then 256 bytes, the first 256 bytes will
-     * be used.  If no key is explicitly set, it'll be assumed to be a single null byte.
-     *
-     * @access public
-     * @param String $key
-     */
-    function setKey($key)
-    {
-        $this->key = $key;
-
-        if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT ) {
-            mcrypt_generic_init($this->encryptStream, $this->key, '');
-            mcrypt_generic_init($this->decryptStream, $this->key, '');
-            return;
-        }
-
-        $keyLength = strlen($key);
-        $keyStream = array();
-        for ($i = 0; $i < 256; $i++) {
-            $keyStream[$i] = $i;
-        }
-        $j = 0;
-        for ($i = 0; $i < 256; $i++) {
-            $j = ($j + $keyStream[$i] + ord($key[$i % $keyLength])) & 255;
-            $temp = $keyStream[$i];
-            $keyStream[$i] = $keyStream[$j];
-            $keyStream[$j] = $temp;
-        }
-
-        $this->encryptIndex = $this->decryptIndex = array(0, 0);
-        $this->encryptStream = $this->decryptStream = $keyStream;
-    }
-
-    /**
-     * Sets the password.
-     *
-     * Depending on what $method is set to, setPassword()'s (optional) parameters are as follows:
-     *     {@link http://en.wikipedia.org/wiki/PBKDF2 pbkdf2}:
-     *         $hash, $salt, $count, $dkLen
-     *
-     * @param String $password
-     * @param optional String $method
-     * @access public
-     */
-    function setPassword($password, $method = 'pbkdf2')
-    {
-        $key = '';
-
-        switch ($method) {
-            default: // 'pbkdf2'
-                list(, , $hash, $salt, $count) = func_get_args();
-                if (!isset($hash)) {
-                    $hash = 'sha1';
-                }
-                // WPA and WPA2 use the SSID as the salt
-                if (!isset($salt)) {
-                    $salt = 'phpseclib/salt';
-                }
-                // RFC2898#section-4.2 uses 1,000 iterations by default
-                // WPA and WPA2 use 4,096.
-                if (!isset($count)) {
-                    $count = 1000;
-                }
-                if (!isset($dkLen)) {
-                    $dkLen = 128;
-                }
-
-                if (!class_exists('Crypt_Hash')) {
-                    require_once('Crypt/Hash.php');
-                }
-
-                $i = 1;
-                while (strlen($key) < $dkLen) {
-                    //$dk.= $this->_pbkdf($password, $salt, $count, $i++);
-                    $hmac = new Crypt_Hash();
-                    $hmac->setHash($hash);
-                    $hmac->setKey($password);
-                    $f = $u = $hmac->hash($salt . pack('N', $i++));
-                    for ($j = 2; $j <= $count; $j++) {
-                        $u = $hmac->hash($u);
-                        $f^= $u;
-                    }
-                    $key.= $f;
-                }
-        }
-
-        $this->setKey(substr($key, 0, $dkLen));
+        parent::Crypt_Base(CRYPT_MODE_STREAM);
     }
 
     /**
@@ -313,14 +207,34 @@ class Crypt_RC4 {
     }
 
     /**
+     * Sets the key.
+     *
+     * Keys can be between 1 and 256 bytes long.  If they are longer then 256 bytes, the first 256 bytes will
+     * be used.  If no key is explicitly set, it'll be assumed to be a single null byte.
+     *
+     * @access public
+     * @see Crypt_Base::setKey()
+     * @param String $key
+     */
+    function setKey($key)
+    {
+        parent::setKey(substr($key, 0, 256));
+    }
+
+    /**
      * Encrypts a message.
      *
+     * @see Crypt_Base::decrypt()
      * @see Crypt_RC4::_crypt()
      * @access public
      * @param String $plaintext
+     * @return String $ciphertext
      */
     function encrypt($plaintext)
     {
+        if ($this->engine == CRYPT_MODE_MCRYPT) {
+            return parent::encrypt($plaintext);
+        }
         return $this->_crypt($plaintext, CRYPT_RC4_ENCRYPT);
     }
 
@@ -330,13 +244,49 @@ class Crypt_RC4 {
      * $this->decrypt($this->encrypt($plaintext)) == $this->encrypt($this->encrypt($plaintext)).
      * Atleast if the continuous buffer is disabled.
      *
+     * @see Crypt_Base::encrypt()
      * @see Crypt_RC4::_crypt()
      * @access public
      * @param String $ciphertext
+     * @return String $plaintext
      */
     function decrypt($ciphertext)
     {
+        if ($this->engine == CRYPT_MODE_MCRYPT) {
+            return parent::decrypt($ciphertext);
+        }
         return $this->_crypt($ciphertext, CRYPT_RC4_DECRYPT);
+    }
+
+
+    /**
+     * Setup the key (expansion)
+     *
+     * @see Crypt_Base::_setupKey()
+     * @access private
+     */
+    function _setupKey()
+    {
+        $key = $this->key;
+        $keyLength = strlen($key);
+        $keyStream = array();
+        for ($i = 0; $i < 256; $i++) {
+            $keyStream[$i] = $i;
+        }
+        $j = 0;
+        for ($i = 0; $i < 256; $i++) {
+            $j = ($j + $keyStream[$i] + ord($key[$i % $keyLength])) & 255;
+            $temp = $keyStream[$i];
+            $keyStream[$i] = $keyStream[$j];
+            $keyStream[$j] = $temp;
+        }
+
+        $this->stream = array();
+        $this->stream[CRYPT_RC4_DECRYPT] = $this->stream[CRYPT_RC4_ENCRYPT] = array(
+            0, // index $i
+            0, // index $j
+            $keyStream
+        );
     }
 
     /**
@@ -347,171 +297,39 @@ class Crypt_RC4 {
      * @access private
      * @param String $text
      * @param Integer $mode
+     * @return String $text
      */
     function _crypt($text, $mode)
     {
-        if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT ) {
-            $keyStream = $mode == CRYPT_RC4_ENCRYPT ? 'encryptStream' : 'decryptStream';
-
-            if (!$this->continuousBuffer) {
-                mcrypt_generic_init($this->$keyStream, $this->key, '');
-            }
-
-            return mcrypt_generic($this->$keyStream, $text);
+        if ($this->changed) {
+            $this->_setup();
+            $this->changed = false;
         }
 
-        if ($this->encryptStream === false) {
-            $this->setKey($this->key);
-        }
-
-        switch ($mode) {
-            case CRYPT_RC4_ENCRYPT:
-                $keyStream = $this->encryptStream;
-                list($i, $j) = $this->encryptIndex;
-                break;
-            case CRYPT_RC4_DECRYPT:
-                $keyStream = $this->decryptStream;
-                list($i, $j) = $this->decryptIndex;
-        }
-
-        $newText = '';
-        for ($k = 0; $k < strlen($text); $k++) {
-            $i = ($i + 1) & 255;
-            $j = ($j + $keyStream[$i]) & 255;
-            $temp = $keyStream[$i];
-            $keyStream[$i] = $keyStream[$j];
-            $keyStream[$j] = $temp;
-            $temp = $keyStream[($keyStream[$i] + $keyStream[$j]) & 255];
-            $newText.= chr(ord($text[$k]) ^ $temp);
-        }
-
+        $stream = &$this->stream[$mode];
         if ($this->continuousBuffer) {
-            switch ($mode) {
-                case CRYPT_RC4_ENCRYPT:
-                    $this->encryptStream = $keyStream;
-                    $this->encryptIndex = array($i, $j);
-                    break;
-                case CRYPT_RC4_DECRYPT:
-                    $this->decryptStream = $keyStream;
-                    $this->decryptIndex = array($i, $j);
-            }
+            $i = &$stream[0];
+            $j = &$stream[1];
+            $keyStream = &$stream[2];
+        } else {
+            $i = $stream[0];
+            $j = $stream[1];
+            $keyStream = $stream[2];
         }
 
-        return $newText;
-    }
+        $len = strlen($text);
+        for ($k = 0; $k < $len; ++$k) {
+            $i = ($i + 1) & 255;
+            $ksi = $keyStream[$i];
+            $j = ($j + $ksi) & 255;
+            $ksj = $keyStream[$j];
 
-    /**
-     * Treat consecutive "packets" as if they are a continuous buffer.
-     *
-     * Say you have a 16-byte plaintext $plaintext.  Using the default behavior, the two following code snippets
-     * will yield different outputs:
-     *
-     * <code>
-     *    echo $rc4->encrypt(substr($plaintext, 0, 8));
-     *    echo $rc4->encrypt(substr($plaintext, 8, 8));
-     * </code>
-     * <code>
-     *    echo $rc4->encrypt($plaintext);
-     * </code>
-     *
-     * The solution is to enable the continuous buffer.  Although this will resolve the above discrepancy, it creates
-     * another, as demonstrated with the following:
-     *
-     * <code>
-     *    $rc4->encrypt(substr($plaintext, 0, 8));
-     *    echo $rc4->decrypt($des->encrypt(substr($plaintext, 8, 8)));
-     * </code>
-     * <code>
-     *    echo $rc4->decrypt($des->encrypt(substr($plaintext, 8, 8)));
-     * </code>
-     *
-     * With the continuous buffer disabled, these would yield the same output.  With it enabled, they yield different
-     * outputs.  The reason is due to the fact that the initialization vector's change after every encryption /
-     * decryption round when the continuous buffer is enabled.  When it's disabled, they remain constant.
-     *
-     * Put another way, when the continuous buffer is enabled, the state of the Crypt_DES() object changes after each
-     * encryption / decryption round, whereas otherwise, it'd remain constant.  For this reason, it's recommended that
-     * continuous buffers not be used.  They do offer better security and are, in fact, sometimes required (SSH uses them),
-     * however, they are also less intuitive and more likely to cause you problems.
-     *
-     * @see Crypt_RC4::disableContinuousBuffer()
-     * @access public
-     */
-    function enableContinuousBuffer()
-    {
-        if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT ) {
-            mcrypt_generic_init($this->encryptStream, $this->key, '');
-            mcrypt_generic_init($this->decryptStream, $this->key, '');
+            $keyStream[$i] = $ksj;
+            $keyStream[$j] = $ksi;
+            $text[$k] = chr(ord($text[$k]) ^ $keyStream[($ksj + $ksi) & 255]);
         }
 
-        $this->continuousBuffer = true;
-    }
-
-    /**
-     * Treat consecutive packets as if they are a discontinuous buffer.
-     *
-     * The default behavior.
-     *
-     * @see Crypt_RC4::enableContinuousBuffer()
-     * @access public
-     */
-    function disableContinuousBuffer()
-    {
-        if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_INTERNAL ) {
-            $this->encryptIndex = $this->decryptIndex = array(0, 0);
-            $this->encryptStream = $this->decryptStream = false;
-        }
-
-        $this->continuousBuffer = false;
-    }
-
-    /**
-     * Dummy function.
-     *
-     * Since RC4 is a stream cipher and not a block cipher, no padding is necessary.  The only reason this function is
-     * included is so that you can switch between a block cipher and a stream cipher transparently.
-     *
-     * @see Crypt_RC4::disablePadding()
-     * @access public
-     */
-    function enablePadding()
-    {
-    }
-
-    /**
-     * Dummy function.
-     *
-     * @see Crypt_RC4::enablePadding()
-     * @access public
-     */
-    function disablePadding()
-    {
-    }
-
-    /**
-     * Class destructor.
-     *
-     * Will be called, automatically, if you're using PHP5.  If you're using PHP4, call it yourself.  Only really
-     * needs to be called if mcrypt is being used.
-     *
-     * @access public
-     */
-    function __destruct()
-    {
-        if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT ) {
-            $this->_closeMCrypt();
-        }
-    }
-
-    /**
-     * Properly close the MCrypt objects.
-     *
-     * @access prviate
-     */
-    function _closeMCrypt()
-    {
-        mcrypt_module_close($this->encryptStream);
-        mcrypt_module_close($this->decryptStream);
+        return $text;
     }
 }
 

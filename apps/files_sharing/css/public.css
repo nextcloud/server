@@ -3,7 +3,7 @@ body {
 }
 
 #header {
-	background: #1d2d44 url('%webroot%/core/img/noise.png') repeat;
+	background-color: #1d2d44;
 	height:32px;
 	left:0;
 	line-height:32px;
@@ -39,7 +39,7 @@ body {
 
 #noPreview {
 	display:none;
-	padding-top:5em;
+	padding-top:80px;
 }
 
 footer {
@@ -49,7 +49,7 @@ footer {
 p.info {
 	color: #777;
 	text-align: center;
-	width: 22em;
+	width: 352px;
 	margin: 0 auto;
 	padding: 20px;
 }
@@ -61,8 +61,8 @@ p.info a {
 
 #imgframe {
 	height:75%;
-	padding-bottom:2em;
-	padding-top:2em;
+	padding-bottom:32px;
+	padding-top:32px;
 	width:80%;
 	margin:0 auto;
 }

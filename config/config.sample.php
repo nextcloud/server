@@ -80,6 +80,12 @@ $CONFIG = array(
 /* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
 "mail_domain" => "example.com",
 
+/* FROM address used by ownCloud for the sender mail address, e.g. owncloud@example.com
+   This setting overwrites the built in 'sharing-noreply' and 'lostpassword-noreply'
+   FROM addresses, that ownCloud uses
+*/
+"mail_from_address" => "owncloud",
+
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
 

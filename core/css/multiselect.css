@@ -7,7 +7,7 @@ ul.multiselectoptions {
 	border: 1px solid #ddd;
 	border-top: none;
 	box-shadow: 0 1px 1px #ddd;
-	padding-top: .5em;
+	padding-top: 8px;
 	position: absolute;
 	max-height:  20em;
 	overflow-y:  auto;
@@ -15,8 +15,8 @@ ul.multiselectoptions {
 }
 
 ul.multiselectoptions.down {
-	border-bottom-left-radius: .5em;
-	border-bottom-right-radius: .5em;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	width: 100%; /* do not cut off group names */
 	-webkit-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
 	-moz-box-shadow: 0px 0px 20px rgba(29,45,68,.4);
@@ -24,8 +24,8 @@ ul.multiselectoptions.down {
 }
 
 ul.multiselectoptions.up {
-	border-top-left-radius: .5em;
-	border-top-right-radius: .5em;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 }
 
 ul.multiselectoptions>li {
@@ -52,8 +52,8 @@ div.multiselect {
 	display: inline-block;
 	max-width: 400px;
 	min-width: 150px;
+	padding-right: 10px;
 	min-height: 20px;
-	padding-right: .6em;
 	position: relative;
 	vertical-align: bottom;
 }
@@ -78,7 +78,7 @@ div.multiselect.down {
 
 div.multiselect>span:first-child {
 	float: left;
-	margin-right: 2em;
+	margin-right: 32px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 90%;
@@ -86,12 +86,12 @@ div.multiselect>span:first-child {
 
 div.multiselect>span:last-child {
 	position: absolute;
-	right: .8em;
+	right: 13px;
 }
 
 ul.multiselectoptions input.new {
-	padding-bottom: .2em;
-	padding-top: .2em;
+	padding-bottom: 3px;
+	padding-top: 3px;
 	margin: 0;
 }
 

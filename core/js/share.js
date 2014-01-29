@@ -733,12 +733,16 @@ $(document).ready(function() {
 		var itemSource = $('#dropdown').data('item-source');
 		var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
 		var email = $('#email').val();
+		var expirationDate = '';
+		if ( $('#expirationCheckbox').is(':checked') === true ) {
+			expirationDate = $( "#expirationDate" ).val();
+		}
 		if (email != '') {
 			$('#email').prop('disabled', true);
 			$('#email').val(t('core', 'Sending ...'));
 			$('#emailButton').prop('disabled', true);
 
-			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file},
+			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file, expiration: expirationDate},
 				function(result) {
 					$('#email').prop('disabled', false);
 					$('#emailButton').prop('disabled', false);

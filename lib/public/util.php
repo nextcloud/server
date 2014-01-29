@@ -88,14 +88,18 @@ class Util {
 	 * @param Exception $ex exception to log
 	 */
 	public static function logException( $app, \Exception $ex ) {
-		$message = $ex->getMessage();
+		$class = get_class($ex);
+		if ($class !== 'Exception') {
+			$message = $class . ': ';
+		}
+		$message .= $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
 		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
-			$stack = explode('#', $ex->getTraceAsString());
+			$stack = explode("\n", $ex->getTraceAsString());
 			// first element is empty
 			array_shift($stack);
 			foreach ($stack as $s) {
@@ -254,8 +258,13 @@ class Util {
 	 * Example: when given lostpassword-noreply as $user_part param,
 	 *     and is currently accessed via http(s)://example.com/,
 	 *     it would return 'lostpassword-noreply@example.com'
+	 *
+	 * If the configuration value 'mail_from_address' is set in
+	 * config.php, this value will override the $user_part that
+	 * is passed to this function
 	 */
 	public static function getDefaultEmailAddress($user_part) {
+		$user_part = \OC_Config::getValue('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
