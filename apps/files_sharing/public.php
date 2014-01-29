@@ -35,7 +35,7 @@ function determineIcon($file, $sharingRoot, $sharingToken) {
 
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
-	$linkItem = OCP\Share::getShareByToken($token);
+	$linkItem = OCP\Share::getShareByToken($token, false);
 	if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
 		// seems to be a valid share
 		$type = $linkItem['item_type'];
@@ -43,10 +43,10 @@ if (isset($_GET['t'])) {
 		$shareOwner = $linkItem['uid_owner'];
 		$path = null;
 		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
-		$fileOwner = $rootLinkItem['uid_owner'];
-		if (isset($fileOwner)) {
+		if (isset($rootLinkItem['uid_owner'])) {
+			OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
 			OC_Util::tearDownFS();
-			OC_Util::setupFS($fileOwner);
+			OC_Util::setupFS($rootLinkItem['uid_owner']);
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
@@ -189,8 +189,8 @@ if (isset($path)) {
 					} else {
 						$i['extension'] = '';
 					}
-					$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 				}
+				$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
 				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
 				$i['icon'] = determineIcon($i, $basePath, $token);

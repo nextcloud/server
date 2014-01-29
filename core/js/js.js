@@ -253,6 +253,12 @@ var OC={
 		return link;
 	},
 	/**
+	 * Redirect to the target URL, can also be used for downloads.
+	 */
+	redirect: function(targetUrl) {
+		window.location = targetUrl;
+	},
+	/**
 	 * get the absolute path to an image file
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
@@ -364,6 +370,34 @@ var OC={
 		}
 		return result;
 	},
+
+	/**
+	 * Builds a URL query from a JS map.
+	 * @param params parameter map
+	 * @return string containing a URL query (without question) mark
+	 */
+	buildQueryString: function(params) {
+		var s = '';
+		var first = true;
+		if (!params) {
+			return s;
+		}
+		for (var key in params) {
+			var value = params[key];
+			if (first) {
+				first = false;
+			}
+			else {
+				s += '&';
+			}
+			s += encodeURIComponent(key);
+			if (value !== null && typeof(value) !== 'undefined') {
+				s += '=' + encodeURIComponent(value);
+			}
+		}
+		return s;
+	},
+
 	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
@@ -415,6 +449,9 @@ var OC={
 						.fail(function(jqxhr, settings, e) {
 							throw e;
 						});
+					}
+					if(!SVGSupport()) {
+						replaceSVG();
 					}
 				}).show();
 			}, 'html');

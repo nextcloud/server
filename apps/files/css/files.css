@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; height:2em; width: 100%; }
+.actions { padding:5px; height:32px; width: 100%; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
@@ -33,9 +33,9 @@
 #new>ul {
 	display: none;
 	position: fixed;
-	min-width: 7em;
+	min-width: 112px;
 	z-index: 10;
-	padding: .5em;
+	padding: 8px;
 	padding-bottom: 0;
 	margin-top: 14px;
 	margin-left: -1px;
@@ -46,7 +46,7 @@
 	border-top-left-radius: 0;
 	box-shadow:0 2px 7px rgba(170,170,170,.4);
 }
-#new>ul>li { height:36px; margin:.3em; padding-left:3em; padding-bottom:0.1em;
+#new>ul>li { height:36px; margin:5px; padding-left:48px; padding-bottom:2px;
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; padding-top: 7px; padding-bottom: 7px;}
 
@@ -65,10 +65,10 @@
 	top: 44px;
 	width: 100%;
 }
+#filestable tbody tr { background-color:#fff; height:40px; }
 #filestable, #controls {
 	min-width: 680px;
 }
-#filestable tbody tr { background-color:#fff; height:2.5em; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -83,7 +83,7 @@ span.extension, span.uploading, td.date { color:#999; }
 span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
 tr:hover span.extension { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; color:#777; }
 table tr.mouseOver td { background-color:#eee; }
-table th { height:2em; padding:0 .5em; color:#999; }
+table th { height:24px; padding:0 8px; color:#999; }
 table th .name {
 	position: absolute;
 	left: 55px;
@@ -106,15 +106,15 @@ table th#headerName {
 	height: 50px;
 }
 table th#headerSize, table td.filesize {
-	min-width: 3em;
-	padding: 0 1em;
+	min-width: 48px;
+	padding: 0 16px;
 	text-align: right;
 }
 table th#headerDate, table td.date {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
-	min-width: 11em;
+	min-width: 176px;
 }
 
 /* Multiselect bar */
@@ -142,7 +142,7 @@ table.multiselect #headerName {
 	position: relative;
 	width: 100%;
 }
-table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.selection, table th.selection, table td.fileaction { width:32px; text-align:center; }
 table td.filename a.name {
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
@@ -160,8 +160,8 @@ table td.filename input.filename {
 	margin-left: 2px;
 	cursor: text;
 }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em .3em; }
-table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
+table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0; }
 
 #modified {
 	position: absolute;
@@ -181,8 +181,8 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 	max-width: 800px;
 }
-table td.filename .uploadtext { font-weight:normal; margin-left:.5em; }
-table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
+table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
+table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
@@ -217,6 +217,11 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	width: 50px;
 	z-index: 5;
 }
+#fileList tr td.filename>input[type="checkbox"]{
+	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
+	 * to prevent it to increase the height */
+	position: absolute;
+}
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
 }
@@ -250,11 +255,11 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	right: 0;
 }
 
-#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
+#fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	padding: 9px 14px 19px !important;
+	padding: 28px 14px 19px !important;
 }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
@@ -272,13 +277,13 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 }
 .selectedActions a img {
 	position:relative;
-	top:.3em;
+	top:5px;
 }
 
 
 #fileList a.action {
 	display: inline;
-	margin: -.5em 0;
+	margin: -8px 0;
 	padding: 18px 8px !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);

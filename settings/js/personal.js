@@ -165,12 +165,29 @@ $(document).ready(function(){
 
     $('#email').keyup(function(){
         if ($('#email').val() !== '' ){
+            // if this is the enter key changeEmailAddress() is already invoked
+            // so it doesn't need to be triggered again
+            if(event.keyCode === 13) {
+                return;
+            }
             if(typeof timeout !== 'undefined'){
                 clearTimeout(timeout);
             }
             timeout = setTimeout('changeEmailAddress()',1000);
         }
     });
+
+	$('#email').keypress(function(event){
+		// check for enter key and non empty email
+		if (event.keyCode === 13 && $('#email').val() !== '' ){
+			event.preventDefault()
+			// clear timeout of previous keyup event - prevents duplicate changeEmailAddress call
+			if(typeof timeout !== 'undefined'){
+				clearTimeout(timeout);
+			}
+			changeEmailAddress();
+		}
+	});
 
 	$("#languageinput").change( function(){
 		// Serialize the data
@@ -189,6 +206,8 @@ $(document).ready(function(){
 
 	$('button:button[name="submitDecryptAll"]').click(function() {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
+		$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+		$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
 
@@ -197,6 +216,8 @@ $(document).ready(function(){
 		if (privateKeyPassword !== '' ) {
 			$('#decryptAll button:button[name="submitDecryptAll"]').removeAttr("disabled");
 			if(event.which === 13) {
+				$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 				OC.Encryption.decryptAll(privateKeyPassword);
 			}
 		} else {
@@ -263,13 +284,13 @@ OC.Encryption = {
 		$.post('ajax/decryptall.php', {password:password}, function(data) {
 			if (data.status === "error") {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+				$('#decryptAll input:password[name="privateKeyPassword"]').removeAttr("disabled");
 			} else {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
 			}
-		}
-		);
+		});
 	}
-}
+};
 
 OC.Encryption.msg={
 	startDecrypting:function(selector){

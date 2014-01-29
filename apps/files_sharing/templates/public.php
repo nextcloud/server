@@ -9,7 +9,7 @@
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
-<header><div id="header">
+<header><div id="header" class="icon icon-noise">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
@@ -24,9 +24,10 @@
 
 
 			<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
-				<a href="<?php p($_['downloadURL']); ?>" class="button" id="download"><img
-						class="svg" alt="Download" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"
-						/><span><?php p($l->t('Download'))?></span></a>
+				<a href="<?php p($_['downloadURL']); ?>" class="button" id="download">
+					<img class="svg" alt="Download" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
+					<span><?php p($l->t('Download'))?></span>
+				</a>
 			<?php endif; ?>
 
 			<?php if ($_['allowPublicUploadEnabled']):?>
@@ -43,28 +44,17 @@
 			<?php endif;?>
 
 
-			<div id="data-upload-form" class="button" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
+			<div id="data-upload-form" title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 				<input id="file_upload_start" type="file" name="files[]" data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" multiple>
-				<a href="#" id="publicUploadButtonMock" class="svg">
+				<a href="#" id="public_upload" class="button">
+					<img class="svg" alt="Upload" src="<?php print_unescaped(OCP\image_path("core", "actions/upload.svg")); ?>" />
 					<span><?php p($l->t('Upload'))?></span>
 				</a>
 			</div>
 
 		</div>
-
-		<div id="additional_controls" style="display:none">
-			<div id="uploadprogresswrapper">
-				<div id="uploadprogressbar"></div>
-				<input id="cancel_upload_button" type="button" class="stop" style="display:none"
-				       value="<?php p($l->t('Cancel upload'));?>"
-					/>
-			</div>
-
-
-
-
+		<div>
 			<?php endif; ?>
-
 		</div>
 	</div></header>
 <div id="content">

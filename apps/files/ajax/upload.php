@@ -34,6 +34,7 @@ if (empty($_POST['dirToken'])) {
 		// resolve reshares
 		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
 
+		OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
 		// Setup FS with owner
 		OC_Util::tearDownFS();
 		OC_Util::setupFS($rootLinkItem['uid_owner']);

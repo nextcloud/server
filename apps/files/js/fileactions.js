@@ -173,7 +173,10 @@ $(document).ready(function () {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
-			window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
+			var url = FileList.getDownloadUrl(filename);
+			if (url) {
+				OC.redirect(url);
+			}
 		});
 	}
 	$('#fileList tr').each(function () {

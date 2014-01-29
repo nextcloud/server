@@ -34,18 +34,16 @@ $(document).ready(function() {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
-		FileActions.register('file', 'Download', OC.PERMISSION_READ, '', function(filename) {
+
+		// override since the format is different
+		FileList.getDownloadUrl = function(filename, dir) {
+			// we use this because we need the service and token attributes
 			var tr = FileList.findFileEl(filename);
 			if (tr.length > 0) {
-				window.location = $(tr).find('a.name').attr('href');
+				return $(tr).find('a.name').attr('href') + '&download';
 			}
-		});
-		FileActions.register('dir', 'Download', OC.PERMISSION_READ, '', function(filename) {
-			var tr = FileList.findFileEl(filename);
-			if (tr.length > 0) {
-				window.location = $(tr).find('a.name').attr('href')+'&download';
-			}
-		});
+			return null;
+		};
 	}
 
 	var file_upload_start = $('#file_upload_start');
@@ -59,7 +57,8 @@ $(document).ready(function() {
 	});
 
 	// Add Uploadprogress Wrapper to controls bar
-	$('#controls').append($('#additional_controls div#uploadprogresswrapper'));
+	$('#controls').append($('#controls .actions div#uploadprogresswrapper'));
+	$('#uploadprogresswrapper').addClass('public_actions');
 
 	// Cancel upload trigger
 	$('#cancel_upload_button').click(function() {

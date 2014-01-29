@@ -161,6 +161,7 @@ class OC_Helper {
 			'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+			'application/mspowerpoint' => 'x-office/presentation',
 			'application/vnd.ms-powerpoint' => 'x-office/presentation',
 			'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
 			'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
@@ -171,6 +172,7 @@ class OC_Helper {
 			'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+			'application/msexcel' => 'x-office/spreadsheet',
 			'application/vnd.ms-excel' => 'x-office/spreadsheet',
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
@@ -180,6 +182,7 @@ class OC_Helper {
 			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+			'application/msaccess' => 'database',
 		);
 
 		if (isset($alias[$mimetype])) {

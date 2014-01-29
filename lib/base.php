@@ -57,6 +57,9 @@ class OC {
 	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
+
+	public static $configDir;
+
 	/*
 	 * requested app
 	 */
@@ -99,6 +102,13 @@ class OC {
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
 			get_include_path()
 		);
+
+		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+			self::$configDir = OC::$SERVERROOT . '/tests/config/';
+		} else {
+			self::$configDir = OC::$SERVERROOT . '/config/';
+		}
+		OC_Config::$object = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName = OC_Request::scriptName();
@@ -175,8 +185,8 @@ class OC {
 	}
 
 	public static function checkConfig() {
-		if (file_exists(OC::$SERVERROOT . "/config/config.php")
-			and !is_writable(OC::$SERVERROOT . "/config/config.php")
+		if (file_exists(self::$configDir . "/config.php")
+			and !is_writable(self::$configDir . "/config.php")
 		) {
 			$defaults = new OC_Defaults();
 			if (self::$CLI) {
@@ -293,6 +303,7 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
+		// TODO: read from core/js/core.json
 		OC_Util::addScript("jquery-1.10.0.min");
 		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
@@ -321,6 +332,7 @@ class OC {
 		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("icons");
 		OC_Util::addStyle("apps");
 		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");

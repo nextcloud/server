@@ -7,6 +7,10 @@
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<require>4</require>
 	<shipped>true</shipped>
+	<documentation>
+		<user>http://doc.owncloud.org/server/6.0/user_manual/files/encryption.html</user>
+		<admin>http://doc.owncloud.org/server/6.0/admin_manual/configuration/configuration_encryption.html</admin>
+	</documentation>
 	<rememberlogin>false</rememberlogin>
 	<types>
 		<filesystem/>
