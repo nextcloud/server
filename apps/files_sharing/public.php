@@ -137,6 +137,7 @@ if (isset($path)) {
 	} else {
 		OCP\Util::addScript('files', 'file-upload');
 		OCP\Util::addStyle('files_sharing', 'public');
+		OCP\Util::addStyle('files_sharing', 'mobile');
 		OCP\Util::addScript('files_sharing', 'public');
 		OCP\Util::addScript('files', 'fileactions');
 		OCP\Util::addScript('files', 'jquery.iframe-transport');
@@ -159,7 +160,6 @@ if (isset($path)) {
 		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
-		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 
@@ -226,7 +226,8 @@ if (isset($path)) {
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
-			$folder->assign('isCreatable', false);
+			$folder->assign('isCreatable', $allowPublicUploadEnabled);
+			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
 			$folder->assign('publicUploadEnabled', 'no');

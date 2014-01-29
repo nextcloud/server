@@ -751,7 +751,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 			console.warn('Files.lazyLoadPreview(): missing etag argument');
 		}
 
-		if ( $('#public_upload').length ) {
+		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
 			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
 		} else {

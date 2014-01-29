@@ -14,39 +14,17 @@ body {
 	padding:7px;
 }
 
-#details {
-	color:#fff;
-	float: left;
-}
-
-#public_upload,
-#download {
-	font-weight:700;
-	margin: 0 0 0 6px;
-	padding: 0 5px;
-	height: 32px;
-	float: left;
-
-}
-
-.header-right #details {
-	margin-right: 28px;
-}
-
 .header-right {
 	padding: 0;
 	height: 32px;
 }
 
-#public_upload {
-	margin-left: 5px;
-}
-
-#public_upload img,
-#download img {
-	padding-left:2px;
-	padding-right:5px;
-	vertical-align:text-bottom;
+#details {
+	color:#fff;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+	padding-right: 5px;
 }
 
 #controls {
@@ -71,9 +49,8 @@ footer {
 p.info {
 	color: #777;
 	text-align: center;
-	width: 352px;
 	margin: 0 auto;
-	padding: 20px;
+	padding: 20px 0;
 }
 
 p.info a {
@@ -94,9 +71,13 @@ p.info a {
 	max-width:100%;
 }
 
-thead{
-	background-color: white;
-	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
+/* some margin for the file type icon */
+#imgframe .publicpreview {
+	margin-top: 10%;
+}
+
+thead {
+	padding-left: 0 !important; /* fixes multiselect bar offset on shared page */
 }
 
 #data-upload-form {
@@ -110,27 +91,20 @@ thead{
 	margin: 0;
 }
 
-#file_upload_start {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0);
-	opacity: 0;
-	z-index: 20;
-	position: absolute !important;
-	top: 0;
-	left: 0;
-	width: 100% !important;
-}
-
+.directDownload,
 .directLink {
 	margin-bottom: 20px;
 }
+.directDownload .button img {
+	vertical-align: text-bottom;
+}
 .directLink label {
 	font-weight: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
 }
 .directLink input {
-	margin-left: 10px;
+	margin-left: 5px;
 	width: 300px;
-}
-.public_actions {
-	padding: 4px;
 }
