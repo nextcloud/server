@@ -23,8 +23,8 @@ namespace OC\Files\Storage;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
-require_once 'Google_Client.php';
-require_once 'contrib/Google_DriveService.php';
+require_once 'Google/Client.php';
+require_once 'Google/Service/Drive.php';
 
 class Google extends \OC\Files\Storage\Common {
 
@@ -46,14 +46,13 @@ class Google extends \OC\Files\Storage\Common {
 			&& isset($params['client_id']) && isset($params['client_secret'])
 			&& isset($params['token'])
 		) {
-			$client = new \Google_Client();
-			$client->setClientId($params['client_id']);
-			$client->setClientSecret($params['client_secret']);
-			$client->setScopes(array('https://www.googleapis.com/auth/drive'));
-			$client->setUseObjects(true);
-			$client->setAccessToken($params['token']);
+			$this->client = new \Google_Client();
+			$this->client->setClientId($params['client_id']);
+			$this->client->setClientSecret($params['client_secret']);
+			$this->client->setScopes(array('https://www.googleapis.com/auth/drive'));
+			$this->client->setAccessToken($params['token']);
 			// note: API connection is lazy
-			$this->service = new \Google_DriveService($client);
+			$this->service = new \Google_Service_Drive($this->client);
 			$token = json_decode($params['token'], true);
 			$this->id = 'google::'.substr($params['client_id'], 0, 30).$token['created'];
 		} else {
@@ -66,9 +65,9 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * Get the Google_DriveFile object for the specified path
+	 * Get the Google_Service_Drive_DriveFile object for the specified path
 	 * @param string $path
-	 * @return string
+	 * @return Google_Service_Drive_DriveFile
 	 */
 	private function getDriveFile($path) {
 		// Remove leading and trailing slashes
@@ -115,7 +114,7 @@ class Google extends \OC\Files\Storage\Common {
 							$pathWithoutExt = substr($path, 0, $pos);
 							$file = $this->getDriveFile($pathWithoutExt);
 							if ($file) {
-								// Switch cached Google_DriveFile to the correct index
+								// Switch cached Google_Service_Drive_DriveFile to the correct index
 								unset($this->driveFiles[$pathWithoutExt]);
 								$this->driveFiles[$path] = $file;
 								$parentId = $file->getId();
@@ -133,9 +132,9 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * Set the Google_DriveFile object in the cache
+	 * Set the Google_Service_Drive_DriveFile object in the cache
 	 * @param string $path
-	 * @param Google_DriveFile|false $file
+	 * @param Google_Service_Drive_DriveFile|false $file
 	 */
 	private function setDriveFile($path, $file) {
 		$path = trim($path, '/');
@@ -188,10 +187,10 @@ class Google extends \OC\Files\Storage\Common {
 		if (!$this->is_dir($path)) {
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
-				$folder = new \Google_DriveFile();
+				$folder = new \Google_Service_Drive_DriveFile();
 				$folder->setTitle(basename($path));
 				$folder->setMimeType(self::FOLDER);
-				$parent = new \Google_ParentReference();
+				$parent = new \Google_Service_Drive_ParentReference();
 				$parent->setId($parentFolder->getId());
 				$folder->setParents(array($parent));
 				$result = $this->service->files->insert($folder);
@@ -266,7 +265,7 @@ class Google extends \OC\Files\Storage\Common {
 							$this->onDuplicateFileDetected($filepath);
 						}
 					} else {
-						// Cache the Google_DriveFile for future use
+						// Cache the Google_Service_Drive_DriveFile for future use
 						$this->setDriveFile($filepath, $child);
 						$files[] = $name;
 					}
@@ -356,7 +355,7 @@ class Google extends \OC\Files\Storage\Common {
 				// Change file parent
 				$parentFolder2 = $this->getDriveFile(dirname($path2));
 				if ($parentFolder2) {
-					$parent = new \Google_ParentReference();
+					$parent = new \Google_Service_Drive_ParentReference();
 					$parent->setId($parentFolder2->getId());
 					$file->setParents(array($parent));
 				} else {
@@ -395,8 +394,8 @@ class Google extends \OC\Files\Storage\Common {
 						$downloadUrl = $file->getDownloadUrl();
 					}
 					if (isset($downloadUrl)) {
-						$request = new \Google_HttpRequest($downloadUrl, 'GET', null, null);
-						$httpRequest = \Google_Client::$io->authenticatedRequest($request);
+						$request = new \Google_Http_Request($downloadUrl, 'GET', null, null);
+						$httpRequest = $this->client->getAuth()->authenticatedRequest($request);
 						if ($httpRequest->getResponseHttpCode() == 200) {
 							$tmpFile = \OC_Helper::tmpFile($ext);
 							$data = $httpRequest->getResponseBody();
@@ -440,16 +439,17 @@ class Google extends \OC\Files\Storage\Common {
 				$params = array(
 					'data' => $data,
 					'mimeType' => $mimetype,
+					'uploadType' => 'media'
 				);
 				$result = false;
 				if ($this->file_exists($path)) {
 					$file = $this->getDriveFile($path);
 					$result = $this->service->files->update($file->getId(), $file, $params);
 				} else {
-					$file = new \Google_DriveFile();
+					$file = new \Google_Service_Drive_DriveFile();
 					$file->setTitle(basename($path));
 					$file->setMimeType($mimetype);
-					$parent = new \Google_ParentReference();
+					$parent = new \Google_Service_Drive_ParentReference();
 					$parent->setId($parentFolder->getId());
 					$file->setParents(array($parent));
 					$result = $this->service->files->insert($file, $params);
@@ -506,9 +506,9 @@ class Google extends \OC\Files\Storage\Common {
 		} else {
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
-				$file = new \Google_DriveFile();
+				$file = new \Google_Service_Drive_DriveFile();
 				$file->setTitle(basename($path));
-				$parent = new \Google_ParentReference();
+				$parent = new \Google_Service_Drive_ParentReference();
 				$parent->setId($parentFolder->getId());
 				$file->setParents(array($parent));
 				$result = $this->service->files->insert($file);
