@@ -47,6 +47,10 @@
 	background-image: url('../img/actions/checkmark.svg');
 }
 
+.icon-checkmark-white {
+	background-image: url('../img/actions/checkmark-white.svg');
+}
+
 .icon-clock {
 	background-image: url('../img/actions/clock.svg');
 }
