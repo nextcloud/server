@@ -49,9 +49,8 @@ footer {
 p.info {
 	color: #777;
 	text-align: center;
-	width: 352px;
 	margin: 0 auto;
-	padding: 20px;
+	padding: 20px 0;
 }
 
 p.info a {
