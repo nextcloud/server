@@ -686,7 +686,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* Apps management as sticky footer, less obtrusive in the list */
 #navigation .wrapper {
 	min-height: 100%;
-	margin: 0 auto -72px;
+	margin: 0 auto -82px 0;
 }
 #apps-management, #navigation .push {
 	height: 72px;
