@@ -103,7 +103,7 @@ if ($needUpgrade) {
 } else {
 	// information about storage capacities
 	$storageInfo=OC_Helper::getStorageInfo($dir);
-	$freeSpace=OCP\Util::freeSpace($dir);
+	$freeSpace=$storageInfo['free'];
 	$uploadLimit=OCP\Util::uploadLimit();
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');

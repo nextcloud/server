@@ -6,7 +6,6 @@ class Helper
 {
 	public static function buildFileStorageStatistics($dir) {
 		$l = new \OC_L10N('files');
-		$freeSpace=\OCP\Util::freeSpace($dir);
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir);
 		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
 		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
@@ -16,7 +15,7 @@ class Helper
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
-					 'freeSpace' => $freeSpace,
+					 'freeSpace' => $storageInfo['free'],
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
 
