@@ -128,6 +128,11 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 				OC_Request::USER_AGENT_FREEBOX,
 				true
 			),
+			array(
+				'Fake Mozilla/5.0',
+				OC_Request::USER_AGENT_FREEBOX,
+				false
+			),
 		);
 	}
 }
