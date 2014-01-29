@@ -315,6 +315,13 @@ $(document).ready(function() {
 					} else {
 						// HTTP connection problem
 						OC.Notification.show(data.errorThrown);
+						if (data.result) {
+							var result = JSON.parse(data.result);
+							if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {
+								// abort upload of next files if any
+								OC.Upload.cancelUploads();
+							}
+						}
 					}
 					//hide notification after 10 sec
 					setTimeout(function() {

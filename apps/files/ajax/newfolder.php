@@ -29,6 +29,15 @@ if(strpos($foldername, '/') !== false) {
 	exit();
 }
 
+if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
+	$result['data'] = array('message' => (string)$l10n->t(
+			'The target folder has been moved or deleted.'),
+			'code' => 'targetnotfound'
+		);
+	OCP\JSON::error($result);
+	exit();
+}
+
 //TODO why is stripslashes used on foldername here but not in newfile.php?
 $target = $dir . '/' . stripslashes($foldername);
 		
