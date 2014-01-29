@@ -20,6 +20,10 @@ table td.filename .nametext {
 	padding: 0;
 	margin-bottom: 35px;
 }
+/* some margin for the file type icon */
+#imgframe .publicpreview {
+	margin-top: 32px;
+}
 
 /* always show actions on mobile */
 #fileList a.action {

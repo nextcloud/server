@@ -34,7 +34,7 @@
 				</div>
 			<?php else: ?>
 				<div id="imgframe">
-					<img src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => 500, 'y' => 500, 'file' => urlencode($_['directory_path']), 't' => $_['dirToken']))); ?>" class="publicpreview"/>
+					<img src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => 128, 'y' => 128, 'file' => urlencode($_['directory_path']), 't' => $_['dirToken']))); ?>" class="publicpreview"/>
 				</div>
 			<?php endif; ?>
 			<div class="directDownload">
