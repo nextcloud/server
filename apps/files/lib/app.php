@@ -83,14 +83,17 @@ class App {
 			else {
 				$meta['type'] = 'file';
 			}
+			// these need to be set for determineIcon()
+			$meta['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']);
+			$meta['directory'] = $dir;
 			$fileinfo = array(
 				'id' => $meta['fileid'],
 				'mime' => $meta['mimetype'],
 				'size' => $meta['size'],
 				'etag' => $meta['etag'],
-				'directory' => $dir,
+				'directory' => $meta['directory'],
 				'name' => $newname,
-				'isPreviewAvailable' => \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']),
+				'isPreviewAvailable' => $meta['isPreviewAvailable'],
 				'icon' => \OCA\Files\Helper::determineIcon($meta)
 			);
 			$result['success'] = true;
