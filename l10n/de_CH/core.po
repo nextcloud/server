@@ -12,13 +12,13 @@
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # SteinQuadrat, 2013
-# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -158,59 +158,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:858
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:859
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: js/js.js:860
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: js/js.js:861
+#: js/js.js:872
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:862
+#: js/js.js:873
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:863
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: js/js.js:864
+#: js/js.js:875
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:865
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: js/js.js:866
+#: js/js.js:877
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:867
+#: js/js.js:878
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:868
+#: js/js.js:879
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -287,7 +287,7 @@ msgid "Share"
 msgstr "Teilen"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Fehler"
 
@@ -323,7 +323,7 @@ msgstr ""
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Passwort"
 
@@ -399,7 +399,7 @@ msgstr "löschen"
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Passwortgeschützt"
 
@@ -490,8 +490,8 @@ msgstr "Anfrage fehlgeschlagen!<br>Haben Sie darauf geachtet, dass E-Mail-Adress
 msgid "You will receive a link to reset your password via Email."
 msgstr "Sie erhalten einen Link per E-Mail, um Ihr Passwort zurückzusetzen."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Benutzername"
 
@@ -535,7 +535,7 @@ msgstr "Persönlich"
 msgid "Users"
 msgstr "Benutzer"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Apps"
 
@@ -602,101 +602,108 @@ msgstr ""
 msgid "Cheers!"
 msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Sicherheitshinweis"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Ihre PHP Version ist durch die NULL Byte Attacke (CVE-2006-7243) angreifbar"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Bitte aktualisieren Sie Ihre PHP-Installation um %s sicher nutzen zu können."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktivieren Sie die PHP-Erweiterung für OpenSSL."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage, die Tokens für das Zurücksetzen der Passwörter vorherzusehen und Ihr Konto zu übernehmen."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "Für Informationen, wie Sie Ihren Server richtig konfigurieren lesen Sie bitte die <a href=\"%s\" target=\"_blank\">Dokumentation</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Installation abschliessen"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -722,19 +729,19 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Einloggen"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

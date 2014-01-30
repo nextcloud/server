@@ -37,6 +37,7 @@
 	</head>
 
 	<body id="<?php p($_['bodyid']);?>">
+	<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('This application requires JavaScript to be enabled for correct operation.  Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and re-load this interface.')); ?></div></div></noscript>
 	<div id="notification-container">
 		<div id="notification"></div>
 		<?php if ($_['updateAvailable']): ?>
@@ -104,7 +105,7 @@
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
 					<li id="apps-management">
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
-							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<span>
 								<?php p($l->t('Apps')); ?>

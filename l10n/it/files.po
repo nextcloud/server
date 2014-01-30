@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 22:30+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -48,12 +48,17 @@ msgstr "Il nome %s è attualmente in uso nella cartella %s. Scegli un nome diver
 msgid "Not a valid source"
 msgstr "Non è una sorgente valida"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Al server non è permesso aprire URL, controlla la configurazione del server"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Errore durante lo scaricamento di %s su %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Errore durante la creazione del file"
 
@@ -172,6 +177,10 @@ msgstr "Impossibile creare il file"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Impossibile creare la cartella"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Errore durante il recupero dello URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -379,29 +388,25 @@ msgstr "Non c'è niente qui. Carica qualcosa!"
 msgid "Download"
 msgstr "Scarica"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Rimuovi condivisione"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Elimina"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Caricamento troppo grande"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Scansione dei file in corso, attendi"
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Scansione corrente"
 

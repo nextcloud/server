@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -48,12 +48,17 @@ msgstr "Nimi %s on jo käytössä kansiossa %s. Valitse toinen nimi."
 msgid "Not a valid source"
 msgstr "Virheellinen lähde"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Palvelimen ei ole lupa avata verkko-osoitteita. Tarkista palvelimen asetukset"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Virhe ladatessa kohdetta %s sijaintiin %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Virhe tiedostoa luotaessa"
 
@@ -172,6 +177,10 @@ msgstr "Tiedoston luominen epäonnistui"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Kansion luominen epäonnistui"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Virhe noutaessa verkko-osoitetta"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -379,29 +388,25 @@ msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Peru jakaminen"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Poista"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Tämänhetkinen tutkinta"
 

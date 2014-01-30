@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-27 17:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,38 +26,38 @@ msgstr ""
 msgid "Failed to delete the server configuration"
 msgstr "Zerbitzariaren konfigurazioa ezabatzeak huts egin du"
 
-#: ajax/testConfiguration.php:37
+#: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
 msgstr "Konfigurazioa egokia da eta konexioa ezarri daiteke!"
 
-#: ajax/testConfiguration.php:40
+#: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "Konfigurazioa ongi dago, baina Bind-ek huts egin du. Mesedez egiaztatu zerbitzariaren ezarpenak eta kredentzialak."
 
-#: ajax/testConfiguration.php:44
+#: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "Konfigurazioa ez dago ongi. Mesedez ikusi egunerokoak (log) informazio gehiago eskuratzeko."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Ez da ekintzarik zehaztu"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Ez da konfiguraziorik zehaztu"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Ez da daturik zehaztu"
 
 #: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Ezin izan da %s konfigurazioa ezarri"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -87,43 +87,43 @@ msgstr "Arrakasta"
 msgid "Error"
 msgstr "Errorea"
 
-#: js/settings.js:777
+#: js/settings.js:837
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfigurazioa ongi dago"
 
-#: js/settings.js:786
+#: js/settings.js:846
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfigurazioa ez dago ongi"
 
-#: js/settings.js:795
+#: js/settings.js:855
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfigurazioa osatu gabe dago"
 
-#: js/settings.js:812 js/settings.js:821
+#: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
 msgstr "Hautatu taldeak"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
-msgstr ""
+msgstr "Hautatu objektu klaseak"
 
-#: js/settings.js:818
+#: js/settings.js:878
 msgid "Select attributes"
-msgstr ""
+msgstr "Hautatu atributuak"
 
-#: js/settings.js:845
+#: js/settings.js:905
 msgid "Connection test succeeded"
 msgstr "Konexio froga ongi burutu da"
 
-#: js/settings.js:852
+#: js/settings.js:912
 msgid "Connection test failed"
 msgstr "Konexio frogak huts egin du"
 
-#: js/settings.js:861
+#: js/settings.js:921
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Ziur zaude Zerbitzariaren Konfigurazioa ezabatu nahi duzula?"
 
-#: js/settings.js:862
+#: js/settings.js:922
 msgid "Confirm Deletion"
 msgstr "Baieztatu Ezabatzea"
 
@@ -131,23 +131,23 @@ msgstr "Baieztatu Ezabatzea"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Talde %s aurkitu da"
+msgstr[1] "%s talde aurkitu dira"
 
 #: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Erabiltzaile %s aurkitu da"
+msgstr[1] "%s erabiltzaile aurkitu dira"
 
-#: lib/wizard.php:779 lib/wizard.php:791
+#: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
-msgstr ""
+msgstr "Baliogabeko hostalaria"
 
-#: lib/wizard.php:952
+#: lib/wizard.php:951
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Ezin izan da nahi zen ezaugarria aurkitu"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -164,17 +164,17 @@ msgstr "Laguntza"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgstr "Mugatu sarrera baldintza hauek betetzen dituzten %s taldetara:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "bakarrik objektu klase hauetakoak:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "bakarrik talde hauetakoak:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
@@ -192,27 +192,27 @@ msgstr ""
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Iragazkiak zehazten du  ze LDAP taldek izango duten sarrera %s instantziara:"
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "talde aurkituta"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "What attribute shall be used as login name:"
-msgstr ""
+msgstr "Sarrera izen gisa erabiliko den atributua:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP Erabiltzaile izena:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP Eposta helbidea:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Bestelako atributuak:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
@@ -268,17 +268,17 @@ msgstr "Erabiltzaile eta taldeentzako Oinarrizko DN zehaztu dezakezu Aurreratu f
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgstr "Mugatu sarrera hurrengo baldintzak betetzen duten %s erabiltzaileei:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Iragazkiak zehazten du  ze LDAP erabiltzailek izango duten sarrera %s instantziara:"
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "erabiltzaile aurkituta"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -286,7 +286,7 @@ msgstr "Atzera"
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
-msgstr ""
+msgstr "Jarraitu"
 
 #: templates/settings.php:11
 msgid ""
@@ -333,7 +333,7 @@ msgstr "Desgaitu Zerbitzari Nagusia"
 
 #: templates/settings.php:25
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Konektatu bakarrik erreplika zerbitzarira"
 
 #: templates/settings.php:26
 msgid "Case insensitve LDAP server (Windows)"
@@ -368,7 +368,7 @@ msgstr "Erabiltzaileen bistaratzeko izena duen eremua"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Erabiltzailearen bistaratze izena sortzeko erabiliko den LDAP atributua."
 
 #: templates/settings.php:33
 msgid "Base User Tree"
@@ -392,7 +392,7 @@ msgstr "Taldeen bistaratzeko izena duen eremua"
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Taldearen bistaratze izena sortzeko erabiliko den LDAP atributua."
 
 #: templates/settings.php:36
 msgid "Base Group Tree"
@@ -462,11 +462,11 @@ msgstr ""
 
 #: templates/settings.php:53
 msgid "Internal Username Attribute:"
-msgstr ""
+msgstr "Baliogabeko Erabiltzaile Izen atributua"
 
 #: templates/settings.php:54
 msgid "Override UUID detection"
-msgstr ""
+msgstr "Gainidatzi UUID antzematea"
 
 #: templates/settings.php:55
 msgid ""
@@ -481,11 +481,11 @@ msgstr ""
 
 #: templates/settings.php:56
 msgid "UUID Attribute for Users:"
-msgstr ""
+msgstr "Erabiltzaileentzako UUID atributuak:"
 
 #: templates/settings.php:57
 msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "Taldeentzako UUID atributuak:"
 
 #: templates/settings.php:58
 msgid "Username-LDAP User Mapping"

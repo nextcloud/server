@@ -1,7 +1,7 @@
 h2 {
-	font-size:2em;
+	font-size:32px;
 	font-weight:700;
-	margin-bottom:1em;
+	margin-bottom:16px;
 	white-space:nowrap;
 }
 
@@ -18,8 +18,8 @@ h2 img {
 }
 
 #oauth {
-	width:20em;
-	margin:4em auto 2em;
+	width:320px;
+	margin:64px auto 32px;
 }
 
 #allow-auth {
@@ -33,7 +33,7 @@ h2 img {
 	background:none;
 	border:0;
 	box-shadow:0 0 0 #fff, 0 0 0 #fff inset;
-	font-size:1.2em;
-	margin:.7em;
+	font-size:19px;
+	margin:11px;
 	padding:0;
 }

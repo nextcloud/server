@@ -82,7 +82,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Du har ej tillåtelse att ladda upp eller skapa filer här",
 "Nothing in here. Upload something!" => "Ingenting här. Ladda upp något!",
 "Download" => "Ladda ner",
-"Unshare" => "Sluta dela",
 "Delete" => "Radera",
 "Upload too large" => "För stor uppladdning",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",

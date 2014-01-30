@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-23 01:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-27 01:55-0500\n"
+"PO-Revision-Date: 2013-12-26 13:10+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +19,51 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Η εφαρμογή \"%s\" δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση του ownCloud."
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
-msgstr ""
+msgstr "Δεν προδιορίστηκε όνομα εφαρμογής"
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr "Προσωπικά"
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr "Χρήστες"
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr "Διαχειριστής"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Αποτυχία αναβάθμισης του \"%s\"."
 
-#: private/avatar.php:62
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr "Άγνωστος τύπος αρχείου"
 
-#: private/avatar.php:67
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr "Μη έγκυρη εικόνα"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "υπηρεσίες δικτύου υπό τον έλεγχό σας"
 
@@ -71,62 +72,62 @@ msgstr "υπηρεσίες δικτύου υπό τον έλεγχό σας"
 msgid "cannot open \"%s\""
 msgstr "αδυναμία ανοίγματος \"%s\""
 
-#: private/files.php:228
+#: private/files.php:231
 msgid "ZIP download is turned off."
 msgstr "Η λήψη ZIP απενεργοποιήθηκε."
 
-#: private/files.php:229
+#: private/files.php:232
 msgid "Files need to be downloaded one by one."
 msgstr "Τα αρχεία πρέπει να ληφθούν ένα-ένα."
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:233 private/files.php:261
 msgid "Back to Files"
 msgstr "Πίσω στα Αρχεία"
 
-#: private/files.php:255
+#: private/files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip."
 
-#: private/files.php:256
+#: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Παρακαλώ κάντε λήψη των αρχείων σε μικρότερα κομμάτια ή ζητήστε το από το διαχειριστή σας."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε πηγή κατά την εγκατάσταση της εφαρμογής"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε href κατά την εγκατάσταση της εφαρμογής μέσω http "
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Δεν προσδιορίστηκε μονοπάτι κατά την εγκατάσταση εφαρμογής από τοπικό αρχείο"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Συλλογές αρχείων τύπου %s δεν υποστηρίζονται"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Αποτυχία ανοίγματος συλλογής αρχείων κατά την εγκατάσταση εφαρμογής"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Η εφαρμογή δεν παρέχει αρχείο info.xml"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Η εφαρμογή δεν μπορεί να εγκατασταθεί λόγω μη-επιτρεπόμενου κώδικα μέσα στην Εφαρμογή"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση ownCloud"
 
 #: private/installer.php:146
 msgid ""
@@ -138,16 +139,16 @@ msgstr ""
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή η έκδοση στο info.xml/version δεν είναι η ίδια με την έκδοση που αναφέρεται στο κατάστημα εφαρμογών"
 
 #: private/installer.php:169
 msgid "App directory already exists"
-msgstr ""
+msgstr "Ο κατάλογος εφαρμογών υπάρχει ήδη"
 
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Δεν είναι δυνατόν να δημιουργηθεί ο φάκελος εφαρμογής. Παρακαλώ διορθώστε τις άδειες πρόσβασης. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"
@@ -173,17 +174,17 @@ msgstr "Κείμενο"
 msgid "Images"
 msgstr "Εικόνες"
 
-#: private/setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s εισάγετε το όνομα χρήστη της βάσης δεδομένων."
 
-#: private/setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s εισάγετε το όνομα της βάσης δεδομένων."
 
-#: private/setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s μάλλον δεν χρησιμοποιείτε τελείες στο όνομα της βάσης δεδομένων"
@@ -204,11 +205,11 @@ msgid "MySQL username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της MySQL"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:147
-#: private/setup/oci.php:154 private/setup/oci.php:165
-#: private/setup/oci.php:172 private/setup/oci.php:181
-#: private/setup/oci.php:189 private/setup/oci.php:198
-#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/oci.php:121 private/setup/oci.php:144
+#: private/setup/oci.php:151 private/setup/oci.php:162
+#: private/setup/oci.php:169 private/setup/oci.php:178
+#: private/setup/oci.php:186 private/setup/oci.php:195
+#: private/setup/oci.php:201 private/setup/postgresql.php:89
 #: private/setup/postgresql.php:98 private/setup/postgresql.php:115
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
@@ -216,10 +217,10 @@ msgid "DB Error: \"%s\""
 msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:148
-#: private/setup/oci.php:155 private/setup/oci.php:166
-#: private/setup/oci.php:182 private/setup/oci.php:190
-#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/oci.php:122 private/setup/oci.php:145
+#: private/setup/oci.php:152 private/setup/oci.php:163
+#: private/setup/oci.php:179 private/setup/oci.php:187
+#: private/setup/oci.php:196 private/setup/postgresql.php:90
 #: private/setup/postgresql.php:99 private/setup/postgresql.php:116
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
@@ -252,7 +253,7 @@ msgstr "Αδυναμία σύνδεσης Oracle"
 msgid "Oracle username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle"
 
-#: private/setup/oci.php:173 private/setup/oci.php:205
+#: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\", ονομα: %s, κωδικος: %s"
@@ -299,7 +300,7 @@ msgstr[1] "%n λεπτά πριν"
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ώρες πριν"
 
 #: private/template/functions.php:133
 msgid "today"
@@ -313,7 +314,7 @@ msgstr "χτες"
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ημέρες πριν"
 
 #: private/template/functions.php:138
 msgid "last month"
@@ -323,7 +324,7 @@ msgstr "τελευταίο μήνα"
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n μήνες πριν"
 
 #: private/template/functions.php:141
 msgid "last year"
@@ -332,7 +333,3 @@ msgstr "τελευταίο χρόνο"
 #: private/template/functions.php:142
 msgid "years ago"
 msgstr "χρόνια πριν"
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
-msgstr "Προκλήθηκε από:"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-22 01:55-0500\n"
+"PO-Revision-Date: 2013-12-21 21:20+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -48,12 +48,17 @@ msgstr "Ime %s je že v mapi %s že v uporabi. Izbrati je treba drugo ime."
 msgid "Not a valid source"
 msgstr "Vir ni veljaven"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Odpiranje naslovov URL preko strežnika ni dovoljeno. Preverite nastavitve strežnika."
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Napaka med prejemanjem %s v mapo %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Napaka med ustvarjanjem datoteke"
 
@@ -172,6 +177,10 @@ msgstr "Ni mogoče ustvariti datoteke"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Ni mogoče ustvariti mape"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Napaka pridobivanja naslova URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -385,29 +394,25 @@ msgstr "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak
 msgid "Download"
 msgstr "Prejmi"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Prekliči souporabo"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Izbriši"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Prekoračenje omejitve velikosti"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Poteka preučevanje datotek, počakajte ..."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Trenutno poteka preučevanje"
 

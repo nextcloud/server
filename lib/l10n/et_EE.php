@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "viimasel kuul",
 "_%n month ago_::_%n months ago_" => array("","%n kuud tagasi"),
 "last year" => "viimasel aastal",
-"years ago" => "aastat tagasi",
-"Caused by:" => "Põhjustaja:"
+"years ago" => "aastat tagasi"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

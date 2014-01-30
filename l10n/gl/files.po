@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -47,12 +47,17 @@ msgstr "Xa existe o nome %s no cartafol %s. Escolla outro nome."
 msgid "Not a valid source"
 msgstr "Esta orixe non é correcta"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "O servidor non ten permisos para abrir os enderezos URL, comprobe a configuración do servidor"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Produciuse un erro ao descargar %s en %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Produciuse un erro ao crear o ficheiro"
 
@@ -171,6 +176,10 @@ msgstr "Non foi posíbel crear o ficheiro"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Non foi posíbel crear o cartafol"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Produciuse un erro ao obter o URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -378,29 +387,25 @@ msgstr "Aquí non hai nada. Envíe algo."
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Deixar de compartir"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Eliminar"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Envío demasiado grande"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor"
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Estanse analizando os ficheiros. Agarde."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Análise actual"
 

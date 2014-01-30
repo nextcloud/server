@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "last month",
 "_%n month ago_::_%n months ago_" => array("%n month ago","%n months ago"),
 "last year" => "last year",
-"years ago" => "years ago",
-"Caused by:" => "Caused by:"
+"years ago" => "years ago"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

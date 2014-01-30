@@ -7,6 +7,7 @@
  */
 
 // Post installation check
+/** @var $this OC_Router */
 $this->create('post_setup_check', '/post-setup-check')
 	->action('OC_Setup', 'postSetupCheck');
 
@@ -61,7 +62,7 @@ $this->create('core_tags_delete', '/tags/{type}/delete')
 	->action('OC\Core\Tags\Controller', 'deleteTags')
 	->requirements(array('type'));
 // oC JS config
-$this->create('js_config', '/core/js/config.js')
+$this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')

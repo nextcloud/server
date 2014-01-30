@@ -37,6 +37,7 @@ namespace OCA\Encryption;
 class Proxy extends \OC_FileProxy {
 
 	private static $blackList = null; //mimetypes blacklisted from encryption
+	private static $unencryptedSizes = array(); // remember unencrypted size
 
 	/**
 	 * Check if a file requires encryption
@@ -114,6 +115,13 @@ class Proxy extends \OC_FileProxy {
 					// get encrypted content
 					$data = $view->file_get_contents($tmpPath);
 
+					// store new unenecrypted size so that it can be updated
+					// in the post proxy
+					$tmpFileInfo = $view->getFileInfo($tmpPath);
+					if ( isset($tmpFileInfo['size']) ) {
+						self::$unencryptedSizes[\OC_Filesystem::normalizePath($path)] = $tmpFileInfo['size'];
+					}
+
 					// remove our temp file
 					$view->deleteAll('/' . \OCP\User::getUser() . '/cache/' . $cacheFolder);
 
@@ -125,6 +133,24 @@ class Proxy extends \OC_FileProxy {
 
 		return true;
 
+	}
+
+	/**
+	 * @brief update file cache with the new unencrypted size after file was written
+	 * @param string $path
+	 * @param mixed $result
+	 * @return mixed
+	 */
+	public function postFile_put_contents($path, $result) {
+		$normalizedPath = \OC_Filesystem::normalizePath($path);
+		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
+			$view = new \OC_FilesystemView('/');
+			$view->putFileInfo($normalizedPath,
+					array('encrypted' => true, 'encrypted_size' => self::$unencryptedSizes[$normalizedPath]));
+			unset(self::$unencryptedSizes[$normalizedPath]);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -182,8 +208,11 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink($path) {
 
-		// let the trashbin handle this
-		if (\OCP\App::isEnabled('files_trashbin')) {
+		$relPath = Helper::stripUserFilesPath($path);
+
+		// skip this method if the trash bin is enabled or if we delete a file
+		// outside of /data/user/files
+		if (\OCP\App::isEnabled('files_trashbin') || $relPath === false) {
 			return true;
 		}
 
@@ -197,10 +226,7 @@ class Proxy extends \OC_FileProxy {
 
 		$util = new Util($view, $userId);
 
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
-		list($owner, $ownerPath) = $util->getUidAndFilename($relativePath);
+		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
 
 		// Delete keyfile & shareKey so it isn't orphaned
 		if (!Keymanager::deleteFileKey($view, $ownerPath)) {
@@ -246,8 +272,8 @@ class Proxy extends \OC_FileProxy {
 		// split the path parts
 		$pathParts = explode('/', $path);
 
-		// FIXME: handling for /userId/cache used by webdav for chunking. The cache chunks are NOT encrypted
-		if (isset($pathParts[2]) && $pathParts[2] === 'cache') {
+		// don't try to encrypt/decrypt cache chunks or files in the trash bin
+		if (isset($pathParts[2]) && ($pathParts[2] === 'cache' || $pathParts[2] === 'files_trashbin')) {
 			return $result;
 		}
 

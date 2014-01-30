@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s geteilt »%s« mit Ihnen",
+"%s shared »%s« with you" => "%s hat »%s« mit Ihnen geteilt",
 "Couldn't send mail to following users: %s " => "An folgende Benutzer konnte keine E-Mail gesendet werden: %s",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet ",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
@@ -96,7 +96,7 @@ $TRANSLATIONS = array(
 "Email sent" => "Email gesendet",
 "Warning" => "Warnung",
 "The object type is not specified." => "Der Objekttyp ist nicht angegeben.",
-"Enter new" => "c",
+"Enter new" => "Neuen eingeben",
 "Delete" => "Löschen",
 "Add" => "Hinzufügen",
 "Edit tags" => "Schlagwörter bearbeiten",
@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Datenbank-Host",
 "Finish setup" => "Installation abschließen",
 "Finishing …" => "Abschließen ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Diese Anwendung benötigt ein aktiviertes JavaScript zum korrekten Betrieb.  Bitte <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktivieren Sie JavaScript</a> und laden Sie diese Schnittstelle neu.",
 "%s is available. Get more information on how to update." => "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
 "Log out" => "Abmelden",
 "Automatic logon rejected!" => "Automatische Anmeldung verweigert!",

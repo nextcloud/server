@@ -64,7 +64,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $this->path . '.part';
+		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
 
 		// if file is located in /Shared we write the part file to the users
 		// root folder because we can't create new files in /shared
@@ -79,7 +79,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
 				$fs->unlink($partpath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
-				throw new Sabre_DAV_Exception();
+				throw new Sabre_DAV_Exception('Could not write file contents');
 			}
 		} catch (\OCP\Files\NotPermittedException $e) {
 			// a more general case - due to whatever reason the content could not be written
@@ -105,7 +105,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if ($renameOkay === false || $fileExists === false) {
 			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
 			$fs->unlink($partpath);
-			throw new Sabre_DAV_Exception();
+			throw new Sabre_DAV_Exception('Could not rename part file to final file');
 		}
 
 		// allow sync clients to send the mtime along in a header
@@ -242,8 +242,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			$fileExists = $fs->file_exists($targetPath);
 			if ($renameOkay === false || $fileExists === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				$fs->unlink($targetPath);
-				throw new Sabre_DAV_Exception();
+				// only delete if an error occurred and the target file was already created
+				if ($fileExists) {
+					$fs->unlink($targetPath);
+				}
+				throw new Sabre_DAV_Exception('Could not rename part file assembled from chunks');
 			}
 
 			// allow sync clients to send the mtime along in a header

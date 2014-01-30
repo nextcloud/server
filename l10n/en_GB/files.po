@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-22 01:55-0500\n"
+"PO-Revision-Date: 2013-12-21 14:50+0000\n"
 "Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -47,12 +47,17 @@ msgstr "The name %s is already used in the folder %s. Please choose a different 
 msgid "Not a valid source"
 msgstr "Not a valid source"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Server is not allowed to open URLs, please check the server configuration"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Error whilst downloading %s to %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Error when creating the file"
 
@@ -171,6 +176,10 @@ msgstr "Could not create file"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Could not create folder"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Error fetching URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -378,29 +387,25 @@ msgstr "Nothing in here. Upload something!"
 msgid "Download"
 msgstr "Download"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Unshare"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Delete"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Upload too large"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "The files you are trying to upload exceed the maximum size for file uploads on this server."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Files are being scanned, please wait."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Current scanning"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "\"%s\" Aplikazioa ezin da instalatu ownCloud bertsio honekin bateragarria ez delako"
 
 #: private/app.php:255
 msgid "No app name specified"
-msgstr ""
+msgstr "Ez da aplikazioaren izena zehaztu"
 
 #: private/app.php:360
 msgid "Help"
@@ -55,15 +55,15 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ezin izan da \"%s\" eguneratu."
 
-#: private/avatar.php:60
+#: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Fitxategi mota ezezaguna"
 
-#: private/avatar.php:65
+#: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "Baliogabeko irudia"
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
@@ -72,83 +72,83 @@ msgstr "web zerbitzuak zure kontrolpean"
 msgid "cannot open \"%s\""
 msgstr "ezin da \"%s\" ireki"
 
-#: private/files.php:228
+#: private/files.php:231
 msgid "ZIP download is turned off."
 msgstr "ZIP deskarga ez dago gaituta."
 
-#: private/files.php:229
+#: private/files.php:232
 msgid "Files need to be downloaded one by one."
 msgstr "Fitxategiak banan-banan deskargatu behar dira."
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:233 private/files.php:261
 msgid "Back to Files"
 msgstr "Itzuli fitxategietara"
 
-#: private/files.php:255
+#: private/files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko."
 
-#: private/files.php:256
+#: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "Mesedez deskargatu fitzategiak zati txikiagoetan, banan-banan edo eskatu mesedez zure administradoreari."
 
 #: private/installer.php:63
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Ez da jatorririk zehaztu aplikazioa instalatzerakoan"
 
 #: private/installer.php:70
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Ez da href parametrorik zehaztu http bidez aplikazioa instalatzerakoan"
 
 #: private/installer.php:75
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Ez da kokalekurik zehaztu fitxategi lokal moduan aplikazioa instalatzerakoan"
 
 #: private/installer.php:89
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "%s motako fitxategiak ez dira onartzen"
 
 #: private/installer.php:103
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Fitxategia irekitzeak huts egin du aplikazioa instalatzerakoan"
 
 #: private/installer.php:125
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "Aplikazioak ez du info.xml fitxategia"
 
 #: private/installer.php:131
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Aplikazioa ezin da instalatu bertan duen baimendu gabeko kodea dela eta"
 
 #: private/installer.php:140
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Aplikazioa ezin da instalatu ownCloud bertsio honekin bateragarria ez delako"
 
 #: private/installer.php:146
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "Aplikazioa ezin da instalatu <shipped>true</shipped> etiketa duelako eta etiketa hau ez da onartzen banaketan ez datozen aplikazioetan"
 
 #: private/installer.php:159
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Aplikazioa ezin da instalatu info.xml/version bertsioa ez delako \"app store\"an jartzen duenaren berdina"
 
 #: private/installer.php:169
 msgid "App directory already exists"
-msgstr ""
+msgstr "Aplikazioaren karpeta dagoeneko existitzen da"
 
 #: private/installer.php:182
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Ezin izan da aplikazioaren karpeta sortu. Mesdez konpondu baimenak. %s"
 
 #: private/json.php:28
 msgid "Application is not enabled"
@@ -174,17 +174,17 @@ msgstr "Testua"
 msgid "Images"
 msgstr "Irudiak"
 
-#: private/setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s sartu datu basearen erabiltzaile izena."
 
-#: private/setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s sartu datu basearen izena."
 
-#: private/setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s ezin duzu punturik erabili datu basearen izenean."
@@ -205,11 +205,11 @@ msgid "MySQL username and/or password not valid"
 msgstr "MySQL erabiltzaile edota pasahitza ez dira egokiak."
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:147
-#: private/setup/oci.php:154 private/setup/oci.php:165
-#: private/setup/oci.php:172 private/setup/oci.php:181
-#: private/setup/oci.php:189 private/setup/oci.php:198
-#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/oci.php:121 private/setup/oci.php:144
+#: private/setup/oci.php:151 private/setup/oci.php:162
+#: private/setup/oci.php:169 private/setup/oci.php:178
+#: private/setup/oci.php:186 private/setup/oci.php:195
+#: private/setup/oci.php:201 private/setup/postgresql.php:89
 #: private/setup/postgresql.php:98 private/setup/postgresql.php:115
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
@@ -217,10 +217,10 @@ msgid "DB Error: \"%s\""
 msgstr "DB errorea: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:148
-#: private/setup/oci.php:155 private/setup/oci.php:166
-#: private/setup/oci.php:182 private/setup/oci.php:190
-#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/oci.php:122 private/setup/oci.php:145
+#: private/setup/oci.php:152 private/setup/oci.php:163
+#: private/setup/oci.php:179 private/setup/oci.php:187
+#: private/setup/oci.php:196 private/setup/postgresql.php:90
 #: private/setup/postgresql.php:99 private/setup/postgresql.php:116
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
@@ -253,7 +253,7 @@ msgstr "Ezin da Oracle konexioa sortu"
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle erabiltzaile edota pasahitza ez dira egokiak."
 
-#: private/setup/oci.php:173 private/setup/oci.php:205
+#: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Errorea komando honek sortu du: \"%s\", izena: %s, pasahitza: %s"
@@ -333,7 +333,3 @@ msgstr "joan den urtean"
 #: private/template/functions.php:142
 msgid "years ago"
 msgstr "urte"
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
-msgstr "Honek eraginda:"

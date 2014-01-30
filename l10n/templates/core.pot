@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,59 +149,59 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:858
+#: js/js.js:872
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:859
+#: js/js.js:873
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:860
+#: js/js.js:874
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:861
+#: js/js.js:875
 msgid "today"
 msgstr ""
 
-#: js/js.js:862
+#: js/js.js:876
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:863
+#: js/js.js:877
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:864
+#: js/js.js:878
 msgid "last month"
 msgstr ""
 
-#: js/js.js:865
+#: js/js.js:879
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:866
+#: js/js.js:880
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:867
+#: js/js.js:881
 msgid "last year"
 msgstr ""
 
-#: js/js.js:868
+#: js/js.js:882
 msgid "years ago"
 msgstr ""
 
@@ -526,7 +526,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr ""
 
@@ -682,12 +682,19 @@ msgstr ""
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr ""
 

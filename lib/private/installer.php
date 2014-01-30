@@ -407,6 +407,9 @@ class OC_Installer{
 			include OC_App::getAppPath($app)."/appinfo/install.php";
 		}
 		$info=OC_App::getAppInfo($app);
+		if (is_null($info)) {
+			return false;
+		}
 		OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 
 		//set remote/public handelers

@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Diddymu llwytho i fyny",
 "Nothing in here. Upload something!" => "Does dim byd fan hyn. Llwythwch rhywbeth i fyny!",
 "Download" => "Llwytho i lawr",
-"Unshare" => "Dad-rannu",
 "Delete" => "Dileu",
 "Upload too large" => "Maint llwytho i fyny'n rhy fawr",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Mae'r ffeiliau rydych yn ceisio llwytho i fyny'n fwy na maint mwyaf llwytho ffeiliau i fyny ar y gweinydd hwn.",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,38 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: private/app.php:243
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version "
 "of ownCloud."
 msgstr ""
 
-#: private/app.php:255
+#: private/app.php:257
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:360
+#: private/app.php:362
 msgid "Help"
 msgstr ""
 
-#: private/app.php:373
+#: private/app.php:375
 msgid "Personal"
 msgstr ""
 
-#: private/app.php:384
+#: private/app.php:386
 msgid "Settings"
 msgstr ""
 
-#: private/app.php:396
+#: private/app.php:398
 msgid "Users"
 msgstr ""
 
-#: private/app.php:409
+#: private/app.php:411
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -71,23 +71,23 @@ msgstr ""
 msgid "cannot open \"%s\""
 msgstr ""
 
-#: private/files.php:228
+#: private/files.php:226
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: private/files.php:229
+#: private/files.php:227
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:228 private/files.php:256
 msgid "Back to Files"
 msgstr ""
 
-#: private/files.php:255
+#: private/files.php:253
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
-#: private/files.php:256
+#: private/files.php:254
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -331,8 +331,4 @@ msgstr ""
 
 #: private/template/functions.php:142
 msgid "years ago"
-msgstr ""
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
 msgstr ""

@@ -8,54 +8,53 @@
 	border-bottom-right-radius: 5px;
 	box-shadow:0 1px 1px #777;
 	display:block;
-	margin-right:7em;
+	margin-right:112px;
 	position:absolute;
 	right:0;
-	width:25em;
+	width:320px;
 	z-index:500;
-	padding:1em;
+	padding:16px;
 }
 
 #shareWithList {
 	list-style-type:none;
-	padding:.5em;
+	padding:8px;
 }
 
-	#shareWithList li {
-		padding-top: 10px;
-		padding-bottom: 10px;
-		font-weight: bold;
-		line-height: 21px;
-		white-space: normal;
-	}
+#shareWithList li {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: bold;
+	line-height: 21px;
+	white-space: normal;
+}
 
-	#shareWithList .unshare img, #shareWithList .showCruds img {
-		vertical-align:text-bottom; /* properly align icons */
-	}
+#shareWithList .unshare img, #shareWithList .showCruds img {
+	vertical-align:text-bottom; /* properly align icons */
+}
 
-	#shareWithList label input[type=checkbox]{
-		margin-left: 0;
-	}
-	#shareWithList .username{
-		padding-right: .5em;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		max-width: 254px;
-		display: inline-block;
-		overflow: hidden;
-		vertical-align: middle;
-	}
-	#shareWithList li label{
-		margin-right: .5em;
-	}
+#shareWithList label input[type=checkbox]{
+	margin-left: 0;
+}
+#shareWithList .username{
+	padding-right: 8px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 254px;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+}
+#shareWithList li label{
+	margin-right: 8px;
+}
 #dropdown label {
 	font-weight:400;
 	white-space: nowrap;
 }
 
 #dropdown input[type="checkbox"] {
-	margin:0 .2em 0 .5em;
-	vertical-align: middle;
+	margin:0 3px 0 8px;
 }
 
 a.showCruds {
@@ -67,13 +66,13 @@ a.unshare {
 	display:inline;
 	float:right;
 	opacity:.5;
-	padding:.3em 0 0 .3em !important;
+	padding:5px 0 0 5px !important;
 	margin-top:-5px;
 }
 
 #link {
 	border-top:1px solid #ddd;
-	padding-top:.5em;
+	padding-top:8px;
 }
 
 #dropdown input[type="text"],#dropdown input[type="password"] {
@@ -91,12 +90,12 @@ a.unshare {
 }
 
 #link #showPassword img {
-	padding-left:.3em;
+	padding-left:5px;
 	width:12px;
 }
 
 .reshare,#link label,#expiration label {
-	padding-left:.5em;
+	padding-left:8px;
 }
 
 a.showCruds:hover,a.unshare:hover {

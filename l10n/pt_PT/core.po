@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,59 +154,59 @@ msgstr "Novembro"
 msgid "December"
 msgstr "Dezembro"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/js.js:858
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "Minutos atrás"
 
-#: js/js.js:859
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuto atrás"
 msgstr[1] "%n minutos atrás"
 
-#: js/js.js:860
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n hora atrás"
 msgstr[1] "%n horas atrás"
 
-#: js/js.js:861
+#: js/js.js:872
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:862
+#: js/js.js:873
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:863
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dia atrás"
 msgstr[1] "%n dias atrás"
 
-#: js/js.js:864
+#: js/js.js:875
 msgid "last month"
 msgstr "ultímo mês"
 
-#: js/js.js:865
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n mês atrás"
 msgstr[1] "%n meses atrás"
 
-#: js/js.js:866
+#: js/js.js:877
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:867
+#: js/js.js:878
 msgid "last year"
 msgstr "ano passado"
 
-#: js/js.js:868
+#: js/js.js:879
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -246,7 +246,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Quais os ficheiros que pretende manter?"
 
 #: js/oc-dialogs.js:368
 msgid ""
@@ -283,7 +283,7 @@ msgid "Share"
 msgstr "Partilhar"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
@@ -313,13 +313,13 @@ msgstr ""
 
 #: js/share.js:219
 msgid "Share link"
-msgstr ""
+msgstr "Partilhar o link"
 
 #: js/share.js:222
 msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Password"
 
@@ -369,7 +369,7 @@ msgstr "Deixar de partilhar"
 
 #: js/share.js:405
 msgid "notify by email"
-msgstr ""
+msgstr "Notificar por email"
 
 #: js/share.js:408
 msgid "can edit"
@@ -395,7 +395,7 @@ msgstr "apagar"
 msgid "share"
 msgstr "partilhar"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Protegido com palavra-passe"
 
@@ -486,8 +486,8 @@ msgstr "O pedido falhou! <br> Tem a certeza que introduziu o seu email/username 
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vai receber um endereço para repor a sua password"
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Nome de utilizador"
 
@@ -505,7 +505,7 @@ msgstr "Sim, tenho a certeza que pretendo redefinir a minha palavra-passe agora.
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Repor"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -531,7 +531,7 @@ msgstr "Pessoal"
 msgid "Users"
 msgstr "Utilizadores"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Aplicações"
 
@@ -592,107 +592,114 @@ msgstr ""
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Esta partilha vai expirar em %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr ""
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Aviso de Segurança"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "A sua versão do PHP é vulnerável ao ataque Byte Null (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Por favor atualize a sua versão PHP instalada para usar o %s com segurança."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Não existe nenhum gerador seguro de números aleatórios, por favor, active a extensão OpenSSL no PHP."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Sem nenhum gerador seguro de números aleatórios, uma pessoa mal intencionada pode prever a sua password, reiniciar as seguranças adicionais e tomar conta da sua conta. "
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "A pasta de dados do ownCloud e os respectivos ficheiros, estarão provavelmente acessíveis a partir da internet, pois o ficheiros .htaccess não funciona."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "Para obter informações de como configurar correctamente o servidor, veja em: <a href=\"%s\" target=\"_blank\">documentação</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta administrativa</strong>"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Configure a base de dados"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "vai ser usada"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Utilizador da base de dados"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Password da base de dados"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Nome da base de dados"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Tablespace da base de dados"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Anfitrião da base de dados"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr "A terminar..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está disponível. Tenha mais informações como actualizar."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Sair"
 
@@ -716,21 +723,21 @@ msgstr ""
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Por favor contacte o administrador."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Esqueceu-se da sua password?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Contas de acesso alternativas"
 
@@ -757,7 +764,7 @@ msgstr ""
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Obrigado pela sua paciência."
 
 #: templates/update.admin.php:3
 #, php-format

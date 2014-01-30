@@ -71,7 +71,7 @@ var FileActions = {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
-		if ($('tr[data-file="'+file+'"]').data('renaming')) {
+		if (FileList.findFileEl(file).data('renaming')) {
 			return;
 		}
 
@@ -103,9 +103,9 @@ var FileActions = {
 				}
 				var html = '<a href="#" class="action" data-action="' + name + '">';
 				if (img) {
-					html += '<img class ="svg" src="' + img + '" /> ';
+					html += '<img class ="svg" src="' + img + '" />';
 				}
-				html += t('files', name) + '</a>';
+				html += '<span> ' + t('files', name) + '</span></a>';
 
 				var element = $(html);
 				element.data('action', name);
@@ -173,7 +173,10 @@ $(document).ready(function () {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
-			window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
+			var url = FileList.getDownloadUrl(filename);
+			if (url) {
+				OC.redirect(url);
+			}
 		});
 	}
 	$('#fileList tr').each(function () {

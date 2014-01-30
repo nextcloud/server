@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "One Base DN per line" => "En hoved DN pr. linje",
 "You can specify Base DN for users and groups in the Advanced tab" => "Du kan spesifisere Base DN for brukere og grupper under Avansert fanen",
 "Back" => "Tilbake",
+"Continue" => "Fortsett",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Warning:</b> PHP LDAP modulen er ikke installert, hjelperen vil ikke virke. Vennligst be din system-administrator om å installere den.",
 "Configuration Active" => "Konfigurasjon aktiv",
 "When unchecked, this configuration will be skipped." => "Når ikke huket av så vil denne konfigurasjonen bli hoppet over.",

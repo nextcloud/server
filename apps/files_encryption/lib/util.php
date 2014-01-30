@@ -2,9 +2,10 @@
 /**
  * ownCloud
  *
- * @author Sam Tuke, Frank Karlitschek
+ * @author Sam Tuke, Frank Karlitschek, Bjoern Schiessle
  * @copyright 2012 Sam Tuke <samtuke@owncloud.com>,
- * Frank Karlitschek <frank@owncloud.org>
+ * Frank Karlitschek <frank@owncloud.org>,
+ * Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -101,15 +102,24 @@ class Util {
 			or !$this->view->file_exists($this->publicKeyPath)
 			or !$this->view->file_exists($this->privateKeyPath)
 		) {
-
 			return false;
-
 		} else {
-
 			return true;
-
 		}
+	}
 
+	/**
+	 * @brief check if the users private & public key exists
+	 * @return boolean
+	 */
+	public function userKeysExists() {
+		if (
+				$this->view->file_exists($this->privateKeyPath) &&
+				$this->view->file_exists($this->publicKeyPath)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -232,11 +242,9 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-				if (isset($row['recovery_enabled'])) {
-					$recoveryEnabled[] = $row['recovery_enabled'];
-				}
+			$row = $result->fetchRow();
+			if ($row && isset($row['recovery_enabled'])) {
+				$recoveryEnabled[] = $row['recovery_enabled'];
 			}
 		}
 
@@ -280,7 +288,7 @@ class Util {
 			$sql = 'UPDATE `*PREFIX*encryption` SET `recovery_enabled` = ? WHERE `uid` = ?';
 
 			$args = array(
-				$enabled,
+				$enabled ? '1' : '0',
 				$this->userId
 			);
 
@@ -406,69 +414,42 @@ class Util {
 	}
 
 	/**
-	 * @brief Fetch the last lines of a file efficiently
-	 * @note Safe to use on large files; does not read entire file to memory
-	 * @note Derivative of http://tekkie.flashbit.net/php/tail-functionality-in-php
-	 */
-	public function tail($filename, $numLines) {
-
-		\OC_FileProxy::$enabled = false;
-
-		$text = '';
-		$pos = -1;
-		$handle = $this->view->fopen($filename, 'r');
-
-		while ($numLines > 0) {
-
-			--$pos;
-
-			if (fseek($handle, $pos, SEEK_END) !== 0) {
-
-				rewind($handle);
-				$numLines = 0;
-
-			} elseif (fgetc($handle) === "\n") {
-
-				--$numLines;
-
-			}
-
-			$block_size = (-$pos) % 8192;
-			if ($block_size === 0 || $numLines === 0) {
-
-				$text = fread($handle, ($block_size === 0 ? 8192 : $block_size)) . $text;
-
-			}
-		}
-
-		fclose($handle);
-
-		\OC_FileProxy::$enabled = true;
-
-		return $text;
-	}
-
-	/**
 	 * @brief Check if a given path identifies an encrypted file
 	 * @param string $path
 	 * @return boolean
 	 */
 	public function isEncryptedPath($path) {
 
-		$relPath = Helper::getPathToRealFile($path);
+		// Disable encryption proxy so data retrieved is in its
+		// original form
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
 
-		if ($relPath === false) {
-			$relPath = Helper::stripUserFilesPath($path);
+		// we only need 24 byte from the last chunk
+		$data = '';
+		$handle = $this->view->fopen($path, 'r');
+		if (is_resource($handle)) {
+			// suppress fseek warining, we handle the case that fseek doesn't
+			// work in the else branch
+			if (@fseek($handle, -24, SEEK_END) === 0) {
+				$data = fgets($handle);
+			} else {
+				// if fseek failed on the storage we create a local copy from the file
+				// and read this one
+				fclose($handle);
+				$localFile = $this->view->getLocalFile($path);
+				$handle = fopen($localFile, 'r');
+				if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+					$data = fgets($handle);
+				}
+			}
+			fclose($handle);
 		}
 
-		$fileKey = Keymanager::getFileKey($this->view, $this, $relPath);
+		// re-enable proxy
+		\OC_FileProxy::$enabled = $proxyStatus;
 
-		if ($fileKey === false) {
-			return false;
-		}
-
-		return true;
-
+		return Crypt::isCatfileContent($data);
 	}
 
 	/**
@@ -514,7 +495,20 @@ class Util {
 				$lastChunckPos = ($lastChunkNr * 8192);
 
 				// seek to end
-				fseek($stream, $lastChunckPos);
+				if (@fseek($stream, $lastChunckPos) === -1) {
+					// storage doesn't support fseek, we need a local copy
+					fclose($stream);
+					$localFile = $this->view->getLocalFile($path);
+					Helper::addTmpFileToMapper($localFile, $path);
+					$stream = fopen('crypt://' . $localFile, "r");
+					if (fseek($stream, $lastChunckPos) === -1) {
+						// if fseek also fails on the local storage, than
+						// there is nothing we can do
+						fclose($stream);
+						\OCP\Util::writeLog('Encryption library', 'couldn\'t determine size of "' . $path, \OCP\Util::ERROR);
+						return $result;
+					}
+				}
 
 				// get the content of the last chunk
 				$lastChunkContent = fread($stream, $lastChunkSize);
@@ -761,7 +755,7 @@ class Util {
 				\OC\Files\Filesystem::putFileInfo($relPath, array(
 					'encrypted' => false,
 					'size' => $size,
-					'unencrypted_size' => $size,
+					'unencrypted_size' => 0,
 					'etag' => $fileInfo['etag']
 				));
 
@@ -831,32 +825,35 @@ class Util {
 				// Open enc file handle for binary writing, with same filename as original plain file
 				$encHandle = fopen('crypt://' . $rawPath . '.part', 'wb');
 
-				// Move plain file to a temporary location
-				$size = stream_copy_to_stream($plainHandle, $encHandle);
+				if (is_resource($encHandle)) {
+					// Move plain file to a temporary location
+					$size = stream_copy_to_stream($plainHandle, $encHandle);
 
-				fclose($encHandle);
-				fclose($plainHandle);
+					fclose($encHandle);
+					fclose($plainHandle);
 
-				$fakeRoot = $this->view->getRoot();
-				$this->view->chroot('/' . $this->userId . '/files');
+					$fakeRoot = $this->view->getRoot();
+					$this->view->chroot('/' . $this->userId . '/files');
 
-				$this->view->rename($relPath . '.part', $relPath);
+					$this->view->rename($relPath . '.part', $relPath);
 
-				// set timestamp
-				$this->view->touch($relPath, $timestamp);
+					// set timestamp
+					$this->view->touch($relPath, $timestamp);
 
-				$this->view->chroot($fakeRoot);
+					$encSize = $this->view->filesize($relPath);
 
-				// Add the file to the cache
-				\OC\Files\Filesystem::putFileInfo($relPath, array(
-					'encrypted' => true,
-					'size' => $size,
-					'unencrypted_size' => $size,
-					'etag' => $fileInfo['etag']
-				));
+					$this->view->chroot($fakeRoot);
 
-				$encryptedFiles[] = $relPath;
+					// Add the file to the cache
+					\OC\Files\Filesystem::putFileInfo($relPath, array(
+						'encrypted' => true,
+						'size' => $encSize,
+						'unencrypted_size' => $size,
+						'etag' => $fileInfo['etag']
+					));
 
+					$encryptedFiles[] = $relPath;
+				}
 			}
 
 			// Encrypt legacy encrypted files
@@ -973,8 +970,8 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
+			$row = $result->fetchRow();
+			if ($row) {
 				$path = substr($row['path'], strlen('files'));
 			}
 		}
@@ -1254,11 +1251,9 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-				if (isset($row['migration_status'])) {
-					$migrationStatus[] = $row['migration_status'];
-				}
+			$row = $result->fetchRow();
+			if ($row && isset($row['migration_status'])) {
+				$migrationStatus[] = $row['migration_status'];
 			}
 		}
 
@@ -1366,59 +1361,32 @@ class Util {
 		}
 	}
 
-
 	/**
 	 * @brief go recursively through a dir and collect all files and sub files.
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
 	public function getAllFiles($dir) {
-
 		$result = array();
+		$dirList = array($dir);
 
-		$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath(
-			$this->userFilesDir . '/' . $dir));
+		while ($dirList) {
+			$dir = array_pop($dirList);
+			$content = $this->view->getDirectoryContent(\OC\Files\Filesystem::normalizePath(
+					$this->userFilesDir . '/' . $dir));
 
-		// handling for re shared folders
-		$pathSplit = explode('/', $dir);
-
-		foreach ($content as $c) {
-
-			$sharedPart = $pathSplit[sizeof($pathSplit) - 1];
-			$targetPathSplit = array_reverse(explode('/', $c['path']));
-
-			$path = '';
-
-			// rebuild path
-			foreach ($targetPathSplit as $pathPart) {
-
-				if ($pathPart !== $sharedPart) {
-
-					$path = '/' . $pathPart . $path;
-
+			foreach ($content as $c) {
+				$usersPath = isset($c['usersPath']) ? $c['usersPath'] : $c['path'];
+				if ($c['type'] === 'dir') {
+					$dirList[] = substr($usersPath, strlen("files"));
 				} else {
-
-					break;
-
+					$result[] = substr($usersPath, strlen("files"));
 				}
-
 			}
 
-			$path = $dir . $path;
-
-			if ($c['type'] === 'dir') {
-
-				$result = array_merge($result, $this->getAllFiles($path));
-
-			} else {
-
-				$result[] = $path;
-
-			}
 		}
 
 		return $result;
-
 	}
 
 	/**
@@ -1438,9 +1406,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-			}
+			$row = $result->fetchRow();
 		}
 
 		return $row;
@@ -1464,9 +1430,7 @@ class Util {
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$row = $result->fetchRow();
-			}
+			$row = $result->fetchRow();
 		}
 
 		return $row;
@@ -1485,18 +1449,16 @@ class Util {
 
 		$result = $query->execute(array($id));
 
-		$source = array();
+		$source = null;
 		if (\OCP\DB::isError($result)) {
 			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 		} else {
-			if ($result->numRows() > 0) {
-				$source = $result->fetchRow();
-			}
+			$source = $result->fetchRow();
 		}
 
 		$fileOwner = false;
 
-		if (isset($source['parent'])) {
+		if ($source && isset($source['parent'])) {
 
 			$parent = $source['parent'];
 
@@ -1506,16 +1468,14 @@ class Util {
 
 				$result = $query->execute(array($parent));
 
-				$item = array();
+				$item = null;
 				if (\OCP\DB::isError($result)) {
 					\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				} else {
-					if ($result->numRows() > 0) {
-						$item = $result->fetchRow();
-					}
+					$item = $result->fetchRow();
 				}
 
-				if (isset($item['parent'])) {
+				if ($item && isset($item['parent'])) {
 
 					$parent = $item['parent'];
 

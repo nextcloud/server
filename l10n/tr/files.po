@@ -6,13 +6,13 @@
 # alicanbatur <alicanbatur@hotmail.com>, 2013
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
 # tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2014-01-06 01:55-0500\n"
+"PO-Revision-Date: 2014-01-05 16:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -50,12 +50,17 @@ msgstr "%s ismi zaten %s klasöründe kullanılıyor. Lütfen farklı bir isim s
 msgid "Not a valid source"
 msgstr "Geçerli bir kaynak değil"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Sunucunun adresleri açma izi yok, lütfen sunucu yapılandırmasını denetleyin"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "%s, %s içine indirilirken hata"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Dosya oluşturulurken hata"
 
@@ -175,6 +180,10 @@ msgstr "Dosya oluşturulamadı"
 msgid "Could not create folder"
 msgstr "Klasör oluşturulamadı"
 
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Adres getirilirken hata"
+
 #: js/fileactions.js:125
 msgid "Share"
 msgstr "Paylaş"
@@ -241,7 +250,7 @@ msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakter
 
 #: js/files.js:93
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr "Depolama alanınız dolu, artık dosyalar güncellenmeyecek yada senkronizasyon edilmeyecek."
+msgstr "Depolama alanınız dolu, artık dosyalar güncellenmeyecek veya eşitlenmeyecek."
 
 #: js/files.js:97
 msgid "Your storage is almost full ({usedSpacePercent}%)"
@@ -264,7 +273,7 @@ msgstr "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli d
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr "Şifreleme işlemi durduruldu ancak dosyalarınız şifreli. Dosyalarınızın şifresini kaldırmak için lütfen kişisel ayarlar kısmına geçiniz."
+msgstr "Şifreleme işlemi durduruldu ancak dosyalarınız şifreli. Dosyalarınızın şifresini kaldırmak için lütfen kişisel ayarlar kısmına geçin."
 
 #: js/files.js:349
 msgid ""
@@ -307,7 +316,7 @@ msgstr "Yükle"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Dosya taşıma"
+msgstr "Dosya işlemleri"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -323,7 +332,7 @@ msgstr "Çoklu dosya ve dizin indirmesi için gerekli."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "ZIP indirmeyi aktif et"
+msgstr "ZIP indirmeyi etkinleştir"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
@@ -331,7 +340,7 @@ msgstr "0 limitsiz demektir"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "ZIP dosyaları için en fazla girdi sayısı"
+msgstr "ZIP dosyaları için en fazla girdi boyutu"
 
 #: templates/admin.php:26
 msgid "Save"
@@ -381,29 +390,25 @@ msgstr "Burada hiçbir şey yok. Bir şeyler yükleyin!"
 msgid "Download"
 msgstr "İndir"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Paylaşılmayan"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Yükleme çok büyük"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Dosyalar taranıyor, lütfen bekleyin."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Güncel tarama"
 

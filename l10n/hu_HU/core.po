@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,59 +151,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:858
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:859
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n perccel ezelőtt"
 msgstr[1] "%n perccel ezelőtt"
 
-#: js/js.js:860
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: js/js.js:861
+#: js/js.js:872
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:862
+#: js/js.js:873
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:863
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: js/js.js:864
+#: js/js.js:875
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:865
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: js/js.js:866
+#: js/js.js:877
 msgid "months ago"
 msgstr "több hónapja"
 
-#: js/js.js:867
+#: js/js.js:878
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:868
+#: js/js.js:879
 msgid "years ago"
 msgstr "több éve"
 
@@ -280,7 +280,7 @@ msgid "Share"
 msgstr "Megosztás"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Hiba"
 
@@ -316,7 +316,7 @@ msgstr "Megosztás hivatkozással"
 msgid "Password protect"
 msgstr "Jelszóval is védem"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Jelszó"
 
@@ -392,7 +392,7 @@ msgstr "töröl"
 msgid "share"
 msgstr "megoszt"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Jelszóval van védve"
 
@@ -446,7 +446,7 @@ msgstr "Nincs törlésre kijelölt címke."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Kérlek tölts be újra az oldalt"
 
 #: js/update.js:17
 msgid ""
@@ -483,8 +483,8 @@ msgstr "A kérést nem sikerült teljesíteni! <br>Biztos, hogy jó emailcímet/
 msgid "You will receive a link to reset your password via Email."
 msgstr "Egy emailben fog értesítést kapni a jelszóbeállítás módjáról."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Felhasználónév"
 
@@ -528,7 +528,7 @@ msgstr "Személyes"
 msgid "Users"
 msgstr "Felhasználók"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Alkalmazások"
 
@@ -589,107 +589,114 @@ msgstr "Szia!\\n\n\\n\nÉrtesítünk, hogy %s megosztotta veled a következőt: 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "A megosztás lejár ekkor %s"
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr "Üdv."
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Biztonsági figyelmeztetés"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Az Ön PHP verziója sebezhető a NULL bájtos támadással szemben (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Kérjük frissítse a telepített PHP csomagjait, hogy biztonságos legyen az %s szolgáltatása."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nem érhető el megfelelő véletlenszám-generátor, telepíteni kellene a PHP OpenSSL kiegészítését."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Megfelelő véletlenszám-generátor hiányában egy támadó szándékú idegen képes lehet megjósolni a jelszóvisszaállító tokent, és Ön helyett belépni."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Az adatkönyvtár és a benne levő állományok valószínűleg közvetlenül is elérhetők az internetről, mert a .htaccess állomány nem érvényesül."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "A kiszolgáló megfelelő beállításához kérjük olvassa el a <a href=\"%sl\" target=\"_blank\">dokumentációt</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Rendszergazdai belépés</strong> létrehozása"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Haladó"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Adatkönyvtár"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Adatbázis konfigurálása"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "adatbázist fogunk használni"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Adatbázis felhasználónév"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Adatbázis jelszó"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Az adatbázis neve"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Az adatbázis táblázattér (tablespace)"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Adatbázis szerver"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "A beállítások befejezése"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
 msgstr "Befejezés ..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr "Az alkalmazás megfelelő működéséhez szükség van JavaScript-re. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Engedélyezd a JavaScript-et</a> és töltsd újra az interfészt."
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s rendelkezésre áll. További információ a frissítéshez."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Kilépés"
 
@@ -715,19 +722,19 @@ msgstr "A szerveroldali hitelesítés sikertelen!"
 msgid "Please contact your administrator."
 msgstr "Kérjük, lépjen kapcsolatba a rendszergazdával."
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Elfelejtette a jelszavát?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "emlékezzen"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Bejelentkezés"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternatív bejelentkezés"
 
@@ -740,11 +747,11 @@ msgstr "Szia!<br><br>Értesítünk, hogy %s megosztotta veled a következőt: »
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Az Owncloud frissítés elezdődött egy felhasználós módban."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt"
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

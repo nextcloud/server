@@ -44,7 +44,7 @@ var UserList = {
 
 		// Provide user with option to undo
 		$('#notification').data('deleteuser', true);
-		OC.Notification.showHtml(t('users', 'deleted') + ' ' + escapeHTML(uid) + '<span class="undo">' + t('users', 'undo') + '</span>');
+		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(uid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
 	},
 
 	/**
@@ -423,7 +423,10 @@ $(document).ready(function () {
 			}
 		});
 		input.blur(function () {
-			$(this).replaceWith(escapeHTML($(this).val()));
+			var input = $(this),
+				displayName = input.val();
+			input.closest('tr').attr('data-displayName', displayName);
+			input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
 			img.css('display', '');
 		});
 	});

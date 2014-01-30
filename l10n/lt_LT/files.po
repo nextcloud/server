@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -49,12 +49,17 @@ msgstr "Pavadinimas %s jau naudojamas aplanke %s. Prašome pasirinkti kitokį pa
 msgid "Not a valid source"
 msgstr "Netinkamas šaltinis"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr ""
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Klaida siunčiant %s į %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Klaida kuriant failą"
 
@@ -173,6 +178,10 @@ msgstr "Neįmanoma sukurti failo"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Neįmanoma sukurti aplanko"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr ""
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -383,29 +392,25 @@ msgstr "Čia tuščia. Įkelkite ką nors!"
 msgid "Download"
 msgstr "Atsisiųsti"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Nebesidalinti"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Įkėlimui failas per didelis"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje"
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Skenuojami failai, prašome palaukti."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Šiuo metu skenuojama"
 

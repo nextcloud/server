@@ -54,7 +54,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Hủy upload",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
 "Download" => "Tải về",
-"Unshare" => "Bỏ chia sẻ",
 "Delete" => "Xóa",
 "Upload too large" => "Tập tin tải lên quá lớn",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",

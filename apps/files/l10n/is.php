@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Hætta við innsendingu",
 "Nothing in here. Upload something!" => "Ekkert hér. Settu eitthvað inn!",
 "Download" => "Niðurhal",
-"Unshare" => "Hætta deilingu",
 "Delete" => "Eyða",
 "Upload too large" => "Innsend skrá er of stór",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",

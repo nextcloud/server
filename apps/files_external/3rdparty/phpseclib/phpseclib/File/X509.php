@@ -40,22 +40,22 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMXII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id$
- * @link       htp://phpseclib.sourceforge.net
+ * @link       http://phpseclib.sourceforge.net
  */
 
 /**
  * Include File_ASN1
  */
 if (!class_exists('File_ASN1')) {
-    require_once('File/ASN1.php');
+    require_once('ASN1.php');
 }
 
 /**
  * Flag to only accept signatures signed by certificate authorities
  *
+ * Not really used anymore but retained all the same to suppress E_NOTICEs from old installs
+ *
  * @access public
- * @see File_X509::validateSignature()
  */
 define('FILE_X509_VALIDATE_SIGNATURE_BY_CA', 1);
 
@@ -306,6 +306,10 @@ class File_X509 {
      */
     function File_X509()
     {
+        if (!class_exists('Math_BigInteger')) {
+            require_once('Math/BigInteger.php');
+        }
+
         // Explicitly Tagged Module, 1988 Syntax
         // http://tools.ietf.org/html/rfc5280#appendix-A.1
 
@@ -1436,18 +1440,7 @@ class File_X509 {
 
         $asn1 = new File_ASN1();
 
-        /*
-            X.509 certs are assumed to be base64 encoded but sometimes they'll have additional things in them above and beyond the ceritificate. ie.
-            some may have the following preceeding the -----BEGIN CERTIFICATE----- line:
-
-            subject=/O=organization/OU=org unit/CN=common name
-            issuer=/O=organization/CN=common name
-        */
-        $temp = preg_replace('#^(?:[^-].+[\r\n]+)+|-.+-|[\r\n]| #', '', $cert);
-        $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
-        if ($temp != false) {
-            $cert = $temp;
-        }
+        $cert = $this->_extractBER($cert);
 
         if ($cert === false) {
             $this->currentCert = false;
@@ -1569,7 +1562,7 @@ class File_X509 {
                    corresponding to the extension type identified by extnID */
                 $map = $this->_getMapping($id);
                 if (!is_bool($map)) {
-                    $mapped = $asn1->asn1map($decoded[0], $map);
+                    $mapped = $asn1->asn1map($decoded[0], $map, array('iPAddress' => array($this, '_decodeIP')));
                     $value = $mapped === false ? $decoded[0] : $mapped;
 
                     if ($id == 'id-ce-certificatePolicies') {
@@ -1651,7 +1644,7 @@ class File_X509 {
                         unset($extensions[$i]);
                     }
                 } else {
-                    $temp = $asn1->encodeDER($value, $map);
+                    $temp = $asn1->encodeDER($value, $map, array('iPAddress' => array($this, '_encodeIP')));
                     $value = base64_encode($temp);
                 }
             }
@@ -2001,16 +1994,19 @@ class File_X509 {
      * Works on X.509 certs, CSR's and CRL's.
      * Returns true if the signature is verified, false if it is not correct or NULL on error
      *
+     * By default returns false for self-signed certs. Call validateSignature(false) to make this support
+     * self-signed.
+     *
      * The behavior of this function is inspired by {@link http://php.net/openssl-verify openssl_verify}.
      *
-     * @param Integer $options optional
+     * @param Boolean $caonly optional
      * @access public
      * @return Mixed
      */
-    function validateSignature($options = 0)
+    function validateSignature($caonly = true)
     {
         if (!is_array($this->currentCert) || !isset($this->signatureSubject)) {
-            return 0;
+            return NULL;
         }
 
         /* TODO:
@@ -2048,10 +2044,10 @@ class File_X509 {
                             }
                         }
                     }
-                    if (count($this->CAs) == $i && ($options & FILE_X509_VALIDATE_SIGNATURE_BY_CA)) {
+                    if (count($this->CAs) == $i && $caonly) {
                         return false;
                     }
-                } elseif (!isset($signingCert) || ($options & FILE_X509_VALIDATE_SIGNATURE_BY_CA)) {
+                } elseif (!isset($signingCert) || $caonly) {
                     return false;
                 }
                 return $this->_validateSignature(
@@ -2183,6 +2179,36 @@ class File_X509 {
     }
 
     /**
+     * Decodes an IP address
+     *
+     * Takes in a base64 encoded "blob" and returns a human readable IP address
+     *
+     * @param String $ip
+     * @access private
+     * @return String
+     */
+    function _decodeIP($ip)
+    {
+        $ip = base64_decode($ip);
+        list(, $ip) = unpack('N', $ip);
+        return long2ip($ip);
+    }
+
+    /**
+     * Encodes an IP address
+     *
+     * Takes a human readable IP address into a base64-encoded "blob"
+     *
+     * @param String $ip
+     * @access private
+     * @return String
+     */
+    function _encodeIP($ip)
+    {
+        return base64_encode(pack('N', ip2long($ip)));
+    }
+
+    /**
      * "Normalizes" a Distinguished Name property
      *
      * @param String $propName
@@ -2207,7 +2233,7 @@ class File_X509 {
             case 'commonname':
             case 'cn':
                 return 'id-at-commonName';
-            case 'id-at-stateorprovinceName':
+            case 'id-at-stateorprovincename':
             case 'stateorprovincename':
             case 'state':
             case 'province':
@@ -2630,9 +2656,9 @@ class File_X509 {
             case !isset($this->currentCert) || !is_array($this->currentCert):
                 break;
             case isset($this->currentCert['tbsCertificate']):
-                return $this->getDNProp($propname, $this->currentCert['tbsCertificate']['issuer'], $withType);
+                return $this->getDNProp($propName, $this->currentCert['tbsCertificate']['issuer'], $withType);
             case isset($this->currentCert['tbsCertList']):
-                return $this->getDNProp($propname, $this->currentCert['tbsCertList']['issuer'], $withType);
+                return $this->getDNProp($propName, $this->currentCert['tbsCertList']['issuer'], $withType);
         }
 
         return false;
@@ -2656,7 +2682,7 @@ class File_X509 {
             case isset($this->currentCert['tbsCertificate']):
                 return $this->getDNProp($propName, $this->currentCert['tbsCertificate']['subject'], $withType);
             case isset($this->currentCert['certificationRequestInfo']):
-                return $this->getDNProp($propname, $this->currentCert['certificationRequestInfo']['subject'], $withType);
+                return $this->getDNProp($propName, $this->currentCert['certificationRequestInfo']['subject'], $withType);
         }
 
         return false;
@@ -2718,6 +2744,7 @@ class File_X509 {
      */
     function setPublicKey($key)
     {
+        $key->setPublicKey();
         $this->publicKey = $key;
     }
 
@@ -2804,11 +2831,7 @@ class File_X509 {
 
         $asn1 = new File_ASN1();
 
-        $temp = preg_replace('#^(?:[^-].+[\r\n]+)+|-.+-|[\r\n]| #', '', $csr);
-        $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
-        if ($temp != false) {
-            $csr = $temp;
-        }
+        $csr = $this->_extractBER($csr);
         $orig = $csr;
 
         if ($csr === false) {
@@ -2917,51 +2940,51 @@ class File_X509 {
      * @access public
      * @return Mixed
      */
-    function loadSPKAC($csr)
+    function loadSPKAC($spkac)
     {
-        if (is_array($csr) && isset($csr['publicKeyAndChallenge'])) {
+        if (is_array($spkac) && isset($spkac['publicKeyAndChallenge'])) {
             unset($this->currentCert);
             unset($this->currentKeyIdentifier);
             unset($this->signatureSubject);
-            $this->currentCert = $csr;
-            return $csr;
+            $this->currentCert = $spkac;
+            return $spkac;
         }
 
         // see http://www.w3.org/html/wg/drafts/html/master/forms.html#signedpublickeyandchallenge
 
         $asn1 = new File_ASN1();
 
-        $temp = preg_replace('#(?:^[^=]+=)|[\r\n\\\]#', '', $csr);
+        $temp = preg_replace('#(?:^[^=]+=)|[\r\n\\\]#', '', $spkac);
         $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
         if ($temp != false) {
-            $csr = $temp;
+            $spkac = $temp;
         }
-        $orig = $csr;
+        $orig = $spkac;
 
-        if ($csr === false) {
+        if ($spkac === false) {
             $this->currentCert = false;
             return false;
         }
 
         $asn1->loadOIDs($this->oids);
-        $decoded = $asn1->decodeBER($csr);
+        $decoded = $asn1->decodeBER($spkac);
 
         if (empty($decoded)) {
             $this->currentCert = false;
             return false;
         }
 
-        $csr = $asn1->asn1map($decoded[0], $this->SignedPublicKeyAndChallenge);
+        $spkac = $asn1->asn1map($decoded[0], $this->SignedPublicKeyAndChallenge);
 
-        if (!isset($csr) || $csr === false) {
+        if (!isset($spkac) || $spkac === false) {
             $this->currentCert = false;
             return false;
         }
 
         $this->signatureSubject = substr($orig, $decoded[0]['content'][0]['start'], $decoded[0]['content'][0]['length']);
 
-        $algorithm = &$csr['publicKeyAndChallenge']['spki']['algorithm']['algorithm'];
-        $key = &$csr['publicKeyAndChallenge']['spki']['subjectPublicKey'];
+        $algorithm = &$spkac['publicKeyAndChallenge']['spki']['algorithm']['algorithm'];
+        $key = &$spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'];
         $key = $this->_reformatKey($algorithm, $key);
 
         switch ($algorithm) {
@@ -2978,9 +3001,9 @@ class File_X509 {
         }
 
         $this->currentKeyIdentifier = NULL;
-        $this->currentCert = $csr;
+        $this->currentCert = $spkac;
 
-        return $csr;
+        return $spkac;
     }
 
     /**
@@ -3000,11 +3023,7 @@ class File_X509 {
 
         $asn1 = new File_ASN1();
 
-        $temp = preg_replace('#^(?:[^-].+[\r\n]+)+|-.+-|[\r\n]| #', '', $crl);
-        $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
-        if ($temp != false) {
-            $crl = $temp;
-        }
+        $crl = $this->_extractBER($crl);
         $orig = $crl;
 
         if ($crl === false) {
@@ -3209,9 +3228,29 @@ class File_X509 {
             $this->setExtension('id-ce-subjectKeyIdentifier', $subject->currentKeyIdentifier);
         }
 
+        $altName = array();
+
         if (isset($subject->domains) && count($subject->domains) > 1) {
-            $this->setExtension('id-ce-subjectAltName',
-                array_map(array('File_X509', '_dnsName'), $subject->domains));
+            $altName = array_map(array('File_X509', '_dnsName'), $subject->domains);
+        }
+
+        if (isset($subject->ipAddresses) && count($subject->ipAddresses)) {
+            // should an IP address appear as the CN if no domain name is specified? idk
+            //$ips = count($subject->domains) ? $subject->ipAddresses : array_slice($subject->ipAddresses, 1);
+            $ipAddresses = array();
+            foreach ($subject->ipAddresses as $ipAddress) {
+                $encoded = $subject->_ipAddress($ipAddress);
+                if ($encoded !== false) {
+                    $ipAddresses[] = $encoded;
+                }
+            }
+            if (count($ipAddresses)) {
+                $altName = array_merge($altName, $ipAddresses);
+            }
+        }
+
+        if (!empty($altName)) {
+            $this->setExtension('id-ce-subjectAltName', $altName);
         }
 
         if ($this->caFlag) {
@@ -4012,12 +4051,29 @@ class File_X509 {
             case !is_object($key):
                 return false;
             case strtolower(get_class($key)) == 'file_asn1_element':
+                // Assume the element is a bitstring-packed key.
                 $asn1 = new File_ASN1();
-                $decoded = $asn1->decodeBER($cert);
+                $decoded = $asn1->decodeBER($key->element);
                 if (empty($decoded)) {
                     return false;
                 }
-                $key = $asn1->asn1map($decoded[0], array('type' => FILE_ASN1_TYPE_BIT_STRING));
+                $raw = $asn1->asn1map($decoded[0], array('type' => FILE_ASN1_TYPE_BIT_STRING));
+                if (empty($raw)) {
+                    return false;
+                }
+                $raw = base64_decode($raw);
+                // If the key is private, compute identifier from its corresponding public key.
+                if (!class_exists('Crypt_RSA')) {
+                    require_once('Crypt/RSA.php');
+                }
+                $key = new Crypt_RSA();
+                if (!$key->loadKey($raw)) {
+                    return false;   // Not an unencrypted RSA key.
+                }
+                if ($key->getPrivateKey() !== false) {  // If private.
+                    return $this->computeKeyIdentifier($key, $method);
+                }
+                $key = $raw;    // Is a public key.
                 break;
             case strtolower(get_class($key)) == 'file_x509':
                 if (isset($key->publicKey)) {
@@ -4036,9 +4092,7 @@ class File_X509 {
         }
 
         // If in PEM format, convert to binary.
-        if (preg_match('#^-----BEGIN #', $key)) {
-            $key = base64_decode(preg_replace('#-.+-|[\r\n]#', '', $key));
-        }
+        $key = $this->_extractBER($key);
 
         // Now we have the key string: compute its sha-1 sum.
         if (!class_exists('Crypt_Hash')) {
@@ -4095,6 +4149,23 @@ class File_X509 {
     }
 
     /**
+     * Set the IP Addresses's which the cert is to be valid for
+     *
+     * @access public
+     * @param String $ipAddress optional
+     */
+    function setIPAddress()
+    {
+        $this->ipAddresses = func_get_args();
+        /*
+        if (!isset($this->domains)) {
+            $this->removeDNProp('id-at-commonName');
+            $this->setDNProp('id-at-commonName', $this->ipAddresses[0]);
+        }
+        */
+    }
+
+    /**
      * Helper function to build domain array
      *
      * @access private
@@ -4104,6 +4175,20 @@ class File_X509 {
     function _dnsName($domain)
     {
         return array('dNSName' => $domain);
+    }
+
+    /**
+     * Helper function to build IP Address array
+     *
+     * (IPv6 is not currently supported)
+     *
+     * @access private
+     * @param String $address
+     * @return Array
+     */
+    function _iPAddress($address)
+    {
+        return array('iPAddress' => $address);
     }
 
     /**
@@ -4319,5 +4404,32 @@ class File_X509 {
         }
 
         return false;
+    }
+
+    /**
+     * Extract raw BER from Base64 encoding
+     *
+     * @access private
+     * @param String $str
+     * @return String
+     */
+    function _extractBER($str)
+    {
+        /*
+            X.509 certs are assumed to be base64 encoded but sometimes they'll have additional things in them above and beyond the ceritificate. ie.
+            some may have the following preceding the -----BEGIN CERTIFICATE----- line:
+
+            Bag Attributes
+                localKeyID: 01 00 00 00
+            subject=/O=organization/OU=org unit/CN=common name
+            issuer=/O=organization/CN=common name
+        */
+        $temp = preg_replace('#.*?^-+[^-]+-+#ms', '', $str, 1);
+        // remove the -----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- stuff
+        $temp = preg_replace('#-+[^-]+-+#', '', $temp);
+        // remove new lines
+        $temp = str_replace(array("\r", "\n", ' '), '', $temp);
+        $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
+        return $temp != false ? $temp : $str;
     }
 }

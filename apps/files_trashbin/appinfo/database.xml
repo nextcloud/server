@@ -44,7 +44,7 @@
     <notnull>true</notnull>
     <length>512</length>
    </field>
-     
+
    <field>
     <name>type</name>
     <type>text</type>
@@ -52,15 +52,15 @@
     <notnull>true</notnull>
     <length>4</length>
    </field>
-   
+
    <field>
     <name>mime</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>30</length>
+    <length>255</length>
    </field>
-     
+
    <index>
 	   <name>id_index</name>
 	   <field>
@@ -68,7 +68,7 @@
 		   <sorting>ascending</sorting>
 	   </field>
    </index>
-   
+
       <index>
 	   <name>timestamp_index</name>
 	   <field>
@@ -76,7 +76,7 @@
 		   <sorting>ascending</sorting>
 	   </field>
    </index>
-   
+
    <index>
 	   <name>user_index</name>
 	   <field>
@@ -84,7 +84,7 @@
 		   <sorting>ascending</sorting>
 	   </field>
    </index>
-  
+
   </declaration>
 
  </table>
@@ -110,7 +110,7 @@
     <notnull>true</notnull>
     <length>50</length>
    </field>
-     
+
   </declaration>
 
  </table>

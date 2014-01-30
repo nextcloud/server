@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
 "Download" => "Преземи",
-"Unshare" => "Не споделувај",
 "Delete" => "Избриши",
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",

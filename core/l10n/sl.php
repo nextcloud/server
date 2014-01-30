@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Gostitelj podatkovne zbirke",
 "Finish setup" => "Končaj nastavitev",
 "Finishing …" => "Poteka zaključevanje opravila ...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Program zahteva omogočeno skriptno podporo. Za pravilno delovanje je treba omogočiti <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript</a> in nato ponovno osvežiti vmesnik.",
 "%s is available. Get more information on how to update." => "%s je na voljo. Pridobite več podrobnosti za posodobitev.",
 "Log out" => "Odjava",
 "Automatic logon rejected!" => "Samodejno prijavljanje je zavrnjeno!",

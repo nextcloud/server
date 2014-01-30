@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-06 01:30+0000\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-23 08:30+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -48,12 +48,17 @@ msgstr "De naam %s bestaat al in map %s. Kies een andere naam."
 msgid "Not a valid source"
 msgstr "Geen geldige bron"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Server mag geen URS's openen, controleer de server configuratie"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Fout bij downloaden %s naar %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
 msgstr "Fout bij creëren bestand"
 
@@ -172,6 +177,10 @@ msgstr "Kon bestand niet creëren"
 #: js/file-upload.js:611
 msgid "Could not create folder"
 msgstr "Kon niet creëren map"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Fout bij ophalen URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -379,29 +388,25 @@ msgstr "Er bevindt zich hier niets. Upload een bestand!"
 msgid "Download"
 msgstr "Downloaden"
 
-#: templates/index.php:75 templates/index.php:76
-msgid "Unshare"
-msgstr "Stop met delen"
-
-#: templates/index.php:81 templates/index.php:82
+#: templates/index.php:73 templates/index.php:74
 msgid "Delete"
 msgstr "Verwijder"
 
-#: templates/index.php:95
+#: templates/index.php:86
 msgid "Upload too large"
 msgstr "Upload is te groot"
 
-#: templates/index.php:97
+#: templates/index.php:88
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
 
-#: templates/index.php:102
+#: templates/index.php:93
 msgid "Files are being scanned, please wait."
 msgstr "Bestanden worden gescand, even wachten."
 
-#: templates/index.php:105
+#: templates/index.php:96
 msgid "Current scanning"
 msgstr "Er wordt gescand"
 

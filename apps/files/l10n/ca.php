@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "No teniu permisos per a pujar o crear els fitxers aquí",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Download" => "Baixa",
-"Unshare" => "Deixa de compartir",
 "Delete" => "Esborra",
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",

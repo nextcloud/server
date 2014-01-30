@@ -88,7 +88,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	public function testWrite() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$this->cache->put('foo.txt', array('mtime' => 100));
+		$this->cache->put('foo.txt', array('mtime' => 100, 'storage_mtime' => 150));
 		$rootCachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 

@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Ordinador central de la base de dades",
 "Finish setup" => "Acaba la configuració",
 "Finishing …" => "Acabant...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Aquesta aplicació necessita tenir JavaScript activat per funcionar correctament. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeu JavaScript</a> i carregueu aquesta interfície de nou.",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
 "Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",

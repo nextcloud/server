@@ -67,7 +67,11 @@ class OC_FileProxy{
 		self::$proxies[]=$proxy;
 	}
 
-	public static function getProxies($operation) {
+	public static function getProxies($operation = null) {
+		if ($operation === null) {
+			// return all
+			return self::$proxies;
+		}
 		$proxies=array();
 		foreach(self::$proxies as $proxy) {
 			if(method_exists($proxy, $operation)) {

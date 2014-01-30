@@ -6,15 +6,17 @@
 # Sappe, 2013
 # claus_chr <claus_chr@webspeed.dk>, 2013
 # kaffeldt <kasper.affeldt@gmail.com>, 2013
+# lodahl <leiflodahl@gmail.com>, 2013
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-26 10:45-0500\n"
-"PO-Revision-Date: 2013-11-26 15:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"PO-Revision-Date: 2014-01-07 08:50+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,59 +155,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:858
+#: js/js.js:872
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:859
+#: js/js.js:873
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut siden"
 msgstr[1] "%n minutter siden"
 
-#: js/js.js:860
+#: js/js.js:874
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time siden"
 msgstr[1] "%n timer siden"
 
-#: js/js.js:861
+#: js/js.js:875
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:862
+#: js/js.js:876
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:863
+#: js/js.js:877
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dage siden"
 
-#: js/js.js:864
+#: js/js.js:878
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:865
+#: js/js.js:879
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n måned siden"
 msgstr[1] "%n måneder siden"
 
-#: js/js.js:866
+#: js/js.js:880
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:867
+#: js/js.js:881
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:868
+#: js/js.js:882
 msgid "years ago"
 msgstr "år siden"
 
@@ -282,7 +284,7 @@ msgid "Share"
 msgstr "Del"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719
+#: js/share.js:719 templates/installation.php:10
 msgid "Error"
 msgstr "Fejl"
 
@@ -318,7 +320,7 @@ msgstr "Del link"
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:224 templates/installation.php:57 templates/login.php:32
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Kodeord"
 
@@ -394,7 +396,7 @@ msgstr "slet"
 msgid "share"
 msgstr "del"
 
-#: js/share.js:464 js/share.js:694
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
@@ -448,7 +450,7 @@ msgstr "Ingen tags markeret til sletning."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Genindlæs venligst siden"
 
 #: js/update.js:17
 msgid ""
@@ -485,8 +487,8 @@ msgstr "Anmodning mislykkedes!<br>Er du sikker på at din e-post / brugernavn va
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du vil modtage et link til at nulstille dit kodeord via email."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:51
-#: templates/login.php:25
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Brugernavn"
 
@@ -530,7 +532,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Brugere"
 
-#: strings.php:7 templates/layout.user.php:110
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Apps"
 
@@ -591,107 +593,114 @@ msgstr "Hej med dig\n\nDette blot for at lade dig vide, at %s har delt %s med di
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Delingen vil udløbe om %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
 msgstr "Hej!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Sikkerhedsadvarsel"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Din PHP-version er sårbar overfor et NULL Byte angreb (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
 msgstr "Opdater venligst din PHP installation for at anvende %s sikkert."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Ingen sikker tilfældighedsgenerator til tal er tilgængelig. Aktiver venligst OpenSSL udvidelsen."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Uden en sikker tilfældighedsgenerator til tal kan en angriber måske gætte dit gendan kodeord og overtage din konto"
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Dine data mappe og filer er sandsynligvis tilgængelige fra internettet fordi .htaccess filen ikke virker."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr "For information om, hvordan du konfigurerer din server korrekt se <a href=\"%s\" target=\"_blank\">dokumentationen</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Opret en <strong>administratorkonto</strong>"
 
-#: templates/installation.php:66
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:85
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:90 templates/installation.php:102
-#: templates/installation.php:113 templates/installation.php:124
-#: templates/installation.php:136
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "vil blive brugt"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Databasebruger"
 
-#: templates/installation.php:155
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Databasekodeord"
 
-#: templates/installation.php:160
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Navn på database"
 
-#: templates/installation.php:168
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Database tabelplads"
 
-#: templates/installation.php:175
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Databasehost"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Afslut opsætning"
 
-#: templates/installation.php:184
+#: templates/installation.php:185
 msgid "Finishing …"
-msgstr "Færdigbehandling ..."
+msgstr "Færdigbehandler ..."
 
-#: templates/layout.user.php:43
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr "Programmet forudsætter at JavaScript er aktiveret for at kunne afvikles korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Aktiver JavaScript</a> og genindlæs siden.."
+
+#: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s er tilgængelig. Få mere information om, hvordan du opdaterer."
 
-#: templates/layout.user.php:71 templates/singleuser.user.php:8
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Log ud"
 
@@ -717,19 +726,19 @@ msgstr "Server side godkendelse mislykkedes!"
 msgid "Please contact your administrator."
 msgstr "Kontakt venligst din administrator"
 
-#: templates/login.php:38
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Mistet dit kodeord?"
 
-#: templates/login.php:43
+#: templates/login.php:49
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:46
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Log ind"
 
-#: templates/login.php:52
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Alternative logins"
 
@@ -742,11 +751,11 @@ msgstr "Hej med dig,<br><br>Dette blot for at lade dig vide, at %s har delt \"%s
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Denne ownCloud instans er lige nu i enkeltbruger tilstand."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Det betyder at det kun er administrator, som kan benytte ownCloud."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

@@ -64,6 +64,9 @@ class Stream {
 	private $publicKey;
 	private $encKeyfile;
 	private $newFile; // helper var, we only need to write the keyfile for new files
+	private $isLocalTmpFile = false; // do we operate on a local tmp file
+	private $localTmpFile; // path of local tmp file
+
 	/**
 	 * @var \OC\Files\View
 	 */
@@ -91,13 +94,18 @@ class Stream {
 			$this->rootView = new \OC_FilesystemView('/');
 		}
 
-
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
 		$this->privateKey = $this->session->getPrivateKey();
 
-		// rawPath is relative to the data directory
-		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+		if ($originalFile = Helper::getPathFromTmpFile($normalizedPath)) {
+			$this->rawPath = $originalFile;
+			$this->isLocalTmpFile = true;
+			$this->localTmpFile = $normalizedPath;
+		} else {
+			$this->rawPath = $normalizedPath;
+		}
 
 		$this->userId = Helper::getUser($this->rawPath);
 
@@ -141,10 +149,14 @@ class Stream {
 				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 			}
 
-			$this->size = $this->rootView->filesize($this->rawPath, $mode);
+			$this->size = $this->rootView->filesize($this->rawPath);
 		}
 
-		$this->handle = $this->rootView->fopen($this->rawPath, $mode);
+		if ($this->isLocalTmpFile) {
+			$this->handle = fopen($this->localTmpFile, $mode);
+		} else {
+			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
+		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
@@ -164,14 +176,25 @@ class Stream {
 	}
 
 	/**
+	 * @brief Returns the current position of the file pointer
+	 * @return int  position of the file pointer
+	 */
+	public function stream_tell() {
+		return ftell($this->handle);
+	}
+
+	/**
 	 * @param $offset
 	 * @param int $whence
+	 * @return bool true if fseek was successful, otherwise false
 	 */
 	public function stream_seek($offset, $whence = SEEK_SET) {
 
 		$this->flush();
 
-		fseek($this->handle, $offset, $whence);
+		// this wrapper needs to return "true" for success.
+		// the fseek call itself returns 0 on succeess
+		return !fseek($this->handle, $offset, $whence);
 
 	}
 
@@ -477,7 +500,7 @@ class Stream {
 		if ($this->privateKey === false) {
 
 			// cleanup
-			if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
+			if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb' && !$this->isLocalTmpFile) {
 
 				// Disable encryption proxy to prevent recursive calls
 				$proxyStatus = \OC_FileProxy::$enabled;
@@ -498,6 +521,7 @@ class Stream {
 		if (
 				$this->meta['mode'] !== 'r' &&
 				$this->meta['mode'] !== 'rb' &&
+				$this->isLocalTmpFile === false &&
 				$this->size > 0 &&
 				$this->unencryptedSize > 0
 		) {
