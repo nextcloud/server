@@ -17,7 +17,13 @@ $totalsize = 0; ?>
 		data-mime="<?php p($file['mimetype'])?>"
 		data-size="<?php p($file['size']);?>"
 		data-etag="<?php p($file['etag']);?>"
-		data-permissions="<?php p($file['permissions']); ?>">
+		data-permissions="<?php p($file['permissions']); ?>"
+
+		<?php if(isset($file['displayname_owner'])): ?>
+			data-share-owner="<?php p($file['displayname_owner']) ?>"
+		<?php endif; ?>
+		>
+
 		<?php if(isset($file['isPreviewAvailable']) and $file['isPreviewAvailable']): ?>
 		<td class="filename svg preview-icon"
 		<?php else: ?>
@@ -36,15 +42,13 @@ $totalsize = 0; ?>
 				</span>
 				<span class="uploadtext" currentUploads="0">
 				</span>
+			</a>
 		<?php else: ?>
 			<a class="name" href="<?php p(rtrim($_['downloadURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>">
 				<label class="filetext" title="" for="select-<?php p($file['fileid']); ?>"></label>
 				<span class="nametext"><?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span></span>
-		<?php endif; ?>
-		<?php if(isset($file['displayname_owner'])): ?>
-				<span class="share-info"><?php p($l->t('shared by %s', array($file['displayname_owner']))) ?></span>
-		<?php endif; ?>
 			</a>
+		<?php endif; ?>
 		</td>
 		<td class="filesize"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
