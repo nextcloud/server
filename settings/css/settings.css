@@ -51,7 +51,11 @@ table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
-.usercount { float: right; margin:6px;}
+.usercount { float: left; margin: 5px; }
+span.utils .delete {
+	float: left; position: relative;
+	margin: 3px; top: 4px;
+}
 form { display:inline; }
 table.grid th { height:2em; color:#999; }
 table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }

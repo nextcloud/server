@@ -16,6 +16,48 @@ function setQuota (uid, quota, ready) {
 	);
 }
 
+var GroupList = {
+
+	delete_group: function (gid) {
+		if(GroupList.deleteGid !=='undefined') {
+			GroupList.finishDelete(null);
+		}
+
+		//Set the undo flag
+		GroupList.deleteCanceled = false;
+
+		//Provide an option to undo
+		$('#notification').data('deletegroup', true);
+		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(gid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
+	},
+
+	finishDelete: function (ready) {
+		if (!GroupList.deleteCanceled && GroupList.deleteGid) {
+			$.ajax({
+				type: 'POST',
+				url: OC.filePath('settings', 'ajax', 'removegroup.php'),
+				async: false,
+				data: { groupname: GroupList.deleteGid },
+				success: function (result) {
+					if (result.status === 'success') {
+						// Remove undo option, & remove user from table
+						OC.Notification.hide();
+						$('li').filterAttr('data-gid', GroupList.deleteGid).remove();
+						GroupList.deleteCanceled = true;
+						if (ready) {
+							ready();
+						}
+					} else {
+						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove group'));
+					}
+				}
+			});
+		}
+
+	},
+
+}
+
 var UserList = {
 	useUndo: true,
 	availableGroups: [],
@@ -475,6 +517,14 @@ $(document).ready(function () {
 				select.find(':selected').text(returnedQuota);
 			}
 		});
+	});
+
+	$('ul').on('click', 'span.utils>a', function (event) {
+		var li = $(this).parent().parent();
+		var gid = $(li).attr('data-gid');
+		$(li).hide();
+		// Call function for handling delete/undo on Groups
+		GroupList.delete_group(gid);
 	});
 
 	$('#newuser').submit(function (event) {

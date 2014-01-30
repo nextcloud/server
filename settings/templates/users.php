@@ -30,10 +30,13 @@ $_['subadmingroups'] = array_flip($items);
 		</li>
 		<!--List of Groups-->
 		<?php foreach($_["groups"] as $group): ?>
-		<li>
+		<li data-gid="<?php p($group['name']) ?>">
 			<a href="#"><?php p($group['name']); ?></a>
 			<span class="utils">
 				<span class="usercount"><?php p(count($group['useringroup'])); ?></span>
+				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
+					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
+				</a>
 			</span>
 		</li>
 	<?php endforeach; ?>
