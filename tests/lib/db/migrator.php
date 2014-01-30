@@ -20,30 +20,33 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	private $tableName;
 
+	private $fullTableName;
+
 	public function setUp() {
 		$this->tableName = 'test_' . uniqid();
 		$this->connection = \OC_DB::getConnection();
-		$this->tableName = $this->connection->getDatabase() . '.' . $this->tableName;
+		$this->fullTableName = $this->connection->getDatabase() . '.' . $this->tableName;
 	}
 
 	public function tearDown() {
-		$this->connection->exec('DROP TABLE ' . $this->tableName);
+		$this->connection->exec('DROP TABLE ' . $this->fullTableName);
 	}
 
 	private function getInitialSchema() {
 		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->tableName);
+		$table = $schema->createTable($this->fullTableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
+		$table->addIndex(array('id'), $this->tableName . '_id');
 		return $schema;
 	}
 
 	private function getNewSchema() {
 		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->tableName);
+		$table = $schema->createTable($this->fullTableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
-		$table->addUniqueIndex(array('id'));
+		$table->addUniqueIndex(array('id'), $this->tableName . '_id');
 		return $schema;
 	}
 

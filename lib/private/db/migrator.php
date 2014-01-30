@@ -9,9 +9,11 @@
 namespace OC\DB;
 
 use \Doctrine\DBAL\DBALException;
+use \Doctrine\DBAL\Schema\Index;
 use \Doctrine\DBAL\Schema\Table;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
+use \Doctrine\DBAL\Schema\Comparator;
 
 class Migrator {
 	/**
@@ -57,15 +59,16 @@ class Migrator {
 	 * Check the migration of a table on a copy so we can detect errors before messing with the real table
 	 *
 	 * @param \Doctrine\DBAL\Schema\Table $table
+	 * @throws \OC\DB\MigrationException
 	 */
 	protected function checkTableMigrate(Table $table) {
 		$name = $table->getName();
-		$tmpName = $name . '_copy_' . uniqid();
+		$tmpName = uniqid();
 
 		$this->copyTable($name, $tmpName);
 
 		//create the migration schema for the temporary table
-		$tmpTable = new Table($tmpName, $table->getColumns(), $table->getIndexes(), $table->getForeignKeys(), $table->_idGeneratorType, $table->getOptions());
+		$tmpTable = $this->renameTableSchema($table, $tmpName);
 		$schemaConfig = new SchemaConfig();
 		$schemaConfig->setName($this->connection->getDatabase());
 		$schema = new Schema(array($tmpTable), array(), $schemaConfig);
@@ -77,6 +80,23 @@ class Migrator {
 			$this->dropTable($tmpName);
 			throw new MigrationException($table->getName(), $e->getMessage());
 		}
+	}
+
+	/**
+	 * @param \Doctrine\DBAL\Schema\Table $table
+	 * @param string $newName
+	 * @return \Doctrine\DBAL\Schema\Table
+	 */
+	protected function renameTableSchema(Table $table, $newName) {
+		$indexes = $table->getIndexes();
+		$newIndexes = array();
+		foreach ($indexes as $index) {
+			$indexName = uniqid(); // avoid conflicts in index names
+			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary(), $index->getFlags());
+		}
+
+		// foreign keys are not supported so we just set it to an empty array
+		return new Table($newName, $table->getColumns(), $indexes, array(), 0, $table->getOptions());
 	}
 
 	/**
@@ -104,7 +124,7 @@ class Migrator {
 			}
 		}
 
-		$comparator = new \Doctrine\DBAL\Schema\Comparator();
+		$comparator = new Comparator();
 		$schemaDiff = $comparator->compare($sourceSchema, $targetSchema);
 
 		foreach ($schemaDiff->changedTables as $tableDiff) {
