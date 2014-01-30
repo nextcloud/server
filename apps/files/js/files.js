@@ -1,4 +1,16 @@
-Files={
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, t, n, FileList, FileActions */
+/* global getURLParameter, isPublic */
+var Files = {
 	// file space size sync
 	_updateStorageStatistics: function() {
 		Files._updateStorageStatisticsTimeout = null;
@@ -654,10 +666,10 @@ function procesSelection() {
 		var totalSize = 0;
 		for(var i=0; i<selectedFiles.length; i++) {
 			totalSize+=selectedFiles[i].size;
-		};
+		}
 		for(var i=0; i<selectedFolders.length; i++) {
 			totalSize+=selectedFolders[i].size;
-		};
+		}
 		$('#headerSize').text(humanFileSize(totalSize));
 		var selection = '';
 		if (selectedFolders.length > 0) {
@@ -769,10 +781,11 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 		}
 		img.src = previewURL;
 	});
-}
+};
 
 function getUniqueName(name) {
 	if (FileList.findFileEl(name).exists()) {
+		var numMatch;
 		var parts=name.split('.');
 		var extension = "";
 		if (parts.length > 1) {
@@ -806,7 +819,7 @@ function checkTrashStatus() {
 
 function onClickBreadcrumb(e) {
 	var $el = $(e.target).closest('.crumb'),
-		$targetDir = $el.data('dir');
+		$targetDir = $el.data('dir'),
 		isPublic = !!$('#isPublic').val();
 
 	if ($targetDir !== undefined && !isPublic) {

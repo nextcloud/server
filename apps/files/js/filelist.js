@@ -1,4 +1,16 @@
-var FileList={
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, t, n, FileList, FileActions, Files */
+/* global procesSelection, dragOptions, SVGSupport, replaceSVG */
+window.FileList={
 	useUndo:true,
 	postProcessList: function() {
 		$('#fileList tr').each(function() {
@@ -191,6 +203,7 @@ var FileList={
 		return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 	},
 	setCurrentDir: function(targetDir, changeUrl) {
+		var url;
 		$('#dir').val(targetDir);
 		if (changeUrl !== false) {
 			if (window.history.pushState && changeUrl !== false) {
@@ -833,7 +846,7 @@ $(document).ready(function() {
 					{name: 'requesttoken', value: oc_requesttoken}
 				];
 			};
-		} 
+		}
 
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {

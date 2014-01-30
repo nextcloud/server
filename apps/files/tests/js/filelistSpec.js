@@ -18,6 +18,8 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
+
+/* global OC, FileList */
 describe('FileList tests', function() {
 	beforeEach(function() {
 		// init horrible parameters
