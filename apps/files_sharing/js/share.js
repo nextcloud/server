@@ -5,6 +5,14 @@ $(document).ready(function() {
 
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
 		$('#fileList').on('fileActionsReady',function(){
+
+			var allShared = $('*[data-share-owner]').find('[data-Action="Share"]');
+			allShared.addClass('permanent');
+			allShared.find('span').text(function(){
+				$owner = $(this).closest('tr').attr('data-share-owner');
+				return ' ' + t('files_sharing', 'shared by {owner}', {owner: $owner});
+			});
+
 			if (!sharesLoaded){
 				OC.Share.loadIcons('file');
 				// assume that we got all shares, so switching directories
