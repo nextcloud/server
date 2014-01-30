@@ -178,8 +178,7 @@ class Api {
 				$share['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
 			}
 			if ($share) {
-				$share['filename'] = $file['name'];
-				$result[] = $share;
+				$result = array_merge($result, $share);
 			}
 		}
 
