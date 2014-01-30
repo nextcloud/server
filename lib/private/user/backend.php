@@ -31,13 +31,15 @@ define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
 /**
  * actions that user backends can define
  */
-define('OC_USER_BACKEND_CREATE_USER',       0x0000001);
-define('OC_USER_BACKEND_SET_PASSWORD',      0x0000010);
-define('OC_USER_BACKEND_CHECK_PASSWORD',    0x0000100);
-define('OC_USER_BACKEND_GET_HOME',			0x0001000);
-define('OC_USER_BACKEND_GET_DISPLAYNAME',	0x0010000);
-define('OC_USER_BACKEND_SET_DISPLAYNAME',	0x0100000);
-define('OC_USER_BACKEND_PROVIDE_AVATAR',	0x1000000);
+define('OC_USER_BACKEND_CREATE_USER',       0x00000001);
+define('OC_USER_BACKEND_SET_PASSWORD',      0x00000010);
+define('OC_USER_BACKEND_CHECK_PASSWORD',    0x00000100);
+define('OC_USER_BACKEND_GET_HOME',			0x00001000);
+define('OC_USER_BACKEND_GET_DISPLAYNAME',	0x00010000);
+define('OC_USER_BACKEND_SET_DISPLAYNAME',	0x00100000);
+define('OC_USER_BACKEND_PROVIDE_AVATAR',	0x01000000);
+define('OC_USER_BACKEND_COUNT_USERS',		0x10000000);
+//more actions cannot be defined without breaking 32bit platforms!
 
 /**
  * Abstract base class for user management. Provides methods for querying backend
@@ -55,6 +57,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		OC_USER_BACKEND_GET_DISPLAYNAME => 'getDisplayName',
 		OC_USER_BACKEND_SET_DISPLAYNAME => 'setDisplayName',
 		OC_USER_BACKEND_PROVIDE_AVATAR => 'canChangeAvatar',
+		OC_USER_BACKEND_COUNT_USERS => 'countUsers',
 	);
 
 	/**

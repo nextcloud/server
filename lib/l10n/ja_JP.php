@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "一月前",
 "_%n month ago_::_%n months ago_" => array("%n ヶ月前"),
 "last year" => "一年前",
-"years ago" => "年前",
-"Caused by:" => "原因:"
+"years ago" => "年前"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

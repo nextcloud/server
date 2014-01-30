@@ -80,6 +80,12 @@ $CONFIG = array(
 /* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
 "mail_domain" => "example.com",
 
+/* FROM address used by ownCloud for the sender mail address, e.g. owncloud@example.com
+   This setting overwrites the built in 'sharing-noreply' and 'lostpassword-noreply'
+   FROM addresses, that ownCloud uses
+*/
+"mail_from_address" => "owncloud",
+
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
 
@@ -113,6 +119,9 @@ $CONFIG = array(
 
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
+
+/* memcached hostname and port (Only used when xCache, APC and APCu are absent.) */
+"memcached_server" => array('localhost', 11211),
 
 /* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
 'trashbin_retention_obligation' => 30,

@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Η εφαρμογή \"%s\" δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση του ownCloud.",
+"No app name specified" => "Δεν προδιορίστηκε όνομα εφαρμογής",
 "Help" => "Βοήθεια",
 "Personal" => "Προσωπικά",
 "Settings" => "Ρυθμίσεις",
@@ -14,6 +16,18 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "Τα αρχεία πρέπει να ληφθούν ένα-ένα.",
 "Back to Files" => "Πίσω στα Αρχεία",
 "Selected files too large to generate zip file." => "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip.",
+"Please download the files separately in smaller chunks or kindly ask your administrator." => "Παρακαλώ κάντε λήψη των αρχείων σε μικρότερα κομμάτια ή ζητήστε το από το διαχειριστή σας.",
+"No source specified when installing app" => "Δεν προσδιορίστηκε πηγή κατά την εγκατάσταση της εφαρμογής",
+"No href specified when installing app from http" => "Δεν προσδιορίστηκε href κατά την εγκατάσταση της εφαρμογής μέσω http ",
+"No path specified when installing app from local file" => "Δεν προσδιορίστηκε μονοπάτι κατά την εγκατάσταση εφαρμογής από τοπικό αρχείο",
+"Archives of type %s are not supported" => "Συλλογές αρχείων τύπου %s δεν υποστηρίζονται",
+"Failed to open archive when installing app" => "Αποτυχία ανοίγματος συλλογής αρχείων κατά την εγκατάσταση εφαρμογής",
+"App does not provide an info.xml file" => "Η εφαρμογή δεν παρέχει αρχείο info.xml",
+"App can't be installed because of not allowed code in the App" => "Η εφαρμογή δεν μπορεί να εγκατασταθεί λόγω μη-επιτρεπόμενου κώδικα μέσα στην Εφαρμογή",
+"App can't be installed because it is not compatible with this version of ownCloud" => "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση ownCloud",
+"App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" => "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή η έκδοση στο info.xml/version δεν είναι η ίδια με την έκδοση που αναφέρεται στο κατάστημα εφαρμογών",
+"App directory already exists" => "Ο κατάλογος εφαρμογών υπάρχει ήδη",
+"Can't create app folder. Please fix permissions. %s" => "Δεν είναι δυνατόν να δημιουργηθεί ο φάκελος εφαρμογής. Παρακαλώ διορθώστε τις άδειες πρόσβασης. %s",
 "Application is not enabled" => "Δεν ενεργοποιήθηκε η εφαρμογή",
 "Authentication error" => "Σφάλμα πιστοποίησης",
 "Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",
@@ -43,14 +57,13 @@ $TRANSLATIONS = array(
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\"",
 "seconds ago" => "δευτερόλεπτα πριν",
 "_%n minute ago_::_%n minutes ago_" => array("","%n λεπτά πριν"),
-"_%n hour ago_::_%n hours ago_" => array("",""),
+"_%n hour ago_::_%n hours ago_" => array("","%n ώρες πριν"),
 "today" => "σήμερα",
 "yesterday" => "χτες",
-"_%n day go_::_%n days ago_" => array("",""),
+"_%n day go_::_%n days ago_" => array("","%n ημέρες πριν"),
 "last month" => "τελευταίο μήνα",
-"_%n month ago_::_%n months ago_" => array("",""),
+"_%n month ago_::_%n months ago_" => array("","%n μήνες πριν"),
 "last year" => "τελευταίο χρόνο",
-"years ago" => "χρόνια πριν",
-"Caused by:" => "Προκλήθηκε από:"
+"years ago" => "χρόνια πριν"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -166,20 +166,22 @@ class OC_App{
 	 * get all enabled apps
 	 */
 	private static $enabledAppsCache = array();
-	public static function getEnabledApps() {
+	public static function getEnabledApps($forceRefresh = false) {
 		if(!OC_Config::getValue('installed', false)) {
 			return array();
 		}
-		if(!empty(self::$enabledAppsCache)) {
+		if(!$forceRefresh && !empty(self::$enabledAppsCache)) {
 			return self::$enabledAppsCache;
 		}
 		$apps=array('files');
 		$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'';
+			. ' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\''
+			. ' ORDER BY `appid`';
 		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\'';
+			. ' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\''
+			. ' ORDER BY `appid`';
 		}
 		$query = OC_DB::prepare( $sql );
 		$result=$query->execute();
@@ -553,6 +555,10 @@ class OC_App{
 			}elseif($child->getName()=='description') {
 				$xml=(string)$child->asXML();
 				$data[$child->getName()]=substr($xml, 13, -14);//script <description> tags
+			}elseif($child->getName()=='documentation') {
+				foreach($child as $subchild) {
+					$data["documentation"][$subchild->getName()] = (string)$subchild;
+				}
 			}else{
 				$data[$child->getName()]=(string)$child;
 			}

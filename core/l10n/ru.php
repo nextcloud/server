@@ -154,6 +154,7 @@ $TRANSLATIONS = array(
 "Database host" => "Хост базы данных",
 "Finish setup" => "Завершить установку",
 "Finishing …" => "Завершаем...",
+"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Это приложение требует включённый JavaScript для корректной работы. Пожалуйста, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включите JavaScript</a> и перезагрузите интерфейс.",
 "%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
 "Automatic logon rejected!" => "Автоматический вход в систему отключен!",

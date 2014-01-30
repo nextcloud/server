@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 11:30+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -28,17 +28,17 @@ msgstr "マッピングのクリアに失敗しました。"
 msgid "Failed to delete the server configuration"
 msgstr "サーバ設定の削除に失敗しました"
 
-#: ajax/testConfiguration.php:37
+#: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
 msgstr "設定は有効であり、接続を確立しました！"
 
-#: ajax/testConfiguration.php:40
+#: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
 msgstr "設定は有効ですが、接続に失敗しました。サーバ設定と資格情報を確認して下さい。"
 
-#: ajax/testConfiguration.php:44
+#: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
@@ -89,43 +89,43 @@ msgstr "成功"
 msgid "Error"
 msgstr "エラー"
 
-#: js/settings.js:777
+#: js/settings.js:837
 msgid "Configuration OK"
 msgstr "設定OK"
 
-#: js/settings.js:786
+#: js/settings.js:846
 msgid "Configuration incorrect"
 msgstr "設定に誤りがあります"
 
-#: js/settings.js:795
+#: js/settings.js:855
 msgid "Configuration incomplete"
 msgstr "設定が不完全です"
 
-#: js/settings.js:812 js/settings.js:821
+#: js/settings.js:872 js/settings.js:881
 msgid "Select groups"
 msgstr "グループを選択"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:875 js/settings.js:884
 msgid "Select object classes"
 msgstr "オブジェクトクラスを選択"
 
-#: js/settings.js:818
+#: js/settings.js:878
 msgid "Select attributes"
 msgstr "属性を選択"
 
-#: js/settings.js:845
+#: js/settings.js:905
 msgid "Connection test succeeded"
 msgstr "接続テストに成功しました"
 
-#: js/settings.js:852
+#: js/settings.js:912
 msgid "Connection test failed"
 msgstr "接続テストに失敗しました"
 
-#: js/settings.js:861
+#: js/settings.js:921
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "現在のサーバ設定を本当に削除してもよろしいですか？"
 
-#: js/settings.js:862
+#: js/settings.js:922
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
@@ -141,11 +141,11 @@ msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s ユーザが見つかりました"
 
-#: lib/wizard.php:779 lib/wizard.php:791
+#: lib/wizard.php:778 lib/wizard.php:790
 msgid "Invalid Host"
 msgstr "無効なホスト"
 
-#: lib/wizard.php:952
+#: lib/wizard.php:951
 msgid "Could not find the desired feature"
 msgstr "望ましい機能は見つかりませんでした"
 

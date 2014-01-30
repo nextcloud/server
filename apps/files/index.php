@@ -63,7 +63,6 @@ $files = array();
 $user = OC_User::getUser();
 if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we need to upgrade the cache
 	$needUpgrade = true;
-	$freeSpace = 0;
 } else {
 	if ($isIE8){
 		// after the redirect above, the URL will have a format
@@ -77,7 +76,6 @@ if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we ne
 	else{
 		$files = \OCA\Files\Helper::getFiles($dir);
 	}
-	$freeSpace = \OC\Files\Filesystem::free_space($dir);
 	$needUpgrade = false;
 }
 

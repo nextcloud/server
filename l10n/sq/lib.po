@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-21 15:01+0000\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -53,15 +53,15 @@ msgstr "Admin"
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: private/avatar.php:60
+#: private/avatar.php:66
 msgid "Unknown filetype"
 msgstr ""
 
-#: private/avatar.php:65
+#: private/avatar.php:71
 msgid "Invalid image"
 msgstr ""
 
-#: private/defaults.php:36
+#: private/defaults.php:34
 msgid "web services under your control"
 msgstr "shërbime web nën kontrollin tënd"
 
@@ -70,23 +70,23 @@ msgstr "shërbime web nën kontrollin tënd"
 msgid "cannot open \"%s\""
 msgstr ""
 
-#: private/files.php:228
+#: private/files.php:231
 msgid "ZIP download is turned off."
 msgstr "Shkarimi i skedarëve ZIP është i çaktivizuar."
 
-#: private/files.php:229
+#: private/files.php:232
 msgid "Files need to be downloaded one by one."
 msgstr "Skedarët duhet të shkarkohen një nga një."
 
-#: private/files.php:230 private/files.php:258
+#: private/files.php:233 private/files.php:261
 msgid "Back to Files"
 msgstr "Kthehu tek skedarët"
 
-#: private/files.php:255
+#: private/files.php:258
 msgid "Selected files too large to generate zip file."
 msgstr "Skedarët e selektuar janë shumë të mëdhenj për të krijuar një skedar ZIP."
 
-#: private/files.php:256
+#: private/files.php:259
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -172,17 +172,17 @@ msgstr "Tekst"
 msgid "Images"
 msgstr "Foto"
 
-#: private/setup/abstractdatabase.php:22
+#: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr "% shkruani përdoruesin e database-it."
 
-#: private/setup/abstractdatabase.php:25
+#: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s shkruani emrin e database-it."
 
-#: private/setup/abstractdatabase.php:28
+#: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s nuk mund të përdorni pikat tek emri i database-it"
@@ -203,11 +203,11 @@ msgid "MySQL username and/or password not valid"
 msgstr "Përdoruesi dhe/apo kodi i MySQL-it i pavlefshëm."
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:147
-#: private/setup/oci.php:154 private/setup/oci.php:165
-#: private/setup/oci.php:172 private/setup/oci.php:181
-#: private/setup/oci.php:189 private/setup/oci.php:198
-#: private/setup/oci.php:204 private/setup/postgresql.php:89
+#: private/setup/oci.php:121 private/setup/oci.php:144
+#: private/setup/oci.php:151 private/setup/oci.php:162
+#: private/setup/oci.php:169 private/setup/oci.php:178
+#: private/setup/oci.php:186 private/setup/oci.php:195
+#: private/setup/oci.php:201 private/setup/postgresql.php:89
 #: private/setup/postgresql.php:98 private/setup/postgresql.php:115
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
@@ -215,10 +215,10 @@ msgid "DB Error: \"%s\""
 msgstr "Veprim i gabuar i DB-it: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:148
-#: private/setup/oci.php:155 private/setup/oci.php:166
-#: private/setup/oci.php:182 private/setup/oci.php:190
-#: private/setup/oci.php:199 private/setup/postgresql.php:90
+#: private/setup/oci.php:122 private/setup/oci.php:145
+#: private/setup/oci.php:152 private/setup/oci.php:163
+#: private/setup/oci.php:179 private/setup/oci.php:187
+#: private/setup/oci.php:196 private/setup/postgresql.php:90
 #: private/setup/postgresql.php:99 private/setup/postgresql.php:116
 #: private/setup/postgresql.php:126 private/setup/postgresql.php:135
 #, php-format
@@ -251,7 +251,7 @@ msgstr ""
 msgid "Oracle username and/or password not valid"
 msgstr "Përdoruesi dhe/apo kodi i Oracle-it i pavlefshëm"
 
-#: private/setup/oci.php:173 private/setup/oci.php:205
+#: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Komanda e gabuar ishte: \"%s\", përdoruesi: %s, kodi: %s"
@@ -331,7 +331,3 @@ msgstr "vitin e shkuar"
 #: private/template/functions.php:142
 msgid "years ago"
 msgstr "vite më parë"
-
-#: private/template.php:297 public/util.php:108
-msgid "Caused by:"
-msgstr ""

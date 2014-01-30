@@ -12,6 +12,21 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	protected static $schema_file = 'static://test_db_scheme';
 	protected $test_prefix;
 
+	/**
+	 * @var string
+	 */
+	private $table1;
+
+	/**
+	 * @var string
+	 */
+	private $table2;
+
+	/**
+	 * @var string
+	 */
+	private $table3;
+
 	public function setUp() {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
@@ -25,6 +40,7 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->table1 = $this->test_prefix.'cntcts_addrsbks';
 		$this->table2 = $this->test_prefix.'cntcts_cards';
 		$this->table3 = $this->test_prefix.'vcategory';
+		$this->table4 = $this->test_prefix.'decimal';
 	}
 
 	public function tearDown() {
@@ -121,10 +137,10 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
 		$this->assertTrue((bool)$result);
-		$row = $result->fetchRow();
-		$this->assertArrayHasKey('carddata', $row);
-		$this->assertEquals($carddata, $row['carddata']);
-		$this->assertEquals(1, $result->numRows());
+		$rowset = $result->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('carddata', $rowset[0]);
+		$this->assertEquals($carddata, $rowset[0]['carddata']);
 
 		// Try to insert a new row
 		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
@@ -137,12 +153,51 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM `*PREFIX*'.$this->table2.'` WHERE `uri` = ?');
 		$result = $query->execute(array($uri));
 		$this->assertTrue((bool)$result);
-		$row = $result->fetchRow();
-		$this->assertArrayHasKey('carddata', $row);
 		// Test that previously inserted data isn't overwritten
-		$this->assertEquals($carddata, $row['carddata']);
 		// And that a new row hasn't been inserted.
-		$this->assertEquals(1, $result->numRows());
-
+		$rowset = $result->fetchAll();
+		$this->assertEquals(1, count($rowset));
+		$this->assertArrayHasKey('carddata', $rowset[0]);
+		$this->assertEquals($carddata, $rowset[0]['carddata']);
 	}
+
+	public function testUtf8Data() {
+		$table = "*PREFIX*{$this->table2}";
+		$expected = "Ћö雙喜\xE2\x80\xA2";
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
+		$result = $query->execute(array($expected, 'uri_1', 'This is a vCard'));
+		$this->assertEquals(1, $result);
+
+		$actual = OC_DB::prepare("SELECT `fullname` FROM `$table`")->execute()->fetchOne();
+		$this->assertSame($expected, $actual);
+	}
+
+	public function testDecimal() {
+		$table = "*PREFIX*" . $this->table4;
+		$rowname = 'decimaltest';
+
+		// Insert, select and delete decimal(12,2) values
+		$inserts = array('1337133713.37', '1234567890');
+		$expects = array('1337133713.37', '1234567890.00');
+
+		for ($i = 0; $i < count($inserts); $i++) {
+			$insert = $inserts[$i];
+			$expect = $expects[$i];
+
+			$query = OC_DB::prepare('INSERT INTO `' . $table . '` (`' . $rowname . '`) VALUES (?)');
+			$result = $query->execute(array($insert));
+			$this->assertEquals(1, $result);
+			$query = OC_DB::prepare('SELECT `' . $rowname . '` FROM `' . $table . '`');
+			$result = $query->execute();
+			$this->assertTrue((bool)$result);
+			$row = $result->fetchRow();
+			$this->assertArrayHasKey($rowname, $row);
+			$this->assertEquals($expect, $row[$rowname]);
+			$query = OC_DB::prepare('DELETE FROM `' . $table . '`');
+			$result = $query->execute();
+			$this->assertTrue((bool)$result);
+		}
+	}
+
 }

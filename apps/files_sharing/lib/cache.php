@@ -127,7 +127,18 @@ class Shared_Cache extends Cache {
 			return $files;
 		} else {
 			if ($cache = $this->getSourceCache($folder)) {
-				return $cache->getFolderContents($this->files[$folder]);
+				$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
+				foreach ($sourceFolderContent as $key => $c) {
+					$ownerPathParts = explode('/', \OC_Filesystem::normalizePath($c['path']));
+					$userPathParts = explode('/', \OC_Filesystem::normalizePath($folder));
+					$usersPath = 'files/Shared/'.$userPathParts[1];
+					foreach (array_slice($ownerPathParts, 3) as $part) {
+						$usersPath .= '/'.$part;
+					}
+					$sourceFolderContent[$key]['usersPath'] = $usersPath;
+				}
+
+				return $sourceFolderContent;
 			}
 		}
 		return false;
@@ -260,7 +271,7 @@ class Shared_Cache extends Cache {
 		return $this->searchWithWhere($where, $value);
 
 	}
-	
+
 	/**
 	 * The maximum number of placeholders that can be used in an SQL query.
 	 * Value MUST be <= 1000 for oracle:
@@ -268,7 +279,7 @@ class Shared_Cache extends Cache {
 	 * FIXME we should get this from doctrine as other DBs allow a lot more placeholders
 	 */
 	const MAX_SQL_CHUNK_SIZE = 1000;
-	
+
 	/**
 	 * search for files with a custom where clause and value
 	 * the $wherevalue will be array_merge()d with the file id chunks
@@ -282,16 +293,16 @@ class Shared_Cache extends Cache {
 		$ids = $this->getAll();
 
 		$files = array();
-		
+
 		// divide into chunks
 		$chunks = array_chunk($ids, $chunksize);
-		
+
 		foreach ($chunks as $chunk) {
 			$placeholders = join(',', array_fill(0, count($chunk), '?'));
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 					`encrypted`, `unencrypted_size`, `etag`
 					FROM `*PREFIX*filecache` WHERE ' . $sqlwhere . ' `fileid` IN (' . $placeholders . ')';
-			
+
 			$stmt = \OC_DB::prepare($sql);
 
 			$result = $stmt->execute(array_merge(array($wherevalue), $chunk));

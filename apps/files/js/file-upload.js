@@ -222,6 +222,14 @@ $(document).ready(function() {
 			
 				//examine file
 				var file = data.files[0];
+				try {
+					// FIXME: not so elegant... need to refactor that method to return a value
+					Files.isFileNameValid(file.name);
+				}
+				catch (errorMessage) {
+					data.textStatus = 'invalidcharacters';
+					data.errorThrown = errorMessage;
+				}
 			
 				if (file.type === '' && file.size === 4096) {
 					data.textStatus = 'dirorzero';
@@ -319,6 +327,13 @@ $(document).ready(function() {
 					} else {
 						// HTTP connection problem
 						OC.Notification.show(data.errorThrown);
+						if (data.result) {
+							var result = JSON.parse(data.result);
+							if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {
+								// abort upload of next files if any
+								OC.Upload.cancelUploads();
+							}
+						}
 					}
 					//hide notification after 10 sec
 					setTimeout(function() {
@@ -617,7 +632,7 @@ $(document).ready(function() {
 								if (result.status === 'success') {
 									var date=new Date();
 									FileList.addDir(name, 0, date, hidden);
-									var tr=$('tr[data-file="'+name+'"]');
+									var tr = FileList.findFileEl(name);
 									tr.attr('data-id', result.data.id);
 								} else {
 									OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
@@ -659,7 +674,7 @@ $(document).ready(function() {
 							$('#uploadprogressbar').fadeOut();
 							var date = new Date();
 							FileList.addFile(localName, size, date, false, hidden);
-							var tr = $('tr[data-file="'+localName+'"]');
+							var tr = FileList.findFileEl(localName);
 							tr.data('mime', mime).data('id', id);
 							tr.attr('data-id', id);
 							var path = $('#dir').val()+'/'+localName;
@@ -670,7 +685,12 @@ $(document).ready(function() {
 						});
 						eventSource.listen('error',function(error) {
 							$('#uploadprogressbar').fadeOut();
-							alert(error);
+							var message = (error && error.message) || t('core', 'Error fetching URL');
+							OC.Notification.show(message);
+							//hide notification after 10 sec
+							setTimeout(function() {
+								OC.Notification.hide();
+							}, 10000);
 						});
 						break;
 				}

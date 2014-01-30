@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"PO-Revision-Date: 2014-01-07 08:10+0000\n"
+"Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +28,11 @@ msgstr "Galat saat autentikasi"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Nama lengkap Anda telah diubah"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Tidak dapat mengubah nama lengkap"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -86,11 +86,11 @@ msgstr "Tidak dapat memperbarui aplikasi."
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
-msgstr ""
+msgstr "Sandi salah"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr ""
+msgstr "Tidak ada pengguna yang diberikan"
 
 #: changepassword/controller.php:74
 msgid ""
@@ -101,17 +101,17 @@ msgstr ""
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Sandi pemulihan admin salah. Periksa sandi dan ulangi kembali."
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Back-end tidak mendukung perubahan password, tetapi kunci enkripsi pengguna berhasil diperbarui."
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
-msgstr ""
+msgstr "Tidak dapat mengubah sandi"
 
 #: js/apps.js:43
 msgid "Update to {appversion}"
@@ -123,7 +123,7 @@ msgstr "Nonaktifkan"
 
 #: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
-msgstr "aktifkan"
+msgstr "Aktifkan"
 
 #: js/apps.js:71
 msgid "Please wait...."
@@ -131,11 +131,11 @@ msgstr "Mohon tunggu...."
 
 #: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Galat saat menonaktifkan aplikasi"
 
 #: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Galat saat mengakifkan aplikasi"
 
 #: js/apps.js:125
 msgid "Updating...."
@@ -159,11 +159,11 @@ msgstr "Diperbarui"
 
 #: js/personal.js:220
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Pilih foto profil"
 
 #: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Mendeskripsi berkas... Modon tunggu, ini memerlukan beberapa saat."
 
 #: js/personal.js:287
 msgid "Saving..."
@@ -198,21 +198,21 @@ msgstr "Hapus"
 msgid "add group"
 msgstr "tambah grup"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Tuliskan nama pengguna yang valid"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Gagal membuat pengguna"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Tuliskan sandi yang valid"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Peringatan: Direktori home untuk pengguna \"{user}\"  sudah ada"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
@@ -220,23 +220,23 @@ msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Semuanya (Masalah fatal, galat, peringatan, info, debug)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Info, peringatan, galat dan masalah fatal"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Peringatan, galat dan masalah fatal"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Galat dan masalah fatal"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Hanya masalah fatal"
 
 #: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
@@ -247,7 +247,7 @@ msgstr "Peringatan Keamanan"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Anda mengakses %s melalui HTTP. Kami sangat menyarankan Anda untuk mengkonfigurasi server dengan menggunakan HTTPS sebagai gantinya."
 
 #: templates/admin.php:39
 msgid ""
@@ -256,7 +256,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Direktori data dan berkas Anda mungkin dapat diakses dari internet. Berkas .htaccess tidak bekerja. Kami sangat menyarankan untuk mengkonfigurasi server web Anda agar direktori data tidak lagi dapat diakses atau Anda dapat memindahkan direktori data di luar dokumen root webserver."
 
 #: templates/admin.php:50
 msgid "Setup Warning"
@@ -271,7 +271,7 @@ msgstr "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sin
 #: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Silakan periksa kembali <a href=\"%s\">petunjuk instalasi</a>."
 
 #: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
@@ -285,14 +285,14 @@ msgstr "Module 'fileinfo' pada PHP tidak ada. Kami sangat menyarankan untuk meng
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Versi PHP telah usang"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "Versi PHP telah usang. Kami sangat menyarankan untuk diperbarui ke versi 5.3.8 atau yang lebih baru karena versi lama diketahui rusak. Ada kemungkinan bahwa instalasi ini tidak bekerja dengan benar."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -300,20 +300,20 @@ msgstr "Kode pelokalan tidak berfungsi"
 
 #: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Sistem lokal tidak dapat diatur untuk satu yang mendukung UTF-8."
 
 #: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Ini artinya mungkin ada masalah dengan karakter tertentu pada nama berkas."
 
 #: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Kami sangat menyarankan untuk menginstal paket yang dibutuhkan pada sistem agar mendukung salah satu bahasa berikut: %s."
 
 #: templates/admin.php:118
 msgid "Internet connection not working"
@@ -340,11 +340,11 @@ msgstr "Jalankan tugas setiap kali halaman dimuat"
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php didaftarkan pada layanan webcron untuk memanggil cron.php setiap 15 menit melalui http."
 
 #: templates/admin.php:158
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Menggunakan sistem layanan cron untuk memanggil berkas cron.php setiap 15 menit."
 
 #: templates/admin.php:163
 msgid "Sharing"
@@ -368,12 +368,12 @@ msgstr "Izinkan pengguna untuk berbagi item kepada publik lewat tautan"
 
 #: templates/admin.php:186
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Izinkan unggahan publik"
 
 #: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Izinkan pengguna memungkinkan orang lain untuk mengunggah kedalam folder berbagi publik mereka"
 
 #: templates/admin.php:195
 msgid "Allow resharing"
@@ -393,11 +393,11 @@ msgstr "Hanya izinkan pengguna untuk berbagi dengan pengguna pada grup mereka se
 
 #: templates/admin.php:213
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Izinkan pemberitahuan email"
 
 #: templates/admin.php:214
 msgid "Allow user to send mail notification for shared files"
-msgstr ""
+msgstr "Izinkan pengguna mengirim pemberitahuan email pada berkas yang dibagikan"
 
 #: templates/admin.php:221
 msgid "Security"
@@ -410,14 +410,14 @@ msgstr "Selalu Gunakan HTTPS"
 #: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Memaksa klien untuk menghubungkan ke %s menggunakan sambungan yang dienskripsi."
 
 #: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Mohon sambungkan ke %s menggunakan HTTPS untuk mengaktifkannya atau menonaktifkan penegakan SSL."
 
 #: templates/admin.php:254
 msgid "Log"
@@ -532,7 +532,7 @@ msgstr "Ubah sandi"
 
 #: templates/personal.php:58 templates/users.php:88
 msgid "Full Name"
-msgstr ""
+msgstr "Nama Lengkap"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -548,35 +548,35 @@ msgstr "Masukkan alamat email untuk mengaktifkan pemulihan sandi"
 
 #: templates/personal.php:86
 msgid "Profile picture"
-msgstr ""
+msgstr "Foto profil"
 
 #: templates/personal.php:91
 msgid "Upload new"
-msgstr ""
+msgstr "Unggah baru"
 
 #: templates/personal.php:93
 msgid "Select new from Files"
-msgstr ""
+msgstr "Pilih baru dari Berkas"
 
 #: templates/personal.php:94
 msgid "Remove image"
-msgstr ""
+msgstr "Hapus gambar"
 
 #: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Bisa png atau jpg. Idealnya berbentuk persegi tetapi jika tidak Anda bisa memotongnya nanti."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Avatar disediakan oleh akun asli Anda."
 
 #: templates/personal.php:101
 msgid "Abort"
-msgstr ""
+msgstr "Batal"
 
 #: templates/personal.php:102
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Pilih sebagai gambar profil"
 
 #: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
@@ -595,7 +595,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\">mengakses Berkas via WebDAV</a>"
 
 #: templates/personal.php:150
 msgid "Encryption"
@@ -603,15 +603,15 @@ msgstr "Enkripsi"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "Aplikasi enkripsi tidak lagi diaktifkan, silahkan mendekripsi semua file Anda"
 
 #: templates/personal.php:158
 msgid "Log-in password"
-msgstr ""
+msgstr "Sandi masuk"
 
 #: templates/personal.php:163
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Deskripsi semua Berkas"
 
 #: templates/users.php:21
 msgid "Login Name"
@@ -623,13 +623,13 @@ msgstr "Buat"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Sandi pemulihan Admin"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Masukkan sandi pemulihan untuk memulihkan berkas pengguna saat penggantian sandi"
 
 #: templates/users.php:42
 msgid "Default Storage"
@@ -637,7 +637,7 @@ msgstr "Penyimpanan Baku"
 
 #: templates/users.php:44 templates/users.php:139
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Silakan masukkan jumlah penyimpanan (contoh: \"512 MB\" atau \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -657,7 +657,7 @@ msgstr "Penyimpanan"
 
 #: templates/users.php:108
 msgid "change full name"
-msgstr ""
+msgstr "ubah nama lengkap"
 
 #: templates/users.php:112
 msgid "set new password"

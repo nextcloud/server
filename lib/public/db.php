@@ -39,9 +39,9 @@ class DB {
 	 * @param string $query Query string
 	 * @param int $limit Limit of the SQL statement
 	 * @param int $offset Offset of the SQL statement
-	 * @return \MDB2_Statement_Common prepared SQL query
+	 * @return \Doctrine\DBAL\Statement prepared SQL query
 	 *
-	 * SQL query via MDB2 prepare(), needs to be execute()'d!
+	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query, $limit=null, $offset=null ) {
 		return(\OC_DB::prepare($query, $limit, $offset));
@@ -73,7 +73,7 @@ class DB {
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return int
 	 *
-	 * MDB2 lastInsertID()
+	 * \Doctrine\DBAL\Connection lastInsertID()
 	 *
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
@@ -86,18 +86,18 @@ class DB {
 	 * Start a transaction
 	 */
 	public static function beginTransaction() {
-		return(\OC_DB::beginTransaction());
+		\OC_DB::beginTransaction();
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
-		return(\OC_DB::commit());
+		\OC_DB::commit();
 	}
 
 	/**
-	 * Check if a result is an error, works with MDB2 and PDOException
+	 * Check if a result is an error, works with Doctrine
 	 * @param mixed $result
 	 * @return bool
 	 */

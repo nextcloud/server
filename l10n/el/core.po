@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-07 01:55-0500\n"
+"PO-Revision-Date: 2014-01-06 20:50+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,16 +50,16 @@ msgstr "Ενημερωμένη βάση δεδομένων"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Ενημέρωση αποθηκευμένων αρχείων, αυτό μπορεί να πάρα πολύ ώρα..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Ενημέρωση αποθηκευμένων αρχείων"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
+msgstr "... %d%% ολοκληρώθηκαν ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -75,11 +75,11 @@ msgstr "Μη έγκυρη εικόνα"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Δεν υπάρχει προσωρινή φωτογραφία προφίλ διαθέσιμη, δοκιμάστε ξανά"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Δεν δόθηκαν δεδομένα περικοπής"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -157,59 +157,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:858
+#: js/js.js:872
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:859
+#: js/js.js:873
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:860
+#: js/js.js:874
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n ώρα πριν"
+msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:861
+#: js/js.js:875
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:862
+#: js/js.js:876
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:863
+#: js/js.js:877
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n ημέρα πριν"
+msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:864
+#: js/js.js:878
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:865
+#: js/js.js:879
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n μήνας πριν"
+msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:866
+#: js/js.js:880
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:867
+#: js/js.js:881
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:868
+#: js/js.js:882
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -219,7 +219,7 @@ msgstr "Επιλέξτε"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Σφάλμα κατά την φόρτωση προτύπου επιλογέα αρχείων: {σφάλμα}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -235,17 +235,17 @@ msgstr "Οκ"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Σφάλμα φόρτωσης προτύπου μηνυμάτων: {σφάλμα}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} αρχείο διαφέρει"
+msgstr[1] "{count} αρχεία διαφέρουν"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Ένα αρχείο διαφέρει"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
@@ -271,7 +271,7 @@ msgstr "(όλα τα επιλεγμένα)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} επιλέχθησαν)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
@@ -444,15 +444,15 @@ msgstr "Επεξεργασία ετικετών"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφάλμα}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Παρακαλώ επαναφορτώστε τη σελίδα."
 
 #: js/update.js:17
 msgid ""
@@ -468,7 +468,7 @@ msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s επαναφορά κωδικού πρόσβασης"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -548,7 +548,7 @@ msgstr "Βοήθεια"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Σφάλμα φόρτωσης ετικετών"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
@@ -556,23 +556,23 @@ msgstr "Υπάρχει ήδη η ετικέτα"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Σφάλμα διαγραφής ετικέτας(ων)"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Σφάλμα προσθήκης ετικέτας"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Σφάλμα αφαίρεσης ετικέτας"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Σφάλμα προσθήκης στα αγαπημένα"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Σφάλμα αφαίρεσης από τα αγαπημένα"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -590,7 +590,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Γειά χαρά,\n\nαπλά σας ενημερώνω πως ο %s μοιράστηκε το %s με εσάς.\nΔείτε το: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -599,7 +599,7 @@ msgstr "Ο διαμοιρασμός θα λήξει σε %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "Χαιρετισμούς!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -695,7 +695,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Αυτή η εφαρμογή απαιτεί η JavaScript να είναι ενεργοποιημένη για σωστή λειτουργία. Παρακαλώ <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε αυτή τη διεπαφή."
 
 #: templates/layout.user.php:44
 #, php-format
@@ -749,15 +749,15 @@ msgstr "Εναλλακτικές Συνδέσεις"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Γειά χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το »%s« με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Αυτή η εγκατάσταση ownCloud είναι τώρα σε κατάσταση ενός χρήστη."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Αυτό σημαίνει ότι μόνο διαχειριστές μπορούν να χρησιμοποιήσουν την εγκατάσταση."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

@@ -5,7 +5,7 @@
 	height: 36px;
 	width: 39px;
 	padding: 0 !important; /* override default control bar button padding */
-	margin-left: .2em;
+	margin-left: 3px;
 	overflow: hidden;
 	vertical-align: top;
 }
@@ -18,9 +18,6 @@
 	margin: -5px -3px;
 	cursor: pointer;
 	z-index: 10;
-	background-image: url('%webroot%/core/img/actions/upload.svg');
-	background-repeat: no-repeat;
-	background-position: center;
 	opacity: .65;
 }
 .file_upload_target { display:none; }
@@ -33,7 +30,7 @@
 	height: 44px;
 	margin: -5px -3px;
 	padding: 0;
-	font-size: 1em;
+	font-size: 16px;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
 	z-index: 20;
 	cursor: pointer;
@@ -118,11 +115,6 @@
 }
 .oc-dialog .fileexists .conflict input[type='checkbox'] {
 	float: left;
-}
-.oc-dialog .fileexists .toggle {
-	background-image: url('%webroot%/core/img/actions/triangle-e.png');
-	width: 16px;
-	height: 16px;
 }
 .oc-dialog .fileexists #allfileslabel {
 	float:right;

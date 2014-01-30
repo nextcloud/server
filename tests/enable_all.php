@@ -8,15 +8,17 @@
 
 require_once __DIR__.'/../lib/base.php';
 
-OC_App::enable('files_sharing');
-OC_App::enable('files_encryption');
-OC_App::enable('calendar');
-OC_App::enable('contacts');
-OC_App::enable('apptemplateadvanced');
-OC_App::enable('appframework');
-#OC_App::enable('files_archive');
-#OC_App::enable('mozilla_sync');
-#OC_App::enable('news');
-#OC_App::enable('provisioning_api');
-#OC_App::enable('user_external');
+function enableApp($app) {
+	try {
+		OC_App::enable($app);
+	} catch (Exception $e) {
+		echo $e;
+	}
+}
+
+enableApp('files_sharing');
+enableApp('files_encryption');
+//enableApp('files_external');
+enableApp('user_ldap');
+enableApp('files_versions');
 

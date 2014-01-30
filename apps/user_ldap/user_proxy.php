@@ -210,4 +210,19 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 		return $this->refBackend->hasUserListings();
 	}
 
+	/**
+	 * @brief Count the number of users
+	 * @returns int | bool
+	 */
+	public function countUsers() {
+		$users = false;
+		foreach($this->backends as $backend) {
+			$backendUsers = $backend->countUsers();
+			if ($backendUsers !== false) {
+				$users += $backendUsers;
+			}
+		}
+		return $users;
+	}
+
 }

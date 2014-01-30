@@ -9,13 +9,14 @@
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012-2013
 # Konstantinos Tzanidis <tzanidis@gmail.com>, 2012
 # Marios Bekatoros <>, 2013
+# vkehayas <vkehayas@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-07 08:59-0400\n"
-"PO-Revision-Date: 2013-08-06 08:10+0000\n"
-"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-01-04 01:55-0500\n"
+"PO-Revision-Date: 2014-01-02 18:00+0000\n"
+"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "WebDAV Authentication"
-msgstr "Αυθεντικοποίηση μέσω WebDAV "
+msgstr "Πιστοποίηση μέσω WebDAV "
 
 #: templates/settings.php:4
 msgid "Address: "

@@ -480,7 +480,7 @@ class Tags implements \OCP\ITags {
 			return $this->getIdsForTag(self::TAG_FAVORITE);
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
-				\OCP\Util::ERROR);
+				\OCP\Util::DEBUG);
 			return array();
 		}
 	}

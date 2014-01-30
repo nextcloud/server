@@ -38,7 +38,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$l10nMock->expects($this->any())
 			->method('t')
 			->will($this->returnArgument(0));
-		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath', 'getFileInfo'), array(), '', false);
+		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath', 'getFileInfo', 'file_exists'), array(), '', false);
 		$viewMock->expects($this->any())
 			->method('normalizePath')
 			->will($this->returnArgument(0));
@@ -63,6 +63,11 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$oldname = 'Shared';
 		$newname = 'new_name';
 
+		$this->viewMock->expects($this->at(0))
+			->method('file_exists')
+			->with('/')
+			->will($this->returnValue(true));
+
 		$result = $this->files->rename($dir, $oldname, $newname);
 		$expected = array(
 			'success'	=> false,
@@ -79,6 +84,11 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$dir = '/test';
 		$oldname = 'Shared';
 		$newname = 'new_name';
+
+		$this->viewMock->expects($this->at(0))
+			->method('file_exists')
+			->with('/test')
+			->will($this->returnValue(true));
 
 		$this->viewMock->expects($this->any())
 			->method('getFileInfo')
@@ -129,6 +139,11 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$oldname = 'oldname';
 		$newname = 'newname';
 
+		$this->viewMock->expects($this->at(0))
+			->method('file_exists')
+			->with('/')
+			->will($this->returnValue(true));
+
 		$this->viewMock->expects($this->any())
 			->method('getFileInfo')
 			->will($this->returnValue(array(
@@ -141,7 +156,6 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 				'name' => 'new_name',
 			)));
 
-
 		$result = $this->files->rename($dir, $oldname, $newname);
 
 		$this->assertTrue($result['success']);
@@ -153,5 +167,36 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('abcdef', $result['data']['etag']);
 		$this->assertEquals(\OC_Helper::mimetypeIcon('dir'), $result['data']['icon']);
 		$this->assertFalse($result['data']['isPreviewAvailable']);
+	}
+
+	/**
+	 * Test rename inside a folder that doesn't exist any more
+	 */
+	function testRenameInNonExistingFolder() {
+		$dir = '/unexist';
+		$oldname = 'oldname';
+		$newname = 'newname';
+
+		$this->viewMock->expects($this->at(0))
+			->method('file_exists')
+			->with('/unexist')
+			->will($this->returnValue(false));
+
+		$this->viewMock->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(array(
+				'fileid' => 123,
+				'type' => 'dir',
+				'mimetype' => 'httpd/unix-directory',
+				'size' => 18,
+				'etag' => 'abcdef',
+				'directory' => '/unexist',
+				'name' => 'new_name',
+			)));
+
+		$result = $this->files->rename($dir, $oldname, $newname);
+
+		$this->assertFalse($result['success']);
+		$this->assertEquals('targetnotfound', $result['data']['code']);
 	}
 }

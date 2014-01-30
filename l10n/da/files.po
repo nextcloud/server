@@ -5,14 +5,15 @@
 # Translators:
 # Sappe, 2013
 # claus_chr <claus_chr@webspeed.dk>, 2013
+# lodahl <leiflodahl@gmail.com>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-22 01:55-0500\n"
+"PO-Revision-Date: 2013-12-21 18:50+0000\n"
+"Last-Translator: lodahl <leiflodahl@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,39 +37,44 @@ msgstr "Filnavnet kan ikke stå tomt."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Filnavnet må ikke indeholde \"/\". Vælg venligst et andet navn."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Navnet %s er allerede i brug i mappen %s. Vælg venligst et andet navn."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
-msgstr ""
+msgstr "Ikke en gyldig kilde"
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Server har ikke tilladelse til at åbne URL'er. Kontroller venligst serverens indstillinger"
+
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Fejl ved hentning af %s til %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Fejl ved oprettelse af fil"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Mappenavnet kan ikke være tomt."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Mappenavnet må ikke indeholde \"/\". Vælg venligst et andet navn."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Fejl ved oprettelse af mappen"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
@@ -156,11 +162,11 @@ msgstr "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuler
 
 #: js/file-upload.js:523
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL kan ikke være tom"
 
 #: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Navnet 'Shared' er reserveret i hjemmemappen."
 
 #: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
@@ -168,11 +174,15 @@ msgstr "{new_name} eksisterer allerede"
 
 #: js/file-upload.js:595
 msgid "Could not create file"
-msgstr ""
+msgstr "Kunne ikke oprette fil"
 
 #: js/file-upload.js:611
 msgid "Could not create folder"
-msgstr ""
+msgstr "Kunne ikke oprette mappe"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
+msgstr "Fejl ved URL"
 
 #: js/fileactions.js:125
 msgid "Share"
@@ -192,7 +202,7 @@ msgstr "Afventer"
 
 #: js/filelist.js:405
 msgid "Could not rename file"
-msgstr ""
+msgstr "Kunne ikke omdøbe filen"
 
 #: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
@@ -204,7 +214,7 @@ msgstr "fortryd"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Fejl ved sletnign af fil."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
@@ -250,14 +260,14 @@ msgstr "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "Krypteringsprogrammet er aktiveret, men din nøgle er ikke igangsat. Log venligst ud og ind igen."
 
 #: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Ugyldig privat nøgle for krypteringsprogrammet. Opdater venligst dit kodeord for den private nøgle i dine personlige indstillinger. Det kræves for at få adgang til dine krypterede filer."
 
 #: js/files.js:118
 msgid ""
@@ -293,7 +303,7 @@ msgstr "Ændret"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "Ugyldig mappenavn. 'Shared' er reserveret."
 
 #: lib/app.php:101
 #, php-format
@@ -342,7 +352,7 @@ msgstr "Ny"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Ny tekstfil"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -370,7 +380,7 @@ msgstr "Fortryd upload"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Du har ikke tilladelse til at uploade eller oprette filer her"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

@@ -52,6 +52,7 @@ $server->addPlugin(new OC_Connector_Sabre_FilesPlugin());
 $server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin());
 $server->addPlugin(new OC_Connector_Sabre_QuotaPlugin());
 $server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
+$server->addPlugin(new OC_Connector_Sabre_ExceptionLoggerPlugin('webdav'));
 
 // And off we go!
 $server->exec();

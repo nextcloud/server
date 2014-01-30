@@ -3,16 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 책읽는달팽 <bjh13579@gmail.com>, 2013
 # madeng <jongyoul@gmail.com>, 2013
+# madeng <jongyoul@gmail.com>, 2013
+# Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-29 01:55-0500\n"
+"PO-Revision-Date: 2013-12-28 13:54+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,20 +26,20 @@ msgstr ""
 #: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s 님이 %s을(를) 공유하였습니다"
 
 #: ajax/share.php:169
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr "%s에게 메일을 보낼 수 없습니다."
+msgstr "%s 님에게 메일을 보낼 수 없습니다."
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr "유지보수 모드 켜기"
+msgstr "유지 보수 모드 켜짐"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr "유지보수 모드 끄기"
+msgstr "유지 보수 모드 꺼짐"
 
 #: ajax/update.php:17
 msgid "Updated database"
@@ -44,11 +47,11 @@ msgstr "데이터베이스 업데이트 됨"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr "파일 캐시 업데이트중, 시간이 약간 걸릴수 있습니다..."
+msgstr "파일 캐시 업데이트 중, 시간이 약간 걸릴 수 있습니다..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr "파일캐시 업데이트 됨"
+msgstr "파일 캐시 업데이트 됨"
 
 #: ajax/update.php:26
 #, php-format
@@ -61,7 +64,7 @@ msgstr "이미지나 파일이 없음"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr "알려지지 않은 파일형식"
+msgstr "알려지지 않은 파일 형식"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
@@ -69,7 +72,7 @@ msgstr "잘못된 이미지"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr "사용가능한 프로파일 사진이 없습니다. 재시도 하세요."
+msgstr "사용 가능한 프로필 사진이 없습니다. 다시 시도하십시오."
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
@@ -151,55 +154,55 @@ msgstr "11월"
 msgid "December"
 msgstr "12월"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:858
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:859
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n분 전 "
 
-#: js/js.js:860
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n시간 전 "
 
-#: js/js.js:861
+#: js/js.js:872
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:862
+#: js/js.js:873
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:863
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n일 전 "
 
-#: js/js.js:864
+#: js/js.js:875
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:865
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n달 전 "
 
-#: js/js.js:866
+#: js/js.js:877
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:867
+#: js/js.js:878
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:868
+#: js/js.js:879
 msgid "years ago"
 msgstr "년 전"
 
@@ -209,7 +212,7 @@ msgstr "선택"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "파일 선택 템플릿을 불러오는 중 오류 발생: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -221,30 +224,30 @@ msgstr "아니요"
 
 #: js/oc-dialogs.js:199
 msgid "Ok"
-msgstr "승락"
+msgstr "확인"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "메시지 템플릿을 불러오는 중 오류 발생: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] "{count} 파일 중복"
+msgstr[0] "파일 {count}개 충돌"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr "하나의 파일이 충돌"
+msgstr "파일 1개 충돌"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr "어느 파일들을 보관하고 싶습니까?"
+msgstr "어느 파일을 유지하시겠습니까?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "두 버전을 모두 선택하면, 파일이름에 번호가 추가될 것입니다."
+msgstr "두 버전을 모두 선택하면, 파일 이름에 번호가 추가될 것입니다."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -260,11 +263,11 @@ msgstr "(모두 선택됨)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr "({count}개가 선택됨)"
+msgstr "({count}개 선택됨)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "파일 존재함 템플릿을 불러오는 중 오류 발생"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -301,11 +304,11 @@ msgstr "{owner} 님이 공유 중"
 
 #: js/share.js:213
 msgid "Share with user or group …"
-msgstr ""
+msgstr "사용자 및 그룹과 공유..."
 
 #: js/share.js:219
 msgid "Share link"
-msgstr ""
+msgstr "링크 공유"
 
 #: js/share.js:222
 msgid "Password protect"
@@ -317,7 +320,7 @@ msgstr "암호"
 
 #: js/share.js:229
 msgid "Allow Public Upload"
-msgstr "퍼블릭 업로드 허용"
+msgstr "공개 업로드 허용"
 
 #: js/share.js:233
 msgid "Email link to person"
@@ -361,7 +364,7 @@ msgstr "공유 해제"
 
 #: js/share.js:405
 msgid "notify by email"
-msgstr ""
+msgstr "이메일로 알림"
 
 #: js/share.js:408
 msgid "can edit"
@@ -417,7 +420,7 @@ msgstr "객체 유형이 지정되지 않았습니다."
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "새로운 값 입력"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -429,19 +432,19 @@ msgstr "추가"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr "태크 편집"
+msgstr "태그 편집"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "대화 상자 템플릿을 불러오는 중 오류 발생: {error}"
 
 #: js/tags.js:261
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "삭제할 태그를 선택하지 않았습니다."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr "페이지를 새로고침 해주세요"
+msgstr "페이지를 새로 고치십시오."
 
 #: js/update.js:17
 msgid ""
@@ -457,7 +460,7 @@ msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr "%s 비밀번호 재설정"
+msgstr "%s 암호 재설정"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -468,11 +471,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "비밀번호를 초기화 하기 위한 링크가 이메일로 발송되었습니다.<br>만약 수분이내에 메일이 도착하지 않은 경우, 스팸 메일함을 확인하세요.<br>만약 없다면, 메일 관리자에게 문의하세요."
+msgstr "암호를 초기화 하기 위한 링크가 이메일로 발송되었습니다.<br>만약 수 분 이내에 메일이 도착하지 않은 경우, 스팸 메일함을 확인하십시오.<br>스팸 메일함에도 없다면, 메일 관리자에게 문의하십시오."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "요청이 실패했습니다!<br>email 주소와 사용자 명을 정확하게 넣으셨나요?"
+msgstr "요청이 실패했습니다!<br>이메일 주소와 사용자 이름을 정확하게 입력하셨습니까?"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
@@ -489,11 +492,11 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "당신의 파일은 암호화 되어있습니다. 만약 복구키를 가지고 있지 않다면, 비밀번호를 초기화한 후에, 당신의 데이터를 복구할 수 없을 것입니다. 당신이 원하는 것이 확실하지 않다면, 계속진행하기 전에 관리자에게 문의하세요. 계속 진행하시겠습니까?"
+msgstr "저장된 파일은 암호화되어 있습니다. 복구 키를 활성화하지 않았다면 암호를 초기화한 후 데이터를 복구할 수 없습니다. 무엇을 해야 할 지 모르겠으면 진행하기 전에 시스템 관리자에게 연락하십시오. 계속 진행하시겠습니까?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr "네, 전 제 비밀번호를 리셋하길 원합니다"
+msgstr "예, 지금 내 암호를 재설정합니다"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
@@ -537,7 +540,7 @@ msgstr "도움말"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "태그 불러오기 오류"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
@@ -545,23 +548,23 @@ msgstr "태그가 이미 존재합니다"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "태그 삭제 오류"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "태그 추가 오류"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "태그 해제 오류"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "즐겨찾기 추가 오류"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "즐겨찾기 삭제 오류"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -579,16 +582,16 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "안녕하세요,\n\n%s 님이 %s을(를) 공유하였음을 알려 드립니다.\n보기 링크: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "이 공유는 %s 까지 유지됩니다."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "화이팅!"
+msgstr "감사합니다!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -627,7 +630,7 @@ msgstr ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하세요."
+msgstr "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하십시오."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
@@ -677,19 +680,19 @@ msgstr "설치 완료"
 
 #: templates/installation.php:185
 msgid "Finishing …"
-msgstr "종료중 ..."
+msgstr "완료 중 ..."
 
 #: templates/layout.user.php:40
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "이 애플리케이션을 올바르게 사용하려면 자바스크립트를 활성화해야 합니다. <a href=\"http://enable-javascript.com/\" target=\"_blank\">자바스크립트를 활성화</a>한 다음 인터페이스를 새로 고치십시오."
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s는 사용가능합니다. 업데이트방법에 대해서 더 많은 정보를 얻으세요."
+msgstr "%s을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 자세한 정보를 얻으십시오."
 
 #: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
@@ -715,7 +718,7 @@ msgstr "서버 인증 실패!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr "관리자에게 문의하세요."
+msgstr "관리자에게 문의하십시오."
 
 #: templates/login.php:44
 msgid "Lost your password?"
@@ -731,32 +734,32 @@ msgstr "로그인"
 
 #: templates/login.php:58
 msgid "Alternative Logins"
-msgstr "대체 "
+msgstr "대체 로그인"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
 "href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "안녕하세요,<br><br>%s 님이 %s을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">지금 보기!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "ownCloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오"
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "기다려 주셔서 감사합니다."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -766,8 +769,8 @@ msgstr "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 �
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "ownCloud 인스턴스가 현재 업데이트 중입니다. 잠시만 기다려 주십시오."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "잠시 후 페이지를 다시 불러온 다음 ownCloud를 사용해 주십시오."

@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
-# vkehayas <vkehayas@gmail.com>, 2013
+# vkehayas <vkehayas@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-24 00:13-0500\n"
-"PO-Revision-Date: 2013-11-23 01:30+0000\n"
+"POT-Creation-Date: 2014-01-07 01:55-0500\n"
+"PO-Revision-Date: 2014-01-06 21:00+0000\n"
 "Last-Translator: vkehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +25,11 @@ msgstr "Αυτός ο κοινόχρηστος φάκελος προστατεύ
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr "Εσφαλμένο συνθηματικό. Προσπαθήστε ξανά."
+msgstr "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά."
 
 #: templates/authenticate.php:10
 msgid "Password"
-msgstr "Συνθηματικό"
+msgstr "Κωδικός πρόσβασης"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -58,12 +58,12 @@ msgstr "Για περισσότερες πληροφορίες, παρακαλώ
 #: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr "%s μοιράστηκε τον φάκελο %s μαζί σας"
+msgstr "Ο %s μοιράστηκε τον φάκελο %s μαζί σας"
 
 #: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr "%s μοιράστηκε το αρχείο %s μαζί σας"
+msgstr "Ο %s μοιράστηκε το αρχείο %s μαζί σας"
 
 #: templates/public.php:29 templates/public.php:95
 msgid "Download"
@@ -75,7 +75,7 @@ msgstr "Μεταφόρτωση"
 
 #: templates/public.php:59
 msgid "Cancel upload"
-msgstr "Ακύρωση αποστολής"
+msgstr "Ακύρωση μεταφόρτωσης"
 
 #: templates/public.php:92
 msgid "No preview available for"

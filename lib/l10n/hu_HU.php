@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Files need to be downloaded one by one." => "A fájlokat egyenként kell letölteni.",
 "Back to Files" => "Vissza a Fájlokhoz",
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
+"Please download the files separately in smaller chunks or kindly ask your administrator." => "A file-t kisebb részekben töltsd le vagy beszélj az adminisztrátorral a megoldás érdekében.",
 "No source specified when installing app" => "Az alkalmazás telepítéséhez nincs forrás megadva",
 "No href specified when installing app from http" => "Az alkalmazás http-n keresztül történő telepítéséhez nincs href hivetkozás megadva",
 "No path specified when installing app from local file" => "Az alkalmazás helyi telepítéséhez nincs útvonal (mappa) megadva",
@@ -64,7 +65,6 @@ $TRANSLATIONS = array(
 "last month" => "múlt hónapban",
 "_%n month ago_::_%n months ago_" => array("%n hónappal ezelőtt","%n hónappal ezelőtt"),
 "last year" => "tavaly",
-"years ago" => "több éve",
-"Caused by:" => "Okozta:"
+"years ago" => "több éve"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

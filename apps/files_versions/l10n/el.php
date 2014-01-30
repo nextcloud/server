@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not revert: %s" => "Αδυναμία επαναφοράς του: %s",
+"Could not revert: %s" => "Αδυναμία επαναφοράς: %s",
 "Versions" => "Εκδόσεις",
 "Failed to revert {file} to revision {timestamp}." => "Αποτυχία επαναφοράς του {file} στην αναθεώρηση {timestamp}.",
 "More versions..." => "Περισσότερες εκδόσεις...",

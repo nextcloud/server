@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# arifpedia <arifpedia@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-08 03:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"PO-Revision-Date: 2014-01-07 08:10+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,47 +34,52 @@ msgstr "Nama berkas tidak boleh kosong."
 
 #: ajax/newfile.php:62
 msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Nama berkas tidak boleh mengandung \"/\". Silakan pilih nama yang berbeda."
 
 #: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Nama %s sudah digunakan dalam folder %s. Silakan pilih nama yang berbeda."
 
 #: ajax/newfile.php:81
 msgid "Not a valid source"
+msgstr "Sumber tidak sah"
+
+#: ajax/newfile.php:86
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
 msgstr ""
 
-#: ajax/newfile.php:94
+#: ajax/newfile.php:103
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Galat saat mengunduh %s ke %s"
 
-#: ajax/newfile.php:128
+#: ajax/newfile.php:140
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Galat saat membuat berkas"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Nama folder tidak bolh kosong."
 
 #: ajax/newfolder.php:27
 msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
+msgstr "Nama folder tidak boleh mengandung \"/\". Silakan pilih nama yang berbeda."
 
 #: ajax/newfolder.php:56
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Galat saat membuat folder"
 
 #: ajax/upload.php:18 ajax/upload.php:50
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Tidak dapat mengatur folder unggah"
 
 #: ajax/upload.php:27
 msgid "Invalid Token"
-msgstr ""
+msgstr "Token tidak sah"
 
 #: ajax/upload.php:64
 msgid "No file was uploaded. Unknown error"
@@ -116,11 +122,11 @@ msgstr "Ruang penyimpanan tidak mencukupi"
 
 #: ajax/upload.php:127 ajax/upload.php:154
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Unggah gagal. Tidak mendapatkan informasi berkas."
 
 #: ajax/upload.php:144
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Unggah gagal. Tidak menemukan berkas yang akan diunggah"
 
 #: ajax/upload.php:172
 msgid "Invalid directory."
@@ -132,7 +138,7 @@ msgstr "Berkas"
 
 #: js/file-upload.js:228
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Tidak dapat mengunggah {filename} karena ini sebuah direktori atau memiliki ukuran 0 byte"
 
 #: js/file-upload.js:239
 msgid "Not enough space available"
@@ -144,7 +150,7 @@ msgstr "Pengunggahan dibatalkan."
 
 #: js/file-upload.js:344
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Tidak mendapatkan hasil dari server."
 
 #: js/file-upload.js:436
 msgid ""
@@ -153,11 +159,11 @@ msgstr "Berkas sedang diunggah. Meninggalkan halaman ini akan membatalkan proses
 
 #: js/file-upload.js:523
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL tidak boleh kosong"
 
 #: js/file-upload.js:527 js/filelist.js:377
 msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
+msgstr "Pada folder home, 'Shared' adalah nama berkas yang sudah digunakan"
 
 #: js/file-upload.js:529 js/filelist.js:379
 msgid "{new_name} already exists"
@@ -165,10 +171,14 @@ msgstr "{new_name} sudah ada"
 
 #: js/file-upload.js:595
 msgid "Could not create file"
-msgstr ""
+msgstr "Tidak dapat membuat berkas"
 
 #: js/file-upload.js:611
 msgid "Could not create folder"
+msgstr "Tidak dapat membuat folder"
+
+#: js/file-upload.js:661
+msgid "Error fetching URL"
 msgstr ""
 
 #: js/fileactions.js:125
@@ -189,7 +199,7 @@ msgstr "Menunggu"
 
 #: js/filelist.js:405
 msgid "Could not rename file"
-msgstr ""
+msgstr "Tidak dapat mengubah nama berkas"
 
 #: js/filelist.js:539
 msgid "replaced {new_name} with {old_name}"
@@ -201,26 +211,26 @@ msgstr "urungkan"
 
 #: js/filelist.js:591
 msgid "Error deleting file."
-msgstr ""
+msgstr "Galat saat menghapus berkas."
 
 #: js/filelist.js:609 js/filelist.js:683 js/files.js:631
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
+msgstr[0] "%n folder"
 
 #: js/filelist.js:610 js/filelist.js:684 js/files.js:637
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
+msgstr[0] "%n berkas"
 
 #: js/filelist.js:617
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} dan {files}"
 
 #: js/filelist.js:828 js/filelist.js:866
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
+msgstr[0] "Mengunggah %n berkas"
 
 #: js/files.js:72
 msgid "'.' is an invalid file name."
@@ -244,20 +254,20 @@ msgstr "Ruang penyimpanan hampir penuh ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi"
 
 #: js/files.js:114
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Kunci privat tidak sah untuk Aplikasi Enskripsi. Silakan perbarui sandi kunci privat anda pada pengaturan pribadi untuk memulihkan akses ke berkas anda yang dienskripsi."
 
 #: js/files.js:118
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Enskripi telah dinonaktifkan tetapi berkas anda tetap dienskripsi. Silakan menuju ke pengaturan pribadi untuk deskrip berkas anda."
 
 #: js/files.js:349
 msgid ""
@@ -267,7 +277,7 @@ msgstr "Unduhan Anda sedang disiapkan. Prosesnya dapat berlangsung agak lama jik
 
 #: js/files.js:558 js/files.js:596
 msgid "Error moving file"
-msgstr ""
+msgstr "Galat saat memindahkan berkas"
 
 #: js/files.js:558 js/files.js:596
 msgid "Error"
@@ -287,12 +297,12 @@ msgstr "Dimodifikasi"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
+msgstr "Nama folder tidak sah. Menggunakan 'Shared' sudah digunakan."
 
 #: lib/app.php:101
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s tidak dapat diubah nama"
 
 #: lib/helper.php:11 templates/index.php:16
 msgid "Upload"
@@ -336,7 +346,7 @@ msgstr "Baru"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Berkas teks baru"
 
 #: templates/index.php:8
 msgid "Text file"
@@ -364,7 +374,7 @@ msgstr "Batal pengunggahan"
 
 #: templates/index.php:40
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini"
 
 #: templates/index.php:45
 msgid "Nothing in here. Upload something!"

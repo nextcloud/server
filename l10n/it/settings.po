@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-05 22:23-0500\n"
-"PO-Revision-Date: 2013-12-05 23:10+0000\n"
-"Last-Translator: polxmod <paolo.velati@gmail.com>\n"
+"POT-Creation-Date: 2013-12-24 01:55-0500\n"
+"PO-Revision-Date: 2013-12-22 22:30+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,19 +202,19 @@ msgstr "Elimina"
 msgid "add group"
 msgstr "aggiungi gruppo"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Deve essere fornito un nome utente valido"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Errore durante la creazione dell'utente"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Deve essere fornita una password valida"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Avviso: la cartella home dell'utente \"{user}\" esiste già"
 
@@ -251,7 +251,7 @@ msgstr "Avviso di sicurezza"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr "Sei connesso a %s con il protocollo HTTP. Ti suggeriamo fortemente di configurare il tuo server per richiedere l'utilizzo del protocollo HTTPS al posto di HTTP."
+msgstr "Sei connesso a %s tramite HTTP. Ti suggeriamo vivamente di configurare il tuo server per richiedere l'utilizzo del protocollo HTTPS al posto di HTTP."
 
 #: templates/admin.php:39
 msgid ""
@@ -289,14 +289,14 @@ msgstr "Il modulo PHP 'fileinfo' non è presente. Consigliamo vivamente di abili
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr "La tua versione di PHP è superata"
+msgstr "La tua versione di PHP è obsoleta"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr "La tua versione di PHP è superata. Ti raccomandiamo di aggiornare alla versione 5.3.8 o superiore poiché è risaputo che le vecchie versioni siano fallate. L'installazione attuale potrebbe non funzionare correttamente."
+msgstr "La tua versione di PHP è obsoleta. Ti consigliamo vivamente di aggiornare alla versione 5.3.8 o successiva poiché è sono noti problemi con le vecchie versioni. L'installazione attuale potrebbe non funzionare correttamente."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -572,7 +572,7 @@ msgstr "Sia png che jpg. Preferibilmente quadrata, ma potrai ritagliarla."
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr "Il tuo avatar è ottenuto da tuo account originale."
+msgstr "Il tuo avatar è ottenuto dal tuo account originale."
 
 #: templates/personal.php:101
 msgid "Abort"

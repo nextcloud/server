@@ -292,9 +292,8 @@ class OC_Template extends \OC\Template\Base {
 			if (!empty($hint)) {
 				$hint = '<pre>'.$hint.'</pre>';
 			}
-			$l = OC_L10N::get('lib');
 			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
-				$error_msg .= '<br/>'.$l->t('Caused by:').' ';
+				$error_msg .= '<br/>Caused by:' . ' ';
 				if ($exception->getCode()) {
 					$error_msg .= '['.$exception->getCode().'] ';
 				}

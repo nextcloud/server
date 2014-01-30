@@ -44,6 +44,7 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$shareType = OCP\Share::SHARE_TYPE_USER;
 				$shareWith = $row['uid_shared_with'];
 			}
+			OCP\JSON::checkUserExists($row['uid_owner']);
 			OC_User::setUserId($row['uid_owner']);
 			//we need to setup the filesystem for the user, otherwise OC_FileSystem::getRoot will fail and break
 			OC_Util::setupFS($row['uid_owner']);

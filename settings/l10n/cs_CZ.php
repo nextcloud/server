@@ -61,6 +61,8 @@ $TRANSLATIONS = array(
 "Please double check the <a href=\"%s\">installation guides</a>." => "Zkontrolujte prosím znovu <a href=\"%s\">instalační příručku</a>.",
 "Module 'fileinfo' missing" => "Schází modul 'fileinfo'",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Schází PHP modul 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME.",
+"Your PHP version is outdated" => "Tato verze PHP je zastaralá.",
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Tato verze PHP je zastaralá. Důrazně doporučujeme aktualizovat na verzi 5.3.8 nebo novější, protože starší verze jsou chybné. Je možné, že tato instalace nebude fungovat správně.",
 "Locale not working" => "Lokalizace nefunguje",
 "System locale can not be set to a one which supports UTF-8." => "Není možné nastavit znakovou sadu, která podporuje UTF-8.",
 "This means that there might be problems with certain characters in file names." => "To znamená, že se mohou vyskytnout problémy s určitými znaky v názvech souborů.",

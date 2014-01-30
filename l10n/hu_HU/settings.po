@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-12-17 06:45-0500\n"
+"PO-Revision-Date: 2013-12-15 16:40+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,19 +202,19 @@ msgstr "Törlés"
 msgid "add group"
 msgstr "csoport hozzáadása"
 
-#: js/users.js:451
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Érvényes felhasználónevet kell megadnia"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "A felhasználó nem hozható létre"
 
-#: js/users.js:457
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Érvényes jelszót kell megadnia"
 
-#: js/users.js:481
+#: js/users.js:484
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Figyelmeztetés: A felhasználó \"{user}\" kezdő könyvtára  már létezett"
 
@@ -251,7 +251,7 @@ msgstr "Biztonsági figyelmeztetés"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Jelenlegi elérése a következőnek '%s' jelenleg HTTP-n keresztül történik. Nagyon ajánlott, hogy a kiszolgálot úgy állitsd be, hogy HTTPS-t tudjál használni."
 
 #: templates/admin.php:39
 msgid ""
@@ -289,14 +289,14 @@ msgstr "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak a te
 
 #: templates/admin.php:79
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "A PHP verzió túl régi"
 
 #: templates/admin.php:82
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "A PHP verzió túl régi. Nagyon ajánlott legalább az 5.3.8-as vagy újabb verzióra frissíteni, mert a régebbi verziónál léteznek ismert hibák. Ezért lehet a telepítésed elkézelhető, hogy nem müködik majd megfelelően."
 
 #: templates/admin.php:93
 msgid "Locale not working"
@@ -304,20 +304,20 @@ msgstr "A nyelvi lokalizáció nem működik"
 
 #: templates/admin.php:98
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "A rendszer lokálok nem lehetett olyat beállítani ami támogatja az UTF-8-at."
 
 #: templates/admin.php:102
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Ez arra utal, hogy probléma lehet néhány karakterrel a file neveiben."
 
 #: templates/admin.php:106
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Erősen ajánlott telepíteni a szükséges csomagokat a rendszeredbe amely támogat egyet a következő helyi beállítások közül: %s"
 
 #: templates/admin.php:118
 msgid "Internet connection not working"
@@ -572,7 +572,7 @@ msgstr "Egyaránt png vagy jpg. Az ideális ha négyzet alaku, de késöbb még 
 
 #: templates/personal.php:97
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Az avatarod az eredeti fiókod alapján van beállítva."
 
 #: templates/personal.php:101
 msgid "Abort"
@@ -607,7 +607,7 @@ msgstr "Titkosítás"
 
 #: templates/personal.php:152
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "A titkosító alkalmazás továbbiakban nem lesz engedélyezve, szüntesd meg a titkosítását a file-jaidnak."
 
 #: templates/personal.php:158
 msgid "Log-in password"

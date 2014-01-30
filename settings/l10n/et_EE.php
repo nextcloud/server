@@ -61,6 +61,8 @@ $TRANSLATIONS = array(
 "Please double check the <a href=\"%s\">installation guides</a>." => "Palun kontrolli uuesti <a href=\"%s\">paigaldusjuhendeid</a>.",
 "Module 'fileinfo' missing" => "Moodul 'fileinfo' puudub",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks parimaid tulemusi failitüüpide tuvastamisel.",
+"Your PHP version is outdated" => "PHP versioon on aegunud",
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Sinu PHP versioon on aegunud. Soovitame tungivalt uuenda versioonile 5.3.8 või uuemale, kuna varasemad versioonid on teadaolevalt vigased. On võimalik, et see käesolev paigaldus ei toimi korrektselt.",
 "Locale not working" => "Lokalisatsioon ei toimi",
 "System locale can not be set to a one which supports UTF-8." => "Süsteemi lokaliseeringuks ei saa panna sellist, mis toetab UTF-8-t.",
 "This means that there might be problems with certain characters in file names." => "See tähendab, et võib esineda probleeme failide nimedes mõnede sümbolitega.",
