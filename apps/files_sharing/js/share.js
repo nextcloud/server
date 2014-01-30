@@ -10,7 +10,7 @@ $(document).ready(function() {
 			allShared.addClass('permanent');
 			allShared.find('span').text(function(){
 				$owner = $(this).closest('tr').attr('data-share-owner');
-				return ' ' + t('files_sharing', 'shared by {owner}', {owner: $owner});
+				return ' ' + t('files_sharing', 'Shared by {owner}', {owner: $owner});
 			});
 
 			if (!sharesLoaded){
@@ -26,9 +26,9 @@ $(document).ready(function() {
 
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
 			var dir = $('#dir').val();
-			var item = $dir + '/' + filename;
-			if ($dir == '/') {
-				item = $dir + filename;
+			var item = dir + '/' + filename;
+			if (dir == '/') {
+				item = dir + filename;
 			}
 			var tr = FileList.findFileEl(filename);
 			var itemType = 'file';
