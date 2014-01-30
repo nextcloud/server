@@ -25,16 +25,15 @@ $(document).ready(function() {
 		});
 
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
-			if ($('#dir').val() == '/') {
-				var item = $('#dir').val() + filename;
-			} else {
-				var item = $('#dir').val() + '/' + filename;
+			var dir = $('#dir').val();
+			var item = $dir + '/' + filename;
+			if ($dir == '/') {
+				item = $dir + filename;
 			}
 			var tr = FileList.findFileEl(filename);
+			var itemType = 'file';
 			if ($(tr).data('type') == 'dir') {
-				var itemType = 'folder';
-			} else {
-				var itemType = 'file';
+				itemType = 'folder';
 			}
 			var possiblePermissions = $(tr).data('permissions');
 			var appendTo = $(tr).find('td.filename');
