@@ -73,6 +73,7 @@ describe('Files tests', function() {
 				var threwException = false;
 				try {
 					Files.isFileNameValid(fileNames[i]);
+					console.error('Invalid file name not detected:', fileNames[i]);
 				}
 				catch (e) {
 					threwException = true;

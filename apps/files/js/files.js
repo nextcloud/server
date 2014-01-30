@@ -79,17 +79,25 @@ var Files = {
 		return fileName;
 	},
 
-	isFileNameValid:function (name) {
-		if (name === '.') {
-			throw t('files', '\'.\' is an invalid file name.');
-		} else if (name.length === 0) {
+	/**
+	 * Checks whether the given file name is valid.
+	 * @param name file name to check
+	 * @return true if the file name is valid.
+	 * Throws a string exception with an error message if
+	 * the file name is not valid
+	 */
+	isFileNameValid: function (name) {
+		var trimmedName = name.trim();
+		if (trimmedName === '.' || trimmedName === '..') {
+			throw t('files', '"{name}" is an invalid file name.', {name: name});
+		} else if (trimmedName.length === 0) {
 			throw t('files', 'File name cannot be empty.');
 		}
-
 		// check for invalid characters
-		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		var invalid_characters =
+			['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
 		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) !== -1) {
+			if (trimmedName.indexOf(invalid_characters[i]) !== -1) {
 				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
 			}
 		}
