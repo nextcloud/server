@@ -267,6 +267,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	right: 0;
 	padding: 28px 14px 19px !important;
 }
+
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
@@ -295,6 +296,10 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	filter: alpha(opacity=0);
 	opacity: 0;
 	display:none;
+}
+
+#fileList a.action[data-action="Rename"] {
+	padding:18px 14px !important;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
