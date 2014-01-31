@@ -63,8 +63,8 @@ class OC_App{
 		ob_start();
 		foreach( $apps as $app ) {
 			if((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::loadApp($app);
 				self::$loadedApps[] = $app;
+				self::loadApp($app);
 			}
 		}
 		ob_end_clean();
