@@ -424,4 +424,12 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function getETag($path) {
 		return $this->storage->getETag($path);
 	}
+
+	/**
+	 * Returns true
+	 * @return true
+	 */
+	public function test() {
+		return $this->storage->test();
+	}
 }

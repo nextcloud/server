@@ -20,7 +20,13 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * AppFramework/App class
+ */
+
 namespace OCP\AppFramework;
+use OC\AppFramework\routing\RouteConfig;
 
 
 /**
@@ -31,8 +37,11 @@ namespace OCP\AppFramework;
  * to be registered using IContainer::registerService
  */
 class App {
-	public function __construct($appName) {
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName);
+	/**
+	 * @param array $urlParams an array with variables extracted from the routes
+	 */
+	public function __construct($appName, $urlParams = array()) {
+		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
 	}
 
 	private $container;
@@ -45,13 +54,35 @@ class App {
 	}
 
 	/**
+	 * This function is to be called to create single routes and restful routes based on the given $routes array.
+	 *
+	 * Example code in routes.php of tasks app (it will register two restful resources):
+	 * $routes = array(
+	 *		'resources' => array(
+	 *		'lists' => array('url' => '/tasklists'),
+	 *		'tasks' => array('url' => '/tasklists/{listId}/tasks')
+	 *	)
+	 *	);
+	 *
+	 * $a = new TasksApp();
+	 * $a->registerRoutes($this, $routes);
+	 *
+	 * @param \OC_Router $router
+	 * @param array $routes
+	 */
+	public function registerRoutes($router, $routes) {
+		$routeConfig = new RouteConfig($this->container, $router, $routes);
+		$routeConfig->register();
+	}
+
+	/**
 	 * This function is called by the routing component to fire up the frameworks dispatch mechanism.
 	 *
 	 * Example code in routes.php of the task app:
 	 * $this->create('tasks_index', '/')->get()->action(
 	 *		function($params){
-	 *			$app = new TaskApp();
-	 *			$app->dispatch('PageController', 'index', $params);
+	 *			$app = new TaskApp($params);
+	 *			$app->dispatch('PageController', 'index');
 	 *		}
 	 *	);
 	 *
@@ -59,8 +90,8 @@ class App {
 	 * Example for for TaskApp implementation:
 	 * class TaskApp extends \OCP\AppFramework\App {
 	 *
-	 *		public function __construct(){
-	 *			parent::__construct('tasks');
+	 *		public function __construct($params){
+	 *			parent::__construct('tasks', $params);
 	 *
 	 *			$this->getContainer()->registerService('PageController', function(IAppContainer $c){
 	 *				$a = $c->query('API');
@@ -73,9 +104,8 @@ class App {
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
-	 * @param array $urlParams an array with variables extracted from the routes
 	 */
-	public function dispatch($controllerName, $methodName, array $urlParams) {
-		\OC\AppFramework\App::main($controllerName, $methodName, $urlParams, $this->container);
+	public function dispatch($controllerName, $methodName) {
+		\OC\AppFramework\App::main($controllerName, $methodName, $this->container);
 	}
 }

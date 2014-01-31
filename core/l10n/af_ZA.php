@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
 "You will receive a link to reset your password via Email." => "Jy sal `n skakel via e-pos ontvang om jou wagwoord te herstel.",
 "Username" => "Gebruikersnaam",
-"Request reset" => "Herstel-versoek",
 "Your password was reset" => "Jou wagwoord is herstel",
 "To login page" => "Na aanteken-bladsy",
 "New password" => "Nuwe wagwoord",

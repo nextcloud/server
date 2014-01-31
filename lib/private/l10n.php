@@ -25,12 +25,7 @@
 /**
  * This class is for i18n and l10n
  */
-class OC_L10N {
-	/**
-	 * cached instances
-	 */
-	protected static $instances=array();
-
+class OC_L10N implements \OCP\IL10N {
 	/**
 	 * cache
 	 */
@@ -83,13 +78,10 @@ class OC_L10N {
 	 * @return OC_L10N
 	 */
 	public static function get($app, $lang=null) {
-		if(is_null($lang)) {
-			if(!isset(self::$instances[$app])) {
-				self::$instances[$app]=new OC_L10N($app);
-			}
-			return self::$instances[$app];
-		}else{
-			return new OC_L10N($app, $lang);
+		if (is_null($lang)) {
+			return OC::$server->getL10N($app);
+		} else {
+			return new \OC_L10N($app, $lang);
 		}
 	}
 
@@ -270,7 +262,7 @@ class OC_L10N {
 	 */
 	public function n($text_singular, $text_plural, $count, $parameters = array()) {
 		$this->init();
-		$identifier = "_${text_singular}__${text_plural}_";
+		$identifier = "_${text_singular}_::_${text_plural}_";
 		if( array_key_exists($identifier, $this->translations)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
 		}
@@ -427,7 +419,7 @@ class OC_L10N {
 	/**
 	 * @brief find the best language
 	 * @param $app Array or string, details below
-	 * @returns language
+	 * @returns string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
@@ -446,8 +438,7 @@ class OC_L10N {
 			if(is_array($app)) {
 				$available = $app;
 				$lang_exists = array_search($lang, $available) !== false;
-			}
-			else {
+			} else {
 				$lang_exists = self::languageExists($app, $lang);
 			}
 			if($lang_exists) {
@@ -455,35 +446,40 @@ class OC_L10N {
 			}
 		}
 
-    $default_language = OC_Config::getValue('default_language', false);
+		$default_language = OC_Config::getValue('default_language', false);
 
-    if($default_language !== false) {
-      return $default_language;
-    }
+		if($default_language !== false) {
+			return $default_language;
+		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
-			}
-			else{
+			} else {
 				$available = self::findAvailableLanguages($app);
 			}
-			foreach($accepted_languages as $i) {
-				$temp = explode(';', $i);
-				$temp[0] = str_replace('-', '_', $temp[0]);
-				if( ($key = array_search($temp[0], $available)) !== false) {
-					if (is_null($app)) {
-						self::$language = $available[$key];
-					}
-					return $available[$key];
-				}
-				foreach($available as $l) {
-					if ( $temp[0] == substr($l, 0, 2) ) {
+
+			// E.g. make sure that 'de' is before 'de_DE'.
+			sort($available);
+
+			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+			foreach($preferences as $preference) {
+				list($preferred_language) = explode(';', $preference);
+				$preferred_language = str_replace('-', '_', $preferred_language);
+				foreach($available as $available_language) {
+					if ($preferred_language === strtolower($available_language)) {
 						if (is_null($app)) {
-							self::$language = $l;
+							self::$language = $available_language;
 						}
-						return $l;
+						return $available_language;
+					}
+				}
+				foreach($available as $available_language) {
+					if (substr($preferred_language, 0, 2) === $available_language) {
+						if (is_null($app)) {
+							self::$language = $available_language;
+						}
+						return $available_language;
 					}
 				}
 			}

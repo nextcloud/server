@@ -5,16 +5,18 @@
 # Translators:
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013
+# etiess <etiess@gmail.com>, 2013
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
+# RyDroid <rydroid_trans@yahoo.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-27 00:01-0400\n"
-"PO-Revision-Date: 2013-09-26 15:00+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-19 01:55-0500\n"
+"PO-Revision-Date: 2013-12-18 10:30+0000\n"
 "Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,12 +35,12 @@ msgid "Authentication error"
 msgstr "Erreur d'authentification"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Votre nom d'affichage a bien été modifié."
+msgid "Your full name has been changed."
+msgstr "Votre nom complet a été modifié."
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Impossible de modifier le nom d'affichage"
+msgid "Unable to change full name"
+msgstr "Impossible de changer le nom complet"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -167,7 +169,7 @@ msgstr "Mise à jour effectuée avec succès"
 msgid "Select a profile picture"
 msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
 
@@ -187,44 +189,75 @@ msgstr "annuler"
 msgid "Unable to remove user"
 msgstr "Impossible de retirer l'utilisateur"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Groupes"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Groupe Admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/users.js:277
+#: js/users.js:284
 msgid "add group"
 msgstr "ajouter un groupe"
 
-#: js/users.js:436
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Un nom d'utilisateur valide doit être saisi"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Erreur lors de la création de l'utilisateur"
 
-#: js/users.js:442
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
+
+#: js/users.js:484
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr "Attention : Le dossier Home pour l'utilisateur \"{user}\" existe déjà"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Français"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr "Tout (erreurs fatales, erreurs, avertissements, informations, debogage)"
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr "Informations, avertissements, erreurs et erreurs fatales"
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr "Avertissements, erreurs et erreurs fatales"
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr "Erreurs et erreurs fatales"
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr "Erreurs fatales uniquement"
+
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "Avertissement de sécurité"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr "Vous accédez à %s via HTTP. Nous vous recommandons fortement de configurer votre serveur pour forcer l'utilisation de HTTPS à la place."
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -233,48 +266,68 @@ msgid ""
 "root."
 msgstr "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou bien de le déplacer à l'extérieur de la racine du serveur web."
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "Avertissement, problème de configuration"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut."
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Veuillez consulter à nouveau les <a href=\"%s\">guides d'installation</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "Module 'fileinfo' manquant"
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Le module PHP 'fileinfo' est manquant. Il est vivement recommandé de l'activer afin d'obtenir de meilleurs résultats pour la détection des types de fichiers."
 
-#: templates/admin.php:58
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr "Votre version de PHP est trop ancienne"
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr "Votre version de PHP est trop ancienne. Nous vous recommandons fortement de migrer vers une version 5.3.8 ou plus récente encore, car les versions antérieures sont réputées problématiques. Il est possible que cette installation ne fonctionne pas correctement."
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Localisation non fonctionnelle"
 
-#: templates/admin.php:63
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr "Les paramètres régionaux ne peuvent pas être configurés avec un qui supporte UTF-8."
+
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr "Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichier."
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "Le localisation du système n'a pu être configurée à %s. Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichiers. Il est fortement recommandé d'installer les paquets requis pour le support de %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr "Nous conseillons vivement d'installer les paquets requis sur votre système pour supporter l'un des paramètres régionaux suivants : %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "La connexion internet ne fonctionne pas"
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -283,110 +336,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Ce serveur ne peut se connecter à internet. Cela signifie que certaines fonctionnalités, telles que le montage de supports de stockage distants, les notifications de mises à jour ou l'installation d'applications tierces ne fonctionneront pas. L'accès aux fichiers à distance, ainsi que les notifications par mails ne seront pas fonctionnels également. Il est recommandé d'activer la connexion internet pour ce serveur si vous souhaitez disposer de l'ensemble des fonctionnalités offertes."
 
-#: templates/admin.php:92
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:99
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
 msgstr "Exécute une tâche à chaque chargement de page"
 
-#: templates/admin.php:107
+#: templates/admin.php:150
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php une fois par minute via http."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php toutes les 15 minutes via http."
 
-#: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Utilise le service cron du système pour appeler cron.php une fois par minute."
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr "Utilise le service cron du système pour appeler le fichier cron.php toutes les 15 minutes."
 
-#: templates/admin.php:120
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Partage"
 
-#: templates/admin.php:126
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Activer l'API de partage"
 
-#: templates/admin.php:127
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Autoriser les applications à utiliser l'API de partage"
 
-#: templates/admin.php:134
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Autoriser les liens"
 
-#: templates/admin.php:135
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'aide de liens"
 
-#: templates/admin.php:143
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "Autoriser les téléversements publics"
 
-#: templates/admin.php:144
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Permet d'autoriser les autres utilisateurs à téléverser dans le dossier partagé public de l'utilisateur"
 
-#: templates/admin.php:152
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Autoriser le repartage"
 
-#: templates/admin.php:153
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Autoriser les utilisateurs à partager des éléments qui ont été partagés avec eux"
 
-#: templates/admin.php:160
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Autoriser les utilisateurs à partager avec tout le monde"
 
-#: templates/admin.php:163
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement"
 
-#: templates/admin.php:170
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr "Autoriser les notifications par couriel"
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr "Autoriser l'utilisateur à envoyer une notification par couriel concernant les fichiers partagés"
+
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Sécurité"
 
-#: templates/admin.php:183
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "Forcer HTTPS"
 
-#: templates/admin.php:185
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forcer les clients à se connecter à %s via une connexion chiffrée."
 
-#: templates/admin.php:191
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou désactiver SSL."
 
-#: templates/admin.php:203
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:204
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Niveau de log"
 
-#: templates/admin.php:235
+#: templates/admin.php:287
 msgid "More"
 msgstr "Plus"
 
-#: templates/admin.php:236
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -478,8 +539,8 @@ msgid "Change password"
 msgstr "Changer de mot de passe"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Nom affiché"
+msgid "Full Name"
+msgstr "Nom complet"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -497,62 +558,66 @@ msgstr "Entrez votre adresse e-mail pour permettre la réinitialisation du mot d
 msgid "Profile picture"
 msgstr "Photo de profil"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
 msgstr "Télécharger nouveau"
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr "Sélectionner un nouveau depuis les documents"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr "Supprimer l'image"
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Soit png ou jpg. idéalement carée mais vous pourrez la recadrer ."
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr "Votre avatar est fourni par votre compte original."
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr "Abandonner"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
 msgstr "Choisir en temps que photo de profil "
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "Langue"
 
-#: templates/personal.php:119
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "Aidez à traduire"
 
-#: templates/personal.php:125
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Utilisez cette adresse pour <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">accéder à vos fichiers via WebDAV</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Utiliser cette adresse pour <a href=\"%s\" target=\"_blank\"> accéder à vos fichiers par WebDAV</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: templates/personal.php:140
-msgid "The encryption app is no longer enabled, decrypt all your file"
-msgstr "L'application de chiffrement n'est plus activée, déchiffrez tous vos fichiers"
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
+msgstr "L'app de chiffrement n’est plus activée, veuillez déchiffrer tous vos fichiers"
 
-#: templates/personal.php:146
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr "Mot de passe de connexion"
 
-#: templates/personal.php:151
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr "Déchiffrer tous les fichiers"
 
@@ -578,6 +643,10 @@ msgstr "Entrer le mot de passe de récupération dans le but de récupérer les 
 msgid "Default Storage"
 msgstr "Support de stockage par défaut"
 
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr "Veuillez entrer le quota de stockage (ex. \"512 MB\" ou \"12 GB\")"
+
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
 msgstr "Illimité"
@@ -595,8 +664,8 @@ msgid "Storage"
 msgstr "Support de stockage"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "Changer le nom affiché"
+msgid "change full name"
+msgstr "Modifier le nom complet"
 
 #: templates/users.php:112
 msgid "set new password"

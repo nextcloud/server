@@ -203,14 +203,6 @@ if (\OC_Util::runningOnWindows()) {
 			return $return;
 		}
 
-		public function getMimeType($path) {
-			if ($this->isReadable($path)) {
-				return \OC_Helper::getMimeType($this->datadir . $path);
-			} else {
-				return false;
-			}
-		}
-
 		private function delTree($dir) {
 			$dirRelative = $dir;
 			$dir = $this->datadir . $dir;
@@ -264,7 +256,7 @@ if (\OC_Util::runningOnWindows()) {
 
 		public function free_space($path) {
 			$space = @disk_free_space($this->datadir . $path);
-			if ($space === false) {
+			if ($space === false || is_null($space)) {
 				return \OC\Files\SPACE_UNKNOWN;
 			}
 			return $space;

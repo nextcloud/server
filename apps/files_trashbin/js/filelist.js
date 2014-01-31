@@ -22,3 +22,10 @@ FileList.reload = function(){
 FileList.linkTo = function(dir){
 	return OC.linkTo('files_trashbin', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 }
+
+FileList.updateEmptyContent = function(){
+	var $fileList = $('#fileList');
+	var exists = $fileList.find('tr:first').exists();
+	$('#emptycontent').toggleClass('hidden', exists);
+	$('#filestable th').toggleClass('hidden', !exists);
+}

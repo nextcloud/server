@@ -88,9 +88,67 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		OC_Config::deleteKey('mail_domain');
 	}
 
+	function testGetConfiguredEmailAddressFromConfig() {
+		OC_Config::setValue('mail_domain', 'example.com');
+		OC_Config::setValue('mail_from_address', 'owncloud');
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('owncloud@example.com', $email);
+		OC_Config::deleteKey('mail_domain');
+		OC_Config::deleteKey('mail_from_address');
+	}
+
 	function testGetInstanceIdGeneratesValidId() {
 		OC_Config::deleteKey('instanceid');
 		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+	}
+
+	/**
+	 * Tests that the home storage is not wrapped when no quota exists.
+	 */
+	function testHomeStorageWrapperWithoutQuota() {
+		$user1 = uniqid();
+		\OC_User::createUser($user1, 'test');
+		OC_Preferences::setValue($user1, 'files', 'quota', 'none');
+		\OC_User::setUserId($user1);
+
+		\OC_Util::setupFS($user1);
+
+		$userMount = \OC\Files\Filesystem::getMountManager()->find('/' . $user1 . '/');
+		$this->assertNotNull($userMount);
+		$this->assertNotInstanceOf('\OC\Files\Storage\Wrapper\Quota', $userMount->getStorage());
+
+		// clean up
+		\OC_User::setUserId('');
+		\OC_User::deleteUser($user1);
+		OC_Preferences::deleteUser($user1);
+		\OC_Util::tearDownFS();
+	}
+
+	/**
+	 * Tests that the home storage is not wrapped when no quota exists.
+	 */
+	function testHomeStorageWrapperWithQuota() {
+		$user1 = uniqid();
+		\OC_User::createUser($user1, 'test');
+		OC_Preferences::setValue($user1, 'files', 'quota', '1024');
+		\OC_User::setUserId($user1);
+
+		\OC_Util::setupFS($user1);
+
+		$userMount = \OC\Files\Filesystem::getMountManager()->find('/' . $user1 . '/');
+		$this->assertNotNull($userMount);
+		$this->assertInstanceOf('\OC\Files\Storage\Wrapper\Quota', $userMount->getStorage());
+
+		// ensure that root wasn't wrapped
+		$rootMount = \OC\Files\Filesystem::getMountManager()->find('/');
+		$this->assertNotNull($rootMount);
+		$this->assertNotInstanceOf('\OC\Files\Storage\Wrapper\Quota', $rootMount->getStorage());
+
+		// clean up
+		\OC_User::setUserId('');
+		\OC_User::deleteUser($user1);
+		OC_Preferences::deleteUser($user1);
+		\OC_Util::tearDownFS();
 	}
 
 	/**

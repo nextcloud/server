@@ -143,7 +143,9 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = $this->randomKey;
 
-		$file = 'unittest-' . time() . '.txt';
+		$file = 'unittest-' . uniqid() . '.txt';
+
+		$util = new Encryption\Util($this->view, $this->userId);
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -151,7 +153,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		Encryption\Keymanager::setFileKey($this->view, $file, $this->userId, $key);
+		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
 
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
 
@@ -191,27 +193,10 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
-	function testFixPartialFilePath() {
-
-		$partFilename = 'testfile.txt.part';
-		$filename = 'testfile.txt';
-
-		$this->assertTrue(Encryption\Keymanager::isPartialFilePath($partFilename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($partFilename));
-
-		$this->assertFalse(Encryption\Keymanager::isPartialFilePath($filename));
-
-		$this->assertEquals('testfile.txt', Encryption\Keymanager::fixPartialFilePath($filename));
-	}
-
-	/**
-	 * @medium
-	 */
 	function testRecursiveDelShareKeys() {
 
 		// generate filename
-		$filename = '/tmp-' . time() . '.txt';
+		$filename = '/tmp-' . uniqid() . '.txt';
 
 		// create folder structure
 		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');

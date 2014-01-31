@@ -10,13 +10,6 @@
 namespace OC\DB;
 
 class AdapterSQLSrv extends Adapter {
-	public function lastInsertId($table) {
-		if($table !== null) {
-			$table = $this->conn->replaceTablePrefix( $table );
-		}
-		return $this->conn->lastInsertId($table);
-	}
-
 	public function fixupStatement($statement) {
 		$statement = preg_replace( "/\`(.*?)`/", "[$1]", $statement );
 		$statement = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $statement );

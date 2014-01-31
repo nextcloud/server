@@ -7,6 +7,15 @@ input#openid, input#webdav { width:20em; }
 
 
 /* PERSONAL */
+#rootcert_import {
+	margin: 0 0 10px 0;
+	display: block;
+}
+
+.personalblock input[type="checkbox"] {
+	position: relative;
+	top: 2px;
+}
 
 /* Sync clients */
 .clientsbox { margin:12px; }
@@ -25,16 +34,24 @@ input#identity { width:20em; }
 	width: 350px;
 }
 
-.msg.success{ color:#fff; background-color:#0f0; padding:3px; text-shadow:1px 1px #000; }
-.msg.error{ color:#fff; background-color:#f00; padding:3px; text-shadow:1px 1px #000; }
+.msg.success {
+	color: #fff;
+	background-color: #47a447;
+	padding: 3px;
+}
+.msg.error {
+	color: #fff;
+	background-color: #d2322d;
+	padding: 3px;
+}
 
 table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 form { display:inline; }
-table:not(.nostyle) th { height:2em; color:#999; }
-table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
+table.grid th { height:2em; color:#999; }
+table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
@@ -45,20 +62,37 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
-table:not(.nostyle) { width:100%; }
-#rightcontent { padding-left: 1em; }
-div.quota { float:right; display:block; position:absolute; right:25em; top:-1px; }
+table.grid { width:100%; }
+#rightcontent { padding-left: 10px; }
+div.quota {
+	float: right;
+	display: block;
+}
 div.quota-select-wrapper { position: relative; }
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}
-select.quota { position:absolute; left:0; top:0; width:10em; }
+#controls select.quota {
+	margin: 3px;
+	margin-right: 10px;
+	height: 37px;
+}
 select.quota-user { position:relative; left:0; top:0; width:10em; }
-div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
+div.quota>span {
+	white-space: nowrap;
+	color: #888;
+	text-shadow: 0 1px 0 #fff;
+}
 select.quota.active { background: #fff; }
 
 /* positioning fixes */
-#newuser { position:relative; top:-3px; }
-#newuser .multiselect { top:1px; }
+#newuser .multiselect {
+	min-width: 150px !important;
+}
+#newuser .multiselect,
+#newusergroups + input[type='submit'] {
+	position: relative;
+	top: 1px;
+}
 #headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
 
 .ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
@@ -97,9 +131,18 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 .appslink { text-decoration: underline; }
 .score { color:#666; font-weight:bold; font-size:0.8em; }
 
+.appinfo .documentation {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+
 /* LOG */
 #log { white-space:normal; }
 #lessLog { display:none; }
+table.grid td.date{
+	white-space: nowrap;
+}
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
@@ -110,3 +153,16 @@ table.shareAPI td { padding-bottom: 0.8em; }
 /* HELP */
 .pressed {background-color:#DDD;}
 
+/* PASSWORD */
+.strengthify-wrapper {
+	position: absolute;
+	left: 189px;
+	width: 131px;
+	margin-top: -7px;
+}
+
+/* OPERA hack for strengthify*/
+doesnotexist:-o-prefocus, .strengthify-wrapper {
+	left: 185px;
+	width: 129px;
+}

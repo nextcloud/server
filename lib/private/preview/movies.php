@@ -8,40 +8,83 @@
  */
 namespace OC\Preview;
 
-$isShellExecEnabled = !in_array('shell_exec', explode(', ', ini_get('disable_functions')));
-$whichAVCONV = shell_exec('which avconv');
-$isAVCONVAvailable = !empty($whichAVCONV);
+function findBinaryPath($program) {
+	exec('which ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	if ($returnCode === 0 && count($output) > 0) {
+		return escapeshellcmd($output[0]);
+	}
+	return null;
+}
 
-if($isShellExecEnabled && $isAVCONVAvailable) {
+// movie preview is currently not supported on Windows
+if (!\OC_Util::runningOnWindows()) {
+	$isExecEnabled = \OC_Helper::is_function_enabled('exec');
+	$ffmpegBinary = null;
+	$avconvBinary = null;
 
-	class Movie extends Provider {
-
-		public function getMimeType() {
-			return '/video\/.*/';
-		}
-
-		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			$absPath = \OC_Helper::tmpFile();
-			$tmpPath = \OC_Helper::tmpFile();
-
-			$handle = $fileview->fopen($path, 'rb');
-
-			$firstmb = stream_get_contents($handle, 1048576); //1024 * 1024 = 1048576
-			file_put_contents($absPath, $firstmb);
-
-			//$cmd = 'ffmpeg -y  -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmpPath;
-			$cmd = 'avconv -an -y -ss 1 -i ' . escapeshellarg($absPath) . ' -f mjpeg -vframes 1 ' . escapeshellarg($tmpPath);
-			
-			shell_exec($cmd);
-
-			$image = new \OC_Image($tmpPath);
-
-			unlink($absPath);
-			unlink($tmpPath);
-
-			return $image->valid() ? $image : false;
+	if ($isExecEnabled) {
+		$avconvBinary = findBinaryPath('avconv');
+		if (!$avconvBinary) {
+			$ffmpegBinary = findBinaryPath('ffmpeg');
 		}
 	}
 
-	\OC\Preview::registerProvider('OC\Preview\Movie');
+	if($isExecEnabled && ( $avconvBinary || $ffmpegBinary )) {
+
+		class Movie extends Provider {
+			public static $avconvBinary;
+			public static $ffmpegBinary;
+
+			public function getMimeType() {
+				return '/video\/.*/';
+			}
+
+			public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+				// TODO: use proc_open() and stream the source file ?
+				$absPath = \OC_Helper::tmpFile();
+				$tmpPath = \OC_Helper::tmpFile();
+
+				$handle = $fileview->fopen($path, 'rb');
+
+				// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
+				// in some cases 1MB was no enough to generate thumbnail
+				$firstmb = stream_get_contents($handle, 5242880);
+				file_put_contents($absPath, $firstmb);
+
+				if (self::$avconvBinary) {
+					$cmd = self::$avconvBinary . ' -an -y -ss 5'.
+						' -i ' . escapeshellarg($absPath) .
+						' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
+						' > /dev/null 2>&1';
+				}
+				else {
+					$cmd = self::$ffmpegBinary . ' -y -ss 5' .
+						' -i ' . escapeshellarg($absPath) .
+						' -f mjpeg -vframes 1' .
+						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
+						' ' . escapeshellarg($tmpPath) .
+						' > /dev/null 2>&1';
+				}
+
+				exec($cmd, $output, $returnCode);
+
+				unlink($absPath);
+
+				if ($returnCode === 0) {
+					$image = new \OC_Image();
+					$image->loadFromFile($tmpPath);
+					unlink($tmpPath);
+					return $image->valid() ? $image : false;
+				}
+				return false;
+			}
+		}
+
+		// a bit hacky but didn't want to use subclasses
+		Movie::$avconvBinary = $avconvBinary;
+		Movie::$ffmpegBinary = $ffmpegBinary;
+
+		\OC\Preview::registerProvider('OC\Preview\Movie');
+	}
 }
+

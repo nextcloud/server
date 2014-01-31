@@ -43,6 +43,14 @@
             "File": "phpseclib/",
             "Math": "phpseclib/",
             "Net": "phpseclib/"
+        },
+        "files": [
+            "phpseclib/Crypt/Random.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.3-dev"
         }
     }
 }

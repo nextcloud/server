@@ -41,13 +41,7 @@ class Trashbin {
 		return array($uid, $filename);
 	}
 
-	/**
-	 * move file to the trash bin
-	 *
-	 * @param $file_path path to the deleted file/directory relative to the files root directory
-	 */
-	public static function move2trash($file_path) {
-		$user = \OCP\User::getUser();
+	private static function setUpTrash($user) {
 		$view = new \OC\Files\View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
@@ -64,6 +58,48 @@ class Trashbin {
 		if (!$view->is_dir('files_trashbin/share-keys')) {
 			$view->mkdir('files_trashbin/share-keys');
 		}
+	}
+
+
+	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp, $type, $mime) {
+		self::setUpTrash($owner);
+
+		$ownerFilename = basename($ownerPath);
+		$ownerLocation = dirname($ownerPath);
+
+		$sourceFilename = basename($sourcePath);
+
+		$view = new \OC\Files\View('/');
+
+		$source = \OCP\User::getUser().'/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
+		$target = $owner.'/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp;
+		self::copy_recursive($source, $target, $view);
+
+
+		if ($view->file_exists($target)) {
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
+			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $type, $mime, $owner));
+			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
+				$view->deleteAll($owner.'/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp);
+				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
+				return;
+			}
+		}
+	}
+
+
+	/**
+	 * move file to the trash bin
+	 *
+	 * @param $file_path path to the deleted file/directory relative to the files root directory
+	 */
+	public static function move2trash($file_path) {
+		$user = \OCP\User::getUser();
+		$size = 0;
+		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+		self::setUpTrash($user);
+
+		$view = new \OC\Files\View('/' . $user);
 		$path_parts = pathinfo($file_path);
 
 		$filename = $path_parts['basename'];
@@ -77,19 +113,20 @@ class Trashbin {
 			$type = 'file';
 		}
 
-		$trashbinSize = self::getTrashbinSize($user);
-		if ($trashbinSize === false || $trashbinSize < 0) {
-			$trashbinSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
+		$userTrashSize = self::getTrashbinSize($user);
+		if ($userTrashSize === false || $userTrashSize < 0) {
+			$userTrashSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
 		}
 
 		// disable proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
-		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/' . $filename . '.d' . $timestamp, $view);
+		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+		$sizeOfAddedFiles = self::copy_recursive('/files/'.$file_path, $trashPath, $view);
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		if ($view->file_exists('files_trashbin/files/' . $filename . '.d' . $timestamp)) {
-			$trashbinSize += $sizeOfAddedFiles;
+			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $type, $mime, $user));
 			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
@@ -100,15 +137,31 @@ class Trashbin {
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
 
-			$trashbinSize += self::retainVersions($file_path, $filename, $timestamp);
-			$trashbinSize += self::retainEncryptionKeys($file_path, $filename, $timestamp);
+			$size += self::retainVersions($file_path, $filename, $timestamp);
+			$size += self::retainEncryptionKeys($file_path, $filename, $timestamp);
+
+			// if owner !== user we need to also add a copy to the owners trash
+			if ($user !== $owner) {
+				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp, $type, $mime);
+			}
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
 
-		$trashbinSize -= self::expire($trashbinSize);
+		$userTrashSize += $size;
+		$userTrashSize -= self::expire($userTrashSize, $user);
+		self::setTrashbinSize($user, $userTrashSize);
 
-		self::setTrashbinSize($user, $trashbinSize);
+		// if owner !== user we also need to update the owners trash size
+		if($owner !== $user) {
+			$ownerTrashSize = self::getTrashbinSize($owner);
+			if ($ownerTrashSize === false || $ownerTrashSize < 0) {
+				$ownerTrashSize = self::calculateSize(new \OC\Files\View('/' . $owner . '/files_trashbin'));
+			}
+			$ownerTrashSize += $size;
+			$ownerTrashSize -= self::expire($ownerTrashSize, $owner);
+			self::setTrashbinSize($owner, $ownerTrashSize);
+		}
 	}
 
 	/**
@@ -135,10 +188,16 @@ class Trashbin {
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
+				if ($owner !== $user) {
+					self::copy_recursive($owner . '/files_versions/' . $ownerPath, $owner . '/files_trashbin/versions/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
+				}
 				$rootView->rename($owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
 			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
 				foreach ($versions as $v) {
 					$size += $rootView->filesize($owner . '/files_versions' . $v['path'] . '.v' . $v['version']);
+					if ($owner !== $user) {
+						$rootView->copy($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
+					}
 					$rootView->rename($owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $user . '/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
@@ -187,9 +246,15 @@ class Trashbin {
 				// move keyfiles
 				if ($rootView->is_dir($keyfile)) {
 					$size += self::calculateSize(new \OC\Files\View($keyfile));
+					if ($owner !== $user) {
+						self::copy_recursive($keyfile, $owner . '/files_trashbin/keyfiles/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
+					}
 					$rootView->rename($keyfile, $user . '/files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
 				} else {
 					$size += $rootView->filesize($keyfile . '.key');
+					if ($owner !== $user) {
+						$rootView->copy($keyfile . '.key', $owner . '/files_trashbin/keyfiles/' . basename($ownerPath) . '.key.d' . $timestamp);
+					}
 					$rootView->rename($keyfile . '.key', $user . '/files_trashbin/keyfiles/' . $filename . '.key.d' . $timestamp);
 				}
 			}
@@ -199,6 +264,9 @@ class Trashbin {
 
 			if ($rootView->is_dir($sharekeys)) {
 				$size += self::calculateSize(new \OC\Files\View($sharekeys));
+				if ($owner !== $user) {
+					self::copy_recursive($sharekeys, $owner . '/files_trashbin/share-keys/' . basename($ownerPath) . '.d' . $timestamp, $rootView);
+				}
 				$rootView->rename($sharekeys, $user . '/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
 			} else {
 				// get local path to share-keys
@@ -211,22 +279,23 @@ class Trashbin {
 					// get source file parts
 					$pathinfo = pathinfo($src);
 
-					// we only want to keep the owners key so we can access the private key
-					$ownerShareKey = $filename . '.' . $user . '.shareKey';
+					// we only want to keep the users key so we can access the private key
+					$userShareKey = $filename . '.' . $user . '.shareKey';
 
 					// if we found the share-key for the owner, we need to move it to files_trashbin
-					if ($pathinfo['basename'] == $ownerShareKey) {
+					if ($pathinfo['basename'] == $userShareKey) {
 
 						// calculate size
 						$size += $rootView->filesize($sharekeys . '.' . $user . '.shareKey');
 
 						// move file
-						$rootView->rename($sharekeys . '.' . $user . '.shareKey', $user . '/files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
+						$rootView->rename($sharekeys . '.' . $user . '.shareKey', $user . '/files_trashbin/share-keys/' . $userShareKey . '.d' . $timestamp);
+					} elseif ($owner !== $user) {
+						$ownerShareKey = basename($ownerPath) . '.' . $owner . '.shareKey';
+						if ($pathinfo['basename'] == $ownerShareKey) {
+							$rootView->rename($sharekeys . '.' . $owner . '.shareKey', $owner . '/files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
+						}
 					} else {
-
-						// calculate size
-						$size += filesize($src);
-
 						// don't keep other share-keys
 						unlink($src);
 					}
@@ -496,6 +565,21 @@ class Trashbin {
 	}
 
 	/**
+	 * @brief delete all files from the trash
+	 */
+	public static function deleteAll() {
+		$user = \OCP\User::getUser();
+		$view = new \OC\Files\View('/' . $user);
+		$view->deleteAll('files_trashbin');
+		self::setTrashbinSize($user, 0);
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
+		$query->execute(array($user));
+
+		return true;
+	}
+
+
+	/**
 	 * @brief delete file from trash bin permanently
 	 *
 	 * @param $filename path to the file
@@ -530,6 +614,7 @@ class Trashbin {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
 		$view->unlink('/files_trashbin/files/' . $file);
+		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => '/files_trashbin/files/' . $file));
 		$trashbinSize -= $size;
 		self::setTrashbinSize($user, $trashbinSize);
 
@@ -649,7 +734,7 @@ class Trashbin {
 		// calculate available space for trash bin
 		// subtract size of files and current trash bin size from quota
 		if ($softQuota) {
-			$rootInfo = $view->getFileInfo('/files/');
+			$rootInfo = $view->getFileInfo('/files/', false);
 			$free = $quota - $rootInfo['size']; // remaining free space for user
 			if ($free > 0) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
@@ -678,7 +763,7 @@ class Trashbin {
 		$freeSpace = self::calculateFreeSpace($size);
 
 		if ($freeSpace < 0) {
-			$newSize = $size - self::expire($size);
+			$newSize = $size - self::expire($size, $user);
 			if ($newSize !== $size) {
 				self::setTrashbinSize($user, $newSize);
 			}
@@ -687,13 +772,19 @@ class Trashbin {
 
 	/**
 	 * clean up the trash bin
-	 * @param current size of the trash bin
-	 * @return size of expired files
+	 * @param int $trashbinSize current size of the trash bin
+	 * @param string $user
+	 * @return int size of expired files
 	 */
-	private static function expire($trashbinSize) {
+	private static function expire($trashbinSize, $user) {
+
+		// let the admin disable auto expire
+		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
+		if ($autoExpire === false) {
+			return 0;
+		}
 
 		$user = \OCP\User::getUser();
-		$view = new \OC\Files\View('/' . $user);
 		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
@@ -741,23 +832,23 @@ class Trashbin {
 	 */
 	private static function copy_recursive($source, $destination, $view) {
 		$size = 0;
-		if ($view->is_dir('files' . $source)) {
+		if ($view->is_dir($source)) {
 			$view->mkdir($destination);
-			$view->touch($destination, $view->filemtime('files' . $source));
-			foreach (\OC_Files::getDirectoryContent($source) as $i) {
+			$view->touch($destination, $view->filemtime($source));
+			foreach ($view->getDirectoryContent($source) as $i) {
 				$pathDir = $source . '/' . $i['name'];
-				if ($view->is_dir('files' . $pathDir)) {
+				if ($view->is_dir($pathDir)) {
 					$size += self::copy_recursive($pathDir, $destination . '/' . $i['name'], $view);
 				} else {
-					$size += $view->filesize('files' . $pathDir);
-					$view->copy('files' . $pathDir, $destination . '/' . $i['name']);
-					$view->touch($destination . '/' . $i['name'], $view->filemtime('files' . $pathDir));
+					$size += $view->filesize($pathDir);
+					$view->copy($pathDir, $destination . '/' . $i['name']);
+					$view->touch($destination . '/' . $i['name'], $view->filemtime($pathDir));
 				}
 			}
 		} else {
-			$size += $view->filesize('files' . $source);
-			$view->copy('files' . $source, $destination);
-			$view->touch($destination, $view->filemtime('files' . $source));
+			$size += $view->filesize($source);
+			$view->copy($source, $destination);
+			$view->touch($destination, $view->filemtime($source));
 		}
 		return $size;
 	}

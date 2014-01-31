@@ -82,7 +82,7 @@
 					}
 				);
 			} catch(e) {
-				console.error(e, 'data:', data)
+				console.error(e, 'data:', data);
 			}
 		},
 		options: {

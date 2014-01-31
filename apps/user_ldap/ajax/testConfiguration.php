@@ -28,7 +28,10 @@ OCP\JSON::callCheck();
 
 $l=OC_L10N::get('user_ldap');
 
-$connection = new \OCA\user_ldap\lib\Connection('', null);
+$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+//needs to be true, otherwise it will also fail with an irritating message
+$_POST['ldap_configuration_active'] = 1;
 if($connection->setConfiguration($_POST)) {
 	//Configuration is okay
 	if($connection->bind()) {
@@ -40,5 +43,5 @@ if($connection->setConfiguration($_POST)) {
 	}
 } else {
 	OCP\JSON::error(array('message'
-		=> $l->t('The configuration is invalid. Please look in the ownCloud log for further details.')));
+		=> $l->t('The configuration is invalid. Please have a look at the logs for further details.')));
 }

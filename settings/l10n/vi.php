@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Không thể tải danh sách ứng dụng từ App Store",
 "Authentication error" => "Lỗi xác thực",
-"Unable to change display name" => "Không thể thay đổi tên hiển thị",
 "Group already exists" => "Nhóm đã tồn tại",
 "Unable to add group" => "Không thể thêm nhóm",
 "Email saved" => "Lưu email",
@@ -68,7 +67,6 @@ $TRANSLATIONS = array(
 "Current password" => "Mật khẩu cũ",
 "New password" => "Mật khẩu mới",
 "Change password" => "Đổi mật khẩu",
-"Display Name" => "Tên hiển thị",
 "Email" => "Email",
 "Your email address" => "Email của bạn",
 "Fill in an email address to enable password recovery" => "Nhập địa chỉ email của bạn để khôi phục lại mật khẩu",
@@ -83,7 +81,6 @@ $TRANSLATIONS = array(
 "Other" => "Khác",
 "Username" => "Tên đăng nhập",
 "Storage" => "Bộ nhớ",
-"change display name" => "Thay đổi tên hiển thị",
 "set new password" => "đặt mật khẩu mới",
 "Default" => "Mặc định"
 );

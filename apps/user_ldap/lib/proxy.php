@@ -23,26 +23,27 @@
 
 namespace OCA\user_ldap\lib;
 
-abstract class Proxy {
-	static private $connectors = array();
+use OCA\user_ldap\lib\Access;
 
-	public function __construct() {
+abstract class Proxy {
+	static private $accesses = array();
+	private $ldap = null;
+
+	public function __construct(ILDAPWrapper $ldap) {
+		$this->ldap = $ldap;
 		$this->cache = \OC_Cache::getGlobalCache();
 	}
 
-	private function addConnector($configPrefix) {
-		self::$connectors[$configPrefix] = new \OCA\user_ldap\lib\Connection($configPrefix);
+	private function addAccess($configPrefix) {
+		$connector = new Connection($this->ldap, $configPrefix);
+		self::$accesses[$configPrefix] = new Access($connector, $this->ldap);
 	}
 
-	protected function getConnector($configPrefix) {
-		if(!isset(self::$connectors[$configPrefix])) {
-			$this->addConnector($configPrefix);
+	protected function getAccess($configPrefix) {
+		if(!isset(self::$accesses[$configPrefix])) {
+			$this->addAccess($configPrefix);
 		}
-		return self::$connectors[$configPrefix];
-	}
-
-	protected function getConnectors() {
-		return self::$connectors;
+		return self::$accesses[$configPrefix];
 	}
 
 	protected function getUserCacheKey($uid) {
@@ -53,7 +54,7 @@ abstract class Proxy {
 		return 'group-'.$gid.'-lastSeenOn';
 	}
 
-	abstract protected function callOnLastSeenOn($id, $method, $parameters);
+	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
@@ -63,8 +64,9 @@ abstract class Proxy {
 	 * @param $parameters an array of parameters to be passed
 	 * @return mixed, the result of the specified method
 	 */
-	protected function handleRequest($id, $method, $parameters) {
-		if(!$result = $this->callOnLastSeenOn($id,  $method, $parameters)) {
+	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
+		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
+		if($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}
 		return $result;

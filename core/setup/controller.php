@@ -33,6 +33,9 @@ class Controller {
 	}
 
 	public function display($post) {
+
+		\OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
+		\OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
 		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $post);
 	}
@@ -43,14 +46,26 @@ class Controller {
 	}
 
 	public function loadAutoConfig($post) {
+		$dbIsSet = isset($post['dbtype']);
+		$directoryIsSet = isset($post['directory']);
+		$adminAccountIsSet = isset($post['adminlogin']);
+
 		$autosetup_file = \OC::$SERVERROOT.'/config/autoconfig.php';
 		if( file_exists( $autosetup_file )) {
 			\OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', \OC_Log::INFO);
 			include $autosetup_file;
-			$post['install'] = 'true';
 			$post = array_merge ($post, $AUTOCONFIG);
-			@unlink($autosetup_file);
 		}
+
+		if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
+			$post['install'] = 'true';
+			if( file_exists( $autosetup_file )) {
+				unlink($autosetup_file);
+			}
+		}
+		$post['dbIsSet'] = $dbIsSet;
+		$post['directoryIsSet'] = $directoryIsSet;
+
 		return $post;
 	}
 

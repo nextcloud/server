@@ -46,6 +46,17 @@ class Hooks {
 	}
 
 	/**
+	 * @brief mark file as "deleted" so that we can clean up the versions if the file is gone
+	 * @param array $params
+	 */
+	public static function pre_remove_hook($params) {
+		$path = $params[\OC\Files\Filesystem::signal_param_path];
+			if($path<>'') {
+				Storage::markDeletedFile($path);
+			}
+	}
+
+	/**
 	 * @brief rename/move versions of renamed/moved files
 	 * @param array with oldpath and newpath
 	 *
@@ -53,7 +64,7 @@ class Hooks {
 	 * of the stored versions along the actual file
 	 */
 	public static function rename_hook($params) {
-		
+
 		if (\OCP\App::isEnabled('files_versions')) {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
@@ -71,7 +82,7 @@ class Hooks {
 	 * to remove the used space for versions stored in the database
 	 */
 	public static function deleteUser_hook($params) {
-		
+
 		if (\OCP\App::isEnabled('files_versions')) {
 			$uid = $params['uid'];
 			Storage::deleteUser($uid);

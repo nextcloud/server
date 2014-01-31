@@ -1,69 +1,56 @@
 body {
-	background:#ddd;
+	height: auto;
 }
 
 #header {
-	background:#1d2d44;
-	box-shadow:0 0 10px rgba(0,0,0,.5), inset 0 -2px 10px #222;
-	height:2.5em;
+	background-color: #1d2d44;
+	height:32px;
 	left:0;
-	line-height:2.5em;
+	line-height:32px;
 	position:fixed;
 	right:0;
 	top:0;
 	z-index:100;
-	padding:.5em;
+	padding:7px;
+}
+
+.header-right {
+	padding: 0;
+	height: 32px;
 }
 
 #details {
 	color:#fff;
-	float: left;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+	padding-right: 5px;
 }
 
-#public_upload,
-#download {
-	font-weight:700;
-	margin: 0 0.4em 0 0;
-	padding: 0 5px;
-	height: 27px;
-	float: left;
-
-}
-
-.header-right #details {
-	margin-right: 2em;
-}
-
-#public_upload {
-	margin-left: 0.3em;
-}
-
-#public_upload img,
-#download img {
-	padding-left:.1em;
-	padding-right:.3em;
-	vertical-align:text-bottom;
+#controls {
+	left: 0;
 }
 
 #preview {
-	background:#eee;
-	border-bottom:1px solid #f8f8f8;
-	min-height:30em;
-	text-align:center;
-	margin:45px auto;
+	background: #fff;
+	text-align: center;
+	margin: 45px auto 0;
 }
 
 #noPreview {
 	display:none;
-	padding-top:5em;
+	padding-top:80px;
+}
+
+footer {
+	margin-top: 65px;
 }
 
 p.info {
-	color:#777;
-	text-align:center;
-	text-shadow:#fff 0 1px 0;
-	width:22em;
-	margin:2em auto;
+	color: #777;
+	text-align: center;
+	margin: 0 auto;
+	padding: 20px 0;
 }
 
 p.info a {
@@ -73,8 +60,8 @@ p.info a {
 
 #imgframe {
 	height:75%;
-	padding-bottom:2em;
-	padding-top:2em;
+	padding-bottom:32px;
+	padding-top:32px;
 	width:80%;
 	margin:0 auto;
 }
@@ -84,15 +71,19 @@ p.info a {
 	max-width:100%;
 }
 
-thead{
-	background-color: white;
-	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
+/* some margin for the file type icon */
+#imgframe .publicpreview {
+	margin-top: 10%;
+}
+
+thead {
+	padding-left: 0 !important; /* fixes multiselect bar offset on shared page */
 }
 
 #data-upload-form {
 	position: relative;
 	right: 0;
-	height: 27px;
+	height: 32px;
 	overflow: hidden;
 	padding: 0;
 	float: right;
@@ -100,37 +91,20 @@ thead{
 	margin: 0;
 }
 
-#file_upload_start {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-	filter: alpha(opacity=0);
-	opacity: 0;
-	z-index: 20;
-	position: absolute !important;
-	top: 0;
-	left: 0;
-	width: 100% !important;
+.directDownload,
+.directLink {
+	margin-bottom: 20px;
 }
-
-#download span {
-	position: relative;
-	bottom: 3px;
+.directDownload .button img {
+	vertical-align: text-bottom;
 }
-
-#publicUploadButtonMock {
-	position:relative;
-	display:block;
-	width:100%;
-	height:27px;
-	cursor:pointer;
-	z-index:10;
-	background-image:url('%webroot%/core/img/actions/upload.svg');
-	background-repeat:no-repeat;
-	background-position:7px 6px;
+.directLink label {
+	font-weight: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
 }
-
-#publicUploadButtonMock span {
-	margin: 0 5px 0 28px;
-	position: relative;
-	top: -2px;
-	color: #555;
+.directLink input {
+	margin-left: 5px;
+	width: 300px;
 }

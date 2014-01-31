@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Kodi është i gabuar. Provojeni përsëri.",
 "Password" => "Kodi",
-"Submit" => "Parashtro",
 "Sorry, this link doesn’t seem to work anymore." => "Ju kërkojmë ndjesë, kjo lidhje duket sikur nuk punon më.",
 "Reasons might be:" => "Arsyet mund të jenë:",
 "the item was removed" => "elementi është eliminuar",

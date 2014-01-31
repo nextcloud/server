@@ -90,3 +90,5 @@ nbproject
 /tests/coverage*
 /tests/autoconfig*
 /tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png

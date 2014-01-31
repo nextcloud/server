@@ -16,8 +16,9 @@ $totalsize = 0; ?>
 		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
 		data-size="<?php p($file['size']);?>"
+		data-etag="<?php p($file['etag']);?>"
 		data-permissions="<?php p($file['permissions']); ?>">
-		<?php if($file['isPreviewAvailable']): ?>
+		<?php if(isset($file['isPreviewAvailable']) and $file['isPreviewAvailable']): ?>
 		<td class="filename svg preview-icon"
 		<?php else: ?>
 		<td class="filename svg"
@@ -30,16 +31,15 @@ $totalsize = 0; ?>
 		<?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
 			<a class="name" href="<?php p(rtrim($_['baseURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
-		<?php else: ?>
-			<a class="name" href="<?php p(rtrim($_['downloadURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>" title="">
-		<?php endif; ?>
-			<span class="nametext">
-				<?php if($file['type'] == 'dir'):?>
+				<span class="nametext">
 					<?php print_unescaped(htmlspecialchars($file['name']));?>
-				<?php else:?>
-					<?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span>
-				<?php endif;?>
-			</span>
+				</span>
+		<?php else: ?>
+			<a class="name" href="<?php p(rtrim($_['downloadURL'],'/').'/'.trim($directory,'/').'/'.$name); ?>">
+				<label class="filetext" title="" for="select-<?php p($file['fileid']); ?>"></label>
+				<span class="nametext"><?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span></span>
+			</a>
+		<?php endif; ?>
 			<?php if($file['type'] == 'dir'):?>
 				<span class="uploadtext" currentUploads="0">
 				</span>

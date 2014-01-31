@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "فشل تحميل القائمة من الآب ستور",
 "Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
-"Unable to change display name" => "تعذر تغيير اسم الحساب",
 "Group already exists" => "المجموعة موجودة مسبقاً",
 "Unable to add group" => "فشل إضافة المجموعة",
 "Email saved" => "تم حفظ البريد الإلكتروني",
@@ -82,10 +81,10 @@ $TRANSLATIONS = array(
 "Current password" => "كلمات السر الحالية",
 "New password" => "كلمات سر جديدة",
 "Change password" => "عدل كلمة السر",
-"Display Name" => "اسم الحساب",
 "Email" => "البريد الإلكترونى",
 "Your email address" => "عنوانك البريدي",
 "Fill in an email address to enable password recovery" => "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور",
+"Abort" => "إلغاء.",
 "Language" => "اللغة",
 "Help translate" => "ساعد في الترجمه",
 "WebDAV" => "WebDAV",
@@ -97,7 +96,6 @@ $TRANSLATIONS = array(
 "Other" => "شيء آخر",
 "Username" => "إسم المستخدم",
 "Storage" => "وحدة التخزين",
-"change display name" => "تغيير اسم الحساب",
 "set new password" => "اعداد كلمة مرور جديدة",
 "Default" => "افتراضي"
 );

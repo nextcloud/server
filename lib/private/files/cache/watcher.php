@@ -15,17 +15,17 @@ class Watcher {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
-	private $storage;
+	protected $storage;
 
 	/**
 	 * @var Cache $cache
 	 */
-	private $cache;
+	protected $cache;
 
 	/**
 	 * @var Scanner $scanner;
 	 */
-	private $scanner;
+	protected $scanner;
 
 	/**
 	 * @param \OC\Files\Storage\Storage $storage
@@ -40,6 +40,7 @@ class Watcher {
 	 * check $path for updates
 	 *
 	 * @param string $path
+	 * @return boolean | array true if path was updated, otherwise the cached data is returned
 	 */
 	public function checkUpdate($path) {
 		$cachedEntry = $this->cache->get($path);
@@ -53,7 +54,9 @@ class Watcher {
 				$this->cleanFolder($path);
 			}
 			$this->cache->correctFolderSize($path);
+			return true;
 		}
+		return $cachedEntry;
 	}
 
 	/**

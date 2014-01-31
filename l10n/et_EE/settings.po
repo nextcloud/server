@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-20 10:45-0400\n"
-"PO-Revision-Date: 2013-09-20 14:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-13 14:43-0500\n"
+"PO-Revision-Date: 2013-12-13 10:10+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,12 +29,12 @@ msgid "Authentication error"
 msgstr "Autentimise viga"
 
 #: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr "Sinu näidatav nimi on muudetud."
+msgid "Your full name has been changed."
+msgstr "Sinu täispikk nimi on muudetud."
 
 #: ajax/changedisplayname.php:34
-msgid "Unable to change display name"
-msgstr "Ei saa muuta näidatavat nime"
+msgid "Unable to change full name"
+msgstr "Täispika nime muutmine ebaõnnestus"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -70,7 +70,7 @@ msgstr "Vigane päring"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Administraatorid ei saa ise end eemaldada admin grupist"
+msgstr "Administraatorid ei saa ise end admin grupist eemaldada"
 
 #: ajax/togglegroups.php:30
 #, php-format
@@ -119,11 +119,11 @@ msgstr "Ei suuda parooli muuta"
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:108
+#: js/apps.js:49 js/apps.js:82 js/apps.js:110
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:49 js/apps.js:89 js/apps.js:102 js/apps.js:117
+#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
 msgid "Enable"
 msgstr "Lülita sisse"
 
@@ -131,31 +131,31 @@ msgstr "Lülita sisse"
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:100
+#: js/apps.js:79 js/apps.js:80 js/apps.js:101
 msgid "Error while disabling app"
-msgstr "Viga rakendi keelamisel"
+msgstr "Viga rakenduse keelamisel"
 
-#: js/apps.js:99 js/apps.js:112 js/apps.js:113
+#: js/apps.js:100 js/apps.js:114 js/apps.js:115
 msgid "Error while enabling app"
-msgstr "Viga rakendi lubamisel"
+msgstr "Viga rakenduse lubamisel"
 
-#: js/apps.js:123
+#: js/apps.js:125
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:126
+#: js/apps.js:128
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:127 templates/apps.php:43
+#: js/apps.js:129 templates/apps.php:43
 msgid "Update"
 msgstr "Uuenda"
 
-#: js/apps.js:130
+#: js/apps.js:132
 msgid "Updated"
 msgstr "Uuendatud"
 
@@ -163,7 +163,7 @@ msgstr "Uuendatud"
 msgid "Select a profile picture"
 msgstr "Vali profiili pilt"
 
-#: js/personal.js:265
+#: js/personal.js:266
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 
@@ -183,44 +183,75 @@ msgstr "tagasi"
 msgid "Unable to remove user"
 msgstr "Kasutaja eemaldamine ebaõnnestus"
 
-#: js/users.js:92 templates/users.php:26 templates/users.php:90
+#: js/users.js:95 templates/users.php:26 templates/users.php:90
 #: templates/users.php:118
 msgid "Groups"
 msgstr "Grupid"
 
-#: js/users.js:97 templates/users.php:92 templates/users.php:130
+#: js/users.js:100 templates/users.php:92 templates/users.php:130
 msgid "Group Admin"
 msgstr "Grupi admin"
 
-#: js/users.js:120 templates/users.php:170
+#: js/users.js:123 templates/users.php:170
 msgid "Delete"
 msgstr "Kustuta"
 
-#: js/users.js:277
+#: js/users.js:284
 msgid "add group"
 msgstr "lisa grupp"
 
-#: js/users.js:436
+#: js/users.js:454
 msgid "A valid username must be provided"
 msgstr "Sisesta nõuetele vastav kasutajatunnus"
 
-#: js/users.js:437 js/users.js:443 js/users.js:458
+#: js/users.js:455 js/users.js:461 js/users.js:476
 msgid "Error creating user"
 msgstr "Viga kasutaja loomisel"
 
-#: js/users.js:442
+#: js/users.js:460
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
+
+#: js/users.js:484
+msgid "Warning: Home directory for user \"{user}\" already exists"
+msgstr "Hoiatus: kasutaja \"{user}\" kodukataloog on juba olemas"
 
 #: personal.php:45 personal.php:46
 msgid "__language_name__"
 msgstr "Eesti"
 
-#: templates/admin.php:15
+#: templates/admin.php:8
+msgid "Everything (fatal issues, errors, warnings, info, debug)"
+msgstr "Kõik (tõsised probleemid, veateated, hoiatused, info, veatuvastus)"
+
+#: templates/admin.php:9
+msgid "Info, warnings, errors and fatal issues"
+msgstr "Info, hoiatused, veateted ja tõsised probleemid"
+
+#: templates/admin.php:10
+msgid "Warnings, errors and fatal issues"
+msgstr "Hoiatused, veateated ja tõsised probleemid"
+
+#: templates/admin.php:11
+msgid "Errors and fatal issues"
+msgstr "Veateated ja tõsised probleemid"
+
+#: templates/admin.php:12
+msgid "Fatal issues only"
+msgstr "Ainult tõsised probleemid"
+
+#: templates/admin.php:22 templates/admin.php:36
 msgid "Security Warning"
 msgstr "Turvahoiatus"
 
-#: templates/admin.php:18
+#: templates/admin.php:25
+#, php-format
+msgid ""
+"You are accessing %s via HTTP. We strongly suggest you configure your server"
+" to require using HTTPS instead."
+msgstr "Sa kasutad %s ligipääsuks HTTP protokolli. Soovitame tungivalt seadistada oma server selle asemel kasutama HTTPS-i."
+
+#: templates/admin.php:39
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -229,48 +260,68 @@ msgid ""
 "root."
 msgstr "Andmete kataloog ja failid on tõenäoliselt internetis avalikult saadaval. .htaccess fail, ei toimi. Soovitame tungivalt veebiserver seadistada selliselt, et andmete kataloog ei oleks enam vabalt saadaval või tõstaksid andmete kataloogi oma veebiserveri veebi juurkataloogist mujale."
 
-#: templates/admin.php:29
+#: templates/admin.php:50
 msgid "Setup Warning"
 msgstr "Paigalduse hoiatus"
 
-#: templates/admin.php:32
+#: templates/admin.php:53
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
-#: templates/admin.php:33
+#: templates/admin.php:54
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Palun kontrolli uuesti <a href=\"%s\">paigaldusjuhendeid</a>."
 
-#: templates/admin.php:44
+#: templates/admin.php:65
 msgid "Module 'fileinfo' missing"
 msgstr "Moodul 'fileinfo' puudub"
 
-#: templates/admin.php:47
+#: templates/admin.php:68
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP moodul 'fileinfo' puudub. Soovitame tungivalt see lisada saavutamaks parimaid tulemusi failitüüpide tuvastamisel."
 
-#: templates/admin.php:58
+#: templates/admin.php:79
+msgid "Your PHP version is outdated"
+msgstr "PHP versioon on aegunud"
+
+#: templates/admin.php:82
+msgid ""
+"Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
+"newer because older versions are known to be broken. It is possible that "
+"this installation is not working correctly."
+msgstr "Sinu PHP versioon on aegunud. Soovitame tungivalt uuenda versioonile 5.3.8 või uuemale, kuna varasemad versioonid on teadaolevalt vigased. On võimalik, et see käesolev paigaldus ei toimi korrektselt."
+
+#: templates/admin.php:93
 msgid "Locale not working"
 msgstr "Lokalisatsioon ei toimi"
 
-#: templates/admin.php:63
+#: templates/admin.php:98
+msgid "System locale can not be set to a one which supports UTF-8."
+msgstr "Süsteemi lokaliseeringuks ei saa panna sellist, mis toetab UTF-8-t."
+
+#: templates/admin.php:102
+msgid ""
+"This means that there might be problems with certain characters in file "
+"names."
+msgstr "See tähendab, et võib esineda probleeme failide nimedes mõnede sümbolitega."
+
+#: templates/admin.php:106
 #, php-format
 msgid ""
-"System locale can't be set to %s. This means that there might be problems "
-"with certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support %s."
-msgstr "Süsteemi lokaliseeringut ei saa panna %s. See tähendab, et võib esineda probleeme teatud tähemärkidega failide nimedes. Soovitame tungivalt paigaldada süsteemi vajalikud pakid toetamaks %s."
+"We strongly suggest to install the required packages on your system to "
+"support one of the following locales: %s."
+msgstr "Soovitame tungivalt paigaldada vajalikud paketid oma süsteemi tagamaks tuge järgmistele lokaliseeringutele: %s."
 
-#: templates/admin.php:75
+#: templates/admin.php:118
 msgid "Internet connection not working"
 msgstr "Internetiühendus ei toimi"
 
-#: templates/admin.php:78
+#: templates/admin.php:121
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -279,110 +330,118 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Serveril puudub toimiv internetiühendus. See tähendab, et mõned funktsionaalsused, nagu näiteks väliste andmehoidlate ühendamine, teavitused uuendustest või kolmandate osapoolte rakenduste paigaldamine ei tööta. Eemalt failidele ligipääs ning teadete saatmine emailiga ei pruugi samuti toimida. Kui soovid täielikku funktsionaalsust, siis soovitame serverile tagada ligipääs internetti."
 
-#: templates/admin.php:92
+#: templates/admin.php:135
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:99
+#: templates/admin.php:142
 msgid "Execute one task with each page loaded"
-msgstr "Käivita toiming lehe laadimisel"
+msgstr "Käivita toiming igal lehe laadimisel"
 
-#: templates/admin.php:107
+#: templates/admin.php:150
 msgid ""
-"cron.php is registered at a webcron service to call cron.php once a minute "
-"over http."
-msgstr "cron.php on registreeritud webcron teenusena laadimaks cron.php iga minut üle http."
+"cron.php is registered at a webcron service to call cron.php every 15 "
+"minutes over http."
+msgstr "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http."
 
-#: templates/admin.php:115
-msgid "Use systems cron service to call the cron.php file once a minute."
-msgstr "Kasuta süsteemi cron teenust käivitamaks faili cron.php kord minutis."
+#: templates/admin.php:158
+msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgstr "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti tagant."
 
-#: templates/admin.php:120
+#: templates/admin.php:163
 msgid "Sharing"
 msgstr "Jagamine"
 
-#: templates/admin.php:126
+#: templates/admin.php:169
 msgid "Enable Share API"
 msgstr "Luba Share API"
 
-#: templates/admin.php:127
+#: templates/admin.php:170
 msgid "Allow apps to use the Share API"
 msgstr "Luba rakendustel kasutada Share API-t"
 
-#: templates/admin.php:134
+#: templates/admin.php:177
 msgid "Allow links"
 msgstr "Luba lingid"
 
-#: templates/admin.php:135
+#: templates/admin.php:178
 msgid "Allow users to share items to the public with links"
 msgstr "Luba kasutajatel jagada kirjeid avalike linkidega"
 
-#: templates/admin.php:143
+#: templates/admin.php:186
 msgid "Allow public uploads"
 msgstr "Luba avalikud üleslaadimised"
 
-#: templates/admin.php:144
+#: templates/admin.php:187
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Luba kasutajatel üleslaadimine teiste poolt oma avalikult jagatud kataloogidesse "
 
-#: templates/admin.php:152
+#: templates/admin.php:195
 msgid "Allow resharing"
 msgstr "Luba edasijagamine"
 
-#: templates/admin.php:153
+#: templates/admin.php:196
 msgid "Allow users to share items shared with them again"
 msgstr "Luba kasutajatel jagada edasi kirjeid, mida on neile jagatud"
 
-#: templates/admin.php:160
+#: templates/admin.php:203
 msgid "Allow users to share with anyone"
 msgstr "Luba kasutajatel kõigiga jagada"
 
-#: templates/admin.php:163
+#: templates/admin.php:206
 msgid "Allow users to only share with users in their groups"
 msgstr "Luba kasutajatel jagada kirjeid ainult nende grupi liikmetele, millesse nad ise kuuluvad"
 
-#: templates/admin.php:170
+#: templates/admin.php:213
+msgid "Allow mail notification"
+msgstr "Luba teavitused e-postiga"
+
+#: templates/admin.php:214
+msgid "Allow user to send mail notification for shared files"
+msgstr "Luba kasutajatel saata jagatud failide kohta e-postiga teavitusi"
+
+#: templates/admin.php:221
 msgid "Security"
 msgstr "Turvalisus"
 
-#: templates/admin.php:183
+#: templates/admin.php:234
 msgid "Enforce HTTPS"
 msgstr "Sunni peale HTTPS-i kasutamine"
 
-#: templates/admin.php:185
+#: templates/admin.php:236
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Sunnib kliente %s ühenduma krüpteeritult."
 
-#: templates/admin.php:191
+#: templates/admin.php:242
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine."
 
-#: templates/admin.php:203
+#: templates/admin.php:254
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:204
+#: templates/admin.php:255
 msgid "Log level"
 msgstr "Logi tase"
 
-#: templates/admin.php:235
+#: templates/admin.php:287
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:236
+#: templates/admin.php:288
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:242 templates/personal.php:161
+#: templates/admin.php:294 templates/personal.php:173
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:246 templates/personal.php:164
+#: templates/admin.php:298 templates/personal.php:176
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -474,8 +533,8 @@ msgid "Change password"
 msgstr "Muuda parooli"
 
 #: templates/personal.php:58 templates/users.php:88
-msgid "Display Name"
-msgstr "Näidatav nimi"
+msgid "Full Name"
+msgstr "Täispikk nimi"
 
 #: templates/personal.php:73
 msgid "Email"
@@ -493,62 +552,66 @@ msgstr "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress"
 msgid "Profile picture"
 msgstr "Profiili pilt"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Upload new"
-msgstr "Laadi uus"
+msgstr "Laadi uus üles"
 
-#: templates/personal.php:92
+#: templates/personal.php:93
 msgid "Select new from Files"
 msgstr "Vali failidest uus"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid "Remove image"
 msgstr "Eemalda pilt"
 
-#: templates/personal.php:94
+#: templates/personal.php:95
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid Sul on võimalus veel lõigata."
+msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid sul on võimalus seda veel lõigata."
 
 #: templates/personal.php:97
+msgid "Your avatar is provided by your original account."
+msgstr "Sinu avatari pakub sinu algne konto."
+
+#: templates/personal.php:101
 msgid "Abort"
 msgstr "Katkesta"
 
-#: templates/personal.php:98
+#: templates/personal.php:102
 msgid "Choose as profile image"
-msgstr "Vali kui profiili pilt"
+msgstr "Vali profiilipildiks"
 
-#: templates/personal.php:106 templates/personal.php:107
+#: templates/personal.php:110 templates/personal.php:111
 msgid "Language"
 msgstr "Keel"
 
-#: templates/personal.php:119
+#: templates/personal.php:130
 msgid "Help translate"
 msgstr "Aita tõlkida"
 
-#: templates/personal.php:125
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:127
+#: templates/personal.php:139
 #, php-format
 msgid ""
-"Use this address to <a href=\"%s/server/5.0/user_manual/files/files.html\" "
-"target=\"_blank\">access your Files via WebDAV</a>"
-msgstr "Kasuta seda aadressi <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Kasuta seda aadressi <a href=\"%s\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
 
-#: templates/personal.php:138
+#: templates/personal.php:150
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: templates/personal.php:140
-msgid "The encryption app is no longer enabled, decrypt all your file"
+#: templates/personal.php:152
+msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Küpteeringu rakend pole lubatud, dekrüpteeri kõik oma failid"
 
-#: templates/personal.php:146
+#: templates/personal.php:158
 msgid "Log-in password"
 msgstr "Sisselogimise parool"
 
-#: templates/personal.php:151
+#: templates/personal.php:163
 msgid "Decrypt all Files"
 msgstr "Dekrüpteeri kõik failid"
 
@@ -562,7 +625,7 @@ msgstr "Lisa"
 
 #: templates/users.php:36
 msgid "Admin Recovery Password"
-msgstr "Admin taasteparool"
+msgstr "Admini parooli taastamine"
 
 #: templates/users.php:37 templates/users.php:38
 msgid ""
@@ -573,6 +636,10 @@ msgstr "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käig
 #: templates/users.php:42
 msgid "Default Storage"
 msgstr "Vaikimisi maht"
+
+#: templates/users.php:44 templates/users.php:139
+msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
+msgstr "Palun sisesta mahupiir (nt: \"512 MB\" või \"12 GB\")"
 
 #: templates/users.php:48 templates/users.php:148
 msgid "Unlimited"
@@ -591,8 +658,8 @@ msgid "Storage"
 msgstr "Maht"
 
 #: templates/users.php:108
-msgid "change display name"
-msgstr "muuda näidatavat nime"
+msgid "change full name"
+msgstr "Muuda täispikka nime"
 
 #: templates/users.php:112
 msgid "set new password"

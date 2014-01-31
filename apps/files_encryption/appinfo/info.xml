@@ -2,11 +2,15 @@
 <info>
 	<id>files_encryption</id>
 	<name>Encryption</name>
-	<description>The new ownCloud 5 files encryption system. After the app was enabled you need to re-login to initialize your encryption keys.</description>
+	<description>The ownCloud files encryption system provides server side-encryption. After the app was enabled you need to re-login to initialize your encryption keys.</description>
 	<licence>AGPL</licence>
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<require>4</require>
 	<shipped>true</shipped>
+	<documentation>
+		<user>http://doc.owncloud.org/server/6.0/user_manual/files/encryption.html</user>
+		<admin>http://doc.owncloud.org/server/6.0/admin_manual/configuration/configuration_encryption.html</admin>
+	</documentation>
 	<rememberlogin>false</rememberlogin>
 	<types>
 		<filesystem/>

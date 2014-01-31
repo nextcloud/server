@@ -53,6 +53,12 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	 */
 	public function verifyContentLength($filePath, Sabre_DAV_INode $node = null) {
 
+		// we should only react on PUT which is used for upload
+		// e.g. with LOCK this will not work, but LOCK uses createFile() as well
+		if ($this->server->httpRequest->getMethod() !== 'PUT' ) {
+			return;
+		}
+
 		// ownCloud chunked upload will be handled in its own plugin
 		$chunkHeader = $this->server->httpRequest->getHeader('OC-Chunked');
 		if ($chunkHeader) {

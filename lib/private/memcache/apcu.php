@@ -12,7 +12,7 @@ class APCu extends APC {
 	public function clear($prefix = '') {
 		$ns = $this->getNamespace() . $prefix;
 		$ns = preg_quote($ns, '/');
-		$iter = new \APCIterator('/^'.$ns.'/');
+		$iter = new \APCIterator('user', '/^'.$ns.'/');
 		return apc_delete($iter);
 	}
 

@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-abstract class StreamWrapper extends Common{
+abstract class StreamWrapper extends Common {
 	abstract public function constructUrl($path);
 
 	public function mkdir($path) {
@@ -16,9 +16,18 @@ abstract class StreamWrapper extends Common{
 	}
 
 	public function rmdir($path) {
-		if($this->file_exists($path)) {
-			$success = rmdir($this->constructUrl($path));
-			clearstatcache();
+		if ($this->file_exists($path)) {
+			$dh = $this->opendir($path);
+			while (($file = readdir($dh)) !== false) {
+				if ($this->is_dir($path . '/' . $file)) {
+					$this->rmdir($path . '/' . $file);
+				} else {
+					$this->unlink($path . '/' . $file);
+				}
+			}
+			$url = $this->constructUrl($path);
+			$success = rmdir($url);
+			clearstatcache(false, $url);
 			return $success;
 		} else {
 			return false;
@@ -30,15 +39,7 @@ abstract class StreamWrapper extends Common{
 	}
 
 	public function filetype($path) {
-		return filetype($this->constructUrl($path));
-	}
-
-	public function isReadable($path) {
-		return true;//not properly supported
-	}
-
-	public function isUpdatable($path) {
-		return true;//not properly supported
+		return @filetype($this->constructUrl($path));
 	}
 
 	public function file_exists($path) {
@@ -46,8 +47,11 @@ abstract class StreamWrapper extends Common{
 	}
 
 	public function unlink($path) {
-		$success = unlink($this->constructUrl($path));
-		clearstatcache();
+		$url = $this->constructUrl($path);
+		$success = unlink($url);
+		// normally unlink() is supposed to do this implicitly,
+		// but doing it anyway just to be sure
+		clearstatcache(false, $url);
 		return $success;
 	}
 
@@ -55,15 +59,20 @@ abstract class StreamWrapper extends Common{
 		return fopen($this->constructUrl($path), $mode);
 	}
 
-	public function touch($path, $mtime=null) {
-		if(is_null($mtime)) {
-			$fh = $this->fopen($path, 'a');
-			fwrite($fh, '');
-			fclose($fh);
+	public function touch($path, $mtime = null) {
+		if ($this->file_exists($path)) {
+			if (is_null($mtime)) {
+				$fh = $this->fopen($path, 'a');
+				fwrite($fh, '');
+				fclose($fh);
 
-			return true;
+				return true;
+			} else {
+				return false; //not supported
+			}
 		} else {
-			return false;//not supported
+			$this->file_put_contents($path, '');
+			return true;
 		}
 	}
 

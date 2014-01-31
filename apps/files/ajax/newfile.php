@@ -20,15 +20,6 @@ if($source) {
 	OC_JSON::callCheck();
 }
 
-if($filename == '') {
-	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
-	exit();
-}
-if(strpos($filename, '/')!==false) {
-	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
-	exit();
-}
-
 function progress($notification_code, $severity, $message, $message_code, $bytes_transferred, $bytes_max) {
 	static $filesize = 0;
 	static $lastsize = 0;
@@ -44,7 +35,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 				if (!isset($filesize)) {
 				} else {
 					$progress = (int)(($bytes_transferred/$filesize)*100);
-					if($progress>$lastsize) {//limit the number or messages send
+					if($progress>$lastsize) { //limit the number or messages send
 						$eventSource->send('progress', $progress);
 					}
 					$lastsize=$progress;
@@ -54,24 +45,74 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
+$l10n = \OC_L10n::get('files');
+
+$result = array(
+	'success' 	=> false,
+	'data'		=> NULL
+	);
+
+if(trim($filename) === '') {
+	$result['data'] = array('message' => (string)$l10n->t('File name cannot be empty.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+if(strpos($filename, '/') !== false) {
+	$result['data'] = array('message' => (string)$l10n->t('File name must not contain "/". Please choose a different name.'));
+	OCP\JSON::error($result);
+	exit();
+}
+
+if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
+	$result['data'] = array('message' => (string)$l10n->t(
+			'The target folder has been moved or deleted.'),
+			'code' => 'targetnotfound'
+		);
+	OCP\JSON::error($result);
+	exit();
+}
+
+//TODO why is stripslashes used on foldername in newfolder.php but not here?
 $target = $dir.'/'.$filename;
+
+if (\OC\Files\Filesystem::file_exists($target)) {
+	$result['data'] = array('message' => (string)$l10n->t(
+			'The name %s is already used in the folder %s. Please choose a different name.',
+			array($filename, $dir))
+		);
+	OCP\JSON::error($result);
+	exit();
+}
 
 if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
-		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
+		OCP\JSON::error(array('data' => array('message' => $l10n->t('Not a valid source'))));
+		exit();
+	}
+
+	if (!ini_get('allow_url_fopen')) {
+		$eventSource->send('error', array('message' => $l10n->t('Server is not allowed to open URLs, please check the server configuration')));
+		$eventSource->close();
 		exit();
 	}
 
 	$ctx = stream_context_create(null, array('notification' =>'progress'));
-	$sourceStream=fopen($source, 'rb', false, $ctx);
-	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
+	$sourceStream=@fopen($source, 'rb', false, $ctx);
+	$result = 0;
+	if (is_resource($sourceStream)) {
+		$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
+	}
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$mime=$meta['mimetype'];
 		$id = $meta['fileid'];
-		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id));
+		$eventSource->send('success', array('mime' => $mime, 'size' => \OC\Files\Filesystem::filesize($target), 'id' => $id, 'etag' => $meta['etag']));
 	} else {
-		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
+		$eventSource->send('error', array('message' => $l10n->t('Error while downloading %s to %s', array($source, $target))));
+	}
+	if (is_resource($sourceStream)) {
+		fclose($sourceStream);
 	}
 	$eventSource->close();
 	exit();
@@ -99,9 +140,10 @@ if($source) {
 			'mime' => $mime,
 			'size' => $size,
 			'content' => $content,
+			'etag' => $meta['etag'],
 		)));
 		exit();
 	}
 }
 
-OCP\JSON::error(array("data" => array( "message" => "Error when creating the file" )));
+OCP\JSON::error(array('data' => array( 'message' => $l10n->t('Error when creating the file') )));

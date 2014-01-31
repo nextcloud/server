@@ -9,7 +9,7 @@
  * Thumbnails:
  * structure of filename:
  * /data/user/thumbnails/pathhash/x-y.png
- * 
+ *
  */
 namespace OC;
 
@@ -40,6 +40,7 @@ class Preview {
 	private $maxX;
 	private $maxY;
 	private $scalingup;
+	private $mimetype;
 
 	//preview images object
 	/**
@@ -59,11 +60,18 @@ class Preview {
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param bool $scalingUp Disable/Enable upscaling of previews
-	 * @return mixed (bool / string) 
+	 * @return mixed (bool / string)
 	 *					false if thumbnail does not exist
 	 *					path to thumbnail if thumbnail exists
 	*/
 	public function __construct($user='', $root='/', $file='', $maxX=1, $maxY=1, $scalingUp=true) {
+		//init fileviews
+		if($user === ''){
+			$user = \OC_User::getUser();
+		}
+		$this->fileView = new \OC\Files\View('/' . $user . '/' . $root);
+		$this->userView = new \OC\Files\View('/' . $user);
+
 		//set config
 		$this->configMaxX = \OC_Config::getValue('preview_max_x', null);
 		$this->configMaxY = \OC_Config::getValue('preview_max_y', null);
@@ -75,13 +83,6 @@ class Preview {
 		$this->setMaxY($maxY);
 		$this->setScalingUp($scalingUp);
 
-		//init fileviews
-		if($user === ''){
-			$user = \OC_User::getUser();
-		}
-		$this->fileView = new \OC\Files\View('/' . $user . '/' . $root);
-		$this->userView = new \OC\Files\View('/' . $user);
-		
 		$this->preview = null;
 
 		//check if there are preview backends
@@ -166,7 +167,18 @@ class Preview {
 	*/
 	public function setFile($file) {
 		$this->file = $file;
+		if ($file !== '') {
+			$this->mimetype = $this->fileView->getMimeType($this->file);
+		}
 		return $this;
+	}
+
+	/**
+	 * @brief set mimetype explicitely
+	 * @param string $mimetype
+	 */
+	public function setMimetype($mimetype) {
+		$this->mimetype = $mimetype;
 	}
 
 	/**
@@ -265,7 +277,7 @@ class Preview {
 
 		$fileInfo = $this->fileView->getFileInfo($file);
 		$fileId = $fileInfo['fileid'];
-		
+
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
 		$this->userView->deleteAll($previewPath);
 		$this->userView->rmdir($previewPath);
@@ -274,7 +286,7 @@ class Preview {
 
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
-	 * @return mixed (bool / string) 
+	 * @return mixed (bool / string)
 	 *				false if thumbnail does not exist
 	 *				path to thumbnail if thumbnail exists
 	*/
@@ -386,11 +398,10 @@ class Preview {
 		}
 
 		if(is_null($this->preview)) {
-			$mimetype = $this->fileView->getMimeType($file);
 			$preview = null;
 
 			foreach(self::$providers as $supportedMimetype => $provider) {
-				if(!preg_match($supportedMimetype, $mimetype)) {
+				if(!preg_match($supportedMimetype, $this->mimetype)) {
 					continue;
 				}
 
@@ -516,7 +527,7 @@ class Preview {
 			$cropY = 0;
 
 			$image->crop($cropX, $cropY, $x, $y);
-			
+
 			$this->preview = $image;
 			return;
 		}
@@ -598,7 +609,7 @@ class Preview {
 	public static function post_write($args) {
 		self::post_delete($args);
 	}
-	
+
 	public static function post_delete($args) {
 		$path = $args['path'];
 		if(substr($path, 0, 1) === '/') {

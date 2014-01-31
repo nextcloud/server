@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Не вдалося завантажити список з App Store",
 "Authentication error" => "Помилка автентифікації",
-"Unable to change display name" => "Не вдалося змінити ім'я",
 "Group already exists" => "Група вже існує",
 "Unable to add group" => "Не вдалося додати групу",
 "Email saved" => "Адресу збережено",
@@ -82,7 +81,6 @@ $TRANSLATIONS = array(
 "Current password" => "Поточний пароль",
 "New password" => "Новий пароль",
 "Change password" => "Змінити пароль",
-"Display Name" => "Показати Ім'я",
 "Email" => "Ел.пошта",
 "Your email address" => "Ваша адреса електронної пошти",
 "Fill in an email address to enable password recovery" => "Введіть адресу електронної пошти для відновлення паролю",
@@ -97,7 +95,6 @@ $TRANSLATIONS = array(
 "Other" => "Інше",
 "Username" => "Ім'я користувача",
 "Storage" => "Сховище",
-"change display name" => "змінити ім'я",
 "set new password" => "встановити новий пароль",
 "Default" => "За замовчуванням"
 );

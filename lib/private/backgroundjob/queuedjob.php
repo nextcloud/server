@@ -20,9 +20,10 @@ abstract class QueuedJob extends Job {
 	 * run the job, then remove it from the joblist
 	 *
 	 * @param JobList $jobList
+	 * @param \OC\Log $logger
 	 */
-	public function execute($jobList) {
+	public function execute($jobList, $logger = null) {
 		$jobList->remove($this);
-		$this->run($this->argument);
+		parent::execute($jobList, $logger);
 	}
 }

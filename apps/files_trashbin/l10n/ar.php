@@ -2,16 +2,11 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "تعذّر حذف%s بشكل دائم",
 "Couldn't restore %s" => "تعذّر استرجاع %s ",
-"perform restore operation" => "إبدء عملية الإستعادة",
 "Error" => "خطأ",
-"delete file permanently" => "حذف بشكل دائم",
-"Delete permanently" => "حذف بشكل دائم",
-"Name" => "اسم",
-"Deleted" => "تم الحذف",
-"_%n folder_::_%n folders_" => array("","","","","",""),
-"_%n file_::_%n files_" => array("","","","","",""),
 "Nothing in here. Your trash bin is empty!" => "لا يوجد شيء هنا. سلة المهملات خاليه.",
+"Name" => "اسم",
 "Restore" => "استعيد",
+"Deleted" => "تم الحذف",
 "Delete" => "إلغاء",
 "Deleted Files" => "الملفات المحذوفه"
 );

@@ -50,51 +50,31 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+		if ($name === 'Shared' && empty($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
+		// for chunked upload also updating a existing file is a "createFile"
+		// because we create all the chunks before reasamble them to the existing file.
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+
+			// exit if we can't create a new file and we don't updatable existing file
 			$info = OC_FileChunking::decodeName($name);
-			if (empty($info)) {
-				throw new Sabre_DAV_Exception_NotImplemented();
+			if (!\OC\Files\Filesystem::isCreatable($this->path) &&
+					!\OC\Files\Filesystem::isUpdatable($this->path . '/' . $info['name'])) {
+				throw new \Sabre_DAV_Exception_Forbidden();
 			}
-			$chunk_handler = new OC_FileChunking($info);
-			$chunk_handler->store($info['index'], $data);
-			if ($chunk_handler->isComplete()) {
-				$newPath = $this->path . '/' . $info['name'];
-				$chunk_handler->file_assemble($newPath);
-				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
-			}
+
 		} else {
-			$newPath = $this->path . '/' . $name;
-
-			// mark file as partial while uploading (ignored by the scanner)
-			$partpath = $newPath . '.part';
-
-			\OC\Files\Filesystem::file_put_contents($partpath, $data);
-
-			// rename to correct path
-			$renameOkay = \OC\Files\Filesystem::rename($partpath, $newPath);
-			$fileExists = \OC\Files\Filesystem::file_exists($newPath);
-			if ($renameOkay === false || $fileExists === false) {
-				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				\OC\Files\Filesystem::unlink($partpath);
-				throw new Sabre_DAV_Exception();
+			// For non-chunked upload it is enough to check if we can create a new file
+			if (!\OC\Files\Filesystem::isCreatable($this->path)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
 			}
-
-			// allow sync clients to send the mtime along in a header
-			$mtime = OC_Request::hasModificationTime();
-			if ($mtime !== false) {
-				if(\OC\Files\Filesystem::touch($newPath, $mtime)) {
-					header('X-OC-MTime: accepted');
-				}
-			}
-
-			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 
-		return null;
+		$path = $this->path . '/' . $name;
+		$node = new OC_Connector_Sabre_File($path);
+		return $node->put($data);
 	}
 
 	/**
@@ -105,6 +85,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return void
 	 */
 	public function createDirectory($name) {
+
+		if ($name === 'Shared' && empty($this->path)) {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
 
 		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
@@ -211,12 +195,15 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function delete() {
 
+		if ($this->path === 'Shared') {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
+
 		if (!\OC\Files\Filesystem::isDeletable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
-		if ($this->path != "/Shared") {
-			\OC\Files\Filesystem::rmdir($this->path);
-		}
+
+		\OC\Files\Filesystem::rmdir($this->path);
 
 	}
 
@@ -243,14 +230,14 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * If the array is empty, all properties should be returned
 	 *
 	 * @param array $properties
-	 * @return void
+	 * @return array
 	 */
 	public function getProperties($properties) {
 		$props = parent::getProperties($properties);
 		if (in_array(self::GETETAG_PROPERTYNAME, $properties) && !isset($props[self::GETETAG_PROPERTYNAME])) {
-			$props[self::GETETAG_PROPERTYNAME]
-				= OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+			$props[self::GETETAG_PROPERTYNAME] = $this->getETagPropertyForPath($this->path);
 		}
 		return $props;
 	}
+
 }

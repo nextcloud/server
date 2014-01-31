@@ -1,18 +1,13 @@
 <?php
 $TRANSLATIONS = array(
-"Couldn't delete %s permanently" => "%s Kalıcı olarak silinemedi",
-"Couldn't restore %s" => "%s Geri yüklenemedi",
-"perform restore operation" => "Geri yükleme işlemini gerçekleştir",
+"Couldn't delete %s permanently" => "%s alıcı olarak silinemedi",
+"Couldn't restore %s" => "%s eri yüklenemedi",
 "Error" => "Hata",
-"delete file permanently" => "Dosyayı kalıcı olarak sil",
-"Delete permanently" => "Kalıcı olarak sil",
-"Name" => "İsim",
-"Deleted" => "Silindi",
-"_%n folder_::_%n folders_" => array("","%n dizin"),
-"_%n file_::_%n files_" => array("","%n dosya"),
 "restored" => "geri yüklendi",
-"Nothing in here. Your trash bin is empty!" => "Burası boş. Çöp kutun tamamen boş.",
+"Nothing in here. Your trash bin is empty!" => "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!",
+"Name" => "İsim",
 "Restore" => "Geri yükle",
+"Deleted" => "Silindi",
 "Delete" => "Sil",
 "Deleted Files" => "Silinen Dosyalar"
 );

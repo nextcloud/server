@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "ئەپ بازىرىدىن تىزىمنى يۈكلىيەلمىدى",
 "Authentication error" => "سالاھىيەت دەلىللەش خاتالىقى",
-"Your display name has been changed." => "كۆرسىتىدىغان ئىسمىڭىز ئۆزگەردى.",
-"Unable to change display name" => "كۆرسىتىدىغان ئىسىمنى ئۆزگەرتكىلى بولمايدۇ",
 "Group already exists" => "گۇرۇپپا مەۋجۇت",
 "Unable to add group" => "گۇرۇپپا قوشقىلى بولمايدۇ",
 "Email saved" => "تورخەت ساقلاندى",
@@ -61,7 +59,6 @@ $TRANSLATIONS = array(
 "Current password" => "نۆۋەتتىكى ئىم",
 "New password" => "يېڭى ئىم",
 "Change password" => "ئىم ئۆزگەرت",
-"Display Name" => "كۆرسىتىش ئىسمى",
 "Email" => "تورخەت",
 "Your email address" => "تورخەت ئادرېسىڭىز",
 "Fill in an email address to enable password recovery" => "ئىم ئەسلىگە كەلتۈرۈشتە ئىشلىتىدىغان تور خەت ئادرېسىنى تولدۇرۇڭ",
@@ -76,7 +73,6 @@ $TRANSLATIONS = array(
 "Other" => "باشقا",
 "Username" => "ئىشلەتكۈچى ئاتى",
 "Storage" => "ساقلىغۇچ",
-"change display name" => "كۆرسىتىدىغان ئىسىمنى ئۆزگەرت",
 "set new password" => "يېڭى ئىم تەڭشە",
 "Default" => "كۆڭۈلدىكى"
 );

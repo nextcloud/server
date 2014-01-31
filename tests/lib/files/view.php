@@ -15,7 +15,7 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 
 class View extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage[] $storages;
+	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
 
@@ -65,6 +65,11 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$cachedData = $rootView->getFileInfo('/');
 		$this->assertEquals($storageSize * 3, $cachedData['size']);
+		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
+
+		// get cached data excluding mount points
+		$cachedData = $rootView->getFileInfo('/', false);
+		$this->assertEquals($storageSize, $cachedData['size']);
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
 		$cachedData = $rootView->getFileInfo('/folder');
@@ -304,6 +309,48 @@ class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testUnlink() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->file_put_contents('/foo.txt', 'asd');
+		$rootView->file_put_contents('/substorage/bar.txt', 'asd');
+
+		$this->assertTrue($rootView->file_exists('foo.txt'));
+		$this->assertTrue($rootView->file_exists('substorage/bar.txt'));
+
+		$this->assertTrue($rootView->unlink('foo.txt'));
+		$this->assertTrue($rootView->unlink('substorage/bar.txt'));
+
+		$this->assertFalse($rootView->file_exists('foo.txt'));
+		$this->assertFalse($rootView->file_exists('substorage/bar.txt'));
+	}
+
+	/**
+	 * @medium
+	 */
+	function testUnlinkRootMustFail() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->file_put_contents('/foo.txt', 'asd');
+		$rootView->file_put_contents('/substorage/bar.txt', 'asd');
+
+		$this->assertFalse($rootView->unlink(''));
+		$this->assertFalse($rootView->unlink('/'));
+		$this->assertFalse($rootView->unlink('substorage'));
+		$this->assertFalse($rootView->unlink('/substorage'));
+	}
+
+	/**
+	 * @medium
+	 */
 	function testTouch() {
 		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
 
@@ -390,5 +437,129 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 		$this->storages[] = $storage;
 		return $storage;
+	}
+
+	private $createHookPath;
+
+	function dummyCreateHook($params) {
+		$this->createHookPath = $params['path'];
+	}
+
+	/**
+	 * @medium
+	 */
+	function testViewHooksIfRootStartsTheSame() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot . '_substorage');
+		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
+
+		$subView = new \OC\Files\View($defaultRoot . '_substorage');
+		$this->hookPath = null;
+
+		$subView->file_put_contents('/foo.txt', 'asd');
+		$this->assertNull($this->hookPath);
+	}
+
+	public function testEditNoCreateHook() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$defaultRoot = \OC\Files\Filesystem::getRoot();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot);
+		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyCreateHook');
+
+		$view = new \OC\Files\View($defaultRoot);
+		$this->hookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertEquals('/asd.txt', $this->createHookPath);
+		$this->createHookPath = null;
+
+		$view->file_put_contents('/asd.txt', 'foo');
+		$this->assertNull($this->createHookPath);
+	}
+
+	/**
+	 * @dataProvider resolvePathTestProvider
+	 */
+	public function testResolvePath($expected, $pathToTest) {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+
+		$view = new \OC\Files\View('');
+
+		$result = $view->resolvePath($pathToTest);
+		$this->assertEquals($expected, $result[1]);
+
+		$exists = $view->file_exists($pathToTest);
+		$this->assertTrue($exists);
+
+		$exists = $view->file_exists($result[1]);
+		$this->assertTrue($exists);
+	}
+
+	function resolvePathTestProvider() {
+		return array(
+			array('foo.txt', 'foo.txt'),
+			array('foo.txt', '/foo.txt'),
+			array('folder', 'folder'),
+			array('folder', '/folder'),
+			array('folder', 'folder/'),
+			array('folder', '/folder/'),
+			array('folder/bar.txt', 'folder/bar.txt'),
+			array('folder/bar.txt', '/folder/bar.txt'),
+			array('', ''),
+			array('', '/'),
+		);
+	}
+
+	public function testUTF8Names() {
+		$names = array('虚', '和知しゃ和で', 'regular ascii', 'sɨˈrɪlɪk', 'ѨѬ', 'أنا أحب القراءة كثيرا');
+
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+		foreach ($names as $name) {
+			$rootView->file_put_contents('/' . $name, 'dummy content');
+		}
+
+		$list = $rootView->getDirectoryContent('/');
+
+		$this->assertCount(count($names), $list);
+		foreach ($list as $item) {
+			$this->assertContains($item['name'], $names);
+		}
+
+		$cache = $storage->getCache();
+		$scanner = $storage->getScanner();
+		$scanner->scan('');
+
+		$list = $cache->getFolderContents('');
+
+		$this->assertCount(count($names), $list);
+		foreach ($list as $item) {
+			$this->assertContains($item['name'], $names);
+		}
+	}
+
+	public function testTouchNotSupported() {
+		$storage = new TemporaryNoTouch(array());
+		$scanner = $storage->getScanner();
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$past = time() - 100;
+		$storage->file_put_contents('test', 'foobar');
+		$scanner->scan('');
+		$view = new \OC\Files\View('');
+		$info = $view->getFileInfo('/test/test');
+
+		$view->touch('/test/test', $past);
+		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
+
+		$info2 = $view->getFileInfo('/test/test');
+		$this->assertEquals($info['etag'], $info2['etag']);
 	}
 }

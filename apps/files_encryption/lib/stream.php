@@ -55,6 +55,7 @@ class Stream {
 	private $rawPath; // The raw path relative to the data dir
 	private $relPath; // rel path to users file dir
 	private $userId;
+	private $keyId;
 	private $handle; // Resource returned by fopen
 	private $meta = array(); // Header / meta for source stream
 	private $writeCache;
@@ -63,10 +64,14 @@ class Stream {
 	private $publicKey;
 	private $encKeyfile;
 	private $newFile; // helper var, we only need to write the keyfile for new files
+	private $isLocalTmpFile = false; // do we operate on a local tmp file
+	private $localTmpFile; // path of local tmp file
+
 	/**
 	 * @var \OC\Files\View
 	 */
 	private $rootView; // a fsview object set to '/'
+
 	/**
 	 * @var \OCA\Encryption\Session
 	 */
@@ -91,14 +96,24 @@ class Stream {
 
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
-		$this->privateKey = $this->session->getPrivateKey($this->userId);
+		$this->privateKey = $this->session->getPrivateKey();
 
-		$util = new Util($this->rootView, \OCP\USER::getUser());
+		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+		if ($originalFile = Helper::getPathFromTmpFile($normalizedPath)) {
+			$this->rawPath = $originalFile;
+			$this->isLocalTmpFile = true;
+			$this->localTmpFile = $normalizedPath;
+		} else {
+			$this->rawPath = $normalizedPath;
+		}
 
-		$this->userId = $util->getUserId();
+		$this->userId = Helper::getUser($this->rawPath);
 
-		// rawPath is relative to the data directory
-		$this->rawPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
+		$util = new Util($this->rootView, $this->userId);
+
+		// get the key ID which we want to use, can be the users key or the
+		// public share key
+		$this->keyId = $util->getKeyId();
 
 		// Strip identifier text from path, this gives us the path relative to data/<user>/files
 		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
@@ -108,7 +123,7 @@ class Stream {
 		}
 
 		if($this->relPath === false) {
-			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to user/files or to user/files_versions', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
 			return false;
 		}
 
@@ -131,13 +146,17 @@ class Stream {
 
 			if($this->privateKey === false) {
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage();
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 			}
 
-			$this->size = $this->rootView->filesize($this->rawPath, $mode);
+			$this->size = $this->rootView->filesize($this->rawPath);
 		}
 
-		$this->handle = $this->rootView->fopen($this->rawPath, $mode);
+		if ($this->isLocalTmpFile) {
+			$this->handle = fopen($this->localTmpFile, $mode);
+		} else {
+			$this->handle = $this->rootView->fopen($this->rawPath, $mode);
+		}
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
@@ -157,14 +176,25 @@ class Stream {
 	}
 
 	/**
+	 * @brief Returns the current position of the file pointer
+	 * @return int  position of the file pointer
+	 */
+	public function stream_tell() {
+		return ftell($this->handle);
+	}
+
+	/**
 	 * @param $offset
 	 * @param int $whence
+	 * @return bool true if fseek was successful, otherwise false
 	 */
 	public function stream_seek($offset, $whence = SEEK_SET) {
 
 		$this->flush();
 
-		fseek($this->handle, $offset, $whence);
+		// this wrapper needs to return "true" for success.
+		// the fseek call itself returns 0 on succeess
+		return !fseek($this->handle, $offset, $whence);
 
 	}
 
@@ -249,21 +279,26 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $this->userId, $this->relPath);
+		$util = new \OCA\Encryption\Util($this->rootView, $this->userId);
+		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
 
 		// If a keyfile already exists
 		if ($this->encKeyfile) {
 
+			$shareKey = Keymanager::getShareKey($this->rootView, $this->keyId, $util, $this->relPath);
+
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
-
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage();
-
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 				return false;
 			}
 
-			$shareKey = Keymanager::getShareKey($this->rootView, $this->userId, $this->relPath);
+			if ($shareKey === false) {
+				// if no share key is available redirect user to a error page
+				\OCA\Encryption\Helper::redirectToErrorPage($this->session, \OCA\Encryption\Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND);
+				return false;
+			}
 
 			$this->plainKey = Crypt::multiKeyDecrypt($this->encKeyfile, $shareKey, $this->privateKey);
 
@@ -465,7 +500,7 @@ class Stream {
 		if ($this->privateKey === false) {
 
 			// cleanup
-			if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb') {
+			if ($this->meta['mode'] !== 'r' && $this->meta['mode'] !== 'rb' && !$this->isLocalTmpFile) {
 
 				// Disable encryption proxy to prevent recursive calls
 				$proxyStatus = \OC_FileProxy::$enabled;
@@ -480,13 +515,15 @@ class Stream {
 			}
 
 			// if private key is not valid redirect user to a error page
-			\OCA\Encryption\Helper::redirectToErrorPage();
+			\OCA\Encryption\Helper::redirectToErrorPage($this->session);
 		}
 
 		if (
 				$this->meta['mode'] !== 'r' &&
 				$this->meta['mode'] !== 'rb' &&
-				$this->size > 0
+				$this->isLocalTmpFile === false &&
+				$this->size > 0 &&
+				$this->unencryptedSize > 0
 		) {
 
 			// only write keyfiles if it was a new file
@@ -497,7 +534,7 @@ class Stream {
 				\OC_FileProxy::$enabled = false;
 
 				// Fetch user's public key
-				$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->userId);
+				$this->publicKey = Keymanager::getPublicKey($this->rootView, $this->keyId);
 
 				// Check if OC sharing api is enabled
 				$sharingEnabled = \OCP\Share::isEnabled();
@@ -506,36 +543,39 @@ class Stream {
 
 				// Get all users sharing the file includes current user
 				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
-				$publicKeys = Keymanager::getPublicKeys($this->rootView, $uniqueUserIds);
+				$publicKeys = Keymanager::getPublicKeys($this->rootView, $checkedUserIds['ready']);
 
 				// Encrypt enc key for all sharing users
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $util, $this->relPath, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
-				Keymanager::setShareKeys($this->rootView, $this->relPath, $this->encKeyfiles['keys']);
+				Keymanager::setShareKeys($this->rootView, $util, $this->relPath, $this->encKeyfiles['keys']);
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
 			}
 
+			// we need to update the file info for the real file, not for the
+			// part file.
+			$path = Helper::stripPartialFileExtension($this->rawPath);
+
 			// get file info
-			$fileInfo = $this->rootView->getFileInfo($this->rawPath);
-			if (!is_array($fileInfo)) {
-				$fileInfo = array();
+			$fileInfo = $this->rootView->getFileInfo($path);
+			if (is_array($fileInfo)) {
+				// set encryption data
+				$fileInfo['encrypted'] = true;
+				$fileInfo['size'] = $this->size;
+				$fileInfo['unencrypted_size'] = $this->unencryptedSize;
+
+				// set fileinfo
+				$this->rootView->putFileInfo($path, $fileInfo);
 			}
-
-			// set encryption data
-			$fileInfo['encrypted'] = true;
-			$fileInfo['size'] = $this->size;
-			$fileInfo['unencrypted_size'] = $this->unencryptedSize;
-
-			// set fileinfo
-			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
 
 		}
 
