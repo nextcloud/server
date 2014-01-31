@@ -161,7 +161,7 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
       $params['state'] = $this->state;
     }
 
-    return self::OAUTH2_AUTH_URL . "?" . http_build_query($params);
+    return self::OAUTH2_AUTH_URL . "?" . http_build_query($params, '', '&');
   }
 
   /**
