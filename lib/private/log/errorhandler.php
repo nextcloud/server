@@ -23,10 +23,14 @@ class ErrorHandler {
 		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
 	}
 
-	public static function register() {
+	public static function register($debug=false) {
 		$handler = new ErrorHandler();
 
-		set_error_handler(array($handler, 'onError'));
+		if ($debug) {
+			set_error_handler(array($handler, 'onAll'), E_ALL);
+		} else {
+			set_error_handler(array($handler, 'onError'));
+		}
 		register_shutdown_function(array($handler, 'onShutdown'));
 		set_exception_handler(array($handler, 'onException'));
 	}
@@ -57,7 +61,15 @@ class ErrorHandler {
 			return;
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
-		self::$logger->warning(self::removePassword($msg), array('app' => 'PHP'));
+		self::$logger->error(self::removePassword($msg), array('app' => 'PHP'));
 
 	}
+
+	//Recoverable handler which catch all errors, warnings and notices
+	public static function onAll($number, $message, $file, $line) {
+		$msg = $message . ' at ' . $file . '#' . $line;
+		self::$logger->debug(self::removePassword($msg), array('app' => 'PHP'));
+
+	}
+
 }
