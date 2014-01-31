@@ -448,29 +448,6 @@ class OC_Helper {
 	 *
 	 */
 
-	//FIXME: should also check for value validation (i.e. the email is an email).
-	public static function init_var($s, $d = "") {
-		$r = $d;
-		if (isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
-			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
-		}
-
-		return $r;
-	}
-
-	/**
-	 * returns "checked"-attribute if request contains selected radio element
-	 * OR if radio element is the default one -- maybe?
-	 *
-	 * @param string $s Name of radio-button element name
-	 * @param string $v Value of current radio-button element
-	 * @param string $d Value of default radio-button element
-	 */
-	public static function init_radio($s, $v, $d) {
-		if ((isset($_REQUEST[$s]) && $_REQUEST[$s] == $v) || (!isset($_REQUEST[$s]) && $v == $d))
-			print "checked=\"checked\" ";
-	}
-
 	/**
 	 * detect if a given program is found in the search PATH
 	 *
