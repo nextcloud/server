@@ -57,7 +57,7 @@ class Util {
 	 * @param $userId
 	 * @param bool $client
 	 */
-	public function __construct(\OC_FilesystemView $view, $userId, $client = false) {
+	public function __construct($view, $userId, $client = false) {
 
 		$this->view = $view;
 		$this->client = $client;
