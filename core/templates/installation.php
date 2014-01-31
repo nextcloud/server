@@ -86,62 +86,16 @@
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
 		<div id="selectDbType">
-		<?php if($_['hasSQLite']): ?>
-		<input type='hidden' id='hasSQLite' value="true" />
-		<?php if(!$hasOtherDB): ?>
-		<p>SQLite <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
+		<?php foreach($_['databases'] as $type => $label): ?>
+		<?php if(count($_['databases']) == 1): ?>
+		<p><?php p($label . $l->t( 'will be used' )); ?>.</p>
+		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value="sqlite" id="sqlite"
-			<?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
-		<label class="sqlite" for="sqlite">SQLite</label>
+		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
+			<?php p($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
+		<label class="<?php p($type) ?>" for="<?php p($type) ?>"><?php p($label) ?></label>
 		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasMySQL']): ?>
-		<input type='hidden' id='hasMySQL' value='true'/>
-		<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>MySQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
-		<?php else: ?>
-		<input type="radio" name="dbtype" value="mysql" id="mysql"
-			<?php OC_Helper::init_radio('dbtype', 'mysql', 'sqlite'); ?>/>
-		<label class="mysql" for="mysql">MySQL</label>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasPostgreSQL']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>PostgreSQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
-		<?php else: ?>
-		<label class="pgsql" for="pgsql">PostgreSQL</label>
-		<input type="radio" name="dbtype" value='pgsql' id="pgsql"
-			<?php OC_Helper::init_radio('dbtype', 'pgsql', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasOracle']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasMSSQL']): ?>
-		<p>Oracle <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
-		<?php else: ?>
-		<label class="oci" for="oci">Oracle</label>
-		<input type="radio" name="dbtype" value='oci' id="oci"
-			<?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasMSSQL']): ?>
-		<input type='hidden' id='hasMSSQL' value='true'/>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
-		<p>MS SQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="mssql" />
-		<?php else: ?>
-		<label class="mssql" for="mssql">MS SQL</label>
-		<input type="radio" name="dbtype" value='mssql' id="mssql" <?php OC_Helper::init_radio('dbtype', 'mssql', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
+		<?php endforeach; ?>
 		</div>
 
 		<?php if($hasOtherDB): ?>

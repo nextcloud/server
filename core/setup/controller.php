@@ -85,6 +85,22 @@ class Controller {
 		$hasPostgreSQL = is_callable('pg_connect');
 		$hasOracle = is_callable('oci_connect');
 		$hasMSSQL = is_callable('sqlsrv_connect');
+		$databases = array();
+		if ($hasSQLite) {
+			$databases['sqlite'] = 'SQLite';
+		}
+		if ($hasMySQL) {
+			$databases['mysql'] = 'MySQL';
+		}
+		if ($hasPostgreSQL) {
+			$databases['pgsql'] = 'PostgreSQL';
+		}
+		if ($hasOracle) {
+			$databases['oci'] = 'Oracle';
+		}
+		if ($hasMSSQL) {
+			$databases['mssql'] = 'MS SQL';
+		}
 		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data');
 		$vulnerableToNullByte = false;
 		if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
@@ -111,6 +127,7 @@ class Controller {
 			'hasPostgreSQL' => $hasPostgreSQL,
 			'hasOracle' => $hasOracle,
 			'hasMSSQL' => $hasMSSQL,
+			'databases' => $databases,
 			'directory' => $datadir,
 			'secureRNG' => \OC_Util::secureRNGAvailable(),
 			'htaccessWorking' => $htaccessWorking,
