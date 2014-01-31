@@ -14,6 +14,15 @@ class ErrorHandler {
 	/** @var LoggerInterface */
 	private static $logger;
 
+	/**
+	 * @brief remove password in URLs
+	 * @param string $msg
+	 * @return string
+	 */
+	private static function removePassword($msg) {
+		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
+	}
+
 	public static function register() {
 		$handler = new ErrorHandler();
 
@@ -32,14 +41,14 @@ class ErrorHandler {
 		if($error && self::$logger) {
 			//ob_end_clean();
 			$msg = $error['message'] . ' at ' . $error['file'] . '#' . $error['line'];
-			self::$logger->critical($msg, array('app' => 'PHP'));
+			self::$logger->critical(self::removePassword($msg), array('app' => 'PHP'));
 		}
 	}
 
 	// Uncaught exception handler
 	public static function onException($exception) {
 		$msg = $exception->getMessage() . ' at ' . $exception->getFile() . '#' . $exception->getLine();
-		self::$logger->critical($msg, array('app' => 'PHP'));
+		self::$logger->critical(self::removePassword($msg), array('app' => 'PHP'));
 	}
 
 	//Recoverable errors handler
@@ -48,7 +57,7 @@ class ErrorHandler {
 			return;
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
-		self::$logger->warning($msg, array('app' => 'PHP'));
+		self::$logger->warning(self::removePassword($msg), array('app' => 'PHP'));
 
 	}
 }
