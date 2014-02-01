@@ -87,8 +87,8 @@
 		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
 		<div id="selectDbType">
 		<?php foreach($_['databases'] as $type => $label): ?>
-		<?php if(count($_['databases']) == 1): ?>
-		<p><?php p($label . $l->t( 'will be used' )); ?>.</p>
+		<?php if(count($_['databases']) === 1): ?>
+		<p class="info"><?php p($label . ' ' . $l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
