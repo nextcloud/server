@@ -6,7 +6,7 @@ $(document).ready(function() {
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
 		$('#fileList').on('fileActionsReady',function(){
 
-			var allShared = $('*[data-share-owner]').find('[data-Action="Share"]');
+			var allShared = $('#fileList').find('[data-share-owner]').find('[data-Action="Share"]');
 			allShared.addClass('permanent');
 			allShared.find('span').text(function(){
 				$owner = $(this).closest('tr').attr('data-share-owner');
