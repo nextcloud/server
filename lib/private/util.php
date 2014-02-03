@@ -1029,52 +1029,6 @@ class OC_Util {
 	}
 
 	/**
-	 * test if webDAV is working properly
-	 * @return bool
-	 * @description
-	 * The basic assumption is that if the server returns 401/Not Authenticated for an unauthenticated PROPFIND
-	 * the web server it self is setup properly.
-	 *
-	 * Why not an authenticated PROPFIND and other verbs?
-	 *  - We don't have the password available
-	 *  - We have no idea about other auth methods implemented (e.g. OAuth with Bearer header)
-	 *
-	 */
-	public static function isWebDAVWorking() {
-		if (!function_exists('curl_init')) {
-			return true;
-		}
-		if (!\OC_Config::getValue("check_for_working_webdav", true)) {
-			return true;
-		}
-		$settings = array(
-			'baseUri' => OC_Helper::linkToRemote('webdav'),
-		);
-
-		$client = new \OC_DAVClient($settings);
-
-		$client->setRequestTimeout(10);
-
-		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
-		$client->setVerifyPeer(false);
-		// also don't care if the host can't be verified
-		$client->setVerifyHost(0);
-
-		$return = true;
-		try {
-			// test PROPFIND
-			$client->propfind('', array('{DAV:}resourcetype'));
-		} catch (\Sabre\DAV\Exception\NotAuthenticated $e) {
-			$return = true;
-		} catch (\Exception $e) {
-			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);
-			$return = false;
-		}
-
-		return $return;
-	}
-
-	/**
 	 * Check if the setlocal call does not work. This can happen if the right
 	 * local packages are not available on the server.
 	 * @return bool

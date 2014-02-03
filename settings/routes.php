@@ -94,3 +94,5 @@ $this->create('settings_ajax_setsecurity', '/settings/ajax/setsecurity.php')
 	->actionInclude('settings/ajax/setsecurity.php');
 $this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
 	->actionInclude('settings/ajax/excludegroups.php');
+$this->create('settings_ajax_checksetup', '/settings/ajax/checksetup')
+	->actionInclude('settings/ajax/checksetup.php');
