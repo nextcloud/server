@@ -504,11 +504,12 @@ class OC {
 
 		if (!defined('PHPUNIT_RUN')) {
 			if (defined('DEBUG') and DEBUG) {
+				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
 			} else {
 				OC\Log\ErrorHandler::register();
-				OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 			}
+			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 		}
 
 		// register the stream wrappers
