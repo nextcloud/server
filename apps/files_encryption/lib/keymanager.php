@@ -437,7 +437,7 @@ class Keymanager {
 			$filename = pathinfo($filePath, PATHINFO_BASENAME);
 			foreach($view->getDirectoryContent($parentDir) as $content) {
 				$path = $content['path'];
-				if (strpos($content['name'], $filename) === 0) {
+				if (self::getFilenameFromShareKey($content['name'])  === $filename) {
 					$view->unlink('/' . $userId . '/' . $path);
 				}
 			}
@@ -537,5 +537,21 @@ class Keymanager {
 
 		return $targetPath;
 
+	}
+
+	/**
+	 * @brief extract filename from share key name
+	 * @param string $shareKey (filename.userid.sharekey)
+	 * @return mixed filename or false
+	 */
+	protected static function getFilenameFromShareKey($shareKey) {
+		$parts = explode('.', $shareKey);
+
+		$filename = false;
+		if(count($parts) > 2) {
+			$filename = implode('.', array_slice($parts, 0, count($parts)-2));
+		}
+
+		return $filename;
 	}
 }
