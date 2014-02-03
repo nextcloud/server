@@ -119,7 +119,9 @@ table th#headerDate, table td.date {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
+	/* this can not be just width, both need to be set … table styling */
 	min-width: 176px;
+	max-width: 176px;
 }
 
 /* Multiselect bar */
@@ -174,6 +176,14 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0
 }
 .modified {
 	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 90%;
+}
+/* ellipsize long modified dates to make room for showing delete button */
+#fileList tr:hover .modified,
+#fileList tr:focus .modified {
+	width: 75%;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
