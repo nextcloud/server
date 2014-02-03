@@ -122,4 +122,25 @@ $(document).ready(function(){
 	$('#shareapiExcludeGroups').change(function() {
 		$("#selectExcludedGroups").toggleClass('hidden', !this.checked);
 	});
+
+	// run setup checks then gather error messages
+	$.when(
+		OC.SetupChecks.checkWebDAV(),
+		OC.SetupChecks.checkSetup()
+	).then(function(check1, check2) {
+		var errors = [].concat(check1, check2);
+		var $el = $('#postsetupchecks');
+		var $errorsEl;
+		$el.find('.loading').addClass('hidden');
+		if (errors.length === 0) {
+			$el.find('.success').removeClass('hidden');
+		} else {
+			$errorsEl = $el.find('.errors');
+			for (var i = 0; i < errors.length; i++ ) {
+				$errorsEl.append('<div class="setupwarning">' + errors[i] + '</div>');
+			}
+			$errorsEl.removeClass('hidden');
+			$el.find('.hint').removeClass('hidden');
+		}
+	});
 });
