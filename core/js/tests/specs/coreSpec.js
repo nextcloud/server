@@ -18,11 +18,110 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
+
+/* global OC */
 describe('Core base tests', function() {
 	describe('Base values', function() {
 		it('Sets webroots', function() {
 			expect(OC.webroot).toBeDefined();
 			expect(OC.appswebroots).toBeDefined();
+		});
+	});
+	describe('basename', function() {
+		it('Returns the nothing if no file name given', function() {
+			expect(OC.basename('')).toEqual('');
+		});
+		it('Returns the nothing if dir is root', function() {
+			expect(OC.basename('/')).toEqual('');
+		});
+		it('Returns the same name if no path given', function() {
+			expect(OC.basename('some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if root path given', function() {
+			expect(OC.basename('/some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if double root path given', function() {
+			expect(OC.basename('//some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if subdir given without root', function() {
+			expect(OC.basename('subdir/some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if subdir given with root', function() {
+			expect(OC.basename('/subdir/some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if subdir given with double root', function() {
+			expect(OC.basename('//subdir/some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns the base name if subdir has dot', function() {
+			expect(OC.basename('/subdir.dat/some name.txt')).toEqual('some name.txt');
+		});
+		it('Returns dot if file name is dot', function() {
+			expect(OC.basename('/subdir/.')).toEqual('.');
+		});
+		// TODO: fix the source to make it work like PHP's basename
+		it('Returns the dir itself if no file name given', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.basename('subdir/')).toEqual('subdir');
+			expect(OC.basename('subdir/')).toEqual('');
+		});
+		it('Returns the dir itself if no file name given with root', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.basename('/subdir/')).toEqual('subdir');
+			expect(OC.basename('/subdir/')).toEqual('');
+		});
+	});
+	describe('dirname', function() {
+		it('Returns the nothing if no file name given', function() {
+			expect(OC.dirname('')).toEqual('');
+		});
+		it('Returns the root if dir is root', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.dirname('/')).toEqual('/');
+			expect(OC.dirname('/')).toEqual('');
+		});
+		it('Returns the root if dir is double root', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.dirname('//')).toEqual('/');
+			expect(OC.dirname('//')).toEqual('/'); // oh no...
+		});
+		it('Returns dot if dir is dot', function() {
+			expect(OC.dirname('.')).toEqual('.');
+		});
+		it('Returns dot if no root given', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.dirname('some dir')).toEqual('.');
+			expect(OC.dirname('some dir')).toEqual('some dir'); // oh no...
+		});
+		it('Returns the dir name if file name and root path given', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.dirname('/some name.txt')).toEqual('/');
+			expect(OC.dirname('/some name.txt')).toEqual('');
+		});
+		it('Returns the dir name if double root path given', function() {
+			expect(OC.dirname('//some name.txt')).toEqual('/'); // how lucky...
+		});
+		it('Returns the dir name if subdir given without root', function() {
+			expect(OC.dirname('subdir/some name.txt')).toEqual('subdir');
+		});
+		it('Returns the dir name if subdir given with root', function() {
+			expect(OC.dirname('/subdir/some name.txt')).toEqual('/subdir');
+		});
+		it('Returns the dir name if subdir given with double root', function() {
+			// TODO: fix the source to make it work like PHP's dirname
+			// expect(OC.dirname('//subdir/some name.txt')).toEqual('/subdir');
+			expect(OC.dirname('//subdir/some name.txt')).toEqual('//subdir'); // oh...
+		});
+		it('Returns the dir name if subdir has dot', function() {
+			expect(OC.dirname('/subdir.dat/some name.txt')).toEqual('/subdir.dat');
+		});
+		it('Returns the dir name if file name is dot', function() {
+			expect(OC.dirname('/subdir/.')).toEqual('/subdir');
+		});
+		it('Returns the dir name if no file name given', function() {
+			expect(OC.dirname('subdir/')).toEqual('subdir');
+		});
+		it('Returns the dir name if no file name given with root', function() {
+			expect(OC.dirname('/subdir/')).toEqual('/subdir');
 		});
 	});
 	describe('Link functions', function() {
