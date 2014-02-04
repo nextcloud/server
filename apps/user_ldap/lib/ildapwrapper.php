@@ -145,9 +145,11 @@ interface ILDAPWrapper {
 	 * @param $baseDN The DN of the entry to read from
 	 * @param $filter An LDAP filter
 	 * @param $attr array of the attributes to read
+	 * @param $attrsonly optional, 1 if only attribute types shall be returned
+	 * @param $limit optional, limits the result entries
 	 * @return an LDAP search result resource, false on error
 	 */
-	public function search($link, $baseDN, $filter, $attr);
+	public function search($link, $baseDN, $filter, $attr, $attrsonly = 0, $limit = 0);
 
 	/**
 	 * @brief Sets the value of the specified option to be $value
