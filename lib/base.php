@@ -691,7 +691,8 @@ class OC {
 
 		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
+			$controller = new OC\Core\Setup\Controller();
+			$controller->run($_POST);
 			exit();
 		}
 
