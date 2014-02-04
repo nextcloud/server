@@ -750,7 +750,7 @@ function fillWindow(selector) {
 function initCore() {
 
 	/**
-	 * Calls the server periodically to ensure that session doesnt
+	 * Calls the server periodically to ensure that session doesn't
 	 * time out
 	 */
 	function initSessionHeartBeat(){
@@ -771,7 +771,7 @@ function initCore() {
 		});
 	}
 
-	// session heartbeat (defalts to enabled)
+	// session heartbeat (defaults to enabled)
 	if (typeof(oc_config.session_keepalive) === 'undefined' ||
 		!!oc_config.session_keepalive) {
 
