@@ -143,6 +143,8 @@ if (isset($path)) {
 		OCP\Util::addScript('files', 'jquery.iframe-transport');
 		OCP\Util::addScript('files', 'jquery.fileupload');
 		$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
+		$freeSpace=OCP\Util::freeSpace($dir);
+		$uploadLimit=OCP\Util::uploadLimit();
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
@@ -162,6 +164,8 @@ if (isset($path)) {
 		}
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+		$tmpl->assign('freeSpace', $freeSpace);
+		$tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')

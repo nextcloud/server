@@ -466,4 +466,23 @@ class Util {
 	public static function maxUploadFilesize($dir) {
 		return \OC_Helper::maxUploadFilesize($dir);
 	}
+
+	/**
+	 * Calculate free space left within user quota
+	 * 
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function freeSpace($dir) {
+		return \OC_Helper::freeSpace($dir);
+	}
+
+	/**
+	 * Calculate PHP upload limit
+	 *
+	 * @return number of bytes representing
+	 */
+	public static function uploadLimit() {
+		return \OC_Helper::uploadLimit();
+	}
 }
