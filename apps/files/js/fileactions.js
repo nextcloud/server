@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, FileList	*/
+/* global trashBinApp */
 var FileActions = {
 	actions: {},
 	defaults: {},
@@ -45,8 +57,9 @@ var FileActions = {
 		return filteredActions;
 	},
 	getDefault: function (mime, type, permissions) {
+		var mimePart;
 		if (mime) {
-			var mimePart = mime.substr(0, mime.indexOf('/'));
+			mimePart = mime.substr(0, mime.indexOf('/'));
 		}
 		var name = false;
 		if (mime && FileActions.defaults[mime]) {
@@ -141,13 +154,14 @@ var FileActions = {
 		parent.parent().children().last().find('.action.delete').remove();
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
+			var html;
 			if (img.call) {
 				img = img(file);
 			}
 			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
-				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
+				html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
 			} else {
-				var html = '<a href="#" class="action delete delete-icon" />';
+				html = '<a href="#" class="action delete delete-icon" />';
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
@@ -174,10 +188,11 @@ var FileActions = {
 };
 
 $(document).ready(function () {
+	var downloadScope;
 	if ($('#allowZipDownload').val() == 1) {
-		var downloadScope = 'all';
+		downloadScope = 'all';
 	} else {
-		var downloadScope = 'file';
+		downloadScope = 'file';
 	}
 
 	if (typeof disableDownloadActions == 'undefined' || !disableDownloadActions) {

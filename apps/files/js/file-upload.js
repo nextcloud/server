@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
 /**
  * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
  * 1. the core upload handling hooks are added when initializing the plugin,
@@ -7,6 +17,8 @@
  *    - TODO pictures upload button
  *    - TODO music upload button
  */
+
+/* global OC, t, n */
 
 /**
  * Function that will allow us to know if Ajax uploads are supported
