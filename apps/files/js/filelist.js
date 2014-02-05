@@ -40,7 +40,8 @@ window.FileList={
 		}
 		FileList.updateFileSummary();
 		procesSelection();
-		
+
+		$(window).scrollTop(0);
 		$fileList.trigger(jQuery.Event("updated"));
 	},
 	createRow:function(type, name, iconurl, linktarget, size, lastModified, permissions) {
@@ -407,7 +408,7 @@ window.FileList={
 			}
 			return true;
 		};
-		
+
 		form.submit(function(event) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -481,7 +482,7 @@ window.FileList={
 				var basename = newname;
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					basename = newname.substr(0, newname.lastIndexOf('.'));
-				} 
+				}
 				td.find('a.name span.nametext').text(basename);
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					if ( ! td.find('a.name span.extension').exists() ) {
@@ -886,7 +887,7 @@ $(document).ready(function() {
 	 */
 	file_upload_start.on('fileuploaddone', function(e, data) {
 		OC.Upload.log('filelist handle fileuploaddone', e, data);
-		
+
 		var response;
 		if (typeof data.result === 'string') {
 			response = data.result;
