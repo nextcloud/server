@@ -1014,6 +1014,7 @@ class Wizard extends LDAPUtility {
 			$this->configuration->ldapPort);
 
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($this->configuration->ldapTLS === 1) {
 			$this->ldap->startTls($cr);
