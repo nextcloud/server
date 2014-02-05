@@ -113,22 +113,41 @@ class Google_Model implements ArrayAccess
     $props = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
     foreach ($props as $member) {
       $name = $member->getName();
-      if ($this->$name instanceof Google_Model) {
-        $object->$name = $this->$name->toSimpleObject();
-      } else if ($this->$name !== null) {
-        $object->$name = $this->$name;
+      $result = $this->getSimpleValue($this->$name);
+      if ($result != null) {
+        $object->$name = $result;
       }
     }
 
     // Process all other data.
     foreach ($this->data as $key => $val) {
-      if ($val instanceof Google_Model) {
-        $object->$key = $val->toSimpleObject();
-      } else if ($val !== null) {
-        $object->$key = $val;
+      $result = $this->getSimpleValue($val);
+      if ($result != null) {
+        $object->$key = $result;
       }
     }
     return $object;
+  }
+  
+  /**
+   * Handle different types of values, primarily
+   * other objects and map and array data types.
+   */
+  private function getSimpleValue($value)
+  {
+    if ($value instanceof Google_Model) {
+      return $value->toSimpleObject();
+    } else if (is_array($value)) {
+      $return = array();
+      foreach ($value as $key => $a_value) {
+        $a_value = $this->getSimpleValue($a_value);
+        if ($a_value != null) {
+          $return[$key] = $a_value;
+        }
+      }
+      return $return;
+    }
+    return $value;
   }
 
   /**

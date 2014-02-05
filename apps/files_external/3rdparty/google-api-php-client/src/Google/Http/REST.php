@@ -71,7 +71,13 @@ class Google_Http_REST
         $err .= ": ($code) $body";
       }
 
-      throw new Google_Service_Exception($err, $code, null, $decoded['error']['errors']);
+      $errors = null;
+      // Specific check for APIs which don't return error details, such as Blogger.
+      if (isset($decoded['error']) && isset($decoded['error']['errors'])) {
+        $errors = $decoded['error']['errors'];
+      }
+
+      throw new Google_Service_Exception($err, $code, null, $errors);
     }
     
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
