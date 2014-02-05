@@ -137,11 +137,14 @@ if (isset($path)) {
 	} else {
 		OCP\Util::addScript('files', 'file-upload');
 		OCP\Util::addStyle('files_sharing', 'public');
+		OCP\Util::addStyle('files_sharing', 'mobile');
 		OCP\Util::addScript('files_sharing', 'public');
 		OCP\Util::addScript('files', 'fileactions');
 		OCP\Util::addScript('files', 'jquery.iframe-transport');
 		OCP\Util::addScript('files', 'jquery.fileupload');
 		$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
+		$freeSpace=OCP\Util::freeSpace($dir);
+		$uploadLimit=OCP\Util::uploadLimit();
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
@@ -159,9 +162,10 @@ if (isset($path)) {
 		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
-		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+		$tmpl->assign('freeSpace', $freeSpace);
+		$tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
@@ -226,7 +230,8 @@ if (isset($path)) {
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
-			$folder->assign('isCreatable', false);
+			$folder->assign('isCreatable', $allowPublicUploadEnabled);
+			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
 			$folder->assign('publicUploadEnabled', 'no');

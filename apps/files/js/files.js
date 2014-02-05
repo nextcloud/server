@@ -1,4 +1,16 @@
-Files={
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, t, n, FileList, FileActions */
+/* global getURLParameter, isPublic */
+var Files = {
 	// file space size sync
 	_updateStorageStatistics: function() {
 		Files._updateStorageStatisticsTimeout = null;
@@ -41,6 +53,7 @@ Files={
 		}
 		if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#free_space').val(response.data.freeSpace);
 			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
 			$('#usedSpacePercent').val(response.data.usedSpacePercent);
 			Files.displayStorageWarnings();
@@ -67,17 +80,25 @@ Files={
 		return fileName;
 	},
 
-	isFileNameValid:function (name) {
-		if (name === '.') {
-			throw t('files', '\'.\' is an invalid file name.');
-		} else if (name.length === 0) {
+	/**
+	 * Checks whether the given file name is valid.
+	 * @param name file name to check
+	 * @return true if the file name is valid.
+	 * Throws a string exception with an error message if
+	 * the file name is not valid
+	 */
+	isFileNameValid: function (name) {
+		var trimmedName = name.trim();
+		if (trimmedName === '.' || trimmedName === '..') {
+			throw t('files', '"{name}" is an invalid file name.', {name: name});
+		} else if (trimmedName.length === 0) {
 			throw t('files', 'File name cannot be empty.');
 		}
-
 		// check for invalid characters
-		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		var invalid_characters =
+			['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
 		for (var i = 0; i < invalid_characters.length; i++) {
-			if (name.indexOf(invalid_characters[i]) !== -1) {
+			if (trimmedName.indexOf(invalid_characters[i]) !== -1) {
 				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
 			}
 		}
@@ -654,10 +675,10 @@ function procesSelection() {
 		var totalSize = 0;
 		for(var i=0; i<selectedFiles.length; i++) {
 			totalSize+=selectedFiles[i].size;
-		};
+		}
 		for(var i=0; i<selectedFolders.length; i++) {
 			totalSize+=selectedFolders[i].size;
-		};
+		}
 		$('#headerSize').text(humanFileSize(totalSize));
 		var selection = '';
 		if (selectedFolders.length > 0) {
@@ -751,7 +772,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 			console.warn('Files.lazyLoadPreview(): missing etag argument');
 		}
 
-		if ( $('#public_upload').length ) {
+		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
 			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
 		} else {
@@ -769,10 +790,11 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 		}
 		img.src = previewURL;
 	});
-}
+};
 
 function getUniqueName(name) {
 	if (FileList.findFileEl(name).exists()) {
+		var numMatch;
 		var parts=name.split('.');
 		var extension = "";
 		if (parts.length > 1) {
@@ -806,7 +828,7 @@ function checkTrashStatus() {
 
 function onClickBreadcrumb(e) {
 	var $el = $(e.target).closest('.crumb'),
-		$targetDir = $el.data('dir');
+		$targetDir = $el.data('dir'),
 		isPublic = !!$('#isPublic').val();
 
 	if ($targetDir !== undefined && !isPublic) {

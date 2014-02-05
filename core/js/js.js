@@ -11,6 +11,8 @@ var oc_webroot;
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
+window.oc_config = window.oc_config || {};
+
 if (typeof oc_webroot === "undefined") {
 	oc_webroot = location.pathname;
 	var pos = oc_webroot.indexOf('/index.php/');
@@ -253,6 +255,12 @@ var OC={
 		return link;
 	},
 	/**
+	 * Redirect to the target URL, can also be used for downloads.
+	 */
+	redirect: function(targetUrl) {
+		window.location = targetUrl;
+	},
+	/**
 	 * get the absolute path to an image file
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
@@ -364,6 +372,34 @@ var OC={
 		}
 		return result;
 	},
+
+	/**
+	 * Builds a URL query from a JS map.
+	 * @param params parameter map
+	 * @return string containing a URL query (without question) mark
+	 */
+	buildQueryString: function(params) {
+		var s = '';
+		var first = true;
+		if (!params) {
+			return s;
+		}
+		for (var key in params) {
+			var value = params[key];
+			if (first) {
+				first = false;
+			}
+			else {
+				s += '&';
+			}
+			s += encodeURIComponent(key);
+			if (value !== null && typeof(value) !== 'undefined') {
+				s += '=' + encodeURIComponent(value);
+			}
+		}
+		return s;
+	},
+
 	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
@@ -708,8 +744,39 @@ function fillWindow(selector) {
 	console.warn("This function is deprecated! Use CSS instead");
 }
 
-$(document).ready(function(){
-	sessionHeartBeat();
+/**
+ * Initializes core
+ */
+function initCore() {
+
+	/**
+	 * Calls the server periodically to ensure that session doesn't
+	 * time out
+	 */
+	function initSessionHeartBeat(){
+		// interval in seconds
+		var interval = 900;
+		if (oc_config.session_lifetime) {
+			interval = Math.floor(oc_config.session_lifetime / 2);
+		}
+		// minimum one minute
+		if (interval < 60) {
+			interval = 60;
+		}
+		OC.Router.registerLoadedCallback(function(){
+			var url = OC.Router.generate('heartbeat');
+			setInterval(function(){
+				$.post(url);
+			}, interval * 1000);
+		});
+	}
+
+	// session heartbeat (defaults to enabled)
+	if (typeof(oc_config.session_keepalive) === 'undefined' ||
+		!!oc_config.session_keepalive) {
+
+		initSessionHeartBeat();
+	}
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -822,7 +889,9 @@ $(document).ready(function(){
 	$('input[type=text]').focus(function(){
 		this.select();
 	});
-});
+}
+
+$(document).ready(initCore);
 
 /**
  * Filter Jquery selector by attribute value
@@ -952,15 +1021,3 @@ jQuery.fn.exists = function(){
 	return this.length > 0;
 };
 
-/**
- * Calls the server periodically every 15 mins to ensure that session doesnt
- * time out
- */
-function sessionHeartBeat(){
-	OC.Router.registerLoadedCallback(function(){
-		var url = OC.Router.generate('heartbeat');
-		setInterval(function(){
-			$.post(url);
-		}, 900000);
-	});
-}

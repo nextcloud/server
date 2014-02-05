@@ -65,10 +65,15 @@
 	top: 44px;
 	width: 100%;
 }
-#filestable tbody tr { background-color:#fff; height:40px; }
-#filestable, #controls {
-	min-width: 680px;
+/* make sure there's enough room for the file actions */
+#body-user #filestable {
+	min-width: 750px;
 }
+#body-user #controls {
+	min-width: 600px;
+}
+
+#filestable tbody tr { background-color:#fff; height:40px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -98,7 +103,7 @@ table td {
 }
 table th#headerName {
 	position: relative;
-	width: 100em; /* not really sure why this works better than 100% … table styling */
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
 #headerName-container {
@@ -114,7 +119,9 @@ table th#headerDate, table td.date {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
+	/* this can not be just width, both need to be set … table styling */
 	min-width: 176px;
+	max-width: 176px;
 }
 
 /* Multiselect bar */
@@ -140,7 +147,7 @@ table.multiselect thead th {
 }
 table.multiselect #headerName {
 	position: relative;
-	width: 100%;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 table td.selection, table th.selection, table td.fileaction { width:32px; text-align:center; }
 table td.filename a.name {
@@ -169,6 +176,15 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0
 }
 .modified {
 	position: relative;
+	padding-left: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 90%;
+}
+/* ellipsize long modified dates to make room for showing delete button */
+#fileList tr:hover .modified,
+#fileList tr:focus .modified {
+	width: 75%;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
@@ -242,7 +258,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 #fileList tr td.filename a.name label {
 	position: absolute;
-	width: 100%;
+	width: 80%;
 	height: 50px;
 }
 
@@ -253,6 +269,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	position: absolute;
 	top: 14px;
 	right: 0;
+	font-size: 11px;
 }
 
 #fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
@@ -261,6 +278,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	right: 0;
 	padding: 28px 14px 19px !important;
 }
+
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
@@ -289,6 +307,10 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	filter: alpha(opacity=0);
 	opacity: 0;
 	display:none;
+}
+
+#fileList a.action[data-action="Rename"] {
+	padding:18px 14px !important;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";

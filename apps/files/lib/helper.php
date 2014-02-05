@@ -15,6 +15,7 @@ class Helper
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
+					 'freeSpace' => $storageInfo['free'],
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
 

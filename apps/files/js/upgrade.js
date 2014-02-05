@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC */
 $(document).ready(function () {
 	var eventSource, total, bar = $('#progressbar');
 	console.log('start');

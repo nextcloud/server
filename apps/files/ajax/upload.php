@@ -8,6 +8,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 // If no token is sent along, rely on login only
 
 $allowedPermissions = OCP\PERMISSION_ALL;
+$errorCode = null;
 
 $l = OC_L10N::get('files');
 if (empty($_POST['dirToken'])) {
@@ -125,7 +126,8 @@ if (strpos($dir, '..') === false) {
 
 					$meta = \OC\Files\Filesystem::getFileInfo($target);
 					if ($meta === false) {
-						$error = $l->t('Upload failed. Could not get file info.');
+						$error = $l->t('The target folder has been moved or deleted.');
+						$errorCode = 'targetnotfound';
 					} else {
 						$result[] = array('status' => 'success',
 							'mime' => $meta['mimetype'],
@@ -177,5 +179,5 @@ if ($error === false) {
 	OCP\JSON::encodedPrint($result);
 	exit();
 } else {
-	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error), $storageStats))));
+	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error, 'code' => $errorCode), $storageStats))));
 }

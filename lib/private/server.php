@@ -138,6 +138,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('UserCache', function($c) {
 			return new UserCache();
 		});
+		$this->registerService('MemCacheFactory', function ($c) {
+			$instanceId = \OC_Util::getInstanceId();
+			return new \OC\Memcache\Factory($instanceId);
+		});
 		$this->registerService('ActivityManager', function($c) {
 			return new ActivityManager();
 		});
@@ -295,6 +299,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getCache() {
 		return $this->query('UserCache');
+	}
+
+	/**
+	 * Returns an \OCP\CacheFactory instance
+	 *
+	 * @return \OCP\CacheFactory
+	 */
+	function getMemCacheFactory() {
+		return $this->query('MemCacheFactory');
 	}
 
 	/**
