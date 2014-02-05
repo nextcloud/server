@@ -11,12 +11,7 @@ table td.date {
 
 /* restrict length of displayed filename to prevent overflow */
 table td.filename .nametext {
-	max-width: 80% !important;
-}
-/* and to make room for download button on hover */
-table tr:hover td.filename .nametext,
-table tr:focus td.filename .nametext {
-	max-width: 60% !important;
+	max-width: 75% !important;
 }
 
 /* on mobile, show single shared image at full width without margin */
@@ -24,6 +19,22 @@ table tr:focus td.filename .nametext {
 	width: 100%;
 	padding: 0;
 	margin-bottom: 35px;
+}
+
+/* always show actions on mobile */
+#fileList a.action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
+	filter: alpha(opacity=20) !important;
+	opacity: .2 !important;
+	display: inline !important;
+}
+/* some padding for better clickability */
+#fileList a.action img {
+	padding: 0 6px 0 12px;
+}
+/* hide text of the actions on mobile */
+#fileList a.action span {
+	display: none;
 }
 
 
