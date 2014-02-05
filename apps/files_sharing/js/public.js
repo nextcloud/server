@@ -56,6 +56,9 @@ $(document).ready(function() {
 		};
 	});
 
-	$('#directLink').focus();
+	$(document).on('click', '#directLink', function() {
+		$(this).focus();
+		$(this).select();
+	});
 
 });
