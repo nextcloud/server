@@ -194,8 +194,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 				. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
 			// cleanup
-			$this->view->unlink(
-				'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+			$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+			$this->view->unlink($this->filename);
+			$this->view->chroot('/');
 
 			// check if share key not exists
 			$this->assertFalse($this->view->file_exists(
@@ -265,8 +266,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 				. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
 			// cleanup
-			$this->view->unlink(
-				'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+			$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+			$this->view->unlink($this->filename);
+			$this->view->chroot('/');
 
 			// check if share key not exists
 			$this->assertFalse($this->view->file_exists(
@@ -352,7 +354,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 				. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
 			// cleanup
-			$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files' . $this->folder1);
+			$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files');
+			$this->view->unlink($this->folder1);
+			$this->view->chroot('/');
 
 			// check if share key not exists
 			$this->assertFalse($this->view->file_exists(
@@ -482,9 +486,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 				. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
 			// cleanup
-			$this->view->unlink(
-				'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files' . $this->folder1 . $this->subfolder
-				. $this->subsubfolder . '/' . $this->filename);
+			$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files');
+			$this->view->unlink($this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
+			$this->view->chroot('/');
 
 			// check if share key not exists
 			$this->assertFalse($this->view->file_exists(
@@ -559,7 +563,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->filename . '.' . $publicShareKeyId . '.shareKey'));
 
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+		$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+		$this->view->unlink($this->filename);
+		$this->view->chroot('/');
 
 		// check if share key not exists
 		$this->assertFalse($this->view->file_exists(
@@ -636,7 +642,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4 . '.shareKey'));
 
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+		$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+		$this->view->unlink($this->filename);
+		$this->view->chroot('/');
 
 		// check if share key not exists
 		$this->assertFalse($this->view->file_exists(
@@ -731,8 +739,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->filename . '.' . $recoveryKeyId . '.shareKey'));
 
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->folder1);
+		$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+		$this->view->unlink($this->filename);
+		$this->view->unlink($this->folder1);
+		$this->view->chroot('/');
 
 		// check if share key for recovery not exists
 		$this->assertFalse($this->view->file_exists(
@@ -828,8 +838,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile2);
 
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1);
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
+		$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/');
+		$this->view->unlink($this->folder1);
+		$this->view->unlink($this->filename);
+		$this->view->chroot('/');
 
 		// check if share key for user and recovery exists
 		$this->assertFalse($this->view->file_exists(
@@ -930,7 +942,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.shareKey'));
 
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+		$this->view->chroot('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/');
+		$this->view->unlink($this->filename);
+		$this->view->chroot('/');
 	}
 
 }
