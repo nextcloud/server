@@ -103,7 +103,7 @@ table td {
 }
 table th#headerName {
 	position: relative;
-	width: 100em; /* not really sure why this works better than 100% … table styling */
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
 #headerName-container {
