@@ -21,10 +21,10 @@ class SearchResultSorter {
 	 * @param $encoding optional, encoding to use, defaults to UTF-8
 	 * @param $log optional, an \OC\Log instance
 	 */
-	public function __construct($search, $key, $encoding = 'UTF-8', \OC\Log $log = null) {
+	public function __construct($search, $key, \OC\Log $log = null, $encoding = 'UTF-8') {
 		$this->encoding = $encoding;
 		$this->key = $key;
-		$this->log = is_null($log) ? new \OC\Log() : $log;
+		$this->log = $log;
 		$this->search = mb_strtolower($search, $this->encoding);
 	}
 
@@ -35,8 +35,10 @@ class SearchResultSorter {
 	 */
 	public function sort($a, $b) {
 		if(!isset($a[$this->key]) || !isset($b[$this->key])) {
-			$this->log->error('Sharing dialogue: cannot sort due to missing array key',
-							  array('app' => 'core'));
+			if(!is_null($this->log)) {
+				$this->log->error('Sharing dialogue: cannot sort due to ' .
+								  'missing array key', array('app' => 'core'));
+			}
 			return 0;
 		}
 		$nameA = mb_strtolower($a[$this->key], $this->encoding);
