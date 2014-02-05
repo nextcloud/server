@@ -185,19 +185,23 @@ EOF
 	cp $BASEDIR/tests/autoconfig-$1.php $BASEDIR/config/autoconfig.php
 
 	# trigger installation
-	php -f index.php
+	echo "INDEX"
+	php -f index.php | grep -i -C9999 error && echo "Error during setup" && exit 101
+	echo "END INDEX"
 
 	#test execution
 	echo "Testing with $1 ..."
 	cd tests
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
-	php -f enable_all.php
+	php -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
 	if [ -z "$NOCOVERAGE" ]; then
 		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
+		RESULT=$?
 	else
 		echo "No coverage"
 		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
+		RESULT=$?
 	fi
 }
 
