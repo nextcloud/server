@@ -15,14 +15,7 @@ $(document).ready(function() {
 		if (mimetype.substr(0, mimetype.indexOf('/')) != 'image' && $('.publicpreview').length === 0) {
 			// Trigger default action if not download TODO
 			var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
-			if (typeof action === 'undefined') {
-				$('#noPreview').show();
-				if (mimetype != 'httpd/unix-directory') {
-					// NOTE: Remove when a better file previewer solution exists
-					$('#content').remove();
-					$('table').remove();
-				}
-			} else {
+			if (typeof action !== 'undefined') {
 				action($('#filename').val());
 			}
 		}
