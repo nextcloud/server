@@ -14,6 +14,7 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 	$client->setClientSecret($_POST['client_secret']);
 	$client->setRedirectUri($_POST['redirect']);
 	$client->setScopes(array('https://www.googleapis.com/auth/drive'));
+	$client->setAccessType('offline');
 	if (isset($_POST['step'])) {
 		$step = $_POST['step'];
 		if ($step == 1) {
