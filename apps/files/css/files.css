@@ -145,7 +145,7 @@ table.multiselect thead th {
 }
 table.multiselect #headerName {
 	position: relative;
-	width: 100%;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name {
