@@ -25,11 +25,11 @@ class Test_Share_Search extends \PHPUnit_Framework_TestCase {
 		$sorter = new \OC\Share\SearchResultSorter($search, 'foobar');
 
 		$result = array(
-						array('foobar' => 'woot'),
-						array('foobar' => 'linux'),
-						array('foobar' => 'Linus'),
-						array('foobar' => 'Bicyclerepairwoman'),
-					   );
+			array('foobar' => 'woot'),
+			array('foobar' => 'linux'),
+			array('foobar' => 'Linus'),
+			array('foobar' => 'Bicyclerepairwoman'),
+		);
 
 		usort($result, array($sorter, 'sort'));
 		$this->assertTrue($result[0]['foobar'] === 'Linus');
