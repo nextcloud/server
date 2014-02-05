@@ -234,7 +234,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 
 #fileList tr td.filename a.name label {
 	position: absolute;
-	width: 100%;
+	width: 80%;
 	height: 50px;
 }
 
