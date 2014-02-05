@@ -203,4 +203,78 @@ describe('Core base tests', function() {
 			})).toEqual('number=123');
 		});
 	});
+	describe('Session heartbeat', function() {
+		var clock,
+			oldConfig,
+			loadedStub,
+			routeStub,
+			counter;
+
+		beforeEach(function() {
+			clock = sinon.useFakeTimers();
+			oldConfig = window.oc_config;
+			loadedStub = sinon.stub(OC.Router, 'registerLoadedCallback');
+			routeStub = sinon.stub(OC.Router, 'generate').returns('/heartbeat');
+			counter = 0;
+
+			fakeServer.autoRespond = true;
+			fakeServer.autoRespondAfter = 0;
+			fakeServer.respondWith(/\/heartbeat/, function(xhr) {
+				counter++;
+				xhr.respond(200, {'Content-Type': 'application/json'}, '{}');
+			});
+		});
+		afterEach(function() {
+			clock.restore();
+			window.oc_config = oldConfig;
+			loadedStub.restore();
+			routeStub.restore();
+		});
+		it('sends heartbeat half the session lifetime when heartbeat enabled', function() {
+			window.oc_config = {
+				session_keepalive: true,
+				session_lifetime: 300
+			};
+			window.initCore();
+			expect(loadedStub.calledOnce).toEqual(true);
+			loadedStub.yield();
+			expect(routeStub.calledWith('heartbeat')).toEqual(true);
+
+			expect(counter).toEqual(0);
+
+			// less than half, still nothing
+			clock.tick(100 * 1000);
+			expect(counter).toEqual(0);
+
+			// reach past half (160), one call
+			clock.tick(55 * 1000);
+			expect(counter).toEqual(1);
+
+			// almost there to the next, still one
+			clock.tick(140 * 1000);
+			expect(counter).toEqual(1);
+
+			// past it, second call
+			clock.tick(20 * 1000);
+			expect(counter).toEqual(2);
+		});
+		it('does no send heartbeat when heartbeat disabled', function() {
+			window.oc_config = {
+				session_keepalive: false,
+				session_lifetime: 300
+			};
+			window.initCore();
+			expect(loadedStub.notCalled).toEqual(true);
+			expect(routeStub.notCalled).toEqual(true);
+
+			expect(counter).toEqual(0);
+
+			clock.tick(1000000);
+
+			// still nothing
+			expect(counter).toEqual(0);
+		});
+
+	});
 });
+
