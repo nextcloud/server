@@ -19,5 +19,12 @@ table tr:focus td.filename .nametext {
 	max-width: 60% !important;
 }
 
+/* on mobile, show single shared image at full width without margin */
+#imgframe {
+	width: 100%;
+	padding: 0;
+	margin-bottom: 35px;
+}
+
 
 }
