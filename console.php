@@ -8,7 +8,6 @@
 
 use Symfony\Component\Console\Application;
 
-$RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 
 // Don't do anything if ownCloud has not been installed yet

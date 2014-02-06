@@ -949,11 +949,6 @@ class OC {
 
 }
 
-// define runtime variables - unless this already has been done
-if (!isset($RUNTIME_NOAPPS)) {
-	$RUNTIME_NOAPPS = false;
-}
-
 if (!function_exists('get_temp_dir')) {
 	function get_temp_dir() {
 		if ($temp = ini_get('upload_tmp_dir')) return $temp;
