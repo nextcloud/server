@@ -259,17 +259,38 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
-
-		if (strpos($mimetype, '/')) {
-			$where = '`mimetype` = ? AND ';
-		} else {
-			$where = '`mimepart` = ? AND ';
+		$mimepart = null;
+		if (strpos($mimetype, '/') === false) {
+			$mimepart = $mimetype;
+			$mimetype = null;
 		}
 
-		$value = $this->getMimetypeId($mimetype);
+		// note: searchWithWhere is currently broken as it doesn't
+		// recurse into subdirs nor returns the correct
+		// file paths, so using getFolderContents() for now
 
-		return $this->searchWithWhere($where, $value);
-
+		$result = array();
+		$exploreDirs = array('');
+		while (count($exploreDirs) > 0) {
+			$dir = array_pop($exploreDirs);
+			$files = $this->getFolderContents($dir);
+			// no results?
+			if (!$files) {
+				continue;
+			}
+			foreach ($files as $file) {
+				if ($file['mimetype'] === 'httpd/unix-directory') {
+					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
+				}
+				else if (($mimepart && $file['mimepart'] === $mimepart) || ($mimetype && $file['mimetype'] === $mimetype)) {
+					// usersPath not reliable
+					//$file['path'] = $file['usersPath'];
+					$file['path'] = ltrim($dir . '/' . $file['name'], '/');
+					$result[] = $file;
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
