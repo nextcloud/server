@@ -144,15 +144,12 @@ if (isset($path)) {
 		OCP\Util::addScript('files', 'jquery.fileupload');
 		$maxUploadFilesize=OCP\Util::maxUploadFilesize($path);
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
-		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
 		$tmpl->assign('filename', $file);
 		$tmpl->assign('directory_path', $linkItem['file_target']);
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
-		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$tmpl->assign('dirToken', $linkItem['token']);
 		$tmpl->assign('sharingToken', $token);
-		$tmpl->assign('disableSharing', true);
 		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
 		if (OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes') === 'no') {
 			$allowPublicUploadEnabled = false;
@@ -160,8 +157,6 @@ if (isset($path)) {
 		if ($linkItem['item_type'] !== 'folder') {
 			$allowPublicUploadEnabled = false;
 		}
-		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
