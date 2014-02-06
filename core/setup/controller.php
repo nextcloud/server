@@ -56,16 +56,17 @@ class Controller {
 	}
 
 	public function loadAutoConfig($post) {
-		$dbIsSet = isset($post['dbtype']);
-		$directoryIsSet = isset($post['directory']);
-		$adminAccountIsSet = isset($post['adminlogin']);
-
 		$autosetup_file = \OC::$SERVERROOT.'/config/autoconfig.php';
 		if( file_exists( $autosetup_file )) {
 			\OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', \OC_Log::INFO);
+			$AUTOCONFIG = array();
 			include $autosetup_file;
 			$post = array_merge ($post, $AUTOCONFIG);
 		}
+
+		$dbIsSet = isset($post['dbtype']);
+		$directoryIsSet = isset($post['directory']);
+		$adminAccountIsSet = isset($post['adminlogin']);
 
 		if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
 			$post['install'] = 'true';
