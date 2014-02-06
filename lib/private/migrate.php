@@ -50,7 +50,7 @@ class OC_Migrate{
 
 	/**
 	 * register a new migration provider
-	 * @param OC_Migrate_Provider $provider
+	 * @param OC_Migration_Provider $provider
 	 */
 	public static function registerProvider($provider) {
 		self::$providers[]=$provider;
@@ -76,7 +76,7 @@ class OC_Migrate{
 	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @param ootional $type string type of export, defualts to user
 	 * @param otional $path string path to zip output folder
-	 * @return false on error, path to zip on success
+	 * @return string on error, path to zip on success
 	 */
 	public static function export( $uid=null, $type='user', $path=null ) {
 		$datadir = OC_Config::getValue( 'datadirectory' );
@@ -311,7 +311,7 @@ class OC_Migrate{
 
 	/**
 	* @brief recursively deletes a directory
-	* @param $dir string path of dir to delete
+	* @param string $dir string path of dir to delete
 	* $param optional $deleteRootToo bool delete the root directory
 	* @return bool
 	*/
@@ -429,7 +429,7 @@ class OC_Migrate{
 	/**
 	 * @brief generates json containing export info, and merges any data supplied
 	 * @param optional $array array of data to include in the returned json
-	 * @return bool
+	 * @return string
 	 */
 	static private function getExportInfo( $array=array() ) {
 		$info = array(
@@ -602,7 +602,7 @@ class OC_Migrate{
 
 	/**
 	* @brief imports a new user
-	* @param $db string path to migration.db
+	* @param string $db string path to migration.db
 	* @param $info object of migration info
 	* @param $uid optional uid to use
 	* @return array of apps with import statuses, or false on failure.

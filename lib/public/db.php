@@ -39,7 +39,7 @@ class DB {
 	 * @param string $query Query string
 	 * @param int $limit Limit of the SQL statement
 	 * @param int $offset Offset of the SQL statement
-	 * @return \Doctrine\DBAL\Statement prepared SQL query
+	 * @return \OC_DB_StatementWrapper prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
@@ -49,7 +49,7 @@ class DB {
 
 	/**
 	 * Insert a row if a matching row doesn't exists.
-	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param string $table string The table name (will replace *PREFIX*) to perform the replace on.
 	 * @param $input array
 	 *
 	 * The input array if in the form:
@@ -70,8 +70,8 @@ class DB {
 
 	/**
 	 * Gets last value of autoincrement
-	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @return int
+	 * @param string $table string The optional table name (will replace *PREFIX*) and add sequence suffix
+	 * @return string
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertID()
 	 *

@@ -78,6 +78,9 @@ function preview_icon( $path ) {
 	return OC_Helper::previewIcon( $path );
 }
 
+/**
+ * @param string $path
+ */
 function publicPreview_icon ( $path, $token ) {
 	return OC_Helper::publicPreviewIcon( $path, $token );
 }
@@ -110,7 +113,7 @@ function strip_time($timestamp){
  * @param int $timestamp timestamp to format
  * @param int $fromTime timestamp to compare from, defaults to current time
  * @param bool $dateOnly whether to strip time information
- * @return formatted timestamp
+ * @return OC_L10N_String timestamp
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
 	$l=OC_L10N::get('lib');

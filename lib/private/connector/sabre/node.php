@@ -153,9 +153,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	/**
 	 * @brief Updates properties on this node,
-	 * @param array $mutations
 	 * @see Sabre_DAV_IProperties::updateProperties
-	 * @return bool|array
+	 * @return boolean
 	 */
 	public function updateProperties($properties) {
 		$existing = $this->getProperties(array());
@@ -267,7 +266,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @return mixed
+	 * @return string|null
 	 */
 	public function getFileId()
 	{

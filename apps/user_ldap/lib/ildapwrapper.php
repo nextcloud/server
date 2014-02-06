@@ -29,7 +29,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * @brief Bind to LDAP directory
-	 * @param $link LDAP link resource
+	 * @param resource $link LDAP link resource
 	 * @param $dn an RDN to log in with
 	 * @param $password the password
 	 * @return true on success, false otherwise
@@ -50,7 +50,7 @@ interface ILDAPWrapper {
 	 * @brief Send LDAP pagination control
 	 * @param $link LDAP link resource
 	 * @param $pagesize number of results per page
-	 * @param $isCritical Indicates whether the pagination is critical of not.
+	 * @param boolean $isCritical Indicates whether the pagination is critical of not.
 	 * @param $cookie structure sent by LDAP server
 	 * @return true on success, false otherwise
 	 */
@@ -61,7 +61,7 @@ interface ILDAPWrapper {
 	 * @param $link LDAP link resource
 	 * @param $result LDAP result resource
 	 * @param $cookie structure sent by LDAP server
-	 * @return true on success, false otherwise
+	 * @return boolean on success, false otherwise
 	 *
 	 * Corresponds to ldap_control_paged_result_response
 	 */
@@ -124,7 +124,7 @@ interface ILDAPWrapper {
 	/**
 	 * @brief Return next result id
 	 * @param $link LDAP link resource
-	 * @param $result LDAP entry result resource
+	 * @param resource $result LDAP entry result resource
 	 * @return an LDAP search result resource
 	 * */
 	public function nextEntry($link, $result);
@@ -153,7 +153,7 @@ interface ILDAPWrapper {
 	 * @brief Sets the value of the specified option to be $value
 	 * @param $link LDAP link resource
 	 * @param $option a defined LDAP Server option
-	 * @param $value the new value for the option
+	 * @param integer $value the new value for the option
 	 * @return true on success, false otherwise
 	 */
 	public function setOption($link, $option, $value);
@@ -175,7 +175,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * @brief Unbind from LDAP directory
-	 * @param $link LDAP link resource
+	 * @param resource $link LDAP link resource
 	 * @return true on success, false otherwise
 	 */
 	public function unbind($link);
@@ -184,20 +184,20 @@ interface ILDAPWrapper {
 
 	/**
 	 * @brief Checks whether the server supports LDAP
-	 * @return true if it the case, false otherwise
+	 * @return boolean if it the case, false otherwise
 	 * */
 	public function areLDAPFunctionsAvailable();
 
 	/**
 	 * @brief Checks whether PHP supports LDAP Paged Results
-	 * @return true if it the case, false otherwise
+	 * @return boolean if it the case, false otherwise
 	 * */
 	public function hasPagedResultSupport();
 
 	/**
 	 * @brief Checks whether the submitted parameter is a resource
 	 * @param $resource the resource variable to check
-	 * @return true if it is a resource, false otherwise
+	 * @return boolean if it is a resource, false otherwise
 	 */
 	public function isResource($resource);
 

@@ -51,7 +51,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * rename a file or folder in the archive
 	 * @param string source
 	 * @param string dest
-	 * @return bool
+	 * @return boolean|null
 	 */
 	function rename($source, $dest) {
 		$source=$this->stripPath($source);
@@ -117,7 +117,8 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * extract a single file from the archive
 	 * @param string path
 	 * @param string dest
-	 * @return bool
+	 * @param string $dest
+	 * @return boolean|null
 	 */
 	function extractFile($path, $dest) {
 		$fp = $this->zip->getStream($path);
@@ -127,6 +128,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * extract the archive
 	 * @param string path
 	 * @param string dest
+	 * @param string $dest
 	 * @return bool
 	 */
 	function extract($dest) {
@@ -191,6 +193,9 @@ class OC_Archive_ZIP extends OC_Archive{
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	private function stripPath($path) {
 		if(!$path || $path[0]=='/') {
 			return substr($path, 1);

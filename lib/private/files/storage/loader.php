@@ -25,6 +25,10 @@ class Loader {
 		$this->storageWrappers[] = $callback;
 	}
 
+	/**
+	 * @param string|boolean $mountPoint
+	 * @param string $class
+	 */
 	public function load($mountPoint, $class, $arguments) {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}

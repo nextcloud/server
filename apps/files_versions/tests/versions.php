@@ -181,6 +181,9 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 // extend the original class to make it possible to test protected methods
 class VersionStorageToTest extends \OCA\Files_Versions\Storage {
 
+	/**
+	 * @param integer $time
+	 */
 	public function callProtectedGetExpireList($time, $versions) {
 		return self::getExpireList($time, $versions);
 

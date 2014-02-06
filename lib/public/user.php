@@ -48,6 +48,8 @@ class User {
 	 * @param string search pattern
 	 * @param int limit
 	 * @param int offset
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return array with all uids
 	 */
 	public static function getUsers( $search = '', $limit = null, $offset = null ) {
@@ -103,7 +105,9 @@ class User {
 	 * Check if the password is correct
 	 * @param string The username
 	 * @param string The password
-	 * @return mixed username on success, false otherwise
+	 * @param string $uid
+	 * @param string $password
+	 * @return string|false username on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 */

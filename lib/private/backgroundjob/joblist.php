@@ -34,7 +34,7 @@ class JobList {
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param Job $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
@@ -154,7 +154,7 @@ class JobList {
 	/**
 	 * get the id of the last ran job
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function getLastJob() {
 		return \OC_Appconfig::getValue('backgroundjob', 'lastjob', 0);

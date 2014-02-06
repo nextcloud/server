@@ -90,6 +90,9 @@ class OC_Util {
 		return true;
 	}
 
+	/**
+	 * @param string $user
+	 */
 	public static function getUserQuota($user){
 		$userQuota = OC_Preferences::getValue($user, 'files', 'quota', 'default');
 		if($userQuota === 'default') {
@@ -513,6 +516,7 @@ class OC_Util {
 	/**
 	 * @brief Check for correct file permissions of data directory
 	 * @paran string $dataDirectory
+	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
@@ -625,7 +629,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the user is a subadmin, redirects to home if not
-	 * @return array $groups where the current user is subadmin
+	 * @return null|boolean $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
 		OC_Util::checkLoggedIn();
@@ -924,7 +928,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the connection to the internet is disabled on purpose
-	 * @return bool
+	 * @return string
 	 */
 	public static function isInternetConnectionEnabled(){
 		return \OC_Config::getValue("has_internet_connection", true);
@@ -1129,6 +1133,7 @@ class OC_Util {
 	}
 
 	/**
+	 * @param boolean|string $file
 	 * @return string
 	 */
 	public static function basename($file) {

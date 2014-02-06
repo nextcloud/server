@@ -24,6 +24,9 @@ class BackgroundWatcher {
 		return $row['id'];
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	static private function checkUpdate($id) {
 		$cacheItem = Cache::getById($id);
 		if (is_null($cacheItem)) {

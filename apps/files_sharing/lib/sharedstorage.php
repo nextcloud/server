@@ -64,6 +64,7 @@ class Shared extends \OC\Files\Storage\Common {
 	/**
 	 * @brief Get the source file path for a shared file
 	 * @param string Shared target file path
+	 * @param string $target
 	 * @return string source file path or false if not found
 	 */
 	public function getSourcePath($target) {

@@ -35,7 +35,7 @@ class OC_Mount_Config {
 	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
 	* If the configuration parameter is optional, add a '&' to the beginning of the value
 	* If the configuration parameter is hidden, add a '#' to the beginning of the value
-	* @return array
+	* @return string
 	*/
 	public static function getBackends() {
 
@@ -269,6 +269,10 @@ class OC_Mount_Config {
 	* @param string MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
 	* @param string User or group to apply mount to
 	* @param bool Personal or system mount point i.e. is this being called from the personal or admin page
+	* @param string $mountPoint
+	* @param string $class
+	* @param string $mountType
+	* @param string $applicable
 	* @return bool
 	*/
 	public static function addMountPoint($mountPoint,
@@ -344,6 +348,7 @@ class OC_Mount_Config {
 	/**
 	* Read the mount points in the config file into an array
 	* @param bool Personal or system config file
+	* @param boolean $isPersonal
 	* @return array
 	*/
 	private static function readData($isPersonal) {
@@ -374,6 +379,7 @@ class OC_Mount_Config {
 	* Write the mount points to the config file
 	* @param bool Personal or system config file
 	* @param array Mount points
+	* @param boolean $isPersonal
 	*/
 	private static function writeData($isPersonal, $data) {
 		if ($isPersonal) {

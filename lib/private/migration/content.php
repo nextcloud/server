@@ -34,9 +34,9 @@ class OC_Migration_Content{
 
 	/**
 	* @brief sets up the
-	* @param $zip ZipArchive object
+	* @param ZipArchive $zip ZipArchive object
 	* @param optional $db a MDB2 database object (required for exporttype user)
-	* @return bool
+	* @return boolean|null
 	*/
 	public function __construct( $zip, $db=null ) {
 
@@ -47,6 +47,10 @@ class OC_Migration_Content{
 
 	// @brief prepares the db
 	// @param $query the sql query to prepare
+
+	/**
+	 * @param string $query
+	 */
 	public function prepare( $query ) {
 
 		// Only add database to tmpfiles if actually used
@@ -179,7 +183,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief adds a directory to the zip object
-	* @param $dir string path of the directory to add
+	* @param boolean|string $dir string path of the directory to add
 	* @param $recursive bool
 	* @param $internaldir string path of folder to add dir to in zip
 	* @return bool
@@ -214,8 +218,8 @@ class OC_Migration_Content{
 
 	/**
 	* @brief adds a file to the zip from a given string
-	* @param $data string of data to add
-	* @param $path the relative path inside of the zip to save the file to
+	* @param string $data string of data to add
+	* @param string $path the relative path inside of the zip to save the file to
 	* @return bool
 	*/
 	public function addFromString( $data, $path ) {

@@ -145,6 +145,7 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 	/**
 	 * Returns the sizes of the path and its parent dirs in a hash
 	 * where the key is the path and the value is the size.
+	 * @param string $path
 	 */
 	function getOwnerDirSizes($path) {
 		$result = array();

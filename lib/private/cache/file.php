@@ -29,6 +29,9 @@ class File {
 		}
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function get($key) {
 		$result = null;
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -59,6 +62,9 @@ class File {
 		return $result;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function set($key, $value, $ttl=0) {
 		$storage = $this->getStorage();
 		$result = false;
@@ -87,6 +93,9 @@ class File {
 		return false;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function remove($key) {
 		$storage = $this->getStorage();
 		if(!$storage) {

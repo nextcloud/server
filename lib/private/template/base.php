@@ -14,6 +14,11 @@ class Base {
 	private $l10n; // The l10n-Object
 	private $theme; // theme defaults
 
+	/**
+	 * @param string $template
+	 * @param \OC_L10N $l10n
+	 * @param \OC_Defaults $theme
+	 */
 	public function __construct( $template, $requesttoken, $l10n, $theme ) {
 		$this->vars = array();
 		$this->vars['requesttoken'] = $requesttoken;
@@ -22,6 +27,10 @@ class Base {
 		$this->theme = $theme;
 	}
 
+	/**
+	 * @param string $serverroot
+	 * @param string|false $app_dir
+	 */
 	protected function getAppTemplateDirs($theme, $app, $serverroot, $app_dir) {
 		// Check if the app is in the app folder or in the root
 		if( file_exists($app_dir.'/templates/' )) {
@@ -36,6 +45,9 @@ class Base {
 		);
 	}
 
+	/**
+	 * @param string $serverroot
+	 */
 	protected function getCoreTemplateDirs($theme, $serverroot) {
 		return array(
 			$serverroot.'/themes/'.$theme.'/core/templates/',
@@ -63,7 +75,7 @@ class Base {
 	 * @brief Appends a variable
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via
@@ -97,7 +109,7 @@ class Base {
 
 	/**
 	 * @brief Process the template
-	 * @return bool
+	 * @return string
 	 *
 	 * This function processes the template.
 	 */

@@ -372,7 +372,7 @@ class Storage {
 
 	/**
 	 * @brief returns all stored file versions from a given user
-	 * @param $uid id to the user
+	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
 	private static function getAllVersions($uid) {
@@ -420,7 +420,7 @@ class Storage {
 
 	/**
 	 * @brief get list of files we want to expire
-	 * @param int $currentTime timestamp of current time
+	 * @param integer $currentTime timestamp of current time
 	 * @param array $versions list of versions
 	 * @return array containing the list of to deleted versions and the size of them
 	 */

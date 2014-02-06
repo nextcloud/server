@@ -247,6 +247,10 @@ class DAV extends \OC\Files\Storage\Common{
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 */
 	public function getFile($path, $target) {
 		$this->init();
 		$source=$this->fopen($path, 'r');
@@ -338,6 +342,11 @@ class DAV extends \OC\Files\Storage\Common{
 		return substr($path, 1);
 	}
 
+	/**
+	 * @param string $method
+	 * @param string $path
+	 * @param integer $expected
+	 */
 	private function simpleResponse($method, $path, $body, $expected) {
 		$path=$this->cleanPath($path);
 		try {

@@ -94,6 +94,9 @@ class Close {
 		return unlink($path);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public static function registerCallback($path, $callback) {
 		self::$callBacks[$path] = $callback;
 	}

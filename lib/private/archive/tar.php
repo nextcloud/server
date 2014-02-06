@@ -31,7 +31,7 @@ class OC_Archive_TAR extends OC_Archive{
 	/**
 	 * try to detect the type of tar compression
 	 * @param string file
-	 * @return str
+	 * @return integer
 	 */
 	static public function getTarType($file) {
 		if(strpos($file, '.')) {
@@ -211,6 +211,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * extract a single file from the archive
 	 * @param string path
 	 * @param string dest
+	 * @param string $dest
 	 * @return bool
 	 */
 	function extractFile($path, $dest) {
@@ -233,6 +234,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * extract the archive
 	 * @param string path
 	 * @param string dest
+	 * @param string $dest
 	 * @return bool
 	 */
 	function extract($dest) {

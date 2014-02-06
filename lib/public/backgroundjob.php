@@ -59,7 +59,7 @@ class BackgroundJob {
 	 * sets the background jobs execution type
 	 *
 	 * @param string $type execution type
-	 * @return boolean
+	 * @return boolean|null
 	 *
 	 * This method sets the execution type of the background jobs. Possible types
 	 * are "none", "ajax", "webcron", "cron"
@@ -69,7 +69,7 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param string $job
 	 * @param mixed $argument
 	 */
 	public static function registerJob($job, $argument = null) {
@@ -82,7 +82,7 @@ class BackgroundJob {
 	 * creates a regular task
 	 * @param string $klass class name
 	 * @param string $method method name
-	 * @return true
+	 * @return boolean|null
 	 */
 	public static function addRegularTask($klass, $method) {
 		if (!\OC::needUpgrade()) {
@@ -115,7 +115,7 @@ class BackgroundJob {
 	 * @deprecated
 	 * Gets one queued task
 	 * @param int $id ID of the task
-	 * @return associative array
+	 * @return \OC\BackgroundJob\Job|null array
 	 */
 	public static function findQueuedTask($id) {
 		$jobList = new JobList();
@@ -170,7 +170,7 @@ class BackgroundJob {
 	 * @param string $class class name
 	 * @param string $method method name
 	 * @param string $parameters all useful data as text
-	 * @return int id of task
+	 * @return boolean id of task
 	 */
 	public static function addQueuedTask($app, $class, $method, $parameters) {
 		self::registerJob('OC\BackgroundJob\Legacy\QueuedJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
@@ -181,7 +181,7 @@ class BackgroundJob {
 	 * @deprecated
 	 * deletes a queued task
 	 * @param int $id id of task
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * Deletes a report
 	 */

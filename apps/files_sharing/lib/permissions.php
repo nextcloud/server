@@ -42,6 +42,10 @@ class Shared_Permissions extends Permissions {
 		}
 	}
 
+	/**
+	 * @param integer $fileId
+	 * @param string $user
+	 */
 	private function getFile($fileId, $user) {
 		if ($fileId == -1) {
 			return \OCP\PERMISSION_READ;

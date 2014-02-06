@@ -7,6 +7,10 @@
  */
 
 class OC_TemplateLayout extends OC_Template {
+
+	/**
+	 * @param string $renderas
+	 */
 	public function __construct( $renderas ) {
 		// Decide which page we show
 

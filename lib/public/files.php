@@ -109,6 +109,7 @@ class Files {
 	 * Gets the Storage for an app - creates the needed folder if they are not
 	 * existant
 	 * @param string appid
+	 * @param string $app
 	 * @return \OC\Files\View
 	 */
 	public static function getStorage( $app ) {

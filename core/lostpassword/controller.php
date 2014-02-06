@@ -8,6 +8,11 @@
 namespace OC\Core\LostPassword;
 
 class Controller {
+
+	/**
+	 * @param boolean $error
+	 * @param boolean $requested
+	 */
 	protected static function displayLostPasswordPage($error, $requested) {
 		$isEncrypted = \OC_App::isEnabled('files_encryption');
 		\OC_Template::printGuestPage('core/lostpassword', 'lostpassword',
@@ -16,6 +21,9 @@ class Controller {
 				'isEncrypted' => $isEncrypted));
 	}
 	
+	/**
+	 * @param boolean $success
+	 */
 	protected static function displayResetPasswordPage($success, $args) {
 		$route_args = array();
 		$route_args['token'] = $args['token'];

@@ -61,6 +61,11 @@ class Trashbin {
 	}
 
 
+	/**
+	 * @param string $owner
+	 * @param integer $timestamp
+	 * @param string $type
+	 */
 	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp, $type, $mime) {
 		self::setUpTrash($owner);
 
@@ -169,7 +174,7 @@ class Trashbin {
 	 *
 	 * @param $file_path path to original file
 	 * @param $filename of deleted file
-	 * @param $timestamp when the file was deleted
+	 * @param integer $timestamp when the file was deleted
 	 *
 	 * @return size of stored versions
 	 */
@@ -214,7 +219,7 @@ class Trashbin {
 	 *
 	 * @param $file_path path to original file
 	 * @param $filename of deleted file
-	 * @param $timestamp when the file was deleted
+	 * @param integer $timestamp when the file was deleted
 	 *
 	 * @return size of encryption keys
 	 */
@@ -406,7 +411,7 @@ class Trashbin {
 	 * @param \OC\Files\View $view file view
 	 * @param $file complete path to file
 	 * @param $filename name of file once it was deleted
-	 * @param $uniqueFilename new file name to restore the file without overwriting existing files
+	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param $location location if file
 	 * @param $timestamp deleteion time
 	 *
@@ -460,7 +465,7 @@ class Trashbin {
 	 * @param \OC\Files\View $view
 	 * @param $file complete path to file
 	 * @param $filename name of file
-	 * @param $uniqueFilename new file name to restore the file without overwriting existing files
+	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param $location location of file
 	 * @param $timestamp deleteion time
 	 *
@@ -621,6 +626,9 @@ class Trashbin {
 		return $size;
 	}
 
+	/**
+	 * @param \OC\Files\View $view
+	 */
 	private static function deleteVersions($view, $file, $filename, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
@@ -643,6 +651,9 @@ class Trashbin {
 		return $size;
 	}
 
+	/**
+	 * @param \OC\Files\View $view
+	 */
 	private static function deleteEncryptionKeys($view, $file, $filename, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
@@ -713,7 +724,7 @@ class Trashbin {
 	/**
 	 * calculate remaining free space for trash bin
 	 *
-	 * @param $trashbinSize current size of the trash bin
+	 * @param integer $trashbinSize current size of the trash bin
 	 * @return available free space for trash bin
 	 */
 	private static function calculateFreeSpace($trashbinSize) {
@@ -826,9 +837,9 @@ class Trashbin {
 	/**
 	 * recursive copy to copy a whole directory
 	 *
-	 * @param $source source path, relative to the users files directory
-	 * @param $destination destination path relative to the users root directoy
-	 * @param $view file view for the users root directory
+	 * @param string $source source path, relative to the users files directory
+	 * @param string $destination destination path relative to the users root directoy
+	 * @param \OC\Files\View $view file view for the users root directory
 	 */
 	private static function copy_recursive($source, $destination, $view) {
 		$size = 0;
@@ -887,7 +898,7 @@ class Trashbin {
 	 * find unique extension for restored file if a file with the same name already exists
 	 * @param $location where the file should be restored
 	 * @param $filename name of the file
-	 * @param $view filesystem view relative to users root directory
+	 * @param \OC\Files\View $view filesystem view relative to users root directory
 	 * @return string with unique extension
 	 */
 	private static function getUniqueFilename($location, $filename, $view) {
@@ -916,8 +927,8 @@ class Trashbin {
 
 	/**
 	 * @brief get the size from a given root folder
-	 * @param $view file view on the root folder
-	 * @return size of the folder
+	 * @param \OC\Files\View $view file view on the root folder
+	 * @return integer size of the folder
 	 */
 	private static function calculateSize($view) {
 		$root = \OCP\Config::getSystemValue('datadirectory') . $view->getAbsolutePath('');

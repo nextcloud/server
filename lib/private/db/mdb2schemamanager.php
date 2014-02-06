@@ -53,7 +53,7 @@ class MDB2SchemaManager {
 	/**
 	 * @brief update the database scheme
 	 * @param string $file file to read structure from
-	 * @return bool
+	 * @return string|boolean
 	 */
 	public function updateDbFromStructure($file, $generateSql = false) {
 		$sm = $this->conn->getSchemaManager();

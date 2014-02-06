@@ -84,6 +84,9 @@ class OC_Appconfig {
 		return $keys;
 	}
 
+	/**
+	 * @param string $app
+	 */
 	private static function getAppValues($app) {
 		if (!isset(self::$cache[$app])) {
 			self::$cache[$app] = array();
@@ -145,7 +148,7 @@ class OC_Appconfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
@@ -212,6 +215,8 @@ class OC_Appconfig {
 	 *
 	 * @param app
 	 * @param key
+	 * @param boolean $app
+	 * @param string $key
 	 * @return array
 	 */
 	public static function getValues($app, $key) {

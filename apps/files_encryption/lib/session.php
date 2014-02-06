@@ -195,7 +195,7 @@ class Session {
 
 	/**
 	 * @brief Sets user legacy key to session
-	 * @param $legacyKey
+	 * @param string $legacyKey
 	 * @return bool
 	 */
 	public function setLegacyKey($legacyKey) {

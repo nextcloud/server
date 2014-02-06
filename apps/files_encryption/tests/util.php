@@ -461,7 +461,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 * helper function to set migration status to the right value
 	 * to be able to test the migration path
 	 *
-	 * @param $status needed migration status for test
+	 * @param integer $status needed migration status for test
 	 * @param $user for which user the status should be set
 	 * @return boolean
 	 */

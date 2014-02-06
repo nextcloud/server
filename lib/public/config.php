@@ -89,7 +89,7 @@ class Config {
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return string true/false
+	 * @return boolean true/false
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */

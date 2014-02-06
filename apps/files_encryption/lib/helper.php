@@ -103,7 +103,7 @@ class Helper {
 	 * @brief enable recovery
 	 *
 	 * @param $recoveryKeyId
-	 * @param $recoveryPassword
+	 * @param string $recoveryPassword
 	 * @internal param \OCA\Encryption\Util $util
 	 * @internal param string $password
 	 * @return bool
@@ -209,7 +209,7 @@ class Helper {
 	/**
 	 * @brief disable recovery
 	 *
-	 * @param $recoveryPassword
+	 * @param string $recoveryPassword
 	 * @return bool
 	 */
 	public static function adminDisableRecovery($recoveryPassword) {
@@ -344,6 +344,7 @@ class Helper {
 
 	/**
 	 * @brief redirect to a error page
+	 * @param Session $session
 	 */
 	public static function redirectToErrorPage($session, $errorCode = null) {
 
@@ -423,6 +424,7 @@ class Helper {
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
 	 * @param unescaped path
+	 * @param string $path
 	 * @return escaped path
 	 */
 	public static function escapeGlobPattern($path) {
@@ -441,7 +443,7 @@ class Helper {
 	/**
 	 * @brief get the path of the original file
 	 * @param string $tmpFile path of the tmp file
-	 * @return mixed path of the original file or false
+	 * @return string|false path of the original file or false
 	 */
 	public static function getPathFromTmpFile($tmpFile) {
 		if (isset(self::$tmpFileMapping[$tmpFile])) {

@@ -9,7 +9,7 @@
 class OC_DB_MDB2SchemaWriter {
 
 	/**
-	 * @param $file
+	 * @param string $file
 	 * @param \Doctrine\DBAL\Schema\AbstractSchemaManager $sm
 	 * @return bool
 	 */
@@ -26,6 +26,9 @@ class OC_DB_MDB2SchemaWriter {
 		return true;
 	}
 
+	/**
+	 * @param SimpleXMLElement $xml
+	 */
 	private static function saveTable($table, $xml) {
 		$xml->addChild('name', $table->getName());
 		$declaration = $xml->addChild('declaration');

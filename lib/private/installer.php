@@ -55,6 +55,7 @@ class OC_Installer{
 	 *
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
+	 * @return string
 	 */
 	public static function installApp( $data = array()) {
 		$l = \OC_L10N::get('lib');
@@ -270,7 +271,7 @@ class OC_Installer{
 	/**
 	 * @brief Check if an update for the app is available
 	 * @param $name name of the application
-	 * @return boolean false or the version number of the update
+	 * @return string|false false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
 	 */
@@ -313,7 +314,7 @@ class OC_Installer{
 
 	/**
 	 * @brief Removes an app
-	 * @param $name name of the application to remove
+	 * @param string $name name of the application to remove
 	 * @param $options array with options
 	 * @returns true/false
 	 *
@@ -395,6 +396,7 @@ class OC_Installer{
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
 	 * @returns array see OC_App::getAppInfo
+	 * @return string
 	 */
 	public static function installShippedApp($app) {
 		//install the database

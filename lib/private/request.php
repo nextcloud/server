@@ -86,6 +86,7 @@ class OC_Request {
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
+	 * @return string
 	 */
 	public static function requestUri() {
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -101,6 +102,7 @@ class OC_Request {
 	 *
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
+	 * @return string
 	 */
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
@@ -115,6 +117,7 @@ class OC_Request {
 	/**
 	 * @brief get Path info from request
 	 * @returns string Path info or false when not found
+	 * @return string
 	 */
 	public static function getPathInfo() {
 		if (array_key_exists('PATH_INFO', $_SERVER)) {
@@ -139,6 +142,7 @@ class OC_Request {
 	/**
 	 * @brief get Path info from request, not urldecoded
 	 * @returns string Path info or false when not found
+	 * @return string
 	 */
 	public static function getRawPathInfo() {
 		$requestUri = $_SERVER['REQUEST_URI'];

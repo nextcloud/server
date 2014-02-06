@@ -32,6 +32,9 @@ class Shared_Cache extends Cache {
 	private $storage;
 	private $files = array();
 
+	/**
+	 * @param \OC\Files\Storage\Shared $storage
+	 */
 	public function __construct($storage) {
 		$this->storage = $storage;
 	}

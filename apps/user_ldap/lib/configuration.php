@@ -78,6 +78,9 @@ class Configuration {
 		'lastJpegPhotoLookup' => null,
 	);
 
+	/**
+	 * @param string $configPrefix
+	 */
 	public function __construct($configPrefix, $autoread = true) {
 		$this->configPrefix = $configPrefix;
 		if($autoread) {
@@ -106,7 +109,7 @@ class Configuration {
 	 * @param $config array that holds the config parameters in an associated
 	 * array
 	 * @param &$applied optional; array where the set fields will be given to
-	 * @return null
+	 * @return false|null
 	 */
 	public function setConfiguration($config, &$applied = null) {
 		if(!is_array($config)) {

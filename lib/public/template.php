@@ -35,7 +35,7 @@ namespace OCP;
  * Make OC_Helper::imagePath available as a simple function
  * @param string app
  * @param string image
- * @return link to the image
+ * @return string to the image
  *
  * @see OC_Helper::imagePath
  */
@@ -47,7 +47,7 @@ function image_path( $app, $image ) {
 /**
  * Make OC_Helper::mimetypeIcon available as a simple function
  * @param string mimetype
- * @return path to the image of this file type.
+ * @return string to the image of this file type.
  */
 function mimetype_icon( $mimetype ) {
 	return(\mimetype_icon( $mimetype ));
@@ -56,7 +56,7 @@ function mimetype_icon( $mimetype ) {
 /**
  * Make preview_icon available as a simple function
  * @param string path of file
- * @return path to the preview of the image
+ * @return string to the preview of the image
  */
 function preview_icon( $path ) {
 	return(\preview_icon( $path ));
@@ -67,6 +67,7 @@ function preview_icon( $path ) {
  * Returns the path to the preview of the image.
  * @param string path of file
  * @param string token
+ * @param string $path
  * @return link to the preview
  */
 function publicPreview_icon ( $path, $token ) {
@@ -77,7 +78,7 @@ function publicPreview_icon ( $path, $token ) {
  * Make OC_Helper::humanFileSize available as a simple function
  * Example: 2048 to 2 kB.
  * @param int size in bytes
- * @return size as string
+ * @return string as string
  */
 function human_file_size( $bytes ) {
 	return(\human_file_size( $bytes ));
@@ -88,7 +89,7 @@ function human_file_size( $bytes ) {
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
  * @param int unix timestamp
  * @param boolean date only
- * @return human readable interpretation of the timestamp
+ * @return OC_L10N_String readable interpretation of the timestamp
  */
 function relative_modified_date( $timestamp, $dateOnly = false ) {
 	return(\relative_modified_date($timestamp, null, $dateOnly));
@@ -99,7 +100,7 @@ function relative_modified_date( $timestamp, $dateOnly = false ) {
  * Return a human readable outout for a file size.
  * @deprecated human_file_size() instead
  * @param integer size of a file in byte
- * @return human readable interpretation of a file size
+ * @return string readable interpretation of a file size
  */
 function simple_file_size($bytes) {
 	return(\human_file_size($bytes));
@@ -111,7 +112,7 @@ function simple_file_size($bytes) {
  * @param $options the options
  * @param $selected which one is selected?
  * @param array the parameters
- * @return html options
+ * @return string options
  */
 function html_select_options($options, $selected, $params=array()) {
 	return(\html_select_options($options, $selected, $params));

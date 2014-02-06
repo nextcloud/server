@@ -37,12 +37,14 @@ interface INavigationManager {
 	/**
 	 * Creates a new navigation entry
 	 * @param array $entry containing: id, name, order, icon and href key
+	 * @return void
 	 */
 	public function add(array $entry);
 
 	/**
 	 * Sets the current navigation entry of the currently running app
 	 * @param string $appId id of the app entry to activate (from added $entry)
+	 * @return void
 	 */
 	public function setActiveEntry($appId);
 }

@@ -25,7 +25,7 @@ class Memory extends Session {
 
 	/**
 	 * @param string $key
-	 * @param mixed $value
+	 * @param integer $value
 	 */
 	public function set($key, $value) {
 		$this->data[$key] = $value;

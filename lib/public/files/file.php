@@ -43,6 +43,7 @@ interface File extends Node {
 	 *
 	 * @param string $data
 	 * @throws \OCP\Files\NotPermittedException
+	 * @return void
 	 */
 	public function putContent($data);
 

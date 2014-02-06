@@ -149,7 +149,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	 *
 	 * @param string $uid
 	 * @param string $password
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function login($uid, $password) {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));

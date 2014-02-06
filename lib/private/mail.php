@@ -25,7 +25,7 @@ class OC_Mail {
 	 * @param string $mailtext
 	 * @param string $fromaddress
 	 * @param string $fromname
-	 * @param bool|int $html
+	 * @param integer $html
 	 * @param string $altbody
 	 * @param string $ccaddress
 	 * @param string $ccname

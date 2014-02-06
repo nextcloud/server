@@ -57,7 +57,7 @@ class Factory implements ICacheFactory {
 	 * get a in-server cache instance, will return null if no backend is available
 	 *
 	 * @param string $prefix
-	 * @return \OC\Memcache\Cache
+	 * @return null|Cache
 	 */
 	public static function createLowLatency($prefix = '') {
 		if (XCache::isAvailable()) {

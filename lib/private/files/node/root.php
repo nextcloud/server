@@ -95,7 +95,7 @@ class Root extends Folder implements Emitter {
 	/**
 	 * @param string $scope
 	 * @param string $method
-	 * @param array $arguments
+	 * @param Node[] $arguments
 	 */
 	public function emit($scope, $method, $arguments = array()) {
 		$this->emitter->emit($scope, $method, $arguments);
@@ -154,7 +154,7 @@ class Root extends Folder implements Emitter {
 	 * @param string $path
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
-	 * @return Node
+	 * @return string
 	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);

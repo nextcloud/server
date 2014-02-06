@@ -176,7 +176,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief return the state of the mode of the specified filter
-	 * @param $confkey string, contains the access key of the Configuration
+	 * @param string $confkey string, contains the access key of the Configuration
 	 */
 	private function getFilterMode($confkey) {
 		$mode = $this->configuration->$confkey;
@@ -241,6 +241,8 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief detects the available LDAP groups
 	 * @returns the instance's WizardResult instance
+	 * @param string $dbkey
+	 * @param string $confkey
 	 */
 	private function determineGroups($dbkey, $confkey, $testMemberOf = true) {
 		if(!$this->checkRequirements(array('ldapHost',
@@ -554,7 +556,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief Checks whether for a given BaseDN results will be returned
-	 * @param $base the BaseDN to test
+	 * @param string $base the BaseDN to test
 	 * @return bool true on success, false otherwise
 	 */
 	private function testBaseDN($base) {
@@ -615,7 +617,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief creates an LDAP Filter from given configuration
-	 * @param $filterType int, for which use case the filter shall be created
+	 * @param integer $filterType int, for which use case the filter shall be created
 	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
 	 * self::LFILTER_GROUP_LIST
 	 * @return mixed, string with the filter on success, false otherwise
@@ -842,6 +844,9 @@ class Wizard extends LDAPUtility {
 		       || (empty($agent) &&  empty($pwd)));
 	}
 
+	/**
+	 * @param string[] $reqs
+	 */
 	private function checkRequirements($reqs) {
 		$this->checkAgentRequirements();
 		foreach($reqs as $option) {
@@ -860,7 +865,7 @@ class Wizard extends LDAPUtility {
 	 * @param $attr the attribute of which a list of values shall be returned
 	 * @param $lfw bool, whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
-	 * @param $maxF string. if not null, this variable will have the filter that
+	 * @param string $maxF string. if not null, this variable will have the filter that
 	 * yields most result entries
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
@@ -922,8 +927,8 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief determines if and which $attr are available on the LDAP server
-	 * @param $objectclasses the objectclasses to use as search filter
-	 * @param $attr the attribute to look for
+	 * @param string[] $objectclasses the objectclasses to use as search filter
+	 * @param string $attr the attribute to look for
 	 * @param $dbkey the dbkey of the setting the feature is connected to
 	 * @param $confkey the confkey counterpart for the $dbkey as used in the
 	 * Configuration class

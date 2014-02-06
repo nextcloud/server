@@ -385,7 +385,7 @@ class OC {
 	}
 
 	/**
-	 * @return int
+	 * @return string
 	 */
 	private static function getSessionLifeTime() {
 		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);

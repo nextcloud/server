@@ -50,6 +50,7 @@ class OC_OCSClient{
 	 * @brief Get the content of an OCS url call.
 	 * @returns string of the response
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
+	* @param string $url
 	*/
 	private static function getOCSresponse($url) {
 		$data = \OC_Util::getUrlContent($url);
@@ -92,6 +93,8 @@ class OC_OCSClient{
 	 * @returns array with application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
+	 * @param integer $page
+	 * @param string $filter
 	 */
 	public static function getApplications($categories, $page, $filter) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
@@ -184,6 +187,7 @@ class OC_OCSClient{
 		* @returns array with application data
 		*
 		* This function returns an download url for an applications from the OCS server
+		* @param integer $item
 		*/
 	public static function getApplicationDownload($id, $item) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {

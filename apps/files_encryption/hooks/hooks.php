@@ -635,7 +635,7 @@ class Hooks {
 	/**
 	 * @brief if the file was really deleted we remove the encryption keys
 	 * @param array $params
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function postDelete($params) {
 
@@ -675,7 +675,7 @@ class Hooks {
 	/**
 	 * @brief remember the file which should be deleted and it's owner
 	 * @param array $params
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function preDelete($params) {
 		$path = $params[\OC\Files\Filesystem::signal_param_path];
