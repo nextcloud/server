@@ -567,15 +567,9 @@ class OC {
 			OC_User::logout();
 		}
 
-		// Load Apps
-		// This includes plugins for users and filesystems as well
-		global $RUNTIME_APPTYPES;
+		// Load minimum set of apps - which is filesystem, authentication and logging
 		if (!self::checkUpgrade(false)) {
-			if ($RUNTIME_APPTYPES) {
-				OC_App::loadApps($RUNTIME_APPTYPES);
-			} else {
-				OC_App::loadApps();
-			}
+			OC_App::loadApps(array('filesystem', 'authentication', 'logging'));
 		}
 
 		//setup extra user backends
@@ -866,7 +860,7 @@ class OC {
 		) {
 			return false;
 		}
-		OC_App::loadApps(array('authentication'));
+
 		if (defined("DEBUG") && DEBUG) {
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
@@ -938,7 +932,7 @@ class OC {
 		) {
 			return false;
 		}
-		OC_App::loadApps(array('authentication'));
+
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
@@ -967,4 +961,3 @@ if (!function_exists('get_temp_dir')) {
 }
 
 OC::init();
-
