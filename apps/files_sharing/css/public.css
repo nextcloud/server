@@ -3,7 +3,7 @@ body {
 }
 
 #header {
-	background: #1d2d44 url('%webroot%/core/img/noise.png') repeat;
+	background-color: #1d2d44;
 	height:32px;
 	left:0;
 	line-height:32px;

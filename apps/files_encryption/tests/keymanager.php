@@ -137,6 +137,17 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @small
+	 */
+	function testGetFilenameFromShareKey() {
+		$this->assertEquals("file",
+				\TestProtectedKeymanagerMethods::testGetFilenameFromShareKey("file.user.shareKey"));
+		$this->assertEquals("file.name.with.dots",
+				\TestProtectedKeymanagerMethods::testGetFilenameFromShareKey("file.name.with.dots.user.shareKey"));
+		$this->assertFalse(\TestProtectedKeymanagerMethods::testGetFilenameFromShareKey("file.txt"));
+	}
+
+	/**
 	 * @medium
 	 */
 	function testSetFileKey() {
@@ -232,5 +243,14 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		// change encryption proxy to previous state
 		\OC_FileProxy::$enabled = $proxyStatus;
+	}
+}
+
+/**
+ * dummy class to access protected methods of \OCA\Encryption\Keymanager for testing
+ */
+class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
+	public static function testGetFilenameFromShareKey($sharekey) {
+		return self::getFilenameFromShareKey($sharekey);
 	}
 }

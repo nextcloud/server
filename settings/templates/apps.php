@@ -9,9 +9,11 @@
 
 
 <ul id="leftcontent" class="applist">
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?> …</a>
 	</li>
+	<?php endif; ?>
 
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) print_unescaped('class="active"')?> data-id="<?php p($app['id']) ?>"
@@ -24,9 +26,11 @@
 	</li>
 	<?php endforeach;?>
 
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://apps.owncloud.com"><?php p($l->t('More Apps'));?> …</a>
 	</li>
+	<?php endif; ?>
 </ul>
 <div id="rightcontent">
 	<div class="appinfo">
