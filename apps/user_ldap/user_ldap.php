@@ -256,7 +256,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		}
 		//check if user really still exists by reading its entry
 		if(!is_array($this->access->readAttribute($dn, ''))) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn.' on '.
+				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
