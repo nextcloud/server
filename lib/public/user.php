@@ -46,8 +46,6 @@ class User {
 	/**
 	 * Get a list of all users
 	 * @param string search pattern
-	 * @param int limit
-	 * @param int offset
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return array with all uids
