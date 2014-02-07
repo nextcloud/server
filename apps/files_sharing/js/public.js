@@ -9,22 +9,13 @@ function fileDownloadPath(dir, file) {
 
 $(document).ready(function() {
 
-	$('#data-upload-form').tipsy({gravity:'ne', fade:true});
-
 	if (typeof FileActions !== 'undefined') {
 		var mimetype = $('#mimetype').val();
 		// Show file preview if previewer is available, images are already handled by the template
 		if (mimetype.substr(0, mimetype.indexOf('/')) != 'image' && $('.publicpreview').length === 0) {
 			// Trigger default action if not download TODO
 			var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
-			if (typeof action === 'undefined') {
-				$('#noPreview').show();
-				if (mimetype != 'httpd/unix-directory') {
-					// NOTE: Remove when a better file previewer solution exists
-					$('#content').remove();
-					$('table').remove();
-				}
-			} else {
+			if (typeof action !== 'undefined') {
 				action($('#filename').val());
 			}
 		}
@@ -58,16 +49,9 @@ $(document).ready(function() {
 		};
 	});
 
-	// Add Uploadprogress Wrapper to controls bar
-	$('#controls').append($('#controls .actions div#uploadprogresswrapper'));
-	$('#uploadprogresswrapper').addClass('public_actions');
-
-	// Cancel upload trigger
-	$('#cancel_upload_button').click(function() {
-		OC.Upload.cancelUploads();
-		procesSelection();
+	$(document).on('click', '#directLink', function() {
+		$(this).focus();
+		$(this).select();
 	});
-
-	$('#directLink').focus();
 
 });

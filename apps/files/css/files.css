@@ -65,9 +65,14 @@
 	top: 44px;
 	width: 100%;
 }
-#filestable, #controls {
-	min-width: 680px;
+/* make sure there's enough room for the file actions */
+#body-user #filestable {
+	min-width: 750px;
 }
+#body-user #controls {
+	min-width: 600px;
+}
+
 #filestable tbody tr { background-color:#fff; height:2.5em; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
@@ -98,7 +103,7 @@ table td {
 }
 table th#headerName {
 	position: relative;
-	width: 100em; /* not really sure why this works better than 100% … table styling */
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
 #headerName-container {
@@ -140,7 +145,7 @@ table.multiselect thead th {
 }
 table.multiselect #headerName {
 	position: relative;
-	width: 100%;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name {
@@ -237,7 +242,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 
 #fileList tr td.filename a.name label {
 	position: absolute;
-	width: 100%;
+	width: 80%;
 	height: 50px;
 }
 
