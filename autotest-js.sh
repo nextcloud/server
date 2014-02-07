@@ -33,5 +33,5 @@ then
 	exit 2
 fi
 
-KARMA_TESTSUITE="$1" $KARMA start tests/karma.config.js --single-run
+NODE_PATH='build/node_modules' KARMA_TESTSUITE="$1" $KARMA start tests/karma.config.js --single-run
 

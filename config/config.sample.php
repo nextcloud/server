@@ -184,6 +184,13 @@ $CONFIG = array(
 /* Life time of a session after inactivity */
 "session_lifetime" => 60 * 60 * 24,
 
+/*
+ * Enable/disable session keep alive when a user is logged in in the Web UI.
+ * This is achieved by sending a "heartbeat" to the server to prevent
+ * the session timing out.
+ */
+"session_keepalive" => true,
+
 /* Custom CSP policy, changing this will overwrite the standard policy */
 "custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:; media-src *",
 

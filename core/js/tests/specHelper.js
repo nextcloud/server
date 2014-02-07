@@ -19,6 +19,8 @@
 *
 */
 
+/* global OC */
+
 /**
  * Simulate the variables that are normally set by PHP code
  */
@@ -57,10 +59,15 @@ window.oc_webroot = location.href + '/';
 window.oc_appswebroots = {
 	"files": window.oc_webroot + '/apps/files/'
 };
+window.oc_config = {
+	session_lifetime: 600 * 1000,
+	session_keepalive: false
+};
 
 // global setup for all tests
 (function setupTests() {
-	var fakeServer = null;
+	var fakeServer = null,
+		routesRequestStub;
 
 	beforeEach(function() {
 		// enforce fake XHR, tests should not depend on the server and
@@ -78,9 +85,18 @@ window.oc_appswebroots = {
 		// make it globally available, so that other tests can define
 		// custom responses
 		window.fakeServer = fakeServer;
+
+		OC.Router.routes = [];
+		OC.Router.routes_request = {
+			state: sinon.stub().returns('resolved'),
+			done: sinon.stub()
+		};
 	});
 
 	afterEach(function() {
+		OC.Router.routes_request.state.reset();
+		OC.Router.routes_request.done.reset();
+
 		// uncomment this to log requests
 		// console.log(window.fakeServer.requests);
 		fakeServer.restore();

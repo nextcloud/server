@@ -121,7 +121,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					if (isset($items[0]['expiration'])) {
 						try {
 							$date = new DateTime($items[0]['expiration']);
-							$expiration = $date->format('Y-m-d');
+							$expiration = $l->l('date', $date->getTimestamp());
 						} catch (Exception $e) {
 							\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
 						}
@@ -187,6 +187,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 
 		case 'email':
+			// enable l10n support
+			$l = OC_L10N::get('core');
 			// read post variables
 			$user = OCP\USER::getUser();
 			$displayName = OCP\User::getDisplayName();
@@ -199,15 +201,12 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			if (isset($_POST['expiration']) && $_POST['expiration'] !== '') {
 				try {
 					$date = new DateTime($_POST['expiration']);
-					$expiration = $date->format('Y-m-d');
+					$expiration = $l->l('date', $date->getTimestamp());
 				} catch (Exception $e) {
 					\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
 				}
 
 			}
-
-			// enable l10n support
-			$l = OC_L10N::get('core');
 
 			// setup the email
 			$subject = (string)$l->t('%s shared »%s« with you', array($displayName, $file));

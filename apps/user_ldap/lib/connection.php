@@ -52,7 +52,7 @@ class Connection extends LDAPUtility {
 		$this->configID = $configID;
 		$this->configuration = new Configuration($configPrefix,
 												 !is_null($configID));
-		$memcache = new \OC\Memcache\Factory();
+		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		} else {

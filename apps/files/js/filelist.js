@@ -1,4 +1,16 @@
-var FileList={
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, t, n, FileList, FileActions, Files */
+/* global procesSelection, dragOptions, SVGSupport, replaceSVG */
+window.FileList={
 	useUndo:true,
 	postProcessList: function() {
 		$('#fileList tr').each(function() {
@@ -28,7 +40,8 @@ var FileList={
 		}
 		FileList.updateFileSummary();
 		procesSelection();
-		
+
+		$(window).scrollTop(0);
 		$fileList.trigger(jQuery.Event("updated"));
 	},
 	createRow:function(type, name, iconurl, linktarget, size, lastModified, permissions) {
@@ -191,6 +204,7 @@ var FileList={
 		return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 	},
 	setCurrentDir: function(targetDir, changeUrl) {
+		var url;
 		$('#dir').val(targetDir);
 		if (changeUrl !== false) {
 			if (window.history.pushState && changeUrl !== false) {
@@ -394,7 +408,7 @@ var FileList={
 			}
 			return true;
 		};
-		
+
 		form.submit(function(event) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -468,7 +482,7 @@ var FileList={
 				var basename = newname;
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					basename = newname.substr(0, newname.lastIndexOf('.'));
-				} 
+				}
 				td.find('a.name span.nametext').text(basename);
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					if ( ! td.find('a.name span.extension').exists() ) {
@@ -477,6 +491,7 @@ var FileList={
 					td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 				}
 				form.remove();
+				FileActions.display( tr.find('td.filename'), true);
 				td.children('a.name').show();
 			} catch (error) {
 				input.attr('title', error);
@@ -780,6 +795,20 @@ var FileList={
 		$('#fileList tr.searchresult').each(function(i,e) {
 			$(e).removeClass("searchresult");
 		});
+	},
+
+	/**
+	 * Returns the download URL of the given file
+	 * @param filename file name of the file
+	 * @param dir optional directory in which the file name is, defaults to the current directory
+	 */
+	getDownloadUrl: function(filename, dir) {
+		var params = {
+			files: filename,
+			dir: dir || FileList.getCurrentDirectory(),
+			download: null
+		};
+		return OC.filePath('files', 'ajax', 'download.php') + '?' + OC.buildQueryString(params);
 	}
 };
 
@@ -819,7 +848,7 @@ $(document).ready(function() {
 					{name: 'requesttoken', value: oc_requesttoken}
 				];
 			};
-		} 
+		}
 
 	});
 	file_upload_start.on('fileuploadadd', function(e, data) {
@@ -858,7 +887,7 @@ $(document).ready(function() {
 	 */
 	file_upload_start.on('fileuploaddone', function(e, data) {
 		OC.Upload.log('filelist handle fileuploaddone', e, data);
-		
+
 		var response;
 		if (typeof data.result === 'string') {
 			response = data.result;

@@ -18,6 +18,8 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
+
+/* global Files */
 describe('Files tests', function() {
 	describe('File name validation', function() {
 		it('Validates correct file names', function() {
@@ -36,12 +38,14 @@ describe('Files tests', function() {
 				'und Ümläüte sind auch willkommen'
 			];
 			for ( var i = 0; i < fileNames.length; i++ ) {
+				var error = false;
 				try {
 					expect(Files.isFileNameValid(fileNames[i])).toEqual(true);
 				}
 				catch (e) {
-					fail();
+					error = e;
 				}
+				expect(error).toEqual(false);
 			}
 		});
 		it('Detects invalid file names', function() {
@@ -69,7 +73,7 @@ describe('Files tests', function() {
 				var threwException = false;
 				try {
 					Files.isFileNameValid(fileNames[i]);
-					fail();
+					console.error('Invalid file name not detected:', fileNames[i]);
 				}
 				catch (e) {
 					threwException = true;

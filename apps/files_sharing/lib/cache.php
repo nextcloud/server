@@ -92,12 +92,11 @@ class Shared_Cache extends Cache {
 		} else {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				.' `size`, `mtime`, `encrypted`'
+				.' `size`, `mtime`, `encrypted`, `unencrypted_size`'
 				.' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($file));
 			$data = $result->fetchRow();
 			$data['fileid'] = (int)$data['fileid'];
-			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
@@ -105,6 +104,12 @@ class Shared_Cache extends Cache {
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
 			if ($data['storage_mtime'] === 0) {
 				$data['storage_mtime'] = $data['mtime'];
+			}
+			if ($data['encrypted'] or ($data['unencrypted_size'] > 0 and $data['mimetype'] === 'httpd/unix-directory')) {
+				$data['encrypted_size'] = (int)$data['size'];
+				$data['size'] = (int)$data['unencrypted_size'];
+			} else {
+				$data['size'] = (int)$data['size'];
 			}
 			return $data;
 		}
@@ -259,17 +264,38 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
-
-		if (strpos($mimetype, '/')) {
-			$where = '`mimetype` = ? AND ';
-		} else {
-			$where = '`mimepart` = ? AND ';
+		$mimepart = null;
+		if (strpos($mimetype, '/') === false) {
+			$mimepart = $mimetype;
+			$mimetype = null;
 		}
 
-		$value = $this->getMimetypeId($mimetype);
+		// note: searchWithWhere is currently broken as it doesn't
+		// recurse into subdirs nor returns the correct
+		// file paths, so using getFolderContents() for now
 
-		return $this->searchWithWhere($where, $value);
-
+		$result = array();
+		$exploreDirs = array('');
+		while (count($exploreDirs) > 0) {
+			$dir = array_pop($exploreDirs);
+			$files = $this->getFolderContents($dir);
+			// no results?
+			if (!$files) {
+				continue;
+			}
+			foreach ($files as $file) {
+				if ($file['mimetype'] === 'httpd/unix-directory') {
+					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
+				}
+				else if (($mimepart && $file['mimepart'] === $mimepart) || ($mimetype && $file['mimetype'] === $mimetype)) {
+					// usersPath not reliable
+					//$file['path'] = $file['usersPath'];
+					$file['path'] = ltrim($dir . '/' . $file['name'], '/');
+					$result[] = $file;
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -313,6 +339,12 @@ class Shared_Cache extends Cache {
 				}
 				$row['mimetype'] = $this->getMimetype($row['mimetype']);
 				$row['mimepart'] = $this->getMimetype($row['mimepart']);
+				if ($row['encrypted'] or ($row['unencrypted_size'] > 0 and $row['mimetype'] === 'httpd/unix-directory')) {
+					$row['encrypted_size'] = $row['size'];
+					$row['size'] = $row['unencrypted_size'];
+				} else {
+					$row['size'] = $row['size'];
+				}
 				$files[] = $row;
 			}
 		}

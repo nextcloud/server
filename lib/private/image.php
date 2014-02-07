@@ -409,14 +409,14 @@ class OC_Image {
 
 	/**
 	* @brief Loads an image from a local file.
-	* @param $imageref The path to a local file.
+	* @param $imagePath The path to a local file.
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if(!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
-			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagePath, OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: ' . (string) urlencode($imagePath), OC_Log::DEBUG);
 			return false;
 		}
 		$iType = exif_imagetype($imagePath);

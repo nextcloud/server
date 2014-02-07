@@ -788,8 +788,12 @@ class OC_Util {
 		}
 
 		$fp = @fopen($testFile, 'w');
-		@fwrite($fp, $testContent);
-		@fclose($fp);
+		if (!$fp) {
+			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to '.$testFile);
+		}
+		fwrite($fp, $testContent);
+		fclose($fp);
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
