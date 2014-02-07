@@ -47,11 +47,41 @@ class AppConfig implements \OCP\IAppConfig {
 	 */
 	protected $conn;
 
+	private $cache = array();
+
+	private $appsLoaded = array();
+
 	/**
 	 * @param \OC\DB\Connection $conn
 	 */
 	public function __construct(Connection $conn) {
 		$this->conn = $conn;
+	}
+
+	/**
+	 * @param string $app
+	 * @return string[]
+	 */
+	private function getAppCache($app) {
+		if (!isset($this->cache[$app])) {
+			$this->cache[$app] = array();
+		}
+		return $this->cache[$app];
+	}
+
+	private function getAppValues($app) {
+		$appCache = $this->getAppCache($app);
+		if (array_search($app, $this->appsLoaded) === false) {
+			$query = 'SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
+				. ' WHERE `appid` = ?';
+			$result = $this->conn->executeQuery($query, array($app));
+			while ($row = $result->fetch()) {
+				$appCache[$row['configkey']] = $row['configvalue'];
+			}
+			$this->appsLoaded[] = $app;
+		}
+		$this->cache[$app] = $appCache;
+		return $appCache;
 	}
 
 	/**
@@ -81,15 +111,8 @@ class AppConfig implements \OCP\IAppConfig {
 	 * not returned.
 	 */
 	public function getKeys($app) {
-		$query = 'SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?';
-		$result = $this->conn->executeQuery($query, array($app));
-
-		$keys = array();
-		while ($key = $result->fetchColumn()) {
-			$keys[] = $key;
-		}
-
-		return $keys;
+		$values = $this->getAppValues($app);
+		return array_keys($values);
 	}
 
 	/**
@@ -103,11 +126,9 @@ class AppConfig implements \OCP\IAppConfig {
 	 * not exist the default value will be returned
 	 */
 	public function getValue($app, $key, $default = null) {
-		$query = 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
-			. ' WHERE `appid` = ? AND `configkey` = ?';
-		$row = $this->conn->fetchAssoc($query, array($app, $key));
-		if ($row) {
-			return $row['configvalue'];
+		$values = $this->getAppValues($app);
+		if (isset($values[$key])) {
+			return $values[$key];
 		} else {
 			return $default;
 		}
@@ -120,8 +141,8 @@ class AppConfig implements \OCP\IAppConfig {
 	 * @return bool
 	 */
 	public function hasKey($app, $key) {
-		$exists = $this->getKeys($app);
-		return in_array($key, $exists);
+		$values = $this->getAppValues($app);
+		return isset($values[$key]);
 	}
 
 	/**
@@ -151,6 +172,10 @@ class AppConfig implements \OCP\IAppConfig {
 			);
 			$this->conn->update('*PREFIX*appconfig', $data, $where);
 		}
+		if (!isset($this->cache[$app])) {
+			$this->cache[$app] = array();
+		}
+		$this->cache[$app][$key] = $value;
 	}
 
 	/**
@@ -167,6 +192,9 @@ class AppConfig implements \OCP\IAppConfig {
 			'configkey' => $key,
 		);
 		$this->conn->delete('*PREFIX*appconfig', $where);
+		if (isset($this->cache[$app]) and isset($this->cache[$app][$key])) {
+			unset($this->cache[$app][$key]);
+		}
 	}
 
 	/**
@@ -181,6 +209,7 @@ class AppConfig implements \OCP\IAppConfig {
 			'appid' => $app,
 		);
 		$this->conn->delete('*PREFIX*appconfig', $where);
+		unset($this->cache[$app]);
 	}
 
 	/**
