@@ -14,4 +14,7 @@
 	<types>
 		<authentication/>
 	</types>
+	<documentation>
+		<admin>http://doc.owncloud.org/server/6.0/go.php?to=admin-ldap</admin>
+	</documentation>
 </info>
