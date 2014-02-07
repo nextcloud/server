@@ -38,7 +38,20 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			return $this->rootNode;
 		}
 
-		$info = $this->getFileView()->getFileInfo($path);
+		if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+			// read from storage
+			$absPath = $this->getFileView()->getAbsolutePath($path);
+			list($storage, $internalPath) = Filesystem::resolvePath('/' . $absPath);
+			if ($storage) {
+				$scanner = $storage->getScanner($internalPath);
+				// get data directly
+				$info = $scanner->getData($internalPath);
+			}
+		}
+		else {
+			// read from cache
+			$info = $this->getFileView()->getFileInfo($path);
+		}
 
 		if (!$info) {
 			throw new \Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
@@ -87,12 +100,20 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			if (!$fs->isUpdatable($destinationDir)) {
 				throw new \Sabre_DAV_Exception_Forbidden();
 			}
+			if (!$fs->isDeletable($sourcePath)) {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
 		}
 
 		$renameOkay = $fs->rename($sourcePath, $destinationPath);
 		if (!$renameOkay) {
 			throw new \Sabre_DAV_Exception_Forbidden('');
 		}
+
+		// update properties
+		$query = \OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ?'
+		.' WHERE `userid` = ? AND `propertypath` = ?' );
+		$query->execute( array( $destinationPath, \OC_User::getUser(), $sourcePath ));
 
 		$this->markDirty($sourceDir);
 		$this->markDirty($destinationDir);

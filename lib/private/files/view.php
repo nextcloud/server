@@ -110,7 +110,9 @@ class View {
 	 * @return array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
-		return Filesystem::resolvePath($this->getAbsolutePath($path));
+		$a = $this->getAbsolutePath($path);
+		$p = Filesystem::normalizePath($a);
+		return Filesystem::resolvePath($p);
 	}
 
 	/**
@@ -157,7 +159,11 @@ class View {
 	}
 
 	public function rmdir($path) {
-		return $this->basicOperation('rmdir', $path, array('delete'));
+		if ($this->is_dir($path)) {
+			return $this->basicOperation('rmdir', $path, array('delete'));
+		} else {
+			return false;
+		}
 	}
 
 	public function opendir($path) {
@@ -324,11 +330,25 @@ class View {
 				return false;
 			}
 		} else {
-			return $this->basicOperation('file_put_contents', $path, array('create', 'write'), $data);
+			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
 
 	public function unlink($path) {
+		if ($path === '' || $path === '/') {
+			// do not allow deleting the root
+			return false;
+		}
+		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
+		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
+		if (!$internalPath || $internalPath === '' || $internalPath === '/') {
+			// do not allow deleting the storage's root / the mount point
+			// because for some storages it might delete the whole contents
+			// but isn't supposed to work that way
+			return false;
+		}
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
 
@@ -709,7 +729,10 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
-		return (strlen($this->fakeRoot) >= strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot)) === $defaultRoot);
+		if ($this->fakeRoot === $defaultRoot) {
+			return true;
+		}
+		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
 	private function runHooks($hooks, $path, $post = false) {
@@ -756,6 +779,8 @@ class View {
 	 * get the filesystem info
 	 *
 	 * @param string $path
+	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * defaults to true
 	 * @return array
 	 *
 	 * returns an associative array with the following keys:
@@ -765,7 +790,7 @@ class View {
 	 * - encrypted
 	 * - versioned
 	 */
-	public function getFileInfo($path) {
+	public function getFileInfo($path, $includeMountPoints = true) {
 		$data = array();
 		if (!Filesystem::isValidPath($path)) {
 			return $data;
@@ -776,6 +801,7 @@ class View {
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
+		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$permissionsCache = $storage->getPermissionsCache($internalPath);
@@ -786,13 +812,15 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
 				$watcher = $storage->getWatcher($internalPath);
-				$watcher->checkUpdate($internalPath);
+				$data = $watcher->checkUpdate($internalPath);
 			}
 
-			$data = $cache->get($internalPath);
+			if (!is_array($data)) {
+				$data = $cache->get($internalPath);
+			}
 
 			if ($data and $data['fileid']) {
-				if ($data['mimetype'] === 'httpd/unix-directory') {
+				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
 					$mountPoints = Filesystem::getMountPoints($path);
 					foreach ($mountPoints as $mountPoint) {
@@ -898,7 +926,8 @@ class View {
 								$permissions = $subStorage->getPermissions($rootEntry['path']);
 								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 							}
-							$rootEntry['permissions'] = $permissions;
+							// do not allow renaming/deleting the mount point
+							$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
 
 							//remove any existing entry with the same name
 							foreach ($files as $i => $file) {

@@ -10,6 +10,8 @@ OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 
+\OCP\Util::addscript('files_encryption', 'detect-migration');
+
 if (!OC_Config::getValue('maintenance', false)) {
 	OC_FileProxy::register(new OCA\Encryption\Proxy());
 
@@ -43,23 +45,6 @@ if (!OC_Config::getValue('maintenance', false)) {
 		if($sessionReady) {
 			$session = new \OCA\Encryption\Session($view);
 		}
-
-		$user = \OCP\USER::getUser();
-		// check if user has a private key
-		if ($sessionReady === false
-			|| (!$view->file_exists('/' . $user . '/files_encryption/' . $user . '.private.key')
-				&& OCA\Encryption\Crypt::mode() === 'server')
-		) {
-
-			// Force the user to log-in again if the encryption key isn't unlocked
-			// (happens when a user is logged in before the encryption app is
-			// enabled)
-			OCP\User::logout();
-
-			header("Location: " . OC::$WEBROOT . '/');
-
-			exit();
-		}
 	}
 } else {
 	// logout user if we are in maintenance to force re-login
@@ -69,4 +54,3 @@ if (!OC_Config::getValue('maintenance', false)) {
 // Register settings scripts
 OCP\App::registerAdmin('files_encryption', 'settings-admin');
 OCP\App::registerPersonal('files_encryption', 'settings-personal');
-

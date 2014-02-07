@@ -41,7 +41,7 @@ use \OC\DB\Connection;
  * This class provides an easy way for apps to store config values in the
  * database.
  */
-class AppConfig {
+class AppConfig implements \OCP\IAppConfig {
 	/**
 	 * @var \OC\DB\Connection $conn
 	 */
@@ -104,7 +104,7 @@ class AppConfig {
 	 */
 	public function getValue($app, $key, $default = null) {
 		$query = 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
-			.' WHERE `appid` = ? AND `configkey` = ?';
+			. ' WHERE `appid` = ? AND `configkey` = ?';
 		$row = $this->conn->fetchAssoc($query, array($app, $key));
 		if ($row) {
 			return $row['configvalue'];
@@ -185,6 +185,7 @@ class AppConfig {
 
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
+	 *
 	 * @param app
 	 * @param key
 	 * @return array
@@ -208,8 +209,8 @@ class AppConfig {
 			$params[] = $key;
 			$key = 'appid';
 		}
-		$query = 'SELECT '.$fields.' FROM `*PREFIX*appconfig` '.$where;
-		$result = $this->conn->executeQuery( $query, $params );
+		$query = 'SELECT ' . $fields . ' FROM `*PREFIX*appconfig` ' . $where;
+		$result = $this->conn->executeQuery($query, $params);
 
 		$values = array();
 		while ($row = $result->fetch((\PDO::FETCH_ASSOC))) {

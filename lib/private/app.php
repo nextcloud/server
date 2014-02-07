@@ -63,8 +63,8 @@ class OC_App{
 		ob_start();
 		foreach( $apps as $app ) {
 			if((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::loadApp($app);
 				self::$loadedApps[] = $app;
+				self::loadApp($app);
 			}
 		}
 		ob_end_clean();
@@ -165,17 +165,23 @@ class OC_App{
 	/**
 	 * get all enabled apps
 	 */
-	public static function getEnabledApps() {
+	private static $enabledAppsCache = array();
+	public static function getEnabledApps($forceRefresh = false) {
 		if(!OC_Config::getValue('installed', false)) {
 			return array();
 		}
+		if(!$forceRefresh && !empty(self::$enabledAppsCache)) {
+			return self::$enabledAppsCache;
+		}
 		$apps=array('files');
 		$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'';
+			. ' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\''
+			. ' ORDER BY `appid`';
 		if (OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
 			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql = 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\'';
+			. ' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\''
+			. ' ORDER BY `appid`';
 		}
 		$query = OC_DB::prepare( $sql );
 		$result=$query->execute();
@@ -187,6 +193,7 @@ class OC_App{
 				$apps[]=$row['appid'];
 			}
 		}
+		self::$enabledAppsCache = $apps;
 		return $apps;
 	}
 
@@ -198,11 +205,11 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ) {
-		if( 'files'==$app or ('yes' == OC_Appconfig::getValue( $app, 'enabled' ))) {
+		if('files' == $app) {
 			return true;
 		}
-
-		return false;
+		$enabledApps = self::getEnabledApps();
+		return in_array($app, $enabledApps);
 	}
 
 	/**
@@ -214,6 +221,7 @@ class OC_App{
 	 * This function set an app as enabled in appconfig.
 	 */
 	public static function enable( $app ) {
+		self::$enabledAppsCache = array(); // flush
 		if(!OC_Installer::isInstalled($app)) {
 			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 			if(!is_numeric($app)) {
@@ -243,6 +251,7 @@ class OC_App{
 				if(isset($appdata['id'])) {
 					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
 				}
+				\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 			}
 		}else{
 			throw new \Exception($l->t("No app name specified"));
@@ -257,6 +266,7 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ) {
+		self::$enabledAppsCache = array(); // flush
 		// check if app is a shipped app or not. if not delete
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
@@ -545,6 +555,10 @@ class OC_App{
 			}elseif($child->getName()=='description') {
 				$xml=(string)$child->asXML();
 				$data[$child->getName()]=substr($xml, 13, -14);//script <description> tags
+			}elseif($child->getName()=='documentation') {
+				foreach($child as $subchild) {
+					$data["documentation"][$subchild->getName()] = (string)$subchild;
+				}
 			}else{
 				$data[$child->getName()]=(string)$child;
 			}
@@ -745,7 +759,40 @@ class OC_App{
 		} else {
 			$combinedApps = $appList;
 		}
+		// bring the apps into the right order with a custom sort funtion
+		usort( $combinedApps, '\OC_App::customSort' );
+
 		return $combinedApps;
+	}
+
+	/**
+	 * @brief: Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
+	 * @return array
+	 */
+	private static function customSort($a, $b) {
+
+		// prio 1: active
+		if ($a['active'] != $b['active']) {
+			return $b['active'] - $a['active'];
+		}
+
+		// prio 2: shipped
+		$ashipped = (array_key_exists('shipped', $a) && $a['shipped'] === 'true') ? 1 : 0;
+		$bshipped = (array_key_exists('shipped', $b) && $b['shipped'] === 'true') ? 1 : 0;
+		if ($ashipped !== $bshipped) {
+			return ($bshipped - $ashipped);
+		}
+
+		// prio 3: recommended
+		if ($a['internalclass'] != $b['internalclass']) {
+			$atemp = ($a['internalclass'] == 'recommendedapp' ? 1 : 0);
+			$btemp = ($b['internalclass'] == 'recommendedapp' ? 1 : 0);
+			return ($btemp - $atemp);
+		}
+
+		// prio 4: alphabetical
+		return strcasecmp($a['name'], $b['name']);
+
 	}
 
 	/**

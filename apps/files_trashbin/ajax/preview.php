@@ -29,8 +29,24 @@ if($maxX === 0 || $maxY === 0) {
 }
 
 try{
-	$preview = new \OC\Preview(\OC_User::getUser(), 'files_trashbin/files');
-	$preview->setFile($file);
+	$preview = new \OC\Preview(\OC_User::getUser(), 'files_trashbin/files', $file);
+	$view = new \OC\Files\View('/'.\OC_User::getUser(). '/files_trashbin/files');
+	if ($view->is_dir($file)) {
+		$mimetype = 'httpd/unix-directory';
+	} else {
+		$pathInfo = pathinfo($file);
+		$fileName = $pathInfo['basename'];
+		// if in root dir
+		if ($pathInfo['dirname'] === '.') {
+			// cut off the .d* suffix
+			$i = strrpos($fileName, '.');
+			if ($i !== false) {
+				$fileName = substr($fileName, 0, $i);
+			}
+		}
+		$mimetype = \OC_Helper::getFileNameMimeType($fileName);
+	}
+	$preview->setMimetype($mimetype);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);
 	$preview->setScalingUp($scalingUp);

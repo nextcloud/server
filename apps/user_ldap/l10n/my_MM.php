@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "စကားဝှက်",
-"Help" => "အကူအညီ"
+"_%s group found_::_%s groups found_" => array(""),
+"_%s user found_::_%s users found_" => array(""),
+"Help" => "အကူအညီ",
+"Password" => "စကားဝှက်"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -3,6 +3,10 @@
 namespace OC\Setup;
 
 abstract class AbstractDatabase {
+
+	/**
+	 * @var \OC_L10N
+	 */
 	protected $trans;
 	protected $dbDefinitionFile;
 	protected $dbuser;

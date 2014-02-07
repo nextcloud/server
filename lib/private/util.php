@@ -51,23 +51,33 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 
+		if ($user != '' && !OCP\User::userExists($user)) {
+			return false;
+		}
+
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
-			$quota = self::getUserQuota($user);
-			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-				\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage) use ($quota, $user) {
-					if ($mountPoint === '/' . $user . '/'){
+			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
+				// set up quota for home storages, even for other users
+				// which can happen when using sharing
+
+				if ($storage instanceof \OC\Files\Storage\Home) {
+					$user = $storage->getUser()->getUID();
+					$quota = OC_Util::getUserQuota($user);
+					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
 						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
-					} else {
-						return $storage;
 					}
-				});
-			}
+				}
+
+				return $storage;
+			});
+
 			$userDir = '/'.$user.'/files';
 			$userRoot = OC_User::getHome($user);
 			$userDirectory = $userRoot . '/files';
 			if( !is_dir( $userDirectory )) {
 				mkdir( $userDirectory, 0755, true );
+				OC_Util::copySkeleton($userDirectory);
 			}
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
@@ -90,6 +100,35 @@ class OC_Util {
 		}else{
 			return OC_Helper::computerFileSize($userQuota);
 		}
+	}
+
+	/**
+	 * @brief copies the user skeleton files into the fresh user home files
+	 * @param string $userDirectory
+	 */
+	public static function copySkeleton($userDirectory) {
+		OC_Util::copyr(\OC::$SERVERROOT.'/core/skeleton' , $userDirectory);
+	}
+
+	/**
+	 * @brief copies a directory recursively
+	 * @param string $source
+	 * @param string $target
+	 * @return void
+	 */
+	public static function copyr($source,$target) {
+		$dir = opendir($source);
+		@mkdir($target);
+		while(false !== ( $file = readdir($dir)) ) {
+			if ( !\OC\Files\Filesystem::isIgnoredDir($file) ) {
+				if ( is_dir($source . '/' . $file) ) {
+					OC_Util::copyr($source . '/' . $file , $target . '/' . $file);
+				} else {
+					copy($source . '/' . $file,$target . '/' . $file);
+				}
+			}
+		}
+		closedir($dir);
 	}
 
 	/**
@@ -138,7 +177,7 @@ class OC_Util {
 		OC_Util::loadVersion();
 		return \OC::$server->getSession()->get('OC_Channel');
 	}
-        
+
 	/**
 	 * @description get the build number of the current installed of ownCloud.
 	 * @return string
@@ -152,9 +191,12 @@ class OC_Util {
 	 * @description load the version.php into the session as cache
 	 */
 	private static function loadVersion() {
-		if(!\OC::$server->getSession()->exists('OC_Version')) {
+		$timestamp = filemtime(OC::$SERVERROOT.'/version.php');
+		if(!\OC::$server->getSession()->exists('OC_Version') or OC::$server->getSession()->get('OC_Version_Timestamp') != $timestamp) {
 			require 'version.php';
 			$session = \OC::$server->getSession();
+			/** @var $timestamp int */
+			$session->set('OC_Version_Timestamp', $timestamp);
 			/** @var $OC_Version string */
 			$session->set('OC_Version', $OC_Version);
 			/** @var $OC_VersionString string */
@@ -270,16 +312,16 @@ class OC_Util {
 
 		//common hint for all file permissions error messages
 		$permissionsHint = 'Permissions can usually be fixed by '
-			.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-			.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.';
+			.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+			.'" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
+		if(!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 			$errors[] = array(
 				'error' => "Can't write into config directory",
 				'hint' => 'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-					.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the config directory</a>.'
+					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+					.'" target="_blank">giving the webserver write access to the config directory</a>.'
 				);
 		}
 
@@ -291,8 +333,8 @@ class OC_Util {
 				$errors[] = array(
 					'error' => "Can't write into apps directory",
 					'hint' => 'This can usually be fixed by '
-						.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-						.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the apps directory</a> '
+						.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+						.'" target="_blank">giving the webserver write access to the apps directory</a> '
 						.'or disabling the appstore in the config file.'
 					);
 			}
@@ -307,8 +349,8 @@ class OC_Util {
 				$errors[] = array(
 					'error' => "Can't create data directory (".$CONFIG_DATADIRECTORY.")",
 					'hint' => 'This can usually be fixed by '
-					.'<a href="' . $defaults->getDocBaseUrl() . '/server/5.0/admin_manual/installation/installation_source.html'
-					.'#set-the-directory-permissions" target="_blank">giving the webserver write access to the root directory</a>.'
+					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
+					.'" target="_blank">giving the webserver write access to the root directory</a>.'
 				);
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
@@ -318,6 +360,13 @@ class OC_Util {
 			);
 		} else {
 			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
+		}
+
+		if(!OC_Util::isSetLocaleWorking()) {
+			$errors[] = array(
+				'error' => 'Setting locale to en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8 failed',
+				'hint' => 'Please install one of theses locales on your system and restart your webserver.'
+			);
 		}
 
 		$moduleHint = "Please ask your server administrator to install the module.";
@@ -392,11 +441,11 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
-		if(floatval(phpversion()) < 5.3) {
+		if(version_compare(phpversion(), '5.3.3', '<')) {
 			$errors[] = array(
-				'error'=>'PHP 5.3 is required.',
-				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
-					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.'
+				'error'=>'PHP 5.3.3 or higher is required.',
+				'hint'=>'Please ask your server administrator to update PHP to the latest version.'
+					.' Your PHP version is no longer supported by ownCloud and the PHP community.'
 			);
 			$webServerRestart = true;
 		}
@@ -535,7 +584,7 @@ class OC_Util {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php',
-				array('redirectUrl' => OC_Request::requestUri())
+				array('redirect_url' => OC_Request::requestUri())
 			));
 			exit();
 		}
@@ -546,6 +595,7 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function checkAdminUser() {
+		OC_Util::checkLoggedIn();
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
@@ -578,6 +628,7 @@ class OC_Util {
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
+		OC_Util::checkLoggedIn();
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
@@ -617,7 +668,7 @@ class OC_Util {
 		if(is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
 			$id = 'oc' . self::generateRandomBytes(10);
-			OC_Config::setValue('instanceid', $id);
+			OC_Config::$object->setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -665,29 +716,7 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
-		if(!\OC::$session->exists('requesttoken')) {
-			return false;
-		}
-
-		if(isset($_GET['requesttoken'])) {
-			$token = $_GET['requesttoken'];
-		} elseif(isset($_POST['requesttoken'])) {
-			$token = $_POST['requesttoken'];
-		} elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
-			$token = $_SERVER['HTTP_REQUESTTOKEN'];
-		} else {
-			//no token found.
-			return false;
-		}
-
-		// Check if the token is valid
-		if($token !== \OC::$session->get('requesttoken')) {
-			// Not valid
-			return false;
-		} else {
-			// Valid token
-			return true;
-		}
+		return \OC::$server->getRequest()->passesCSRFCheck();
 	}
 
 	/**
@@ -743,6 +772,10 @@ class OC_Util {
 	 * file in the data directory and trying to access via http
 	 */
 	public static function isHtAccessWorking() {
+		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
+			return true;
+		}
+		
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
@@ -755,8 +788,12 @@ class OC_Util {
 		}
 
 		$fp = @fopen($testFile, 'w');
-		@fwrite($fp, $testContent);
-		@fclose($fp);
+		if (!$fp) {
+			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to '.$testFile);
+		}
+		fwrite($fp, $testContent);
+		fclose($fp);
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
@@ -791,11 +828,16 @@ class OC_Util {
 		if (!function_exists('curl_init')) {
 			return true;
 		}
+		if (!\OC_Config::getValue("check_for_working_webdav", true)) {
+			return true;
+		}
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
 		);
 
-		$client = new \Sabre_DAV_Client($settings);
+		$client = new \OC_DAVClient($settings);
+
+		$client->setRequestTimeout(10);
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
@@ -825,8 +867,8 @@ class OC_Util {
 			return true;
 		}
 
-		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
-		if($result == false) {
+		\Patchwork\Utf8\Bootup::initLocale();
+		if ('' === basename('§')) {
 			return false;
 		}
 		return true;
@@ -841,6 +883,14 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief Check if a PHP version older then 5.3.8 is installed.
+	 * @return bool
+	 */
+	public static function isPHPoutdated() {
+		return version_compare(phpversion(), '5.3.8', '<');
+	}
+
+	/**
 	 * @brief Check if the ownCloud server can connect to the internet
 	 * @return bool
 	 */
@@ -848,6 +898,11 @@ class OC_Util {
 		// in case there is no internet connection on purpose return false
 		if (self::isInternetConnectionEnabled() === false) {
 			return false;
+		}
+
+		// in case the connection is via proxy return true to avoid connecting to owncloud.org
+		if(OC_Config::getValue('proxy', '') != '') {
+			return true;
 		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
@@ -952,9 +1007,9 @@ class OC_Util {
 	 * @param string $url Url to get content
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
-	 * If not, file_get_element is used.
+	 * If not, file_get_contents is used.
 	 */
-	public static function getUrlContent($url){
+	public static function getUrlContent($url) {
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 
@@ -1043,7 +1098,11 @@ class OC_Util {
 		}
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
-			xcache_clear_cache(XC_TYPE_VAR, 0);
+			if (ini_get('xcache.admin.enable_auth')) {
+				OC_Log::write('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OC_Log::WARN);
+			} else {
+				xcache_clear_cache(XC_TYPE_PHP, 0);
+			}
 		}
 		// Opcache (PHP >= 5.5)
 		if (function_exists('opcache_reset')) {
@@ -1076,5 +1135,18 @@ class OC_Util {
 		$file = rtrim($file, '/');
 		$t = explode('/', $file);
 		return array_pop($t);
+	}
+
+	/**
+	 * A human readable string is generated based on version, channel and build number
+	 * @return string
+	 */
+	public static function getHumanVersion() {
+		$version = OC_Util::getVersionString().' ('.OC_Util::getChannel().')';
+		$build = OC_Util::getBuild();
+		if(!empty($build) and OC_Util::getChannel() === 'daily') {
+			$version .= ' Build:' . $build;
+		}
+		return $version;
 	}
 }

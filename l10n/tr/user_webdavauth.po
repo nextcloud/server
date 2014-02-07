@@ -6,14 +6,15 @@
 # alpere <info@beyboo.de>, 2012
 # Necdet Yücel <necdetyucel@gmail.com>, 2012
 # atakan96 <tayancatakan@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-10-16 00:26-0400\n"
+"PO-Revision-Date: 2013-10-14 16:30+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +28,11 @@ msgstr "WebDAV Kimlik doğrulaması"
 
 #: templates/settings.php:4
 msgid "Address: "
-msgstr ""
+msgstr "Adres:"
 
 #: templates/settings.php:7
 msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr ""
+msgstr "Kullanıcı kimlik bilgileri bu adrese gönderilecek. Bu eklenti yanıtı kontrol edecek ve 401 ile 403 HTTP durum kodlarını geçersiz kimlik bilgileri olarak, diğer yanıtları ise doğru kimlik bilgileri olarak algılayacaktır."

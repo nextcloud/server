@@ -35,7 +35,17 @@ class OC_Log_Owncloud {
 	public static function init() {
 		$defaultLogFile = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
 		self::$logFile = OC_Config::getValue("logfile", $defaultLogFile);
-		if (!file_exists(self::$logFile)) {
+
+		/*
+		* Fall back to default log file if specified logfile does not exist
+		* and can not be created. Error suppression is required in order to
+		* not end up in the error handler which will try to log the error.
+		* A better solution (compared to error suppression) would be checking
+		* !is_writable(dirname(self::$logFile)) before touch(), but
+		* is_writable() on directories used to be pretty unreliable on Windows
+		* for at least some time.
+		*/
+		if (!file_exists(self::$logFile) && !@touch(self::$logFile)) {
 			self::$logFile = $defaultLogFile;
 		}
 	}
@@ -51,12 +61,24 @@ class OC_Log_Owncloud {
 		if($level>=$minLevel) {
 			// default to ISO8601
 			$format = OC_Config::getValue('logdateformat', 'c');
-			$time = date($format, time());
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time);
+			$logtimezone=OC_Config::getValue( "logtimezone", 'UTC' );
+			try {
+				$timezone = new DateTimeZone($logtimezone);
+			} catch (Exception $e) {
+				$timezone = new DateTimeZone('UTC');
+			}
+			$time = new DateTime(null, $timezone);
+			// remove username/passswords from URLs before writing the to the log file
+			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
+			$entry = json_encode($entry);
 			$handle = @fopen(self::$logFile, 'a');
+			@chmod(self::$logFile, 0640);
 			if ($handle) {
-				fwrite($handle, json_encode($entry)."\n");
+				fwrite($handle, $entry."\n");
 				fclose($handle);
+			} else {
+				// Fall back to error_log
+				error_log($entry);
 			}
 		}
 	}

@@ -25,9 +25,14 @@
  * This class provides an easy way for apps to store config values in the
  * database.
  */
-OC_Appconfig::$object = new \OC\AppConfig(OC_DB::getConnection());
-class OC_Appconfig{
-	public static $object;
+class OC_Appconfig {
+	/**
+	 * @return \OCP\IAppConfig
+	 */
+	private static function getAppConfig() {
+		return \OC::$server->getAppConfig();
+	}
+
 	/**
 	 * @brief Get all apps using the config
 	 * @return array with app ids
@@ -36,7 +41,7 @@ class OC_Appconfig{
 	 * entry in the appconfig table.
 	 */
 	public static function getApps() {
-		return self::$object->getApps();
+		return self::getAppConfig()->getApps();
 	}
 
 	/**
@@ -47,8 +52,8 @@ class OC_Appconfig{
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
 	 */
-	public static function getKeys( $app ) {
-		return self::$object->getKeys( $app );
+	public static function getKeys($app) {
+		return self::getAppConfig()->getKeys($app);
 	}
 
 	/**
@@ -61,8 +66,8 @@ class OC_Appconfig{
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public static function getValue( $app, $key, $default = null ) {
-		return self::$object->getValue($app, $key, $default);
+	public static function getValue($app, $key, $default = null) {
+		return self::getAppConfig()->getValue($app, $key, $default);
 	}
 
 	/**
@@ -72,7 +77,7 @@ class OC_Appconfig{
 	 * @return bool
 	 */
 	public static function hasKey($app, $key) {
-		return self::$object->hasKey($app, $key);
+		return self::getAppConfig()->hasKey($app, $key);
 	}
 
 	/**
@@ -83,8 +88,8 @@ class OC_Appconfig{
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
-	public static function setValue( $app, $key, $value ) {
-		self::$object->setValue( $app, $key, $value );
+	public static function setValue($app, $key, $value) {
+		self::getAppConfig()->setValue($app, $key, $value);
 	}
 
 	/**
@@ -94,8 +99,8 @@ class OC_Appconfig{
 	 *
 	 * Deletes a key.
 	 */
-	public static function deleteKey( $app, $key ) {
-		self::$object->deleteKey( $app, $key );
+	public static function deleteKey($app, $key) {
+		self::getAppConfig()->deleteKey($app, $key);
 	}
 
 	/**
@@ -104,17 +109,18 @@ class OC_Appconfig{
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
-	public static function deleteApp( $app ) {
-		self::$object->deleteApp( $app );
+	public static function deleteApp($app) {
+		self::getAppConfig()->deleteApp($app);
 	}
 
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
+	 *
 	 * @param app
 	 * @param key
 	 * @return array
 	 */
 	public static function getValues($app, $key) {
-		return self::$object->getValues($app, $key);
+		return self::getAppConfig()->getValues($app, $key);
 	}
 }

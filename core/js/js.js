@@ -11,8 +11,17 @@ var oc_webroot;
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
+window.oc_config = window.oc_config || {};
+
 if (typeof oc_webroot === "undefined") {
-	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+	oc_webroot = location.pathname;
+	var pos = oc_webroot.indexOf('/index.php/');
+	if (pos !== -1) {
+		oc_webroot = oc_webroot.substr(0, pos);
+	}
+	else {
+		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
+	}
 }
 if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
@@ -41,8 +50,8 @@ function initL10N(app) {
 			t.cache[app] = [];
 		}
 	}
-	if (typeof t.plural_function == 'undefined') {
-		t.plural_function = function (n) {
+	if (typeof t.plural_function[app] == 'undefined') {
+		t.plural_function[app] = function (n) {
 			var p = (n != 1) ? 1 : 0;
 			return { 'nplural' : 2, 'plural' : p };
 		};
@@ -67,7 +76,7 @@ function initL10N(app) {
 			 Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
 			 */
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
-			t.plural_function = new Function("n", code);
+			t.plural_function[app] = new Function("n", code);
 		} else {
 			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
 		}
@@ -103,6 +112,10 @@ function t(app, text, vars, count){
 	}
 }
 t.cache = {};
+// different apps might or might not redefine the nplurals function correctly
+// this is to make sure that a "broken" app doesn't mess up with the
+// other app's plural function
+t.plural_function = {};
 
 /**
  * translate a string
@@ -115,11 +128,11 @@ t.cache = {};
  */
 function n(app, text_singular, text_plural, count, vars) {
 	initL10N(app);
-	var identifier = '_' + text_singular + '__' + text_plural + '_';
+	var identifier = '_' + text_singular + '_::_' + text_plural + '_';
 	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
 		var translation = t.cache[app][identifier];
 		if ($.isArray(translation)) {
-			var plural = t.plural_function(count);
+			var plural = t.plural_function[app](count);
 			return t(app, translation[plural.plural], vars, count);
 		}
 	}
@@ -242,6 +255,12 @@ var OC={
 		return link;
 	},
 	/**
+	 * Redirect to the target URL, can also be used for downloads.
+	 */
+	redirect: function(targetUrl) {
+		window.location = targetUrl;
+	},
+	/**
 	 * get the absolute path to an image file
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
@@ -353,6 +372,34 @@ var OC={
 		}
 		return result;
 	},
+
+	/**
+	 * Builds a URL query from a JS map.
+	 * @param params parameter map
+	 * @return string containing a URL query (without question) mark
+	 */
+	buildQueryString: function(params) {
+		var s = '';
+		var first = true;
+		if (!params) {
+			return s;
+		}
+		for (var key in params) {
+			var value = params[key];
+			if (first) {
+				first = false;
+			}
+			else {
+				s += '&';
+			}
+			s += encodeURIComponent(key);
+			if (value !== null && typeof(value) !== 'undefined') {
+				s += '=' + encodeURIComponent(value);
+			}
+		}
+		return s;
+	},
+
 	/**
 	 * Opens a popup with the setting for an app.
 	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
@@ -404,6 +451,9 @@ var OC={
 						.fail(function(jqxhr, settings, e) {
 							throw e;
 						});
+					}
+					if(!SVGSupport()) {
+						replaceSVG();
 					}
 				}).show();
 			}, 'html');
@@ -471,11 +521,11 @@ OC.Breadcrumb={
 	},
 	_show:function(container, dir, leafname, leaflink){
 		var self = this;
-		
+
 		this._clear(container);
-		
+
 		// show home + path in subdirectories
-		if (dir && dir !== '/') {
+		if (dir) {
 			//add home
 			var link = OC.linkTo('files','index.php');
 
@@ -502,7 +552,7 @@ OC.Breadcrumb={
 				}
 			});
 		}
-		
+
 		//add leafname
 		if (leafname && leaflink) {
 			this._push(container, leafname, leaflink);
@@ -694,8 +744,39 @@ function fillWindow(selector) {
 	console.warn("This function is deprecated! Use CSS instead");
 }
 
-$(document).ready(function(){
-	sessionHeartBeat();
+/**
+ * Initializes core
+ */
+function initCore() {
+
+	/**
+	 * Calls the server periodically to ensure that session doesn't
+	 * time out
+	 */
+	function initSessionHeartBeat(){
+		// interval in seconds
+		var interval = 900;
+		if (oc_config.session_lifetime) {
+			interval = Math.floor(oc_config.session_lifetime / 2);
+		}
+		// minimum one minute
+		if (interval < 60) {
+			interval = 60;
+		}
+		OC.Router.registerLoadedCallback(function(){
+			var url = OC.Router.generate('heartbeat');
+			setInterval(function(){
+				$.post(url);
+			}, interval * 1000);
+		});
+	}
+
+	// session heartbeat (defaults to enabled)
+	if (typeof(oc_config.session_keepalive) === 'undefined' ||
+		!!oc_config.session_keepalive) {
+
+		initSessionHeartBeat();
+	}
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -746,15 +827,7 @@ $(document).ready(function(){
 	});
 
 	var setShowPassword = function(input, label) {
-		input.showPassword().keyup(function(){
-			if (input.val().length == 0) {
-				label.hide();
-			}
-			else {
-				label.css("display", "inline").show();
-			}
-		});
-		label.hide();
+		input.showPassword().keyup();
 	};
 	setShowPassword($('#adminpass'), $('label[for=show]'));
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
@@ -816,7 +889,9 @@ $(document).ready(function(){
 	$('input[type=text]').focus(function(){
 		this.select();
 	});
-});
+}
+
+$(document).ready(initCore);
 
 /**
  * Filter Jquery selector by attribute value
@@ -833,7 +908,10 @@ function humanFileSize(size) {
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
 	var relativeSize = (size / Math.pow(1024, order)).toFixed(1);
-	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
+	if(order < 2){
+		relativeSize = parseFloat(relativeSize).toFixed(0);
+	}
+	else if(relativeSize.substr(relativeSize.length-2,2)==='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
 	return relativeSize + ' ' + readableFormat;
@@ -941,17 +1019,5 @@ jQuery.fn.selectRange = function(start, end) {
  */
 jQuery.fn.exists = function(){
 	return this.length > 0;
-}
+};
 
-/**
- * Calls the server periodically every 15 mins to ensure that session doesnt
- * time out
- */
-function sessionHeartBeat(){
-	OC.Router.registerLoadedCallback(function(){
-		var url = OC.Router.generate('heartbeat');
-		setInterval(function(){
-			$.post(url);
-		}, 900000);
-	});
-}

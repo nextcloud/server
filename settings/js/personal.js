@@ -1,5 +1,6 @@
 /**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ *               2013, Morris Jobke <morris.jobke@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -31,7 +32,7 @@ function changeDisplayName(){
         // Ajax foo
         $.post( 'ajax/changedisplayname.php', post, function(data){
             if( data.status === "success" ){
-                $('#oldDisplayName').text($('#displayName').val());
+                $('#oldDisplayName').val($('#displayName').val());
                 // update displayName on the top right expand button
                 $('#expandDisplayName').text($('#displayName').val());
                 updateAvatar();
@@ -45,12 +46,16 @@ function changeDisplayName(){
     }
 }
 
-function updateAvatar () {
+function updateAvatar (hidedefault) {
 	$headerdiv = $('#header .avatardiv');
 	$displaydiv = $('#displayavatar .avatardiv');
 
-	$headerdiv.css({'background-color': ''});
-	$headerdiv.avatar(OC.currentUser, 32, true);
+	if(hidedefault) {
+		$headerdiv.hide();
+	} else {
+		$headerdiv.css({'background-color': ''});
+		$headerdiv.avatar(OC.currentUser, 32, true);
+	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 128, true);
 }
@@ -160,6 +165,11 @@ $(document).ready(function(){
 
     $('#email').keyup(function(){
         if ($('#email').val() !== '' ){
+            // if this is the enter key changeEmailAddress() is already invoked
+            // so it doesn't need to be triggered again
+            if(event.keyCode === 13) {
+                return;
+            }
             if(typeof timeout !== 'undefined'){
                 clearTimeout(timeout);
             }
@@ -167,10 +177,17 @@ $(document).ready(function(){
         }
     });
 
-	$("#languageinput").chosen();
-	// Show only the not selectable optgroup
-	// Choosen only shows optgroup-labels if there are options in the optgroup
-	$(".languagedivider").hide();
+	$('#email').keypress(function(event){
+		// check for enter key and non empty email
+		if (event.keyCode === 13 && $('#email').val() !== '' ){
+			event.preventDefault()
+			// clear timeout of previous keyup event - prevents duplicate changeEmailAddress call
+			if(typeof timeout !== 'undefined'){
+				clearTimeout(timeout);
+			}
+			changeEmailAddress();
+		}
+	});
 
 	$("#languageinput").change( function(){
 		// Serialize the data
@@ -189,21 +206,25 @@ $(document).ready(function(){
 
 	$('button:button[name="submitDecryptAll"]').click(function() {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
+		$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+		$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
-	
+
 	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function(event) {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		if (privateKeyPassword !== '' ) {
 			$('#decryptAll button:button[name="submitDecryptAll"]').removeAttr("disabled");
 			if(event.which === 13) {
+				$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
+				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 				OC.Encryption.decryptAll(privateKeyPassword);
 			}
 		} else {
 			$('#decryptAll button:button[name="submitDecryptAll"]').attr("disabled", "true");
 		}
 	});
-	
+
 	var uploadparms = {
 		done: function(e, data) {
 			avatarResponseHandler(data.result);
@@ -232,7 +253,7 @@ $(document).ready(function(){
 			type:	'DELETE',
 			url:	OC.Router.generate('core_avatar_delete'),
 			success: function(msg) {
-				updateAvatar();
+				updateAvatar(true);
 			}
 		});
 	});
@@ -244,6 +265,17 @@ $(document).ready(function(){
 	$('#sendcropperbutton').click(function(){
 		sendCropData();
 	});
+
+	$('#pass2').strengthify({
+		zxcvbn: OC.linkTo('3rdparty','zxcvbn/js/zxcvbn.js'),
+		titles: [
+			t('core', 'Very weak password'),
+			t('core', 'Weak password'),
+			t('core', 'So-so password'),
+			t('core', 'Good password'),
+			t('core', 'Strong password')
+		]
+	});
 } );
 
 OC.Encryption = {
@@ -252,18 +284,19 @@ OC.Encryption = {
 		$.post('ajax/decryptall.php', {password:password}, function(data) {
 			if (data.status === "error") {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+				$('#decryptAll input:password[name="privateKeyPassword"]').removeAttr("disabled");
 			} else {
 				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
 			}
-		}
-		);
+		});
 	}
-}
+};
 
 OC.Encryption.msg={
 	startDecrypting:function(selector){
+		var spinner = '<img src="'+ OC.imagePath('core', 'loading-small.gif') +'">';
 		$(selector)
-			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') )
+			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
 			.removeClass('success')
 			.removeClass('error')
 			.stop(true, true)
@@ -274,8 +307,7 @@ OC.Encryption.msg={
 			 $(selector).html( data.data.message )
 				.addClass('success')
 				.stop(true, true)
-				.delay(3000)
-				.fadeOut(900);
+				.delay(3000);
 		}else{
 			$(selector).html( data.data.message ).addClass('error');
 		}

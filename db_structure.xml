@@ -9,6 +9,11 @@
 
 	<table>
 
+		<!--
+		Namespaced Key-Value Store for Application Configuration.
+		 - Keys are namespaced per appid.
+		 - E.g. (core, global_cache_gc_lastrun) -> 1385463286
+		-->
 		<name>*dbprefix*appconfig</name>
 
 		<declaration>
@@ -55,6 +60,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			<index>
+				<name>appconfig_appid_key</name>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -62,6 +74,13 @@
 
 	<table>
 
+		<!--
+		Bidirectional Map for Storage Names and Storage Ids.
+		 - Assigns each storage name a unique storage id integer.
+		 - Long storage names are hashed.
+		 - E.g.                     local::/tmp/ <-> 2
+		 - E.g. b5db994aa8c6625100e418406c798269 <-> 27
+		-->
 		<name>*dbprefix*storages</name>
 
 		<declaration>
@@ -159,6 +178,12 @@
 
 	<table>
 
+		<!--
+		Bidirectional Map for Mimetypes and Mimetype Id
+		 - Assigns each mimetype (and supertype) a unique mimetype id integer.
+		 - E.g.     application <-> 5
+		 - E.g. application/pdf <-> 6
+		-->
 		<name>*dbprefix*mimetypes</name>
 
 		<declaration>
@@ -195,6 +220,16 @@
 
 	<table>
 
+		<!--
+		Main file table containing one row for each directory and file.
+		 - Assigns a unique integer fileid to each file (and directory)
+		 - Assigns an etag to each file (and directory)
+		 - Caches various file/dir properties such as:
+		  - path (filename, e.g. files/combinatoricslib-2.0_doc.zip)
+		  - path_hash = md5(path)
+		  - name (basename, e.g. combinatoricslib-2.0_doc.zip)
+		  - size (for directories this is the sum of all contained file sizes)
+		-->
 		<name>*dbprefix*filecache</name>
 
 		<declaration>
@@ -208,6 +243,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key storages::numeric_id -->
 			<field>
 				<name>storage</name>
 				<type>integer</type>
@@ -232,6 +268,7 @@
 				<length>32</length>
 			</field>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>parent</name>
 				<type>integer</type>
@@ -248,6 +285,7 @@
 				<length>250</length>
 			</field>
 
+			<!-- Foreign Key mimetypes::id -->
 			<field>
 				<name>mimetype</name>
 				<type>integer</type>
@@ -256,6 +294,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key mimetypes::id -->
 			<field>
 				<name>mimepart</name>
 				<type>integer</type>
@@ -367,10 +406,15 @@
 
 	<table>
 
+		<!--
+		Maps (fileid, user) to an integer which is a permission bitfield.
+		 - E.g. (4, admin) -> 27
+		-->
 		<name>*dbprefix*permissions</name>
 
 		<declaration>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>fileid</name>
 				<type>integer</type>
@@ -379,6 +423,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>user</name>
 				<type>text</type>
@@ -413,10 +458,16 @@
 
 	<table>
 
+		<!--
+		Stores which groups have which users as members in an n:m relationship.
+		 - Maps group id (gid) to a set of users (uid)
+		 - Maps user id (uid) to a set of groups (gid) (but without index)
+		-->
 		<name>*dbprefix*group_user</name>
 
 		<declaration>
 
+			<!-- Foreign Key groups::gid -->
 			<field>
 				<name>gid</name>
 				<type>text</type>
@@ -425,6 +476,7 @@
 				<length>64</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid</name>
 				<type>text</type>
@@ -453,10 +505,19 @@
 
 	<table>
 
+		<!--
+		Stores which groups have which users as admins in an n:m relationship.
+		 - Maps group id (gid) to a set of users (uid)
+		 - Maps user id (uid) to a set of groups (gid)
+
+		NOTE: This could (very likely) be reduced to a single bit in group_user
+		      instead of repeating varchars gid and uid here
+		-->
 		<name>*dbprefix*group_admin</name>
 
 		<declaration>
 
+			<!-- Foreign Key groups::gid -->
 			<field>
 				<name>gid</name>
 				<type>text</type>
@@ -465,6 +526,7 @@
 				<length>64</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid</name>
 				<type>text</type>
@@ -500,6 +562,9 @@
 
 	<table>
 
+		<!--
+		A simple list of groups.
+		-->
 		<name>*dbprefix*groups</name>
 
 		<declaration>
@@ -527,6 +592,9 @@
 
 	<table>
 
+		<!--
+		Locks held by WebDAV clients via OC_Connector_Sabre_Locks.
+		-->
 		<name>*dbprefix*locks</name>
 
 		<declaration>
@@ -541,6 +609,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
@@ -606,10 +675,16 @@
 
 	<table>
 
+		<!--
+		Namespaced Key-Value Store for User Preferences
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, cache_version) -> 5
+		-->
 		<name>*dbprefix*preferences</name>
 
 		<declaration>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
@@ -664,6 +739,9 @@
 
 	<table>
 
+		<!--
+		WebDAV properties.
+		-->
 		<name>*dbprefix*properties</name>
 
 		<declaration>
@@ -677,6 +755,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>userid</name>
 				<type>text</type>
@@ -722,6 +801,9 @@
 
 	<table>
 
+		<!--
+		Shares of all types (user-to-user, external-via-link, etc.)
+		-->
 		<name>*dbprefix*share</name>
 
 		<declaration>
@@ -735,6 +817,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Constant OCP\Share::SHARE_TYPE_* -->
 			<field>
 				<name>share_type</name>
 				<type>integer</type>
@@ -743,6 +826,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Foreign Key users::uid or NULL -->
 			<field>
 				<name>share_with</name>
 				<type>text</type>
@@ -751,6 +835,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
@@ -759,6 +844,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key share::id or NULL -->
 			<field>
 				<name>parent</name>
 				<type>integer</type>
@@ -766,6 +852,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- E.g. file or folder -->
 			<field>
 				<name>item_type</name>
 				<type>text</type>
@@ -774,6 +861,7 @@
 				<length>64</length>
 			</field>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>item_source</name>
 				<type>text</type>
@@ -790,6 +878,7 @@
 				<length>255</length>
 			</field>
 
+			<!-- Foreign Key filecache::fileid -->
 			<field>
 				<name>file_source</name>
 				<type>integer</type>
@@ -805,6 +894,7 @@
 				<length>512</length>
 			</field>
 
+			<!-- Permission bitfield -->
 			<field>
 				<name>permissions</name>
 				<type>integer</type>
@@ -813,6 +903,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Time of share creation -->
 			<field>
 				<name>stime</name>
 				<type>integer</type>
@@ -821,6 +912,7 @@
 				<length>8</length>
 			</field>
 
+			<!-- Whether the receiver accepted the share, if share_with is set. -->
 			<field>
 				<name>accepted</name>
 				<type>integer</type>
@@ -829,6 +921,7 @@
 				<length>1</length>
 			</field>
 
+			<!-- Time of share expiration -->
 			<field>
 				<name>expiration</name>
 				<type>timestamp</type>
@@ -844,6 +937,32 @@
 				<length>32</length>
 			</field>
 
+			<field>
+				<name>mail_send</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>item_share_type_index</name>
+				<field>
+					<name>item_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>share_type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>file_source_index</name>
+				<field>
+					<name>file_source</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 			<index>
 				<name>token_index</name>
 				<field>
@@ -857,6 +976,10 @@
 
 	<table>
 
+		<!--
+		Scheduled background jobs.
+		See OC\BackgroundJob\JobList.
+		-->
 		<name>*dbprefix*jobs</name>
 
 		<declaration>
@@ -876,7 +999,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>256</length>
+				<length>255</length>
 			</field>
 
 			<field>
@@ -908,6 +1031,9 @@
 
 	<table>
 
+		<!--
+		List of usernames, their display name and login password.
+		-->
 		<name>*dbprefix*users</name>
 
 		<declaration>
@@ -950,6 +1076,9 @@
 
 	<table>
 
+		<!--
+		List of tags (category) + a unique tag id (id) per user (uid) and type.
+		-->
 		<name>*dbprefix*vcategory</name>
 
 		<declaration>
@@ -964,6 +1093,7 @@
 				<length>4</length>
 			</field>
 
+			<!-- Foreign Key users::uid -->
 			<field>
 				<name>uid</name>
 				<type>text</type>
@@ -1017,6 +1147,9 @@
 
 	<table>
 
+		<!--
+		Object-Tag associations per tag type.
+		-->
 		<name>*dbprefix*vcategory_to_object</name>
 
 		<declaration>
@@ -1030,6 +1163,7 @@
 			<length>4</length>
 		</field>
 
+		<!-- Foreign Key vcategory::id -->
 		<field>
 			<name>categoryid</name>
 			<type>integer</type>
@@ -1065,8 +1199,89 @@
 			</field>
 		</index>
 
+		<index>
+			<name>vcategory_objectd_index</name>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
 		</declaration>
 
 	</table>
+
+	<table>
+
+		<!--
+		Namespaced Key-Value Store for arbitrary data.
+		 - Keys are namespaced per userid and appid.
+		 - E.g. (admin, files, foo) -> bar
+		-->
+		<name>*dbprefix*privatedata</name>
+
+		<declaration>
+
+		<field>
+			<name>keyid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+			<autoincrement>1</autoincrement>
+		</field>
+
+		<!-- Foreign Key users::uid -->
+		<field>
+			<name>user</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>app</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>key</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<field>
+			<name>value</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>255</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>keyid_index</name>
+			<field>
+				<name>keyid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
 
 </database>

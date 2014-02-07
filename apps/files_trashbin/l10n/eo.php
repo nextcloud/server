@@ -1,11 +1,13 @@
 <?php
 $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Ne povis foriĝi %s por ĉiam",
+"Couldn't restore %s" => "Ne povis restaŭriĝi %s",
 "Error" => "Eraro",
-"Delete permanently" => "Forigi por ĉiam",
+"restored" => "restaŭrita",
+"Nothing in here. Your trash bin is empty!" => "Nenio estas ĉi tie. Via rubujo malplenas!",
 "Name" => "Nomo",
-"_%n folder_::_%n folders_" => array("",""),
-"_%n file_::_%n files_" => array("",""),
 "Restore" => "Restaŭri",
+"Deleted" => "Forigita",
 "Delete" => "Forigi",
 "Deleted Files" => "Forigitaj dosieroj"
 );

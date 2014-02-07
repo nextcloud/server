@@ -88,5 +88,8 @@ nbproject
 # Tests - auto-generated files
 /data-autotest
 /tests/coverage*
+/tests/karma-coverage
 /tests/autoconfig*
 /tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png

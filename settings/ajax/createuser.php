@@ -28,6 +28,10 @@ $password = $_POST["password"];
 
 // Return Success story
 try {
+	// check whether the user's files home exists
+	$userDirectory = OC_User::getHome($username) . '/files/';
+	$homeExists = file_exists($userDirectory);
+
 	if (!OC_User::createUser($username, $password)) {
 		OC_JSON::error(array('data' => array( 'message' => 'User creation failed for '.$username )));
 		exit();
@@ -38,8 +42,11 @@ try {
 		}
 		OC_Group::addToGroup( $username, $i );
 	}
+
 	OC_JSON::success(array("data" =>
 				array(
+					// returns whether the home already existed
+					"homeExists" => $homeExists,
 					"username" => $username,
 					"groups" => OC_Group::getUserGroups( $username ))));
 } catch (Exception $exception) {

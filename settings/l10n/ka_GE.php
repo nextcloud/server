@@ -2,8 +2,6 @@
 $TRANSLATIONS = array(
 "Unable to load list from App Store" => "აპლიკაციების სია ვერ ჩამოიტვირთა App Store",
 "Authentication error" => "ავთენტიფიკაციის შეცდომა",
-"Your display name has been changed." => "თქვენი დისფლეის სახელი უკვე შეიცვალა",
-"Unable to change display name" => "დისფლეის სახელის შეცვლა ვერ მოხერხდა",
 "Group already exists" => "ჯგუფი უკვე არსებობს",
 "Unable to add group" => "ჯგუფის დამატება ვერ მოხერხდა",
 "Email saved" => "იმეილი შენახულია",
@@ -83,7 +81,6 @@ $TRANSLATIONS = array(
 "Current password" => "მიმდინარე პაროლი",
 "New password" => "ახალი პაროლი",
 "Change password" => "პაროლის შეცვლა",
-"Display Name" => "დისპლეის სახელი",
 "Email" => "იმეილი",
 "Your email address" => "თქვენი იმეილ მისამართი",
 "Fill in an email address to enable password recovery" => "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად",
@@ -98,7 +95,6 @@ $TRANSLATIONS = array(
 "Other" => "სხვა",
 "Username" => "მომხმარებლის სახელი",
 "Storage" => "საცავი",
-"change display name" => "შეცვალე დისფლეის სახელი",
 "set new password" => "დააყენეთ ახალი პაროლი",
 "Default" => "საწყისი პარამეტრები"
 );

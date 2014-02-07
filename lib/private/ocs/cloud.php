@@ -64,8 +64,7 @@ class OC_OCS_Cloud {
 		// Check if they are viewing information on themselves
 		if($parameters['userid'] === OC_User::getUser()) {
 			// Self lookup
-			$quota = array();
-			$storage = OC_Helper::getStorageInfo();
+			$storage = OC_Helper::getStorageInfo('/');
 			$quota = array(
 				'free' =>  $storage['free'],
 				'used' =>  $storage['used'],
@@ -77,6 +76,16 @@ class OC_OCS_Cloud {
 			// No permission to view this user data
 			return new OC_OCS_Result(null, 997);
 		}
+	}
+
+	public static function getCurrentUser() {
+		$email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
+		$data  = array(
+			'id' => OC_User::getUser(),
+			'display-name' => OC_User::getDisplayName(),
+			'email' => $email,
+		);
+		return new OC_OCS_Result($data);
 	}
 
 	public static function getUserPublickey($parameters) {

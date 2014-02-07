@@ -42,18 +42,28 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->isUpdatable('/'), 'Root folder is not writable');
 	}
 
-	public function testDirectories() {
-		$this->assertFalse($this->instance->file_exists('/folder'));
+	/**
+	 * Check that the test() function works
+	 */
+	public function testTestFunction() {
+		$this->assertTrue($this->instance->test());
+	}
 
-		$this->assertTrue($this->instance->mkdir('/folder'));
+	/**
+	 * @dataProvider directoryProvider
+	 */
+	public function testDirectories($directory) {
+		$this->assertFalse($this->instance->file_exists('/'.$directory));
 
-		$this->assertTrue($this->instance->file_exists('/folder'));
-		$this->assertTrue($this->instance->is_dir('/folder'));
-		$this->assertFalse($this->instance->is_file('/folder'));
-		$this->assertEquals('dir', $this->instance->filetype('/folder'));
-		$this->assertEquals(0, $this->instance->filesize('/folder'));
-		$this->assertTrue($this->instance->isReadable('/folder'));
-		$this->assertTrue($this->instance->isUpdatable('/folder'));
+		$this->assertTrue($this->instance->mkdir('/'.$directory));
+
+		$this->assertTrue($this->instance->file_exists('/'.$directory));
+		$this->assertTrue($this->instance->is_dir('/'.$directory));
+		$this->assertFalse($this->instance->is_file('/'.$directory));
+		$this->assertEquals('dir', $this->instance->filetype('/'.$directory));
+		$this->assertEquals(0, $this->instance->filesize('/'.$directory));
+		$this->assertTrue($this->instance->isReadable('/'.$directory));
+		$this->assertTrue($this->instance->isUpdatable('/'.$directory));
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -62,14 +72,14 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 				$content[] = $file;
 			}
 		}
-		$this->assertEquals(array('folder'), $content);
+		$this->assertEquals(array($directory), $content);
 
-		$this->assertFalse($this->instance->mkdir('/folder')); //cant create existing folders
-		$this->assertTrue($this->instance->rmdir('/folder'));
+		$this->assertFalse($this->instance->mkdir('/'.$directory)); //cant create existing folders
+		$this->assertTrue($this->instance->rmdir('/'.$directory));
 
-		$this->assertFalse($this->instance->file_exists('/folder'));
+		$this->assertFalse($this->instance->file_exists('/'.$directory));
 
-		$this->assertFalse($this->instance->rmdir('/folder')); //cant remove non existing folders
+		$this->assertFalse($this->instance->rmdir('/'.$directory)); //cant remove non existing folders
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -81,6 +91,14 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $content);
 	}
 
+	public function directoryProvider()
+	{
+		return array(
+			array('folder'),
+			array(' folder'),
+			array('folder '),
+		);
+	}
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
 	 */
@@ -128,7 +146,15 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->rename('/source.txt', '/target2.txt');
 		$this->assertTrue($this->instance->file_exists('/target2.txt'));
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
-		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target2.txt'));
+
+		// move to overwrite
+		$testContents = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$this->instance->file_put_contents('/target3.txt', $testContents);
+		$this->instance->rename('/target2.txt', '/target3.txt');
+		$this->assertTrue($this->instance->file_exists('/target3.txt'));
+		$this->assertFalse($this->instance->file_exists('/target2.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target3.txt'));
 	}
 
 	public function testLocal() {
@@ -171,8 +197,9 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 5));
 		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 5));
 
-		$this->assertTrue(($ctimeStart - 5) <= $mTime);
-		$this->assertTrue($mTime <= ($ctimeEnd + 1));
+		// check that ($ctimeStart - 5) <= $mTime <= ($ctimeEnd + 1)
+		$this->assertGreaterThanOrEqual(($ctimeStart - 5), $mTime);
+		$this->assertLessThanOrEqual(($ctimeEnd + 1), $mTime);
 		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
@@ -189,6 +216,17 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 		$this->instance->unlink('/lorem.txt');
 		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 5));
+	}
+
+	public function testUnlink() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
+
+		$this->assertTrue($this->instance->file_exists('/lorem.txt'));
+
+		$this->assertTrue($this->instance->unlink('/lorem.txt'));
+
+		$this->assertFalse($this->instance->file_exists('/lorem.txt'));
 	}
 
 	public function testFOpen() {
@@ -213,7 +251,8 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 	public function testTouchCreateFile() {
 		$this->assertFalse($this->instance->file_exists('foo'));
-		$this->instance->touch('foo');
+		// returns true on success
+		$this->assertTrue($this->instance->touch('foo'));
 		$this->assertTrue($this->instance->file_exists('foo'));
 	}
 
@@ -222,7 +261,19 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->mkdir('folder/bar');
 		$this->instance->file_put_contents('folder/asd.txt', 'foobar');
 		$this->instance->file_put_contents('folder/bar/foo.txt', 'asd');
-		$this->instance->rmdir('folder');
+		$this->assertTrue($this->instance->rmdir('folder'));
+		$this->assertFalse($this->instance->file_exists('folder/asd.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
+		$this->assertFalse($this->instance->file_exists('folder/bar'));
+		$this->assertFalse($this->instance->file_exists('folder'));
+	}
+
+	public function testRecursiveUnlink() {
+		$this->instance->mkdir('folder');
+		$this->instance->mkdir('folder/bar');
+		$this->instance->file_put_contents('folder/asd.txt', 'foobar');
+		$this->instance->file_put_contents('folder/bar/foo.txt', 'asd');
+		$this->assertTrue($this->instance->unlink('folder'));
 		$this->assertFalse($this->instance->file_exists('folder/asd.txt'));
 		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
 		$this->assertFalse($this->instance->file_exists('folder/bar'));

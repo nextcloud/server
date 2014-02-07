@@ -1,12 +1,33 @@
 <?php
 /**
- * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- * 
+ * ownCloud
+ *
+ * @author Bart Visscher
+ * @copyright 2013 Bart Visscher bartv@thisnet.nl
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * DBConnection interface
+ *
+ */
+
+// use OCP namespace for all classes that are considered public.
+// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
 /**
@@ -24,15 +45,15 @@ interface IDBConnection {
 
 	/**
 	 * Used to get the id of the just inserted element
-	 * @param string $tableName the name of the table where we inserted the item
+	 * @param string $table the name of the table where we inserted the item
 	 * @return int the id of the inserted element
 	 */
 	public function lastInsertId($table = null);
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
-	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
-	 * @param $input array
+	 * Insert a row if a matching row doesn't exists.
+	 * @param string The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param array
 	 *
 	 * The input array if in the form:
 	 *
@@ -49,25 +70,25 @@ interface IDBConnection {
 	public function insertIfNotExist($table, $input);
 
 	/**
-	 * @brief Start a transaction
+	 * Start a transaction
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function beginTransaction();
 
 	/**
-	 * @brief Commit the database changes done during a transaction that is in progress
+	 * Commit the database changes done during a transaction that is in progress
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function commit();
 
 	/**
-	 * @brief Rollback the database changes done during a transaction that is in progress
+	 * Rollback the database changes done during a transaction that is in progress
 	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function rollBack();
 
 	/**
-	 * returns the error code and message as a string for logging
+	 * Gets the error code and message as a string for logging
 	 * @return string
 	 */
 	public function getError();

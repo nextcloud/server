@@ -28,7 +28,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * The data argument is a readable stream resource.
 	 *
-	 * After a succesful put operation, you may choose to return an ETag. The
+	 * After a successful put operation, you may choose to return an ETag. The
 	 * etag must always be surrounded by double-quotes. These quotes must
 	 * appear in the actual string you're returning.
 	 *
@@ -46,7 +46,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		if (!\OC\Files\Filesystem::isUpdatable($this->path)) {
+		$fs = $this->getFS();
+
+		if ($fs->file_exists($this->path) &&
+			!$fs->isUpdatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
@@ -54,44 +57,66 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		}
-		
+
+		// chunked handling
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			return $this->createFileChunked($data);
+		}
+
 		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $this->path . '.part';
+		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
 
-		\OC\Files\Filesystem::file_put_contents($partpath, $data);
+		// if file is located in /Shared we write the part file to the users
+		// root folder because we can't create new files in /shared
+		// we extend the name with a random number to avoid overwriting a existing file
+		if (dirname($partpath) === 'Shared') {
+			$partpath = pathinfo($partpath, PATHINFO_FILENAME) . rand() . '.part';
+		}
 
-		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = $_SERVER['CONTENT_LENGTH'];
-				$actual = \OC\Files\Filesystem::filesize($partpath);
-				if ($actual != $expected) {
-					\OC\Files\Filesystem::unlink($partpath);
-					throw new Sabre_DAV_Exception_BadRequest(
-						'expected filesize ' . $expected . ' got ' . $actual);
-				}
+		try {
+			$putOkay = $fs->file_put_contents($partpath, $data);
+			if ($putOkay === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
+				$fs->unlink($partpath);
+				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
+				throw new Sabre_DAV_Exception('Could not write file contents');
 			}
+		} catch (\OCP\Files\NotPermittedException $e) {
+			// a more general case - due to whatever reason the content could not be written
+			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
+
+		} catch (\OCP\Files\EntityTooLargeException $e) {
+			// the file is too big to be stored
+			throw new OC_Connector_Sabre_Exception_EntityTooLarge($e->getMessage());
+
+		} catch (\OCP\Files\InvalidContentException $e) {
+			// the file content is not permitted
+			throw new OC_Connector_Sabre_Exception_UnsupportedMediaType($e->getMessage());
+
+		} catch (\OCP\Files\InvalidPathException $e) {
+			// the path for the file was not valid
+			// TODO: find proper http status code for this case
+			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
 		}
 
 		// rename to correct path
-		$renameOkay = \OC\Files\Filesystem::rename($partpath, $this->path);
-		$fileExists = \OC\Files\Filesystem::file_exists($this->path);
+		$renameOkay = $fs->rename($partpath, $this->path);
+		$fileExists = $fs->file_exists($this->path);
 		if ($renameOkay === false || $fileExists === false) {
 			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-			\OC\Files\Filesystem::unlink($partpath);
-			throw new Sabre_DAV_Exception();
+			$fs->unlink($partpath);
+			throw new Sabre_DAV_Exception('Could not rename part file to final file');
 		}
 
-
-		//allow sync clients to send the mtime along in a header
+		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {
-			if (\OC\Files\Filesystem::touch($this->path, $mtime)) {
+			if($fs->touch($this->path, $mtime)) {
 				header('X-OC-MTime: accepted');
 			}
 		}
 
-		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		return $this->getETagPropertyForPath($this->path);
 	}
 
 	/**
@@ -101,7 +126,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		//throw execption if encryption is disabled but files are still encrypted
+		//throw exception if encryption is disabled but files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		} else {
@@ -118,10 +143,17 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function delete() {
 
+		if ($this->path === 'Shared') {
+			throw new \Sabre_DAV_Exception_Forbidden();
+		}
+
 		if (!\OC\Files\Filesystem::isDeletable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 		\OC\Files\Filesystem::unlink($this->path);
+
+		// remove properties
+		$this->removeProperties();
 
 	}
 
@@ -144,7 +176,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * An ETag is a unique identifier representing the current version of the
 	 * file. If the file changes, the ETag MUST change.  The ETag is an
-	 * arbritrary string, but MUST be surrounded by double-quotes.
+	 * arbitrary string, but MUST be surrounded by double-quotes.
 	 *
 	 * Return null if the ETag can not effectively be determined
 	 *
@@ -173,4 +205,62 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		return \OC\Files\Filesystem::getMimeType($this->path);
 
 	}
+
+	private function createFileChunked($data)
+	{
+		list($path, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);
+
+		$info = OC_FileChunking::decodeName($name);
+		if (empty($info)) {
+			throw new Sabre_DAV_Exception_NotImplemented();
+		}
+		$chunk_handler = new OC_FileChunking($info);
+		$bytesWritten = $chunk_handler->store($info['index'], $data);
+
+		//detect aborted upload
+		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
+			if (isset($_SERVER['CONTENT_LENGTH'])) {
+				$expected = $_SERVER['CONTENT_LENGTH'];
+				if ($bytesWritten != $expected) {
+					$chunk_handler->remove($info['index']);
+					throw new Sabre_DAV_Exception_BadRequest(
+						'expected filesize ' . $expected . ' got ' . $bytesWritten);
+				}
+			}
+		}
+
+		if ($chunk_handler->isComplete()) {
+
+			// we first assembly the target file as a part file
+			$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
+			$chunk_handler->file_assemble($partFile);
+
+			// here is the final atomic rename
+			$fs = $this->getFS();
+			$targetPath = $path . '/' . $info['name'];
+			$renameOkay = $fs->rename($partFile, $targetPath);
+			$fileExists = $fs->file_exists($targetPath);
+			if ($renameOkay === false || $fileExists === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+				// only delete if an error occurred and the target file was already created
+				if ($fileExists) {
+					$fs->unlink($targetPath);
+				}
+				throw new Sabre_DAV_Exception('Could not rename part file assembled from chunks');
+			}
+
+			// allow sync clients to send the mtime along in a header
+			$mtime = OC_Request::hasModificationTime();
+			if ($mtime !== false) {
+				if($fs->touch($targetPath, $mtime)) {
+					header('X-OC-MTime: accepted');
+				}
+			}
+
+			return OC_Connector_Sabre_Node::getETagPropertyForPath($targetPath);
+		}
+
+		return null;
+	}
+
 }

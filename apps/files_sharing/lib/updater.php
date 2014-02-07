@@ -23,6 +23,9 @@ namespace OC\Files\Cache;
 
 class Shared_Updater {
 
+	// shares which can be removed from oc_share after the delete operation was successful
+	static private $toRemove = array();
+
 	/**
 	* Correct the parent folders' ETags for all users shared the file at $target
 	*
@@ -32,29 +35,43 @@ class Shared_Updater {
 		$uid = \OCP\User::getUser();
 		$uidOwner = \OC\Files\Filesystem::getOwner($target);
 		$info = \OC\Files\Filesystem::getFileInfo($target);
+		$checkedUser = array($uidOwner);
 		// Correct Shared folders of other users shared with
 		$users = \OCP\Share::getUsersItemShared('file', $info['fileid'], $uidOwner, true);
 		if (!empty($users)) {
 			while (!empty($users)) {
 				$reshareUsers = array();
 				foreach ($users as $user) {
-					if ( $user !== $uidOwner ) {
+					if ( !in_array($user, $checkedUser) ) {
 						$etag = \OC\Files\Filesystem::getETag('');
 						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
 						// Look for reshares
 						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
+						$checkedUser[] = $user;
 					}
 				}
 				$users = $reshareUsers;
 			}
-			// Correct folders of shared file owner
-			$target = substr($target, 8);
-			if ($uidOwner !== $uid && $source = \OC_Share_Backend_File::getSource($target)) {
-				\OC\Files\Filesystem::initMountPoints($uidOwner);
-				$source = '/'.$uidOwner.'/'.$source['path'];
-				\OC\Files\Cache\Updater::correctFolder($source, $info['mtime']);
+		}
+	}
+
+	/**
+	 * @brief remove all shares for a given file if the file was deleted
+	 *
+	 * @param string $path
+	 */
+	private static function removeShare($path) {
+		$fileSource = self::$toRemove[$path];
+
+		if (!\OC\Files\Filesystem::file_exists($path)) {
+			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `file_source`=?');
+			try	{
+				\OC_DB::executeAudited($query, array($fileSource));
+			} catch (\Exception $e) {
+				\OCP\Util::writeLog('files_sharing', "can't remove share: " . $e->getMessage(), \OCP\Util::WARN);
 			}
 		}
+		unset(self::$toRemove[$path]);
 	}
 
 	/**
@@ -77,6 +94,17 @@ class Shared_Updater {
 	 */
 	static public function deleteHook($params) {
 		self::correctFolders($params['path']);
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($params['path']);
+		// mark file as deleted so that we can clean up the share table if
+		// the file was deleted successfully
+		self::$toRemove[$params['path']] =  $fileInfo['fileid'];
+	}
+
+	/**
+	 * @param array $params
+	 */
+	static public function postDeleteHook($params) {
+		self::removeShare($params['path']);
 	}
 
 	/**
@@ -84,8 +112,12 @@ class Shared_Updater {
 	 */
 	static public function shareHook($params) {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$uidOwner = \OCP\User::getUser();
-			$users = \OCP\Share::getUsersItemShared($params['itemType'], $params['fileSource'], $uidOwner, true);
+			if (isset($params['uidOwner'])) {
+				$uidOwner = $params['uidOwner'];
+			} else {
+				$uidOwner = \OCP\User::getUser();
+			}
+			$users = \OCP\Share::getUsersItemShared($params['itemType'], $params['fileSource'], $uidOwner, true, false);
 			if (!empty($users)) {
 				while (!empty($users)) {
 					$reshareUsers = array();

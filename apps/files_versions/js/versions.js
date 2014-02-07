@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+	if ($('#isPublic').val()){
+		// no versions actions in public mode
+		// beware of https://github.com/owncloud/core/issues/4545
+		// as enabling this might hang Chrome
+		return;
+	}
+
 	if (typeof FileActions !== 'undefined') {
 		// Add versions button to 'files/index.php'
 		FileActions.register(
@@ -14,7 +21,7 @@ $(document).ready(function(){
 				// Action to perform when clicked
 				if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
-				var file = $('#dir').val()+'/'+filename;
+				var file = $('#dir').val().replace(/(?!<=\/)$|\/$/, '/' + filename);
 				var createDropDown = true;
 				// Check if drop down is already visible for a different file
 				if (($('#dropdown').length > 0) ) {
@@ -70,6 +77,7 @@ function goToVersionPage(url){
 function createVersionsDropdown(filename, files) {
 
 	var start = 0;
+	var fileEl;
 
 	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 	html += '<div id="private">';
@@ -79,8 +87,9 @@ function createVersionsDropdown(filename, files) {
 	html += '<input type="button" value="'+ t('files_versions', 'More versions...') + '" name="show-more-versions" id="show-more-versions" style="display: none;" />';
 
 	if (filename) {
-		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
+		fileEl = FileList.findFileEl(filename);
+		fileEl.addClass('mouseOver');
+		$(html).appendTo(fileEl.find('td.filename'));
 	} else {
 		$(html).appendTo($('thead .share'));
 	}
@@ -129,7 +138,9 @@ function createVersionsDropdown(filename, files) {
 
 		var path = OC.filePath('files_versions', '', 'download.php');
 
-		var download ='<a href="' + path + "?file=" + files + '&revision=' + revision.version + '">';
+		var preview = '<img class="preview" src="'+revision.preview+'"/>';
+
+		var download ='<a href="' + path + "?file=" + encodeURIComponent(files) + '&revision=' + revision.version + '">';
 		download+='<img';
 		download+=' src="' + OC.imagePath('core', 'actions/download') + '"';
 		download+=' name="downloadVersion" />';
@@ -137,8 +148,7 @@ function createVersionsDropdown(filename, files) {
 		download+='</a>';
 
 		var revert='<span class="revertVersion"';
-		revert+=' id="' + revision.version + '"';
-		revert+=' value="' + files + '">';
+		revert+=' id="' + revision.version + '">';
 		revert+='<img';
 		revert+=' src="' + OC.imagePath('core', 'actions/history') + '"';
 		revert+=' name="revertVersion"';
@@ -146,15 +156,14 @@ function createVersionsDropdown(filename, files) {
 
 		var version=$('<li/>');
 		version.attr('value', revision.version);
-		version.html(download + revert);
+		version.html(preview + download + revert);
+		// add file here for proper name escaping
+		version.find('span.revertVersion').attr('value', files);
 
 		version.appendTo('#found_versions');
 	}
 
-	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
-
-
 }
 
 $(this).click(

@@ -2,10 +2,10 @@
 
 <form name="filesForm" action='#' method='post'>
 	<fieldset class="personalblock">
-		<legend><strong><?php p($l->t('File handling')); ?></strong></legend>
+		<h2><?php p($l->t('File handling')); ?></h2>
 		<?php if($_['uploadChangable']):?>
 			<label for="maxUploadSize"><?php p($l->t( 'Maximum upload size' )); ?> </label>
-			<input name='maxUploadSize' id="maxUploadSize" value='<?php p($_['uploadMaxFilesize']) ?>'/>
+			<input type="text" name='maxUploadSize' id="maxUploadSize" value='<?php p($_['uploadMaxFilesize']) ?>'/>
 			<?php if($_['displayMaxPossibleUploadSize']):?>
 				(<?php p($l->t('max. possible: ')); p($_['maxPossibleUploadSize']) ?>)
 			<?php endif;?>

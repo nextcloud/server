@@ -48,18 +48,25 @@ class Helper {
 	static public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
-		$query = '
+		$sql = '
 			SELECT DISTINCT `configkey`
 			FROM `*PREFIX*appconfig`
 			WHERE `appid` = \'user_ldap\'
 				AND `configkey` LIKE ?
 		';
-		if($activeConfigurations) {
-			$query .= ' AND `configvalue` = \'1\'';
-		}
-		$query = \OCP\DB::prepare($query);
 
-		$serverConfigs = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
+		if($activeConfigurations) {
+			if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+				$sql .= ' AND to_char(`configvalue`)=\'1\'';
+			} else {
+				$sql .= ' AND `configvalue` = \'1\'';
+			}
+		}
+
+		$stmt = \OCP\DB::prepare($sql);
+
+		$serverConfigs = $stmt->execute(array('%'.$referenceConfigkey))->fetchAll();
 		$prefixes = array();
 
 		foreach($serverConfigs as $serverConfig) {
@@ -160,5 +167,26 @@ class Helper {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @brief extractsthe domain from a given URL
+	 * @param $url the URL
+	 * @return mixed, domain as string on success, false otherwise
+	 */
+	static public function getDomainFromURL($url) {
+		$uinfo = parse_url($url);
+		if(!is_array($uinfo)) {
+			return false;
+		}
+
+		$domain = false;
+		if(isset($uinfo['host'])) {
+			$domain = $uinfo['host'];
+		} else if(isset($uinfo['path'])) {
+			$domain = $uinfo['path'];
+		}
+
+		return $domain;
 	}
 }

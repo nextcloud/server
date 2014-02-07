@@ -53,6 +53,9 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$cache->put('bar.test', array('storage_mtime' => 10));
 		$storage->file_put_contents('bar.test', 'test data');
 
+		// make sure that PHP can read the new size correctly
+		clearstatcache();
+
 		$updater->checkUpdate('bar.test');
 		$cachedData = $cache->get('bar.test');
 		$this->assertEquals(9, $cachedData['size']);

@@ -1,18 +1,17 @@
 <?php
 
-/**
- * Default strings and values which differ between the enterprise and the
- * community edition. Use the get methods to always get the right strings.
- */
-
-
 if (file_exists(OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php')) {
 	require_once 'themes/' . OC_Util::getTheme() . '/defaults.php';
 }
 
+/**
+ * Default strings and values which differ between the enterprise and the
+ * community edition. Use the get methods to always get the right strings.
+ */
 class OC_Defaults {
 
 	private $theme;
+	private $l;
 
 	private $defaultEntity;
 	private $defaultName;
@@ -24,7 +23,7 @@ class OC_Defaults {
 	private $defaultLogoClaim;
 
 	function __construct() {
-		$l = OC_L10N::get('core');
+		$this->l = OC_L10N::get('core');
 
 		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
@@ -32,7 +31,7 @@ class OC_Defaults {
 		$this->defaultBaseUrl = "http://owncloud.org";
 		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
-		$this->defaultSlogan = $l->t("web services under your control");
+		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
 
 		if (class_exists("OC_Theme")) {
@@ -47,6 +46,10 @@ class OC_Defaults {
 		return false;
 	}
 
+	/**
+	 * Returns the base URL
+	 * @return string URL
+	 */
 	public function getBaseUrl() {
 		if ($this->themeExist('getBaseUrl')) {
 			return $this->theme->getBaseUrl();
@@ -55,6 +58,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns the URL where the sync clients are listed
+	 * @return string URL
+	 */
 	public function getSyncClientUrl() {
 		if ($this->themeExist('getSyncClientUrl')) {
 			return $this->theme->getSyncClientUrl();
@@ -63,6 +70,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns the documentation URL
+	 * @return string URL
+	 */
 	public function getDocBaseUrl() {
 		if ($this->themeExist('getDocBaseUrl')) {
 			return $this->theme->getDocBaseUrl();
@@ -71,6 +82,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns the title
+	 * @return string title
+	 */
 	public function getTitle() {
 		if ($this->themeExist('getTitle')) {
 			return $this->theme->getTitle();
@@ -79,6 +94,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns the short name of the software
+	 * @return string title
+	 */
 	public function getName() {
 		if ($this->themeExist('getName')) {
 			return $this->theme->getName();
@@ -87,6 +106,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns entity (e.g. company name) - used for footer, copyright
+	 * @return string entity name
+	 */
 	public function getEntity() {
 		if ($this->themeExist('getEntity')) {
 			return $this->theme->getEntity();
@@ -95,6 +118,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns slogan
+	 * @return string slogan
+	 */
 	public function getSlogan() {
 		if ($this->themeExist('getSlogan')) {
 			return $this->theme->getSlogan();
@@ -103,6 +130,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns logo claim
+	 * @return string logo claim
+	 */
 	public function getLogoClaim() {
 		if ($this->themeExist('getLogoClaim')) {
 			return $this->theme->getLogoClaim();
@@ -111,6 +142,10 @@ class OC_Defaults {
 		}
 	}
 
+	/**
+	 * Returns short version of the footer
+	 * @return string short footer
+	 */
 	public function getShortFooter() {
 		if ($this->themeExist('getShortFooter')) {
 			$footer = $this->theme->getShortFooter();
@@ -122,6 +157,10 @@ class OC_Defaults {
 		return $footer;
 	}
 
+	/**
+	 * Returns long version of the footer
+	 * @return string long footer
+	 */
 	public function getLongFooter() {
 		if ($this->themeExist('getLongFooter')) {
 			$footer = $this->theme->getLongFooter();

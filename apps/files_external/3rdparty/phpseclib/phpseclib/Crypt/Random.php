@@ -21,10 +21,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,9 +38,15 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMVII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id: Random.php,v 1.9 2010/04/24 06:40:48 terrafrost Exp $
  * @link       http://phpseclib.sourceforge.net
  */
+
+/**
+ * "Is Windows" test
+ *
+ * @access private
+ */
+define('CRYPT_RANDOM_IS_WINDOWS', strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
 
 /**
  * Generate a random string.
@@ -53,9 +59,9 @@
  * @return String
  * @access public
  */
-function crypt_random_string($length) {
-    // PHP_OS & "\xDF\xDF\xDF" == strtoupper(substr(PHP_OS, 0, 3)), but a lot faster
-    if ((PHP_OS & "\xDF\xDF\xDF") === 'WIN') {
+function crypt_random_string($length)
+{
+    if (CRYPT_RANDOM_IS_WINDOWS) {
         // method 1. prior to PHP 5.3 this would call rand() on windows hence the function_exists('class_alias') call.
         // ie. class_alias is a function that was introduced in PHP 5.3
         if (function_exists('mcrypt_create_iv') && function_exists('class_alias')) {
@@ -143,7 +149,7 @@ function crypt_random_string($length) {
             serialize($_POST) .
             serialize($_GET) .
             serialize($_COOKIE) .
-            serialize($_GLOBAL) .
+            serialize($GLOBALS) .
             serialize($_SESSION) .
             serialize($_OLD_SESSION)
         ));

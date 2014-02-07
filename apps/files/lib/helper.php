@@ -15,6 +15,7 @@ class Helper
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
+					 'freeSpace' => $storageInfo['free'],
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
 
@@ -30,7 +31,7 @@ class Helper
 					if ($sid[0] === 'shared') {
 						return \OC_Helper::mimetypeIcon('dir-shared');
 					}
-					if ($sid[0] !== 'local') {
+					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
 						return \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
@@ -40,7 +41,7 @@ class Helper
 
 		if($file['isPreviewAvailable']) {
 			$pathForPreview = $file['directory'] . '/' . $file['name'];
-			return \OC_Helper::previewIcon($pathForPreview);
+			return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
 		}
 		return \OC_Helper::mimetypeIcon($file['mimetype']);
 	}

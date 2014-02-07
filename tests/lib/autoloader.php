@@ -19,11 +19,11 @@ class AutoLoader extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testLeadingSlashOnClassName() {
-		$this->assertEquals(array('private/files/storage/local.php'), $this->loader->findClass('\OC\Files\Storage\Local'));
+		$this->assertEquals(array('private/files/storage/local.php', 'files/storage/local.php'), $this->loader->findClass('\OC\Files\Storage\Local'));
 	}
 
 	public function testNoLeadingSlashOnClassName() {
-		$this->assertEquals(array('private/files/storage/local.php'), $this->loader->findClass('OC\Files\Storage\Local'));
+		$this->assertEquals(array('private/files/storage/local.php', 'files/storage/local.php'), $this->loader->findClass('OC\Files\Storage\Local'));
 	}
 
 	public function testLegacyPath() {
@@ -54,7 +54,7 @@ class AutoLoader extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testLoadCoreNamespace() {
-		$this->assertEquals(array('private/foo/bar.php'), $this->loader->findClass('OC\Foo\Bar'));
+		$this->assertEquals(array('private/foo/bar.php', 'foo/bar.php'), $this->loader->findClass('OC\Foo\Bar'));
 	}
 
 	public function testLoadCore() {

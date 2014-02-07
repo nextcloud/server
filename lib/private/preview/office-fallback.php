@@ -80,7 +80,8 @@ class MSOfficeExcel extends Provider {
 		unlink($absPath);
 		unlink($tmpPath);
 
-		$image = new \OC_Image($pdf);
+		$image = new \OC_Image();
+		$image->loadFromData($pdf);
 
 		return $image->valid() ? $image : false;
 	}

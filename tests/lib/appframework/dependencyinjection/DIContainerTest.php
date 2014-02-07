@@ -29,23 +29,14 @@ namespace OC\AppFramework\DependencyInjection;
 use \OC\AppFramework\Http\Request;
 
 
-//require_once(__DIR__ . "/../classloader.php");
-
-
 class DIContainerTest extends \PHPUnit_Framework_TestCase {
 
 	private $container;
+	private $api;
 
 	protected function setUp(){
 		$this->container = new DIContainer('name');
-		$this->api = $this->getMock('OC\AppFramework\Core\API', array('getTrans'), array('hi'));
-	}
-
-	private function exchangeAPI(){
-		$this->api->expects($this->any())
-				->method('getTrans')
-				->will($this->returnValue('yo'));
-		$this->container['API'] = $this->api;
+		$this->api = $this->getMock('OC\AppFramework\Core\API', array(), array('hi'));
 	}
 
 	public function testProvidesAPI(){
@@ -86,13 +77,5 @@ class DIContainerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertContains($security, $dispatcher->getMiddlewares());
 	}
 
-
-	public function testMiddlewareDispatcherDoesNotIncludeTwigWhenTplDirectoryNotSet(){
-		$this->container['Request'] = new Request();
-		$this->exchangeAPI();
-		$dispatcher = $this->container['MiddlewareDispatcher'];
-
-		$this->assertEquals(1, count($dispatcher->getMiddlewares()));
-	}
 
 }

@@ -3,73 +3,77 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; height:2em; width: 100%; }
+.actions { padding:5px; height:32px; width: 100%; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
+
 #new {
-	height:17px;  margin:0 0 0 1em; z-index:1010; float:left;
+	z-index: 1010;
+	float: left;
+	padding: 0 !important; /* override default control bar button padding */
 }
-#new.active { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none; }
-#new>a { padding:.5em 1.2em .3em; }
+#trash {
+	margin-right: 8px;
+	float: right;
+	z-index: 1010;
+	padding: 10px;
+	font-weight: normal;
+}
+#new>a {
+	padding: 14px 10px;
+	position: relative;
+	top: 7px;
+}
+#new.active {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom: none;
+}
 #new>ul {
-	display:none; position:fixed; min-width:7em; z-index:10;
-	padding:.5em; padding-bottom:0; margin-top:.075em; margin-left:-.5em;
+	display: none;
+	position: fixed;
+	min-width: 112px;
+	z-index: 10;
+	padding: 8px;
+	padding-bottom: 0;
+	margin-top: 14px;
+	margin-left: -1px;
 	text-align:left;
-	background:#f8f8f8; border:1px solid #ddd; border-radius:10px; border-top-left-radius:0;
+	background: #f8f8f8;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	border-top-left-radius: 0;
 	box-shadow:0 2px 7px rgba(170,170,170,.4);
 }
-#new>ul>li { height:36px; margin:.3em; padding-left:3em; padding-bottom:0.1em;
+#new>ul>li { height:36px; margin:5px; padding-left:48px; padding-bottom:2px;
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; padding-top: 7px; padding-bottom: 7px;}
-#new>ul>li>form>input {
-	padding: 5px;
-	margin: 2px 0;
-}
 
-#trash { margin: 0 1em; z-index:1010; float: right; }
-
-#upload {
-	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
+#new .error, #fileList .error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
 }
-#upload a {
-	position:relative; display:block; width:100%; height:27px;
-	cursor:pointer; z-index:10;
-	background-image:url('%webroot%/core/img/actions/upload.svg');
-	background-repeat:no-repeat;
-	background-position:7px 6px;
-	opacity:0.65;
-}
-.file_upload_target { display:none; }
-.file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
-#file_upload_start {
-	left:0; top:0; width:28px; height:27px; padding:0;
-	font-size:1em;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
-	z-index:20; position:relative; cursor:pointer; overflow:hidden;
-}
-
-#uploadprogresswrapper {
-	position: relative;
-	display: inline;
-}
-#uploadprogressbar {
-	position:relative;
-	float: left;
-	margin-left: 12px;
-	width: 130px;
-	height: 26px;
-	display:inline-block;
-}
-#uploadprogressbar + stop {
-	font-size: 13px;
-}
-
 
 /* FILE TABLE */
 
-#filestable { position: relative; top:37px; width:100%; }
-#filestable tbody tr { background-color:#fff; height:2.5em; }
+#filestable {
+	position: relative;
+	top: 44px;
+	width: 100%;
+}
+/* make sure there's enough room for the file actions */
+#body-user #filestable {
+	min-width: 750px;
+}
+#body-user #controls {
+	min-width: 600px;
+}
+
+#filestable tbody tr { background-color:#fff; height:40px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -84,7 +88,7 @@ span.extension, span.uploading, td.date { color:#999; }
 span.extension { text-transform:lowercase; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
 tr:hover span.extension { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; color:#777; }
 table tr.mouseOver td { background-color:#eee; }
-table th { height:2em; padding:0 .5em; color:#999; }
+table th { height:24px; padding:0 8px; color:#999; }
 table th .name {
 	position: absolute;
 	left: 55px;
@@ -99,7 +103,7 @@ table td {
 }
 table th#headerName {
 	position: relative;
-	width: 100em; /* not really sure why this works better than 100% … table styling */
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
 #headerName-container {
@@ -107,36 +111,45 @@ table th#headerName {
 	height: 50px;
 }
 table th#headerSize, table td.filesize {
-	min-width: 3em;
-	padding: 0 1em;
+	min-width: 48px;
+	padding: 0 16px;
 	text-align: right;
 }
 table th#headerDate, table td.date {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
-	min-width: 11em;
-	display: block;
-	height: 51px;
+	/* this can not be just width, both need to be set … table styling */
+	min-width: 176px;
+	max-width: 176px;
 }
 
 /* Multiselect bar */
 #filestable.multiselect {
-	top: 88px;
+	top: 95px;
 }
-table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 80px; width:100%; }
+table.multiselect thead {
+	position: fixed;
+	top: 89px;
+	z-index: 10;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	left: 0;
+	padding-left: 80px;
+	width: 100%;
+}
 
 table.multiselect thead th {
-	background-color: rgba(210,210,210,.7);
+	background-color: rgba(220,220,220,.8);
 	color: #000;
 	font-weight: bold;
 	border-bottom: 0;
 }
 table.multiselect #headerName {
 	position: relative;
-	width: 100%;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
 }
-table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
+table td.selection, table th.selection, table td.fileaction { width:32px; text-align:center; }
 table td.filename a.name {
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
@@ -154,8 +167,8 @@ table td.filename input.filename {
 	margin-left: 2px;
 	cursor: text;
 }
-table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:.2em .5em .5em .3em; }
-table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0; }
+table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
+table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0; }
 
 #modified {
 	position: absolute;
@@ -163,8 +176,15 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:.3em 0
 }
 .modified {
 	position: relative;
-	top: 11px;
-	left: 5px;
+	padding-left: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 90%;
+}
+/* ellipsize long modified dates to make room for showing delete button */
+#fileList tr:hover .modified,
+#fileList tr:focus .modified {
+	width: 75%;
 }
 
 /* TODO fix usability bug (accidental file/folder selection) */
@@ -177,9 +197,12 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 	max-width: 800px;
 }
-table td.filename .uploadtext { font-weight:normal; margin-left:.5em; }
-table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
+table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
+table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
+.ie8 input[type="checkbox"]{
+	padding: 0;
+}
 
 /* File checkboxes */
 #fileList tr td.filename>input[type="checkbox"]:first-child {
@@ -210,6 +233,11 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	width: 50px;
 	z-index: 5;
 }
+#fileList tr td.filename>input[type="checkbox"]{
+	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
+	 * to prevent it to increase the height */
+	position: absolute;
+}
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
 }
@@ -228,33 +256,29 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
+#fileList tr td.filename a.name label {
+	position: absolute;
+	width: 80%;
+	height: 50px;
+}
+
 #uploadsize-message,#delete-confirm { display:none; }
 
 /* File actions */
 .fileactions {
 	position: absolute;
-	top: 16px;
+	top: 14px;
 	right: 0;
 	font-size: 11px;
 }
-#fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
-	background-color: rgba(240,240,240,0.898);
-	box-shadow: -5px 0 7px rgba(240,240,240,0.898);
-}
-#fileList tr.selected:hover .fileactions, #fileList tr.mouseOver .fileactions { /* slightly darker color for selected rows */
-	background-color: rgba(230,230,230,.9);
-	box-shadow: -5px 0 7px rgba(230,230,230,.9);
-}
-#fileList .fileactions a.action img { position:relative; top:.2em; }
 
-#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
+#fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	top: 0;
-	margin: 0;
-	padding: 15px 14px 19px !important;
+	padding: 28px 14px 19px !important;
 }
+
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
@@ -271,18 +295,22 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 }
 .selectedActions a img {
 	position:relative;
-	top:.3em;
+	top:5px;
 }
 
 
 #fileList a.action {
 	display: inline;
-	margin: -.5em 0;
+	margin: -8px 0;
 	padding: 18px 8px !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;
 	display:none;
+}
+
+#fileList a.action[data-action="Rename"] {
+	padding:18px 14px !important;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -319,14 +347,13 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
-div.crumb a{ padding:0.9em 0 0.7em 0; color:#555; }
-
 table.dragshadow {
 	width:auto;
 }
 table.dragshadow td.filename {
-	padding-left:36px;
+	padding-left:60px;
 	padding-right:16px;
+	height: 36px;
 }
 table.dragshadow td.size {
 	padding-right:8px;

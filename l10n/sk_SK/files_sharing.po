@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:46-0400\n"
-"PO-Revision-Date: 2013-09-14 00:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-13 16:11+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: templates/authenticate.php:4
+msgid "This share is password-protected"
+msgstr "Toto zdieľanie je chránené heslom"
+
+#: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Heslo je chybné. Skúste to znova."
 
-#: templates/authenticate.php:7
+#: templates/authenticate.php:10
 msgid "Password"
 msgstr "Heslo"
-
-#: templates/authenticate.php:9
-msgid "Submit"
-msgstr "Odoslať"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -54,28 +54,32 @@ msgstr "zdieľanie je zakázané"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz."
 
-#: templates/public.php:15
+#: templates/public.php:18
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s zdieľa s vami priečinok %s"
 
-#: templates/public.php:18
+#: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s zdieľa s vami súbor %s"
 
-#: templates/public.php:26 templates/public.php:92
+#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Sťahovanie"
 
-#: templates/public.php:43 templates/public.php:46
+#: templates/public.php:46 templates/public.php:49
 msgid "Upload"
-msgstr "Odoslať"
+msgstr "Nahrať"
 
-#: templates/public.php:56
+#: templates/public.php:59
 msgid "Cancel upload"
-msgstr "Zrušiť odosielanie"
+msgstr "Zrušiť nahrávanie"
 
-#: templates/public.php:89
+#: templates/public.php:92
 msgid "No preview available for"
 msgstr "Žiaden náhľad k dispozícii pre"
+
+#: templates/public.php:99
+msgid "Direct link"
+msgstr "Priama linka"

@@ -20,6 +20,14 @@
  *
  */
 
+/**
+ * Public interface of ownCloud for apps to use.
+ * Server container interface
+ *
+ */
+
+// use OCP namespace for all classes that are considered public.
+// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
 
@@ -92,14 +100,46 @@ interface IServerContainer {
 	function getUserSession();
 
 	/**
+	 * Returns the navigation manager
+	 *
 	 * @return \OCP\INavigationManager
 	 */
 	function getNavigationManager();
 
 	/**
+	 * Returns the config manager
+	 *
 	 * @return \OCP\IConfig
 	 */
 	function getConfig();
+
+	/**
+	 * Returns the app config manager
+	 *
+	 * @return \OCP\IAppConfig
+	 */
+	function getAppConfig();
+
+	/**
+	 * get an L10N instance
+	 * @param $app string appid
+	 * @return \OCP\IL10N
+	 */
+	function getL10N($app);
+
+	/**
+	 * Returns the URL generator
+	 *
+	 * @return \OCP\IURLGenerator
+	 */
+	function getURLGenerator();
+
+	/**
+	 * Returns the Helper
+	 *
+	 * @return \OCP\IHelper
+	 */
+	function getHelper();
 
 	/**
 	 * Returns an ICache instance
@@ -109,6 +149,13 @@ interface IServerContainer {
 	function getCache();
 
 	/**
+	 * Returns an \OCP\CacheFactory instance
+	 *
+	 * @return \OCP\ICacheFactory
+	 */
+	function getMemCacheFactory();
+
+	/**
 	 * Returns the current session
 	 *
 	 * @return \OCP\ISession
@@ -116,10 +163,24 @@ interface IServerContainer {
 	function getSession();
 
 	/**
+	 * Returns the activity manager
+	 *
+	 * @return \OCP\Activity\IManager
+	 */
+	function getActivityManager();
+
+	/**
 	 * Returns the current session
 	 *
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection();
+
+	/**
+	 * Returns an avatar manager, used for avatar functionality
+	 *
+	 * @return \OCP\IAvatarManager
+	 */
+	function getAvatarManager();
 
 }

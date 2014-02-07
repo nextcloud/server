@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "Current password" => "Текуща парола",
 "New password" => "Нова парола",
 "Change password" => "Промяна на паролата",
-"Display Name" => "Екранно име",
 "Email" => "E-mail",
 "Your email address" => "Вашия email адрес",
 "Fill in an email address to enable password recovery" => "Въведете е-поща за възстановяване на паролата",

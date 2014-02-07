@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, FileList	*/
+/* global trashBinApp */
 var FileActions = {
 	actions: {},
 	defaults: {},
@@ -45,8 +57,9 @@ var FileActions = {
 		return filteredActions;
 	},
 	getDefault: function (mime, type, permissions) {
+		var mimePart;
 		if (mime) {
-			var mimePart = mime.substr(0, mime.indexOf('/'));
+			mimePart = mime.substr(0, mime.indexOf('/'));
 		}
 		var name = false;
 		if (mime && FileActions.defaults[mime]) {
@@ -61,17 +74,25 @@ var FileActions = {
 		var actions = this.get(mime, type, permissions);
 		return actions[name];
 	},
-	display: function (parent) {
+	/**
+	 * Display file actions for the given element
+	 * @param parent "td" element of the file for which to display actions
+	 * @param triggerEvent if true, triggers the fileActionsReady on the file
+	 * list afterwards (false by default)
+	 */
+	display: function (parent, triggerEvent) {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
-		if ($('tr[data-file="'+file+'"]').data('renaming')) {
+		var nameLinks;
+		if (FileList.findFileEl(file).data('renaming')) {
 			return;
 		}
 
 		// recreate fileactions
-		parent.children('a.name').find('.fileactions').remove();
-		parent.children('a.name').append('<span class="fileactions" />');
+		nameLinks = parent.children('a.name');
+		nameLinks.find('.fileactions, .nametext .action').remove();
+		nameLinks.append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 
 		var actionHandler = function (event) {
@@ -91,21 +112,30 @@ var FileActions = {
 			}
 
 			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
-				var img = FileActions.icons[name];
+				var img = FileActions.icons[name],
+					actionText = t('files', name),
+					actionContainer = 'a.name>span.fileactions';
+
+				if (name === 'Rename') {
+					// rename has only an icon which appears behind
+					// the file name
+					actionText = '';
+					actionContainer = 'a.name span.nametext';
+				}
 				if (img.call) {
 					img = img(file);
 				}
 				var html = '<a href="#" class="action" data-action="' + name + '">';
 				if (img) {
-					html += '<img class ="svg" src="' + img + '" /> ';
+					html += '<img class ="svg" src="' + img + '" />';
 				}
-				html += t('files', name) + '</a>';
+				html += '<span> ' + actionText + '</span></a>';
 
 				var element = $(html);
 				element.data('action', name);
 				//alert(element);
 				element.on('click', {a: null, elem: parent, actionFunc: actions[name]}, actionHandler);
-				parent.find('a.name>span.fileactions').append(element);
+				parent.find(actionContainer).append(element);
 			}
 
 		};
@@ -124,18 +154,23 @@ var FileActions = {
 		parent.parent().children().last().find('.action.delete').remove();
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
+			var html;
 			if (img.call) {
 				img = img(file);
 			}
 			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
-				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
+				html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
 			} else {
-				var html = '<a href="#" class="action delete delete-icon" />';
+				html = '<a href="#" class="action delete delete-icon" />';
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
 			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
+		}
+
+		if (triggerEvent){
+			$('#fileList').trigger(jQuery.Event("fileActionsReady"));
 		}
 	},
 	getCurrentFile: function () {
@@ -153,17 +188,21 @@ var FileActions = {
 };
 
 $(document).ready(function () {
+	var downloadScope;
 	if ($('#allowZipDownload').val() == 1) {
-		var downloadScope = 'all';
+		downloadScope = 'all';
 	} else {
-		var downloadScope = 'file';
+		downloadScope = 'file';
 	}
 
 	if (typeof disableDownloadActions == 'undefined' || !disableDownloadActions) {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
-			window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
+			var url = FileList.getDownloadUrl(filename);
+			if (url) {
+				OC.redirect(url);
+			}
 		});
 	}
 	$('#fileList tr').each(function () {
@@ -177,20 +216,7 @@ $(document).ready(function () {
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 	return OC.imagePath('core', 'actions/delete');
 }, function (filename) {
-	if (OC.Upload.cancelUpload($('#dir').val(), filename)) {
-		if (filename.substr) {
-			filename = [filename];
-		}
-		$.each(filename, function (index, file) {
-			var filename = $('tr').filterAttr('data-file', file);
-			filename.hide();
-			filename.find('input[type="checkbox"]').removeAttr('checked');
-			filename.removeClass('selected');
-		});
-		procesSelection();
-	} else {
-		FileList.do_delete(filename);
-	}
+	FileList.do_delete(filename);
 	$('.tipsy').remove();
 });
 

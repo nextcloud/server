@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mateju <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 06:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-11-15 22:54-0500\n"
+"PO-Revision-Date: 2013-11-11 21:30+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,22 +23,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "Ni mogoče povrniti: %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
 msgstr "Različice"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "Povrnitev datoteke {file} na objavo {timestamp} je spodletelo."
 
-#: js/versions.js:79
+#: js/versions.js:86
 msgid "More versions..."
-msgstr ""
+msgstr "Več različic"
 
-#: js/versions.js:116
+#: js/versions.js:123
 msgid "No other versions available"
-msgstr ""
+msgstr "Ni drugih različic"
 
-#: js/versions.js:149
+#: js/versions.js:154
 msgid "Restore"
 msgstr "Obnovi"

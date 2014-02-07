@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Dropbox/autoload.php';
+require_once __DIR__ . '/../3rdparty/Dropbox/autoload.php';
 
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();

@@ -25,7 +25,14 @@
 namespace OCA\Files;
 
 class App {
+	/**
+	 * @var \OC_L10N
+	 */
 	private $l10n;
+
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $view;
 
 	public function __construct($view, $l10n) {
@@ -50,9 +57,24 @@ class App {
 		// rename to "/Shared" is denied
 		if( $dir === '/' and $newname === 'Shared' ) {
 			$result['data'] = array(
-				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
+				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved.")
 			);
-		} elseif(
+		// rename to non-existing folder is denied
+		} else if (!$this->view->file_exists($dir)) {
+			$result['data'] = array('message' => (string)$this->l10n->t(
+					'The target folder has been moved or deleted.',
+					array($dir)),
+					'code' => 'targetnotfound'
+				);
+		// rename to existing file is denied
+		} else if ($this->view->file_exists($dir . '/' . $newname)) {
+			
+			$result['data'] = array(
+				'message'	=> $this->l10n->t(
+						"The name %s is already used in the folder %s. Please choose a different name.",
+						array($newname, $dir))
+			);
+		} else if (
 			// rename to "." is denied
 			$newname !== '.' and
 			// rename of  "/Shared" is denied
@@ -61,12 +83,28 @@ class App {
 			$this->view->rename($dir . '/' . $oldname, $dir . '/' . $newname)
 		) {
 			// successful rename
-			$result['success'] = true;
-			$result['data'] = array(
-				'dir'		=> $dir,
-				'file'		=> $oldname,
-				'newname'	=> $newname
+			$meta = $this->view->getFileInfo($dir . '/' . $newname);
+			if ($meta['mimetype'] === 'httpd/unix-directory') {
+				$meta['type'] = 'dir';
+			}
+			else {
+				$meta['type'] = 'file';
+			}
+			// these need to be set for determineIcon()
+			$meta['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']);
+			$meta['directory'] = $dir;
+			$fileinfo = array(
+				'id' => $meta['fileid'],
+				'mime' => $meta['mimetype'],
+				'size' => $meta['size'],
+				'etag' => $meta['etag'],
+				'directory' => $meta['directory'],
+				'name' => $newname,
+				'isPreviewAvailable' => $meta['isPreviewAvailable'],
+				'icon' => \OCA\Files\Helper::determineIcon($meta)
 			);
+			$result['success'] = true;
+			$result['data'] = $fileinfo;
 		} else {
 			// rename failed
 			$result['data'] = array(

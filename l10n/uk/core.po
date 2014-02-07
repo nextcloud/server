@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# volodya327 <volodya327@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-22 12:55-0400\n"
-"PO-Revision-Date: 2013-09-20 15:01+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-12-20 01:55-0500\n"
+"PO-Revision-Date: 2013-12-20 06:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -17,98 +18,60 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:97
+#: ajax/share.php:119 ajax/share.php:198
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s розподілено »%s« з тобою"
 
-#: ajax/share.php:227
-msgid "group"
-msgstr "група"
+#: ajax/share.php:169
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr "Неможливо надіслати пошту наступним користувачам: %s "
 
 #: ajax/update.php:11
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Увімкнено захищений режим"
 
 #: ajax/update.php:14
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Вимкнено захищений режим"
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
+msgstr "Базу даних оновлено"
 
 #: ajax/update.php:20
 msgid "Updating filecache, this may take really long..."
-msgstr ""
+msgstr "Оновлення файлового кешу, це може тривати доволі довго..."
 
 #: ajax/update.php:23
 msgid "Updated filecache"
-msgstr ""
+msgstr "Файловий кеш оновлено"
 
 #: ajax/update.php:26
 #, php-format
 msgid "... %d%% done ..."
-msgstr ""
-
-#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
-msgid "Category type not provided."
-msgstr "Не вказано тип категорії."
-
-#: ajax/vcategories/add.php:30
-msgid "No category to add?"
-msgstr "Відсутні категорії для додавання?"
-
-#: ajax/vcategories/add.php:37
-#, php-format
-msgid "This category already exists: %s"
-msgstr "Ця категорія вже існує: %s"
-
-#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
-#: ajax/vcategories/favorites.php:24
-#: ajax/vcategories/removeFromFavorites.php:26
-msgid "Object type not provided."
-msgstr "Не вказано тип об'єкту."
-
-#: ajax/vcategories/addToFavorites.php:30
-#: ajax/vcategories/removeFromFavorites.php:30
-#, php-format
-msgid "%s ID not provided."
-msgstr "%s ID не вказано."
-
-#: ajax/vcategories/addToFavorites.php:35
-#, php-format
-msgid "Error adding %s to favorites."
-msgstr "Помилка при додаванні %s до обраного."
-
-#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
-msgid "No categories selected for deletion."
-msgstr "Жодної категорії не обрано для видалення."
-
-#: ajax/vcategories/removeFromFavorites.php:35
-#, php-format
-msgid "Error removing %s from favorites."
-msgstr "Помилка при видалені %s із обраного."
+msgstr "... %d%% виконано ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Немає наданого зображення або файлу"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Невідомий тип файлу"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Невірне зображення"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Немає доступного тимчасового профілю для малюнків, спробуйте ще раз"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Немає інформації щодо обрізки даних"
 
 #: js/config.php:32
 msgid "Sunday"
@@ -186,63 +149,63 @@ msgstr "Листопад"
 msgid "December"
 msgstr "Грудень"
 
-#: js/js.js:387
+#: js/js.js:398
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:866
+#: js/js.js:869
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:867
+#: js/js.js:870
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n хвилину тому"
+msgstr[1] "%n хвилини тому"
+msgstr[2] "%n хвилин тому"
 
-#: js/js.js:868
+#: js/js.js:871
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n годину тому"
+msgstr[1] "%n години тому"
+msgstr[2] "%n годин тому"
 
-#: js/js.js:869
+#: js/js.js:872
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:870
+#: js/js.js:873
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:871
+#: js/js.js:874
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n день тому"
+msgstr[1] "%n дні тому"
+msgstr[2] "%n днів тому"
 
-#: js/js.js:872
+#: js/js.js:875
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:873
+#: js/js.js:876
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%n місяць тому"
+msgstr[1] "%n місяці тому"
+msgstr[2] "%n місяців тому"
 
-#: js/js.js:874
+#: js/js.js:877
 msgid "months ago"
 msgstr "місяці тому"
 
-#: js/js.js:875
+#: js/js.js:878
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:876
+#: js/js.js:879
 msgid "years ago"
 msgstr "роки тому"
 
@@ -252,7 +215,7 @@ msgstr "Обрати"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Помилка при завантаженні шаблону вибору: {error}"
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
@@ -268,28 +231,28 @@ msgstr "Ok"
 
 #: js/oc-dialogs.js:219
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Помилка при завантаженні шаблону повідомлення: {error}"
 
 #: js/oc-dialogs.js:347
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "{count} файловий конфлікт"
+msgstr[1] "{count} файлових конфліктів"
+msgstr[2] "{count} файлових конфліктів"
 
 #: js/oc-dialogs.js:361
 msgid "One file conflict"
-msgstr ""
+msgstr "Один файловий конфлікт"
 
 #: js/oc-dialogs.js:367
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Які файли ви хочете залишити?"
 
 #: js/oc-dialogs.js:368
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Якщо ви оберете обидві версії, скопійований файл буде мати номер, доданий у його ім'я."
 
 #: js/oc-dialogs.js:376
 msgid "Cancel"
@@ -297,168 +260,196 @@ msgstr "Відмінити"
 
 #: js/oc-dialogs.js:386
 msgid "Continue"
-msgstr ""
+msgstr "Продовжити"
 
 #: js/oc-dialogs.js:433 js/oc-dialogs.js:446
 msgid "(all selected)"
-msgstr ""
+msgstr "(все вибрано)"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} вибрано)"
 
 #: js/oc-dialogs.js:457
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Помилка при завантаженні файлу існуючого шаблону"
 
-#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
-#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
-msgid "The object type is not specified."
-msgstr "Не визначено тип об'єкту."
-
-#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
-#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
-#: js/oc-vcategories.js:199 js/share.js:129 js/share.js:142 js/share.js:149
-#: js/share.js:645 js/share.js:657
-msgid "Error"
-msgstr "Помилка"
-
-#: js/oc-vcategories.js:179
-msgid "The app name is not specified."
-msgstr "Не визначено ім'я програми."
-
-#: js/oc-vcategories.js:194
-msgid "The required file {file} is not installed!"
-msgstr "Необхідний файл {file} не встановлено!"
-
-#: js/share.js:30 js/share.js:45 js/share.js:87
+#: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
 msgstr "Опубліковано"
 
-#: js/share.js:90
+#: js/share.js:109
 msgid "Share"
 msgstr "Поділитися"
 
-#: js/share.js:131 js/share.js:685
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
+#: js/share.js:719 templates/installation.php:10
+msgid "Error"
+msgstr "Помилка"
+
+#: js/share.js:160 js/share.js:747
 msgid "Error while sharing"
 msgstr "Помилка під час публікації"
 
-#: js/share.js:142
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr "Помилка під час відміни публікації"
 
-#: js/share.js:149
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr "Помилка при зміні повноважень"
 
-#: js/share.js:158
+#: js/share.js:187
 msgid "Shared with you and the group {group} by {owner}"
 msgstr " {owner} опублікував для Вас та для групи {group}"
 
-#: js/share.js:160
+#: js/share.js:189
 msgid "Shared with you by {owner}"
 msgstr "{owner} опублікував для Вас"
 
-#: js/share.js:183
-msgid "Share with"
-msgstr "Опублікувати для"
+#: js/share.js:213
+msgid "Share with user or group …"
+msgstr "Поділитися з користувачем або групою ..."
 
-#: js/share.js:188
-msgid "Share with link"
-msgstr "Опублікувати через посилання"
+#: js/share.js:219
+msgid "Share link"
+msgstr "Опублікувати посилання"
 
-#: js/share.js:191
+#: js/share.js:222
 msgid "Password protect"
 msgstr "Захистити паролем"
 
-#: js/share.js:193 templates/installation.php:57 templates/login.php:26
+#: js/share.js:224 templates/installation.php:58 templates/login.php:38
 msgid "Password"
 msgstr "Пароль"
 
-#: js/share.js:198
+#: js/share.js:229
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Дозволити Публічне Завантаження"
 
-#: js/share.js:202
+#: js/share.js:233
 msgid "Email link to person"
 msgstr "Ел. пошта належить Пану"
 
-#: js/share.js:203
+#: js/share.js:234
 msgid "Send"
 msgstr "Надіслати"
 
-#: js/share.js:208
+#: js/share.js:239
 msgid "Set expiration date"
 msgstr "Встановити термін дії"
 
-#: js/share.js:209
+#: js/share.js:240
 msgid "Expiration date"
 msgstr "Термін дії"
 
-#: js/share.js:242
+#: js/share.js:275
 msgid "Share via email:"
 msgstr "Опублікувати через Ел. пошту:"
 
-#: js/share.js:245
+#: js/share.js:278
 msgid "No people found"
 msgstr "Жодної людини не знайдено"
 
-#: js/share.js:283
+#: js/share.js:322 js/share.js:359
+msgid "group"
+msgstr "група"
+
+#: js/share.js:333
 msgid "Resharing is not allowed"
 msgstr "Пере-публікація не дозволяється"
 
-#: js/share.js:319
+#: js/share.js:375
 msgid "Shared in {item} with {user}"
 msgstr "Опубліковано {item} для {user}"
 
-#: js/share.js:340
+#: js/share.js:397
 msgid "Unshare"
 msgstr "Закрити доступ"
 
-#: js/share.js:352
+#: js/share.js:405
+msgid "notify by email"
+msgstr "повідомити по Email"
+
+#: js/share.js:408
 msgid "can edit"
 msgstr "може редагувати"
 
-#: js/share.js:354
+#: js/share.js:410
 msgid "access control"
 msgstr "контроль доступу"
 
-#: js/share.js:357
+#: js/share.js:413
 msgid "create"
 msgstr "створити"
 
-#: js/share.js:360
+#: js/share.js:416
 msgid "update"
 msgstr "оновити"
 
-#: js/share.js:363
+#: js/share.js:419
 msgid "delete"
 msgstr "видалити"
 
-#: js/share.js:366
+#: js/share.js:422
 msgid "share"
 msgstr "опублікувати"
 
-#: js/share.js:400 js/share.js:632
+#: js/share.js:694
 msgid "Password protected"
 msgstr "Захищено паролем"
 
-#: js/share.js:645
+#: js/share.js:707
 msgid "Error unsetting expiration date"
 msgstr "Помилка при відміні терміна дії"
 
-#: js/share.js:657
+#: js/share.js:719
 msgid "Error setting expiration date"
 msgstr "Помилка при встановленні терміна дії"
 
-#: js/share.js:672
+#: js/share.js:734
 msgid "Sending ..."
 msgstr "Надсилання..."
 
-#: js/share.js:683
+#: js/share.js:745
 msgid "Email sent"
 msgstr "Ел. пошта надіслана"
+
+#: js/share.js:769
+msgid "Warning"
+msgstr "Попередження"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "Не визначено тип об'єкту."
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr "Введіть новий"
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Видалити"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "Додати"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr "Редагувати теги"
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr "Помилка при завантаженні шаблону діалогу: {error}"
+
+#: js/tags.js:261
+msgid "No tags selected for deletion."
+msgstr "Жодних тегів не обрано для видалення."
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr "Будь ласка, перезавантажте сторінку."
 
 #: js/update.js:17
 msgid ""
@@ -474,47 +465,47 @@ msgstr "Оновлення виконалось успішно. Перенапр
 #: lostpassword/controller.php:62
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s пароль скинуто"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Використовуйте наступне посилання для скидання пароля: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
+#: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Посилання для того, щоб скинути ваш пароль було надіслано на ваший Email.<br>Якщо ви не отримали його найближчим часом, перевірте ваший спам каталог.<br>Якщо і там немає, спитайте вашого місцевого Адміністратора."
 
 #: lostpassword/templates/lostpassword.php:15
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Запит завершився невдало !<br>Ви переконані, що ваша адреса Email/ім'я користувача вірні ?"
+
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:51
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
+#: templates/login.php:31
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: lostpassword/templates/lostpassword.php:22
+#: lostpassword/templates/lostpassword.php:25
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:24
-msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Ваші файли зашифровані. Якщо ви не зробили придатний ключ відновлення, не буде ніякої можливості отримати дані назад після того, як ваш пароль буде скинутий. Якщо ви не знаєте, що робити, будь ласка, зверніться до адміністратора, щоб продовжити. Ви дійсно хочете продовжити?"
 
 #: lostpassword/templates/lostpassword.php:27
-msgid "Request reset"
-msgstr "Запит скидання"
+msgid "Yes, I really want to reset my password now"
+msgstr "Так, я справді бажаю скинути мій пароль зараз"
+
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "Перевстановити"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -540,7 +531,7 @@ msgstr "Особисте"
 msgid "Users"
 msgstr "Користувачі"
 
-#: strings.php:7 templates/layout.user.php:108
+#: strings.php:7 templates/layout.user.php:111
 msgid "Apps"
 msgstr "Додатки"
 
@@ -551,6 +542,34 @@ msgstr "Адмін"
 #: strings.php:9
 msgid "Help"
 msgstr "Допомога"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr "Помилка завантаження тегів."
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr "Тег вже існує"
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr "Помилка видалення тегу(ів)"
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr "Помилка встановлення тегів"
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr "Помилка зняття тегів"
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr "Помилка позначення улюблених"
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr "Помилка зняття позначки улюблених"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -568,108 +587,119 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-"Cheers!"
-msgstr ""
+msgstr "Агов,\n\nпросто щоб ви знали, що %s поділився %s з вами.\nПодивіться: %s\n\n"
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
-msgstr "Редагувати категорії"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr "Доступ до спільних даних вичерпається %s."
 
-#: templates/edit_categories_dialog.php:16
-msgid "Add"
-msgstr "Додати"
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr "Будьмо!"
 
-#: templates/installation.php:24 templates/installation.php:31
-#: templates/installation.php:38
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr "Попередження про небезпеку"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 msgstr "Ваша версія PHP вразлива для атак NULL Byte (CVE-2006-7243)"
 
-#: templates/installation.php:26
+#: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Будь ласка, оновіть вашу інсталяцію PHP для використання %s безпеки."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Не доступний безпечний генератор випадкових чисел, будь ласка, активуйте PHP OpenSSL додаток."
 
-#: templates/installation.php:33
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Без безпечного генератора випадкових чисел зловмисник може визначити токени скидання пароля і заволодіти Вашим обліковим записом."
 
-#: templates/installation.php:39
+#: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює."
 
-#: templates/installation.php:41
+#: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Для отримання інформації, як правильно налаштувати сервер, див. <a href=\"%s\" target=\"_blank\">документацію</a>."
 
-#: templates/installation.php:47
+#: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Створити <strong>обліковий запис адміністратора</strong>"
 
-#: templates/installation.php:65
+#: templates/installation.php:67
 msgid "Advanced"
 msgstr "Додатково"
 
-#: templates/installation.php:67
+#: templates/installation.php:74
 msgid "Data folder"
 msgstr "Каталог даних"
 
-#: templates/installation.php:77
+#: templates/installation.php:86
 msgid "Configure the database"
 msgstr "Налаштування бази даних"
 
-#: templates/installation.php:82 templates/installation.php:94
-#: templates/installation.php:105 templates/installation.php:116
-#: templates/installation.php:128
+#: templates/installation.php:91 templates/installation.php:103
+#: templates/installation.php:114 templates/installation.php:125
+#: templates/installation.php:137
 msgid "will be used"
 msgstr "буде використано"
 
-#: templates/installation.php:140
+#: templates/installation.php:149
 msgid "Database user"
 msgstr "Користувач бази даних"
 
-#: templates/installation.php:147
+#: templates/installation.php:156
 msgid "Database password"
 msgstr "Пароль для бази даних"
 
-#: templates/installation.php:152
+#: templates/installation.php:161
 msgid "Database name"
 msgstr "Назва бази даних"
 
-#: templates/installation.php:160
+#: templates/installation.php:169
 msgid "Database tablespace"
 msgstr "Таблиця бази даних"
 
-#: templates/installation.php:167
+#: templates/installation.php:176
 msgid "Database host"
 msgstr "Хост бази даних"
 
-#: templates/installation.php:175
+#: templates/installation.php:185
 msgid "Finish setup"
 msgstr "Завершити налаштування"
 
-#: templates/layout.user.php:41
-#, php-format
-msgid "%s is available. Get more information on how to update."
+#: templates/installation.php:185
+msgid "Finishing …"
+msgstr "Завершується ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
 msgstr ""
 
-#: templates/layout.user.php:69
+#: templates/layout.user.php:44
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s доступний. Отримай більше інформації про те, як оновити."
+
+#: templates/layout.user.php:72 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Вихід"
 
@@ -687,19 +717,27 @@ msgstr "Якщо Ви не міняли пароль останнім часом
 msgid "Please change your password to secure your account again."
 msgstr "Будь ласка, змініть свій пароль, щоб знову захистити Ваш обліковий запис."
 
-#: templates/login.php:32
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr "Помилка аутентифікації на боці Сервера !"
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr "Будь ласка, зверніться до вашого Адміністратора."
+
+#: templates/login.php:44
 msgid "Lost your password?"
 msgstr "Забули пароль?"
 
-#: templates/login.php:37
+#: templates/login.php:49
 msgid "remember"
 msgstr "запам'ятати"
 
-#: templates/login.php:39
+#: templates/login.php:52
 msgid "Log in"
 msgstr "Вхід"
 
-#: templates/login.php:45
+#: templates/login.php:58
 msgid "Alternative Logins"
 msgstr "Альтернативні Логіни"
 
@@ -707,10 +745,37 @@ msgstr "Альтернативні Логіни"
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>Cheers!"
-msgstr ""
+"href=\"%s\">View it!</a><br><br>"
+msgstr "Агов,<br><br>просто щоб ви знали, що %s поділився »%s« з вами.<br><a href=\"%s\">Подивіться на це !</a><br><br>"
 
-#: templates/update.php:3
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "Цей екземпляр OwnCloud зараз працює в монопольному режимі одного користувача"
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "Це означає, що лише адміністратори можуть використовувати цей екземпляр."
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "Зверніться до системного адміністратора, якщо це повідомлення зберігається або з'являєтья несподівано."
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "Дякуємо за ваше терпіння."
+
+#: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Оновлення ownCloud до версії %s, це може зайняти деякий час."
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr "Цей ownCloud зараз оновлюється, це може тривати певний час."
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr "Будь ласка, перезавантажте незабаром цю сторінку, щоб продовжити користуватися OwnCloud."

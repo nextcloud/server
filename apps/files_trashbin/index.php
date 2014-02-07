@@ -5,16 +5,17 @@ OCP\User::checkLoggedIn();
 
 OCP\App::setActiveNavigationEntry('files_index');
 
-OCP\Util::addScript('files_trashbin', 'trash');
 OCP\Util::addScript('files_trashbin', 'disableDefaultActions');
 OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 OCP\Util::addStyle('files', 'files');
+OCP\Util::addStyle('files_trashbin', 'trash');
 OCP\Util::addScript('files', 'filelist');
 // filelist overrides
 OCP\Util::addScript('files_trashbin', 'filelist');
 OCP\Util::addscript('files', 'files');
+OCP\Util::addScript('files_trashbin', 'trash');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 

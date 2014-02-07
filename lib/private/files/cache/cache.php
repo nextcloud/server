@@ -34,8 +34,8 @@ class Cache {
 	 */
 	private $storageCache;
 
-	private $mimetypeIds = array();
-	private $mimetypes = array();
+	private static $mimetypeIds = array();
+	private static $mimetypes = array();
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
@@ -64,30 +64,45 @@ class Cache {
 	 * @return int
 	 */
 	public function getMimetypeId($mime) {
-		if (!isset($this->mimetypeIds[$mime])) {
-			$result = \OC_DB::executeAudited('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?', array($mime));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypeIds[$mime] = $row['id'];
-			} else {
-				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
-				$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
-			}
-			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
+		if (empty($mime)) {
+			// Can not insert empty string into Oracle NOT NULL column.
+			$mime = 'application/octet-stream';
 		}
-		return $this->mimetypeIds[$mime];
+		if (empty(self::$mimetypeIds)) {
+			$this->loadMimetypes();
+		}
+		
+		if (!isset(self::$mimetypeIds[$mime])) {
+			try{
+				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
+				self::$mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
+				self::$mimetypes[self::$mimetypeIds[$mime]] = $mime;
+			}
+			catch (\Doctrine\DBAL\DBALException $e){
+				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
+				return -1;
+			}
+		} 
+				
+		return self::$mimetypeIds[$mime];
 	}
 
 	public function getMimetype($id) {
-		if (!isset($this->mimetypes[$id])) {
-			$sql = 'SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?';
-			$result = \OC_DB::executeAudited($sql, array($id));
-			if ($row = $result->fetchRow()) {
-				$this->mimetypes[$id] = $row['mimetype'];
-			} else {
-				return null;
-			}
+		if (empty(self::$mimetypes)) {
+			$this->loadMimetypes();
 		}
-		return $this->mimetypes[$id];
+
+		return isset(self::$mimetypes[$id]) ? self::$mimetypes[$id] : null;
+	}
+
+	public function loadMimetypes(){
+			$result = \OC_DB::executeAudited('SELECT `id`, `mimetype` FROM `*PREFIX*mimetypes`', array());
+			if ($result) {
+				while ($row = $result->fetchRow()) {
+					self::$mimetypeIds[$row['mimetype']] = $row['id'];
+					self::$mimetypes[$row['id']] = $row['mimetype'];
+				}
+			}
 	}
 
 	/**
@@ -129,6 +144,7 @@ class Cache {
 			$data['fileid'] = (int)$data['fileid'];
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
+			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
             $data['unencrypted_size'] = (int)$data['unencrypted_size'];
 			$data['storage'] = $this->storageId;
@@ -161,6 +177,10 @@ class Cache {
 				$file['mimepart'] = $this->getMimetype($file['mimepart']);
 				if ($file['storage_mtime'] == 0) {
 					$file['storage_mtime'] = $file['mtime'];
+				}
+				if ($file['encrypted'] or ($file['unencrypted_size'] > 0 and $file['mimetype'] === 'httpd/unix-directory')) {
+					$file['encrypted_size'] = $file['size'];
+					$file['size'] = $file['unencrypted_size'];
 				}
 			}
 			return $files;
@@ -491,22 +511,34 @@ class Cache {
 		$entry = $this->get($path);
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
-			$sql = 'SELECT SUM(`size`), MIN(`size`) FROM `*PREFIX*filecache` '.
+			$sql = 'SELECT SUM(`size`) AS f1, MIN(`size`) AS f2, ' .
+				'SUM(`unencrypted_size`) AS f3 ' .
+				'FROM `*PREFIX*filecache` ' .
 				'WHERE `parent` = ? AND `storage` = ?';
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
-				list($sum, $min) = array_values($row);
+				list($sum, $min, $unencryptedSum) = array_values($row);
 				$sum = (int)$sum;
 				$min = (int)$min;
+				$unencryptedSum = (int)$unencryptedSum;
 				if ($min === -1) {
 					$totalSize = $min;
 				} else {
 					$totalSize = $sum;
 				}
+				$update = array();
 				if ($entry['size'] !== $totalSize) {
-					$this->update($id, array('size' => $totalSize));
+					$update['size'] = $totalSize;
 				}
-				
+				if ($entry['unencrypted_size'] !== $unencryptedSum) {
+					$update['unencrypted_size'] = $unencryptedSum;
+				}
+				if (count($update) > 0) {
+					$this->update($id, $update);
+				}
+				if ($totalSize !== -1 and $unencryptedSum > 0) {
+					$totalSize = $unencryptedSum;
+				}
 			}
 		}
 		return $totalSize;
