@@ -435,10 +435,9 @@ window.FileList={
 								tr.attr('data-file', newname);
 								var path = td.children('a.name').attr('href');
 								td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newname)));
+								var basename = newname;
 								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-									var basename=newname.substr(0,newname.lastIndexOf('.'));
-								} else {
-									var basename=newname;
+									basename = newname.substr(0,newname.lastIndexOf('.'));
 								}
 								td.find('a.name span.nametext').text(basename);
 								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
@@ -544,10 +543,9 @@ window.FileList={
 		td.children('a.name .span').text(newName);
 		var path = td.children('a.name').attr('href');
 		td.children('a.name').attr('href', path.replace(encodeURIComponent(oldName), encodeURIComponent(newName)));
+		var basename = newName;
 		if (newName.indexOf('.') > 0) {
-			var basename = newName.substr(0, newName.lastIndexOf('.'));
-		} else {
-			var basename = newName;
+			basename = newName.substr(0, newName.lastIndexOf('.'));
 		}
 		td.children('a.name').empty();
 		var span = $('<span class="nametext"></span>');
