@@ -895,8 +895,8 @@ $(document).ready(function() {
 				data.context.find('td.filesize').text(humanFileSize(size));
 
 			} else {
-				// only append new file if dragged onto current dir's crumb (last)
-				if (data.context && data.context.hasClass('crumb') && !data.context.hasClass('last')) {
+				// only append new file if uploaded into the current folder
+				if (file.directory !== FileList.getCurrentDirectory()) {
 					return;
 				}
 

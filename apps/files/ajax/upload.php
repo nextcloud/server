@@ -137,7 +137,8 @@ if (strpos($dir, '..') === false) {
 							'originalname' => $files['tmp_name'][$i],
 							'uploadMaxFilesize' => $maxUploadFileSize,
 							'maxHumanFilesize' => $maxHumanFileSize,
-							'permissions' => $meta['permissions'] & $allowedPermissions
+							'permissions' => $meta['permissions'] & $allowedPermissions,
+							'directory' => \OC\Files\Filesystem::normalizePath(stripslashes($dir)),
 						);
 					}
 
@@ -164,7 +165,8 @@ if (strpos($dir, '..') === false) {
 					'originalname' => $files['tmp_name'][$i],
 					'uploadMaxFilesize' => $maxUploadFileSize,
 					'maxHumanFilesize' => $maxHumanFileSize,
-					'permissions' => $meta['permissions'] & $allowedPermissions
+					'permissions' => $meta['permissions'] & $allowedPermissions,
+					'directory' => \OC\Files\Filesystem::normalizePath(stripslashes($dir)),
 				);
 			}
 		}
