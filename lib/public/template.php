@@ -65,9 +65,8 @@ function preview_icon( $path ) {
 /**
  * Make publicpreview_icon available as a simple function
  * Returns the path to the preview of the image.
- * @param string path of file
- * @param string token
- * @param string $path
+ * @param string $path of file
+ * @param string $token
  * @return link to the preview
  */
 function publicPreview_icon ( $path, $token ) {
@@ -78,7 +77,7 @@ function publicPreview_icon ( $path, $token ) {
  * Make OC_Helper::humanFileSize available as a simple function
  * Example: 2048 to 2 kB.
  * @param int size in bytes
- * @return string as string
+ * @return string size as string
  */
 function human_file_size( $bytes ) {
 	return(\human_file_size( $bytes ));
@@ -89,7 +88,7 @@ function human_file_size( $bytes ) {
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
  * @param int unix timestamp
  * @param boolean date only
- * @return OC_L10N_String readable interpretation of the timestamp
+ * @return OC_L10N_String human readable interpretation of the timestamp
  */
 function relative_modified_date( $timestamp, $dateOnly = false ) {
 	return(\relative_modified_date($timestamp, null, $dateOnly));
@@ -100,7 +99,7 @@ function relative_modified_date( $timestamp, $dateOnly = false ) {
  * Return a human readable outout for a file size.
  * @deprecated human_file_size() instead
  * @param integer size of a file in byte
- * @return string readable interpretation of a file size
+ * @return string human readable interpretation of a file size
  */
 function simple_file_size($bytes) {
 	return(\human_file_size($bytes));
@@ -112,7 +111,7 @@ function simple_file_size($bytes) {
  * @param $options the options
  * @param $selected which one is selected?
  * @param array the parameters
- * @return string options
+ * @return string html options
  */
 function html_select_options($options, $selected, $params=array()) {
 	return(\html_select_options($options, $selected, $params));

@@ -101,10 +101,8 @@ class User {
 
 	/**
 	 * Check if the password is correct
-	 * @param string The username
-	 * @param string The password
-	 * @param string $uid
-	 * @param string $password
+	 * @param string $uid The username
+	 * @param string $password The password
 	 * @return string|false username on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user

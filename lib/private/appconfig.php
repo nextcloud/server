@@ -180,8 +180,6 @@ class OC_Appconfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @return bool
-	 *
-	 * Deletes a key.
 	 */
 	public static function deleteKey($app, $key) {
 		// Boring!
@@ -213,8 +211,6 @@ class OC_Appconfig {
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
-	 * @param app
-	 * @param key
 	 * @param boolean $app
 	 * @param string $key
 	 * @return array

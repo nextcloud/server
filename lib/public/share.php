@@ -750,12 +750,11 @@ class Share {
 
 	/**
 	 * Set the permissions of an item for a specific user or group
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param int CRUDS permissions
-	 * @param integer|null $permissions
+	 * @param string $itemType Item type
+	 * @param string $itemSource Item source
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param integer|null $permissions CRUDS
 	 * @return boolean true on success or false on failure
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
@@ -1382,20 +1381,15 @@ class Share {
 
 	/**
 	 * Put shared item into the database
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param string User that is the owner of shared item
-	 * @param int CRUDS permissions
-	 * @param bool|array Parent folder target (optional)
-	 * @param string token (optional)
-	 * @param string name of the source item (optional)
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param integer $shareType
-	 * @param integer $permissions
-	 * @param string $itemSourceName
+	 * @param string $itemType Item type
+	 * @param string $itemSource Item source
+	 * @param integer $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param string $uidOwner User that is the owner of shared item
+	 * @param int $permissions CRUDS permissions
+	 * @param bool|array, $parentFolder Parent folder target (optional)
+	 * @param string $token (optional)
+	 * @param string $itemSourceName name of the source item (optional)
 	 * @return bool Returns true on success or false on failure
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1966,8 +1960,7 @@ interface Share_Backend {
 
 	/**
 	 * Converts the shared item sources back into the item in the specified format
-	 * @param array Shared items
-	 * @param int Format
+	 * @param array $items Shared items
 	 * @param integer $format
 	 * @return TODO
 	 *

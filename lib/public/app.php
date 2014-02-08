@@ -85,6 +85,7 @@ class App {
 	 * Register a Configuration Screen that should appear in the personal settings section.
 	 * @param $app string appid
 	 * @param $page string page to be included
+	 * @return void
 	*/
 	public static function registerPersonal( $app, $page ) {
 		\OC_App::registerPersonal( $app, $page );
@@ -94,6 +95,7 @@ class App {
 	 * Register a Configuration Screen that should appear in the Admin section.
 	 * @param string $app string appid
 	 * @param string $page string page to be included
+	 * @return void
 	 */
 	public static function registerAdmin( $app, $page ) {
 		\OC_App::registerAdmin( $app, $page );
@@ -111,7 +113,6 @@ class App {
 
 	/**
 	 * checks whether or not an app is enabled
-	 * @param string
 	 * @param string $app
 	 * @return boolean
 	 *
@@ -123,7 +124,8 @@ class App {
 
 	/**
 	 * Check if the app is enabled, redirects to home if not
-	 * @param string
+	 * @param string $app
+	 * @return void
 	*/
 	public static function checkAppEnabled( $app ) {
 		\OC_Util::checkAppEnabled( $app );
@@ -131,7 +133,7 @@ class App {
 
 	/**
 	 * Get the last version of the app, either from appinfo/version or from appinfo/info.xml
-	 * @param string
+	 * @param string $app
 	 * @return string
 	 */
 	public static function getAppVersion( $app ) {

@@ -240,9 +240,9 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief detects the available LDAP groups
-	 * @returns the instance's WizardResult instance
 	 * @param string $dbkey
 	 * @param string $confkey
+	 * @returns the instance's WizardResult instance
 	 */
 	private function determineGroups($dbkey, $confkey, $testMemberOf = true) {
 		if(!$this->checkRequirements(array('ldapHost',

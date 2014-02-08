@@ -423,8 +423,7 @@ class Helper {
 
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
-	 * @param unescaped path
-	 * @param string $path
+	 * @param string $path unescaped path
 	 * @return escaped path
 	 */
 	public static function escapeGlobPattern($path) {

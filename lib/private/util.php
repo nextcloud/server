@@ -217,7 +217,7 @@ class OC_Util {
 	 * @brief add a javascript file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param mixed $file filename
 	 * @return void
 	 */
 	public static function addScript( $application, $file = null ) {
@@ -236,7 +236,7 @@ class OC_Util {
 	 * @brief add a css file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param mixed $file filename
 	 * @return void
 	 */
 	public static function addStyle( $application, $file = null ) {
@@ -515,7 +515,6 @@ class OC_Util {
 
 	/**
 	 * @brief Check for correct file permissions of data directory
-	 * @paran string $dataDirectory
 	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
 	 */

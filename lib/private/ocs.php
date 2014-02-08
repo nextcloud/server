@@ -35,13 +35,10 @@ class OC_OCS {
 	/**
 	* reads input date from get/post/cookies and converts the date to a special data-type
 	*
-	* @param string HTTP method to read the key from
-	* @param string Parameter to read
-	* @param string Variable type to format data
-	* @param mixed Default value to return if the key is not found
-	* @param string $method
-	* @param string $key
-	* @param string $default
+	* @param string $method HTTP method to read the key from
+	* @param string $key Parameter to read
+	* @param string $type Variable type to format data
+	* @param mixed $default Default value to return if the key is not found
 	* @return string Data or if the key is not found and no default is set it will exit with a 400 Bad request
 	*/
 	public static function readData($method, $key, $type = 'raw', $default = null) {

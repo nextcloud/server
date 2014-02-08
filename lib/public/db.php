@@ -49,7 +49,7 @@ class DB {
 
 	/**
 	 * Insert a row if a matching row doesn't exists.
-	 * @param string $table string The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @param $input array
 	 *
 	 * The input array if in the form:
@@ -70,7 +70,7 @@ class DB {
 
 	/**
 	 * Gets last value of autoincrement
-	 * @param string $table string The optional table name (will replace *PREFIX*) and add sequence suffix
+	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return string
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertID()
