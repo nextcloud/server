@@ -92,10 +92,15 @@ class LargeFileHelper {
 	public function getFilesizeViaExec($filename) {
 		if (\OC_Helper::is_function_enabled('exec')) {
 			$os = strtolower(php_uname('s'));
+			$result = '';
 			if (strpos($os, 'linux') !== false) {
-				return 0 + exec('stat -c %s ' . escapeshellarg($filename));
+				$result = trim(exec('stat -c %s ' . escapeshellarg($filename)));
 			} else if (strpos($os, 'bsd') !== false) {
-				return 0 + exec('stat -f %z ' . escapeshellarg($filename));
+				$result = trim(exec('stat -f %z ' . escapeshellarg($filename)));
+			}
+
+			if (ctype_digit($result)) {
+				return 0 + $result;
 			}
 		}
 		return null;
