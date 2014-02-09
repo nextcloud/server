@@ -89,9 +89,8 @@ if (\OC_Util::runningOnWindows()) {
 		public function stat($path) {
 			$fullPath = $this->datadir . $path;
 			$statResult = stat($fullPath);
-
-			$filesize = self::getFileSizeWithTricks($fullPath);
-			if (!is_null($filesize)) {
+			if (PHP_INT_SIZE === 4) {
+				$filesize = $this->filesize($path);
 				$statResult['size'] = $filesize;
 				$statResult[7] = $filesize;
 			}
@@ -109,16 +108,16 @@ if (\OC_Util::runningOnWindows()) {
 		public function filesize($path) {
 			if ($this->is_dir($path)) {
 				return 0;
-			} else {
-				$fullPath = $this->datadir . $path;
-
-				$filesize = self::getFileSizeWithTricks($fullPath);
+			}
+			$fullPath = $this->datadir . $path;
+			if (PHP_INT_SIZE === 4) {
+				$helper = new \OC\LargeFileHelper;
+				$filesize = $helper->getFilesize($fullPath);
 				if (!is_null($filesize)) {
 					return $filesize;
 				}
-
-				return filesize($fullPath);
 			}
+			return filesize($fullPath);
 		}
 
 		public function isReadable($path) {
@@ -219,87 +218,6 @@ if (\OC_Util::runningOnWindows()) {
 				}
 			}
 			return $return;
-		}
-
-		/**
-		* @brief Tries to get the filesize via various workarounds if necessary.
-		* @param string $fullPath
-		* @return mixed Number of bytes on success and workaround necessary, null otherwise.
-		*/
-		private static function getFileSizeWithTricks($fullPath) {
-			if (PHP_INT_SIZE === 4) {
-				// filesize() and stat() are unreliable on 32bit systems
-				// for big files.
-				// In some cases they cause an E_WARNING and return false,
-				// in some other cases they silently wrap around at 2^32,
-				// i.e. e.g. report 674347008 bytes instead of 4969314304.
-				$filesize = self::getFileSizeFromCurl($fullPath);
-				if (!is_null($filesize)) {
-					return $filesize;
-				}
-				$filesize = self::getFileSizeFromOS($fullPath);
-				if (!is_null($filesize)) {
-					return $filesize;
-				}
-			}
-
-			return null;
-		}
-
-		/**
-		* @brief Tries to get the filesize via a CURL HEAD request.
-		* @param string $fullPath
-		* @return mixed Number of bytes on success, null otherwise.
-		*/
-		private static function getFileSizeFromCurl($fullPath) {
-			if (function_exists('curl_init')) {
-				$ch = curl_init("file://$fullPath");
-				curl_setopt($ch, CURLOPT_NOBODY, true);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_HEADER, true);
-				$data = curl_exec($ch);
-				curl_close($ch);
-				if ($data !== false) {
-					$matches = array();
-					preg_match('/Content-Length: (\d+)/', $data, $matches);
-					if (isset($matches[1])) {
-						return 0 + $matches[1];
-					}
-				}
-			}
-
-			return null;
-		}
-
-		/**
-		* @brief Tries to get the filesize via COM and exec().
-		* @param string $fullPath
-		* @return mixed Number of bytes on success, null otherwise.
-		*/
-		private static function getFileSizeFromOS($fullPath) {
-			$name = strtolower(php_uname('s'));
-			// Windows OS: we use COM to access the filesystem
-			if (strpos($name, 'win') !== false) {
-				if (class_exists('COM')) {
-					$fsobj = new \COM("Scripting.FileSystemObject");
-					$f = $fsobj->GetFile($fullPath);
-					return $f->Size;
-				}
-			} else if (strpos($name, 'bsd') !== false) {
-				if (\OC_Helper::is_function_enabled('exec')) {
-					return 0 + exec('stat -f %z ' . escapeshellarg($fullPath));
-				}
-			} else if (strpos($name, 'linux') !== false) {
-				if (\OC_Helper::is_function_enabled('exec')) {
-					return 0 + exec('stat -c %s ' . escapeshellarg($fullPath));
-				}
-			} else {
-				\OC_Log::write('core',
-					'Unable to determine file size of "' . $fullPath . '". Unknown OS: ' . $name,
-					\OC_Log::ERROR);
-			}
-
-			return null;
 		}
 
 		public function hash($type, $path, $raw = false) {

@@ -111,11 +111,10 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$fullPath = $this->buildPath($path);
 		$statResult = stat($fullPath);
-
-		if ($statResult['size'] < 0) {
-			$size = self::getFileSizeFromOS($fullPath);
-			$statResult['size'] = $size;
-			$statResult[7] = $size;
+		if (PHP_INT_SIZE === 4) {
+			$filesize = $this->filesize($path);
+			$statResult['size'] = $filesize;
+			$statResult[7] = $filesize;
 		}
 		return $statResult;
 	}
@@ -131,15 +130,16 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	public function filesize($path) {
 		if ($this->is_dir($path)) {
 			return 0;
-		} else {
-			$fullPath = $this->buildPath($path);
-			$fileSize = filesize($fullPath);
-			if ($fileSize < 0) {
-				return self::getFileSizeFromOS($fullPath);
-			}
-
-			return $fileSize;
 		}
+		$fullPath = $this->buildPath($path);
+		if (PHP_INT_SIZE === 4) {
+			$helper = new \OC\LargeFileHelper;
+			$filesize = $helper->getFilesize($fullPath);
+			if (!is_null($filesize)) {
+				return $filesize;
+			}
+		}
+		return filesize($fullPath);
 	}
 
 	public function isReadable($path) {
@@ -292,35 +292,6 @@ class MappedLocal extends \OC\Files\Storage\Common {
 			$this->cleanMapper($dir, false);
 		}
 		return $return;
-	}
-
-	/**
-	 * @param string $fullPath
-	 */
-	private static function getFileSizeFromOS($fullPath) {
-		$name = strtolower(php_uname('s'));
-		// Windows OS: we use COM to access the filesystem
-		if (strpos($name, 'win') !== false) {
-			if (class_exists('COM')) {
-				$fsobj = new \COM("Scripting.FileSystemObject");
-				$f = $fsobj->GetFile($fullPath);
-				return $f->Size;
-			}
-		} else if (strpos($name, 'bsd') !== false) {
-			if (\OC_Helper::is_function_enabled('exec')) {
-				return (float)exec('stat -f %z ' . escapeshellarg($fullPath));
-			}
-		} else if (strpos($name, 'linux') !== false) {
-			if (\OC_Helper::is_function_enabled('exec')) {
-				return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
-			}
-		} else {
-			\OC_Log::write('core',
-				'Unable to determine file size of "' . $fullPath . '". Unknown OS: ' . $name,
-				\OC_Log::ERROR);
-		}
-
-		return 0;
 	}
 
 	public function hash($type, $path, $raw = false) {
