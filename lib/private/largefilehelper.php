@@ -92,17 +92,26 @@ class LargeFileHelper {
 	public function getFilesizeViaExec($filename) {
 		if (\OC_Helper::is_function_enabled('exec')) {
 			$os = strtolower(php_uname('s'));
+			$arg = escapeshellarg($filename);
 			$result = '';
 			if (strpos($os, 'linux') !== false) {
-				$result = trim(exec('stat -c %s ' . escapeshellarg($filename)));
+				$result = $this->exec("stat -c %s $arg");
 			} else if (strpos($os, 'bsd') !== false) {
-				$result = trim(exec('stat -f %z ' . escapeshellarg($filename)));
+				$result = $this->exec("stat -f %z $arg");
+			} else if (strpos($os, 'win') !== false) {
+				$result = $this->exec("for %F in ($arg) do @echo %~zF");
+				if (is_null($result)) {
+					// PowerShell
+					$result = $this->exec("(Get-Item $arg).length");
+				}
 			}
-
-			if (ctype_digit($result)) {
-				return 0 + $result;
-			}
+			return $result;
 		}
 		return null;
+	}
+
+	protected function exec($cmd) {
+		$result = trim(exec($cmd));
+		return ctype_digit($result) ? 0 + $result : null;
 	}
 }
