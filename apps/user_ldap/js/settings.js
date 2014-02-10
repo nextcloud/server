@@ -240,6 +240,7 @@ var LdapWizard = {
 					LdapWizard.hideSpinner('#ldap_base');
 					LdapWizard.showInfoBox('Please specify a Base DN');
 					LdapWizard.showInfoBox('Could not determine Base DN');
+					$('#ldap_base').prop('disabled', false);
 				}
 			);
 		}

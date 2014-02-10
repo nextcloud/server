@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 //both, libreoffice backend and php fallback, need imagick
-if (extension_loaded('imagick')) {
+if (extension_loaded('imagick') && count(\Imagick::queryFormats("PDF")) === 1) {
 	$isShellExecEnabled = \OC_Helper::is_function_enabled('shell_exec');
 
 	// LibreOffice preview is currently not supported on Windows
