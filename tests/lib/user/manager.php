@@ -346,4 +346,76 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$manager->createUser('foo', 'bar');
 	}
+
+	public function testCountUsersNoBackend() {
+		$manager = new \OC\User\Manager();
+
+		$result = $manager->countUsers();
+		$this->assertTrue(is_array($result));
+		$this->assertTrue(empty($result));
+	}
+
+	public function testCountUsersOneBackend() {
+		/**
+		 * @var \OC_User_Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\OC_User_Dummy');
+		$backend->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(7));
+
+		$backend->expects($this->once())
+			->method('implementsActions')
+			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->will($this->returnValue(true));
+
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($backend);
+
+		$result = $manager->countUsers();
+		$keys = array_keys($result);
+		$this->assertTrue(strpos($keys[0], 'Mock_OC_User_Dummy') !== false);
+
+		$users = array_shift($result);
+		$this->assertEquals(7, $users);
+	}
+
+	public function testCountUsersTwoBackends() {
+		/**
+		 * @var \OC_User_Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend1 = $this->getMock('\OC_User_Dummy');
+		$backend1->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(7));
+
+		$backend1->expects($this->once())
+			->method('implementsActions')
+			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->will($this->returnValue(true));
+
+		$backend2 = $this->getMock('\OC_User_Dummy');
+		$backend2->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(16));
+
+		$backend2->expects($this->once())
+			->method('implementsActions')
+			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->will($this->returnValue(true));
+
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($backend1);
+		$manager->registerBackend($backend2);
+
+		$result = $manager->countUsers();
+		//because the backends have the same class name, only one value expected
+		$this->assertEquals(1, count($result));
+		$keys = array_keys($result);
+		$this->assertTrue(strpos($keys[0], 'Mock_OC_User_Dummy') !== false);
+
+		$users = array_shift($result);
+		//users from backends shall be summed up
+		$this->assertEquals(7+16, $users);
+	}
 }

@@ -7,6 +7,12 @@
  */
 
 class OC_Request {
+
+	const USER_AGENT_IE = '/MSIE/';
+	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
+	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
+	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
+
 	/**
 	 * @brief Check overwrite condition
 	 * @param string $type
@@ -209,5 +215,23 @@ class OC_Request {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Checks whether the user agent matches a given regex
+	 * @param string|array $agent agent name or array of agent names
+	 * @return boolean true if at least one of the given agent matches,
+	 * false otherwise
+	 */
+	static public function isUserAgent($agent) {
+		if (!is_array($agent)) {
+			$agent = array($agent);
+		}
+		foreach ($agent as $regex) {
+			if (preg_match($regex, $_SERVER['HTTP_USER_AGENT'])) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -63,7 +63,6 @@ $files = array();
 $user = OC_User::getUser();
 if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we need to upgrade the cache
 	$needUpgrade = true;
-	$freeSpace = 0;
 } else {
 	if ($isIE8){
 		// after the redirect above, the URL will have a format
@@ -77,7 +76,6 @@ if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we ne
 	else{
 		$files = \OCA\Files\Helper::getFiles($dir);
 	}
-	$freeSpace = \OC\Files\Filesystem::free_space($dir);
 	$needUpgrade = false;
 }
 
@@ -103,6 +101,8 @@ if ($needUpgrade) {
 } else {
 	// information about storage capacities
 	$storageInfo=OC_Helper::getStorageInfo($dir);
+	$freeSpace=$storageInfo['free'];
+	$uploadLimit=OCP\Util::uploadLimit();
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
 	// if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
@@ -134,8 +134,10 @@ if ($needUpgrade) {
 	$tmpl->assign('files', $files);
 	$tmpl->assign('trash', $trashEnabled);
 	$tmpl->assign('trashEmpty', $trashEmpty);
-	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize); // minimium of freeSpace and uploadLimit
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+	$tmpl->assign('freeSpace', $freeSpace);
+	$tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->assign('isPublic', false);

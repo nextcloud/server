@@ -9,9 +9,11 @@
 
 
 <ul id="leftcontent" class="applist">
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://owncloud.org/dev"><?php p($l->t('Add your App'));?> …</a>
 	</li>
+	<?php endif; ?>
 
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) print_unescaped('class="active"')?> data-id="<?php p($app['id']) ?>"
@@ -24,9 +26,11 @@
 	</li>
 	<?php endforeach;?>
 
+	<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
 	<li>
 		<a class="app-external" target="_blank" href="http://apps.owncloud.com"><?php p($l->t('More Apps'));?> …</a>
 	</li>
+	<?php endif; ?>
 </ul>
 <div id="rightcontent">
 	<div class="appinfo">
@@ -34,9 +38,16 @@
 		class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
 	<span class="score"></span>
 	<p class="description"></p>
+	<p class="documentation hidden">
+		<?php p($l->t("Documentation:"));?>
+		<span class="userDocumentation appslink"></span>
+		<span class="adminDocumentation appslink"></span>
+	</p>
 	<img src="" class="preview hidden" />
-	<p class="appslink hidden"><a href="#" target="_blank"><?php
+	<p class="appslink appstore hidden"><a id="appstorelink" href="#" target="_blank"><?php
 		p($l->t('See application page at apps.owncloud.com'));?></a></p>
+	<p class="appslink website hidden"><a id="websitelink" href="#" target="_blank"><?php
+		p($l->t('See application website'));?></a></p>
 	<p class="license hidden"><?php
 		print_unescaped($l->t('<span class="licence"></span>-licensed by <span class="author"></span>'));?></p>
 	<input class="enable hidden" type="submit" />

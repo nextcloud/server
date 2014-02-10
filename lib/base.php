@@ -57,6 +57,9 @@ class OC {
 	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
+
+	public static $configDir;
+
 	/*
 	 * requested app
 	 */
@@ -99,6 +102,13 @@ class OC {
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
 			get_include_path()
 		);
+
+		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+			self::$configDir = OC::$SERVERROOT . '/tests/config/';
+		} else {
+			self::$configDir = OC::$SERVERROOT . '/config/';
+		}
+		OC_Config::$object = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName = OC_Request::scriptName();
@@ -175,8 +185,8 @@ class OC {
 	}
 
 	public static function checkConfig() {
-		if (file_exists(OC::$SERVERROOT . "/config/config.php")
-			and !is_writable(OC::$SERVERROOT . "/config/config.php")
+		if (file_exists(self::$configDir . "/config.php")
+			and !is_writable(self::$configDir . "/config.php")
 		) {
 			$defaults = new OC_Defaults();
 			if (self::$CLI) {
@@ -293,6 +303,7 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
+		// TODO: read from core/js/core.json
 		OC_Util::addScript("jquery-1.10.0.min");
 		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
@@ -321,6 +332,7 @@ class OC {
 		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("icons");
 		OC_Util::addStyle("apps");
 		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
@@ -410,8 +422,6 @@ class OC {
 		self::$loader->registerPrefix('Doctrine\\DBAL', 'doctrine/dbal/lib');
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
 		self::$loader->registerPrefix('Symfony\\Component\\Console', 'symfony/console');
-		self::$loader->registerPrefix('Sabre\\VObject', '3rdparty');
-		self::$loader->registerPrefix('Sabre_', '3rdparty');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		spl_autoload_register(array(self::$loader, 'load'));
 
@@ -479,6 +489,12 @@ class OC {
 		}
 		OC_Util::isSetLocaleWorking();
 
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
+		if (file_exists($vendorAutoLoad)) {
+			require_once $vendorAutoLoad;
+		}
+
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
 			if (isset($_COOKIE['XDEBUG_SESSION'])) {
@@ -488,11 +504,12 @@ class OC {
 
 		if (!defined('PHPUNIT_RUN')) {
 			if (defined('DEBUG') and DEBUG) {
+				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
 			} else {
 				OC\Log\ErrorHandler::register();
-				OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 			}
+			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 		}
 
 		// register the stream wrappers
@@ -540,12 +557,12 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('user_id')
+		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('loginname')
 			&& $_SERVER['PHP_AUTH_USER'] !== self::$session->get('loginname')) {
 			$sessionUser = self::$session->get('loginname');
 			$serverUser = $_SERVER['PHP_AUTH_USER'];
 			OC_Log::write('core',
-				"Session user-id ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
+				"Session loginname ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
 				OC_Log::WARN);
 			OC_User::logout();
 		}
@@ -674,7 +691,8 @@ class OC {
 
 		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
+			$controller = new OC\Core\Setup\Controller();
+			$controller->run($_POST);
 			exit();
 		}
 

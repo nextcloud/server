@@ -39,11 +39,15 @@ if($_['passwordChangeSupported']) {
 		<h2><?php p($l->t('Password'));?></h2>
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
-		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
+		<input type="password" id="pass1" name="oldpassword"
+			placeholder="<?php echo $l->t('Current password');?>" autocomplete="off" />
 		<input type="password" id="pass2" name="personal-password"
-			placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
+			placeholder="<?php echo $l->t('New password');?>"
+			data-typetoggle="#personal-show" autocomplete="off" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
+		<br/>
+		<div class="strengthify-wrapper"></div>
 	</fieldset>
 </form>
 <?php
@@ -144,29 +148,27 @@ if($_['passwordChangeSupported']) {
 };?>
 
 <?php if($_['enableDecryptAll']): ?>
-<form id="decryptAll">
-	<fieldset class="personalblock">
-		<h2>
-			<?php p( $l->t( 'Encryption' ) ); ?>
-		</h2>
-		<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
-		<p>
-			<input
-				type="password"
-				name="privateKeyPassword"
-				id="privateKeyPassword" />
-			<label for="privateKeyPassword"><?php p($l->t( "Log-in password" )); ?></label>
-			<br />
-			<button
-				type="button"
-				disabled
-				name="submitDecryptAll"><?php p($l->t( "Decrypt all Files" )); ?>
-			</button>
-			<span class="msg"></span>
-		</p>
+<fieldset class="personalblock" id="decryptAll">
+	<h2>
+		<?php p( $l->t( 'Encryption' ) ); ?>
+	</h2>
+	<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
+	<p>
+		<input
+			type="password"
+			name="privateKeyPassword"
+			id="privateKeyPassword" />
+		<label for="privateKeyPassword"><?php p($l->t( "Log-in password" )); ?></label>
 		<br />
-	</fieldset>
-</form>
+		<button
+			type="button"
+			disabled
+			name="submitDecryptAll"><?php p($l->t( "Decrypt all Files" )); ?>
+		</button>
+		<span class="msg"></span>
+	</p>
+	<br />
+</fieldset>
 <?php endif; ?>
 
 <fieldset class="personalblock">

@@ -61,7 +61,7 @@ class OC_Mount_Config {
 			'configuration' => array(
 				'configured' => '#configured',
 				'app_key' => 'App key',
-				'app_secret' => 'App secret',
+				'app_secret' => '*App secret',
 				'token' => '#token',
 				'token_secret' => '#token_secret'),
 				'custom' => 'dropbox');
@@ -80,7 +80,7 @@ class OC_Mount_Config {
 			'configuration' => array(
 				'configured' => '#configured',
 				'client_id' => 'Client ID',
-				'client_secret' => 'Client secret',
+				'client_secret' => '*Client secret',
 				'token' => '#token'),
 				'custom' => 'google');
 
@@ -114,14 +114,24 @@ class OC_Mount_Config {
 			}
 		}
 
-		if(OC_Mount_Config::checkcurl()) $backends['\OC\Files\Storage\DAV']=array(
-			'backend' => 'ownCloud / WebDAV',
-			'configuration' => array(
-				'host' => 'URL',
-				'user' => 'Username',
-				'password' => '*Password',
-				'root' => '&Root',
-				'secure' => '!Secure https://'));
+		if(OC_Mount_Config::checkcurl()){
+		   	$backends['\OC\Files\Storage\DAV']=array(
+				'backend' => 'WebDAV',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Root',
+					'secure' => '!Secure https://'));
+		   	$backends['\OC\Files\Storage\OwnCloud']=array(
+				'backend' => 'ownCloud',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Remote subfolder',
+					'secure' => '!Secure https://'));
+		}
 
 		$backends['\OC\Files\Storage\SFTP']=array(
 			'backend' => 'SFTP',
@@ -382,8 +392,7 @@ class OC_Mount_Config {
 	 * @return array
 	 */
 	public static function getCertificates() {
-		$view = \OCP\Files::getStorage('files_external');
-		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external/uploads/';
 		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
 		if ( ! is_dir($path)) {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
@@ -405,8 +414,7 @@ class OC_Mount_Config {
 	 * creates certificate bundle
 	 */
 	public static function createCertificateBundle() {
-		$view = \OCP\Files::getStorage("files_external");
-		$path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
+		$path=OC_User::getHome(OC_User::getUser()) . '/files_external';
 
 		$certs = OC_Mount_Config::getCertificates();
 		$fh_certs = fopen($path."/rootcerts.crt", 'w');

@@ -80,6 +80,12 @@ $CONFIG = array(
 /* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
 "mail_domain" => "example.com",
 
+/* FROM address used by ownCloud for the sender mail address, e.g. owncloud@example.com
+   This setting overwrites the built in 'sharing-noreply' and 'lostpassword-noreply'
+   FROM addresses, that ownCloud uses
+*/
+"mail_from_address" => "owncloud",
+
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
 
@@ -114,8 +120,14 @@ $CONFIG = array(
 /* Password to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtppassword" => "",
 
-/* memcached hostname and port (Only used when xCache, APC and APCu are absent.) */
-"memcached_server" => array('localhost', 11211),
+/* memcached servers (Only used when xCache, APC and APCu are absent.) */
+"memcached_servers" => array(
+	// hostname, port and optional weight. Also see:
+	// http://www.php.net/manual/en/memcached.addservers.php
+	// http://www.php.net/manual/en/memcached.addserver.php
+	array('localhost', 11211),
+	//array('other.host.local', 11211),
+),
 
 /* How long should ownCloud keep deleted files in the trash bin, default value:  30 days */
 'trashbin_retention_obligation' => 30,
@@ -177,6 +189,13 @@ $CONFIG = array(
 
 /* Life time of a session after inactivity */
 "session_lifetime" => 60 * 60 * 24,
+
+/*
+ * Enable/disable session keep alive when a user is logged in in the Web UI.
+ * This is achieved by sending a "heartbeat" to the server to prevent
+ * the session timing out.
+ */
+"session_keepalive" => true,
 
 /* Custom CSP policy, changing this will overwrite the standard policy */
 "custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:; media-src *",

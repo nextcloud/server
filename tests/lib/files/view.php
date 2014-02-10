@@ -309,6 +309,48 @@ class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testUnlink() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->file_put_contents('/foo.txt', 'asd');
+		$rootView->file_put_contents('/substorage/bar.txt', 'asd');
+
+		$this->assertTrue($rootView->file_exists('foo.txt'));
+		$this->assertTrue($rootView->file_exists('substorage/bar.txt'));
+
+		$this->assertTrue($rootView->unlink('foo.txt'));
+		$this->assertTrue($rootView->unlink('substorage/bar.txt'));
+
+		$this->assertFalse($rootView->file_exists('foo.txt'));
+		$this->assertFalse($rootView->file_exists('substorage/bar.txt'));
+	}
+
+	/**
+	 * @medium
+	 */
+	function testUnlinkRootMustFail() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$rootView->file_put_contents('/foo.txt', 'asd');
+		$rootView->file_put_contents('/substorage/bar.txt', 'asd');
+
+		$this->assertFalse($rootView->unlink(''));
+		$this->assertFalse($rootView->unlink('/'));
+		$this->assertFalse($rootView->unlink('substorage'));
+		$this->assertFalse($rootView->unlink('/substorage'));
+	}
+
+	/**
+	 * @medium
+	 */
 	function testTouch() {
 		$storage = $this->getTestStorage(true, '\Test\Files\TemporaryNoTouch');
 
@@ -502,5 +544,22 @@ class View extends \PHPUnit_Framework_TestCase {
 		foreach ($list as $item) {
 			$this->assertContains($item['name'], $names);
 		}
+	}
+
+	public function testTouchNotSupported() {
+		$storage = new TemporaryNoTouch(array());
+		$scanner = $storage->getScanner();
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$past = time() - 100;
+		$storage->file_put_contents('test', 'foobar');
+		$scanner->scan('');
+		$view = new \OC\Files\View('');
+		$info = $view->getFileInfo('/test/test');
+
+		$view->touch('/test/test', $past);
+		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
+
+		$info2 = $view->getFileInfo('/test/test');
+		$this->assertEquals($info['etag'], $info2['etag']);
 	}
 }

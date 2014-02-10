@@ -65,6 +65,20 @@ class OC_JSON{
 	}
 
 	/**
+	 * Check is a given user exists - send json error msg if not
+	 * @param string $user
+	 */
+	public static function checkUserExists($user) {
+		if (!OCP\User::userExists($user)) {
+			$l = OC_L10N::get('lib');
+			OCP\JSON::error(array('data' => array('message' => $l->t('Unknown user'))));
+			exit;
+		}
+	}
+
+
+
+	/**
 	* Check if the user is a subadmin, send json error msg if not
 	*/
 	public static function checkSubAdminUser() {

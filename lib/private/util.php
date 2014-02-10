@@ -51,6 +51,10 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 
+		if ($user != '' && !OCP\User::userExists($user)) {
+			return false;
+		}
+
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
 			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
@@ -312,7 +316,7 @@ class OC_Util {
 			.'" target="_blank">giving the webserver write access to the root directory</a>.';
 
 		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
+		if(!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 			$errors[] = array(
 				'error' => "Can't write into config directory",
 				'hint' => 'This can usually be fixed by '
@@ -580,7 +584,7 @@ class OC_Util {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php',
-				array('redirectUrl' => OC_Request::requestUri())
+				array('redirect_url' => OC_Request::requestUri())
 			));
 			exit();
 		}
@@ -784,8 +788,12 @@ class OC_Util {
 		}
 
 		$fp = @fopen($testFile, 'w');
-		@fwrite($fp, $testContent);
-		@fclose($fp);
+		if (!$fp) {
+			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to '.$testFile);
+		}
+		fwrite($fp, $testContent);
+		fclose($fp);
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
@@ -890,6 +898,11 @@ class OC_Util {
 		// in case there is no internet connection on purpose return false
 		if (self::isInternetConnectionEnabled() === false) {
 			return false;
+		}
+
+		// in case the connection is via proxy return true to avoid connecting to owncloud.org
+		if(OC_Config::getValue('proxy', '') != '') {
+			return true;
 		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.

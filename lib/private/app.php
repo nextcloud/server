@@ -63,8 +63,8 @@ class OC_App{
 		ob_start();
 		foreach( $apps as $app ) {
 			if((is_null($types) or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
-				self::loadApp($app);
 				self::$loadedApps[] = $app;
+				self::loadApp($app);
 			}
 		}
 		ob_end_clean();
@@ -555,6 +555,10 @@ class OC_App{
 			}elseif($child->getName()=='description') {
 				$xml=(string)$child->asXML();
 				$data[$child->getName()]=substr($xml, 13, -14);//script <description> tags
+			}elseif($child->getName()=='documentation') {
+				foreach($child as $subchild) {
+					$data["documentation"][$subchild->getName()] = (string)$subchild;
+				}
 			}else{
 				$data[$child->getName()]=(string)$child;
 			}

@@ -253,4 +253,19 @@ class OC_User_Database extends OC_User_Backend {
 		return true;
 	}
 
+	/**
+	 * counts the users in the database
+	 *
+	 * @return int | bool
+	 */
+	public function countUsers() {
+		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
+		$result = $query->execute();
+		if (OC_DB::isError($result)) {
+			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			return false;
+		}
+		return $result->fetchOne();
+	}
+
 }

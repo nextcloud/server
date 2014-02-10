@@ -32,6 +32,8 @@ class Hooks {
 
 	// file for which we want to rename the keys after the rename operation was successful
 	private static $renamedFiles = array();
+	// file for which we want to delete the keys after the delete operation was successful
+	private static $deleteFiles = array();
 
 	/**
 	 * @brief Startup encryption backend upon user login
@@ -78,8 +80,15 @@ class Hooks {
 
 		// Check if first-run file migration has already been performed
 		$ready = false;
-		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+		$migrationStatus = $util->getMigrationStatus();
+		if ($migrationStatus === Util::MIGRATION_OPEN) {
 			$ready = $util->beginMigration();
+		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
+			// refuse login as long as the initial encryption is running
+			while ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
+				sleep(60);
+				$migrationStatus = $util->getMigrationStatus();
+			}
 		}
 
 		// If migration not yet done
@@ -628,6 +637,68 @@ class Hooks {
 			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
 		}
+	}
+
+	/**
+	 * @brief if the file was really deleted we remove the encryption keys
+	 * @param array $params
+	 * @return boolean
+	 */
+	public static function postDelete($params) {
+
+		if (!isset(self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]])) {
+			return true;
+		}
+
+		$deletedFile = self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]];
+		$path = $deletedFile['path'];
+		$user = $deletedFile['uid'];
+
+		// we don't need to remember the file any longer
+		unset(self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]]);
+
+		$view = new \OC\Files\View('/');
+
+		// return if the file still exists and wasn't deleted correctly
+		if ($view->file_exists('/' . $user . '/files/' . $path)) {
+			return true;
+		}
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// Delete keyfile & shareKey so it isn't orphaned
+		if (!Keymanager::deleteFileKey($view, $path, $user)) {
+			\OCP\Util::writeLog('Encryption library',
+				'Keyfile or shareKey could not be deleted for file "' . $user.'/files/'.$path . '"', \OCP\Util::ERROR);
+		}
+
+		Keymanager::delAllShareKeys($view, $user, $path);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+	}
+
+	/**
+	 * @brief remember the file which should be deleted and it's owner
+	 * @param array $params
+	 * @return boolean
+	 */
+	public static function preDelete($params) {
+		$path = $params[\OC\Files\Filesystem::signal_param_path];
+
+		// skip this method if the trash bin is enabled or if we delete a file
+		// outside of /data/user/files
+		if (\OCP\App::isEnabled('files_trashbin')) {
+			return true;
+		}
+
+		$util = new Util(new \OC_FilesystemView('/'), \OCP\USER::getUser());
+		list($owner, $ownerPath) = $util->getUidAndFilename($path);
+
+		self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]] = array(
+			'uid' => $owner,
+			'path' => $ownerPath);
 	}
 
 }

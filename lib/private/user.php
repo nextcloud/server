@@ -205,6 +205,9 @@ class OC_User {
 				// Delete user files in /data/
 				OC_Helper::rmdirr(\OC_User::getHome($uid));
 
+				// Delete the users entry in the storage table
+				\OC\Files\Cache\Storage::remove('home::' . $uid);
+
 				// Remove it from the Cache
 				self::getManager()->delete($uid);
 			}
@@ -246,6 +249,8 @@ class OC_User {
 			session_regenerate_id(true);
 			self::setUserId($uid);
 			self::setDisplayName($uid);
+			self::getUserSession()->setLoginName($uid);
+
 			OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>'' ));
 			return true;
 		}

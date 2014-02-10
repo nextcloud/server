@@ -50,8 +50,9 @@ class Connection extends LDAPUtility {
 		parent::__construct($ldap);
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
-		$this->configuration = new Configuration($configPrefix);
-		$memcache = new \OC\Memcache\Factory();
+		$this->configuration = new Configuration($configPrefix,
+												 !is_null($configID));
+		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		} else {

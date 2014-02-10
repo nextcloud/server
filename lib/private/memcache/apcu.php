@@ -9,13 +9,6 @@
 namespace OC\Memcache;
 
 class APCu extends APC {
-	public function clear($prefix = '') {
-		$ns = $this->getNamespace() . $prefix;
-		$ns = preg_quote($ns, '/');
-		$iter = new \APCIterator('user', '/^'.$ns.'/');
-		return apc_delete($iter);
-	}
-
 	static public function isAvailable() {
 		if (!extension_loaded('apcu')) {
 			return false;

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# arifpedia <arifpedia@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"PO-Revision-Date: 2014-01-07 08:00+0000\n"
+"Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Berbagi ini dilindungi sandi"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "Sandi salah. Coba lagi"
 
 #: templates/authenticate.php:10
 msgid "Password"
@@ -31,27 +32,27 @@ msgstr "Sandi"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Maaf, tautan ini tampaknya tidak berfungsi lagi."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Alasan mungkin:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "item telah dihapus"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "tautan telah kadaluarsa"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "berbagi dinonaktifkan"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "Untuk info lebih lanjut, silakan tanyakan orang yang mengirim tautan ini."
 
 #: templates/public.php:18
 #, php-format
@@ -61,7 +62,7 @@ msgstr "%s membagikan folder %s dengan Anda"
 #: templates/public.php:21
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr "%s membagikan file %s dengan Anda"
+msgstr "%s membagikan berkas %s dengan Anda"
 
 #: templates/public.php:29 templates/public.php:95
 msgid "Download"
@@ -73,12 +74,12 @@ msgstr "Unggah"
 
 #: templates/public.php:59
 msgid "Cancel upload"
-msgstr "Batal pengunggahan"
+msgstr "Batal unggah"
 
 #: templates/public.php:92
 msgid "No preview available for"
-msgstr "Tidak ada pratinjau tersedia untuk"
+msgstr "Tidak ada pratinjau yang tersedia untuk"
 
 #: templates/public.php:99
 msgid "Direct link"
-msgstr ""
+msgstr "Tautan langsung"

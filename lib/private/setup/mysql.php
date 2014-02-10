@@ -3,13 +3,13 @@
 namespace OC\Setup;
 
 class MySQL extends AbstractDatabase {
-	public $dbprettyname = 'MySQL';
+	public $dbprettyname = 'MySQL/MariaDB';
 
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = @mysql_connect($this->dbhost, $this->dbuser, $this->dbpassword);
 		if(!$connection) {
-			throw new \DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
+			throw new \DatabaseSetupException($this->trans->t('MySQL/MariaDB username and/or password not valid'),
 				$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 		$oldUser=\OC_Config::getValue('dbuser', false);
@@ -82,14 +82,14 @@ class MySQL extends AbstractDatabase {
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new \DatabaseSetupException($this->trans->t("MySQL user '%s'@'localhost' exists already.", array($name)),
-				$this->trans->t("Drop this user from MySQL", array($name)));
+			throw new \DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'localhost' exists already.", array($name)),
+				$this->trans->t("Drop this user from MySQL/MariaDB", array($name)));
 		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new \DatabaseSetupException($this->trans->t("MySQL user '%s'@'%%' already exists", array($name)),
-				$this->trans->t("Drop this user from MySQL."));
+			throw new \DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'%%' already exists", array($name)),
+				$this->trans->t("Drop this user from MySQL/MariaDB."));
 		}
 	}
 }

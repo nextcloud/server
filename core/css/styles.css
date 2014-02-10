@@ -264,7 +264,7 @@ input[type="submit"].enabled {
 	top: 45px;
 }
 #content-wrapper {
-	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:80px;
+	position:absolute; height:100%; width:100%; padding-left:80px; padding-top: 45px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
 #leftcontent, .leftcontent {
@@ -341,7 +341,7 @@ input[type="submit"].enabled {
 	margin-bottom: 20px;
 	text-align: left;
 }
-#body-login form #adminaccount { margin-bottom:5px; }
+#body-login form #adminaccount { margin-bottom:15px; }
 #body-login form fieldset legend, #datadirContent label {
 	width: 100%;
 	font-weight: bold;
@@ -359,6 +359,21 @@ input[type="submit"].enabled {
 #body-login #showAdvanced img {
 	vertical-align: bottom; /* adjust position of Advanced dropdown arrow */
 	margin-left: -4px;
+}
+
+/* strengthify wrapper */
+#body-login .strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	left: 15px;
+	top: -21px;
+	width: 252px;
+}
+
+/* tipsy for the strengthify wrapper looks better with following font settings */
+#body-login .tipsy-inner {
+	font-weight: bold;
+	color: #ccc;
 }
 
 /* Icons for username and password fields to better recognize them */
@@ -671,7 +686,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* Apps management as sticky footer, less obtrusive in the list */
 #navigation .wrapper {
 	min-height: 100%;
-	margin: 0 auto -72px;
+	margin: 0 auto -82px 0;
 }
 #apps-management, #navigation .push {
 	height: 72px;

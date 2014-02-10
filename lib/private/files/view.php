@@ -336,6 +336,19 @@ class View {
 	}
 
 	public function unlink($path) {
+		if ($path === '' || $path === '/') {
+			// do not allow deleting the root
+			return false;
+		}
+		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
+		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
+		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
+		if (!$internalPath || $internalPath === '' || $internalPath === '/') {
+			// do not allow deleting the storage's root / the mount point
+			// because for some storages it might delete the whole contents
+			// but isn't supposed to work that way
+			return false;
+		}
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
 
@@ -788,6 +801,7 @@ class View {
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
+		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$permissionsCache = $storage->getPermissionsCache($internalPath);
@@ -798,10 +812,12 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
 				$watcher = $storage->getWatcher($internalPath);
-				$watcher->checkUpdate($internalPath);
+				$data = $watcher->checkUpdate($internalPath);
 			}
 
-			$data = $cache->get($internalPath);
+			if (!is_array($data)) {
+				$data = $cache->get($internalPath);
+			}
 
 			if ($data and $data['fileid']) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {

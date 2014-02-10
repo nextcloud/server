@@ -48,18 +48,25 @@ class Helper {
 	static public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
-		$query = '
+		$sql = '
 			SELECT DISTINCT `configkey`
 			FROM `*PREFIX*appconfig`
 			WHERE `appid` = \'user_ldap\'
 				AND `configkey` LIKE ?
 		';
-		if($activeConfigurations) {
-			$query .= ' AND `configvalue` = \'1\'';
-		}
-		$query = \OCP\DB::prepare($query);
 
-		$serverConfigs = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
+		if($activeConfigurations) {
+			if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+				$sql .= ' AND to_char(`configvalue`)=\'1\'';
+			} else {
+				$sql .= ' AND `configvalue` = \'1\'';
+			}
+		}
+
+		$stmt = \OCP\DB::prepare($sql);
+
+		$serverConfigs = $stmt->execute(array('%'.$referenceConfigkey))->fetchAll();
 		$prefixes = array();
 
 		foreach($serverConfigs as $serverConfig) {

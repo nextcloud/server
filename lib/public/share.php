@@ -347,20 +347,29 @@ class Share {
 	}
 
 	/**
-	 * Get the item shared by a token
-	 * @param string token
-	 * @return Item
+	 * Based on the given token the share information will be returned - password protected shares will be verified
+	 * @param string $token
+	 * @return array | bool false will be returned in case the token is unknown or unauthorized
 	 */
-	public static function getShareByToken($token) {
+	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
 		}
 		$row = $result->fetchRow();
+		if ($row === false) {
+			return false;
+		}
 		if (is_array($row) and self::expireItem($row)) {
 			return false;
 		}
+
+		// password protected shares need to be authenticated
+		if ($checkPasswordProtection && !\OCP\Share::checkPasswordProtectedShare($row)) {
+			return false;
+		}
+
 		return $row;
 	}
 
@@ -655,7 +664,15 @@ class Share {
 	 * @return Returns true on success or false on failure
 	 */
 	public static function unshareAll($itemType, $itemSource) {
-		if ($shares = self::getItemShared($itemType, $itemSource)) {
+		// Get all of the owners of shares of this item.
+		$query = \OC_DB::prepare( 'SELECT `uid_owner` from `*PREFIX*share` WHERE `item_type`=? AND `item_source`=?' );
+		$result = $query->execute(array($itemType, $itemSource));
+		$shares = array();
+		// Add each owner's shares to the array of all shares for this item.
+		while ($row = $result->fetchRow()) {
+			$shares = array_merge($shares, self::getItems($itemType, $itemSource, null, null, $row['uid_owner']));
+		}
+		if (!empty($shares)) {
 			// Pass all the vars we have for now, they may be useful
 			$hookParams = array(
 				'itemType' => $itemType,
@@ -1135,7 +1152,7 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
 							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`, `mail_send`';
+							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
@@ -1880,6 +1897,34 @@ class Share {
 		}
 	}
 
+	/**
+	 * In case a password protected link is not yet authenticated this function will return false
+	 *
+	 * @param array $linkItem
+	 * @return bool
+	 */
+	public static function checkPasswordProtectedShare(array $linkItem) {
+		if (!isset($linkItem['share_with'])) {
+			return true;
+		}
+		if (!isset($linkItem['share_type'])) {
+			return true;
+		}
+		if (!isset($linkItem['id'])) {
+			return true;
+		}
+
+		if ($linkItem['share_type'] != \OCP\Share::SHARE_TYPE_LINK) {
+			return true;
+		}
+
+		if ( \OC::$session->exists('public_link_authenticated')
+			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /**

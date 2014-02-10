@@ -83,7 +83,7 @@ class OC_Files {
 			if ($basename) {
 				$name = $basename . '.zip';
 			} else {
-				$name = 'owncloud.zip';
+				$name = 'download.zip';
 			}
 			
 			set_time_limit($executionTime);
@@ -115,12 +115,7 @@ class OC_Files {
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
-				header( 'Content-Disposition: attachment; filename="' . rawurlencode($name) . '"' );
-			} else {
-				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode($name)
-													 . '; filename="' . rawurlencode($name) . '"' );
-			}
+			OC_Response::setContentDispositionHeader($name, 'attachment');
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if ($zip) {

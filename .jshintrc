@@ -1,0 +1,28 @@
+{
+	"camelCase": true,
+	"eqeqeq": true,
+	"immed": true,
+	"latedef": false,
+	"noarg": true,
+	"nonbsp": true,
+	"undef": true,
+	"unused": true,
+	"trailing": true,
+	"maxparams": 5,
+	"curly": true,
+	"jquery": true,
+	"maxlen": 80,
+	"indent": 4,
+	"browser": true,
+	"globals": {
+		"console": true,
+		"it": true,
+		"itx": true,
+		"expect": true,
+		"describe": true,
+		"beforeEach": true,
+		"afterEach": true,
+		"sinon": true,
+		"fakeServer": true
+	}
+}

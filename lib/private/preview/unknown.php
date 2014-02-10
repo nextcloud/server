@@ -22,7 +22,7 @@ class Unknown extends Provider {
 
 		$svgPath = substr_replace($path, 'svg', -3);
 
-		if (extension_loaded('imagick') && file_exists($svgPath)) {
+		if (extension_loaded('imagick') && file_exists($svgPath) && count(\Imagick::queryFormats("SVG")) === 1) {
 
 			// http://www.php.net/manual/de/imagick.setresolution.php#85284
 			$svg = new \Imagick();

@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
 /**
  * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
  * 1. the core upload handling hooks are added when initializing the plugin,
@@ -7,6 +17,8 @@
  *    - TODO pictures upload button
  *    - TODO music upload button
  */
+
+/* global OC, t, n */
 
 /**
  * Function that will allow us to know if Ajax uploads are supported
@@ -222,6 +234,14 @@ $(document).ready(function() {
 			
 				//examine file
 				var file = data.files[0];
+				try {
+					// FIXME: not so elegant... need to refactor that method to return a value
+					Files.isFileNameValid(file.name);
+				}
+				catch (errorMessage) {
+					data.textStatus = 'invalidcharacters';
+					data.errorThrown = errorMessage;
+				}
 			
 				if (file.type === '' && file.size === 4096) {
 					data.textStatus = 'dirorzero';
@@ -233,10 +253,22 @@ $(document).ready(function() {
 				// add size
 				selection.totalBytes += file.size;
 			
-				//check max upload size
-				if (selection.totalBytes > $('#max_upload').val()) {
+				// check PHP upload limit
+				if (selection.totalBytes > $('#upload_limit').val()) {
+					data.textStatus = 'sizeexceedlimit';
+					data.errorThrown = t('files', 'Total file size {size1} exceeds upload limit {size2}', {
+						'size1': humanFileSize(selection.totalBytes),
+						'size2': humanFileSize($('#upload_limit').val())
+					});
+				}
+
+				// check free space
+				if (selection.totalBytes > $('#free_space').val()) {
 					data.textStatus = 'notenoughspace';
-					data.errorThrown = t('files', 'Not enough space available');
+					data.errorThrown = t('files', 'Not enough free space, you are uploading {size1} but only {size2} is left', {
+						'size1': humanFileSize(selection.totalBytes),
+						'size2': humanFileSize($('#free_space').val())
+					});
 				}
 			
 				// end upload for whole selection on error
@@ -307,6 +339,13 @@ $(document).ready(function() {
 					} else {
 						// HTTP connection problem
 						OC.Notification.show(data.errorThrown);
+						if (data.result) {
+							var result = JSON.parse(data.result);
+							if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {
+								// abort upload of next files if any
+								OC.Upload.cancelUploads();
+							}
+						}
 					}
 					//hide notification after 10 sec
 					setTimeout(function() {
@@ -605,7 +644,7 @@ $(document).ready(function() {
 								if (result.status === 'success') {
 									var date=new Date();
 									FileList.addDir(name, 0, date, hidden);
-									var tr=$('tr[data-file="'+name+'"]');
+									var tr = FileList.findFileEl(name);
 									tr.attr('data-id', result.data.id);
 								} else {
 									OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
@@ -647,7 +686,7 @@ $(document).ready(function() {
 							$('#uploadprogressbar').fadeOut();
 							var date = new Date();
 							FileList.addFile(localName, size, date, false, hidden);
-							var tr = $('tr[data-file="'+localName+'"]');
+							var tr = FileList.findFileEl(localName);
 							tr.data('mime', mime).data('id', id);
 							tr.attr('data-id', id);
 							var path = $('#dir').val()+'/'+localName;

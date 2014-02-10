@@ -99,7 +99,7 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testStreamOptions() {
-		$filename = '/tmp-' . time();
+		$filename = '/tmp-' . uniqid();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
@@ -122,7 +122,7 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testStreamSetBlocking() {
-		$filename = '/tmp-' . time();
+		$filename = '/tmp-' . uniqid();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
@@ -144,7 +144,7 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 	 * @medium
 	 */
 	function testStreamSetTimeout() {
-		$filename = '/tmp-' . time();
+		$filename = '/tmp-' . uniqid();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
@@ -163,7 +163,7 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testStreamSetWriteBuffer() {
-		$filename = '/tmp-' . time();
+		$filename = '/tmp-' . uniqid();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
 		// Save short data as encrypted file using stream wrapper
@@ -187,9 +187,9 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 	 */
 	function testStreamFromLocalFile() {
 
-		$filename = '/' . $this->userId . '/files/' . 'tmp-' . time().'.txt';
+		$filename = '/' . $this->userId . '/files/' . 'tmp-' . uniqid().'.txt';
 
-		$tmpFilename = "/tmp/" . time() . ".txt";
+		$tmpFilename = "/tmp/" . uniqid() . ".txt";
 
 		// write an encrypted file
 		$cryptedFile = $this->view->file_put_contents($filename, $this->dataShort);
