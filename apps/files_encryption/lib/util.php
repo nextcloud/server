@@ -316,7 +316,8 @@ class Util {
 			$found = array(
 				'plain' => array(),
 				'encrypted' => array(),
-				'legacy' => array()
+				'legacy' => array(),
+				'broken' => array(),
 			);
 		}
 
@@ -327,10 +328,7 @@ class Util {
 			if(is_resource($handle)) {
 				while (false !== ($file = readdir($handle))) {
 
-					if (
-						$file !== "."
-						&& $file !== ".."
-					) {
+					if ($file !== "." && $file !== "..") {
 
 						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 						$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
@@ -357,15 +355,23 @@ class Util {
 							// NOTE: This is inefficient;
 							// scanning every file like this
 							// will eat server resources :(
-							if (
-								Keymanager::getFileKey($this->view, $this, $relPath)
-								&& $isEncryptedPath
-							) {
+							if ($isEncryptedPath) {
 
-								$found['encrypted'][] = array(
-									'name' => $file,
-									'path' => $filePath
-								);
+								$fileKey = Keymanager::getFileKey($this->view, $this, $relPath);
+								$shareKey = Keymanager::getShareKey($this->view, $this->userId, $this, $relPath);
+								// if file is encrypted but now file key is available, throw exception
+								if ($fileKey === false || $shareKey === false) {
+									\OCP\Util::writeLog('encryption library', 'No keys available to decrypt the file: ' . $filePath, \OCP\Util::ERROR);
+									$found['broken'][] = array(
+										'name' => $file,
+										'path' => $filePath,
+									);
+								} else {
+									$found['encrypted'][] = array(
+										'name' => $file,
+										'path' => $filePath,
+									);
+								}
 
 								// If the file uses old
 								// encryption system
@@ -768,6 +774,12 @@ class Util {
 			}
 
 			if (!$this->decryptVersions($decryptedFiles)) {
+				$successful = false;
+			}
+
+			// if there are broken encrypted files than the complete decryption
+			// was not successful
+			if (!empty($found['broken'])) {
 				$successful = false;
 			}
 
