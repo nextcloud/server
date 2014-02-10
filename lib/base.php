@@ -303,6 +303,7 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
+		// TODO: read from core/js/core.json
 		OC_Util::addScript("jquery-1.10.0.min");
 		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
@@ -331,6 +332,7 @@ class OC {
 		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("icons");
 		OC_Util::addStyle("apps");
 		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
@@ -502,11 +504,12 @@ class OC {
 
 		if (!defined('PHPUNIT_RUN')) {
 			if (defined('DEBUG') and DEBUG) {
+				OC\Log\ErrorHandler::register(true);
 				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
 			} else {
 				OC\Log\ErrorHandler::register();
-				OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 			}
+			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 		}
 
 		// register the stream wrappers
@@ -688,7 +691,8 @@ class OC {
 
 		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
+			$controller = new OC\Core\Setup\Controller();
+			$controller->run($_POST);
 			exit();
 		}
 

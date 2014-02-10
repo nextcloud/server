@@ -34,8 +34,7 @@
  * @author     Jim Wigginton <terrafrost@php.net>
  * @copyright  MMXII Jim Wigginton
  * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    $Id$
- * @link       htp://phpseclib.sourceforge.net
+ * @link       http://phpseclib.sourceforge.net
  */
 
 /**
@@ -298,12 +297,12 @@ class File_ANSI {
                 }
                 // http://ascii-table.com/ansi-escape-sequences-vt-100.php
                 switch ($this->ansi) {
-                    case "\x1B[H":
+                    case "\x1B[H": // Move cursor to upper left corner
                         $this->old_x = $this->x;
                         $this->old_y = $this->y;
                         $this->x = $this->y = 0;
                         break;
-                    case "\x1B[J":
+                    case "\x1B[J": // Clear screen from cursor down
                         $this->history = array_merge($this->history, array_slice(array_splice($this->screen, $this->y + 1), 0, $this->old_y));
                         $this->screen = array_merge($this->screen, array_fill($this->y, $this->max_y, ''));
 
@@ -314,36 +313,45 @@ class File_ANSI {
                             array_shift($this->history);
                             array_shift($this->history_attrs);
                         }
-                    case "\x1B[K":
+                    case "\x1B[K": // Clear screen from cursor right
                         $this->screen[$this->y] = substr($this->screen[$this->y], 0, $this->x);
 
                         array_splice($this->attrs[$this->y], $this->x + 1);
                         break;
+                    case "\x1B[2K": // Clear entire line
+                        $this->screen[$this->y] = str_repeat(' ', $this->x);
+                        $this->attrs[$this->y] = $this->attr_row;
+                        break;
                     case "\x1B[?1h": // set cursor key to application
+                    case "\x1B[?25h": // show the cursor
+                        break;
+                    case "\x1BE": // Move to next line
+                        $this->_newLine();
+                        $this->x = 0;
                         break;
                     default:
                         switch (true) {
-                            case preg_match('#\x1B\[(\d+);(\d+)H#', $this->ansi, $match):
+                            case preg_match('#\x1B\[(\d+);(\d+)H#', $this->ansi, $match): // Move cursor to screen location v,h
                                 $this->old_x = $this->x;
                                 $this->old_y = $this->y;
                                 $this->x = $match[2] - 1;
                                 $this->y = $match[1] - 1;
                                 break;
-                            case preg_match('#\x1B\[(\d+)C#', $this->ansi, $match):
+                            case preg_match('#\x1B\[(\d+)C#', $this->ansi, $match): // Move cursor right n lines
                                 $this->old_x = $this->x;
                                 $x = $match[1] - 1;
                                 break;
                             case preg_match('#\x1B\[(\d+);(\d+)r#', $this->ansi, $match): // Set top and bottom lines of a window
                                 break;
-                            case preg_match('#\x1B\[(\d*(?:;\d*)*)m#', $this->ansi, $match):
+                            case preg_match('#\x1B\[(\d*(?:;\d*)*)m#', $this->ansi, $match): // character attributes
                                 $mods = explode(';', $match[1]);
                                 foreach ($mods as $mod) {
                                     switch ($mod) {
-                                        case 0:
+                                        case 0: // Turn off character attributes
                                             $this->attrs[$this->y][$this->x] = '';
 
                                             if ($this->bold) $this->attrs[$this->y][$this->x].= '</b>';
-                                            if ($this->underline) $this->attrs[$this->y][$this->x].= '</underline>';
+                                            if ($this->underline) $this->attrs[$this->y][$this->x].= '</u>';
                                             if ($this->blink) $this->attrs[$this->y][$this->x].= '</blink>';
                                             if ($this->color) $this->attrs[$this->y][$this->x].= '</span>';
 
@@ -355,25 +363,25 @@ class File_ANSI {
 
                                             $this->bold = $this->underline = $this->blink = $this->color = $this->reverse = false;
                                             break;
-                                        case 1:
+                                        case 1: // Turn bold mode on
                                             if (!$this->bold) {
                                                 $this->attrs[$this->y][$this->x] = '<b>';
                                                 $this->bold = true;
                                             }
                                             break;
-                                        case 4:
+                                        case 4: // Turn underline mode on
                                             if (!$this->underline) {
                                                 $this->attrs[$this->y][$this->x] = '<u>';
                                                 $this->underline = true;
                                             }
                                             break;
-                                        case 5:
+                                        case 5: // Turn blinking mode on
                                             if (!$this->blink) {
                                                 $this->attrs[$this->y][$this->x] = '<blink>';
                                                 $this->blink = true;
                                             }
                                             break;
-                                        case 7:
+                                        case 7: // Turn reverse video on
                                             $this->reverse = !$this->reverse;
                                             $temp = $this->background;
                                             $this->background = $this->foreground;
@@ -384,7 +392,7 @@ class File_ANSI {
                                             }
                                             $this->color = true;
                                             break;
-                                        default:
+                                        default: // set colors
                                             //$front = $this->reverse ? &$this->background : &$this->foreground;
                                             $front = &$this->{ $this->reverse ? 'background' : 'foreground' };
                                             //$back = $this->reverse ? &$this->foreground : &$this->background;
@@ -424,7 +432,7 @@ class File_ANSI {
                                 }
                                 break;
                             default:
-                                echo "{$this->ansi} unsupported\r\n";
+                                user_error("{$this->ansi} unsupported\r\n");
                         }
                 }
                 $this->ansi = '';
@@ -436,25 +444,7 @@ class File_ANSI {
                     $this->x = 0;
                     break;
                 case "\n":
-                    //if ($this->y < $this->max_y) {
-                    //    $this->y++;
-                    //}
-
-                    while ($this->y >= $this->max_y) {
-                        $this->history = array_merge($this->history, array(array_shift($this->screen)));
-                        $this->screen[] = '';
-
-                        $this->history_attrs = array_merge($this->history_attrs, array(array_shift($this->attrs)));
-                        $this->attrs[] = $this->attr_row;
-
-                        if (count($this->history) >= $this->max_history) {
-                            array_shift($this->history);
-                            array_shift($this->history_attrs);
-                        }
-
-                        $this->y--;
-                    }
-                    $this->y++;
+                    $this->_newLine();
                     break;
                 case "\x0F": // shift
                     break;
@@ -477,6 +467,36 @@ class File_ANSI {
                     }
             }
         }
+    }
+
+    /**
+     * Add a new line
+     *
+     * Also update the $this->screen and $this->history buffers
+     *
+     * @access private
+     */
+    function _newLine()
+    {
+        //if ($this->y < $this->max_y) {
+        //    $this->y++;
+        //}
+
+        while ($this->y >= $this->max_y) {
+            $this->history = array_merge($this->history, array(array_shift($this->screen)));
+            $this->screen[] = '';
+
+            $this->history_attrs = array_merge($this->history_attrs, array(array_shift($this->attrs)));
+            $this->attrs[] = $this->attr_row;
+
+            if (count($this->history) >= $this->max_history) {
+                array_shift($this->history);
+                array_shift($this->history_attrs);
+            }
+
+            $this->y--;
+        }
+        $this->y++;
     }
 
     /**

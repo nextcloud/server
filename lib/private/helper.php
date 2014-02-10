@@ -161,6 +161,7 @@ class OC_Helper {
 			'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+			'application/mspowerpoint' => 'x-office/presentation',
 			'application/vnd.ms-powerpoint' => 'x-office/presentation',
 			'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
 			'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
@@ -171,6 +172,7 @@ class OC_Helper {
 			'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+			'application/msexcel' => 'x-office/spreadsheet',
 			'application/vnd.ms-excel' => 'x-office/spreadsheet',
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
@@ -180,6 +182,7 @@ class OC_Helper {
 			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+			'application/msaccess' => 'database',
 		);
 
 		if (isset($alias[$mimetype])) {
@@ -444,29 +447,6 @@ class OC_Helper {
 	 * @return string the print-safe value.
 	 *
 	 */
-
-	//FIXME: should also check for value validation (i.e. the email is an email).
-	public static function init_var($s, $d = "") {
-		$r = $d;
-		if (isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
-			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
-		}
-
-		return $r;
-	}
-
-	/**
-	 * returns "checked"-attribute if request contains selected radio element
-	 * OR if radio element is the default one -- maybe?
-	 *
-	 * @param string $s Name of radio-button element name
-	 * @param string $v Value of current radio-button element
-	 * @param string $d Value of default radio-button element
-	 */
-	public static function init_radio($s, $v, $d) {
-		if ((isset($_REQUEST[$s]) && $_REQUEST[$s] == $v) || (!isset($_REQUEST[$s]) && $v == $d))
-			print "checked=\"checked\" ";
-	}
 
 	/**
 	 * detect if a given program is found in the search PATH
@@ -828,23 +808,39 @@ class OC_Helper {
 	 * @return number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir) {
-		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
-			$maxUploadFilesize = \OC\Files\SPACE_UNLIMITED;
-		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
-			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
-		} else {
-			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-		}
+		return min(self::freeSpace($dir), self::uploadLimit());
+	}
 
+	/**
+	 * Calculate free space left within user quota
+	 * 
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function freeSpace($dir) {
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		if ($freeSpace !== \OC\Files\SPACE_UNKNOWN) {
 			$freeSpace = max($freeSpace, 0);
-
-			return min($maxUploadFilesize, $freeSpace);
+			return $freeSpace;
 		} else {
-			return $maxUploadFilesize;
+			return INF;
+		}
+	}
+
+	/**
+	 * Calculate PHP upload limit
+	 *
+	 * @return PHP upload file size limit
+	 */
+	public static function uploadLimit() {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		if ((int)$upload_max_filesize === 0 and (int)$post_max_size === 0) {
+			return INF;
+		} elseif ((int)$upload_max_filesize === 0 or (int)$post_max_size === 0) {
+			return max($upload_max_filesize, $post_max_size); //only the non 0 value counts
+		} else {
+			return min($upload_max_filesize, $post_max_size);
 		}
 	}
 

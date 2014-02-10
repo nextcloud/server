@@ -12,8 +12,8 @@ span.error {
 	background: #ce3702;
 }
 
-td.mountPoint, td.backend { width:10em; }
-td.remove>img { visibility:hidden; padding-top:0.8em; }
+td.mountPoint, td.backend { width:160px; }
+td.remove>img { visibility:hidden; padding-top:13px; }
 tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #addMountPoint>td { border:none; }
 #addMountPoint>td.applicable { visibility:hidden; }

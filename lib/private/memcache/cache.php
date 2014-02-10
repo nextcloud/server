@@ -18,7 +18,7 @@ abstract class Cache implements \ArrayAccess {
 	 * @param string $prefix
 	 */
 	public function __construct($prefix = '') {
-		$this->prefix = \OC_Util::getInstanceId() . '/' . $prefix;
+		$this->prefix = $prefix;
 	}
 
 	public function getPrefix() {

@@ -40,7 +40,7 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 		$startTime = 5000000;
 
 		$testClass = new VersionStorageToTest();
-		list($deleted, $size) = $testClass->callProtectedGetExpireList($startTime, array_reverse($versions));
+		list($deleted, $size) = $testClass->callProtectedGetExpireList($startTime, $versions);
 
 		// we should have deleted 16 files each of the size 1
 		$this->assertEquals($sizeOfAllDeletedFiles, $size);
