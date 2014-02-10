@@ -204,47 +204,6 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief When a file is deleted, remove its keyfile also
-	 */
-	public function preUnlink($path) {
-
-		$relPath = Helper::stripUserFilesPath($path);
-
-		// skip this method if the trash bin is enabled or if we delete a file
-		// outside of /data/user/files
-		if (\OCP\App::isEnabled('files_trashbin') || $relPath === false) {
-			return true;
-		}
-
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$view = new \OC_FilesystemView('/');
-
-		$userId = \OCP\USER::getUser();
-
-		$util = new Util($view, $userId);
-
-		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
-
-		// Delete keyfile & shareKey so it isn't orphaned
-		if (!Keymanager::deleteFileKey($view, $ownerPath)) {
-			\OCP\Util::writeLog('Encryption library',
-				'Keyfile or shareKey could not be deleted for file "' . $ownerPath . '"', \OCP\Util::ERROR);
-		}
-
-		Keymanager::delAllShareKeys($view, $owner, $ownerPath);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		// If we don't return true then file delete will fail; better
-		// to leave orphaned keyfiles than to disallow file deletion
-		return true;
-
-	}
-
-	/**
 	 * @param $path
 	 * @return bool
 	 */

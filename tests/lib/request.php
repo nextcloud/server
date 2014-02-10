@@ -118,6 +118,21 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 				),
 				true
 			),
+			array(
+				'Mozilla/5.0 (X11; Linux i686; rv:24.0) Gecko/20100101 Firefox/24.0',
+				OC_Request::USER_AGENT_FREEBOX,
+				false
+			),
+			array(
+				'Mozilla/5.0',
+				OC_Request::USER_AGENT_FREEBOX,
+				true
+			),
+			array(
+				'Fake Mozilla/5.0',
+				OC_Request::USER_AGENT_FREEBOX,
+				false
+			),
 		);
 	}
 }

@@ -1152,7 +1152,7 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
 							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`, `mail_send`';
+							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,

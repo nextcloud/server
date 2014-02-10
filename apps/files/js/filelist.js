@@ -40,7 +40,8 @@ window.FileList={
 		}
 		FileList.updateFileSummary();
 		procesSelection();
-		
+
+		$(window).scrollTop(0);
 		$fileList.trigger(jQuery.Event("updated"));
 	},
 	createRow:function(type, name, iconurl, linktarget, size, lastModified, permissions) {
@@ -407,7 +408,7 @@ window.FileList={
 			}
 			return true;
 		};
-		
+
 		form.submit(function(event) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -434,10 +435,9 @@ window.FileList={
 								tr.attr('data-file', newname);
 								var path = td.children('a.name').attr('href');
 								td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newname)));
+								var basename = newname;
 								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-									var basename=newname.substr(0,newname.lastIndexOf('.'));
-								} else {
-									var basename=newname;
+									basename = newname.substr(0,newname.lastIndexOf('.'));
 								}
 								td.find('a.name span.nametext').text(basename);
 								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
@@ -481,7 +481,7 @@ window.FileList={
 				var basename = newname;
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					basename = newname.substr(0, newname.lastIndexOf('.'));
-				} 
+				}
 				td.find('a.name span.nametext').text(basename);
 				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					if ( ! td.find('a.name span.extension').exists() ) {
@@ -543,10 +543,9 @@ window.FileList={
 		td.children('a.name .span').text(newName);
 		var path = td.children('a.name').attr('href');
 		td.children('a.name').attr('href', path.replace(encodeURIComponent(oldName), encodeURIComponent(newName)));
+		var basename = newName;
 		if (newName.indexOf('.') > 0) {
-			var basename = newName.substr(0, newName.lastIndexOf('.'));
-		} else {
-			var basename = newName;
+			basename = newName.substr(0, newName.lastIndexOf('.'));
 		}
 		td.children('a.name').empty();
 		var span = $('<span class="nametext"></span>');
@@ -886,7 +885,7 @@ $(document).ready(function() {
 	 */
 	file_upload_start.on('fileuploaddone', function(e, data) {
 		OC.Upload.log('filelist handle fileuploaddone', e, data);
-		
+
 		var response;
 		if (typeof data.result === 'string') {
 			response = data.result;
@@ -923,8 +922,8 @@ $(document).ready(function() {
 				data.context.find('td.filesize').text(humanFileSize(size));
 
 			} else {
-				// only append new file if dragged onto current dir's crumb (last)
-				if (data.context && data.context.hasClass('crumb') && !data.context.hasClass('last')) {
+				// only append new file if uploaded into the current folder
+				if (file.directory !== FileList.getCurrentDirectory()) {
 					return;
 				}
 

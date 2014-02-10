@@ -158,7 +158,7 @@ $(document).ready(function(){
             if(typeof timeout !== 'undefined'){
                 clearTimeout(timeout);
             }
-            timeout = setTimeout('changeDisplayName()',1000);
+            timeout = setTimeout(changeDisplayName, 1000);
         }
     });
 
@@ -173,7 +173,7 @@ $(document).ready(function(){
             if(typeof timeout !== 'undefined'){
                 clearTimeout(timeout);
             }
-            timeout = setTimeout('changeEmailAddress()',1000);
+            timeout = setTimeout(changeEmailAddress, 1000);
         }
     });
 
