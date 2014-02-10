@@ -85,15 +85,14 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 			return;
 		}
 
-		$jpegPhoto = $this->access->readAttribute($dn, 'jpegPhoto');
-		\OCP\Config::setUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup', time());
-		if(!$jpegPhoto || !is_array($jpegPhoto) || !isset($jpegPhoto[0])) {
+		$avatarImage = $this->getAvatarImage($uid, $dn);
+		if($avatarImage === false) {
 			//not set, nothing left to do;
 			return;
 		}
 
 		$image = new \OCP\Image();
-		$image->loadFromBase64(base64_encode($jpegPhoto[0]));
+		$image->loadFromBase64(base64_encode($avatarImage));
 
 		if(!$image->valid()) {
 			\OCP\Util::writeLog('user_ldap', 'jpegPhoto data invalid for '.$dn,
@@ -128,12 +127,31 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		if(!$dn) {
 			return false;
 		}
-		$jpegPhoto = $this->access->readAttribute($dn, 'jpegPhoto');
-		if(!$jpegPhoto || !is_array($jpegPhoto) || !isset($jpegPhoto[0])) {
+		if($this->getAvatarImage($uid, $dn) === false) {
 			//The user is allowed to change his avatar in ownCloud only if no
 			//avatar is provided by LDAP
 			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * @brief reads the image from LDAP that shall be used as Avatar
+	 * @param $uid string, the ownCloud user name
+	 * @param $dn string, the user DN
+	 * @return image data (provided by LDAP) | false
+	 */
+	private function getAvatarImage($uid, $dn) {
+		$attributes = array('jpegPhoto', 'thumbnailPhoto');
+		foreach($attributes as $attribute) {
+			$result = $this->access->readAttribute($dn, $attribute);
+			\OCP\Config::setUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup',
+									  time());
+			if($result !== false && is_array($result) && isset($result[0])) {
+				return $result[0];
+			}
+		}
+
 		return false;
 	}
 
@@ -238,7 +256,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		}
 		//check if user really still exists by reading its entry
 		if(!is_array($this->access->readAttribute($dn, ''))) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn.' on '.
+				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
