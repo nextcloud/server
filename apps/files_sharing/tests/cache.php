@@ -145,7 +145,6 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 	}
 
 	function testGetFolderContentsInSubdir() {
-		//$results = $this->sharedStorage->getCache()->getFolderContents('shareddir');
 		$results = $this->user2View->getDirectoryContent('/Shared/shareddir');
 
 		$this->verifyFiles(
@@ -183,7 +182,6 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
 		$thirdView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
-		//list($this->sharedStorage, $internalPath) = $thirdView->resolvePath('files/Shared');
 		$results = $thirdView->getDirectoryContent('/Shared/subdir');
 
 		$this->verifyFiles(
@@ -191,21 +189,18 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 				array(
 					'name' => 'another too.txt',
 					'path' => 'files/container/shareddir/subdir/another too.txt',
-					//'path' => '/subdir/another too.txt',
 					'mimetype' => 'text/plain',
 					'usersPath' => 'files/Shared/subdir/another too.txt'
 				),
 				array(
 					'name' => 'another.txt',
 					'path' => 'files/container/shareddir/subdir/another.txt',
-					//'path' => '/subdir/another.txt',
 					'mimetype' => 'text/plain',
 					'usersPath' => 'files/Shared/subdir/another.txt'
 				),
 				array(
 					'name' => 'not a text file.xml',
 					'path' => 'files/container/shareddir/subdir/not a text file.xml',
-					//'path' => '/subdir/not a text file.xml',
 					'mimetype' => 'application/xml',
 					'usersPath' => 'files/Shared/subdir/not a text file.xml'
 				),
@@ -220,19 +215,35 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * Checks that all provided attributes exist in the files list,
-	 * only the values provided in $examples will be used to check against
-	 * the file list. The files order also needs to be the same.
+	 * Check if 'results' contains the expected 'examples' only.
 	 *
 	 * @param array $examples array of example files
-	 * @param array $files array of files
+	 * @param array $results array of files
 	 */
-	private function verifyFiles($examples, $files) {
-		$this->assertEquals(count($examples), count($files));
-		foreach ($files as $i => $file) {
-			foreach ($examples[$i] as $key => $value) {
-				$this->assertEquals($value, $file[$key]);
+	private function verifyFiles($examples, $results) {
+		$this->assertEquals(count($examples), count($results));
+
+		foreach ($examples as $example) {
+			foreach ($results as $key => $result) {
+				if ($result['name'] === $example['name']) {
+					$this->verifyKeys($example, $result);
+					unset($results[$key]);
+					break;
+				}
 			}
 		}
+		$this->assertTrue(empty($results));
 	}
+
+	/**
+	 * @brief verify if each value from the result matches the expected result
+	 * @param array $example array with the expected results
+	 * @param array $result array with the results
+	 */
+	private function verifyKeys($example, $result) {
+		foreach ($example as $key => $value) {
+			$this->assertEquals($value, $result[$key]);
+		}
+	}
+
 }
