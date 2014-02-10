@@ -109,21 +109,27 @@ class Hooks {
 
 			}
 
-			// Encrypt existing user files:
-			if (
-				$util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'])
-			) {
+			// Encrypt existing user files
+			try {
+				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password']);
+			} catch (\Exception $ex) {
+				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
+				$util->resetMigrationStatus();
+				\OCP\User::logout();
+				$result = false;
+			}
+
+			if ($result) {
 
 				\OC_Log::write(
 					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
 					, \OC_Log::INFO
 				);
 
+				// Register successful migration in DB
+				$util->finishMigration();
+
 			}
-
-			// Register successful migration in DB
-			$util->finishMigration();
-
 		}
 
 		return true;
