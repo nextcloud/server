@@ -405,7 +405,7 @@ $(document).ready(function() {
 	Files.resizeBreadcrumbs(width, true);
 
 	// display storage warnings
-	setTimeout ( "Files.displayStorageWarnings()", 100 );
+	setTimeout(Files.displayStorageWarnings, 100);
 	OC.Notification.setDefault(Files.displayStorageWarnings);
 
 	// only possible at the moment if user is logged in

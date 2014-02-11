@@ -70,4 +70,23 @@ class Storage {
 			return false;
 		}
 	}
+
+	/**
+	 * remove the entry for the storage
+	 *
+	 * @param string $storageId
+	 */
+	public static function remove($storageId) {
+		$storageCache = new Storage($storageId);
+		$numericId = $storageCache->getNumericId();
+
+		if (strlen($storageId) > 64) {
+			$storageId = md5($storageId);
+		}
+		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
+		\OC_DB::executeAudited($sql, array($storageId));
+
+		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
+		\OC_DB::executeAudited($sql, array($numericId));
+	}
 }
