@@ -92,7 +92,7 @@ class AppConfig implements \OCP\IAppConfig {
 	 * entry in the appconfig table.
 	 */
 	public function getApps() {
-		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`';
+		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig` ORDER BY `appid`';
 		$result = $this->conn->executeQuery($query);
 
 		$apps = array();
@@ -112,7 +112,9 @@ class AppConfig implements \OCP\IAppConfig {
 	 */
 	public function getKeys($app) {
 		$values = $this->getAppValues($app);
-		return array_keys($values);
+		$keys = array_keys($values);
+		sort($keys);
+		return $keys;
 	}
 
 	/**
