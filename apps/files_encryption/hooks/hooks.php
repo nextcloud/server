@@ -85,10 +85,9 @@ class Hooks {
 			$ready = $util->beginMigration();
 		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
 			// refuse login as long as the initial encryption is running
-			while ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
-				sleep(60);
-				$migrationStatus = $util->getMigrationStatus();
-			}
+			sleep(5);
+			\OCP\User::logout();
+			return false;
 		}
 
 		// If migration not yet done
