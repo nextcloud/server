@@ -131,6 +131,9 @@ class OC_Files {
 				}
 				if ($xsendfile) {
 					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
+					if ($storage instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+						$storage = $storage->getWrapperStorage();
+					}
 					if ($storage instanceof \OC\Files\Storage\Local) {
 						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 					}
