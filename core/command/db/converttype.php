@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConvertFromSqlite extends Command {
+class ConvertType extends Command {
 	/**
 	 * @var \OC\Config $config
 	 */
@@ -31,8 +31,8 @@ class ConvertFromSqlite extends Command {
 
 	protected function configure() {
 		$this
-			->setName('db:convert-from-sqlite')
-			->setDescription('Convert the owncloud sqlite database to the newly configured one')
+			->setName('db:convert-type')
+			->setDescription('Convert the owncloud database to the newly configured one')
 			->addArgument(
 				'type',
 				InputArgument::REQUIRED,
@@ -82,14 +82,7 @@ class ConvertFromSqlite extends Command {
 	);
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		// connect 'from' database
-		$datadir = $this->config->getValue( "datadirectory", \OC::$SERVERROOT.'/data' );
-		$name = $this->config->getValue( "dbname", "owncloud" );
-		$dbfile = $datadir.'/'.$name.'.db';
-		$connectionParams = array(
-				'path' => $dbfile,
-				'driver' => 'pdo_sqlite',
-		);
-		$fromDB = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+		$fromDB = \OC_DB::getConnection();
 
 		// connect 'to' database
 		$type = $input->getArgument('type');
