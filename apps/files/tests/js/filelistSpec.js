@@ -51,6 +51,7 @@ describe('FileList tests', function() {
 			'<table id="filestable">' +
 			'<thead><tr><th class="hidden">Name</th></tr></thead>' +
 		   	'<tbody id="fileList"></tbody>' +
+			'<tfoot></tfoot>' +
 			'</table>' +
 			'<div id="emptycontent">Empty content message</div>'
 		);
@@ -220,7 +221,7 @@ describe('FileList tests', function() {
 			var $tr = FileList.add(fileData);
 			expect($tr.find('.filesize').text()).toEqual('0 B');
 		});
-		it('adds new file to the end of the list before the summary', function() {
+		it('adds new file to the end of the list', function() {
 			var fileData = {
 				type: 'file',
 				name: 'P comes after O.txt'
@@ -228,7 +229,6 @@ describe('FileList tests', function() {
 			FileList.setFiles(testFiles);
 			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(4);
-			expect($tr.next().hasClass('summary')).toEqual(true);
 		});
 		it('adds new file at correct position in insert mode', function() {
 			var fileData = {
@@ -249,8 +249,8 @@ describe('FileList tests', function() {
 			FileList.setFiles([]);
 			expect(FileList.isEmpty).toEqual(true);
 			FileList.add(fileData);
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			// yes, ugly...
 			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
@@ -268,11 +268,11 @@ describe('FileList tests', function() {
 			$removedEl = FileList.remove('One.txt');
 			expect($removedEl).toBeDefined();
 			expect($removedEl.attr('data-file')).toEqual('One.txt');
-			expect($('#fileList tr:not(.summary)').length).toEqual(3);
+			expect($('#fileList tr').length).toEqual(3);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
@@ -282,11 +282,11 @@ describe('FileList tests', function() {
 		it('Shows empty content when removing last file', function() {
 			FileList.setFiles([testFiles[0]]);
 			FileList.remove('One.txt');
-			expect($('#fileList tr:not(.summary)').length).toEqual(0);
+			expect($('#fileList tr').length).toEqual(0);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(0);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(true);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
 			expect(FileList.isEmpty).toEqual(true);
@@ -318,10 +318,10 @@ describe('FileList tests', function() {
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 			expect(FileList.findFileEl('Two.jpg').length).toEqual(0);
 			expect(FileList.findFileEl('Three.pdf').length).toEqual(1);
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(2);
+			expect(FileList.$fileList.find('tr').length).toEqual(2);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
@@ -342,10 +342,10 @@ describe('FileList tests', function() {
 				JSON.stringify({status: 'success'})
 			);
 
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(0);
+			expect(FileList.$fileList.find('tr').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(0);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(true);
 			expect(FileList.isEmpty).toEqual(true);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
@@ -363,7 +363,7 @@ describe('FileList tests', function() {
 			// files are still in the list
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
 			expect(FileList.findFileEl('Two.jpg').length).toEqual(1);
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(4);
+			expect(FileList.$fileList.find('tr').length).toEqual(4);
 
 			expect(notificationStub.calledOnce).toEqual(true);
 		});
@@ -459,14 +459,14 @@ describe('FileList tests', function() {
 			var addSpy = sinon.spy(FileList, 'add');
 			FileList.setFiles(testFiles);
 			expect(addSpy.callCount).toEqual(4);
-			expect($('#fileList tr:not(.summary)').length).toEqual(4);
+			expect($('#fileList tr').length).toEqual(4);
 			addSpy.restore();
 		});
 		it('updates summary using the file sizes', function() {
 			var $summary;
 			FileList.setFiles(testFiles);
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
 			expect($summary.find('.filesize').text()).toEqual('69 kB');
 		});
@@ -474,20 +474,20 @@ describe('FileList tests', function() {
 			FileList.setFiles(testFiles);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(false);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
-			expect(FileList.$fileList.find('.summary').length).toEqual(1);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(false);
 		});
 		it('hides headers, summary and show empty content message after setting empty file list', function(){
 			FileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
-			expect(FileList.$fileList.find('.summary').length).toEqual(0);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('hides headers, empty content message, and summary when list is empty and user has no creation permission', function(){
 			$('#permissions').val(0);
 			FileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
-			expect(FileList.$fileList.find('.summary').length).toEqual(0);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('calling findFileEl() can find existing file element', function() {
 			FileList.setFiles(testFiles);
@@ -642,7 +642,7 @@ describe('FileList tests', function() {
 			var query = url.substr(url.indexOf('?') + 1);
 			expect(OC.parseQueryString(query)).toEqual({'dir': '/subdir'});
 			fakeServer.respond();
-			expect($('#fileList tr:not(.summary)').length).toEqual(4);
+			expect($('#fileList tr').length).toEqual(4);
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
 		});
 		it('switches dir and fetches file list when calling changeDirectory()', function() {

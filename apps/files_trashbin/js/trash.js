@@ -34,10 +34,12 @@ $(document).ready(function() {
 		}
 
 		var files = result.data.success;
+		var $el;
 		for (var i = 0; i < files.length; i++) {
-			FileList.remove(OC.basename(files[i].filename), {updateSummary: false});
+			$el = FileList.remove(OC.basename(files[i].filename), {updateSummary: false});
+			FileList.fileSummary.remove({type: $el.attr('data-type'), size: $el.attr('data-size')});
 		}
-		FileList.updateFileSummary();
+		FileList.fileSummary.update();
 		FileList.updateEmptyContent();
 		enableActions();
 	}
