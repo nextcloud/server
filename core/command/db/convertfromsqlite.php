@@ -97,6 +97,9 @@ class ConvertFromSqlite extends Command {
 		$hostname = $input->getArgument('hostname');
 		$dbname = $input->getArgument('database');
 
+		if (!isset(self::$type2driver[$type])) {
+			throw new InvalidArgumentException('Unknown type: '.$type);
+		}
 		if ($input->getOption('password')) {
 			$password = $input->getOption('password');
 		} else {
