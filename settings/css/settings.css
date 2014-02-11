@@ -53,9 +53,10 @@ table.nostyle td { padding: 0.2em 0; }
 /* USERS */
 .usercount { float: left; margin: 5px; }
 span.utils .delete {
-	float: left; position: relative;
+	float: left; position: relative; display: none;
 	margin: 3px; top: 4px;
 }
+#app-navigation ul li:hover > span.utils .delete { display: block; }
 form { display:inline; }
 table.grid th { height:2em; color:#999; }
 table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
