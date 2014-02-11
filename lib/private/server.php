@@ -148,6 +148,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function($c) {
 			return new AvatarManager();
 		});
+		$this->registerService('JobList', function ($c) {
+			/**
+			 * @var Server $c
+			 */
+			$config = $c->getConfig();
+			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
+		});
 	}
 
 	/**
@@ -335,5 +342,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getActivityManager() {
 		return $this->query('ActivityManager');
+	}
+
+	/**
+	 * Returns an job list for controlling background jobs
+	 *
+	 * @return \OCP\BackgroundJob\IJobList
+	 */
+	function getJobList(){
+		return $this->query('JobList');
 	}
 }

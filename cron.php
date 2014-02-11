@@ -97,7 +97,7 @@ try {
 		touch(TemporaryCronClass::$lockfile);
 
 		// Work
-		$jobList = new \OC\BackgroundJob\JobList();
+		$jobList = \OC::$server->getJobList();
 		$jobs = $jobList->getAll();
 		foreach ($jobs as $job) {
 			$job->execute($jobList, $logger);
@@ -109,7 +109,7 @@ try {
 			OC_JSON::error(array('data' => array('message' => 'Backgroundjobs are using system cron!')));
 		} else {
 			// Work and success :-)
-			$jobList = new \OC\BackgroundJob\JobList();
+			$jobList = \OC::$server->getJobList();
 			$job = $jobList->getNext();
 			$job->execute($jobList, $logger);
 			$jobList->setLastJob($job);

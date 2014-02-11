@@ -8,14 +8,26 @@
 
 namespace OC\BackgroundJob;
 
-/**
- * Class QueuedJob
- *
- * create a background job that is to be executed once
- *
- * @package OC\BackgroundJob
- */
 class JobList {
+	/**
+	 * @var \OCP\IDBConnection
+	 */
+	private $conn;
+
+	/**
+	 * @var \OCP\IConfig $config
+	 */
+	private $config;
+
+	/**
+	 * @param \OCP\IDBConnection $conn
+	 * @param \OCP\IConfig $config
+	 */
+	public function __construct($conn, $config) {
+		$this->conn = $conn;
+		$this->config = $config;
+	}
+
 	/**
 	 * @param Job|string $job
 	 * @param mixed $argument
@@ -28,7 +40,7 @@ class JobList {
 				$class = $job;
 			}
 			$argument = json_encode($argument);
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*jobs`(`class`, `argument`, `last_run`) VALUES(?, ?, 0)');
+			$query = $this->conn->prepare('INSERT INTO `*PREFIX*jobs`(`class`, `argument`, `last_run`) VALUES(?, ?, 0)');
 			$query->execute(array($class, $argument));
 		}
 	}
@@ -45,10 +57,10 @@ class JobList {
 		}
 		if (!is_null($argument)) {
 			$argument = json_encode($argument);
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
+			$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
 			$query->execute(array($class, $argument));
 		} else {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ?');
+			$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ?');
 			$query->execute(array($class));
 		}
 	}
@@ -67,9 +79,9 @@ class JobList {
 			$class = $job;
 		}
 		$argument = json_encode($argument);
-		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
-		$result = $query->execute(array($class, $argument));
-		return (bool)$result->fetchRow();
+		$query = $this->conn->prepare('SELECT `id` FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
+		$query->execute(array($class, $argument));
+		return (bool)$query->fetch();
 	}
 
 	/**
@@ -78,10 +90,10 @@ class JobList {
 	 * @return Job[]
 	 */
 	public function getAll() {
-		$query = \OC_DB::prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs`');
-		$result = $query->execute();
+		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs`');
+		$query->execute();
 		$jobs = array();
-		while ($row = $result->fetchRow()) {
+		while ($row = $query->fetch()) {
 			$jobs[] = $this->buildJob($row);
 		}
 		return $jobs;
@@ -94,15 +106,15 @@ class JobList {
 	 */
 	public function getNext() {
 		$lastId = $this->getLastJob();
-		$query = \OC_DB::prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` > ? ORDER BY `id` ASC', 1);
-		$result = $query->execute(array($lastId));
-		if ($row = $result->fetchRow()) {
+		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` > ? ORDER BY `id` ASC', 1);
+		$query->execute(array($lastId));
+		if ($row = $query->fetch()) {
 			return $this->buildJob($row);
 		} else {
 			//begin at the start of the queue
-			$query = \OC_DB::prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` ASC', 1);
-			$result = $query->execute();
-			if ($row = $result->fetchRow()) {
+			$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` ASC', 1);
+			$query->execute();
+			if ($row = $query->fetch()) {
 				return $this->buildJob($row);
 			} else {
 				return null; //empty job list
@@ -115,9 +127,9 @@ class JobList {
 	 * @return Job
 	 */
 	public function getById($id) {
-		$query = \OC_DB::prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` = ?');
-		$result = $query->execute(array($id));
-		if ($row = $result->fetchRow()) {
+		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` = ?');
+		$query->execute(array($id));
+		if ($row = $query->fetch()) {
 			return $this->buildJob($row);
 		} else {
 			return null;
@@ -148,7 +160,7 @@ class JobList {
 	 * @param Job $job
 	 */
 	public function setLastJob($job) {
-		\OC_Appconfig::setValue('backgroundjob', 'lastjob', $job->getId());
+		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
 	}
 
 	/**
@@ -157,7 +169,7 @@ class JobList {
 	 * @return int
 	 */
 	public function getLastJob() {
-		return \OC_Appconfig::getValue('backgroundjob', 'lastjob', 0);
+		$this->config->getAppValue('backgroundjob', 'lastjob', 0);
 	}
 
 	/**
@@ -166,7 +178,7 @@ class JobList {
 	 * @param Job $job
 	 */
 	public function setLastRun($job) {
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*jobs` SET `last_run` = ? WHERE `id` = ?');
+		$query = $this->conn->prepare('UPDATE `*PREFIX*jobs` SET `last_run` = ? WHERE `id` = ?');
 		$query->execute(array(time(), $job->getId()));
 	}
 }
