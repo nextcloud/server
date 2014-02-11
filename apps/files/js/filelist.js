@@ -19,6 +19,12 @@ window.FileList = {
 	breadcrumb: null,
 	initialized: false,
 
+	// number of files per page
+	pageSize: 20,
+	// zero based page number
+	pageNumber: 0,
+	totalPages: 0,
+
 	/**
 	 * Initialize the file list and its components
 	 */
@@ -59,6 +65,16 @@ window.FileList = {
 		if ($targetDir !== undefined) {
 			e.preventDefault();
 			FileList.changeDirectory($targetDir);
+		}
+	},
+
+	_onScroll: function(e) {
+		if (this.pageNumber + 1 >= this.totalPages) {
+			return;
+		}
+		var target = $(document);
+		if ($(window).scrollTop() + $(window).height() > $(document).height() - 20) {
+			this._nextPage(true);
 		}
 	},
 
@@ -129,6 +145,42 @@ window.FileList = {
 		// use filterAttr to avoid escaping issues
 		return this.$fileList.find('tr').filterAttr('data-file', fileName);
 	},
+
+	/**
+	 * Appends the next page of files into the table
+	 * @param animate true to animate the new elements
+	 */
+	_nextPage: function(animate) {
+		var tr, index, count = this.pageSize,
+			newTrs = [];
+
+		if (this.pageNumber + 1 >= this.totalPages) {
+			return;
+		}
+
+		this.pageNumber++;
+		index = this.pageNumber * this.pageSize;
+
+		while (count > 0 && index < this.files.length) {
+			tr = this.add(this.files[index], {updateSummary: false});
+			if (animate) {
+				tr.addClass('appear transparent'); // TODO
+				newTrs.push(tr);
+			}
+			index++;
+			count--;
+		}
+
+		if (animate) {
+			// defer, for animation
+			window.setTimeout(function() {
+				for (var i = 0; i < newTrs.length; i++ ) {
+					newTrs[i].removeClass('transparent');
+				}
+			}, 0);
+		}
+	},
+
 	/**
 	 * Sets the files to be displayed in the list.
 	 * This operation will rerender the list and update the summary.
@@ -136,14 +188,15 @@ window.FileList = {
 	 */
 	setFiles:function(filesArray) {
 		// detach to make adding multiple rows faster
-		this.$fileList.detach();
+		this.files = filesArray;
+		this.pageNumber = -1;
+		this.totalPages = Math.ceil(filesArray.length / this.pageSize);
 
+		this.$fileList.detach();
 		this.$fileList.empty();
 
-		this.isEmpty = filesArray.length === 0;
-		for (var i = 0; i < filesArray.length; i++) {
-			this.add(filesArray[i], {updateSummary: false});
-		}
+		this.isEmpty = this.files.length === 0;
+		this._nextPage();
 
 		this.$el.find('thead').after(this.$fileList);
 
@@ -1254,6 +1307,8 @@ $(document).ready(function() {
 			FileList.changeDirectory(targetDir, false);
 		}
 	};
+
+	$(window).scroll(function(e) {FileList._onScroll(e);});
 
 	var dir = parseCurrentDirFromUrl();
 	// trigger ajax load, deferred to let sub-apps do their overrides first
