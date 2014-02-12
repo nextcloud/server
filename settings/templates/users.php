@@ -44,7 +44,7 @@ $_['subadmingroups'] = array_flip($items);
 	<!-- Default storage -->
 	<div class="app-settings">
 		<div class="quota">
-			<span><?php p($l->t('Default Storage'));?></span>
+			<span><?php p($l->t('Default Quota'));?></span>
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
 				<option
@@ -106,6 +106,10 @@ $_['subadmingroups'] = array_flip($items);
 		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
 	</div>
 	<?php endif; ?>
+	<form autocomplete="off" id="usersearchform">
+		<label><?php p($l->t( 'Search' )); ?></label>
+		<input type="text" class="input" />
+	</form>
 </div>
 <table class="hascontrols grid" data-groups="<?php p(json_encode($allGroups));?>">
 	<thead>

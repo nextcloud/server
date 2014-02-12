@@ -7,7 +7,7 @@ $groupname = $_POST["groupname"];
 
 // Does the group exist?
 if( in_array( $groupname, OC_Group::getGroups())) {
-	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to add group") )));
+	OC_JSON::error(array("data" => array( "message" => $l->t("Group already exists") )));
 	exit();
 }
 
