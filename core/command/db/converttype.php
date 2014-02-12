@@ -197,7 +197,7 @@ class ConvertType extends Command {
 			$this->config->setValue('dbhost', $dbhost);
 			$this->config->setValue('dbuser', $username);
 			$this->config->setValue('dbpassword', $password);
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			$this->config->setValue('maintenance', false);
 			throw $e;
 		}
