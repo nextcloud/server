@@ -298,5 +298,12 @@ if (\OC_Util::runningOnWindows()) {
 		public function hasUpdated($path, $time) {
 			return $this->filemtime($path) > $time;
 		}
+
+		/**
+		 * {@inheritdoc}
+		 */
+		public function isLocal() {
+			return true;
+		}
 	}
 }

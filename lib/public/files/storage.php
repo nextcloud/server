@@ -315,4 +315,15 @@ interface Storage {
 	 * @return string
 	 */
 	public function getETag($path);
+
+	/**
+	 * Returns whether the storage is local, which means that files
+	 * are stored on the local filesystem instead of remotely.
+	 * Calling getLocalFile() for local storages should always
+	 * return the local files, whereas for non-local storages
+	 * it might return a temporary file.
+	 *
+	 * @return bool true if the files are stored locally, false otherwise
+	 */
+	public function isLocal();
 }
