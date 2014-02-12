@@ -460,11 +460,12 @@ class Util {
 	/**
 	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
-	 * @param $dir the current folder where the user currently operates
+	 * @param string $dir the current folder where the user currently operates
+	 * @param int $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
 	 * @return number of bytes representing
 	 */
-	public static function maxUploadFilesize($dir) {
-		return \OC_Helper::maxUploadFilesize($dir);
+	public static function maxUploadFilesize($dir, $free = null) {
+		return \OC_Helper::maxUploadFilesize($dir, $free);
 	}
 
 	/**
