@@ -69,7 +69,7 @@ class OC_Mount_Config {
 		if(OC_Mount_Config::checkphpftp()) $backends['\OC\Files\Storage\FTP']=array(
 			'backend' => 'FTP',
 			'configuration' => array(
-				'host' => 'URL',
+				'host' => 'Hostname',
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root',
