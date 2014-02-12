@@ -171,7 +171,7 @@ class JobList implements IJobList {
 	 * @return int
 	 */
 	public function getLastJob() {
-		$this->config->getAppValue('backgroundjob', 'lastjob', 0);
+		return $this->config->getAppValue('backgroundjob', 'lastjob', 0);
 	}
 
 	/**
