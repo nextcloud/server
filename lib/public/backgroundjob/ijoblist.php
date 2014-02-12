@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
+ * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -10,12 +10,16 @@ namespace OCP\BackgroundJob;
 
 interface IJobList {
 	/**
+	 * Add a job to the list
+	 *
 	 * @param \OCP\BackgroundJob\IJob |string $job
-	 * @param mixed $argument
+	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 */
 	public function add($job, $argument = null);
 
 	/**
+	 * Remove a job from the list
+	 *
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
 	 */
@@ -51,7 +55,7 @@ interface IJobList {
 	public function getById($id);
 
 	/**
-	 * set the job that was last ran
+	 * set the job that was last ran to the current time
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
 	 */
