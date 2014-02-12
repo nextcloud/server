@@ -221,6 +221,10 @@ class OC_User {
 			// Delete the user's keys in preferences
 			OC_Preferences::deleteUser($uid);
 
+			$home = self::getHome($uid);
+
+			\OC\Files\Cache\Cache::removeStorage('local::' . $home);
+
 			// Delete user files in /data/
 			OC_Helper::rmdirr(OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/'.$uid.'/');
 
