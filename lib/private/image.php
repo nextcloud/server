@@ -346,7 +346,7 @@ class OC_Image {
 				break;
 		}
 		if($rotate) {
-			$res = imagerotate($this->resource, $rotate, -1);
+			$res = imagerotate($this->resource, $rotate, 0);
 			if($res) {
 				if(imagealphablending($res, true)) {
 					if(imagesavealpha($res, true)) {
@@ -381,9 +381,9 @@ class OC_Image {
 			} elseif(in_array(get_resource_type($imageRef), array('file', 'stream'))) {
 				return $this->loadFromFileHandle($imageRef);
 			}
-		} elseif($this->loadFromFile($imageRef) !== false) {
-			return $this->resource;
 		} elseif($this->loadFromBase64($imageRef) !== false) {
+			return $this->resource;
+		} elseif($this->loadFromFile($imageRef) !== false) {
 			return $this->resource;
 		} elseif($this->loadFromData($imageRef) !== false) {
 			return $this->resource;
@@ -415,7 +415,6 @@ class OC_Image {
 	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if(!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
-			// Debug output disabled because this method is tried before loadFromBase64?
 			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: ' . (string) urlencode($imagePath), OC_Log::DEBUG);
 			return false;
 		}
