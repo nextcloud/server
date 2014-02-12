@@ -622,12 +622,12 @@ $(document).ready(function () {
 	});
 	// Implements User Search 
 	$('#usersearchform input').keyup(function() {
-		var inputVal = $(this).val();
-		$('table tbody tr td.name').each(function() {
-			if ($('table tbody tr').text().search(new RegExp(inputVal, "i")) < 0) {
-				$('table tbody tr').fadeOut();
+		var inputVal = $(this).val(), regex = new RegExp(inputVal, "i");;
+		$('table tbody tr td.name').each(function (key,element) {
+			if (regex.test($(element).text())) {
+				$(element).parent().show();
 			} else {
-				$('table tbody tr').show();
+				$(element).parent().hide();
 			}
 		});
 	});

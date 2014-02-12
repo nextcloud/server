@@ -107,8 +107,7 @@ $_['subadmingroups'] = array_flip($items);
 	</div>
 	<?php endif; ?>
 	<form autocomplete="off" id="usersearchform">
-		<label><?php p($l->t( 'Search' )); ?></label>
-		<input type="text" class="input" />
+		<input type="text" class="input" placeholder="<?php p($l->t( 'Search by Username' )); ?>" />
 	</form>
 </div>
 <table class="hascontrols grid" data-groups="<?php p(json_encode($allGroups));?>">
