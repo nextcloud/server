@@ -209,136 +209,12 @@ $(document).ready(function() {
 	// Trigger cancelling of file upload
 	$('#uploadprogresswrapper .stop').on('click', function() {
 		OC.Upload.cancelUploads();
-		procesSelection();
+		FileList.updateSelectionSummary();
 	});
 
 	// Show trash bin
 	$('#trash').on('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
-	});
-
-	var lastChecked;
-
-	// Sets the file link behaviour :
-	$('#fileList').on('click','td.filename a',function(event) {
-		if (event.ctrlKey || event.shiftKey) {
-			event.preventDefault();
-			if (event.shiftKey) {
-				var last = $(lastChecked).parent().parent().prevAll().length;
-				var first = $(this).parent().parent().prevAll().length;
-				var start = Math.min(first, last);
-				var end = Math.max(first, last);
-				var rows = $(this).parent().parent().parent().children('tr');
-				for (var i = start; i < end; i++) {
-					$(rows).each(function(index) {
-						if (index === i) {
-							var checkbox = $(this).children().children('input:checkbox');
-							$(checkbox).attr('checked', 'checked');
-							$(checkbox).parent().parent().addClass('selected');
-						}
-					});
-				}
-			}
-			var checkbox = $(this).parent().children('input:checkbox');
-			lastChecked = checkbox;
-			if ($(checkbox).attr('checked')) {
-				$(checkbox).removeAttr('checked');
-				$(checkbox).parent().parent().removeClass('selected');
-				$('#select_all').removeAttr('checked');
-			} else {
-				$(checkbox).attr('checked', 'checked');
-				$(checkbox).parent().parent().toggleClass('selected');
-				var selectedCount = $('td.filename input:checkbox:checked').length;
-				if (selectedCount === $('td.filename input:checkbox').length) {
-					$('#select_all').attr('checked', 'checked');
-				}
-			}
-			procesSelection();
-		} else {
-			var filename=$(this).parent().parent().attr('data-file');
-			var tr = FileList.findFileEl(filename);
-			var renaming=tr.data('renaming');
-			if (!renaming) {
-				FileActions.currentFile = $(this).parent();
-				var mime=FileActions.getCurrentMimeType();
-				var type=FileActions.getCurrentType();
-				var permissions = FileActions.getCurrentPermissions();
-				var action=FileActions.getDefault(mime,type, permissions);
-				if (action) {
-					event.preventDefault();
-					action(filename);
-				}
-			}
-		}
-
-	});
-
-	// Sets the select_all checkbox behaviour :
-	$('#select_all').click(function() {
-		if ($(this).attr('checked')) {
-			// Check all
-			$('td.filename input:checkbox').attr('checked', true);
-			$('td.filename input:checkbox').parent().parent().addClass('selected');
-		} else {
-			// Uncheck all
-			$('td.filename input:checkbox').attr('checked', false);
-			$('td.filename input:checkbox').parent().parent().removeClass('selected');
-		}
-		procesSelection();
-	});
-
-	$('#fileList').on('change', 'td.filename input:checkbox',function(event) {
-		if (event.shiftKey) {
-			var last = $(lastChecked).parent().parent().prevAll().length;
-			var first = $(this).parent().parent().prevAll().length;
-			var start = Math.min(first, last);
-			var end = Math.max(first, last);
-			var rows = $(this).parent().parent().parent().children('tr');
-			for (var i = start; i < end; i++) {
-				$(rows).each(function(index) {
-					if (index === i) {
-						var checkbox = $(this).children().children('input:checkbox');
-						$(checkbox).attr('checked', 'checked');
-						$(checkbox).parent().parent().addClass('selected');
-					}
-				});
-			}
-		}
-		var selectedCount=$('td.filename input:checkbox:checked').length;
-		$(this).parent().parent().toggleClass('selected');
-		if (!$(this).attr('checked')) {
-			$('#select_all').attr('checked',false);
-		} else {
-			if (selectedCount===$('td.filename input:checkbox').length) {
-				$('#select_all').attr('checked',true);
-			}
-		}
-		procesSelection();
-	});
-
-	$('.download').click('click',function(event) {
-		var files;
-		var dir = FileList.getCurrentDirectory();
-		if (FileList.isAllSelected()) {
-			files = OC.basename(dir);
-			dir = OC.dirname(dir) || '/';
-		}
-		else {
-			files = Files.getSelectedFiles('name');
-		}
-		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
-		OC.redirect(Files.getDownloadUrl(files, dir));
-		return false;
-	});
-
-	$('.delete-selected').click(function(event) {
-		var files = Files.getSelectedFiles('name');
-		event.preventDefault();
-		if (FileList.isAllSelected()) {
-			files = null;
-		}
-		FileList.do_delete(files);
-		return false;
 	});
 
 	// drag&drop support using jquery.fileupload
@@ -440,7 +316,7 @@ var createDragShadow = function(event) {
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
 
-	var selectedFiles = Files.getSelectedFiles();
+	var selectedFiles = FileList.getSelectedFiles();
 
 	if (!isDragSelected && selectedFiles.length === 1) {
 		//revert the selection
@@ -539,7 +415,7 @@ var folderDropOptions={
 						oldFile.find('td.filesize').text(humanFileSize(newSize));
 
 						FileList.remove(file);
-						procesSelection();
+						FileList.updateSelectionSummary();
 						$('#notification').hide();
 					} else {
 						$('#notification').hide();
@@ -555,78 +431,6 @@ var folderDropOptions={
 	},
 	tolerance: 'pointer'
 };
-
-function procesSelection() {
-	var selected = Files.getSelectedFiles();
-	var selectedFiles = selected.filter(function(el) {
-		return el.type==='file';
-	});
-	var selectedFolders = selected.filter(function(el) {
-		return el.type==='dir';
-	});
-	if (selectedFiles.length === 0 && selectedFolders.length === 0) {
-		$('#headerName span.name').text(t('files','Name'));
-		$('#headerSize').text(t('files','Size'));
-		$('#modified').text(t('files','Modified'));
-		$('table').removeClass('multiselect');
-		$('.selectedActions').hide();
-		$('#select_all').removeAttr('checked');
-	}
-	else {
-		$('.selectedActions').show();
-		var totalSize = 0;
-		for(var i=0; i<selectedFiles.length; i++) {
-			totalSize+=selectedFiles[i].size;
-		}
-		for(var i=0; i<selectedFolders.length; i++) {
-			totalSize+=selectedFolders[i].size;
-		}
-		$('#headerSize').text(humanFileSize(totalSize));
-		var selection = '';
-		if (selectedFolders.length > 0) {
-			selection += n('files', '%n folder', '%n folders', selectedFolders.length);
-			if (selectedFiles.length > 0) {
-				selection += ' & ';
-			}
-		}
-		if (selectedFiles.length>0) {
-			selection += n('files', '%n file', '%n files', selectedFiles.length);
-		}
-		$('#headerName span.name').text(selection);
-		$('#modified').text('');
-		$('table').addClass('multiselect');
-	}
-}
-
-/**
- * @brief get a list of selected files
- * @param {string} property (option) the property of the file requested
- * @return {array}
- *
- * possible values for property: name, mime, size and type
- * if property is set, an array with that property for each file is returnd
- * if it's ommited an array of objects with all properties is returned
- */
-Files.getSelectedFiles = function(property) {
-	var elements=$('td.filename input:checkbox:checked').parent().parent();
-	var files=[];
-	elements.each(function(i,element) {
-		var file={
-			name:$(element).attr('data-file'),
-			mime:$(element).data('mime'),
-			type:$(element).data('type'),
-			size:$(element).data('size'),
-			etag:$(element).data('etag'),
-			origin: $(element).data('id')
-		};
-		if (property) {
-			files.push(file[property]);
-		} else {
-			files.push(file);
-		}
-	});
-	return files;
-}
 
 Files.getMimeIcon = function(mime, ready) {
 	if (Files.getMimeIcon.cache[mime]) {

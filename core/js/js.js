@@ -1250,7 +1250,7 @@ function relative_modified_date(timestamp) {
 }
 
 /**
- *  @todo Write documentation
+ * Utility functions
  */
 OC.Util = {
 	// TODO: remove original functions from global namespace

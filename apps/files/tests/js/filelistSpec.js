@@ -48,8 +48,15 @@ describe('FileList tests', function() {
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
 			// dummy table
+			// TODO: at some point this will be rendered by the FileList class itself!
 			'<table id="filestable">' +
-			'<thead><tr><th class="hidden">Name</th></tr></thead>' +
+			'<thead><tr><th id="headerName" class="hidden">' +
+			'<input type="checkbox" id="select_all">' +
+			'<span class="name">Name</span>' +
+			'<span class="selectedActions hidden">' +
+			'<a href class="download">Download</a>' +
+			'<a href class="delete-selected">Delete</a></span>' +
+			'</th></tr></thead>' +
 		   	'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
@@ -61,25 +68,29 @@ describe('FileList tests', function() {
 			type: 'file',
 			name: 'One.txt',
 			mimetype: 'text/plain',
-			size: 12
+			size: 12,
+			etag: 'abc'
 		}, {
 			id: 2,
 			type: 'file',
 			name: 'Two.jpg',
 			mimetype: 'image/jpeg',
-			size: 12049
+			size: 12049,
+			etag: 'def',
 		}, {
 			id: 3,
 			type: 'file',
 			name: 'Three.pdf',
 			mimetype: 'application/pdf',
-			size: 58009
+			size: 58009,
+			etag: '123',
 		}, {
 			id: 4,
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
-			size: 250
+			size: 250,
+			etag: '456'
 		}];
 
 		FileList.initialize();
@@ -380,7 +391,7 @@ describe('FileList tests', function() {
 			$input.val('One_renamed.txt').blur();
 
 			expect(fakeServer.requests.length).toEqual(1);
-			var request = fakeServer.requests[0];
+			request = fakeServer.requests[0];
 			expect(request.url.substr(0, request.url.indexOf('?'))).toEqual(OC.webroot + '/index.php/apps/files/ajax/rename.php');
 			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'One_renamed.txt', file: 'One.txt'});
 
@@ -518,6 +529,16 @@ describe('FileList tests', function() {
 			FileList.$fileList.on('updated', handler);
 			FileList.setFiles(testFiles);
 			expect(handler.calledOnce).toEqual(true);
+		});
+		it('does not update summary when removing non-existing files', function() {
+			// single file
+			FileList.setFiles([testFiles[0]]);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			FileList.remove('unexist.txt');
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
 		});
 	});
 	describe('file previews', function() {
@@ -809,6 +830,190 @@ describe('FileList tests', function() {
 		});
 		it('returns the correct ajax URL', function() {
 			expect(Files.getAjaxUrl('test', {a:1, b:'x y'})).toEqual(OC.webroot + '/index.php/apps/files/ajax/test.php?a=1&b=x%20y');
+		});
+	});
+	describe('File selection', function() {
+		beforeEach(function() {
+			FileList.setFiles(testFiles);
+		});
+		it('Selects a file when clicking its checkbox', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
+			$tr.find('td.filename input:checkbox').click();
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+		});
+		it('Selecting all files will automatically check "select all" checkbox', function() {
+			expect($('#select_all').prop('checked')).toEqual(false);
+			$('#fileList tr td.filename input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+		});
+		it('Clicking "select all" will select/deselect all files', function() {
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			$('#fileList tr input:checkbox').each(function() {
+				expect($(this).prop('checked')).toEqual(true);
+			});
+
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+
+			$('#fileList tr input:checkbox').each(function() {
+				expect($(this).prop('checked')).toEqual(false);
+			});
+		});
+		it('Clicking "select all" then deselecting a file will uncheck "select all"', function() {
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+
+			var $tr = FileList.findFileEl('One.txt');
+			$tr.find('input:checkbox').click();
+
+			expect($('#select_all').prop('checked')).toEqual(false);
+		});
+		it('Selecting files updates selection summary', function() {
+			var $summary = $('#headerName span.name');
+			expect($summary.text()).toEqual('Name');
+			FileList.findFileEl('One.txt').find('input:checkbox').click();
+			FileList.findFileEl('Three.pdf').find('input:checkbox').click();
+			FileList.findFileEl('somedir').find('input:checkbox').click();
+			expect($summary.text()).toEqual('1 folder & 2 files');
+		});
+		it('Unselecting files hides selection summary', function() {
+			var $summary = $('#headerName span.name');
+			FileList.findFileEl('One.txt').find('input:checkbox').click().click();
+			expect($summary.text()).toEqual('Name');
+		});
+		it('Select/deselect files shows/hides file actions', function() {
+			var $actions = $('#headerName .selectedActions');
+			var $checkbox = FileList.findFileEl('One.txt').find('input:checkbox');
+			expect($actions.hasClass('hidden')).toEqual(true);
+			$checkbox.click();
+			expect($actions.hasClass('hidden')).toEqual(false);
+			$checkbox.click();
+			expect($actions.hasClass('hidden')).toEqual(true);
+		});
+		it('Selection is cleared when switching dirs', function() {
+			$('#select_all').click();
+			var data = {
+				status: 'success',
+				data: {
+					files: testFiles,
+					permissions: 31
+				}
+			};
+			fakeServer.respondWith(/\/index\.php\/apps\/files\/ajax\/list.php/, [
+					200, {
+						"Content-Type": "application/json"
+					},
+					JSON.stringify(data)
+			]);
+			FileList.changeDirectory('/');
+			fakeServer.respond();
+			expect($('#select_all').prop('checked')).toEqual(false);
+		});
+		describe('Actions', function() {
+			beforeEach(function() {
+				FileList.findFileEl('One.txt').find('input:checkbox').click();
+				FileList.findFileEl('Three.pdf').find('input:checkbox').click();
+				FileList.findFileEl('somedir').find('input:checkbox').click();
+			});
+			it('getSelectedFiles returns the selected files', function() {
+				var files = FileList.getSelectedFiles();
+				expect(files.length).toEqual(3);
+				expect(files[0]).toEqual({
+					id: 1,
+					name: 'One.txt',
+					mime: 'text/plain',
+					mimetype: 'text/plain',
+					type: 'file',
+					size: 12,
+					etag: 'abc',
+					origin: 1
+				});
+				expect(files[1]).toEqual({
+					id: 3,
+					type: 'file',
+					name: 'Three.pdf',
+					mime: 'application/pdf',
+					mimetype: 'application/pdf',
+					size: 58009,
+					etag: '123',
+					origin: 3
+				});
+				expect(files[2]).toEqual({
+					id: 4,
+					type: 'dir',
+					name: 'somedir',
+					mime: 'httpd/unix-directory',
+					mimetype: 'httpd/unix-directory',
+					size: 250,
+					etag: '456',
+					origin: 4
+				});
+			});
+			describe('Download', function() {
+				it('Opens download URL when clicking "Download"', function() {
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
+					redirectStub.restore();
+				});
+				it('Downloads root folder when all selected in root folder', function() {
+					$('#dir').val('/');
+					$('#select_all').click();
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
+					redirectStub.restore();
+				});
+				it('Downloads parent folder when all selected in subfolder', function() {
+					$('#select_all').click();
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
+					redirectStub.restore();
+				});
+			});
+			describe('Delete', function() {
+				it('Deletes selected files when "Delete" clicked', function() {
+					var request;
+					$('.selectedActions .delete-selected').click();
+					expect(fakeServer.requests.length).toEqual(1);
+					request = fakeServer.requests[0];
+					expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/delete.php');
+					expect(OC.parseQueryString(request.requestBody))
+						.toEqual({'dir': '/subdir', files: '["One.txt","Three.pdf","somedir"]'});
+					fakeServer.requests[0].respond(
+						200,
+						{ 'Content-Type': 'application/json' },
+						JSON.stringify({status: 'success'})
+					);
+					expect(FileList.findFileEl('One.txt').length).toEqual(0);
+					expect(FileList.findFileEl('Three.pdf').length).toEqual(0);
+					expect(FileList.findFileEl('somedir').length).toEqual(0);
+					expect(FileList.findFileEl('Two.jpg').length).toEqual(1);
+				});
+				it('Deletes all files when all selected when "Delete" clicked', function() {
+					var request;
+					$('#select_all').click();
+					$('.selectedActions .delete-selected').click();
+					expect(fakeServer.requests.length).toEqual(1);
+					request = fakeServer.requests[0];
+					expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/delete.php');
+					expect(OC.parseQueryString(request.requestBody))
+						.toEqual({'dir': '/subdir', allfiles: 'true'});
+					fakeServer.requests[0].respond(
+						200,
+						{ 'Content-Type': 'application/json' },
+						JSON.stringify({status: 'success'})
+					);
+					expect(FileList.isEmpty).toEqual(true);
+				});
+			});
 		});
 	});
 });
