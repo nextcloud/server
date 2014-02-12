@@ -105,10 +105,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr,
 												$this->access->connection->ldapGroupFilter);
-		if ($members) {
+		if (is_array($members)) {
 			foreach ($members as $memberDN) {
       		    $allMembers[$memberDN] = 1;
-				if ($this->access->connection->ldapNestedGroups) {
+				$nestedGroups = $this->access->connection->ldapNestedGroups;
+				if (!empty($nestedGroups)) {
 					$subMembers = $this->_groupMembers($memberDN, $seen);
 					if ($subMembers) {
 						$allMembers = array_merge($allMembers, $subMembers);
@@ -155,14 +156,14 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		}
 
-		$groups = array_values($this->_getGroupsByMember($uid));
+		$groups = array_values($this->getGroupsByMember($uid));
 		$groups = array_unique($this->access->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
 	}
 
-	private function _getGroupsByMember($dn, &$seen = null) {
+	private function getGroupsByMember($dn, &$seen = null) {
 		if ($seen === null) {
 			$seen = array();
 		}
@@ -178,13 +179,14 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		));
 		$groups = $this->access->fetchListOfGroups($filter,
 			array($this->access->connection->ldapGroupDisplayName, 'dn'));
-		if ($groups) {
+		if (is_array($groups)) {
 			foreach ($groups as $groupobj) {
 				$groupDN = $groupobj['dn'];
 				$allGroups[$groupDN] = $groupobj;
-				if ($this->access->connection->ldapNestedGroups) {
-					$supergroups = $this->_getGroupsByMember($groupDN, $seen);
-					if ($supergroups) {
+				$nestedGroups = $this->access->connection->ldapNestedGroups;
+				if (!empty($nestedGroups)) {
+					$supergroups = $this->getGroupsByMember($groupDN, $seen);
+					if (is_array($supergroups) && (count($supergroups)>0)) {
 						$allGroups = array_merge($allGroups, $supergroups);
 					}
 				}
