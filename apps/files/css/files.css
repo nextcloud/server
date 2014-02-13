@@ -60,6 +60,14 @@
 	color:#888; text-shadow:#fff 0 1px 0;
 }
 #filestable { position: relative; top:37px; width:100%; }
+/* make sure there's enough room for the file actions */
+#body-user #filestable {
+	min-width: 750px;
+}
+#body-user #controls {
+	min-width: 600px;
+}
+
 tbody tr { background-color:#fff; height:2.5em; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
 tbody tr.selected { background-color:#eee; }
@@ -75,7 +83,10 @@ table th { height:2em; padding:0 .5em; color:#999; }
 table th .name { float:left; margin-left:.5em; }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td { border-bottom:1px solid #eee; font-style:normal; background-position:1em .5em; background-repeat:no-repeat; }
-table th#headerName { width:100em; /* not really sure why this works better than 100% … table styling */ }
+
+table th#headerName {
+	width: 9999px; /* not really sure why this works better than 100% … table styling */
+}
 table th#headerSize, table td.filesize { min-width:3em; padding:0 1em; text-align:right; }
 table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-align:left; }
 
@@ -83,7 +94,11 @@ table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-
 #filestable.multiselect { top:63px; }
 table.multiselect thead { position:fixed; top:82px; z-index:1; -moz-box-sizing: border-box; box-sizing: border-box; left: 0; padding-left: 64px; width:100%; }
 table.multiselect thead th { background:rgba(230,230,230,.8); color:#000; font-weight:bold; border-bottom:0; }
-table.multiselect #headerName { width: 100%; }
+
+table.multiselect #headerName {
+	position: relative;
+	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
+}
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
