@@ -42,6 +42,7 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		while ($row = $result->fetchRow()) {
 			$expected[] = $row['appid'];
 		}
+		sort($expected);
 		$apps = \OC_Appconfig::getApps();
 		$this->assertEquals($expected, $apps);
 	}
@@ -53,6 +54,7 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		while($row = $result->fetchRow()) {
 			$expected[] = $row["configkey"];
 		}
+		sort($expected);
 		$keys = \OC_Appconfig::getKeys('testapp');
 		$this->assertEquals($expected, $keys);
 	}
