@@ -23,7 +23,7 @@ window.FileList={
 	 */
 	setPageTitle: function(title){
 		// Sets the page title with the " - ownCloud" suffix as in templates
-		window.document.title = title + ' - ownCloud';
+		window.document.title = title + ' - ' + oc_defaults.title;
 		
 		return true;
 	},
