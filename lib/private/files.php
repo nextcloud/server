@@ -103,7 +103,12 @@ class OC_Files {
 			if ($xsendfile) {
 				$filename = OC_Helper::moveToNoClean($filename);
 			}
-			$name = $files . '.zip';
+			// downloading root ?
+			if ($files === '') {
+				$name = 'download.zip';
+			} else {
+				$name = $files . '.zip';
+			}
 			set_time_limit($executionTime);
 		} else {
 			$zip = false;
@@ -198,6 +203,8 @@ class OC_Files {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
 		$internalDir.=$dirname.='/';
+		// prevent absolute dirs
+		$internalDir = ltrim($internalDir, '/');
 		$files=OC_Files::getDirectoryContent($dir);
 		foreach($files as $file) {
 			$filename=$file['name'];

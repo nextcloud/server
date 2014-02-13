@@ -582,30 +582,49 @@ window.FileList={
 			}});
 		}
 	},
-	do_delete:function(files) {
-		if (files.substr) {
+	do_delete:function(files, dir) {
+		var params;
+		if (files && files.substr) {
 			files=[files];
 		}
-		for (var i=0; i<files.length; i++) {
-			var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
-			deleteAction.removeClass('delete-icon').addClass('progress-icon');
+		if (files) {
+			for (var i=0; i<files.length; i++) {
+				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
+				deleteAction.removeClass('delete-icon').addClass('progress-icon');
+			}
 		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
 
-		var fileNames = JSON.stringify(files);
+		var params = {
+			dir: dir || FileList.getCurrentDirectory()
+		};
+		if (files) {
+			params.files = JSON.stringify(files);
+		}
+		else {
+			// no files passed, delete all in current dir
+			params.allfiles = true;
+		}
+
 		$.post(OC.filePath('files', 'ajax', 'delete.php'),
-				{dir:$('#dir').val(),files:fileNames},
+				params,
 				function(result) {
 					if (result.status === 'success') {
-						$.each(files,function(index,file) {
-							var files = FileList.findFileEl(file);
-							files.remove();
-							files.find('input[type="checkbox"]').removeAttr('checked');
-							files.removeClass('selected');
-						});
+						if (params.allfiles) {
+							// clear whole list
+							$('#fileList tr').remove();
+						}
+						else {
+							$.each(files,function(index,file) {
+								var files = FileList.findFileEl(file);
+								files.remove();
+								files.find('input[type="checkbox"]').removeAttr('checked');
+								files.removeClass('selected');
+							});
+						}
 						procesSelection();
 						checkTrashStatus();
 						FileList.updateFileSummary();
@@ -622,10 +641,17 @@ window.FileList={
 						setTimeout(function() {
 							OC.Notification.hide();
 						}, 10000);
-						$.each(files,function(index,file) {
-							var deleteAction = FileList.findFileEl(file).find('.action.delete');
-							deleteAction.removeClass('progress-icon').addClass('delete-icon');
-						});
+						if (params.allfiles) {
+							// reload the page as we don't know what files were deleted
+							// and which ones remain
+							FileList.reload();
+						}
+						else {
+							$.each(files,function(index,file) {
+								var deleteAction = FileList.findFileEl(file).find('.action.delete');
+								deleteAction.removeClass('progress-icon').addClass('delete-icon');
+							});
+						}
 					}
 				});
 	},
@@ -794,6 +820,13 @@ window.FileList={
 			$(e).removeClass("searchresult");
 		});
 	},
+	/**
+	 * Returns whether all files are selected
+	 * @return true if all files are selected, false otherwise
+	 */
+	isAllSelected: function() {
+		return $('#select_all').prop('checked');
+	},
 
 	/**
 	 * Returns the download URL of the given file
@@ -801,10 +834,13 @@ window.FileList={
 	 * @param dir optional directory in which the file name is, defaults to the current directory
 	 */
 	getDownloadUrl: function(filename, dir) {
+		var files = filename;
+		if ($.isArray(filename)) {
+			files = JSON.stringify(filename);
+		}
 		var params = {
-			files: filename,
 			dir: dir || FileList.getCurrentDirectory(),
-			download: null
+			files: files
 		};
 		return OC.filePath('files', 'ajax', 'download.php') + '?' + OC.buildQueryString(params);
 	}
