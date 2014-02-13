@@ -206,6 +206,8 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
+			$folder->assign('disableSharing', true);
+			$folder->assign('trash', false);
 			$tmpl->assign('folder', $folder->fetchPage());
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
 						&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));

@@ -144,5 +144,6 @@ if ($needUpgrade) {
 	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->assign('isPublic', false);
 	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
+	$tmpl->assign('disableSharing', false);
 	$tmpl->printPage();
 }
