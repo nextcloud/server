@@ -114,6 +114,13 @@ interface IServerContainer {
 	function getConfig();
 
 	/**
+	 * Returns the app config manager
+	 *
+	 * @return \OCP\IAppConfig
+	 */
+	function getAppConfig();
+
+	/**
 	 * get an L10N instance
 	 * @param $app string appid
 	 * @return \OCP\IL10N
