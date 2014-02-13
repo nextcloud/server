@@ -79,6 +79,8 @@ if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we ne
 	$needUpgrade = false;
 }
 
+$config = \OC::$server->getConfig();
+
 // Make breadcrumb
 $breadcrumb = \OCA\Files\Helper::makeBreadcrumb($dir);
 
@@ -104,7 +106,7 @@ if ($needUpgrade) {
 	$freeSpace=$storageInfo['free'];
 	$uploadLimit=OCP\Util::uploadLimit();
 	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
-	$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+	$publicUploadEnabled = $config->getAppValue('core', 'shareapi_allow_public_upload', 'yes');
 	// if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
 	$encryptionInitStatus = 2;
 	if (OC_App::isEnabled('files_encryption')) {
@@ -143,8 +145,8 @@ if ($needUpgrade) {
 	$tmpl->assign('isPublic', false);
 	$tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 	$tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
-	$tmpl->assign("mailNotificationEnabled", \OC_Appconfig::getValue('core', 'shareapi_allow_mail_notification', 'yes'));
-	$tmpl->assign("allowShareWithLink", \OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes'));
+	$tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_mail_notification', 'yes'));
+	$tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow_links', 'yes'));
 	$tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 	$tmpl->assign('disableSharing', false);
 	$tmpl->assign('ajaxLoad', $ajaxLoad);

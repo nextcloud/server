@@ -61,7 +61,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OC_User::useBackend('database');
 
 		// enable resharing
-		\OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
@@ -531,7 +531,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+		$publicShareKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'publicShareKeyId');
 
 		// check if share key for public exists
 		$this->assertTrue($this->view->file_exists(
@@ -662,7 +662,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
-		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+		$recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
 
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -755,7 +755,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123'));
 		$this->assertTrue(\OCA\Encryption\Helper::adminDisableRecovery('test123'));
-		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
+		$this->assertEquals(0, \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
 	/**
@@ -769,7 +769,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$result = \OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
 		$this->assertTrue($result);
 
-		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+		$recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
 
 		// login as user2
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
@@ -863,7 +863,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($util->setRecoveryForUser(0));
 
 		\OCA\Encryption\Helper::adminDisableRecovery('test123');
-		$this->assertEquals(0, \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled'));
+		$this->assertEquals(0, \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
 	/**

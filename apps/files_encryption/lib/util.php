@@ -63,8 +63,10 @@ class Util {
 		$this->client = $client;
 		$this->userId = $userId;
 
-		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
-		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+		$appConfig = \OC::$server->getAppConfig();
+
+		$this->publicShareKeyId = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+		$this->recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
 
 		$this->userDir = '/' . $this->userId;
 		$this->fileFolderName = 'files';
@@ -1113,9 +1115,11 @@ class Util {
 	 */
 	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false) {
 
+		$appConfig = \OC::$server->getAppConfig();
+
 		// Check if key recovery is enabled
 		if (
-			\OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled')
+			$appConfig->getValue('files_encryption', 'recoveryAdminEnabled')
 			&& $this->recoveryEnabledForUser()
 		) {
 			$recoveryEnabled = true;
@@ -1144,7 +1148,7 @@ class Util {
 		// Admin UID to list of users to share to
 		if ($recoveryEnabled) {
 			// Find recoveryAdmin user ID
-			$recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+			$recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
 		}

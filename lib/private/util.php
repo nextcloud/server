@@ -91,9 +91,10 @@ class OC_Util {
 	}
 
 	public static function getUserQuota($user){
-		$userQuota = OC_Preferences::getValue($user, 'files', 'quota', 'default');
+		$config = \OC::$server->getConfig();
+		$userQuota = $config->getUserValue($user, 'files', 'quota', 'default');
 		if($userQuota === 'default') {
-			$userQuota = OC_AppConfig::getValue('files', 'default_quota', 'none');
+			$userQuota = $config->getAppValue('files', 'default_quota', 'none');
 		}
 		if($userQuota === 'none') {
 			return \OC\Files\SPACE_UNLIMITED;
