@@ -7,7 +7,7 @@
  */
 namespace OC\Preview;
 
-if (extension_loaded('imagick') && count(\Imagick::queryFormats("SVG")) === 1) {
+if (extension_loaded('imagick') && count(@\Imagick::queryFormats("SVG")) === 1) {
 
 	class SVG extends Provider {
 

@@ -7,7 +7,7 @@
  */
 namespace OC\Preview;
 
-if (extension_loaded('imagick') && count(\Imagick::queryFormats("PDF")) === 1) {
+if (extension_loaded('imagick') && count(@\Imagick::queryFormats("PDF")) === 1) {
 
 	class PDF extends Provider {
 
