@@ -116,16 +116,22 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
 		 */
+		$backendGroupCreated = false;
 		$backend = $this->getMock('\OC_Group_Database');
 		$backend->expects($this->any())
 			->method('groupExists')
 			->with('group1')
-			->will($this->returnValue(false));
+			->will($this->returnCallback(function () use (&$backendGroupCreated) {
+				return $backendGroupCreated;
+			}));
 		$backend->expects($this->once())
 			->method('implementsActions')
 			->will($this->returnValue(true));
 		$backend->expects($this->once())
-			->method('createGroup');
+			->method('createGroup')
+			->will($this->returnCallback(function () use (&$backendGroupCreated) {
+				$backendGroupCreated = true;
+			}));;
 
 		/**
 		 * @var \OC\User\Manager $userManager
@@ -170,6 +176,10 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getGroups')
 			->with('1')
 			->will($this->returnValue(array('group1')));
+		$backend->expects($this->once())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
@@ -193,6 +203,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getGroups')
 			->with('1')
 			->will($this->returnValue(array('group1')));
+		$backend1->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend2
@@ -202,6 +215,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getGroups')
 			->with('1')
 			->will($this->returnValue(array('group12', 'group1')));
+		$backend2->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
@@ -228,6 +244,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getGroups')
 			->with('1', 2, 1)
 			->will($this->returnValue(array('group1')));
+		$backend1->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend2
@@ -237,6 +256,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getGroups')
 			->with('1', 2, 1)
 			->will($this->returnValue(array('group12')));
+		$backend2->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
@@ -263,6 +285,10 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getUserGroups')
 			->with('user1')
 			->will($this->returnValue(array('group1')));
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
@@ -286,6 +312,10 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getUserGroups')
 			->with('user1')
 			->will($this->returnValue(array('group1')));
+		$backend1->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
+
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend2
 		 */
@@ -294,6 +324,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->method('getUserGroups')
 			->with('user1')
 			->will($this->returnValue(array('group1', 'group2')));
+		$backend1->expects($this->any())
+			->method('groupExists')
+			->will($this->returnValue(true));
 
 		/**
 		 * @var \OC\User\Manager $userManager
