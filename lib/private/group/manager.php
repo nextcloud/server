@@ -108,8 +108,8 @@ class Manager extends PublicEmitter {
 	public function createGroup($gid) {
 		if (!$gid) {
 			return false;
-		} else if ($this->groupExists($gid)) {
-			return $this->get($gid);
+		} else if ($group = $this->get($gid)) {
+			return $group;
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
 			foreach ($this->backends as $backend) {
