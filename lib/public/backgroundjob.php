@@ -33,7 +33,7 @@ use \OC\BackgroundJob\JobList;
 /**
  * This class provides functions to register backgroundjobs in ownCloud
  *
- * To create a new backgroundjob create a new class that inharits from either \OC\BackgroundJob\Job,
+ * To create a new backgroundjob create a new class that inherits from either \OC\BackgroundJob\Job,
  * \OC\BackgroundJob\QueuedJob or \OC\BackgroundJob\TimedJob and register it using
  * \OCP\BackgroundJob->registerJob($job, $argument), $argument will be passed to the run() function
  * of the job when the job is executed.
@@ -73,7 +73,7 @@ class BackgroundJob {
 	 * @param mixed $argument
 	 */
 	public static function registerJob($job, $argument = null) {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		$jobList->add($job, $argument);
 	}
 
@@ -99,7 +99,7 @@ class BackgroundJob {
 	 * key is string "$klass-$method", value is array( $klass, $method )
 	 */
 	static public function allRegularTasks() {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		$allJobs = $jobList->getAll();
 		$regularJobs = array();
 		foreach ($allJobs as $job) {
@@ -118,7 +118,7 @@ class BackgroundJob {
 	 * @return associative array
 	 */
 	public static function findQueuedTask($id) {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		return $jobList->getById($id);
 	}
 
@@ -128,7 +128,7 @@ class BackgroundJob {
 	 * @return array with associative arrays
 	 */
 	public static function allQueuedTasks() {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		$allJobs = $jobList->getAll();
 		$queuedJobs = array();
 		foreach ($allJobs as $job) {
@@ -148,7 +148,7 @@ class BackgroundJob {
 	 * @return array with associative arrays
 	 */
 	public static function queuedTaskWhereAppIs($app) {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		$allJobs = $jobList->getAll();
 		$queuedJobs = array();
 		foreach ($allJobs as $job) {
@@ -186,7 +186,7 @@ class BackgroundJob {
 	 * Deletes a report
 	 */
 	public static function deleteQueuedTask($id) {
-		$jobList = new JobList();
+		$jobList = \OC::$server->getJobList();
 		$job = $jobList->getById($id);
 		if ($job) {
 			$jobList->remove($job);

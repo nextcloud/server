@@ -8,7 +8,9 @@
 
 namespace OC\BackgroundJob;
 
-abstract class Job {
+use OCP\BackgroundJob\IJob;
+
+abstract class Job implements IJob {
 	/**
 	 * @var int $id
 	 */

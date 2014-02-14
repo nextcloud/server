@@ -8,31 +8,6 @@
 
 namespace Test\BackgroundJob;
 
-
-class TestJob extends \OC\BackgroundJob\Job {
-	private $testCase;
-
-	/**
-	 * @var callable $callback
-	 */
-	private $callback;
-
-	/**
-	 * @param Job $testCase
-	 * @param callable $callback
-	 */
-	public function __construct($testCase, $callback) {
-		$this->testCase = $testCase;
-		$this->callback = $callback;
-	}
-
-	public function run($argument) {
-		$this->testCase->markRun();
-		$callback = $this->callback;
-		$callback($argument);
-	}
-}
-
 class Job extends \PHPUnit_Framework_TestCase {
 	private $run = false;
 
