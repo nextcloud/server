@@ -72,11 +72,12 @@ class Detection {
 			and function_exists('finfo_file') and $finfo = finfo_open(FILEINFO_MIME)
 		) {
 			$info = @strtolower(finfo_file($finfo, $path));
+			finfo_close($finfo);
 			if ($info) {
 				$mimeType = substr($info, 0, strpos($info, ';'));
 				return empty($mimeType) ? 'application/octet-stream' : $mimeType;
 			}
-			finfo_close($finfo);
+
 		}
 		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
 		if (!$isWrapped and $mimeType === 'application/octet-stream' && function_exists("mime_content_type")) {

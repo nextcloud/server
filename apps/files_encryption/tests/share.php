@@ -150,7 +150,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -310,7 +310,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files' . $this->folder1);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -388,7 +388,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->subfolder);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfoSubFolder));
+		$this->assertTrue($fileInfoSubFolder instanceof \OC\Files\FileInfo);
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -422,7 +422,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			. $this->subsubfolder . '/' . $this->filename);
 
 		// check if we have fileInfos
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the file with user3
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4, OCP\PERMISSION_ALL);
@@ -517,7 +517,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -595,7 +595,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -888,7 +888,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);

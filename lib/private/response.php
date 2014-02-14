@@ -153,7 +153,11 @@ class OC_Response {
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
 	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
-		if (OC_Request::isUserAgent(array(OC_Request::USER_AGENT_IE, OC_Request::USER_AGENT_ANDROID_MOBILE_CHROME))) {
+		if (OC_Request::isUserAgent(array(
+				OC_Request::USER_AGENT_IE,
+				OC_Request::USER_AGENT_ANDROID_MOBILE_CHROME,
+				OC_Request::USER_AGENT_FREEBOX
+			))) {
 			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode( $filename ) . '"' );
 		} else {
 			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode( $filename )

@@ -91,7 +91,7 @@ class Controller {
 			$databases['sqlite'] = 'SQLite';
 		}
 		if ($hasMySQL) {
-			$databases['mysql'] = 'MySQL';
+			$databases['mysql'] = 'MySQL/MariaDB';
 		}
 		if ($hasPostgreSQL) {
 			$databases['pgsql'] = 'PostgreSQL';

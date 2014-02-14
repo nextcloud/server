@@ -569,6 +569,10 @@ class Wizard extends LDAPUtility {
 		//get a result set > 0 on a proper base
 		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
 		if(!$this->ldap->isResource($rr)) {
+			$errorNo  = $this->ldap->errno($cr);
+			$errorMsg = $this->ldap->error($cr);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
+							' Error '.$errorNo.': '.$errorMsg, \OCP\Util::INFO);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -1015,6 +1019,7 @@ class Wizard extends LDAPUtility {
 			$this->configuration->ldapPort);
 
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($this->configuration->ldapTLS === 1) {
 			$this->ldap->startTls($cr);

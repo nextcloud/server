@@ -283,7 +283,7 @@ class Proxy extends \OC_FileProxy {
 	public function postGetFileInfo($path, $data) {
 
 		// if path is a folder do nothing
-		if (\OCP\App::isEnabled('files_encryption') && is_array($data) && array_key_exists('size', $data)) {
+		if (\OCP\App::isEnabled('files_encryption') && $data !== false && array_key_exists('size', $data)) {
 
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -341,7 +341,7 @@ class Proxy extends \OC_FileProxy {
 		}
 
 		// if file is encrypted return real file size
-		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+		if ($fileInfo && $fileInfo['encrypted'] === true) {
 			// try to fix unencrypted file size if it doesn't look plausible
 			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
 				$fixSize = $util->getFileSize($path);
@@ -354,7 +354,7 @@ class Proxy extends \OC_FileProxy {
 			$size = $fileInfo['unencrypted_size'];
 		} else {
 			// self healing if file was removed from file cache
-			if (!is_array($fileInfo)) {
+			if (!$fileInfo) {
 				$fileInfo = array();
 			}
 

@@ -61,7 +61,7 @@ class OC_Mount_Config {
 			'configuration' => array(
 				'configured' => '#configured',
 				'app_key' => 'App key',
-				'app_secret' => 'App secret',
+				'app_secret' => '*App secret',
 				'token' => '#token',
 				'token_secret' => '#token_secret'),
 				'custom' => 'dropbox');
@@ -69,7 +69,7 @@ class OC_Mount_Config {
 		if(OC_Mount_Config::checkphpftp()) $backends['\OC\Files\Storage\FTP']=array(
 			'backend' => 'FTP',
 			'configuration' => array(
-				'host' => 'URL',
+				'host' => 'Hostname',
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root',
@@ -80,7 +80,7 @@ class OC_Mount_Config {
 			'configuration' => array(
 				'configured' => '#configured',
 				'client_id' => 'Client ID',
-				'client_secret' => 'Client secret',
+				'client_secret' => '*Client secret',
 				'token' => '#token'),
 				'custom' => 'google');
 

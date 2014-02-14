@@ -750,7 +750,7 @@ class Access extends LDAPUtility {
 			}
 		} else {
 			if(!is_null($limit)) {
-				\OCP\Util::writeLog('user_ldap', 'Paged search failed :(', \OCP\Util::INFO);
+				\OCP\Util::writeLog('user_ldap', 'Paged search was not available', \OCP\Util::INFO);
 			}
 		}
 	}

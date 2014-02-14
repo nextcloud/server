@@ -36,8 +36,8 @@ use OCA\Encryption;
  */
 class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
-	const TEST_ENCRYPTION_HOOKS_USER1 = "test-proxy-user1";
-	const TEST_ENCRYPTION_HOOKS_USER2 = "test-proxy-user2";
+	const TEST_ENCRYPTION_HOOKS_USER1 = "test-encryption-hooks-user1";
+	const TEST_ENCRYPTION_HOOKS_USER2 = "test-encryption-hooks-user2";
 
 	/**
 	 * @var \OC_FilesystemView
@@ -203,7 +203,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		$fileInfo = $this->user1View->getFileInfo($this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue(is_array($fileInfo));
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the file with user2
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_HOOKS_USER2, OCP\PERMISSION_ALL);

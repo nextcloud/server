@@ -80,8 +80,15 @@ class Hooks {
 
 		// Check if first-run file migration has already been performed
 		$ready = false;
-		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+		$migrationStatus = $util->getMigrationStatus();
+		if ($migrationStatus === Util::MIGRATION_OPEN) {
 			$ready = $util->beginMigration();
+		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
+			// refuse login as long as the initial encryption is running
+			while ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
+				sleep(60);
+				$migrationStatus = $util->getMigrationStatus();
+			}
 		}
 
 		// If migration not yet done
