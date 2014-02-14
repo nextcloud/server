@@ -567,7 +567,7 @@ class Stream {
 
 			// get file info
 			$fileInfo = $this->rootView->getFileInfo($path);
-			if (is_array($fileInfo)) {
+			if ($fileInfo) {
 				// set encryption data
 				$fileInfo['encrypted'] = true;
 				$fileInfo['size'] = $this->size;

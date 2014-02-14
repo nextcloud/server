@@ -121,7 +121,7 @@ class Util {
 	/**
 	 * get l10n object
 	 * @param string $application
-	 * @return OC_L10N
+	 * @return \OC_L10N
 	 */
 	public static function getL10N( $application ) {
 		return \OC_L10N::get( $application );

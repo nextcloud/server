@@ -328,7 +328,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoUnencrypted));
+		$this->assertTrue($fileInfoUnencrypted instanceof \OC\Files\FileInfo);
 
 		// enable file encryption again
 		\OC_App::enable('files_encryption');
@@ -338,7 +338,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoEncrypted));
+		$this->assertTrue($fileInfoEncrypted instanceof \OC\Files\FileInfo);
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
@@ -357,14 +357,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoEncrypted));
+		$this->assertTrue($fileInfoEncrypted instanceof \OC\Files\FileInfo);
 
 		// encrypt all unencrypted files
 		$util->decryptAll('/' . $this->userId . '/' . 'files');
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoUnencrypted));
+		$this->assertTrue($fileInfoUnencrypted instanceof \OC\Files\FileInfo);
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
