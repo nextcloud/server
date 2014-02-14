@@ -8,7 +8,7 @@
 
 namespace OC\Files;
 
-class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess, \JsonSerializable {
+class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	/**
 	 * @var array $data
 	 */
@@ -50,10 +50,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess, \JsonSerializable {
 
 	public function offsetGet($offset) {
 		return $this->data[$offset];
-	}
-
-	public function jsonSerialize() {
-		return $this->data;
 	}
 
 	/**
