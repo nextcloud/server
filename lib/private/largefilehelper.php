@@ -13,6 +13,31 @@ namespace OC;
  */
 class LargeFileHelper {
 	/**
+	* pow(2, 53) as a base-10 string.
+	* @var string
+	*/
+	const POW_2_53 = '9007199254740992';
+
+	/**
+	* pow(2, 53) - 1 as a base-10 string.
+	* @var string
+	*/
+	const POW_2_53_MINUS_1 = '9007199254740991';
+
+	/**
+	* @brief Constructor. Checks whether our assumptions hold on the platform
+	*        we are on, throws an exception if they do not hold.
+	*/
+	public function __construct() {
+		$pow_2_53 = floatval(self::POW_2_53_MINUS_1) + 1.0;
+		if ($this->formatUnsignedInteger($pow_2_53) !== self::POW_2_53) {
+			throw new \RunTimeException(
+				'This class assumes floats to be double precision or "better".'
+			);
+		}
+	}
+
+	/**
 	* @brief Formats a signed integer or float as an unsigned integer base-10
 	*        string. Passed strings will be checked for being base-10.
 	*
