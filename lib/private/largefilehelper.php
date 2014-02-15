@@ -13,6 +13,30 @@ namespace OC;
  */
 class LargeFileHelper {
 	/**
+	* @brief Formats a signed integer or float as an unsigned integer base-10
+	*        string. Passed strings will be checked for being base-10.
+	*
+	* @param int|float|string $number Number containing unsigned integer data
+	*
+	* @return string Unsigned integer base-10 string
+	*/
+	public function formatUnsignedInteger($number) {
+		if (is_float($number)) {
+			// Undo the effect of the php.ini setting 'precision'.
+			return number_format($number, 0, '', '');
+		} else if (is_string($number) && ctype_digit($number)) {
+			return $number;
+		} else if (is_int($number)) {
+			// Interpret signed integer as unsigned integer.
+			return sprintf('%u', $number);
+		} else {
+			throw new \UnexpectedValueException(
+				'Expected int, float or base-10 string'
+			);
+		}
+	}
+
+	/**
 	* @brief Tries to get the filesize of a file via various workarounds that
 	*        even work for large files on 32-bit platforms.
 	*
