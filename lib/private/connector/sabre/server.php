@@ -170,7 +170,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 						if ($node instanceof Sabre_DAV_IFile) {
 							$size = $node->getSize();
 							if (!is_null($size)) {
-								$newProperties[200][$prop] = (int)$node->getSize();
+								$newProperties[200][$prop] = 0 + $size;
 							}
 						}
 						break;

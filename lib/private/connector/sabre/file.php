@@ -156,7 +156,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	/**
 	 * Returns the size of the node, in bytes
 	 *
-	 * @return int
+	 * @return int|float
 	 */
 	public function getSize() {
 		return $this->info->getSize();
