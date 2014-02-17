@@ -256,34 +256,15 @@ class Storage {
 			sort( $matches );
 
 			$files_view = new \OC\Files\View('/'.$uid.'/files');
-			$local_file = $files_view->getLocalFile($filename);
-			$local_file_md5 = \md5_file( $local_file );
 
 			foreach( $matches as $ma ) {
 				$parts = explode( '.v', $ma );
 				$version = ( end( $parts ) );
 				$key = $version.'#'.$filename;
-				$versions[$key]['cur'] = 0;
 				$versions[$key]['version'] = $version;
 				$versions[$key]['path'] = $filename;
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
-
-				// if file with modified date exists, flag it in array as currently enabled version
-				( \md5_file( $ma ) == $local_file_md5 ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
-
 			}
-
-			$versions = array_reverse( $versions );
-
-			foreach( $versions as $key => $value ) {
-				// flag the first matched file in array (which will have latest modification date) as current version
-				if ( $value['fileMatch'] ) {
-					$value['cur'] = 1;
-					break;
-				}
-			}
-
-			$versions = array_reverse( $versions );
 
 			// only show the newest commits
 			if( $count != 0 and ( count( $versions )>$count ) ) {
