@@ -85,46 +85,7 @@ class ConvertType extends Command {
 		$fromDB = \OC_DB::getConnection();
 
 		// connect 'to' database
-		$type = $input->getArgument('type');
-		$username = $input->getArgument('username');
-		$hostname = $input->getArgument('hostname');
-		$dbname = $input->getArgument('database');
-
-		if (!isset(self::$type2driver[$type])) {
-			throw new InvalidArgumentException('Unknown type: '.$type);
-		}
-		if ($input->getOption('password')) {
-			$password = $input->getOption('password');
-		} else {
-			// TODO: should be moved to the interact function
-			$dialog = $this->getHelperSet()->get('dialog');
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'What is the database password?',
-				false
-			);
-		}
-		$connectionParams = array(
-				'driver' => self::$type2driver[$type],
-				'user' => $username,
-				'password' => $password,
-				'host' => $hostname,
-				'dbname' => $dbname,
-		);
-		if ($input->getOption('port')) {
-			$connectionParams['port'] = $input->getOption('port');
-		}
-		switch ($type) {
-			case 'mysql':
-			case 'mssql':
-				$connectionParams['charset'] = 'UTF8';
-				break;
-			case 'oci':
-				$connectionParams['charset'] = 'AL32UTF8';
-				break;
-		}
-
-		$toDB = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+		$toDB = $this->getToDBConnection($input, $output);
 
 		// Clearing schema in new database
 		if ($input->getOption('clear-schema')) {
@@ -167,41 +128,52 @@ class ConvertType extends Command {
 			}
 		}
 		// enable maintenance mode to prevent changes
-		$this->config->setValue('maintenance', true);
-		try {
-			// copy table rows
-			$tables = array_intersect($toTables, $fromTables);
-			foreach($tables as $table) {
-				$output->writeln($table);
-				$this->copyTable($fromDB, $toDB, $table, $output);
-			}
-			if ($type == 'pgsql') {
-				$sequences = $toDB->getSchemaManager()->listSequences();
-				foreach($sequences as $sequence) {
-					$info = $toDB->fetchAssoc('SELECT table_schema, table_name, column_name '
-						.'FROM information_schema.columns '
-						.'WHERE column_default = ? AND table_catalog = ?',
-							array("nextval('".$sequence->getName()."'::regclass)", $dbname));
-					$table_name = $info['table_name'];
-					$column_name = $info['column_name'];
-					$toDB->executeQuery("SELECT setval('" . $sequence->getName() . "', (SELECT MAX(" . $column_name . ") FROM " . $table_name . ")+1)");
-				}
-			}
-			// save new database config
-			$dbhost = $hostname;
-			if ($input->getOption('port')) {
-				$dbhost = $hostname.':'.$input->getOption('port');
-			}
-			$this->config->setValue('dbtype', $type);
-			$this->config->setValue('dbname', $dbname);
-			$this->config->setValue('dbhost', $dbhost);
-			$this->config->setValue('dbuser', $username);
-			$this->config->setValue('dbpassword', $password);
-		} catch(\Exception $e) {
-			$this->config->setValue('maintenance', false);
-			throw $e;
+		$tables = array_intersect($toTables, $fromTables);
+		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
+	}
+
+	private function getToDBConnection($input, $output) {
+		$type = $input->getArgument('type');
+		$username = $input->getArgument('username');
+		$hostname = $input->getArgument('hostname');
+		$dbname = $input->getArgument('database');
+
+		if (!isset(self::$type2driver[$type])) {
+			throw new InvalidArgumentException('Unknown type: '.$type);
 		}
-		$this->config->setValue('maintenance', false);
+		if ($input->getOption('password')) {
+			$password = $input->getOption('password');
+		} else {
+			// TODO: should be moved to the interact function
+			$dialog = $this->getHelperSet()->get('dialog');
+			$password = $dialog->askHiddenResponse(
+				$output,
+				'What is the database password?',
+				false
+			);
+			$input->setOption('password', $password);
+		}
+		$connectionParams = array(
+				'driver' => self::$type2driver[$type],
+				'user' => $username,
+				'password' => $password,
+				'host' => $hostname,
+				'dbname' => $dbname,
+		);
+		if ($input->getOption('port')) {
+			$connectionParams['port'] = $input->getOption('port');
+		}
+		switch ($type) {
+			case 'mysql':
+			case 'mssql':
+				$connectionParams['charset'] = 'UTF8';
+				break;
+			case 'oci':
+				$connectionParams['charset'] = 'AL32UTF8';
+				break;
+		}
+
+		return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 	}
 
 	private function getTables($db) {
@@ -226,5 +198,53 @@ class ConvertType extends Command {
 			$toDB->insert($table, $data);
 		}
 		$progress->finish();
+	}
+
+	private function convertDB($fromDB, $toDB, $tables, $input, $output) {
+		$this->config->setValue('maintenance', true);
+		$type = $input->getArgument('type');
+		try {
+			// copy table rows
+			foreach($tables as $table) {
+				$output->writeln($table);
+				$this->copyTable($fromDB, $toDB, $table, $output);
+			}
+			if ($type == 'pgsql') {
+				$sequences = $toDB->getSchemaManager()->listSequences();
+				$dbname = $input->getArgument('database');
+				foreach($sequences as $sequence) {
+					$info = $toDB->fetchAssoc('SELECT table_schema, table_name, column_name '
+						.'FROM information_schema.columns '
+						.'WHERE column_default = ? AND table_catalog = ?',
+							array("nextval('".$sequence->getName()."'::regclass)", $dbname));
+					$table_name = $info['table_name'];
+					$column_name = $info['column_name'];
+					$toDB->executeQuery("SELECT setval('" . $sequence->getName() . "', (SELECT MAX(" . $column_name . ") FROM " . $table_name . ")+1)");
+				}
+			}
+			// save new database config
+			$this->saveDBInfo($input);
+		} catch(\Exception $e) {
+			$this->config->setValue('maintenance', false);
+			throw $e;
+		}
+		$this->config->setValue('maintenance', false);
+	}
+
+	private function saveDBInfo($input) {
+		$type = $input->getArgument('type');
+		$username = $input->getArgument('username');
+		$dbhost = $input->getArgument('hostname');
+		$dbname = $input->getArgument('database');
+		$password = $input->getOption('password');
+		if ($input->getOption('port')) {
+			$dbhost .= ':'.$input->getOption('port');
+		}
+
+		$this->config->setValue('dbtype', $type);
+		$this->config->setValue('dbname', $dbname);
+		$this->config->setValue('dbhost', $dbhost);
+		$this->config->setValue('dbuser', $username);
+		$this->config->setValue('dbpassword', $password);
 	}
 }
