@@ -1,37 +1,44 @@
+### Steps to reproduce
+1.
+2.
+3.
+
 ### Expected behaviour
 Tell us what should happen
 
 ### Actual behaviour
 Tell us what happens instead
 
-### Steps to reproduce
-1. 
-2. 
-3. 
-
 ### Server configuration
-Operating system:
+**Operating system**:
 
-Web server: 
+**Web server:**
 
-Database:
+**Database:**
 
-PHP version:
+**PHP version:**
 
-ownCloud version: (see ownCloud admin page)
+**ownCloud version:** (see ownCloud admin page)
 
-Updated from an older ownCloud or fresh install:
+**Updated from an older ownCloud or fresh install:**
 
-List of activated app:
+**List of activated apps:**
 
-The content of config/config.php: (Without the database password and passwordsalt)
+**The content of config/config.php:**
 
-Are you using external storage, if yes which one:
+```
+Insert your config.php content here
+(Without the database password and passwordsalt)
+```
+
+**Are you using external storage, if yes which one:** local/smb/sftp/...
+
+**Are you using encryption:** yes/no
 
 ### Client configuration
-Browser:
+**Browser:**
 
-Operating system:
+**Operating system:**
 
 ### Logs
 #### Web server error log
