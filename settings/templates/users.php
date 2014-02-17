@@ -21,7 +21,7 @@ $_['subadmingroups'] = array_flip($items);
 		<li>
 			<form id="newgroup">
 				<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
-				<input type="submit" value="<?php p($l->t('Create'))?>" />
+				<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />
 			</form>
 		</li>
 		<!-- Everyone -->
@@ -95,7 +95,7 @@ $_['subadmingroups'] = array_flip($items);
 			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 			<?php endforeach;?>
 		</select>
-		<input type="submit" value="<?php p($l->t('Create'))?>" />
+		<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />
 	</form>
 	<?php if((bool)$_['recoveryAdminEnabled']): ?>
 	<div class="recoveryPassword">
