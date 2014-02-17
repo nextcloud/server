@@ -10,6 +10,7 @@ OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 
+\OCP\Util::addscript('files_encryption', 'encryption');
 \OCP\Util::addscript('files_encryption', 'detect-migration');
 
 if (!OC_Config::getValue('maintenance', false)) {

@@ -16,7 +16,14 @@ $util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
 $result = $util->initEncryption($params);
 
 if ($result !== false) {
-	$successful = $util->decryptAll();
+
+	try {
+		$successful = $util->decryptAll();
+	} catch (\Exception $ex) {
+		\OCP\Util::writeLog('encryption library', "Decryption finished unexpected: " . $ex->getMessage(), \OCP\Util::ERROR);
+		$successful = false;
+	}
+
 	if ($successful === true) {
 		\OCP\JSON::success(array('data' => array('message' => 'Files decrypted successfully')));
 	} else {
