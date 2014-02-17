@@ -151,6 +151,7 @@ class OC_Helper {
 	 */
 	public static function mimetypeIcon($mimetype) {
 		$alias = array(
+			'application/octet-stream' => 'file', // use file icon as fallback
 			'application/xml' => 'code/xml',
 			'application/msword' => 'x-office/document',
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
