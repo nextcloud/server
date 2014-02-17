@@ -316,7 +316,8 @@ class Util {
 			$found = array(
 				'plain' => array(),
 				'encrypted' => array(),
-				'legacy' => array()
+				'legacy' => array(),
+				'broken' => array(),
 			);
 		}
 
@@ -327,10 +328,7 @@ class Util {
 			if(is_resource($handle)) {
 				while (false !== ($file = readdir($handle))) {
 
-					if (
-						$file !== "."
-						&& $file !== ".."
-					) {
+					if ($file !== "." && $file !== "..") {
 
 						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 						$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
@@ -357,15 +355,23 @@ class Util {
 							// NOTE: This is inefficient;
 							// scanning every file like this
 							// will eat server resources :(
-							if (
-								Keymanager::getFileKey($this->view, $this, $relPath)
-								&& $isEncryptedPath
-							) {
+							if ($isEncryptedPath) {
 
-								$found['encrypted'][] = array(
-									'name' => $file,
-									'path' => $filePath
-								);
+								$fileKey = Keymanager::getFileKey($this->view, $this, $relPath);
+								$shareKey = Keymanager::getShareKey($this->view, $this->userId, $this, $relPath);
+								// if file is encrypted but now file key is available, throw exception
+								if ($fileKey === false || $shareKey === false) {
+									\OCP\Util::writeLog('encryption library', 'No keys available to decrypt the file: ' . $filePath, \OCP\Util::ERROR);
+									$found['broken'][] = array(
+										'name' => $file,
+										'path' => $filePath,
+									);
+								} else {
+									$found['encrypted'][] = array(
+										'name' => $file,
+										'path' => $filePath,
+									);
+								}
 
 								// If the file uses old
 								// encryption system
@@ -768,6 +774,12 @@ class Util {
 			}
 
 			if (!$this->decryptVersions($decryptedFiles)) {
+				$successful = false;
+			}
+
+			// if there are broken encrypted files than the complete decryption
+			// was not successful
+			if (!empty($found['broken'])) {
 				$successful = false;
 			}
 
@@ -1186,26 +1198,48 @@ class Util {
 	}
 
 	/**
+	 * @brief set migration status
+	 * @param int $status
+	 * @return boolean
+	 */
+	private function setMigrationStatus($status) {
+
+		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
+		$args = array($status, $this->userId);
+		$query = \OCP\DB::prepare($sql);
+		$manipulatedRows = $query->execute($args);
+
+		if ($manipulatedRows === 1) {
+			$result = true;
+			\OCP\Util::writeLog('Encryption library', "Migration status set to " . self::MIGRATION_OPEN, \OCP\Util::INFO);
+		} else {
+			$result = false;
+			\OCP\Util::writeLog('Encryption library', "Could not set migration status to " . self::MIGRATION_OPEN, \OCP\Util::WARN);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @brief start migration mode to initially encrypt users data
 	 * @return boolean
 	 */
 	public function beginMigration() {
 
-		$return = false;
+		$result = $this->setMigrationStatus(self::MIGRATION_IN_PROGRESS);
 
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
-		$args = array(self::MIGRATION_IN_PROGRESS, $this->userId, self::MIGRATION_OPEN);
-		$query = \OCP\DB::prepare($sql);
-		$manipulatedRows = $query->execute($args);
-
-		if ($manipulatedRows === 1) {
-			$return = true;
+		if ($result) {
 			\OCP\Util::writeLog('Encryption library', "Start migration to encryption mode for " . $this->userId, \OCP\Util::INFO);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "Could not activate migration mode for " . $this->userId . ". Probably another process already started the initial encryption", \OCP\Util::WARN);
 		}
 
-		return $return;
+		return $result;
+	}
+
+	public function resetMigrationStatus() {
+		return $this->setMigrationStatus(self::MIGRATION_OPEN);
+
 	}
 
 	/**
@@ -1213,22 +1247,15 @@ class Util {
 	 * @return boolean
 	 */
 	public function finishMigration() {
+		$result = $this->setMigrationStatus(self::MIGRATION_COMPLETED);
 
-		$return = false;
-
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ? and `migration_status` = ?';
-		$args = array(self::MIGRATION_COMPLETED, $this->userId, self::MIGRATION_IN_PROGRESS);
-		$query = \OCP\DB::prepare($sql);
-		$manipulatedRows = $query->execute($args);
-
-		if ($manipulatedRows === 1) {
-			$return = true;
+		if ($result) {
 			\OCP\Util::writeLog('Encryption library', "Finish migration successfully for " . $this->userId, \OCP\Util::INFO);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "Could not deactivate migration mode for " . $this->userId, \OCP\Util::WARN);
 		}
 
-		return $return;
+		return $result;
 	}
 
 	/**

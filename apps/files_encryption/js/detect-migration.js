@@ -17,8 +17,12 @@ $(document).ready(function(){
 			data: {user: user, password: password},
 			async: false,
 			success: function(response) {
-				if (response.data.migrationCompleted === false) {
+				if (response.data.migrationStatus === OC.Encryption.MIGRATION_OPEN) {
 					var message = t('files_encryption', 'Initial encryption started... This can take some time. Please wait.');
+					$('#messageText').text(message);
+					$('#message').removeClass('hidden').addClass('update');
+				} else if (response.data.migrationStatus === OC.Encryption.MIGRATION_IN_PROGRESS) {
+					var message = t('files_encryption', 'Initial encryption running... Please try again later.');
 					$('#messageText').text(message);
 					$('#message').removeClass('hidden').addClass('update');
 				}
