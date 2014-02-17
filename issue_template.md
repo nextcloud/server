@@ -33,8 +33,6 @@ Insert your config.php content here
 
 **Are you using external storage, if yes which one:** local/smb/sftp/...
 
-**Are you using quota:** yes/no
-
 **Are you using encryption:** yes/no
 
 ### Client configuration
