@@ -319,7 +319,7 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 #fileList a.action {
 	display: inline;
 	margin: -8px 0;
-	padding: 18px 8px !important;
+	padding: 18px 8px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;
