@@ -66,14 +66,10 @@ p.info a {
 	margin:0 auto;
 }
 
-#imgframe img {
+#imgframe img,
+#imgframe video {
 	max-height:100%;
 	max-width:100%;
-}
-
-#imgframe video {
-        max-height:100%;
-        max-width:100%;
 }
 
 /* some margin for the file type icon */
