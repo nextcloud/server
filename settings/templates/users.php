@@ -28,7 +28,7 @@ $_['subadmingroups'] = array_flip($items);
 		<li>
 			<a href="#"><?php p($l->t('Everyone')); ?></a>
 		</li>
-		
+
 		<!-- The Admin Group -->
 		<?php foreach($_["adminGroup"] as $adminGroup): ?>
 			<li>
@@ -102,6 +102,9 @@ $_['subadmingroups'] = array_flip($items);
 			class="groupsselect"
 			id="newusergroups" data-placeholder="groups"
 			title="<?php p($l->t('Groups'))?>" multiple="multiple">
+			<?php foreach($_["adminGroup"] as $adminGroup): ?>
+			<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
+			<?php endforeach; ?>
 			<?php foreach($_["groups"] as $group): ?>
 			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 			<?php endforeach;?>
@@ -160,6 +163,9 @@ $_['subadmingroups'] = array_flip($items);
 				data-user-groups="<?php p(json_encode($user['groups'])) ;?>"
 				data-placeholder="groups" title="<?php p($l->t('Groups'))?>"
 				multiple="multiple">
+					<?php foreach($_["adminGroup"] as $adminGroup): ?>
+					<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
+					<?php endforeach; ?>
 					<?php foreach($_["groups"] as $group): ?>
 					<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 					<?php endforeach;?>
