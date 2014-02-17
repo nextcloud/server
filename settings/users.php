@@ -77,17 +77,25 @@ foreach($accessibleusers as $uid => $displayName) {
 }
 
 foreach( $accessiblegroups as $gid ) {
-	$groups[] = array(
-		'id' => str_replace(' ','', $gid ),
-		'name' => $gid,
-		'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset),
-		'isAdmin' => !OC_User::isAdminUser($gid),
-	);
+	if (!OC_User::isAdminUser($gid)) {
+		$groups[] = array(
+			'id' => str_replace(' ','', $gid ),
+			'name' => $gid,
+			'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset)
+		);
+	} else {
+		$adminGroup[] =  array(
+			'id' => str_replace(' ','', $gid ),
+			'name' => $gid,
+			'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset)
+		);
+	}
 }
 
 $tmpl = new OC_Template( "settings", "users", "user" );
 $tmpl->assign( 'users', $users );
 $tmpl->assign( 'groups', $groups );
+$tmpl->assign( 'adminGroup', $adminGroup );
 $tmpl->assign( 'isadmin', (int) $isadmin);
 $tmpl->assign( 'subadmins', $subadmins);
 $tmpl->assign( 'numofgroups', count($accessiblegroups));
