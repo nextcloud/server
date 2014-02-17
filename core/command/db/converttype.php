@@ -29,6 +29,19 @@ class ConvertType extends Command {
 		parent::__construct();
 	}
 
+	protected function interact(InputInterface $input, OutputInterface $output) {
+		parent::interact($input, $output);
+		if (!$input->getOption('password')) {
+			$dialog = $this->getHelperSet()->get('dialog');
+			$password = $dialog->askHiddenResponse(
+				$output,
+				'What is the database password?',
+				false
+			);
+			$input->setOption('password', $password);
+		}
+	}
+
 	protected function configure() {
 		$this
 			->setName('db:convert-type')
@@ -137,21 +150,10 @@ class ConvertType extends Command {
 		$username = $input->getArgument('username');
 		$hostname = $input->getArgument('hostname');
 		$dbname = $input->getArgument('database');
+		$password = $input->getOption('password');
 
 		if (!isset(self::$type2driver[$type])) {
 			throw new InvalidArgumentException('Unknown type: '.$type);
-		}
-		if ($input->getOption('password')) {
-			$password = $input->getOption('password');
-		} else {
-			// TODO: should be moved to the interact function
-			$dialog = $this->getHelperSet()->get('dialog');
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'What is the database password?',
-				false
-			);
-			$input->setOption('password', $password);
 		}
 		$connectionParams = array(
 				'driver' => self::$type2driver[$type],
