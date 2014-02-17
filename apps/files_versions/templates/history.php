@@ -24,9 +24,6 @@ if( isset( $_['message'] ) ) {
 		p(OCP\Util::formatDate( doubleval($v['version'])));
 		print_unescaped(' <a href="'.OCP\Util::linkTo('files_versions', 'history.php',
 			array('path' => $_['path'], 'revert' => $v['version'])) .'" class="button">Revert</a><br /><br />');
-		if ( $v['cur'] ) {
-			print_unescaped('  (<b>Current</b>)');
-		}
 		print_unescaped('<br /><br />');
 	}
 
