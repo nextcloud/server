@@ -85,10 +85,9 @@ class Hooks {
 			$ready = $util->beginMigration();
 		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
 			// refuse login as long as the initial encryption is running
-			while ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
-				sleep(60);
-				$migrationStatus = $util->getMigrationStatus();
-			}
+			sleep(5);
+			\OCP\User::logout();
+			return false;
 		}
 
 		// If migration not yet done
@@ -109,21 +108,27 @@ class Hooks {
 
 			}
 
-			// Encrypt existing user files:
-			if (
-				$util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'])
-			) {
+			// Encrypt existing user files
+			try {
+				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password']);
+			} catch (\Exception $ex) {
+				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
+				$util->resetMigrationStatus();
+				\OCP\User::logout();
+				$result = false;
+			}
+
+			if ($result) {
 
 				\OC_Log::write(
 					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
 					, \OC_Log::INFO
 				);
 
+				// Register successful migration in DB
+				$util->finishMigration();
+
 			}
-
-			// Register successful migration in DB
-			$util->finishMigration();
-
 		}
 
 		return true;

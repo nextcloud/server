@@ -354,6 +354,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						break;
 					}
 				}
+				$sorter = new \OC\Share\SearchResultSorter($_GET['search'],
+														   'label',
+														   new \OC\Log());
+				usort($shareWith, array($sorter, 'sort'));
 				OC_JSON::success(array('data' => $shareWith));
 			}
 			break;

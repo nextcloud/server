@@ -64,6 +64,8 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 
 	function setUp() {
+		// login user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
 		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
 		$this->userId = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1;
 		$this->pass = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1;
@@ -328,7 +330,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoUnencrypted));
+		$this->assertTrue($fileInfoUnencrypted instanceof \OC\Files\FileInfo);
 
 		// enable file encryption again
 		\OC_App::enable('files_encryption');
@@ -338,7 +340,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoEncrypted));
+		$this->assertTrue($fileInfoEncrypted instanceof \OC\Files\FileInfo);
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
@@ -357,20 +359,95 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoEncrypted));
+		$this->assertTrue($fileInfoEncrypted instanceof \OC\Files\FileInfo);
+		$this->assertEquals($fileInfoEncrypted['encrypted'], 1);
 
-		// encrypt all unencrypted files
-		$util->decryptAll('/' . $this->userId . '/' . 'files');
+		// decrypt all encrypted files
+		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+
+		$this->assertTrue($result);
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
 
-		$this->assertTrue(is_array($fileInfoUnencrypted));
+		$this->assertTrue($fileInfoUnencrypted instanceof \OC\Files\FileInfo);
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
 		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+		// file should no longer be encrypted
+		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
 		$this->view->unlink($this->userId . '/files/' . $filename);
+
+	}
+
+	function testDescryptAllWithBrokenFiles() {
+
+		$file1 = "/decryptAll1" . uniqid() . ".txt";
+		$file2 = "/decryptAll2" . uniqid() . ".txt";
+
+		$util = new Encryption\Util($this->view, $this->userId);
+
+		$this->view->file_put_contents($this->userId . '/files/' . $file1, $this->dataShort);
+		$this->view->file_put_contents($this->userId . '/files/' . $file2, $this->dataShort);
+
+		$fileInfoEncrypted1 = $this->view->getFileInfo($this->userId . '/files/' . $file1);
+		$fileInfoEncrypted2 = $this->view->getFileInfo($this->userId . '/files/' . $file2);
+
+		$this->assertTrue($fileInfoEncrypted1 instanceof \OC\Files\FileInfo);
+		$this->assertTrue($fileInfoEncrypted2 instanceof \OC\Files\FileInfo);
+		$this->assertEquals($fileInfoEncrypted1['encrypted'], 1);
+		$this->assertEquals($fileInfoEncrypted2['encrypted'], 1);
+
+		// rename keyfile for file1 so that the decryption for file1 fails
+		// Expected behaviour: decryptAll() returns false, file2 gets decrypted anyway
+		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key',
+				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved');
+
+		// decrypt all encrypted files
+		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+
+		$this->assertFalse($result);
+
+		$fileInfoUnencrypted1 = $this->view->getFileInfo($this->userId . '/files/' . $file1);
+		$fileInfoUnencrypted2 = $this->view->getFileInfo($this->userId . '/files/' . $file2);
+
+		$this->assertTrue($fileInfoUnencrypted1 instanceof \OC\Files\FileInfo);
+		$this->assertTrue($fileInfoUnencrypted2 instanceof \OC\Files\FileInfo);
+
+		// file1 should be still encrypted; file2 should be decrypted
+		$this->assertEquals(1, $fileInfoUnencrypted1['encrypted']);
+		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
+
+		// keyfiles and share keys should still exist
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+
+		// rename the keyfile for file1 back
+		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved',
+				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key');
+
+		// try again to decrypt all encrypted files
+		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+
+		$this->assertTrue($result);
+
+		$fileInfoUnencrypted1 = $this->view->getFileInfo($this->userId . '/files/' . $file1);
+		$fileInfoUnencrypted2 = $this->view->getFileInfo($this->userId . '/files/' . $file2);
+
+		$this->assertTrue($fileInfoUnencrypted1 instanceof \OC\Files\FileInfo);
+		$this->assertTrue($fileInfoUnencrypted2 instanceof \OC\Files\FileInfo);
+
+		// now both files should be decrypted
+		$this->assertEquals(0, $fileInfoUnencrypted1['encrypted']);
+		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
+
+		// keyfiles and share keys should be deleted
+		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
+		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+
+		$this->view->unlink($this->userId . '/files/' . $file1);
+		$this->view->unlink($this->userId . '/files/' . $file2);
 
 	}
 

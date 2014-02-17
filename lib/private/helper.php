@@ -804,18 +804,22 @@ class OC_Helper {
 	/**
 	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
 	 *
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @param int $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
+	 * @return int number of bytes representing
 	 */
-	public static function maxUploadFilesize($dir) {
-		return min(self::freeSpace($dir), self::uploadLimit());
+	public static function maxUploadFilesize($dir, $freeSpace = null) {
+		if (is_null($freeSpace)){
+			$freeSpace = self::freeSpace($dir);
+		}
+		return min($freeSpace, self::uploadLimit());
 	}
 
 	/**
 	 * Calculate free space left within user quota
 	 * 
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @return int number of bytes representing
 	 */
 	public static function freeSpace($dir) {
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
