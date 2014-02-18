@@ -61,17 +61,25 @@ class OC_OCS_Cloud {
 	 *                           the user from whom the information will be returned
 	 */
 	public static function getUser($parameters) {
+		$return  = array();
 		// Check if they are viewing information on themselves
 		if($parameters['userid'] === OC_User::getUser()) {
 			// Self lookup
 			$storage = OC_Helper::getStorageInfo('/');
-			$quota = array(
+			$return['quota'] = array(
 				'free' =>  $storage['free'],
 				'used' =>  $storage['used'],
 				'total' =>  $storage['total'],
 				'relative' => $storage['relative'],
 				);
-			return new OC_OCS_Result(array('quota' => $quota));
+		}
+		if(OC_User::isAdminUser(OC_User::getUser()) 
+			|| OC_Subadmin::isUserAccessible(OC_User::getUser(), $parameters['userid'])) {
+			// Is an admin/subadmin so can see display name
+			$return['displayname'] = OC_User::getDisplayName($parameters['userid']);
+		}
+		if(count($return)) {
+			return new OC_OCS_Result($return);
 		} else {
 			// No permission to view this user data
 			return new OC_OCS_Result(null, 997);
