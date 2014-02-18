@@ -125,7 +125,7 @@ var UserList = {
 		}
 	},
 
-	add: function (username, displayname, groups, subadmin, quota, sort) {
+	add: function (username, displayname, groups, subadmin, quota, storageLocation, sort) {
 		var tr = $('tbody tr').first().clone();
 		var subadminsEl;
 		var subadminSelect;
@@ -184,6 +184,7 @@ var UserList = {
 				quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
+		tr.find('td.storageLocation').text(storageLocation);
 		$(tr).appendTo('tbody');
 
 		if (sort) {
@@ -279,7 +280,7 @@ var UserList = {
 					if($('tr[data-uid="' + user.name + '"]').length > 0) {
 						return true;
 					}
-					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
+					alert(user.storageLocation);
 					tr.addClass('appear transparent');
 					trs.push(tr);
 					loadedUsers++;
@@ -574,7 +575,7 @@ $(document).ready(function () {
 							}, 10000);
 					}
 					if($('tr[data-uid="' + username + '"]').length === 0) {
-						UserList.add(username, username, result.data.groups, null, 'default', true);
+						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, true);
 					}
 				}
 			}
@@ -620,7 +621,7 @@ $(document).ready(function () {
 			}
 		)
 	});
-	// Implements User Search 
+	// Implements User Search
 	$('#usersearchform input').keyup(function() {
 		var inputVal = $(this).val(), regex = new RegExp(inputVal, "i");;
 		$('table tbody tr td.name').each(function (key,element) {

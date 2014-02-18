@@ -43,12 +43,15 @@ try {
 		OC_Group::addToGroup( $username, $i );
 	}
 
+	$userManager = \OC_User::getManager();
+	$user = $userManager->get($username);
 	OC_JSON::success(array("data" =>
 				array(
 					// returns whether the home already existed
 					"homeExists" => $homeExists,
 					"username" => $username,
-					"groups" => OC_Group::getUserGroups( $username ))));
+					"groups" => OC_Group::getUserGroups( $username ),
+					'storageLocation' => $user->getHome())));
 } catch (Exception $exception) {
 	OC_JSON::error(array("data" => array( "message" => $exception->getMessage())));
 }

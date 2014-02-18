@@ -138,6 +138,7 @@ $_['subadmingroups'] = array_flip($items);
 			<th id="headerSubAdmins"><?php p($l->t('Group Admin')); ?></th>
 			<?php endif;?>
 			<th id="headerQuota"><?php p($l->t('Storage')); ?></th>
+			<th id="headerStorageLocation"><?php p($l->t('Storage Location')); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>
@@ -214,6 +215,7 @@ $_['subadmingroups'] = array_flip($items);
 					</option>
 				</select>
 			</td>
+			<td class="storageLocation"><?php p($user["storageLocation"]); ?></td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">

@@ -33,25 +33,30 @@ if (isset($_GET['limit'])) {
 	$limit = 10;
 }
 $users = array();
+$userManager = \OC_User::getManager();
 if (OC_User::isAdminUser(OC_User::getUser())) {
 	$batch = OC_User::getDisplayNames('', $limit, $offset);
-	foreach ($batch as $user => $displayname) {
+	foreach ($batch as $uid => $displayname) {
+		$user = $userManager->get($uid);
 		$users[] = array(
-			'name' => $user,
+			'name' => $uid,
 			'displayname' => $displayname,
-			'groups' => join(', ', OC_Group::getUserGroups($user)),
-			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)),
-			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
+			'groups' => join(', ', OC_Group::getUserGroups($uid)),
+			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($uid)),
+			'quota' => OC_Preferences::getValue($uid, 'files', 'quota', 'default'),
+			'storageLocation' => $user->getHome());
 	}
 } else {
 	$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 	$batch = OC_Group::usersInGroups($groups, '', $limit, $offset);
-	foreach ($batch as $user) {
+	foreach ($batch as $uid) {
+		$user = $userManager->get($uid);
 		$users[] = array(
 			'name' => $user,
-			'displayname' => OC_User::getDisplayName($user),
-			'groups' => join(', ', OC_Group::getUserGroups($user)),
-			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
+			'displayname' => $user->getDisplayName(),
+			'groups' => join(', ', OC_Group::getUserGroups($uid)),
+			'quota' => OC_Preferences::getValue($uid, 'files', 'quota', 'default'),
+			'storageLocation' => $user->getHome());
 	}
 }
 OC_JSON::success(array('data' => $users));
