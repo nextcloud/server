@@ -90,24 +90,6 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Prepare a path to be passed to DB as file_target
-	 * @param string $path path
-	 * @return string Prepared path
-	 */
-	public static function prepFileTarget( $path ) {
-
-		// Paths in DB are stored with leading slashes, so add one if necessary
-		if ( substr( $path, 0, 1 ) !== '/' ) {
-
-			$path = '/' . $path;
-
-		}
-
-		return $path;
-
-	}
-
-	/**
 	 * Find which users can access a shared item
 	 * @param $path to the file
 	 * @param $user owner of the file
