@@ -9,7 +9,10 @@ OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
 $action=isset($_POST['action'])?$_POST['action']:$_GET['action'];
-$app=OC_App::cleanAppId(isset($_POST['app'])?$_POST['app']:$_GET['app']);
+
+if(isset($_POST['app']) || isset($_GET['app'])) {
+	$app=OC_App::cleanAppId(isset($_POST['app'])?$_POST['app']:$_GET['app']);
+}
 
 // An admin should not be able to add remote and public services
 // on its own. This should only be possible programmatically.
