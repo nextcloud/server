@@ -22,7 +22,7 @@ namespace OC\Search;
 /**
  * The generic result of a search
  */
-abstract class Result {
+class Result {
 
 	/**
 	 * A unique identifier for the result, usually given as the item ID in its
