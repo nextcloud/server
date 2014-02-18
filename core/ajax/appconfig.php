@@ -15,7 +15,7 @@ $app=OC_App::cleanAppId(isset($_POST['app'])?$_POST['app']:$_GET['app']);
 // on its own. This should only be possible programmatically.
 // This change is due the fact that an admin may not be expected 
 // to execute arbitrary code in every environment.
-if($app === 'core' && (substr($_POST['key'],0,7) === 'remote_' || substr($_POST['key'],0,7) === 'public_')) {
+if($app === 'core' && isset($_POST['key']) &&(substr($_POST['key'],0,7) === 'remote_' || substr($_POST['key'],0,7) === 'public_')) {
 	OC_JSON::error(array('data' => array('message' => 'Unexpected error!')));
 	return;
 }
