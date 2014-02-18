@@ -189,13 +189,15 @@ var UserList = {
 		var rows = $userListBody.find('tr').get();
 
 		rows.sort(function(a, b) {
+			// FIXME: inefficient way of getting the names,
+			// better use a data attribute
 			a = $(a).find('td.name').text();
 			b = $(b).find('td.name').text();
 			var firstSort = UserList.preSortSearchString(a, b);
 			if(typeof firstSort !== 'undefined') {
 				return firstSort;
 			}
-			return UserList.alphanum(a, b);
+			return OC.Util.naturalSortCompare(a, b);
 		});
 
 		var items = [];

@@ -511,6 +511,17 @@ class Util {
 	}
 
 	/**
+	 * Compare two strings to provide a natural sort
+	 * @param $a first string to compare
+	 * @param $b second string to compare
+	 * @return -1 if $b comes before $a, 1 if $a comes before $b
+	 * or 0 if the strings are identical
+	 */
+	public static function naturalSortCompare($a, $b) {
+		return \OC\NaturalSort::getInstance()->compare($a, $b);
+	}
+
+	/**
 	 * check if a password is required for each public link
 	 * @return boolean
 	 */

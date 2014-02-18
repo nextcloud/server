@@ -77,6 +77,8 @@ window.Snap.prototype = {
 	close: function() {}
 };
 
+window.isPhantom = /phantom/i.test(navigator.userAgent);
+
 // global setup for all tests
 (function setupTests() {
 	var fakeServer = null,

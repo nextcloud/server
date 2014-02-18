@@ -473,5 +473,160 @@ describe('Core base tests', function() {
 			});
 		});
 	});
+	describe('naturalSortCompare', function() {
+		// cit() will skip tests if running on PhantomJS because it has issues with
+		// localeCompare(). See https://github.com/ariya/phantomjs/issues/11063
+		//
+		// Please make sure to run these tests in Chrome/Firefox manually
+		// to make sure they run.
+		var cit = window.isPhantom?xit:it;
+
+		// must provide the same results as \OC_Util::naturalSortCompare
+		it('sorts alphabetically', function() {
+			var a = [
+				'def',
+				'xyz',
+				'abc'
+			];
+			a.sort(OC.Util.naturalSortCompare);
+			expect(a).toEqual([
+				'abc',
+				'def',
+				'xyz'
+			]);
+		});
+		cit('sorts with different casing', function() {
+			var a = [
+				'aaa',
+				'bbb',
+				'BBB',
+				'AAA'
+			];
+			a.sort(OC.Util.naturalSortCompare);
+			expect(a).toEqual([
+				'aaa',
+				'AAA',
+				'bbb',
+				'BBB'
+			]);
+		});
+		it('sorts with numbers', function() {
+			var a = [
+				'124.txt',
+				'abc1',
+				'123.txt',
+				'abc',
+				'abc2',
+				'def (2).txt',
+				'ghi 10.txt',
+				'abc12',
+				'def.txt',
+				'def (1).txt',
+				'ghi 2.txt',
+				'def (10).txt',
+				'abc10',
+				'def (12).txt',
+				'z',
+				'ghi.txt',
+				'za',
+				'ghi 1.txt',
+				'ghi 12.txt',
+				'zz'
+			];
+			a.sort(OC.Util.naturalSortCompare);
+			expect(a).toEqual([
+				'123.txt',
+				'124.txt',
+				'abc',
+				'abc1',
+				'abc2',
+				'abc10',
+				'abc12',
+				'def.txt',
+				'def (1).txt',
+				'def (2).txt',
+				'def (10).txt',
+				'def (12).txt',
+				'ghi.txt',
+				'ghi 1.txt',
+				'ghi 2.txt',
+				'ghi 10.txt',
+				'ghi 12.txt',
+				'z',
+				'za',
+				'zz'
+			]);
+		});
+		it('sorts with chinese characters', function() {
+			var a = [
+				'十.txt',
+				'一.txt',
+				'二.txt',
+				'十 2.txt',
+				'三.txt',
+				'四.txt',
+				'abc.txt',
+				'五.txt',
+				'七.txt',
+				'八.txt',
+				'九.txt',
+				'六.txt',
+				'十一.txt',
+				'波.txt',
+				'破.txt',
+				'莫.txt',
+				'啊.txt',
+				'123.txt'
+			];
+			a.sort(OC.Util.naturalSortCompare);
+			expect(a).toEqual([
+				'123.txt',
+				'abc.txt',
+				'一.txt',
+				'七.txt',
+				'三.txt',
+				'九.txt',
+				'二.txt',
+				'五.txt',
+				'八.txt',
+				'六.txt',
+				'十.txt',
+				'十 2.txt',
+				'十一.txt',
+				'啊.txt',
+				'四.txt',
+				'波.txt',
+				'破.txt',
+				'莫.txt'
+			]);
+		});
+		cit('sorts with umlauts', function() {
+			var a = [
+				'öh.txt',
+				'Äh.txt',
+				'oh.txt',
+				'Üh 2.txt',
+				'Üh.txt',
+				'ah.txt',
+				'Öh.txt',
+				'uh.txt',
+				'üh.txt',
+				'äh.txt'
+			];
+			a.sort(OC.Util.naturalSortCompare);
+			expect(a).toEqual([
+				'ah.txt',
+				'äh.txt',
+				'Äh.txt',
+				'oh.txt',
+				'öh.txt',
+				'Öh.txt',
+				'uh.txt',
+				'üh.txt',
+				'Üh.txt',
+				'Üh 2.txt'
+			]);
+		});
+	});
 });
 
