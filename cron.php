@@ -48,6 +48,9 @@ try {
 
 	require_once 'lib/base.php';
 
+	// load all apps to get all api routes properly setup
+	OC_App::loadApps();
+
 	session_write_close();
 
 	$logger = \OC_Log::$object;
