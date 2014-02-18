@@ -21,12 +21,18 @@
 *
 */
 
-require_once('../lib/base.php');
+require_once '../lib/base.php';
+
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 try {
+	// load all apps to get all api routes properly setup
+	OC_App::loadApps();
+
+	// match the request
 	OC::getRouter()->match('/ocs'.OC_Request::getRawPathInfo());
+
 } catch (ResourceNotFoundException $e) {
 	OC_OCS::notFound();
 } catch (MethodNotAllowedException $e) {
