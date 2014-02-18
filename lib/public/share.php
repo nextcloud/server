@@ -37,18 +37,7 @@ namespace OCP;
  * It provides the following hooks:
  *  - post_shared
  */
-class Share {
-
-	const FORMAT_NONE = -1;
-	const FORMAT_STATUSES = -2;
-	const FORMAT_SOURCES = -3;
-
-	const SHARE_TYPE_USER = 0;
-	const SHARE_TYPE_GROUP = 1;
-	const SHARE_TYPE_LINK = 3;
-	const SHARE_TYPE_EMAIL = 4;
-	const SHARE_TYPE_CONTACT = 5;
-	const SHARE_TYPE_REMOTE = 6;
+class Share extends \OC\Share\Constants {
 
 	/**
 	 * Register a sharing backend class that implements OCP\Share_Backend for an item type
@@ -324,43 +313,6 @@ class Share {
 	 */
 	public static function removeAllLinkShares() {
 		return \OC\Share\Share::removeAllLinkShares();
-	}
-
-	/**
-	 * Hook Listeners
-	 */
-
-	/**
-	 * Function that is called after a user is deleted. Cleans up the shares of that user.
-	 * @param array arguments
-	 */
-	public static function post_deleteUser($arguments) {
-		return \OC\Share\Share::post_deleteUser($arguments);
-	}
-
-	/**
-	 * Function that is called after a user is added to a group.
-	 * TODO what does it do?
-	 * @param array arguments
-	 */
-	public static function post_addToGroup($arguments) {
-		return \OC\Share\Share::post_addToGroup($arguments);
-	}
-
-	/**
-	 * Function that is called after a user is removed from a group. Shares are cleaned up.
-	 * @param array arguments
-	 */
-	public static function post_removeFromGroup($arguments) {
-		return \OC\Share\Share::post_removeFromGroup($arguments);
-	}
-
-	/**
-	 * Function that is called after a group is removed. Cleans up the shares to that group.
-	 * @param array arguments
-	 */
-	public static function post_deleteGroup($arguments) {
-		return \OC\Share\Share::post_deleteGroup($arguments);
 	}
 
 	/**
