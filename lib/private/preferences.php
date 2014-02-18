@@ -43,8 +43,19 @@ use \OC\DB\Connection;
  * This class provides an easy way for storing user preferences.
  */
 class Preferences {
+	/**
+	 * @var \OC\DB\Connection
+	 */
 	protected $conn;
 
+	/**
+	 * @var array $cache
+	 */
+	protected $cache = array();
+
+	/**
+	 * @param \OC\DB\Connection $conn
+	 */
 	public function __construct(Connection $conn) {
 		$this->conn = $conn;
 	}
@@ -58,14 +69,35 @@ class Preferences {
 	 */
 	public function getUsers() {
 		$query = 'SELECT DISTINCT `userid` FROM `*PREFIX*preferences`';
-		$result = $this->conn->executeQuery( $query );
+		$result = $this->conn->executeQuery($query);
 
 		$users = array();
-		while( $userid = $result->fetchColumn()) {
+		while ($userid = $result->fetchColumn()) {
 			$users[] = $userid;
 		}
 
 		return $users;
+	}
+
+	/**@param string $user
+	 * @return array[]
+	 */
+	protected function getUserValues($user) {
+		if (isset($this->cache[$user])) {
+			return $this->cache[$user];
+		}
+		$data = array();
+		$query = 'SELECT `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+		$result = $this->conn->executeQuery($query, array($user));
+		while ($row = $result->fetch()) {
+			$app = $row['appid'];
+			if (!isset($data[$app])) {
+				$data[$app] = array();
+			}
+			$data[$app][$row['configkey']] = $row['configvalue'];
+		}
+		$this->cache[$user] = $data;
+		return $data;
 	}
 
 	/**
@@ -76,16 +108,9 @@ class Preferences {
 	 * This function returns a list of all apps of the user that have at least
 	 * one entry in the preferences table.
 	 */
-	public function getApps( $user ) {
-		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*preferences` WHERE `userid` = ?';
-		$result = $this->conn->executeQuery( $query, array( $user ) );
-
-		$apps = array();
-		while( $appid = $result->fetchColumn()) {
-			$apps[] = $appid;
-		}
-
-		return $apps;
+	public function getApps($user) {
+		$data = $this->getUserValues($user);
+		return array_keys($data);
 	}
 
 	/**
@@ -97,16 +122,13 @@ class Preferences {
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
 	 */
-	public function getKeys( $user, $app ) {
-		$query = 'SELECT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?';
-		$result = $this->conn->executeQuery( $query, array( $user, $app ));
-
-		$keys = array();
-		while( $key = $result->fetchColumn()) {
-			$keys[] = $key;
+	public function getKeys($user, $app) {
+		$data = $this->getUserValues($user);
+		if (isset($data[$app])) {
+			return array_keys($data[$app]);
+		} else {
+			return array();
 		}
-
-		return $keys;
 	}
 
 	/**
@@ -120,13 +142,10 @@ class Preferences {
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public function getValue( $user, $app, $key, $default = null ) {
-		// Try to fetch the value, return default if not exists.
-		$query = 'SELECT `configvalue` FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
-		$row = $this->conn->fetchAssoc( $query, array( $user, $app, $key ));
-		if($row) {
-			return $row["configvalue"];
+	public function getValue($user, $app, $key, $default = null) {
+		$data = $this->getUserValues($user);
+		if (isset($data[$app]) and isset($data[$app][$key])) {
+			return $data[$app][$key];
 		} else {
 			return $default;
 		}
@@ -142,14 +161,14 @@ class Preferences {
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
-	public function setValue( $user, $app, $key, $value ) {
+	public function setValue($user, $app, $key, $value) {
 		// Check if the key does exist
 		$query = 'SELECT COUNT(*) FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
-		$count = $this->conn->fetchColumn( $query, array( $user, $app, $key ));
+			. ' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
+		$count = $this->conn->fetchColumn($query, array($user, $app, $key));
 		$exists = $count > 0;
 
-		if( !$exists ) {
+		if (!$exists) {
 			$data = array(
 				'userid' => $user,
 				'appid' => $app,
@@ -168,6 +187,14 @@ class Preferences {
 			);
 			$this->conn->update('*PREFIX*preferences', $data, $where);
 		}
+
+		// only add to the cache if we already loaded data for the user
+		if (isset($this->cache[$user])) {
+			if (!isset($this->cache[$user][$app])) {
+				$this->cache[$user][$app] = array();
+			}
+			$this->cache[$user][$app][$key] = $value;
+		}
 	}
 
 	/**
@@ -178,13 +205,17 @@ class Preferences {
 	 *
 	 * Deletes a key.
 	 */
-	public function deleteKey( $user, $app, $key ) {
+	public function deleteKey($user, $app, $key) {
 		$where = array(
 			'userid' => $user,
 			'appid' => $app,
 			'configkey' => $key,
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
+
+		if (isset($this->cache[$user]) and isset($this->cache[$user][$app]) and isset($this->cache[$user][$app][$key])) {
+			unset($this->cache[$user][$app][$key]);
+		}
 	}
 
 	/**
@@ -194,12 +225,16 @@ class Preferences {
 	 *
 	 * Removes all keys in preferences belonging to the app and the user.
 	 */
-	public function deleteApp( $user, $app ) {
+	public function deleteApp($user, $app) {
 		$where = array(
 			'userid' => $user,
 			'appid' => $app,
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
+
+		if (isset($this->cache[$user]) and isset($this->cache[$user][$app])) {
+			unset($this->cache[$user][$app]);
+		}
 	}
 
 	/**
@@ -208,11 +243,15 @@ class Preferences {
 	 *
 	 * Removes all keys in preferences belonging to the user.
 	 */
-	public function deleteUser( $user ) {
+	public function deleteUser($user) {
 		$where = array(
 			'userid' => $user,
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
+
+		if (isset($this->cache[$user])) {
+			unset($this->cache[$user]);
+		}
 	}
 
 	/**
@@ -221,12 +260,16 @@ class Preferences {
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
-	public function deleteAppFromAllUsers( $app ) {
+	public function deleteAppFromAllUsers($app) {
 		$where = array(
 			'appid' => $app,
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
+
+		foreach ($this->cache as &$userCache) {
+			unset($userCache[$app]);
+		}
 	}
 }
 
-require_once __DIR__.'/legacy/'.basename(__FILE__);
+require_once __DIR__ . '/legacy/' . basename(__FILE__);
