@@ -112,10 +112,7 @@ if (\OC_Util::runningOnWindows()) {
 			$fullPath = $this->datadir . $path;
 			if (PHP_INT_SIZE === 4) {
 				$helper = new \OC\LargeFileHelper;
-				$filesize = $helper->getFilesize($fullPath);
-				if (!is_null($filesize)) {
-					return $filesize;
-				}
+				return $helper->getFilesize($fullPath);
 			}
 			return filesize($fullPath);
 		}

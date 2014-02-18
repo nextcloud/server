@@ -83,7 +83,7 @@ class LargeFileHelper {
 		if (!is_null($filesize)) {
 			return $filesize;
 		}
-		return null;
+		return $this->getFilesizeNative($filename);
 	}
 
 	/**
@@ -157,6 +157,27 @@ class LargeFileHelper {
 			return $result;
 		}
 		return null;
+	}
+
+	/**
+	* @brief Gets the filesize via a filesize() call and converts negative
+	*        signed int to positive float. As the result of filesize() will
+	*        wrap around after a filesize of 2^32 bytes = 4 GiB, this should
+	*        only be used as a last resort.
+	*
+	* @param string $filename Path to the file.
+	*
+	* @return int|float Number of bytes as number (float or int).
+	*/
+	public function getFilesizeNative($filename) {
+		$result = filesize($filename);
+		if ($result < 0) {
+			// For filesizes between 2 GiB and 4 GiB, filesize() will return a
+			// negative int, as the PHP data type int is signed. Interpret the
+			// returned int as an unsigned integer and put it into a float.
+			return (float) sprintf('%u', $result);
+		}
+		return $result;
 	}
 
 	protected function exec($cmd) {

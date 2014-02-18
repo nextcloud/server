@@ -59,4 +59,11 @@ class LargeFileHelperGetFilesize extends \PHPUnit_Framework_TestCase {
 			$this->helper->getFilesizeViaExec($this->filename)
 		);
 	}
+
+	public function testGetFilesizeNative() {
+		$this->assertSame(
+			$this->filesize,
+			$this->helper->getFilesizeNative($this->filename)
+		);
+	}
 }
