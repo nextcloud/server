@@ -262,7 +262,7 @@ class Proxy extends \OC_FileProxy {
 
 		} elseif (
 			self::shouldEncrypt($path)
-			and $meta ['mode'] !== 'r'
+			and $meta['mode'] !== 'r'
 				and $meta['mode'] !== 'rb'
 		) {
 			$result = fopen('crypt://' . $path, $meta['mode']);

@@ -288,12 +288,13 @@ class MDB2SchemaReader {
 		if (!empty($fields)) {
 			if (isset($primary) && $primary) {
 				$table->setPrimaryKey($fields, $name);
-			} else
+			} else {
 				if (isset($unique) && $unique) {
 					$table->addUniqueIndex($fields, $name);
 				} else {
 					$table->addIndex($fields, $name);
 				}
+			}
 		} else {
 			throw new \DomainException('Empty index definition: ' . $name . ' options:' . print_r($fields, true));
 		}
