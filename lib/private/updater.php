@@ -102,6 +102,20 @@ class Updater extends BasicEmitter {
 			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
+
+		/*
+		 * START CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+		if (version_compare($currentVersion, '6.90.1', '<')) {
+			// Add the overwriteHost config if it is not existant
+			// This is added to prevent host header poisoning
+			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
+		}
+		/*
+		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+
+
 		try {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 			$this->emit('\OC\Updater', 'dbUpgrade');
@@ -162,3 +176,4 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'filecacheDone');
 	}
 }
+
