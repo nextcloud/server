@@ -75,8 +75,12 @@ class OC_OCS_Cloud {
 		}
 		if(OC_User::isAdminUser(OC_User::getUser()) 
 			|| OC_Subadmin::isUserAccessible(OC_User::getUser(), $parameters['userid'])) {
-			// Is an admin/subadmin so can see display name
-			$return['displayname'] = OC_User::getDisplayName($parameters['userid']);
+			if(OC_User::userExists($parameters['userid'])) {
+				// Is an admin/subadmin so can see display name
+				$return['displayname'] = OC_User::getDisplayName($parameters['userid']);
+			} else {
+				return new OC_OCS_Result(null, 101);
+			}
 		}
 		if(count($return)) {
 			return new OC_OCS_Result($return);
