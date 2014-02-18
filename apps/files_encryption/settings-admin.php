@@ -11,7 +11,7 @@
 $tmpl = new OCP\Template('files_encryption', 'settings-admin');
 
 // Check if an adminRecovery account is enabled for recovering files after lost pwd
-$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled', '0');
+$recoveryAdminEnabled = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled', '0');
 
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 

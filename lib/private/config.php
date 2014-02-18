@@ -77,7 +77,7 @@ class Config {
 	/**
 	 * @brief Gets a value from config.php
 	 * @param string $key key
-	 * @param string $default = null default value
+	 * @param mixed $default = null default value
 	 * @return string the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
@@ -94,7 +94,7 @@ class Config {
 	/**
 	 * @brief Sets a value
 	 * @param string $key key
-	 * @param string $value value
+	 * @param mixed $value value
 	 *
 	 * This function sets the value and writes the config.php.
 	 *

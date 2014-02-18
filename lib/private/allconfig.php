@@ -17,7 +17,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
+	 * @param mixed $value the value that should be stored
 	 * @todo need a use case for this
 	 */
 // 	public function setSystemValue($key, $value) {
@@ -28,7 +28,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up a system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
+	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return string the saved value
 	 */
 	public function getSystemValue($key, $default = '') {

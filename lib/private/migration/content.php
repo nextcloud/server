@@ -27,16 +27,16 @@
 class OC_Migration_Content{
 
 	private $zip=false;
-	// Holds the MDB2 object
+	// Holds the database object
 	private $db=null;
 	// Holds an array of tmpfiles to delete after zip creation
 	private $tmpfiles=array();
 
 	/**
 	* @brief sets up the
-	* @param ZipArchive $zip ZipArchive object
-	* @param optional $db a MDB2 database object (required for exporttype user)
-	* @return boolean|null
+	* @param $zip ZipArchive object
+	* @param $db a database object (required for exporttype user)
+	* @return bool
 	*/
 	public function __construct( $zip, $db=null ) {
 
@@ -67,17 +67,9 @@ class OC_Migration_Content{
 
 		// Optimize the query
 		$query = $this->db->prepare( $query );
+		$query = new OC_DB_StatementWrapper($query, false);
 
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError( $query ) ) {
-			$entry = 'DB Error: "'.$query->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$query.'<br />';
-			OC_Log::write( 'migration', $entry, OC_Log::FATAL );
-			return false;
-		} else {
-			return $query;
-		}
-
+		return $query;
 	}
 
 	/**
@@ -160,20 +152,14 @@ class OC_Migration_Content{
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = $this->prepare( $sql );
-			if( !$query ) {
-				OC_Log::write( 'migration', 'Invalid sql produced: '.$sql, OC_Log::FATAL );
-				return false;
-				exit();
+			$query->execute( $values );
+			// Do we need to return some values?
+			if( array_key_exists( 'idcol', $options ) ) {
+				// Yes we do
+				$return[] = $row[$options['idcol']];
 			} else {
-				$query->execute( $values );
-				// Do we need to return some values?
-				if( array_key_exists( 'idcol', $options ) ) {
-					// Yes we do
-					$return[] = $row[$options['idcol']];
-				} else {
-					// Take a guess and return the first field :)
-					$return[] = reset($row);
-				}
+				// Take a guess and return the first field :)
+				$return[] = reset($row);
 			}
 			$fields = '';
 			$values = '';

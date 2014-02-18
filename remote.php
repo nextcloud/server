@@ -14,7 +14,7 @@ try {
 	}
 	$service=substr($path_info, 1, $pos-1);
 
-	$file = OC_AppConfig::getValue('core', 'remote_' . $service);
+	$file = \OC::$server->getAppConfig()->getValue('core', 'remote_' . $service);
 
 	if(is_null($file)) {
 		OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);

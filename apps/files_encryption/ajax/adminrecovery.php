@@ -18,7 +18,7 @@ $l = OC_L10N::get('files_encryption');
 $return = false;
 // Enable recoveryAdmin
 
-$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+$recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
 
 if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1') {
 

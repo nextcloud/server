@@ -44,7 +44,7 @@ class OC_DB {
 	/**
 	 * @var \OC\DB\Connection $connection
 	 */
-	static private $connection; //the prefered connection to use, only Doctrine
+	static private $connection; //the preferred connection to use, only Doctrine
 
 	static private $prefix=null;
 	static private $type=null;

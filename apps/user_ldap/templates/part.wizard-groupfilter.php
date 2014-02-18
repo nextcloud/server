@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard4">
 	<div>
 		<p>
-			<?php p($l->t('Limit the access to %s to groups meeting this criteria:', $theme->getName()));?>
+			<?php p($l->t('Groups meeting these criteria are available in %s:', $theme->getName()));?>
 		</p>
 		<p>
 			<label for="ldap_groupfilter_objectclass">

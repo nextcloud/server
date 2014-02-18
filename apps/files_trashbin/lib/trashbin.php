@@ -733,7 +733,7 @@ class Trashbin {
 		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
 		$view = new \OC\Files\View('/' . $user);
 		if ($quota === null || $quota === 'default') {
-			$quota = \OC_Appconfig::getValue('files', 'default_quota');
+			$quota = \OC::$server->getAppConfig()->getValue('files', 'default_quota');
 		}
 		if ($quota === null || $quota === 'none') {
 			$quota = \OC\Files\Filesystem::free_space('/');

@@ -111,10 +111,11 @@ class Helper {
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
 
 		$view = new \OC\Files\View('/');
+		$appConfig = \OC::$server->getAppConfig();
 
 		if ($recoveryKeyId === null) {
 			$recoveryKeyId = 'recovery_' . substr(md5(time()), 0, 8);
-			\OC_Appconfig::setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
+			$appConfig->setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
 		}
 
 		if (!$view->is_dir('/owncloud_private_key')) {
@@ -147,7 +148,7 @@ class Helper {
 			\OC_FileProxy::$enabled = true;
 
 			// Set recoveryAdmin as enabled
-			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+			$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 
 			$return = true;
 
@@ -155,7 +156,7 @@ class Helper {
 			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 			$return = $util->checkRecoveryPassword($recoveryPassword);
 			if ($return) {
-				\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 			}
 		}
 
@@ -218,7 +219,7 @@ class Helper {
 
 		if ($return) {
 			// Set recoveryAdmin as disabled
-			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 0);
+			\OC::$server->getAppConfig()->setValue('files_encryption', 'recoveryAdminEnabled', 0);
 		}
 
 		return $return;

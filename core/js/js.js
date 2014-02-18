@@ -884,11 +884,7 @@ function initCore() {
 	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
-
 	$('input').tipsy({gravity:'w', fade:true});
-	$('input[type=text]').focus(function(){
-		this.select();
-	});
 }
 
 $(document).ready(initCore);

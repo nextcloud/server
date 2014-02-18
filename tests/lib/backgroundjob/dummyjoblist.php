@@ -21,6 +21,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	private $last = 0;
 
+	public function __construct(){}
+
 	/**
 	 * @param \OC\BackgroundJob\Job|string $job
 	 * @param mixed $argument
