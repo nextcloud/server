@@ -81,13 +81,14 @@ class FileGlobal {
 	}
 
 	static public function gc() {
-		$last_run = \OC_AppConfig::getValue('core', 'global_cache_gc_lastrun', 0);
+		$appConfig = \OC::$server->getAppConfig();
+		$last_run = $appConfig->getValue('core', 'global_cache_gc_lastrun', 0);
 		$now = time();
 		if (($now - $last_run) < 300) {
 			// only do cleanup every 5 minutes
 			return;
 		}
-		\OC_AppConfig::setValue('core', 'global_cache_gc_lastrun', $now);
+		$appConfig->setValue('core', 'global_cache_gc_lastrun', $now);
 		$cache_dir = self::getCacheDir();
 		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);

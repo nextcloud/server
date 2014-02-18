@@ -218,7 +218,7 @@ class Api {
 				//allow password protection
 				$shareWith = isset($_POST['password']) ? $_POST['password'] : null;
 				//check public link share
-				$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+				$publicUploadEnabled = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 				if(isset($_POST['publicUpload']) && $publicUploadEnabled !== 'yes') {
 					return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 				}
@@ -317,7 +317,7 @@ class Api {
 		$shareType = $share['share_type'];
 		$permissions = isset($params['_put']['permissions']) ? (int)$params['_put']['permissions'] : null;
 
-		$publicUploadStatus = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+		$publicUploadStatus = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 		$publicUploadEnabled = ($publicUploadStatus === 'yes') ? true : false;
 
 
@@ -356,7 +356,7 @@ class Api {
 	 */
 	private static function updatePublicUpload($share, $params) {
 
-		$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+		$publicUploadEnabled = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 		if($publicUploadEnabled !== 'yes') {
 			return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 		}

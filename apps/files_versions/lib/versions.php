@@ -487,7 +487,7 @@ class Storage {
 			$softQuota = true;
 			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
 			if ( $quota === null || $quota === 'default') {
-				$quota = \OC_Appconfig::getValue('files', 'default_quota');
+				$quota = \OC::$server->getAppConfig()->getValue('files', 'default_quota');
 			}
 			if ( $quota === null || $quota === 'none' ) {
 				$quota = \OC\Files\Filesystem::free_space('/');
