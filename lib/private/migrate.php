@@ -35,12 +35,8 @@ class OC_Migrate{
 	static private $zip=false;
 	// Stores the type of export
 	static private $exporttype=false;
-	// Array of temp files to be deleted after zip creation
-	static private $tmpfiles=array();
 	// Holds the db object
 	static private $migration_database=false;
-	// Schema db object
-	static private $schema=false;
 	// Path to the sqlite db
 	static private $dbpath=false;
 	// Holds the path to the zip file
