@@ -228,7 +228,7 @@ $_['subadmingroups'] = array_flip($items);
 				$lastLoginDate = \OC_Util::formatDate($user["lastLogin"]);
 			}
 			?>
-			<td class="lastLogin" title="<?php p('<span style="white-space: nowrap;">').p($lastLoginDate).p('</span>'); ?>"><?php p($lastLogin); ?></td>
+			<td class="lastLogin" title="<?php p('<span style="white-space: nowrap;">'.$lastLoginDate.'</span>'); ?>"><?php p($lastLogin); ?></td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
