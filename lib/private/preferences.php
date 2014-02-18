@@ -49,6 +49,13 @@ class Preferences {
 	protected $conn;
 
 	/**
+	 * 3 dimensional array with the following structure:
+	 * [ $userId =>
+	 *     [ $appId =>
+	 *         [ $key => $value ]
+	 *     ]
+	 * ]
+	 *
 	 * @var array $cache
 	 */
 	protected $cache = array();
@@ -79,7 +86,8 @@ class Preferences {
 		return $users;
 	}
 
-	/**@param string $user
+	/**
+	 * @param string $user
 	 * @return array[]
 	 */
 	protected function getUserValues($user) {
