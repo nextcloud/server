@@ -37,8 +37,9 @@ OCP\App::setActiveNavigationEntry('files_index');
 // Load the files
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
+$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
 // Redirect if directory does not exist
-if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
+if (!$dirInfo->getType() === 'dir') {
 	header('Location: ' . OCP\Util::getScriptName() . '');
 	exit();
 }
@@ -92,7 +93,7 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 
-$permissions = \OCA\Files\Helper::getDirPermissions($dir);
+$permissions = $dirInfo->getPermissions();
 
 if ($needUpgrade) {
 	OCP\Util::addscript('files', 'upgrade');
