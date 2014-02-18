@@ -125,7 +125,7 @@ var UserList = {
 		}
 	},
 
-	add: function (username, displayname, groups, subadmin, quota, storageLocation, sort) {
+	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var tr = $('tbody tr').first().clone();
 		var subadminsEl;
 		var subadminSelect;
@@ -185,6 +185,13 @@ var UserList = {
 			}
 		}
 		tr.find('td.storageLocation').text(storageLocation);
+		if(lastLogin == 0) {
+			lastLogin = t('settings', 'never');
+		} else {
+			lastLogin = new Date(lastLogin);
+			lastLogin = relative_modified_date(lastLogin.getTime() / 1000);
+		}
+		tr.find('td.lastLogin').text(lastLogin);
 		$(tr).appendTo('tbody');
 
 		if (sort) {
@@ -280,7 +287,7 @@ var UserList = {
 					if($('tr[data-uid="' + user.name + '"]').length > 0) {
 						return true;
 					}
-					alert(user.storageLocation);
+					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false);
 					tr.addClass('appear transparent');
 					trs.push(tr);
 					loadedUsers++;
@@ -575,7 +582,7 @@ $(document).ready(function () {
 							}, 10000);
 					}
 					if($('tr[data-uid="' + username + '"]').length === 0) {
-						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, true);
+						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, 0, true);
 					}
 				}
 			}

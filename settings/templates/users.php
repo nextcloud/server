@@ -141,6 +141,7 @@ $_['subadmingroups'] = array_flip($items);
 			<?php endif;?>
 			<th id="headerQuota"><?php p($l->t('Quota')); ?></th>
 			<th id="headerStorageLocation"><?php p($l->t('Storage Location')); ?></th>
+			<th id="headerLastLogin"><?php p($l->t('Last Login')); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>
@@ -218,6 +219,16 @@ $_['subadmingroups'] = array_flip($items);
 				</select>
 			</td>
 			<td class="storageLocation"><?php p($user["storageLocation"]); ?></td>
+			<?php
+			if($user["lastLogin"] === 0) {
+				$lastLogin = 'never';
+				$lastLoginDate = '';
+			} else {
+				$lastLogin = relative_modified_date($user["lastLogin"]);
+				$lastLoginDate = \OC_Util::formatDate($user["lastLogin"]);
+			}
+			?>
+			<td class="lastLogin" title="<?php p('<span style="white-space: nowrap;">').p($lastLoginDate).p('</span>'); ?>"><?php p($lastLogin); ?></td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">

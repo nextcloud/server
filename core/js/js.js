@@ -1087,6 +1087,7 @@ function initCore() {
 	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
+	$('td.lastLogin').tipsy({gravity:'s', fade:true, html:true});
 	$('input').tipsy({gravity:'w', fade:true});
 
 	// toggle for menus

@@ -53,6 +53,11 @@ class User {
 	private $config;
 
 	/**
+	 * @var int $home
+	 */
+	private $lastLogin;
+
+	/**
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
@@ -242,5 +247,20 @@ class User {
 			$enabled = ($enabled) ? 'true' : 'false';
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
 		}
+	}
+
+	/**
+	 * returns the timestamp of the user's last login or 0 if the user did never
+	 * login
+	 *
+	 * @return int
+	 */
+	public function getLastLogin() {
+		return $this->lastLogin;
+	}
+
+	public function updateLastLogin() {
+		$this->lastLogin = time();
+		\OC_Preferences::setValue($this->uid, 'login', 'lastLogin', $this->lastLogin);
 	}
 }
