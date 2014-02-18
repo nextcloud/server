@@ -52,11 +52,16 @@ table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 .usercount { float: left; margin: 5px; }
+span.utils .delete, span.utils .rename {
+	float: left; position: relative; display: none;
+	margin: 3px; top: 4px;
+}
+#app-navigation ul li:hover > span.utils .delete,
+#app-navigation ul li:hover > span.utils .rename { display: block; }
 span.utils .delete {
 	float: left; position: relative; display: none;
 	margin: 3px; top: 4px;
 }
-#app-navigation ul li:hover > span.utils .delete { display: block; }
 #usersearchform { position: absolute; top: 4px; right: 10px; }
 #usersearchform label { font-weight: 700; }
 form { display:inline; }

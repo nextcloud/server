@@ -45,6 +45,8 @@ $_['subadmingroups'] = array_flip($items);
 			<a href="#"><?php p($group['name']); ?></a>
 			<span class="utils">
 				<span class="usercount"><?php p(count($group['useringroup'])); ?></span>
+				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
+					alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
 					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
 				</a>
@@ -137,7 +139,7 @@ $_['subadmingroups'] = array_flip($items);
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
 			<th id="headerSubAdmins"><?php p($l->t('Group Admin')); ?></th>
 			<?php endif;?>
-			<th id="headerQuota"><?php p($l->t('Storage')); ?></th>
+			<th id="headerQuota"><?php p($l->t('Quota')); ?></th>
 			<th id="headerStorageLocation"><?php p($l->t('Storage Location')); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>

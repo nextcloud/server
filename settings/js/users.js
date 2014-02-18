@@ -632,6 +632,39 @@ $(document).ready(function () {
 			}
 		});
 	});
+	
+	// Implements Groupname editing.
+	$('#app-navigation').on('click', 'span.utils>img.rename', function (event) {
+		event.stopPropagation();
+		var img = $(this);
+		var gid = img.parent().parent().attr('data-gid');
+		var groupname = escapeHTML(img.parent().parent().attr('data-gid'));
+		var input = $('<input type="text" value="' + groupname + '">');
+		img.css('display', 'none');
+		img.parent().parent().children('a').replaceWith(input);
+		input.focus();
+		input.keypress(function (event) {
+			if (event.keyCode === 13) {
+				if ($(this).val().length > 0) {
+					$.post(
+						OC.filePath('settings', 'ajax', 'changegroupname.php'),
+						{	groupname: gid,
+							groupname: $(this).val()
+						}
+					);
+					input.blur();
+				} else {
+					input.blur();
+				}
+			}
+		});
+		input.blur(function () {
+			var input = $(this), groupname = input.val();
+			input.closest('li').attr('data-gid', groupname);
+			input.replaceWith('<a href="#">' + escapeHTML(groupname) + '</a>');
+			img.css('display', '');
+		});
+	});
 
 	// Handle undo notifications
 	OC.Notification.hide();

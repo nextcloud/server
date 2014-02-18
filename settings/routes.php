@@ -44,6 +44,8 @@ $this->create('settings_users_changepassword', '/settings/users/changepassword')
 	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');
 $this->create('settings_ajax_changedisplayname', '/settings/ajax/changedisplayname.php')
 	->actionInclude('settings/ajax/changedisplayname.php');
+$this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.php')
+	->actionInclude('settings/ajax/changegroupname.php');	
 // personal
 $this->create('settings_personal_changepassword', '/settings/personal/changepassword')
 	->post()
