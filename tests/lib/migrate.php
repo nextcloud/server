@@ -12,7 +12,7 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 	public $tmpfiles = array();
 
 	/**
-	 * @breif Generates a test user and sets up their file system
+	 * @brief Generates a test user and sets up their file system
 	 * @return string the test users id
 	 */
 	public function generateUser() {
@@ -27,8 +27,8 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @breif validates an export for a user
-	 * @breif checks for existence of export_info.json and file folder
+	 * @brief validates an export for a user
+	 * @brief checks for existence of export_info.json and file folder
 	 * @param string $exportedUser the user that was exported
 	 * @param string $path the path to the .zip export
 	 */
