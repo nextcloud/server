@@ -221,7 +221,7 @@ class Preferences {
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
 
-		if (isset($this->cache[$user]) and isset($this->cache[$user][$app]) and isset($this->cache[$user][$app][$key])) {
+		if (isset($this->cache[$user]) and isset($this->cache[$user][$app])) {
 			unset($this->cache[$user][$app][$key]);
 		}
 	}
@@ -240,7 +240,7 @@ class Preferences {
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
 
-		if (isset($this->cache[$user]) and isset($this->cache[$user][$app])) {
+		if (isset($this->cache[$user])) {
 			unset($this->cache[$user][$app]);
 		}
 	}
@@ -257,9 +257,7 @@ class Preferences {
 		);
 		$this->conn->delete('*PREFIX*preferences', $where);
 
-		if (isset($this->cache[$user])) {
-			unset($this->cache[$user]);
-		}
+		unset($this->cache[$user]);
 	}
 
 	/**
