@@ -223,6 +223,7 @@ var UserList = {
 		if (UserList.updating) {
 			return;
 		}
+		$('table+.loading').css('visibility', 'visible');
 		UserList.updating = true;
 		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad }), function (result) {
 			var loadedUsers = 0;
@@ -242,9 +243,11 @@ var UserList = {
 				});
 				if (result.data.length > 0) {
 					UserList.doSort();
+					$('table+.loading').css('visibility', 'hidden');
 				}
 				else {
 					UserList.noMoreEntries = true;
+					$('table+.loading').remove();
 				}
 				UserList.offset += loadedUsers;
 				// animate
@@ -371,6 +374,7 @@ $(document).ready(function () {
 	OC.Router.registerLoadedCallback(function() {
 		$(window).scroll(function(e) {UserList._onScroll(e);});
 	});
+	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
 		UserList.applyMultiplySelect($(element));
