@@ -936,7 +936,7 @@ $(document).ready(function() {
 			var file = result[0];
 
 			if (data.context && data.context.data('type') === 'dir') {
-				
+
 				// update upload counter ui
 				var uploadtext = data.context.find('.uploadtext');
 				var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -962,12 +962,12 @@ $(document).ready(function() {
 				
 				// only append new file if uploaded into the current folder
 				if (file.directory !== FileList.getCurrentDirectory()) {
-					
+
 					file_directory = file.directory.replace('/','').replace(/\/$/, "").split('/');
-					
+
 					if (file_directory.length == 1) {
 						file_directory = file_directory[0];
-						
+
 						// Get the directory 
 						if ($('tr[data-file="'+file_directory+'"]').length == 0)
 						{
@@ -977,13 +977,13 @@ $(document).ready(function() {
 					else {
 						file_directory = file_directory[0];
 					}
-					
+
 					// update folder size
 					var size = parseInt($('tr[data-file="'+file_directory+'"]').attr('data-size'));
 					size += parseInt(file.size);
 					$('tr[data-file="'+file_directory+'"]').attr('data-size', size);
 					$('tr[data-file="'+file_directory+'"]').find('td.filesize').text(humanFileSize(size));
-					
+
 					return;
 				}
 
