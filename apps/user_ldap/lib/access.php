@@ -798,6 +798,17 @@ abstract class Access {
 	}
 
 	/**
+	* @brief escapes (user provided) parts for LDAP filter
+	* @param String $input, the provided value
+	* @returns the escaped string
+	*/
+	public function escapeFilterPart($input) {
+		$search  = array('*', '\\', '(', ')');
+		$replace = array('\\*', '\\\\', '\\(', '\\)');
+		return str_replace($search, $replace, $input);
+	}
+
+	/**
 	 * @brief combines the input filters with AND
 	 * @param $filters array, the filters to connect
 	 * @returns the combined filter
