@@ -733,14 +733,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return array
-	 *
-	 * returns an associative array with the following keys:
-	 * - size
-	 * - mtime
-	 * - mimetype
-	 * - encrypted
-	 * - versioned
+	 * @return \OC\Files\FileInfo
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {
 		return self::$defaultInstance->getFileInfo($path, $includeMountPoints);
