@@ -115,7 +115,7 @@ if(!empty($adminGroup)) {
 	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
 }
 
-$tmpl = new OC_Template( "settings", "users", "user" );
+$tmpl = new OC_Template( "settings", "users/main", "user" );
 $tmpl->assign( 'users', $users );
 $tmpl->assign( 'groups', $groups );
 $tmpl->assign( 'adminGroup', $adminGroup );
