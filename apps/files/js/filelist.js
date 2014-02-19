@@ -129,7 +129,7 @@ window.FileList={
 		if (loading) {
 			imgurl = OC.imagePath('core', 'loading.gif');
 		} else {
-			imgurl = OC.imagePath('core', 'filetypes/file.png');
+			imgurl = OC.imagePath('core', 'filetypes/file');
 		}
 		var tr = this.createRow(
 			'file',
@@ -157,7 +157,7 @@ window.FileList={
 		var tr = this.createRow(
 			'dir',
 			name,
-			OC.imagePath('core', 'filetypes/folder.png'),
+			OC.imagePath('core', 'filetypes/folder'),
 			OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/'),
 			size,
 			lastModified,
@@ -907,7 +907,7 @@ $(document).ready(function() {
 				uploadtext.attr('currentUploads', currentUploads);
 				var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 				if (currentUploads === 0) {
-					var img = OC.imagePath('core', 'filetypes/folder.png');
+					var img = OC.imagePath('core', 'filetypes/folder');
 					data.context.find('td.filename').attr('style','background-image:url('+img+')');
 					uploadtext.text(translatedText);
 					uploadtext.hide();
@@ -967,7 +967,7 @@ $(document).ready(function() {
 		if (data.errorThrown === 'abort') {
 			//cleanup uploading to a dir
 			var uploadtext = $('tr .uploadtext');
-			var img = OC.imagePath('core', 'filetypes/folder.png');
+			var img = OC.imagePath('core', 'filetypes/folder');
 			uploadtext.parents('td.filename').attr('style','background-image:url('+img+')');
 			uploadtext.fadeOut();
 			uploadtext.attr('currentUploads', 0);
@@ -980,7 +980,7 @@ $(document).ready(function() {
 		if (data.errorThrown === 'abort') {
 			//cleanup uploading to a dir
 			var uploadtext = $('tr .uploadtext');
-			var img = OC.imagePath('core', 'filetypes/folder.png');
+			var img = OC.imagePath('core', 'filetypes/folder');
 			uploadtext.parents('td.filename').attr('style','background-image:url('+img+')');
 			uploadtext.fadeOut();
 			uploadtext.attr('currentUploads', 0);

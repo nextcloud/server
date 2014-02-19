@@ -731,6 +731,9 @@ Files.getMimeIcon = function(mime, ready) {
 		ready(Files.getMimeIcon.cache[mime]);
 	} else {
 		$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
+			if(SVGSupport()){
+				path = path.substr(0, path.length-4) + '.svg';
+			}
 			Files.getMimeIcon.cache[mime]=path;
 			ready(Files.getMimeIcon.cache[mime]);
 		});
@@ -785,8 +788,10 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 		// this will make the browser cache the image
 		var img = new Image();
 		img.onload = function(){
-			//set preview thumbnail URL
-			ready(previewURL);
+			// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
+			if (img.width > 5) {
+				ready(previewURL);
+			}
 		}
 		img.src = previewURL;
 	});

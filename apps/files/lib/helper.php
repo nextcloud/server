@@ -36,14 +36,16 @@ class Helper
 					}
 				}
 			}
-			return \OC_Helper::mimetypeIcon('dir');
+			$icon = \OC_Helper::mimetypeIcon('dir');
+		}else{
+			if($file['isPreviewAvailable']) {
+				$pathForPreview = $file['directory'] . '/' . $file['name'];
+				return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
+			}
+			$icon = \OC_Helper::mimetypeIcon($file['mimetype']);
 		}
 
-		if($file['isPreviewAvailable']) {
-			$pathForPreview = $file['directory'] . '/' . $file['name'];
-			return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
-		}
-		return \OC_Helper::mimetypeIcon($file['mimetype']);
+		return substr($icon, 0, -3) . 'svg';
 	}
 
 	/**
