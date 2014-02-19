@@ -162,10 +162,13 @@ class Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
+	 * @param int $fileId (optional) the file id of the folder
 	 * @return array
 	 */
-	public function getFolderContents($folder) {
-		$fileId = $this->getId($folder);
+	public function getFolderContents($folder, $fileId = null) {
+		if (is_null($fileId)) {
+			$fileId = $this->getId($folder);
+		}
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
