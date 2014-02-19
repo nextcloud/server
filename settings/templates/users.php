@@ -21,7 +21,7 @@ $_['subadmingroups'] = array_flip($items);
 		<li>
 			<form id="newgroup">
 				<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
-				<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />
+				<input type="submit" class="button" value="<?php p($l->t('Add Group'))?>" />
 			</form>
 		</li>
 		<!-- Everyone -->
@@ -54,37 +54,41 @@ $_['subadmingroups'] = array_flip($items);
 		</li>
 	<?php endforeach; ?>
 	</ul>
-	<!-- Default storage -->
-	<div class="app-settings">
-		<div class="quota">
-			<span><?php p($l->t('Default Quota'));?></span>
-			<?php if((bool) $_['isadmin']): ?>
-			<select class='quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
-				<option
-					<?php if($_['default_quota'] === 'none') print_unescaped('selected="selected"');?>
+
+	<div id="app-settings" class="" style="">
+		<div id="app-settings-header">
+			<button class="settings-button" tabindex="0"></button>
+		</div>
+		<div id="app-settings-content">
+			<div class="quota">
+				<!-- Default storage -->
+				<span><?php p($l->t('Default Quota'));?></span>
+				<?php if((bool) $_['isadmin']): ?>
+				<select class='quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
+					<option
+						<?php if($_['default_quota'] === 'none') print_unescaped('selected="selected"');?>
 						value='none'>
-					<?php p($l->t('Unlimited'));?>
-				</option>
-				<?php foreach($_['quota_preset'] as $preset):?>
-				<?php if($preset !== 'default'):?>
-				<option
-				<?php if($_['default_quota']==$preset) print_unescaped('selected="selected"');?>
-					value='<?php p($preset);?>'>
-					<?php p($preset);?>
-				</option>
-				<?php endif;?>
-				<?php endforeach;?>
-				<?php if($_['defaultQuotaIsUserDefined']):?>
-				<option selected="selected"
-					value='<?php p($_['default_quota']);?>'>
-					<?php p($_['default_quota']);?>
-				</option>
-				<?php endif;?>
-				<option data-new value='other'>
-					<?php p($l->t('Other'));?>
-					...
-				</option>
-			</select>
+						<?php p($l->t('Unlimited'));?>
+					</option>
+					<?php foreach($_['quota_preset'] as $preset):?>
+						<?php if($preset !== 'default'):?>
+						<option
+							<?php if($_['default_quota']==$preset) print_unescaped('selected="selected"');?>
+							value='<?php p($preset);?>'>
+							<?php p($preset);?>
+						</option>
+						<?php endif;?>
+					<?php endforeach;?>
+					<?php if($_['defaultQuotaIsUserDefined']):?>
+						<option selected="selected" value='<?php p($_['default_quota']);?>'>
+							<?php p($_['default_quota']);?>
+						</option>
+					<?php endif;?>
+					<option data-new value='other'>
+						<?php p($l->t('Other'));?>
+						...
+					</option>
+				</select>
 			<?php endif; ?>
 			<?php if((bool) !$_['isadmin']): ?>
 				<select class='quota' disabled="disabled">

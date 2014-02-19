@@ -127,4 +127,13 @@ $(document).ready( function () {
 		});
 	});
 
+	// Implements Quota Settings Toggle.
+	$('#app-navigation').find('.settings-button').on('click', function (e) {
+		e.stopPropagation();
+		$('#app-settings').removeClass('open');
+		$('#app-settings').toggleClass('open');
+		$(document).click(function() {
+			$('#app-settings').removeClass('open');
+    	});
+	});
 });
