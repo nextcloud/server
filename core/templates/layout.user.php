@@ -6,7 +6,7 @@
 <!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
 
-	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
+	<head data-isAdmin="<?php p(OC_User::isAdminUser(OC_User::getUser()) ? 'true' : 'false'); ?>" data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 			<?php
 				p(!empty($_['application'])?$_['application'].' - ':'');
