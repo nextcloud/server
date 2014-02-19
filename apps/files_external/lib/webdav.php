@@ -99,7 +99,9 @@ class DAV extends \OC\Files\Storage\Common{
 
 	public function rmdir($path) {
 		$this->init();
-		$path=$this->cleanPath($path);
+		$path=$this->cleanPath($path) . '/';
+		// FIXME: some WebDAV impl return 403 when trying to DELETE
+		// a non-empty folder
 		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
@@ -107,7 +109,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->propfind($path, array(), 1);
+			$response=$this->client->propfind($this->encodePath($path), array(), 1);
 			$id=md5('webdav'.$this->root.$path);
 			$content = array();
 			$files=array_keys($response);
@@ -127,8 +129,11 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->propfind($path, array('{DAV:}resourcetype'));
-			$responseType=$response["{DAV:}resourcetype"]->resourceType;
+			$response=$this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
+			$responseType = array();
+			if (isset($response["{DAV:}resourcetype"])) {
+				$responseType=$response["{DAV:}resourcetype"]->resourceType;
+			}
 			return (count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 		} catch(\Exception $e) {
 			error_log($e->getMessage());
@@ -141,7 +146,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$this->client->propfind($path, array('{DAV:}resourcetype'));
+			$this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
 			return true;//no 404 exception
 		} catch(\Exception $e) {
 			return false;
@@ -166,7 +171,7 @@ class DAV extends \OC\Files\Storage\Common{
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');
 				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
-				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().str_replace(' ', '%20', $path));
+				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$this->encodePath($path));
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				if ($this->secure === true) {
@@ -178,6 +183,10 @@ class DAV extends \OC\Files\Storage\Common{
 				}
 				
 				curl_exec ($curl);
+				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+				if ($statusCode !== 200) {
+					\OCP\Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, \OCP\Util::ERROR);
+				}
 				curl_close ($curl);
 				rewind($fp);
 				return $fp;
@@ -220,7 +229,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->propfind($path, array('{DAV:}quota-available-bytes'));
+			$response=$this->client->propfind($this->encodePath($path), array('{DAV:}quota-available-bytes'));
 			if (isset($response['{DAV:}quota-available-bytes'])) {
 				return (int)$response['{DAV:}quota-available-bytes'];
 			} else {
@@ -240,7 +249,12 @@ class DAV extends \OC\Files\Storage\Common{
 
 		// if file exists, update the mtime, else create a new empty file
 		if ($this->file_exists($path)) {
-			$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
+			try {
+				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
+			}
+			catch (\Sabre_DAV_Exception_NotImplemented $e) {
+				return false;
+			}
 		} else {
 			$this->file_put_contents($path, '');
 		}
@@ -276,13 +290,17 @@ class DAV extends \OC\Files\Storage\Common{
 			}
 		}
 		curl_exec ($curl);
+		$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		if ($statusCode !== 200) {
+			\OCP\Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, \OCP\Util::ERROR);
+		}
 		curl_close ($curl);
 	}
 
 	public function rename($path1, $path2) {
 		$this->init();
-		$path1=$this->cleanPath($path1);
-		$path2=$this->createBaseUri().$this->cleanPath($path2);
+		$path1 = $this->encodePath($this->cleanPath($path1));
+		$path2 = $this->createBaseUri().$this->encodePath($this->cleanPath($path2));
 		try {
 			$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -293,8 +311,8 @@ class DAV extends \OC\Files\Storage\Common{
 
 	public function copy($path1, $path2) {
 		$this->init();
-		$path1=$this->cleanPath($path1);
-		$path2=$this->createBaseUri().$this->cleanPath($path2);
+		$path1 = $this->encodePath($this->cleanPath($path1));
+		$path2 = $this->createBaseUri().$this->encodePath($this->cleanPath($path2));
 		try {
 			$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
@@ -307,7 +325,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->propfind($path, array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
+			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
 			return array(
 				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
@@ -321,8 +339,11 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->init();
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->propfind($path, array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
-			$responseType=$response["{DAV:}resourcetype"]->resourceType;
+			$response=$this->client->propfind($this->encodePath($path), array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
+			$responseType = array();
+			if (isset($response["{DAV:}resourcetype"])) {
+				$responseType=$response["{DAV:}resourcetype"]->resourceType;
+			}
 			$type=(count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 			if ($type=='dir') {
 				return 'httpd/unix-directory';
@@ -346,6 +367,16 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	/**
+	 * URL encodes the given path but keeps the slashes
+	 * @param string $path to encode
+	 * @return string encoded path
+	 */
+	private function encodePath($path) {
+		// slashes need to stay
+		return str_replace('%2F', '/', rawurlencode($path));
+	}
+
+	/**
 	 * @param string $method
 	 * @param string $path
 	 * @param integer $expected
@@ -353,7 +384,7 @@ class DAV extends \OC\Files\Storage\Common{
 	private function simpleResponse($method, $path, $body, $expected) {
 		$path=$this->cleanPath($path);
 		try {
-			$response=$this->client->request($method, $path, $body);
+			$response=$this->client->request($method, $this->encodePath($path), $body);
 			return $response['statusCode']==$expected;
 		} catch(\Exception $e) {
 			return false;
