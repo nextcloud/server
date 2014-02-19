@@ -11,7 +11,7 @@ namespace Test\Files\Cache;
 class Watcher extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var \OC\Files\Storage\Storage[] $storages;
+	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
 
@@ -103,6 +103,60 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$entry = $cache->get('foo.txt');
 		$this->assertEquals('httpd/unix-directory', $entry['mimetype']);
 		$this->assertTrue($cache->inCache('foo.txt/bar.txt'));
+	}
+
+	public function testPolicyNever() {
+		$storage = $this->getTestStorage();
+		$cache = $storage->getCache();
+		$updater = $storage->getWatcher();
+
+		//set the mtime to the past so it can detect an mtime change
+		$cache->put('foo.txt', array('storage_mtime' => 10));
+
+		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_NEVER);
+
+		$storage->file_put_contents('foo.txt', 'q');
+		$this->assertFalse($updater->checkUpdate('foo.txt'));
+
+		$cache->put('foo.txt', array('storage_mtime' => 20));
+		$storage->file_put_contents('foo.txt', 'w');
+		$this->assertFalse($updater->checkUpdate('foo.txt'));
+	}
+
+	public function testPolicyOnce() {
+		$storage = $this->getTestStorage();
+		$cache = $storage->getCache();
+		$updater = $storage->getWatcher();
+
+		//set the mtime to the past so it can detect an mtime change
+		$cache->put('foo.txt', array('storage_mtime' => 10));
+
+		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ONCE);
+
+		$storage->file_put_contents('foo.txt', 'q');
+		$this->assertTrue($updater->checkUpdate('foo.txt'));
+
+		$cache->put('foo.txt', array('storage_mtime' => 20));
+		$storage->file_put_contents('foo.txt', 'w');
+		$this->assertFalse($updater->checkUpdate('foo.txt'));
+	}
+
+	public function testPolicyAlways() {
+		$storage = $this->getTestStorage();
+		$cache = $storage->getCache();
+		$updater = $storage->getWatcher();
+
+		//set the mtime to the past so it can detect an mtime change
+		$cache->put('foo.txt', array('storage_mtime' => 10));
+
+		$updater->setPolicy(\OC\Files\Cache\Watcher::CHECK_ALWAYS);
+
+		$storage->file_put_contents('foo.txt', 'q');
+		$this->assertTrue($updater->checkUpdate('foo.txt'));
+
+		$cache->put('foo.txt', array('storage_mtime' => 20));
+		$storage->file_put_contents('foo.txt', 'w');
+		$this->assertTrue($updater->checkUpdate('foo.txt'));
 	}
 
 	/**
