@@ -163,7 +163,7 @@ $(document).ready(function(){
     });
 
 
-    $('#email').keyup(function(){
+    $('#email').keyup(function(event){
         if ($('#email').val() !== '' ){
             // if this is the enter key changeEmailAddress() is already invoked
             // so it doesn't need to be triggered again
