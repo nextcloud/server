@@ -38,7 +38,7 @@ class OC_App{
 
 	/**
 	 * @brief clean the appid
-	 * @param $app Appid that needs to be cleaned
+	 * @param string|boolean $app Appid that needs to be cleaned
 	 * @return string
 	 */
 	public static function cleanAppId($app) {
@@ -261,7 +261,7 @@ class OC_App{
 	/**
 	 * @brief disables an app
 	 * @param string $app app
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * This function set an app as disabled in appconfig.
 	 */
@@ -342,7 +342,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the Settings Navigation
-	 * @return array
+	 * @return string
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
@@ -437,6 +437,7 @@ class OC_App{
 
 	/**
 	 * Get the path where to install apps
+	 * @return string
 	 */
 	public static function getInstallPath() {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
@@ -490,6 +491,7 @@ class OC_App{
 
 	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
+	 * @return string
 	 */
 	public static function getAppVersion($appid) {
 		$file= self::getAppPath($appid).'/appinfo/version';
@@ -570,7 +572,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the navigation
-	 * @return array
+	 * @return string
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
@@ -854,6 +856,7 @@ class OC_App{
 
 	/**
 	 * check if the app needs updating and update when needed
+	 * @param string $app
 	 */
 	public static function checkUpgrade($app) {
 		if (in_array($app, self::$checkedApps)) {

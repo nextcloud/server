@@ -13,11 +13,17 @@ class TemplateFileLocator {
 	protected $dirs;
 	private $path;
 
+	/**
+	 * @param string[] $dirs
+	 */
 	public function __construct( $form_factor, $dirs ) {
 		$this->form_factor = $form_factor;
 		$this->dirs = $dirs;
 	}
 
+	/**
+	 * @param string $template
+	 */
 	public function find( $template ) {
 		if ($template === '') {
 			throw new \InvalidArgumentException('Empty template name');

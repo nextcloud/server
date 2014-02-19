@@ -49,7 +49,7 @@ interface ITags {
 	/**
 	* Check if any tags are saved for this type and user.
 	*
-	* @return boolean.
+	* @return boolean
 	*/
 	public function isEmpty();
 

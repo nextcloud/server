@@ -48,7 +48,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param Job $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
@@ -168,7 +168,7 @@ class JobList implements IJobList {
 	/**
 	 * get the id of the last ran job
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function getLastJob() {
 		return $this->config->getAppValue('backgroundjob', 'lastjob', 0);

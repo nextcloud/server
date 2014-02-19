@@ -108,7 +108,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @brief Checks whether the server supports LDAP
-	 * @return true if it the case, false otherwise
+	 * @return boolean if it the case, false otherwise
 	 * */
 	public function areLDAPFunctionsAvailable() {
 		return function_exists('ldap_connect');
@@ -116,7 +116,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @brief Checks whether PHP supports LDAP Paged Results
-	 * @return true if it the case, false otherwise
+	 * @return boolean if it the case, false otherwise
 	 * */
 	public function hasPagedResultSupport() {
 		$hasSupport = function_exists('ldap_control_paged_result')
@@ -127,7 +127,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * @brief Checks whether the submitted parameter is a resource
 	 * @param $resource the resource variable to check
-	 * @return true if it is a resource, false otherwise
+	 * @return boolean if it is a resource, false otherwise
 	 */
 	public function isResource($resource) {
 		return is_resource($resource);
@@ -144,6 +144,9 @@ class LDAP implements ILDAPWrapper {
 		}
 	}
 
+	/**
+	 * @param string $functionName
+	 */
 	private function preFunctionCall($functionName, $args) {
 		$this->curFunc = $functionName;
 		$this->curArgs = $args;

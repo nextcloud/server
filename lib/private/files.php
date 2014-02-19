@@ -40,7 +40,7 @@ class OC_Files {
 	 * return the content of a file or return a zip file containing multiple files
 	 *
 	 * @param string $dir
-	 * @param string $file ; separated list of files to download
+	 * @param string $files ; separated list of files to download
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
@@ -170,6 +170,9 @@ class OC_Files {
 		}
 	}
 
+	/**
+	 * @param false|string $filename
+	 */
 	private static function addSendfileHeader($filename) {
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
 			header("X-Sendfile: " . $filename);
@@ -194,6 +197,10 @@ class OC_Files {
 		}
 	}
 
+	/**
+	 * @param string $dir
+	 * @param ZipArchive $zip
+	 */
 	public static function zipAddDir($dir, $zip, $internalDir='') {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
@@ -215,7 +222,7 @@ class OC_Files {
 	/**
 	 * checks if the selected files are within the size constraint. If not, outputs an error page.
 	 *
-	 * @param dir   $dir
+	 * @param string   $dir
 	 * @param files $files
 	 */
 	static function validateZipDownload($dir, $files) {

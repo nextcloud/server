@@ -44,7 +44,7 @@ class Mapper
 	/**
 	 * @param string $path
 	 * @param bool $isLogicPath indicates if $path is logical or physical
-	 * @param $recursive
+	 * @param boolean $recursive
 	 * @return void
 	 */
 	public function removePath($path, $isLogicPath, $recursive) {
@@ -60,8 +60,8 @@ class Mapper
 	}
 
 	/**
-	 * @param $path1
-	 * @param $path2
+	 * @param string $path1
+	 * @param string $path2
 	 * @throws \Exception
 	 */
 	public function copy($path1, $path2)
@@ -99,7 +99,7 @@ class Mapper
 	/**
 	 * @param $path
 	 * @param $root
-	 * @return bool|string
+	 * @return false|string
 	 */
 	public function stripRootFolder($path, $root) {
 		if (strpos($path, $root) !== 0) {
@@ -120,6 +120,9 @@ class Mapper
 		return $path;
 	}
 
+	/**
+	 * @param string $logicPath
+	 */
 	private function resolveLogicPath($logicPath) {
 		$logicPath = $this->stripLast($logicPath);
 		$sql = 'SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?';
@@ -141,6 +144,10 @@ class Mapper
 		return $result['logic_path'];
 	}
 
+	/**
+	 * @param string $logicPath
+	 * @param boolean $store
+	 */
 	private function create($logicPath, $store) {
 		$logicPath = $this->stripLast($logicPath);
 		$index = 0;
@@ -167,6 +174,9 @@ class Mapper
 		\OC_DB::executeAudited($sql, array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
 	}
 
+	/**
+	 * @param integer $index
+	 */
 	public function slugifyPath($path, $index=null) {
 		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
 

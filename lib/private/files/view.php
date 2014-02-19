@@ -48,7 +48,7 @@ class View {
 	 * change the root to a fake root
 	 *
 	 * @param string $fakeRoot
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function chroot($fakeRoot) {
 		if (!$fakeRoot == '') {
@@ -352,6 +352,9 @@ class View {
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
 
+	/**
+	 * @param string $directory
+	 */
 	public function deleteAll($directory, $empty = false) {
 		return $this->rmdir($directory);
 	}
@@ -735,6 +738,9 @@ class View {
 		return (strlen($this->fakeRoot) > strlen($defaultRoot)) && (substr($this->fakeRoot, 0, strlen($defaultRoot) + 1) === $defaultRoot . '/');
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function runHooks($hooks, $path, $post = false) {
 		$path = $this->getHookPath($path);
 		$prefix = ($post) ? 'post_' : '';

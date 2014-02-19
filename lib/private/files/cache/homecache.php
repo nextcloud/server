@@ -38,6 +38,9 @@ class HomeCache extends Cache {
 		return $totalSize;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public function get($path) {
 		$data = parent::get($path);
 		if ($path === '' or $path === '/') {

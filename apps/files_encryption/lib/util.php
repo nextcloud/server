@@ -571,7 +571,7 @@ class Util {
 
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @return bool
 	 */
 	public function isSharedPath($path) {
@@ -1045,7 +1045,7 @@ class Util {
 	 * @brief Decrypt a keyfile
 	 * @param string $filePath
 	 * @param string $privateKey
-	 * @return bool|string
+	 * @return false|string
 	 */
 	private function decryptKeyfile($filePath, $privateKey) {
 
@@ -1124,6 +1124,7 @@ class Util {
 	/**
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
+	 * @param boolean $sharingEnabled
 	 */
 	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false) {
 

@@ -52,6 +52,9 @@ class Swift extends \OC\Files\Storage\Common {
          */
 	private static $tmpFiles = array();
 
+	/**
+	 * @param string $path
+	 */
 	private function normalizePath($path) {
 		$path = trim($path, '/');
 
@@ -62,6 +65,9 @@ class Swift extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function doesObjectExist($path) {
 		try {
 			$object = $this->container->DataObject($path);

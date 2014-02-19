@@ -138,7 +138,7 @@ class Preview {
 
 	/**
 	 * @brief returns the max scale factor
-	 * @return integer
+	 * @return string
 	*/
 	public function getMaxScaleFactor() {
 		return $this->maxScaleFactor;
@@ -146,7 +146,7 @@ class Preview {
 
 	/**
 	 * @brief returns the max width set in ownCloud's config
-	 * @return integer
+	 * @return string
 	*/
 	public function getConfigMaxX() {
 		return $this->configMaxX;
@@ -154,7 +154,7 @@ class Preview {
 
 	/**
 	 * @brief returns the max height set in ownCloud's config
-	 * @return integer
+	 * @return string
 	*/
 	public function getConfigMaxY() {
 		return $this->configMaxY;
@@ -570,7 +570,6 @@ class Preview {
 
 	/**
 	 * @brief register a new preview provider to be used
-	 * @param string $provider class name of a Preview_Provider
 	 * @param array $options
 	 * @return void
 	 */
@@ -619,6 +618,9 @@ class Preview {
 		$preview->deleteAllPreviews();
 	}
 
+	/**
+	 * @param string $mimetype
+	 */
 	public static function isMimeSupported($mimetype) {
 		if(!\OC_Config::getValue('enable_previews', true)) {
 			return false;

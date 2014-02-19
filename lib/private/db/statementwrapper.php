@@ -17,6 +17,9 @@ class OC_DB_StatementWrapper {
 	private $isManipulation = false;
 	private $lastArguments = array();
 
+	/**
+	 * @param boolean $isManipulation
+	 */
 	public function __construct($statement, $isManipulation) {
 		$this->statement = $statement;
 		$this->isManipulation = $isManipulation;

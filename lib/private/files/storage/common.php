@@ -202,6 +202,9 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->toTmpFile($path);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function toTmpFile($path) { //no longer in the storage api, still useful here
 		$source = $this->fopen($path, 'r');
 		if (!$source) {
@@ -224,6 +227,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $baseDir;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 */
 	private function addLocalFolder($path, $target) {
 		$dh = $this->opendir($path);
 		if (is_resource($dh)) {
@@ -241,6 +248,9 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 	}
 
+	/**
+	 * @param string $query
+	 */
 	protected function searchInDir($query, $dir = '') {
 		$files = array();
 		$dh = $this->opendir($dir);

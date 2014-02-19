@@ -206,6 +206,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 	}
 
+	/**
+	 * @param resource $data
+	 */
 	private function createFileChunked($data)
 	{
 		list($path, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);

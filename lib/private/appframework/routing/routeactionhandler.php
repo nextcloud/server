@@ -30,6 +30,10 @@ class RouteActionHandler {
 	private $actionName;
 	private $container;
 
+	/**
+	 * @param string $controllerName
+	 * @param string $actionName
+	 */
 	public function __construct(DIContainer $container, $controllerName, $actionName) {
 		$this->controllerName = $controllerName;
 		$this->actionName = $actionName;

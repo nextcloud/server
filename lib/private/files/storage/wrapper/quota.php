@@ -23,6 +23,9 @@ class Quota extends Wrapper {
 		$this->quota = $parameters['quota'];
 	}
 
+	/**
+	 * @param string $path
+	 */
 	protected function getSize($path) {
 		$cache = $this->getCache();
 		$data = $cache->get($path);

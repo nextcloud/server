@@ -396,7 +396,7 @@ class OC_Image {
 	/**
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
-	* @param $handle
+	* @param resource $handle
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
@@ -563,7 +563,7 @@ class OC_Image {
 	 * Create a new image from file or URL
 	 * @link http://www.programmierer-forum.de/function-imagecreatefrombmp-laeuft-mit-allen-bitraten-t143137.htm
 	 * @version 1.00
-	 * @param string $filename <p>
+	 * @param string $fileName <p>
 	 * Path to the BMP image.
 	 * </p>
 	 * @return resource an image resource identifier on success, <b>FALSE</b> on errors.
@@ -704,7 +704,7 @@ class OC_Image {
 
 	/**
 	* @brief Resizes the image preserving ratio.
-	* @param $maxsize The maximum size of either the width or height.
+	* @param integer $maxsize The maximum size of either the width or height.
 	* @returns bool
 	*/
 	public function resize($maxSize) {
@@ -891,8 +891,7 @@ if ( ! function_exists( 'imagebmp') ) {
 	 * @link http://www.programmierer-forum.de/imagebmp-gute-funktion-gefunden-t143716.htm
 	 * @author mgutt <marc@gutt.it>
 	 * @version 1.00
-	 * @param resource $image
-	 * @param string $filename [optional] <p>The path to save the file to.</p>
+	 * @param string $fileName [optional] <p>The path to save the file to.</p>
 	 * @param int $bit [optional] <p>Bit depth, (default is 24).</p>
 	 * @param int $compression [optional]
 	 * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
@@ -1008,7 +1007,7 @@ if ( ! function_exists( 'exif_imagetype' ) ) {
 	/**
 	 * Workaround if exif_imagetype does not exist
 	 * @link http://www.php.net/manual/en/function.exif-imagetype.php#80383
-	 * @param string $filename
+	 * @param string $fileName
 	 * @return string|boolean
 	 */
 	function exif_imagetype ( $fileName ) {

@@ -661,7 +661,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @brief encryption using legacy blowfish method
-	 * @param $data string data to encrypt
+	 * @param string $data data to encrypt
 	 * @param $passwd string password
 	 * @return string
 	 */

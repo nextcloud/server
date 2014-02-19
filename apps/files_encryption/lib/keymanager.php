@@ -170,7 +170,7 @@ class Keymanager {
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param \OC_FilesystemView $view
 	 * @param \OCA\Encryption\Util $util
-	 * @param $filePath
+	 * @param string|false $filePath
 	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
@@ -513,6 +513,8 @@ class Keymanager {
 
 	/**
 	 * @brief Make preparations to vars and filesystem for saving a keyfile
+	 * @param string|boolean $path
+	 * @param string $basePath
 	 */
 	public static function keySetPreparation(\OC_FilesystemView $view, $path, $basePath, $userId) {
 
@@ -542,7 +544,7 @@ class Keymanager {
 	/**
 	 * @brief extract filename from share key name
 	 * @param string $shareKey (filename.userid.sharekey)
-	 * @return mixed filename or false
+	 * @return string|false filename or false
 	 */
 	protected static function getFilenameFromShareKey($shareKey) {
 		$parts = explode('.', $shareKey);

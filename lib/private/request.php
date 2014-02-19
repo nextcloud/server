@@ -87,6 +87,7 @@ class OC_Request {
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
+	 * @return string
 	 */
 	public static function requestUri() {
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -98,7 +99,7 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the script name
-	 * @returns string the script name
+	 * @return string the script name
 	 *
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
@@ -115,7 +116,7 @@ class OC_Request {
 
 	/**
 	 * @brief get Path info from request
-	 * @returns string Path info or false when not found
+	 * @return string Path info or false when not found
 	 */
 	public static function getPathInfo() {
 		if (array_key_exists('PATH_INFO', $_SERVER)) {
@@ -139,7 +140,7 @@ class OC_Request {
 
 	/**
 	 * @brief get Path info from request, not urldecoded
-	 * @returns string Path info or false when not found
+	 * @return string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {
 		$requestUri = $_SERVER['REQUEST_URI'];
@@ -180,7 +181,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if this is a no-cache request
-	 * @returns boolean true for no-cache
+	 * @return boolean true for no-cache
 	 */
 	static public function isNoCache() {
 		if (!isset($_SERVER['HTTP_CACHE_CONTROL'])) {
@@ -191,7 +192,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if the requestor understands gzip
-	 * @returns boolean true for gzip encoding supported
+	 * @return boolean true for gzip encoding supported
 	 */
 	static public function acceptGZip() {
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
@@ -207,7 +208,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if the requester sent along an mtime
-	 * @returns false or an mtime
+	 * @return false or an mtime
 	 */
 	static public function hasModificationTime () {
 		if (isset($_SERVER['HTTP_X_OC_MTIME'])) {

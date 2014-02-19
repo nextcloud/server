@@ -487,7 +487,7 @@ class Cache {
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
-	 * @param $path
+	 * @param string|boolean $path
 	 */
 	public function correctFolderSize($path) {
 		$this->calculateFolderSize($path);

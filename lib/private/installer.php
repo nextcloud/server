@@ -25,10 +25,6 @@
  */
 class OC_Installer{
 	/**
-	 * @brief Installs an app
-	 * @param $data array with all information
-	 * @throws \Exception
-	 * @returns integer
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -55,6 +51,11 @@ class OC_Installer{
 	 *
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
+	 *
+	 * @brief Installs an app
+	 * @param array $data with all information
+	 * @throws \Exception
+	 * @return integer
 	 */
 	public static function installApp( $data = array()) {
 		$l = \OC_L10N::get('lib');
@@ -219,7 +220,7 @@ class OC_Installer{
 
 	/**
 	 * @brief checks whether or not an app is installed
-	 * @param $app app
+	 * @param string $app app
 	 * @returns true/false
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
@@ -235,7 +236,7 @@ class OC_Installer{
 
 	/**
 	 * @brief Update an application
-	 * @param $data array with all information
+	 * @param array $data with all information
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -269,8 +270,8 @@ class OC_Installer{
 
 	/**
 	 * @brief Check if an update for the app is available
-	 * @param $name name of the application
-	 * @return boolean false or the version number of the update
+	 * @param string $name name of the application
+	 * @return string|false false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
 	 */
@@ -297,8 +298,8 @@ class OC_Installer{
 
 	/**
 	 * @brief Check if app is already downloaded
-	 * @param $name name of the application to remove
-	 * @returns true/false
+	 * @param string $name name of the application to remove
+	 * @return boolean
 	 *
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
@@ -313,9 +314,9 @@ class OC_Installer{
 
 	/**
 	 * @brief Removes an app
-	 * @param $name name of the application to remove
+	 * @param string $name name of the application to remove
 	 * @param $options array with options
-	 * @returns true/false
+	 * @return boolean
 	 *
 	 * This function removes an app. $options is an associative array. The
 	 * following keys are optional:ja
@@ -394,7 +395,7 @@ class OC_Installer{
 	/**
 	 * install an app already placed in the app folder
 	 * @param string $app id of the app to install
-	 * @returns array see OC_App::getAppInfo
+	 * @return integer
 	 */
 	public static function installShippedApp($app) {
 		//install the database
@@ -429,7 +430,7 @@ class OC_Installer{
 	/**
 	 * check the code of an app with some static code checks
 	 * @param string $folder the folder of the app to check
-	 * @returns true for app is o.k. and false for app is not o.k.
+	 * @return boolean true for app is o.k. and false for app is not o.k.
 	 */
 	public static function checkCode($appname, $folder) {
 

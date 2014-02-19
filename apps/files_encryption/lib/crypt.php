@@ -182,6 +182,7 @@ class Crypt {
 	 * @param $data
 	 * @param string $relPath The path of the file, relative to user/data;
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
+	 * @param boolean $isCatFileContent
 	 * @return boolean
 	 */
 	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
@@ -209,8 +210,8 @@ class Crypt {
 
 	/**
 	 * @brief Symmetrically encrypt a string
-	 * @param $plainContent
-	 * @param $iv
+	 * @param string $plainContent
+	 * @param string $iv
 	 * @param string $passphrase
 	 * @return string encrypted file content
 	 */
@@ -229,9 +230,9 @@ class Crypt {
 
 	/**
 	 * @brief Symmetrically decrypt a string
-	 * @param $encryptedContent
-	 * @param $iv
-	 * @param $passphrase
+	 * @param string $encryptedContent
+	 * @param string $iv
+	 * @param string $passphrase
 	 * @throws \Exception
 	 * @return string decrypted file content
 	 */
@@ -292,8 +293,7 @@ class Crypt {
 	 * @brief Symmetrically encrypts a string and returns keyfile content
 	 * @param string $plainContent content to be encrypted in keyfile
 	 * @param string $passphrase
-	 * @return bool|string
-	 * @return string encrypted content combined with IV
+	 * @return false|string encrypted content combined with IV
 	 * @note IV need not be specified, as it will be stored in the returned keyfile
 	 * and remain accessible therein.
 	 */
@@ -326,7 +326,7 @@ class Crypt {
 	 * @param $keyfileContent
 	 * @param string $passphrase
 	 * @throws \Exception
-	 * @return bool|string
+	 * @return string|false
 	 * @internal param string $source
 	 * @internal param string $target
 	 * @internal param string $key the decryption key
@@ -438,7 +438,7 @@ class Crypt {
 	 * @param $encryptedContent
 	 * @param $shareKey
 	 * @param $privateKey
-	 * @return bool
+	 * @return false|string
 	 * @internal param string $plainContent content to be encrypted
 	 * @returns string $plainContent decrypted string
 	 * @note symmetricDecryptFileContent() can be used to decrypt files created using this method

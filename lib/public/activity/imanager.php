@@ -53,6 +53,7 @@ interface IManager {
 	 * $callable has to return an instance of OCA\Activity\IConsumer
 	 *
 	 * @param \Closure $callable
+	 * @return void
 	 */
 	function registerConsumer(\Closure $callable);
 

@@ -16,6 +16,9 @@ class Legacy {
 
 	private $cacheHasItems = null;
 
+	/**
+	 * @param string $user
+	 */
 	public function __construct($user) {
 		$this->user = $user;
 	}
@@ -69,7 +72,7 @@ class Legacy {
 	/**
 	 * get an item from the legacy cache
 	 *
-	 * @param string|int $path
+	 * @param string $path
 	 * @return array
 	 */
 	function get($path) {

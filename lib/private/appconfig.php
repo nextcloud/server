@@ -185,8 +185,6 @@ class AppConfig implements \OCP\IAppConfig {
 	 * @param string $app app
 	 * @param string $key key
 	 * @return bool
-	 *
-	 * Deletes a key.
 	 */
 	public function deleteKey($app, $key) {
 		$where = array(
@@ -217,8 +215,8 @@ class AppConfig implements \OCP\IAppConfig {
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
-	 * @param app
-	 * @param key
+	 * @param boolean $app
+	 * @param string $key
 	 * @return array
 	 */
 	public function getValues($app, $key) {

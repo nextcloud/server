@@ -23,7 +23,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * add an empty folder to the archive
-	 * @param string path
+	 * @param string $path
 	 * @return bool
 	 */
 	function addFolder($path) {
@@ -31,8 +31,8 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * add a file to the archive
-	 * @param string path
-	 * @param string source either a local file or string data
+	 * @param string $path
+	 * @param string $source either a local file or string data
 	 * @return bool
 	 */
 	function addFile($path, $source='') {
@@ -49,9 +49,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * rename a file or folder in the archive
-	 * @param string source
-	 * @param string dest
-	 * @return bool
+	 * @param string $source
+	 * @param string $dest
+	 * @return boolean|null
 	 */
 	function rename($source, $dest) {
 		$source=$this->stripPath($source);
@@ -60,7 +60,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * get the uncompressed size of a file in the archive
-	 * @param string path
+	 * @param string $path
 	 * @return int
 	 */
 	function filesize($path) {
@@ -69,7 +69,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * get the last modified time of a file in the archive
-	 * @param string path
+	 * @param string $path
 	 * @return int
 	 */
 	function mtime($path) {
@@ -77,7 +77,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * get the files in a folder
-	 * @param path
+	 * @param string $path
 	 * @return array
 	 */
 	function getFolder($path) {
@@ -107,7 +107,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * get the content of a file
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	function getFile($path) {
@@ -115,9 +115,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * extract a single file from the archive
-	 * @param string path
-	 * @param string dest
-	 * @return bool
+	 * @param string $path
+	 * @param string $dest
+	 * @return boolean|null
 	 */
 	function extractFile($path, $dest) {
 		$fp = $this->zip->getStream($path);
@@ -125,8 +125,8 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * extract the archive
-	 * @param string path
-	 * @param string dest
+	 * @param string $path
+	 * @param string $dest
 	 * @return bool
 	 */
 	function extract($dest) {
@@ -134,7 +134,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * check if a file or folder exists in the archive
-	 * @param string path
+	 * @param string $path
 	 * @return bool
 	 */
 	function fileExists($path) {
@@ -142,7 +142,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * remove a file or folder from the archive
-	 * @param string path
+	 * @param string $path
 	 * @return bool
 	 */
 	function remove($path) {
@@ -154,8 +154,8 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * get a file handler
-	 * @param string path
-	 * @param string mode
+	 * @param string $path
+	 * @param string $mode
 	 * @return resource
 	 */
 	function getStream($path, $mode) {
@@ -191,6 +191,10 @@ class OC_Archive_ZIP extends OC_Archive{
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return string
+	 */
 	private function stripPath($path) {
 		if(!$path || $path[0]=='/') {
 			return substr($path, 1);

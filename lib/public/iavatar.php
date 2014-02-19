@@ -22,7 +22,7 @@ interface IAvatar {
 
 	/**
 	 * @brief sets the users avatar
-	 * @param $data mixed imagedata or path to set a new avatar
+	 * @param Image $data mixed imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
 	 * @throws \OCP\NotSquareException if the image is not square

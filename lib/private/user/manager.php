@@ -144,8 +144,8 @@ class Manager extends PublicEmitter {
 	/**
 	 * Check if the password is valid for the user
 	 *
-	 * @param $loginname
-	 * @param $password
+	 * @param string $loginname
+	 * @param string $password
 	 * @return mixed the User object on success, false otherwise
 	 */
 	public function checkPassword($loginname, $password) {

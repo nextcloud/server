@@ -37,7 +37,6 @@ class RouteConfig {
 	/**
 	 * @param \OC\AppFramework\DependencyInjection\DIContainer $container
 	 * @param \OC_Router $router
-	 * @param string $pathToYml
 	 * @internal param $appName
 	 */
 	public function __construct(DIContainer $container, \OC_Router $router, $routes) {

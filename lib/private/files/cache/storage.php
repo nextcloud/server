@@ -47,6 +47,9 @@ class Storage {
 		return $this->numericId;
 	}
 
+	/**
+	 * @return string
+	 */
 	public static function getStorageId($numericId) {
 
 		$sql = 'SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?';
@@ -58,6 +61,9 @@ class Storage {
 		}
 	}
 
+	/**
+	 * @param string $storageId
+	 */
 	public static function exists($storageId) {
 		if (strlen($storageId) > 64) {
 			$storageId = md5($storageId);

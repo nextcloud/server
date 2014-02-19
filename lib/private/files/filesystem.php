@@ -614,6 +614,9 @@ class Filesystem {
 		return self::$defaultInstance->touch($path, $mtime);
 	}
 
+	/**
+	 * @return string
+	 */
 	static public function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
 	}
@@ -638,6 +641,9 @@ class Filesystem {
 		return self::$defaultInstance->fopen($path, $mode);
 	}
 
+	/**
+	 * @return string
+	 */
 	static public function toTmpFile($path) {
 		return self::$defaultInstance->toTmpFile($path);
 	}

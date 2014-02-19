@@ -51,7 +51,7 @@ class OC_DB {
 
 	/**
 	 * @brief connects to the database
-	 * @return bool true if connection can be established or false on error
+	 * @return boolean|null true if connection can be established or false on error
 	 *
 	 * Connects to the database as specified in config.php
 	 */
@@ -196,7 +196,7 @@ class OC_DB {
 	 * @param int $offset
 	 * @param bool $isManipulation
 	 * @throws DatabaseException
-	 * @return \Doctrine\DBAL\Statement prepared SQL query
+	 * @return OC_DB_StatementWrapper prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
@@ -298,7 +298,7 @@ class OC_DB {
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @return int id
+	 * @return string id
 	 * @throws DatabaseException
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertId
@@ -315,7 +315,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @return int number of updated rows
+	 * @return boolean number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -368,7 +368,7 @@ class OC_DB {
 	 * @brief update the database schema
 	 * @param string $file file to read structure from
 	 * @throws Exception
-	 * @return bool
+	 * @return string|boolean
 	 */
 	public static function updateDbFromStructure($file) {
 		$schemaManager = self::getMDB2SchemaManager();

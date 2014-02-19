@@ -66,8 +66,8 @@ interface IAppContainer extends IContainer{
 	function isAdminUser();
 
 	/**
-	 * @param $message
-	 * @param $level
+	 * @param string $message
+	 * @param string $level
 	 * @return mixed
 	 */
 	function log($message, $level);

@@ -203,6 +203,9 @@ if (\OC_Util::runningOnWindows()) {
 			return $return;
 		}
 
+		/**
+		 * @param string $dir
+		 */
 		private function delTree($dir) {
 			$dirRelative = $dir;
 			$dir = $this->datadir . $dir;
@@ -224,6 +227,9 @@ if (\OC_Util::runningOnWindows()) {
 			return $return;
 		}
 
+		/**
+		 * @param string $fullPath
+		 */
 		private static function getFileSizeFromOS($fullPath) {
 			$name = strtolower(php_uname('s'));
 			// Windows OS: we use COM to access the filesystem
@@ -274,6 +280,9 @@ if (\OC_Util::runningOnWindows()) {
 			return $this->datadir . $path;
 		}
 
+		/**
+		 * @param string $query
+		 */
 		protected function searchInDir($query, $dir = '') {
 			$files = array();
 			foreach (scandir($this->datadir . $dir) as $item) {

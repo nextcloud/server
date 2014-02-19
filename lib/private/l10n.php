@@ -529,6 +529,9 @@ class OC_L10N implements \OCP\IL10N {
 		return $available;
 	}
 
+	/**
+	 * @param string $lang
+	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available
 			return true;

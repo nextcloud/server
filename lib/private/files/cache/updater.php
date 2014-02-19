@@ -112,7 +112,7 @@ class Updater {
 	/**
 	 * @brief get file owner and path
 	 * @param string $filename
-	 * @return array with the oweners uid and the owners path
+	 * @return string[] with the oweners uid and the owners path
 	 */
 	private static function getUidAndFilename($filename) {
 

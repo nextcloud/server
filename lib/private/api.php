@@ -328,6 +328,9 @@ class OC_API {
 		}
 	}
 
+	/**
+	 * @param XMLWriter $writer
+	 */
 	private static function toXML($array, $writer) {
 		foreach($array as $k => $v) {
 			if ($k[0] === '@') {

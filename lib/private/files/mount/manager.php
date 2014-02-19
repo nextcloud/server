@@ -106,7 +106,7 @@ class Manager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param string $id
-	 * @return Mount
+	 * @return Mount[]
 	 */
 	public function findByNumericId($id) {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);

@@ -90,6 +90,9 @@ class OC_Util {
 		return true;
 	}
 
+	/**
+	 * @param string $user
+	 */
 	public static function getUserQuota($user){
 		$config = \OC::$server->getConfig();
 		$userQuota = $config->getUserValue($user, 'files', 'quota', 'default');
@@ -215,7 +218,7 @@ class OC_Util {
 	 * @brief add a javascript file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param mixed $file filename
 	 * @return void
 	 */
 	public static function addScript( $application, $file = null ) {
@@ -234,7 +237,7 @@ class OC_Util {
 	 * @brief add a css file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param mixed $file filename
 	 * @return void
 	 */
 	public static function addStyle( $application, $file = null ) {
@@ -513,7 +516,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check for correct file permissions of data directory
-	 * @paran string $dataDirectory
+	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
@@ -626,7 +629,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the user is a subadmin, redirects to home if not
-	 * @return array $groups where the current user is subadmin
+	 * @return null|boolean $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
 		OC_Util::checkLoggedIn();
@@ -925,7 +928,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the connection to the internet is disabled on purpose
-	 * @return bool
+	 * @return string
 	 */
 	public static function isInternetConnectionEnabled(){
 		return \OC_Config::getValue("has_internet_connection", true);
@@ -1130,6 +1133,7 @@ class OC_Util {
 	}
 
 	/**
+	 * @param boolean|string $file
 	 * @return string
 	 */
 	public static function basename($file) {

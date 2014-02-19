@@ -21,6 +21,9 @@ class FileGlobal {
 		return str_replace('/', '_', $key);
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function get($key) {
 		$key = $this->fixKey($key);
 		if ($this->hasKey($key)) {
@@ -30,6 +33,10 @@ class FileGlobal {
 		return null;
 	}
 
+	/**
+	 * @param string $key
+	 * @param string $value
+	 */
 	public function set($key, $value, $ttl=0) {
 		$key = $this->fixKey($key);
 		$cache_dir = self::getCacheDir();

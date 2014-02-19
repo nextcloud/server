@@ -222,7 +222,7 @@ class OC_User {
 	 * @brief Try to login a user
 	 * @param $uid The username of the user to log in
 	 * @param $password The password of the user
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
@@ -290,6 +290,7 @@ class OC_User {
 
 	/**
 	 * @brief Sets user display name for session
+	 * @param string $uid
 	 */
 	public static function setDisplayName($uid, $displayName = null) {
 		if (is_null($displayName)) {
@@ -481,7 +482,7 @@ class OC_User {
 	 * @brief Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return mixed user id a string on success, false otherwise
+	 * @return string|false user id a string on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
@@ -609,7 +610,7 @@ class OC_User {
 
 	/**
 	 * @brief Returns the first active backend from self::$_usedBackends.
-	 * @return null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 * @return OCP\Authentication\IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
 	 */
 	private static function findFirstActiveUsedBackend() {
 		foreach (self::$_usedBackends as $backend) {

@@ -100,7 +100,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with all uids
+	 * @return string[] with all uids
 	 *
 	 * Get a list of all users.
 	 */
