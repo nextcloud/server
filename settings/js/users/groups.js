@@ -19,6 +19,11 @@
 		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(gid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
 	},
 
+	showGroup: function (gid) {
+		UserList.empty();
+		UserList.update(gid);
+	},
+
 	finishDelete: function (ready) {
 		if (!GroupList.deleteCanceled && GroupList.deleteGid) {
 			$.ajax({

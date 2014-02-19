@@ -32,10 +32,19 @@ if (isset($_GET['limit'])) {
 } else {
 	$limit = 10;
 }
+if (isset($_GET['gid']) && !empty($_GET['gid'])) {
+	$gid = $_GET['gid'];
+} else {
+	$gid = false;
+}
 $users = array();
 $userManager = \OC_User::getManager();
 if (OC_User::isAdminUser(OC_User::getUser())) {
-	$batch = OC_User::getDisplayNames('', $limit, $offset);
+	if($gid !== false) {
+		$batch = OC_Group::displayNamesInGroup($gid, '', $limit, $offset);
+	} else {
+		$batch = OC_User::getDisplayNames('', $limit, $offset);
+	}
 	foreach ($batch as $uid => $displayname) {
 		$user = $userManager->get($uid);
 		$users[] = array(
@@ -50,6 +59,12 @@ if (OC_User::isAdminUser(OC_User::getUser())) {
 	}
 } else {
 	$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
+	if($gid !== false && in_array($gid, $groups)) {
+		$groups = array($gid);
+	} elseif($gid !== false) {
+		//don't you try to investigate loops you must not know about
+		$groups = array();
+	}
 	$batch = OC_Group::usersInGroups($groups, '', $limit, $offset);
 	foreach ($batch as $uid) {
 		$user = $userManager->get($uid);
