@@ -5,6 +5,10 @@
 	position: absolute !important;
 }
 
+#controls {
+	box-shadow: initial;
+}
+
 /* hide size and date columns */
 table th#headerSize,
 table td.filesize,
