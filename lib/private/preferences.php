@@ -111,7 +111,7 @@ class Preferences {
 	/**
 	 * @brief Get all apps of an user
 	 * @param string $user user
-	 * @return array with app ids
+	 * @return integer[] with app ids
 	 *
 	 * This function returns a list of all apps of the user that have at least
 	 * one entry in the preferences table.

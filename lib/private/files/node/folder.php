@@ -9,7 +9,6 @@
 namespace OC\Files\Node;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Cache\Scanner;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 

@@ -159,6 +159,9 @@ class Connection extends LDAPUtility {
 		return unserialize(base64_decode($this->cache->get($key)));
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function isCached($key) {
 		if(!$this->configured) {
 			$this->readConfiguration();

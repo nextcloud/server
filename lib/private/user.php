@@ -516,6 +516,8 @@ class OC_User {
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
 	public static function getUsers($search = '', $limit = null, $offset = null) {
 		$users = self::getManager()->search($search, $limit, $offset);

@@ -13,6 +13,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	private $zip=null;
 	private $path;
 
+	/**
+	 * @param string $source
+	 */
 	function __construct($source) {
 		$this->path=$source;
 		$this->zip=new ZipArchive();
@@ -125,7 +128,6 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 	/**
 	 * extract the archive
-	 * @param string $path
 	 * @param string $dest
 	 * @return bool
 	 */

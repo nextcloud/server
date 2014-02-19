@@ -22,6 +22,9 @@ class OC_Archive_TAR extends OC_Archive{
 	private $tar=null;
 	private $path;
 
+	/**
+	 * @param string $source
+	 */
 	function __construct($source) {
 		$types=array(null, 'gz', 'bz');
 		$this->path=$source;
@@ -122,6 +125,9 @@ class OC_Archive_TAR extends OC_Archive{
 		return true;
 	}
 
+	/**
+	 * @param string $file
+	 */
 	private function getHeader($file) {
 		if ( ! $this->cachedHeaders ) {
 			$this->cachedHeaders = $this->tar->listContent();

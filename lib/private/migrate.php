@@ -431,6 +431,7 @@ class OC_Migrate{
 	/**
 	 * @brief connects to migration.db, or creates if not found
 	 * @param $db optional path to migration.db, defaults to user data dir
+	 * @param string $path
 	 * @return bool whether the operation was successful
 	 */
 	static private function connectDB( $path=null ) {
@@ -460,7 +461,7 @@ class OC_Migrate{
 
 	/**
 	 * @brief creates the tables in migration.db from an apps database.xml
-	 * @param $appid string id of the app
+	 * @param string $appid string id of the app
 	 * @return bool whether the operation was successful
 	 */
 	static private function createAppTables( $appid ) {

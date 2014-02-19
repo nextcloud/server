@@ -7,6 +7,11 @@
  */
 
 class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
+
+	/**
+	 * @param string $theme
+	 * @param string $form_factor
+	 */
 	public function getResourceLocator( $theme, $form_factor, $core_map, $party_map, $appsroots ) {
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
 			array( $theme, $form_factor, $core_map, $party_map, $appsroots ),

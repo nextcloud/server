@@ -57,6 +57,9 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		return $this->verbosity === 'detail';
 	}
 
+	/**
+	 * @param string $dir
+	 */
 	private function unlinkDir($dir) {
 		if ($dh = @opendir($dir)) {
 			while (($file = readdir($dh)) !== false) {

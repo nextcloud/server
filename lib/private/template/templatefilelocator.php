@@ -15,6 +15,7 @@ class TemplateFileLocator {
 
 	/**
 	 * @param string[] $dirs
+	 * @param string $form_factor
 	 */
 	public function __construct( $form_factor, $dirs ) {
 		$this->form_factor = $form_factor;

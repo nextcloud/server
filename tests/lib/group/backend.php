@@ -29,7 +29,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
-	 * @return array
+	 * @return string
 	 */
 	public function getGroupName() {
 		return uniqid('test_');
@@ -38,7 +38,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user
-	 * @return array
+	 * @return string
 	 */
 	public function getUserName() {
 		return uniqid('test_');

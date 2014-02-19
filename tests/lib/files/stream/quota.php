@@ -13,6 +13,10 @@ class Quota extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Stream\Quota::clear();
 	}
 
+	/**
+	 * @param string $mode
+	 * @param integer $limit
+	 */
 	protected function getStream($mode, $limit) {
 		$source = fopen('php://temp', $mode);
 		return \OC\Files\Stream\Quota::wrap($source, $limit);

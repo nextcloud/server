@@ -164,6 +164,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gives back the database table for the query
+	 * @param boolean $isUser
 	 */
 	private function getMapTable($isUser) {
 		if($isUser) {
@@ -644,6 +645,8 @@ class Access extends LDAPUtility {
 	 * @brief executes an LDAP search, optimized for Users
 	 * @param $filter the LDAP filter for the search
 	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @returns array with the search result
 	 *
 	 * Executes an LDAP search
@@ -661,8 +664,10 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief executes an LDAP search, optimized for Groups
-	 * @param $filter the LDAP filter for the search
+	 * @param string $filter the LDAP filter for the search
 	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @returns array with the search result
 	 *
 	 * Executes an LDAP search
@@ -757,7 +762,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief executes an LDAP search, but counts the results only
-	 * @param $filter the LDAP filter for the search
+	 * @param string $filter the LDAP filter for the search
 	 * @param $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
@@ -1006,6 +1011,9 @@ class Access extends LDAPUtility {
 		return $this->combineFilterWithOr($filter);
 	}
 
+	/**
+	 * @param string $password
+	 */
 	public function areCredentialsValid($name, $password) {
 		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;

@@ -99,6 +99,9 @@ class OC_L10N implements \OCP\IL10N {
 		$this->lang = $lang;
 	}
 
+	/**
+	 * @param string $transFile
+	 */
 	public function load($transFile) {
 		$this->app = true;
 		include $transFile;

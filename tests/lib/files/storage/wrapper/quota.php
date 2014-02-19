@@ -27,6 +27,9 @@ class Quota extends \Test\Files\Storage\Storage {
 		\OC_Helper::rmdirr($this->tmpDir);
 	}
 
+	/**
+	 * @param integer $limit
+	 */
 	protected function getLimitedStorage($limit) {
 		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
 		$storage->getScanner()->scan('');

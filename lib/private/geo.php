@@ -12,6 +12,10 @@ class OC_Geo{
 	 * @param (string) $longitude - Longitude
 	 * @return (string) $timezone - closest timezone
 	 */
+	/**
+	 * @param integer $latitude
+	 * @param integer $longitude
+	 */
 	public static function timezone($latitude, $longitude) {
 		$alltimezones = DateTimeZone::listIdentifiers();
 		$variances = array();

@@ -218,7 +218,7 @@ class OC_Util {
 	 * @brief add a javascript file
 	 *
 	 * @param string $application
-	 * @param mixed $file filename
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addScript( $application, $file = null ) {
@@ -237,7 +237,7 @@ class OC_Util {
 	 * @brief add a css file
 	 *
 	 * @param string $application
-	 * @param mixed $file filename
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addStyle( $application, $file = null ) {
@@ -570,6 +570,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the app is enabled, redirects to home if not
+	 * @param string $app
 	 * @return void
 	 */
 	public static function checkAppEnabled($app) {

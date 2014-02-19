@@ -668,6 +668,9 @@ class Filesystem {
 		return self::$defaultInstance->search($query);
 	}
 
+	/**
+	 * @param string $query
+	 */
 	static public function searchByMime($query) {
 		return self::$defaultInstance->searchByMime($query);
 	}

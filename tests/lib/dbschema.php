@@ -111,10 +111,16 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	/**
+	 * @param string $table
+	 */
 	public function assertTableExist($table) {
 		$this->assertTrue($this->tableExist($table), 'Table ' . $table . ' does not exist');
 	}
 
+	/**
+	 * @param string $table
+	 */
 	public function assertTableNotExist($table) {
 		$type=OC_Config::getValue( "dbtype", "sqlite" );
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {

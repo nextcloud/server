@@ -118,6 +118,8 @@ class OC_Appconfig {
 	 *
 	 * @param app
 	 * @param key
+	 * @param string|false $app
+	 * @param string|false $key
 	 * @return array
 	 */
 	public static function getValues($app, $key) {

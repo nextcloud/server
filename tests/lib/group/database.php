@@ -26,7 +26,7 @@ class Test_Group_Database extends Test_Group_Backend {
 	/**
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
-	 * @return array
+	 * @return string
 	 */
 	public function getGroupName() {
 		$name=uniqid('test_');
@@ -37,7 +37,7 @@ class Test_Group_Database extends Test_Group_Backend {
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user
-	 * @return array
+	 * @return string
 	 */
 	public function getUserName() {
 		return uniqid('test_');

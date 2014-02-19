@@ -31,6 +31,7 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 	 * @brief checks for existence of export_info.json and file folder
 	 * @param string $exportedUser the user that was exported
 	 * @param string $path the path to the .zip export
+	 * @param string $exportedBy
 	 */
 	public function validateUserExport($exportedBy, $exportedUser, $path) {
 		$this->assertTrue(file_exists($path));

@@ -236,30 +236,6 @@ class OC_Installer{
 
 	/**
 	 * @brief Update an application
-	 * @param array $data with all information
-	 *
-	 * This function installs an app. All information needed are passed in the
-	 * associative array $data.
-	 * The following keys are required:
-	 *   - source: string, can be "path" or "http"
-	 *
-	 * One of the following keys is required:
-	 *   - path: path to the file containing the app
-	 *   - href: link to the downloadable file containing the app
-	 *
-	 * The following keys are optional:
-	 *   - pretend: boolean, if set true the system won't do anything
-	 *   - noupgrade: boolean, if true appinfo/upgrade.php won't be loaded
-	 *
-	 * This function works as follows
-	 *   -# fetching the file
-	 *   -# removing the old files
-	 *   -# unzipping new file
-	 *   -# including appinfo/upgrade.php
-	 *   -# setting the installed version
-	 *
-	 * upgrade.php can determine the current installed version of the app using
-	 * "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function updateApp( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
@@ -270,7 +246,6 @@ class OC_Installer{
 
 	/**
 	 * @brief Check if an update for the app is available
-	 * @param string $name name of the application
 	 * @return string|false false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
@@ -316,7 +291,7 @@ class OC_Installer{
 	 * @brief Removes an app
 	 * @param string $name name of the application to remove
 	 * @param $options array with options
-	 * @return boolean
+	 * @return boolean|null
 	 *
 	 * This function removes an app. $options is an associative array. The
 	 * following keys are optional:ja

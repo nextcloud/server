@@ -59,7 +59,7 @@ class BackgroundJob {
 	 * sets the background jobs execution type
 	 *
 	 * @param string $type execution type
-	 * @return boolean|null
+	 * @return false|null
 	 *
 	 * This method sets the execution type of the background jobs. Possible types
 	 * are "none", "ajax", "webcron", "cron"
@@ -115,7 +115,7 @@ class BackgroundJob {
 	 * @deprecated
 	 * Gets one queued task
 	 * @param int $id ID of the task
-	 * @return \OC\BackgroundJob\Job|null array
+	 * @return BackgroundJob\IJob array
 	 */
 	public static function findQueuedTask($id) {
 		$jobList = \OC::$server->getJobList();
