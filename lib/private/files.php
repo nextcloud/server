@@ -32,6 +32,9 @@ class OC_Files {
 		return \OC\Files\Filesystem::getFileInfo($path, $includeMountPoints);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	static public function getDirectoryContent($path){
 		return \OC\Files\Filesystem::getDirectoryContent($path);
 	}

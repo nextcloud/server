@@ -252,7 +252,7 @@ class OC_DB {
 	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
 	 *					.. or a simple sql query string
 	 * @param array $parameters
-	 * @return result
+	 * @return OC_DB_StatementWrapper
 	 * @throws DatabaseException
 	 */
 	static public function executeAudited( $stmt, array $parameters = null) {
@@ -315,6 +315,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
+	 * @param string $table
 	 * @return boolean number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {

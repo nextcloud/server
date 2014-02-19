@@ -51,6 +51,9 @@ class OC_DB_MDB2SchemaWriter {
 		}
 	}
 
+	/**
+	 * @param SimpleXMLElement $xml
+	 */
 	private static function saveColumn($column, $xml) {
 		$xml->addChild('name', $column->getName());
 		switch($column->getType()) {
@@ -114,6 +117,9 @@ class OC_DB_MDB2SchemaWriter {
 		}
 	}
 
+	/**
+	 * @param SimpleXMLElement $xml
+	 */
 	private static function saveIndex($index, $xml) {
 		$xml->addChild('name', $index->getName());
 		if ($index->isPrimary()) {

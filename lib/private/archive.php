@@ -88,7 +88,6 @@ abstract class OC_Archive{
 	abstract function extractFile($path, $dest);
 	/**
 	 * extract the archive
-	 * @param string $path
 	 * @param string $dest
 	 * @return bool
 	 */

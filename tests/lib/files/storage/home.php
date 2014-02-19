@@ -29,6 +29,10 @@ class DummyUser extends User {
 
 	private $uid;
 
+	/**
+	 * @param string $uid
+	 * @param string $home
+	 */
 	public function __construct($uid, $home) {
 		$this->uid = $uid;
 		$this->home = $home;

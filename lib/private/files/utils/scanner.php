@@ -69,6 +69,9 @@ class Scanner extends PublicEmitter {
 		});
 	}
 
+	/**
+	 * @param string $dir
+	 */
 	public function backgroundScan($dir) {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {

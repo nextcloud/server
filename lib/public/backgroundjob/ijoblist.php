@@ -14,14 +14,17 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob |string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
+	 * @param string $job
+	 * @return void
 	 */
 	public function add($job, $argument = null);
 
 	/**
 	 * Remove a job from the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob|string $job
+	 * @param IJob $job
 	 * @param mixed $argument
+	 * @return void
 	 */
 	public function remove($job, $argument = null);
 
@@ -58,6 +61,7 @@ interface IJobList {
 	 * set the job that was last ran to the current time
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
+	 * @return void
 	 */
 	public function setLastJob($job);
 
@@ -72,6 +76,7 @@ interface IJobList {
 	 * set the lastRun of $job to now
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
+	 * @return void
 	 */
 	public function setLastRun($job);
 }

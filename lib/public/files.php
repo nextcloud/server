@@ -37,7 +37,6 @@ namespace OCP;
 class Files {
 	/**
 	 * Recusive deletion of folders
-	 * @param string $path to the folder
 	 * @return bool
 	 */
 	static function rmdirr( $dir ) {

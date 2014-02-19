@@ -151,6 +151,10 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @param string $sharer
+	 * @param string $receiver
+	 */
 	protected function shareUserTestFileWithUser($sharer, $receiver) {
 		OC_User::setUserId($sharer);
 		$this->assertTrue(
@@ -558,6 +562,9 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @param boolean|string $token
+	 */
 	protected function getShareByValidToken($token) {
 		$row = OCP\Share::getShareByToken($token);
 		$this->assertInternalType(

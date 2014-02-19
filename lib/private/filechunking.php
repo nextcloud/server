@@ -41,7 +41,7 @@ class OC_FileChunking {
 	 * Stores the given $data under the given $key - the number of stored bytes is returned
 	 *
 	 * @param string $index
-	 * @param $data
+	 * @param resource $data
 	 * @return int
 	 */
 	public function store($index, $data) {

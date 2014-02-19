@@ -336,6 +336,9 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public function cleanPath($path) {
 		$path = \OC\Files\Filesystem::normalizePath($path);
 		// remove leading slash

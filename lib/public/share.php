@@ -78,6 +78,9 @@ class Share {
 	 * @param string Backend class
 	 * @param string (optional) Depends on item type
 	 * @param array (optional) List of supported file extensions if this item type depends on files
+	 * @param string $itemType
+	 * @param string $class
+	 * @param string $collectionOf
 	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
@@ -404,6 +407,7 @@ class Share {
 	 * @param mixed Parameters
 	 * @param int Number of items to return (optional) Returns all by default
 	 * @param bool include collections
+	 * @param string $itemType
 	 * @return Return depends on format
 	 */
 	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
@@ -662,6 +666,8 @@ class Share {
 	 * Unshare an item from all users, groups, and remove all links
 	 * @param string Item type
 	 * @param string Item source
+	 * @param string $itemType
+	 * @param string $itemSource
 	 * @return boolean true on success or false on failure
 	 */
 	public static function unshareAll($itemType, $itemSource) {
@@ -694,6 +700,8 @@ class Share {
 	 * Unshare an item shared with the current user
 	 * @param string Item type
 	 * @param string Item target
+	 * @param string $itemType
+	 * @param string $itemTarget
 	 * @return boolean true on success or false on failure
 	 *
 	 * Unsharing from self is not allowed for items inside collections
@@ -1630,6 +1638,7 @@ class Share {
 	 * @param string User that is the owner of shared item
 	 * @param string The suggested target originating from a reshare (optional)
 	 * @param int The id of the parent group share (optional)
+	 * @param integer $shareType
 	 * @return string Item target
 	 */
 	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1937,6 +1946,8 @@ interface Share_Backend {
 	 * Get the source of the item to be stored in the database
 	 * @param string Item source
 	 * @param string Owner of the item
+	 * @param string $itemSource
+	 * @param string $uidOwner
 	 * @return boolean Source
 	 *
 	 * Return an array if the item is file dependent, the array needs two keys: 'item' and 'file'
@@ -1993,6 +2004,8 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 	 * Get the file path of the item
 	 * @param string Item source
 	 * @param string User that is the owner of shared item
+	 * @param string $itemSource
+	 * @param string $uidOwner
 	 * @return boolean
 	 */
 	public function getFilePath($itemSource, $uidOwner);
