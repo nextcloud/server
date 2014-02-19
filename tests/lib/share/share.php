@@ -615,21 +615,21 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user1);
 		$this->assertEquals(
 			array('test.txt', 'test.txt'),
-			OCP\Share::getItemsShared('test', 'test.txt'),
+			OCP\Share::getItemsShared('test', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that the test.txt file is shared exactly two times by user1.'
 		);
 
 		OC_User::setUserId($this->user2);
 		$this->assertEquals(
 			array('test.txt'),
-			OCP\Share::getItemsShared('test', 'test.txt'),
+			OCP\Share::getItemsShared('test', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that the test.txt file is shared exactly once by user2.'
 		);
 
 		OC_User::setUserId($this->user3);
 		$this->assertEquals(
 			array('test.txt'),
-			OCP\Share::getItemsShared('test', 'test.txt'),
+			OCP\Share::getItemsShared('test', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that the test.txt file is shared exactly once by user3.'
 		);
 
