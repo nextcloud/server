@@ -44,7 +44,7 @@ $_['subadmingroups'] = array_flip($items);
 		<li data-gid="<?php p($group['name']) ?>">
 			<a href="#"><?php p($group['name']); ?></a>
 			<span class="utils">
-				<span class="usercount"><?php p(count($group['useringroup'])); ?></span>
+				<span class="usercount"><?php if(count($group['useringroup']) > 0) { p(count($group['useringroup'])); } ?></span>
 				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 					alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
