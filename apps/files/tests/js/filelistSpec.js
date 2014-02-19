@@ -58,8 +58,15 @@ describe('FileList tests', function() {
 		expect($tr.attr('data-permissions')).toEqual('31');
 		//expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 	});
-	it('returns correct download URL', function() {
-		expect(FileList.getDownloadUrl('some file.txt')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?files=some%20file.txt&dir=%2Fsubdir&download');
-		expect(FileList.getDownloadUrl('some file.txt', '/anotherpath/abc')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?files=some%20file.txt&dir=%2Fanotherpath%2Fabc&download');
+	describe('Download Url', function() {
+		it('returns correct download URL for single files', function() {
+			expect(FileList.getDownloadUrl('some file.txt')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=some%20file.txt');
+			expect(FileList.getDownloadUrl('some file.txt', '/anotherpath/abc')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fanotherpath%2Fabc&files=some%20file.txt');
+			$('#dir').val('/');
+			expect(FileList.getDownloadUrl('some file.txt')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=some%20file.txt');
+		});
+		it('returns correct download URL for multiple files', function() {
+			expect(FileList.getDownloadUrl(['a b c.txt', 'd e f.txt'])).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22a%20b%20c.txt%22%2C%22d%20e%20f.txt%22%5D');
+		});
 	});
 });
