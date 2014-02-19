@@ -327,7 +327,8 @@ $(document).ready(function() {
 					// noone set update parameters, we set the minimum
 					data.formData = {
 						requesttoken: oc_requesttoken,
-								 dir: $('#dir').val()
+								 dir: $('#dir').val(),
+								 file_directory: data.files[0]['relativePath'],
 					};
 				}
 			},
