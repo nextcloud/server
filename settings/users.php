@@ -18,6 +18,7 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 
 $users = array();
 $groups = array();
+$adminGroup = array();
 $userManager = \OC_User::getManager();
 
 if (isset($_GET['offset'])) {
@@ -81,20 +82,37 @@ foreach($accessibleusers as $uid => $displayName) {
 	);
 }
 
+$sortGroupsIndex = 0;
+$sortGroupsKeys = array();
+$sortAdminGroupsIndex = 0;
+$sortAdminGroupsKeys = array();
 foreach( $accessiblegroups as $gid ) {
+	$usersInGroup = OC_Group::usersInGroup($gid, '', $limit, $offset);
 	if (!OC_User::isAdminUser($gid)) {
 		$groups[] = array(
 			'id' => str_replace(' ','', $gid ),
 			'name' => $gid,
-			'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset)
+			'useringroup' => $usersInGroup,
 		);
+		$sortGroupsKeys[$sortGroupsIndex] = count($usersInGroup);
+		$sortGroupsIndex++;
 	} else {
 		$adminGroup[] =  array(
 			'id' => str_replace(' ','', $gid ),
 			'name' => $gid,
-			'useringroup' => OC_Group::usersInGroup($gid, '', $limit, $offset)
+			'useringroup' => $usersInGroup
 		);
+		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = count($usersInGroup);
+		$sortAdminGroupsIndex++;
 	}
+}
+
+//sorts groups by number of users (descending)
+if(!empty($groups)) {
+	array_multisort($sortGroupsKeys, SORT_DESC, $groups);
+}
+if(!empty($adminGroup)) {
+	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
 }
 
 $tmpl = new OC_Template( "settings", "users", "user" );
