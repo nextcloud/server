@@ -7,6 +7,8 @@
 
 namespace Test\Files;
 
+use OC\Files\Cache\Watcher;
+
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
 		return false;
@@ -249,6 +251,7 @@ class View extends \PHPUnit_Framework_TestCase {
 	function testWatcher() {
 		$storage1 = $this->getTestStorage();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		$storage1->getWatcher()->setPolicy(Watcher::CHECK_ALWAYS);
 
 		$rootView = new \OC\Files\View('');
 
