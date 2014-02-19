@@ -154,7 +154,7 @@ class OC_Installer{
 		}else{
 			$version = trim($info['version']);
 		}
-		
+
 		if($version<>trim($data['appdata']['version'])) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because the version in info.xml/version is not the same as the version reported from the app store"));
@@ -236,6 +236,29 @@ class OC_Installer{
 
 	/**
 	 * @brief Update an application
+	 *
+	 * This function installs an app. All information needed are passed in the
+	 * associative array $data.
+	 * The following keys are required:
+	 *   - source: string, can be "path" or "http"
+	 *
+	 * One of the following keys is required:
+	 *   - path: path to the file containing the app
+	 *   - href: link to the downloadable file containing the app
+	 *
+	 * The following keys are optional:
+	 *   - pretend: boolean, if set true the system won't do anything
+	 *   - noupgrade: boolean, if true appinfo/upgrade.php won't be loaded
+	 *
+	 * This function works as follows
+	 *   -# fetching the file
+	 *   -# removing the old files
+	 *   -# unzipping new file
+	 *   -# including appinfo/upgrade.php
+	 *   -# setting the installed version
+	 *
+	 * upgrade.php can determine the current installed version of the app using
+	 * "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function updateApp( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
