@@ -64,7 +64,8 @@ OC.search.showResults=function(results){
 					row.data('index',index);
 					
 					if (i === 0){
-						row.children('td.type').text(typeid);
+						var typeName = typeid.charAt(0).toUpperCase() + typeid.slice(1);
+						row.children('td.type').text(t('lib', typeName));
 					}
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);
@@ -86,7 +87,12 @@ OC.search.showResults=function(results){
 					}
 					
 					index++;
-					//give plugins the ability to customize the entries in here
+					/** 
+					 * Give plugins the ability to customize the search results. For example:
+					 * OC.search.customResults.file = function (row, item){
+				 	 *  if(item.name.search('.json') >= 0) ...
+					 * };
+					 */
 					if(OC.search.customResults[typeid]){
 						OC.search.customResults[typeid](row, type[i]);
 					}
@@ -109,29 +115,4 @@ OC.search.renderCurrent=function(){
 		$('#searchresults tr.result').removeClass('current');
 		$(result).addClass('current');
 	}
-};
-
-//
-// customize search results, currently replaces a technical type with a more human friendly version
-// TODO implement search result renderers instead of changing results after adding them to the DOM
-//
-OC.search.customResults.file = function (row, item) {
-	if(row.children('td.type').text() === 'file') {
-		row.children('td.type').text(t('lib','Files'));
-	};
-};
-OC.search.customResults.folder = function (row, item) {
-	if(row.children('td.type').text() === 'folder') {
-		row.children('td.type').text(t('lib','Folders'));
-	};
-};
-OC.search.customResults.image = function (row, item) {
-	if(row.children('td.type').text() === 'image') {
-		row.children('td.type').text(t('lib','Images'));
-	};
-};
-OC.search.customResults.audio = function (row, item) {
-	if(row.children('td.type').text() === 'audio') {
-		row.children('td.type').text(t('lib','Audio'));
-	};
 };
