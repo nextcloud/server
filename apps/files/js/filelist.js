@@ -196,7 +196,7 @@ window.FileList={
 		var $dir = $('#dir'),
 			url,
 			currentDir = $dir.val() || '/',
-			baseDir = targetDir.split('/').pop(),
+			baseDir = OC.basename(targetDir),
 		targetDir = targetDir || '/';
 		if (!force && currentDir === targetDir) {
 			return;
@@ -1117,7 +1117,7 @@ $(document).ready(function() {
 	}
 	
 	
-	baseDir = parseCurrentDirFromUrl().split('/').pop();
+	baseDir = OC.basename(parseCurrentDirFromUrl());
 	
 	if (baseDir !== '') {
 		FileList.setPageTitle(baseDir);
