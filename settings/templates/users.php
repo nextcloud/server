@@ -34,7 +34,7 @@ $_['subadmingroups'] = array_flip($items);
 			<li>
 				<a href="#"><?php p($l->t('Admins')); ?></a>
 				<span class="utils">
-					<span class="usercount"><?php p(count($adminGroup['useringroup'])); ?></span>
+					<span class="usercount"><?php if(count($adminGroup['useringroup']) > 0) { p(count($adminGroup['useringroup'])); } ?></span>
 				</span>
 			</li>
 		<?php endforeach; ?>
