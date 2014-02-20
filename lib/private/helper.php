@@ -163,13 +163,17 @@ class OC_Helper {
 			'application/vnd.ms-fontobject' => 'font',
 
 			'application/json' => 'text/code',
+			'application/x-perl' => 'text/code',
 			'application/x-php' => 'text/code',
+			'text/x-shellscript' => 'text/code',
 			'application/xml' => 'text/html',
 			'text/css' => 'text/code',
+			'application/x-tex' => 'text',
 
 			'application/x-compressed' => 'package/x-generic',
 			'application/x-7z-compressed' => 'package/x-generic',
 			'application/x-deb' => 'package/x-generic',
+			'application/x-gzip' => 'package/x-generic',
 			'application/x-rar-compressed' => 'package/x-generic',
 			'application/x-tar' => 'package/x-generic',
 			'application/zip' => 'package/x-generic',
@@ -206,6 +210,7 @@ class OC_Helper {
 			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+			'text/csv' => 'x-office/spreadsheet',
 
 			'application/msaccess' => 'database',
 		);
