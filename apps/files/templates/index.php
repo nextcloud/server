@@ -3,6 +3,7 @@
 	<?php print_unescaped($_['breadcrumb']); ?>
 	<?php if ($_['isCreatable']):?>
 		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
+			<?php if(!isset($_['dirToken'])):?>
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
@@ -14,6 +15,7 @@
 						data-type='web'><p><?php p($l->t('From link'));?></p></li>
 				</ul>
 			</div>
+			<?php endif;?>
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 				<form data-upload-id='1'
@@ -27,7 +29,10 @@
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
-					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken">
+					<?php if(isset($_['dirToken'])):?>
+					<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+					<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
+					<?php endif;?>
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php p($_['uploadMaxHumanFilesize']); ?>)">
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -58,6 +63,8 @@
 <?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
+
+<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>" />
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>">
 	<thead>

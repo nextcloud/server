@@ -113,6 +113,7 @@ if (isset($path)) {
 	} else {
 		OCP\Util::addScript('files', 'file-upload');
 		OCP\Util::addStyle('files_sharing', 'public');
+		OCP\Util::addStyle('files_sharing', 'mobile');
 		OCP\Util::addScript('files_sharing', 'public');
 		OCP\Util::addScript('files', 'fileactions');
 		OCP\Util::addScript('files', 'jquery.iframe-transport');
@@ -126,7 +127,7 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$tmpl->assign('dirToken', $linkItem['token']);
-		$allowPublicUploadEnabled = (($linkItem['permissions'] & OCP\PERMISSION_CREATE) ? true : false );
+		$allowPublicUploadEnabled = (bool) ($linkItem['permissions'] & OCP\PERMISSION_CREATE);
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$allowPublicUploadEnabled = false;
 		}
@@ -137,7 +138,6 @@ if (isset($path)) {
 			$allowPublicUploadEnabled = false;
 		}
 
-		$tmpl->assign('allowPublicUploadEnabled', $allowPublicUploadEnabled);
 		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 
@@ -196,7 +196,8 @@ if (isset($path)) {
 			$folder->assign('fileList', $list->fetchPage());
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
-			$folder->assign('isCreatable', false);
+			$folder->assign('isCreatable', $allowPublicUploadEnabled);
+			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
 			$folder->assign('isPublic',true);
 			$folder->assign('publicUploadEnabled', 'no');
@@ -205,6 +206,8 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
+			$folder->assign('disableSharing', true);
+			$folder->assign('trash', false);
 			$tmpl->assign('folder', $folder->fetchPage());
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
 						&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
