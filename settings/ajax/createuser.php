@@ -1,7 +1,7 @@
 <?php
 
 OCP\JSON::callCheck();
-OC_JSON::checkSubAdminUser();
+OCP\JSON::checkSubAdminUser();
 
 if(OC_User::isAdminUser(OC_User::getUser())) {
 	$groups = array();
@@ -45,7 +45,7 @@ try {
 
 	$userManager = \OC_User::getManager();
 	$user = $userManager->get($username);
-	OC_JSON::success(array("data" =>
+	OCP\JSON::success(array("data" =>
 				array(
 					// returns whether the home already existed
 					"homeExists" => $homeExists,
@@ -53,5 +53,5 @@ try {
 					"groups" => OC_Group::getUserGroups( $username ),
 					'storageLocation' => $user->getHome())));
 } catch (Exception $exception) {
-	OC_JSON::error(array("data" => array( "message" => $exception->getMessage())));
+	OCP\JSON::error(array("data" => array( "message" => $exception->getMessage())));
 }
