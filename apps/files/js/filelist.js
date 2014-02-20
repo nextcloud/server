@@ -32,7 +32,7 @@ window.FileList={
 		title += FileList.appName;
 		// Sets the page title with the " - ownCloud" suffix as in templates
 		window.document.title = title + ' - ' + oc_defaults.title;
-		
+
 		return true;
 	},
 	/**
@@ -874,7 +874,7 @@ window.FileList={
 
 $(document).ready(function() {
 	var baseDir,
-	isPublic = !!$('#isPublic').val();
+		isPublic = !!$('#isPublic').val();
 
 	// handle upload events
 	var file_upload_start = $('#file_upload_start');
@@ -1160,6 +1160,6 @@ $(document).ready(function() {
 	}
 
 	FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
-	
+
 	FileList.createFileSummary();
 });
