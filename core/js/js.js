@@ -10,7 +10,6 @@ var oc_webroot;
 
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
-var oc_isadmin = document.getElementsByTagName('head')[0].getAttribute('data-isAdmin');
 
 window.oc_config = window.oc_config || {};
 
