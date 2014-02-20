@@ -320,7 +320,8 @@ class Filesystem {
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		}
-		$mount_file = \OC_Config::getValue("mount_file", \OC::$SERVERROOT . "/data/mount.json");
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
 
 		//move config file to it's new position
 		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
