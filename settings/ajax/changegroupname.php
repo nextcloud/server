@@ -1,7 +1,7 @@
 <?php
 
 OCP\JSON::callCheck();
-OC_JSON::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAdminUser();
 
 $l=OC_L10N::get('core');
@@ -12,7 +12,7 @@ $groupname = $_POST["groupname"];
 // TODO : make changes to the API to allow this.
 // setGroupname doesnt exist yet.	
 if(OC_Group::setGroupname($groupname)) {
-	OC_JSON::success(
+	OCP\JSON::success(
 		array("data" => array(
 			"message" => $l->t('Group name has been changed.'),
 			"groupname" => $groupname,
@@ -20,5 +20,5 @@ if(OC_Group::setGroupname($groupname)) {
 		)
 	);
 } else {
-	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change group name"))));
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to change group name"))));
 }
