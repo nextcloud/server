@@ -263,4 +263,7 @@ $CONFIG = array(
 
 /* whether usage of the instance should be restricted to admin users only */
 'singleuser' => false,
+
+	/* all css and js files will be served by the web server statically in one js file and ons css file*/
+	'asset-pipeline.enabled' => false,
 );
