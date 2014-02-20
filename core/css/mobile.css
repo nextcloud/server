@@ -17,4 +17,10 @@
 	transition: width 100ms;
 }
 
+/* do not show display name on mobile when profile picture is present */
+#header .avatardiv.avatardiv-shown + #expandDisplayName {
+	display: none;
+}
+
+
 }
