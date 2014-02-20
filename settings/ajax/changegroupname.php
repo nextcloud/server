@@ -4,6 +4,8 @@
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();
 
+OCP\JSON::checkAdminUser();
+
 $l=OC_L10N::get('core');
 
 $groupname = $_POST["groupname"];
