@@ -163,6 +163,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
+		$uid = $this->access->escapeFilterPart($uid);
+
 		//find out dn of the user name
 		$filter = \OCP\Util::mb_str_replace(
 			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
@@ -203,6 +205,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
+		$search = $this->access->escapeFilterPart($search);
 		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
 
 		//check if users are cached, if so return
