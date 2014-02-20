@@ -1,4 +1,4 @@
-<table class="hascontrols grid" data-groups="<?php p(json_encode($allGroups));?>">
+<table class="hascontrols grid" data-groups="<?php p($_['allGroups']);?>">
 	<thead>
 		<tr>
 			<?php if ($_['enableAvatars']): ?>
