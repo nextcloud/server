@@ -22,6 +22,13 @@ window.FileList={
 	 * Sets a new page title
 	 */
 	setPageTitle: function(title){
+		if (title) {
+			title += ' - ';
+		}
+		else {
+			title = '';
+		}
+		title += t('files', 'Files');
 		// Sets the page title with the " - ownCloud" suffix as in templates
 		window.document.title = title + ' - ' + oc_defaults.title;
 		
@@ -206,7 +213,7 @@ window.FileList={
 			FileList.setPageTitle(baseDir);
 		}
 		else {
-			FileList.setPageTitle(t('files', 'Files'));
+			FileList.setPageTitle();
 		}
 		
 		FileList.setCurrentDir(targetDir, changeUrl);
