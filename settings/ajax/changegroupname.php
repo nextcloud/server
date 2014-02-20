@@ -1,9 +1,7 @@
 <?php
-// Check if we are a user
 
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();
-
 OCP\JSON::checkAdminUser();
 
 $l=OC_L10N::get('core');
