@@ -205,17 +205,19 @@ textarea:disabled {
 		color: #bbb;
 	}
 
-
+/* Searchbox */
 .searchbox input[type="search"] {
+	position: relative;
 	font-size: 1.2em;
-	padding: .2em .5em .2em 1.5em;
+	padding-left: 1.5em;
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
-	border-radius: 1em;
+	border-radius: 2em;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity: .7;
-	margin-top: 10px;
+	margin-top: 6px;
 	float: right;
 }
+
 input[type="submit"].enabled {
 	background: #66f866;
 	border: 1px solid #5e5;
