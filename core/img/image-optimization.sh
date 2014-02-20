@@ -2,7 +2,7 @@
 
 function recursive_optimize_images() {
 cd $1;
-optipng -o6 *.png;
+optipng -o6 -strip all *.png;
 jpegoptim --strip-all *.jpg;
 for svg in `ls *.svg`;
 do
