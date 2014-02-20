@@ -118,10 +118,16 @@ class Helper {
 			return false;
 		}
 
+		$saveOtherConfigurations = '';
+		if(empty($prefix)) {
+			$saveOtherConfigurations = 'AND `Configkey` NOT LIKE \'s%\'';
+		}
+
 		$query = \OCP\DB::prepare('
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
+				'.$saveOtherConfigurations.'
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
