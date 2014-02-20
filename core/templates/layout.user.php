@@ -50,12 +50,12 @@
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
+					<?php if ($_['enableAvatars']): ?>
+					<div class="avatardiv"></div>
+					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>
-				<?php if ($_['enableAvatars']): ?>
-				<div class="avatardiv"></div>
-				<?php endif; ?>
 				<div id="expanddiv">
 				<ul>
 				<?php foreach($_['settingsnavigation'] as $entry):?>

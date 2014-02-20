@@ -37,11 +37,12 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+/* Profile picture in header */
 #header .avatardiv {
 	float: left;
 	display: inline-block;
+	margin-right: 5px;
 }
-
 #header .avatardiv img {
 	opacity: 1;
 }
@@ -708,12 +709,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* USER MENU */
 #settings {
 	float: right;
-	margin-top: 7px;
-	margin-left: 10px;
 	color: #bbb;
 }
 #expand {
-	padding: 15px 15px 15px 5px;
+	display: block;
+	padding: 7px 12px 6px 7px;
 	cursor: pointer;
 	font-weight: bold;
 }
