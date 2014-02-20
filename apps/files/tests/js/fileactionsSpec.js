@@ -69,7 +69,7 @@ describe('FileActions tests', function() {
 		$tr.find('.action[data-action=Download]').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
-		expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?files=test%20download%20File.txt&dir=%2Fsubdir&download');
+		expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=test%20download%20File.txt');
 		redirectStub.restore();
 	});
 });

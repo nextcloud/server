@@ -105,6 +105,11 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			}
 		}
 
+		$fileName = basename($destinationPath);
+		if (!\OCP\Util::isValidFileName($fileName)) {
+			throw new \Sabre_DAV_Exception_BadRequest();
+		}
+
 		$renameOkay = $fs->rename($sourcePath, $destinationPath);
 		if (!$renameOkay) {
 			throw new \Sabre_DAV_Exception_Forbidden('');

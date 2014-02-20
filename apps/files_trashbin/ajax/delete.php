@@ -2,42 +2,38 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+$folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
 
 // "empty trash" command
 if (isset($_POST['allfiles']) and $_POST['allfiles'] === 'true'){
 	$deleteAll = true;
-	$folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
 	if ($folder === '/' || $folder === '') {
 		OCA\Files_Trashbin\Trashbin::deleteAll();
 		$list = array();
 	} else {
-		$dirname = dirname($folder);
-		if ( $dirname !== '/' && $dirname !== '.' ) {
-			$dirlisting = '1';
-		} else {
-			$dirlisting = '0';
-		}
 		$list[] = $folder;
+		$folder = dirname($folder);
 	}
 }
 else {
 	$deleteAll = false;
 	$files = $_POST['files'];
-	$dirlisting = $_POST['dirlisting'];
 	$list = json_decode($files);
 }
+
+$folder = rtrim($folder, '/') . '/';
 $error = array();
 $success = array();
 
 $i = 0;
 foreach ($list as $file) {
-	if ( $dirlisting === '0') {
+	if ($folder === '/') {
 		$file = ltrim($file, '/');
 		$delimiter = strrpos($file, '.d');
 		$filename = substr($file, 0, $delimiter);
 		$timestamp =  substr($file, $delimiter+2);
 	} else {
-		$filename = $file;
+		$filename = $folder . '/' . $file;
 		$timestamp = null;
 	}
 

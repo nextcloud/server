@@ -48,7 +48,7 @@ ul.multiselectoptions > li input[type='checkbox']:checked+label {
 	font-weight: bold;
 }
 
-div.multiselect {
+div.multiselect, select.multiselect {
 	display: inline-block;
 	max-width: 400px;
 	min-width: 150px;
@@ -56,6 +56,12 @@ div.multiselect {
 	min-height: 20px;
 	position: relative;
 	vertical-align: bottom;
+}
+
+/* To make a select look like a multiselect until it's initialized */
+select.multiselect {
+	height: 30px;
+	min-width: 113px;
 }
 
 div.multiselect.active {

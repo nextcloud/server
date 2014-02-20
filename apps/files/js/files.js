@@ -364,23 +364,26 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFilesTrash('name');
-		var fileslist = JSON.stringify(files);
-		var dir=$('#dir').val()||'/';
-		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
-		// use special download URL if provided, e.g. for public shared files
-		var downloadURL = document.getElementById("downloadURL");
-		if ( downloadURL ) {
-			window.location = downloadURL.value+"&download&files=" + encodeURIComponent(fileslist);
-		} else {
-			window.location = OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
+		var files;
+		var dir = FileList.getCurrentDirectory();
+		if (FileList.isAllSelected()) {
+			files = OC.basename(dir);
+			dir = OC.dirname(dir) || '/';
 		}
+		else {
+			files = getSelectedFilesTrash('name');
+		}
+		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
+		OC.redirect(FileList.getDownloadUrl(files, dir));
 		return false;
 	});
 
 	$('.delete-selected').click(function(event) {
 		var files=getSelectedFilesTrash('name');
 		event.preventDefault();
+		if (FileList.isAllSelected()) {
+			files = null;
+		}
 		FileList.do_delete(files);
 		return false;
 	});

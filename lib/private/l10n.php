@@ -118,7 +118,7 @@ class OC_L10N implements \OCP\IL10N {
 			return;
 		}
 		$app = OC_App::cleanAppId($this->app);
-		$lang = $this->lang;
+		$lang = str_replace(array('\0', '/', '\\', '..'), '', $this->lang);
 		$this->app = true;
 		// Find the right language
 		if(is_null($lang) || $lang == '') {
@@ -163,7 +163,7 @@ class OC_L10N implements \OCP\IL10N {
 				}
 			}
 
-			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
+			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php') && OC_Helper::issubdirectory(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')) {
 				// Include the file, save the data from $CONFIG
 				include OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php';
 				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
