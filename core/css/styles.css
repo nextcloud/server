@@ -74,6 +74,19 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	color: #aaa;
 }
 
+#header .logo {
+	background-image: url(../img/logo.svg);
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
+}
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	width: 147px;
+	height: 32px;
+}
+
 /* INPUTS */
 input[type="text"],
 input[type="password"],
