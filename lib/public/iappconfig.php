@@ -57,6 +57,7 @@ interface IAppConfig {
 	 *
 	 * @param app
 	 * @param key
+	 * @param string $key
 	 * @return array
 	 */
 	public function getValues($app, $key);
@@ -68,6 +69,7 @@ interface IAppConfig {
 	 * @param string $value value
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
+	 * @return void
 	 */
 	public function setValue($app, $key, $value);
 

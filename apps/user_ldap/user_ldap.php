@@ -25,7 +25,6 @@
 
 namespace OCA\user_ldap;
 
-use OCA\user_ldap\lib\ILDAPWrapper;
 use OCA\user_ldap\lib\BackendUtility;
 
 class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
@@ -139,7 +138,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * @brief reads the image from LDAP that shall be used as Avatar
 	 * @param $uid string, the ownCloud user name
 	 * @param $dn string, the user DN
-	 * @return image data (provided by LDAP) | false
+	 * @return string data (provided by LDAP) | false
 	 */
 	private function getAvatarImage($uid, $dn) {
 		$attributes = array('jpegPhoto', 'thumbnailPhoto');
@@ -164,6 +163,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
+		$uid = $this->access->escapeFilterPart($uid);
+
 		//find out dn of the user name
 		$filter = \OCP\Util::mb_str_replace(
 			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
@@ -204,6 +205,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
+		$search = $this->access->escapeFilterPart($search);
 		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
 
 		//check if users are cached, if so return

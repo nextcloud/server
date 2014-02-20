@@ -47,7 +47,7 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	}
 
 	/**
-	 * @param $filePath
+	 * @param string $filePath
 	 * @param Sabre_DAV_INode $node
 	 * @throws Sabre_DAV_Exception_BadRequest
 	 */

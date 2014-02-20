@@ -28,7 +28,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	private $groups=array();
 	/**
 	 * @brief Try to create a new group
-	 * @param $gid The name of the group to create
+	 * @param string $gid The name of the group to create
 	 * @returns true/false
 	 *
 	 * Trys to create a new group. If the group name already exists, false will

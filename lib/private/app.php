@@ -640,6 +640,8 @@ class OC_App{
 
 	/**
 	 * register an admin form to be shown
+	 * @param string $app
+	 * @param string $page
 	 */
 	public static function registerAdmin($app, $page) {
 		self::$adminForms[]= $app.'/'.$page.'.php';

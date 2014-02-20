@@ -31,7 +31,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param \Test\BackgroundJob\TestJob $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {

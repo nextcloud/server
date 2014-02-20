@@ -326,12 +326,18 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $this->filemtime($path)>$time;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function buildPath($path, $create=true) {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir.$path;
 		return $this->mapper->logicToPhysical($fullPath, $create);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function cleanMapper($path, $isLogicPath=true, $recursive=true) {
 		$fullPath = $path;
 		if ($isLogicPath) {

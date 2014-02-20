@@ -39,6 +39,9 @@ class ArrayParser {
 		return $this->parse($string);
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function stripPHPTags($string) {
 		$string = trim($string);
 		if (substr($string, 0, 5) === '<?php') {

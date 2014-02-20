@@ -35,7 +35,7 @@ class UserCache implements \OCP\ICache {
 	 * Set a value in the user cache
 	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param string $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
 	 */

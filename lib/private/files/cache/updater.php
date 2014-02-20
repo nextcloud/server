@@ -8,8 +8,6 @@
 
 namespace OC\Files\Cache;
 
-use OCP\Util;
-
 /**
  * listen to filesystem hooks and change the cache accordingly
  */

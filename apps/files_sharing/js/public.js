@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, FileList, FileActions */
+
 // Override download path to files_sharing/public.php
 function fileDownloadPath(dir, file) {
 	var url = $('#downloadURL').val();
@@ -28,12 +40,20 @@ $(document).ready(function() {
 
 		// override since the format is different
 		FileList.getDownloadUrl = function(filename, dir) {
-			// we use this because we need the service and token attributes
-			var tr = FileList.findFileEl(filename);
-			if (tr.length > 0) {
-				return $(tr).find('a.name').attr('href') + '&download';
+			if ($.isArray(filename)) {
+				filename = JSON.stringify(filename);
 			}
-			return null;
+			var path = dir || FileList.getCurrentDirectory();
+			var params = {
+				service: 'files',
+				t: $('#sharingToken').val(),
+				path: path,
+				download: null
+			};
+			if (filename) {
+				params.files = filename;
+			}
+			return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
 		};
 	}
 

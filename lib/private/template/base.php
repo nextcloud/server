@@ -30,6 +30,8 @@ class Base {
 	/**
 	 * @param string $serverroot
 	 * @param string|false $app_dir
+	 * @param string $theme
+	 * @param string $app
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverroot, $app_dir) {
 		// Check if the app is in the app folder or in the root
@@ -47,6 +49,7 @@ class Base {
 
 	/**
 	 * @param string $serverroot
+	 * @param string $theme
 	 */
 	protected function getCoreTemplateDirs($theme, $serverroot) {
 		return array(
@@ -119,6 +122,7 @@ class Base {
 
 	/**
 	 * @brief doing the actual work
+	 * @param string $file
 	 * @return string content
 	 *
 	 * Includes the template file, fetches its output

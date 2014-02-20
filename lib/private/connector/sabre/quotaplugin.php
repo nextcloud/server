@@ -46,6 +46,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	 * This method is called before any HTTP method and validates there is enough free space to store the file
 	 *
 	 * @throws Sabre_DAV_Exception
+	 * @param string $uri
 	 * @return bool
 	 */
 	public function checkQuota($uri, $data = null) {

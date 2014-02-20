@@ -425,7 +425,7 @@ class Helper {
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
 	 * @param string $path unescaped path
-	 * @return escaped path
+	 * @return string path
 	 */
 	public static function escapeGlobPattern($path) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);

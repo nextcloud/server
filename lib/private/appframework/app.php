@@ -25,7 +25,6 @@
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
-use OCP\AppFramework\IAppContainer;
 
 
 /**

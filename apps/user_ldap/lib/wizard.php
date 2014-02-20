@@ -865,8 +865,8 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief does a cumulativeSearch on LDAP to get different values of a
 	 * specified attribute
-	 * @param $filters array, the filters that shall be used in the search
-	 * @param $attr the attribute of which a list of values shall be returned
+	 * @param string[] $filters array, the filters that shall be used in the search
+	 * @param string $attr the attribute of which a list of values shall be returned
 	 * @param $lfw bool, whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
 	 * @param string $maxF string. if not null, this variable will have the filter that
@@ -933,8 +933,8 @@ class Wizard extends LDAPUtility {
 	 * @brief determines if and which $attr are available on the LDAP server
 	 * @param string[] $objectclasses the objectclasses to use as search filter
 	 * @param string $attr the attribute to look for
-	 * @param $dbkey the dbkey of the setting the feature is connected to
-	 * @param $confkey the confkey counterpart for the $dbkey as used in the
+	 * @param string $dbkey the dbkey of the setting the feature is connected to
+	 * @param string $confkey the confkey counterpart for the $dbkey as used in the
 	 * Configuration class
 	 * @param $po boolean, whether the objectClass with most result entries
 	 * shall be pre-selected via the result
