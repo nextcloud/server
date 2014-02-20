@@ -11,6 +11,7 @@
 /* global OC, t, n, FileList, FileActions, Files */
 /* global procesSelection, dragOptions, SVGSupport, replaceSVG */
 window.FileList={
+	appName: t('files', 'Files'),
 	useUndo:true,
 	postProcessList: function() {
 		$('#fileList tr').each(function() {
@@ -28,7 +29,7 @@ window.FileList={
 		else {
 			title = '';
 		}
-		title += t('files', 'Files');
+		title += FileList.appName;
 		// Sets the page title with the " - ownCloud" suffix as in templates
 		window.document.title = title + ' - ' + oc_defaults.title;
 		
@@ -202,22 +203,12 @@ window.FileList={
 	changeDirectory: function(targetDir, changeUrl, force) {
 		var $dir = $('#dir'),
 			url,
-			currentDir = $dir.val() || '/',
-			baseDir = OC.basename(targetDir),
+			currentDir = $dir.val() || '/';
 		targetDir = targetDir || '/';
 		if (!force && currentDir === targetDir) {
 			return;
 		}
-		
-		if (baseDir !== '') {
-			FileList.setPageTitle(baseDir);
-		}
-		else {
-			FileList.setPageTitle();
-		}
-		
 		FileList.setCurrentDir(targetDir, changeUrl);
-		
 		$('#fileList').trigger(
 			jQuery.Event('changeDirectory', {
 				dir: targetDir,
@@ -230,7 +221,16 @@ window.FileList={
 		return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 	},
 	setCurrentDir: function(targetDir, changeUrl) {
-		var url;
+		var url,
+			baseDir = OC.basename(targetDir);
+
+		if (baseDir !== '') {
+			FileList.setPageTitle(baseDir);
+		}
+		else {
+			FileList.setPageTitle();
+		}
+
 		$('#dir').val(targetDir);
 		if (changeUrl !== false) {
 			if (window.history.pushState && changeUrl !== false) {
@@ -1158,14 +1158,8 @@ $(document).ready(function() {
 			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
 		}
 	}
-	
-	
-	baseDir = OC.basename(parseCurrentDirFromUrl());
-	
-	if (baseDir !== '') {
-		FileList.setPageTitle(baseDir);
-	}
-	
+
+	FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
 	
 	FileList.createFileSummary();
 });
