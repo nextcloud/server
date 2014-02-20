@@ -273,7 +273,7 @@ var UserList = {
 					if (user === OC.currentUser && group === 'admin') {
 						return false;
 					}
-					if (!isadmin && checked.length === 1 && checked[0] === group) {
+					if (!oc_isadmin && checked.length === 1 && checked[0] === group) {
 						return false;
 					}
 					$.post(
@@ -305,7 +305,7 @@ var UserList = {
 				});
 			};
 			var label;
-			if (isadmin) {
+			if (oc_isadmin) {
 				label = t('settings', 'add group');
 			} else {
 				label = null;
