@@ -97,8 +97,6 @@ class OC_Setup {
 			$appConfig = \OC::$server->getAppConfig();
 			$appConfig->setValue('core', 'installedat', microtime(true));
 			$appConfig->setValue('core', 'lastupdatedat', microtime(true));
-			$appConfig->setValue('core', 'remote_core.css', '/core/minimizer.php');
-			$appConfig->setValue('core', 'remote_core.js', '/core/minimizer.php');
 
 			OC_Group::createGroup('admin');
 			OC_Group::addToGroup($username, 'admin');
