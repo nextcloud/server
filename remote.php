@@ -35,7 +35,7 @@ try {
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$file = OC_App::getAppPath($app) .'/'. $parts[1];
 			}else{
-				$file = '/' . OC_App::getAppPath($app) .'/'. $parts[1];
+				$file = OC_App::getAppPath($app) .'/'. $parts[1];
 			}
 			break;
 	}
