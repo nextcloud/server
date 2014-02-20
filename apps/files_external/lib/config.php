@@ -277,15 +277,21 @@ class OC_Mount_Config {
 										 $mountType,
 										 $applicable,
 										 $isPersonal = false) {
+		$backends = self::getBackends();
 		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
 		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
 			// can't mount at root or "Shared" folder
 			return false;
 		}
+
+		if (!isset($backends[$class])) {
+			// invalid backend
+			return false;
+		}	
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
-			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
+			if ($applicable !== OCP\User::getUser() || strtolower($class) === '\oc\files\storage\local') {
 				return false;
 			}
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
