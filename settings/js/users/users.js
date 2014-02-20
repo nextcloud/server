@@ -11,6 +11,7 @@ var UserList = {
 				//hardcoded in settings/users.php
 
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
+	currentGid: '',
 
 	/**
 	 * @brief Initiate user deletion process in UI
@@ -237,7 +238,10 @@ var UserList = {
 		if(gid === undefined) {
 			gid = '';
 		}
+		UserList.currentGid = gid;
 		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad, gid: gid }), function (result) {
+			var loadedUsers = 0;
+			var trs = [];
 			if (result.status === 'success') {
 				//The offset does not mirror the amount of users available,
 				//because it is backend-dependent. For correct retrieval,
@@ -371,8 +375,8 @@ var UserList = {
 		if (!!UserList.noMoreEntries) {
 			return;
 		}
-		if ($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
-			UserList.update(true);
+		if (UserList.scrollArea.scrollTop() + UserList.scrollArea.height() > UserList.scrollArea.get(0).scrollHeight - 500) {
+			UserList.update(UserList.currentGid, true);
 		}
 	},
 };
@@ -394,6 +398,7 @@ $(document).ready(function () {
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
 	$(window).scroll(function(e) {UserList._onScroll(e);});
+		UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
 	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
