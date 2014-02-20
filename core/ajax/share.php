@@ -85,93 +85,32 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			}
 			break;
 		case 'informRecipients':
-
 			$l = OC_L10N::get('core');
-
 			$shareType = (int) $_POST['shareType'];
 			$itemType = $_POST['itemType'];
 			$itemSource = $_POST['itemSource'];
 			$recipient = $_POST['recipient'];
-			$ownerDisplayName = \OCP\User::getDisplayName();
-			$from = \OCP\Util::getDefaultEmailAddress('sharing-noreply');
-
-			$noMail = array();
-			$recipientList = array();
 
 			if($shareType === \OCP\Share::SHARE_TYPE_USER) {
 				$recipientList[] = $recipient;
 			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 				$recipientList = \OC_Group::usersInGroup($recipient);
 			}
-
 			// don't send a mail to the user who shared the file
 			$recipientList = array_diff($recipientList, array(\OCP\User::getUser()));
 
-			// send mail to all recipients with an email address
-			foreach ($recipientList as $recipient) {
-				//get correct target folder name
-				$email = OC_Preferences::getValue($recipient, 'settings', 'email', '');
-
-				if ($email !== '') {
-					$displayName = \OCP\User::getDisplayName($recipient);
-					$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
-					$filename = trim($items[0]['file_target'], '/');
-					$subject = (string)$l->t('%s shared »%s« with you', array($ownerDisplayName, $filename));
-					$expiration = null;
-					if (isset($items[0]['expiration'])) {
-						try {
-							$date = new DateTime($items[0]['expiration']);
-							$expiration = $l->l('date', $date->getTimestamp());
-						} catch (Exception $e) {
-							\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
-						}
-					}
-
-					if ($itemType === 'folder') {
-						$foldername = "/Shared/" . $filename;
-					} else {
-						// if it is a file we can just link to the Shared folder,
-						// that's the place where the user will find the file
-						$foldername = "/Shared";
-					}
-
-					$link = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
-
-					$content = new OC_Template("core", "mail", "");
-					$content->assign('link', $link);
-					$content->assign('user_displayname', $ownerDisplayName);
-					$content->assign('filename', $filename);
-					$content->assign('expiration', $expiration);
-					$text = $content->fetchPage();
-
-					$content = new OC_Template("core", "altmail", "");
-					$content->assign('link', $link);
-					$content->assign('user_displayname', $ownerDisplayName);
-					$content->assign('filename', $filename);
-					$content->assign('expiration', $expiration);
-					$alttext = $content->fetchPage();
-
-					$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
-					$from = OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', $default_from);
-
-					// send it out now
-					try {
-						OCP\Util::sendMail($email, $displayName, $subject, $text, $from, $ownerDisplayName, 1, $alttext);
-					} catch (Exception $exception) {
-						$noMail[] = \OCP\User::getDisplayName($recipient);
-					}
-				}
-			}
+			$mailNotification = new OC\Share\MailNotifications();
+			$result = $mailNotification->sendInternalShareMail($recipientList, $itemSource, $itemType);
 
 			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, true);
 
-			if (empty($noMail)) {
+			if (empty($result)) {
 				OCP\JSON::success();
 			} else {
 				OCP\JSON::error(array(
 					'data' => array(
 						'message' => $l->t("Couldn't send mail to following users: %s ",
-								implode(', ', $noMail)
+								implode(', ', $result)
 								)
 						)
 					));
@@ -187,56 +126,31 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 
 		case 'email':
-			// enable l10n support
-			$l = OC_L10N::get('core');
 			// read post variables
-			$user = OCP\USER::getUser();
-			$displayName = OCP\User::getDisplayName();
-			$type = $_POST['itemType'];
 			$link = $_POST['link'];
 			$file = $_POST['file'];
 			$to_address = $_POST['toaddress'];
+
+			$mailNotification = new \OC\Share\MailNotifications();
 
 			$expiration = null;
 			if (isset($_POST['expiration']) && $_POST['expiration'] !== '') {
 				try {
 					$date = new DateTime($_POST['expiration']);
-					$expiration = $l->l('date', $date->getTimestamp());
+					$expiration = $date->getTimestamp();
 				} catch (Exception $e) {
 					\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
 				}
 
 			}
 
-			// setup the email
-			$subject = (string)$l->t('%s shared »%s« with you', array($displayName, $file));
-
-			$content = new OC_Template("core", "mail", "");
-			$content->assign ('link', $link);
-			$content->assign ('type', $type);
-			$content->assign ('user_displayname', $displayName);
-			$content->assign ('filename', $file);
-			$content->assign('expiration', $expiration);
-			$text = $content->fetchPage();
-
-			$content = new OC_Template("core", "altmail", "");
-			$content->assign ('link', $link);
-			$content->assign ('type', $type);
-			$content->assign ('user_displayname', $displayName);
-			$content->assign ('filename', $file);
-			$content->assign('expiration', $expiration);
-			$alttext = $content->fetchPage();
-
-			$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
-			$from_address = OCP\Config::getUserValue($user, 'settings', 'email', $default_from );
-
-			// send it out now
-			try {
-				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $displayName, 1, $alttext);
-				OCP\JSON::success();
-			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));
+			$result = $mailNotification->sendLinkShareMail($to_address, $file, $link, $expiration);
+			if($result === true) {
+				\OCP\JSON::success();
+			} else {
+				\OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($result))));
 			}
+
 			break;
 	}
 } else if (isset($_GET['fetch'])) {
