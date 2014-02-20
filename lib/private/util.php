@@ -11,8 +11,6 @@ class OC_Util {
 	public static $headers=array();
 	private static $rootMounted=false;
 	private static $fsSetup=false;
-	public static $coreStyles=array();
-	public static $coreScripts=array();
 
 	/**
 	 * @brief Can be set up

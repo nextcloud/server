@@ -284,10 +284,6 @@ class OC {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 				OC_Config::setValue('theme', '');
-//				$minimizerCSS = new OC_Minimizer_CSS();
-//				$minimizerCSS->clearCache();
-//				$minimizerJS = new OC_Minimizer_JS();
-//				$minimizerJS->clearCache();
 				OC_Util::addScript('config'); // needed for web root
 				OC_Util::addScript('update');
 				$tmpl = new OC_Template('', 'update.admin', 'guest');
