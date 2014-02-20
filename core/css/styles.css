@@ -958,3 +958,8 @@ div.crumb:active {
 	opacity: 0;
 }
 
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
+}
+
