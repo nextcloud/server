@@ -22,6 +22,11 @@
 	showGroup: function (gid) {
 		UserList.empty();
 		UserList.update(gid);
+		$('#app-navigation li').removeClass('active');
+		if(gid !== undefined) {
+			//TODO: treat Everyone properly
+			$('#app-navigation li').filterAttr('data-gid', gid).addClass('active');
+		}
 	},
 
 	finishDelete: function (ready) {
