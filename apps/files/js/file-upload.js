@@ -4,6 +4,12 @@ $(document).ready(function() {
 	dropZone: $('#content'), // restrict dropZone to content div
 	//singleFileUploads is on by default, so the data.files array will always have length 1
 	add: function(e, data) {
+	  if (!Files.isFileNameValid(data.files[0].name)) {
+	    data.textStatus = 'invalidcharacters';
+	    var fu = $(this).data('blueimp-fileupload') || $(this).data('fileupload');
+	    fu._trigger('fail', e, data);
+	    return true; //don't upload this file but go on with next in queue
+	  }
 
 	  if(data.files[0].type === '' && data.files[0].size == 4096)
 	  {
@@ -254,7 +260,7 @@ $(document).ready(function() {
 			if (result.status == 'success') {
 			  var date=new Date();
 			  FileList.addFile(name,0,date,false,hidden);
-			  var tr=$('tr').filterAttr('data-file',name);
+			  var tr=FileList.findFileEl(name);
 			  tr.attr('data-mime',result.data.mime);
 			  tr.attr('data-id', result.data.id);
 			  getMimeIcon(result.data.mime,function(path){
@@ -275,7 +281,7 @@ $(document).ready(function() {
 			if (result.status == 'success') {
 			  var date=new Date();
 			  FileList.addDir(name,0,date,hidden);
-			  var tr=$('tr').filterAttr('data-file',name);
+			  var tr=FileList.findFileEl(name);
 			  tr.attr('data-id', result.data.id);
 			} else {
 			  OC.dialogs.alert(result.data.message, t('core', 'Error'));
@@ -319,7 +325,7 @@ $(document).ready(function() {
 		  $('#uploadprogressbar').fadeOut();
 		  var date=new Date();
 		  FileList.addFile(localName,size,date,false,hidden);
-		  var tr=$('tr').filterAttr('data-file',localName);
+		  var tr = FileList.findFileEl(localName);
 		  tr.data('mime',mime).data('id',id);
 		  tr.attr('data-id', id);
 		  getMimeIcon(mime,function(path){

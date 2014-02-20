@@ -71,7 +71,7 @@ var FileActions = {
 		FileActions.currentFile = parent;
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
-		if ($('tr[data-file="'+file+'"]').data('renaming')) {
+		if (FileList.findFileEl(file).data('renaming')) {
 			return;
 		}
 
@@ -195,7 +195,7 @@ FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 			filename = [filename];
 		}
 		$.each(filename, function (index, file) {
-			var filename = $('tr').filterAttr('data-file', file);
+			var filename = FileList.findFileEl(file);
 			filename.hide();
 			filename.find('input[type="checkbox"]').removeAttr('checked');
 			filename.removeClass('selected');

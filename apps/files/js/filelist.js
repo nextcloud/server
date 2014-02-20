@@ -1,5 +1,12 @@
 var FileList={
 	useUndo:true,
+	/**
+	 * Returns the tr element for a given file name
+	 */
+	findFileEl: function(fileName){
+		// use filterAttr to avoid escaping issues
+		return $('#fileList tr').filterAttr('data-file', fileName);
+	},
 	update:function(fileListHtml) {
 		$('#fileList').empty().html(fileListHtml);
 	},
@@ -142,8 +149,9 @@ var FileList={
 		resetFileActionPanel();
 	},
 	remove:function(name){
-		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');
-		$('tr').filterAttr('data-file',name).remove();
+		var fileEl = FileList.findFileEl(name);
+		fileEl.find('td.filename').draggable('destroy');
+		fileEl.remove();
 		if($('tr[data-file]').length==0){
 			$('#emptyfolder').show();
 		}
@@ -176,7 +184,7 @@ var FileList={
 		$('#emptyfolder').hide();
 	},
 	loadingDone:function(name, id){
-		var mime, tr=$('tr').filterAttr('data-file',name);
+		var mime, tr = FileList.findFileEl(name);
 		tr.data('loading',false);
 		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
@@ -189,11 +197,11 @@ var FileList={
 		tr.find('td.filename').draggable(dragOptions);
 	},
 	isLoading:function(name){
-		return $('tr').filterAttr('data-file',name).data('loading');
+		return FileList.findFileEl(name).data('loading');
 	},
 	rename:function(name){
 		var tr, td, input, form;
-		tr=$('tr').filterAttr('data-file',name);
+		tr = FileList.findFileEl(name);
 		tr.data('renaming',true);
 		td=tr.children('td.filename');
 		input=$('<input class="filename"/>').val(name);
@@ -265,7 +273,7 @@ var FileList={
 		});
 	},
 	checkName:function(oldName, newName, isNewFile) {
-		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
+		if (isNewFile || FileList.findFileEl(newName).length > 0) {
 			var html;
 			if(isNewFile){
 				html = t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span>&nbsp;<span class="cancel">'+t('files', 'cancel')+'</span>';
@@ -284,9 +292,11 @@ var FileList={
 	},
 	replace:function(oldName, newName, isNewFile) {
 		// Finish any existing actions
-		$('tr').filterAttr('data-file', oldName).hide();
-		$('tr').filterAttr('data-file', newName).hide();
-		var tr = $('tr').filterAttr('data-file', oldName).clone();
+		var oldFileEl = FileList.findFileEl(oldName);
+		var newFileEl = FileList.findFileEl(newName);
+		oldFileEl.hide();
+		newFileEl.hide();
+		var tr = oldFileEl.clone();
 		tr.attr('data-replace', 'true');
 		tr.attr('data-file', newName);
 		var td = tr.children('td.filename');
@@ -338,7 +348,7 @@ var FileList={
 			files=[files];
 		}
 		for (var i=0; i<files.length; i++) {
-			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
+			var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			deleteAction[0].outerHTML = newHTML;
@@ -354,7 +364,7 @@ var FileList={
 				function(result){
 					if (result.status == 'success') {
 						$.each(files,function(index,file){
-							var files = $('tr').filterAttr('data-file',file);
+							var files = FileList.findFileEl(file);
 							files.remove();
 							files.find('input[type="checkbox"]').removeAttr('checked');
 							files.removeClass('selected');
@@ -362,7 +372,7 @@ var FileList={
 						procesSelection();
 					} else {
 						$.each(files,function(index,file) {
-							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
+							var deleteAction = FileList.findFileEl(file).children("td.date").children('.move2trash');
 							deleteAction[0].outerHTML = oldHTML;
 						});
 					}
@@ -370,7 +380,7 @@ var FileList={
 	},
 	scrollTo:function(file) {
 		//scroll to and highlight preselected file
-		var $scrolltorow = $('tr[data-file="'+file+'"]');
+		var $scrolltorow = FileList.findFileEl(file);
 		if ($scrolltorow.exists()) {
 			$scrolltorow.addClass('searchresult');
 			$(window).scrollTop($scrolltorow.position().top);
@@ -443,7 +453,7 @@ $(document).ready(function(){
 				var dirName = dropTarget.data('file');
 
 				// set dir context
-				data.context = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName);
+				data.context = FileList.findFileEl(dirName).filterAttr('data-type', 'dir');
 
 				// update upload counter ui
 				var uploadtext = data.context.find('.uploadtext');
@@ -538,7 +548,7 @@ $(document).ready(function(){
 		// cleanup files, error notification has been shown by fileupload code
 		var tr = data.context;
 		if (typeof tr === 'undefined') {
-			tr = $('tr').filterAttr('data-file', data.files[0].name);
+			tr = FileList.findFileEl(data.files[0].name);
 		}
 		if (tr.attr('data-type') === 'dir') {
 			//cleanup uploading to a dir
@@ -558,7 +568,7 @@ $(document).ready(function(){
 	$('#notification').on('click', '.undo', function(){
 		if (FileList.deleteFiles) {
 			$.each(FileList.deleteFiles,function(index,file){
-				$('tr').filterAttr('data-file',file).show();
+				FileList.findFileEl(file).show();
 			});
 			FileList.deleteCanceled=true;
 			FileList.deleteFiles=null;
@@ -568,10 +578,10 @@ $(document).ready(function(){
 				FileList.deleteCanceled = false;
 				FileList.deleteFiles = [FileList.replaceOldName];
 			} else {
-				$('tr').filterAttr('data-file', FileList.replaceOldName).show();
+				FileList.findFileEl(FileList.replaceOldName).show();
 			}
 			$('tr').filterAttr('data-replace', 'true').remove();
-			$('tr').filterAttr('data-file', FileList.replaceNewName).show();
+			FileList.findFileEl(FileList.replaceNewName).show();
 			FileList.replaceCanceled = true;
 			FileList.replaceOldName = null;
 			FileList.replaceNewName = null;
@@ -586,7 +596,8 @@ $(document).ready(function(){
         });
 	});
 	$('#notification:first-child').on('click', '.suggest', function() {
-		$('tr').filterAttr('data-file', $('#notification > span').attr('data-oldName')).show();
+		var file = $('#notification > span').attr('data-oldName');
+		FileList.findFileEl(file).show();
         OC.Notification.hide();
 	});
 	$('#notification:first-child').on('click', '.cancel', function() {
