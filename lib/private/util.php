@@ -1155,4 +1155,25 @@ class OC_Util {
 		}
 		return $version;
 	}
+
+	/**
+	 * Returns whether the given file name is valid
+	 * @param $file string file name to check
+	 * @return bool true if the file name is valid, false otherwise
+	 */
+	public static function isValidFileName($file) {
+		$trimmed = trim($file);
+		if ($trimmed === '') {
+			return false;
+		}
+		if ($trimmed === '.' || $trimmed === '..') {
+			return false;
+		}
+		foreach (str_split($trimmed) as $char) {
+			if (strpos(\OCP\FILENAME_INVALID_CHARS, $char) !== false) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
