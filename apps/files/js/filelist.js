@@ -19,6 +19,15 @@ window.FileList={
 		});
 	},
 	/**
+	 * Sets a new page title
+	 */
+	setPageTitle: function(title){
+		// Sets the page title with the " - ownCloud" suffix as in templates
+		window.document.title = title + ' - ' + oc_defaults.title;
+		
+		return true;
+	},
+	/**
 	 * Returns the tr element for a given file name
 	 */
 	findFileEl: function(fileName){
@@ -186,12 +195,22 @@ window.FileList={
 	changeDirectory: function(targetDir, changeUrl, force) {
 		var $dir = $('#dir'),
 			url,
-			currentDir = $dir.val() || '/';
+			currentDir = $dir.val() || '/',
+			baseDir = OC.basename(targetDir),
 		targetDir = targetDir || '/';
 		if (!force && currentDir === targetDir) {
 			return;
 		}
+		
+		if (baseDir !== '') {
+			FileList.setPageTitle(baseDir);
+		}
+		else {
+			FileList.setPageTitle(t('files', 'Files'));
+		}
+		
 		FileList.setCurrentDir(targetDir, changeUrl);
+		
 		$('#fileList').trigger(
 			jQuery.Event('changeDirectory', {
 				dir: targetDir,
@@ -847,7 +866,8 @@ window.FileList={
 };
 
 $(document).ready(function() {
-	var isPublic = !!$('#isPublic').val();
+	var baseDir,
+	isPublic = !!$('#isPublic').val();
 
 	// handle upload events
 	var file_upload_start = $('#file_upload_start');
@@ -1131,6 +1151,14 @@ $(document).ready(function() {
 			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
 		}
 	}
-
+	
+	
+	baseDir = OC.basename(parseCurrentDirFromUrl());
+	
+	if (baseDir !== '') {
+		FileList.setPageTitle(baseDir);
+	}
+	
+	
 	FileList.createFileSummary();
 });

@@ -16,6 +16,9 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 // Enable l10n support
 $l = OC_L10N::get('core');
 
+// Enable OC_Defaults support
+$defaults = new OC_Defaults();
+
 // Get the config
 $apps_paths = array();
 foreach(OC_App::getEnabledApps() as $app) {
@@ -59,6 +62,20 @@ $array = array(
 		array(
 			'session_lifetime' => \OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')),
 			'session_keepalive' => \OCP\Config::getSystemValue('session_keepalive', true)
+		)
+	),
+	"oc_defaults" => json_encode(
+		array(
+			'entity' => $defaults->getEntity(),
+			'name' => $defaults->getName(),
+			'title' => $defaults->getTitle(),
+			'baseUrl' => $defaults->getBaseUrl(),
+			'syncClientUrl' => $defaults->getSyncClientUrl(),
+			'docBaseUrl' => $defaults->getDocBaseUrl(),
+			'slogan' => $defaults->getSlogan(),
+			'logoClaim' => $defaults->getLogoClaim(),
+			'shortFooter' => $defaults->getShortFooter(),
+			'longFooter' => $defaults->getLongFooter()
 		)
 	)
 	);
