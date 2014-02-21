@@ -5,12 +5,17 @@
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('text/plain')) ?>')"
-						data-type='file' data-newname='<?php p($l->t('New text file')) ?>.txt'><p><?php p($l->t('Text file'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
-						data-type='folder' data-newname='<?php p($l->t('New folder')) ?>'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'places/link.svg')) ?>')"
-						data-type='web'><p><?php p($l->t('From link'));?></p></li>
+					<li class="icon icon-filetype-text"
+						data-type="file" data-newname="<?php p($l->t('New text file')) ?>.txt">
+						<p><?php p($l->t('Text file'));?></p>
+					</li>
+					<li class="icon icon-filetype-folder"
+						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
+						<p><?php p($l->t('Folder'));?></p>
+					</li>
+					<li class="icon icon-link" data-type="web">
+						<p><?php p($l->t('From link'));?></p>
+					</li>
 				</ul>
 			</div>
 			<?php endif;?>
