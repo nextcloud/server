@@ -11,6 +11,7 @@ $file = array_key_exists('file', $_GET) ? (string)$_GET['file'] : '';
 $maxX = array_key_exists('x', $_GET) ? (int)$_GET['x'] : '36';
 $maxY = array_key_exists('y', $_GET) ? (int)$_GET['y'] : '36';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool)$_GET['scalingup'] : true;
+$always = array_key_exists('always', $_GET) ? (bool)$_GET['always'] : true;
 
 if ($file === '') {
 	//400 Bad Request
@@ -28,7 +29,7 @@ if ($maxX === 0 || $maxY === 0) {
 
 try {
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-	if (!$preview->isMimeSupported(\OC\Files\Filesystem::getMimeType($file))) {
+	if (!$always and !$preview->isMimeSupported(\OC\Files\Filesystem::getMimeType($file))) {
 		\OC_Response::setStatus(404);
 	} else {
 		$preview->setFile($file);

@@ -786,6 +786,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 		}
 		previewURL = previewURL.replace('(', '%28');
 		previewURL = previewURL.replace(')', '%29');
+		previewURL += '&always=0';
 
 		// preload image to prevent delay
 		// this will make the browser cache the image
