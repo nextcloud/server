@@ -28,7 +28,7 @@
 			<span class="utils">
 				<span class="usercount"><?php if(count($group['useringroup']) > 0) { p(count($group['useringroup'])); } ?></span>
 				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
-					alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
+					original-title="<?php p($l->t('Edit'))?>" alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
 					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
 				</a>
