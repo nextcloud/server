@@ -226,6 +226,12 @@
 .icon-folder {
 	background-image: url('../img/places/folder.svg');
 }
+.icon-filetype-text {
+	background-image: url('../img/filetypes/text.svg');
+}
+.icon-filetype-folder {
+	background-image: url('../img/filetypes/folder.svg');
+}
 
 .icon-home {
 	background-image: url('../img/places/home.svg');
