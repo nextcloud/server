@@ -21,7 +21,11 @@ return array(
 		'host'=>'localhost',
 		'user'=>'test',
 		'password'=>'test',
-		'root'=>'/owncloud/files/webdav.php',
+		'root'=>'',
+		// wait delay in seconds after write operations
+		// (only in tests)
+		// set to higher value for lighttpd webdav
+		'wait'=> 0
 	),
 	'owncloud'=>array(
 		'run'=>true,

@@ -14,8 +14,6 @@ unset($items['admin']);
 $_['subadmingroups'] = array_flip($items);
 ?>
 
-<script type="text/javascript" src="<?php print_unescaped(OC_Helper::linkToRoute('isadmin'));?>"></script>
-
 <div id="controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" /> <input
