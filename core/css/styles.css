@@ -75,6 +75,19 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	color: #aaa;
 }
 
+#header .logo {
+	background-image: url(../img/logo.svg);
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
+}
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	width: 147px;
+	height: 32px;
+}
+
 /* INPUTS */
 input[type="text"],
 input[type="password"],
@@ -933,5 +946,22 @@ div.crumb:active {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter:alpha(opacity=70);
 	opacity:.7;
+}
+
+.appear {
+	opacity: 1;
+	transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	-webkit-transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+	opacity: 0;
+}
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
 }
 

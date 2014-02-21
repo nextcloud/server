@@ -170,4 +170,52 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 			array('442aa682de2a64db1e010f50e60fd9c9', 'local::C:\Users\ADMINI~1\AppData\Local\Temp\2/442aa682de2a64db1e010f50e60fd9c9/')
 		);
 	}
+
+	/**
+	 * @dataProvider filenameValidationProvider
+	 */
+	public function testFilenameValidation($file, $valid) {
+		// private API
+		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
+		// public API
+		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
+	}
+
+	public function filenameValidationProvider() {
+		return array(
+			// valid names
+			array('boringname', true),
+			array('something.with.extension', true),
+			array('now with spaces', true),
+			array('.a', true),
+			array('..a', true),
+			array('.dotfile', true),
+			array('single\'quote', true),
+			array('  spaces before', true),
+			array('spaces after   ', true),
+			array('allowed chars including the crazy ones $%&_-^@!,()[]{}=;#', true),
+			array('汉字也能用', true),
+			array('und Ümläüte sind auch willkommen', true),
+			// disallowed names
+			array('', false),
+			array('     ', false),
+			array('.', false),
+			array('..', false),
+			array('back\\slash', false),
+			array('sl/ash', false),
+			array('lt<lt', false),
+			array('gt>gt', false),
+			array('col:on', false),
+			array('double"quote', false),
+			array('pi|pe', false),
+			array('dont?ask?questions?', false),
+			array('super*star', false),
+			array('new\nline', false),
+			// better disallow these to avoid unexpected trimming to have side effects
+			array(' ..', false),
+			array('.. ', false),
+			array('. ', false),
+			array(' .', false),
+		);
+	}
 }

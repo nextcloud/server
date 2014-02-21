@@ -52,6 +52,20 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(true);
 	}
 
+	/**
+	 * @dataProvider moveFailedInvalidCharsProvider
+	 * @expectedException Sabre_DAV_Exception_BadRequest
+	 */
+	public function testMoveFailedInvalidChars($source, $dest, $updatables, $deletables) {
+		$this->moveTest($source, $dest, $updatables, $deletables);
+	}
+
+	function moveFailedInvalidCharsProvider() {
+		return array(
+			array('a/b', 'a/c*', array('a' => false, 'a/b' => true, 'a/c*' => false), array()),
+		);
+	}
+
 	function moveFailedProvider() {
 		return array(
 			array('a/b', 'a/c', array('a' => false, 'a/b' => false, 'a/c' => false), array()),
@@ -66,6 +80,8 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 		return array(
 			array('a/b', 'a/c', array('a' => false, 'a/b' => true, 'a/c' => false), array()),
 			array('a/b', 'b/b', array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false), array('a/b' => true)),
+			// older files with special chars can still be renamed to valid names
+			array('a/b*', 'b/b', array('a' => true, 'a/b*' => true, 'b' => true, 'b/b' => false), array('a/b*' => true)),
 		);
 	}
 
