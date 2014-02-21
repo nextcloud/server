@@ -25,8 +25,7 @@ window.FileList={
 	setPageTitle: function(title){
 		if (title) {
 			title += ' - ';
-		}
-		else {
+		} else {
 			title = '';
 		}
 		title += FileList.appName;
