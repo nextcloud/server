@@ -266,4 +266,7 @@ $CONFIG = array(
 
 /* all css and js files will be served by the web server statically in one js file and ons css file*/
 'asset-pipeline.enabled' => false,
+
+ /* where mount.json file should be stored, defaults to data/mount.json */
+ 'mount_file' => '',
 );
