@@ -94,8 +94,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$allMembers = array();
 		if (array_key_exists($dnGroup, $seen)) {
-		    // avoid loops
-		    return array();
+			// avoid loops
+			return array();
 		}
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers'.$dnGroup;
@@ -107,7 +107,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 												$this->access->connection->ldapGroupFilter);
 		if (is_array($members)) {
 			foreach ($members as $memberDN) {
-      		    $allMembers[$memberDN] = 1;
+				$allMembers[$memberDN] = 1;
 				$nestedGroups = $this->access->connection->ldapNestedGroups;
 				if (!empty($nestedGroups)) {
 					$subMembers = $this->_groupMembers($memberDN, $seen);
@@ -117,7 +117,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				}
 			}
 		}
- 		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		$this->access->connection->writeToCache($cacheKey, $allMembers);
 		return $allMembers;
 	}
 
@@ -172,7 +172,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		    // avoid loops
 		    return array();
 		}
-		$seen[$dn] = 1;
+		$seen[$dn] = true;
 		$filter = $this->access->combineFilterWithAnd(array(
 			$this->access->connection->ldapGroupFilter,
 			$this->access->connection->ldapGroupMemberAssocAttr.'='.$dn
