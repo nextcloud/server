@@ -394,7 +394,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public static function setup($options) {
 		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
-			|| \OCP\Share::getItemsSharedWith('file')
+			|| \OCP\Share::hasFilesSharedWith()
 		) {
 			$user_dir = $options['user_dir'];
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',

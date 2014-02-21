@@ -243,6 +243,29 @@ class Share {
 		return array("users" => array_unique($shares), "public" => $publicShare);
 	}
 
+	public static function hasFilesSharedWith() {
+		if (!self::isEnabled()) {
+			return false;
+		}
+		$shareWith = \OC_User::getUser();
+		$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid`';
+		$where .= ' WHERE `file_target` IS NOT NULL';
+		$queryArgs = array();
+		$where .= ' AND `share_type` IN (?,?,?)';
+		$queryArgs[] = self::SHARE_TYPE_USER;
+		$queryArgs[] = self::SHARE_TYPE_GROUP;
+		$queryArgs[] = self::$shareTypeGroupUserUnique;
+		$userAndGroups = array_merge(array($shareWith), \OC_Group::getUserGroups($shareWith));
+		$placeholders = join(',', array_fill(0, count($userAndGroups), '?'));
+		$where .= ' AND `share_with` IN ('.$placeholders.')';
+		$queryArgs = array_merge($queryArgs, $userAndGroups);
+		// Don't include own group shares
+		$where .= ' AND `uid_owner` != ?';
+		$queryArgs[] = $shareWith;
+		$result = \OC_DB::executeAudited('SELECT COUNT(*) FROM `*PREFIX*share` '.$where, $queryArgs);
+		return $result->fetchOne() > 0;
+	}
+
 	/**
 	 * Get the items of item type shared with the current user
 	 * @param string Item type
