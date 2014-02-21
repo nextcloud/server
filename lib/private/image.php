@@ -231,7 +231,7 @@ class OC_Image {
 	}
 
 	/**
-	* @returns Returns the image resource in any.
+	* @returns resource Returns the image resource in any.
 	*/
 	public function resource() {
 		return $this->resource;
