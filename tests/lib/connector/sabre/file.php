@@ -49,21 +49,6 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test setting name with setName()
-	 */
-	public function testSetName() {
-		// setup
-		$file = new OC_Connector_Sabre_File('/test.txt');
-		$file->fileView = $this->getMock('\OC\Files\View', array('isUpdatable'), array(), '', FALSE);
-		$file->fileView->expects($this->any())->method('isUpdatable')->withAnyParameters()->will($this->returnValue(true));
-		$etag = $file->put('test data');
-		$file->setName('/renamed.txt');
-		$this->assertTrue($file->fileView->file_exists('/renamed.txt'));
-		// clean up
-		$file->delete();
-	}
-
-	/**
 	 * Test setting name with setName() with invalid chars
 	 * @expectedException Sabre_DAV_Exception_BadRequest
 	 */
