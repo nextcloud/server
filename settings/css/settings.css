@@ -52,14 +52,15 @@ table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 .usercount { float: left; margin: 5px; }
-span.utils .delete, span.utils .rename {
-	float: left; position: relative; display: none;
+li.active span.utils .delete, li.active span.utils .rename {
+	float: left; position: relative;
 	margin: 3px; top: 4px;
 }
-#app-navigation ul li.active:hover > span.utils .delete,
-#app-navigation ul li.active:hover > span.utils .rename { display: block; }
-.active span.utils .delete {
-	float: left; position: relative; display: none;
+span.utils .delete, span.utils .rename { display: none; }
+#app-navigation ul li.active > span.utils .delete,
+#app-navigation ul li.active > span.utils .rename { display: block; }
+li.active span.utils .delete {
+	float: left; position: relative;
 	margin: 3px; top: 4px;
 }
 #usersearchform { position: absolute; top: 4px; right: 10px; }
