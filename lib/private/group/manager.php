@@ -40,7 +40,12 @@ class Manager extends PublicEmitter {
 	/**
 	 * @var \OC\Group\Group[]
 	 */
-	private $cachedGroups;
+	private $cachedGroups = array();
+
+	/**
+	 * @var \OC\Group\Group[]
+	 */
+	private $cachedUserGroups = array();
 
 	/**
 	 * @param \OC\User\Manager $userManager
@@ -141,7 +146,7 @@ class Manager extends PublicEmitter {
 				$offset -= count($groupIds);
 			}
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->getGroupObject($groupId);
+				$groups[$groupId] = $this->get($groupId);
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($groups);
@@ -155,13 +160,18 @@ class Manager extends PublicEmitter {
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserGroups($user) {
+		$uid = $user->getUID();
+		if (isset($this->cachedUserGroups[$uid])) {
+			return $this->cachedUserGroups[$uid];
+		}
 		$groups = array();
 		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getUserGroups($user->getUID());
+			$groupIds = $backend->getUserGroups($uid);
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->getGroupObject($groupId);
+				$groups[$groupId] = $this->get($groupId);
 			}
 		}
-		return array_values($groups);
+		$this->cachedUserGroups[$uid] = array_values($groups);
+		return $this->cachedUserGroups[$uid];
 	}
 }
