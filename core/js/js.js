@@ -989,6 +989,17 @@ OC.set=function(name, value) {
 	context[tail]=value;
 };
 
+// fix device width on windows phone
+(function() {
+	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+		var msViewportStyle = document.createElement("style");
+		msViewportStyle.appendChild(
+			document.createTextNode("@-ms-viewport{width:auto!important}")
+		);
+		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+	}
+})();
+
 /**
  * select a range in an input field
  * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
