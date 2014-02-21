@@ -25,11 +25,11 @@ OC.Tags= {
 				});
 				self.deleteButton = {
 					text: t('core', 'Delete'),
-					click: function() {self._deleteTags(self, type, self._selectedIds())},
+					click: function() {self._deleteTags(self, type, self._selectedIds())}
 				};
 				self.addButton = {
 					text: t('core', 'Add'),
-					click: function() {self._addTag(self, type, self.$taginput.val())},
+					click: function() {self._addTag(self, type, self.$taginput.val())}
 				};
 
 				self._fillTagList(type, self.$taglist);
@@ -349,5 +349,5 @@ OC.Tags= {
 			console.warn(response);
 		});
 	}
-}
+};
 

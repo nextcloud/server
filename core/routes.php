@@ -100,9 +100,6 @@ $this->create('core_avatar_post_cropped', '/avatar/cropped')
 	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
 
 // Not specifically routed
-$this->create('app_css', '/apps/{app}/{file}')
-	->requirements(array('file' => '.*.css'))
-	->action('OC', 'loadCSSFile');
 $this->create('app_index_script', '/apps/{app}/')
 	->defaults(array('file' => 'index.php'))
 	//->requirements(array('file' => '.*.php'))

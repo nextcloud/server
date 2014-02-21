@@ -180,33 +180,6 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Check if this is a no-cache request
-	 * @return boolean true for no-cache
-	 */
-	static public function isNoCache() {
-		if (!isset($_SERVER['HTTP_CACHE_CONTROL'])) {
-			return false;
-		}
-		return $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache';
-	}
-
-	/**
-	 * @brief Check if the requestor understands gzip
-	 * @return false|string true for gzip encoding supported
-	 */
-	static public function acceptGZip() {
-		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
-			return false;
-		}
-		$HTTP_ACCEPT_ENCODING = $_SERVER["HTTP_ACCEPT_ENCODING"];
-		if( strpos($HTTP_ACCEPT_ENCODING, 'x-gzip') !== false )
-			return 'x-gzip';
-		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
-			return 'gzip';
-		return false;
-	}
-
-	/**
 	 * @brief Check if the requester sent along an mtime
 	 * @return false or an mtime
 	 */
