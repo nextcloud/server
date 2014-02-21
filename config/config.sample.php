@@ -263,4 +263,7 @@ $CONFIG = array(
 
 /* whether usage of the instance should be restricted to admin users only */
 'singleuser' => false,
+
+ /* where mount.json file should be stored, defaults to data/mount.json */
+ 'mount_file' => '',
 );

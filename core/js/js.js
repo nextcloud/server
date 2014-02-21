@@ -860,6 +860,7 @@ function initCore() {
 	// checkShowCredentials();
 	// $('input#user, input#password').keyup(checkShowCredentials);
 
+	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {
 			$('#expand').click()
@@ -872,7 +873,8 @@ function initCore() {
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(document).click(function(){//hide the settings menu when clicking outside it
+	//hide the user menu when clicking outside it
+	$(document).click(function(){
 		$('#settings #expanddiv').slideUp(200);
 	});
 
@@ -986,6 +988,17 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
+
+// fix device width on windows phone
+(function() {
+	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+		var msViewportStyle = document.createElement("style");
+		msViewportStyle.appendChild(
+			document.createTextNode("@-ms-viewport{width:auto!important}")
+		);
+		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+	}
+})();
 
 /**
  * select a range in an input field
