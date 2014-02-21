@@ -15,7 +15,7 @@
 		</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path('', 'favicon-touch.png')); ?>" />
@@ -51,12 +51,12 @@
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
+					<?php if ($_['enableAvatars']): ?>
+					<div class="avatardiv"></div>
+					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>
-				<?php if ($_['enableAvatars']): ?>
-				<div class="avatardiv"></div>
-				<?php endif; ?>
 				<div id="expanddiv">
 				<ul>
 				<?php foreach($_['settingsnavigation'] as $entry):?>

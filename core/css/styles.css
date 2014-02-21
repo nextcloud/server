@@ -37,11 +37,12 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+/* Profile picture in header */
 #header .avatardiv {
 	float: left;
 	display: inline-block;
+	margin-right: 5px;
 }
-
 #header .avatardiv img {
 	opacity: 1;
 }
@@ -218,17 +219,19 @@ textarea:disabled {
 		color: #bbb;
 	}
 
-
+/* Searchbox */
 .searchbox input[type="search"] {
+	position: relative;
 	font-size: 1.2em;
-	padding: .2em .5em .2em 1.5em;
+	padding-left: 1.5em;
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
-	border-radius: 1em;
+	border-radius: 2em;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity: .7;
-	margin-top: 10px;
+	margin-top: 6px;
 	float: right;
 }
+
 input[type="submit"].enabled {
 	background: #66f866;
 	border: 1px solid #5e5;
@@ -719,12 +722,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* USER MENU */
 #settings {
 	float: right;
-	margin-top: 7px;
-	margin-left: 10px;
 	color: #bbb;
 }
 #expand {
-	padding: 15px 15px 15px 5px;
+	display: block;
+	padding: 7px 12px 6px 7px;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -956,5 +958,10 @@ div.crumb:active {
 }
 .appear.transparent {
 	opacity: 0;
+}
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
 }
 

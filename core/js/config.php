@@ -24,6 +24,7 @@ foreach(OC_App::getEnabledApps() as $app) {
 
 $array = array(
 	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
+	"oc_isadmin" => OC_User::isAdminUser(OC_User::getUser()) ? 'true' : 'false',
 	"oc_webroot" => "\"".OC::$WEBROOT."\"",
 	"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 	"datepickerFormatDate" => json_encode($l->l('jsdate', 'jsdate')),

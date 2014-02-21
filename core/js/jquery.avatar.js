@@ -39,10 +39,15 @@
  * This will behave like the first example, but it will hide the avatardiv, if
  * it will display the default placeholder. undefined is the ie8fix from
  * example 4 and can be either true, or false/undefined, to be ignored.
+ *
+ * 6. $('.avatardiv').avatar('jdoe', 128, undefined, true, callback);
+ * This will behave like the above example, but it will call the function
+ * defined in callback after the avatar is placed into the DOM.
+ *
  */
 
 (function ($) {
-	$.fn.avatar = function(user, size, ie8fix, hidedefault) {
+	$.fn.avatar = function(user, size, ie8fix, hidedefault, callback) {
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
@@ -90,6 +95,9 @@
 					} else {
 						$div.html('<img src="'+url+'">');
 					}
+				}
+				if(typeof callback === 'function') {
+					callback();
 				}
 			});
 		});
