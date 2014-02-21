@@ -54,7 +54,7 @@ table.nostyle td { padding: 0.2em 0; }
 .usercount { float: left; margin: 5px; }
 li.active span.utils .delete { left: 7px; }
 li.active span.utils .delete, li.active span.utils .rename {
-	float: left; position: relative;
+	float: left; position: relative; opacity: 0.5;
 	top: -7px; width: 44px; height: 44px;
 }
 li.active span.utils .rename {
@@ -63,6 +63,7 @@ li.active span.utils .rename {
 	cursor: pointer;
 }
 li.active span.utils .delete img { margin: 14px; }
+li.active span.utils .delete:hover, li.active span.utils .rename:hover { opacity: 1; }
 span.utils .delete, span.utils .rename { display: none; }
 #app-navigation ul li.active > span.utils .delete,
 #app-navigation ul li.active > span.utils .rename { display: block; }
