@@ -162,13 +162,10 @@ class Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
-	 * @param int $fileId (optional) the file id of the folder
 	 * @return array
 	 */
-	public function getFolderContents($folder, $fileId = null) {
-		if (is_null($fileId)) {
-			$fileId = $this->getId($folder);
-		}
+	public function getFolderContents($folder) {
+		$fileId = $this->getId($folder);
 		return $this->getFolderContentsById($fileId);
 	}
 
