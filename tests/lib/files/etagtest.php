@@ -68,6 +68,9 @@ class EtagTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($originalEtags, $this->getEtags($files));
 	}
 
+	/**
+	 * @param string[] $files
+	 */
 	private function getEtags($files) {
 		$etags = array();
 		foreach ($files as $file) {

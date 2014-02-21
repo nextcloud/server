@@ -336,7 +336,7 @@ class Storage {
 	 * @brief deletes used space for files versions in db if user was deleted
 	 *
 	 * @param type $uid id of deleted user
-	 * @return result of db delete operation
+	 * @return \OC_DB_StatementWrapper of db delete operation
 	 */
 	public static function deleteUser($uid) {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_versions` WHERE `user`=?');
@@ -420,8 +420,8 @@ class Storage {
 
 	/**
 	 * @brief get list of files we want to expire
-	 * @param integer $currentTime timestamp of current time
 	 * @param array $versions list of versions
+	 * @param integer $time
 	 * @return array containing the list of to deleted versions and the size of them
 	 */
 	protected static function getExpireList($time, $versions) {

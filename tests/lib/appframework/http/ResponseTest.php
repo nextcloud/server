@@ -25,8 +25,8 @@
 namespace OC\AppFramework\Http;
 
 
-use OCP\AppFramework\Http\Response,
-	OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http;
 
 
 class ResponseTest extends \PHPUnit_Framework_TestCase {

@@ -30,7 +30,7 @@ abstract class OC_Migration_Provider{
 
 	/**
 	* @brief sets the OC_Migration_Content object to $this->content
-	* @param $content a OC_Migration_Content object
+	* @param OC_Migration_Content $content a OC_Migration_Content object
 	*/
 	public function setData( $uid, $content, $info=null ) {
 		$this->content = $content;

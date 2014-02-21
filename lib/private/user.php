@@ -227,6 +227,7 @@ class OC_User {
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login($uid, $password) {
+		session_regenerate_id(true);
 		return self::getUserSession()->login($uid, $password);
 	}
 
@@ -246,7 +247,6 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
 		if($uid) {
-			session_regenerate_id(true);
 			self::setUserId($uid);
 			self::setDisplayName($uid);
 			self::getUserSession()->setLoginName($uid);
@@ -516,6 +516,8 @@ class OC_User {
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
 	public static function getUsers($search = '', $limit = null, $offset = null) {
 		$users = self::getManager()->search($search, $limit, $offset);

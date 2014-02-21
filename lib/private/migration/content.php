@@ -34,9 +34,9 @@ class OC_Migration_Content{
 
 	/**
 	* @brief sets up the
-	* @param $zip ZipArchive object
+	* @param ZipArchive $zip ZipArchive object
 	* @param $db a database object (required for exporttype user)
-	* @return bool
+	* @return boolean|null
 	*/
 	public function __construct( $zip, $db=null ) {
 
@@ -74,7 +74,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief processes the db query
-	* @param $query the query to process
+	* @param string $query the query to process
 	* @return string of processed query
 	*/
 	private function processQuery( $query ) {
@@ -130,7 +130,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief saves a sql data set into migration.db
-	* @param $data a sql data set returned from self::prepare()->query()
+	* @param OC_DB_StatementWrapper $data a sql data set returned from self::prepare()->query()
 	* @param $options array of copyRows options
 	* @return void
 	*/

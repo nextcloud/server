@@ -52,9 +52,11 @@ function updateAvatar (hidedefault) {
 
 	if(hidedefault) {
 		$headerdiv.hide();
+		$('#header .avatardiv').removeClass('avatardiv-shown');
 	} else {
 		$headerdiv.css({'background-color': ''});
 		$headerdiv.avatar(OC.currentUser, 32, true);
+		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 128, true);
@@ -163,7 +165,7 @@ $(document).ready(function(){
     });
 
 
-    $('#email').keyup(function(){
+    $('#email').keyup(function(event){
         if ($('#email').val() !== '' ){
             // if this is the enter key changeEmailAddress() is already invoked
             // so it doesn't need to be triggered again

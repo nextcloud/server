@@ -11,6 +11,7 @@ namespace OC\Files\Storage;
 abstract class StreamWrapper extends Common {
 
 	/**
+	 * @param string $path
 	 * @return string|null
 	 */
 	abstract public function constructUrl($path);

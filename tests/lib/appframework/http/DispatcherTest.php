@@ -24,7 +24,6 @@
 
 namespace OC\AppFramework\Http;
 
-use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OCP\AppFramework\Http;
 //require_once(__DIR__ . "/../classloader.php");
@@ -78,6 +77,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @param string $out
+	 * @param string $httpHeaders
+	 */
 	private function setMiddlewareExpections($out=null, 
 		$httpHeaders=null, $responseHeaders=array(),
 		$ex=false, $catchEx=true) {

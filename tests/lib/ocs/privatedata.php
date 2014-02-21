@@ -131,6 +131,7 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @param \OC_OCS_Result $result
+	 * @param integer $expectedArraySize
 	 */
 	public function assertOcsResult($expectedArraySize, $result) {
 		$this->assertEquals(100, $result->getStatusCode());

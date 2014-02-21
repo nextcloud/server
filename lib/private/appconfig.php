@@ -69,6 +69,9 @@ class AppConfig implements \OCP\IAppConfig {
 		return $this->cache[$app];
 	}
 
+	/**
+	 * @param string $app
+	 */
 	private function getAppValues($app) {
 		$appCache = $this->getAppCache($app);
 		if (array_search($app, $this->appsLoaded) === false) {
@@ -184,7 +187,7 @@ class AppConfig implements \OCP\IAppConfig {
 	 * @brief Deletes a key
 	 * @param string $app app
 	 * @param string $key key
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function deleteKey($app, $key) {
 		$where = array(
@@ -200,7 +203,7 @@ class AppConfig implements \OCP\IAppConfig {
 	/**
 	 * @brief Remove app from appconfig
 	 * @param string $app app
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */

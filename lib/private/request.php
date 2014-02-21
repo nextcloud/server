@@ -192,7 +192,7 @@ class OC_Request {
 
 	/**
 	 * @brief Check if the requestor understands gzip
-	 * @return boolean true for gzip encoding supported
+	 * @return false|string true for gzip encoding supported
 	 */
 	static public function acceptGZip() {
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {

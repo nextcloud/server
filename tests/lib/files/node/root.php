@@ -8,7 +8,6 @@
 
 namespace Test\Files\Node;
 
-use OC\Files\Cache\Cache;
 use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
 

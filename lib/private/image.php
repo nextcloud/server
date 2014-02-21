@@ -34,7 +34,7 @@ class OC_Image {
 
 	/**
 	* @brief Get mime type for an image file.
-	* @param $filepath The path to a local image file.
+	* @param string|null $filepath The path to a local image file.
 	* @returns string The mime type if the it could be determined, otherwise an empty string.
 	*/
 	static public function getMimeTypeForFile($filePath) {
@@ -163,6 +163,7 @@ class OC_Image {
 	/**
 	* @brief Saves the image.
 	* @returns bool
+	* @param string $filePath
 	*/
 
 	public function save($filePath=null) {
@@ -230,7 +231,7 @@ class OC_Image {
 	}
 
 	/**
-	* @returns Returns the image resource in any.
+	* @returns resource Returns the image resource in any.
 	*/
 	public function resource() {
 		return $this->resource;
@@ -704,7 +705,7 @@ class OC_Image {
 
 	/**
 	* @brief Resizes the image preserving ratio.
-	* @param integer $maxsize The maximum size of either the width or height.
+	* @param integer $maxSize The maximum size of either the width or height.
 	* @returns bool
 	*/
 	public function resize($maxSize) {
@@ -852,8 +853,8 @@ class OC_Image {
 
 	/**
 	 * @brief Resizes the image to fit within a boundry while preserving ratio.
-	 * @param $maxWidth
-	 * @param $maxHeight
+	 * @param integer $maxWidth
+	 * @param integer $maxHeight
 	 * @returns bool
 	 */
 	public function fitIn($maxWidth, $maxHeight) {

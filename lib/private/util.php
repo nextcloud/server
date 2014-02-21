@@ -65,7 +65,7 @@ class OC_Util {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
 					}
 				}
 
@@ -218,7 +218,7 @@ class OC_Util {
 	 * @brief add a javascript file
 	 *
 	 * @param string $application
-	 * @param mixed $file filename
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addScript( $application, $file = null ) {
@@ -237,7 +237,7 @@ class OC_Util {
 	 * @brief add a css file
 	 *
 	 * @param string $application
-	 * @param mixed $file filename
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addStyle( $application, $file = null ) {
@@ -570,6 +570,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the app is enabled, redirects to home if not
+	 * @param string $app
 	 * @return void
 	 */
 	public static function checkAppEnabled($app) {
@@ -1153,5 +1154,26 @@ class OC_Util {
 			$version .= ' Build:' . $build;
 		}
 		return $version;
+	}
+
+	/**
+	 * Returns whether the given file name is valid
+	 * @param $file string file name to check
+	 * @return bool true if the file name is valid, false otherwise
+	 */
+	public static function isValidFileName($file) {
+		$trimmed = trim($file);
+		if ($trimmed === '') {
+			return false;
+		}
+		if ($trimmed === '.' || $trimmed === '..') {
+			return false;
+		}
+		foreach (str_split($trimmed) as $char) {
+			if (strpos(\OCP\FILENAME_INVALID_CHARS, $char) !== false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

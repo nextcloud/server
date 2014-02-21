@@ -78,6 +78,13 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'adminAccountId');
 	}
 
+	/**
+	 * @param string $name
+	 * @param string $verb
+	 * @param string $url
+	 * @param string $controllerName
+	 * @param string $actionName
+	 */
 	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName)
 	{
 		// route mocks
@@ -100,6 +107,12 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 		$config->register();
 	}
 
+	/**
+	 * @param string $resourceName
+	 * @param string $url
+	 * @param string $controllerName
+	 * @param string $paramName
+	 */
 	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName)
 	{
 		// router mock

@@ -33,6 +33,9 @@ class Loader {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
+	/**
+	 * @param string|boolean $mountPoint
+	 */
 	public function wrap($mountPoint, $storage) {
 		foreach ($this->storageWrappers as $wrapper) {
 			$storage = $wrapper($mountPoint, $storage);

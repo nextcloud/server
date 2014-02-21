@@ -110,6 +110,7 @@ class OC_FileProxy{
 
 	/**
 	 * @param string $operation
+	 * @param string|boolean $path
 	 *
 	 * @return string
 	 */

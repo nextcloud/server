@@ -13,7 +13,7 @@ use OC\User\User;
 
 class Group extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject | \OC\User\Manager
+	 * @return \OC\User\Manager | \OC\User\Manager
 	 */
 	protected function getUserManager() {
 		$userManager = $this->getMock('\OC\User\Manager');

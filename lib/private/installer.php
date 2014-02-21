@@ -154,7 +154,7 @@ class OC_Installer{
 		}else{
 			$version = trim($info['version']);
 		}
-		
+
 		if($version<>trim($data['appdata']['version'])) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because the version in info.xml/version is not the same as the version reported from the app store"));
@@ -236,7 +236,6 @@ class OC_Installer{
 
 	/**
 	 * @brief Update an application
-	 * @param array $data with all information
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -270,7 +269,6 @@ class OC_Installer{
 
 	/**
 	 * @brief Check if an update for the app is available
-	 * @param string $name name of the application
 	 * @return string|false false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
@@ -316,7 +314,7 @@ class OC_Installer{
 	 * @brief Removes an app
 	 * @param string $name name of the application to remove
 	 * @param $options array with options
-	 * @return boolean
+	 * @return boolean|null
 	 *
 	 * This function removes an app. $options is an associative array. The
 	 * following keys are optional:ja

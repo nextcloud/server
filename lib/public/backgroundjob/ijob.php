@@ -14,6 +14,7 @@ interface IJob {
 	 *
 	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
 	 * @param \OC\Log $logger
+	 * @return void
 	 */
 	public function execute($jobList, $logger = null);
 

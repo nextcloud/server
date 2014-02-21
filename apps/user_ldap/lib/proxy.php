@@ -56,8 +56,13 @@ abstract class Proxy {
 
 	/**
 	 * @param boolean $passOnWhen
+	 * @param string $method
 	 */
 	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
+
+	/**
+	 * @param string $method
+	 */
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
@@ -95,6 +100,9 @@ abstract class Proxy {
 		return unserialize(base64_decode($this->cache->get($key)));
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function isCached($key) {
 		$key = $this->getCacheKey($key);
 		return $this->cache->hasKey($key);
