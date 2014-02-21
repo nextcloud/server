@@ -860,6 +860,7 @@ function initCore() {
 	// checkShowCredentials();
 	// $('input#user, input#password').keyup(checkShowCredentials);
 
+	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {
 			$('#expand').click()
@@ -872,7 +873,8 @@ function initCore() {
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(document).click(function(){//hide the settings menu when clicking outside it
+	//hide the user menu when clicking outside it
+	$(document).click(function(){
 		$('#settings #expanddiv').slideUp(200);
 	});
 
