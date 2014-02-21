@@ -56,9 +56,9 @@ span.utils .delete, span.utils .rename {
 	float: left; position: relative; display: none;
 	margin: 3px; top: 4px;
 }
-#app-navigation ul li:hover > span.utils .delete,
-#app-navigation ul li:hover > span.utils .rename { display: block; }
-span.utils .delete {
+#app-navigation ul li.active:hover > span.utils .delete,
+#app-navigation ul li.active:hover > span.utils .rename { display: block; }
+.active span.utils .delete {
 	float: left; position: relative; display: none;
 	margin: 3px; top: 4px;
 }
