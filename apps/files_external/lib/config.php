@@ -256,7 +256,7 @@ class OC_Mount_Config {
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
-			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
+			if ($applicable !== OCP\User::getUser() || strtolower($class) === '\oc\files\storage\local') {
 				return false;
 			}
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
