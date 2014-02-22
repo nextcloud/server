@@ -18,6 +18,16 @@ class OC_Request {
 	}
 
 	/**
+	* @brief Checks whether a domain is considered as trusted. This is used to prevent Host Header Poisoning.
+	* @param string $host
+	* @return bool
+	 */
+	public static function isTrustedDomain($domain) {
+		$trustedList = \OC_Config::getValue('trusted_domains', array(''));
+ 		return in_array($domain, $trustedList);
+	}
+
+	/**
 	 * @brief Returns the server host
 	 * @returns string the server host
 	 *
@@ -36,21 +46,27 @@ class OC_Request {
 				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
 			}
 			else{
-				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
+				$host = $_SERVER['HTTP_X_FORWARDED_HOST'];
 			}
-		}
-		else{
+		} else {
 			if (isset($_SERVER['HTTP_HOST'])) {
-				return $_SERVER['HTTP_HOST'];
+				$host = $_SERVER['HTTP_HOST'];
 			}
 			if (isset($_SERVER['SERVER_NAME'])) {
-				return $_SERVER['SERVER_NAME'];
+				$host = $_SERVER['SERVER_NAME'];
 			}
-			return 'localhost';
 		}
-		return $host;
-	}
 
+		// Verify that the host is a trusted domain if the trusted domains
+		// are defined
+		// If no trusted domain is provided the first trusted domain is returned
+		if(self::isTrustedDomain($host) || \OC_Config::getValue('trusted_domains', "") === "") {
+			return $host;
+		} else {
+			$trustedList = \OC_Config::getValue('trusted_domains', array(''));
+			return $trustedList[0];
+		}
+	}
 
 	/**
 	* @brief Returns the server protocol
@@ -64,14 +80,14 @@ class OC_Request {
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
-		}else{
-			if(isset($_SERVER['HTTPS']) and !empty($_SERVER['HTTPS']) and ($_SERVER['HTTPS']!='off')) {
-				$proto = 'https';
-			}else{
-				$proto = 'http';
-			}
+			// Verify that the protocol is always HTTP or HTTPS
+			// default to http if an invalid value is provided
+			return $proto === 'https' ? 'https' : 'http';
 		}
-		return $proto;
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+			return 'https';
+		}
+		return 'http';
 	}
 
 	/**

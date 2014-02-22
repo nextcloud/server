@@ -84,6 +84,7 @@ class OC_Setup {
 			OC_Config::setValue('passwordsalt', $salt);
 
 			//write the config file
+			OC_Config::setValue('trusted_domains', array(OC_Request::serverHost())); 
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
 			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
