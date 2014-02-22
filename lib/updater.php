@@ -97,6 +97,19 @@ class OC_Updater extends BasicEmitter {
 		$currentVersion = implode('.', \OC_Util::getVersion());
 		\OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, \OC_Log::WARN);
 		$this->emit('\OC_Updater', 'maintenanceStart');
+
+		/*
+		 * START CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+		if (version_compare($currentVersion, '5.00.29', '<')) {
+			// Add the overwriteHost config if it is not existant
+			// This is added to prevent host header poisoning
+			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
+		}
+		/*
+		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+
 		try {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 			$this->emit('\OC_Updater', 'dbUpgrade');
