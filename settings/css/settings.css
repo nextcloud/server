@@ -52,19 +52,20 @@ table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
 .usercount { float: left; margin: 5px; }
-li.active span.utils .delete { left: 7px; }
-li.active span.utils .delete, li.active span.utils .rename {
+li.active span.utils .delete {
 	float: left; position: relative; opacity: 0.5;
-	top: -7px; width: 44px; height: 44px;
+	top: -7px; left: 7px; width: 44px; height: 44px;
 }
-li.active span.utils .rename {
-	width: 16px; height: 16px;
-	padding: 14px;
-	cursor: pointer;
+li.active .rename {
+	padding: 8px 14px 20px 14px;
+	top: 0px; position: absolute; width: 16px; height: 16px; 
+	opacity: 0.5; 
+	display: inline-block !important;
 }
 li.active span.utils .delete img { margin: 14px; }
-li.active span.utils .delete:hover, li.active span.utils .rename:hover { opacity: 1; }
-span.utils .delete, span.utils .rename { display: none; }
+li.active .rename { opacity: 0.5; }
+li.active span.utils .delete:hover, li.active .rename:hover { opacity: 1; }
+span.utils .delete, .rename { display: none; }
 #app-navigation ul li.active > span.utils .delete,
 #app-navigation ul li.active > span.utils .rename { display: block; }
 #usersearchform { position: absolute; top: 4px; right: 10px; }

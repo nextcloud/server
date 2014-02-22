@@ -105,14 +105,14 @@ $(document).ready( function () {
 		)
 	});
 	// Implements Groupname editing.
-	$('#app-navigation').on('click', 'span.utils>img.rename', function (event) {
+	$('#app-navigation').on('click', 'img.rename', function (event) {
 		event.stopPropagation();
 		var img = $(this);
 		var gid = img.parent().parent().attr('data-gid');
 		var groupname = escapeHTML(img.parent().parent().attr('data-gid'));
 		var input = $('<input type="text" value="' + groupname + '">');
 		img.css('display', 'none');
-		img.parent().parent().children('a').replaceWith(input);
+		img.parent().children('span').replaceWith(input);
 		input.focus();
 		input.keypress(function (event) {
 			if (event.keyCode === 13) {
@@ -132,7 +132,7 @@ $(document).ready( function () {
 		input.blur(function () {
 			var input = $(this), groupname = input.val();
 			input.closest('li').attr('data-gid', groupname);
-			input.replaceWith('<a href="#">' + escapeHTML(groupname) + '</a>');
+			input.replaceWith('<span>' + escapeHTML(groupname) + '</span>');
 			img.css('display', '');
 		});
 	});
