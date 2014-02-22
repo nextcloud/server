@@ -48,4 +48,29 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(false, OC_Mount_Config::addMountPoint('/Shared', $storageClass, array(), $mountType, $applicable, $isPersonal));
 
 	}
+
+	public function testAddMountPointSingleUser() {
+		\OC_User::setUserId('test');
+		$mountType = 'user';
+		$applicable = 'test';
+		$isPersonal = true;
+		// local
+		$this->assertEquals(false, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\storage\local', array(), $mountType, $applicable, $isPersonal));
+		// non-local
+		// FIXME: can't test this yet as the class (write operation) is not mockable
+		// $this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', array(), $mountType, $applicable, $isPersonal));
+
+	}
+
+	public function testAddMountPointUnexistClass() {
+		\OC_User::setUserId('test');
+		$storageClass = 'Unexist_Storage';
+		$mountType = 'user';
+		$applicable = 'test';
+		$isPersonal = true;
+		// local
+		// non-local
+		$this->assertEquals(false, OC_Mount_Config::addMountPoint('/ext', $storageClass, array(), $mountType, $applicable, $isPersonal));
+
+	}
 }
