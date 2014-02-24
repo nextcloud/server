@@ -1,4 +1,4 @@
-.icon {
+[class^="icon-"], [class*=" icon-"] {
 	background-repeat: no-repeat;
 	background-position: center;
 }
