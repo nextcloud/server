@@ -16,8 +16,6 @@ unset($items['admin']);
 $userlistParams['subadmingroups'] = array_flip($items);
 ?>
 
-<script type="text/javascript" src="<?php print_unescaped(OC_Helper::linkToRoute('isadmin'));?>"></script>
-
 <div id="app-navigation">
 	<?php print_unescaped($this->inc('users/part.grouplist')); ?>
 	<div id="app-settings">
