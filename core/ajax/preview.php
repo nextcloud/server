@@ -11,7 +11,7 @@ $file = array_key_exists('file', $_GET) ? (string)$_GET['file'] : '';
 $maxX = array_key_exists('x', $_GET) ? (int)$_GET['x'] : '36';
 $maxY = array_key_exists('y', $_GET) ? (int)$_GET['y'] : '36';
 $scalingUp = array_key_exists('scalingup', $_GET) ? (bool)$_GET['scalingup'] : true;
-$always = array_key_exists('always', $_GET) ? (bool)$_GET['always'] : true;
+$always = array_key_exists('forceIcon', $_GET) ? (bool)$_GET['forceIcon'] : true;
 
 if ($file === '') {
 	//400 Bad Request
