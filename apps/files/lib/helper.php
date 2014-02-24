@@ -22,6 +22,7 @@ class Helper
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
 			$dir = $file['directory'];
+			$icon = \OC_Helper::mimetypeIcon('dir');
 			$absPath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir.'/'.$file['name']);
 			$mount = \OC\Files\Filesystem::getMountManager()->find($absPath);
 			if (!is_null($mount)) {
@@ -29,21 +30,22 @@ class Helper
 				if (!is_null($sid)) {
 					$sid = explode(':', $sid);
 					if ($sid[0] === 'shared') {
-						return \OC_Helper::mimetypeIcon('dir-shared');
+						$icon = \OC_Helper::mimetypeIcon('dir-shared');
 					}
 					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
-						return \OC_Helper::mimetypeIcon('dir-external');
+						$icon = \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
 			}
-			return \OC_Helper::mimetypeIcon('dir');
+		}else{
+			if($file['isPreviewAvailable']) {
+				$pathForPreview = $file['directory'] . '/' . $file['name'];
+				return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
+			}
+			$icon = \OC_Helper::mimetypeIcon($file['mimetype']);
 		}
 
-		if($file['isPreviewAvailable']) {
-			$pathForPreview = $file['directory'] . '/' . $file['name'];
-			return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
-		}
-		return \OC_Helper::mimetypeIcon($file['mimetype']);
+		return substr($icon, 0, -3) . 'svg';
 	}
 
 	/**
