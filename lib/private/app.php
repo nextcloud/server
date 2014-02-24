@@ -69,17 +69,6 @@ class OC_App{
 		}
 		ob_end_clean();
 
-		if (!defined('DEBUG') || !DEBUG) {
-			if (is_null($types)
-				&& empty(OC_Util::$coreScripts)
-				&& empty(OC_Util::$coreStyles)) {
-				OC_Util::$coreScripts = OC_Util::$scripts;
-				OC_Util::$scripts = array();
-				OC_Util::$coreStyles = OC_Util::$styles;
-				OC_Util::$styles = array();
-			}
-		}
-		// return
 		return true;
 	}
 

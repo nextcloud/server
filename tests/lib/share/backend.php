@@ -26,7 +26,7 @@ class Test_Share_Backend implements OCP\Share_Backend {
 	const FORMAT_SOURCE = 0;
 	const FORMAT_TARGET = 1;
 	const FORMAT_PERMISSIONS = 2;
-	
+
 	private $testItem1 = 'test.txt';
 	private $testItem2 = 'share.txt';
 
@@ -57,11 +57,11 @@ class Test_Share_Backend implements OCP\Share_Backend {
 	public function formatItems($items, $format, $parameters = null) {
 		$testItems = array();
 		foreach ($items as $item) {
-			if ($format == self::FORMAT_SOURCE) {
+			if ($format === self::FORMAT_SOURCE) {
 				$testItems[] = $item['item_source'];
-			} else if ($format == self::FORMAT_TARGET) {
+			} else if ($format === self::FORMAT_TARGET) {
 				$testItems[] = $item['item_target'];
-			} else if ($format == self::FORMAT_PERMISSIONS) {
+			} else if ($format === self::FORMAT_PERMISSIONS) {
 				$testItems[] = $item['permissions'];
 			}
 		}
