@@ -501,11 +501,20 @@ class Hooks {
 	 * @param array $params with the old path and the new path
 	 */
 	public static function preRename($params) {
-		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView('/');
+		$util = new Util($view, $user);
 		list($ownerOld, $pathOld) = $util->getUidAndFilename($params['oldpath']);
-		self::$renamedFiles[$params['oldpath']] = array(
-			'uid' => $ownerOld,
-			'path' => $pathOld);
+
+		// we only need to rename the keys if the rename happens on the same mountpoint
+		// otherwise we perform a stream copy, so we get a new set of keys
+		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
+		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		if ($mp1 === $mp2) {
+			self::$renamedFiles[$params['oldpath']] = array(
+				'uid' => $ownerOld,
+				'path' => $pathOld);
+		}
 	}
 
 	/**
