@@ -164,7 +164,7 @@ class smb {
 					$i = ($mode == 'servers') ? array ($name, "server") : array ($name, "workgroup", $master);
 					break;
 				case 'files':
-					list ($attr, $name) = preg_match ("/^(.*)[ ]+([D|A|H|S|R]+)$/", trim ($regs[1]), $regs2)
+					list ($attr, $name) = preg_match ("/^(.*)[ ]+([D|A|H|S|R|N]+)$/", trim ($regs[1]), $regs2)
 						? array (trim ($regs2[2]), trim ($regs2[1]))
 						: array ('', trim ($regs[1]));
 					list ($his, $im) = array (
