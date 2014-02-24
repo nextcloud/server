@@ -140,43 +140,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $result;
 	}
 
-	/**
-	 * @brief Deletes all files and folders recursively within a directory
-	 * @param string $directory The directory whose contents will be deleted
-	 * @param bool $empty Flag indicating whether directory will be emptied
-	 * @returns bool
-	 *
-	 * @note By default the directory specified by $directory will be
-	 * deleted together with its contents. To avoid this set $empty to true
-	 */
-	public function deleteAll($directory, $empty = false) {
-		$directory = trim($directory, '/');
-		if (!$this->is_dir($directory) || !$this->isReadable($directory)) {
-			return false;
-		} else {
-			$directoryHandle = $this->opendir($directory);
-			if (is_resource($directoryHandle)) {
-				while (($contents = readdir($directoryHandle)) !== false) {
-					if (!\OC\Files\Filesystem::isIgnoredDir($contents)) {
-						$path = $directory . '/' . $contents;
-						if ($this->is_dir($path)) {
-							$this->deleteAll($path);
-						} else {
-							$this->unlink($path);
-						}
-					}
-				}
-			}
-			if ($empty === false) {
-				if (!$this->rmdir($directory)) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-	}
-
 	public function getMimeType($path) {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
