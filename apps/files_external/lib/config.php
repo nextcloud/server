@@ -353,8 +353,8 @@ class OC_Mount_Config {
 			$jsonFile = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
 			$phpFile = OC::$SERVERROOT.'/config/mount.php';
-    			$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data/");
-			$jsonFile = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
+			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$jsonFile = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
 		}
 		if (is_file($jsonFile)) {
 			$mountPoints = json_decode(file_get_contents($jsonFile), true);
@@ -380,7 +380,8 @@ class OC_Mount_Config {
 		if ($isPersonal) {
 			$file = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
-			$file = \OC_Config::getValue("mount_file", \OC::$SERVERROOT . "/data/mount.json");
+			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
+			$file = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
 		}
 		$content = json_encode($data);
 		@file_put_contents($file, $content);
