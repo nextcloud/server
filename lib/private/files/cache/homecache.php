@@ -16,7 +16,7 @@ class HomeCache extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path) {
-		if ($path !== '/' and $path !== '' and $path !== 'files') {
+		if ($path !== '/' and $path !== '' and $path !== 'files' and $path !== 'files_trashbin') {
 			return parent::calculateFolderSize($path);
 		}
 
