@@ -32,7 +32,7 @@
 
 	<!--List of Groups-->
 	<?php foreach($_["groups"] as $group): ?>
-		<li data-gid="<?php p($group['name']) ?>">
+		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p(count($group['useringroup'])) ?>">
 			<a href="#">
 				<span><?php p($group['name']); ?></span>
 				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"

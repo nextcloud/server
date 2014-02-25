@@ -5,6 +5,61 @@
  */
 
  var GroupList = {
+	addGroup: function(gid) {
+		var li = $('li[data-gid]').last().clone();
+		var ul = $('li[data-gid]').first().parent();
+		li.attr('data-gid', gid);
+		li.attr('data-usercount', 0);
+		li.find('a span').first().text(gid);
+		li.find('span[class=usercount]').first().text('');
+
+		$(li).appendTo(ul);
+
+		GroupList.sortGroups(0);
+	},
+
+	sortGroups: function(usercount) {
+		var lis = $('li[data-gid]').filterAttr('data-usercount', usercount.toString()).get();
+		var ul = $(lis).first().parent();
+
+		lis.sort(function(a, b) {
+			return UserList.alphanum($(a).find('a span').text(), $(b).find('a span').text());
+		});
+
+		var items = [];
+		$.each(lis, function(index, li) {
+			items.push(li);
+			if(items.length === 100) {
+				$(ul).append(items);
+				items = [];
+			}
+		});
+		if(items.length > 0) {
+			$(ul).append(items);
+		}
+	},
+
+	createGroup: function(groupname) {
+		$.post(
+			OC.filePath('settings', 'ajax', 'creategroup.php'),
+			{
+				groupname : groupname
+			},
+			function (result) {
+				if (result.status !== 'success') {
+					OC.dialogs.alert(result.data.message,
+						t('settings', 'Error creating group'));
+				} else {
+					if (result.data.groupname) {
+						var addedGroups = result.data.groupname;
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+						GroupList.addGroup(result.data.groupname);
+					}
+					GroupList.toggleAddGroup();
+				}
+			}
+		)
+	},
 
 	delete_group: function (gid) {
 		if(GroupList.deleteGid !=='undefined') {
@@ -40,6 +95,16 @@
 			$('#newgroup-init').show();
 			$('#newgroupname').val('');
 		}
+	},
+
+	isGroupNameValid: function(groupname) {
+		if ($.trim(groupname) === '') {
+			OC.dialogs.alert(
+				t('settings', 'A valid groupname must be provided'),
+				t('settings', 'Error creating group'));
+			return false;
+		}
+		return true;
 	},
 
 	finishDelete: function (ready) {
@@ -87,31 +152,9 @@ $(document).ready( function () {
 	// Responsible for Creating Groups.
 	$('#newgroup-form form').submit(function (event) {
 		event.preventDefault();
-		var groupname = $('#newgroupname').val();
-		if ($.trim(groupname) === '') {
-			OC.dialogs.alert(
-				t('settings', 'A valid groupname must be provided'),
-				t('settings', 'Error creating group'));
-			return false;
+		if(GroupList.isGroupNameValid($('#newgroupname').val())) {
+			GroupList.createGroup($('#newgroupname').val());
 		}
-		$.post(
-			OC.filePath('settings', 'ajax', 'creategroup.php'),
-			{
-				groupname : groupname
-			},
-			function (result) {
-				if (result.status !== 'success') {
-					OC.dialogs.alert(result.data.message,
-						t('settings', 'Error creating group'));
-				} else {
-					if (result.data.groupname) {
-						var addedGroups = result.data.groupname;
-						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
-					}
-					GroupList.toggleAddGroup();
-				}
-			}
-		)
 	});
 
 	// click on group name
