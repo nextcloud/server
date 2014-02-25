@@ -51,6 +51,11 @@ table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
+#newgroup-init a span { margin-left: 20px; }
+#newgroup-init a span:before {
+	position: absolute;	left: 12px; top:-2px;
+	content: '+'; font-weight: bold; font-size: 150%;
+}
 .usercount { float: left; margin: 5px; }
 li.active span.utils .delete {
 	float: left; position: relative; opacity: 0.5;

@@ -64,7 +64,23 @@ $(document).ready( function () {
 		// Call function for handling delete/undo on Groups
 		GroupList.delete_group(gid);
 	});
-	$('#newgroup').submit(function (event) {
+
+	// Display or hide of Create Group List Element
+	$('#newgroup-form').hide();
+	$('#newgroup-init').on('click', function (e) {
+		e.stopPropagation();
+		$('#newgroup-form').show();
+		$('#newgroup-init').hide();
+		$(document).click( function (e) {
+			if (e.target.id !== 'newgroup-form') {
+				$("#newgroup-form").hide();
+				$("#newgroup-init").show();
+			}			
+		});
+	});
+
+	// Responsible for Creating Groups.
+	$('#newgroup-form form').submit(function (event) {
 		event.preventDefault();
 		var groupname = $('#newgroupname').val();
 		if ($.trim(groupname) === '') {

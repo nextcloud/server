@@ -1,7 +1,12 @@
 <ul>
 	<!-- Add new group -->
-	<li>
-		<form id="newgroup">
+	<li id="newgroup-init">
+		<a href="#">
+			<span><?php p($l->t('Add Group'))?></span>
+		</a>
+	</li>
+	<li id="newgroup-form">
+		<form>
 			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
 			<input type="submit" class="button" value="<?php p($l->t('Add Group'))?>" />
 		</form>
