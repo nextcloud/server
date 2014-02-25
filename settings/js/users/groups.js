@@ -79,6 +79,14 @@
 				&& $('#newgroup-form').find($(el)).length === 0);
 	},
 
+	hasAddGroupNameText: function() {
+		name = $('#newgroupname').val();
+		if($.trim(name) === '') {
+			return false;
+		}
+		return true;
+	},
+
 	showGroup: function (gid) {
 		UserList.empty();
 		UserList.update(gid);
@@ -160,7 +168,8 @@ $(document).ready( function () {
 
 	$(document).on('click keydown keyup', function(event) {
 		if(!GroupList.isAddGroupButtonVisible()
-			&& !GroupList.elementBelongsToAddGroup(event.target)) {
+			&& !GroupList.elementBelongsToAddGroup(event.target)
+		    && !GroupList.hasAddGroupNameText()) {
 			GroupList.toggleAddGroup();
 		}
 		// Escape
