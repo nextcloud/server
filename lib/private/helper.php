@@ -64,7 +64,7 @@ class OC_Helper {
 	 */
 	public static function linkToDocs($key) {
 		$theme = new OC_Defaults();
-		return $theme->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+		return $theme->buildDocLinkToKey($key);
 	}
 
 	/**

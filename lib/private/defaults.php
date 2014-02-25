@@ -171,4 +171,11 @@ class OC_Defaults {
 		return $footer;
 	}
 
+	public function buildDocLinkToKey($key) {
+		if ($this->themeExist('buildDocLinkToKey')) {
+			return $this->theme->buildDocLinkToKey($key);
+		}
+		return $this->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+	}
+
 }
