@@ -228,36 +228,4 @@ class OC_OCS {
 			}
 		}
 	}
-
-	/**
-	* get private data
-	* @param string $user
-	* @param string $app
-	* @param string $key
-	* @param bool $like use LIKE instead of = when comparing keys
-	* @return array
-	*/
-	public static function getData($user, $app="", $key="") {
-		if($app) {
-			$apps=array($app);
-		}else{
-			$apps=OC_Preferences::getApps($user);
-		}
-		if($key) {
-			$keys=array($key);
-		}else{
-			foreach($apps as $app) {
-				$keys=OC_Preferences::getKeys($user, $app);
-			}
-		}
-		$result=array();
-		foreach($apps as $app) {
-			foreach($keys as $key) {
-				$value=OC_Preferences::getValue($user, $app, $key);
-				$result[]=array('app'=>$app, 'key'=>$key, 'value'=>$value);
-			}
-		}
-		return $result;
-	}
-
 }
