@@ -62,11 +62,13 @@ class Trashbin {
 
 
 	/**
+	 * @brief copy file to owners trash
+	 * @param string $sourcePath
 	 * @param string $owner
+	 * @param string $ownerPath
 	 * @param integer $timestamp
-	 * @param string $type
 	 */
-	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp, $type, $mime) {
+	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp) {
 		self::setUpTrash($owner);
 
 		$ownerFilename = basename($ownerPath);
@@ -82,12 +84,10 @@ class Trashbin {
 
 
 		if ($view->file_exists($target)) {
-			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
-			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $type, $mime, $owner));
-			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll($owner.'/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp);
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
+			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $owner));
+			if (!$result) {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
-				return;
 			}
 		}
 	}
@@ -110,13 +110,6 @@ class Trashbin {
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
 		$timestamp = time();
-		$mime = $view->getMimeType('files' . $file_path);
-
-		if ($view->is_dir('files' . $file_path)) {
-			$type = 'dir';
-		} else {
-			$type = 'file';
-		}
 
 		$userTrashSize = self::getTrashbinSize($user);
 		if ($userTrashSize === false || $userTrashSize < 0) {
@@ -132,12 +125,10 @@ class Trashbin {
 
 		if ($view->file_exists('files_trashbin/files/' . $filename . '.d' . $timestamp)) {
 			$size = $sizeOfAddedFiles;
-			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
-			$result = $query->execute(array($filename, $timestamp, $location, $type, $mime, $user));
-			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll('files_trashbin/files/' . $filename . '.d' . $timestamp);
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
+			$result = $query->execute(array($filename, $timestamp, $location, $user));
+			if (!$result) {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
-				return;
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
@@ -147,7 +138,7 @@ class Trashbin {
 
 			// if owner !== user we need to also add a copy to the owners trash
 			if ($user !== $owner) {
-				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp, $type, $mime);
+				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp);
 			}
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
@@ -330,29 +321,22 @@ class Trashbin {
 		if ($trashbinSize === false || $trashbinSize < 0) {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
 		}
+		$location = '';
 		if ($timestamp) {
-			$query = \OC_DB::prepare('SELECT `location`,`type` FROM `*PREFIX*files_trash`'
-					. ' WHERE `user`=? AND `id`=? AND `timestamp`=?');
+			$query = \OC_DB::prepare('SELECT `location` FROM `*PREFIX*files_trash`'
+							. ' WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$result = $query->execute(array($user, $filename, $timestamp))->fetchAll();
 			if (count($result) !== 1) {
 				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
-				return false;
+			} else {
+				$location = $result[0]['location'];
+				// if location no longer exists, restore file in the root directory
+				if ($location !== '/' &&
+						(!$view->is_dir('files' . $location) ||
+						!$view->isUpdatable('files' . $location))) {
+					$location = '';
+				}
 			}
-
-			// if location no longer exists, restore file in the root directory
-			$location = $result[0]['location'];
-			if ($result[0]['location'] !== '/' &&
-				(!$view->is_dir('files' . $result[0]['location']) ||
-				!$view->isUpdatable('files' . $result[0]['location']))) {
-				$location = '';
-			}
-		} else {
-			$path_parts = pathinfo($file);
-			$result[] = array(
-				'location' => $path_parts['dirname'],
-				'type' => $view->is_dir('/files_trashbin/files/' . $file) ? 'dir' : 'files',
-			);
-			$location = '';
 		}
 
 		// we need a  extension in case a file/dir with the same name already exists
