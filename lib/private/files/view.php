@@ -534,6 +534,8 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						fclose($source);
+						fclose($target);
 					}
 				}
 				if ($this->shouldEmitHooks() && $result !== false) {
