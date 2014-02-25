@@ -29,6 +29,19 @@
 		}
 	},
 
+	toggleAddGroup: function(event) {
+		if($('#newgroup-init').is(":visible")) {
+			event.stopPropagation();
+			$('#newgroup-form').show();
+			$('#newgroup-init').hide();
+			$('#newgroupname').focus();
+		} else {
+			$('#newgroup-form').hide();
+			$('#newgroup-init').show();
+			$('#newgroupname').val('');
+		}
+	},
+
 	finishDelete: function (ready) {
 		if (!GroupList.deleteCanceled && GroupList.deleteGid) {
 			$.ajax({
@@ -68,10 +81,7 @@ $(document).ready( function () {
 	// Display or hide of Create Group List Element
 	$('#newgroup-form').hide();
 	$('#newgroup-init').on('click', function (e) {
-		e.stopPropagation();
-		$('#newgroup-form').show();
-		$('#newgroup-init').hide();
-		$('#newgroupname').focus();
+		GroupList.toggleAddGroup(e);
 	});
 
 	// Responsible for Creating Groups.
@@ -98,6 +108,7 @@ $(document).ready( function () {
 						var addedGroups = result.data.groupname;
 						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
 					}
+					GroupList.toggleAddGroup();
 				}
 			}
 		)
