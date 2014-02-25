@@ -1,7 +1,7 @@
 <?php
 
 OCP\JSON::callCheck();
-OCP\JSON::checkSubAdminUser();
+OC_JSON::checkSubAdminUser();
 
 if(OC_User::isAdminUser(OC_User::getUser())) {
 	$groups = array();
