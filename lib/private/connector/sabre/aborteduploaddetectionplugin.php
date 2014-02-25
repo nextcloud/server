@@ -22,11 +22,16 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	private $server;
 
 	/**
-	 * is kept public to allow overwrite for unit testing
-	 *
 	 * @var \OC\Files\View
 	 */
-	public $fileView;
+	private $fileView;
+
+	/**
+	 * @param \OC\Files\View $view
+	 */
+	public function __construct($view) {
+		$this->fileView = $view;
+	}
 
 	/**
 	 * This initializes the plugin.
@@ -55,7 +60,7 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 
 		// we should only react on PUT which is used for upload
 		// e.g. with LOCK this will not work, but LOCK uses createFile() as well
-		if ($this->server->httpRequest->getMethod() !== 'PUT' ) {
+		if ($this->server->httpRequest->getMethod() !== 'PUT') {
 			return;
 		}
 
@@ -70,9 +75,9 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 		if (!$expected) {
 			return;
 		}
-		$actual = $this->getFileView()->filesize($filePath);
+		$actual = $this->fileView->filesize($filePath);
 		if ($actual != $expected) {
-			$this->getFileView()->unlink($filePath);
+			$this->fileView->unlink($filePath);
 			throw new Sabre_DAV_Exception_BadRequest('expected filesize ' . $expected . ' got ' . $actual);
 		}
 
@@ -81,8 +86,7 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	/**
 	 * @return string
 	 */
-	public function getLength()
-	{
+	public function getLength() {
 		$req = $this->server->httpRequest;
 		$length = $req->getHeader('X-Expected-Entity-Length');
 		if (!$length) {
@@ -90,18 +94,5 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 		}
 
 		return $length;
-	}
-
-	/**
-	 * @return \OC\Files\View
-	 */
-	public function getFileView()
-	{
-		if (is_null($this->fileView)) {
-			// initialize fileView
-			$this->fileView = \OC\Files\Filesystem::getView();
-		}
-
-		return $this->fileView;
 	}
 }
