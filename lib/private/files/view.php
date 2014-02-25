@@ -413,7 +413,7 @@ class View {
 						$result = $this->copy($path1, $path2);
 						if ($result === true) {
 							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-							$result = $storage1->deleteAll($internalPath1);
+							$result = $storage1->unlink($internalPath1);
 						}
 					} else {
 						$source = $this->fopen($path1 . $postFix1, 'r');
