@@ -75,7 +75,7 @@ $(document).ready( function () {
 			if (e.target.id !== 'newgroup-form') {
 				$("#newgroup-form").hide();
 				$("#newgroup-init").show();
-			}			
+			}
 		});
 	});
 
@@ -120,6 +120,16 @@ $(document).ready( function () {
 			}
 		)
 	});
+
+	// click on group name
+	// FIXME: also triggered when clicking on "remove"
+	$('ul').on('click', 'li[data-gid]', function (event) {
+		var li = $(this);
+		var gid = $(li).attr('data-gid');
+		// Call function for handling delete/undo on Groups
+		GroupList.showGroup(gid);
+	});
+
 	// Implements Groupname editing.
 	$('#app-navigation').on('click', 'img.rename', function (event) {
 		event.stopPropagation();

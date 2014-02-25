@@ -503,15 +503,6 @@ $(document).ready(function () {
 		});
 	});
 
-	// click on group name
-	// FIXME: also triggered when clicking on "remove"
-	$('ul').on('click', 'li', function (event) {
-		var li = $(this);
-		var gid = $(li).attr('data-gid');
-		// Call function for handling delete/undo on Groups
-		GroupList.showGroup(gid);
-	});
-
 	$('#newuser').submit(function (event) {
 		event.preventDefault();
 		var username = $('#newusername').val();

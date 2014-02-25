@@ -12,7 +12,7 @@
 		</form>
 	</li>
 	<!-- Everyone -->
-	<li>
+	<li data-gid="">
 		<a href="#">
 			<span>
 				<?php p($l->t('Everyone')); ?>
