@@ -71,12 +71,6 @@ $(document).ready( function () {
 		e.stopPropagation();
 		$('#newgroup-form').show();
 		$('#newgroup-init').hide();
-		$(document).click( function (e) {
-			if (e.target.id !== 'newgroup-form') {
-				$("#newgroup-form").hide();
-				$("#newgroup-init").show();
-			}
-		});
 		$('#newgroupname').focus();
 	});
 
@@ -104,20 +98,7 @@ $(document).ready( function () {
 						var addedGroups = result.data.groupname;
 						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
 					}
-					if (result.data.homeExists){
-						OC.Notification.hide();
-						OC.Notification.show(t('settings', 'Warning: Home directory for user "{group}" already exists', {group: result.data.groupname}));
-						if (UserList.notificationTimeout){
-							window.clearTimeout(UserList.notificationTimeout);
-						}
-						UserList.notificationTimeout = window.setTimeout(
-							function(){
-								OC.Notification.hide();
-								UserList.notificationTimeout = null;
-							}, 10000);
-					}
 				}
-
 			}
 		)
 	});
