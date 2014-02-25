@@ -132,7 +132,7 @@ var UserList = {
 			}
 		}
 		tr.find('td.storageLocation').text(storageLocation);
-		if(lastLogin == 0) {
+		if(lastLogin === 0) {
 			lastLogin = t('settings', 'never');
 		} else {
 			lastLogin = new Date(lastLogin);
