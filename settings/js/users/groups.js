@@ -77,6 +77,7 @@ $(document).ready( function () {
 				$("#newgroup-init").show();
 			}
 		});
+		$('#newgroupname').focus();
 	});
 
 	// Responsible for Creating Groups.
