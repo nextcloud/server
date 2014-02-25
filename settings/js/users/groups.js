@@ -74,6 +74,11 @@
 		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(gid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
 	},
 
+	elementBelongsToAddGroup: function(el) {
+		return !(el !== $('#newgroup-form').get(0)
+				&& $('#newgroup-form').find($(el)).length === 0);
+	},
+
 	showGroup: function (gid) {
 		UserList.empty();
 		UserList.update(gid);
@@ -84,8 +89,12 @@
 		}
 	},
 
+	isAddGroupButtonVisible: function() {
+		return $('#newgroup-init').is(":visible");
+	},
+
 	toggleAddGroup: function(event) {
-		if($('#newgroup-init').is(":visible")) {
+		if(GroupList.isAddGroupButtonVisible()) {
 			event.stopPropagation();
 			$('#newgroup-form').show();
 			$('#newgroup-init').hide();
@@ -148,6 +157,18 @@ $(document).ready( function () {
 	$('#newgroup-init').on('click', function (e) {
 		GroupList.toggleAddGroup(e);
 	});
+
+	$(document).on('click keydown keyup', function(event) {
+		if(!GroupList.isAddGroupButtonVisible()
+			&& !GroupList.elementBelongsToAddGroup(event.target)) {
+			GroupList.toggleAddGroup();
+		}
+		// Escape
+		if(!GroupList.isAddGroupButtonVisible() && event.keyCode && event.keyCode === 27) {
+			GroupList.toggleAddGroup();
+		}
+	});
+
 
 	// Responsible for Creating Groups.
 	$('#newgroup-form form').submit(function (event) {
