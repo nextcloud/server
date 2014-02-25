@@ -17,7 +17,7 @@
 
 	<!-- The Admin Group -->
 	<?php foreach($_["adminGroup"] as $adminGroup): ?>
-		<li>
+		<li data-gid="admin">
 			<a href="#"><?php p($l->t('Admins')); ?></a>
 			<span class="utils">
 				<span class="usercount"><?php if(count($adminGroup['useringroup']) > 0) { p(count($adminGroup['useringroup'])); } ?></span>
