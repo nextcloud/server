@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s teilte »%s« mit Ihnen",
+"%s shared »%s« with you" => "%s teilte »%s« mit Dir",
 "Couldn't send mail to following users: %s " => "Die E-Mail konnte nicht an folgende Benutzer gesendet werden: %s",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
@@ -96,7 +96,7 @@ $TRANSLATIONS = array(
 "Email sent" => "E-Mail wurde verschickt",
 "Warning" => "Warnung",
 "The object type is not specified." => "Der Objekttyp ist nicht angegeben.",
-"Enter new" => "Unbekannter Fehler, bitte prüfe Deine Systemeinstellungen oder kontaktiere Deinen Administrator",
+"Enter new" => "Neuen eingeben",
 "Delete" => "Löschen",
 "Add" => "Hinzufügen",
 "Edit tags" => "Schlagwörter bearbeiten",
