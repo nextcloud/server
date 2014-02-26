@@ -125,7 +125,7 @@
 		<declaration>
 
 			<field>
-				<name>key</name>
+				<name>select</name>
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
