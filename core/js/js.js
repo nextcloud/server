@@ -668,6 +668,7 @@ OC.Notification={
 				callback.call();
 			}
 			$('#notification').empty();
+			console.log('OCNO EMPTY');
 			if(OC.Notification.queuedNotifications.length > 0){
 				OC.Notification.showHtml(OC.Notification.queuedNotifications[0]);
 				OC.Notification.queuedNotifications.shift();

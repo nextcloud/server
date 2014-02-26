@@ -5,72 +5,12 @@
  */
 
 var UserList = {
-	useUndo: true,
 	availableGroups: [],
 	offset: 30, //The first 30 users are there. No prob, if less in total.
 				//hardcoded in settings/users.php
 
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
 	currentGid: '',
-
-	/**
-	 * @brief Initiate user deletion process in UI
-	 * @param string uid the user ID to be deleted
-	 *
-	 * Does not actually delete the user; it sets them for
-	 * deletion when the current page is unloaded, at which point
-	 * finishDelete() completes the process. This allows for 'undo'.
-	 */
-	do_delete: function (uid) {
-		if (typeof UserList.deleteUid !== 'undefined') {
-			//Already a user in the undo queue
-			UserList.finishDelete(null);
-		}
-		UserList.deleteUid = uid;
-
-		// Set undo flag
-		UserList.deleteCanceled = false;
-
-		// Provide user with option to undo
-		$('#notification').data('deleteuser', true);
-		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(uid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
-	},
-
-	/**
-	 * @brief Delete a user via ajax
-	 * @param bool ready whether to use ready() upon completion
-	 *
-	 * Executes deletion via ajax of user identified by property deleteUid
-	 * if 'undo' has not been used.  Completes the user deletion procedure
-	 * and reflects success in UI.
-	 */
-	finishDelete: function (ready) {
-
-		// Check deletion has not been undone
-		if (!UserList.deleteCanceled && UserList.deleteUid) {
-
-			// Delete user via ajax
-			$.ajax({
-				type: 'POST',
-				url: OC.filePath('settings', 'ajax', 'removeuser.php'),
-				async: false,
-				data: { username: UserList.deleteUid },
-				success: function (result) {
-					if (result.status === 'success') {
-						// Remove undo option, & remove user from table
-						OC.Notification.hide();
-						$('tr').filterAttr('data-uid', UserList.deleteUid).remove();
-						UserList.deleteCanceled = true;
-						if (ready) {
-							ready();
-						}
-					} else {
-						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove user'));
-					}
-				}
-			});
-		}
-	},
 
 	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var tr = $('tbody tr').first().clone();
@@ -228,6 +168,40 @@ var UserList = {
 		$('tbody tr').first().hide();
 		UserList.isEmpty = true;
 		UserList.offset = 0;
+	},
+	hide: function(uid) {
+		$('tr[data-uid="' + uid + '"]').hide();
+	},
+	show: function(uid) {
+		$('tr[data-uid="' + uid + '"]').show();
+	},
+	remove: function(uid) {
+		$('tr').filterAttr('data-uid', uid).remove();
+	},
+	initDeleteHandling: function() {
+		//set up handler
+		UserDeleteHandler = new DeleteHandler('removeuser.php', 'username',
+											  UserList.hide, UserList.remove);
+
+		//configure undo
+		OC.Notification.hide();
+		msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
+			  t('settings', 'undo') + '</span>';
+		UserDeleteHandler.setNotification(OC.Notification, 'deleteuser', msg,
+										  UserList.show);
+
+		//when to mark user for delete
+		$('table').on('click', 'td.remove>a', function (event) {
+			// Call function for handling delete/undo
+			uid = $(this).parent().parent().attr('data-uid');
+			UserDeleteHandler.mark(uid);
+		});
+
+		//delete a marked user when leaving the page
+		console.log('init del users');
+		$(window).on('beforeunload', function () {
+			UserDeleteHandler.delete();
+		});
 	},
 	update: function (gid) {
 		if (UserList.updating) {
@@ -394,6 +368,7 @@ function setQuota (uid, quota, ready) {
 }
 
 $(document).ready(function () {
+	UserList.initDeleteHandling();
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
@@ -405,13 +380,7 @@ $(document).ready(function () {
 		UserList.applyMultiplySelect($(element));
 	});
 
-	$('table').on('click', 'td.remove>a', function (event) {
-		var row = $(this).parent().parent();
-		var uid = $(row).attr('data-uid');
-		$(row).hide();
-		// Call function for handling delete/undo
-		UserList.do_delete(uid);
-	});
+
 
 	$('table').on('click', 'td.password>img', function (event) {
 		event.stopPropagation();
@@ -568,17 +537,5 @@ $(document).ready(function () {
 		});
 	});
 
-	// Handle undo notifications
-	OC.Notification.hide();
-	$('#notification').on('click', '.undo', function () {
-		if ($('#notification').data('deleteuser')) {
-			$('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
-			UserList.deleteCanceled = true;
-		}
-		OC.Notification.hide();
-	});
-	UserList.useUndo = ('onbeforeunload' in window);
-	$(window).bind('beforeunload', function () {
-		UserList.finishDelete(null);
-	});
+
 });

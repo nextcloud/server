@@ -61,19 +61,6 @@
 		)
 	},
 
-	delete_group: function (gid) {
-		if(GroupList.deleteGid !=='undefined') {
-			GroupList.finishDelete(null);
-		}
-
-		//Set the undo flag
-		GroupList.deleteCanceled = false;
-
-		//Provide an option to undo
-		$('#notification').data('deletegroup', true);
-		OC.Notification.showHtml(t('settings', 'deleted') + ' ' + escapeHTML(gid) + '<span class="undo">' + t('settings', 'undo') + '</span>');
-	},
-
 	elementBelongsToAddGroup: function(el) {
 		return !(el !== $('#newgroup-form').get(0)
 				&& $('#newgroup-form').find($(el)).length === 0);
@@ -124,40 +111,44 @@
 		return true;
 	},
 
-	finishDelete: function (ready) {
-		if (!GroupList.deleteCanceled && GroupList.deleteGid) {
-			$.ajax({
-				type: 'POST',
-				url: OC.filePath('settings', 'ajax', 'removegroup.php'),
-				async: false,
-				data: { groupname: GroupList.deleteGid },
-				success: function (result) {
-					if (result.status === 'success') {
-						// Remove undo option, & remove user from table
-						OC.Notification.hide();
-						$('li').filterAttr('data-gid', GroupList.deleteGid).remove();
-						GroupList.deleteCanceled = true;
-						if (ready) {
-							ready();
-						}
-					} else {
-						OC.dialogs.alert(result.data.message, t('settings', 'Unable to remove group'));
-					}
-				}
-			});
-		}
+	hide: function(gid) {
+		$('li[data-gid="' + gid + '"]').hide();
+	},
+	show: function(gid) {
+		$('li[data-gid="' + gid + '"]').show();
+	},
+	remove: function(gid) {
+		$('li').filterAttr('data-gid', gid).remove();
+	},
+	initDeleteHandling: function() {
+		//set up handler
+		GroupDeleteHandler = new DeleteHandler('removegroup.php', 'groupname',
+											  GroupList.hide, GroupList.remove);
 
+		//configure undo
+		OC.Notification.hide();
+		msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
+			  t('settings', 'undo') + '</span>';
+		GroupDeleteHandler.setNotification(OC.Notification, 'deletegroup', msg,
+										  GroupList.show);
+
+		//when to mark user for delete
+		$('ul').on('click', 'span.utils>a', function (event) {
+			// Call function for handling delete/undo
+			gid = $(this).parent().parent().attr('data-gid');
+			GroupDeleteHandler.mark(gid);
+		});
+
+		console.log('init del groups');
+		//delete a marked user when leaving the page
+		$(window).on('beforeunload', function () {
+			GroupDeleteHandler.delete();
+		});
 	},
 }
 
 $(document).ready( function () {
-	$('ul').on('click', 'span.utils>a', function (event) {
-		var li = $(this).parent().parent();
-		var gid = $(li).attr('data-gid');
-		$(li).hide();
-		// Call function for handling delete/undo on Groups
-		GroupList.delete_group(gid);
-	});
+	GroupList.initDeleteHandling();
 
 	// Display or hide of Create Group List Element
 	$('#newgroup-form').hide();
@@ -191,7 +182,6 @@ $(document).ready( function () {
 	$('ul').on('click', 'li[data-gid]', function (event) {
 		var li = $(this);
 		var gid = $(li).attr('data-gid');
-		// Call function for handling delete/undo on Groups
 		GroupList.showGroup(gid);
 	});
 
