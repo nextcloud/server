@@ -249,6 +249,8 @@ $(document).ready(function(){
 			var app = item.data('app');
 			OC.Settings.Apps.loadApp(app);
 		}
+		$('#leftcontent .selected').removeClass('selected');
+		item.addClass('selected');
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){
