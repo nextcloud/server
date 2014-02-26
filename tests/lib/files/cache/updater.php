@@ -65,11 +65,6 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		Filesystem::mount($this->storage, array(), '/' . self::$user . '/files');
 
 		\OC_Hook::clear('OC_Filesystem');
-
-		\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
-		\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
 	}
 
 	public function tearDown() {
