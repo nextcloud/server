@@ -53,8 +53,3 @@
 .ie8 fieldset .warning, .ie8 #body-login .error {
 	background-color: #1B314D;
 }
-
-/* in IE9 the nav bar on the left side is too narrow and leave a white area - original width is 80px */
-.ie9 #navigation {
-	width: 100px;
-}
