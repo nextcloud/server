@@ -20,7 +20,10 @@
 namespace OC\Settings\Admin;
 
 class Controller {
-	public static function setMailSettings($args) {
+	/**
+	 * Set mail settings
+	 */
+	public static function setMailSettings() {
 		\OC_Util::checkAdminUser();
 		\OCP\JSON::callCheck();
 
@@ -70,14 +73,21 @@ class Controller {
 		\OC_JSON::success(array("data" => array( "message" => $l->t("Saved") )));
 	}
 
+	/**
+	 * Get the field name to use it in error messages
+	 *
+	 * @param $setting string
+	 * @param $l \OC_L10N
+	 * @return string
+	 */
 	public static function getFieldname($setting, $l) {
 		switch ($setting) {
 			case 'mail_smtpmode':
-				return $l->t( 'SMTP mode' );
+				return $l->t( 'Send mode' );
 			case 'mail_smtpsecure':
-				return $l->t( 'Secure SMTP' );
+				return $l->t( 'Encryption' );
 			case 'mail_smtpauthtype':
-				return $l->t( 'Authentification method for SMTP' );
+				return $l->t( 'Authentification method' );
 		}
 	}
 }

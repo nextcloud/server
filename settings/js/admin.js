@@ -44,7 +44,7 @@ $(document).ready(function(){
 	});
 
 	$('#mail_smtpmode').change(function() {
-		if ($(this).val() != 'smtp') {
+		if ($(this).val() !== 'smtp') {
 			$('#setting_smtpauth').addClass('hidden');
 			$('#setting_smtphost').addClass('hidden');
 			$('#mail_smtpsecure_label').addClass('hidden');

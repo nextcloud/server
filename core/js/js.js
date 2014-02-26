@@ -468,8 +468,8 @@ OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
 OC.msg={
-	startSaving:function(selector, message){
-		OC.msg.startAction(selector, t('settings', 'Saving...'));
+	startSaving:function(selector){
+		OC.msg.startAction(selector, t('core', 'Saving...'));
 	},
 	finishedSaving:function(selector, data){
 		OC.msg.finishedAction(selector, data);
