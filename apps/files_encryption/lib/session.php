@@ -132,6 +132,14 @@ class Session {
 
 	}
 
+	/**
+	 * @brief remove encryption keys and init status from session
+	 */
+	public function closeSession() {
+		\OC::$session->remove('encryptionInitialized');
+		\OC::$session->remove('privateKey');
+	}
+
 
 	/**
 	 * @brief Gets status if we already tried to initialize the encryption app

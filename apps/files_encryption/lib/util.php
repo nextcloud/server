@@ -1783,4 +1783,12 @@ class Util {
 		return $session;
 	}
 
+	/*
+	 * @brief remove encryption related keys from the session
+	 */
+	public function closeEncryptionSession() {
+		$session = new \OCA\Encryption\Session($this->view);
+		$session->closeSession();
+	}
+
 }
