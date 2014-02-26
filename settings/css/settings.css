@@ -155,6 +155,18 @@ span.connectionwarning {color:#933; font-weight:bold; }
 input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }
 
+#mail_settings p label:first-child {
+	display: inline-block;
+	width: 300px;
+	text-align: right;
+}
+#mail_settings p select:nth-child(2) {
+	width: 143px;
+}
+#mail_smtpport {
+	width: 40px;
+}
+
 /* HELP */
 .pressed {background-color:#DDD;}
 

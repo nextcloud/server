@@ -467,6 +467,34 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+OC.msg={
+	startSaving:function(selector){
+		OC.msg.startAction(selector, t('core', 'Saving...'));
+	},
+	finishedSaving:function(selector, data){
+		OC.msg.finishedAction(selector, data);
+	},
+	startAction:function(selector, message){
+		$(selector)
+			.html( message )
+			.removeClass('success')
+			.removeClass('error')
+			.stop(true, true)
+			.show();
+	},
+	finishedAction:function(selector, data){
+		if( data.status === "success" ){
+			$(selector).html( data.data.message )
+				.addClass('success')
+				.stop(true, true)
+				.delay(3000)
+				.fadeOut(900);
+		}else{
+			$(selector).html( data.data.message ).addClass('error');
+		}
+	}
+};
+
 OC.Notification={
 	queuedNotifications: [],
 	getDefaultNotificationFunction: null,
