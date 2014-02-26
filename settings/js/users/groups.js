@@ -148,7 +148,6 @@
 		}
 
 	},
-
 }
 
 $(document).ready( function () {
@@ -231,11 +230,15 @@ $(document).ready( function () {
 
 	// Implements Quota Settings Toggle.
 	$('#app-navigation').find('.settings-button').on('click', function (e) {
+		$('.settings-button').addClass('opened');
+		var settings = $('#app-settings');
 		e.stopPropagation();
-		$('#app-settings').removeClass('open');
-		$('#app-settings').toggleClass('open');
-		$(document).click(function() {
-			$('#app-settings').removeClass('open');
-    	});
+		settings.animate({height: "100px"});
+		$('#app-settings-content').css('display', 'block');
+		$(document).click(function (e) {
+			if (!settings.is(e.target) && settings.has(e.target).length === 0) {
+				settings.animate({height: "45px"});
+			}
+		});
 	});
 });
