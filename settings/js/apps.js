@@ -248,9 +248,9 @@ $(document).ready(function(){
 			var item = tgt.is('li') ? $(tgt) : $(tgt).parent();
 			var app = item.data('app');
 			OC.Settings.Apps.loadApp(app);
+			$('#leftcontent .selected').removeClass('selected');
+			item.addClass('selected');
 		}
-		$('#leftcontent .selected').removeClass('selected');
-		item.addClass('selected');
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){
