@@ -82,6 +82,9 @@ class MDB2SchemaManager {
 		$platform = $this->conn->getDatabasePlatform();
 		foreach($schemaDiff->changedTables as $tableDiff) {
 			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
+			foreach($tableDiff->changedColumns as $column) {
+				$column->oldColumnName = $platform->quoteIdentifier($column->oldColumnName);
+			}
 		}
 		
 		if ($generateSql) {
