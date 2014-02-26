@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s geteilt »%s« mit Ihnen",
+"%s shared »%s« with you" => "%s hat »%s« mit Ihnen geteilt",
 "Couldn't send mail to following users: %s " => "An folgende Benutzer konnte keine E-Mail gesendet werden: %s",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet ",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
