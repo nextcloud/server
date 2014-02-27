@@ -61,6 +61,18 @@ class Manager extends PublicEmitter {
 			unset($cachedGroups[$group->getGID()]);
 			$cachedUserGroups = array();
 		});
+		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
+			/**
+			 * @var \OC\Group\Group $group
+			 */
+			$cachedUserGroups = array();
+		});
+		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
+			/**
+			 * @var \OC\Group\Group $group
+			 */
+			$cachedUserGroups = array();
+		});
 	}
 
 	/**
