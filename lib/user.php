@@ -223,7 +223,8 @@ class OC_User {
 
 			$home = self::getHome($uid);
 
-			\OC\Files\Cache\Cache::removeStorage('local::' . $home);
+			\OC\Files\Cache\Cache::removeStorage('local::' . $home . '/');
+			\OC\Files\Cache\Cache::removeStorage('home::' . $uid);
 
 			// Delete user files in /data/
 			OC_Helper::rmdirr(OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/'.$uid.'/');
