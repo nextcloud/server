@@ -150,8 +150,8 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->cache->put('folder', array('mtime' => $this->storage->filemtime('folder'), 'storage_mtime' => $this->storage->filemtime('folder')));
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
 		$newData = $this->cache->get('');
-		$this->assertTrue(is_string($oldData['etag']), 'Expected a string');
-		$this->assertTrue(is_string($newData['etag']), 'Expected a string');
+		$this->assertInternalType('string', $oldData['etag']);
+		$this->assertInternalType('string', $newData['etag']);
 		$this->assertNotSame($oldData['etag'], $newData['etag']);
 		$this->assertEquals($oldData['size'], $newData['size']);
 
@@ -219,11 +219,11 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		// manipulate etag to simulate an empty etag
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_ETAG);
 		$data0 = $this->cache->get('folder/bar.txt');
-		$this->assertTrue(is_string($data0['etag']), 'Expected a string');
+		$this->assertInternalType('string', $data0['etag']);
 		$data1 = $this->cache->get('folder');
-		$this->assertTrue(is_string($data1['etag']), 'Expected a string');
+		$this->assertInternalType('string', $data1['etag']);
 		$data2 = $this->cache->get('');
-		$this->assertTrue(is_string($data2['etag']), 'Expected a string');
+		$this->assertInternalType('string', $data2['etag']);
 		$data0['etag'] = '';
 		$this->cache->put('folder/bar.txt', $data0);
 
@@ -232,15 +232,15 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 
 		// verify cache content
 		$newData0 = $this->cache->get('folder/bar.txt');
-		$this->assertTrue(is_string($newData0['etag']), 'Expected a string');
+		$this->assertInternalType('string', $newData0['etag']);
 		$this->assertNotEmpty($newData0['etag']);
 		
 		$newData1 = $this->cache->get('folder');
-		$this->assertTrue(is_string($newData1['etag']), 'Expected a string');
+		$this->assertInternalType('string', $newData1['etag']);
 		$this->assertNotSame($data1['etag'], $newData1['etag']);
 		
 		$newData2 = $this->cache->get('');
-		$this->assertTrue(is_string($newData2['etag']), 'Expected a string');
+		$this->assertInternalType('string', $newData2['etag']);
 		$this->assertNotSame($data2['etag'], $newData2['etag']);
 	}
 }
