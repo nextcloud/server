@@ -67,7 +67,7 @@
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
