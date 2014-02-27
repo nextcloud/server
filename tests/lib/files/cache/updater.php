@@ -122,6 +122,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 
 	public function testWriteWithMountPoints() {
 		$storage2 = new \OC\Files\Storage\Temporary(array());
+		$storage2->getScanner()->scan(''); //initialize etags
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, array(), '/' . self::$user . '/files/folder/substorage');
 		$folderCachedData = $this->cache->get('folder');
