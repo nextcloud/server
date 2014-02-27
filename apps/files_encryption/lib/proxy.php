@@ -146,7 +146,7 @@ class Proxy extends \OC_FileProxy {
 		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
 			$view = new \OC_FilesystemView('/');
 			$view->putFileInfo($normalizedPath,
-					array('encrypted' => true, 'encrypted_size' => self::$unencryptedSizes[$normalizedPath]));
+					array('encrypted' => true, 'unencrypted_size' => self::$unencryptedSizes[$normalizedPath]));
 			unset(self::$unencryptedSizes[$normalizedPath]);
 		}
 
