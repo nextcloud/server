@@ -24,6 +24,8 @@ if ($result !== false) {
 		$successful = false;
 	}
 
+	$util->closeEncryptionSession();
+
 	if ($successful === true) {
 		\OCP\JSON::success(array('data' => array('message' => 'Files decrypted successfully')));
 	} else {
