@@ -26,6 +26,10 @@
 class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
+		// some previous tests didn't clean up and therefore this has to be done here
+		// FIXME: DIRTY HACK - TODO: find tests, that don't clean up and fix it there
+		$this->tearDown();
+
 		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (file_source, id, item_type, uid_owner) VALUES (?, ?, \'file\', 1)');
 		$shares = array(1, 2, 3);
 		foreach($shares as $share) {
