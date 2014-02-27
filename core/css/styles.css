@@ -405,11 +405,9 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
-#body-login input[type="email"] {
-	border: 1px solid #323233;
-	border-radius: 5px;
-}
-#body-login input[type='submit'] {
+#body-login input[type="email"],
+#body-login input[type="submit"] {
+	border: none;
 	border-radius: 5px;
 }
 
