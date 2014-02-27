@@ -59,10 +59,10 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 				&& method_exists($this->getAccess($configPrefix), $method)) {
 				$instance = $this->getAccess($configPrefix);
 			}
-		    if($result = call_user_func_array(array($instance, $method), $parameters)) {
+			if($result = call_user_func_array(array($instance, $method), $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
-		    }
+			}
 		}
 		return false;
 	}
