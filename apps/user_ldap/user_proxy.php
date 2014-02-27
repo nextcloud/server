@@ -54,8 +54,12 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	protected  function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
 		foreach($this->backends as $configPrefix => $backend) {
-// 			print("walkBackend '$configPrefix'<br/>");
-		    if($result = call_user_func_array(array($backend, $method), $parameters)) {
+			$instance = $backend;
+			if(!method_exists($instance, $method)
+				&& method_exists($this->getAccess($configPrefix), $method)) {
+				$instance = $this->getAccess($configPrefix);
+			}
+		    if($result = call_user_func_array(array($instance, $method), $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 		    }
@@ -75,9 +79,14 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(!is_null($prefix)) {
+		if(false && !is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
-				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
+				$instance = $this->backends[$prefix];
+				if(!method_exists($instance, $method)
+					&& method_exists($this->getAccess($prefix), $method)) {
+					$instance = $this->getAccess($prefix);
+				}
+				$result = call_user_func_array(array($instance, $method), $parameters);
 				if($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
