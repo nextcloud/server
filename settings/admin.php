@@ -21,6 +21,16 @@ $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
 
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
+$tmpl->assign('mail_domain', OC_Config::getValue( "mail_domain", '' ));
+$tmpl->assign('mail_from_address', OC_Config::getValue( "mail_from_address", '' ));
+$tmpl->assign('mail_smtpmode', OC_Config::getValue( "mail_smtpmode", '' ));
+$tmpl->assign('mail_smtpsecure', OC_Config::getValue( "mail_smtpsecure", '' ));
+$tmpl->assign('mail_smtphost', OC_Config::getValue( "mail_smtphost", '' ));
+$tmpl->assign('mail_smtpport', OC_Config::getValue( "mail_smtpport", '' ));
+$tmpl->assign('mail_smtpauthtype', OC_Config::getValue( "mail_smtpauthtype", '' ));
+$tmpl->assign('mail_smtpauth', OC_Config::getValue( "mail_smtpauth", false ));
+$tmpl->assign('mail_smtpname', OC_Config::getValue( "mail_smtpname", '' ));
+$tmpl->assign('mail_smtppassword', OC_Config::getValue( "mail_smtppassword", '' ));
 $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);

@@ -20,7 +20,7 @@
 	padding: 10px;
 	font-weight: normal;
 }
-#new>a {
+#new > a {
 	padding: 14px 10px;
 	position: relative;
 	top: 7px;
@@ -30,7 +30,7 @@
 	border-bottom-right-radius: 0;
 	border-bottom: none;
 }
-#new>ul {
+#new > ul {
 	display: none;
 	position: fixed;
 	min-width: 112px;
@@ -39,16 +39,26 @@
 	padding-bottom: 0;
 	margin-top: 14px;
 	margin-left: -1px;
-	text-align:left;
+	text-align: left;
 	background: #f8f8f8;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	border-top-left-radius: 0;
-	box-shadow:0 2px 7px rgba(170,170,170,.4);
+	box-shadow: 0 2px 7px rgba(170,170,170,.4);
 }
-#new>ul>li { height:36px; margin:5px; padding-left:48px; padding-bottom:2px;
-		background-repeat:no-repeat; cursor:pointer; }
-#new>ul>li>p { cursor:pointer; padding-top: 7px; padding-bottom: 7px;}
+#new > ul > li {
+	height: 36px;
+	margin: 5px;
+	padding-left: 42px;
+	padding-bottom: 2px;
+	background-position: initial;
+	cursor: pointer;
+}
+#new > ul > li > p {
+	cursor: pointer;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
 
 #new .error, #fileList .error {
 	color: #e9322d;

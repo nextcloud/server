@@ -2,8 +2,9 @@
 /**
  * ownCloud
  *
- * @author Vincent Petry
+ * @author Vincent Petry, Bjoern Schiessle
  * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ *            2014 Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,13 +24,19 @@ require_once __DIR__ . '/base.php';
 
 class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 
+	/**
+	 * @var OC_FilesystemView
+	 */
+	public $user2View;
+
 	function setUp() {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
+		$this->user2View = new \OC\Files\View('/'. self::TEST_FILES_SHARING_API_USER2 . '/files');
+
 		// prepare user1's dir structure
-		$textData = "dummy file data\n";
 		$this->view->mkdir('container');
 		$this->view->mkdir('container/shareddir');
 		$this->view->mkdir('container/shareddir/subdir');
@@ -115,20 +122,128 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		$this->verifyFiles($check, $results);
 	}
 
+	function testGetFolderContentsInRoot() {
+		$results = $this->user2View->getDirectoryContent('/Shared/');
+
+		$this->verifyFiles(
+			array(
+				array(
+					'name' => 'shareddir',
+					'path' => '/shareddir',
+					'mimetype' => 'httpd/unix-directory',
+					'usersPath' => 'files/Shared/shareddir'
+				),
+				array(
+					'name' => 'shared single file.txt',
+					'path' => '/shared single file.txt',
+					'mimetype' => 'text/plain',
+					'usersPath' => 'files/Shared/shared single file.txt'
+				),
+			),
+			$results
+		);
+	}
+
+	function testGetFolderContentsInSubdir() {
+		$results = $this->user2View->getDirectoryContent('/Shared/shareddir');
+
+		$this->verifyFiles(
+			array(
+				array(
+					'name' => 'bar.txt',
+					'path' => 'files/container/shareddir/bar.txt',
+					'mimetype' => 'text/plain',
+					'usersPath' => 'files/Shared/shareddir/bar.txt'
+				),
+				array(
+					'name' => 'emptydir',
+					'path' => 'files/container/shareddir/emptydir',
+					'mimetype' => 'httpd/unix-directory',
+					'usersPath' => 'files/Shared/shareddir/emptydir'
+				),
+				array(
+					'name' => 'subdir',
+					'path' => 'files/container/shareddir/subdir',
+					'mimetype' => 'httpd/unix-directory',
+					'usersPath' => 'files/Shared/shareddir/subdir'
+				),
+			),
+			$results
+		);
+	}
+
+	function testGetFolderContentsWhenSubSubdirShared() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileinfo = $this->view->getFileInfo('container/shareddir/subdir');
+		\OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER3, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+
+		$thirdView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
+		$results = $thirdView->getDirectoryContent('/Shared/subdir');
+
+		$this->verifyFiles(
+			array(
+				array(
+					'name' => 'another too.txt',
+					'path' => 'files/container/shareddir/subdir/another too.txt',
+					'mimetype' => 'text/plain',
+					'usersPath' => 'files/Shared/subdir/another too.txt'
+				),
+				array(
+					'name' => 'another.txt',
+					'path' => 'files/container/shareddir/subdir/another.txt',
+					'mimetype' => 'text/plain',
+					'usersPath' => 'files/Shared/subdir/another.txt'
+				),
+				array(
+					'name' => 'not a text file.xml',
+					'path' => 'files/container/shareddir/subdir/not a text file.xml',
+					'mimetype' => 'application/xml',
+					'usersPath' => 'files/Shared/subdir/not a text file.xml'
+				),
+			),
+			$results
+		);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER3);
+	}
+
 	/**
-	 * Checks that all provided attributes exist in the files list,
-	 * only the values provided in $examples will be used to check against
-	 * the file list. The files order also needs to be the same.
+	 * Check if 'results' contains the expected 'examples' only.
 	 *
 	 * @param array $examples array of example files
-	 * @param array $files array of files
+	 * @param array $results array of files
 	 */
-	private function verifyFiles($examples, $files) {
-		$this->assertEquals(count($examples), count($files));
-		foreach ($files as $i => $file) {
-			foreach ($examples[$i] as $key => $value) {
-				$this->assertEquals($value, $file[$key]);
+	private function verifyFiles($examples, $results) {
+		$this->assertEquals(count($examples), count($results));
+
+		foreach ($examples as $example) {
+			foreach ($results as $key => $result) {
+				if ($result['name'] === $example['name']) {
+					$this->verifyKeys($example, $result);
+					unset($results[$key]);
+					break;
+				}
 			}
 		}
+		$this->assertTrue(empty($results));
 	}
+
+	/**
+	 * @brief verify if each value from the result matches the expected result
+	 * @param array $example array with the expected results
+	 * @param array $result array with the results
+	 */
+	private function verifyKeys($example, $result) {
+		foreach ($example as $key => $value) {
+			$this->assertEquals($value, $result[$key]);
+		}
+	}
+
 }

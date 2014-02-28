@@ -2,6 +2,7 @@
 /data
 /owncloud
 /config/config.php
+/config/*.config.php
 /config/mount.php
 /apps/inc.php
 

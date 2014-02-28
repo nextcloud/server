@@ -172,12 +172,12 @@ class Api {
 			// workaround because folders are named 'dir' in this context
 			$itemType = $file['type'] === 'file' ? 'file' : 'folder';
 			$share = \OCP\Share::getItemShared($itemType, $file['fileid']);
-			$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
-			if ($receivedFrom) {
-				$share['received_from'] = $receivedFrom['uid_owner'];
-				$share['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
-			}
-			if ($share) {
+			if($share) {
+				$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
+				if ($receivedFrom) {
+					$share['received_from'] = $receivedFrom['uid_owner'];
+					$share['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				}
 				$result = array_merge($result, $share);
 			}
 		}

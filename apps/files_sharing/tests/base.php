@@ -43,6 +43,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	 */
 	public $view;
 	public $folder;
+	public $subfolder;
 
 	public static function setUpBeforeClass() {
 		// reset backend

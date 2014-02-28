@@ -110,7 +110,9 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('/test', $result['data']['directory']);
 		$this->assertEquals(18, $result['data']['size']);
 		$this->assertEquals('httpd/unix-directory', $result['data']['mime']);
-		$this->assertEquals(\OC_Helper::mimetypeIcon('dir'), $result['data']['icon']);
+		$icon = \OC_Helper::mimetypeIcon('dir');
+		$icon = substr($icon, 0, -3) . 'svg';
+		$this->assertEquals($icon, $result['data']['icon']);
 		$this->assertFalse($result['data']['isPreviewAvailable']);
 	}
 
@@ -165,7 +167,9 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(18, $result['data']['size']);
 		$this->assertEquals('httpd/unix-directory', $result['data']['mime']);
 		$this->assertEquals('abcdef', $result['data']['etag']);
-		$this->assertEquals(\OC_Helper::mimetypeIcon('dir'), $result['data']['icon']);
+		$icon = \OC_Helper::mimetypeIcon('dir');
+		$icon = substr($icon, 0, -3) . 'svg';
+		$this->assertEquals($icon, $result['data']['icon']);
 		$this->assertFalse($result['data']['isPreviewAvailable']);
 	}
 

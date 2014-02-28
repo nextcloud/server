@@ -131,20 +131,16 @@ class Shared_Cache extends Cache {
 			foreach ($files as &$file) {
 				$file['mimetype'] = $this->getMimetype($file['mimetype']);
 				$file['mimepart'] = $this->getMimetype($file['mimepart']);
+				$file['usersPath'] = 'files/Shared/' . ltrim($file['path'], '/');
 			}
 			return $files;
 		} else {
-			if ($cache = $this->getSourceCache($folder)) {
+			$cache = $this->getSourceCache($folder);
+			if ($cache) {
 				$parent = $this->storage->getFile($folder);
 				$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
 				foreach ($sourceFolderContent as $key => $c) {
-					$ownerPathParts = explode('/', \OC_Filesystem::normalizePath($c['path']));
-					$userPathParts = explode('/', \OC_Filesystem::normalizePath($folder));
-					$usersPath = 'files/Shared/'.$userPathParts[1];
-					foreach (array_slice($ownerPathParts, 3) as $part) {
-						$usersPath .= '/'.$part;
-					}
-					$sourceFolderContent[$key]['usersPath'] = $usersPath;
+					$sourceFolderContent[$key]['usersPath'] = 'files/Shared/' . $folder . '/' . $c['name'];
 					$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
 					$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
 				}

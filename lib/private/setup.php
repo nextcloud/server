@@ -65,6 +65,7 @@ class OC_Setup {
 		OC_Config::setValue('passwordsalt', $salt);
 
 		//write the config file
+		OC_Config::setValue('trusted_domains', array(OC_Request::serverHost())); 
 		OC_Config::setValue('datadirectory', $datadir);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
@@ -97,8 +98,6 @@ class OC_Setup {
 			$appConfig = \OC::$server->getAppConfig();
 			$appConfig->setValue('core', 'installedat', microtime(true));
 			$appConfig->setValue('core', 'lastupdatedat', microtime(true));
-			$appConfig->setValue('core', 'remote_core.css', '/core/minimizer.php');
-			$appConfig->setValue('core', 'remote_core.js', '/core/minimizer.php');
 
 			OC_Group::createGroup('admin');
 			OC_Group::addToGroup($username, 'admin');
@@ -148,7 +147,7 @@ class OC_Setup {
 		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
 		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
-		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
+		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_mime.c>\n";

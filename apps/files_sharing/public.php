@@ -32,7 +32,8 @@ function determineIcon($file, $sharingRoot, $sharingToken) {
 	if($file['isPreviewAvailable']) {
 		return OCP\publicPreview_icon($relativePath, $sharingToken) . '&c=' . $file['etag'];
 	}
-	return OCP\mimetype_icon($file['mimetype']);
+	$icon = OCP\mimetype_icon($file['mimetype']);
+	return substr($icon, 0, -3) . 'svg';
 }
 
 if (isset($_GET['t'])) {
