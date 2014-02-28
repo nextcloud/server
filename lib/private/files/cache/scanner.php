@@ -173,14 +173,16 @@ class Scanner extends BasicEmitter {
 	 * @param string $path
 	 * @param bool $recursive
 	 * @param int $reuse
-	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
+	 * @return array with the meta data of the scanned file or folder
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
 		}
-		$this->scanFile($path, $reuse);
-		return $this->scanChildren($path, $recursive, $reuse);
+		$data = $this->scanFile($path, $reuse);
+		$size = $this->scanChildren($path, $recursive, $reuse);
+		$data['size'] = $size;
+		return $data;
 	}
 
 	/**
