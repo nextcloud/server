@@ -78,6 +78,43 @@ class Util {
 	}
 
 	/**
+	 * write exception into the log. Include the stack trace
+	 * if DEBUG mode is enabled
+	 * @param string $app app name
+	 * @param Exception $ex exception to log
+	 */
+	public static function logException( $app, \Exception $ex ) {
+		$class = get_class($ex);
+		if ($class !== 'Exception') {
+			$message = $class . ': ';
+		}
+		$message .= $ex->getMessage();
+		if ($ex->getCode()) {
+			$message .= ' [' . $ex->getCode() . ']';
+		}
+		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+		if (defined('DEBUG') and DEBUG) {
+			// also log stack trace
+			$stack = explode("\n", $ex->getTraceAsString());
+			// first element is empty
+			array_shift($stack);
+			foreach ($stack as $s) {
+				\OCP\Util::writeLog($app, 'Exception: ' . $s, \OCP\Util::FATAL);
+			}
+
+			// include cause
+			while (method_exists($ex, 'getPrevious') && $ex = $ex->getPrevious()) {
+				$message .= ' - Caused by:' . ' ';
+				$message .= $ex->getMessage();
+				if ($ex->getCode()) {
+					$message .= '[' . $ex->getCode() . '] ';
+				}
+				\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+			}
+		}
+	}
+
+	/**
 	 * @brief add a css file
 	 * @param string $url
 	 */

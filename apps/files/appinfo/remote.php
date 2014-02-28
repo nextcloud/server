@@ -49,6 +49,7 @@ $server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
 $server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
 $server->addPlugin(new OC_Connector_Sabre_QuotaPlugin());
 $server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
+$server->addPlugin(new OC_Connector_Sabre_ExceptionLoggerPlugin('webdav'));
 
 // And off we go!
 $server->exec();
