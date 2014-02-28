@@ -290,7 +290,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string appid
+	 * @param string $app appid
 	 * @return \OC_L10N
 	 */
 	function getL10N($app) {

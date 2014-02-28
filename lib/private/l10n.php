@@ -351,7 +351,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief Localization
 	 * @param string $type Type of localization
-	 * @param array $params parameters for this localization
+	 * @param array $data parameters for this localization
 	 * @returns String or false
 	 *
 	 * Returns the localized data.
@@ -413,9 +413,9 @@ class OC_L10N implements \OCP\IL10N {
 	 * This function is useful to avoid loading thousands of files if only one
 	 * simple string is needed, for example in appinfo.php
 	 */
-	public static function selectLanguage($text) {
-		$lang = self::findLanguage(array_keys($text));
-		return $text[$lang];
+	public static function selectLanguage($texts) {
+		$lang = self::findLanguage(array_keys($texts));
+		return $texts[$lang];
 	}
 
 	/**
@@ -533,6 +533,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @param string $lang
+	 * @param string $app
 	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available
