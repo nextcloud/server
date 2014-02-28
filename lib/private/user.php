@@ -203,10 +203,12 @@ class OC_User {
 				OC_Preferences::deleteUser($uid);
 
 				// Delete user files in /data/
-				OC_Helper::rmdirr(\OC_User::getHome($uid));
+				$home = \OC_User::getHome($uid);
+				OC_Helper::rmdirr($home);
 
 				// Delete the users entry in the storage table
 				\OC\Files\Cache\Storage::remove('home::' . $uid);
+				\OC\Files\Cache\Storage::remove('local::' . $home . '/');
 
 				// Remove it from the Cache
 				self::getManager()->delete($uid);
