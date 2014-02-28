@@ -1,5 +1,5 @@
 {
-	"camelCase": true,
+	"camelcase": true,
 	"eqeqeq": true,
 	"immed": true,
 	"latedef": false,

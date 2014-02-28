@@ -284,10 +284,6 @@ class OC {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 				OC_Config::setValue('theme', '');
-				$minimizerCSS = new OC_Minimizer_CSS();
-				$minimizerCSS->clearCache();
-				$minimizerJS = new OC_Minimizer_JS();
-				$minimizerJS->clearCache();
 				OC_Util::addScript('config'); // needed for web root
 				OC_Util::addScript('update');
 				$tmpl = new OC_Template('', 'update.admin', 'guest');
@@ -332,6 +328,7 @@ class OC {
 		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("mobile");
 		OC_Util::addStyle("icons");
 		OC_Util::addStyle("apps");
 		OC_Util::addStyle("fixes");
@@ -724,11 +721,6 @@ class OC {
 		$app = OC::$REQUESTEDAPP;
 		$file = OC::$REQUESTEDFILE;
 		$param = array('app' => $app, 'file' => $file);
-		// Handle app css files
-		if (substr($file, -3) == 'css') {
-			self::loadCSSFile($param);
-			return;
-		}
 
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
@@ -760,7 +752,8 @@ class OC {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
 				OC_User::logout();
-				header("Location: " . OC::$WEBROOT . '/');
+				// redirect to webroot and add slash if webroot is empty
+				header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
 			} else {
 				if (is_null($file)) {
 					$param['file'] = 'index.php';
@@ -793,19 +786,6 @@ class OC {
 		}
 		header('HTTP/1.0 404 Not Found');
 		return false;
-	}
-
-	public static function loadCSSFile($param) {
-		$app = $param['app'];
-		$file = $param['file'];
-		$app_path = OC_App::getAppPath($app);
-		if (file_exists($app_path . '/' . $file)) {
-			$app_web_path = OC_App::getAppWebPath($app);
-			$filepath = $app_web_path . '/' . $file;
-			$minimizer = new OC_Minimizer_CSS();
-			$info = array($app_path, $app_web_path, $file);
-			$minimizer->output(array($info), $filepath);
-		}
 	}
 
 	protected static function handleLogin() {

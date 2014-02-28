@@ -53,6 +53,9 @@ $CONFIG = array(
 /* The optional authentication for the proxy to use to connect to the internet. The format is: [username]:[password] */
 "proxyuserpwd" => "",
 
+/* List of trusted domains, to prevent host header poisoning ownCloud is only using these Host headers */
+'trusted_domains' => array('demo.owncloud.org'),
+
 /* Theme to use for ownCloud */
 "theme" => "",
 
@@ -263,6 +266,9 @@ $CONFIG = array(
 
 /* whether usage of the instance should be restricted to admin users only */
 'singleuser' => false,
+
+/* all css and js files will be served by the web server statically in one js file and ons css file*/
+'asset-pipeline.enabled' => false,
 
  /* where mount.json file should be stored, defaults to data/mount.json */
  'mount_file' => '',

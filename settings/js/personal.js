@@ -52,9 +52,11 @@ function updateAvatar (hidedefault) {
 
 	if(hidedefault) {
 		$headerdiv.hide();
+		$('#header .avatardiv').removeClass('avatardiv-shown');
 	} else {
 		$headerdiv.css({'background-color': ''});
 		$headerdiv.avatar(OC.currentUser, 32, true);
+		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 128, true);
@@ -322,28 +324,6 @@ OC.Encryption.msg={
 				.addClass('success')
 				.stop(true, true)
 				.delay(3000);
-		}else{
-			$(selector).html( data.data.message ).addClass('error');
-		}
-	}
-};
-
-OC.msg={
-	startSaving:function(selector){
-		$(selector)
-			.html( t('settings', 'Saving...') )
-			.removeClass('success')
-			.removeClass('error')
-			.stop(true, true)
-			.show();
-	},
-	finishedSaving:function(selector, data){
-		if( data.status === "success" ){
-			 $(selector).html( data.data.message )
-				.addClass('success')
-				.stop(true, true)
-				.delay(3000)
-				.fadeOut(900);
 		}else{
 			$(selector).html( data.data.message ).addClass('error');
 		}

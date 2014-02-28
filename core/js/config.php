@@ -10,11 +10,14 @@
 header("Content-type: text/javascript");
 
 // Disallow caching
-header("Cache-Control: no-cache, must-revalidate"); 
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 // Enable l10n support
 $l = OC_L10N::get('core');
+
+// Enable OC_Defaults support
+$defaults = new OC_Defaults();
 
 // Get the config
 $apps_paths = array();
@@ -58,11 +61,30 @@ $array = array(
 	"firstDay" => json_encode($l->l('firstday', 'firstday')) ,
 	"oc_config" => json_encode(
 		array(
-			'session_lifetime' => \OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')),
-			'session_keepalive' => \OCP\Config::getSystemValue('session_keepalive', true)
+			'session_lifetime'	=> \OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')),
+			'session_keepalive'	=> \OCP\Config::getSystemValue('session_keepalive', true),
+			'version'			=> implode('.', OC_Util::getVersion()),
+			'versionstring'		=> OC_Util::getVersionString(),
+		)
+	),
+	"oc_defaults" => json_encode(
+		array(
+			'entity' => $defaults->getEntity(),
+			'name' => $defaults->getName(),
+			'title' => $defaults->getTitle(),
+			'baseUrl' => $defaults->getBaseUrl(),
+			'syncClientUrl' => $defaults->getSyncClientUrl(),
+			'docBaseUrl' => $defaults->getDocBaseUrl(),
+			'slogan' => $defaults->getSlogan(),
+			'logoClaim' => $defaults->getLogoClaim(),
+			'shortFooter' => $defaults->getShortFooter(),
+			'longFooter' => $defaults->getLongFooter()
 		)
 	)
-	);
+);
+
+// Allow hooks to modify the output values
+OC_Hook::emit('\OCP\Config', 'js', array('array' => &$array));
 
 // Echo it
 foreach ($array as  $setting => $value) {

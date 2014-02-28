@@ -22,7 +22,7 @@ class CSSResourceLocator extends ResourceLocator {
 		$app = substr($style, 0, strpos($style, '/'));
 		$style = substr($style, strpos($style, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
-		$app_url = $this->webroot . '/index.php/apps/' . $app;
+		$app_url = \OC_App::getAppWebPath($app);
 		if ($this->appendIfExist($app_path, $style.$this->form_factor.'.css', $app_url)
 			|| $this->appendIfExist($app_path, $style.'.css', $app_url)
 		) {
