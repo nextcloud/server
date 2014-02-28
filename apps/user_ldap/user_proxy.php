@@ -79,7 +79,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(false && !is_null($prefix)) {
+		if(!is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
 				$instance = $this->backends[$prefix];
 				if(!method_exists($instance, $method)
