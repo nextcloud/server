@@ -36,7 +36,7 @@ interface IL10N {
 	 * Translating
 	 * @param string $text_singular the string to translate for exactly one object
 	 * @param string $text_plural the string to translate for n objects
-	 * @param Integer $count Number of objects
+	 * @param integer $count Number of objects
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String Translation or the same text
 	 *
