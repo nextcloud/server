@@ -166,9 +166,9 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @param $verb
-	 * @param $controllerName
-	 * @param $actionName
+	 * @param string $verb
+	 * @param string $controllerName
+	 * @param string $actionName
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function mockRoute($verb, $controllerName, $actionName)

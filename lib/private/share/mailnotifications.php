@@ -30,7 +30,6 @@ class MailNotifications {
 
 	/**
 	 *
-	 * @param string $recipient user id
 	 * @param string $sender user id (if nothing is set we use the currently logged-in user)
 	 */
 	public function __construct($sender = null) {
@@ -113,7 +112,7 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link the public link
 	 * @param int $expiration expiration date (timestamp)
-	 * @return mixed $result true or error message
+	 * @return string|boolean $result true or error message
 	 */
 	public function sendLinkShareMail($recipient, $filename, $link, $expiration) {
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($this->senderDisplayName, $filename));

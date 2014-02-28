@@ -313,9 +313,8 @@ class OC_DB {
 
 	/**
 	 * @brief Insert a row if a matching row doesn't exists.
-	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
-	 * @param array $input. An array of fieldname/value pairs
-	 * @param string $table
+	 * @param string $table The table to insert into in the form '*PREFIX*tableName'
+	 * @param array $input An array of fieldname/value pairs
 	 * @return boolean number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {

@@ -26,7 +26,7 @@ class OC_Request {
 
 	/**
 	 * @brief Checks whether a domain is considered as trusted. This is used to prevent Host Header Poisoning.
-	 * @param string $host
+	 * @param string $domain
 	 * @return bool
 	 */
 	public static function isTrustedDomain($domain) {
