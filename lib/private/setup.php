@@ -123,10 +123,10 @@ class OC_Setup {
 	 * Append the correct ErrorDocument path for Apache hosts
 	 */
 	public static function updateHtaccess() {
-		$content.= "\n";
+		$content = "\n";
 		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
-		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content, FILE_APPEND); //supress errors in case we don't have permissions for it
+		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
 	}
 
 	public static function protectDataDirectory() {
