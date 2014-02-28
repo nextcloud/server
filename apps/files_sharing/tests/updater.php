@@ -30,15 +30,15 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 		// FIXME: DIRTY HACK - TODO: find tests, that don't clean up and fix it there
 		$this->tearDown();
 
-		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (file_source, id, item_type, uid_owner) VALUES (?, ?, \'file\', 1)');
+		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`file_source`, `id`, `item_type`, `uid_owner`) VALUES (?, ?, \'file\', 1)');
 		$shares = array(1, 2, 3);
 		foreach($shares as $share) {
 			// the number is used as item_source and id
 			$addShares->execute(array($share, $share));
 		}
 		// add items except one - because this is the test case for the broken share table
-		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (fileid, storage, path_hash, ' .
-			'parent, mimetype, mimepart, size, mtime, storage_mtime) ' .
+		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (`fileid`, `storage`, `path_hash`, ' .
+			'`parent`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`) ' .
 			'VALUES (?, 1, ?, 1, 1, 1, 1, 1, 1)');
 		$items = array(1, 3);
 		foreach($items as $item) {
@@ -59,12 +59,12 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 	 */
 	function testRemoveBrokenShares() {
 		// check if there are just 3 shares (see setUp - precondition: empty table)
-		$countShares = \OC_DB::prepare('SELECT COUNT(id) FROM `*PREFIX*share`');
+		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
 		$result = $countShares->execute()->fetchOne();
 		$this->assertEquals(3, $result);
 
 		// check if there are just 2 items (see setUp - precondition: empty table)
-		$countItems = \OC_DB::prepare('SELECT COUNT(fileid) FROM `*PREFIX*filecache`');
+		$countItems = \OC_DB::prepare('SELECT COUNT(`fileid`) FROM `*PREFIX*filecache`');
 		$result = $countItems->execute()->fetchOne();
 		$this->assertEquals(2, $result);
 
@@ -72,17 +72,17 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Cache\Shared_Updater::fixBrokenSharesOnAppUpdate();
 
 		// check if there are just 2 shares (one gets killed by the code as there is no filecache entry for this)
-		$countShares = \OC_DB::prepare('SELECT COUNT(id) FROM `*PREFIX*share`');
+		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
 		$result = $countShares->execute()->fetchOne();
 		$this->assertEquals(2, $result);
 
 		// check if the share of file '2' is removed as there is no entry for this in filecache table
-		$countShares = \OC_DB::prepare('SELECT COUNT(id) FROM `*PREFIX*share` WHERE file_source = 2');
+		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share` WHERE `file_source` = 2');
 		$result = $countShares->execute()->fetchOne();
 		$this->assertEquals(0, $result);
 
 		// check if there are just 2 items
-		$countItems = \OC_DB::prepare('SELECT COUNT(fileid) FROM `*PREFIX*filecache`');
+		$countItems = \OC_DB::prepare('SELECT COUNT(`fileid`) FROM `*PREFIX*filecache`');
 		$result = $countItems->execute()->fetchOne();
 		$this->assertEquals(2, $result);
 	}
