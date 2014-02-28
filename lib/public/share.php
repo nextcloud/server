@@ -243,6 +243,10 @@ class Share {
 		return array("users" => array_unique($shares), "public" => $publicShare);
 	}
 
+	/**
+	 * Check if the current user has files shared with
+	 * @return boolean
+	 */
 	public static function hasFilesSharedWith() {
 		if (!self::isEnabled()) {
 			return false;
@@ -262,8 +266,11 @@ class Share {
 		// Don't include own group shares
 		$where .= ' AND `uid_owner` != ?';
 		$queryArgs[] = $shareWith;
-		$result = \OC_DB::executeAudited('SELECT COUNT(*) FROM `*PREFIX*share` '.$where, $queryArgs);
-		return $result->fetchOne() > 0;
+		$result = \OC_DB::executeAudited(array(
+				'sql' => 'SELECT * FROM `*PREFIX*share` '.$where,
+				'limit' => 1,
+			), $queryArgs);
+		return (bool)$result->fetchOne();
 	}
 
 	/**
