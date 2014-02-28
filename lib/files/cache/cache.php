@@ -85,6 +85,26 @@ class Cache {
 	}
 
 	/**
+	 * remove a storage from the cache
+	 *
+	 * @param string $storageId
+	 */
+	public static function removeStorage($storageId) {
+		$storageCache = new Cache($storageId);
+
+		\OC_DB::executeAudited('
+			DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?',
+			array($storageCache->getNumericStorageId())
+		);
+
+		\OC_DB::executeAudited('
+			DELETE FROM `*PREFIX*storages` WHERE `numeric_id` = ?',
+			array($storageCache->getNumericStorageId())
+		);
+	}
+
+
+	/**
 	 * normalize mimetypes
 	 *
 	 * @param string $mime
