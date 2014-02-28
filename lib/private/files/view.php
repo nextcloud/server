@@ -310,6 +310,9 @@ class View {
 					fclose($target);
 					fclose($data);
 					if ($this->shouldEmitHooks($path) && $result !== false) {
+						Updater::writeHook(array(
+							'path' => $this->getHookPath($path)
+						));
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
