@@ -92,6 +92,7 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
+	 * except the main .htaccess file
 	 */
 	public function upgrade() {
 		\OC_DB::enableCaching(false);
@@ -102,6 +103,11 @@ class Updater extends BasicEmitter {
 			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
+
+		// Update htaccess files for apache hosts
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+			\OC_Setup::updateHtaccess();
+		}
 
 		/*
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
