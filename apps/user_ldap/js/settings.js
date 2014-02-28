@@ -138,6 +138,108 @@ var LdapConfiguration = {
 	}
 };
 
+
+// LdapFilter object.
+
+function LdapFilter(target)  {
+	this.locked = true;
+	this.target = false;
+	this.mode = LdapWizard.filterModeAssisted;
+	this.lazyRunCompose = false;
+
+	if( target === 'User' ||
+		target === 'Login' ||
+		target === 'Group') {
+		this.target = target;
+		this.determineMode();
+	}
+}
+
+LdapFilter.prototype.compose = function() {
+	var action;
+
+	if(this.locked) {
+		this.lazyRunCompose = true;
+		return false;
+	}
+
+	if(this.target === 'User') {
+		action = 'getUserListFilter';
+	} else if(this.target === 'Login') {
+		action = 'getUserLoginFilter';
+	} else if(this.target === 'Group') {
+		action = 'getGroupFilter';
+	}
+
+	if(!$('#raw'+this.target+'FilterContainer').hasClass('invisible')) {
+		//Raw filter editing, i.e. user defined filter, don't compose
+		return;
+	}
+
+	var param = 'action='+action+
+		'&ldap_serverconfig_chooser='+
+		encodeURIComponent($('#ldap_serverconfig_chooser').val());
+
+	var filter = this;
+
+	LdapWizard.ajax(param,
+		function(result) {
+			LdapWizard.applyChanges(result);
+			if(filter.target === 'User') {
+				LdapWizard.countUsers();
+			} else if(filter.target === 'Group') {
+				LdapWizard.countGroups();
+				LdapWizard.detectGroupMemberAssoc();
+			}
+		},
+		function (result) {
+			// error handling
+		}
+	);
+}
+
+LdapFilter.prototype.determineMode = function() {
+	var param = 'action=get'+encodeURIComponent(this.target)+'FilterMode'+
+		'&ldap_serverconfig_chooser='+
+		encodeURIComponent($('#ldap_serverconfig_chooser').val());
+
+	var filter = this;
+	LdapWizard.ajax(param,
+		function(result) {
+			property = 'ldap' + filter.target + 'FilterMode';
+			filter.mode = result.changes[property];
+			if(filter.mode == LdapWizard.filterModeRaw
+				&& $('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+				LdapWizard['toggleRaw'+filter.target+'Filter']();
+			} else if(filter.mode == LdapWizard.filterModeAssisted
+				&& !$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+				LdapWizard['toggleRaw'+filter.target+'Filter']();
+			}
+			filter.unlock();
+		},
+		function (result) {
+			//on error case get back to default i.e. Assisted
+			if(!$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+				LdapWizard['toggleRaw'+filter.target+'Filter']();
+				filter.mode = LdapWizard.filterModeAssisted;
+			}
+		filter.unlock();
+		}
+	);
+
+}
+
+LdapFilter.prototype.unlock = function() {
+	this.locked = false;
+	if(this.lazyRunCompose) {
+		this.lazyRunCompose = false;
+		this.compose();
+	}
+}
+
+// end of LdapFilter object.
+
+
 var LdapWizard = {
 	checkPortInfoShown: false,
 	saveBlacklist: {},
@@ -145,6 +247,9 @@ var LdapWizard = {
 	spinner: '<img class="wizSpinner" src="'+ OC.imagePath('core', 'loading.gif') +'">',
 	filterModeAssisted: 0,
 	filterModeRaw: 1,
+	userFilter: false,
+	loginFilter: false,
+	groupFilter: false,
 
 	ajax: function(param, fnOnSuccess, fnOnError) {
 		$.post(
@@ -273,41 +378,6 @@ var LdapWizard = {
 				}
 			);
 		}
-	},
-
-	composeFilter: function(type) {
-		subject = type.charAt(0).toUpperCase() + type.substr(1);
-		if(!$('#raw'+subject+'FilterContainer').hasClass('invisible')) {
-			//Raw filter editing, i.e. user defined filter, don't compose
-			return;
-		}
-
-		if(type == 'user') {
-			action = 'getUserListFilter';
-		} else if(type == 'login') {
-			action = 'getUserLoginFilter';
-		} else if(type == 'group') {
-			action = 'getGroupFilter';
-		}
-
-		param = 'action='+action+
-				'&ldap_serverconfig_chooser='+
-				encodeURIComponent($('#ldap_serverconfig_chooser').val());
-
-		LdapWizard.ajax(param,
-			function(result) {
-				LdapWizard.applyChanges(result);
-				if(type == 'user') {
-					LdapWizard.countUsers();
-				} else if(type == 'group') {
-					LdapWizard.countGroups();
-					LdapWizard.detectGroupMemberAssoc();
-				}
-			},
-			function (result) {
-				// error handling
-			}
-		);
 	},
 
 	controlBack: function() {
@@ -559,7 +629,7 @@ var LdapWizard = {
 	},
 
 	initGroupFilter: function() {
-		LdapWizard.regardFilterMode('Group');
+		LdapWizard.groupFilter = new LdapFilter('Group');
 		LdapWizard.findObjectClasses('ldap_groupfilter_objectclass', 'Group');
 		LdapWizard.findAvailableGroups('ldap_groupfilter_groups', 'Groups');
 		LdapWizard.countGroups();
@@ -568,13 +638,13 @@ var LdapWizard = {
 	/** init login filter tab section **/
 
 	initLoginFilter: function() {
-		LdapWizard.regardFilterMode('Login');
+		LdapWizard.loginFilter = new LdapFilter('Login');
 		LdapWizard.findAttributes();
 	},
 
 	postInitLoginFilter: function() {
 		if($('#rawLoginFilterContainer').hasClass('invisible')) {
-			LdapWizard.composeFilter('login');
+			LdapWizard.loginFilter.compose();
 		}
 	},
 
@@ -600,7 +670,7 @@ var LdapWizard = {
 	initUserFilter: function() {
 		LdapWizard.userFilterObjectClassesHasRun = false;
 		LdapWizard.userFilterAvailableGroupsHasRun = false;
-		LdapWizard.regardFilterMode('User');
+		LdapWizard.userFilter = new LdapFilter('User');
 		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
 		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
 	},
@@ -608,7 +678,7 @@ var LdapWizard = {
 	postInitUserFilter: function() {
 		if(LdapWizard.userFilterObjectClassesHasRun
 		   && LdapWizard.userFilterAvailableGroupsHasRun) {
-			LdapWizard.composeFilter('user');
+			LdapWizard.userFilter.compose();
 			LdapWizard.countUsers();
 		}
 	},
@@ -657,39 +727,13 @@ var LdapWizard = {
 
 		if(triggerObj.id == 'ldap_loginfilter_username'
 		   || triggerObj.id == 'ldap_loginfilter_email') {
-			LdapWizard.composeFilter('login');
+			LdapWizard.loginFilter.compose();
 		}
 
 		if($('#ldapSettings').tabs('option', 'active') == 0) {
 			LdapWizard.basicStatusCheck();
 			LdapWizard.functionalityCheck();
 		}
-	},
-
-	regardFilterMode: function(subject) {
-		param = 'action=get'+encodeURIComponent(subject)+'FilterMode'+
-				'&ldap_serverconfig_chooser='+
-				encodeURIComponent($('#ldap_serverconfig_chooser').val());
-
-		LdapWizard.ajax(param,
-			function(result) {
-				property = 'ldap' + subject + 'FilterMode';
-				mode = result.changes[property];
-				if(mode == LdapWizard.filterModeRaw
-					&& $('#raw'+subject+'FilterContainer').hasClass('invisible')) {
-					LdapWizard['toggleRaw'+subject+'Filter']();
-				} else if(mode == LdapWizard.filterModeAssisted
-					&& !$('#raw'+subject+'FilterContainer').hasClass('invisible')) {
-					LdapWizard['toggleRaw'+subject+'Filter']();
-				}
-			},
-			function (result) {
-				//on error case get back to default i.e. Assisted
-				if(!$('#raw'+subject+'FilterContainer').hasClass('invisible')) {
-					LdapWizard['toggleRaw'+subject+'Filter']();
-				}
-			}
-		);
 	},
 
 	save: function(inputObj) {
@@ -713,15 +757,15 @@ var LdapWizard = {
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
 		if(originalObj == 'ldap_userfilter_objectclass'
 		   || originalObj == 'ldap_userfilter_groups') {
-			LdapWizard.composeFilter('user');
+			LdapWizard.userFilter.compose();
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
-			LdapWizard.composeFilter('login');
+			LdapWizard.loginFilter.compose();
 		} else if(originalObj == 'ldap_loginfilter_attributes') {
-			LdapWizard.composeFilter('login');
+			LdapWizard.loginFilter.compose();
 		} else if(originalObj == 'ldap_groupfilter_objectclass'
 		   || originalObj == 'ldap_groupfilter_groups') {
-			LdapWizard.composeFilter('group');
+			LdapWizard.groupFilter.compose();
 		}
 	},
 
@@ -777,10 +821,10 @@ var LdapWizard = {
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
 			if(moc.indexOf('user') >= 0) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.composeFilter('user');
+				LdapWizard.userFilter.compose();
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
-				LdapWizard.composeFilter('group');
+				LdapWizard.groupFilter.compose();
 			}
 		}
 	},
@@ -814,7 +858,7 @@ var LdapWizard = {
 		$('#ldap_loginfilter_username').prop('disabled', property);
 		LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
 		if(action == 'enable') {
-			LdapWizard.composeFilter('login');
+			LdapWizard.loginFilter.compose();
 		}
 	},
 
