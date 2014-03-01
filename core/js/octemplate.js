@@ -1,7 +1,8 @@
 /**
  * jQuery plugin for micro templates
  *
- * Strings are automatically escaped, but that can be disabled by setting escapeFunction to null.
+ * Strings are automatically escaped, but that can be disabled by setting
+ * escapeFunction to null.
  *
  * Usage examples:
  *
@@ -11,13 +12,15 @@
  * 	var htmlStr = '<p>Welcome back {user}</p>';
  *	$(htmlStr).octemplate({user: 'John Q. Public'}, {escapeFunction: null});
  *
- * Be aware that the target string must be wrapped in an HTML element for the plugin to work. The following won't work:
+ * Be aware that the target string must be wrapped in an HTML element for the
+ * plugin to work. The following won't work:
  * 
  *      var textStr = 'Welcome back {user}';
  *      $(textStr).octemplate({user: 'John Q. Public'});
  *
- * For anything larger than one-liners, you can use a simple $.get() ajax request to get the template,
- * or you can embed them it the page using the text/template type:
+ * For anything larger than one-liners, you can use a simple $.get() ajax
+ * request to get the template, or you can embed them it the page using the
+ * text/template type:
  *
  * <script id="contactListItemTemplate" type="text/template">
  *	<tr class="contact" data-id="{id}">

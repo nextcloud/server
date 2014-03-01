@@ -72,7 +72,10 @@ $(document).ready(function() {
 		$('input[type="radio"]').first().click();
 	}
 
-	if (currentDbType === 'sqlite' || (dbtypes.sqlite && currentDbType === undefined)){
+	if (
+		currentDbType === 'sqlite' ||
+		(dbtypes.sqlite && currentDbType === undefined)
+	){
 		$('#datadirContent').hide(250);
 		$('#databaseBackend').hide(250);
 		$('#databaseField').hide(250);

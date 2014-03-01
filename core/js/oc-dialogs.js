@@ -38,7 +38,14 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	alert:function(text, title, callback, modal) {
-		this.message(text, title, 'alert', OCdialogs.OK_BUTTON, callback, modal);
+		this.message(
+			text,
+			title,
+			'alert',
+			OCdialogs.OK_BUTTON,
+			callback,
+			modal
+		);
 	},
 	/**
 	* displays info dialog
@@ -59,7 +66,14 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	confirm:function(text, title, callback, modal) {
-		this.message(text, title, 'notice', OCdialogs.YES_NO_BUTTONS, callback, modal);
+		this.message(
+			text,
+			title,
+			'notice',
+			OCdialogs.YES_NO_BUTTONS,
+			callback,
+			modal
+		);
 	},
 	/**
 	 * displays prompt dialog

@@ -42,8 +42,9 @@ if (!Array.prototype.filter) {
 		for (var i = 0; i < len; i++) {
 			if (i in this) {
 				var val = this[i]; // in case fun mutates this
-				if (fun.call(thisp, val, i, this))
+				if (fun.call(thisp, val, i, this)) {
 					res.push(val);
+				}
 			}
 		}
 		return res;

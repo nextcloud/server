@@ -1,7 +1,7 @@
 /**
  * Disable console output unless DEBUG mode is enabled.
  * Add
- *	define('DEBUG', true);
+ *      define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
@@ -23,7 +23,10 @@ if (typeof oc_webroot === "undefined") {
 		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
 	}
 }
-if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
+if (
+	oc_debug !== true || typeof console === "undefined" ||
+	typeof console.log === "undefined"
+) {
 	if (!window.console) {
 		window.console = {};
 	}
@@ -37,7 +40,8 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 function initL10N(app) {
 	if (!( t.cache[app] )) {
 		$.ajax(OC.filePath('core', 'ajax', 'translations.php'), {
-			async: false,//todo a proper solution for this without sync ajax calls
+			// TODO a proper solution for this without sync ajax calls
+			async: false,
 			data: {'app': app},
 			type: 'POST',
 			success: function (jsondata) {
@@ -75,8 +79,8 @@ function initL10N(app) {
 			/* We used to use eval, but it seems IE has issues with it.
 			 * We now use "new Function", though it carries a slightly
 			 * bigger performance hit.
-			 var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
-			 Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
+			var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
+			Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
 			 */
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
 			t.plural_function[app] = new Function("n", code);

@@ -7,7 +7,9 @@ $(document).ready(function(){
 			}
 		};
 
-		$('#header .avatardiv').avatar(OC.currentUser, 32, undefined, true, callback);
+		$('#header .avatardiv').avatar(
+			OC.currentUser, 32, undefined, true, callback
+		);
 		// Personal settings
 		$('#avatar .avatardiv').avatar(OC.currentUser, 128);
 	}

@@ -89,7 +89,8 @@ window.oc_defaults = {};
 					"Content-Type": "application/json"
 				},
 				'{"data": [], "plural_form": "nplurals=2; plural=(n != 1);"}'
-		]);
+			]
+		);
 
 		// make it globally available, so that other tests can define
 		// custom responses

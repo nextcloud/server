@@ -193,24 +193,24 @@ describe('Core base tests', function() {
 				unicode: '汉字'
 			})).toEqual('unicode=%E6%B1%89%E5%AD%97');
 			expect(OC.buildQueryString({
-			   	b: 'spaace value',
-			   	'space key': 'normalvalue',
-			   	'slash/this': 'amp&ersand'
+				b: 'spaace value',
+				'space key': 'normalvalue',
+				'slash/this': 'amp&ersand'
 			})).toEqual('b=spaace%20value&space%20key=normalvalue&slash%2Fthis=amp%26ersand');
 		});
 		it('Encodes data types and empty values', function() {
 			expect(OC.buildQueryString({
 				'keywithemptystring': '',
-			   	'keywithnull': null,
-			   	'keywithundefined': null,
+				'keywithnull': null,
+				'keywithundefined': null,
 				something: 'else'
 			})).toEqual('keywithemptystring=&keywithnull&keywithundefined&something=else');
 			expect(OC.buildQueryString({
-			   	'booleanfalse': false,
+				'booleanfalse': false,
 				'booleantrue': true
 			})).toEqual('booleanfalse=false&booleantrue=true');
 			expect(OC.buildQueryString({
-			   	'number': 123
+				'number': 123
 			})).toEqual('number=123');
 		});
 	});
