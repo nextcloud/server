@@ -372,9 +372,7 @@ $(document).ready(function () {
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
-	OC.Router.registerLoadedCallback(function() {
-		$(window).scroll(function(e) {UserList._onScroll(e);});
-	});
+	$(window).scroll(function(e) {UserList._onScroll(e);});
 	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
