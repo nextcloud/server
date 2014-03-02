@@ -195,6 +195,13 @@ var OC={
 		return OC.webroot + '/remote.php/' + service;
 	},
 
+	/**
+	 * Generates the absolute url for the given relative url, which can contain parameters.
+	 *
+	 * @returns {string}
+	 * @param {string} url
+	 * @param params
+	 */
 	generateUrl: function(url, params) {
 		var _build = function (text, vars) {
 			return text.replace(/{([^{}]*)}/g,
@@ -209,10 +216,6 @@ var OC={
 
 		}
 		return OC.webroot + '/index.php' + _build(url, params);
-	},
-
-	linkToRoute:function(route) {
-		return OC.webroot + '/index.php/' + route;
 	},
 
 	/**
@@ -812,7 +815,7 @@ function initCore() {
 		if (interval < 60) {
 			interval = 60;
 		}
-		var url = OC.linkToRoute('heartbeat');
+		var url = OC.generateUrl('/heartbeat');
 		setInterval(function(){
 			$.post(url);
 		}, interval * 1000);
