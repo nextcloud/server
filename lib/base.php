@@ -316,7 +316,6 @@ class OC {
 		OC_Util::addScript("config");
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
-		OC_Util::addScript('router');
 		OC_Util::addScript("oc-requesttoken");
 
 		// avatars

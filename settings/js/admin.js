@@ -64,7 +64,7 @@ $(document).ready(function(){
 	$('#mail_settings').change(function(){
 		OC.msg.startSaving('#mail_settings .msg');
 		var post = $( "#mail_settings" ).serialize();
-		$.post(OC.Router.generate('settings_mail_settings'), post, function(data){
+		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
 			OC.msg.finishedSaving('#mail_settings .msg', data);
 		});
 	});

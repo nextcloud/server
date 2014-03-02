@@ -194,6 +194,27 @@ var OC={
 	linkToRemoteBase:function(service) {
 		return OC.webroot + '/remote.php/' + service;
 	},
+
+	generateUrl: function(url, params) {
+		var _build = function (text, vars) {
+			return text.replace(/{([^{}]*)}/g,
+				function (a, b) {
+					var r = vars[b];
+					return typeof r === 'string' || typeof r === 'number' ? r : a;
+				}
+			);
+		};
+		if (url.charAt(0) !== '/') {
+			url = '/' + url;
+
+		}
+		return OC.webroot + '/index.php' + _build(url, params);
+	},
+
+	linkToRoute:function(route) {
+		return OC.webroot + '/index.php/' + route;
+	},
+
 	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
@@ -791,12 +812,10 @@ function initCore() {
 		if (interval < 60) {
 			interval = 60;
 		}
-		OC.Router.registerLoadedCallback(function(){
-			var url = OC.Router.generate('heartbeat');
-			setInterval(function(){
-				$.post(url);
-			}, interval * 1000);
-		});
+		var url = OC.linkToRoute('heartbeat');
+		setInterval(function(){
+			$.post(url);
+		}, interval * 1000);
 	}
 
 	// session heartbeat (defaults to enabled)
