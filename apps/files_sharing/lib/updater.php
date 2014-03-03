@@ -143,18 +143,11 @@ class Shared_Updater {
 	 */
 	static public function fixBrokenSharesOnAppUpdate() {
 		// delete all shares where the original file no longer exists
-		$findShares = \OC_DB::prepare('SELECT `*PREFIX*share`.`id` ' .
-			'FROM `*PREFIX*share` LEFT JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` ' .
-			'WHERE `*PREFIX*filecache`.`fileid` IS NULL AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\')');
-		$sharesFound = $findShares->execute(array())->fetchAll();
-
-		// delete those shares from the oc_share table
-		if (is_array($sharesFound) && !empty($sharesFound)) {
-			$removeShares = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` = ? ');
-			foreach ($sharesFound as $share) {
-				$result = $removeShares->execute(array($share['id']));
-			}
-		}
+		$findAndRemoveShares = \OC_DB::prepare('DELETE FROM `*PREFIX*share` ' .
+			'WHERE `file_source` NOT IN ( ' .
+				'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `item_type` IN (\'file\', \'folder\'))'
+		);
+		$findAndRemoveShares->execute(array());
 	}
 
 }
