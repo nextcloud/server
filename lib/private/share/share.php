@@ -973,13 +973,13 @@ class Share extends \OC\Share\Constants {
 				$where .= ' AND `share_type` != ?';
 				$queryArgs[] = self::$shareTypeGroupUserUnique;
 			}
-			if ($itemType == 'file' || $itemType == 'folder') {
+			if ($fileDependent) {
 				$column = 'file_source';
 			} else {
 				$column = 'item_source';
 			}
 		} else {
-			if ($itemType == 'file' || $itemType == 'folder') {
+			if ($fileDependent) {
 				$column = 'file_target';
 			} else {
 				$column = 'item_target';
@@ -994,7 +994,7 @@ class Share extends \OC\Share\Constants {
 			// If looking for own shared items, check item_source else check item_target
 			if (isset($uidOwner) || $itemShareWithBySource) {
 				// If item type is a file, file source needs to be checked in case the item was converted
-				if ($itemType == 'file' || $itemType == 'folder') {
+				if ($fileDependent) {
 					$where .= ' `file_source` = ?';
 					$column = 'file_source';
 				} else {
@@ -1002,7 +1002,7 @@ class Share extends \OC\Share\Constants {
 					$column = 'item_source';
 				}
 			} else {
-				if ($itemType == 'file' || $itemType == 'folder') {
+				if ($fileDependent) {
 					$where .= ' `file_target` = ?';
 					$item = \OC\Files\Filesystem::normalizePath($item);
 				} else {
@@ -1225,7 +1225,7 @@ class Share extends \OC\Share\Constants {
 					} else if (!isset($statuses[$item[$column]])) {
 						$statuses[$item[$column]]['link'] = false;
 					}
-					if ($itemType == 'file' || $itemType == 'folder') {
+					if ($fileDependent) {
 						$statuses[$item[$column]]['path'] = $item['path'];
 					}
 				}
@@ -1296,7 +1296,6 @@ class Share extends \OC\Share\Constants {
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
-			$parent = null;
 			if ($backend instanceof \OCP\Share_Backend_File_Dependent) {
 				$filePath = $backend->getFilePath($itemSource, $uidOwner);
 				if ($itemType == 'file' || $itemType == 'folder') {
