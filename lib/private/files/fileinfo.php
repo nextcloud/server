@@ -144,10 +144,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return \OCP\Files\FileInfo::TYPE_FILE | \OCP\Files\FileInfo::TYPE_FOLDER
 	 */
 	public function getType() {
-		return $this->data['type'];
+		if ($this->data['type']) {
+			return $this->data['type'];
+		} else {
+			return $this->getMimetype() === 'httpd/unix-directory' ? self::TYPE_FOLDER : self::TYPE_FILE;
+		}
 	}
 
-	public function getData(){
+	public function getData() {
 		return $this->data;
 	}
 
