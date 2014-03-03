@@ -1032,44 +1032,7 @@ class Share extends \OC\Share\Constants {
 		} else {
 			$queryLimit = null;
 		}
-		// TODO Optimize selects
-		if ($format == self::FORMAT_STATUSES) {
-			if ($itemType == 'file' || $itemType == 'folder') {
-				$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
-					.' `share_type`, `file_source`, `path`, `expiration`, `storage`, `share_with`, `mail_send`, `uid_owner`';
-			} else {
-				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `expiration`, `mail_send`, `uid_owner`';
-			}
-		} else {
-			if (isset($uidOwner)) {
-				if ($itemType == 'file' || $itemType == 'folder') {
-					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
-						.' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
-						.' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`';
-				} else {
-					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
-						.' `stime`, `file_source`, `expiration`, `token`, `mail_send`, `uid_owner`';
-				}
-			} else {
-				if ($fileDependent) {
-					if (($itemType == 'file' || $itemType == 'folder')
-						&& $format == \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS
-						|| $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT
-					) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
-							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
-							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
-					} else {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
-							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
-							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`';
-					}
-				} else {
-					$select = '*';
-				}
-			}
-		}
+		$select = self::createSelectStatement($format, $fileDependent, $uidOwner);
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
@@ -1580,5 +1543,48 @@ class Share extends \OC\Share\Constants {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @breif construct select statement
+	 * @param int $format
+	 * @param bool $fileDependent ist it a file/folder share or a generla share
+	 * @param string $uidOwner
+	 * @return string select statement
+	 */
+	private static function createSelectStatement($format, $fileDependent, $uidOwner = null) {
+		$select = '*';
+		if ($format == self::FORMAT_STATUSES) {
+			if ($fileDependent) {
+				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `share_with`, `uid_owner`';
+			} else {
+				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`';
+			}
+		} else {
+			if (isset($uidOwner)) {
+				if ($fileDependent) {
+					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
+							. ' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
+							. ' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`';
+				} else {
+					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
+							. ' `stime`, `file_source`, `expiration`, `token`, `mail_send`, `uid_owner`';
+				}
+			} else {
+				if ($fileDependent) {
+					if ($format == \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
+						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
+								. '`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
+								. '`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
+								. '`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
+					} else {
+						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
+							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
+							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`';
+					}
+				}
+			}
+		}
+		return $select;
 	}
 }
