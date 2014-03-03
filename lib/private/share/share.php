@@ -1217,24 +1217,7 @@ class Share extends \OC\Share\Constants {
 			if (empty($items) && $limit == 1) {
 				return false;
 			}
-			if ($format == self::FORMAT_NONE) {
-				return $items;
-			} else if ($format == self::FORMAT_STATUSES) {
-				$statuses = array();
-				foreach ($items as $item) {
-					if ($item['share_type'] == self::SHARE_TYPE_LINK) {
-						$statuses[$item[$column]]['link'] = true;
-					} else if (!isset($statuses[$item[$column]])) {
-						$statuses[$item[$column]]['link'] = false;
-					}
-					if ($fileDependent) {
-						$statuses[$item[$column]]['path'] = $item['path'];
-					}
-				}
-				return $statuses;
-			} else {
-				return $backend->formatItems($items, $format, $parameters);
-			}
+			return self::formatResult($items, $column, $backend, $format, $parameters);
 		} else if ($limit == 1 || (isset($uidOwner) && isset($item))) {
 			return false;
 		}
@@ -1595,6 +1578,36 @@ class Share extends \OC\Share\Constants {
 		}
 		if (isset($row['stime'])) {
 			$row['stime'] = (int) $row['stime'];
+		}
+	}
+
+	/**
+	 * @brief format result
+	 * @param array $items result
+	 * @prams string $column is it a file share or a general share ('file_target' or 'item_target')
+	 * @params \OCP\Share_Backend $backend sharing backend
+	 * @param int $format
+	 * @param array additional format parameters
+	 * @return array formate result
+	 */
+	private static function formatResult($items, $column, $backend, $format = self::FORMAT_NONE , $parameters = null) {
+		if ($format === self::FORMAT_NONE) {
+			return $items;
+		} else if ($format === self::FORMAT_STATUSES) {
+			$statuses = array();
+			foreach ($items as $item) {
+				if ($item['share_type'] === self::SHARE_TYPE_LINK) {
+					$statuses[$item[$column]]['link'] = true;
+				} else if (!isset($statuses[$item[$column]])) {
+					$statuses[$item[$column]]['link'] = false;
+				}
+				if ('file_target') {
+					$statuses[$item[$column]]['path'] = $item['path'];
+				}
+			}
+			return $statuses;
+		} else {
+			return $backend->formatItems($items, $format, $parameters);
 		}
 	}
 }
