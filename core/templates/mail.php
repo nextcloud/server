@@ -2,8 +2,8 @@
 <tr><td>
 <table cellspacing="0" cellpadding="0" border="0" width="600px">
 <tr>
-<td bgcolor="#1d2d44" width="20px">&nbsp;</td>
-<td bgcolor="#1d2d44">
+<td bgcolor="<?php print_unescaped($theme->getMailHeaderColor());?>" width="20px">&nbsp;</td>
+<td bgcolor="<?php print_unescaped($theme->getMailHeaderColor());?>">
 <img src="<?php print_unescaped(OC_Helper::makeURLAbsolute(image_path('', 'logo-mail.gif'))); ?>" alt="<?php p($theme->getName()); ?>"/>
 </td>
 </tr>
