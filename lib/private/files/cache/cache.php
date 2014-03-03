@@ -520,7 +520,7 @@ class Cache {
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		$totalSize = 0;
-		if (is_null($entry)) {
+		if (is_null($entry) or !isset($entry['fileid'])) {
 			$entry = $this->get($path);
 		}
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
@@ -544,7 +544,7 @@ class Cache {
 				if ($entry['size'] !== $totalSize) {
 					$update['size'] = $totalSize;
 				}
-				if ($entry['unencrypted_size'] !== $unencryptedSum) {
+				if (!isset($entry['unencrypted_size']) or $entry['unencrypted_size'] !== $unencryptedSum) {
 					$update['unencrypted_size'] = $unencryptedSum;
 				}
 				if (count($update) > 0) {
