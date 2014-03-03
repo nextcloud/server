@@ -46,7 +46,7 @@ ListView.prototype={
 		$.each(this.hoverElement,function(index,collumn){
 			$.each(collumn,function(index,element){
 				var html='<a href="#" title="'+element.title+'" class="hoverElement"/>';
-				element=$(html);
+				element = $(html);
 				element.append($('<img src="'+element.icon+'"/>'));
 				element.click(element.callback);
 				tr.children('td.'+collumn).append(element);
@@ -61,7 +61,7 @@ ListView.prototype={
 	},
 	addHoverElement:function(column,icon,title,callback){
 		if(!this.hoverElements[column]){
-			this.hoverElements[column]=[];
+			this.hoverElements[column] = [];
 		}
 		this.hoverElements[row].push({icon:icon,callback:callback,title:title});
 	},

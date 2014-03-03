@@ -279,7 +279,7 @@
 			}
 			list.append(list.find('li.creator'));
 			var pos=button.position();
-			if(($(document).height() > (button.offset().top+button.outerHeight() + list.children().length * button.height()) &&
+			if(($(document).height() > (button.offset().top + button.outerHeight() + list.children().length * button.height()) &&
 				$(document).height() - button.offset().top > (button.offset().top+button.outerHeight() + list.children().length * button.height())) ||
 				$(document).height()/2 > button.offset().top
 			) {
