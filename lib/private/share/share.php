@@ -923,7 +923,8 @@ class Share extends \OC\Share\Constants {
 		} else {
 			$fileDependent = false;
 			$root = '';
-			if ($includeCollections && !isset($item) && ($collectionTypes = self::getCollectionItemTypes($itemType))) {
+			$collectionTypes = self::getCollectionItemTypes($itemType);
+			if ($includeCollections && !isset($item) && $collectionTypes) {
 				// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
 				if (!in_array($itemType, $collectionTypes)) {
 					$itemTypes = array_merge(array($itemType), $collectionTypes);
@@ -986,7 +987,8 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 		if (isset($item)) {
-			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+			$collectionTypes = self::getCollectionItemTypes($itemType);
+			if ($includeCollections && $collectionTypes) {
 				$where .= ' AND (';
 			} else {
 				$where .= ' AND';
