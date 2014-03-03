@@ -72,7 +72,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 		}
 
-		$path = $this->path . '/' . $name;
+		$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
 		// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
 		$info = new \OC\Files\FileInfo($path, null, null, array());
 		$node = new OC_Connector_Sabre_File($this->fileView, $info);
