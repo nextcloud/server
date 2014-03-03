@@ -41,7 +41,7 @@ class Helper
 					$result[] = array(
 						'id' => $id,
 						'timestamp' => $timestamp,
-						'mime' => $view->getMimeType($dir . '/' . $entryName),
+						'mime' => \OC_Helper::getFileNameMimeType($id),
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'location' => $dir,
 					);
@@ -58,6 +58,7 @@ class Helper
 			$i['name'] = $r['id'];
 			$i['date'] = \OCP\Util::formatDate($r['timestamp']);
 			$i['timestamp'] = $r['timestamp'];
+			$i['etag'] = $r['timestamp']; // add fake etag, it is only needed to identify the preview image
 			$i['mimetype'] = $r['mime'];
 			$i['type'] = $r['type'];
 			if ($i['type'] === 'file') {
