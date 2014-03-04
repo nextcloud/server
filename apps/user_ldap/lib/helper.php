@@ -120,7 +120,7 @@ class Helper {
 
 		$saveOtherConfigurations = '';
 		if(empty($prefix)) {
-			$saveOtherConfigurations = 'AND `Configkey` NOT LIKE \'s%\'';
+			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
 		$query = \OCP\DB::prepare('
