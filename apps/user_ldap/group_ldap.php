@@ -353,10 +353,15 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		   	|| empty($pagingsize)) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
+		if ($limit > -1) {
+		   $overall_limit = min($limit, 100000);
+		} else {
+		   $overall_limit = 100000;
+		}
 		$chunk_offset = $offset;
 		$all_groups = array();
-		while ($chunk_offset < $max_groups) {
-			$chunk_limit = min($pagingsize, $max_groups - $chunk_offset);
+		while ($chunk_offset < $overall_limit) {
+			$chunk_limit = min($pagingsize, $overall_limit - $chunk_offset);
 			$ldap_groups = $this->getGroupsChunk('', $chunk_limit, $chunk_offset);
 			$nread = count($ldap_groups);
 			\OCP\Util::writeLog('user_ldap', 'getAllGroups('.$search.'): read '.$nread.' at offset '.$chunk_offset.' (limit: '.$chunk_limit.')', \OCP\Util::DEBUG);
