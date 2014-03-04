@@ -45,7 +45,7 @@ class OC_Mount_Config {
 					'datadir' => 'Location'));
 
 		$backends['\OC\Files\Storage\AmazonS3']=array(
-			'backend' => 'Amazon S3',
+			'backend' => 'Amazon S3 and compliant',
 			'configuration' => array(
 				'key' => 'Access Key',
 				'secret' => '*Secret Key',
