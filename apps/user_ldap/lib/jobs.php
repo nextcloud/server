@@ -41,7 +41,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		\OCP\Util::writeLog('user_ldap', 'Run background job "updateGroups"', \OCP\Util::DEBUG);
 
 		$knownGroups = array_keys(self::getKnownGroups());
-		$actualGroups = self::getGroupBE()->getAllGroups();
+		$actualGroups = self::getGroupBE()->getGroups();
 
 		if(empty($actualGroups) && empty($knownGroups)) {
 			\OCP\Util::writeLog('user_ldap',
