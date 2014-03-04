@@ -111,6 +111,7 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(false));
 
 		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
+		$objectTree->init($rootDir, $view);
 		$objectTree->move($source, $dest);
 	}
 
