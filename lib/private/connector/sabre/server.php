@@ -27,17 +27,6 @@
  * @see Sabre_DAV_Server
  */
 class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
-	/**
-	 * Sets up the server
-	 *
-	 * Unlike Sabre_DAV_Server's constructor this does not take an INode or ObjectTree as argument,
-	 * the object tree needs to be set later with setObjectTree
-	 */
-	public function __construct() {
-		$this->httpResponse = new Sabre_HTTP_Response();
-		$this->httpRequest = new Sabre_HTTP_Request();
-
-	}
 
 	public function setObjectTree($tree) {
 		$this->tree = $tree;

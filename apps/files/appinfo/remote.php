@@ -35,7 +35,8 @@ $lockBackend = new OC_Connector_Sabre_Locks();
 $requestBackend = new OC_Connector_Sabre_Request();
 
 // Fire up server
-$server = new OC_Connector_Sabre_Server();
+$objectTree = new \OC\Connector\Sabre\ObjectTree();
+$server = new OC_Connector_Sabre_Server($objectTree);
 $server->httpRequest = $requestBackend;
 $server->setBaseUri($baseuri);
 
@@ -49,14 +50,13 @@ $server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
 $server->addPlugin(new OC_Connector_Sabre_ExceptionLoggerPlugin('webdav'));
 
 // wait with registering these until auth is handled and the filesystem is setup
-$server->subscribeEvent('beforeMethod', function () use ($server) {
+$server->subscribeEvent('beforeMethod', function () use ($server, $objectTree) {
 	$view = \OC\Files\Filesystem::getView();
 	$rootInfo = $view->getFileInfo('');
 
 	// Create ownCloud Dir
 	$rootDir = new OC_Connector_Sabre_Directory($view, $rootInfo);
-	$objectTree = new \OC\Connector\Sabre\ObjectTree($rootDir, $view);
-	$server->setObjectTree($objectTree);
+	$objectTree->init($rootDir, $view);
 
 	$server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view));
 	$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));

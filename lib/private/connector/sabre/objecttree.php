@@ -22,12 +22,16 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 * Creates the object
 	 *
 	 * This method expects the rootObject to be passed as a parameter
-	 *
+	 */
+	public function __construct() {
+	}
+
+	/**
 	 * @param \Sabre_DAV_ICollection $rootNode
 	 * @param \OC\Files\View $view
 	 */
-	public function __construct(\Sabre_DAV_ICollection $rootNode, $view) {
-		parent::__construct($rootNode);
+	public function init(\Sabre_DAV_ICollection $rootNode, \OC\Files\View $view) {
+		$this->rootNode = $rootNode;
 		$this->fileView = $view;
 	}
 
@@ -39,6 +43,9 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 * @return \Sabre_DAV_INode
 	 */
 	public function getNodeForPath($path) {
+		if (!$this->fileView) {
+			throw new \Sabre_DAV_Exception_ServiceUnavailable('filesystem not setup');
+		}
 
 		$path = trim($path, '/');
 		if (isset($this->cache[$path])) {
@@ -94,6 +101,9 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 * @return int
 	 */
 	public function move($sourcePath, $destinationPath) {
+		if (!$this->fileView) {
+			throw new \Sabre_DAV_Exception_ServiceUnavailable('filesystem not setup');
+		}
 
 		$sourceNode = $this->getNodeForPath($sourcePath);
 		if ($sourceNode instanceof \Sabre_DAV_ICollection and $this->nodeExists($destinationPath)) {
@@ -150,6 +160,9 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 * @return void
 	 */
 	public function copy($source, $destination) {
+		if (!$this->fileView) {
+			throw new \Sabre_DAV_Exception_ServiceUnavailable('filesystem not setup');
+		}
 
 		if ($this->fileView->is_file($source)) {
 			$this->fileView->copy($source, $destination);
