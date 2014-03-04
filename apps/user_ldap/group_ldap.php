@@ -344,7 +344,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
    	 * (active directory has a limit of 1000 by default)
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		$max_groups = 100000; // limit max results (just for safety reasons)
 		if(!$this->enabled) {
 			return array();
 		}
@@ -353,10 +352,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		   	|| empty($pagingsize)) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
+		$max_groups = 100000; // limit max results (just for safety reasons)
 		if ($limit > -1) {
-		   $overall_limit = min($limit, 100000);
+		   $overall_limit = min($limit, $max_groups);
 		} else {
-		   $overall_limit = 100000;
+		   $overall_limit = $max_groups;
 		}
 		$chunk_offset = $offset;
 		$all_groups = array();
