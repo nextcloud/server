@@ -180,4 +180,43 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 		// tear down
 		$view->unlink($filename);
 	}
+
+	/**
+	 * @medium
+	 * @brief test if stream wrapper can read files outside from the data folder
+	 */
+	function testStreamFromLocalFile() {
+
+		$filename = '/' . $this->userId . '/files/' . 'tmp-' . time().'.txt';
+
+		$tmpFilename = "/tmp/" . time() . ".txt";
+
+		// write an encrypted file
+		$cryptedFile = $this->view->file_put_contents($filename, $this->dataShort);
+
+		// Test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// create a copy outside of the data folder in /tmp
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+		$encryptedContent = $this->view->file_get_contents($filename);
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		file_put_contents($tmpFilename, $encryptedContent);
+
+		\OCA\Encryption\Helper::addTmpFileToMapper($tmpFilename, $filename);
+
+		// try to read the file from /tmp
+		$handle = fopen("crypt://".$tmpFilename, "r");
+		$contentFromTmpFile = stream_get_contents($handle);
+
+		// check if it was successful
+		$this->assertEquals($this->dataShort, $contentFromTmpFile);
+
+		// clean up
+		unlink($tmpFilename);
+		$this->view->unlink($filename);
+
+	}
 }
