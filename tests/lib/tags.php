@@ -130,7 +130,7 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$tagger = $this->tagMgr->load($this->objectType);
 
 		foreach($objids as $id) {
-			$tagger->tagAs($id, 'Family');
+			$this->assertTrue($tagger->tagAs($id, 'Family'));
 		}
 
 		$this->assertEquals(1, count($tagger->getTags()));
