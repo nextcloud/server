@@ -83,7 +83,7 @@ if($_['passwordChangeSupported']) {
 			placeholder="<?php p($l->t('Your email address'));?>"
 			autocomplete="on" autocapitalize="off" autocorrect="off" />
 		<span class="msg"></span><br />
-		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
+		<em><?php p($l->t('Fill in an email address to enable password recovery and receive notifications'));?></em>
 	</fieldset>
 </form>
 <?php
