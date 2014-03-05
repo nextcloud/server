@@ -302,13 +302,23 @@ $(document).ready(function() {
 	});
 
 	$('#allowUserMounting').bind('change', function() {
+		OC.msg.startSaving('#userMountingMsg');
 		if (this.checked) {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
+			$('#userMountingBackups').removeClass('hidden');
 		} else {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
+			$('#userMountingBackups').addClass('hidden');
 		}
+		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('settings', 'Saved')}});
 	});
 
+	$('input[name="allowUserMountingBackends\\[\\]"]').bind('change', function() {
+		OC.msg.startSaving('#userMountingMsg');
+		var user_mounting_backends = $('input[name="allowUserMountingBackends\\[\\]"]:checked').map(function(){return $(this).val();}).get();
+		OC.AppConfig.setValue('files_external', 'user_mounting_backends', user_mounting_backends.join());
+		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('settings', 'Saved')}});
+	});
 });
 
 })();
