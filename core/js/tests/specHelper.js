@@ -86,19 +86,9 @@ window.oc_defaults = {};
 		// make it globally available, so that other tests can define
 		// custom responses
 		window.fakeServer = fakeServer;
-
-		OC.Router = {};
-		OC.Router.routes = [];
-		OC.Router.routes_request = {
-			state: sinon.stub().returns('resolved'),
-			done: sinon.stub()
-		};
 	});
 
 	afterEach(function() {
-		OC.Router.routes_request.state.reset();
-		OC.Router.routes_request.done.reset();
-
 		// uncomment this to log requests
 		// console.log(window.fakeServer.requests);
 		fakeServer.restore();
