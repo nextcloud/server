@@ -720,7 +720,11 @@ $(document).ready(function() {
 		var itemSource = $('#dropdown').data('item-source');
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
+				if (!result.data.message) {
+					OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
+				} else {
+					OC.dialogs.alert(result.data.message, t('core', 'Error'));
+				}
 			}
 		});
 	});
