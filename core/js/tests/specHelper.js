@@ -87,6 +87,7 @@ window.oc_defaults = {};
 		// custom responses
 		window.fakeServer = fakeServer;
 
+		OC.Router = {};
 		OC.Router.routes = [];
 		OC.Router.routes_request = {
 			state: sinon.stub().returns('resolved'),
