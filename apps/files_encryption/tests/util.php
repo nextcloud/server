@@ -510,7 +510,11 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 */
 	public static function loginHelper($user, $create = false, $password = false) {
 		if ($create) {
-			\OC_User::createUser($user, $user);
+			try {
+				\OC_User::createUser($user, $user);
+			} catch(\Exception $e) { // catch username is already being used from previous aborted runs
+
+			}
 		}
 
 		if ($password === false) {
