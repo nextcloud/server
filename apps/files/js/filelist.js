@@ -1153,9 +1153,9 @@ $(document).ready(function() {
 			// need to initially switch the dir to the one from the hash (IE8)
 			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
 		}
-	}
 
-	FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
+		FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
+	}
 
 	FileList.createFileSummary();
 });
