@@ -694,6 +694,22 @@ class OC {
 			exit();
 		}
 
+		$host = OC_Request::insecureServerHost();
+		// if the host passed in headers isn't trusted
+		if (!OC::$CLI
+			// overwritehost is always trusted
+			&& OC_Request::getOverwriteHost() === null
+			&& !OC_Request::isTrustedDomain($host)) {
+
+			header('HTTP/1.1 400 Bad Request');
+			header('Status: 400 Bad Request');
+			OC_Template::printErrorPage(
+				'You are accessing the server from an untrusted domain.',
+				'Please contact your administrator'
+			);
+			return;
+		}
+
 		$request = OC_Request::getPathInfo();
 		if (substr($request, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
