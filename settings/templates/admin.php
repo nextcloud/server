@@ -26,11 +26,15 @@ $mail_smtpsecure = array(
 );
 
 $mail_smtpmode = array(
-	'sendmail',
-	'smtp',
-	'qmail',
 	'php',
+	'smtp',
 );
+if ($_['sendmail_is_available']) {
+	$mail_smtpmode[] = 'sendmail';
+}
+if ($_['mail_smtpmode'] == 'qmail') {
+	$mail_smtpmode[] = 'qmail';
+}
 
 ?>
 

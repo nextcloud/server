@@ -20,6 +20,11 @@ $htaccessworking=OC_Util::isHtAccessWorking();
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
 
+// Should we display sendmail as an option?
+if (ini_get('sendmail_path') || file_exists('/usr/sbin/sendmail') || file_exists('/var/qmail/bin/sendmail')) {
+	$tmpl->assign('sendmail_is_available', true);
+}
+
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('mail_domain', OC_Config::getValue( "mail_domain", '' ));
 $tmpl->assign('mail_from_address', OC_Config::getValue( "mail_from_address", '' ));
