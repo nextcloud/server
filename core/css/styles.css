@@ -175,6 +175,7 @@ button, .button,
 	border: 1px solid rgba(190,190,190,.9);
 	cursor: pointer;
 	border-radius: 3px;
+	outline: none;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
