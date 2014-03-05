@@ -7,6 +7,8 @@
  */
 
 class OC_Request {
+	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
+
 	/**
 	 * @brief Check overwrite condition
 	 * @returns bool
@@ -29,6 +31,9 @@ class OC_Request {
 	public static function isTrustedDomain($domain) {
 		$trustedList = \OC_Config::getValue('trusted_domains', array());
 		if (empty($trustedList)) {
+			return true;
+		}
+		if (preg_match(self::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
 		return in_array($domain, $trustedList);
