@@ -408,6 +408,7 @@ class Preview {
 			$image->loadFromFileHandle($stream);
 			$this->preview = $image->valid() ? $image : null;
 			$this->resizeAndCrop();
+			fclose($stream);
 		}
 
 		if (is_null($this->preview)) {
