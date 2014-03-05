@@ -58,7 +58,8 @@ class OC_Request {
 		$host = null;
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
-				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
+				$parts = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
+				$host = trim(current($parts));
 			} else {
 				$host = $_SERVER['HTTP_X_FORWARDED_HOST'];
 			}
