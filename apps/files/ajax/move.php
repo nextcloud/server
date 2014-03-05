@@ -18,7 +18,7 @@ if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
 	exit;
 }
 
-if ($dir != '' || $file != 'Shared') {
+if ($target != '' || strtolower($file) != 'shared') {
 	$targetFile = \OC\Files\Filesystem::normalizePath($target . '/' . $file);
 	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
