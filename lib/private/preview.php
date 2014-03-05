@@ -391,10 +391,13 @@ class Preview {
 
 		$cached = $this->isCached();
 
-		if($cached) {
-			$image = new \OC_Image($this->userView->file_get_contents($cached, 'r'));
+		if ($cached) {
+			$stream = $this->userView->fopen($cached, 'r');
+			$image = new \OC_Image();
+			$image->loadFromFileHandle($stream);
 			$this->preview = $image->valid() ? $image : null;
 			$this->resizeAndCrop();
+			fclose($stream);
 		}
 
 		if(is_null($this->preview)) {
