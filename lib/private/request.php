@@ -13,6 +13,8 @@ class OC_Request {
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 
+	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
+
 	/**
 	 * @brief Check overwrite condition
 	 * @param string $type
@@ -36,6 +38,9 @@ class OC_Request {
 	public static function isTrustedDomain($domain) {
 		$trustedList = \OC_Config::getValue('trusted_domains', array());
 		if (empty($trustedList)) {
+			return true;
+		}
+		if (preg_match(self::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
 		return in_array($domain, $trustedList);
