@@ -175,6 +175,30 @@ var OC={
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
+
+	/**
+	 * Generates the absolute url for the given relative url, which can contain parameters.
+	 *
+	 * @returns {string}
+	 * @param {string} url
+	 * @param params
+	 */
+	generateUrl: function(url, params) {
+		var _build = function (text, vars) {
+			return text.replace(/{([^{}]*)}/g,
+				function (a, b) {
+					var r = vars[b];
+					return typeof r === 'string' || typeof r === 'number' ? r : a;
+				}
+			);
+		};
+		if (url.charAt(0) !== '/') {
+			url = '/' + url;
+
+		}
+		return OC.webroot + '/index.php' + _build(url, params);
+	},
+
 	/**
 	 * get an absolute url to a file in an appen
 	 * @param app the id of the app the file belongs to
