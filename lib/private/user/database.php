@@ -39,14 +39,13 @@ require_once 'phpass/PasswordHash.php';
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
-
-	protected static $cache = array();
-	protected static $cache_complete = true;
-
 	/**
 	 * @var PasswordHash
 	 */
 	private static $hasher = null;
+
+	protected static $cache = array();
+	protected static $cache_complete = false;
 
 	private function getHasher() {
 		if (!self::$hasher) {
@@ -68,16 +67,19 @@ class OC_User_Database extends OC_User_Backend {
 	 * itself, not in its subclasses.
 	 */
 	public function createUser($uid, $password) {
-		if ($this->userExists($uid)) {
-			return false;
-		} else {
+		if (!$this->userExists($uid)) {
 			$hasher = $this->getHasher();
 			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
 			$result = $query->execute(array($uid, $hash));
-
-			return $result ? true : false;
+			
+			if ($result) {
+				self::$cache[$uid]['uid'] = $uid;
+				return true;
+			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -127,10 +129,11 @@ class OC_User_Database extends OC_User_Backend {
 		if ($this->userExists($uid)) {
 			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = ?');
 			$query->execute(array($displayName, $uid));
+			self::$cache[$uid]['displayname'] = $displayName;
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -140,8 +143,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getDisplayName($uid) {
 		$this->loadUser($uid);
-		if (!empty(self::$cache['uid']['displayname'])) {
-			return self::$cache['uid']['displayname'];
+		if (!empty(self::$cache[$uid]['displayname'])) {
+			return self::$cache[$uid]['displayname'];
 		} else {
 			return $uid;
 		}
