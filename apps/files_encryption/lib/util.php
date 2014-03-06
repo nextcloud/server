@@ -135,7 +135,6 @@ class Util {
 		// Set directories to check / create
 		$setUpDirs = array(
 			$this->userDir,
-			$this->userFilesDir,
 			$this->publicKeyDir,
 			$this->encryptionDir,
 			$this->keyfilesPath,
@@ -1770,6 +1769,14 @@ class Util {
 		$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 
 		return $session;
+	}
+
+	/*
+	 * @brief remove encryption related keys from the session
+	 */
+	public function closeEncryptionSession() {
+		$session = new \OCA\Encryption\Session($this->view);
+		$session->closeSession();
 	}
 
 }

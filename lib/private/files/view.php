@@ -882,12 +882,13 @@ class View {
 				$watcher->checkUpdate($internalPath);
 			}
 
+			$folderId = $cache->getId($internalPath);
 			$files = array();
-			$contents = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
+			$contents = $cache->getFolderContents($internalPath, $folderId); //TODO: mimetype_filter
 			foreach ($contents as $content) {
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
-			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath), $user);
+			$permissions = $permissionsCache->getDirectoryPermissions($folderId, $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {

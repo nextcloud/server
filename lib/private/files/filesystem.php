@@ -320,7 +320,8 @@ class Filesystem {
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		}
-		$mount_file = \OC_Config::getValue("mount_file", \OC::$SERVERROOT . "/data/mount.json");
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
 
 		//move config file to it's new position
 		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
@@ -760,7 +761,7 @@ class Filesystem {
 	 *
 	 * @param string $directory path under datadirectory
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
-	 * @return array
+	 * @return \OC\Files\FileInfo[]
 	 */
 	public static function getDirectoryContent($directory, $mimetype_filter = '') {
 		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);

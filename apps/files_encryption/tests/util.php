@@ -344,7 +344,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
-		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+		$this->assertSame($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
 
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
@@ -373,7 +373,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
-		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+		$this->assertSame($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
 		// file should no longer be encrypted
 		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
