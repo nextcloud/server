@@ -839,7 +839,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace)){
+		if (is_null($freeSpace) || $freeSpace < 0){
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());

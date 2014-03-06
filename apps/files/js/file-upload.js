@@ -206,6 +206,7 @@ OC.Upload = {
 				add: function(e, data) {
 					OC.Upload.log('add', e, data);
 					var that = $(this);
+					var freeSpace;
 
 					// we need to collect all data upload objects before starting the upload so we can check their existence
 					// and set individual conflict actions. unfortunately there is only one variable that we can use to identify
@@ -261,7 +262,8 @@ OC.Upload = {
 					}
 
 					// check free space
-					if (selection.totalBytes > $('#free_space').val()) {
+					freeSpace = $('#free_space').val();
+					if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
 						data.textStatus = 'notenoughspace';
 						data.errorThrown = t('files', 'Not enough free space, you are uploading {size1} but only {size2} is left', {
 							'size1': humanFileSize(selection.totalBytes),
