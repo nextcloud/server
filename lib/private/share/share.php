@@ -1170,7 +1170,7 @@ class Share extends \OC\Share\Constants {
 								if ($backend instanceof \OCP\Share_Backend_File_Dependent) {
 									if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
 										$childItem['file_source'] = $child['source'];
-									} else {
+									} else { // TODO is this really needed if we already know that we use the file backend?
 										$meta = \OC\Files\Filesystem::getFileInfo($child['file_path']);
 										$childItem['file_source'] = $meta['fileid'];
 									}
