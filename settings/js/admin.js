@@ -64,15 +64,15 @@ $(document).ready(function(){
 	$('#mail_settings').change(function(){
 		OC.msg.startSaving('#mail_settings_msg');
 		var post = $( "#mail_settings" ).serialize();
-		$.post(OC.Router.generate('settings_mail_settings'), post, function(data){
-			OC.msg.finishedSaving('#mail_settings_msg', data);
+		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
+			OC.msg.finishedSaving('#mail_settings .msg', data);
 		});
 	});
 
 	$('#sendtestemail').click(function(){
 		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending...'));
 		var post = $( "#sendtestemail" ).serialize();
-		$.post(OC.Router.generate('settings_admin_mail_test'), post, function(data){
+		$.post(OC.generateUrl('/settings/admin/mailtest'), post, function(data){
 			OC.msg.finishedAction('#sendtestmail_msg', data);
 		});
 	});

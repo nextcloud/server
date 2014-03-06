@@ -158,28 +158,4 @@ class OC_Router {
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
 
-	/**
-	 * Generate JSON response for routing in javascript
-	 */
-	public static function JSRoutes()
-	{
-		$router = OC::getRouter();
-
-		$etag = $router->getCacheKey();
-		OC_Response::enableCaching();
-		OC_Response::setETagHeader($etag);
-
-		$root = $router->getCollection('root');
-		$routes = array();
-		foreach($root->all() as $name => $route) {
-			$compiled_route = $route->compile();
-			$defaults = $route->getDefaults();
-			unset($defaults['action']);
-			$routes[$name] = array(
-				'tokens' => $compiled_route->getTokens(),
-				'defaults' => $defaults,
-			);
-		}
-		OCP\JSON::success ( array( 'data' => $routes ) );
-	}
 }
