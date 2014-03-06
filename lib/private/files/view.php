@@ -843,7 +843,7 @@ class View {
 				$data = $cache->get($internalPath);
 			}
 
-			if ($data and $data['fileid']) {
+			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
 					$mountPoints = Filesystem::getMountPoints($path);
