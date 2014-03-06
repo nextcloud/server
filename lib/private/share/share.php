@@ -889,7 +889,7 @@ class Share extends \OC\Share\Constants {
 	 * @param bool Include collection item types (optional)
 	 * @param bool TODO (optional)
 	 * @prams bool check expire date
-	 * @return mixed
+	 * @return array
 	 *
 	 * See public functions getItem(s)... for parameter usage
 	 *
@@ -898,11 +898,7 @@ class Share extends \OC\Share\Constants {
 		$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
 		$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true) {
 		if (!self::isEnabled()) {
-			if ($limit == 1 || (isset($uidOwner) && isset($item))) {
-				return false;
-			} else {
-				return array();
-			}
+			return array();
 		}
 		$backend = self::getBackend($itemType);
 		$collectionTypes = false;
@@ -1214,13 +1210,10 @@ class Share extends \OC\Share\Constants {
 			if (!empty($collectionItems)) {
 				$items = array_merge($items, $collectionItems);
 			}
-			if (empty($items) && $limit == 1) {
-				return false;
-			}
+
 			return self::formatResult($items, $column, $backend, $format, $parameters);
-		} else if ($limit == 1 || (isset($uidOwner) && isset($item))) {
-			return false;
 		}
+
 		return array();
 	}
 
