@@ -13,6 +13,6 @@
 	</types>
 	<public>
 		<files>public.php</files>
-		<webdav>public.php</webdav>
+		<webdav>publicwebdav.php</webdav>
 	</public>
 </info>
