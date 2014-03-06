@@ -1,16 +1,18 @@
 <div id="user-controls">
 	<form id="newuser" autocomplete="off">
-		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" /> <input
+		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" />
+		<input
 			type="password" id="newuserpassword"
-			placeholder="<?php p($l->t('Password'))?>" /> <select
-			class="groupsselect"
-			id="newusergroups" data-placeholder="groups"
+			placeholder="<?php p($l->t('Password'))?>"
+		/>
+		<select
+			class="groupsselect" id="newusergroups" data-placeholder="groups"
 			title="<?php p($l->t('Groups'))?>" multiple="multiple">
 			<?php foreach($_["adminGroup"] as $adminGroup): ?>
-			<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
+				<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
 			<?php endforeach; ?>
 			<?php foreach($_["groups"] as $group): ?>
-			<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
+				<option value="<?php p($group['name']);?>"><?php p($group['name']);?></option>
 			<?php endforeach;?>
 		</select>
 		<input type="submit" class="button" value="<?php p($l->t('Create'))?>" />

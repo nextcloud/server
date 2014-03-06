@@ -55,6 +55,19 @@
 						var addedGroups = result.data.groupname;
 						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
 						GroupList.addGroup(result.data.groupname);
+
+						$('#newusergroups').children().first().attr('value', result.data.groupname);
+						$('#newusergroups').children().first().text(result.data.groupname);
+
+						$('.groupsselect').each( function (index, element) {
+							$(element).children().first().attr('value', result.data.groupname);
+							$(element).children().first().text(result.data.groupname);
+						});
+
+						$('.subadminsselect').each( function (index, element) {
+							$(element).children().first().attr('value', result.data.groupname);
+							$(element).children().first().text(result.data.groupname);
+						});
 					}
 					GroupList.toggleAddGroup();
 				}
@@ -124,7 +137,7 @@
 	initDeleteHandling: function() {
 		//set up handler
 		GroupDeleteHandler = new DeleteHandler('removegroup.php', 'groupname',
-											  GroupList.hide, GroupList.remove);
+											GroupList.hide, GroupList.remove);
 
 		//configure undo
 		OC.Notification.hide();
