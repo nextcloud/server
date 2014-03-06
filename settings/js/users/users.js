@@ -293,6 +293,7 @@ var UserList = {
 						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
 				});
+				GroupList.addGroup(escapeHTML(group));
 			};
 			var label;
 			if (oc_isadmin) {
