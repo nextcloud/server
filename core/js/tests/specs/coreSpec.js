@@ -270,5 +270,14 @@ describe('Core base tests', function() {
 		});
 
 	});
+	describe('Generate Url', function() {
+		it('returns absolute urls', function() {
+			expect(OC.generateUrl('heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+			expect(OC.generateUrl('/heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+		});
+		it('substitutes parameters', function() {
+			expect(OC.generateUrl('apps/files/download{file}', {file: '/Welcome.txt'})).toEqual(OC.webroot + '/index.php/apps/files/download/Welcome.txt');
+		});
+	});
 });
 
