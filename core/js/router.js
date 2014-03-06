@@ -1,4 +1,7 @@
 OC.router_base_url = OC.webroot + '/index.php';
+
+// deprecated Use OC.generateUrl instead
+// see http://mailman.owncloud.org/pipermail/user/2014-March/000152.html
 OC.Router = {
 	// register your ajax requests to load after the loading of the routes
 	// has finished. otherwise you face problems with race conditions
@@ -14,6 +17,7 @@ OC.Router = {
 		}
 	}),
 	generate:function(name, opt_params) {
+		console.warn("This function is deprecated! Use OC.generateUrl instead");
 		if (!('routes' in this)) {
 			if(this.routes_request.state() != 'resolved') {
 				console.warn('To avoid race conditions, please register a callback');// wait
