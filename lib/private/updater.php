@@ -134,6 +134,8 @@ class Updater extends BasicEmitter {
 		$repair = new Repair();
 		$repair->run();
 
+		//Invalidate update feed
+		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}
