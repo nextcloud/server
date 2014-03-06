@@ -707,7 +707,7 @@ class Access extends LDAPUtility {
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
 		if ($pagedSearchOK) {
-			$this->ldap->controlPagedResult($cr, 0, false, "");
+			$this->ldap->controlPagedResult($cr, 999999, false, "");
 		}
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
