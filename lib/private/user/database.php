@@ -39,12 +39,14 @@ require_once 'phpass/PasswordHash.php';
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
+
+	protected static $cache = array();
+	protected static $cache_complete = true;
+
 	/**
 	 * @var PasswordHash
 	 */
 	private static $hasher = null;
-
-	protected static $cache = array();
 
 	private function getHasher() {
 		if (!self::$hasher) {
@@ -199,6 +201,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Load an user in the cache
+	 * @param string $uid the username
 	 * @returns boolean
 	 */
 	protected function loadUser($uid) {
@@ -221,18 +224,44 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
+	 * @brief Load an user in the cache
+	 * @param string $uid the username
+	 * @returns boolean
+	 */
+	protected function loadUsers() {
+		if (!self::$cache_complete) {
+			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` ORDER BY `uid`');
+			$result = $query->execute(array($uid));
+
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
+
+			while ($row = $result->fetchRow()) {
+				self::$cache[$uid]['uid'] = $row['uid'];
+				self::$cache[$uid]['displayname'] = $row['displayname'];
+			}
+
+			self::$cache_complete = true;
+		}
+
+		return true;
+	}
+
+	/**
 	 * @brief Get a list of all users
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
-		$result = $query->execute(array($search . '%'));
+		$this->loadUsers();
+
 		$users = array();
-		while ($row = $result->fetchRow()) {
-			$users[] = $row['uid'];
-		}
+		foreach (self::$cache as $uid => $value)
+			$users[] = $uid;
+
 		return $users;
 	}
 
@@ -271,13 +300,8 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return int | bool
 	 */
 	public function countUsers() {
-		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
-		$result = $query->execute();
-		if (OC_DB::isError($result)) {
-			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
-			return false;
-		}
-		return $result->fetchOne();
+		$this->loadUsers();
+		return count(self::$cache);
 	}
 
 }
