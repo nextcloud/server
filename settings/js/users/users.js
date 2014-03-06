@@ -1,4 +1,6 @@
 /**
+ * Copyright (c) 2014, Arthur Schiwon <blizzz@owncloud.com>
+ * Copyright (c) 2014, Raghu Nayyar <beingminimal@gmail.com>
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
