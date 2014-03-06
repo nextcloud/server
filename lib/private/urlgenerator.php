@@ -148,6 +148,7 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getAbsoluteURL($url) {
 		$separator = $url[0] === '/' ? '' : '/';
-		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . $separator . $url;
+
+		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost(). \OC::$WEBROOT . $separator . $url;
 	}
 }
