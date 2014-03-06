@@ -15,9 +15,9 @@ if (extension_loaded('imagick')) {
 
 		// LibreOffice preview is currently not supported on Windows
 		if (!\OC_Util::runningOnWindows()) {
-			$whichLibreOffice = ($isShellExecEnabled ? shell_exec('which libreoffice') : '');
+			$whichLibreOffice = ($isShellExecEnabled ? shell_exec('command -v libreoffice') : '');
 			$isLibreOfficeAvailable = !empty($whichLibreOffice);
-			$whichOpenOffice = ($isShellExecEnabled ? shell_exec('which libreoffice') : '');
+			$whichOpenOffice = ($isShellExecEnabled ? shell_exec('command -v libreoffice') : '');
 			$isOpenOfficeAvailable = !empty($whichOpenOffice);
 			//let's see if there is libreoffice or openoffice on this machine
 			if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {

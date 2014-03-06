@@ -419,15 +419,12 @@ window.FileList={
 			len = input.val().length;
 		}
 		input.selectRange(0, len);
-
 		var checkInput = function () {
 			var filename = input.val();
 			if (filename !== oldname) {
-				if (!Files.isFileNameValid(filename)) {
-					// Files.isFileNameValid(filename) throws an exception itself
-				} else if($('#dir').val() === '/' && filename === 'Shared') {
-					throw t('files','In the home folder \'Shared\' is a reserved filename');
-				} else if (FileList.inList(filename)) {
+				// Files.isFileNameValid(filename) throws an exception itself
+				Files.isFileNameValid(filename, FileList.getCurrentDirectory());
+				if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				}
 			}
@@ -1156,9 +1153,9 @@ $(document).ready(function() {
 			// need to initially switch the dir to the one from the hash (IE8)
 			FileList.changeDirectory(parseCurrentDirFromUrl(), false, true);
 		}
-	}
 
-	FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
+		FileList.setCurrentDir(parseCurrentDirFromUrl(), false);
+	}
 
 	FileList.createFileSummary();
 });
