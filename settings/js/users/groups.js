@@ -220,16 +220,26 @@ $(document).ready( function () {
 	});
 
 	// Implements Quota Settings Toggle.
-	$('#app-navigation').find('.settings-button').on('click', function (e) {
-		$('.settings-button').addClass('opened');
-		var settings = $('#app-settings');
-		e.stopPropagation();
-		settings.animate({height: "100px"});
-		$('#app-settings-content').css('display', 'block');
-		$(document).click(function (e) {
-			if (!settings.is(e.target) && settings.has(e.target).length === 0) {
-				settings.animate({height: "45px"});
+	$('#app-settings-header').on('click keydown',function(event) {
+		if(wrongKey(event)) {
+			return;
+		}
+		var bodyListener = function(e) {
+			if($('#app-settings').find($(e.target)).length === 0) {
+				$('#app-settings').switchClass('open', '');
 			}
-		});
+		};
+		if($('#app-settings').hasClass('open')) {
+			$('#app-settings').switchClass('open', '');
+			$('body').unbind('click', bodyListener);
+		} else {
+			$('#app-settings').switchClass('', 'open');
+			$('body').bind('click', bodyListener);
+		}
 	});
 });
+
+var wrongKey = function(event) {
+	return ((event.type === 'keydown' || event.type === 'keypress') 
+		&& (event.keyCode !== 32 && event.keyCode !== 13));
+};
