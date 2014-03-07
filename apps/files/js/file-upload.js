@@ -70,7 +70,7 @@ OC.Upload = {
 	 */
 	isProcessing:function() {
 		var count = 0;
-		
+
 		jQuery.each(this._uploads,function(i, data) {
 			if (data.state() === 'pending') {
 				count++;
@@ -196,13 +196,13 @@ $(document).ready(function() {
 			add: function(e, data) {
 				OC.Upload.log('add', e, data);
 				var that = $(this);
-			
+
 				// we need to collect all data upload objects before starting the upload so we can check their existence
 				// and set individual conflict actions. unfortunately there is only one variable that we can use to identify
 				// the selection a data upload is part of, so we have to collect them in data.originalFiles
 				// turning singleFileUploads off is not an option because we want to gracefully handle server errors like
 				// already exists
-			
+
 				// create a container where we can store the data objects
 				if ( ! data.originalFiles.selection ) {
 					// initialize selection and remember number of files to upload
@@ -213,40 +213,40 @@ $(document).ready(function() {
 					};
 				}
 				var selection = data.originalFiles.selection;
-			
+
 				// add uploads
 				if ( selection.uploads.length < selection.filesToUpload ) {
 					// remember upload
 					selection.uploads.push(data);
 				}
-			
+
 				//examine file
 				var file = data.files[0];
 				try {
 					// FIXME: not so elegant... need to refactor that method to return a value
-					Files.isFileNameValid(file.name);
+					Files.isFileNameValid(file.name, FileList.getCurrentDirectory());
 				}
 				catch (errorMessage) {
 					data.textStatus = 'invalidcharacters';
 					data.errorThrown = errorMessage;
 				}
-			
+
 				if (file.type === '' && file.size === 4096) {
 					data.textStatus = 'dirorzero';
 					data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
 						{filename: file.name}
 					);
 				}
-			
+
 				// add size
 				selection.totalBytes += file.size;
-			
+
 				//check max upload size
 				if (selection.totalBytes > $('#max_upload').val()) {
 					data.textStatus = 'notenoughspace';
 					data.errorThrown = t('files', 'Not enough space available');
 				}
-			
+
 				// end upload for whole selection on error
 				if (data.errorThrown) {
 					// trigger fileupload fail
@@ -257,12 +257,12 @@ $(document).ready(function() {
 
 				// check existing files when all is collected
 				if ( selection.uploads.length >= selection.filesToUpload ) {
-				
+
 					//remove our selection hack:
 					delete data.originalFiles.selection;
 
 					var callbacks = {
-					
+
 						onNoConflicts: function (selection) {
 							$.each(selection.uploads, function(i, upload) {
 								upload.submit();
@@ -285,7 +285,7 @@ $(document).ready(function() {
 					};
 
 					OC.Upload.checkExistingFiles(selection, callbacks);
-				
+
 				}
 
 				return true; // continue adding files
@@ -408,7 +408,7 @@ $(document).ready(function() {
 			});
 			fileupload.on('fileuploadstop', function(e, data) {
 				OC.Upload.log('progress handle fileuploadstop', e, data);
-				
+
 				$('#uploadprogresswrapper input.stop').fadeOut();
 				$('#uploadprogressbar').fadeOut();
 			    Files.updateStorageStatistics();
@@ -500,7 +500,7 @@ $(document).ready(function() {
 		if ($(this).children('p').length === 0) {
 			return;
 		}
-		
+
 		$('#new .error').tipsy('hide');
 
 		$('#new li').each(function(i,element) {
@@ -514,7 +514,7 @@ $(document).ready(function() {
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
 		$(this).children('p').remove();
-		
+
 		// add input field
 		var form = $('<form></form>');
 		var input = $('<input type="text">');
@@ -531,7 +531,7 @@ $(document).ready(function() {
 				throw t('files', 'URL cannot be empty');
 			} else if (type !== 'web' && !Files.isFileNameValid(filename)) {
 				// Files.isFileNameValid(filename) throws an exception itself
-			} else if ($('#dir').val() === '/' && filename === 'Shared') {
+			} else if (FileList.getCurrentDirectory() === '/' && filename.toLowerCase() === 'shared') {
 				throw t('files', 'In the home folder \'Shared\' is a reserved filename');
 			} else if (FileList.inList(filename)) {
 				throw t('files', '{new_name} already exists', {new_name: filename});
