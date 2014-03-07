@@ -939,6 +939,18 @@ class OC_Util {
 	}
 
 	/**
+	 * Check if it's possible to get the inline annotations
+	 *
+	 * @return bool
+	 */
+	public static function isAnnotationsWorking() {
+		$reflection = new \ReflectionMethod(__METHOD__);
+		$docs = $reflection->getDocComment();
+
+		return (is_string($docs) && strlen($docs) > 50);
+	}
+
+	/**
 	 * @brief Check if the PHP module fileinfo is loaded.
 	 * @return bool
 	 */
