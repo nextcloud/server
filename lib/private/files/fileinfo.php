@@ -53,6 +53,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function offsetGet($offset) {
+		if ($offset === 'type') {
+			return $this->getType();
+		}
 		return $this->data[$offset];
 	}
 
@@ -144,7 +147,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return \OCP\Files\FileInfo::TYPE_FILE | \OCP\Files\FileInfo::TYPE_FOLDER
 	 */
 	public function getType() {
-		if ($this->data['type']) {
+		if (isset($this->data['type'])) {
 			return $this->data['type'];
 		} else {
 			return $this->getMimetype() === 'httpd/unix-directory' ? self::TYPE_FOLDER : self::TYPE_FILE;
