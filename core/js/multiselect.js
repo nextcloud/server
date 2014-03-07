@@ -165,10 +165,10 @@
 					button.children('span').first().text(settings.labels.length > 0
 						? settings.labels.join(', ')
 						: settings.title);
-					var newOuterWidth=Math.max(
-						(button.outerWidth()-2),
+					var newOuterWidth = Math.max(
+						(button.outerWidth() - 2),
 						settings.minOuterWidth
-					)+'px';
+					) + 'px';
 					var newWidth=Math.max(button.width(),settings.minWidth);
 					var pos=button.position();
 					button.css('width',oldWidth);
@@ -281,7 +281,7 @@
 			var pos=button.position();
 			if(($(document).height() > (button.offset().top + button.outerHeight() + list.children().length * button.height()) &&
 				$(document).height() - button.offset().top > (button.offset().top+button.outerHeight() + list.children().length * button.height())) ||
-				$(document).height()/2 > button.offset().top
+				$(document).height() / 2 > button.offset().top
 			) {
 				list.css({
 					top:pos.top+button.outerHeight()-5,
