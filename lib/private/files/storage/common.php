@@ -27,6 +27,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected $watcher;
 	protected $storageCache;
 
+	/**
+	 * @var string[]
+	 */
+	protected $cachedFiles = array();
+
 	public function __construct($parameters) {
 	}
 
@@ -122,11 +127,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
+		$this->removeCachedFile($path);
 		return fwrite($handle, $data);
 	}
 
 	public function rename($path1, $path2) {
 		if ($this->copy($path1, $path2)) {
+			$this->removeCachedFile($path1);
 			return $this->unlink($path1);
 		} else {
 			return false;
@@ -137,6 +144,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$source = $this->fopen($path1, 'r');
 		$target = $this->fopen($path2, 'w');
 		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		$this->removeCachedFile($path2);
 		return $result;
 	}
 
@@ -162,13 +170,14 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function getLocalFile($path) {
-		return $this->toTmpFile($path);
+		return $this->getCachedFile($path);
 	}
 
 	/**
 	 * @param string $path
+	 * @return string
 	 */
-	private function toTmpFile($path) { //no longer in the storage api, still useful here
+	protected function toTmpFile($path) { //no longer in the storage api, still useful here
 		$source = $this->fopen($path, 'r');
 		if (!$source) {
 			return false;
@@ -351,5 +360,16 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		// the common implementation returns a temporary file by
 		// default, which is not local
 		return false;
+	}
+
+	protected function getCachedFile($path) {
+		if (!isset($this->cachedFiles[$path])) {
+			$this->cachedFiles[$path] = $this->toTmpFile($path);
+		}
+		return $this->cachedFiles[$path];
+	}
+
+	protected function removeCachedFile($path) {
+		unset($this->cachedFiles[$path]);
 	}
 }
