@@ -556,8 +556,8 @@ class Share extends \OC\Share\Constants {
 	 * @return Returns true on success or false on failure
 	 */
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
-		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),
-			self::FORMAT_NONE, null, 1)) {
+		$item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),self::FORMAT_NONE, null, 1);
+		if (!empty($item)) {
 			self::unshareItem($item);
 			return true;
 		}
@@ -605,7 +605,8 @@ class Share extends \OC\Share\Constants {
 	 * Unsharing from self is not allowed for items inside collections
 	 */
 	public static function unshareFromSelf($itemType, $itemTarget) {
-		if ($item = self::getItemSharedWith($itemType, $itemTarget)) {
+		$item = self::getItemSharedWith($itemType, $itemTarget);
+		if (!empty($item)) {
 			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
 				// Insert an extra row for the group share and set permission
 				// to 0 to prevent it from showing up for the user
@@ -746,22 +747,20 @@ class Share extends \OC\Share\Constants {
 	 * @return \OCP\Share_Backend
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date) {
-		if ($items = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(),
-			self::FORMAT_NONE, null, -1, false)) {
-			if (!empty($items)) {
-				if ($date == '') {
-					$date = null;
-				} else {
-					$date = new \DateTime($date);
-				}
-				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
-				$query->bindValue(1, $date, 'datetime');
-				foreach ($items as $item) {
-					$query->bindValue(2, (int) $item['id']);
-					$query->execute();
-				}
-				return true;
+		$items = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE, null, -1, false);
+		if (!empty($items)) {
+			if ($date == '') {
+				$date = null;
+			} else {
+				$date = new \DateTime($date);
 			}
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
+			$query->bindValue(1, $date, 'datetime');
+			foreach ($items as $item) {
+				$query->bindValue(2, (int) $item['id']);
+				$query->execute();
+			}
+			return true;
 		}
 		return false;
 	}
