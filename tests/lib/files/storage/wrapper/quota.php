@@ -53,6 +53,22 @@ class Quota extends \Test\Files\Storage\Storage {
 		$this->assertEquals(9, $instance->free_space(''));
 	}
 
+	public function testFreeSpaceWithUsedSpace() {
+		$instance = $this->getLimitedStorage(9);
+		$instance->getCache()->put(
+			'', array('size' => 3, 'unencrypted_size' => 0)
+		);
+		$this->assertEquals(6, $instance->free_space(''));
+	}
+
+	public function testFreeSpaceWithUsedSpaceAndEncryption() {
+		$instance = $this->getLimitedStorage(9);
+		$instance->getCache()->put(
+			'', array('size' => 7, 'unencrypted_size' => 3)
+		);
+		$this->assertEquals(6, $instance->free_space(''));
+	}
+
 	public function testFWriteNotEnoughSpace() {
 		$instance = $this->getLimitedStorage(9);
 		$stream = $instance->fopen('foo', 'w+');
