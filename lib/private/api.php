@@ -270,7 +270,19 @@ class OC_API {
 	 * @return string|false (username, or false on failure)
 	 */
 	private static function loginUser(){
-		// basic auth
+
+        // reuse existing login
+        $loggedIn = OC_User::isLoggedIn();
+        $ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
+        if ($loggedIn === true && $ocsApiRequest) {
+
+            // initialize the user's filesystem
+            \OC_Util::setUpFS(\OC_User::getUser());
+
+            return OC_User::getUser();
+        }
+
+        // basic auth
 		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
 		$return = OC_User::login($authUser, $authPw);
@@ -281,17 +293,6 @@ class OC_API {
 			\OC_Util::setUpFS(\OC_User::getUser());
 
 			return $authUser;
-		}
-
-		// reuse existing login
-		$loggedIn = OC_User::isLoggedIn();
-		$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
-		if ($loggedIn === true && $ocsApiRequest) {
-
-			// initialize the user's filesystem
-			\OC_Util::setUpFS(\OC_User::getUser());
-
-			return OC_User::getUser();
 		}
 
 		return false;
