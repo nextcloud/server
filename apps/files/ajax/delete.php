@@ -9,7 +9,7 @@ OCP\JSON::callCheck();
 // Get data
 $dir = stripslashes($_POST["dir"]);
 $files = isset($_POST["file"]) ? $_POST["file"] : $_POST["files"];
-$allFiles = isset($_POST["allfiles"]) ? $_POST["allfiles"] : $_POST["allfiles"];
+$allFiles = isset($_POST["allfiles"]) ? $_POST["allfiles"] : false;
 if ($allFiles === 'true') {
 	$allFiles = true;
 }
