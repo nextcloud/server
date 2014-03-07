@@ -54,7 +54,6 @@ class OC_User_Database extends OC_User_Backend {
 			self::$hasher = new PasswordHash(8, $forcePortable);
 		}
 		return self::$hasher;
-
 	}
 
 	/**
@@ -112,9 +111,9 @@ class OC_User_Database extends OC_User_Backend {
 			$query->execute(array($hash, $uid));
 
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -188,8 +187,9 @@ class OC_User_Database extends OC_User_Backend {
 			$storedHash = $row['password'];
 			if ($storedHash[0] == '$') { //the new phpass based hashing
 				$hasher = $this->getHasher();
-				if ($hasher->CheckPassword($password . OC_Config::getValue('passwordsalt', ''), $storedHash))
+				if ($hasher->CheckPassword($password . OC_Config::getValue('passwordsalt', ''), $storedHash)) {
 					return $row['uid'];
+				}
 
 			//old sha1 based hashing
 			} elseif (sha1($password) == $storedHash) {
@@ -234,7 +234,7 @@ class OC_User_Database extends OC_User_Backend {
 	protected function loadUsers() {
 		if (!self::$cache_complete) {
 			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` ORDER BY `uid`');
-			$result = $query->execute(array($uid));
+			$result = $query->execute();
 
 			if (OC_DB::isError($result)) {
 				OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
@@ -262,8 +262,9 @@ class OC_User_Database extends OC_User_Backend {
 		$this->loadUsers();
 
 		$users = array();
-		foreach (self::$cache as $uid => $value)
+		foreach (self::$cache as $uid => $value) {
 			$users[] = $uid;
+		}
 
 		return $users;
 	}
@@ -281,11 +282,12 @@ class OC_User_Database extends OC_User_Backend {
 	/**
 	 * @brief get the user's home directory
 	 * @param string $uid the username
-	 * @return boolean
+	 * @return string|false
 	 */
 	public function getHome($uid) {
-		if ($this->userExists($uid))
+		if ($this->userExists($uid)) {
 			return OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data") . '/' . $uid;
+		}
 
 		return false;
 	}
