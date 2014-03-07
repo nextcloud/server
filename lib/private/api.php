@@ -271,18 +271,18 @@ class OC_API {
 	 */
 	private static function loginUser(){
 
-        // reuse existing login
-        $loggedIn = OC_User::isLoggedIn();
-        $ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
-        if ($loggedIn === true && $ocsApiRequest) {
+		// reuse existing login
+		$loggedIn = OC_User::isLoggedIn();
+		$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
+		if ($loggedIn === true && $ocsApiRequest) {
 
-            // initialize the user's filesystem
-            \OC_Util::setUpFS(\OC_User::getUser());
+			// initialize the user's filesystem
+			\OC_Util::setUpFS(\OC_User::getUser());
 
-            return OC_User::getUser();
-        }
+			return OC_User::getUser();
+		}
 
-        // basic auth
+		// basic auth
 		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
 		$return = OC_User::login($authUser, $authPw);
