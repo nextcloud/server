@@ -239,7 +239,8 @@ class OC_User_Database extends OC_User_Backend {
 			}
 
 			while ($row = $result->fetchRow()) {
-				self::$cache[$uid]['uid'] = $row['uid'];
+				$uid = $row['uid'];
+				self::$cache[$uid]['uid'] = $uid;
 				self::$cache[$uid]['displayname'] = $row['displayname'];
 			}
 
