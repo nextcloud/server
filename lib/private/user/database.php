@@ -276,7 +276,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function userExists($uid) {
 		$this->loadUser($uid);
-		return empty(self::$cache[$uid]) ? false : true;
+		return !empty(self::$cache[$uid]);
 	}
 
 	/**
