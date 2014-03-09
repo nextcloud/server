@@ -91,8 +91,9 @@ class OC_User_Database extends OC_User_Backend {
 	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
-		$query->execute(array($uid));
-		return true;
+		$result = $query->execute(array($uid));
+
+		return $result ? true : false;
 	}
 
 	/**
@@ -108,9 +109,9 @@ class OC_User_Database extends OC_User_Backend {
 			$hasher = $this->getHasher();
 			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$query->execute(array($hash, $uid));
+			$result = $query->execute(array($hash, $uid));
 
-			return true;
+			return $result ? true : false;
 		}
 
 		return false;
@@ -142,11 +143,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getDisplayName($uid) {
 		$this->loadUser($uid);
-		if (!empty(self::$cache[$uid]['displayname'])) {
-			return self::$cache[$uid]['displayname'];
-		} else {
-			return $uid;
-		}
+		return empty(self::$cache[$uid]['displayname']) ? $uid : self::$cache[$uid]['displayname'];
 	}
 
 	/**
