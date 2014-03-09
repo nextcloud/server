@@ -69,6 +69,8 @@ class JSONResponse extends Response {
 	 */
 	public function setData($data){
 		$this->data = $data;
+
+		return $this;
 	}
 
 

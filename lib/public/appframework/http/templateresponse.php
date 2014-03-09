@@ -77,6 +77,8 @@ class TemplateResponse extends Response {
 	 */
 	public function setParams(array $params){
 		$this->params = $params;
+
+		return $this;
 	}
 
 
@@ -107,6 +109,8 @@ class TemplateResponse extends Response {
 	 */
 	public function renderAs($renderAs){
 		$this->renderAs = $renderAs;
+
+		return $this;
 	}
 
 

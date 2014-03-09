@@ -80,6 +80,7 @@ class Response {
 			$this->addHeader('Cache-Control', 'no-cache, must-revalidate');
 		}
 
+		return $this;
 	}
 
 
@@ -95,6 +96,8 @@ class Response {
 		} else {
 			$this->headers[$name] = $value;
 		}
+
+		return $this;
 	}
 
 
@@ -133,6 +136,8 @@ class Response {
 	*/
 	public function setStatus($status) {
 		$this->status = $status;
+
+		return $this;
 	}
 
 
@@ -168,6 +173,8 @@ class Response {
 	 */
 	public function setETag($ETag) {
 		$this->ETag = $ETag;
+
+		return $this;
 	}
 
 
@@ -177,6 +184,8 @@ class Response {
 	 */
 	public function setLastModified($lastModified) {
 		$this->lastModified = $lastModified;
+
+		return $this;
 	}
 
 
