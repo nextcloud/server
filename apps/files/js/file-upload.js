@@ -180,7 +180,7 @@ OC.Upload = {
 	},
 
 	init: function() {
-		if ( $('#file_upload_start').exists() ) {
+		if ( $('#file_upload_start').exists() && $('#file_upload_start').is(':visible')) {
 
 			var file_upload_param = {
 				dropZone: $('#content'), // restrict dropZone to content div
