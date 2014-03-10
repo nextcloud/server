@@ -76,7 +76,9 @@ class OC_OCSClient{
 		if($xml==false) {
 			return null;
 		}
-		$data=simplexml_load_string($xml);
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data =	simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp=$data->data;
 		$cats=array();
@@ -119,7 +121,9 @@ class OC_OCSClient{
 		if($xml==false) {
 			return null;
 		}
-		$data=simplexml_load_string($xml);
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp=$data->data->content;
 		for($i = 0; $i < count($tmp); $i++) {
@@ -161,7 +165,9 @@ class OC_OCSClient{
 			OC_Log::write('core', 'Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
-		$data=simplexml_load_string($xml);
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp=$data->data->content;
 		$app=array();
@@ -201,7 +207,9 @@ class OC_OCSClient{
 			OC_Log::write('core', 'Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
-		$data=simplexml_load_string($xml);
+		$loadEntities = libxml_disable_entity_loader(true);
+		$data = simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp=$data->data->content;
 		$app=array();
