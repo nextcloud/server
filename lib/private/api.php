@@ -65,8 +65,8 @@ class OC_API {
 		$name = strtolower($method).$url;
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])) {
-			OC::getRouter()->useCollection('ocs');
-			OC::getRouter()->create($name, $url)
+			OC::$server->getRouter()->useCollection('ocs');
+			OC::$server->getRouter()->create($name, $url)
 				->method($method)
 				->defaults($defaults)
 				->requirements($requirements)

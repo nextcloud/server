@@ -39,7 +39,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkToRoute($route, $parameters = array()) {
-		$urlLinkTo = \OC::getRouter()->generate($route, $parameters);
+		$urlLinkTo = \OC::$server->getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
 	}
 

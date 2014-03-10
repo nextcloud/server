@@ -382,14 +382,6 @@ class OC {
 		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);
 	}
 
-	/**
-	 * @return \OCP\Route\IRouter
-	 */
-	public static function getRouter() {
-		return self::$server->getRouter();
-	}
-
-
 	public static function loadAppClassPaths() {
 		foreach (OC_APP::getEnabledApps() as $app) {
 			$file = OC_App::getAppPath($app) . '/appinfo/classpath.php';
@@ -714,7 +706,7 @@ class OC {
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
-				OC::getRouter()->match(OC_Request::getRawPathInfo());
+				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
