@@ -63,6 +63,11 @@ class Memory extends Session {
 		$this->data = array();
 	}
 
+	/**
+	 * In case the session has already been locked an exception will be thrown
+	 *
+	 * @throws \Exception
+	 */
 	private function validateSession() {
 		if ($this->sessionClosed) {
 			throw new \Exception('Session has been closed - no further changes to the session as allowed');

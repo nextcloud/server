@@ -13,6 +13,11 @@ use OCP\ISession;
 abstract class Session implements \ArrayAccess, ISession {
 
 	/**
+	 * @var bool
+	 */
+	protected $sessionClosed = false;
+
+	/**
 	 * $name serves as a namespace for the session keys
 	 *
 	 * @param string $name
@@ -50,8 +55,9 @@ abstract class Session implements \ArrayAccess, ISession {
 		$this->remove($offset);
 	}
 
-	protected $sessionClosed = false;
-
+	/**
+	 * Close the session and release the lock
+	 */
 	public function close() {
 		$this->sessionClosed = true;
 	}
