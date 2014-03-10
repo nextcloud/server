@@ -76,7 +76,9 @@ class Updater extends BasicEmitter {
 		if ($xml == false) {
 			return array();
 		}
+		$loadEntities = libxml_disable_entity_loader(true);
 		$data = @simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = array();
 		$tmp['version'] = $data->version;
