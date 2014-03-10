@@ -66,6 +66,7 @@ class JSONResponse extends Response {
 	 * Sets values in the data json array
 	 * @param array|object $data an array or object which will be transformed
 	 *                             to JSON
+	 * @return JSONResponse Reference to this object
 	 */
 	public function setData($data){
 		$this->data = $data;

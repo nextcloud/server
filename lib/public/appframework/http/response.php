@@ -89,6 +89,7 @@ class Response {
 	 * function
 	 * @param string $name The name of the HTTP header
 	 * @param string $value The value, null will delete it
+	 * @return Response Reference to this object
 	 */
 	public function addHeader($name, $value) {
 		if(is_null($value)) {
@@ -133,6 +134,7 @@ class Response {
 	/**
 	* Set response status
 	* @param int $status a HTTP status code, see also the STATUS constants
+	* @return Response Reference to this object
 	*/
 	public function setStatus($status) {
 		$this->status = $status;
@@ -170,6 +172,7 @@ class Response {
 	/**
 	 * Set the ETag
 	 * @param string $ETag
+	 * @return Response Reference to this object
 	 */
 	public function setETag($ETag) {
 		$this->ETag = $ETag;
@@ -181,6 +184,7 @@ class Response {
 	/**
 	 * Set "last modified" date
 	 * @param \DateTime $lastModified
+	 * @return Response Reference to this object
 	 */
 	public function setLastModified($lastModified) {
 		$this->lastModified = $lastModified;

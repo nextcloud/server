@@ -74,6 +74,7 @@ class TemplateResponse extends Response {
 	 * Sets template parameters
 	 * @param array $params an array with key => value structure which sets template
 	 *                      variables
+	 * @return TemplateResponse Reference to this object
 	 */
 	public function setParams(array $params){
 		$this->params = $params;
@@ -106,6 +107,7 @@ class TemplateResponse extends Response {
 	 *                         settings header and footer, user renders the normal
 	 *                         normal page including footer and header and blank
 	 *                         just renders the plain template
+	 * @return TemplateResponse Reference to this object
 	 */
 	public function renderAs($renderAs){
 		$this->renderAs = $renderAs;
