@@ -74,11 +74,6 @@ class OC {
 	public static $CLI = false;
 
 	/**
-	 * @var OC_Router
-	 */
-	protected static $router = null;
-
-	/**
 	 * @var \OC\Session\Session
 	 */
 	public static $session = null;
@@ -388,15 +383,10 @@ class OC {
 	}
 
 	/**
-	 * @return OC_Router
+	 * @return \OCP\Route\IRouter
 	 */
 	public static function getRouter() {
-		if (!isset(OC::$router)) {
-			OC::$router = new OC_Router();
-			OC::$router->loadRoutes();
-		}
-
-		return OC::$router;
+		return self::$server->getRouter();
 	}
 
 

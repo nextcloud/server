@@ -6,68 +6,103 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Route;
+
+use OCP\Route\IRouter;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
-//use Symfony\Component\Routing\Route;
 
-class OC_Router {
+class Router implements IRouter {
+	/**
+	 * @var \Symfony\Component\Routing\RouteCollection[]
+	 */
 	protected $collections = array();
+
+	/**
+	 * @var \Symfony\Component\Routing\RouteCollection
+	 */
 	protected $collection = null;
+
+	/**
+	 * @var \Symfony\Component\Routing\RouteCollection
+	 */
 	protected $root = null;
 
+	/**
+	 * @var \Symfony\Component\Routing\Generator\UrlGenerator
+	 */
 	protected $generator = null;
-	protected $routing_files;
-	protected $cache_key;
+
+	/**
+	 * @var string[]
+	 */
+	protected $routingFiles;
+
+	/**
+	 * @var string
+	 */
+	protected $cacheKey;
+
+	protected $loaded = false;
 
 	public function __construct() {
-		$baseUrl = OC_Helper::linkTo('', 'index.php');
-		if ( !OC::$CLI) {
+		$baseUrl = \OC_Helper::linkTo('', 'index.php');
+		if (!\OC::$CLI) {
 			$method = $_SERVER['REQUEST_METHOD'];
-		}else{
+		} else {
 			$method = 'GET';
 		}
-		$host = OC_Request::serverHost();
-		$schema = OC_Request::serverProtocol();
+		$host = \OC_Request::serverHost();
+		$schema = \OC_Request::serverProtocol();
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
 	}
 
+	/**
+	 * Get the files to load the routes from
+	 *
+	 * @return string[]
+	 */
 	public function getRoutingFiles() {
-		if (!isset($this->routing_files)) {
-			$this->routing_files = array();
-			foreach(OC_APP::getEnabledApps() as $app) {
-				$file = OC_App::getAppPath($app).'/appinfo/routes.php';
-				if(file_exists($file)) {
-					$this->routing_files[$app] = $file;
+		if (!isset($this->routingFiles)) {
+			$this->routingFiles = array();
+			foreach (\OC_APP::getEnabledApps() as $app) {
+				$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
+				if (file_exists($file)) {
+					$this->routingFiles[$app] = $file;
 				}
 			}
 		}
-		return $this->routing_files;
+		return $this->routingFiles;
 	}
 
 	public function getCacheKey() {
-		if (!isset($this->cache_key)) {
+		if (!isset($this->cacheKey)) {
 			$files = $this->getRoutingFiles();
 			$files[] = 'settings/routes.php';
 			$files[] = 'core/routes.php';
 			$files[] = 'ocs/routes.php';
-			$this->cache_key = OC_Cache::generateCacheKeyFromFiles($files);
+			$this->cacheKey = \OC_Cache::generateCacheKeyFromFiles($files);
 		}
-		return $this->cache_key;
+		return $this->cacheKey;
 	}
 
 	/**
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
-		foreach($this->getRoutingFiles() as $app => $file) {
+		if ($this->loaded) {
+			return;
+		}
+		$this->loaded = true;
+		foreach ($this->getRoutingFiles() as $app => $file) {
 			$this->useCollection($app);
 			require_once $file;
 			$collection = $this->getCollection($app);
-			$collection->addPrefix('/apps/'.$app);
+			$collection->addPrefix('/apps/' . $app);
 			$this->root->addCollection($collection);
 		}
 		$this->useCollection('root');
@@ -81,6 +116,10 @@ class OC_Router {
 		$this->root->addCollection($collection);
 	}
 
+	/**
+	 * @param string $name
+	 * @return \Symfony\Component\Routing\RouteCollection
+	 */
 	protected function getCollection($name) {
 		if (!isset($this->collections[$name])) {
 			$this->collections[$name] = new RouteCollection();
@@ -91,22 +130,23 @@ class OC_Router {
 	/**
 	 * Sets the collection to use for adding routes
 	 *
-	 * @param string $name Name of the colletion to use.
+	 * @param string $name Name of the collection to use.
 	 */
 	public function useCollection($name) {
 		$this->collection = $this->getCollection($name);
 	}
 
 	/**
-	 * Create a OC_Route.
+	 * Create a \OC\Route\Route.
 	 *
 	 * @param string $name Name of the route to create.
 	 * @param string $pattern The pattern to match
-	 * @param array  $defaults     An array of default parameter values
-	 * @param array  $requirements An array of requirements for parameters (regexes)
+	 * @param array $defaults An array of default parameter values
+	 * @param array $requirements An array of requirements for parameters (regexes)
+	 * @return \OC\Route\Route
 	 */
 	public function create($name, $pattern, array $defaults = array(), array $requirements = array()) {
-		$route = new OC_Route($pattern, $defaults, $requirements);
+		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
 	}
@@ -115,6 +155,7 @@ class OC_Router {
 	 * Find the route matching $url.
 	 *
 	 * @param string $url The url to find
+	 * @throws \Exception
 	 */
 	public function match($url) {
 		$matcher = new UrlMatcher($this->root, $this->context);
@@ -123,14 +164,14 @@ class OC_Router {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
 				var_dump($action);
-				throw new Exception('not a callable action');
+				throw new \Exception('not a callable action');
 			}
 			unset($parameters['action']);
 			call_user_func($action, $parameters);
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
 		} else {
-			throw new Exception('no action available');
+			throw new \Exception('no action available');
 		}
 	}
 
@@ -138,8 +179,7 @@ class OC_Router {
 	 * Get the url generator
 	 *
 	 */
-	public function getGenerator()
-	{
+	public function getGenerator() {
 		if (null !== $this->generator) {
 			return $this->generator;
 		}
@@ -152,9 +192,10 @@ class OC_Router {
 	 *
 	 * @param string $name Name of the route to use.
 	 * @param array $parameters Parameters for the route
+	 * @param bool $absolute
+	 * @return string
 	 */
-	public function generate($name, $parameters = array(), $absolute = false)
-	{
+	public function generate($name, $parameters = array(), $absolute = false) {
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
 
