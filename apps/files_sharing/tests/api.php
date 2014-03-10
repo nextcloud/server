@@ -559,4 +559,38 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(empty($itemsAfterDelete));
 
 	}
+
+	/**
+	 * @brief test unshare of a reshared file
+	 */
+	function testDeleteReshare() {
+
+		// user 1 shares a folder with user2
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
+
+		$result1 = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result1);
+
+		// user2 shares a file from the folder as link
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$result2 = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+
+		$this->assertTrue(is_string($result2));
+
+		// test if we can unshare the link again
+		$items = \OCP\Share::getItemShared('file', null);
+		$this->assertEquals(1, count($items));
+
+		$item = reset($items);
+		$result3 = Share\Api::deleteShare(array('id' => $item['id']));
+
+		$this->assertTrue($result3->succeeded());
+
+	}
 }
