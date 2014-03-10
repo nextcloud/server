@@ -4,6 +4,7 @@
 $RUNTIME_APPTYPES = array('filesystem');
 
 OCP\JSON::checkLoggedIn();
+\OC::$session->close();
 
 // Load the files
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';
