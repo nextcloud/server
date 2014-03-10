@@ -28,6 +28,7 @@ class Memory extends Session {
 	 * @param integer $value
 	 */
 	public function set($key, $value) {
+		$this->validateSession();
 		$this->data[$key] = $value;
 	}
 
@@ -54,10 +55,17 @@ class Memory extends Session {
 	 * @param string $key
 	 */
 	public function remove($key) {
+		$this->validateSession();
 		unset($this->data[$key]);
 	}
 
 	public function clear() {
 		$this->data = array();
+	}
+
+	private function validateSession() {
+		if ($this->sessionClosed) {
+			throw new \Exception('Session has been closed - no further changes to the session as allowed');
+		}
 	}
 }

@@ -49,4 +49,10 @@ abstract class Session implements \ArrayAccess, ISession {
 	public function offsetUnset($offset) {
 		$this->remove($offset);
 	}
+
+	protected $sessionClosed = false;
+
+	public function close() {
+		$this->sessionClosed = true;
+	}
 }
