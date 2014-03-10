@@ -30,6 +30,13 @@ class Quota extends Wrapper {
 	}
 
 	/**
+	 * @return quota value
+	 */
+	public function getQuota() {
+		return $this->quota;
+	}
+
+	/**
 	 * @param string $path
 	 */
 	protected function getSize($path) {
