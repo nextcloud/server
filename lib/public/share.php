@@ -1095,7 +1095,24 @@ class Share {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$row['path'] = '/Shared/'.basename($row['path']);
+					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
+					$parentResult = $query->execute(array($row['parent']));
+					if (\OC_DB::isError($result)) {
+						\OC_Log::write('OCP\Share', 'Can\'t select parent: ' .
+								\OC_DB::getErrorMessage($result) . ', select=' . $select . ' where=' . $where,
+								\OC_Log::ERROR);
+					} else {
+						$parentRow = $parentResult->fetchRow();
+						$tmpPath = '/Shared' . $parentRow['file_target'];
+						// find the right position where the row path continues from the target path
+						$pos = strrpos($row['path'], $parentRow['file_target']);
+						$subPath = substr($row['path'], $pos);
+						$splitPath = explode('/', $subPath);
+						foreach (array_slice($splitPath, 2) as $pathPart) {
+							$tmpPath = $tmpPath . '/' . $pathPart;
+						}
+						$row['path'] = $tmpPath;
+					}
 				} else {
 					if (!isset($mounts[$row['storage']])) {
 						$mounts[$row['storage']] = \OC\Files\Mount::findByNumericId($row['storage']);
