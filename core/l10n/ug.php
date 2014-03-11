@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Apps" => "ئەپلەر",
 "Help" => "ياردەم",
 "Security Warning" => "بىخەتەرلىك ئاگاھلاندۇرۇش",
-"Advanced" => "ئالىي",
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"
 );

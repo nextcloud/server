@@ -20,7 +20,6 @@ $TRANSLATIONS = array(
 "Users" => "Pengguna",
 "Delete" => "Hapus",
 "Enable User External Storage" => "Aktifkan Penyimpanan Eksternal Pengguna",
-"Allow users to mount their own external storage" => "Izinkan pengguna untuk mengaitkan penyimpanan eksternal mereka",
 "SSL root certificates" => "Sertifikat root SSL",
 "Import Root Certificate" => "Impor Sertifikat Root"
 );

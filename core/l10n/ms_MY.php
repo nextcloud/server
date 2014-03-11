@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "Awan tidak dijumpai",
 "Security Warning" => "Amaran keselamatan",
 "Create an <strong>admin account</strong>" => "buat <strong>akaun admin</strong>",
-"Advanced" => "Maju",
 "Data folder" => "Fail data",
 "Configure the database" => "Konfigurasi pangkalan data",
 "will be used" => "akan digunakan",

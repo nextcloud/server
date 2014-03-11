@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s-ek »%s« zurekin partekatu du",
 "Couldn't send mail to following users: %s " => "Ezin izan da posta bidali hurrengo erabiltzaileei: %s",
 "Turned on maintenance mode" => "Mantenu modua gaitu da",
 "Turned off maintenance mode" => "Mantenu modua desgaitu da",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_blank\">dokumentazioa</a> ikusi.",
 "Create an <strong>admin account</strong>" => "Sortu <strong>kudeatzaile kontu<strong> bat",
-"Advanced" => "Aurreratua",
 "Data folder" => "Datuen karpeta",
 "Configure the database" => "Konfiguratu datu basea",
 "will be used" => "erabiliko da",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "gogoratu",
 "Log in" => "Hasi saioa",
 "Alternative Logins" => "Beste erabiltzaile izenak",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Kaixo<br><br>%s-ek %s zurekin partekatu duela jakin dezazun.<br><a href=\"%s\">\nIkusi ezazu</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "ownCloud instantzia hau erabiltzaile bakar moduan dago.",
 "This means only administrators can use the instance." => "Honek administradoreak bakarrik erabili dezakeela esan nahi du.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",

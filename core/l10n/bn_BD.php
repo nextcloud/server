@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "ক্লাউড খুঁজে পাওয়া গেল না",
 "Security Warning" => "নিরাপত্তাজনিত সতর্কতা",
 "Create an <strong>admin account</strong>" => "<strong>প্রশাসক একাউন্ট</strong> তৈরী করুন",
-"Advanced" => "সুচারু",
 "Data folder" => "ডাটা ফোল্ডার ",
 "Configure the database" => "ডাটাবেচ কনফিগার করুন",
 "will be used" => "ব্যবহৃত হবে",

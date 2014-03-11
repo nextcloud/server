@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s deelde »%s« met jou",
 "Couldn't send mail to following users: %s " => "Kon geen e-mail sturen aan de volgende gebruikers: %s",
 "Turned on maintenance mode" => "Onderhoudsmodus ingeschakeld",
 "Turned off maintenance mode" => "Onderhoudsmodus uitgeschakeld",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Je gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess-bestand niet werkt.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Bekijk de <a href=\"%s\" target=\"_blank\">documentatie</a> voor Informatie over het correct configureren van uw server.",
 "Create an <strong>admin account</strong>" => "Maak een <strong>beheerdersaccount</strong> aan",
-"Advanced" => "Geavanceerd",
 "Data folder" => "Gegevensmap",
 "Configure the database" => "Configureer de database",
 "will be used" => "zal gebruikt worden",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "onthoud gegevens",
 "Log in" => "Meld je aan",
 "Alternative Logins" => "Alternatieve inlogs",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo daar,<br><br>even een berichtje dat %s »%s« met u deelde.<br><a href=\"%s\">Bekijk hier!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Deze ownCloud werkt momenteel in enkele gebruiker modus.",
 "This means only administrators can use the instance." => "Dat betekent dat alleen beheerders deze installatie kunnen gebruiken.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen.",

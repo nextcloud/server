@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "用户",
 "Delete" => "删除",
 "Enable User External Storage" => "启用用户外部存储",
-"Allow users to mount their own external storage" => "允许用户挂载自有外部存储",
 "SSL root certificates" => "SSL根证书",
 "Import Root Certificate" => "导入根证书"
 );

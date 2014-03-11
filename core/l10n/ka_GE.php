@@ -94,7 +94,6 @@ $TRANSLATIONS = array(
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "შემთხვევითი სიმბოლოების გენერატორის გარეშე, შემტევმა შეიძლება ამოიცნოს თქვენი პაროლი შეგიცვალოთ ის და დაეუფლოს თქვენს ექაუნთს.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს.",
 "Create an <strong>admin account</strong>" => "შექმენი <strong>ადმინ ექაუნტი</strong>",
-"Advanced" => "დამატებითი ფუნქციები",
 "Data folder" => "მონაცემთა საქაღალდე",
 "Configure the database" => "მონაცემთა ბაზის კონფიგურირება",
 "will be used" => "გამოყენებული იქნება",

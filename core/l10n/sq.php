@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ndau »%s« me ju",
 "Turned on maintenance mode" => "Mënyra e mirëmbajtjes u aktivizua",
 "Turned off maintenance mode" => "Mënyra e mirëmbajtjes u çaktivizua",
 "Updated database" => "Database-i u azhurnua",
@@ -108,7 +107,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Dosja dhe skedarët e të dhënave tuaja mbase janë të arritshme nga interneti sepse skedari .htaccess nuk po punon.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, ju lutem shikoni <a href=\"%s\" target=\"_blank\">dokumentacionin</a>.",
 "Create an <strong>admin account</strong>" => "Krijo një <strong>llogari administruesi</strong>",
-"Advanced" => "Të përparuara",
 "Data folder" => "Emri i dosjes",
 "Configure the database" => "Konfiguro database-in",
 "will be used" => "do të përdoret",

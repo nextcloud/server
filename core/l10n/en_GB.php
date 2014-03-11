@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s shared \"%s\" with you",
 "Couldn't send mail to following users: %s " => "Couldn't send mail to following users: %s ",
 "Turned on maintenance mode" => "Turned on maintenance mode",
 "Turned off maintenance mode" => "Turned off maintenance mode",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Your data directory and files are probably accessible from the internet because the .htaccess file does not work.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>.",
 "Create an <strong>admin account</strong>" => "Create an <strong>admin account</strong>",
-"Advanced" => "Advanced",
 "Data folder" => "Data folder",
 "Configure the database" => "Configure the database",
 "will be used" => "will be used",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "remember",
 "Log in" => "Log in",
 "Alternative Logins" => "Alternative Logins",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "This ownCloud instance is currently in single user mode.",
 "This means only administrators can use the instance." => "This means only administrators can use the instance.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contact your system administrator if this message persists or appeared unexpectedly.",

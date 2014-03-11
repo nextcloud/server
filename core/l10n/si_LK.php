@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "සොයා ගත නොහැක",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ආරක්ෂිත අහඹු සංඛ්‍යා උත්පාදකයක් නොමැති නම් ඔබගේ ගිණුමට පහරදෙන අයකුට එහි මුරපද යළි පිහිටුවීමට අවශ්‍ය ටෝකන පහසුවෙන් සොයාගෙන ඔබගේ ගිණුම පැහැරගත හැක.",
-"Advanced" => "දියුණු/උසස්",
 "Data folder" => "දත්ත ෆෝල්ඩරය",
 "Configure the database" => "දත්ත සමුදාය හැඩගැසීම",
 "will be used" => "භාවිතා වනු ඇත",

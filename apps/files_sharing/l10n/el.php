@@ -9,12 +9,6 @@ $TRANSLATIONS = array(
 "the link expired" => "ο σύνδεσμος έληξε",
 "sharing is disabled" => "ο διαμοιρασμός απενεργοποιήθηκε",
 "For more info, please ask the person who sent this link." => "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
-"%s shared the folder %s with you" => "Ο %s μοιράστηκε τον φάκελο %s μαζί σας",
-"%s shared the file %s with you" => "Ο %s μοιράστηκε το αρχείο %s μαζί σας",
-"Download" => "Λήψη",
-"Upload" => "Μεταφόρτωση",
-"Cancel upload" => "Ακύρωση μεταφόρτωσης",
-"No preview available for" => "Δεν υπάρχει διαθέσιμη προεπισκόπηση για",
 "Direct link" => "Άμεσος σύνδεσμος"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

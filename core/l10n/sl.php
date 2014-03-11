@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s je omogočil souporabo »%s«",
 "Couldn't send mail to following users: %s " => "Ni mogoče poslati sporočila za: %s",
 "Turned on maintenance mode" => "Vzdrževalni način je omogočen",
 "Turned off maintenance mode" => "Vzdrževalni način je onemogočen",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Podatkovna mapa in datoteke so najverjetneje javno dostopni preko interneta, saj datoteka .htaccess ni ustrezno nastavljena.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Za več informacij o pravilnem nastavljanju strežnika, kliknite na povezavo do <a href=\"%s\" target=\"_blank\">dokumentacije</a>.",
 "Create an <strong>admin account</strong>" => "Ustvari <strong>skrbniški račun</strong>",
-"Advanced" => "Napredne možnosti",
 "Data folder" => "Podatkovna mapa",
 "Configure the database" => "Nastavi podatkovno zbirko",
 "will be used" => "bo uporabljen",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "zapomni si",
 "Log in" => "Prijava",
 "Alternative Logins" => "Druge prijavne možnosti",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Pozdravljeni,<br><br>oseba %s vam je omogočila souporabo %s.<br>Vir si lahko ogledate na <a href=\"%s\">tem naslovu</a>.<br><br>",
 "This ownCloud instance is currently in single user mode." => "Ta seja oblaka ownCloud je trenutno v načinu enega sočasnega uporabnika.",
 "This means only administrators can use the instance." => "To pomeni, da lahko oblak uporabljajo le osebe s skrbniškimi dovoljenji.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",

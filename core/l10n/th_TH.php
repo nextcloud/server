@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "ยังไม่มีตัวสร้างหมายเลขแบบสุ่มให้ใช้งาน, กรุณาเปิดใช้งานส่วนเสริม PHP OpenSSL",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "หากปราศจากตัวสร้างหมายเลขแบบสุ่มที่ช่วยป้องกันความปลอดภัย ผู้บุกรุกอาจสามารถที่จะคาดคะเนรหัสยืนยันการเข้าถึงเพื่อรีเซ็ตรหัสผ่าน และเอาบัญชีของคุณไปเป็นของตนเองได้",
 "Create an <strong>admin account</strong>" => "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>",
-"Advanced" => "ขั้นสูง",
 "Data folder" => "โฟลเดอร์เก็บข้อมูล",
 "Configure the database" => "กำหนดค่าฐานข้อมูล",
 "will be used" => "จะถูกใช้",

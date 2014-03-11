@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Поуздан генератор случајних бројева није доступан, предлажемо да укључите PHP проширење OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без поузданог генератора случајнох бројева нападач лако може предвидети лозинку за поништавање кључа шифровања и отети вам налог.",
 "Create an <strong>admin account</strong>" => "Направи <strong>административни налог</strong>",
-"Advanced" => "Напредно",
 "Data folder" => "Фацикла података",
 "Configure the database" => "Подешавање базе",
 "will be used" => "ће бити коришћен",

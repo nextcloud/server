@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s sizinle »%s« paylaşımında bulundu",
 "Couldn't send mail to following users: %s " => "Şu kullanıcılara posta gönderilemedi: %s",
 "Turned on maintenance mode" => "Bakım kipi etkinleştirildi",
 "Turned off maintenance mode" => "Bakım kipi kapatıldı",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığı için internet'ten erişime açık.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Sunucunuzu nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">belgelendirme sayfasını</a> ziyaret edin.",
 "Create an <strong>admin account</strong>" => "Bir <strong>yönetici hesabı</strong> oluşturun",
-"Advanced" => "Gelişmiş",
 "Data folder" => "Veri klasörü",
 "Configure the database" => "Veritabanını ayarla",
 "will be used" => "kullanılacak",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "hatırla",
 "Log in" => "Giriş yap",
 "Alternative Logins" => "Alternatif Girişler",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Merhaba, <br><br> %s sizinle »%s« paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>İyi günler!",
 "This ownCloud instance is currently in single user mode." => "Bu ownCloud örneği şu anda tek kullanıcı kipinde.",
 "This means only administrators can use the instance." => "Bu, örneği sadece yöneticiler kullanabilir demektir.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Eğer bu ileti görünmeye devam ederse veya beklenmedik şekilde ortaya çıkmışsa sistem yöneticinizle iletişime geçin.",

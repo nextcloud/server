@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s delade »%s« med dig",
 "Couldn't send mail to following users: %s " => "Gick inte att skicka e-post till följande användare: %s",
 "Turned on maintenance mode" => "Aktiverade underhållsläge",
 "Turned off maintenance mode" => "Deaktiverade underhållsläge",
@@ -142,7 +141,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Din datakatalog och filer är förmodligen tillgängliga från Internet, eftersom .htaccess-filen inte fungerar.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "För information hur du korrekt konfigurerar din servern, se ownCloud <a href=\"%s\" target=\"_blank\">dokumentationen</a>.",
 "Create an <strong>admin account</strong>" => "Skapa ett <strong>administratörskonto</strong>",
-"Advanced" => "Avancerad",
 "Data folder" => "Datamapp",
 "Configure the database" => "Konfigurera databasen",
 "will be used" => "kommer att användas",
@@ -164,7 +162,6 @@ $TRANSLATIONS = array(
 "remember" => "kom ihåg",
 "Log in" => "Logga in",
 "Alternative Logins" => "Alternativa inloggningar",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej där,<br><br>ville bara informera dig om att %s delade »%s« med dig.<br><a href=\"%s\">Titta på den!</a><br><br>",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Hör av dig till din system administratör ifall detta meddelande fortsätter eller visas oväntat.",
 "Thank you for your patience." => "Tack för ditt tålamod.",
 "Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund.",

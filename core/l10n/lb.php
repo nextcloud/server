@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
 "Turned on maintenance mode" => "Maintenance Modus ass un",
 "Turned off maintenance mode" => "Maintenance Modus ass aus",
 "Updated database" => "Datebank ass geupdate ginn",
@@ -123,7 +122,6 @@ $TRANSLATIONS = array(
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ouni e sécheren Zoufallsgenerator kann en Ugräifer d'Passwuert-Zrécksetzungs-Schlësselen viraussoen an en Account iwwerhuelen.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Däin Daten-Dossier an deng Fichieren si wahrscheinlech iwwert den Internet accessibel well den .htaccess-Fichier net funktionnéiert.",
 "Create an <strong>admin account</strong>" => "En <strong>Admin-Account</strong> uleeën",
-"Advanced" => "Avancéiert",
 "Data folder" => "Daten-Dossier",
 "Configure the database" => "D'Datebank konfiguréieren",
 "will be used" => "wärt benotzt ginn",
