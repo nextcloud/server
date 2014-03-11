@@ -231,12 +231,27 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$from_address = OCP\Config::getUserValue($user, 'settings', 'email', $default_from );
 
 			// send it out now
-			try {
-				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $displayName, 1, $alttext);
-				OCP\JSON::success();
-			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));
+			$rs = explode(' ', $to_address);
+			$failed = array();
+			foreach ($rs as $r) {
+				try {
+					\OCP\Util::sendMail($r, $r, $subject, $text, $from_address, $displayName, 1, $alttext);
+				} catch (\Exception $e) {
+					\OCP\Util::writeLog('sharing', "Can't send mail with public link to $r: " . $e->getMessage(), \OCP\Util::ERROR);
+					$failed[] = $r;
+				}
 			}
+
+			if (empty($failed)) {
+				OCP\JSON::success();
+			} else {
+				OCP\JSON::error(array(
+					'data' => array(
+						'message' => $l->t("Couldn't send mail to following users: %s ",
+								implode(', ', $failed)
+							)
+					)
+				));			}
 			break;
 	}
 } else if (isset($_GET['fetch'])) {
