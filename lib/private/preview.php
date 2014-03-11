@@ -42,6 +42,10 @@ class Preview {
 	private $scalingup;
 	private $mimetype;
 
+	//filemapper used for deleting previews
+	// index is path, value is fileinfo
+	static public $deleteFileMapper = array();
+
 	//preview images object
 	/**
 	 * @var \OC_Image
@@ -166,7 +170,11 @@ class Preview {
 	}
 
 	protected function getFileInfo() {
-		if (!$this->info) {
+		$absPath = $this->fileView->getAbsolutePath($this->file);
+		$absPath = Files\Filesystem::normalizePath($absPath);
+		if(array_key_exists($absPath, self::$deleteFileMapper)) {
+			$this->info = self::$deleteFileMapper[$absPath];
+		} else if (!$this->info) {
 			$this->info = $this->fileView->getFileInfo($this->file);
 		}
 		return $this->info;
@@ -623,12 +631,35 @@ class Preview {
 		self::post_delete($args);
 	}
 
-	public static function post_delete($args) {
+	public static function prepare_delete_files($args) {
+		self::prepare_delete($args, 'files/');
+	}
+
+	public static function prepare_delete($args, $prefix='') {
 		$path = $args['path'];
 		if (substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
 		}
-		$preview = new Preview(\OC_User::getUser(), 'files/', $path);
+
+		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/' . $prefix);
+		$info = $view->getFileInfo($path);
+
+		\OC\Preview::$deleteFileMapper = array_merge(
+			\OC\Preview::$deleteFileMapper,
+			array(
+				Files\Filesystem::normalizePath($view->getAbsolutePath($path)) => $info,
+			)
+		);
+	}
+
+	public static function post_delete_files($args) {
+		self::post_delete($args, 'files/');
+	}
+
+	public static function post_delete($args, $prefix='') {
+		$path = Files\Filesystem::normalizePath($args['path']);
+
+		$preview = new Preview(\OC_User::getUser(), $prefix, $path);
 		$preview->deleteAllPreviews();
 	}
 
