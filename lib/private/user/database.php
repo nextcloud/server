@@ -93,14 +93,11 @@ class OC_User_Database extends OC_User_Backend {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
 		$result = $query->execute(array($uid));
 
-		if ($result) {
-			if (isset($this->cache[$uid])) {
-				unset($this->cache[$uid]);
-			}
-			return true;
+		if (isset($this->cache[$uid])) {
+			unset($this->cache[$uid]);
 		}
 
-		return false;
+		return $result ? true : false;
 	}
 
 	/**
