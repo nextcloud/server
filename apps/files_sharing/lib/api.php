@@ -175,8 +175,10 @@ class Api {
 			if($share) {
 				$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
 				if ($receivedFrom) {
-					$share['received_from'] = $receivedFrom['uid_owner'];
-					$share['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+					reset($share);
+					$key = key($share);
+					$share[$key]['received_from'] = $receivedFrom['uid_owner'];
+					$share[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
 				}
 				$result = array_merge($result, $share);
 			}
