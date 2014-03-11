@@ -44,8 +44,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	private static $hasher = null;
 
-	protected static $cache = array();
-	protected static $cache_complete = false;
+	private $cache = array();
+	private $cache_complete = false;
 
 	private function getHasher() {
 		if (!self::$hasher) {
@@ -73,7 +73,7 @@ class OC_User_Database extends OC_User_Backend {
 			$result = $query->execute(array($uid, $hash));
 			
 			if ($result) {
-				self::$cache[$uid]['uid'] = $uid;
+				$this->cache[$uid]['uid'] = $uid;
 				return true;
 			}
 		}
@@ -94,8 +94,8 @@ class OC_User_Database extends OC_User_Backend {
 		$result = $query->execute(array($uid));
 
 		if ($result) {
-			if (isset(self::$cache[$uid])) {
-				unset(self::$cache[$uid]);
+			if (isset($this->cache[$uid])) {
+				unset($this->cache[$uid]);
 			}
 			return true;
 		}
@@ -136,7 +136,8 @@ class OC_User_Database extends OC_User_Backend {
 		if ($this->userExists($uid)) {
 			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = ?');
 			$query->execute(array($displayName, $uid));
-			self::$cache[$uid]['displayname'] = $displayName;
+			$this->cache[$uid]['displayname'] = $displayName;
+
 			return true;
 		}
 
@@ -150,7 +151,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getDisplayName($uid) {
 		$this->loadUser($uid);
-		return empty(self::$cache[$uid]['displayname']) ? $uid : self::$cache[$uid]['displayname'];
+		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
 
 	/**
@@ -159,15 +160,24 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Get a list of all display names and user ids.
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+	public function getDisplayNames($search = '', $limit = null, $offset = 0) {
+		$this->loadUsers();
+
+		$search = strtolower($search);
+		$i = 0;
+
 		$displayNames = array();
-		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
-			. ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
-			. 'LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
-		$result = $query->execute(array($search . '%', $search . '%'));
-		$users = array();
-		while ($row = $result->fetchRow()) {
-			$displayNames[$row['uid']] = $row['displayname'];
+		foreach ($this->cache as $uid => $value) {
+			if ((preg_match('/^.*'.$search.'.*/', strtolower($uid)) || preg_match('/^.*'.$search.'.*/', strtolower($value['displayname']))) && $offset <= $i) {
+				$displayNames[$uid] = $value['displayname'];
+				if (!is_null($limit)) {
+					$limit--;
+					if ($limit <= 0) {
+						break;
+					}
+				}
+			}
+			$i++;
 		}
 
 		return $displayNames;
@@ -211,8 +221,8 @@ class OC_User_Database extends OC_User_Backend {
 	 * @param string $uid the username
 	 * @returns boolean
 	 */
-	protected function loadUser($uid) {
-		if (empty(self::$cache[$uid])) {
+	private function loadUser($uid) {
+		if (empty($this->cache[$uid])) {
 			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
 			$result = $query->execute(array($uid));
 
@@ -222,8 +232,8 @@ class OC_User_Database extends OC_User_Backend {
 			}
 
 			while ($row = $result->fetchRow()) {
-				self::$cache[$uid]['uid'] = $row['uid'];
-				self::$cache[$uid]['displayname'] = $row['displayname'];
+				$this->cache[$uid]['uid'] = $row['uid'];
+				$this->cache[$uid]['displayname'] = $row['displayname'];
 			}
 		}
 
@@ -235,8 +245,8 @@ class OC_User_Database extends OC_User_Backend {
 	 * @param string $uid the username
 	 * @returns boolean
 	 */
-	protected function loadUsers() {
-		if (!self::$cache_complete) {
+	private function loadUsers() {
+		if (!$this->cache_complete) {
 			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` ORDER BY `uid`');
 			$result = $query->execute();
 
@@ -247,11 +257,11 @@ class OC_User_Database extends OC_User_Backend {
 
 			while ($row = $result->fetchRow()) {
 				$uid = $row['uid'];
-				self::$cache[$uid]['uid'] = $uid;
-				self::$cache[$uid]['displayname'] = $row['displayname'];
+				$this->cache[$uid]['uid'] = $uid;
+				$this->cache[$uid]['displayname'] = $row['displayname'];
 			}
 
-			self::$cache_complete = true;
+			$this->cache_complete = true;
 		}
 
 		return true;
@@ -263,12 +273,24 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Get a list of all users.
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null) {
+	public function getUsers($search = '', $limit = null, $offset = 0) {
 		$this->loadUsers();
 
+		$search = strtolower($search);
+		$i = 0;
+
 		$users = array();
-		foreach (self::$cache as $uid => $value) {
-			$users[] = $uid;
+		foreach ($this->cache as $uid => $value) {
+			if (preg_match('/^'.$search.'.*/', strtolower($uid)) && $offset <= $i) {
+				$users[] = $uid;
+				if (!is_null($limit)) {
+					$limit--;
+					if ($limit <= 0) {
+						break;
+					}
+				}
+			}
+			$i++;
 		}
 
 		return $users;
@@ -281,7 +303,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function userExists($uid) {
 		$this->loadUser($uid);
-		return !empty(self::$cache[$uid]);
+		return !empty($this->cache[$uid]);
 	}
 
 	/**
@@ -311,7 +333,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function countUsers() {
 		$this->loadUsers();
-		return count(self::$cache);
+		return count($this->cache);
 	}
 
 }
