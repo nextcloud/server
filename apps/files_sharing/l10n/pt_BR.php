@@ -9,12 +9,6 @@ $TRANSLATIONS = array(
 "the link expired" => "o link expirou",
 "sharing is disabled" => "compartilhamento está desativada",
 "For more info, please ask the person who sent this link." => "Para mais informações, por favor, pergunte a pessoa que enviou este link.",
-"%s shared the folder %s with you" => "%s compartilhou a pasta %s com você",
-"%s shared the file %s with you" => "%s compartilhou o arquivo %s com você",
-"Download" => "Baixar",
-"Upload" => "Upload",
-"Cancel upload" => "Cancelar upload",
-"No preview available for" => "Nenhuma visualização disponível para",
 "Direct link" => "Link direto"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

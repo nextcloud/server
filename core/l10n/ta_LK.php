@@ -85,7 +85,6 @@ $TRANSLATIONS = array(
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "குறிப்பிட்ட எண்ணிக்கை பாதுகாப்பான புறப்பாக்கி / உண்டாக்கிகள் இல்லை, தயவுசெய்து PHP OpenSSL நீட்சியை இயலுமைப்படுத்துக. ",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "பாதுகாப்பான சீரற்ற எண்ணிக்கையான புறப்பாக்கி இல்லையெனின், தாக்குனரால் கடவுச்சொல் மீளமைப்பு அடையாளவில்லைகள் முன்மொழியப்பட்டு உங்களுடைய கணக்கை கைப்பற்றலாம்.",
 "Create an <strong>admin account</strong>" => "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக",
-"Advanced" => "உயர்ந்த",
 "Data folder" => "தரவு கோப்புறை",
 "Configure the database" => "தரவுத்தளத்தை தகவமைக்க",
 "will be used" => "பயன்படுத்தப்படும்",

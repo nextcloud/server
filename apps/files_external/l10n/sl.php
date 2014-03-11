@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Uporabniki",
 "Delete" => "Izbriši",
 "Enable User External Storage" => "Omogoči zunanjo uporabniško podatkovno shrambo",
-"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe",
 "SSL root certificates" => "Korenska potrdila SSL",
 "Import Root Certificate" => "Uvozi korensko potrdilo"
 );

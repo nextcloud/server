@@ -9,12 +9,6 @@ $TRANSLATIONS = array(
 "the link expired" => "bağlantı süresi dolmuş",
 "sharing is disabled" => "paylaşım devre dışı",
 "For more info, please ask the person who sent this link." => "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin.",
-"%s shared the folder %s with you" => "%s, %s klasörünü sizinle paylaştı",
-"%s shared the file %s with you" => "%s, %s dosyasını sizinle paylaştı",
-"Download" => "İndir",
-"Upload" => "Yükle",
-"Cancel upload" => "Yüklemeyi iptal et",
-"No preview available for" => "Kullanılabilir önizleme yok",
 "Direct link" => "Doğrudan bağlantı"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ha condiviso «%s» con te",
 "Couldn't send mail to following users: %s " => "Impossibile inviare email ai seguenti utenti: %s",
 "Turned on maintenance mode" => "Modalità di manutenzione attivata",
 "Turned off maintenance mode" => "Modalità di manutenzione disattivata",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "La cartella dei dati e i file sono probabilmente accessibili da Internet poiché il file .htaccess non funziona.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Per informazioni su come configurare correttamente il tuo server, vedi la <a href=\"%s\" target=\"_blank\">documentazione</a>.",
 "Create an <strong>admin account</strong>" => "Crea un <strong>account amministratore</strong>",
-"Advanced" => "Avanzat",
 "Data folder" => "Cartella dati",
 "Configure the database" => "Configura il database",
 "will be used" => "sarà utilizzato",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "Alternative Logins" => "Accessi alternativi",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ciao,<br><br>volevo informarti che %s ha condiviso %s con te.<br><a href=\"%s\">Vedi!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Questa istanza di ownCloud è in modalità utente singolo.",
 "This means only administrators can use the instance." => "Ciò significa che solo gli amministratori possono utilizzare l'istanza.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contatta il tuo amministratore di sistema se questo messaggio persiste o appare inaspettatamente.",

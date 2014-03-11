@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Wees er zeker van dat PHP5.3.3 of nieuwer is geïstalleerd en dat de OpenSSL PHP extensie is ingeschakeld en correct geconfigureerd. De versleutel-app is voorlopig uitgeschakeld.",
 "Following users are not set up for encryption:" => "De volgende gebruikers hebben geen configuratie voor encryptie:",
 "Initial encryption started... This can take some time. Please wait." => "initiële versleuteling gestart... Dit kan even duren, geduld a.u.b.",
-"Saving..." => "Opslaan",
 "Go directly to your " => "Ga meteen naar uw",
 "personal settings" => "persoonlijke instellingen",
 "Encryption" => "Versleuteling",

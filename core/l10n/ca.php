@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ha compartit »%s« amb tu",
 "Couldn't send mail to following users: %s " => "No s'ha pogut enviar correu als usuaris següents: %s",
 "Turned on maintenance mode" => "Activat el mode de manteniment",
 "Turned off maintenance mode" => "Desactivat el mode de manteniment",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "La carpeta de dades i els seus fitxers probablement són accessibles des d'internet perquè el fitxer .htaccess no funciona.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Per informació de com configurar el servidor, comproveu la <a href=\"%s\" target=\"_blank\">documentació</a>.",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
-"Advanced" => "Avançat",
 "Data folder" => "Carpeta de dades",
 "Configure the database" => "Configura la base de dades",
 "will be used" => "s'usarà",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "recorda'm",
 "Log in" => "Inici de sessió",
 "Alternative Logins" => "Acreditacions alternatives",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Ei,<br><br>només fer-te saber que %s ha compartit »%s« amb tu.<br><a href=\"%s\">Mira-ho!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "La instància ownCloud està en mode d'usuari únic.",
 "This means only administrators can use the instance." => "Això significa que només els administradors poden usar la instància.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep <sovichet.tep@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-13 21:47-0400\n"
-"PO-Revision-Date: 2013-09-12 11:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-02-26 12:50+0000\n"
+"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep <sovichet.tep@gmail.com>\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,24 +21,24 @@ msgstr ""
 #: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "មិន​អាច​ត្រឡប់៖ %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
-msgstr ""
+msgstr "កំណែ"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "មិន​អាច​ត្រឡប់ {file} ទៅ​កំណែ​សម្រួល {timestamp} បាន​ទេ។"
 
-#: js/versions.js:79
+#: js/versions.js:87
 msgid "More versions..."
-msgstr ""
+msgstr "កំណែ​ច្រើន​ទៀត..."
 
-#: js/versions.js:116
+#: js/versions.js:125
 msgid "No other versions available"
-msgstr ""
+msgstr "មិន​មាន​កំណែ​ផ្សេង​ទៀត​ទេ"
 
-#: js/versions.js:145
+#: js/versions.js:155
 msgid "Restore"
-msgstr ""
+msgstr "ស្ដារ​មក​វិញ"

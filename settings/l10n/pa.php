@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "Updating...." => "...ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ",
 "Error" => "ਗਲਤੀ",
 "Updated" => "ਅੱਪਡੇਟ ਕੀਤਾ",
-"Saving..." => "...ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ",
 "deleted" => "ਹਟਾਈ",
 "undo" => "ਵਾਪਸ",
 "Groups" => "ਗਰੁੱਪ",

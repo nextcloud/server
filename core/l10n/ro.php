@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s Partajat »%s« cu tine de",
 "Updated database" => "Bază de date actualizată",
 "Unknown filetype" => "Tip fișier necunoscut",
 "Invalid image" => "Imagine invalidă",
@@ -109,7 +108,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Directorul tău de date și fișiere sunt probabil accesibile de pe Internet, deoarece fișierul .htaccess nu funcționează.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Pentru informații despre cum să configurezi serverul, vezi <a href=\"%s\" target=\"_blank\">documentația</a>.",
 "Create an <strong>admin account</strong>" => "Crează un <strong>cont de administrator</strong>",
-"Advanced" => "Avansat",
 "Data folder" => "Director date",
 "Configure the database" => "Configurează baza de date",
 "will be used" => "vor fi folosite",

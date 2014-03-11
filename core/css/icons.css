@@ -24,7 +24,7 @@
 
 .icon-noise {
 	background-image: url('../img/noise.png');
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 }
 
 
@@ -156,11 +156,15 @@
 	background-image: url('../img/actions/sound-off.svg');
 }
 
-.icon-star {
+.icon-star,
+.icon-starred:hover,
+.icon-starred:focus {
 	background-image: url('../img/actions/star.svg');
 }
 
-.icon-starred {
+.icon-starred,
+.icon-star:hover,
+.icon-star:focus {
 	background-image: url('../img/actions/starred.svg');
 }
 

@@ -584,8 +584,8 @@ $(document).ready(function() {
 				$(checkboxes).filter('input[name="edit"]').attr('checked', false);
 			// Check Edit if Create, Update, or Delete is checked
 			} else if (($(this).attr('name') == 'create'
-					 || $(this).attr('name') == 'update'
-					 || $(this).attr('name') == 'delete'))
+				|| $(this).attr('name') == 'update'
+				|| $(this).attr('name') == 'delete'))
 			{
 				$(checkboxes).filter('input[name="edit"]').attr('checked', true);
 			}

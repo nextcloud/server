@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "Nívol pas trobada",
 "Security Warning" => "Avertiment de securitat",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte admin</strong>",
-"Advanced" => "Avançat",
 "Data folder" => "Dorsièr de donadas",
 "Configure the database" => "Configura la basa de donadas",
 "will be used" => "serà utilizat",

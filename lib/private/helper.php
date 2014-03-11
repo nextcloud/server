@@ -839,7 +839,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace)){
+		if (is_null($freeSpace) || $freeSpace < 0){
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());
@@ -914,13 +914,22 @@ class OC_Helper {
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = \OC\Files\Filesystem::free_space($path);
+		$quota = 0;
+		// TODO: need a better way to get total space from storage
+		$storage = $rootInfo->getStorage();
+		if ($storage instanceof \OC\Files\Storage\Wrapper\Quota) {
+			$quota = $storage->getQuota();
+		}
+		$free = $storage->free_space('');
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
 		if ($total > 0) {
+			if ($quota > 0 && $total > $quota) {
+				$total = $quota;
+			}
 			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {

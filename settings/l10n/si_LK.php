@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Encryption" => "ගුප්ත කේතනය",
 "Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Group already exists" => "කණ්ඩායම දැනටමත් තිබේ",
 "Unable to add group" => "කාණඩයක් එක් කළ නොහැකි විය",
@@ -15,7 +16,6 @@ $TRANSLATIONS = array(
 "Enable" => "සක්‍රිය කරන්න",
 "Error" => "දෝෂයක්",
 "Update" => "යාවත්කාල කිරීම",
-"Saving..." => "සුරැකෙමින් පවතී...",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
 "Groups" => "කණ්ඩායම්",
 "Group Admin" => "කාණ්ඩ පරිපාලක",
@@ -42,10 +42,8 @@ $TRANSLATIONS = array(
 "Change password" => "මුරපදය වෙනස් කිරීම",
 "Email" => "විද්‍යුත් තැපෑල",
 "Your email address" => "ඔබගේ විද්‍යුත් තැපෑල",
-"Fill in an email address to enable password recovery" => "මුරපද ප්‍රතිස්ථාපනය සඳහා විද්‍යුත් තැපැල් විස්තර ලබා දෙන්න",
 "Language" => "භාෂාව",
 "Help translate" => "පරිවර්ථන සහය",
-"Encryption" => "ගුප්ත කේතනය",
 "Create" => "තනන්න",
 "Other" => "වෙනත්",
 "Username" => "පරිශීලක නම"

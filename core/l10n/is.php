@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Enginn traustur slembitölugjafi í boði, vinsamlegast virkjaðu PHP OpenSSL viðbótina.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Án öruggs slembitölugjafa er mögulegt að sjá fyrir öryggis auðkenni til að endursetja lykilorð og komast inn á aðganginn þinn.",
 "Create an <strong>admin account</strong>" => "Útbúa <strong>vefstjóra aðgang</strong>",
-"Advanced" => "Ítarlegt",
 "Data folder" => "Gagnamappa",
 "Configure the database" => "Stilla gagnagrunn",
 "will be used" => "verður notað",

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s hat »%s« mit Ihnen geteilt",
 "Couldn't send mail to following users: %s " => "An folgende Benutzer konnte keine E-Mail gesendet werden: %s",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet ",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
@@ -141,9 +140,8 @@ $TRANSLATIONS = array(
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktivieren Sie die PHP-Erweiterung für OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage, die Tokens für das Zurücksetzen der Passwörter vorherzusehen und Ihr Konto zu übernehmen.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert.",
-"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Bitte lesen Sie die <a href=\"%s\" target=\"_blank\">Dokumentation</a>, um zu erfahren, wie Sie Ihr Server richtig konfigurieren können.",
+"For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Bitte lesen Sie die <a href=\"%s\" target=\"_blank\">Dokumentation</a>, um zu erfahren, wie Sie Ihren Server richtig konfigurieren können.",
 "Create an <strong>admin account</strong>" => "<strong>Administrator-Konto</strong> anlegen",
-"Advanced" => "Fortgeschritten",
 "Data folder" => "Datenverzeichnis",
 "Configure the database" => "Datenbank einrichten",
 "will be used" => "wird verwendet",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "merken",
 "Log in" => "Einloggen",
 "Alternative Logins" => "Alternative Logins",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo,<br><br>%s hat %s mit Ihnen geteilt.<br><a href=\"%s\">Schauen Sie es sich an!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Diese ownClound-Instanz befindet sich derzeit im Einzelbenutzermodus.",
 "This means only administrators can use the instance." => "Dies bedeutet, dass diese Instanz nur von Administratoren genutzt werden kann.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktieren Sie Ihren Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",

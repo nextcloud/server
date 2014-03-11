@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Pristup zabranjen",
 "Cloud not found" => "Cloud nije pronađen",
 "Create an <strong>admin account</strong>" => "Stvori <strong>administratorski račun</strong>",
-"Advanced" => "Napredno",
 "Data folder" => "Mapa baze podataka",
 "Configure the database" => "Konfiguriraj bazu podataka",
 "will be used" => "će se koristiti",

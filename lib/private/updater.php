@@ -76,7 +76,9 @@ class Updater extends BasicEmitter {
 		if ($xml == false) {
 			return array();
 		}
+		$loadEntities = libxml_disable_entity_loader(true);
 		$data = @simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = array();
 		$tmp['version'] = $data->version;
@@ -134,6 +136,8 @@ class Updater extends BasicEmitter {
 		$repair = new Repair();
 		$repair->run();
 
+		//Invalidate update feed
+		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s ha compatido  »%s« contigo",
 "Couldn't send mail to following users: %s " => "No se pudo enviar el mensaje a los siguientes usuarios: %s",
 "Turned on maintenance mode" => "Modo mantenimiento activado",
 "Turned off maintenance mode" => "Modo mantenimiento desactivado",
@@ -82,7 +81,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "No se permite compartir de nuevo",
 "Shared in {item} with {user}" => "Compartido en {item} con {user}",
 "Unshare" => "Dejar de compartir",
-"notify by email" => "notificar al usuario por correo electrónico",
+"notify by email" => "notificar por correo electrónico",
 "can edit" => "puede editar",
 "access control" => "control de acceso",
 "create" => "crear",
@@ -143,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Su directorio de datos y sus archivos probablemente sean accesibles a través de internet ya que el archivo .htaccess no funciona.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Para información de cómo configurar apropiadamente su servidor, por favor vea la <a href=\"%s\" target=\"_blank\">documentación</a>.",
 "Create an <strong>admin account</strong>" => "Crear una <strong>cuenta de administrador</strong>",
-"Advanced" => "Avanzado",
 "Data folder" => "Directorio de datos",
 "Configure the database" => "Configurar la base de datos",
 "will be used" => "se utilizarán",
@@ -166,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "recordar",
 "Log in" => "Entrar",
 "Alternative Logins" => "Inicios de sesión alternativos",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hola:<br><br>tan solo queremos informarte que %s compartió «%s» contigo.<br><a href=\"%s\">¡Míralo acá!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Esta instalación de ownCloud se encuentra en modo de usuario único.",
 "This means only administrators can use the instance." => "Esto quiere decir que solo un administrador puede usarla.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",

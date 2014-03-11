@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez generatora slučajnog broja napadač može predvideti token za reset lozinke i preuzeti Vaš nalog.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Vaši podaci i direktorijumi su verovatno dostupni sa interneta jer .htaccess fajl ne funkcioniše.",
 "Create an <strong>admin account</strong>" => "Napravi <strong>administrativni nalog</strong>",
-"Advanced" => "Napredno",
 "Data folder" => "Fascikla podataka",
 "Configure the database" => "Podešavanje baze",
 "will be used" => "će biti korišćen",

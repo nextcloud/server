@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s delte «%s» med deg",
 "Turned on maintenance mode" => "Skrudde på vedlikehaldsmodus",
 "Turned off maintenance mode" => "Skrudde av vedlikehaldsmodus",
 "Updated database" => "Database oppdatert",
@@ -123,7 +122,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> for meir informasjon om korleis du konfigurerer tenaren din.",
 "Create an <strong>admin account</strong>" => "Lag ein <strong>admin-konto</strong>",
-"Advanced" => "Avansert",
 "Data folder" => "Datamappe",
 "Configure the database" => "Set opp databasen",
 "will be used" => "vil verta nytta",
