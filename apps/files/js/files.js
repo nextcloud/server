@@ -361,7 +361,12 @@ $(document).ready(function() {
 		// use special download URL if provided, e.g. for public shared files
 		var downloadURL = document.getElementById("downloadURL");
 		if ( downloadURL ) {
-			window.location = downloadURL.value+"&download&files=" + encodeURIComponent(fileslist);
+			// downloading all in root of public share ? (replacement for old "Download" button)
+			if ($('#isPublic').val() && dir === '/' && $('#select_all').is(':checked')) {
+				window.location = downloadURL.value;
+			} else {
+				window.location = downloadURL.value+"&download&files=" + encodeURIComponent(fileslist);
+			}
 		} else {
 			window.location = OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
