@@ -662,6 +662,9 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 		setItem:function(name,item){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
+		removeItem:function(name,item){
+			return localStorage.removeItem(OC.localStorage.namespace+name);
+		},
 		getItem:function(name){
 			var item = localStorage.getItem(OC.localStorage.namespace+name);
 			if(item===null) {
