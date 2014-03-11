@@ -178,6 +178,7 @@ class Storage {
 					$versionsSize = self::calculateSize($uid);
 				}
 				foreach ($versions as $v) {
+					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $abs_path . $v['version']));
 					unlink($abs_path . $v['version']);
 					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
 					$versionsSize -= $v['size'];
@@ -542,8 +543,9 @@ class Storage {
 			}
 
 			foreach($toDelete as $key => $path) {
-				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path));
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path));
 				$versionsFileview->unlink($path);
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path));
 				unset($allVersions[$key]); // update array with the versions we keep
 				\OCP\Util::writeLog('files_versions', "Expire: " . $path, \OCP\Util::DEBUG);
 			}
@@ -555,6 +557,7 @@ class Storage {
 			$i = 0;
 			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$version = current($allVersions);
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version']));
 				$versionsFileview->unlink($version['path'].'.v'.$version['version']);
 				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
 				\OCP\Util::writeLog('files_versions', 'running out of space! Delete oldest version: ' . $version['path'].'.v'.$version['version'] , \OCP\Util::DEBUG);
