@@ -167,6 +167,10 @@ table.shareAPI td { padding-bottom: 0.8em; }
 	width: 40px;
 }
 
+.cronlog {
+	margin-left: 10px;
+}
+
 .cronstatus {
 	display: inline-block;
 	height: 16px;
