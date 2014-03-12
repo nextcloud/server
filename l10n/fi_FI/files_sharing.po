@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 12:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: js/share.js:13
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Jakanut {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -61,12 +61,12 @@ msgstr "Kysy lisätietoja henkilöltä, jolta sait linkin."
 #: templates/public.php:17
 #, php-format
 msgid "shared by %s"
-msgstr ""
+msgstr "jakanut %s"
 
 #: templates/public.php:44
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Lataa %s"
 
 #: templates/public.php:48
 msgid "Direct link"

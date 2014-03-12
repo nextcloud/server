@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Lapkritis",
 "December" => "Gruodis",
 "Settings" => "Nustatymai",
+"Saving..." => "Saugoma...",
 "seconds ago" => "prieš sekundę",
 "_%n minute ago_::_%n minutes ago_" => array(" prieš %n minutę"," prieš %n minučių"," prieš %n minučių"),
 "_%n hour ago_::_%n hours ago_" => array("prieš %n valandą","prieš %n valandų","prieš %n valandų"),

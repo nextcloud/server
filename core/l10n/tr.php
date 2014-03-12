@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Kasım",
 "December" => "Aralık",
 "Settings" => "Ayarlar",
+"Saving..." => "Kaydediliyor...",
 "seconds ago" => "saniye önce",
 "_%n minute ago_::_%n minutes ago_" => array("%n dakika önce","%n dakika önce"),
 "_%n hour ago_::_%n hours ago_" => array("%n saat önce","%n saat önce"),

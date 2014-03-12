@@ -5,14 +5,14 @@
 # Translators:
 # Francesco Apruzzese <cescoap@gmail.com>, 2013
 # idetao <marcxosm@gmail.com>, 2013
-# Paolo Velati <paolo.velati@gmail.com>, 2013
-# Vincenzo Reale <vinx.reale@gmail.com>, 2013
+# Paolo Velati <paolo.velati@gmail.com>, 2013-2014
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -24,43 +24,43 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Valore non valido fornito per %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Salvato"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "prova impostazioni email"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Se hai ricevuto questa email, le impostazioni dovrebbero essere corrette."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Si è verificato un problema durante l'invio dell'email. Controlla le tue impostazioni."
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "Email inviata"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email."
 
 #: admin/controller.php:116 templates/admin.php:280
 msgid "Send mode"
-msgstr ""
+msgstr "Modalità di invio"
 
 #: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
 msgid "Encryption"
 msgstr "Cifratura"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -161,7 +161,7 @@ msgstr "Impossibile cambiare la password"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Invio in corso..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -169,7 +169,7 @@ msgstr "Documentazione utente"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Documentazione di amministrazione"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -221,23 +221,23 @@ msgstr "Seleziona un'immagine del profilo"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Password molto debole"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Password debole"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Password così-così"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Password buona"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Password forte"
 
 #: js/personal.js:301
 msgid "Decrypting files... Please wait, this can take some time."
@@ -314,27 +314,27 @@ msgstr "Solo problemi gravi"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "Nessuno"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "Accesso"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Semplice"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Gestore NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:43 templates/admin.php:57
 msgid "Security Warning"
@@ -519,47 +519,47 @@ msgstr "Connettiti al tuo %s tramite HTTPS per abilitare o disabilitare l'applic
 
 #: templates/admin.php:275
 msgid "Email Server"
-msgstr ""
+msgstr "Server di posta"
 
 #: templates/admin.php:277
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Viene utilizzato per inviare le notifiche."
 
 #: templates/admin.php:308
 msgid "From address"
-msgstr ""
+msgstr "Indirizzo mittente"
 
 #: templates/admin.php:330
 msgid "Authentication required"
-msgstr ""
+msgstr "Autenticazione richiesta"
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "Indirizzo del server"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "Porta"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "Credenziali"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
-msgstr ""
+msgstr "Nome utente SMTP"
 
 #: templates/admin.php:347
 msgid "SMTP Password"
-msgstr ""
+msgstr "Password SMTP"
 
 #: templates/admin.php:351
 msgid "Test email settings"
-msgstr ""
+msgstr "Prova impostazioni email"
 
 #: templates/admin.php:352
 msgid "Send email"
-msgstr ""
+msgstr "Invia email"
 
 #: templates/admin.php:357
 msgid "Log"
@@ -605,7 +605,7 @@ msgstr "Seleziona un'applicazione"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "Documentazione:"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -613,7 +613,7 @@ msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "Visita il sito web dell'applicazione"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -692,7 +692,7 @@ msgstr "Il tuo indirizzo email"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Inserisci il tuo indirizzo di posta per abilitare il recupero della password e ricevere notifiche"
 
 #: templates/personal.php:96
 msgid "Profile picture"
@@ -720,7 +720,7 @@ msgstr "Il tuo avatar è ottenuto dal tuo account originale."
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"

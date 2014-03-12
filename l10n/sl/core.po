@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Ni mogoče poslati sporočila za: %s"
@@ -151,13 +151,13 @@ msgstr "Nastavitve"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -165,7 +165,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -173,15 +173,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -189,11 +189,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -201,15 +201,15 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "mesecev nazaj"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "let nazaj"
 

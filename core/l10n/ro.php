@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "November" => "Noiembrie",
 "December" => "Decembrie",
 "Settings" => "Setări",
+"Saving..." => "Se salvează...",
 "seconds ago" => "secunde în urmă",
 "_%n minute ago_::_%n minutes ago_" => array("acum %n minut","acum %n minute","acum %n minute"),
 "_%n hour ago_::_%n hours ago_" => array("acum %n oră","acum %n ore","acum %n ore"),

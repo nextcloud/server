@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Dibagikan oleh {owner}",
 "This share is password-protected" => "Berbagi ini dilindungi sandi",
 "The password is wrong. Try again." => "Sandi salah. Coba lagi",
 "Password" => "Sandi",

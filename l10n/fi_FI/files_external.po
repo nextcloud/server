@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 12:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +40,7 @@ msgstr "Virhe Google Drive levyn asetuksia tehtäessä"
 
 #: js/settings.js:313 js/settings.js:320
 msgid "Saved"
-msgstr ""
+msgstr "Tallennettu"
 
 #: lib/config.php:512
 msgid ""
@@ -116,7 +117,7 @@ msgstr "Ota käyttöön ulkopuoliset tallennuspaikat"
 
 #: templates/settings.php:130
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 
 #: templates/settings.php:147
 msgid "SSL root certificates"

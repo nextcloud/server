@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Delt av {owner}",
 "This share is password-protected" => "Denne delingen er passordbeskyttet",
 "The password is wrong. Try again." => "Passordet er feil. Prøv på nytt.",
 "Password" => "Passord",
@@ -9,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "lenken er utløpt",
 "sharing is disabled" => "deling er deaktivert",
 "For more info, please ask the person who sent this link." => "For mer informasjon, spør personen som sendte lenken.",
+"shared by %s" => "delt av %s",
 "Direct link" => "Direkte lenke"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

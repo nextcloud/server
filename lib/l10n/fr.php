@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Spécifiez un mot de passe administrateur.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut.",
 "Please double check the <a href='%s'>installation guides</a>." => "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",
+"%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Could not find category \"%s\"" => "Impossible de trouver la catégorie \"%s\"",
 "seconds ago" => "il y a quelques secondes",
 "_%n minute ago_::_%n minutes ago_" => array("","il y a %n minutes"),

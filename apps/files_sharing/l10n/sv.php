@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Delad av {owner}",
 "This share is password-protected" => "Den här delningen är lösenordsskyddad",
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",
 "Password" => "Lösenord",

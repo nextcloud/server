@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Delt av {owner}",
 "The password is wrong. Try again." => "Passordet er gale. Prøv igjen.",
 "Password" => "Passord",
 "Sorry, this link doesn’t seem to work anymore." => "Orsak, denne lenkja fungerer visst ikkje lenger.",

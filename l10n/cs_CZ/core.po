@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
@@ -156,61 +156,61 @@ msgstr "Nastavení"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Ukládám..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "před lety"
 

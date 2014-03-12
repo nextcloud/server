@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Määra admini parool.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv.",
 "Please double check the <a href='%s'>installation guides</a>." => "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
+"%s shared »%s« with you" => "%s jagas sinuga »%s«",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\"",
 "seconds ago" => "sekundit tagasi",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutit tagasi"),

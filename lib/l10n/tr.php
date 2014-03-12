@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Parola yonetici birlemek. ",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor.",
 "Please double check the <a href='%s'>installation guides</a>." => "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin.",
+"%s shared »%s« with you" => "%s sizinle »%s« paylaşımında bulundu",
 "Could not find category \"%s\"" => "\"%s\" kategorisi bulunamadı",
 "seconds ago" => "saniye önce",
 "_%n minute ago_::_%n minutes ago_" => array("","%n dakika önce"),

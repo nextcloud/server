@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
-# plazmism <gomidori@live.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013-2014
 # iLikeIT <dj_dark_junglist@yahoo.com>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
 # tt yn <tetuyano+transi@gmail.com>, 2013
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -25,43 +25,43 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "%s に提供された無効な値"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "保存されました"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "eメール設定をテスト"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "このメールを受け取ったら、設定は正しいはずです。"
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "メールの送信中に問題が発生しました。設定を再考してください。"
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "メールを送信しました"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。"
 
 #: admin/controller.php:116 templates/admin.php:280
 msgid "Send mode"
-msgstr ""
+msgstr "送信モード"
 
 #: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
 msgid "Encryption"
 msgstr "暗号化"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -162,7 +162,7 @@ msgstr "パスワードを変更できません"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "送信中…"
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -170,7 +170,7 @@ msgstr "ユーザードキュメント"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "管理者ドキュメント"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -222,23 +222,23 @@ msgstr "プロファイル画像を選択"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "非常に弱いパスワード"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "弱いパスワード"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "まずまずのパスワード"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "良好なパスワード"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "強いパスワード"
 
 #: js/personal.js:301
 msgid "Decrypting files... Please wait, this can take some time."
@@ -315,27 +315,27 @@ msgstr "致命的な問題のみ"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "平文"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN マネージャー"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:43 templates/admin.php:57
 msgid "Security Warning"
@@ -520,47 +520,47 @@ msgstr "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s
 
 #: templates/admin.php:275
 msgid "Email Server"
-msgstr ""
+msgstr "メールサーバー"
 
 #: templates/admin.php:277
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "これは通知の送信に使われます。"
 
 #: templates/admin.php:308
 msgid "From address"
-msgstr ""
+msgstr "アドレスから"
 
 #: templates/admin.php:330
 msgid "Authentication required"
-msgstr ""
+msgstr "要求される認証"
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "サーバーアドレス"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "ポート"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "資格情報"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP ユーザー名"
 
 #: templates/admin.php:347
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP パスワード"
 
 #: templates/admin.php:351
 msgid "Test email settings"
-msgstr ""
+msgstr "メールテスト設定"
 
 #: templates/admin.php:352
 msgid "Send email"
-msgstr ""
+msgstr "メールを送信"
 
 #: templates/admin.php:357
 msgid "Log"
@@ -606,7 +606,7 @@ msgstr "アプリを選択してください"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "ドキュメント:"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -614,7 +614,7 @@ msgstr "apps.owncloud.com でアプリケーションのページを見てくだ
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "アプリケーションのウェブサイトを見る"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -693,7 +693,7 @@ msgstr "あなたのメールアドレス"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "パスワードの回復を有効にし、通知を受け取るにはメールアドレスを入力してください"
 
 #: templates/personal.php:96
 msgid "Profile picture"
@@ -721,7 +721,7 @@ msgstr "あなたのアバターは、あなたのオリジナルのアカウン
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"

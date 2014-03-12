@@ -6,8 +6,10 @@
 # a.tangemann <a.tangemann@web.de>, 2013
 # SteinQuadrat, 2013
 # I Robot, 2013
+# I Robot, 2014
 # Marcel Kühlhorn <tux93@opensuse.org>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2014
 # traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
 # noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
@@ -16,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 21:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +45,7 @@ msgstr "Der Dateiname darf nicht leer sein."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" ist kein gültiger Dateiname."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -54,7 +56,7 @@ msgstr "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind 
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Der Ziel-Ordner wurde verschoben oder gelöscht."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -158,12 +160,12 @@ msgstr "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein 
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Die Gesamt-Größe {size1} überschreitet die Upload-Begrenzung {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Nicht genügend freier Speicherplatz, Sie möchten {size1} hochladen, es sind jedoch nur noch {size2} verfügbar."
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -258,7 +260,7 @@ msgstr[1] "%n Dateien werden hoch geladen"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" ist kein gültiger Dateiname."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -372,7 +374,7 @@ msgstr "Textdatei"
 
 #: templates/index.php:13
 msgid "New folder"
-msgstr "Neues Verzeichnis"
+msgstr "Neues Ordner"
 
 #: templates/index.php:14
 msgid "Folder"

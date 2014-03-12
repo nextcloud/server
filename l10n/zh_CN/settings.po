@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "邮件已发送"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -63,7 +63,7 @@ msgid "Encryption"
 msgstr "加密"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -317,11 +317,11 @@ msgstr "仅灾难性问题"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "登录"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -538,15 +538,15 @@ msgstr ""
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "服务器地址"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "凭证"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
@@ -723,7 +723,7 @@ msgstr "您的头像由您的原始账户所提供。"
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"

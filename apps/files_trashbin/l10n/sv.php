@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kunde inte radera %s permanent",
 "Couldn't restore %s" => "Kunde inte återställa %s",
+"Deleted files" => "Raderade filer",
 "Error" => "Fel",
 "restored" => "återställd",
 "Nothing in here. Your trash bin is empty!" => "Ingenting här. Din papperskorg är tom!",

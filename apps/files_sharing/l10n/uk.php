@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Опублікував {owner}",
 "This share is password-protected" => "Цей ресурс обміну захищений паролем",
 "The password is wrong. Try again." => "Невірний пароль. Спробуйте ще раз.",
 "Password" => "Пароль",

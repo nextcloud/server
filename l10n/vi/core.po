@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Không thể gửi thư cho người dùng: %s"
@@ -153,53 +153,53 @@ msgstr "Cài đặt"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Đang lưu..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n phút trước"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n giờ trước"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ngày trước"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n tháng trước"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "tháng trước"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "năm trước"
 

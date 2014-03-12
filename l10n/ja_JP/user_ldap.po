@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013-2014
 # kuromabo <md81bird@hitaki.net>, 2014
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 13:31+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,7 +165,7 @@ msgstr "ヘルプ"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "これらの基準を満たすグループが %s で利用可能:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -201,7 +201,7 @@ msgstr "グループが見つかりました"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "この属性でユーザーログイン:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -269,7 +269,7 @@ msgstr "拡張タブでユーザーとグループのベースDNを指定する�
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "この基準を満たすユーザに対し %s へのアクセスを制限:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -413,13 +413,13 @@ msgstr "グループとメンバーの関連付け"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "ネスト化ブロック"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "オンに切り替えたら、グループを含むグループがサポートされます。(グループメンバーの属性がDNを含む場合のみ有効です。)"
 
 #: templates/settings.php:41
 msgid "Special Attributes"

@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "கார்த்திகை",
 "December" => "மார்கழி",
 "Settings" => "அமைப்புகள்",
+"Saving..." => "சேமிக்கப்படுகிறது...",
 "seconds ago" => "செக்கன்களுக்கு முன்",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),

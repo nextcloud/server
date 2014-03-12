@@ -25,7 +25,7 @@ $TRANSLATIONS = array(
 "_%n hour ago_::_%n hours ago_" => array("","",""),
 "today" => "Danas",
 "yesterday" => "juče",
-"_%n day ago_::_%n days ago_" => array("","",""),
+"_%n day ago_::_%n days ago_" => array("Prije %n dan.","Prije %n dana.","Prije %n dana."),
 "last month" => "prošlog meseca",
 "_%n month ago_::_%n months ago_" => array("","",""),
 "months ago" => "pre nekoliko meseci",
@@ -104,6 +104,7 @@ $TRANSLATIONS = array(
 "Log out" => "Odjava",
 "Automatic logon rejected!" => "Automatsko logovanje odbijeno!",
 "Lost your password?" => "Izgubili ste lozinku?",
-"remember" => "upamti"
+"remember" => "upamti",
+"Log in" => "Prijavi se"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -287,7 +287,7 @@ msgstr "请认真检查<a href='%s'>安装指南</a>."
 #: private/share/mailnotifications.php:119
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s 向您分享了 »%s«"
 
 #: private/tags.php:193
 #, php-format

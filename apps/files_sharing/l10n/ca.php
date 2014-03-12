@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Compartits per {owner}",
 "This share is password-protected" => "Aquest compartit està protegit amb contrasenya",
 "The password is wrong. Try again." => "la contrasenya és incorrecta. Intenteu-ho de nou.",
 "Password" => "Contrasenya",
@@ -9,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "l'enllaç ha vençut",
 "sharing is disabled" => "s'ha desactivat la compartició",
 "For more info, please ask the person who sent this link." => "Per més informació contacteu amb qui us ha enviat l'enllaç.",
+"shared by %s" => "compartit per %s",
 "Direct link" => "Enllaç directe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

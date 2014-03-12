@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "由 {owner} 分享",
 "This share is password-protected" => "這個分享有密碼保護",
 "The password is wrong. Try again." => "請檢查您的密碼並再試一次",
 "Password" => "密碼",

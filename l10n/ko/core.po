@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "%s 님에게 메일을 보낼 수 없습니다."
@@ -155,53 +155,53 @@ msgstr "설정"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "저장 중..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n분 전 "
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n시간 전 "
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n일 전 "
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n달 전 "
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "년 전"
 

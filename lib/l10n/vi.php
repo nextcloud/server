@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Files" => "Tập tin",
 "Text" => "Văn bản",
 "Images" => "Hình ảnh",
+"%s shared »%s« with you" => "%s đã chia sẻ »%s« với bạn",
 "Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\"",
 "seconds ago" => "vài giây trước",
 "_%n minute ago_::_%n minutes ago_" => array("%n phút trước"),

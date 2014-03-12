@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -150,61 +150,61 @@ msgstr "Iestatījumi"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Saglabā..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Tagad, %n minūtes"
 msgstr[1] "Pirms %n minūtes"
 msgstr[2] "Pirms %n minūtēm"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Šodien, %n stundas"
 msgstr[1] "Pirms %n stundas"
 msgstr[2] "Pirms %n stundām"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Šodien, %n dienas"
 msgstr[1] "Pirms %n dienas"
 msgstr[2] "Pirms %n dienām"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Šomēnes, %n mēneši"
 msgstr[1] "Pirms %n mēneša"
 msgstr[2] "Pirms %n mēnešiem"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "gadus atpakaļ"
 

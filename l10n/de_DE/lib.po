@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Mario Siegmann <mario_siegmann@web.de>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2014
 # traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
 # noxin <transifex.com@davidmainzer.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 21:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -161,7 +162,7 @@ msgstr "Token abgelaufen. Bitte laden Sie die Seite neu."
 
 #: private/json.php:75
 msgid "Unknown user"
-msgstr ""
+msgstr "Unbekannter Benutzer"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -203,7 +204,7 @@ msgstr "Sie müssen entweder ein existierendes Benutzerkonto oder das Administra
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB Benutzername und/oder Passwort sind nicht gültig"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -231,20 +232,20 @@ msgstr "Fehlerhafter Befehl war: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB Benutzer '%s'@'localhost' existiert bereits."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Löschen Sie diesen Benutzer von MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB Benutzer '%s'@'%%' existiert bereits"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Löschen Sie diesen Benutzer von MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -286,7 +287,7 @@ msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 #: private/share/mailnotifications.php:119
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s hat »%s« mit Ihnen geteilt"
 
 #: private/tags.php:193
 #, php-format

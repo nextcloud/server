@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Kunhavigita de {owner}",
 "This share is password-protected" => "Ĉi tiu kunhavigo estas protektata per pasvorto",
 "Password" => "Pasvorto",
 "Sorry, this link doesn’t seem to work anymore." => "Pardonu, ĉi tiu ligilo ŝajne ne plu funkcias.",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Geteilt von {owner}",
 "The password is wrong. Try again." => "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
 "Password" => "Passwort",
 "Sorry, this link doesn’t seem to work anymore." => "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",

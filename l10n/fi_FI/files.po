@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013-2014
 # nahka <nahkaz@gmail.com>, 2014
 # ioxo <vahakangas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 12:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Tiedoston nimi ei voi olla tyhjä."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" on virheellinen tiedostonimi."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -48,7 +48,7 @@ msgstr "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Kohdekansio on siirretty tai poistettu."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -85,7 +85,7 @@ msgstr "Virhe kansiota luotaessa"
 
 #: ajax/upload.php:19 ajax/upload.php:53
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Lähetyskansion asettaminen epäonnistui."
 
 #: ajax/upload.php:29
 msgid "Invalid Token"
@@ -152,12 +152,12 @@ msgstr "Kohdetta {filename} ei voi lähettää, koska se on joko kansio tai sen 
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Yhteiskoko {size1} ylittää lähetysrajan {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Ei riittävästi vapaata tilaa. Lähetyksesi koko on {size1}, mutta vain {size2} on jäljellä"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -252,7 +252,7 @@ msgstr[1] "Lähetetään %n tiedostoa"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" on virheellinen tiedostonimi."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"

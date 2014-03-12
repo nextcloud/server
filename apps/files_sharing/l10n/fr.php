@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Partagé par {owner}",
 "This share is password-protected" => "Ce partage est protégé par un mot de passe",
 "The password is wrong. Try again." => "Le mot de passe est incorrect. Veuillez réessayer.",
 "Password" => "Mot de passe",
@@ -9,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "le lien a expiré",
 "sharing is disabled" => "le partage est désactivé",
 "For more info, please ask the person who sent this link." => "Pour plus d'informations, veuillez contacter la personne qui a envoyé ce lien.",
+"shared by %s" => "partagé par %s",
 "Direct link" => "Lien direct"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

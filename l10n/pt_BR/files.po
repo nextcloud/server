@@ -4,15 +4,15 @@
 # 
 # Translators:
 # bjamalaro <bjamalaro@yahoo.com.br>, 2013
-# Flávio Veras <flaviove@gmail.com>, 2013
+# Flávio Veras <flaviove@gmail.com>, 2013-2014
 # tuliouel, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 13:11+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "O nome do arquivo não pode estar vazio."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" é um nome de arquivo inválido."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -48,7 +48,7 @@ msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "A pasta de destino foi movida ou excluída."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -152,12 +152,12 @@ msgstr "Incapaz de fazer o envio de {filename}, pois é um diretório ou tem 0 b
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Tamanho total do arquivo {size1} excede limite de envio {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Não há espaço suficiente, você está enviando {size1} mas resta apenas {size2}"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -252,7 +252,7 @@ msgstr[1] "Enviando %n arquivos"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" é um nome de arquivo inválido."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"

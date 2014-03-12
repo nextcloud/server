@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nepavyko nusiųsti el. pašto šiems naudotojams: %s "
@@ -154,61 +154,61 @@ msgstr "Nustatymai"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Saugoma..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " prieš %n minutę"
 msgstr[1] " prieš %n minučių"
 msgstr[2] " prieš %n minučių"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "prieš %n valandą"
 msgstr[1] "prieš %n valandų"
 msgstr[2] "prieš %n valandų"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "prieš %n dieną"
 msgstr[1] "prieš %n dienas"
 msgstr[2] "prieš %n dienų"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "prieš %n mėnesį"
 msgstr[1] "prieš %n mėnesius"
 msgstr[2] "prieš %n mėnesių"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "prieš mėnesį"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "prieš metus"
 

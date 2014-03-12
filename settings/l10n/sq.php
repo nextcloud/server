@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "Email-i u dërgua",
 "Unable to load list from App Store" => "E pamundur të shkarkohet lista nga App Store",
 "Authentication error" => "Gabim autentifikimi",
 "Group already exists" => "Grupi ekziston",
@@ -57,6 +58,7 @@ $TRANSLATIONS = array(
 "Allow users to only share with users in their groups" => "Lejoni përdoruesit të ndajnë vetëm me përdorues të të njëjtit grup",
 "Security" => "Siguria",
 "Enforce HTTPS" => "Detyro HTTPS",
+"Port" => "Porta",
 "Log" => "Historik aktiviteti",
 "Log level" => "Niveli i Historikut",
 "More" => "Më tepër",
@@ -84,6 +86,7 @@ $TRANSLATIONS = array(
 "Change password" => "Ndrysho fjalëkalimin",
 "Email" => "Email",
 "Your email address" => "Adresa juaj email",
+"Cancel" => "Anullo",
 "Language" => "Gjuha",
 "Help translate" => "Ndihmoni në përkthim",
 "WebDAV" => "WebDAV",

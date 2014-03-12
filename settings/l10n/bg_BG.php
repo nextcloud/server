@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "Пощата е изпратена",
 "Encryption" => "Криптиране",
 "Authentication error" => "Възникна проблем с идентификацията",
 "Group already exists" => "Групата вече съществува",
@@ -25,9 +26,12 @@ $TRANSLATIONS = array(
 "Delete" => "Изтриване",
 "add group" => "нова група",
 "__language_name__" => "__language_name__",
+"None" => "Няма",
+"Login" => "Вход",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Вашият web сървър все още не е удачно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи.",
 "Cron" => "Крон",
 "Sharing" => "Споделяне",
+"Server address" => "Адрес на сървъра",
 "More" => "Още",
 "Less" => "По-малко",
 "Version" => "Версия",
@@ -47,6 +51,7 @@ $TRANSLATIONS = array(
 "Change password" => "Промяна на паролата",
 "Email" => "E-mail",
 "Your email address" => "Вашия email адрес",
+"Cancel" => "Отказ",
 "Language" => "Език",
 "Help translate" => "Помогнете с превода",
 "WebDAV" => "WebDAV",

@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Állítson be egy jelszót az adminisztrációhoz.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
+"%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\"",
 "seconds ago" => "pár másodperce",
 "_%n minute ago_::_%n minutes ago_" => array("","%n perccel ezelőtt"),

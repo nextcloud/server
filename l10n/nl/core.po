@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2013
+# André Koot <meneer@tken.net>, 2013-2014
 # kwillems <kwillems@zonnet.nl>, 2013
 # Jorcee <mail@jordyc.nl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 18:11+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kon geen e-mail sturen aan de volgende gebruikers: %s"
@@ -152,57 +152,57 @@ msgstr "Instellingen"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Opslaan"
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] "%n minuten geleden"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] "%n uur geleden"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] "%n dagen geleden"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] "%n maanden geleden"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -272,23 +272,23 @@ msgstr "Fout bij laden bestand bestaat al sjabloon"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Zeer zwak wachtwoord"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Zwak wachtwoord"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Matig wachtwoord"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Goed wachtwoord"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Sterk wachtwoord"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -487,7 +487,7 @@ msgstr "%s wachtwoord reset"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Er ontstond een probleem bij het versturen van het e-mailbericht, neem contact op met uw beheerder."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -665,7 +665,7 @@ msgstr "Maak een <strong>beheerdersaccount</strong> aan"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Opslag & database"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -766,7 +766,7 @@ msgstr "Alternatieve inlogs"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hallo daar,<br><br>we willen even laten weten dat %s <strong>%s</strong> met u heeft gedeeld.<br><a href=\"%s\">Bekijk het!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

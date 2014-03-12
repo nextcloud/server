@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "បាន​ផ្ញើ​អ៊ីមែល",
 "Unable to load list from App Store" => "មិនអាចផ្ទុកបញ្ជីកម្មវិធីពី App Store",
 "Authentication error" => "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
 "Group already exists" => "មាន​ក្រុម​នេះ​រួច​ហើយ",
@@ -35,6 +36,7 @@ $TRANSLATIONS = array(
 "Error creating user" => "មាន​កំហុស​ក្នុង​ការ​បង្កើត​អ្នក​ប្រើ",
 "A valid password must be provided" => "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
 "__language_name__" => "__language_name__",
+"Login" => "ចូល",
 "Security Warning" => "បម្រាម​សុវត្ថិភាព",
 "Setup Warning" => "បម្រាម​ការ​ដំឡើង",
 "Module 'fileinfo' missing" => "ខ្វះ​ម៉ូឌុល 'fileinfo'",
@@ -50,6 +52,7 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​ជាមួយ​នរណា​ម្នាក់",
 "Security" => "សុវត្ថិភាព",
 "Enforce HTTPS" => "បង្ខំ HTTPS",
+"Server address" => "អាសយដ្ឋាន​ម៉ាស៊ីន​បម្រើ",
 "Log" => "Log",
 "Log level" => "កម្រិត Log",
 "More" => "ច្រើន​ទៀត",
@@ -68,9 +71,11 @@ $TRANSLATIONS = array(
 "Change password" => "ប្តូរ​ពាក្យសម្ងាត់",
 "Email" => "អ៊ីមែល",
 "Your email address" => "អ៊ីម៉ែល​របស់​អ្នក",
+"Cancel" => "លើកលែង",
 "Language" => "ភាសា",
 "Help translate" => "ជួយ​បក​ប្រែ",
 "WebDAV" => "WebDAV",
+"Login Name" => "ចូល",
 "Other" => "ផ្សេងៗ",
 "Username" => "ឈ្មោះ​អ្នកប្រើ"
 );

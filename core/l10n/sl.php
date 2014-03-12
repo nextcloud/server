@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "november",
 "December" => "december",
 "Settings" => "Nastavitve",
+"Saving..." => "Poteka shranjevanje ...",
 "seconds ago" => "pred nekaj sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("pred %n minuto","pred %n minutama","pred %n minutami","pred %n minutami"),
 "_%n hour ago_::_%n hours ago_" => array("pred %n uro","pred %n urama","pred %n urami","pred %n urami"),

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "No se pudieron mandar correos a los siguientes usuarios: %s"
@@ -151,57 +151,57 @@ msgstr "Configuración"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Guardando..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Hace %n minuto"
 msgstr[1] "Hace %n minutos"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Hace %n hora"
 msgstr[1] "Hace %n horas"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Hace %n día"
 msgstr[1] "Hace %n días"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Hace %n mes"
 msgstr[1] "Hace %n meses"
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "años atrás"
 

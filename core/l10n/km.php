@@ -22,6 +22,7 @@ $TRANSLATIONS = array(
 "November" => "ខែវិច្ឆិកា",
 "December" => "ខែធ្នូ",
 "Settings" => "ការកំណត់",
+"Saving..." => "កំពុង​រក្សាទុក",
 "seconds ago" => "វិនាទី​មុន",
 "_%n minute ago_::_%n minutes ago_" => array("%n នាទី​មុន"),
 "_%n hour ago_::_%n hours ago_" => array("%n ម៉ោង​មុន"),

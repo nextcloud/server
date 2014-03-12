@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -150,13 +150,13 @@ msgstr "إعدادات"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "جاري الحفظ..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
@@ -166,7 +166,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
@@ -176,15 +176,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "اليوم"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "يوم أمس"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
@@ -194,11 +194,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "الشهر الماضي"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
@@ -208,15 +208,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "شهر مضى"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "السنةالماضية"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "سنة مضت"
 

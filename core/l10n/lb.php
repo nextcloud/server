@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "November" => "November",
 "December" => "Dezember",
 "Settings" => "Astellungen",
+"Saving..." => "Speicheren...",
 "seconds ago" => "Sekonnen hir",
 "_%n minute ago_::_%n minutes ago_" => array("%n Minutt hir","%n Minutten hir"),
 "_%n hour ago_::_%n hours ago_" => array("",""),

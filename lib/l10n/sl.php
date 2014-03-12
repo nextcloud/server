@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Nastavi geslo skrbnika.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena.",
 "Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
+"%s shared »%s« with you" => "%s je omogočil souporabo »%s«",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti.",
 "seconds ago" => "pred nekaj sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("pred %n minuto","pred %n minutama","pred %n minutami","pred %n minutami"),

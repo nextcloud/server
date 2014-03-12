@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Paolo Velati <paolo.velati@gmail.com>, 2013
-# Vincenzo Reale <vinx.reale@gmail.com>, 2013
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 22:50+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,7 +165,7 @@ msgstr "Aiuto"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "I gruppi che corrispondono a questi criteri sono disponibili in %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -201,7 +201,7 @@ msgstr "gruppi trovati"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Utenti con questo attributo:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -269,7 +269,7 @@ msgstr "Puoi specificare una DN base per gli utenti ed i gruppi nella scheda Ava
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Limita l'accesso a %s ai gruppi che verificano questi criteri:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -413,13 +413,13 @@ msgstr "Associazione gruppo-utente "
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Gruppi nidificati"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Quando è attivato, i gruppi che contengono altri gruppi sono supportati. (Funziona solo se l'attributo del gruppo membro contiene DN.)"
 
 #: templates/settings.php:41
 msgid "Special Attributes"

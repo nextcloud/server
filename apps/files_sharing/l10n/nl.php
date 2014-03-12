@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Gedeeld door {owner}",
 "This share is password-protected" => "Deze share is met een wachtwoord beveiligd",
 "The password is wrong. Try again." => "Wachtwoord ongeldig. Probeer het nogmaals.",
 "Password" => "Wachtwoord",
@@ -9,6 +10,8 @@ $TRANSLATIONS = array(
 "the link expired" => "de link is verlopen",
 "sharing is disabled" => "delen is uitgeschakeld",
 "For more info, please ask the person who sent this link." => "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
+"shared by %s" => "gedeeld door %s",
+"Download %s" => "Download %s",
 "Direct link" => "Directe link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

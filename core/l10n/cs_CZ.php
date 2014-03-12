@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Listopad",
 "December" => "Prosinec",
 "Settings" => "Nastavení",
+"Saving..." => "Ukládám...",
 "seconds ago" => "před pár vteřinami",
 "_%n minute ago_::_%n minutes ago_" => array("před %n minutou","před %n minutami","před %n minutami"),
 "_%n hour ago_::_%n hours ago_" => array("před %n hodinou","před %n hodinami","před %n hodinami"),

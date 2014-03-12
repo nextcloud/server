@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -25,24 +25,24 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Tallennettu"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "testaa sähköpostiasetukset"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Jos sait tämän sähköpostin, kaikki asetukset vaikuttavat olevan kunnossa."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Sähköpostia lähettäessä tapahtui virhe. Tarkista asetukset."
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "Sähköposti lähetetty"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -50,14 +50,14 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:280
 msgid "Send mode"
-msgstr ""
+msgstr "Lähetystila"
 
 #: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
 msgid "Encryption"
 msgstr "Salaus"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -158,7 +158,7 @@ msgstr "Salasanan vaihto ei onnistunut"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Lähetetään..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -166,7 +166,7 @@ msgstr "Käyttäjäohjeistus"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Ylläpitäjän ohjeistus"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -218,23 +218,23 @@ msgstr "Valitse profiilikuva"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Erittäin heikko salasana"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Heikko salasana"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Kohtalainen salasana"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Hyvä salasana"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Vahva salasana"
 
 #: js/personal.js:301
 msgid "Decrypting files... Please wait, this can take some time."
@@ -311,11 +311,11 @@ msgstr "Vain vakavat ongelmat"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "Kirjaudu"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -327,11 +327,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:43 templates/admin.php:57
 msgid "Security Warning"
@@ -408,7 +408,7 @@ msgstr "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä 
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Suosittelemme vahvasti asentamaan vaaditut paketit järjestelmään, jotta jotain seuraavista maa-asetuksista on mahdollista tukea: %s."
 
 #: templates/admin.php:139
 msgid "Internet connection not working"
@@ -516,47 +516,47 @@ msgstr ""
 
 #: templates/admin.php:275
 msgid "Email Server"
-msgstr ""
+msgstr "Sähköpostipalvelin"
 
 #: templates/admin.php:277
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Tätä käytetään ilmoitusten lähettämiseen."
 
 #: templates/admin.php:308
 msgid "From address"
-msgstr ""
+msgstr "Lähettäjän osoite"
 
 #: templates/admin.php:330
 msgid "Authentication required"
-msgstr ""
+msgstr "Tunnistautuminen vaaditaan"
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "Palvelimen osoite"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "Portti"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "Tilitiedot"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP-käyttäjätunnus"
 
 #: templates/admin.php:347
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP-salasana"
 
 #: templates/admin.php:351
 msgid "Test email settings"
-msgstr ""
+msgstr "Testaa sähköpostiasetukset"
 
 #: templates/admin.php:352
 msgid "Send email"
-msgstr ""
+msgstr "Lähetä sähköpostiviesti"
 
 #: templates/admin.php:357
 msgid "Log"
@@ -602,7 +602,7 @@ msgstr "Valitse sovellus"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "Ohjeistus:"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -610,7 +610,7 @@ msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "Lue lisää sovelluksen sivustolta"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -689,7 +689,7 @@ msgstr "Sähköpostiosoitteesi"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa ja voit vastaanottaa ilmoituksia"
 
 #: templates/personal.php:96
 msgid "Profile picture"
@@ -717,7 +717,7 @@ msgstr ""
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "Peru"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"
@@ -778,7 +778,7 @@ msgstr "Oletustallennustila"
 
 #: templates/users.php:42 templates/users.php:137
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Määritä tallennustilan kiintiö (esim. \"512 MB\" tai \"12 GB\")"
 
 #: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"

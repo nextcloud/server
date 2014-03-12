@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,43 +24,43 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Ongeldige waarde voor %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Bewaard"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "test e-mailinstellingen"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Als u dit e-mailbericht ontvangt, lijken de instellingen juist."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Er ontstond een probleem bij het versturen van de e-mail. Controleer uw instellingen."
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "E-mail verzonden"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "U moet uw e-mailadres instellen voordat u testberichten kunt versturen."
 
 #: admin/controller.php:116 templates/admin.php:280
 msgid "Send mode"
-msgstr ""
+msgstr "Verstuurmodus"
 
 #: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
 msgid "Encryption"
 msgstr "Versleuteling"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -161,7 +161,7 @@ msgstr "Kan wachtwoord niet wijzigen"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Versturen..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -169,7 +169,7 @@ msgstr "Gebruikersdocumentatie"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Beheerdocumentatie"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -221,23 +221,23 @@ msgstr "Kies een profielafbeelding"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Zeer zwak wachtwoord"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Zwak wachtwoord"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Matig wachtwoord"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Goed wachtwoord"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Sterk wachtwoord"
 
 #: js/personal.js:301
 msgid "Decrypting files... Please wait, this can take some time."
@@ -314,27 +314,27 @@ msgstr "Alleen fatale problemen"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Gewoon"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:43 templates/admin.php:57
 msgid "Security Warning"
@@ -519,47 +519,47 @@ msgstr "Maak verbinding naar uw %s via HTTPS om een geforceerde versleutelde ver
 
 #: templates/admin.php:275
 msgid "Email Server"
-msgstr ""
+msgstr "E-mailserver"
 
 #: templates/admin.php:277
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Dit wordt gestuurd voor het verzenden van meldingen."
 
 #: templates/admin.php:308
 msgid "From address"
-msgstr ""
+msgstr "Afzenderadres"
 
 #: templates/admin.php:330
 msgid "Authentication required"
-msgstr ""
+msgstr "Authenticatie vereist"
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "Server adres"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "Poort"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "Inloggegevens"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP gebruikersnaam"
 
 #: templates/admin.php:347
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP wachtwoord"
 
 #: templates/admin.php:351
 msgid "Test email settings"
-msgstr ""
+msgstr "Test e-mailinstellingen"
 
 #: templates/admin.php:352
 msgid "Send email"
-msgstr ""
+msgstr "Versturen e-mail"
 
 #: templates/admin.php:357
 msgid "Log"
@@ -605,7 +605,7 @@ msgstr "Selecteer een app"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "Documentatie:"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -613,7 +613,7 @@ msgstr "Zie de applicatiepagina op apps.owncloud.com"
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "Zie website van de applicatie"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -692,7 +692,7 @@ msgstr "Uw e-mailadres"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Vul een e-mailbericht in om wachtwoordherstel mogelijk te maken en meldingen te ontvangen"
 
 #: templates/personal.php:96
 msgid "Profile picture"
@@ -720,7 +720,7 @@ msgstr "Uw avatar is verstrekt door uw originele account."
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleer"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"

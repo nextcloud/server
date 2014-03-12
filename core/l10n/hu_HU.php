@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "november",
 "December" => "december",
 "Settings" => "Beállítások",
+"Saving..." => "Mentés...",
 "seconds ago" => "pár másodperce",
 "_%n minute ago_::_%n minutes ago_" => array("%n perccel ezelőtt","%n perccel ezelőtt"),
 "_%n hour ago_::_%n hours ago_" => array("%n órával ezelőtt","%n órával ezelőtt"),

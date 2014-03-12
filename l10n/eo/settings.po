@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "La retpoŝtaĵo sendiĝis"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -56,7 +56,7 @@ msgid "Encryption"
 msgstr "Ĉifrado"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -310,11 +310,11 @@ msgstr ""
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "Nenio"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "Ensaluti"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -531,15 +531,15 @@ msgstr ""
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "Servila adreso"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "Pordo"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "Aŭtentigiloj"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
@@ -716,7 +716,7 @@ msgstr ""
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "Nuligi"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"
@@ -755,7 +755,7 @@ msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"
-msgstr ""
+msgstr "Ensaluti"
 
 #: templates/users.php:28
 msgid "Create"

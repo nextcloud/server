@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2013
+# André Koot <meneer@tken.net>, 2013-2014
 # kwillems <kwillems@zonnet.nl>, 2013
 # Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 18:21+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,7 +160,7 @@ msgstr "Token verlopen.  Herlaad de pagina."
 
 #: private/json.php:75
 msgid "Unknown user"
-msgstr ""
+msgstr "Onbekende gebruiker"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -202,7 +202,7 @@ msgstr "Geef of een bestaand account op of het beheerdersaccount."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB gebruikersnaam en/of wachtwoord ongeldig"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -230,20 +230,20 @@ msgstr "Onjuiste commande was: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB gebruiker '%s'@'localhost' bestaat al."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Verwijder deze gebruiker uit MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB gebruiker '%s'@'%%' bestaat al"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Verwijder deze gebruiker uit MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -285,7 +285,7 @@ msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 #: private/share/mailnotifications.php:119
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s deelde »%s« met jou"
 
 #: private/tags.php:193
 #, php-format

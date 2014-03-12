@@ -8,6 +8,7 @@
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2014
 # thillux, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 11:00+0000\n"
+"Last-Translator: stefanniedermann <stefan.niedermann@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +110,7 @@ msgstr "Initialverschlüsselung gestartet... Dies kann einige Zeit dauern. Bitte
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "Initiale Verschlüsselung läuft... Bitte versuche es später wieder."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

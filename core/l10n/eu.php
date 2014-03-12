@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Azaroa",
 "December" => "Abendua",
 "Settings" => "Ezarpenak",
+"Saving..." => "Gordetzen...",
 "seconds ago" => "segundu",
 "_%n minute ago_::_%n minutes ago_" => array("orain dela minutu %n","orain dela %n minutu"),
 "_%n hour ago_::_%n hours ago_" => array("orain dela ordu %n","orain dela %n ordu"),

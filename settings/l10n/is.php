@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "Tölvupóstur sendur",
 "Encryption" => "Dulkóðun",
 "Unable to load list from App Store" => "Ekki tókst að hlaða lista frá forrita síðu",
 "Authentication error" => "Villa við auðkenningu",
@@ -28,7 +29,9 @@ $TRANSLATIONS = array(
 "Group Admin" => "Hópstjóri",
 "Delete" => "Eyða",
 "__language_name__" => "__nafn_tungumáls__",
+"None" => "Ekkert",
 "Security Warning" => "Öryggis aðvörun",
+"Server address" => "Host nafn netþjóns",
 "More" => "Meira",
 "Less" => "Minna",
 "Version" => "Útgáfa",
@@ -52,6 +55,7 @@ $TRANSLATIONS = array(
 "Change password" => "Breyta lykilorði",
 "Email" => "Netfang",
 "Your email address" => "Netfangið þitt",
+"Cancel" => "Hætta við",
 "Language" => "Tungumál",
 "Help translate" => "Hjálpa við þýðingu",
 "WebDAV" => "WebDAV",

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "이메일 발송됨"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -60,7 +60,7 @@ msgid "Encryption"
 msgstr "암호화"
 
 #: admin/controller.php:120 templates/admin.php:317
-msgid "Authentification method"
+msgid "Authentication method"
 msgstr ""
 
 #: ajax/apps/ocs.php:20
@@ -314,11 +314,11 @@ msgstr "치명적 문제만"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "로그인"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -535,15 +535,15 @@ msgstr ""
 
 #: templates/admin.php:334
 msgid "Server address"
-msgstr ""
+msgstr "서버 주소"
 
 #: templates/admin.php:338
 msgid "Port"
-msgstr ""
+msgstr "포트"
 
 #: templates/admin.php:343
 msgid "Credentials"
-msgstr ""
+msgstr "로그인 정보"
 
 #: templates/admin.php:344
 msgid "SMTP Username"
@@ -720,7 +720,7 @@ msgstr "원본 계정의 아바타를 사용합니다."
 
 #: templates/personal.php:111
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: templates/personal.php:112
 msgid "Choose as profile image"

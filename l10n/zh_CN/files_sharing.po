@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: js/share.js:13
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "由{owner}共享"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -62,7 +62,7 @@ msgstr "欲知详情，请联系发给你链接的人。"
 #: templates/public.php:17
 #, php-format
 msgid "shared by %s"
-msgstr ""
+msgstr "由 %s 共享"
 
 #: templates/public.php:44
 #, php-format

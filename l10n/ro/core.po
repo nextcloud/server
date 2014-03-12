@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 16:01+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:112 ajax/share.php:154
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -153,61 +153,61 @@ msgstr "Setări"
 
 #: js/js.js:496
 msgid "Saving..."
-msgstr ""
+msgstr "Se salvează..."
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "acum %n minut"
 msgstr[1] "acum %n minute"
 msgstr[2] "acum %n minute"
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "acum %n oră"
 msgstr[1] "acum %n ore"
 msgstr[2] "acum %n ore"
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "acum %n zi"
 msgstr[1] "acum %n zile"
 msgstr[2] "acum %n zile"
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr "ani în urmă"
 
