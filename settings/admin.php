@@ -21,7 +21,7 @@ $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
 
 // Should we display sendmail as an option?
-if (ini_get('sendmail_path') || file_exists('/usr/sbin/sendmail') || file_exists('/var/qmail/bin/sendmail')) {
+if (findBinaryPath('sendmailsendmail')) {
 	$tmpl->assign('sendmail_is_available', true);
 }
 
@@ -66,3 +66,17 @@ foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();
+
+/**
+ * Try to find a programm
+ *
+ * @param string $program
+ * @return null|string
+ */
+function findBinaryPath($program) {
+	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	if ($returnCode === 0 && count($output) > 0) {
+		return escapeshellcmd($output[0]);
+	}
+	return null;
+}
