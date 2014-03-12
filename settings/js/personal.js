@@ -284,13 +284,14 @@ $(document).ready(function(){
 
 	// does the user have a custom avatar? if he does hide #removeavatar
 	// needs to be this complicated because we can't check yet if an avatar has been loaded, because it's async
-	OC.Router.registerLoadedCallback(function() {
-		var url = OC.Router.generate('core_avatar_get', {user: OC.currentUser, size: 1})+'?requesttoken='+oc_requesttoken;
-		$.get(url, function(result) {
-			if (typeof(result) === 'object') {
-				$('#removeavatar').addClass('hidden');
-			}
-		});
+	var url = OC.generateUrl(
+		'/avatar/{user}/{size}',
+		{user: OC.currentUser, size: 1}
+	) + '?requesttoken=' + oc_requesttoken;
+	$.get(url, function(result) {
+		if (typeof(result) === 'object') {
+			$('#removeavatar').addClass('hidden');
+		}
 	});
 } );
 
