@@ -45,7 +45,7 @@ class OC_Mount_Config {
 					'datadir' => 'Location'));
 
 		$backends['\OC\Files\Storage\AmazonS3']=array(
-			'backend' => 'Amazon S3',
+			'backend' => 'Amazon S3 and compliant',
 			'configuration' => array(
 				'key' => 'Access Key',
 				'secret' => '*Secret Key',
@@ -153,6 +153,35 @@ class OC_Mount_Config {
 				'zone' => 'Zone'));
 
 		return($backends);
+	}
+
+	/**
+	* Get details on each of the external storage backends, used for the mount config UI
+	* Some backends are not available as a personal backend, f.e. Local and such that have
+	* been disabled by the admin.
+	*
+	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
+	* If the configuration parameter should be secret, add a '*' to the beginning of the value
+	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
+	* If the configuration parameter is optional, add a '&' to the beginning of the value
+	* If the configuration parameter is hidden, add a '#' to the beginning of the value
+	* @return array
+	*/
+	public static function getPersonalBackends() {
+
+		$backends = self::getBackends();
+
+		// Remove local storage and other disabled storages
+		unset($backends['\OC\Files\Storage\Local']);
+
+		$allowed_backends = explode(',', OCP\Config::getAppValue('files_external', 'user_mounting_backends', ''));
+		foreach ($backends as $backend => $null) {
+			if (!in_array($backend, $allowed_backends)) {
+				unset($backends[$backend]);
+			}
+		}
+
+		return $backends;
 	}
 
 	/**
@@ -287,11 +316,12 @@ class OC_Mount_Config {
 		if (!isset($backends[$class])) {
 			// invalid backend
 			return false;
-		}	
+		}
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
-			// Prevent non-admin users from mounting local storage
-			if ($applicable !== OCP\User::getUser() || strtolower($class) === '\oc\files\storage\local') {
+			// Prevent non-admin users from mounting local storage and other disabled backends
+			$allowed_backends = self::getPersonalBackends();
+			if ($applicable != OCP\User::getUser() || !in_array($class, $allowed_backends)) {
 				return false;
 			}
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
@@ -446,7 +476,7 @@ class OC_Mount_Config {
 	 */
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
-			$output=shell_exec('which smbclient 2> /dev/null');
+			$output=shell_exec('command -v smbclient 2> /dev/null');
 			return !empty($output);
 		}else{
 			return false;

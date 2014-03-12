@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Help" => "Hulp",
 "Cloud not found" => "Wolk nie gevind",
 "Create an <strong>admin account</strong>" => "Skep `n <strong>admin-rekening</strong>",
-"Advanced" => "Gevorderd",
 "Configure the database" => "Stel databasis op",
 "will be used" => "sal gebruik word",
 "Database user" => "Databasis-gebruiker",

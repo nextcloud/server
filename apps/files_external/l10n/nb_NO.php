@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Brukere",
 "Delete" => "Slett",
 "Enable User External Storage" => "Aktiver ekstern lagring for bruker",
-"Allow users to mount their own external storage" => "Tillat brukere å koble til egne eksterne lagringsmedium",
 "SSL root certificates" => "SSL root-sertifikater",
 "Import Root Certificate" => "Importer root-sertifikat"
 );

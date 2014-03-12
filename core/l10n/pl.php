@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s Współdzielone »%s« z tobą",
 "Couldn't send mail to following users: %s " => "Nie można było wysłać wiadomości do następujących użytkowników: %s",
 "Turned on maintenance mode" => "Włączony tryb konserwacji",
 "Turned off maintenance mode" => "Wyłączony tryb konserwacji",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Listopad",
 "December" => "Grudzień",
 "Settings" => "Ustawienia",
+"Saving..." => "Zapisywanie...",
 "seconds ago" => "sekund temu",
 "_%n minute ago_::_%n minutes ago_" => array("%n minute temu","%n minut temu","%n minut temu"),
 "_%n hour ago_::_%n hours ago_" => array("%n godzine temu","%n godzin temu","%n godzin temu"),
@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Twój katalog danych i pliki są prawdopodobnie dostępne z poziomu internetu, ponieważ plik .htaccess nie działa.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Aby uzyskać informacje jak poprawnie skonfigurować swój serwer, zapoznaj się z <a href=\"%s\" target=\"_blank\">dokumentacją</a>.",
 "Create an <strong>admin account</strong>" => "Utwórz <strong>konta administratora</strong>",
-"Advanced" => "Zaawansowane",
 "Data folder" => "Katalog danych",
 "Configure the database" => "Skonfiguruj bazę danych",
 "will be used" => "zostanie użyte",
@@ -166,7 +165,6 @@ $TRANSLATIONS = array(
 "remember" => "pamiętaj",
 "Log in" => "Zaloguj",
 "Alternative Logins" => "Alternatywne loginy",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Cześć,<br><br>Informuję cię że %s udostępnia ci »%s«.\n<br><a href=\"%s\">Zobacz!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Ta instalacja ownCloud działa obecnie w trybie pojedynczego użytkownika.",
 "This means only administrators can use the instance." => "To oznacza, że tylko administratorzy mogą w tej chwili używać aplikacji.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Skontaktuj się z administratorem, jeśli ten komunikat pojawił się nieoczekiwanie lub wyświetla się ciągle.",

@@ -272,7 +272,7 @@ if (!$_['internetconnectionworking']) {
 </fieldset>
 
 <fieldset id="mail_settings" class="personalblock">
-	<h2><?php p($l->t('Email Server'));?> <span class="msg"></span></h2>
+	<h2><?php p($l->t('Email Server'));?> <span id="mail_settings_msg" class="msg"></span></h2>
 
 	<p><?php p($l->t('This is used for sending out notifications.')); ?></p>
 
@@ -314,7 +314,7 @@ if (!$_['internetconnectionworking']) {
 	</p>
 
 	<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentification method' )); ?></label>
+		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
 		<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
 			<?php foreach ($mail_smtpauthtype as $authtype => $name):
 				$selected = '';
@@ -347,6 +347,10 @@ if (!$_['internetconnectionworking']) {
 			   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
 	</p>
 
+	<br />
+	<em><?php p($l->t( 'Test email settings' )); ?></em>
+	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t( 'Send email' )); ?>"/>
+	<span id="sendtestmail_msg" class="msg"></span>
 </fieldset>
 
 <fieldset class="personalblock">

@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Kullanıcılar",
 "Delete" => "Sil",
 "Enable User External Storage" => "Kullanıcılar için Harici Depolamayı Etkinleştir",
-"Allow users to mount their own external storage" => "Kullanıcıların kendi harici depolamalarını bağlamalarına izin ver",
 "SSL root certificates" => "SSL kök sertifikaları",
 "Import Root Certificate" => "Kök Sertifikalarını İçe Aktar"
 );

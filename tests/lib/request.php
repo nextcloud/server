@@ -135,4 +135,141 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 			),
 		);
 	}
+
+	public function testInsecureServerHost() {
+		unset($_SERVER['HTTP_X_FORWARDED_HOST']);
+		unset($_SERVER['HTTP_HOST']);
+		unset($_SERVER['SERVER_NAME']);
+		$_SERVER['SERVER_NAME'] = 'from.server.name:8080';
+		$host = OC_Request::insecureServerHost();
+		$this->assertEquals('from.server.name:8080', $host);
+
+		$_SERVER['HTTP_HOST'] = 'from.host.header:8080';
+		$host = OC_Request::insecureServerHost();
+		$this->assertEquals('from.host.header:8080', $host);
+
+		$_SERVER['HTTP_X_FORWARDED_HOST'] = 'from.forwarded.host:8080';
+		$host = OC_Request::insecureServerHost();
+		$this->assertEquals('from.forwarded.host:8080', $host);
+
+		$_SERVER['HTTP_X_FORWARDED_HOST'] = 'from.forwarded.host2:8080,another.one:9000';
+		$host = OC_Request::insecureServerHost();
+		$this->assertEquals('from.forwarded.host2:8080', $host);
+
+		// clean up
+		unset($_SERVER['HTTP_X_FORWARDED_HOST']);
+		unset($_SERVER['HTTP_HOST']);
+		unset($_SERVER['SERVER_NAME']);
+	}
+
+	public function testGetOverwriteHost() {
+		unset($_SERVER['REMOTE_ADDR']);
+		OC_Config::deleteKey('overwritecondaddr');
+		OC_Config::deleteKey('overwritehost');
+		$host = OC_Request::getOverwriteHost();
+		$this->assertNull($host);
+
+		OC_Config::setValue('overwritehost', '');
+		$host = OC_Request::getOverwriteHost();
+		$this->assertNull($host);
+
+		OC_Config::setValue('overwritehost', 'host.one.test:8080');
+		$host = OC_Request::getOverwriteHost();
+		$this->assertEquals('host.one.test:8080', $host);
+
+		$_SERVER['REMOTE_ADDR'] = 'somehost.test:8080';
+		OC_Config::setValue('overwritecondaddr', '^somehost\..*$');
+		$host = OC_Request::getOverwriteHost();
+		$this->assertEquals('host.one.test:8080', $host);
+
+		OC_Config::setValue('overwritecondaddr', '^somethingelse.*$');
+		$host = OC_Request::getOverwriteHost();
+		$this->assertNull($host);
+
+		// clean up
+		unset($_SERVER['REMOTE_ADDR']);
+		OC_Config::deleteKey('overwritecondaddr');
+		OC_Config::deleteKey('overwritehost');
+	}
+
+	/**
+	 * @dataProvider trustedDomainDataProvider
+	 */
+	public function testIsTrustedDomain($trustedDomains, $testDomain, $result) {
+		OC_Config::deleteKey('trusted_domains');
+		if ($trustedDomains !== null) {
+			OC_Config::setValue('trusted_domains', $trustedDomains);
+		}
+
+		$this->assertEquals($result, OC_Request::isTrustedDomain($testDomain));
+
+		// clean up
+		OC_Config::deleteKey('trusted_domains');
+	}
+
+	public function trustedDomainDataProvider() {
+		$trustedHostTestList = array('host.one.test:8080', 'host.two.test:8080');
+		return array(
+			// empty defaults to true
+			array(null, 'host.one.test:8080', true),
+			array('', 'host.one.test:8080', true),
+			array(array(), 'host.one.test:8080', true),
+
+			// trust list when defined
+			array($trustedHostTestList, 'host.two.test:8080', true),
+			array($trustedHostTestList, 'host.two.test:9999', false),
+			array($trustedHostTestList, 'host.three.test:8080', false),
+
+			// trust localhost regardless of trust list
+			array($trustedHostTestList, 'localhost', true),
+			array($trustedHostTestList, 'localhost:8080', true),
+			array($trustedHostTestList, '127.0.0.1', true),
+			array($trustedHostTestList, '127.0.0.1:8080', true),
+
+			// do not trust invalid localhosts
+			array($trustedHostTestList, 'localhost:1:2', false),
+			array($trustedHostTestList, 'localhost: evil.host', false),
+		);
+	}
+
+	public function testServerHost() {
+		OC_Config::deleteKey('overwritecondaddr');
+		OC_Config::setValue('overwritehost', 'overwritten.host:8080');
+		OC_Config::setValue(
+			'trusted_domains',
+			array(
+				'trusted.host:8080',
+				'second.trusted.host:8080'
+			)
+		);
+		$_SERVER['HTTP_HOST'] = 'trusted.host:8080';
+
+		// CLI always gives localhost
+		$oldCLI = OC::$CLI;
+		OC::$CLI = true;
+		$host = OC_Request::serverHost();
+		$this->assertEquals('localhost', $host);
+		OC::$CLI = false;
+
+		// overwritehost overrides trusted domain
+		$host = OC_Request::serverHost();
+		$this->assertEquals('overwritten.host:8080', $host);
+
+		// trusted domain returned when used
+		OC_Config::deleteKey('overwritehost');
+		$host = OC_Request::serverHost();
+		$this->assertEquals('trusted.host:8080', $host);
+
+		// trusted domain returned when untrusted one in header
+		$_SERVER['HTTP_HOST'] = 'untrusted.host:8080';
+		OC_Config::deleteKey('overwritehost');
+		$host = OC_Request::serverHost();
+		$this->assertEquals('trusted.host:8080', $host);
+
+		// clean up
+		OC_Config::deleteKey('overwritecondaddr');
+		OC_Config::deleteKey('overwritehost');
+		unset($_SERVER['HTTP_HOST']);
+		OC::$CLI = $oldCLI;
+	}
 }

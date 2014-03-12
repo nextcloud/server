@@ -112,4 +112,24 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	function testPostFileSizeWithDirectory() {
+
+		$this->view->file_put_contents($this->filename, $this->data);
+
+		\OC_FileProxy::$enabled = false;
+
+		// get root size, must match the file's unencrypted size
+		$unencryptedSize = $this->view->filesize('');
+
+		\OC_FileProxy::$enabled = true;
+
+		$encryptedSize = $this->view->filesize('');
+
+		$this->assertTrue($encryptedSize !== $unencryptedSize);
+
+		// cleanup
+		$this->view->unlink($this->filename);
+
+	}
+
 }

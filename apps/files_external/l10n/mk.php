@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "Users" => "Корисници",
 "Delete" => "Избриши",
 "Enable User External Storage" => "Овозможи надворешни за корисници",
-"Allow users to mount their own external storage" => "Дозволи им на корисниците да монтираат свои надворешни дискови",
 "SSL root certificates" => "SSL root сертификати",
 "Import Root Certificate" => "Увези"
 );

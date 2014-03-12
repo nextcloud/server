@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# plazmism <gomidori@live.jp>, 2014
+# kuromabo <md81bird@hitaki.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 13:31+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,45 +19,49 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
+#: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
 msgstr "アクセスは許可されました"
 
-#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
+#: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
 msgstr "Dropboxストレージの設定エラー"
 
-#: js/dropbox.js:65 js/google.js:86
+#: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "アクセスを許可"
 
-#: js/dropbox.js:101
+#: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr "有効なDropboxアプリのキーとパスワードを入力して下さい。"
+msgstr "有効なDropboxアプリのキーとパスワードを入力してください。"
 
-#: js/google.js:42 js/google.js:121
+#: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Googleドライブストレージの設定エラー"
 
-#: lib/config.php:461
+#: js/settings.js:313 js/settings.js:320
+msgid "Saved"
+msgstr "保存されました"
+
+#: lib/config.php:512
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr "<b>警告:</b> \"smbclient\" はインストールされていません。CIFS/SMB 共有のマウントはできません。システム管理者にインストールをお願いして下さい。"
+msgstr "<b>警告:</b> \"smbclient\" がインストールされていません。CIFS/SMB共有のマウントはできません。システム管理者にインストールを依頼してください。"
 
-#: lib/config.php:465
+#: lib/config.php:516
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr "<b>警告:</b> PHPのFTPサポートは無効もしくはインストールされていません。FTP共有のマウントはできません。システム管理者にインストールをお願いして下さい。"
+msgstr "<b>警告:</b> PHPのFTPサポートが無効またはインストールされていません。FTP共有のマウントはできません。システム管理者にインストールを依頼してください。"
 
-#: lib/config.php:468
+#: lib/config.php:519
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr "<b>警告:</b> PHP の Curl サポートは無効もしくはインストールされていません。ownCloud / WebDAV もしくは GoogleDrive のマウントはできません。システム管理者にインストールをお願いして下さい。"
+msgstr "<b>警告:</b> PHPのCurlサポートが無効またはインストールされていません。ownCloud / WebDAVまたはGoogleDriveのマウントはできません。システム管理者にインストールを依頼してください。"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -63,7 +69,7 @@ msgstr "外部ストレージ"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr "フォルダ名"
+msgstr "フォルダー名"
 
 #: templates/settings.php:10
 msgid "External storage"
@@ -91,7 +97,7 @@ msgstr "未設定"
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr "すべてのユーザ"
+msgstr "すべてのユーザー"
 
 #: templates/settings.php:92
 msgid "Groups"
@@ -99,25 +105,25 @@ msgstr "グループ"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr "ユーザ"
+msgstr "ユーザー"
 
 #: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:155 templates/settings.php:156
 msgid "Delete"
 msgstr "削除"
 
-#: templates/settings.php:129
+#: templates/settings.php:127
 msgid "Enable User External Storage"
-msgstr "ユーザの外部ストレージを有効にする"
+msgstr "ユーザーの外部ストレージを有効にする"
 
 #: templates/settings.php:130
-msgid "Allow users to mount their own external storage"
-msgstr "ユーザに外部ストレージのマウントを許可する"
+msgid "Allow users to mount the following external storage"
+msgstr "ユーザに以下の外部ストレージのマウントを許可する"
 
-#: templates/settings.php:141
+#: templates/settings.php:147
 msgid "SSL root certificates"
 msgstr "SSLルート証明書"
 
-#: templates/settings.php:159
+#: templates/settings.php:165
 msgid "Import Root Certificate"
 msgstr "ルート証明書をインポート"

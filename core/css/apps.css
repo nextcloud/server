@@ -187,6 +187,9 @@
 }
 #app-settings.open #app-settings-content {
 	display: block;
+	/* restrict height of settings and make scrollable */
+	max-height: 300px;
+	overflow-y: scroll;
 }
 
 .settings-button {

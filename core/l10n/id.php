@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s membagikan »%s« dengan anda",
 "Couldn't send mail to following users: %s " => "Tidak dapat mengirim Email ke pengguna berikut: %s",
 "Turned on maintenance mode" => "Hidupkan mode perawatan",
 "Turned off maintenance mode" => "Matikan mode perawatan",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "November",
 "December" => "Desember",
 "Settings" => "Pengaturan",
+"Saving..." => "Menyimpan...",
 "seconds ago" => "beberapa detik yang lalu",
 "_%n minute ago_::_%n minutes ago_" => array("%n menit yang lalu"),
 "_%n hour ago_::_%n hours ago_" => array("%n jam yang lalu"),
@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Kemungkinan direktori data dan berkas anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan lihat <a href=\"%s\" target=\"_blank\">dokumentasi</a>.",
 "Create an <strong>admin account</strong>" => "Buat sebuah <strong>akun admin</strong>",
-"Advanced" => "Lanjutan",
 "Data folder" => "Folder data",
 "Configure the database" => "Konfigurasikan basis data",
 "will be used" => "akan digunakan",
@@ -166,7 +165,6 @@ $TRANSLATIONS = array(
 "remember" => "selalu masuk",
 "Log in" => "Masuk",
 "Alternative Logins" => "Cara Alternatif untuk Masuk",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hai,<br><br>hanya supaya anda tahu bahwa %s membagikan »%s« dengan anda.<br><a href=\"%s\">Lihat!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "ownCloud ini sedang dalam mode pengguna tunggal.",
 "This means only administrators can use the instance." => "Ini berarti hanya administrator yang dapat menggunakan ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",

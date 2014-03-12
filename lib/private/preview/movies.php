@@ -9,7 +9,7 @@
 namespace OC\Preview;
 
 function findBinaryPath($program) {
-	exec('which ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
 	if ($returnCode === 0 && count($output) > 0) {
 		return escapeshellcmd($output[0]);
 	}

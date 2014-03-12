@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep <sovichet.tep@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-17 11:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,74 +18,69 @@ msgstr ""
 "Language: km\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: private/app.php:243
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "មិន​អាច​ដំឡើង​កម្មវិធី \"%s\" បាន ព្រោះ​តែ​វា​មិន​ត្រូវ​គ្នា​នឹង​កំណែ ownCloud នេះ​ទេ។"
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
-msgstr ""
+msgstr "មិន​បាន​បញ្ជាក់​ឈ្មោះ​កម្មវិធី"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
-msgstr ""
+msgstr "ជំនួយ"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
-msgstr ""
+msgstr "ផ្ទាល់​ខ្លួន"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
-msgstr ""
+msgstr "ការកំណត់"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
-msgstr ""
+msgstr "អ្នកប្រើ"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
-msgstr ""
+msgstr "អ្នក​គ្រប់​គ្រង"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "មិន​ស្គាល់​ប្រភេទ​ឯកសារ"
 
 #: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "រូបភាព​មិន​ត្រឹម​ត្រូវ"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
-msgstr ""
-
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr ""
+msgstr "សេវាកម្ម​វេប​ក្រោម​ការ​ការ​បញ្ជា​របស់​អ្នក"
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "បាន​បិទ​ការ​ទាញ​យក ZIP ។"
 
 #: private/files.php:232
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "ត្រូវ​ការ​ទាញ​យក​ឯកសារ​ម្ដង​មួយៗ។"
 
 #: private/files.php:233 private/files.php:261
 msgid "Back to Files"
-msgstr ""
+msgstr "ត្រឡប់​ទៅ​ឯកសារ"
 
 #: private/files.php:258
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "ឯកសារ​ដែល​បាន​ជ្រើស មាន​ទំហំ​ធំ​ពេក​ក្នុង​ការ​បង្កើត​ជា zip ។"
 
 #: private/files.php:259
 msgid ""
@@ -92,100 +88,104 @@ msgid ""
 "administrator."
 msgstr ""
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr ""
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
-msgstr ""
+msgstr "មាន​ទីតាំង​ផ្ទុក​កម្មវិធី​រួច​ហើយ"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "មិន​អាច​បង្កើត​ថត​កម្មវិធី។ សូម​កែ​សម្រួល​សិទ្ធិ។ %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
-msgstr ""
+msgstr "មិន​បាន​បើក​កម្មវិធី"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:63 private/json.php:88
 msgid "Authentication error"
+msgstr "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ"
+
+#: private/json.php:52
+msgid "Token expired. Please reload page."
 msgstr ""
 
-#: private/json.php:51
-msgid "Token expired. Please reload page."
+#: private/json.php:75
+msgid "Unknown user"
 msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
-msgstr ""
+msgstr "ឯកសារ"
 
 #: private/search/provider/file.php:27 private/search/provider/file.php:34
 msgid "Text"
-msgstr ""
+msgstr "អត្ថបទ"
 
 #: private/search/provider/file.php:30
 msgid "Images"
-msgstr ""
+msgstr "រូបភាព"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s វាយ​បញ្ចូល​ឈ្មោះ​អ្នក​ប្រើ​មូលដ្ឋាន​ទិន្នន័យ។"
 
 #: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s វាយ​បញ្ចូល​ឈ្មោះ​មូលដ្ឋាន​ទិន្នន័យ។"
 
 #: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s អ្នក​អាច​មិន​ប្រើ​សញ្ញា​ចុច​នៅ​ក្នុង​ឈ្មោះ​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: private/setup/mssql.php:20
 #, php-format
@@ -199,7 +199,7 @@ msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
+msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
@@ -212,7 +212,7 @@ msgstr ""
 #: private/setup/postgresql.php:125 private/setup/postgresql.php:134
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "កំហុស DB៖ \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
 #: private/setup/oci.php:122 private/setup/oci.php:145
@@ -227,25 +227,25 @@ msgstr ""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
 msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
+msgid "Drop this user from MySQL/MariaDB"
 msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
 msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
+msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "មិន​អាច​បង្កើត​ការ​តភ្ជាប់ Oracle"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
@@ -258,72 +258,78 @@ msgstr ""
 
 #: private/setup/postgresql.php:23 private/setup/postgresql.php:69
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "ឈ្មោះ​អ្នក​ប្រើ និង/ឬ ពាក្យ​សម្ងាត់ PostgreSQL គឺ​មិន​ត្រូវ​ទេ"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។"
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "កំណត់​ពាក្យ​សម្ងាត់​អ្នក​គ្រប់គ្រង។"
 
-#: private/setup.php:195
+#: private/setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: private/setup.php:196
+#: private/setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:73
+#: private/share/mailnotifications.php:119
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
-
-#: private/template/functions.php:130
-msgid "seconds ago"
-msgstr ""
-
-#: private/template/functions.php:131
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] ""
-
-#: private/template/functions.php:132
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr "រក​មិន​ឃើញ​ចំណាត់​ក្រុម \"%s\""
 
 #: private/template/functions.php:133
-msgid "today"
-msgstr ""
+msgid "seconds ago"
+msgstr "វិនាទី​មុន"
 
 #: private/template/functions.php:134
-msgid "yesterday"
-msgstr ""
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n នាទី​មុន"
+
+#: private/template/functions.php:135
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n ម៉ោង​មុន"
 
 #: private/template/functions.php:136
-msgid "%n day go"
-msgid_plural "%n days ago"
-msgstr[0] ""
+msgid "today"
+msgstr "ថ្ងៃនេះ"
 
-#: private/template/functions.php:138
-msgid "last month"
-msgstr ""
+#: private/template/functions.php:137
+msgid "yesterday"
+msgstr "ម្សិលមិញ"
 
 #: private/template/functions.php:139
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] ""
+msgid "%n day go"
+msgid_plural "%n days ago"
+msgstr[0] "%n ថ្ងៃ​មុន"
 
 #: private/template/functions.php:141
-msgid "last year"
-msgstr ""
+msgid "last month"
+msgstr "ខែមុន"
 
 #: private/template/functions.php:142
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%n ខែ​មុន"
+
+#: private/template/functions.php:144
+msgid "last year"
+msgstr "ឆ្នាំ​មុន"
+
+#: private/template/functions.php:145
 msgid "years ago"
-msgstr ""
+msgstr "ឆ្នាំ​មុន"

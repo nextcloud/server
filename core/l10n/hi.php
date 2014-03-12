@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "क्लौड नहीं मिला ",
 "Security Warning" => "सुरक्षा चेतावनी ",
 "Create an <strong>admin account</strong>" => "व्यवस्थापक खाता बनाएँ",
-"Advanced" => "उन्नत",
 "Data folder" => "डाटा फोल्डर",
 "Configure the database" => "डेटाबेस कॉन्फ़िगर करें ",
 "will be used" => "उपयोग होगा",

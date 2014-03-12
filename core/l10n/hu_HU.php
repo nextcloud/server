@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
 "Couldn't send mail to following users: %s " => "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
 "Turned on maintenance mode" => "A karbantartási mód bekapcsolva",
 "Turned off maintenance mode" => "A karbantartási mód kikapcsolva",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "november",
 "December" => "december",
 "Settings" => "Beállítások",
+"Saving..." => "Mentés...",
 "seconds ago" => "pár másodperce",
 "_%n minute ago_::_%n minutes ago_" => array("%n perccel ezelőtt","%n perccel ezelőtt"),
 "_%n hour ago_::_%n hours ago_" => array("%n órával ezelőtt","%n órával ezelőtt"),
@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Az adatkönyvtár és a benne levő állományok valószínűleg közvetlenül is elérhetők az internetről, mert a .htaccess állomány nem érvényesül.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "A kiszolgáló megfelelő beállításához kérjük olvassa el a <a href=\"%sl\" target=\"_blank\">dokumentációt</a>.",
 "Create an <strong>admin account</strong>" => "<strong>Rendszergazdai belépés</strong> létrehozása",
-"Advanced" => "Haladó",
 "Data folder" => "Adatkönyvtár",
 "Configure the database" => "Adatbázis konfigurálása",
 "will be used" => "adatbázist fogunk használni",
@@ -166,7 +165,6 @@ $TRANSLATIONS = array(
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
 "Alternative Logins" => "Alternatív bejelentkezés",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Szia!<br><br>Értesítünk, hogy %s megosztotta veled a következőt: »%s«.<br><a href=\"%s\">Ide kattintva tudod megnézni</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Az Owncloud frissítés elezdődött egy felhasználós módban.",
 "This means only administrators can use the instance." => "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Ha ezt az üzenetet már többször látod akkor keresd meg a rendszer adminját.",
