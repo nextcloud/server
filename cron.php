@@ -119,6 +119,10 @@ try {
 
 	// done!
 	TemporaryCronClass::$sent = true;
+	// Log the successfull cron exec
+	if (OC_Config::getValue('cron_log', true)) {
+		OC_Appconfig::setValue('core', 'lastcron', time());
+	}
 	exit();
 
 } catch (Exception $ex) {

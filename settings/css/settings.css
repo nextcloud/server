@@ -167,6 +167,13 @@ table.shareAPI td { padding-bottom: 0.8em; }
 	width: 40px;
 }
 
+.cronstatus {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
 /* HELP */
 .pressed {background-color:#DDD;}
 

@@ -178,6 +178,23 @@ if (!$_['internetconnectionworking']) {
 				<label for="backgroundjobs_cron">Cron</label><br/>
 				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15 minutes.")); ?></em>
 	</p>
+	<?php if ($_['cron_log']): ?>
+	<p>
+		<?php if ($_['lastcron'] !== false):
+			$human_time = date('Y-m-d H:i', $_['lastcron']) . " UTC";
+			if (time() - $_['lastcron'] <= 3600): ?>
+				<span class="cronstatus success"></span>
+				<?php p($l->t("Last cron was executed at %s.", array($human_time)));
+			else: ?>
+				<span class="cronstatus error"></span>
+				<?php p($l->t("Last cron was executed at %s. This is more than an hour ago, something seems wrong.", array($human_time)));
+			endif;
+		else: ?>
+			<span class="cronstatus error"></span>
+			<?php p($l->t("Cron was not executed yet!"));
+		endif; ?>
+	</p>
+	<?php endif; ?>
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
