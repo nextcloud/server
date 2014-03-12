@@ -56,8 +56,19 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 				$uri='/'.$uri;
 			}
 			list($parentUri, $newName) = Sabre_DAV_URLUtil::splitPath($uri);
+			$req = $this->server->httpRequest;
+			if ($req->getHeader('OC-Chunked')) {
+				$info = OC_FileChunking::decodeName($newName);
+				$chunkHandler = new OC_FileChunking($info);
+				// substract the already uploaded size to see whether
+				// there is still enough space for the remaining chunks
+				$length -= $chunkHandler->getCurrentSize();
+			}
 			$freeSpace = $this->getFreeSpace($parentUri);
 			if ($freeSpace !== \OC\Files\SPACE_UNKNOWN && $length > $freeSpace) {
+				if (isset($chunkHandler)) {
+					$chunkHandler->cleanup();
+				}
 				throw new Sabre_DAV_Exception_InsufficientStorage();
 			}
 		}
