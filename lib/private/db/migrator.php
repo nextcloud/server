@@ -88,11 +88,14 @@ class Migrator {
 	 * @return \Doctrine\DBAL\Schema\Table
 	 */
 	protected function renameTableSchema(Table $table, $newName) {
+		/**
+		 * @var \Doctrine\DBAL\Schema\Index[] $indexes
+		 */
 		$indexes = $table->getIndexes();
 		$newIndexes = array();
 		foreach ($indexes as $index) {
 			$indexName = uniqid(); // avoid conflicts in index names
-			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary(), $index->getFlags());
+			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
