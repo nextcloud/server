@@ -31,7 +31,6 @@ try {
 	OC_API::setContentType();
 	OC_OCS::notFound();
 } catch (MethodNotAllowedException $e) {
-	setOcsContentType();
 	OC_API::setContentType();
 	OC_Response::setStatus(405);
 }
