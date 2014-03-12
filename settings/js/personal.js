@@ -61,7 +61,7 @@ function updateAvatar (hidedefault) {
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 128, true);
 
-	$('#removeavatar').removeClass('hidden');
+	$('#removeavatar').show();
 }
 
 function showAvatarCropper() {
@@ -258,7 +258,7 @@ $(document).ready(function(){
 			url:	OC.generateUrl('/avatar/'),
 			success: function(msg) {
 				updateAvatar(true);
-				$('#removeavatar').addClass('hidden');
+				$('#removeavatar').hide();
 			}
 		});
 	});
@@ -290,7 +290,7 @@ $(document).ready(function(){
 	) + '?requesttoken=' + oc_requesttoken;
 	$.get(url, function(result) {
 		if (typeof(result) === 'object') {
-			$('#removeavatar').addClass('hidden');
+			$('#removeavatar').hide();
 		}
 	});
 } );
