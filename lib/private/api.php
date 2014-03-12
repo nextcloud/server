@@ -361,7 +361,7 @@ class OC_API {
 	/**
 	 * Based on the requested format the response content type is set
 	 */
-	public static function setOcsContentType() {
+	public static function setContentType() {
 		$format = \OC_API::requestedFormat();
 		if ($format === 'xml') {
 			header('Content-type: text/xml; charset=UTF-8');
