@@ -98,7 +98,13 @@ class Api {
 						break;
 					}
 				}
+			} else {
+				$path = $params['path'];
+				foreach ($shares as $key => $share) {
+					$shares[$key]['path'] = $path;
+				}
 			}
+
 
 			// include also reshares in the lists. This means that the result
 			// will contain every user with access to the file.
@@ -107,8 +113,10 @@ class Api {
 			}
 
 			if ($receivedFrom) {
-				$shares['received_from'] = $receivedFrom['uid_owner'];
-				$shares['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				foreach ($shares as $key => $share) {
+					$shares[$key]['received_from'] = $receivedFrom['uid_owner'];
+					$shares[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				}
 			}
 		} else {
 			$shares = null;
@@ -174,9 +182,10 @@ class Api {
 			$share = \OCP\Share::getItemShared($itemType, $file['fileid']);
 			if($share) {
 				$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
+				reset($share);
+				$key = key($share);
+				$share[$key]['path'] = self::correctPath($share[$key]['path'], $path);
 				if ($receivedFrom) {
-					reset($share);
-					$key = key($share);
 					$share[$key]['received_from'] = $receivedFrom['uid_owner'];
 					$share[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
 				}
@@ -520,6 +529,17 @@ class Api {
 
 		return null;
 
+	}
+
+	/**
+	 * @brief make sure that the path has the correct root
+	 *
+	 * @param string $path path returned from the share API
+	 * @param string $folder current root folder
+	 * @return string the correct path
+	 */
+	protected static function correctPath($path, $folder) {
+		return \OC_Filesystem::normalizePath('/' . $folder . '/' . basename($path));
 	}
 
 }
