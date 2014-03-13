@@ -65,10 +65,10 @@ LdapFilter.prototype.determineMode = function() {
 		function(result) {
 			property = 'ldap' + filter.target + 'FilterMode';
 			filter.mode = result.changes[property];
-			if(filter.mode == LdapWizard.filterModeRaw
+			if(filter.mode === LdapWizard.filterModeRaw
 				&& $('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
-			} else if(filter.mode == LdapWizard.filterModeAssisted
+			} else if(filter.mode === LdapWizard.filterModeAssisted
 				&& !$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 			}
@@ -80,7 +80,7 @@ LdapFilter.prototype.determineMode = function() {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 				filter.mode = LdapWizard.filterModeAssisted;
 			}
-		filter.unlock();
+			filter.unlock();
 		}
 	);
 
