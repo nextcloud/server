@@ -20,7 +20,7 @@ class Controller {
 			$errors = array('errors' => $e);
 
 			if(count($e) > 0) {
-				$options = array_merge($post, $opts, $errors);
+				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			}
 			else {
@@ -28,7 +28,8 @@ class Controller {
 			}
 		}
 		else {
-			$this->display($opts);
+			$options = array_merge($opts, $post);
+			$this->display($options);
 		}
 	}
 
@@ -41,6 +42,7 @@ class Controller {
 			'dbname' => '',
 			'dbtablespace' => '',
 			'dbhost' => '',
+			'dbtype' => '',
 		);
 		$parameters = array_merge($defaults, $post);
 
