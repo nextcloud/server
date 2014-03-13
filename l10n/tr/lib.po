@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-13 01:55-0400\n"
+"PO-Revision-Date: 2014-03-12 10:51+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,7 +161,7 @@ msgstr "Jetonun süresi geçti. Lütfen sayfayı yenileyin."
 
 #: private/json.php:75
 msgid "Unknown user"
-msgstr ""
+msgstr "Bilinmeyen kullanıcı"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -196,23 +196,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL kullanıcı adı ve/veya parolası geçersiz: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Bir konto veya kullanici birlemek ihtiyacin. "
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB kullanıcı adı ve/veya parolası geçersiz"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB Hata: ''%s''"
@@ -221,9 +221,9 @@ msgstr "DB Hata: ''%s''"
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Komut rahasiz ''%s''. "
@@ -231,20 +231,20 @@ msgstr "Komut rahasiz ''%s''. "
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB kullanıcı '%s'@'localhost' zaten mevcut."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Bu kullanıcıyı MySQL/MariaDB'dan at (drop)"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB kullanıcısı '%s'@'%%' zaten mevcut"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Bu kullanıcıyı MySQL/MariaDB'dan at (drop)"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -259,7 +259,7 @@ msgstr "Adi klullanici ve/veya parola Oracle mantikli değildir. "
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Hatalı komut: \"%s\", ad: %s, parola: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL adi kullanici ve/veya parola yasal degildir. "
 

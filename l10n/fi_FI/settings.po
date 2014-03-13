@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-13 01:55-0400\n"
+"PO-Revision-Date: 2014-03-12 11:00+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Virheellinen arvo kohdassa %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -46,19 +46,19 @@ msgstr "Sähköposti lähetetty"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta."
 
-#: admin/controller.php:116 templates/admin.php:280
+#: admin/controller.php:116 templates/admin.php:284
 msgid "Send mode"
 msgstr "Lähetystila"
 
-#: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
 msgid "Encryption"
 msgstr "Salaus"
 
-#: admin/controller.php:120 templates/admin.php:317
+#: admin/controller.php:120 templates/admin.php:321
 msgid "Authentication method"
-msgstr ""
+msgstr "Tunnistautumistapa"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -333,18 +333,18 @@ msgstr "SSL"
 msgid "TLS"
 msgstr "TLS"
 
-#: templates/admin.php:43 templates/admin.php:57
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "Turvallisuusvaroitus"
 
-#: templates/admin.php:46
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr ""
 
-#: templates/admin.php:60
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -353,68 +353,68 @@ msgid ""
 "root."
 msgstr ""
 
-#: templates/admin.php:71
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "Asetusvaroitus"
 
-#: templates/admin.php:74
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: templates/admin.php:75
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Lue <a href=\"%s\">asennusohjeet</a> tarkasti."
 
-#: templates/admin.php:86
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "Moduuli 'fileinfo' puuttuu"
 
-#: templates/admin.php:89
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltavaa, jotta MIME-tyypin havaitseminen onnistuu parhaalla mahdollisella tavalla."
 
-#: templates/admin.php:100
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
 msgstr "Käytössä oleva PHP-versio on vanhentunut"
 
-#: templates/admin.php:103
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Käytössä oleva PHP on vanhentunut. Päivitä versioon 5.3.8 tai uudempaan, koska aiemmat versiot eivät ole toimivia. On mahdollista, että tämä ownCloud-asennus ei toimi kunnolla."
 
-#: templates/admin.php:114
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "Maa-asetus ei toimi"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi."
 
-#: templates/admin.php:123
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä saattaa olla ongelmia."
 
-#: templates/admin.php:127
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Suosittelemme vahvasti asentamaan vaaditut paketit järjestelmään, jotta jotain seuraavista maa-asetuksista on mahdollista tukea: %s."
 
-#: templates/admin.php:139
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "Internet-yhteys ei toimi"
 
-#: templates/admin.php:142
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -423,162 +423,162 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:156
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:163
+#: templates/admin.php:167
 msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:171
+#: templates/admin.php:175
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:179
+#: templates/admin.php:183
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumiseen 15 minuutin välein"
 
-#: templates/admin.php:184
+#: templates/admin.php:188
 msgid "Sharing"
 msgstr "Jakaminen"
 
-#: templates/admin.php:190
+#: templates/admin.php:194
 msgid "Enable Share API"
 msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
-#: templates/admin.php:191
+#: templates/admin.php:195
 msgid "Allow apps to use the Share API"
 msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
-#: templates/admin.php:198
+#: templates/admin.php:202
 msgid "Allow links"
 msgstr "Salli linkit"
 
-#: templates/admin.php:199
+#: templates/admin.php:203
 msgid "Allow users to share items to the public with links"
 msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
-#: templates/admin.php:207
+#: templates/admin.php:211
 msgid "Allow public uploads"
 msgstr "Salli julkiset lähetykset"
 
-#: templates/admin.php:208
+#: templates/admin.php:212
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:216
+#: templates/admin.php:220
 msgid "Allow resharing"
 msgstr "Salli uudelleenjakaminen"
 
-#: templates/admin.php:217
+#: templates/admin.php:221
 msgid "Allow users to share items shared with them again"
 msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Allow users to share with anyone"
 msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
 
-#: templates/admin.php:227
+#: templates/admin.php:231
 msgid "Allow users to only share with users in their groups"
 msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
 
-#: templates/admin.php:234
+#: templates/admin.php:238
 msgid "Allow mail notification"
 msgstr "Salli sähköposti-ilmoitukset"
 
-#: templates/admin.php:235
+#: templates/admin.php:239
 msgid "Allow user to send mail notification for shared files"
 msgstr "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista"
 
-#: templates/admin.php:242
+#: templates/admin.php:246
 msgid "Security"
 msgstr "Tietoturva"
 
-#: templates/admin.php:255
+#: templates/admin.php:259
 msgid "Enforce HTTPS"
 msgstr "Pakota HTTPS"
 
-#: templates/admin.php:257
+#: templates/admin.php:261
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Pakottaa asiakasohjelmistot ottamaan yhteyden %siin salatun yhteyden kautta."
 
-#: templates/admin.php:263
+#: templates/admin.php:267
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:275
+#: templates/admin.php:279
 msgid "Email Server"
 msgstr "Sähköpostipalvelin"
 
-#: templates/admin.php:277
+#: templates/admin.php:281
 msgid "This is used for sending out notifications."
 msgstr "Tätä käytetään ilmoitusten lähettämiseen."
 
-#: templates/admin.php:308
+#: templates/admin.php:312
 msgid "From address"
 msgstr "Lähettäjän osoite"
 
-#: templates/admin.php:330
+#: templates/admin.php:334
 msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
-#: templates/admin.php:334
+#: templates/admin.php:338
 msgid "Server address"
 msgstr "Palvelimen osoite"
 
-#: templates/admin.php:338
+#: templates/admin.php:342
 msgid "Port"
 msgstr "Portti"
 
-#: templates/admin.php:343
+#: templates/admin.php:347
 msgid "Credentials"
 msgstr "Tilitiedot"
 
-#: templates/admin.php:344
+#: templates/admin.php:348
 msgid "SMTP Username"
 msgstr "SMTP-käyttäjätunnus"
 
-#: templates/admin.php:347
+#: templates/admin.php:351
 msgid "SMTP Password"
 msgstr "SMTP-salasana"
 
-#: templates/admin.php:351
+#: templates/admin.php:355
 msgid "Test email settings"
 msgstr "Testaa sähköpostiasetukset"
 
-#: templates/admin.php:352
+#: templates/admin.php:356
 msgid "Send email"
 msgstr "Lähetä sähköpostiviesti"
 
-#: templates/admin.php:357
+#: templates/admin.php:361
 msgid "Log"
 msgstr "Loki"
 
-#: templates/admin.php:358
+#: templates/admin.php:362
 msgid "Log level"
 msgstr "Lokitaso"
 
-#: templates/admin.php:390
+#: templates/admin.php:394
 msgid "More"
 msgstr "Enemmän"
 
-#: templates/admin.php:391
+#: templates/admin.php:395
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:397 templates/personal.php:181
+#: templates/admin.php:401 templates/personal.php:181
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:401 templates/personal.php:184
+#: templates/admin.php:405 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

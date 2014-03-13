@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You need to set your user email before being able to send test emails." => "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。",
 "Send mode" => "送信モード",
 "Encryption" => "暗号化",
+"Authentication method" => "認証方法",
 "Unable to load list from App Store" => "アプリストアからリストをロードできません",
 "Authentication error" => "認証エラー",
 "Your full name has been changed." => "フルネームを変更しました。",

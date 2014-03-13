@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Invalid value supplied for %s" => "Type de valeur METADATA invalide : \"%s\".",
+"Saved" => "Sauvegarder",
+"If you received this email, the settings seem to be correct." => "Si vous recevez cet email, c'est que les paramètres sont corrects",
 "Email sent" => "Email envoyé",
 "Encryption" => "Chiffrement",
 "Unable to load list from App Store" => "Impossible de charger la liste depuis l'App Store",
