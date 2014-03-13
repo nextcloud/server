@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# andreiacob <andrei.iacob@y7mail.com>, 2014
 # roentgen <arthur.titeica@gmail.com>, 2014
 # corneliu.e <corneliueva@yahoo.com>, 2013
 # dimaursu16 <dima@ceata.org>, 2013
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 16:10+0000\n"
-"Last-Translator: roentgen <arthur.titeica@gmail.com>\n"
+"POT-Creation-Date: 2014-03-13 17:12-0400\n"
+"PO-Revision-Date: 2014-03-13 16:03+0000\n"
+"Last-Translator: andreiacob <andrei.iacob@y7mail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +77,7 @@ msgstr ""
 
 #: ajax/newfile.php:155
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Eroare la crearea fisierului"
 
 #: ajax/newfolder.php:21
 msgid "Folder name cannot be empty."
@@ -84,7 +85,7 @@ msgstr ""
 
 #: ajax/newfolder.php:65
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Eroare la crearea folderului"
 
 #: ajax/upload.php:19 ajax/upload.php:53
 msgid "Unable to set upload directory."
@@ -177,7 +178,7 @@ msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerup
 
 #: js/file-upload.js:562
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "URL nu poate fi gol"
 
 #: js/file-upload.js:566
 msgid "In the home folder 'Shared' is a reserved filename"
@@ -189,11 +190,11 @@ msgstr "{new_name} există deja"
 
 #: js/file-upload.js:634
 msgid "Could not create file"
-msgstr ""
+msgstr "Nu s-a putut crea fisierul"
 
 #: js/file-upload.js:650
 msgid "Could not create folder"
-msgstr ""
+msgstr "Nu s-a putut crea folderul"
 
 #: js/file-upload.js:700
 msgid "Error fetching URL"
@@ -217,7 +218,7 @@ msgstr "În așteptare"
 
 #: js/filelist.js:456
 msgid "Could not rename file"
-msgstr ""
+msgstr "Nu s-a putut redenumi fisierul"
 
 #: js/filelist.js:591
 msgid "replaced {new_name} with {old_name}"
@@ -392,7 +393,7 @@ msgstr "Anulează încărcarea"
 
 #: templates/index.php:52
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Nu aveti permisiunea de a incarca sau crea fisiere aici"
 
 #: templates/index.php:57
 msgid "Nothing in here. Upload something!"

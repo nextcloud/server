@@ -5,7 +5,7 @@
 # Translators:
 # 2rock <hub2rock@free.fr>, 2014
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
-# Christophe Lherieau <skimpax@gmail.com>, 2013
+# Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # etiess <etiess@gmail.com>, 2013
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 01:55-0400\n"
-"PO-Revision-Date: 2014-03-13 02:33+0000\n"
-"Last-Translator: 2rock <hub2rock@free.fr>\n"
+"POT-Creation-Date: 2014-03-13 17:12-0400\n"
+"PO-Revision-Date: 2014-03-13 16:21+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "Sauvegarder"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "tester les paramètres d'e-mail"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
@@ -48,7 +48,7 @@ msgstr "Si vous recevez cet email, c'est que les paramètres sont corrects"
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Une erreur est survenue lors de l'envoi de l'e-mail. Veuillez vérifier vos paramètres."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -56,11 +56,11 @@ msgstr "Email envoyé"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Vous devez configurer votre e-mail d'utilisateur avant de pouvoir envoyer des e-mails de test."
 
 #: admin/controller.php:116 templates/admin.php:284
 msgid "Send mode"
-msgstr ""
+msgstr "Mode d'envoi"
 
 #: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
 msgid "Encryption"
@@ -68,7 +68,7 @@ msgstr "Chiffrement"
 
 #: admin/controller.php:120 templates/admin.php:321
 msgid "Authentication method"
-msgstr ""
+msgstr "Méthode d'authentification"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -168,7 +168,7 @@ msgstr "Impossible de modifier le mot de passe"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Envoi en cours..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -176,7 +176,7 @@ msgstr "Documentation utilisateur"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Documentation administrateur"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -222,31 +222,31 @@ msgstr "Mettre à jour"
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:274
-msgid "Very weak password"
-msgstr ""
-
-#: js/personal.js:275
-msgid "Weak password"
-msgstr ""
-
-#: js/personal.js:276
-msgid "So-so password"
-msgstr ""
-
 #: js/personal.js:277
-msgid "Good password"
-msgstr ""
+msgid "Very weak password"
+msgstr "Mot de passe de très faible sécurité"
 
 #: js/personal.js:278
-msgid "Strong password"
-msgstr ""
+msgid "Weak password"
+msgstr "Mot de passe de faible sécurité"
 
-#: js/personal.js:301
+#: js/personal.js:279
+msgid "So-so password"
+msgstr "Mot de passe de sécurité tout juste acceptable"
+
+#: js/personal.js:280
+msgid "Good password"
+msgstr "Mot de passe de sécurité suffisante"
+
+#: js/personal.js:281
+msgid "Strong password"
+msgstr "Mot de passe de forte sécurité"
+
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
 
@@ -329,19 +329,19 @@ msgstr "Connexion"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "En clair"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Gestionnaire du réseau NT"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -526,19 +526,19 @@ msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou d
 
 #: templates/admin.php:279
 msgid "Email Server"
-msgstr ""
+msgstr "Serveur mail"
 
 #: templates/admin.php:281
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Ceci est utilisé pour l'envoi des notifications."
 
 #: templates/admin.php:312
 msgid "From address"
-msgstr ""
+msgstr "Adresse source"
 
 #: templates/admin.php:334
 msgid "Authentication required"
-msgstr ""
+msgstr "Authentification requise"
 
 #: templates/admin.php:338
 msgid "Server address"
@@ -554,19 +554,19 @@ msgstr "Informations d'identification"
 
 #: templates/admin.php:348
 msgid "SMTP Username"
-msgstr ""
+msgstr "Nom d'utilisateur SMTP"
 
 #: templates/admin.php:351
 msgid "SMTP Password"
-msgstr ""
+msgstr "Mot de passe SMTP"
 
 #: templates/admin.php:355
 msgid "Test email settings"
-msgstr ""
+msgstr "Paramètres de test d'e-mail"
 
 #: templates/admin.php:356
 msgid "Send email"
-msgstr ""
+msgstr "Envoyer un e-mail"
 
 #: templates/admin.php:361
 msgid "Log"
@@ -612,7 +612,7 @@ msgstr "Sélectionner une Application"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "Documentation :"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -620,7 +620,7 @@ msgstr "Voir la page des applications à l'url apps.owncloud.com"
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "Voir le site web de l'application"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -699,7 +699,7 @@ msgstr "Votre adresse e-mail"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Saisir une adresse e-mail pour permettre la réinitialisation du mot de passe et la réception des notifications"
 
 #: templates/personal.php:96
 msgid "Profile picture"

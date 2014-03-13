@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# maxxx <maxxxrally@gmail.com>, 2014
 # bobie <maciej.przybecki@gmail.com>, 2013
 # adbrand <pkwiecin@adbrand.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-13 17:12-0400\n"
+"PO-Revision-Date: 2014-03-13 07:21+0000\n"
+"Last-Translator: maxxx <maxxxrally@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -277,23 +278,23 @@ msgstr "Błąd podczas ładowania szablonu istniejącego pliku"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Bardzo słabe hasło"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Słabe hasło"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Mało skomplikowane hasło"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Dobre hasło"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Mocne hasło"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -492,7 +493,7 @@ msgstr "%s reset hasła"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Pojawił się problem podczas wysyłania wiadomości email, skontaktuj się z administratorem"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -670,7 +671,7 @@ msgstr "Utwórz <strong>konta administratora</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Zasoby dysku & baza danych"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -771,7 +772,7 @@ msgstr "Alternatywne loginy"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Witam, <br><br>informuję, że %s udostępnianych zasobów <strong>%s</strong> jest z Tobą.<br><a href=\"%s\">Zobacz!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
