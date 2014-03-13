@@ -352,28 +352,28 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		   	|| empty($pagingsize)) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
-		$max_groups = 100000; // limit max results (just for safety reasons)
+		$maxGroups = 100000; // limit max results (just for safety reasons)
 		if ($limit > -1) {
-		   $overall_limit = min($limit, $max_groups);
+		   $overallLimit = min($limit, $maxGroups);
 		} else {
-		   $overall_limit = $max_groups;
+		   $overallLimit = $maxGroups;
 		}
-		$chunk_offset = $offset;
-		$all_groups = array();
-		while ($chunk_offset < $overall_limit) {
-			$chunk_limit = min($pagingsize, $overall_limit - $chunk_offset);
-			$ldap_groups = $this->getGroupsChunk($search, $chunk_limit, $chunk_offset);
-			$nread = count($ldap_groups);
-			\OCP\Util::writeLog('user_ldap', 'getAllGroups('.$search.'): read '.$nread.' at offset '.$chunk_offset.' (limit: '.$chunk_limit.')', \OCP\Util::DEBUG);
+		$chunkOffset = $offset;
+		$allGroups = array();
+		while ($chunkOffset < $overallLimit) {
+			$chunkLimit = min($pagingsize, $overallLimit - $chunkOffset);
+			$ldapGroups = $this->getGroupsChunk($search, $chunkLimit, $chunkOffset);
+			$nread = count($ldapGroups);
+			\OCP\Util::writeLog('user_ldap', 'getGroups('.$search.'): read '.$nread.' at offset '.$chunkOffset.' (limit: '.$chunkLimit.')', \OCP\Util::DEBUG);
 			if ($nread) {
-				$all_groups = array_merge($all_groups, $ldap_groups);
-				$chunk_offset += $nread;
+				$allGroups = array_merge($allGroups, $ldapGroups);
+				$chunkOffset += $nread;
 			}
-			if ($nread < $chunk_limit) {
+			if ($nread < $chunkLimit) {
 				break;
 			}
 		}
-		return $all_groups;
+		return $allGroups;
 	}
 
 	public function groupMatchesFilter($group) {
