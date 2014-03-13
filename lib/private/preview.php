@@ -189,7 +189,10 @@ class Preview {
 		$this->file = $file;
 		$this->info = null;
 		if ($file !== '') {
-			$this->mimetype = $this->getFileInfo()->getMimetype();
+			$this->getFileInfo();
+			if($this->info !== null && $this->info !== false) {
+				$this->mimetype = $this->info->getMimetype();
+			}
 		}
 		return $this;
 	}
@@ -282,10 +285,13 @@ class Preview {
 		$file = $this->getFile();
 
 		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
+		if($fileInfo !== null && $fileInfo !== false) {
+			$fileId = $fileInfo->getId();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
-		return $this->userView->unlink($previewPath);
+			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+			return $this->userView->unlink($previewPath);
+		}
+		return false;
 	}
 
 	/**
@@ -296,11 +302,14 @@ class Preview {
 		$file = $this->getFile();
 
 		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
+		if($fileInfo !== null && $fileInfo !== false) {
+			$fileId = $fileInfo->getId();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		$this->userView->deleteAll($previewPath);
-		return $this->userView->rmdir($previewPath);
+			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+			$this->userView->deleteAll($previewPath);
+			return $this->userView->rmdir($previewPath);
+		}
+		return false;
 	}
 
 	/**
@@ -406,6 +415,9 @@ class Preview {
 		$scalingUp = $this->getScalingUp();
 
 		$fileInfo = $this->getFileInfo($file);
+		if($fileInfo === null || $fileInfo === false) {
+			return new \OC_Image();
+		}
 		$fileId = $fileInfo->getId();
 
 		$cached = $this->isCached();
