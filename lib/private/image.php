@@ -41,8 +41,7 @@ class OC_Image {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if (filesize($filePath) > 11) {
 			$imageType = exif_imagetype($filePath);
-		}
-		else {
+		} else {
 			$imageType = false;
 		}
 		return $imageType ? image_type_to_mime_type($imageType) : '';
@@ -50,7 +49,7 @@ class OC_Image {
 
 	/**
 	* @brief Constructor.
-	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
+	* @param string|resource $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
 	* @returns bool False on error
 	*/
 	public function __construct($imageRef = null) {
@@ -115,13 +114,11 @@ class OC_Image {
 			case 3:
 			case 4: // Not tested
 				return $this->width();
-				break;
 			case 5: // Not tested
 			case 6:
 			case 7: // Not tested
 			case 8:
 				return $this->height();
-				break;
 		}
 		return $this->width();
 	}
@@ -140,13 +137,11 @@ class OC_Image {
 			case 3:
 			case 4: // Not tested
 				return $this->height();
-				break;
 			case 5: // Not tested
 			case 6:
 			case 7: // Not tested
 			case 8:
 				return $this->width();
-				break;
 		}
 		return $this->height();
 	}
@@ -197,7 +192,6 @@ class OC_Image {
 			return false;
 		}
 
-		$retVal = false;
 		switch($this->imageType) {
 			case IMAGETYPE_GIF:
 				$retVal = imagegif($this->resource, $filePath);
@@ -264,8 +258,8 @@ class OC_Image {
 	}
 
 	/**
-	* @returns Returns a base64 encoded string suitable for embedding in a VCard.
-	*/
+	 * @return string - base64 encoded, which is suitable for embedding in a VCard.
+	 */
 	function __toString() {
 		return base64_encode($this->data());
 	}
@@ -307,47 +301,37 @@ class OC_Image {
 		$o = $this->getOrientation();
 		OC_Log::write('core', 'OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
-		$flip = false;
 		switch($o) {
 			case -1:
 				return false; //Nothing to fix
-				break;
 			case 1:
 				$rotate = 0;
-				$flip = false;
 				break;
 			case 2: // Not tested
 				$rotate = 0;
-				$flip = true;
 				break;
 			case 3:
 				$rotate = 180;
-				$flip = false;
 				break;
 			case 4: // Not tested
 				$rotate = 180;
-				$flip = true;
 				break;
 			case 5: // Not tested
 				$rotate = 90;
-				$flip = true;
 				break;
 			case 6:
 				//$rotate = 90;
 				$rotate = 270;
-				$flip = false;
 				break;
 			case 7: // Not tested
 				$rotate = 270;
-				$flip = true;
 				break;
 			case 8:
 				$rotate = 90;
-				$flip = false;
 				break;
 		}
 		if($rotate) {
-			$res = imagerotate($this->resource, $rotate, -1);
+			$res = imagerotate($this->resource, $rotate, 0);
 			if($res) {
 				if(imagealphablending($res, true)) {
 					if(imagesavealpha($res, true)) {
@@ -367,6 +351,7 @@ class OC_Image {
 				return false;
 			}
 		}
+		return false;
 	}
 
 	/**
@@ -382,9 +367,9 @@ class OC_Image {
 			} elseif(in_array(get_resource_type($imageRef), array('file', 'stream'))) {
 				return $this->loadFromFileHandle($imageRef);
 			}
-		} elseif($this->loadFromFile($imageRef) !== false) {
-			return $this->resource;
 		} elseif($this->loadFromBase64($imageRef) !== false) {
+			return $this->resource;
+		} elseif($this->loadFromFile($imageRef) !== false) {
 			return $this->resource;
 		} elseif($this->loadFromData($imageRef) !== false) {
 			return $this->resource;
@@ -416,7 +401,6 @@ class OC_Image {
 	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if(!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
-			// Debug output disabled because this method is tried before loadFromBase64?
 			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: ' . (string) urlencode($imagePath), OC_Log::DEBUG);
 			return false;
 		}
@@ -599,9 +583,9 @@ class OC_Image {
 			$meta['imagesize'] = $meta['filesize'] - $meta['offset'];
 			// in rare cases filesize is equal to offset so we need to read physical size
 			if ($meta['imagesize'] < 1) {
-				$meta['imagesize'] = @filesize($filename) - $meta['offset'];
+				$meta['imagesize'] = @filesize($fileName) - $meta['offset'];
 				if ($meta['imagesize'] < 1) {
-					trigger_error('imagecreatefrombmp: Can not obtain filesize of ' . $filename . '!', E_USER_WARNING);
+					trigger_error('imagecreatefrombmp: Can not obtain filesize of ' . $fileName . '!', E_USER_WARNING);
 					return false;
 				}
 			}
@@ -947,7 +931,7 @@ if ( ! function_exists( 'imagebmp') ) {
 						$index = imagecolorat($im, $i, $j);
 						if ($index !== $lastIndex || $sameNum > 255) {
 							if ($sameNum != 0) {
-								$bmpData .= chr($same_num) . chr($lastIndex);
+								$bmpData .= chr($sameNum) . chr($lastIndex);
 							}
 							$lastIndex = $index;
 							$sameNum = 1;

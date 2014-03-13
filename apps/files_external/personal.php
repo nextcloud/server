@@ -22,9 +22,8 @@
 
 OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addStyle('files_external', 'settings');
-$backends = OC_Mount_Config::getBackends();
-// Remove local storage
-unset($backends['\OC\Files\Storage\Local']);
+$backends = OC_Mount_Config::getPersonalBackends();
+
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', false);
 $tmpl->assign('mounts', OC_Mount_Config::getPersonalMountPoints());

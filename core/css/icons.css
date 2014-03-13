@@ -1,4 +1,4 @@
-.icon {
+[class^="icon-"], [class*=" icon-"] {
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -24,7 +24,7 @@
 
 .icon-noise {
 	background-image: url('../img/noise.png');
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 }
 
 
@@ -66,7 +66,8 @@
 .icon-delete {
 	background-image: url('../img/actions/delete.svg');
 }
-.icon-delete-hover {
+.icon-delete:hover,
+.icon-delete:focus {
 	background-image: url('../img/actions/delete-hover.svg');
 }
 
@@ -155,11 +156,15 @@
 	background-image: url('../img/actions/sound-off.svg');
 }
 
-.icon-star {
+.icon-star,
+.icon-starred:hover,
+.icon-starred:focus {
 	background-image: url('../img/actions/star.svg');
 }
 
-.icon-starred {
+.icon-starred,
+.icon-star:hover,
+.icon-star:focus {
 	background-image: url('../img/actions/starred.svg');
 }
 

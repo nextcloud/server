@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Images" => "תמונות",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "שרת האינטרנט שלך אינו מוגדר לצורכי סנכרון קבצים עדיין כיוון שמנשק ה־WebDAV כנראה אינו תקין.",
 "Please double check the <a href='%s'>installation guides</a>." => "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>.",
+"%s shared »%s« with you" => "%s שיתף/שיתפה איתך את »%s«",
 "Could not find category \"%s\"" => "לא ניתן למצוא את הקטגוריה „%s“",
 "seconds ago" => "שניות",
 "_%n minute ago_::_%n minutes ago_" => array("","לפני %n דקות"),

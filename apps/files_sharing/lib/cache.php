@@ -137,9 +137,12 @@ class Shared_Cache extends Cache {
 		} else {
 			$cache = $this->getSourceCache($folder);
 			if ($cache) {
+				$parent = $this->storage->getFile($folder);
 				$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
 				foreach ($sourceFolderContent as $key => $c) {
 					$sourceFolderContent[$key]['usersPath'] = 'files/Shared/' . $folder . '/' . $c['name'];
+					$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
+					$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
 				}
 
 				return $sourceFolderContent;

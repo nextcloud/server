@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2013
+# plazmism <gomidori@live.jp>, 2013-2014
+# kuromabo <md81bird@hitaki.net>, 2014
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 03:50+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 13:11+0000\n"
+"Last-Translator: plazmism <gomidori@live.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,12 +23,12 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr "リカバリ用のキーは正常に有効化されました"
+msgstr "リカバリ用のキーを正常に有効にしました"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr "リカバリ用のキーを有効にできませんでした。リカバリ用のキーのパスワードを確認して下さい！"
+msgstr "リカバリ用のキーを有効にできませんでした。リカバリ用のキーのパスワードを確認してください！"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
@@ -36,7 +37,7 @@ msgstr "リカバリ用のキーを正常に無効化しました"
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認して下さい！"
+msgstr "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認してください！"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
@@ -61,7 +62,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr "暗号化アプリが初期化されていません。暗号化アプリが接続中に再度有効かされた可能性があります。暗号化アプリを初期化する為に、１回ログアウトしてログインしなおしてください。"
+msgstr "セッション中に暗号化アプリを再度有効にされたため、暗号化アプリが初期化されていません。暗号化アプリを初期化するため、ログアウトしてログインしなおしてください。"
 
 #: files/error.php:16
 #, php-format
@@ -83,28 +84,28 @@ msgid ""
 "administrator"
 msgstr "不明なエラーです。システム設定を確認するか、管理者に問い合わせてください。"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "必要要件が満たされていません。"
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。"
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "以下のユーザーは、暗号化設定がされていません："
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
-msgstr "暗号化の初期化作業を開始しました... この処理にはしばらく時間がかかります。今しばらくお待ちください。"
+msgstr "暗号化の初期化作業を開始しました... この処理にはしばらく時間がかかります。お待ちください。"
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "保存中..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "初期暗号化実行中... 後でもう一度お試しください。"
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
@@ -121,15 +122,15 @@ msgstr "暗号化"
 #: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr "復旧キーを有効化 (万一パスワードを亡くした場合もユーザーのファイルを回復できる):"
+msgstr "リカバリキーを有効にする (パスワードを忘れた場合にユーザーのファイルを回復できます):"
 
 #: templates/settings-admin.php:11
 msgid "Recovery key password"
-msgstr "復旧キーのパスワード"
+msgstr "リカバリキーのパスワード"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr "復旧キーのパスワードをもう一度入力"
+msgstr "リカバリキーのパスワードをもう一度入力"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
@@ -141,19 +142,19 @@ msgstr "無効"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr "復旧キーのパスワードを変更:"
+msgstr "リカバリキーのパスワードを変更:"
 
 #: templates/settings-admin.php:40
 msgid "Old Recovery key password"
-msgstr "古い復旧キーのパスワード"
+msgstr "古いリカバリキーのパスワード"
 
 #: templates/settings-admin.php:47
 msgid "New Recovery key password"
-msgstr "新しい復旧キーのパスワード"
+msgstr "新しいリカバリキーのパスワード"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr "新しい復旧キーのパスワードをもう一度入力"
+msgstr "新しいリカバリキーのパスワードをもう一度入力"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"
@@ -187,7 +188,7 @@ msgstr "秘密鍵のパスワードを更新"
 
 #: templates/settings-personal.php:42
 msgid "Enable password recovery:"
-msgstr "パスワード復旧を有効化:"
+msgstr "パスワードリカバリを有効に:"
 
 #: templates/settings-personal.php:44
 msgid ""
@@ -197,8 +198,8 @@ msgstr "このオプションを有効にすると、パスワードを紛失し
 
 #: templates/settings-personal.php:60
 msgid "File recovery settings updated"
-msgstr "ファイル復旧設定が更新されました"
+msgstr "ファイルリカバリ設定を更新しました"
 
 #: templates/settings-personal.php:61
 msgid "Could not update file recovery"
-msgstr "ファイル復旧を更新できませんでした"
+msgstr "ファイルリカバリを更新できませんでした"

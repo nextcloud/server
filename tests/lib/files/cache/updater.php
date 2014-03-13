@@ -91,10 +91,14 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		Filesystem::file_put_contents('foo.txt', 'asd');
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
-		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $fooCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($fooCachedData['etag'], $cachedData['etag']);
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 3, $cachedData['size']);
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$rootCachedData = $cachedData;
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
@@ -105,12 +109,15 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 2 * 3, $cachedData['size']);
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $mtime);
 	}
 
 	public function testWriteWithMountPoints() {
 		$storage2 = new \OC\Files\Storage\Temporary(array());
+		$storage2->getScanner()->scan(''); //initialize etags
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, array(), '/' . self::$user . '/files/folder/substorage');
 		$folderCachedData = $this->cache->get('folder');
@@ -122,11 +129,15 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$mtime = $cachedData['mtime'];
 
 		$cachedData = $cache2->get('');
-		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $substorageCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($substorageCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
-		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $folderCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($folderCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 
@@ -141,19 +152,25 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize, $cachedData['size']);
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 		$rootCachedData = $cachedData;
 
 		Filesystem::mkdir('bar_folder');
 		$this->assertTrue($this->cache->inCache('bar_folder'));
 		$cachedData = $this->cache->get('');
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$rootCachedData = $cachedData;
 		Filesystem::rmdir('bar_folder');
 		$this->assertFalse($this->cache->inCache('bar_folder'));
 		$cachedData = $this->cache->get('');
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 	}
 
@@ -169,11 +186,15 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($cache2->inCache('foo.txt'));
 
 		$cachedData = $cache2->get('');
-		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $substorageCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($substorageCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($substorageCachedData['mtime'], $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
-		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $folderCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($folderCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($folderCachedData['mtime'], $cachedData['mtime']);
 	}
 
@@ -194,7 +215,9 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 	}
 
 	public function testRenameExtension() {
@@ -222,12 +245,16 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$mtime = $cachedData['mtime'];
 
 		$cachedData = $cache2->get('');
-		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $substorageCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($substorageCachedData['etag'], $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
 //		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
-		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $folderCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($folderCachedData['etag'], $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
 //		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
@@ -237,11 +264,15 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$fooCachedData = $this->cache->get('foo.txt');
 		Filesystem::touch('foo.txt');
 		$cachedData = $this->cache->get('foo.txt');
-		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $fooCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($fooCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($fooCachedData['mtime'], $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('');
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 		$rootCachedData = $cachedData;
 
@@ -250,14 +281,20 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$folderCachedData = $this->cache->get('folder');
 		Filesystem::touch('folder/bar.txt', $time);
 		$cachedData = $this->cache->get('folder/bar.txt');
-		$this->assertNotEquals($barCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $barCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($barCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
-		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $folderCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($folderCachedData['etag'], $cachedData['etag']);
 
 		$cachedData = $this->cache->get('');
-		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $rootCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($rootCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 	}
 
@@ -274,14 +311,20 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$time = 1371006070;
 		Filesystem::touch('folder/substorage/foo.txt', $time);
 		$cachedData = $cache2->get('foo.txt');
-		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $fooCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($fooCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 
 		$cachedData = $cache2->get('');
-		$this->assertNotEquals($substorageCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $substorageCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($substorageCachedData['etag'], $cachedData['etag']);
 
 		$cachedData = $this->cache->get('folder');
-		$this->assertNotEquals($folderCachedData['etag'], $cachedData['etag']);
+		$this->assertInternalType('string', $folderCachedData['etag']);
+		$this->assertInternalType('string', $cachedData['etag']);
+		$this->assertNotSame($folderCachedData['etag'], $cachedData['etag']);
 		$this->assertEquals($time, $cachedData['mtime']);
 	}
 

@@ -78,7 +78,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetEtag() {
 		$this->childResponse->setEtag('hi');
-		$this->assertEquals('hi', $this->childResponse->getEtag());
+		$this->assertSame('hi', $this->childResponse->getEtag());
 	}
 
 

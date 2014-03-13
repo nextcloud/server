@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Χρήστες",
 "Delete" => "Διαγραφή",
 "Enable User External Storage" => "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη",
-"Allow users to mount their own external storage" => "Να επιτρέπεται στους χρήστες να προσαρτούν δικό τους εξωτερικό αποθηκευτικό χώρο",
 "SSL root certificates" => "Πιστοποιητικά SSL root",
 "Import Root Certificate" => "Εισαγωγή Πιστοποιητικού Root"
 );

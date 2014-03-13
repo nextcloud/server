@@ -67,7 +67,7 @@
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -84,7 +84,7 @@
 	<?php endif; ?>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
-	<fieldset id='databaseField'>
+	<fieldset id='databaseBackend'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
@@ -95,13 +95,15 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
-			<?php p($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
+			<?php print_unescaped($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
 		<label class="<?php p($type) ?>" for="<?php p($type) ?>"><?php p($label) ?></label>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		</div>
+	</fieldset>
 
 		<?php if($hasOtherDB): ?>
+		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
@@ -141,8 +143,8 @@
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 		</div>
+		</fieldset>
 		<?php endif; ?>
-	</fieldset>
 	<?php endif; ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>

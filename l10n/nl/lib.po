@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2013
+# André Koot <meneer@tken.net>, 2013-2014
 # kwillems <kwillems@zonnet.nl>, 2013
 # Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 18:21+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,38 +20,38 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "App \"%s\" kan niet worden geïnstalleerd omdat die niet compatible is met deze versie van ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "De app naam is niet gespecificeerd."
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Help"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Persoonlijk"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Instellingen"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Gebruikers"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Beheerder"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Upgrade \"%s\" mislukt."
@@ -64,14 +64,9 @@ msgstr "Onbekend bestandsformaat"
 msgid "Invalid image"
 msgstr "Ongeldige afbeelding"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "Webdiensten in eigen beheer"
-
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "Kon \"%s\" niet openen"
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
@@ -95,73 +90,77 @@ msgid ""
 "administrator."
 msgstr "Download de bestanden afzonderlijk in kleinere porties of vraag het uw beheerder,"
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Geen bron opgegeven bij installatie van de app"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Geen href opgegeven bij installeren van de app vanaf http"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Geen pad opgegeven bij installeren van de app vanaf een lokaal bestand"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Archiefbestanden van type %s niet ondersteund"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Kon archiefbestand bij installatie van de app niet openen"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "De app heeft geen info.xml bestand"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "De app kan niet worden geïnstalleerd wegens onjuiste code in de app"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "De app kan niet worden geïnstalleerd omdat die niet compatible is met deze versie van ownCloud"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "De app kan niet worden geïnstallerd omdat het de <shipped>true</shipped> tag bevat die niet is toegestaan voor niet gepubliceerde apps"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "De app kan niet worden geïnstalleerd omdat de versie in info.xml/version niet dezelfde is als de versie zoals die in de app store staat vermeld"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "App directory bestaat al"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Kan de app map niet aanmaken, Herstel de permissies. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "De applicatie is niet actief"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:63 private/json.php:88
 msgid "Authentication error"
 msgstr "Authenticatie fout"
 
-#: private/json.php:51
+#: private/json.php:52
 msgid "Token expired. Please reload page."
 msgstr "Token verlopen.  Herlaad de pagina."
+
+#: private/json.php:75
+msgid "Unknown user"
+msgstr "Onbekende gebruiker"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -202,8 +201,8 @@ msgid "You need to enter either an existing account or the administrator."
 msgstr "Geef of een bestaand account op of het beheerdersaccount."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "MySQL gebruikersnaam en/of wachtwoord ongeldig"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr "MySQL/MariaDB gebruikersnaam en/of wachtwoord ongeldig"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -230,21 +229,21 @@ msgstr "Onjuiste commande was: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "MySQL gebruiker '%s'@'localhost' bestaat al."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr "MySQL/MariaDB gebruiker '%s'@'localhost' bestaat al."
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Verwijder deze gebruiker uit MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr "Verwijder deze gebruiker uit MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "MySQL gebruiker '%s'@'%%' bestaat al"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr "MySQL/MariaDB gebruiker '%s'@'%%' bestaat al"
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Verwijder deze gebruiker uit MySQL."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr "Verwijder deze gebruiker uit MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -271,66 +270,72 @@ msgstr "Stel de gebruikersnaam van de beheerder in."
 msgid "Set an admin password."
 msgstr "Stel een beheerderswachtwoord in."
 
-#: private/setup.php:195
+#: private/setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omdat de WebDAV interface verbroken lijkt."
 
-#: private/setup.php:196
+#: private/setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:73
+#: private/share/mailnotifications.php:119
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s deelde »%s« met jou"
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Kon categorie \"%s\" niet vinden"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:133
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:134
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuut geleden"
 msgstr[1] "%n minuten geleden"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:135
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n uur geleden"
 msgstr[1] "%n uur geleden"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:136
 msgid "today"
 msgstr "vandaag"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:137
 msgid "yesterday"
 msgstr "gisteren"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:139
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag terug"
 msgstr[1] "%n dagen geleden"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:141
 msgid "last month"
 msgstr "vorige maand"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:142
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n maand geleden"
 msgstr[1] "%n maanden geleden"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:144
 msgid "last year"
 msgstr "vorig jaar"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:145
 msgid "years ago"
 msgstr "jaar geleden"

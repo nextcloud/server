@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,38 +19,38 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: private/app.php:243
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z touto verziou ownCloudu."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Nešpecifikované meno aplikácie"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Pomoc"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Osobné"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Používatelia"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Administrátor"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Zlyhala aktualizácia \"%s\"."
@@ -63,14 +63,9 @@ msgstr "Neznámy typ súboru"
 msgid "Invalid image"
 msgstr "Chybný obrázok"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webové služby pod Vašou kontrolou"
-
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "nemožno otvoriť \"%s\""
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
@@ -94,73 +89,77 @@ msgid ""
 "administrator."
 msgstr "Prosím, stiahnite si súbory samostatne v menších blokoch alebo sa obráťte na správcu."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Nešpecifikovaný zdroj pri inštalácii aplikácie"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Nešpecifikovaný atribút \"href\" pri inštalácii aplikácie pomocou protokolu \"http\""
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Nešpecifikovaná cesta pri inštalácii aplikácie z lokálneho súboru"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Tento typ archívu %s nie je podporovaný"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Zlyhanie pri otváraní archívu počas inštalácie aplikácie"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Aplikácia neposkytuje súbor info.xml"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikácia nemôže byť nainštalovaná pre nepovolený kód v aplikácii"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikácia nemôže byť nainštalovaná pre nekompatibilitu z touto verziou ownCloudu"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikácia nemôže byť nainštalovaná pretože obsahuje <shipped>pravý</shipped> štítok, ktorý nie je povolený pre zaslané \"shipped\" aplikácie"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Aplikácia nemôže byť nainštalovaná pretože verzia v info.xml/version nezodpovedá verzii špecifikovanej v obchode s aplikáciami"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Aplikačný priečinok už existuje"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nemožno vytvoriť aplikačný priečinok. Prosím upravte povolenia. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Aplikácia nie je zapnutá"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:63 private/json.php:88
 msgid "Authentication error"
 msgstr "Chyba autentifikácie"
 
-#: private/json.php:51
+#: private/json.php:52
 msgid "Token expired. Please reload page."
 msgstr "Token vypršal. Obnovte, prosím, stránku."
+
+#: private/json.php:75
+msgid "Unknown user"
+msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -201,8 +200,8 @@ msgid "You need to enter either an existing account or the administrator."
 msgstr "Musíte zadať jestvujúci účet alebo administrátora."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "Používateľské meno a/alebo heslo pre MySQL databázu je neplatné"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -229,21 +228,21 @@ msgstr "Podozrivý príkaz bol: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Používateľ '%s'@'localhost' už v MySQL existuje."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Zahodiť používateľa z MySQL."
+msgid "Drop this user from MySQL/MariaDB"
+msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Používateľ '%s'@'%%' už v MySQL existuje"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Zahodiť používateľa z MySQL."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -270,70 +269,76 @@ msgstr "Zadajte používateľské meno administrátora."
 msgid "Set an admin password."
 msgstr "Zadajte heslo administrátora."
 
-#: private/setup.php:195
+#: private/setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené."
 
-#: private/setup.php:196
+#: private/setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:73
+#: private/share/mailnotifications.php:119
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s s vami zdieľa »%s«"
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Nemožno nájsť danú kategóriu \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:133
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:134
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minútou"
 msgstr[1] "pred %n minútami"
 msgstr[2] "pred %n minútami"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:135
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n hodinou"
 msgstr[1] "pred %n hodinami"
 msgstr[2] "pred %n hodinami"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:136
 msgid "today"
 msgstr "dnes"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:137
 msgid "yesterday"
 msgstr "včera"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:139
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dňom"
 msgstr[1] "pred %n dňami"
 msgstr[2] "pred %n dňami"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:141
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:142
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesiacom"
 msgstr[1] "pred %n mesiacmi"
 msgstr[2] "pred %n mesiacmi"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:144
 msgid "last year"
 msgstr "minulý rok"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:145
 msgid "years ago"
 msgstr "pred rokmi"

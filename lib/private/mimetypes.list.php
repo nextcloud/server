@@ -31,6 +31,7 @@ return array(
 	'bash' => 'text/x-shellscript',
 	'blend' => 'application/x-blender',
 	'bin' => 'application/x-bin',
+	'bmp' => 'image/bmp',
 	'cb7' => 'application/x-cbr',
 	'cba' => 'application/x-cbr',
 	'cbr' => 'application/x-cbr',

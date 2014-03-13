@@ -11,6 +11,31 @@ $levelLabels = array(
 	$l->t( 'Errors and fatal issues' ),
 	$l->t( 'Fatal issues only' ),
 );
+
+$mail_smtpauthtype = array(
+	''	=> $l->t('None'),
+	'LOGIN'	=> $l->t('Login'),
+	'PLAIN'	=> $l->t('Plain'),
+	'NTLM'	=> $l->t('NT LAN Manager'),
+);
+
+$mail_smtpsecure = array(
+	''		=> $l->t('None'),
+	'ssl'	=> $l->t('SSL'),
+	'tls'	=> $l->t('TLS'),
+);
+
+$mail_smtpmode = array(
+	'php',
+	'smtp',
+);
+if ($_['sendmail_is_available']) {
+	$mail_smtpmode[] = 'sendmail';
+}
+if ($_['mail_smtpmode'] == 'qmail') {
+	$mail_smtpmode[] = 'qmail';
+}
+
 ?>
 
 <?php
@@ -248,6 +273,88 @@ if (!$_['internetconnectionworking']) {
 			</td>
 		</tr>
 	</table>
+</fieldset>
+
+<fieldset id="mail_settings" class="personalblock">
+	<h2><?php p($l->t('Email Server'));?> <span id="mail_settings_msg" class="msg"></span></h2>
+
+	<p><?php p($l->t('This is used for sending out notifications.')); ?></p>
+
+	<p>
+		<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label> 
+		<select name='mail_smtpmode' id='mail_smtpmode'>
+			<?php foreach ($mail_smtpmode as $smtpmode):
+				$selected = '';
+				if ($smtpmode == $_['mail_smtpmode']):
+					$selected = 'selected="selected"';
+				endif; ?>
+				<option value='<?php p($smtpmode)?>' <?php p($selected) ?>><?php p($smtpmode) ?></option>
+			<?php endforeach;?>
+		</select>
+
+		<label id="mail_smtpsecure_label" for="mail_smtpsecure"
+			   <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+			<?php p($l->t( 'Encryption' )); ?>
+		</label>
+		<select name="mail_smtpsecure" id="mail_smtpsecure"
+				<?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+			<?php foreach ($mail_smtpsecure as $secure => $name):
+				$selected = '';
+				if ($secure == $_['mail_smtpsecure']):
+					$selected = 'selected="selected"';
+				endif; ?>
+				<option value='<?php p($secure)?>' <?php p($selected) ?>><?php p($name) ?></option>
+			<?php endforeach;?>
+		</select>
+	</p>
+
+	<p>
+		<label for="mail_from_address"><?php p($l->t( 'From address' )); ?></label>
+		<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p('mail')?>"
+			   value='<?php p($_['mail_from_address']) ?>' />
+		@
+		<input type="text" name='mail_domain' id="mail_domain" placeholder="<?php p('example.com')?>"
+			   value='<?php p($_['mail_domain']) ?>' />
+	</p>
+
+	<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
+		<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
+			<?php foreach ($mail_smtpauthtype as $authtype => $name):
+				$selected = '';
+				if ($authtype == $_['mail_smtpauthtype']):
+					$selected = 'selected="selected"';
+				endif; ?>
+				<option value='<?php p($authtype)?>' <?php p($selected) ?>><?php p($name) ?></option>
+			<?php endforeach;?>
+		</select>
+
+		<input type="checkbox" name="mail_smtpauth" id="mail_smtpauth" value="1"
+			   <?php if ($_['mail_smtpauth']) print_unescaped('checked="checked"'); ?> />
+		<label for="mail_smtpauth"><?php p($l->t( 'Authentication required' )); ?></label>
+	</p>
+
+	<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<label for="mail_smtphost"><?php p($l->t( 'Server address' )); ?></label>
+		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="<?php p('smtp.example.com')?>"
+			   value='<?php p($_['mail_smtphost']) ?>' />
+		:
+		<input type="text" name='mail_smtpport' id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
+			   value='<?php p($_['mail_smtpport']) ?>' />
+	</p>
+
+	<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<label for="mail_smtpname"><?php p($l->t( 'Credentials' )); ?></label>
+		<input type="text" name='mail_smtpname' id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
+			   value='<?php p($_['mail_smtpname']) ?>' />
+		<input type="password" name='mail_smtppassword' id="mail_smtppassword"
+			   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
+	</p>
+
+	<br />
+	<em><?php p($l->t( 'Test email settings' )); ?></em>
+	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t( 'Send email' )); ?>"/>
+	<span id="sendtestmail_msg" class="msg"></span>
 </fieldset>
 
 <fieldset class="personalblock">

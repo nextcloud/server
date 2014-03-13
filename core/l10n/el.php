@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
 "Couldn't send mail to following users: %s " => "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
 "Turned on maintenance mode" => "Η κατάσταση συντήρησης ενεργοποιήθηκε",
 "Turned off maintenance mode" => "Η κατάσταση συντήρησης απενεργοποιήθηκε",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Νοέμβριος",
 "December" => "Δεκέμβριος",
 "Settings" => "Ρυθμίσεις",
+"Saving..." => "Γίνεται αποθήκευση...",
 "seconds ago" => "δευτερόλεπτα πριν",
 "_%n minute ago_::_%n minutes ago_" => array("%n λεπτό πριν","%n λεπτά πριν"),
 "_%n hour ago_::_%n hours ago_" => array("%n ώρα πριν","%n ώρες πριν"),
@@ -142,7 +142,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανό προσβάσιμα από το internet γιατί δεν δουλεύει το αρχείο .htaccess.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Για πληροφορίες πως να ρυθμίσετε ορθά τον διακομιστή σας, παρακαλώ δείτε την <a href=\"%s\" target=\"_blank\">τεκμηρίωση</a>.",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
-"Advanced" => "Για προχωρημένους",
 "Data folder" => "Φάκελος δεδομένων",
 "Configure the database" => "Ρύθμιση της βάσης δεδομένων",
 "will be used" => "θα χρησιμοποιηθούν",
@@ -165,12 +164,12 @@ $TRANSLATIONS = array(
 "remember" => "απομνημόνευση",
 "Log in" => "Είσοδος",
 "Alternative Logins" => "Εναλλακτικές Συνδέσεις",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Γειά χαρά,<br><br>απλά σας ενημερώνω πως ο %s μοιράστηκε το »%s« με εσάς.<br><a href=\"%s\">Δείτε το!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Αυτή η εγκατάσταση ownCloud είναι τώρα σε κατάσταση ενός χρήστη.",
 "This means only administrators can use the instance." => "Αυτό σημαίνει ότι μόνο διαχειριστές μπορούν να χρησιμοποιήσουν την εγκατάσταση.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
 "Thank you for your patience." => "Σας ευχαριστούμε για την υπομονή σας.",
 "Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο.",
+"This ownCloud instance is currently being updated, which may take a while." => "Αυτή η εγκατάσταση ownCloud ενημερώνεται, το οποίο μπορεί να πάρει κάποιο χρόνο.",
 "Please reload this page after a short time to continue using ownCloud." => "Παρακαλώ ανανεώστε αυτή τη σελίδα μετά από ένα σύντομο χρονικό διάστημα ώστε να συνεχίσετε να χρησιμοποιείτε το ownCloud."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

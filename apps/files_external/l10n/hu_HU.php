@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Felhasználók",
 "Delete" => "Törlés",
 "Enable User External Storage" => "Külső tárolók engedélyezése a felhasználók részére",
-"Allow users to mount their own external storage" => "Lehetővé teszi, hogy a felhasználók külső tárolási szolgáltatásokat csatoljanak be a saját területükre",
 "SSL root certificates" => "SSL tanúsítványok",
 "Import Root Certificate" => "SSL tanúsítványok importálása"
 );

@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
-# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
 # fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,7 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "Jūsų privatus raktas yra netinkamas! Panašu, kad Jūsų slaptažodis buvo pakeistas už %s (pvz. Jūsų organizacijos kataloge). Galite atnaujinti savo privataus rakto slaptažodį savo asmeniniuose nustatymuose, kad atkurti prieigą prie savo šifruotų failų."
 
 #: files/error.php:19
 msgid ""
@@ -83,28 +83,28 @@ msgid ""
 "administrator"
 msgstr "Neatpažinta klaida, patikrinkite sistemos nustatymus arba kreipkitės į savo sistemos aministratorių"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Trūkstami laukai."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Prašome įsitikinti, kad PHP 5.3.3 ar naujesnė yra įdiegta ir kad OpenSSL kartu su PHP plėtiniu yra šjungti ir teisingai sukonfigūruoti. Kol kas šifravimo programa bus išjungta."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Sekantys naudotojai nenustatyti šifravimui:"
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
-msgstr ""
+msgstr "Pradėtas pirminis šifravimas... Tai gali užtrukti. Prašome palaukti."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Saugoma..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

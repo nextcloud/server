@@ -563,6 +563,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		$scanner->scanFile('test', \OC\Files\Cache\Scanner::REUSE_ETAG);
 
 		$info2 = $view->getFileInfo('/test/test');
-		$this->assertEquals($info['etag'], $info2['etag']);
+		$this->assertSame($info['etag'], $info2['etag']);
 	}
 }

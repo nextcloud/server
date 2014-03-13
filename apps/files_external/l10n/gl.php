@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Usuarios",
 "Delete" => "Eliminar",
 "Enable User External Storage" => "Activar o almacenamento externo do usuario",
-"Allow users to mount their own external storage" => "Permitir aos usuarios montar os seus propios almacenamentos externos",
 "SSL root certificates" => "Certificados SSL root",
 "Import Root Certificate" => "Importar o certificado root"
 );

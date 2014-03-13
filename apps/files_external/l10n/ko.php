@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "사용자",
 "Delete" => "삭제",
 "Enable User External Storage" => "사용자 외부 저장소 사용",
-"Allow users to mount their own external storage" => "사용자별 외부 저장소 마운트 허용",
 "SSL root certificates" => "SSL 루트 인증서",
 "Import Root Certificate" => "루트 인증서 가져오기"
 );

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-02 20:00+0000\n"
-"Last-Translator: pstast <petr@stastny.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,18 +86,18 @@ msgid ""
 "administrator"
 msgstr "Neznámá chyba, zkontrolujte vaše systémová nastavení nebo kontaktujte vašeho správce"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Nesplněné závislosti."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Ujistěte se prosím, že máte nainstalované PHP 5.3.3 nebo novější a že máte povolené a správně nakonfigurované OpenSSL včetně jeho rozšíření pro PHP. Prozatím byla aplikace pro šifrování vypnuta."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Následující uživatelé nemají nastavené šifrování:"
 
@@ -105,9 +105,9 @@ msgstr "Následující uživatelé nemají nastavené šifrování:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Počáteční šifrování zahájeno... Toto může chvíli trvat. Počkejte prosím."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Ukládám..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Пожалуйста, убедитесь, что версия PHP 5.3.3 или новее, а также, что OpenSSL и соответствующее расширение PHP включены и правильно настроены. На данный момент приложение шифрования отключено.",
 "Following users are not set up for encryption:" => "Для следующих пользователей шифрование не настроено:",
 "Initial encryption started... This can take some time. Please wait." => "Начато начальное шифрование... Это может занять какое-то время. Пожалуйста, подождите.",
-"Saving..." => "Сохранение...",
 "Go directly to your " => "Перейти прямо в",
 "personal settings" => "персональные настройки",
 "Encryption" => "Шифрование",

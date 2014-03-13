@@ -3,23 +3,66 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2013
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
+# plazmism <gomidori@live.jp>, 2013-2014
 # iLikeIT <dj_dark_junglist@yahoo.com>, 2013
+# kuromabo <md81bird@hitaki.net>, 2014
 # tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-11 13:31-0500\n"
-"PO-Revision-Date: 2013-12-11 02:00+0000\n"
-"Last-Translator: iLikeIT <dj_dark_junglist@yahoo.com>\n"
+"POT-Creation-Date: 2014-03-13 01:55-0400\n"
+"PO-Revision-Date: 2014-03-12 07:20+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: admin/controller.php:66
+#, php-format
+msgid "Invalid value supplied for %s"
+msgstr "%s に提供された無効な値"
+
+#: admin/controller.php:73
+msgid "Saved"
+msgstr "保存されました"
+
+#: admin/controller.php:90
+msgid "test email settings"
+msgstr "eメール設定をテスト"
+
+#: admin/controller.php:91
+msgid "If you received this email, the settings seem to be correct."
+msgstr "このメールを受け取ったら、設定は正しいはずです。"
+
+#: admin/controller.php:94
+msgid ""
+"A problem occurred while sending the e-mail. Please revisit your settings."
+msgstr "メールの送信中に問題が発生しました。設定を再考してください。"
+
+#: admin/controller.php:99
+msgid "Email sent"
+msgstr "メールを送信しました"
+
+#: admin/controller.php:101
+msgid "You need to set your user email before being able to send test emails."
+msgstr "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。"
+
+#: admin/controller.php:116 templates/admin.php:284
+msgid "Send mode"
+msgstr "送信モード"
+
+#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+msgid "Encryption"
+msgstr "暗号化"
+
+#: admin/controller.php:120 templates/admin.php:321
+msgid "Authentication method"
+msgstr "認証方法"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -32,15 +75,15 @@ msgstr "認証エラー"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr "姓名が変更されました"
+msgstr "フルネームを変更しました。"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr "姓名を変更できません"
+msgstr "フルネームを変更できません"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "グループは既に存在しています"
+msgstr "グループはすでに存在します"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
@@ -60,7 +103,7 @@ msgstr "グループを削除できません"
 
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr "ユーザを削除できません"
+msgstr "ユーザーを削除できません"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -77,16 +120,16 @@ msgstr "管理者は自身を管理者グループから削除できません。
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "ユーザをグループ %s に追加できません"
+msgstr "ユーザーをグループ %s に追加できません"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "ユーザをグループ %s から削除できません"
+msgstr "ユーザーをグループ %s から削除できません"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "アプリを更新出来ませんでした。"
+msgstr "アプリをアップデートできませんでした。"
 
 #: changepassword/controller.php:20
 msgid "Wrong password"
@@ -94,84 +137,112 @@ msgstr "無効なパスワード"
 
 #: changepassword/controller.php:42
 msgid "No user supplied"
-msgstr "ユーザが指定されていません"
+msgstr "ユーザーが指定されていません"
 
 #: changepassword/controller.php:74
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr "復元用の管理者パスワードを入力してください。そうでない場合は、全ユーザのデータが失われます。"
+msgstr "リカバリ用の管理者パスワードを入力してください。そうでない場合は、全ユーザーのデータが失われます。"
 
 #: changepassword/controller.php:79
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr "無効な復元用の管理者パスワード。パスワードを確認して再度実行してください。"
+msgstr "リカバリ用の管理者パスワードが間違っています。パスワードを確認して再度実行してください。"
 
 #: changepassword/controller.php:87
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr "バックエンドはパスワード変更をサポートしていませんが、ユーザの暗号化キーは正常に更新されました。"
+msgstr "バックエンドはパスワード変更をサポートしていませんが、ユーザーの暗号化キーは正常に更新されました。"
 
 #: changepassword/controller.php:92 changepassword/controller.php:103
 msgid "Unable to change password"
 msgstr "パスワードを変更できません"
 
-#: js/apps.js:43
-msgid "Update to {appversion}"
-msgstr "{appversion} に更新"
+#: js/admin.js:73
+msgid "Sending..."
+msgstr "送信中…"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:110
+#: js/apps.js:45 templates/help.php:4
+msgid "User Documentation"
+msgstr "ユーザードキュメント"
+
+#: js/apps.js:50
+msgid "Admin Documentation"
+msgstr "管理者ドキュメント"
+
+#: js/apps.js:67
+msgid "Update to {appversion}"
+msgstr "{appversion} にアップデート"
+
+#: js/apps.js:73 js/apps.js:106 js/apps.js:134
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
+#: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
 msgid "Enable"
-msgstr "有効化"
+msgstr "有効にする"
 
-#: js/apps.js:71
+#: js/apps.js:95
 msgid "Please wait...."
 msgstr "しばらくお待ちください。"
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:101
+#: js/apps.js:103 js/apps.js:104 js/apps.js:125
 msgid "Error while disabling app"
 msgstr "アプリ無効化中にエラーが発生"
 
-#: js/apps.js:100 js/apps.js:114 js/apps.js:115
+#: js/apps.js:124 js/apps.js:138 js/apps.js:139
 msgid "Error while enabling app"
-msgstr "アプリ有効化中にエラーが発生"
+msgstr "アプリを有効にする際にエラーが発生"
 
-#: js/apps.js:125
+#: js/apps.js:149
 msgid "Updating...."
 msgstr "更新中...."
 
-#: js/apps.js:128
+#: js/apps.js:152
 msgid "Error while updating app"
 msgstr "アプリの更新中にエラーが発生"
 
-#: js/apps.js:128
+#: js/apps.js:152
 msgid "Error"
 msgstr "エラー"
 
-#: js/apps.js:129 templates/apps.php:43
+#: js/apps.js:153 templates/apps.php:54
 msgid "Update"
-msgstr "更新"
+msgstr "アップデート"
 
-#: js/apps.js:132
+#: js/apps.js:156
 msgid "Updated"
-msgstr "更新済み"
+msgstr "アップデート済み"
 
-#: js/personal.js:220
+#: js/personal.js:244
 msgid "Select a profile picture"
 msgstr "プロファイル画像を選択"
 
-#: js/personal.js:266
+#: js/personal.js:274
+msgid "Very weak password"
+msgstr "非常に弱いパスワード"
+
+#: js/personal.js:275
+msgid "Weak password"
+msgstr "弱いパスワード"
+
+#: js/personal.js:276
+msgid "So-so password"
+msgstr "まずまずのパスワード"
+
+#: js/personal.js:277
+msgid "Good password"
+msgstr "良好なパスワード"
+
+#: js/personal.js:278
+msgid "Strong password"
+msgstr "強いパスワード"
+
+#: js/personal.js:301
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "ファイルを複合中... しばらくお待ちください、この処理には少し時間がかかるかもしれません。"
-
-#: js/personal.js:287
-msgid "Saving..."
-msgstr "保存中..."
 
 #: js/users.js:47
 msgid "deleted"
@@ -183,42 +254,42 @@ msgstr "元に戻す"
 
 #: js/users.js:79
 msgid "Unable to remove user"
-msgstr "ユーザを削除出来ません"
+msgstr "ユーザーを削除できません"
 
-#: js/users.js:95 templates/users.php:26 templates/users.php:90
-#: templates/users.php:118
+#: js/users.js:101 templates/users.php:24 templates/users.php:88
+#: templates/users.php:116
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:100 templates/users.php:92 templates/users.php:130
+#: js/users.js:105 templates/users.php:90 templates/users.php:128
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users.js:123 templates/users.php:170
+#: js/users.js:127 templates/users.php:168
 msgid "Delete"
 msgstr "削除"
 
-#: js/users.js:284
+#: js/users.js:310
 msgid "add group"
 msgstr "グループを追加"
 
-#: js/users.js:454
+#: js/users.js:486
 msgid "A valid username must be provided"
-msgstr "有効なユーザ名を指定する必要があります"
+msgstr "有効なユーザー名を指定する必要があります"
 
-#: js/users.js:455 js/users.js:461 js/users.js:476
+#: js/users.js:487 js/users.js:493 js/users.js:508
 msgid "Error creating user"
-msgstr "ユーザ作成エラー"
+msgstr "ユーザー作成エラー"
 
-#: js/users.js:460
+#: js/users.js:492
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
-#: js/users.js:484
+#: js/users.js:516
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr "警告: ユーザ \"{user}\" のホームディレクトリはすでに存在します"
+msgstr "警告: ユーザー \"{user}\" のホームディレクトリはすでに存在します"
 
-#: personal.php:45 personal.php:46
+#: personal.php:49 personal.php:50
 msgid "__language_name__"
 msgstr "Japanese (日本語)"
 
@@ -228,32 +299,56 @@ msgstr "すべて (致命的な問題、エラー、警告、情報、デバッ�
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr "情報と警告、エラー、致命的な問題"
+msgstr "情報、警告、エラー、致命的な問題"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr "警告とエラー、致命的な問題"
+msgstr "警告、エラー、致命的な問題"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr "エラーと致命的な問題"
+msgstr "エラー、致命的な問題"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
 msgstr "致命的な問題のみ"
 
-#: templates/admin.php:22 templates/admin.php:36
+#: templates/admin.php:16 templates/admin.php:23
+msgid "None"
+msgstr "なし"
+
+#: templates/admin.php:17
+msgid "Login"
+msgstr "ログイン"
+
+#: templates/admin.php:18
+msgid "Plain"
+msgstr "平文"
+
+#: templates/admin.php:19
+msgid "NT LAN Manager"
+msgstr "NT LAN マネージャー"
+
+#: templates/admin.php:24
+msgid "SSL"
+msgstr "SSL"
+
+#: templates/admin.php:25
+msgid "TLS"
+msgstr "TLS"
+
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "セキュリティ警告"
 
-#: templates/admin.php:25
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr "HTTP 経由で %s にアクセスしています。HTTPS を使用するようにサーバの設定を行うことを強くおすすめします。"
+msgstr "HTTP経由で %s にアクセスしています。HTTPSを使用するようサーバーを設定することを強くおすすめします。"
 
-#: templates/admin.php:39
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -262,68 +357,68 @@ msgid ""
 "root."
 msgstr "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにウェブサーバーを設定するか、ウェブサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。"
 
-#: templates/admin.php:50
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "セットアップ警告"
 
-#: templates/admin.php:53
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
+msgstr "WebDAVインターフェースに問題があると思われるため、WEBサーバーはまだファイルの同期を許可するよう適切に設定されていません。"
 
-#: templates/admin.php:54
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "<a href=\"%s\">installation guides</a>をもう一度チェックするようにお願いいたします。"
 
-#: templates/admin.php:65
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "モジュール 'fileinfo' が見つかりません"
 
-#: templates/admin.php:68
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。"
 
-#: templates/admin.php:79
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
-msgstr "PHPバーションが古くなっております。"
+msgstr "PHPバーションが古くなっています。"
 
-#: templates/admin.php:82
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr "PHPバーションが古くなっております。このプログラムが不正な行為を発生する可能性はある為、PHPバーション5.3.8以降にアップグレードをください。"
+msgstr "PHPバーションが古くなっています。古いバージョンには既知の問題があるため、5.3.8以降のバージョンにアップデートすることを強く推奨します。このインストール状態では正常に動作しない可能性があります。"
 
-#: templates/admin.php:93
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "ロケールが動作していません"
 
-#: templates/admin.php:98
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "システムロケールを UTF-8 をサポートするロケールに設定できません。"
 
-#: templates/admin.php:102
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "これは、ファイル名の特定の文字に問題があることを意味しています。"
 
-#: templates/admin.php:106
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。"
 
-#: templates/admin.php:118
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "インターネット接続が動作していません"
 
-#: templates/admin.php:121
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -332,118 +427,162 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "このサーバーはインターネットに接続していません。この場合、外部ストレージのマウント、更新の通知やサードパーティアプリといったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信と言った機能も利用できないかもしれません。全ての機能を利用したいのであれば、このサーバーからインターネットに接続できるようにすることをお勧めします。"
 
-#: templates/admin.php:135
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:142
+#: templates/admin.php:167
 msgid "Execute one task with each page loaded"
 msgstr "各ページの読み込み時にタスクを実行する"
 
-#: templates/admin.php:150
+#: templates/admin.php:175
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr "HTTPを通して15分間隔で cron.php を実行するように、cron.php は webcron サービスに登録されています。"
+msgstr "cron.phpは、HTTP経由で15分ごとにcron.phpを実行するようwebcronサービスに登録されています"
 
-#: templates/admin.php:158
+#: templates/admin.php:183
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr "15分間隔で cron.php ファイルを実行するためにシステムの cron サービスを利用する"
+msgstr "システムのcronサービスを利用して15分ごとにcron.phpファイルを実行します。"
 
-#: templates/admin.php:163
+#: templates/admin.php:188
 msgid "Sharing"
 msgstr "共有"
 
-#: templates/admin.php:169
+#: templates/admin.php:194
 msgid "Enable Share API"
 msgstr "共有APIを有効にする"
 
-#: templates/admin.php:170
+#: templates/admin.php:195
 msgid "Allow apps to use the Share API"
 msgstr "アプリからの共有APIの利用を許可する"
 
-#: templates/admin.php:177
+#: templates/admin.php:202
 msgid "Allow links"
 msgstr "リンクを許可する"
 
-#: templates/admin.php:178
+#: templates/admin.php:203
 msgid "Allow users to share items to the public with links"
-msgstr "リンクによりアイテムを公開することを許可する"
+msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
 
-#: templates/admin.php:186
+#: templates/admin.php:211
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:187
+#: templates/admin.php:212
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr "公開している共有フォルダへのアップロードを共有しているメンバーにも許可"
+msgstr "公開している共有フォルダーへのアップロードを共有しているメンバーにも許可"
 
-#: templates/admin.php:195
+#: templates/admin.php:220
 msgid "Allow resharing"
 msgstr "再共有を許可する"
 
-#: templates/admin.php:196
+#: templates/admin.php:221
 msgid "Allow users to share items shared with them again"
-msgstr "ユーザが共有しているアイテムの再共有を許可する"
+msgstr "ユーザーが共有しているアイテムの再共有を許可する"
 
-#: templates/admin.php:203
+#: templates/admin.php:228
 msgid "Allow users to share with anyone"
-msgstr "ユーザが誰とでも共有することを許可する"
+msgstr "ユーザーに誰とでも共有することを許可する"
 
-#: templates/admin.php:206
+#: templates/admin.php:231
 msgid "Allow users to only share with users in their groups"
-msgstr "ユーザにグループ内のユーザとのみ共有を許可する"
+msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
 
-#: templates/admin.php:213
+#: templates/admin.php:238
 msgid "Allow mail notification"
 msgstr "メール通知を許可"
 
-#: templates/admin.php:214
+#: templates/admin.php:239
 msgid "Allow user to send mail notification for shared files"
-msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
+msgstr "共有ファイルに関するメール通知の送信をユーザーに許可する"
 
-#: templates/admin.php:221
+#: templates/admin.php:246
 msgid "Security"
 msgstr "セキュリティ"
 
-#: templates/admin.php:234
+#: templates/admin.php:259
 msgid "Enforce HTTPS"
 msgstr "常にHTTPSを使用する"
 
-#: templates/admin.php:236
+#: templates/admin.php:261
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr "クライアントから %sへの接続を常に暗号化する。"
+msgstr "クライアントから %sへの接続を常に暗号化します。"
 
-#: templates/admin.php:242
+#: templates/admin.php:267
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr "強制的なSSL接続を有効／無効にするために、HTTPS経由で %s へ接続してください。"
+msgstr "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s へ接続してください。"
 
-#: templates/admin.php:254
+#: templates/admin.php:279
+msgid "Email Server"
+msgstr "メールサーバー"
+
+#: templates/admin.php:281
+msgid "This is used for sending out notifications."
+msgstr "これは通知の送信に使われます。"
+
+#: templates/admin.php:312
+msgid "From address"
+msgstr "アドレスから"
+
+#: templates/admin.php:334
+msgid "Authentication required"
+msgstr "要求される認証"
+
+#: templates/admin.php:338
+msgid "Server address"
+msgstr "サーバーアドレス"
+
+#: templates/admin.php:342
+msgid "Port"
+msgstr "ポート"
+
+#: templates/admin.php:347
+msgid "Credentials"
+msgstr "資格情報"
+
+#: templates/admin.php:348
+msgid "SMTP Username"
+msgstr "SMTP ユーザー名"
+
+#: templates/admin.php:351
+msgid "SMTP Password"
+msgstr "SMTP パスワード"
+
+#: templates/admin.php:355
+msgid "Test email settings"
+msgstr "メールテスト設定"
+
+#: templates/admin.php:356
+msgid "Send email"
+msgstr "メールを送信"
+
+#: templates/admin.php:361
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:255
+#: templates/admin.php:362
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:287
+#: templates/admin.php:394
 msgid "More"
 msgstr "もっと見る"
 
-#: templates/admin.php:288
+#: templates/admin.php:395
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:294 templates/personal.php:173
+#: templates/admin.php:401 templates/personal.php:181
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:298 templates/personal.php:176
+#: templates/admin.php:405 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -453,29 +592,33 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud コミュニティ</a>により開発されています。 <a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>は、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスの下で提供されています。"
 
-#: templates/apps.php:13
+#: templates/apps.php:14
 msgid "Add your App"
 msgstr "アプリを追加"
 
-#: templates/apps.php:28
+#: templates/apps.php:31
 msgid "More Apps"
 msgstr "さらにアプリを表示"
 
-#: templates/apps.php:33
+#: templates/apps.php:37
 msgid "Select an App"
 msgstr "アプリを選択してください"
 
-#: templates/apps.php:39
+#: templates/apps.php:42
+msgid "Documentation:"
+msgstr "ドキュメント:"
+
+#: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com でアプリケーションのページを見てください"
 
-#: templates/apps.php:41
+#: templates/apps.php:50
+msgid "See application website"
+msgstr "アプリケーションのウェブサイトを見る"
+
+#: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>"
-
-#: templates/help.php:4
-msgid "User Documentation"
-msgstr "ユーザドキュメント"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
@@ -495,7 +638,7 @@ msgstr "バグトラッカー"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "コマーシャルサポート"
+msgstr "商用サポート"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
@@ -510,7 +653,7 @@ msgstr "初回ウィザードを再表示する"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "現在、<strong>%s</strong> / <strong>%s</strong> を利用しています"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
+#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "パスワード"
 
@@ -522,151 +665,149 @@ msgstr "パスワードを変更しました"
 msgid "Unable to change your password"
 msgstr "パスワードを変更することができません"
 
-#: templates/personal.php:42
+#: templates/personal.php:43
 msgid "Current password"
 msgstr "Current password"
 
-#: templates/personal.php:44
+#: templates/personal.php:46
 msgid "New password"
 msgstr "新しいパスワードを入力"
 
-#: templates/personal.php:46
+#: templates/personal.php:50
 msgid "Change password"
 msgstr "パスワードを変更"
 
-#: templates/personal.php:58 templates/users.php:88
+#: templates/personal.php:64 templates/users.php:86
 msgid "Full Name"
-msgstr "姓名"
+msgstr "名前"
 
-#: templates/personal.php:73
+#: templates/personal.php:81
 msgid "Email"
 msgstr "メール"
 
-#: templates/personal.php:75
+#: templates/personal.php:83
 msgid "Your email address"
 msgstr "あなたのメールアドレス"
 
-#: templates/personal.php:76
-msgid "Fill in an email address to enable password recovery"
-msgstr "※パスワード回復を有効にするにはメールアドレスの入力が必要です"
-
 #: templates/personal.php:86
+msgid ""
+"Fill in an email address to enable password recovery and receive "
+"notifications"
+msgstr "パスワードの回復を有効にし、通知を受け取るにはメールアドレスを入力してください"
+
+#: templates/personal.php:96
 msgid "Profile picture"
 msgstr "プロフィール写真"
 
-#: templates/personal.php:91
+#: templates/personal.php:101
 msgid "Upload new"
 msgstr "新規にアップロード"
 
-#: templates/personal.php:93
+#: templates/personal.php:103
 msgid "Select new from Files"
 msgstr "ファイルから新規に選択"
 
-#: templates/personal.php:94
+#: templates/personal.php:104
 msgid "Remove image"
 msgstr "画像を削除"
 
-#: templates/personal.php:95
+#: templates/personal.php:105
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "png と jpg のいずれか。正方形が理想ですが、切り取って加工することも可能です。"
 
-#: templates/personal.php:97
+#: templates/personal.php:107
 msgid "Your avatar is provided by your original account."
 msgstr "あなたのアバターは、あなたのオリジナルのアカウントで提供されています。"
 
-#: templates/personal.php:101
-msgid "Abort"
-msgstr "中止"
+#: templates/personal.php:111
+msgid "Cancel"
+msgstr "キャンセル"
 
-#: templates/personal.php:102
+#: templates/personal.php:112
 msgid "Choose as profile image"
 msgstr "プロファイル画像として選択"
 
-#: templates/personal.php:110 templates/personal.php:111
+#: templates/personal.php:120 templates/personal.php:121
 msgid "Language"
 msgstr "言語"
 
-#: templates/personal.php:130
+#: templates/personal.php:140
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:137
+#: templates/personal.php:147
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:139
+#: templates/personal.php:149
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください"
 
-#: templates/personal.php:150
-msgid "Encryption"
-msgstr "暗号化"
-
-#: templates/personal.php:152
+#: templates/personal.php:161
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
-#: templates/personal.php:158
+#: templates/personal.php:167
 msgid "Log-in password"
 msgstr "ログインパスワード"
 
-#: templates/personal.php:163
+#: templates/personal.php:172
 msgid "Decrypt all Files"
 msgstr "すべてのファイルを複合する"
 
-#: templates/users.php:21
+#: templates/users.php:19
 msgid "Login Name"
 msgstr "ログイン名"
 
-#: templates/users.php:30
+#: templates/users.php:28
 msgid "Create"
 msgstr "作成"
 
-#: templates/users.php:36
+#: templates/users.php:34
 msgid "Admin Recovery Password"
-msgstr "管理者復旧パスワード"
+msgstr "管理者リカバリパスワード"
 
-#: templates/users.php:37 templates/users.php:38
+#: templates/users.php:35 templates/users.php:36
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr "パスワード変更の間のユーザーのファイルを回復するために、リカバリパスワードを入力してください"
+msgstr "パスワード変更時のユーザーのファイルを回復するため、リカバリパスワードを入力してください"
 
-#: templates/users.php:42
+#: templates/users.php:40
 msgid "Default Storage"
 msgstr "デフォルトストレージ"
 
-#: templates/users.php:44 templates/users.php:139
+#: templates/users.php:42 templates/users.php:137
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "ストレージの割り当てを入力してください (例: \"512MB\" や \"12 GB\")"
 
-#: templates/users.php:48 templates/users.php:148
+#: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
 msgstr "無制限"
 
-#: templates/users.php:66 templates/users.php:163
+#: templates/users.php:64 templates/users.php:161
 msgid "Other"
 msgstr "その他"
 
-#: templates/users.php:87
+#: templates/users.php:85
 msgid "Username"
 msgstr "ユーザー名"
 
-#: templates/users.php:94
+#: templates/users.php:92
 msgid "Storage"
 msgstr "ストレージ"
 
-#: templates/users.php:108
+#: templates/users.php:106
 msgid "change full name"
-msgstr "姓名を変更"
+msgstr "フルネームを変更"
 
-#: templates/users.php:112
+#: templates/users.php:110
 msgid "set new password"
 msgstr "新しいパスワードを設定"
 
-#: templates/users.php:143
+#: templates/users.php:141
 msgid "Default"
 msgstr "デフォルト"

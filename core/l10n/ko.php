@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s 님이 %s을(를) 공유하였습니다",
 "Couldn't send mail to following users: %s " => "%s 님에게 메일을 보낼 수 없습니다.",
 "Turned on maintenance mode" => "유지 보수 모드 켜짐",
 "Turned off maintenance mode" => "유지 보수 모드 꺼짐",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "11월",
 "December" => "12월",
 "Settings" => "설정",
+"Saving..." => "저장 중...",
 "seconds ago" => "초 전",
 "_%n minute ago_::_%n minutes ago_" => array("%n분 전 "),
 "_%n hour ago_::_%n hours ago_" => array("%n시간 전 "),
@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하십시오.",
 "Create an <strong>admin account</strong>" => "<strong>관리자 계정</strong> 만들기",
-"Advanced" => "고급",
 "Data folder" => "데이터 폴더",
 "Configure the database" => "데이터베이스 설정",
 "will be used" => "사용될 예정",
@@ -166,7 +165,6 @@ $TRANSLATIONS = array(
 "remember" => "기억하기",
 "Log in" => "로그인",
 "Alternative Logins" => "대체 로그인",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "안녕하세요,<br><br>%s 님이 %s을(를) 공유하였음을 알려 드립니다.<br><a href=\"%s\">지금 보기!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "ownCloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
 "This means only administrators can use the instance." => "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오",

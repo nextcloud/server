@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Brugere",
 "Delete" => "Slet",
 "Enable User External Storage" => "Aktiver ekstern opbevaring for brugere",
-"Allow users to mount their own external storage" => "Tillad brugere at montere deres egne eksterne opbevaring",
 "SSL root certificates" => "SSL-rodcertifikater",
 "Import Root Certificate" => "Importer rodcertifikat"
 );

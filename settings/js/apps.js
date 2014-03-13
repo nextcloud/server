@@ -207,12 +207,24 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						// append the new app as last item in the list (.push is from sticky footer)
+
+						// append the new app as last item in the list
+						// (.push is from sticky footer)
 						$('#apps .wrapper .push').before(li);
-						// scroll the app navigation down so the newly added app is seen
-						$('#navigation').animate({ scrollTop: $('#navigation').height() }, 'slow');
-						// draw attention to the newly added app entry by flashing it twice
-						container.children('li[data-id="'+entry.id+'"]').animate({opacity:.3}).animate({opacity:1}).animate({opacity:.3}).animate({opacity:1});
+
+						// scroll the app navigation down
+						// so the newly added app is seen
+						$('#navigation').animate({
+							scrollTop: $('#navigation').height()
+						}, 'slow');
+
+						// draw attention to the newly added app entry
+						// by flashing it twice
+						container.children('li[data-id="' + entry.id + '"]')
+							.animate({opacity: 0.3})
+							.animate({opacity: 1})
+							.animate({opacity: 0.3})
+							.animate({opacity: 1});
 
 						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
@@ -248,9 +260,9 @@ $(document).ready(function(){
 			var item = tgt.is('li') ? $(tgt) : $(tgt).parent();
 			var app = item.data('app');
 			OC.Settings.Apps.loadApp(app);
+			$('#leftcontent .selected').removeClass('selected');
+			item.addClass('selected');
 		}
-		$('#leftcontent .selected').removeClass('selected');
-		item.addClass('selected');
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){

@@ -145,10 +145,17 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			}
 
 			$result = $mailNotification->sendLinkShareMail($to_address, $file, $link, $expiration);
-			if($result === true) {
+			if(empty($result)) {
 				\OCP\JSON::success();
 			} else {
-				\OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($result))));
+				$l = OC_L10N::get('core');
+				OCP\JSON::error(array(
+					'data' => array(
+						'message' => $l->t("Couldn't send mail to following users: %s ",
+								implode(', ', $result)
+							)
+					)
+				));
 			}
 
 			break;

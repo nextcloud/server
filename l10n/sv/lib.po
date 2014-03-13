@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,38 +22,38 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Inget appnamn angivet"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Hjälp"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Inställningar"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Användare"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
@@ -66,14 +66,9 @@ msgstr "Okänd filtyp"
 msgid "Invalid image"
 msgstr "Ogiltig bild"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webbtjänster under din kontroll"
-
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "Kan inte öppna \"%s\""
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
@@ -97,73 +92,77 @@ msgid ""
 "administrator."
 msgstr "Ladda ner filerna i mindre bitar, separat eller fråga din administratör."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Ingen källa angiven vid installation av app "
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Ingen href angiven vid installation av app från http"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Ingen sökväg angiven vid installation av app från lokal fil"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arkiv av typen %s stöds ej"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Kunde inte öppna arkivet när appen skulle installeras"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Appen har ingen info.xml fil"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Appen kan inte installeras eftersom att den innehåller otillåten kod"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Appen kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Appen kan inte installeras eftersom att den innehåller etiketten <shipped>true</shipped> vilket inte är tillåtet för icke inkluderade appar"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Appen kan inte installeras eftersom versionen i info.xml inte är samma som rapporteras från app store"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Appens mapp finns redan"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Kan inte skapa appens mapp. Var god åtgärda rättigheterna. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Applikationen är inte aktiverad"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:63 private/json.php:88
 msgid "Authentication error"
 msgstr "Fel vid autentisering"
 
-#: private/json.php:51
+#: private/json.php:52
 msgid "Token expired. Please reload page."
 msgstr "Ogiltig token. Ladda om sidan."
+
+#: private/json.php:75
+msgid "Unknown user"
+msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -204,8 +203,8 @@ msgid "You need to enter either an existing account or the administrator."
 msgstr "Du måste antingen ange ett befintligt konto eller administratör."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "MySQL-användarnamnet och/eller lösenordet är felaktigt"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -232,21 +231,21 @@ msgstr "Det felaktiga kommandot var: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "MySQL-användaren '%s'@'localhost' existerar redan."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Radera denna användare från MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "MySQl-användare '%s'@'%%' existerar redan"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Radera denna användare från MySQL."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -273,66 +272,72 @@ msgstr "Ange ett användarnamn för administratören."
 msgid "Set an admin password."
 msgstr "Ange ett administratörslösenord."
 
-#: private/setup.php:195
+#: private/setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkronisering eftersom WebDAV inte verkar fungera."
 
-#: private/setup.php:196
+#: private/setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:73
+#: private/share/mailnotifications.php:119
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s delade »%s« med dig"
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Kunde inte hitta kategorin \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:133
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:134
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:135
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:136
 msgid "today"
 msgstr "i dag"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:137
 msgid "yesterday"
 msgstr "i går"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:139
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:141
 msgid "last month"
 msgstr "förra månaden"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:142
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:144
 msgid "last year"
 msgstr "förra året"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:145
 msgid "years ago"
 msgstr "år sedan"

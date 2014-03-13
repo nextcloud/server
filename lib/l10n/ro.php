@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "Images" => "Imagini",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă.",
 "Please double check the <a href='%s'>installation guides</a>." => "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</a>.",
+"%s shared »%s« with you" => "%s Partajat »%s« cu tine de",
 "Could not find category \"%s\"" => "Cloud nu a gasit categoria \"%s\"",
 "seconds ago" => "secunde în urmă",
 "_%n minute ago_::_%n minutes ago_" => array("","","acum %n minute"),
