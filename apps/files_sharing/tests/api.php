@@ -535,8 +535,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
 	 * @brief test multiple shared folder if the path gets constructed correctly
 	 * @medium
 	 */
@@ -620,7 +618,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
->>>>>>> 9d32475... finally fix the paths for the OCS Share API
 	 * @brief test re-re-share of folder if the path gets constructed correctly
 	 * @medium
 	 */
@@ -895,7 +892,6 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * @param $user
 	 * @param bool $create
 	 * @param bool $password
