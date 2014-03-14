@@ -24,16 +24,14 @@ class StartSessionListener implements PHPUnit_Framework_TestListener {
 	}
 
 	public function startTest(PHPUnit_Framework_Test $test) {
+	}
 
+	public function endTest(PHPUnit_Framework_Test $test, $time) {
 		// new session
 		\OC::$session = new \OC\Session\Memory('');
 
 		// load the version
 		OC_Util::getVersion();
-
-	}
-
-	public function endTest(PHPUnit_Framework_Test $test, $time) {
 	}
 
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
