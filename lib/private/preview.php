@@ -452,7 +452,7 @@ class Preview {
 		if(is_null($this->preview)) {
 			$this->getPreview();
 		}
-		$this->preview->show();
+		$this->preview->show('image/png');
 		return;
 	}
 
