@@ -155,9 +155,12 @@ class OC_Image {
 	* @brief Outputs the image.
 	* @returns bool
 	*/
-	public function show() {
-		header('Content-Type: '.$this->mimeType());
-		return $this->_output();
+	public function show($mimeType=null) {
+		if($mimeType === null) {
+			$mimeType = $this->mimeType();
+		}
+		header('Content-Type: '.$mimeType);
+		return $this->_output(null, $mimeType);
 	}
 
 	/**
@@ -165,20 +168,23 @@ class OC_Image {
 	* @returns bool
 	*/
 
-	public function save($filePath=null) {
+	public function save($filePath=null, $mimeType=null) {
+		if($mimeType === null) {
+			$mimeType = $this->mimeType();
+		}
 		if($filePath === null && $this->filePath === null) {
 			OC_Log::write('core', __METHOD__.'(): called with no path.', OC_Log::ERROR);
 			return false;
 		} elseif($filePath === null && $this->filePath !== null) {
 			$filePath = $this->filePath;
 		}
-		return $this->_output($filePath);
+		return $this->_output($filePath, $mimeType);
 	}
 
 	/**
 	* @brief Outputs/saves the image.
 	*/
-	private function _output($filePath=null) {
+	private function _output($filePath=null, $mimeType=null) {
 		if($filePath) {
 			if (!file_exists(dirname($filePath)))
 				mkdir(dirname($filePath), 0777, true);
@@ -196,8 +202,34 @@ class OC_Image {
 			return false;
 		}
 
-		$retVal = false;
-		switch($this->imageType) {
+		$imageType = null;
+		if($mimeType !== null) {
+			switch($mimeType) {
+				case 'image/gif':
+					$this->imageType = IMAGETYPE_GIF;
+					break;
+				case 'image/jpeg':
+				case 'image/pjpeg':
+					$this->imageType = IMAGETYPE_JPEG;
+					break;
+				case 'image/png':
+					$this->imageType = IMAGETYPE_PNG;
+					break;
+				case 'image/x-xbitmap':
+					$this->imageType = IMAGETYPE_XBM;
+					break;
+				case 'image/bmp':
+					$this->imageType = IMAGETYPE_BMP;
+					break;
+				default:
+					$this->imageType = IMAGETYPE_PNG;
+					break;
+			}
+		} else {
+			$imageType = $this->imageType;
+		}
+
+		switch($imageType) {
 			case IMAGETYPE_GIF:
 				$retVal = imagegif($this->resource, $filePath);
 				break;
