@@ -1,0 +1,44 @@
+@media only screen and (max-width: 600px) {
+
+/* don’t require a minimum width for files table */
+#body-user #filestable {
+	min-width: initial !important;
+}
+
+/* hide size and date columns */
+table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+	display: none;
+}
+
+/* restrict length of displayed filename to prevent overflow */
+table td.filename .nametext {
+	max-width: 75% !important;
+}
+
+/* do not show Rename or Versions on mobile */
+#fileList .action-rename,
+#fileList .action-versions {
+	display: none !important;
+}
+
+/* always show actions on mobile, not only on hover */
+#fileList a.action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
+	filter: alpha(opacity=20) !important;
+	opacity: .2 !important;
+	display: inline !important;
+}
+/* some padding for better clickability */
+#fileList a.action img {
+	padding: 0 6px 0 12px;
+}
+/* hide text of the actions on mobile */
+#fileList a.action span {
+	display: none;
+}
+
+
+}
