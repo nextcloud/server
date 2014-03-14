@@ -221,7 +221,7 @@ class OC_Image {
 					$imageType = IMAGETYPE_BMP;
 					break;
 				default:
-					$imageType = IMAGETYPE_PNG;
+					throw new Exception('\OC_Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
 					break;
 			}
 		} else {
