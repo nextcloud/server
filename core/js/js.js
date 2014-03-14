@@ -482,6 +482,29 @@ var OC={
 				}).show();
 			}, 'html');
 		}
+	},
+
+	// for menu toggling
+	registerMenu: function($toggle, $menuEl) {
+		$menuEl.addClass('menu');
+		$toggle.addClass('menutoggle');
+		$toggle.on('click', function(event) {
+			if ($menuEl.is(OC._currentMenu)) {
+				$menuEl.hide();
+				OC._currentMenu = null;
+				OC._currentMenuToggle = null;
+				return false;
+			}
+			// another menu was open?
+			else if (OC._currentMenu) {
+				// close it
+				OC._currentMenu.hide();
+			}
+			$menuEl.show();
+			OC._currentMenu = $menuEl;
+			OC._currentMenuToggle = $toggle;
+			return false
+		});
 	}
 };
 OC.search.customResults={};
@@ -940,6 +963,23 @@ function initCore() {
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 	$('input').tipsy({gravity:'w', fade:true});
+
+	// toggle for menus
+	$(document).on('mouseup.closemenus', function(event) {
+		var $el = $(event.target);
+		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
+			// don't close when clicking on the menu directly or a menu toggle
+			return false;
+		}
+		if (OC._currentMenu) {
+			OC._currentMenu.hide();
+		}
+		OC._currentMenu = null;
+		OC._currentMenuToggle = null;
+	});
+
+	// toggle the navigation on mobile
+	OC.registerMenu($('#header #owncloud'), $('#navigation'));
 }
 
 $(document).ready(initCore);
