@@ -212,11 +212,7 @@ class Group {
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
-				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
-			} else {
-				$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			}
+			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users = $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
