@@ -209,7 +209,6 @@ class OC_Image {
 					$imageType = IMAGETYPE_GIF;
 					break;
 				case 'image/jpeg':
-				case 'image/pjpeg':
 					$imageType = IMAGETYPE_JPEG;
 					break;
 				case 'image/png':
