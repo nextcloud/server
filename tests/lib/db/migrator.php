@@ -25,7 +25,11 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->tableName = 'test_' . uniqid();
 		$this->connection = \OC_DB::getConnection();
-		$this->fullTableName = $this->connection->getDatabase() . '.' . $this->tableName;
+		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver) {
+			$this->markTestSkipped('Migration tests dont function on sqlite since sqlite doesnt give an error on existing duplicate data');
+		} else {
+			$this->fullTableName = $this->connection->getDatabase() . '.' . $this->tableName;
+		}
 	}
 
 	public function tearDown() {
@@ -56,11 +60,15 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		return $config;
 	}
 
+	private function getMigrator() {
+		return new \OC\DB\Migrator($this->connection);
+	}
+
 	/**
 	 * @expectedException \OC\DB\MigrationException
 	 */
 	public function testDuplicateKeyUpgrade() {
-		$migrator = new \OC\DB\Migrator($this->connection);
+		$migrator = $this->getMigrator();
 		$migrator->migrate($this->getInitialSchema());
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
@@ -72,7 +80,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testUpgrade() {
-		$migrator = new \OC\DB\Migrator($this->connection);
+		$migrator = $this->getMigrator();
 		$migrator->migrate($this->getInitialSchema());
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
