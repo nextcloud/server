@@ -47,8 +47,12 @@ class Migrator {
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
 		foreach ($tables as $table) {
+			if (strpos($table->getName(), '.')) {
+				list(, $tableName) = explode('.', $table->getName());
+			} else {
+				$tableName = $table->getName();
+			}
 			// don't need to check for new tables
-			list(, $tableName) = explode('.', $table->getName());
 			if (array_search($tableName, $existingTables) !== false) {
 				$this->checkTableMigrate($table);
 			}
@@ -63,7 +67,7 @@ class Migrator {
 	 */
 	protected function checkTableMigrate(Table $table) {
 		$name = $table->getName();
-		$tmpName = uniqid();
+		$tmpName = 'oc_' . uniqid();
 
 		$this->copyTable($name, $tmpName);
 
@@ -94,12 +98,12 @@ class Migrator {
 		$indexes = $table->getIndexes();
 		$newIndexes = array();
 		foreach ($indexes as $index) {
-			$indexName = uniqid(); // avoid conflicts in index names
+			$indexName = 'oc_' . uniqid(); // avoid conflicts in index names
 			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
-		return new Table($newName, $table->getColumns(), $indexes, array(), 0, $table->getOptions());
+		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
 	}
 
 	/**
