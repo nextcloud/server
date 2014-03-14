@@ -18,5 +18,10 @@
 	display: none;
 }
 
+/* don’t require a minimum width for controls bar */
+#controls {
+	min-width: initial !important;
+}
+
 
 }
