@@ -20,25 +20,21 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	private $tableName;
 
-	private $fullTableName;
-
 	public function setUp() {
 		$this->tableName = 'test_' . uniqid();
 		$this->connection = \OC_DB::getConnection();
 		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver) {
 			$this->markTestSkipped('Migration tests dont function on sqlite since sqlite doesnt give an error on existing duplicate data');
-		} else {
-			$this->fullTableName = $this->connection->getDatabase() . '.' . $this->tableName;
 		}
 	}
 
 	public function tearDown() {
-		$this->connection->exec('DROP TABLE ' . $this->fullTableName);
+		$this->connection->exec('DROP TABLE ' . $this->tableName);
 	}
 
 	private function getInitialSchema() {
 		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->fullTableName);
+		$table = $schema->createTable($this->tableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
 		$table->addIndex(array('id'), $this->tableName . '_id');
@@ -47,7 +43,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	private function getNewSchema() {
 		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->fullTableName);
+		$table = $schema->createTable($this->tableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
 		$table->addUniqueIndex(array('id'), $this->tableName . '_id');

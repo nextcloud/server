@@ -81,6 +81,8 @@ class Migrator {
 			$this->applySchema($schema);
 			$this->dropTable($tmpName);
 		} catch (DBALException $e) {
+			// pgsql needs to commit it's failed transaction before doing anything else
+			$this->connection->commit();
 			$this->dropTable($tmpName);
 			throw new MigrationException($table->getName(), $e->getMessage());
 		}
@@ -153,7 +155,7 @@ class Migrator {
 		$quotedSource = $this->connection->quoteIdentifier($sourceName);
 		$quotedTarget = $this->connection->quoteIdentifier($targetName);
 
-		$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' LIKE ' . $quotedSource);
+		$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ')');
 		$this->connection->exec('INSERT INTO ' . $quotedTarget . ' SELECT * FROM ' . $quotedSource);
 	}
 
