@@ -206,23 +206,23 @@ class OC_Image {
 		if($mimeType !== null) {
 			switch($mimeType) {
 				case 'image/gif':
-					$this->imageType = IMAGETYPE_GIF;
+					$imageType = IMAGETYPE_GIF;
 					break;
 				case 'image/jpeg':
 				case 'image/pjpeg':
-					$this->imageType = IMAGETYPE_JPEG;
+					$imageType = IMAGETYPE_JPEG;
 					break;
 				case 'image/png':
-					$this->imageType = IMAGETYPE_PNG;
+					$imageType = IMAGETYPE_PNG;
 					break;
 				case 'image/x-xbitmap':
-					$this->imageType = IMAGETYPE_XBM;
+					$imageType = IMAGETYPE_XBM;
 					break;
 				case 'image/bmp':
-					$this->imageType = IMAGETYPE_BMP;
+					$imageType = IMAGETYPE_BMP;
 					break;
 				default:
-					$this->imageType = IMAGETYPE_PNG;
+					$imageType = IMAGETYPE_PNG;
 					break;
 			}
 		} else {
