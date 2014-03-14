@@ -23,5 +23,11 @@
 	min-width: initial !important;
 }
 
+/* position share dropdown */
+#dropdown {
+	margin-right: 10% !important;
+	width: 80% !important;
+}
+
 
 }
