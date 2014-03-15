@@ -10,7 +10,8 @@ $TRANSLATIONS = array(
 "the link expired" => "povezava je pretekla,",
 "sharing is disabled" => "souporaba je onemogočena.",
 "For more info, please ask the person who sent this link." => "Za več podrobnosti stopite v stik s pošiljateljem te povezave.",
-"shared by %s" => "v souporabi preko %s",
+"shared by %s" => "souporabp omogoča %s",
+"Download %s" => "Prejmi %s",
 "Direct link" => "Neposredna povezava"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";
