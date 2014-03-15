@@ -488,11 +488,46 @@ class OC_Util {
 			);
 		}
 
+		$errors = array_merge($errors, self::checkDatabaseVersion());
+
 		// Cache the result of this function
 		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
 
 		return $errors;
 	}
+
+	/**
+	 * Check the database version
+	 * @return array errors array
+	 */
+	public static function checkDatabaseVersion() {
+		$errors = array();
+		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		if ($dbType === 'pgsql') {
+			// check PostgreSQL version
+			try {
+				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
+				$data = $result->fetchRow();
+				if (isset($data['server_version'])) {
+					$version = $data['server_version'];
+					if (version_compare($version, '9.0.0', '<')) {
+						$errors[] = array(
+							'error' => 'PostgreSQL >= 9 required',
+							'hint' => 'Please upgrade your database version'
+						);
+					}
+				}
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				\OCP\Util::logException('core', $e);
+				$errors[] = array(
+					'error' => 'Error occurred while checking PostgreSQL version',
+					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
+				);
+			}
+		}
+		return $errors;
+	}
+
 
 	/**
 	 * @brief check if there are still some encrypted files stored
