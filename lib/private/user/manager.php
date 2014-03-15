@@ -174,12 +174,12 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = $this->getUserObject($uid, $backend);
+					$users[$uid] = $this->getUserObject($uid, $backend);
 				}
 			}
 		}
 
-		usort($users, function ($a, $b) {
+		uasort($users, function ($a, $b) {
 			/**
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
