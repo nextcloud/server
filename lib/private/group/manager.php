@@ -176,7 +176,8 @@ class Manager extends PublicEmitter {
 		}
 		// only user backends have the capability to do a complex search for users
 		$groupUsers  = $group->searchUsers('', $limit, $offset);
-		if(!empty(trim($search))) {
+		$search = trim($search);
+		if(!empty($search)) {
 			//TODO: for OC 7 earliest: user backend should get a method to check selected users against a pattern
 			$filteredUsers = $this->userManager->search($search);
 			$testUsers = true;
