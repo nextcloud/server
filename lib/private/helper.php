@@ -280,6 +280,21 @@ class OC_Helper {
 	}
 
 	/**
+	 * shows whether the user has an avatar
+	 * @param string $user username
+	 * @return bool avatar set or not
+	**/
+	public static function userAvatarSet($user) {
+		$avatar = new \OC_Avatar($user);
+		$image = $avatar->get(1);
+		if ($image instanceof \OC_Image) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size

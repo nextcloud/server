@@ -239,6 +239,8 @@
 	display: inline-block;
 	margin-right: 5px;
 	cursor: pointer;
+	height: 32px;
+	width: 32px;
 }
 #header .avatardiv img {
 	opacity: 1;

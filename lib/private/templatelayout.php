@@ -76,6 +76,7 @@ class OC_TemplateLayout extends OC_Template {
 			$this->assign( 'user_uid', OC_User::getUser() );
 			$this->assign( 'appsmanagement_active', strpos(OC_Request::requestUri(), OC_Helper::linkToRoute('settings_apps')) === 0 );
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
+			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
 		} else if ($renderAs == 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
@@ -89,7 +90,7 @@ class OC_TemplateLayout extends OC_Template {
 		if(empty(self::$versionHash)) {
 			self::$versionHash = md5(implode(',', OC_App::getAppVersions()));
 		}
-		
+
 		$useAssetPipeline = self::isAssetPipelineEnabled();
 		if ($useAssetPipeline) {
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config', array('v' => self::$versionHash)));
