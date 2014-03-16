@@ -44,7 +44,7 @@ class LargeFileHelperGetFileSize extends \PHPUnit_Framework_TestCase {
 		}
 		$this->assertSame(
 			$this->fileSize,
-			$this->helper->getFileSizeViaDOM($this->filename)
+			$this->helper->getFileSizeViaCOM($this->filename)
 		);
 	}
 
