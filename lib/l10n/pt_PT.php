@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "Application is not enabled" => "A aplicação não está activada",
 "Authentication error" => "Erro na autenticação",
 "Token expired. Please reload page." => "O token expirou. Por favor recarregue a página.",
+"Unknown user" => "Utilizador desconhecido",
 "Files" => "Ficheiros",
 "Text" => "Texto",
 "Images" => "Imagens",
