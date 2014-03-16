@@ -9,61 +9,61 @@
 namespace Test;
 
 /**
-* Tests whether LargeFileHelper is able to determine filesize at all.
+* Tests whether LargeFileHelper is able to determine file size at all.
 * Large files are not considered yet.
 */
-class LargeFileHelperGetFilesize extends \PHPUnit_Framework_TestCase {
+class LargeFileHelperGetFileSize extends \PHPUnit_Framework_TestCase {
 	protected $filename;
-	protected $filesize;
+	protected $fileSize;
 	protected $helper;
 
 	public function setUp() {
 		parent::setUp();
 		$this->filename = __DIR__ . '/../data/data.tar.gz';
-		$this->filesize = 4195;
+		$this->fileSize = 4195;
 		$this->helper = new \OC\LargeFileHelper;
 	}
 
-	public function testGetFilesizeViaCurl() {
+	public function testGetFileSizeViaCurl() {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
 				'The PHP curl extension is required for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->filesize,
-			$this->helper->getFilesizeViaCurl($this->filename)
+			$this->fileSize,
+			$this->helper->getFileSizeViaCurl($this->filename)
 		);
 	}
 
-	public function testGetFilesizeViaCOM() {
+	public function testGetFileSizeViaCOM() {
 		if (!extension_loaded('COM')) {
 			$this->markTestSkipped(
 				'The PHP Windows COM extension is required for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->filesize,
-			$this->helper->getFilesizeViaDOM($this->filename)
+			$this->fileSize,
+			$this->helper->getFileSizeViaDOM($this->filename)
 		);
 	}
 
-	public function testGetFilesizeViaExec() {
+	public function testGetFileSizeViaExec() {
 		if (!\OC_Helper::is_function_enabled('exec')) {
 			$this->markTestSkipped(
 				'The exec() function needs to be enabled for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->filesize,
-			$this->helper->getFilesizeViaExec($this->filename)
+			$this->fileSize,
+			$this->helper->getFileSizeViaExec($this->filename)
 		);
 	}
 
-	public function testGetFilesizeNative() {
+	public function testGetFileSizeNative() {
 		$this->assertSame(
-			$this->filesize,
-			$this->helper->getFilesizeNative($this->filename)
+			$this->fileSize,
+			$this->helper->getFileSizeNative($this->filename)
 		);
 	}
 }

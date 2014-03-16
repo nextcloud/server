@@ -62,7 +62,7 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the filesize of a file via various workarounds that
+	* @brief Tries to get the size of a file via various workarounds that
 	*        even work for large files on 32-bit platforms.
 	*
 	* @param string $filename Path to the file.
@@ -70,31 +70,31 @@ class LargeFileHelper {
 	* @return null|int|float Number of bytes as number (float or int) or
 	*                        null on failure.
 	*/
-	public function getFilesize($filename) {
-		$filesize = $this->getFilesizeViaCurl($filename);
-		if (!is_null($filesize)) {
-			return $filesize;
+	public function getFileSize($filename) {
+		$fileSize = $this->getFileSizeViaCurl($filename);
+		if (!is_null($fileSize)) {
+			return $fileSize;
 		}
-		$filesize = $this->getFilesizeViaCOM($filename);
-		if (!is_null($filesize)) {
-			return $filesize;
+		$fileSize = $this->getFileSizeViaCOM($filename);
+		if (!is_null($fileSize)) {
+			return $fileSize;
 		}
-		$filesize = $this->getFilesizeViaExec($filename);
-		if (!is_null($filesize)) {
-			return $filesize;
+		$fileSize = $this->getFileSizeViaExec($filename);
+		if (!is_null($fileSize)) {
+			return $fileSize;
 		}
-		return $this->getFilesizeNative($filename);
+		return $this->getFileSizeNative($filename);
 	}
 
 	/**
-	* @brief Tries to get the filesize of a file via a CURL HEAD request.
+	* @brief Tries to get the size of a file via a CURL HEAD request.
 	*
 	* @param string $filename Path to the file.
 	*
 	* @return null|int|float Number of bytes as number (float or int) or
 	*                        null on failure.
 	*/
-	public function getFilesizeViaCurl($filename) {
+	public function getFileSizeViaCurl($filename) {
 		if (function_exists('curl_init')) {
 			$ch = curl_init("file://$filename");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -114,14 +114,14 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the filesize of a file via the Windows DOM extension.
+	* @brief Tries to get the size of a file via the Windows DOM extension.
 	*
 	* @param string $filename Path to the file.
 	*
 	* @return null|int|float Number of bytes as number (float or int) or
 	*                        null on failure.
 	*/
-	public function getFilesizeViaCOM($filename) {
+	public function getFileSizeViaCOM($filename) {
 		if (class_exists('COM')) {
 			$fsobj = new \COM("Scripting.FileSystemObject");
 			$file = $fsobj->GetFile($filename);
@@ -131,14 +131,14 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the filesize of a file via an exec() call.
+	* @brief Tries to get the size of a file via an exec() call.
 	*
 	* @param string $filename Path to the file.
 	*
 	* @return null|int|float Number of bytes as number (float or int) or
 	*                        null on failure.
 	*/
-	public function getFilesizeViaExec($filename) {
+	public function getFileSizeViaExec($filename) {
 		if (\OC_Helper::is_function_enabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
@@ -160,19 +160,19 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Gets the filesize via a filesize() call and converts negative
-	*        signed int to positive float. As the result of filesize() will
-	*        wrap around after a filesize of 2^32 bytes = 4 GiB, this should
-	*        only be used as a last resort.
+	* @brief Gets the size of a file via a filesize() call and converts
+	*        negative signed int to positive float. As the result of filesize()
+	*        will wrap around after a file size of 2^32 bytes = 4 GiB, this
+	*        should only be used as a last resort.
 	*
 	* @param string $filename Path to the file.
 	*
 	* @return int|float Number of bytes as number (float or int).
 	*/
-	public function getFilesizeNative($filename) {
+	public function getFileSizeNative($filename) {
 		$result = filesize($filename);
 		if ($result < 0) {
-			// For filesizes between 2 GiB and 4 GiB, filesize() will return a
+			// For file sizes between 2 GiB and 4 GiB, filesize() will return a
 			// negative int, as the PHP data type int is signed. Interpret the
 			// returned int as an unsigned integer and put it into a float.
 			return (float) sprintf('%u', $result);
