@@ -25,8 +25,10 @@ class LargeFileHelper {
 	const POW_2_53_MINUS_1 = '9007199254740991';
 
 	/**
-	* @brief Constructor. Checks whether our assumptions hold on the platform
-	*        we are on, throws an exception if they do not hold.
+	* @brief Checks whether our assumptions hold on the PHP platform we are on.
+	*
+	* @throws \RunTimeException if our assumptions do not hold on the current
+	*                           PHP platform.
 	*/
 	public function __construct() {
 		$pow_2_53 = floatval(self::POW_2_53_MINUS_1) + 1.0;
@@ -42,6 +44,9 @@ class LargeFileHelper {
 	*        string. Passed strings will be checked for being base-10.
 	*
 	* @param int|float|string $number Number containing unsigned integer data
+	*
+	* @throws \UnexpectedValueException if $number is not a float, not an int
+	*                                   and not a base-10 string.
 	*
 	* @return string Unsigned integer base-10 string
 	*/
