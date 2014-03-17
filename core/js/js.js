@@ -27,7 +27,7 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 	if (!window.console) {
 		window.console = {};
 	}
-	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd'];
 	for (var i = 0; i < methods.length; i++) {
 		console[methods[i]] = function () { };
 	}
