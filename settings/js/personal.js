@@ -60,6 +60,8 @@ function updateAvatar (hidedefault) {
 	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 128, true);
+
+	$('#removeavatar').show();
 }
 
 function showAvatarCropper() {
@@ -256,6 +258,7 @@ $(document).ready(function(){
 			url:	OC.generateUrl('/avatar/'),
 			success: function(msg) {
 				updateAvatar(true);
+				$('#removeavatar').hide();
 			}
 		});
 	});
@@ -277,6 +280,18 @@ $(document).ready(function(){
 			t('core', 'Good password'),
 			t('core', 'Strong password')
 		]
+	});
+
+	// does the user have a custom avatar? if he does hide #removeavatar
+	// needs to be this complicated because we can't check yet if an avatar has been loaded, because it's async
+	var url = OC.generateUrl(
+		'/avatar/{user}/{size}',
+		{user: OC.currentUser, size: 1}
+	) + '?requesttoken=' + oc_requesttoken;
+	$.get(url, function(result) {
+		if (typeof(result) === 'object') {
+			$('#removeavatar').hide();
+		}
 	});
 } );
 

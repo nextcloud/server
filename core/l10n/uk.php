@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s розподілено »%s« з тобою",
 "Couldn't send mail to following users: %s " => "Неможливо надіслати пошту наступним користувачам: %s ",
 "Turned on maintenance mode" => "Увімкнено захищений режим",
 "Turned off maintenance mode" => "Вимкнено захищений режим",
@@ -33,6 +32,7 @@ $TRANSLATIONS = array(
 "November" => "Листопад",
 "December" => "Грудень",
 "Settings" => "Налаштування",
+"Saving..." => "Зберігаю...",
 "seconds ago" => "секунди тому",
 "_%n minute ago_::_%n minutes ago_" => array("%n хвилину тому","%n хвилини тому","%n хвилин тому"),
 "_%n hour ago_::_%n hours ago_" => array("%n годину тому","%n години тому","%n годин тому"),
@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Для отримання інформації, як правильно налаштувати сервер, див. <a href=\"%s\" target=\"_blank\">документацію</a>.",
 "Create an <strong>admin account</strong>" => "Створити <strong>обліковий запис адміністратора</strong>",
-"Advanced" => "Додатково",
 "Data folder" => "Каталог даних",
 "Configure the database" => "Налаштування бази даних",
 "will be used" => "буде використано",
@@ -165,7 +164,6 @@ $TRANSLATIONS = array(
 "remember" => "запам'ятати",
 "Log in" => "Вхід",
 "Alternative Logins" => "Альтернативні Логіни",
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a href=\"%s\">View it!</a><br><br>" => "Агов,<br><br>просто щоб ви знали, що %s поділився »%s« з вами.<br><a href=\"%s\">Подивіться на це !</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Цей екземпляр OwnCloud зараз працює в монопольному режимі одного користувача",
 "This means only administrators can use the instance." => "Це означає, що лише адміністратори можуть використовувати цей екземпляр.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Зверніться до системного адміністратора, якщо це повідомлення зберігається або з'являєтья несподівано.",

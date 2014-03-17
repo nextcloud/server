@@ -76,7 +76,9 @@ class Updater extends BasicEmitter {
 		if ($xml == false) {
 			return array();
 		}
+		$loadEntities = libxml_disable_entity_loader(true);
 		$data = @simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = array();
 		$tmp['version'] = $data->version;
@@ -106,7 +108,7 @@ class Updater extends BasicEmitter {
 		/*
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
 		 */
-		if (version_compare($currentVersion, '6.90.1', '<')) {
+		if (!\OC::$CLI && version_compare($currentVersion, '6.90.1', '<')) {
 			// Add the overwriteHost config if it is not existant
 			// This is added to prevent host header poisoning
 			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
@@ -134,6 +136,8 @@ class Updater extends BasicEmitter {
 		$repair = new Repair();
 		$repair->run();
 
+		//Invalidate update feed
+		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}

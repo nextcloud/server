@@ -117,7 +117,7 @@ class Controller {
 			case 'mail_smtpsecure':
 				return $l->t( 'Encryption' );
 			case 'mail_smtpauthtype':
-				return $l->t( 'Authentification method' );
+				return $l->t( 'Authentication method' );
 		}
 	}
 }

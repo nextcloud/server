@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Grant access" => "Autoriser l'accès",
 "Please provide a valid Dropbox app key and secret." => "Veuillez fournir une clé d'application (app key) ainsi qu'un mot de passe valides.",
 "Error configuring Google Drive storage" => "Erreur lors de la configuration du support de stockage Google Drive",
+"Saved" => "Sauvegarder",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Attention : </b> \"smbclient\" n'est pas installé. Le montage des partages CIFS/SMB n'est pas disponible. Contactez votre administrateur système pour l'installer.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Attention : </b> Le support FTP de PHP n'est pas activé ou installé. Le montage des partages FTP n'est pas disponible. Contactez votre administrateur système pour l'installer.",
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Attention :</b> Le support de Curl n'est pas activé ou installé dans PHP. Le montage de ownCloud / WebDAV ou GoogleDrive n'est pas possible. Contactez votre administrateur système pour l'installer.",
@@ -21,7 +22,7 @@ $TRANSLATIONS = array(
 "Users" => "Utilisateurs",
 "Delete" => "Supprimer",
 "Enable User External Storage" => "Activer le stockage externe pour les utilisateurs",
-"Allow users to mount their own external storage" => "Autoriser les utilisateurs à monter leur propre stockage externe",
+"Allow users to mount the following external storage" => "Autorise les utilisateurs à monter les stockage externes suivants",
 "SSL root certificates" => "Certificats racine SSL",
 "Import Root Certificate" => "Importer un certificat racine"
 );

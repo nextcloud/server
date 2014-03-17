@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "Accesso prohibite",
 "Cloud not found" => "Nube non trovate",
 "Create an <strong>admin account</strong>" => "Crear un <strong>conto de administration</strong>",
-"Advanced" => "Avantiate",
 "Data folder" => "Dossier de datos",
 "Configure the database" => "Configurar le base de datos",
 "will be used" => "essera usate",

@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Datoteke %s ni mogoče trajno izbrisati.",
 "Couldn't restore %s" => "Ni mogoče obnoviti %s",
+"Deleted files" => "Izbrisane datoteke",
 "Error" => "Napaka",
 "restored" => "obnovljeno",
 "Nothing in here. Your trash bin is empty!" => "Mapa smeti je prazna.",

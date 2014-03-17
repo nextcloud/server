@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Users" => "பயனாளர்",
 "Delete" => "நீக்குக",
 "Enable User External Storage" => "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக",
-"Allow users to mount their own external storage" => "பயனாளர் அவர்களுடைய சொந்த வெளியக சேமிப்பை ஏற்ற அனுமதிக்க",
 "SSL root certificates" => "SSL வேர் சான்றிதழ்கள்",
 "Import Root Certificate" => "வேர் சான்றிதழை இறக்குமதி செய்க"
 );

@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Vartotojai",
 "Delete" => "Ištrinti",
 "Enable User External Storage" => "Įjungti vartotojų išorines saugyklas",
-"Allow users to mount their own external storage" => "Leisti vartotojams pridėti savo išorines saugyklas",
 "SSL root certificates" => "SSL sertifikatas",
 "Import Root Certificate" => "Įkelti pagrindinį sertifikatą"
 );

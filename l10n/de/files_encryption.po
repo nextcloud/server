@@ -8,6 +8,7 @@
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2014
 # thillux, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-07 22:26-0500\n"
-"PO-Revision-Date: 2013-12-06 10:50+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 11:00+0000\n"
+"Last-Translator: stefanniedermann <stefan.niedermann@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,18 +89,18 @@ msgid ""
 "administrator"
 msgstr "Unbekannter Fehler, bitte prüfe Deine Systemeinstellungen oder kontaktiere Deinen Administrator"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Fehlende Vorraussetzungen"
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Bitte stelle sicher, dass PHP 5.3.3 oder neuer installiert und das OpenSSL zusammen mit der PHP-Erweiterung aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert."
 
-#: hooks/hooks.php:278
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:"
 
@@ -107,9 +108,9 @@ msgstr "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Initialverschlüsselung gestartet... Dies kann einige Zeit dauern. Bitte warten."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Speichern..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "Initiale Verschlüsselung läuft... Bitte versuche es später wieder."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

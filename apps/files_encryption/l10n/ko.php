@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "PHP 5.3.3 이상 설치 여부, PHP의 OpenSSL 확장 기능 활성화 및 설정 여부를 확인하십시오. 암호화 앱이 비활성화 되었습니다.",
 "Following users are not set up for encryption:" => "다음 사용자는 암호화를 사용할 수 없습니다:",
 "Initial encryption started... This can take some time. Please wait." => "초기 암호화가 시작되었습니다... 시간이 걸릴 수도 있으니 기다려 주십시오.",
-"Saving..." => "저장 중...",
 "Go directly to your " => "다음으로 바로 가기: ",
 "personal settings" => "개인 설정",
 "Encryption" => "암호화",

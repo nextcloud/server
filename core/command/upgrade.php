@@ -27,6 +27,12 @@ class Upgrade extends Command {
 		;
 	}
 
+	/**
+	 * Execute the upgrade command
+	 *
+	 * @param InputInterface $input input interface
+	 * @param OutputInterface $output output interface
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $RUNTIME_NOAPPS;
 
@@ -69,6 +75,9 @@ class Upgrade extends Command {
 			});
 
 			$updater->upgrade();
+
+			$this->postUpgradeCheck($input, $output);
+
 			return self::ERROR_SUCCESS;
 		} else if(\OC_Config::getValue('maintenance', false)) {
 			//Possible scenario: ownCloud core is updated but an app failed
@@ -82,6 +91,23 @@ class Upgrade extends Command {
 		} else {
 			$output->writeln('<info>ownCloud is already latest version</info>');
 			return self::ERROR_UP_TO_DATE;
+		}
+	}
+
+	/**
+	 * Perform a post upgrade check (specific to the command line tool)
+	 *
+	 * @param InputInterface $input input interface
+	 * @param OutputInterface $output output interface
+	 */
+	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
+		$trustedDomains = \OC_Config::getValue('trusted_domains', array());
+		if (empty($trustedDomains)) {
+			$output->write(
+				'<warning>The setting "trusted_domains" could not be ' .
+				'set automatically by the upgrade script, ' .
+				'please set it manually</warning>'
+			);
 		}
 	}
 }

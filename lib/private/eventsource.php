@@ -63,8 +63,9 @@ class OC_EventSource{
 			$type=null;
 		}
 		if($this->fallback) {
+			$fallBackId = OC_Util::sanitizeHTML($this->fallBackId);
 			$response='<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('
-				.$this->fallBackId.',"' . $type . '",' . OCP\JSON::encode($data) . ')</script>' . PHP_EOL;
+				.$fallBackId.',"' . $type . '",' . OCP\JSON::encode($data) . ')</script>' . PHP_EOL;
 			echo $response;
 		}else{
 			if($type) {

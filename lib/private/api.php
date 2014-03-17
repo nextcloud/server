@@ -65,8 +65,8 @@ class OC_API {
 		$name = strtolower($method).$url;
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])) {
-			OC::getRouter()->useCollection('ocs');
-			OC::getRouter()->create($name, $url)
+			OC::$server->getRouter()->useCollection('ocs');
+			OC::$server->getRouter()->create($name, $url)
 				->method($method)
 				->defaults($defaults)
 				->requirements($requirements)
@@ -116,9 +116,7 @@ class OC_API {
 				);
 		}
 		$response = self::mergeResponses($responses);
-		$formats = array('json', 'xml');
-
-		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		$format = self::requestedFormat();
 		if (self::$logoutRequired) {
 			OC_User::logout();
 		}
@@ -349,5 +347,34 @@ class OC_API {
 			}
 		}
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function requestedFormat() {
+		$formats = array('json', 'xml');
+
+		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		return $format;
+	}
+
+	/**
+	 * Based on the requested format the response content type is set
+	 */
+	public static function setContentType() {
+		$format = \OC_API::requestedFormat();
+		if ($format === 'xml') {
+			header('Content-type: text/xml; charset=UTF-8');
+			return;
+		}
+
+		if ($format === 'json') {
+			header('Content-Type: application/json; charset=utf-8');
+			return;
+		}
+
+		header('Content-Type: application/octet-stream; charset=utf-8');
+	}
+
 
 }

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "Email poslat",
 "Authentication error" => "Greška pri autentifikaciji",
 "Language changed" => "Jezik je izmenjen",
 "Invalid request" => "Neispravan zahtev",
@@ -14,6 +15,7 @@ $TRANSLATIONS = array(
 "New password" => "Nova lozinka",
 "Change password" => "Izmeni lozinku",
 "Email" => "E-mail",
+"Cancel" => "Otkaži",
 "Language" => "Jezik",
 "Create" => "Napravi",
 "Other" => "Drugo",
