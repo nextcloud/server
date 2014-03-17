@@ -35,7 +35,7 @@ class OC_Image {
 	/**
 	* @brief Get mime type for an image file.
 	* @param string|null $filepath The path to a local image file.
-	* @returns string The mime type if the it could be determined, otherwise an empty string.
+	* @return string The mime type if the it could be determined, otherwise an empty string.
 	*/
 	static public function getMimeTypeForFile($filePath) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
@@ -48,10 +48,11 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Constructor.
-	* @param string|resource $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	* @returns bool False on error
-	*/
+	 * @brief Constructor.
+	 * @param resource|string $imageref The path to a local file, a base64 encoded string or a resource created by
+	 * an imagecreate* function.
+	 * @return \OC_Image False on error
+	 */
 	public function __construct($imageRef = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
@@ -70,7 +71,7 @@ class OC_Image {
 
 	/**
 	* @brief Determine whether the object contains an image resource.
-	* @returns bool
+	* @return bool
 	*/
 	public function valid() { // apparently you can't name a method 'empty'...
 		return is_resource($this->resource);
@@ -78,7 +79,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the MIME type of the image or an empty string if no image is loaded.
-	* @returns int
+	* @return int
 	*/
 	public function mimeType() {
 		return $this->valid() ? $this->mimeType : '';
@@ -86,7 +87,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the width of the image or -1 if no image is loaded.
-	* @returns int
+	* @return int
 	*/
 	public function width() {
 		return $this->valid() ? imagesx($this->resource) : -1;
@@ -94,7 +95,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the height of the image or -1 if no image is loaded.
-	* @returns int
+	* @return int
 	*/
 	public function height() {
 		return $this->valid() ? imagesy($this->resource) : -1;
@@ -102,7 +103,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the width when the image orientation is top-left.
-	* @returns int
+	* @return int
 	*/
 	public function widthTopLeft() {
 		$o = $this->getOrientation();
@@ -125,7 +126,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the height when the image orientation is top-left.
-	* @returns int
+	* @return int
 	*/
 	public function heightTopLeft() {
 		$o = $this->getOrientation();
@@ -147,9 +148,10 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Outputs the image.
-	* @returns bool
-	*/
+	 * @brief Outputs the image.
+	 * @param string $mimeType
+	 * @return bool
+	 */
 	public function show($mimeType=null) {
 		if($mimeType === null) {
 			$mimeType = $this->mimeType();
@@ -159,10 +161,11 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Saves the image.
-	* @returns bool
-	* @param string $filePath
-	*/
+	 * @brief Saves the image.
+	 * @param string $filePath
+	 * @param string $mimeType
+	 * @return bool
+	 */
 
 	public function save($filePath=null, $mimeType=null) {
 		if($mimeType === null) {
@@ -178,8 +181,12 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Outputs/saves the image.
-	*/
+	 * @brief Outputs/saves the image.
+	 * @param string $filePath
+	 * @param string $mimeType
+	 * @return bool
+	 * @throws Exception
+	 */
 	private function _output($filePath=null, $mimeType=null) {
 		if($filePath) {
 			if (!file_exists(dirname($filePath)))
@@ -198,7 +205,7 @@ class OC_Image {
 			return false;
 		}
 
-		$imageType = null;
+		$imageType = $this->imageType;
 		if($mimeType !== null) {
 			switch($mimeType) {
 				case 'image/gif':
@@ -218,10 +225,7 @@ class OC_Image {
 					break;
 				default:
 					throw new Exception('\OC_Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
-					break;
 			}
-		} else {
-			$imageType = $this->imageType;
 		}
 
 		switch($imageType) {
@@ -257,14 +261,14 @@ class OC_Image {
 	}
 
 	/**
-	* @returns resource Returns the image resource in any.
+	* @return resource Returns the image resource in any.
 	*/
 	public function resource() {
 		return $this->resource;
 	}
 
 	/**
-	* @returns Returns the raw image data.
+	* @return string Returns the raw image data.
 	*/
 	function data() {
 		ob_start();
@@ -299,7 +303,7 @@ class OC_Image {
 	/**
 	* (I'm open for suggestions on better method name ;)
 	* @brief Get the orientation based on EXIF data.
-	* @returns The orientation or -1 if no EXIF data is available.
+	* @return int The orientation or -1 if no EXIF data is available.
 	*/
 	public function getOrientation() {
 		if(!is_callable('exif_read_data')) {
@@ -327,7 +331,7 @@ class OC_Image {
 	/**
 	* (I'm open for suggestions on better method name ;)
 	* @brief Fixes orientation based on EXIF data.
-	* @returns bool.
+	* @return bool.
 	*/
 	public function fixOrientation() {
 		$o = $this->getOrientation();
@@ -387,10 +391,10 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	* @param $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle	).
-	* @returns An image resource or false on error
-	*/
+	 * @brief Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
+	 * @param resource|string $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
+	 * @return resource|false An image resource or false on error
+	 */
 	public function load($imageRef) {
 		if(is_resource($imageRef)) {
 			if(get_resource_type($imageRef) == 'gd') {
@@ -415,7 +419,7 @@ class OC_Image {
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
 	* @param resource $handle
-	* @returns An image resource or false on error
+	* @return An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
 		OC_Log::write('core', __METHOD__.'(): Trying', OC_Log::DEBUG);
@@ -427,8 +431,8 @@ class OC_Image {
 
 	/**
 	* @brief Loads an image from a local file.
-	* @param $imagePath The path to a local file.
-	* @returns An image resource or false on error
+	* @param bool|string $imagePath The path to a local file.
+	* @return bool|resource An image resource or false on error
 	*/
 	public function loadFromFile($imagePath=false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
@@ -528,8 +532,8 @@ class OC_Image {
 
 	/**
 	* @brief Loads an image from a string of data.
-	* @param $str A string of image data as read from a file.
-	* @returns An image resource or false on error
+	* @param string $str A string of image data as read from a file.
+	* @return bool|resource An image resource or false on error
 	*/
 	public function loadFromData($str) {
 		if(is_resource($str)) {
@@ -553,8 +557,8 @@ class OC_Image {
 
 	/**
 	* @brief Loads an image from a base64 encoded string.
-	* @param $str A string base64 encoded string of image data.
-	* @returns An image resource or false on error
+	* @param string $str A string base64 encoded string of image data.
+	* @return bool|resource An image resource or false on error
 	*/
 	public function loadFromBase64($str) {
 		if(!is_string($str)) {
@@ -583,7 +587,7 @@ class OC_Image {
 	 * @param string $fileName <p>
 	 * Path to the BMP image.
 	 * </p>
-	 * @return resource an image resource identifier on success, <b>FALSE</b> on errors.
+	 * @return bool|resource an image resource identifier on success, <b>FALSE</b> on errors.
 	 */
 	private function imagecreatefrombmp($fileName) {
 		if (!($fh = fopen($fileName, 'rb'))) {
@@ -722,7 +726,7 @@ class OC_Image {
 	/**
 	* @brief Resizes the image preserving ratio.
 	* @param integer $maxSize The maximum size of either the width or height.
-	* @returns bool
+	* @return bool
 	*/
 	public function resize($maxSize) {
 		if(!$this->valid()) {
@@ -745,6 +749,11 @@ class OC_Image {
 		return true;
 	}
 
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return bool
+	 */
 	public function preciseResize($width, $height) {
 		if (!$this->valid()) {
 			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
@@ -780,8 +789,8 @@ class OC_Image {
 
 	/**
 	* @brief Crops the image to the middle square. If the image is already square it just returns.
-	* @param int maximum size for the result (optional)
-	* @returns bool for success or failure
+	* @param int $size maximum size for the result (optional)
+	* @return bool for success or failure
 	*/
 	public function centerCrop($size=0) {
 		if(!$this->valid()) {
@@ -839,11 +848,11 @@ class OC_Image {
 
 	/**
 	* @brief Crops the image from point $x$y with dimension $wx$h.
-	* @param $x Horizontal position
-	* @param $y Vertical position
-	* @param $w Width
-	* @param $h Height
-	* @returns bool for success or failure
+	* @param int $x Horizontal position
+	* @param int $y Vertical position
+	* @param int $w Width
+	* @param int $h Height
+	* @return bool for success or failure
 	*/
 	public function crop($x, $y, $w, $h) {
 		if(!$this->valid()) {
@@ -871,7 +880,7 @@ class OC_Image {
 	 * @brief Resizes the image to fit within a boundry while preserving ratio.
 	 * @param integer $maxWidth
 	 * @param integer $maxHeight
-	 * @returns bool
+	 * @return bool
 	 */
 	public function fitIn($maxWidth, $maxHeight) {
 		if(!$this->valid()) {
