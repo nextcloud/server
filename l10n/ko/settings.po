@@ -4,6 +4,7 @@
 # 
 # Translators:
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
+# Harim Park <fofwisdom@gmail.com>, 2014
 # Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
 # 책읽는달팽 <bjh13579@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-17 01:55-0400\n"
+"PO-Revision-Date: 2014-03-16 20:30+0000\n"
+"Last-Translator: Harim Park <fofwisdom@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +52,15 @@ msgstr "이메일 발송됨"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:280
+#: admin/controller.php:116 templates/admin.php:284
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
 msgid "Encryption"
 msgstr "암호화"
 
-#: admin/controller.php:120 templates/admin.php:317
+#: admin/controller.php:120 templates/admin.php:321
 msgid "Authentication method"
 msgstr ""
 
@@ -161,7 +162,7 @@ msgstr "암호를 변경할 수 없음"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "보내는 중..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -169,7 +170,7 @@ msgstr "사용자 문서"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "운영자 문서"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -215,31 +216,31 @@ msgstr "업데이트"
 msgid "Updated"
 msgstr "업데이트됨"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "프로필 사진 선택"
 
-#: js/personal.js:274
-msgid "Very weak password"
-msgstr ""
-
-#: js/personal.js:275
-msgid "Weak password"
-msgstr ""
-
-#: js/personal.js:276
-msgid "So-so password"
-msgstr ""
-
 #: js/personal.js:277
-msgid "Good password"
-msgstr ""
+msgid "Very weak password"
+msgstr "매우 약한 암호"
 
 #: js/personal.js:278
-msgid "Strong password"
-msgstr ""
+msgid "Weak password"
+msgstr "약한 암호"
 
-#: js/personal.js:301
+#: js/personal.js:279
+msgid "So-so password"
+msgstr "그저 그런 암호"
+
+#: js/personal.js:280
+msgid "Good password"
+msgstr "좋은 암호"
+
+#: js/personal.js:281
+msgid "Strong password"
+msgstr "강력한 암호"
+
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "파일 복호화 중... 시간이 걸릴 수도 있으니 기다려 주십시오."
 
@@ -330,24 +331,24 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
-#: templates/admin.php:43 templates/admin.php:57
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "보안 경고"
 
-#: templates/admin.php:46
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr "%s에 HTTP로 접근하고 있습니다. 서버에서 HTTPS를 사용하도록 설정하는 것을 추천합니다."
 
-#: templates/admin.php:60
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -356,68 +357,68 @@ msgid ""
 "root."
 msgstr "데이터 디렉터리와 파일을 인터넷에서 접근할 수도 있습니다. .htaccess 파일이 작동하지 않습니다. 웹 서버 설정을 변경하여 데이터 디렉터리에 접근할 수 없도록 하거나, 웹 서버 문서 경로 외부로 데이터 디렉터리를 옮기십시오."
 
-#: templates/admin.php:71
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "설정 경고"
 
-#: templates/admin.php:74
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: templates/admin.php:75
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "<a href=\"%s\">설치 가이드</a>를 다시 한 번 확인하십시오."
 
-#: templates/admin.php:86
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "모듈 'fileinfo'가 없음"
 
-#: templates/admin.php:89
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP 모듈 'fileinfo'가 존재하지 않습니다. MIME 형식 감지 결과를 향상시키기 위하여 이 모듈을 활성화하는 것을 추천합니다."
 
-#: templates/admin.php:100
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
 msgstr "PHP 버전이 오래됨"
 
-#: templates/admin.php:103
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "PHP 버전이 오래되었습니다. 오래된 버전은 작동하지 않을 수도 있기 때문에 PHP 5.3.8 이상을 사용하는 것을 추천합니다."
 
-#: templates/admin.php:114
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "로캘이 작동하지 않음"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "UTF-8을 지원하는 시스템 로캘을 사용할 수 없습니다."
 
-#: templates/admin.php:123
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "파일 이름의 일부 문자에 문제가 생길 수도 있습니다."
 
-#: templates/admin.php:127
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "다음 로캘을 지원하도록 시스템 설정을 변경하는 것을 추천합니다: %s"
 
-#: templates/admin.php:139
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "인터넷에 연결할 수 없음"
 
-#: templates/admin.php:142
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -426,162 +427,162 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "서버에서 인터넷에 연결할 수 없습니다. 외부 저장소 마운트, 업데이트 알림, 제 3자 앱 설치 등 일부 기능을 사용할 수 없습니다. 외부에서 파일에 접근하거나 알림 이메일을 보내지 못할 수도 있습니다. 모든 기능을 사용하려면 인터넷에 연결하는 것을 추천합니다."
 
-#: templates/admin.php:156
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "크론"
 
-#: templates/admin.php:163
+#: templates/admin.php:167
 msgid "Execute one task with each page loaded"
 msgstr "개별 페이지를 불러올 때마다 실행"
 
-#: templates/admin.php:171
+#: templates/admin.php:175
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php는 webcron 서비스에 등록되어 HTTP로 15분마다 cron.php에 접근합니다."
 
-#: templates/admin.php:179
+#: templates/admin.php:183
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "시스템의 cron 서비스를 통하여 15분마다 cron.php 파일에 접근합니다."
 
-#: templates/admin.php:184
+#: templates/admin.php:188
 msgid "Sharing"
 msgstr "공유"
 
-#: templates/admin.php:190
+#: templates/admin.php:194
 msgid "Enable Share API"
 msgstr "공유 API 사용하기"
 
-#: templates/admin.php:191
+#: templates/admin.php:195
 msgid "Allow apps to use the Share API"
 msgstr "앱에서 공유 API를 사용할 수 있도록 허용"
 
-#: templates/admin.php:198
+#: templates/admin.php:202
 msgid "Allow links"
 msgstr "링크 허용"
 
-#: templates/admin.php:199
+#: templates/admin.php:203
 msgid "Allow users to share items to the public with links"
 msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
 
-#: templates/admin.php:207
+#: templates/admin.php:211
 msgid "Allow public uploads"
 msgstr "공개 업로드 허용"
 
-#: templates/admin.php:208
+#: templates/admin.php:212
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "다른 사용자들이 공개된 공유 폴더에 파일 업로드 허용"
 
-#: templates/admin.php:216
+#: templates/admin.php:220
 msgid "Allow resharing"
 msgstr "재공유 허용"
 
-#: templates/admin.php:217
+#: templates/admin.php:221
 msgid "Allow users to share items shared with them again"
 msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Allow users to share with anyone"
 msgstr "누구나와 공유할 수 있도록 허용"
 
-#: templates/admin.php:227
+#: templates/admin.php:231
 msgid "Allow users to only share with users in their groups"
 msgstr "사용자가 속해 있는 그룹의 사용자에게만 공유할 수 있도록 허용"
 
-#: templates/admin.php:234
+#: templates/admin.php:238
 msgid "Allow mail notification"
 msgstr "메일 알림 허용"
 
-#: templates/admin.php:235
+#: templates/admin.php:239
 msgid "Allow user to send mail notification for shared files"
 msgstr "사용자에게 공유 파일에 대한 메일 알림을 허용합니다"
 
-#: templates/admin.php:242
+#: templates/admin.php:246
 msgid "Security"
 msgstr "보안"
 
-#: templates/admin.php:255
+#: templates/admin.php:259
 msgid "Enforce HTTPS"
 msgstr "HTTPS 강제 사용"
 
-#: templates/admin.php:257
+#: templates/admin.php:261
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "클라이언트가 %s에 연결할 때 암호화 연결을 강제로 사용합니다."
 
-#: templates/admin.php:263
+#: templates/admin.php:267
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL 강제 설정을 변경하려면 %s에 HTTPS로 연결해야 합니다."
 
-#: templates/admin.php:275
+#: templates/admin.php:279
 msgid "Email Server"
-msgstr ""
+msgstr "전자우편 서버"
 
-#: templates/admin.php:277
+#: templates/admin.php:281
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:308
+#: templates/admin.php:312
 msgid "From address"
-msgstr ""
-
-#: templates/admin.php:330
-msgid "Authentication required"
-msgstr ""
+msgstr "보낸 이 주소"
 
 #: templates/admin.php:334
+msgid "Authentication required"
+msgstr "인증 필요함"
+
+#: templates/admin.php:338
 msgid "Server address"
 msgstr "서버 주소"
 
-#: templates/admin.php:338
+#: templates/admin.php:342
 msgid "Port"
 msgstr "포트"
 
-#: templates/admin.php:343
-msgid "Credentials"
-msgstr "로그인 정보"
-
-#: templates/admin.php:344
-msgid "SMTP Username"
-msgstr ""
-
 #: templates/admin.php:347
-msgid "SMTP Password"
-msgstr ""
+msgid "Credentials"
+msgstr "자격 정보"
+
+#: templates/admin.php:348
+msgid "SMTP Username"
+msgstr "SMTP 사용자명"
 
 #: templates/admin.php:351
+msgid "SMTP Password"
+msgstr "SMTP 암호"
+
+#: templates/admin.php:355
 msgid "Test email settings"
-msgstr ""
+msgstr "시험용 전자우편 설정"
 
-#: templates/admin.php:352
+#: templates/admin.php:356
 msgid "Send email"
-msgstr ""
+msgstr "전자우편 보내기"
 
-#: templates/admin.php:357
+#: templates/admin.php:361
 msgid "Log"
 msgstr "로그"
 
-#: templates/admin.php:358
+#: templates/admin.php:362
 msgid "Log level"
 msgstr "로그 단계"
 
-#: templates/admin.php:390
+#: templates/admin.php:394
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:391
+#: templates/admin.php:395
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:397 templates/personal.php:181
+#: templates/admin.php:401 templates/personal.php:181
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:401 templates/personal.php:184
+#: templates/admin.php:405 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -605,7 +606,7 @@ msgstr "앱 선택"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "문서"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
