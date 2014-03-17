@@ -979,7 +979,12 @@ function initCore() {
 	});
 
 	// toggle the navigation on mobile
-	OC.registerMenu($('#header #owncloud'), $('#navigation'));
+	if (window.matchMedia) {
+		var mq = window.matchMedia('(max-width: 600px)');
+		if (mq && mq.matches) {
+			OC.registerMenu($('#header #owncloud'), $('#navigation'));
+		}
+	}
 }
 
 $(document).ready(initCore);
