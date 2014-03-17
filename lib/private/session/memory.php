@@ -64,6 +64,13 @@ class Memory extends Session {
 	}
 
 	/**
+	 * Helper function for PHPUnit execution - don't use in non-test code
+	 */
+	public function reopen() {
+		$this->sessionClosed = false;
+	}
+
+	/**
 	 * In case the session has already been locked an exception will be thrown
 	 *
 	 * @throws \Exception
