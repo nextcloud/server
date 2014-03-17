@@ -308,7 +308,7 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param string $str file size in a fancy format
+	 * @param string $str file size in human readable format
 	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
@@ -338,7 +338,7 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = round($bytes, 2);
+		$bytes = round($bytes);
 
 		return $bytes;
 	}
