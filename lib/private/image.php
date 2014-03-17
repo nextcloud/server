@@ -236,7 +236,12 @@ class OC_Image {
 				$retVal = imagepng($this->resource, $filePath);
 				break;
 			case IMAGETYPE_XBM:
-				$retVal = imagexbm($this->resource, $filePath);
+				if (function_exists('imagexbm')) {
+					$retVal = imagexbm($this->resource, $filePath);
+				} else {
+					throw new Exception('\OC_Image::_output(): imagexbm() is not supported.');
+				}
+
 				break;
 			case IMAGETYPE_WBMP:
 				$retVal = imagewbmp($this->resource, $filePath);
