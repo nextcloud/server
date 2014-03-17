@@ -922,9 +922,12 @@ class Trashbin {
 
 		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
 		$dh = $view->opendir('/files');
-		readdir($dh); //'..'
-		readdir($dh); //'.'
-		return readdir($dh) === false;
+		while ($file = readdir($dh)) {
+			if($file !== '.' and $file !== '..'){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static function preview_icon($path) {
