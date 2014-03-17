@@ -23,6 +23,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			array('0 B', 0),
 			array('1 kB', 1024),
 			array('9.5 MB', 10000000),
+			array('1.3 GB', 1395864371),
 			array('465.7 GB', 500000000000),
 			array('454.7 TB', 500000000000000),
 			array('444.1 PB', 500000000000000000),
@@ -41,8 +42,9 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		return array(
 			array(0.0, "0 B"),
 			array(1024.0, "1 kB"),
+			array(1395864371.0, '1.3 GB'),
 			array(9961472.0, "9.5 MB"),
-			array(500041567436.8, "465.7 GB"),
+			array(500041567437.0, "465.7 GB"),
 		);
 	}
 
