@@ -20,6 +20,7 @@
 # GNU General Public License for more details.
 #
 # Addition 17/12/2012 Frank Karlitschek (frank@owncloud.org)
+# Addition 17/03/2014 Robin McCorkell (rmccorkell@karoshi.org.uk)
 # On the official website http://www.phpclasses.org/smb4php the
 # license is listed as LGPL so we assume that this is
 # dual-licensed GPL/LGPL
@@ -238,17 +239,10 @@ class smb {
 					trigger_error ("url_stat(): list failed for host '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'share':
-				if ($o = smb::look ($pu)) {
-					$found = FALSE;
-					$lshare = strtolower ($pu['share']);  # fix by Eric Leung
-					foreach ($o['disk'] as $s) if ($lshare == strtolower($s)) {
-						$found = TRUE;
-						$stat = stat ("/tmp");
-						break;
-					}
-					if (! $found)
-						trigger_error ("url_stat(): disk resource '{$lshare}' not found in '{$pu['host']}'", E_USER_WARNING);
-				}
+				if (smb::execute("ls", $pu))
+					$stat = stat ("/tmp");
+				else
+					trigger_error ("url_stat(): disk resource '{$pu['share']}' not found in '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'path':
 				if ($o = smb::execute ('dir "'.$pu['path'].'"', $pu)) {
