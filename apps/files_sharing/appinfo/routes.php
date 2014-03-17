@@ -1,5 +1,5 @@
 <?php
-/** @var $this OC_Router */
+/** @var $this \OCP\Route\IRouter */
 $this->create('core_ajax_public_preview', '/publicpreview.png')->action(
 function() {
 	require_once __DIR__ . '/../ajax/publicpreview.php';
