@@ -189,7 +189,7 @@
 	display: block;
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .settings-button {
