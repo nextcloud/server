@@ -997,41 +997,48 @@ function initCore() {
 	 */
 	function setupMainMenu() {
 		// toggle the navigation on mobile
-		if (window.matchMedia) {
-			var mq = window.matchMedia('(max-width: 600px)');
-			var lastMatch = mq.matches;
-			var $toggle = $('#header #owncloud');
-			var $navigation = $('#navigation');
-
-			function updateMainMenu() {
-				// mobile mode ?
-				if (lastMatch && !$toggle.hasClass('menutoggle')) {
-					// init the menu
-					OC.registerMenu($toggle, $navigation);
-					$toggle.data('oldhref', $toggle.attr('href'));
-					$toggle.attr('href', '#');
-					$navigation.hide();
-				}
-				else {
-					OC.unregisterMenu($toggle, $navigation);
-					$toggle.attr('href', $toggle.data('oldhref'));
-					$navigation.show();
-				}
-			}
-
-			updateMainMenu();
-
-			// TODO: debounce this
-			$(window).resize(function() {
-				if (lastMatch !== mq.matches) {
-					lastMatch = mq.matches;
-					updateMainMenu();
-				}
-			});
+		if (!OC._matchMedia) {
+			return;
 		}
+		var mq = OC._matchMedia('(max-width: 600px)');
+		var lastMatch = mq.matches;
+		var $toggle = $('#header #owncloud');
+		var $navigation = $('#navigation');
+
+		function updateMainMenu() {
+			// mobile mode ?
+			if (lastMatch && !$toggle.hasClass('menutoggle')) {
+				// init the menu
+				OC.registerMenu($toggle, $navigation);
+				$toggle.data('oldhref', $toggle.attr('href'));
+				$toggle.attr('href', '#');
+				$navigation.hide();
+			}
+			else {
+				OC.unregisterMenu($toggle, $navigation);
+				$toggle.attr('href', $toggle.data('oldhref'));
+				$navigation.show();
+			}
+		}
+
+		updateMainMenu();
+
+		// TODO: debounce this
+		$(window).resize(function() {
+			if (lastMatch !== mq.matches) {
+				lastMatch = mq.matches;
+				updateMainMenu();
+			}
+		});
 	}
 
-	setupMainMenu();
+	if (window.matchMedia) {
+		// wrapper needed for unit tests due to PhantomJS bugs
+		OC._matchMedia = function(media) {
+			return window.matchMedia(media);
+		}
+		setupMainMenu();
+	}
 }
 
 $(document).ready(initCore);
