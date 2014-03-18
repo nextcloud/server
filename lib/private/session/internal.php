@@ -54,4 +54,7 @@ class Internal extends Memory {
 		parent::close();
 	}
 
+    public function reopen() {
+        throw new \Exception('The session cannot be reopened - reopen() is ony to be used in unit testing.');
+    }
 }
