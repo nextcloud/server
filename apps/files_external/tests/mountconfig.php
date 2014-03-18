@@ -113,7 +113,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 * Test adding a global mount point
 	 */
 	public function testAddGlobalMountPoint() {
-		$mountType = OC_Mount_Config::MOUNT_TYPE_GLOBAL;
+		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$applicable = 'all';
 		$isPersonal = false;
 
@@ -185,5 +185,77 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$isPersonal = false;
 		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', $storageClass, array(), $mountType, $applicable, $isPersonal));
 
+	}
+
+	/**
+	 * Test reading and writing global config
+	 */
+	public function testReadWriteGlobalConfig() {
+		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
+		$applicable = 'all';
+		$isPersonal = false;
+		$mountConfig = array(
+			'host' => 'smbhost',
+			'user' => 'smbuser',
+			'password' => 'smbpassword',
+			'share' => 'smbshare',
+			'root' => 'smbroot'
+		);
+
+		// write config
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// re-read config
+		$config = OC_Mount_Config::getSystemMountPoints();
+		$this->assertEquals(1, count($config));
+		$this->assertTrue(isset($config['ext']));
+		$this->assertEquals('\OC\Files\Storage\SMB', $config['ext']['class']);
+		$savedMountConfig = $config['ext']['configuration'];
+		$this->assertEquals($mountConfig, $savedMountConfig);
+	}
+
+	/**
+	 * Test reading and writing config
+	 */
+	public function testReadWritePersonalConfig() {
+		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
+		$applicable = 'test';
+		$isPersonal = true;
+		$mountConfig = array(
+			'host' => 'smbhost',
+			'user' => 'smbuser',
+			'password' => 'smbpassword',
+			'share' => 'smbshare',
+			'root' => 'smbroot'
+		);
+
+		// write config
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// re-read config
+		$config = OC_Mount_Config::getPersonalMountPoints();
+		$this->assertEquals(1, count($config));
+		$this->assertTrue(isset($config['ext']));
+		$this->assertEquals('\OC\Files\Storage\SMB', $config['ext']['class']);
+		$savedMountConfig = $config['ext']['configuration'];
+		$this->assertEquals($mountConfig, $savedMountConfig);
 	}
 }
