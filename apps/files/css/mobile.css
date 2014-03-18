@@ -18,18 +18,17 @@ table td.filename .nametext {
 	max-width: 75% !important;
 }
 
-/* do not show Rename or Versions on mobile */
-#fileList .action-rename,
-#fileList .action-versions {
-	display: none !important;
-}
-
 /* always show actions on mobile, not only on hover */
 #fileList a.action {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
 	filter: alpha(opacity=20) !important;
 	opacity: .2 !important;
 	display: inline !important;
+}
+/* do not show Rename or Versions on mobile */
+#fileList .action.action-rename,
+#fileList .action.action-versions {
+	display: none !important;
 }
 /* some padding for better clickability */
 #fileList a.action img {
