@@ -59,15 +59,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'filecacheStart', function () use($output) {
-				$output->writeln('<info>Updating filecache, this may take really long...</info>');
-			});
-			$updater->listen('\OC\Updater', 'filecacheDone', function () use($output) {
-				$output->writeln('<info>Updated filecache</info>');
-			});
-			$updater->listen('\OC\Updater', 'filecacheProgress', function ($out) use($output) {
-				$output->writeln('... ' . $out . '% done ...');
-			});
 
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
 				$output->writeln($message);
