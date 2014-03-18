@@ -321,7 +321,7 @@ class OC_Mount_Config {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage and other disabled backends
 			$allowed_backends = self::getPersonalBackends();
-			if ($applicable != OCP\User::getUser() || !in_array($class, $allowed_backends)) {
+			if ($applicable != OCP\User::getUser() || !isset($allowed_backends[$class])) {
 				return false;
 			}
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
