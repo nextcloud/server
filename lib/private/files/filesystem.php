@@ -320,78 +320,9 @@ class Filesystem {
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		}
-		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-
-		//move config file to it's new position
-		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
-			rename(\OC::$SERVERROOT . '/config/mount.json', $datadir . '/mount.json');
-		}
-		// Load system mount points
-		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file($datadir . '/mount.json')) {
-			if (is_file($datadir . '/mount.json')) {
-				$mountConfig = json_decode(file_get_contents($datadir . '/mount.json'), true);
-			} elseif (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
-				$mountConfig = $parser->parsePHP(file_get_contents(\OC::$SERVERROOT . '/config/mount.php'));
-			}
-			if (isset($mountConfig['global'])) {
-				foreach ($mountConfig['global'] as $mountPoint => $options) {
-					self::mount($options['class'], $options['options'], $mountPoint);
-				}
-			}
-			if (isset($mountConfig['group'])) {
-				foreach ($mountConfig['group'] as $group => $mounts) {
-					if (\OC_Group::inGroup($user, $group)) {
-						foreach ($mounts as $mountPoint => $options) {
-							$mountPoint = self::setUserVars($user, $mountPoint);
-							foreach ($options as &$option) {
-								$option = self::setUserVars($user, $option);
-							}
-							self::mount($options['class'], $options['options'], $mountPoint);
-						}
-					}
-				}
-			}
-			if (isset($mountConfig['user'])) {
-				foreach ($mountConfig['user'] as $mountUser => $mounts) {
-					if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
-						foreach ($mounts as $mountPoint => $options) {
-							$mountPoint = self::setUserVars($user, $mountPoint);
-							foreach ($options as &$option) {
-								$option = self::setUserVars($user, $option);
-							}
-							self::mount($options['class'], $options['options'], $mountPoint);
-						}
-					}
-				}
-			}
-		}
-		// Load personal mount points
-		if (is_file($root . '/mount.php') or is_file($root . '/mount.json')) {
-			if (is_file($root . '/mount.json')) {
-				$mountConfig = json_decode(file_get_contents($root . '/mount.json'), true);
-			} elseif (is_file($root . '/mount.php')) {
-				$mountConfig = $parser->parsePHP(file_get_contents($root . '/mount.php'));
-			}
-			if (isset($mountConfig['user'][$user])) {
-				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-					self::mount($options['class'], $options['options'], $mountPoint);
-				}
-			}
-		}
 
 		// Chance to mount for other storages
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
-	}
-
-	/**
-	 * fill in the correct values for $user
-	 *
-	 * @param string $user
-	 * @param string $input
-	 * @return string
-	 */
-	private static function setUserVars($user, $input) {
-		return str_replace('$user', $user, $input);
 	}
 
 	/**

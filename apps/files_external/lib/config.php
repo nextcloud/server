@@ -4,6 +4,7 @@
 *
 * @author Michael Gapczynski
 * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -19,14 +20,23 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+set_include_path(
+	get_include_path() . PATH_SEPARATOR .
+	\OC_App::getAppPath('files_external') . '/3rdparty/phpseclib/phpseclib'
+);
+
 /**
-* Class to configure the config/mount.php and data/$user/mount.php files
-*/
+ * Class to configure mount.json globally and for users
+ */
 class OC_Mount_Config {
+	// TODO: make this class non-static and give it a proper namespace
 
 	const MOUNT_TYPE_GLOBAL = 'global';
 	const MOUNT_TYPE_GROUP = 'group';
 	const MOUNT_TYPE_USER = 'user';
+
+	// whether to skip backend test (for unit tests, as this static class is not mockable)
+	public static $skipTest = false;
 
 	/**
 	* Get details on each of the external storage backends, used for the mount config UI
@@ -39,6 +49,7 @@ class OC_Mount_Config {
 	*/
 	public static function getBackends() {
 
+		// FIXME: do not rely on php key order for the options order in the UI
 		$backends['\OC\Files\Storage\Local']=array(
 				'backend' => 'Local',
 				'configuration' => array(
@@ -146,6 +157,125 @@ class OC_Mount_Config {
 	}
 
 	/**
+	 * Hook that mounts the given user's visible mount points
+	 * @param array $data
+	 */
+	public static function initMountPointsHook($data) {
+		$mountPoints = self::getAbsoluteMountPoints($data['user']);
+		foreach ($mountPoints as $mountPoint => $options) {
+			\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+		}
+	}
+
+	/**
+	 * Returns the mount points for the given user.
+	 * The mount point is relative to the data directory.
+	 *
+	 * @param string $user user
+	 * @return array of mount point string as key, mountpoint config as value
+	 */
+	public static function getAbsoluteMountPoints($user) {
+		$mountPoints = array();	
+
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
+
+		//move config file to it's new position
+		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
+			rename(\OC::$SERVERROOT . '/config/mount.json', $mount_file);
+		}
+
+		// Load system mount points
+		$mountConfig = self::readData(false);
+		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
+				$options['options'] = self::decryptPasswords($options['options']);
+				$mountPoints[$mountPoint] = $options;
+			}
+		}
+		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
+				if (\OC_Group::inGroup($user, $group)) {
+					foreach ($mounts as $mountPoint => $options) {
+						$mountPoint = self::setUserVars($user, $mountPoint);
+						foreach ($options as &$option) {
+							$option = self::setUserVars($user, $option);
+						}
+						$options['options'] = self::decryptPasswords($options['options']);
+						$mountPoints[$mountPoint] = $options;
+					}
+				}
+			}
+		}
+		if (isset($mountConfig[self::MOUNT_TYPE_USER])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_USER] as $mountUser => $mounts) {
+				if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
+					foreach ($mounts as $mountPoint => $options) {
+						$mountPoint = self::setUserVars($user, $mountPoint);
+						foreach ($options as &$option) {
+							$option = self::setUserVars($user, $option);
+						}
+						$options['options'] = self::decryptPasswords($options['options']);
+						$mountPoints[$mountPoint] = $options;
+					}
+				}
+			}
+		}
+
+		// Load personal mount points
+		$mountConfig = self::readData(true);
+		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
+				$options['options'] = self::decryptPasswords($options['options']);
+				$mountPoints[$mountPoint] = $options;
+			}
+		}
+
+		return $mountPoints;
+	}
+
+	/**
+	 * fill in the correct values for $user
+	 *
+	 * @param string $user
+	 * @param string $input
+	 * @return string
+	 */
+	private static function setUserVars($user, $input) {
+		return str_replace('$user', $user, $input);
+	}
+
+
+	/**
+	* Get details on each of the external storage backends, used for the mount config UI
+	* Some backends are not available as a personal backend, f.e. Local and such that have
+	* been disabled by the admin.
+	*
+	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
+	* If the configuration parameter should be secret, add a '*' to the beginning of the value
+	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
+	* If the configuration parameter is optional, add a '&' to the beginning of the value
+	* If the configuration parameter is hidden, add a '#' to the beginning of the value
+	* @return array
+	*/
+	public static function getPersonalBackends() {
+
+		$backends = self::getBackends();
+
+		// Remove local storage and other disabled storages
+		unset($backends['\OC\Files\Storage\Local']);
+
+		$allowed_backends = explode(',', OCP\Config::getAppValue('files_external', 'user_mounting_backends', ''));
+		foreach ($backends as $backend => $null) {
+			if (!in_array($backend, $allowed_backends)) {
+				unset($backends[$backend]);
+			}
+		}
+
+		return $backends;
+	}
+
+	/**
 	* Get the system mount points
 	* The returned array is not in the same format as getUserMountPoints()
 	* @return array
@@ -161,6 +291,7 @@ class OC_Mount_Config {
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
+					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -186,6 +317,7 @@ class OC_Mount_Config {
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
+					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -223,6 +355,7 @@ class OC_Mount_Config {
 				if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 				}
+				$mount['options'] = self::decryptPasswords($mount['options']);
 				// Remove '/uid/files/' from mount point
 				$personal[substr($mountPoint, strlen($uid) + 8)] = array(
 					'class' => $mount['class'],
@@ -235,9 +368,18 @@ class OC_Mount_Config {
 		return $personal;
 	}
 
+	/**
+	 * Test connecting using the given backend configuration
+	 * @param string $class backend class name
+	 * @param array $options backend configuration options
+	 * @return bool true if the connection succeeded, false otherwise
+	 */
 	private static function getBackendStatus($class, $options) {
+		if (self::$skipTest) {
+			return true;
+		}
 		foreach ($options as &$option) {
-			$option = str_replace('$user', OCP\User::getUser(), $option);
+			$option = self::setUserVars(OCP\User::getUser(), $option);
 		}
 		if (class_exists($class)) {
 			try {
@@ -288,7 +430,13 @@ class OC_Mount_Config {
 		} else {
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
-		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
+
+		$mount = array($applicable => array(
+			$mountPoint => array(
+				'class' => $class,
+				'options' => self::encryptPasswords($classOptions))
+			)
+		);
 		$mountPoints = self::readData($isPersonal);
 		// Merge the new mount point into the current mount points
 		if (isset($mountPoints[$mountType])) {
@@ -479,5 +627,72 @@ class OC_Mount_Config {
 		}
 
 		return $txt;
+	}
+
+	/**
+	 * Encrypt passwords in the given config options
+	 * @param array $options mount options
+	 * @return array updated options
+	 */
+	private static function encryptPasswords($options) {
+		if (isset($options['password'])) {
+			$options['password_encrypted'] = self::encryptPassword($options['password']);
+			// do not unset the password, we want to keep the keys order
+			// on load... because that's how the UI currently works
+			$options['password'] = '';
+		}
+		return $options;
+	}
+
+	/**
+	 * Decrypt passwords in the given config options
+	 * @param array $options mount options
+	 * @return array updated options
+	 */
+	private static function decryptPasswords($options) {
+		// note: legacy options might still have the unencrypted password in the "password" field
+		if (isset($options['password_encrypted'])) {
+			$options['password'] = self::decryptPassword($options['password_encrypted']);
+			unset($options['password_encrypted']);
+		}
+		return $options;
+	}
+
+	/**
+	 * Encrypt a single password
+	 * @param string $password plain text password
+	 * @return encrypted password
+	 */
+	private static function encryptPassword($password) {
+		$cipher = self::getCipher();
+		$iv = \OCP\Util::generateRandomBytes(16);
+		$cipher->setIV($iv);
+		return base64_encode($iv . $cipher->encrypt($password));
+	}
+
+	/**
+	 * Decrypts a single password
+	 * @param string $encryptedPassword encrypted password
+	 * @return plain text password
+	 */
+	private static function decryptPassword($encryptedPassword) {
+		$cipher = self::getCipher();
+		$binaryPassword = base64_decode($encryptedPassword);
+		$iv = substr($binaryPassword, 0, 16);
+		$cipher->setIV($iv);
+		$binaryPassword = substr($binaryPassword, 16);
+		return $cipher->decrypt($binaryPassword);
+	}
+
+	/**
+	 * Returns the encryption cipher
+	 */
+	private static function getCipher() {
+		if (!class_exists('Crypt_AES', false)) {
+			include('Crypt/AES.php');
+		}
+		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
+		$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
+		return $cipher;
 	}
 }
