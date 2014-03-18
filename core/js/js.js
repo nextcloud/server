@@ -516,6 +516,19 @@ var OC={
 		}
 		$toggle.off('click.menu').removeClass('menutoggle');
 		$menuEl.removeClass('menu');
+	},
+
+	/**
+	 * Wrapper for matchMedia
+	 *
+	 * This is makes it possible for unit tests to
+	 * stub matchMedia (which doesn't work in PhantomJS)
+	 */
+	_matchMedia: function(media) {
+		if (window.matchMedia) {
+			return window.matchMedia(media);
+		}
+		return false;
 	}
 };
 OC.search.customResults={};
@@ -1033,10 +1046,6 @@ function initCore() {
 	}
 
 	if (window.matchMedia) {
-		// wrapper needed for unit tests due to PhantomJS bugs
-		OC._matchMedia = function(media) {
-			return window.matchMedia(media);
-		}
 		setupMainMenu();
 	}
 }
