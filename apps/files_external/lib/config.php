@@ -28,6 +28,9 @@ class OC_Mount_Config {
 	const MOUNT_TYPE_GROUP = 'group';
 	const MOUNT_TYPE_USER = 'user';
 
+	// whether to skip backend test (for unit tests, as this static class is not mockable)
+	public static $skipTest = false;
+
 	/**
 	* Get details on each of the external storage backends, used for the mount config UI
 	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
@@ -275,6 +278,9 @@ class OC_Mount_Config {
 	}
 
 	private static function getBackendStatus($class, $options) {
+		if (self::$skipTest) {
+			return true;
+		}
 		foreach ($options as &$option) {
 			$option = str_replace('$user', OCP\User::getUser(), $option);
 		}
