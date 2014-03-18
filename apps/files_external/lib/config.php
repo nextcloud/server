@@ -4,6 +4,7 @@
 *
 * @author Michael Gapczynski
 * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -19,9 +20,16 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+set_include_path(
+	get_include_path() . PATH_SEPARATOR .
+	\OC_App::getAppPath('files_external') . '/3rdparty/phpseclib/phpseclib'
+);
+include('Crypt/AES.php');
+
 /**
 * Class to configure the config/mount.php and data/$user/mount.php files
-*/
+ */
+// TODO: make this class non-static
 class OC_Mount_Config {
 
 	const MOUNT_TYPE_GLOBAL = 'global';
@@ -30,6 +38,9 @@ class OC_Mount_Config {
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
+
+	// password encryption cipher
+	private static $cipher;
 
 	/**
 	* Get details on each of the external storage backends, used for the mount config UI
@@ -203,6 +214,7 @@ class OC_Mount_Config {
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
+					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -228,6 +240,7 @@ class OC_Mount_Config {
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
+					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -265,6 +278,7 @@ class OC_Mount_Config {
 				if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
 					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 				}
+				$mount['options'] = self::decryptPasswords($mount['options']);
 				// Remove '/uid/files/' from mount point
 				$personal[substr($mountPoint, strlen($uid) + 8)] = array(
 					'class' => $mount['class'],
@@ -334,7 +348,13 @@ class OC_Mount_Config {
 		} else {
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
-		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
+
+		$mount = array($applicable => array(
+			$mountPoint => array(
+				'class' => $class,
+				'options' => self::encryptPasswords($classOptions))
+			)
+		);
 		$mountPoints = self::readData($isPersonal);
 		// Merge the new mount point into the current mount points
 		if (isset($mountPoints[$mountType])) {
@@ -526,5 +546,43 @@ class OC_Mount_Config {
 		}
 
 		return $txt;
+	}
+
+	/**
+	 * Encrypt passwords in the given config options
+	 * @param array $options mount options
+	 * @return array updated options
+	 */
+	private static function encryptPasswords($options) {
+		if (isset($options['password'])) {
+			$options['password_encrypted'] = base64_encode(self::getCipher()->encrypt($options['password']));
+			unset($options['password']);
+		}
+		return $options;
+	}
+
+	/**
+	 * Decrypt passwords in the given config options
+	 * @param array $options mount options
+	 * @return array updated options
+	 */
+	private static function decryptPasswords($options) {
+		// note: legacy options might still have the unencrypted password in the "password" field
+		if (isset($options['password_encrypted'])) {
+			$options['password'] = self::getCipher()->decrypt(base64_decode($options['password_encrypted']));
+			unset($options['password_encrypted']);
+		}
+		return $options;
+	}
+
+	/**
+	 * Returns the encryption cipher
+	 */
+	private static function getCipher() {
+		if (!isset(self::$cipher)) {
+			self::$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
+			self::$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
+		}
+		return self::$cipher;
 	}
 }

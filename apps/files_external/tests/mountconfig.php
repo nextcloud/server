@@ -95,6 +95,14 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Write the user config, to simulate existing files
+	 */
+	private function writeUserConfig($config) {
+		$configFile = $this->userHome . '/mount.json';
+		file_put_contents($configFile, json_encode($config));
+	}
+
+	/**
 	 * Test mount point validation
 	 */
 	public function testAddMountPointValidation() {
@@ -255,6 +263,85 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($config));
 		$this->assertTrue(isset($config['ext']));
 		$this->assertEquals('\OC\Files\Storage\SMB', $config['ext']['class']);
+		$savedMountConfig = $config['ext']['configuration'];
+		$this->assertEquals($mountConfig, $savedMountConfig);
+	}
+
+	/**
+	 * Test password obfuscation
+	 */
+	public function testPasswordObfuscation() {
+		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
+		$applicable = 'test';
+		$isPersonal = true;
+		$mountConfig = array(
+			'host' => 'smbhost',
+			'user' => 'smbuser',
+			'password' => 'smbpassword',
+			'share' => 'smbshare',
+			'root' => 'smbroot'
+		);
+
+		// write config
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// note: password re-reading is covered by testReadWritePersonalConfig
+
+		// check that password inside the file is NOT in plain text
+		$config = $this->readUserConfig();
+		$savedConfig = $config[$mountType][$applicable]['/test/files/ext']['options'];
+
+		// no more clear text password in file
+		$this->assertFalse(isset($savedConfig['password']));
+
+		// encrypted password is present
+		$this->assertNotEquals($mountConfig['password'], $savedConfig['password_encrypted']);
+	}
+
+	/**
+	 * Test read legacy passwords
+	 */
+	public function testReadLegacyPassword() {
+		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
+		$applicable = 'test';
+		$isPersonal = true;
+		$mountConfig = array(
+			'host' => 'smbhost',
+			'user' => 'smbuser',
+			'password' => 'smbpassword',
+			'share' => 'smbshare',
+			'root' => 'smbroot'
+		);
+
+		// write config
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		$config = $this->readUserConfig();
+		// simulate non-encrypted password situation
+		$config[$mountType][$applicable]['/test/files/ext']['options']['password'] = 'smbpasswd';
+
+		$this->writeUserConfig($config);
+
+		// re-read config, password was read correctly
+		$config = OC_Mount_Config::getPersonalMountPoints();
 		$savedMountConfig = $config['ext']['configuration'];
 		$this->assertEquals($mountConfig, $savedMountConfig);
 	}
