@@ -431,6 +431,16 @@ class Share extends \OC\Share\Constants {
 			$itemSourceName = $itemSource;
 		}
 
+		// verify that the file exists before we try to share it
+		if ($itemType === 'file' or $itemType === 'folder') {
+			$path = \OC\Files\Filesystem::getPath($itemSource);
+			if (!$path) {
+				$message = 'Sharing ' . $itemSourceName . ' failed, because the file does not exist';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+		}
+
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
