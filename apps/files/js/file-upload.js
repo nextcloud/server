@@ -320,6 +320,7 @@ OC.Upload = {
 				 */
 				start: function(e) {
 					OC.Upload.log('start', e, null);
+					$('#upload').tipsy('hide'); // otherwise "Upload max." covers progress bar
 				},
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);
