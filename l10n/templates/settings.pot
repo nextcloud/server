@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-17 01:55-0400\n"
+"POT-Creation-Date: 2014-03-19 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,15 +47,15 @@ msgstr ""
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:284
+#: admin/controller.php:116 templates/admin.php:282
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:295 templates/personal.php:159
 msgid "Encryption"
 msgstr ""
 
-#: admin/controller.php:120 templates/admin.php:321
+#: admin/controller.php:120 templates/admin.php:319
 msgid "Authentication method"
 msgstr ""
 
@@ -459,123 +459,123 @@ msgstr ""
 msgid "Allow users to share items to the public with links"
 msgstr ""
 
-#: templates/admin.php:211
+#: templates/admin.php:210
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:212
+#: templates/admin.php:211
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:220
+#: templates/admin.php:218
 msgid "Allow resharing"
 msgstr ""
 
-#: templates/admin.php:221
+#: templates/admin.php:219
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:228
+#: templates/admin.php:226
 msgid "Allow users to share with anyone"
 msgstr ""
 
-#: templates/admin.php:231
+#: templates/admin.php:229
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:238
+#: templates/admin.php:236
 msgid "Allow mail notification"
 msgstr ""
 
-#: templates/admin.php:239
+#: templates/admin.php:237
 msgid "Allow user to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:246
+#: templates/admin.php:244
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:259
+#: templates/admin.php:257
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:259
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:267
+#: templates/admin.php:265
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:279
+#: templates/admin.php:277
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:281
+#: templates/admin.php:279
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:312
+#: templates/admin.php:310
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:334
+#: templates/admin.php:332
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:338
+#: templates/admin.php:336
 msgid "Server address"
 msgstr ""
 
-#: templates/admin.php:342
+#: templates/admin.php:340
 msgid "Port"
 msgstr ""
 
-#: templates/admin.php:347
+#: templates/admin.php:345
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:348
+#: templates/admin.php:346
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:351
+#: templates/admin.php:349
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:355
+#: templates/admin.php:353
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:356
+#: templates/admin.php:354
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:361
+#: templates/admin.php:359
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:362
+#: templates/admin.php:360
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:394
+#: templates/admin.php:392
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:395
+#: templates/admin.php:393
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:401 templates/personal.php:181
+#: templates/admin.php:399 templates/personal.php:181
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:405 templates/personal.php:184
+#: templates/admin.php:403 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
