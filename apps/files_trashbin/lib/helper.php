@@ -2,13 +2,15 @@
 
 namespace OCA\Files_Trashbin;
 
+use OC\Files\FileInfo;
+
 class Helper
 {
 	/**
 	 * Retrieves the contents of a trash bin directory.
 	 * @param string $dir path to the directory inside the trashbin
 	 * or empty to retrieve the root of the trashbin
-	 * @return array of files
+	 * @return \OCP\Files\FileInfo[]
 	 */
 	public static function getTrashFiles($dir){
 		$result = array();
@@ -52,6 +54,8 @@ class Helper
 
 		$files = array();
 		$id = 0;
+		list($storage, $internalPath) = $view->resolvePath($dir);
+		$absoluteDir = $view->getAbsolutePath($dir);
 		foreach ($result as $r) {
 			$i = array();
 			$i['id'] = $id++;
@@ -77,7 +81,7 @@ class Helper
 				$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($r['mime']);
 			}
 			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
-			$files[] = $i;
+			$files[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i);
 		}
 
 		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
