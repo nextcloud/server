@@ -50,6 +50,7 @@ class OC_Mount_Config {
 	*/
 	public static function getBackends() {
 
+		// FIXME: do not rely on php key order for the options order in the UI
 		$backends['\OC\Files\Storage\Local']=array(
 				'backend' => 'Local',
 				'configuration' => array(
@@ -649,7 +650,9 @@ class OC_Mount_Config {
 	private static function encryptPasswords($options) {
 		if (isset($options['password'])) {
 			$options['password_encrypted'] = self::encryptPassword($options['password']);
-			unset($options['password']);
+			// do not unset the password, we want to keep the keys order
+			// on load... because that's how the UI currently works
+			$options['password'] = '';
 		}
 		return $options;
 	}

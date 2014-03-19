@@ -245,6 +245,8 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('\OC\Files\Storage\SMB', $config['ext']['class']);
 		$savedMountConfig = $config['ext']['configuration'];
 		$this->assertEquals($mountConfig, $savedMountConfig);
+		// key order needs to be preserved for the UI...
+		$this->assertEquals(array_keys($mountConfig), array_keys($savedMountConfig));
 	}
 
 	/**
@@ -281,6 +283,8 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('\OC\Files\Storage\SMB', $config['ext']['class']);
 		$savedMountConfig = $config['ext']['configuration'];
 		$this->assertEquals($mountConfig, $savedMountConfig);
+		// key order needs to be preserved for the UI...
+		$this->assertEquals(array_keys($mountConfig), array_keys($savedMountConfig));
 	}
 
 	/**
@@ -316,8 +320,8 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$config = $this->readUserConfig();
 		$savedConfig = $config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']['options'];
 
-		// no more clear text password in file
-		$this->assertFalse(isset($savedConfig['password']));
+		// no more clear text password in file (kept because of key order)
+		$this->assertEquals('', $savedConfig['password']);
 
 		// encrypted password is present
 		$this->assertNotEquals($mountConfig['password'], $savedConfig['password_encrypted']);
