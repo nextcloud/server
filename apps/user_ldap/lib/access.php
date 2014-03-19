@@ -1184,7 +1184,7 @@ class Access extends LDAPUtility {
 		}
 		$offset -= $limit;
 		//we work with cache here
-		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
+		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . intval($limit) . '-' . intval($offset);
 		$cookie = '';
 		if(isset($this->cookies[$cachekey])) {
 			$cookie = $this->cookies[$cachekey];
@@ -1206,7 +1206,7 @@ class Access extends LDAPUtility {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
-			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
+			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
 			$this->cookies[$cachekey] = $cookie;
 		}
 	}
