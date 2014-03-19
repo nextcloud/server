@@ -100,7 +100,7 @@ $(document).ready(function() {
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 
 			for (var i=0; i<files.length; i++) {
-				var undeleteAction = $FileList.findFileEl(files[i]).children("td.date");
+				var undeleteAction = FileList.findFileEl(files[i]).children("td.date");
 				undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			}
 
