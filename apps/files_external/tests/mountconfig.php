@@ -345,4 +345,114 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$savedMountConfig = $config['ext']['configuration'];
 		$this->assertEquals($mountConfig, $savedMountConfig);
 	}
+
+	public function mountDataProvider() {
+		return array(
+			// Tests for visible mount points
+			// system mount point for all users
+			array(
+				false,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				'all',
+				'test',
+				true,
+			),
+			// system mount point for a specific user
+			array(
+				false,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				'test',
+				'test',
+				true,
+			),
+			// system mount point for a specific group
+			array(
+				false,
+				OC_Mount_Config::MOUNT_TYPE_GROUP,
+				'testgroup1',
+				'test',
+				true,
+			),
+			// user mount point
+			array(
+				true,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				'test',
+				'test',
+				true,
+			),
+
+			// Tests for non-visible mount points
+			// system mount point for another user
+			array(
+				false,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				'anotheruser',
+				'test',
+				false,
+			),
+			// system mount point for a specific group
+			array(
+				false,
+				OC_Mount_Config::MOUNT_TYPE_GROUP,
+				'anothergroup',
+				'test',
+				false,
+			),
+			// user mount point
+			array(
+				true,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				'test',
+				'anotheruser',
+				false,
+			),
+		);
+	}
+
+	/**
+	 * Test mount points used at mount time, making sure
+	 * the configuration is prepared properly.
+	 *
+	 * @dataProvider mountDataProvider
+	 * @param bool $isPersonal true for personal mount point, false for system mount point
+	 * @param string $mountType mount type
+	 * @param string $applicable target user/group or "all"
+	 * @param string $testUser user for which to retrieve the mount points
+	 * @param bool $expectVisible whether to expect the mount point to be visible for $testUser
+	 */
+	public function testMount($isPersonal, $mountType, $applicable, $testUser, $expectVisible) {
+		$mountConfig = array(
+			'host' => 'someost',
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'root' => 'someroot'
+		);
+
+		// add mount point as "test" user 
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// check mount points in the perspective of user $testUser
+		\OC_User::setUserId($testUser);
+
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints($testUser);
+		if ($expectVisible) {
+			$this->assertEquals(1, count($mountPoints));
+			$this->assertTrue(isset($mountPoints['/test/files/ext']));
+			$this->assertEquals('\OC\Files\Storage\SMB', $mountPoints['/test/files/ext']['class']);
+			$this->assertEquals($mountConfig, $mountPoints['/test/files/ext']['options']);
+		}
+		else {
+			$this->assertEquals(0, count($mountPoints));
+		}
+	}
 }

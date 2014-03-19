@@ -167,12 +167,25 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Init mount points hook
+	 * Hook that mounts the given user's visible mount points
 	 * @param array $data
 	 */
 	public static function initMountPointsHook($data) {
-		$user = $data['user'];
-		$root = $data['user_dir'];
+		$mountPoints = self::getAbsoluteMountPoints($data['user']);
+		foreach ($mountPoints as $mountPoints => $options) {
+			\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+		}
+	}
+
+	/**
+	 * Returns the mount points for the given user.
+	 * The mount point is relative to the data directory.
+	 *
+	 * @param string $user user
+	 * @return array of mount point string as key, mountpoint config as value
+	 */
+	public static function getAbsoluteMountPoints($user) {
+		$mountPoints = array();	
 
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
@@ -187,7 +200,7 @@ class OC_Mount_Config {
 		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
 				$options['options'] = self::decryptPasswords($options['options']);
-				\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+				$mountPoints[$mountPoint] = $options;
 			}
 		}
 		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
@@ -199,7 +212,7 @@ class OC_Mount_Config {
 							$option = self::setUserVars($user, $option);
 						}
 						$options['options'] = self::decryptPasswords($options['options']);
-						\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+						$mountPoints[$mountPoint] = $options;
 					}
 				}
 			}
@@ -213,7 +226,7 @@ class OC_Mount_Config {
 							$option = self::setUserVars($user, $option);
 						}
 						$options['options'] = self::decryptPasswords($options['options']);
-						\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+						$mountPoints[$mountPoint] = $options;
 					}
 				}
 			}
@@ -224,9 +237,11 @@ class OC_Mount_Config {
 		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
 				$options['options'] = self::decryptPasswords($options['options']);
-				\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+				$mountPoints[$mountPoint] = $options;
 			}
 		}
+
+		return $mountPoints;
 	}
 
 	/**
