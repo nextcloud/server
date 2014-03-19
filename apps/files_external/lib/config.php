@@ -39,9 +39,6 @@ class OC_Mount_Config {
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
 
-	// password encryption cipher
-	private static $cipher;
-
 	/**
 	* Get details on each of the external storage backends, used for the mount config UI
 	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
@@ -555,7 +552,7 @@ class OC_Mount_Config {
 	 */
 	private static function encryptPasswords($options) {
 		if (isset($options['password'])) {
-			$options['password_encrypted'] = base64_encode(self::getCipher()->encrypt($options['password']));
+			$options['password_encrypted'] = self::encryptPassword($options['password']);
 			unset($options['password']);
 		}
 		return $options;
@@ -569,20 +566,46 @@ class OC_Mount_Config {
 	private static function decryptPasswords($options) {
 		// note: legacy options might still have the unencrypted password in the "password" field
 		if (isset($options['password_encrypted'])) {
-			$options['password'] = self::getCipher()->decrypt(base64_decode($options['password_encrypted']));
+			$options['password'] = self::decryptPassword($options['password_encrypted']);
 			unset($options['password_encrypted']);
 		}
 		return $options;
 	}
 
 	/**
+	 * Encrypt a single password
+	 * @param string $password plain text password
+	 * @return encrypted password
+	 */
+	private static function encryptPassword($password) {
+		$cipher = self::getCipher();
+		$iv = \OCP\Util::generateRandomBytes(16);
+		$cipher->setIV($iv);
+		return base64_encode($iv . $cipher->encrypt($password));
+	}
+
+	/**
+	 * Decrypts a single password
+	 * @param string $encryptedPassword encrypted password
+	 * @return plain text password
+	 */
+	private static function decryptPassword($encryptedPassword) {
+		$cipher = self::getCipher();
+		$binaryPassword = base64_decode($encryptedPassword);
+		$iv = substr($binaryPassword, 0, 16);
+		$cipher->setIV($iv);
+		$binaryPassword = substr($binaryPassword, 16);
+		return $cipher->decrypt($binaryPassword);
+	}
+
+	/**
 	 * Returns the encryption cipher
 	 */
 	private static function getCipher() {
-		if (!isset(self::$cipher)) {
-			self::$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
-			self::$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
-		}
-		return self::$cipher;
+		// note: not caching this to make it thread safe as we'll use
+		// a different IV for each password
+		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
+		$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
+		return $cipher;
 	}
 }
