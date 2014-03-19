@@ -16,9 +16,6 @@ use OC\Hooks\BasicEmitter;
  *  - maintenanceStart()
  *  - maintenanceEnd()
  *  - dbUpgrade()
- *  - filecacheStart()
- *  - filecacheProgress(int $percentage)
- *  - filecacheDone()
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
@@ -122,9 +119,6 @@ class Updater extends BasicEmitter {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 			$this->emit('\OC\Updater', 'dbUpgrade');
 
-			// do a file cache upgrade for users with files
-			// this can take loooooooooooooooooooooooong
-			$this->upgradeFileCache();
 		} catch (\Exception $exception) {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
@@ -142,42 +136,5 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}
 
-	private function upgradeFileCache() {
-		try {
-			$query = \OC_DB::prepare('
-				SELECT DISTINCT `user`
-				FROM `*PREFIX*fscache`
-			');
-			$result = $query->execute();
-		} catch (\Exception $e) {
-			return;
-		}
-		$users = $result->fetchAll();
-		if (count($users) == 0) {
-			return;
-		}
-		$step = 100 / count($users);
-		$percentCompleted = 0;
-		$lastPercentCompletedOutput = 0;
-		$startInfoShown = false;
-		foreach ($users as $userRow) {
-			$user = $userRow['user'];
-			\OC\Files\Filesystem::initMountPoints($user);
-			\OC\Files\Cache\Upgrade::doSilentUpgrade($user);
-			if (!$startInfoShown) {
-				//We show it only now, because otherwise Info about upgraded apps
-				//will appear between this and progress info
-				$this->emit('\OC\Updater', 'filecacheStart');
-				$startInfoShown = true;
-			}
-			$percentCompleted += $step;
-			$out = floor($percentCompleted);
-			if ($out != $lastPercentCompletedOutput) {
-				$this->emit('\OC\Updater', 'filecacheProgress', array($out));
-				$lastPercentCompletedOutput = $out;
-			}
-		}
-		$this->emit('\OC\Updater', 'filecacheDone');
-	}
 }
 
