@@ -10,7 +10,7 @@ table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
 caption, th, td { text-align:left; font-weight:normal; }
 table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
-a, a *, input, input *, select, .button span, li, label { cursor:pointer; }
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
 body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
 
