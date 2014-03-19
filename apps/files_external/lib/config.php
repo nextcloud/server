@@ -27,10 +27,10 @@ set_include_path(
 include('Crypt/AES.php');
 
 /**
-* Class to configure the config/mount.php and data/$user/mount.php files
+ * Class to configure mount.json globally and for users
  */
-// TODO: make this class non-static
 class OC_Mount_Config {
+	// TODO: make this class non-static and give it a proper namespace
 
 	const MOUNT_TYPE_GLOBAL = 'global';
 	const MOUNT_TYPE_GROUP = 'group';
@@ -167,6 +167,81 @@ class OC_Mount_Config {
 	}
 
 	/**
+	 * Init mount points hook
+	 * @param array $data
+	 */
+	public static function initMountPointsHook($data) {
+		$user = $data['user'];
+		$root = $data['user_dir'];
+
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
+
+		//move config file to it's new position
+		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
+			rename(\OC::$SERVERROOT . '/config/mount.json', $mount_file);
+		}
+
+		// Load system mount points
+		$mountConfig = self::readData(false);
+		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
+				$options['options'] = self::decryptPasswords($options['options']);
+				\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+			}
+		}
+		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
+				if (\OC_Group::inGroup($user, $group)) {
+					foreach ($mounts as $mountPoint => $options) {
+						$mountPoint = self::setUserVars($user, $mountPoint);
+						foreach ($options as &$option) {
+							$option = self::setUserVars($user, $option);
+						}
+						$options['options'] = self::decryptPasswords($options['options']);
+						\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					}
+				}
+			}
+		}
+		if (isset($mountConfig[self::MOUNT_TYPE_USER])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_USER] as $mountUser => $mounts) {
+				if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
+					foreach ($mounts as $mountPoint => $options) {
+						$mountPoint = self::setUserVars($user, $mountPoint);
+						foreach ($options as &$option) {
+							$option = self::setUserVars($user, $option);
+						}
+						$options['options'] = self::decryptPasswords($options['options']);
+						\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					}
+				}
+			}
+		}
+
+		// Load personal mount points
+		$mountConfig = self::readData(true);
+		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
+			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
+				$options['options'] = self::decryptPasswords($options['options']);
+				\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+			}
+		}
+	}
+
+	/**
+	 * fill in the correct values for $user
+	 *
+	 * @param string $user
+	 * @param string $input
+	 * @return string
+	 */
+	private static function setUserVars($user, $input) {
+		return str_replace('$user', $user, $input);
+	}
+
+
+	/**
 	* Get details on each of the external storage backends, used for the mount config UI
 	* Some backends are not available as a personal backend, f.e. Local and such that have
 	* been disabled by the admin.
@@ -288,12 +363,18 @@ class OC_Mount_Config {
 		return $personal;
 	}
 
+	/**
+	 * Test connecting using the given backend configuration
+	 * @param string $class backend class name
+	 * @param array $options backend configuration options
+	 * @return bool true if the connection succeeded, false otherwise
+	 */
 	private static function getBackendStatus($class, $options) {
 		if (self::$skipTest) {
 			return true;
 		}
 		foreach ($options as &$option) {
-			$option = str_replace('$user', OCP\User::getUser(), $option);
+			$option = self::setUserVars(OCP\User::getUser(), $option);
 		}
 		if (class_exists($class)) {
 			try {
