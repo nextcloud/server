@@ -40,9 +40,22 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	private $oldAllowedBackends;
 	private $allBackends;
 
+	const TEST_USER1 = 'user1';
+	const TEST_USER2 = 'user2';
+	const TEST_GROUP1 = 'group1';
+	const TEST_GROUP2 = 'group2';
+
 	public function setUp() {
-		\OC_User::setUserId('test');
-		$this->userHome = \OC_User::getHome('test');
+		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
+		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
+
+		\OC_Group::createGroup(self::TEST_GROUP1);
+		\OC_Group::addToGroup(self::TEST_USER1, self::TEST_GROUP1);
+		\OC_Group::createGroup(self::TEST_GROUP2);
+		\OC_Group::addToGroup(self::TEST_USER2, self::TEST_GROUP2);
+
+		\OC_User::setUserId(self::TEST_USER1);
+		$this->userHome = \OC_User::getHome(self::TEST_USER1);
 		mkdir($this->userHome);
 
 		$this->dataDir = \OC_Config::getValue(
@@ -67,9 +80,12 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	public function tearDown() {
 		OC_Mount_Config::$skipTest = false;
 
+		\OC_User::deleteUser(self::TEST_USER2);
+		\OC_User::deleteUser(self::TEST_USER1);
+		\OC_Group::deleteGroup(self::TEST_GROUP1);
+		\OC_Group::deleteGroup(self::TEST_GROUP2);
+
 		@unlink($this->dataDir . '/mount.json');
-		@unlink($this->userHome . '/mount.json');
-		rmdir($this->userHome);
 
 		OCP\Config::setAppValue(
 			'files_external',
@@ -143,7 +159,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testAddMountPointSingleUser() {
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 
 		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', array(), $mountType, $applicable, $isPersonal));
@@ -152,10 +168,10 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($config));
 		$this->assertTrue(isset($config[$mountType]));
 		$this->assertTrue(isset($config[$mountType][$applicable]));
-		$this->assertTrue(isset($config[$mountType][$applicable]['/test/files/ext']));
+		$this->assertTrue(isset($config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']));
 		$this->assertEquals(
 			'\OC\Files\Storage\SFTP',
-			$config[$mountType][$applicable]['/test/files/ext']['class']
+			$config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']['class']
 		);
 	}
 
@@ -164,7 +180,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testAddDisallowedBackendMountPointSingleUser() {
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 
 		// local
@@ -189,7 +205,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	public function testAddMountPointUnexistClass() {
 		$storageClass = 'Unexist_Storage';
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = false;
 		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', $storageClass, array(), $mountType, $applicable, $isPersonal));
 
@@ -236,7 +252,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testReadWritePersonalConfig() {
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 		$mountConfig = array(
 			'host' => 'smbhost',
@@ -272,7 +288,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testPasswordObfuscation() {
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 		$mountConfig = array(
 			'host' => 'smbhost',
@@ -298,7 +314,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 
 		// check that password inside the file is NOT in plain text
 		$config = $this->readUserConfig();
-		$savedConfig = $config[$mountType][$applicable]['/test/files/ext']['options'];
+		$savedConfig = $config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']['options'];
 
 		// no more clear text password in file
 		$this->assertFalse(isset($savedConfig['password']));
@@ -312,7 +328,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testReadLegacyPassword() {
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
-		$applicable = 'test';
+		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 		$mountConfig = array(
 			'host' => 'smbhost',
@@ -336,7 +352,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 
 		$config = $this->readUserConfig();
 		// simulate non-encrypted password situation
-		$config[$mountType][$applicable]['/test/files/ext']['options']['password'] = 'smbpasswd';
+		$config[$mountType][$applicable]['/' . self::TEST_USER1 . '/files/ext']['options']['password'] = 'smbpasswd';
 
 		$this->writeUserConfig($config);
 
@@ -354,31 +370,31 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 				false,
 				OC_Mount_Config::MOUNT_TYPE_USER,
 				'all',
-				'test',
+				self::TEST_USER1,
 				true,
 			),
 			// system mount point for a specific user
 			array(
 				false,
 				OC_Mount_Config::MOUNT_TYPE_USER,
-				'test',
-				'test',
+				self::TEST_USER1,
+				self::TEST_USER1,
 				true,
 			),
 			// system mount point for a specific group
 			array(
 				false,
 				OC_Mount_Config::MOUNT_TYPE_GROUP,
-				'testgroup1',
-				'test',
+				self::TEST_GROUP1,
+				self::TEST_USER1,
 				true,
 			),
 			// user mount point
 			array(
 				true,
 				OC_Mount_Config::MOUNT_TYPE_USER,
-				'test',
-				'test',
+				self::TEST_USER1,
+				self::TEST_USER1,
 				true,
 			),
 
@@ -387,24 +403,24 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 			array(
 				false,
 				OC_Mount_Config::MOUNT_TYPE_USER,
-				'anotheruser',
-				'test',
+				self::TEST_USER2,
+				self::TEST_USER1,
 				false,
 			),
 			// system mount point for a specific group
 			array(
 				false,
 				OC_Mount_Config::MOUNT_TYPE_GROUP,
-				'anothergroup',
-				'test',
+				self::TEST_GROUP2,
+				self::TEST_USER1,
 				false,
 			),
 			// user mount point
 			array(
 				true,
 				OC_Mount_Config::MOUNT_TYPE_USER,
-				'test',
-				'anotheruser',
+				self::TEST_USER1,
+				self::TEST_USER2,
 				false,
 			),
 		);
@@ -447,9 +463,9 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints($testUser);
 		if ($expectVisible) {
 			$this->assertEquals(1, count($mountPoints));
-			$this->assertTrue(isset($mountPoints['/test/files/ext']));
-			$this->assertEquals('\OC\Files\Storage\SMB', $mountPoints['/test/files/ext']['class']);
-			$this->assertEquals($mountConfig, $mountPoints['/test/files/ext']['options']);
+			$this->assertTrue(isset($mountPoints['/' . self::TEST_USER1 . '/files/ext']));
+			$this->assertEquals('\OC\Files\Storage\SMB', $mountPoints['/' . self::TEST_USER1 . '/files/ext']['class']);
+			$this->assertEquals($mountConfig, $mountPoints['/' . self::TEST_USER1 . '/files/ext']['options']);
 		}
 		else {
 			$this->assertEquals(0, count($mountPoints));
