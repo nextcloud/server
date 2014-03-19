@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "s'ha desactivat la compartició",
 "For more info, please ask the person who sent this link." => "Per més informació contacteu amb qui us ha enviat l'enllaç.",
 "shared by %s" => "compartit per %s",
+"Download %s" => "Baixa %s",
 "Direct link" => "Enllaç directe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

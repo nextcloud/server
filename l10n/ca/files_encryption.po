@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# rogerc, 2013
+# rogerc, 2013-2014
 # Jordi Vilalta Prat <jvprat@jvprat.com>, 2013
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-19 01:55-0400\n"
+"PO-Revision-Date: 2014-03-18 08:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr "La encriptació inicial ha començat... Pot trigar una estona, espereu."
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "encriptació inicial en procés... Proveu-ho més tard."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
