@@ -659,7 +659,7 @@ class Access extends LDAPUtility {
 	 * @param string $filter
 	 */
 	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		return $this->count($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 	}
 
 	/**
@@ -775,22 +775,34 @@ class Access extends LDAPUtility {
 	 */
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
-		$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
-		if($search === false) {
-			return false;
-		}
-		list($sr, $pagedSearchOK) = $search;
-		$cr = $this->connection->getConnectionResource();
-		$counter = 0;
-		foreach($sr as $key => $res) {
-			$count = $this->ldap->countEntries($cr, $res);
-		    if($count !== false) {
-				$counter += $count;
-			}
+
+		if(is_null($limit)) {
+			//TODO replace 400 with $this->connection->ldapPagingSize; once PR 6221 is merged and move it to callee countUsers()
+			$limit = 400;
 		}
 
-		$this->processPagedSearchStatus($sr, $filter, $base, $counter, $limit,
+		$counter = 0;
+		$cr = $this->connection->getConnectionResource();
+
+		do {
+			$search = $this->executeSearch($filter, $base, $attr,
+										   $limit, $offset);
+			if($search === false) {
+				return $counter > 0 ? $counter : false;
+			}
+			list($sr, $pagedSearchOK) = $search;
+
+			foreach($sr as $key => $res) {
+				$count = $this->ldap->countEntries($cr, $res);
+				if($count !== false) {
+					$counter += $count;
+				}
+			}
+
+			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limit,
 										$offset, $pagedSearchOK, $skipHandling);
+			$offset += $limit;
+		} while($count === $limit);
 
 		return $counter;
 	}
@@ -891,7 +903,7 @@ class Access extends LDAPUtility {
 		//we slice the findings, when
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
-		if((!$this->pagedSearchedSuccessful
+		if((!$this->getPagedSearchResultState()
 			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
