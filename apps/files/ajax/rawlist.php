@@ -33,6 +33,8 @@ if (is_array($mimetypes) && count($mimetypes)) {
 } else {
 	$files = array_merge($files, \OC\Files\Filesystem::getDirectoryContent($dir));
 }
+// Sort by name
+usort($files, array('\OCA\Files\Helper', 'fileCmp'));
 
 $result = array();
 foreach ($files as $file) {
@@ -50,8 +52,5 @@ foreach ($files as $file) {
 	$fileData['mimetype_icon'] = \OCA\Files\Helper::determineIcon($file);
 	$result[] = $fileData;
 }
-
-// Sort by name
-usort($result, array('\OCA\Files\Helper', 'fileCmp'));
 
 OC_JSON::success(array('data' => $result));
