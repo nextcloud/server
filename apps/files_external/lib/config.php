@@ -700,8 +700,6 @@ class OC_Mount_Config {
 	 * Returns the encryption cipher
 	 */
 	private static function getCipher() {
-		// note: not caching this to make it thread safe as we'll use
-		// a different IV for each password
 		if (!class_exists('Crypt_AES', false)) {
 			include('Crypt/AES.php');
 		}
