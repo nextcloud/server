@@ -173,7 +173,7 @@ class OC_Mount_Config {
 	 */
 	public static function initMountPointsHook($data) {
 		$mountPoints = self::getAbsoluteMountPoints($data['user']);
-		foreach ($mountPoints as $mountPoints => $options) {
+		foreach ($mountPoints as $mountPoint => $options) {
 			\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
 		}
 	}
