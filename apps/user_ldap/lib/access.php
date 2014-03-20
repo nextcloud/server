@@ -794,20 +794,29 @@ class Access extends LDAPUtility {
 			}
 			list($sr, $pagedSearchOK) = $search;
 
-			foreach($sr as $key => $res) {
-				$count = $this->ldap->countEntries($cr, $res);
-				if($count !== false) {
-					$counter += $count;
-				}
-				if($count === $limit) {
-					$continue = true;
-				}
-			}
+			$count = $this->countEntriesInSearchResults($sr, $limit, $continue);
+			$counter += $count;
 
 			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limit,
 										$offset, $pagedSearchOK, $skipHandling);
 			$offset += $limit;
 		} while($continue);
+
+		return $counter;
+	}
+
+	private function countEntriesInSearchResults($searchResults, $limit,
+																&$hasHitLimit) {
+		$cr = $this->connection->getConnectionResource();
+		$count = 0;
+
+		foreach($searchResults as $res) {
+			$count = intval($this->ldap->countEntries($cr, $res));
+			$counter += $count;
+			if($count === $limit) {
+				$hasHitLimit = true;
+			}
+		}
 
 		return $counter;
 	}
