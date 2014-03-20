@@ -276,7 +276,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 0;
 	}
 
-	public function hash($path, $type, $raw=false) {
+	public function hash($type, $path, $raw=false) {
 		return hash_file($type, $this->buildPath($path), $raw);
 	}
 

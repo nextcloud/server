@@ -256,7 +256,7 @@ if (\OC_Util::runningOnWindows()) {
 			return 0;
 		}
 
-		public function hash($path, $type, $raw = false) {
+		public function hash($type, $path, $raw = false) {
 			return hash_file($type, $this->datadir . $path, $raw);
 		}
 
