@@ -159,7 +159,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function hash($type, $path, $raw = false) {
-		$fh = $this->fopen($path, 'r');
+		$fh = $this->fopen($path, 'rb');
 		$ctx = hash_init($type);
 		hash_update_stream($ctx, $fh);
 		fclose($fh);
