@@ -24,7 +24,6 @@ set_include_path(
 	get_include_path() . PATH_SEPARATOR .
 	\OC_App::getAppPath('files_external') . '/3rdparty/phpseclib/phpseclib'
 );
-include('Crypt/AES.php');
 
 /**
  * Class to configure mount.json globally and for users
@@ -703,6 +702,9 @@ class OC_Mount_Config {
 	private static function getCipher() {
 		// note: not caching this to make it thread safe as we'll use
 		// a different IV for each password
+		if (!class_exists('Crypt_AES', false)) {
+			include('Crypt/AES.php');
+		}
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
 		$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
 		return $cipher;
