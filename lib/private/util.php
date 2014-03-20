@@ -1085,10 +1085,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @return bool - well are we running on windows or not
+	 * Checks whether the server is running on Windows
+	 * @return bool true if running on Windows, false otherwise
 	 */
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
+	}
+
+	/**
+	 * Checks whether the server is running on Mac OS X
+	 * @return bool true if running on Mac OS X, false otherwise
+	 */
+	public static function runningOnMac() {
+		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
 	}
 
 	/**
