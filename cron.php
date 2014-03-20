@@ -48,7 +48,7 @@ try {
 
 	require_once 'lib/base.php';
 
-	session_write_close();
+	\OC::$session->close();
 
 	$logger = \OC_Log::$object;
 

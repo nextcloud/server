@@ -26,8 +26,7 @@ class Internal extends Memory {
 	}
 
 	public function __destruct() {
-		$_SESSION = array_merge($_SESSION, $this->data);
-		session_write_close();
+		$this->close();
 	}
 
 	/**
@@ -47,4 +46,15 @@ class Internal extends Memory {
 		@session_start();
 		$this->data = $_SESSION = array();
 	}
+
+	public function close() {
+		$_SESSION = array_merge($_SESSION, $this->data);
+		session_write_close();
+
+		parent::close();
+	}
+
+    public function reopen() {
+        throw new \Exception('The session cannot be reopened - reopen() is ony to be used in unit testing.');
+    }
 }
