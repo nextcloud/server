@@ -321,8 +321,44 @@ class Filesystem {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		}
 
+		self::mountCacheDir($user);
+
 		// Chance to mount for other storages
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
+	}
+
+	/**
+	 * Mounts the cache directory
+	 * @param string $user user name
+	 */
+	private static function mountCacheDir($user) {
+		$cacheBaseDir = \OC_Config::getValue('cache_path', '');
+		if ($cacheBaseDir === '') {
+			// use local cache dir relative to the user's home
+			$subdir = 'cache';
+			$view = new \OC\Files\View('/' . $user);
+			if(!$view->file_exists($subdir)) {
+				$view->mkdir($subdir);
+			}
+		} else {
+			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user;
+			if (!file_exists($cacheDir)) {
+				mkdir($cacheDir, 0770, true);
+			}
+			// mount external cache dir to "/$user/cache" mount point
+			self::mount('\OC\Files\Storage\Local', array('datadir' => $cacheDir), '/' . $user . '/cache');
+		}
+	}
+
+	/**
+	 * fill in the correct values for $user
+	 *
+	 * @param string $user
+	 * @param string $input
+	 * @return string
+	 */
+	private static function setUserVars($user, $input) {
+		return str_replace('$user', $user, $input);
 	}
 
 	/**
