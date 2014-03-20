@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
-"Current scanning" => "Actualment escanejant",
-"Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
+"Current scanning" => "Actualment escanejant"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

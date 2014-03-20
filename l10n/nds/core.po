@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:54+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Low German (http://www.transifex.com/projects/p/owncloud/language/nds/)\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Language: nds\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -32,19 +36,6 @@ msgstr ""
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr ""
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr ""
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
 msgstr ""
 
 #: avatar/controller.php:62
@@ -151,55 +142,55 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:992
+#: js/js.js:995
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:993
+#: js/js.js:996
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:994
+#: js/js.js:997
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:995
+#: js/js.js:998
 msgid "today"
 msgstr ""
 
-#: js/js.js:996
+#: js/js.js:999
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:997
+#: js/js.js:1000
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:998
+#: js/js.js:1001
 msgid "last month"
 msgstr ""
 
-#: js/js.js:999
+#: js/js.js:1002
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1000
+#: js/js.js:1003
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:1001
+#: js/js.js:1004
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1002
+#: js/js.js:1005
 msgid "years ago"
 msgstr ""
 
@@ -296,11 +287,11 @@ msgid "Share"
 msgstr ""
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr ""
 
@@ -416,19 +407,19 @@ msgstr ""
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr ""
 

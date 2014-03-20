@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,11 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nepavyko nusiųsti el. pašto šiems naudotojams: %s "
@@ -38,19 +42,6 @@ msgstr "Išjungta priežiūros veiksena"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Atnaujinta duomenų bazė"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Atnaujinama failų talpykla, tai gali užtrukti labai ilgai..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Atnaujinta failų talpykla"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% atlikta ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -306,11 +297,11 @@ msgid "Share"
 msgstr "Dalintis"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Klaida"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
@@ -426,19 +417,19 @@ msgstr "Apsaugota slaptažodžiu"
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Siunčiama..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Laiškas išsiųstas"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Įspėjimas"
 

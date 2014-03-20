@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Abderraouf Mehdi Bouhali <armbouhali@gmail.com>, 2014
 # blackcoder <tarek.taha@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-19 01:55-0400\n"
-"PO-Revision-Date: 2014-03-18 18:50+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +19,11 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -33,19 +38,6 @@ msgstr ""
 
 #: ajax/update.php:17
 msgid "Updated database"
-msgstr ""
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr ""
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr ""
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
 msgstr ""
 
 #: avatar/controller.php:62
@@ -70,7 +62,7 @@ msgstr ""
 
 #: js/config.php:36
 msgid "Sunday"
-msgstr "الاحد"
+msgstr "الأحد"
 
 #: js/config.php:37
 msgid "Monday"
@@ -290,11 +282,11 @@ msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "كلمة السر ضعيفة جدا"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "كلمة السر ضعيفة"
 
 #: js/setup.js:86
 msgid "So-so password"
@@ -302,11 +294,11 @@ msgstr ""
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "كلمة السر جيدة"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "كلمة السر قوية"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -317,11 +309,11 @@ msgid "Share"
 msgstr "شارك"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "خطأ"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "حصل خطأ عند عملية المشاركة"
 
@@ -437,19 +429,19 @@ msgstr "محمي بكلمة السر"
 msgid "Error unsetting expiration date"
 msgstr "حصل خطأ عند عملية إزالة تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "جاري الارسال ..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "تم ارسال البريد الالكتروني"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "تحذير"
 

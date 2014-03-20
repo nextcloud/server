@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "ასატვირთი ფაილი ძალიან დიდია",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
 "Files are being scanned, please wait." => "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ.",
-"Current scanning" => "მიმდინარე სკანირება",
-"Upgrading filesystem cache..." => "ფაილური სისტემის ქეშის განახლება...."
+"Current scanning" => "მიმდინარე სკანირება"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

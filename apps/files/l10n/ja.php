@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "アップロードには大きすぎます。",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
 "Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
-"Current scanning" => "スキャン中",
-"Upgrading filesystem cache..." => "ファイルシステムキャッシュを更新中..."
+"Current scanning" => "スキャン中"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

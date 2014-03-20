@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Ngarkimi shumë i madh",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skedarët që po mundoheni të ngarkoni e tejkalojnë madhësinë maksimale të lejuar nga serveri.",
 "Files are being scanned, please wait." => "Skanerizimi i skedarit në proces. Ju lutem prisni.",
-"Current scanning" => "Skanimi aktual",
-"Upgrading filesystem cache..." => "Përditësimi i cache-se së sistemit në procesim..."
+"Current scanning" => "Skanimi aktual"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

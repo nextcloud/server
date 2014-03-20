@@ -1,9 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Updated database" => "Ĝisdatiĝis datumbazo",
-"Updating filecache, this may take really long..." => "Ĝisdatigante la dosierkaŝmemoron, ĉi tio povas daŭri tro longe...",
-"Updated filecache" => "Ĝisdatiĝis dosierkaŝmemoro",
-"... %d%% done ..." => "... %d%% plenumiĝis ...",
 "Unknown filetype" => "Ne konatas dosiertipo",
 "Invalid image" => "Ne validas bildo",
 "Sunday" => "dimanĉo",

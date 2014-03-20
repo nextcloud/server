@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-19 01:55-0400\n"
-"PO-Revision-Date: 2014-03-18 21:00+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -428,7 +428,3 @@ msgstr "يرجى الانتظار , جاري فحص الملفات ."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "الفحص الحالي"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "تحديث ذاكرة التخزين المؤقت(الكاش)  الخاصة بملفات النظام ..."

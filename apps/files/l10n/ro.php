@@ -72,7 +72,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Fișierul încărcat este prea mare",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
 "Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteaptă.",
-"Current scanning" => "În curs de scanare",
-"Upgrading filesystem cache..." => "Actualizare fișiere de sistem cache..."
+"Current scanning" => "În curs de scanare"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

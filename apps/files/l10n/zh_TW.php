@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "上傳過大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您試圖上傳的檔案大小超過伺服器的限制。",
 "Files are being scanned, please wait." => "正在掃描檔案，請稍等。",
-"Current scanning" => "正在掃描",
-"Upgrading filesystem cache..." => "正在升級檔案系統快取…"
+"Current scanning" => "正在掃描"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

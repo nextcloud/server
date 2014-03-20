@@ -55,7 +55,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Датотека је превелика",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеке које желите да отпремите прелазе ограничење у величини.",
 "Files are being scanned, please wait." => "Скенирам датотеке…",
-"Current scanning" => "Тренутно скенирање",
-"Upgrading filesystem cache..." => "Дограђујем кеш система датотека…"
+"Current scanning" => "Тренутно скенирање"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Tập tin tải lên quá lớn",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
 "Files are being scanned, please wait." => "Tập tin đang được quét ,vui lòng chờ.",
-"Current scanning" => "Hiện tại đang quét",
-"Upgrading filesystem cache..." => "Đang nâng cấp bộ nhớ đệm cho tập tin hệ thống..."
+"Current scanning" => "Hiện tại đang quét"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

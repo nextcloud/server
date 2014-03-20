@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,11 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -35,19 +39,6 @@ msgstr "Mënyra e mirëmbajtjes u çaktivizua"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Database-i u azhurnua"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Po azhurnoj memorjen e skedarëve, mund të zgjasi pak..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Memorja e skedarëve u azhornua"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% u krye ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -298,11 +289,11 @@ msgid "Share"
 msgstr "Nda"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Veprim i gabuar"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Veprim i gabuar gjatë ndarjes"
 
@@ -418,19 +409,19 @@ msgstr "Mbrojtur me kod"
 msgid "Error unsetting expiration date"
 msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Duke dërguar..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Email-i u dërgua"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr ""
 

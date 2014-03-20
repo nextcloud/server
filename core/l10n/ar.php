@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Sunday" => "الاحد",
+"Sunday" => "الأحد",
 "Monday" => "الأثنين",
 "Tuesday" => "الثلاثاء",
 "Wednesday" => "الاربعاء",
@@ -38,6 +38,10 @@ $TRANSLATIONS = array(
 "Ok" => "موافق",
 "_{count} file conflict_::_{count} file conflicts_" => array("","","","","",""),
 "Cancel" => "الغاء",
+"Very weak password" => "كلمة السر ضعيفة جدا",
+"Weak password" => "كلمة السر ضعيفة",
+"Good password" => "كلمة السر جيدة",
+"Strong password" => "كلمة السر قوية",
 "Shared" => "مشارك",
 "Share" => "شارك",
 "Error" => "خطأ",
