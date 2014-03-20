@@ -52,18 +52,18 @@
 											$placeholder = substr($placeholder, 1);
 										}
 									?>
-									<?php if (strpos($placeholder, '*') !== false): ?>
+									<?php if (strpos($placeholder, '*') === 0): ?>
 										<input type="password"
 											   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
 											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
-									<?php elseif (strpos($placeholder, '!') !== false): ?>
+									<?php elseif (strpos($placeholder, '!') === 0): ?>
 										<label><input type="checkbox"
 													  data-parameter="<?php p($parameter); ?>"
 													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
 													  /><?php p(substr($placeholder, 1)); ?></label>
-									<?php elseif (strpos($placeholder, '#') !== false): ?>
+									<?php elseif (strpos($placeholder, '#') === 0): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>" />
