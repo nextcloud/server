@@ -886,7 +886,7 @@ class Wizard extends LDAPUtility {
 		}
 		$base = $this->configuration->ldapBase[0];
 		$cr = $this->getConnection();
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
 		if(isset($filters[count($filters)-1])) {
