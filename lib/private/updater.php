@@ -102,6 +102,11 @@ class Updater extends BasicEmitter {
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
 
+		// create empty file in data dir, so we can later find
+		// out that this is indeed an ownCloud data directory
+		// (in case it didn't exist before)
+		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
+
 		/*
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
 		 */

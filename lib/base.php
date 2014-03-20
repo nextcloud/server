@@ -518,6 +518,7 @@ class OC {
 					echo $error['hint'] . "\n\n";
 				}
 			} else {
+				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 			}
 			exit;

@@ -290,12 +290,18 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
-			return array();
+		$errors = array();
+		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
+
+		if (!\OC::needUpgrade() && OC_Config::getValue('installed', false)) {
+			// this check needs to be done every time
+			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		$errors = array();
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
+			return $errors;
+		}
 
 		$defaults = new \OC_Defaults();
 
@@ -341,7 +347,6 @@ class OC_Util {
 					);
 			}
 		}
-		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
@@ -536,6 +541,25 @@ class OC_Util {
 					);
 				}
 			}
+		}
+		return $errors;
+	}
+
+	/**
+	 * Check that the data directory exists and is valid by
+	 * checking the existence of the ".ocdata" file.
+	 *
+	 * @param string $dataDirectory data directory path
+	 * @return bool true if the data directory is valid, false otherwise
+	 */
+	public static function checkDataDirectoryValidity($dataDirectory) {
+		$errors = array();
+		if (!file_exists($dataDirectory.'/.ocdata')) {
+			$errors[] = array(
+				'error' => 'Data directory (' . $dataDirectory . ') is invalid',
+				'hint' => 'Please check that the data directory contains a file' .
+					' ".ocdata" in its root.'
+			);
 		}
 		return $errors;
 	}
