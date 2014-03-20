@@ -782,6 +782,7 @@ class Access extends LDAPUtility {
 		}
 
 		$counter = 0;
+		$count = null;
 		$cr = $this->connection->getConnectionResource();
 
 		do {
