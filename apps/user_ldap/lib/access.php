@@ -786,6 +786,7 @@ class Access extends LDAPUtility {
 		$cr = $this->connection->getConnectionResource();
 
 		do {
+			$continue = false;
 			$search = $this->executeSearch($filter, $base, $attr,
 										   $limit, $offset);
 			if($search === false) {
@@ -798,12 +799,15 @@ class Access extends LDAPUtility {
 				if($count !== false) {
 					$counter += $count;
 				}
+				if($count === $limit) {
+					$continue = true;
+				}
 			}
 
 			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limit,
 										$offset, $pagedSearchOK, $skipHandling);
 			$offset += $limit;
-		} while($count === $limit);
+		} while($continue);
 
 		return $counter;
 	}
