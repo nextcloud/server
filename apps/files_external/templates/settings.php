@@ -44,9 +44,17 @@
 						<?php if (isset($mount['configuration'])): ?>
 							<?php foreach ($mount['configuration'] as $parameter => $value): ?>
 								<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
-									<?php $placeholder = $_['backends'][$mount['class']]['configuration'][$parameter]; ?>
+									<?php
+										$placeholder = $_['backends'][$mount['class']]['configuration'][$parameter];
+										$is_optional = FALSE;
+										if (strpos($placeholder, '&') === 0) {
+											$is_optional = TRUE;
+											$placeholder = substr($placeholder, 1);
+										}
+									?>
 									<?php if (strpos($placeholder, '*') !== false): ?>
 										<input type="password"
+											   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
 											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
@@ -55,18 +63,13 @@
 													  data-parameter="<?php p($parameter); ?>"
 													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
 													  /><?php p(substr($placeholder, 1)); ?></label>
-									<?php elseif (strpos($placeholder, '&') !== false): ?>
-										<input type="text"
-											   class="optional"
-											   data-parameter="<?php p($parameter); ?>"
-											   value="<?php p($value); ?>"
-											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
 									<?php elseif (strpos($placeholder, '#') !== false): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>" />
 									<?php else: ?>
 										<input type="text"
+											   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
 											   placeholder="<?php p($placeholder); ?>" />
