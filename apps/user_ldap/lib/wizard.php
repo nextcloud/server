@@ -910,6 +910,7 @@ class Wizard extends LDAPUtility {
 				$dnReadCount = 0;
 				do {
 					$entry = $this->ldap->$getEntryFunc($cr, $rr);
+					$getEntryFunc = 'nextEntry';
 					if(!$this->ldap->isResource($entry)) {
 						continue 2;
 					}
@@ -926,7 +927,6 @@ class Wizard extends LDAPUtility {
 					$foundItems = array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
-					$getEntryFunc = 'nextEntry';
 					$rr = $entry; //will be expected by nextEntry next round
 				} while(($state === self::LRESULT_PROCESSED_SKIP
 						|| $this->ldap->isResource($entry))
