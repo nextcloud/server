@@ -1065,7 +1065,7 @@ class Access extends LDAPUtility {
 		}
 
 		//for now, supported attributes are entryUUID, nsuniqueid, objectGUID, ipaUniqueID
-		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid', 'ipauniqueid');
+		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid');
 
 		foreach($testAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
