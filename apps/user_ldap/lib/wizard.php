@@ -876,7 +876,7 @@ class Wizard extends LDAPUtility {
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
 	 */
-	private function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, $dnReadLimit = 5, &$maxF = null) {
+	public function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, $dnReadLimit = 3, &$maxF = null) {
 		$dnRead = array();
 		$foundItems = array();
 		$maxEntries = 0;
@@ -889,8 +889,11 @@ class Wizard extends LDAPUtility {
 		if(!is_resource($cr)) {
 			return false;
 		}
+		if(isset($filters[count($filters)-1])) {
+			$lastFilter = $filters[count($filters)-1];
+		}
 		foreach($filters as $filter) {
-			if($lfw && count($foundItems) > 0) {
+			if($lfw && $lastFilter === $filter && count($foundItems) > 0) {
 				continue;
 			}
 			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
@@ -927,7 +930,7 @@ class Wizard extends LDAPUtility {
 					$rr = $entry; //will be expected by nextEntry next round
 				} while(($state === self::LRESULT_PROCESSED_SKIP
 						|| $this->ldap->isResource($entry))
-						&& ($dnReadLimit === 0 || $dnReadCount <= $dnReadLimit));
+						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
 			}
 		}
 
@@ -960,7 +963,7 @@ class Wizard extends LDAPUtility {
 		//When looking for objectclasses, testing few entries is sufficient,
 		//when looking for group we need to get all names, though.
 		if(strtolower($attr) === 'objectclass') {
-			$dig = 5;
+			$dig = 3;
 		} else {
 			$dig = 0;
 		}
