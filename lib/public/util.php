@@ -89,14 +89,11 @@ class Util {
 	 */
 	public static function logException( $app, \Exception $ex ) {
 		$class = get_class($ex);
-		if ($class !== 'Exception') {
-			$message = $class . ': ';
-		}
-		$message .= $ex->getMessage();
+		$message = $class . ': ' . $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
-		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+		\OCP\Util::writeLog($app, $message, \OCP\Util::FATAL);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
 			$stack = explode("\n", $ex->getTraceAsString());
