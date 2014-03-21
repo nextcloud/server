@@ -54,7 +54,7 @@
 	display: inline-block;
 }
 #navigation a {
-	width: 70px;
+	width: 80px;
 	height: 80px;
 	display: inline-block;
 	text-align: center;
@@ -65,7 +65,7 @@
 	font-size: 13px;
 	padding-bottom: 0;
 	padding-left: 0;
-	width: initial;
+	width: 80px;
 }
 #navigation .icon {
 	margin: 0 auto;
