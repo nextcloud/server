@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "Son kullanma tarihi geçmişte.",
 "Couldn't send mail to following users: %s " => "Şu kullanıcılara posta gönderilemedi: %s",
 "Turned on maintenance mode" => "Bakım kipi etkinleştirildi",
 "Turned off maintenance mode" => "Bakım kipi kapatıldı",

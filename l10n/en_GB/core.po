@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-20 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 12:40+0000\n"
+"Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/share.php:88
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Expiration date is in the past."
 
 #: ajax/share.php:120 ajax/share.php:162
 #, php-format

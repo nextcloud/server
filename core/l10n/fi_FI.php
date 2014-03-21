@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "Päättymispäivä on menneisyydessä.",
 "Couldn't send mail to following users: %s " => "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
 "Turned on maintenance mode" => "Siirrytty ylläpitotilaan",
 "Turned off maintenance mode" => "Ylläpitotila laitettu pois päältä",

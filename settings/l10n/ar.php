@@ -108,6 +108,7 @@ $TRANSLATIONS = array(
 "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." => "يرجى الاتصال بـ %s عن طريق HTTPS لتفعيل او تعطيل SSL enforcement.",
 "Email Server" => "خادم البريد الالكتروني",
 "Server address" => "عنوان الخادم",
+"Port" => "المنفذ",
 "Log" => "سجل",
 "Log level" => "مستوى السجل",
 "More" => "المزيد",

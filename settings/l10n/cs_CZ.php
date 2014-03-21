@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Saved" => "Uloženo",
+"test email settings" => "nastavení zkušebního emailu",
 "Email sent" => "E-mail odeslán",
 "Encryption" => "Šifrování",
 "Authentication method" => "Metoda autentifikace",

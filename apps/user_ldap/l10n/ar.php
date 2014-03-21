@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Save" => "حفظ",
 "Help" => "المساعدة",
 "Host" => "المضيف",
+"Port" => "المنفذ",
 "Password" => "كلمة المرور",
 "Back" => "رجوع",
 "Email Field" => "خانة البريد الإلكتروني"

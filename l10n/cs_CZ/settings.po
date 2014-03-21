@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-19 01:55-0400\n"
-"PO-Revision-Date: 2014-03-18 21:40+0000\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 21:20+0000\n"
 "Last-Translator: m23 <black23@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Uloženo"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "nastavení zkušebního emailu"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
