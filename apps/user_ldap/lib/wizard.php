@@ -889,6 +889,7 @@ class Wizard extends LDAPUtility {
 		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
+		$lastFilter = null;
 		if(isset($filters[count($filters)-1])) {
 			$lastFilter = $filters[count($filters)-1];
 		}
