@@ -181,16 +181,21 @@ $(document).ready(function() {
 		$.each(configurations, function(backend, parameters) {
 			if (backend == backendClass) {
 				$.each(parameters['configuration'], function(parameter, placeholder) {
-					if (placeholder.indexOf('*') != -1) {
-						td.append('<input type="password" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					} else if (placeholder.indexOf('!') != -1) {
+					var is_optional = false;
+					if (placeholder.indexOf('&') === 0) {
+						is_optional = true;
+						placeholder = placeholder.substring(1);
+					}
+					if (placeholder.indexOf('*') === 0) {
+						var class_string = is_optional ? ' class="optional"' : '';
+						td.append('<input type="password"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+					else if (placeholder.indexOf('!') === 0) {
 						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
-					} else if (placeholder.indexOf('&') != -1) {
-						td.append('<input type="text" class="optional" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					} else if (placeholder.indexOf('#') != -1) {
+					else if (placeholder.indexOf('#') === 0) {
 						td.append('<input type="hidden" data-parameter="'+parameter+'" />');
-					} else {
-						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+					else {
+						var class_string = is_optional ? ' class="optional"' : '';
+						td.append('<input type="text"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
 				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
