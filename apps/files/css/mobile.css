@@ -13,6 +13,11 @@ table td.date {
 	display: none;
 }
 
+/* remove shift for multiselect bar to account for missing navigation */
+table.multiselect thead {
+	padding-left: 0;
+}
+
 /* restrict length of displayed filename to prevent overflow */
 table td.filename .nametext {
 	max-width: 75% !important;
