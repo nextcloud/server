@@ -549,7 +549,8 @@ class OC {
 
 		// Load minimum set of apps - which is filesystem, authentication and logging
 		if (!self::checkUpgrade(false)) {
-			OC_App::loadApps(array('filesystem', 'authentication', 'logging'));
+			OC_App::loadApps(array('authentication'));
+			OC_App::loadApps(array('filesystem', 'logging'));
 		}
 
 		//setup extra user backends
