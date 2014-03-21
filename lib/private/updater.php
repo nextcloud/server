@@ -110,7 +110,7 @@ class Updater extends BasicEmitter {
 		/*
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
 		 */
-		if (!\OC::$CLI && version_compare($currentVersion, '6.90.1', '<')) {
+		if (!\OC::$CLI && version_compare($installedVersion, '6.90.1', '<')) {
 			// Add the overwriteHost config if it is not existant
 			// This is added to prevent host header poisoning
 			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
