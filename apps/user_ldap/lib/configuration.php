@@ -119,9 +119,9 @@ class Configuration {
 
 		$cta = $this->getConfigTranslationArray();
 		foreach($config as $inputkey => $val) {
-			if(strpos($inputkey, '_') !== false && isset($cta[$inputkey])) {
+			if(strpos($inputkey, '_') !== false && array_key_exists($inputkey, $cta)) {
 				$key = $cta[$inputkey];
-			} elseif(isset($this->config[$inputkey])) {
+			} elseif(array_key_exists($inputkey, $this->config)) {
 				$key = $inputkey;
 			} else {
 				continue;
