@@ -5,6 +5,7 @@
 * @author Michael Gapczynski
 * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
 * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+* @copyright 2014 Robin McCorkell <rmccorkell@karoshi.org.uk>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -122,11 +123,18 @@ class OC_Mount_Config {
 						'password' => '*Password',
 						'share' => 'Share',
 						'root' => '&Root'));
+				$backends['\OC\Files\Storage\SMB_Auto'] = array(
+					'backend' => 'SMB / CIFS Auto',
+					'configuration' => array(
+						'host' => 'URL',
+						'username_as_share' => '!Username as share',
+						'share' => '&Share',
+						'root' => '&Root'));
 			}
 		}
 
 		if(OC_Mount_Config::checkcurl()){
-		   	$backends['\OC\Files\Storage\DAV']=array(
+			$backends['\OC\Files\Storage\DAV']=array(
 				'backend' => 'WebDAV',
 				'configuration' => array(
 					'host' => 'URL',
@@ -134,7 +142,7 @@ class OC_Mount_Config {
 					'password' => '*Password',
 					'root' => '&Root',
 					'secure' => '!Secure https://'));
-		   	$backends['\OC\Files\Storage\OwnCloud']=array(
+			$backends['\OC\Files\Storage\OwnCloud']=array(
 				'backend' => 'ownCloud',
 				'configuration' => array(
 					'host' => 'URL',
@@ -185,7 +193,7 @@ class OC_Mount_Config {
 	 * @return array of mount point string as key, mountpoint config as value
 	 */
 	public static function getAbsoluteMountPoints($user) {
-		$mountPoints = array();	
+		$mountPoints = array();
 
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
