@@ -178,6 +178,15 @@ table.shareAPI td { padding-bottom: 0.8em; }
 	vertical-align: text-bottom;
 }
 
+span.success {
+        background: #37ce02;
+        border-radius: 8px;
+}
+
+span.error {
+        background: #ce3702;
+}
+
 /* HELP */
 .pressed {background-color:#DDD;}
 
