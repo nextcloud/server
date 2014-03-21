@@ -584,8 +584,8 @@ $(document).ready(function() {
 				$(checkboxes).filter('input[name="edit"]').attr('checked', false);
 			// Check Edit if Create, Update, or Delete is checked
 			} else if (($(this).attr('name') == 'create'
-					 || $(this).attr('name') == 'update'
-					 || $(this).attr('name') == 'delete'))
+				|| $(this).attr('name') == 'update'
+				|| $(this).attr('name') == 'delete'))
 			{
 				$(checkboxes).filter('input[name="edit"]').attr('checked', true);
 			}
@@ -718,9 +718,21 @@ $(document).ready(function() {
 	$(document).on('change', '#dropdown #expirationDate', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
+
+		$(this).tipsy('hide');
+		$(this).removeClass('error');
+
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
+				var expirationDateField = $('#dropdown #expirationDate');
+				if (!result.data.message) {
+					expirationDateField.attr('original-title', t('core', 'Error setting expiration date'));
+				} else {
+					expirationDateField.attr('original-title', result.data.message);
+				}
+				expirationDateField.tipsy({gravity: 'n', fade: true});
+				expirationDateField.tipsy('show');
+				expirationDateField.addClass('error');
 			}
 		});
 	});

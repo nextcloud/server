@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 12:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,40 +18,44 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
+#: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
 msgstr "Pääsy sallittu"
 
-#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
+#: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
 msgstr "Virhe Dropbox levyn asetuksia tehtäessä"
 
-#: js/dropbox.js:65 js/google.js:86
+#: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "Salli pääsy"
 
-#: js/dropbox.js:101
+#: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus."
 
-#: js/google.js:42 js/google.js:121
+#: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Virhe Google Drive levyn asetuksia tehtäessä"
 
-#: lib/config.php:461
+#: js/settings.js:313 js/settings.js:320
+msgid "Saved"
+msgstr "Tallennettu"
+
+#: lib/config.php:512
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Varoitus:</b> \"smbclient\" ei ole asennettuna. CIFS-/SMB-jakojen liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan smbclient."
 
-#: lib/config.php:465
+#: lib/config.php:516
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Varoitus:</b> PHP:n FTP-tuki ei ole käytössä tai sitä ei ole asennettu. FTP-jakojen liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää ottamaan FTP-tuki käyttöön."
 
-#: lib/config.php:468
+#: lib/config.php:519
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -102,22 +107,22 @@ msgid "Users"
 msgstr "Käyttäjät"
 
 #: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:155 templates/settings.php:156
 msgid "Delete"
 msgstr "Poista"
 
-#: templates/settings.php:129
+#: templates/settings.php:127
 msgid "Enable User External Storage"
 msgstr "Ota käyttöön ulkopuoliset tallennuspaikat"
 
 #: templates/settings.php:130
-msgid "Allow users to mount their own external storage"
-msgstr "Salli käyttäjien liittää omia erillisiä tallennusvälineitä"
+msgid "Allow users to mount the following external storage"
+msgstr "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 
-#: templates/settings.php:141
+#: templates/settings.php:147
 msgid "SSL root certificates"
 msgstr "SSL-juurivarmenteet"
 
-#: templates/settings.php:159
+#: templates/settings.php:165
 msgid "Import Root Certificate"
 msgstr "Tuo juurivarmenne"

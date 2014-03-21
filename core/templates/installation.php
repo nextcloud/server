@@ -48,13 +48,15 @@
 		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
 		<p class="infield grouptop">
 			<input type="text" name="adminlogin" id="adminlogin" placeholder=""
-				value="<?php p($_['adminlogin']); ?>" autocomplete="off" autofocus required />
+				value="<?php p($_['adminlogin']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required />
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
 			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass" placeholder=""
-				value="<?php p($_['adminpass']); ?>" required />
+				value="<?php p($_['adminpass']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" required />
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
 			<input type="checkbox" id="show" name="show" />
@@ -65,7 +67,7 @@
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -74,14 +76,15 @@
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
-				placeholder="<?php p(OC::$SERVERROOT."/data"); ?>"
-				value="<?php p($_['directory']); ?>" />
+				placeholder="<?php p(OC::$SERVERROOT.'/data'); ?>"
+				value="<?php p($_['directory']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" />
 		</div>
 	</fieldset>
 	<?php endif; ?>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
-	<fieldset id='databaseField'>
+	<fieldset id='databaseBackend'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
@@ -92,22 +95,26 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
-			<?php p($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
+			<?php print_unescaped($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
 		<label class="<?php p($type) ?>" for="<?php p($type) ?>"><?php p($label) ?></label>
 		<?php endif; ?>
 		<?php endforeach; ?>
 		</div>
+	</fieldset>
 
 		<?php if($hasOtherDB): ?>
+		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
 				<input type="text" name="dbuser" id="dbuser" placeholder=""
-					value="<?php p($_['dbuser']); ?>" autocomplete="off" />
+					value="<?php p($_['dbuser']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 			<p class="infield groupmiddle">
 				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
-					value="<?php p($_['dbpass']); ?>" />
+					value="<?php p($_['dbpass']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
 				<input type="checkbox" id="dbpassword" name="dbpassword" />
 				<label for="dbpassword"></label>
@@ -116,25 +123,28 @@
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
 				<input type="text" name="dbname" id="dbname" placeholder=""
 					value="<?php p($_['dbname']); ?>"
-					autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
+					autocomplete="off" autocapitalize="off" autocorrect="off"
+					pattern="[0-9a-zA-Z$_-]+" />
 			</p>
 			<?php if($_['hasOracle']): ?>
 			<div id="use_oracle_db">
 				<p class="infield groupmiddle">
 					<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
 					<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
-						value="<?php p($_['dbtablespace']); ?>" autocomplete="off" />
+						value="<?php p($_['dbtablespace']); ?>"
+						autocomplete="off" autocapitalize="off" autocorrect="off" />
 				</p>
 			</div>
 			<?php endif; ?>
 			<p class="infield groupbottom">
 				<label for="dbhost" class="infield"><?php p($l->t( 'Database host' )); ?></label>
 				<input type="text" name="dbhost" id="dbhost" placeholder=""
-					value="<?php p($_['dbhost']); ?>" />
+					value="<?php p($_['dbhost']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 		</div>
+		</fieldset>
 		<?php endif; ?>
-	</fieldset>
 	<?php endif; ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>

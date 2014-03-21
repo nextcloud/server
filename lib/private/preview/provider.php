@@ -15,7 +15,7 @@ abstract class Provider {
 	 * @param string $path Path of file
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param bool $scalingUp Disable/Enable upscaling of previews
+	 * @param bool $scalingup Disable/Enable upscaling of previews
 	 * @param object $fileview fileview object of user folder
 	 * @return mixed
 	 * 		false if no preview was generated

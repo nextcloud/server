@@ -27,6 +27,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected $watcher;
 	protected $storageCache;
 
+	/**
+	 * @var string[]
+	 */
+	protected $cachedFiles = array();
+
 	public function __construct($parameters) {
 	}
 
@@ -122,11 +127,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
+		$this->removeCachedFile($path);
 		return fwrite($handle, $data);
 	}
 
 	public function rename($path1, $path2) {
 		if ($this->copy($path1, $path2)) {
+			$this->removeCachedFile($path1);
 			return $this->unlink($path1);
 		} else {
 			return false;
@@ -137,44 +144,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$source = $this->fopen($path1, 'r');
 		$target = $this->fopen($path2, 'w');
 		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		$this->removeCachedFile($path2);
 		return $result;
-	}
-
-	/**
-	 * @brief Deletes all files and folders recursively within a directory
-	 * @param string $directory The directory whose contents will be deleted
-	 * @param bool $empty Flag indicating whether directory will be emptied
-	 * @returns bool
-	 *
-	 * @note By default the directory specified by $directory will be
-	 * deleted together with its contents. To avoid this set $empty to true
-	 */
-	public function deleteAll($directory, $empty = false) {
-		$directory = trim($directory, '/');
-		if (!$this->is_dir($directory) || !$this->isReadable($directory)) {
-			return false;
-		} else {
-			$directoryHandle = $this->opendir($directory);
-			if (is_resource($directoryHandle)) {
-				while (($contents = readdir($directoryHandle)) !== false) {
-					if (!\OC\Files\Filesystem::isIgnoredDir($contents)) {
-						$path = $directory . '/' . $contents;
-						if ($this->is_dir($path)) {
-							$this->deleteAll($path);
-						} else {
-							$this->unlink($path);
-						}
-					}
-				}
-			}
-			if ($empty === false) {
-				if (!$this->rmdir($directory)) {
-					return false;
-				}
-			}
-			return true;
-		}
-
 	}
 
 	public function getMimeType($path) {
@@ -199,10 +170,14 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function getLocalFile($path) {
-		return $this->toTmpFile($path);
+		return $this->getCachedFile($path);
 	}
 
-	private function toTmpFile($path) { //no longer in the storage api, still useful here
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	protected function toTmpFile($path) { //no longer in the storage api, still useful here
 		$source = $this->fopen($path, 'r');
 		if (!$source) {
 			return false;
@@ -224,6 +199,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $baseDir;
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 */
 	private function addLocalFolder($path, $target) {
 		$dh = $this->opendir($path);
 		if (is_resource($dh)) {
@@ -241,6 +220,9 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 	}
 
+	/**
+	 * @param string $query
+	 */
 	protected function searchInDir($query, $dir = '') {
 		$files = array();
 		$dh = $this->opendir($dir);
@@ -369,5 +351,25 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 */
 	public function free_space($path) {
 		return \OC\Files\SPACE_UNKNOWN;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isLocal() {
+		// the common implementation returns a temporary file by
+		// default, which is not local
+		return false;
+	}
+
+	protected function getCachedFile($path) {
+		if (!isset($this->cachedFiles[$path])) {
+			$this->cachedFiles[$path] = $this->toTmpFile($path);
+		}
+		return $this->cachedFiles[$path];
+	}
+
+	protected function removeCachedFile($path) {
+		unset($this->cachedFiles[$path]);
 	}
 }

@@ -37,7 +37,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 				$this->share = substr($this->share, 0, -1);
 			}
 		} else {
-			throw new \Exception();
+			throw new \Exception('Invalid configuration');
 		}
 	}
 

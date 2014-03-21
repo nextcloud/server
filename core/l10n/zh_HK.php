@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Help" => "幫助",
 "Cloud not found" => "未找到Cloud",
 "Create an <strong>admin account</strong>" => "建立管理員帳戶",
-"Advanced" => "進階",
 "Configure the database" => "設定資料庫",
 "will be used" => "將被使用",
 "Database user" => "資料庫帳戶",

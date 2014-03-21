@@ -20,7 +20,7 @@ $privateKeySet = $session->getPrivateKey() !== false;
 // did we tried to initialize the keys for this session?
 $initialized = $session->getInitialized();
 
-$recoveryAdminEnabled = OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
+$recoveryAdminEnabled = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled');
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
 $result = false;

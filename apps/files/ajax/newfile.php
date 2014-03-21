@@ -7,7 +7,8 @@ if(!OC_User::isLoggedIn()) {
 	exit;
 }
 
-session_write_close();
+\OC::$session->close();
+
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
@@ -50,16 +51,22 @@ $l10n = \OC_L10n::get('files');
 $result = array(
 	'success' 	=> false,
 	'data'		=> NULL
-	);
+);
+$trimmedFileName = trim($filename);
 
-if(trim($filename) === '') {
+if($trimmedFileName === '') {
 	$result['data'] = array('message' => (string)$l10n->t('File name cannot be empty.'));
 	OCP\JSON::error($result);
 	exit();
 }
+if($trimmedFileName === '.' || $trimmedFileName === '..') {
+	$result['data'] = array('message' => (string)$l10n->t('"%s" is an invalid file name.', $trimmedFileName));
+	OCP\JSON::error($result);
+	exit();
+}
 
-if(strpos($filename, '/') !== false) {
-	$result['data'] = array('message' => (string)$l10n->t('File name must not contain "/". Please choose a different name.'));
+if(!OCP\Util::isValidFileName($filename)) {
+	$result['data'] = array('message' => (string)$l10n->t("Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 	OCP\JSON::error($result);
 	exit();
 }

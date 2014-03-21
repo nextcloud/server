@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: xtdv <truong.tx8@gmail.com>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,40 +18,44 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
+#: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
 msgstr "Đã cấp quyền truy cập"
 
-#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
+#: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
 msgstr "Lỗi cấu hình lưu trữ Dropbox "
 
-#: js/dropbox.js:65 js/google.js:86
+#: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "Cấp quyền truy cập"
 
-#: js/dropbox.js:101
+#: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã bí mật."
 
-#: js/google.js:42 js/google.js:121
+#: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Lỗi cấu hình lưu trữ Google Drive"
 
-#: lib/config.php:461
+#: js/settings.js:313 js/settings.js:320
+msgid "Saved"
+msgstr ""
+
+#: lib/config.php:512
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó."
 
-#: lib/config.php:465
+#: lib/config.php:516
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Cảnh báo:</b> FTP trong PHP chưa được cài đặt hoặc chưa được  mở. Mount FTP shares là không thể. Xin hãy yêu cầu quản trị hệ thống của bạn cài đặt nó."
 
-#: lib/config.php:468
+#: lib/config.php:519
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -103,22 +107,22 @@ msgid "Users"
 msgstr "Người dùng"
 
 #: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:155 templates/settings.php:156
 msgid "Delete"
 msgstr "Xóa"
 
-#: templates/settings.php:129
+#: templates/settings.php:127
 msgid "Enable User External Storage"
 msgstr "Kích hoạt tính năng lưu trữ ngoài"
 
 #: templates/settings.php:130
-msgid "Allow users to mount their own external storage"
-msgstr "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài của họ"
+msgid "Allow users to mount the following external storage"
+msgstr ""
 
-#: templates/settings.php:141
+#: templates/settings.php:147
 msgid "SSL root certificates"
 msgstr "Chứng chỉ SSL root"
 
-#: templates/settings.php:159
+#: templates/settings.php:165
 msgid "Import Root Certificate"
 msgstr "Nhập Root Certificate"

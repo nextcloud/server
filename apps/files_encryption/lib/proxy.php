@@ -38,6 +38,7 @@ class Proxy extends \OC_FileProxy {
 
 	private static $blackList = null; //mimetypes blacklisted from encryption
 	private static $unencryptedSizes = array(); // remember unencrypted size
+	private static $fopenMode = array(); // remember the fopen mode
 
 	/**
 	 * Check if a file requires encryption
@@ -146,7 +147,7 @@ class Proxy extends \OC_FileProxy {
 		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
 			$view = new \OC_FilesystemView('/');
 			$view->putFileInfo($normalizedPath,
-					array('encrypted' => true, 'encrypted_size' => self::$unencryptedSizes[$normalizedPath]));
+					array('encrypted' => true, 'unencrypted_size' => self::$unencryptedSizes[$normalizedPath]));
 			unset(self::$unencryptedSizes[$normalizedPath]);
 		}
 
@@ -214,6 +215,16 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
+	 * @brief remember initial fopen mode because sometimes it gets changed during the request
+	 * @param string $path path
+	 * @param string $mode type of access
+	 */
+	public function preFopen($path, $mode) {
+		self::$fopenMode[$path] = $mode;
+	}
+
+
+	/**
 	 * @param $path
 	 * @param $result
 	 * @return resource
@@ -240,7 +251,15 @@ class Proxy extends \OC_FileProxy {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$meta = stream_get_meta_data($result);
+		// if we remember the mode from the pre proxy we re-use it
+		// oterwise we fall back to stream_get_meta_data()
+		if (isset(self::$fopenMode[$path])) {
+			$mode = self::$fopenMode[$path];
+			unset(self::$fopenMode[$path]);
+		} else {
+			$meta = stream_get_meta_data($result);
+			$mode = $meta['mode'];
+		}
 
 		$view = new \OC_FilesystemView('');
 
@@ -258,14 +277,15 @@ class Proxy extends \OC_FileProxy {
 
 			// Open the file using the crypto stream wrapper
 			// protocol and let it do the decryption work instead
-			$result = fopen('crypt://' . $path, $meta['mode']);
+			$result = fopen('crypt://' . $path, $mode);
 
 		} elseif (
-			self::shouldEncrypt($path)
-			and $meta ['mode'] !== 'r'
-				and $meta['mode'] !== 'rb'
+				self::shouldEncrypt($path)
+				and $mode !== 'r'
+				and $mode !== 'rb'
+
 		) {
-			$result = fopen('crypt://' . $path, $meta['mode']);
+			$result = fopen('crypt://' . $path, $mode);
 		}
 
 		// Re-enable the proxy
@@ -283,7 +303,7 @@ class Proxy extends \OC_FileProxy {
 	public function postGetFileInfo($path, $data) {
 
 		// if path is a folder do nothing
-		if (\OCP\App::isEnabled('files_encryption') && is_array($data) && array_key_exists('size', $data)) {
+		if (\OCP\App::isEnabled('files_encryption') && $data !== false && array_key_exists('size', $data)) {
 
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -320,6 +340,13 @@ class Proxy extends \OC_FileProxy {
 
 		// if path is a folder do nothing
 		if ($view->is_dir($path)) {
+			$proxyState = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+			$fileInfo = $view->getFileInfo($path);
+			\OC_FileProxy::$enabled = $proxyState;
+			if (isset($fileInfo['unencrypted_size']) && $fileInfo['unencrypted_size'] > 0) {
+				return $fileInfo['unencrypted_size'];
+			}
 			return $size;
 		}
 
@@ -341,7 +368,7 @@ class Proxy extends \OC_FileProxy {
 		}
 
 		// if file is encrypted return real file size
-		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+		if ($fileInfo && $fileInfo['encrypted'] === true) {
 			// try to fix unencrypted file size if it doesn't look plausible
 			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
 				$fixSize = $util->getFileSize($path);
@@ -354,7 +381,7 @@ class Proxy extends \OC_FileProxy {
 			$size = $fileInfo['unencrypted_size'];
 		} else {
 			// self healing if file was removed from file cache
-			if (!is_array($fileInfo)) {
+			if (!$fileInfo) {
 				$fileInfo = array();
 			}
 

@@ -55,6 +55,11 @@ namespace OCP;
 
 interface IRequest {
 
+	/**
+	 * @param string $name
+	 *
+	 * @return string
+	 */
 	function getHeader($name);
 
 	/**

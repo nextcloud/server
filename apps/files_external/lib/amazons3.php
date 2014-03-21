@@ -54,6 +54,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private $timeout = 15;
 
+	/**
+	 * @param string $path
+	 */
 	private function normalizePath($path) {
 		$path = trim($path, '/');
 

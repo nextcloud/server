@@ -85,19 +85,24 @@ var UserList = {
 
 	add: function (username, displayname, groups, subadmin, quota, sort) {
 		var tr = $('tbody tr').first().clone();
-		if (tr.find('div.avatardiv')){
+		var subadminsEl;
+		var subadminSelect;
+		var groupsSelect;
+		if (tr.find('div.avatardiv').length){
 			$('div.avatardiv', tr).avatar(username, 32);
 		}
 		tr.attr('data-uid', username);
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
 		tr.find('td.displayName > span').text(displayname);
-		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>')
+
+		// make them look like the multiselect buttons
+		// until they get time to really get initialized
+		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>')
 			.attr('data-username', username)
 			.data('user-groups', groups);
-		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
-			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
+			subadminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
 				.attr('data-username', username)
 				.data('user-groups', groups)
 				.data('subadmin', subadmin);
@@ -109,11 +114,10 @@ var UserList = {
 				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			}
 		});
-		tr.find('td.groups').append(groupsSelect);
-		UserList.applyMultiplySelect(groupsSelect);
-		if (tr.find('td.subadmins').length > 0) {
-			tr.find('td.subadmins').append(subadminSelect);
-			UserList.applyMultiplySelect(subadminSelect);
+		tr.find('td.groups').empty().append(groupsSelect);
+		subadminsEl = tr.find('td.subadmins');
+		if (subadminsEl.length > 0) {
+			subadminsEl.append(subadminSelect);
 		}
 		if (tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
 			var rm_img = $('<img class="svg action">').attr({
@@ -139,11 +143,11 @@ var UserList = {
 			}
 		}
 		$(tr).appendTo('tbody');
+
 		if (sort) {
 			UserList.doSort();
 		}
 
-		quotaSelect.singleSelect();
 		quotaSelect.on('change', function () {
 			var uid = $(this).parent().parent().attr('data-uid');
 			var quota = $(this).val();
@@ -153,6 +157,16 @@ var UserList = {
 				}
 			});
 		});
+
+		// defer init so the user first sees the list appear more quickly
+		window.setTimeout(function(){
+			quotaSelect.singleSelect();
+			UserList.applyMultiplySelect(groupsSelect);
+			if (subadminSelect) {
+				UserList.applyMultiplySelect(subadminSelect);
+			}
+		}, 0);
+		return tr;
 	},
 	// From http://my.opera.com/GreyWyvern/blog/show.dml/1671288
 	alphanum: function(a, b) {
@@ -209,28 +223,40 @@ var UserList = {
 		if (UserList.updating) {
 			return;
 		}
+		$('table+.loading').css('visibility', 'visible');
 		UserList.updating = true;
-		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad }), function (result) {
+		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad });
+		$.get(OC.generateUrl('/settings/ajax/userlist') + query, function (result) {
+			var loadedUsers = 0;
+			var trs = [];
 			if (result.status === 'success') {
 				//The offset does not mirror the amount of users available,
 				//because it is backend-dependent. For correct retrieval,
 				//always the limit(requested amount of users) needs to be added.
-				UserList.offset += UserList.usersToLoad;
 				$.each(result.data, function (index, user) {
 					if($('tr[data-uid="' + user.name + '"]').length > 0) {
 						return true;
 					}
 					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
-					if (index === 9) {
-						$(tr).bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
-							$(this).unbind(event);
-							UserList.update();
-						});
-					}
+					tr.addClass('appear transparent');
+					trs.push(tr);
+					loadedUsers++;
 				});
 				if (result.data.length > 0) {
 					UserList.doSort();
+					$('table+.loading').css('visibility', 'hidden');
 				}
+				else {
+					UserList.noMoreEntries = true;
+					$('table+.loading').remove();
+				}
+				UserList.offset += loadedUsers;
+				// animate
+				setTimeout(function() {
+					for (var i = 0; i < trs.length; i++) {
+						trs[i].removeClass('transparent');
+					}
+				}, 0);
 			}
 			UserList.updating = false;
 		});
@@ -239,7 +265,7 @@ var UserList = {
 	applyMultiplySelect: function (element) {
 		var checked = [];
 		var user = element.attr('data-username');
-		if ($(element).attr('class') === 'groupsselect') {
+		if ($(element).hasClass('groupsselect')) {
 			if (element.data('userGroups')) {
 				checked = element.data('userGroups');
 			}
@@ -248,7 +274,7 @@ var UserList = {
 					if (user === OC.currentUser && group === 'admin') {
 						return false;
 					}
-					if (!isadmin && checked.length === 1 && checked[0] === group) {
+					if (!oc_isadmin && checked.length === 1 && checked[0] === group) {
 						return false;
 					}
 					$.post(
@@ -280,7 +306,7 @@ var UserList = {
 				});
 			};
 			var label;
-			if (isadmin) {
+			if (oc_isadmin) {
 				label = t('settings', 'add group');
 			} else {
 				label = null;
@@ -295,7 +321,7 @@ var UserList = {
 				minWidth: 100
 			});
 		}
-		if ($(element).attr('class') === 'subadminsselect') {
+		if ($(element).hasClass('subadminsselect')) {
 			if (element.data('subadmin')) {
 				checked = element.data('subadmin');
 			}
@@ -330,18 +356,24 @@ var UserList = {
 				minWidth: 100
 			});
 		}
-	}
+	},
+
+	_onScroll: function(e) {
+		if (!!UserList.noMoreEntries) {
+			return;
+		}
+		if ($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
+			UserList.update(true);
+		}
+	},
 };
 
 $(document).ready(function () {
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
-	$('tbody tr:last').bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
-		OC.Router.registerLoadedCallback(function () {
-			UserList.update();
-		});
-	});
+	$(window).scroll(function(e) {UserList._onScroll(e);});
+	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
 		UserList.applyMultiplySelect($(element));
@@ -368,7 +400,7 @@ $(document).ready(function () {
 				if ($(this).val().length > 0) {
 					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
-						OC.Router.generate('settings_users_changepassword'),
+						OC.generateUrl('/settings/users/changepassword'),
 						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
 							if (result.status != 'success') {

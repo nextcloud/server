@@ -17,6 +17,9 @@ class OC_DB_StatementWrapper {
 	private $isManipulation = false;
 	private $lastArguments = array();
 
+	/**
+	 * @param boolean $isManipulation
+	 */
 	public function __construct($statement, $isManipulation) {
 		$this->statement = $statement;
 		$this->isManipulation = $isManipulation;
@@ -31,6 +34,9 @@ class OC_DB_StatementWrapper {
 
 	/**
 	 * make execute return the result instead of a bool
+	 *
+	 * @param array $input
+	 * @return \OC_DB_StatementWrapper | int
 	 */
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {
@@ -168,5 +174,19 @@ class OC_DB_StatementWrapper {
 	 */
 	public function fetchOne($colnum = 0) {
 		return $this->statement->fetchColumn($colnum);
+	}
+
+	/**
+	 * Binds a PHP variable to a corresponding named or question mark placeholder in the
+	 * SQL statement that was use to prepare the statement.
+	 *
+	 * @param mixed $column Either the placeholder name or the 1-indexed placeholder index
+	 * @param mixed $variable The variable to bind
+	 * @param integer|null $type one of the  PDO::PARAM_* constants
+	 * @param integer|null $length max length when using an OUT bind
+	 * @return boolean
+	 */
+	public function bindParam($column, &$variable, $type = null, $length = null){
+		return $this->statement->bindParam($column, $variable, $type, $length);
 	}
 }

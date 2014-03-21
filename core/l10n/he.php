@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s שיתף/שיתפה איתך את »%s«",
 "Sunday" => "יום ראשון",
 "Monday" => "יום שני",
 "Tuesday" => "יום שלישי",
@@ -21,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "נובמבר",
 "December" => "דצמבר",
 "Settings" => "הגדרות",
+"Saving..." => "שמירה…",
 "seconds ago" => "שניות",
 "_%n minute ago_::_%n minutes ago_" => array("לפני %n דקה","לפני %n דקות"),
 "_%n hour ago_::_%n hours ago_" => array("לפני %n שעה","לפני %n שעות"),
@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ללא מחולל מספרים אקראיים מאובטח תוקף יכול לנבא את מחרוזות איפוס הססמה ולהשתלט על החשבון שלך.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",
 "Create an <strong>admin account</strong>" => "יצירת <strong>חשבון מנהל</strong>",
-"Advanced" => "מתקדם",
 "Data folder" => "תיקיית נתונים",
 "Configure the database" => "הגדרת מסד הנתונים",
 "will be used" => "ינוצלו",

@@ -108,7 +108,7 @@ class Http extends BaseHttp {
 	 * Gets the correct header
 	 * @param Http::CONSTANT $status the constant from the Http class
 	 * @param \DateTime $lastModified formatted last modified date
-	 * @param string $Etag the etag
+	 * @param string $ETag the etag
 	 */
 	public function getStatusHeader($status, \DateTime $lastModified=null, 
 	                                $ETag=null) {

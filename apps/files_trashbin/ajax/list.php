@@ -20,9 +20,9 @@ if($doBreadcrumb) {
 }
 
 // make filelist
-$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
-
-if ($files === null){
+try {
+	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
+} catch (Exception $e) {
 	header("HTTP/1.0 404 Not Found");
 	exit();
 }

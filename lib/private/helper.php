@@ -64,7 +64,7 @@ class OC_Helper {
 	 */
 	public static function linkToDocs($key) {
 		$theme = new OC_Defaults();
-		return $theme->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+		return $theme->buildDocLinkToKey($key);
 	}
 
 	/**
@@ -151,7 +151,33 @@ class OC_Helper {
 	 */
 	public static function mimetypeIcon($mimetype) {
 		$alias = array(
-			'application/xml' => 'code/xml',
+			'application/octet-stream' => 'file', // use file icon as fallback
+
+			'application/illustrator' => 'image',
+			'application/coreldraw' => 'image',
+			'application/x-gimp' => 'image',
+			'application/x-photoshop' => 'image',
+
+			'application/x-font-ttf' => 'font',
+			'application/font-woff' => 'font',
+			'application/vnd.ms-fontobject' => 'font',
+
+			'application/json' => 'text/code',
+			'application/x-perl' => 'text/code',
+			'application/x-php' => 'text/code',
+			'text/x-shellscript' => 'text/code',
+			'application/xml' => 'text/html',
+			'text/css' => 'text/code',
+			'application/x-tex' => 'text',
+
+			'application/x-compressed' => 'package/x-generic',
+			'application/x-7z-compressed' => 'package/x-generic',
+			'application/x-deb' => 'package/x-generic',
+			'application/x-gzip' => 'package/x-generic',
+			'application/x-rar-compressed' => 'package/x-generic',
+			'application/x-tar' => 'package/x-generic',
+			'application/zip' => 'package/x-generic',
+
 			'application/msword' => 'x-office/document',
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
@@ -161,6 +187,7 @@ class OC_Helper {
 			'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
 			'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+
 			'application/mspowerpoint' => 'x-office/presentation',
 			'application/vnd.ms-powerpoint' => 'x-office/presentation',
 			'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
@@ -172,6 +199,7 @@ class OC_Helper {
 			'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
 			'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+
 			'application/msexcel' => 'x-office/spreadsheet',
 			'application/vnd.ms-excel' => 'x-office/spreadsheet',
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
@@ -182,6 +210,8 @@ class OC_Helper {
 			'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
 			'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+			'text/csv' => 'x-office/spreadsheet',
+
 			'application/msaccess' => 'database',
 		);
 
@@ -278,7 +308,7 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param string $str file size in a fancy format
+	 * @param string $str file size in human readable format
 	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
@@ -308,38 +338,9 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = round($bytes, 2);
+		$bytes = round($bytes);
 
 		return $bytes;
-	}
-
-	/**
-	 * @brief Recursive editing of file permissions
-	 * @param string $path path to file or folder
-	 * @param int $filemode unix style file permissions
-	 * @return bool
-	 */
-	static function chmodr($path, $filemode) {
-		if (!is_dir($path))
-			return chmod($path, $filemode);
-		$dh = opendir($path);
-		if(is_resource($dh)) {
-			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' && $file != '..') {
-					$fullpath = $path . '/' . $file;
-					if (is_link($fullpath))
-						return false;
-					elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return false; elseif (!self::chmodr($fullpath, $filemode))
-						return false;
-				}
-			}
-			closedir($dh);
-		}
-		if (@chmod($path, $filemode))
-			return true;
-		else
-			return false;
 	}
 
 	/**
@@ -804,18 +805,22 @@ class OC_Helper {
 	/**
 	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
 	 *
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @param int $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
+	 * @return int number of bytes representing
 	 */
-	public static function maxUploadFilesize($dir) {
-		return min(self::freeSpace($dir), self::uploadLimit());
+	public static function maxUploadFilesize($dir, $freeSpace = null) {
+		if (is_null($freeSpace) || $freeSpace < 0){
+			$freeSpace = self::freeSpace($dir);
+		}
+		return min($freeSpace, self::uploadLimit());
 	}
 
 	/**
 	 * Calculate free space left within user quota
 	 * 
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @return int number of bytes representing
 	 */
 	public static function freeSpace($dir) {
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
@@ -880,13 +885,22 @@ class OC_Helper {
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = \OC\Files\Filesystem::free_space($path);
+		$quota = 0;
+		// TODO: need a better way to get total space from storage
+		$storage = $rootInfo->getStorage();
+		if ($storage instanceof \OC\Files\Storage\Wrapper\Quota) {
+			$quota = $storage->getQuota();
+		}
+		$free = $storage->free_space('');
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
 		if ($total > 0) {
+			if ($quota > 0 && $total > $quota) {
+				$total = $quota;
+			}
 			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {

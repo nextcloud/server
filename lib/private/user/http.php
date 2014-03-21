@@ -98,7 +98,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	/**
 	* @brief get the user's home directory
 	* @param string $uid the username
-	* @return boolean
+	* @return string|false
 	*/
 	public function getHome($uid) {
 		if($this->userExists($uid)) {

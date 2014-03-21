@@ -49,7 +49,7 @@ interface ITags {
 	/**
 	* Check if any tags are saved for this type and user.
 	*
-	* @return boolean.
+	* @return boolean
 	*/
 	public function isEmpty();
 
@@ -147,7 +147,7 @@ interface ITags {
 	* Creates a tag/object relation.
 	*
 	* @param int $objid The id of the object
-	* @param int|string $tag The id or name of the tag
+	* @param string $tag The id or name of the tag
 	* @return boolean Returns false on database error.
 	*/
 	public function tagAs($objid, $tag);
@@ -156,7 +156,7 @@ interface ITags {
 	* Delete single tag/object relation from the db
 	*
 	* @param int $objid The id of the object
-	* @param int|string $tag The id or name of the tag
+	* @param string $tag The id or name of the tag
 	* @return boolean
 	*/
 	public function unTag($objid, $tag);

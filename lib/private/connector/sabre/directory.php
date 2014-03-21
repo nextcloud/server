@@ -50,7 +50,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if ($name === 'Shared' && empty($this->path)) {
+		if (strtolower($name) === 'shared' && empty($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
@@ -86,7 +86,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createDirectory($name) {
 
-		if ($name === 'Shared' && empty($this->path)) {
+		if (strtolower($name) === 'shared' && empty($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 

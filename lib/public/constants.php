@@ -35,3 +35,6 @@ const PERMISSION_UPDATE = 2;
 const PERMISSION_DELETE = 8;
 const PERMISSION_SHARE = 16;
 const PERMISSION_ALL = 31;
+
+const FILENAME_INVALID_CHARS = "\\/<>:\"|?*\n";
+

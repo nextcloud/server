@@ -38,7 +38,7 @@ interface IConfig {
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
+	 * @param mixed $value the value that should be stored
 	 * @todo need a use case for this
 	 */
 // 	public function setSystemValue($key, $value);
@@ -59,6 +59,7 @@ interface IConfig {
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
+	 * @return void
 	 */
 	public function setAppValue($appName, $key, $value);
 
@@ -80,6 +81,7 @@ interface IConfig {
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param string $value the value that you want to store
+	 * @return void
 	 */
 	public function setUserValue($userId, $appName, $key, $value);
 
@@ -90,6 +92,7 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param string $default the default value to be returned if the value isn't set
+	 * @return string
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '');
 }

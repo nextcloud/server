@@ -18,6 +18,9 @@ class DAV extends Storage {
 		if ( ! is_array($this->config) or ! isset($this->config['webdav']) or ! $this->config['webdav']['run']) {
 			$this->markTestSkipped('WebDAV backend not configured');
 		}
+		if (isset($this->config['webdav']['wait'])) {
+			$this->waitDelay = $this->config['webdav']['wait'];
+		}
 		$this->config['webdav']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\DAV($this->config['webdav']);
 		$this->instance->mkdir('/');

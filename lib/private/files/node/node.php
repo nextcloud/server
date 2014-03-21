@@ -8,8 +8,6 @@
 
 namespace OC\Files\Node;
 
-use OC\Files\Cache\Cache;
-use OC\Files\Cache\Scanner;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
@@ -31,7 +29,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param \OC\Files\View $view
-	 * @param \OC\Files\Node\Root Root $root
+	 * @param \OC\Files\Node\Root $root
 	 * @param string $path
 	 */
 	public function __construct($root, $view, $path) {

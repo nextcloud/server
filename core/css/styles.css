@@ -10,7 +10,7 @@ table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
 caption, th, td { text-align:left; font-weight:normal; }
 table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
-a, a *, input, input *, select, .button span, li, label { cursor:pointer; }
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
 body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
 
@@ -37,11 +37,12 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+/* Profile picture in header */
 #header .avatardiv {
 	float: left;
 	display: inline-block;
+	margin-right: 5px;
 }
-
 #header .avatardiv img {
 	opacity: 1;
 }
@@ -72,6 +73,19 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 }
 #nojavascript a:hover {
 	color: #aaa;
+}
+
+#header .logo {
+	background-image: url(../img/logo.svg);
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
+}
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	width: 147px;
+	height: 32px;
 }
 
 /* INPUTS */
@@ -161,6 +175,7 @@ button, .button,
 	border: 1px solid rgba(190,190,190,.9);
 	cursor: pointer;
 	border-radius: 3px;
+	outline: none;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
@@ -190,34 +205,36 @@ textarea:disabled {
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border: 1px solid #1d2d44;
-	background: #35537a;
+	background-color: #35537a;
 	color: #ddd;
 }
 	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
 	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
 		border: 1px solid #1d2d44;
-		background: #304d76;
+		background-color: #304d76;
 		color: #fff;
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
 		border: 1px solid #1d2d44;
-		background: #1d2d44;
+		background-color: #1d2d44;
 		color: #bbb;
 	}
 
-
+/* Searchbox */
 .searchbox input[type="search"] {
+	position: relative;
 	font-size: 1.2em;
-	padding: .2em .5em .2em 1.5em;
+	padding-left: 1.5em;
 	background: #fff url('../img/actions/search.svg') no-repeat .5em center;
 	border: 0;
-	border-radius: 1em;
+	border-radius: 2em;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity: .7;
-	margin-top: 10px;
+	margin-top: 6px;
 	float: right;
 }
+
 input[type="submit"].enabled {
-	background: #66f866;
+	background-color: #66f866;
 	border: 1px solid #5e5;
 }
 
@@ -389,11 +406,9 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
-#body-login input[type="email"] {
-	border: 1px solid #323233;
-	border-radius: 5px;
-}
-#body-login input[type='submit'] {
+#body-login input[type="email"],
+#body-login input[type="submit"] {
+	border: none;
 	border-radius: 5px;
 }
 
@@ -706,12 +721,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 /* USER MENU */
 #settings {
 	float: right;
-	margin-top: 7px;
-	margin-left: 10px;
 	color: #bbb;
 }
 #expand {
-	padding: 15px 15px 15px 5px;
+	display: block;
+	padding: 7px 12px 6px 7px;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -931,5 +945,22 @@ div.crumb:active {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter:alpha(opacity=70);
 	opacity:.7;
+}
+
+.appear {
+	opacity: 1;
+	transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	-webkit-transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+	opacity: 0;
+}
+
+/* for IE10 */
+@-ms-viewport {
+	width: device-width;
 }
 

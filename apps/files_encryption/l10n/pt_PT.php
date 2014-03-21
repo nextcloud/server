@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Could not update the private key password. Maybe the old password was not correct." => "Não foi possível alterar a chave. Possivelmente a password antiga não está correcta.",
 "Missing requirements." => "Faltam alguns requisitos.",
 "Following users are not set up for encryption:" => "Os utilizadores seguintes não estão marcados para cifragem:",
-"Saving..." => "A guardar...",
 "personal settings" => "configurações personalizadas ",
 "Encryption" => "Encriptação",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Active a chave de recuperação (permite recuperar os ficheiros no caso de perda da password):",

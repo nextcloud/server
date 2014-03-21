@@ -40,10 +40,12 @@ if($_['passwordChangeSupported']) {
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
 		<input type="password" id="pass1" name="oldpassword"
-			placeholder="<?php echo $l->t('Current password');?>" autocomplete="off" />
+			placeholder="<?php echo $l->t('Current password');?>"
+			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<input type="password" id="pass2" name="personal-password"
 			placeholder="<?php echo $l->t('New password');?>"
-			data-typetoggle="#personal-show" autocomplete="off" />
+			data-typetoggle="#personal-show"
+			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 		<br/>
@@ -60,7 +62,9 @@ if($_['displayNameChangeSupported']) {
 <form id="displaynameform">
 	<fieldset class="personalblock">
 		<h2><?php echo $l->t('Full Name');?></h2>
-		<input type="text" id="displayName" name="displayName" value="<?php p($_['displayName'])?>" />
+		<input type="text" id="displayName" name="displayName"
+			value="<?php p($_['displayName'])?>"
+			autocomplete="on" autocapitalize="off" autocorrect="off" />
         <span class="msg"></span>
 		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
 	</fieldset>
@@ -76,8 +80,10 @@ if($_['passwordChangeSupported']) {
 	<fieldset class="personalblock">
 		<h2><?php p($l->t('Email'));?></h2>
 		<input type="text" name="email" id="email" value="<?php p($_['email']); ?>"
-			placeholder="<?php p($l->t('Your email address'));?>" /><span class="msg"></span><br />
-		<em><?php p($l->t('Fill in an email address to enable password recovery'));?></em>
+			placeholder="<?php p($l->t('Your email address'));?>"
+			autocomplete="on" autocapitalize="off" autocorrect="off" />
+		<span class="msg"></span><br />
+		<em><?php p($l->t('Fill in an email address to enable password recovery and receive notifications'));?></em>
 	</fieldset>
 </form>
 <?php
@@ -102,7 +108,7 @@ if($_['passwordChangeSupported']) {
 			<?php endif; ?>
 		</div>
 		<div id="cropper" class="hidden">
-			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Abort')); ?></div>
+			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
 			<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile image')); ?></div>
 		</div>
 	</fieldset>

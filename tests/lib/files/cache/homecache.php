@@ -19,6 +19,10 @@ class DummyUser extends \OC\User\User {
 	 */
 	private $uid;
 
+	/**
+	 * @param string $uid
+	 * @param string $home
+	 */
 	public function __construct($uid, $home) {
 		$this->home = $home;
 		$this->uid = $uid;

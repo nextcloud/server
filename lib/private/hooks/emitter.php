@@ -20,6 +20,7 @@ interface Emitter {
 	 * @param string $scope
 	 * @param string $method
 	 * @param callable $callback
+	 * @return void
 	 */
 	public function listen($scope, $method, $callback);
 
@@ -27,6 +28,7 @@ interface Emitter {
 	 * @param string $scope optional
 	 * @param string $method optional
 	 * @param callable $callback optional
+	 * @return void
 	 */
 	public function removeListener($scope = null, $method = null, $callback = null);
 }

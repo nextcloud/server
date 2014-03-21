@@ -23,6 +23,7 @@
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
+\OC::$session->close();
 
 $files = $_GET["files"];
 $dir = $_GET["dir"];

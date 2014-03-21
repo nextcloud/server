@@ -1,9 +1,10 @@
 <?php
 
 OCP\JSON::checkLoggedIn();
+\OC::$session->close();
 
 // Load the files
-$dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
 $mimetypes = isset($_GET['mimetypes']) ? json_decode($_GET['mimetypes'], true) : '';
 
 // Clean up duplicates from array and deal with non-array requests
@@ -15,43 +16,39 @@ if (is_array($mimetypes)) {
 
 // make filelist
 $files = array();
+/**
+ * @var \OCP\Files\FileInfo[] $files
+ */
 // If a type other than directory is requested first load them.
-if($mimetypes && !in_array('httpd/unix-directory', $mimetypes)) {
-	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, 'httpd/unix-directory' ) as $file ) {
-		$file['directory'] = $dir;
-		$file['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($file['mimetype']);
-		$file["date"] = OCP\Util::formatDate($file["mtime"]);
-		$file['mimetype_icon'] = \OCA\Files\Helper::determineIcon($file);
-		$files[] = $file;
-	}
+if ($mimetypes && !in_array('httpd/unix-directory', $mimetypes)) {
+	$files = array_merge($files, \OC\Files\Filesystem::getDirectoryContent($dir, 'httpd/unix-directory'));
 }
 
 if (is_array($mimetypes) && count($mimetypes)) {
 	foreach ($mimetypes as $mimetype) {
-		foreach( \OC\Files\Filesystem::getDirectoryContent( $dir, $mimetype ) as $file ) {
-			$file['directory'] = $dir;
-			$file['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($file['mimetype']);
-			$file["date"] = OCP\Util::formatDate($file["mtime"]);
-			$file['mimetype_icon'] = \OCA\Files\Helper::determineIcon($file);
-			$files[] = $file;
-		}
+		$files = array_merge($files, \OC\Files\Filesystem::getDirectoryContent($dir, $mimetype));
 	}
 } else {
-	foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $file ) {
-		$file['directory'] = $dir;
-		$file['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($file['mimetype']);
-		$file["date"] = OCP\Util::formatDate($file["mtime"]);
-		$file['mimetype_icon'] = \OCA\Files\Helper::determineIcon($file);
-		$files[] = $file;
-	}
+	$files = array_merge($files, \OC\Files\Filesystem::getDirectoryContent($dir));
+}
+// Sort by name
+usort($files, array('\OCA\Files\Helper', 'fileCmp'));
+
+$result = array();
+foreach ($files as $file) {
+	$fileData = array();
+	$fileData['directory'] = $dir;
+	$fileData['name'] = $file->getName();
+	$fileData['type'] = $file->getType();
+	$fileData['path'] = $file['path'];
+	$fileData['id'] = $file->getId();
+	$fileData['size'] = $file->getSize();
+	$fileData['mtime'] = $file->getMtime();
+	$fileData['mimetype'] = $file->getMimetype();
+	$fileData['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($file->getMimetype());
+	$fileData["date"] = OCP\Util::formatDate($file->getMtime());
+	$fileData['mimetype_icon'] = \OCA\Files\Helper::determineIcon($file);
+	$result[] = $fileData;
 }
 
-// Sort by name
-usort($files, function ($a, $b) {
-	if ($a['name'] === $b['name']) {
-		 return 0;
-	}
-	return ($a['name'] < $b['name']) ? -1 : 1;
-});
-
-OC_JSON::success(array('data' => $files));
+OC_JSON::success(array('data' => $result));

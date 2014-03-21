@@ -67,6 +67,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 	/**
 	 * Small helper to support PROPFIND with DEPTH_INFINITY.
+	 * @param string $path
 	 */
 	private function addPathNodesRecursively(&$nodes, $path) {
 		foreach($this->tree->getChildren($path) as $childNode) {

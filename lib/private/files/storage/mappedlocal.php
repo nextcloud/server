@@ -210,6 +210,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $return;
 	}
 
+	/**
+	 * @param string $dir
+	 */
 	private function delTree($dir, $isLogicPath=true) {
 		$dirRelative=$dir;
 		if ($isLogicPath) {
@@ -244,6 +247,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $return;
 	}
 
+	/**
+	 * @param string $fullPath
+	 */
 	private static function getFileSizeFromOS($fullPath) {
 		$name = strtolower(php_uname('s'));
 		// Windows OS: we use COM to access the filesystem
@@ -288,6 +294,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $this->buildPath($path);
 	}
 
+	/**
+	 * @param string $query
+	 */
 	protected function searchInDir($query, $dir='') {
 		$files=array();
 		$physicalDir = $this->buildPath($dir);
@@ -317,12 +326,18 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $this->filemtime($path)>$time;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function buildPath($path, $create=true) {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir.$path;
 		return $this->mapper->logicToPhysical($fullPath, $create);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function cleanMapper($path, $isLogicPath=true, $recursive=true) {
 		$fullPath = $path;
 		if ($isLogicPath) {
@@ -331,6 +346,10 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		$this->mapper->removePath($fullPath, $isLogicPath, $recursive);
 	}
 
+	/**
+	 * @param string $path1
+	 * @param string $path2
+	 */
 	private function copyMapping($path1, $path2) {
 		$path1 = $this->stripLeading($path1);
 		$path2 = $this->stripLeading($path2);

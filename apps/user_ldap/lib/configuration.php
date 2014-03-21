@@ -76,8 +76,12 @@ class Configuration {
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
 		'lastJpegPhotoLookup' => null,
+		'ldapNestedGroups' => false,
 	);
 
+	/**
+	 * @param string $configPrefix
+	 */
 	public function __construct($configPrefix, $autoread = true) {
 		$this->configPrefix = $configPrefix;
 		if($autoread) {
@@ -106,7 +110,7 @@ class Configuration {
 	 * @param $config array that holds the config parameters in an associated
 	 * array
 	 * @param &$applied optional; array where the set fields will be given to
-	 * @return null
+	 * @return false|null
 	 */
 	public function setConfiguration($config, &$applied = null) {
 		if(!is_array($config)) {
@@ -339,6 +343,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
 			'last_jpegPhoto_lookup'				=> 0,
+			'ldap_nested_groups'		        => 0,
 		);
 	}
 
@@ -390,6 +395,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
+			'ldap_nested_groups'                    => 'ldapNestedGroups',
 		);
 		return $array;
 	}

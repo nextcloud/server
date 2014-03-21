@@ -80,8 +80,14 @@ class Hooks {
 
 		// Check if first-run file migration has already been performed
 		$ready = false;
-		if ($util->getMigrationStatus() === Util::MIGRATION_OPEN) {
+		$migrationStatus = $util->getMigrationStatus();
+		if ($migrationStatus === Util::MIGRATION_OPEN) {
 			$ready = $util->beginMigration();
+		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
+			// refuse login as long as the initial encryption is running
+			sleep(5);
+			\OCP\User::logout();
+			return false;
 		}
 
 		// If migration not yet done
@@ -102,21 +108,27 @@ class Hooks {
 
 			}
 
-			// Encrypt existing user files:
-			if (
-				$util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'])
-			) {
+			// Encrypt existing user files
+			try {
+				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password']);
+			} catch (\Exception $ex) {
+				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
+				$util->resetMigrationStatus();
+				\OCP\User::logout();
+				$result = false;
+			}
+
+			if ($result) {
 
 				\OC_Log::write(
 					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
 					, \OC_Log::INFO
 				);
 
+				// Register successful migration in DB
+				$util->finishMigration();
+
 			}
-
-			// Register successful migration in DB
-			$util->finishMigration();
-
 		}
 
 		return true;
@@ -489,11 +501,20 @@ class Hooks {
 	 * @param array $params with the old path and the new path
 	 */
 	public static function preRename($params) {
-		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView('/');
+		$util = new Util($view, $user);
 		list($ownerOld, $pathOld) = $util->getUidAndFilename($params['oldpath']);
-		self::$renamedFiles[$params['oldpath']] = array(
-			'uid' => $ownerOld,
-			'path' => $pathOld);
+
+		// we only need to rename the keys if the rename happens on the same mountpoint
+		// otherwise we perform a stream copy, so we get a new set of keys
+		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
+		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		if ($mp1 === $mp2) {
+			self::$renamedFiles[$params['oldpath']] = array(
+				'uid' => $ownerOld,
+				'path' => $pathOld);
+		}
 	}
 
 	/**
@@ -635,7 +656,7 @@ class Hooks {
 	/**
 	 * @brief if the file was really deleted we remove the encryption keys
 	 * @param array $params
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function postDelete($params) {
 
@@ -675,7 +696,7 @@ class Hooks {
 	/**
 	 * @brief remember the file which should be deleted and it's owner
 	 * @param array $params
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	public static function preDelete($params) {
 		$path = $params[\OC\Files\Filesystem::signal_param_path];

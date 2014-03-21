@@ -63,13 +63,19 @@ window.oc_config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false
 };
+window.oc_defaults = {};
 
 // global setup for all tests
 (function setupTests() {
 	var fakeServer = null,
+		$testArea = null,
 		routesRequestStub;
 
 	beforeEach(function() {
+		// test area for elements that need absolute selector access or measure widths/heights
+		// which wouldn't work for detached or hidden elements
+		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px;"></div>');
+		$('body').append($testArea);
 		// enforce fake XHR, tests should not depend on the server and
 		// must use fake responses for expected calls
 		fakeServer = sinon.fakeServer.create();
@@ -85,21 +91,14 @@ window.oc_config = {
 		// make it globally available, so that other tests can define
 		// custom responses
 		window.fakeServer = fakeServer;
-
-		OC.Router.routes = [];
-		OC.Router.routes_request = {
-			state: sinon.stub().returns('resolved'),
-			done: sinon.stub()
-		};
 	});
 
 	afterEach(function() {
-		OC.Router.routes_request.state.reset();
-		OC.Router.routes_request.done.reset();
-
 		// uncomment this to log requests
 		// console.log(window.fakeServer.requests);
 		fakeServer.restore();
+
+		$testArea.remove();
 	});
 })();
 

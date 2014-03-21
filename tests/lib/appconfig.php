@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2013 Christopher Schäpers <christopher@schaepers.it>
+ * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -41,6 +42,7 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		while ($row = $result->fetchRow()) {
 			$expected[] = $row['appid'];
 		}
+		sort($expected);
 		$apps = \OC_Appconfig::getApps();
 		$this->assertEquals($expected, $apps);
 	}
@@ -52,6 +54,7 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		while($row = $result->fetchRow()) {
 			$expected[] = $row["configkey"];
 		}
+		sort($expected);
 		$keys = \OC_Appconfig::getKeys('testapp');
 		$this->assertEquals($expected, $keys);
 	}

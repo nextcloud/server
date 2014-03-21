@@ -50,6 +50,9 @@ class TestMiddleware extends Middleware {
 
 	private $beforeControllerThrowsEx;
 
+	/**
+	 * @param boolean $beforeControllerThrowsEx
+	 */
 	public function __construct($beforeControllerThrowsEx) {
 		self::$beforeControllerCalled = 0;
 		self::$afterControllerCalled = 0;

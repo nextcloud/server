@@ -75,6 +75,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		return 'sftp::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function absPath($path) {
 		return $this->root . $this->cleanPath($path);
 	}
@@ -277,6 +280,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public function constructUrl($path) {
 		$url = 'sftp://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
 		return $url;

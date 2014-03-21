@@ -37,7 +37,6 @@ namespace OCP;
 class Files {
 	/**
 	 * Recusive deletion of folders
-	 * @param string path to the folder
 	 * @return bool
 	 */
 	static function rmdirr( $dir ) {
@@ -46,7 +45,7 @@ class Files {
 
 	/**
 	 * Get the mimetype form a local file
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
@@ -56,7 +55,7 @@ class Files {
 
 	/**
 	 * Search for files by mimetype
-	 * @param string mimetype
+	 * @param string $mimetype
 	 * @return array
 	 */
 	static public function searchByMime( $mimetype ) {
@@ -65,8 +64,8 @@ class Files {
 
 	/**
 	 * Copy the contents of one stream to another
-	 * @param resource source
-	 * @param resource target
+	 * @param resource $source
+	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
 	public static function streamCopy( $source, $target ) {
@@ -76,7 +75,7 @@ class Files {
 
 	/**
 	 * Create a temporary file with an unique filename
-	 * @param string postfix
+	 * @param string $postfix
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
@@ -97,8 +96,8 @@ class Files {
 
 	/**
 	 * Adds a suffix to the name in case the file exists
-	 * @param string path
-	 * @param string filename
+	 * @param string $path
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileName( $path, $filename ) {
@@ -108,7 +107,7 @@ class Files {
 	/**
 	 * Gets the Storage for an app - creates the needed folder if they are not
 	 * existant
-	 * @param string appid
+	 * @param string $app
 	 * @return \OC\Files\View
 	 */
 	public static function getStorage( $app ) {

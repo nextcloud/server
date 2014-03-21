@@ -31,7 +31,7 @@ class OC_DAVClient extends \Sabre_DAV_Client {
 
 	/**
 	 * @brief Sets the request timeout or 0 to disable timeout.
-	 * @param int timeout in seconds or 0 to disable
+	 * @param integer $timeout in seconds or 0 to disable
 	 */
 	public function setRequestTimeout($timeout) {
 		$this->requestTimeout = (int)$timeout;

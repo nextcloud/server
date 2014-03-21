@@ -176,7 +176,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief return the state of the mode of the specified filter
-	 * @param $confkey string, contains the access key of the Configuration
+	 * @param string $confkey string, contains the access key of the Configuration
 	 */
 	private function getFilterMode($confkey) {
 		$mode = $this->configuration->$confkey;
@@ -240,6 +240,8 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief detects the available LDAP groups
+	 * @param string $dbkey
+	 * @param string $confkey
 	 * @returns the instance's WizardResult instance
 	 */
 	private function determineGroups($dbkey, $confkey, $testMemberOf = true) {
@@ -554,7 +556,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief Checks whether for a given BaseDN results will be returned
-	 * @param $base the BaseDN to test
+	 * @param string $base the BaseDN to test
 	 * @return bool true on success, false otherwise
 	 */
 	private function testBaseDN($base) {
@@ -567,6 +569,10 @@ class Wizard extends LDAPUtility {
 		//get a result set > 0 on a proper base
 		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
 		if(!$this->ldap->isResource($rr)) {
+			$errorNo  = $this->ldap->errno($cr);
+			$errorMsg = $this->ldap->error($cr);
+			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
+							' Error '.$errorNo.': '.$errorMsg, \OCP\Util::INFO);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -615,7 +621,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief creates an LDAP Filter from given configuration
-	 * @param $filterType int, for which use case the filter shall be created
+	 * @param integer $filterType int, for which use case the filter shall be created
 	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
 	 * self::LFILTER_GROUP_LIST
 	 * @return mixed, string with the filter on success, false otherwise
@@ -842,6 +848,9 @@ class Wizard extends LDAPUtility {
 		       || (empty($agent) &&  empty($pwd)));
 	}
 
+	/**
+	 * @param string[] $reqs
+	 */
 	private function checkRequirements($reqs) {
 		$this->checkAgentRequirements();
 		foreach($reqs as $option) {
@@ -856,11 +865,11 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief does a cumulativeSearch on LDAP to get different values of a
 	 * specified attribute
-	 * @param $filters array, the filters that shall be used in the search
-	 * @param $attr the attribute of which a list of values shall be returned
+	 * @param string[] $filters array, the filters that shall be used in the search
+	 * @param string $attr the attribute of which a list of values shall be returned
 	 * @param $lfw bool, whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
-	 * @param $maxF string. if not null, this variable will have the filter that
+	 * @param string $maxF string. if not null, this variable will have the filter that
 	 * yields most result entries
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
@@ -922,10 +931,10 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief determines if and which $attr are available on the LDAP server
-	 * @param $objectclasses the objectclasses to use as search filter
-	 * @param $attr the attribute to look for
-	 * @param $dbkey the dbkey of the setting the feature is connected to
-	 * @param $confkey the confkey counterpart for the $dbkey as used in the
+	 * @param string[] $objectclasses the objectclasses to use as search filter
+	 * @param string $attr the attribute to look for
+	 * @param string $dbkey the dbkey of the setting the feature is connected to
+	 * @param string $confkey the confkey counterpart for the $dbkey as used in the
 	 * Configuration class
 	 * @param $po boolean, whether the objectClass with most result entries
 	 * shall be pre-selected via the result
@@ -1010,6 +1019,7 @@ class Wizard extends LDAPUtility {
 			$this->configuration->ldapPort);
 
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($this->configuration->ldapTLS === 1) {
 			$this->ldap->startTls($cr);

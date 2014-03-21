@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "حفظ",
 "Folder name" => "اسم المجلد",
 "Options" => "خيارات",
 "All Users" => "كل المستخدمين",

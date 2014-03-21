@@ -5,6 +5,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+\OC::$session->close();
 
 // Get the params
 $dir = isset( $_POST['dir'] ) ? stripslashes($_POST['dir']) : '';
@@ -23,8 +24,8 @@ if(trim($foldername) === '') {
 	exit();
 }
 
-if(strpos($foldername, '/') !== false) {
-	$result['data'] = array('message' => $l10n->t('Folder name must not contain "/". Please choose a different name.'));
+if(!OCP\Util::isValidFileName($foldername)) {
+	$result['data'] = array('message' => (string)$l10n->t("Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 	OCP\JSON::error($result);
 	exit();
 }

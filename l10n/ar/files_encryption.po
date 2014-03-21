@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# m.shehab <shehab.mahmood@gmail.com>, 2014
+# suliman <291101251@std.qu.edu.sa>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-19 06:00+0000\n"
+"Last-Translator: m.shehab <shehab.mahmood@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,46 +21,46 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "تم بنجاح تفعيل مفتاح الاستعادة"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "لا يمكن تفعيل مفتاح الاستعادة, يرجى التحقق من كلمة مرور مفتاح الاستعادة!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "تم تعطيل مفتاح الاستعادة بنجاح"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "لا يمكن تعطيل مفتاح الاستعادة, يرجى التحقق من كلمة مرور مفتاح الاستعادة!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "تم تغيير كلمة المرور بنجاح."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "تعذر تغيير كلمة المرور. من الممكن ان كلمة المرور القديمة غير صحيحة."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "تم تحديث كلمة المرور للمفتاح الخاص بنجاح."
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "لا يمكن تحديث كلمة مرور المفتاح الخاص. من الممكن ان كلمة المرور القديمة غير صحيحة."
 
 #: files/error.php:12
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "برنامج التشفير لم يتم تهيئتة ! من الممكن ان برنامج التشفير تم اعادة تفعيلة خلال الجلسة. يرجى تسجيل الخروج ومن ثم تسجيل الدخول مجددا لتهيئة برنامج التشفير."
 
 #: files/error.php:16
 #, php-format
@@ -66,50 +68,50 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "مفتاحك الخاص غير صالح! ربما تم تغيير كلمة المرور خارج %s (مثل:مجلد شركتك). يمكنك تحديث كلمة المرور في الاعدادات الشخصية لإستعادة الوصول الى ملفاتك المشفرة."
 
 #: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr "لا يمكن فك التشفير من هذا الملف, من الممكن ان يكون هذا الملف مُشارك. يرجى سؤال صاحب الملف لإعادة مشاركتة معك."
 
 #: files/error.php:22 files/error.php:27
 msgid ""
 "Unknown error please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "خطا غير معروف يرجى التاكد من اعدادات نظامك او تواصل مع المدير."
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
-msgstr ""
+msgstr "متطلبات ناقصة."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr ""
+msgstr "يرجى التاكد من ان اصدار PHP 5.3.3 او احدث , مثبت و التاكد من ان OpenSSL مفعل و مهيئ بشكل صحيح. حتى الان برنامج التتشفير تم تعطيلة."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
-msgstr ""
+msgstr "المستخدمين التاليين لم يتم تعيين لهم التشفيير:"
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
-msgstr ""
+msgstr "بدأ التشفير... من الممكن ان ياخذ بعض الوقت. يرجى الانتظار."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "جاري الحفظ..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "جاري تفعيل التشفير المبدئي ، الرجاء المحاولة لاحقا"
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr ""
+msgstr "انتقل مباشرة الى "
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
-msgstr ""
+msgstr "اعدادات شخصية"
 
 #: templates/settings-admin.php:4 templates/settings-personal.php:3
 msgid "Encryption"
@@ -118,84 +120,84 @@ msgstr "التشفير"
 #: templates/settings-admin.php:7
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
-msgstr ""
+msgstr "تفعيل استعادة المفتاح (سوف يمكنك من استعادة ملفات المستخدمين في حال فقدان كلمة المرور):"
 
 #: templates/settings-admin.php:11
 msgid "Recovery key password"
-msgstr ""
+msgstr "استعادة كلمة مرور المفتاح"
 
 #: templates/settings-admin.php:14
 msgid "Repeat Recovery key password"
-msgstr ""
+msgstr "كرر كلمة المرور لـ استعادة المفتاح"
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
-msgstr ""
+msgstr "مفعلة"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:59
 msgid "Disabled"
-msgstr ""
+msgstr "معطلة"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
-msgstr ""
+msgstr "تعديل كلمة المرور استعادة المفتاح:"
 
 #: templates/settings-admin.php:40
 msgid "Old Recovery key password"
-msgstr ""
+msgstr "كلمة المرور القديمة لـ استعامة المفتاح"
 
 #: templates/settings-admin.php:47
 msgid "New Recovery key password"
-msgstr ""
+msgstr "تعيين كلمة مرور جديدة لـ استعادة المفتاح"
 
 #: templates/settings-admin.php:53
 msgid "Repeat New Recovery key password"
-msgstr ""
+msgstr "كرر كلمة المرور لـ استعادة المفتاح من جديد"
 
 #: templates/settings-admin.php:58
 msgid "Change Password"
-msgstr ""
+msgstr "عدل كلمة السر"
 
 #: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "كلمة مرور مفتاحك الخاص لا تتطابق مع كلمة المرور الخاصة الدخول:"
 
 #: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "تعيين كلمة المرور القديمة لـ المفتاح الخاص الى كلمة المرور الخاصة بالدخول الحالية."
 
 #: templates/settings-personal.php:14
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "اذا كنت لاتتذكر كلمة السر تستطيع ان تطلب من المدير ان يستعيد ملفاتك."
 
 #: templates/settings-personal.php:22
 msgid "Old log-in password"
-msgstr ""
+msgstr "كلمة المرور القديمة الخاصة بالدخول"
 
 #: templates/settings-personal.php:28
 msgid "Current log-in password"
-msgstr ""
+msgstr "كلمة المرور الحالية الخاصة بالدخول"
 
 #: templates/settings-personal.php:33
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "تحديث كلمة المرور لـ المفتاح الخاص"
 
 #: templates/settings-personal.php:42
 msgid "Enable password recovery:"
-msgstr ""
+msgstr "تفعيل استعادة كلمة المرور:"
 
 #: templates/settings-personal.php:44
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
+msgstr "تفعيل هذا الخيار يمكنك من اعادة الوصول الى ملفاتك المشفرة عند فقدان كلمة المرور"
 
 #: templates/settings-personal.php:60
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "اعدادات ملف الاستعادة تم تحديثه"
 
 #: templates/settings-personal.php:61
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "تعذر تحديث ملف الاستعادة"

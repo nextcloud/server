@@ -78,7 +78,10 @@ class Share {
 	 * @param string Backend class
 	 * @param string (optional) Depends on item type
 	 * @param array (optional) List of supported file extensions if this item type depends on files
-	 * @return Returns true if backend is registered or false if error
+	 * @param string $itemType
+	 * @param string $class
+	 * @param string $collectionOf
+	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		if (self::isEnabled()) {
@@ -104,7 +107,7 @@ class Share {
 
 	/**
 	 * Check if the Share API is enabled
-	 * @return Returns true if enabled or false
+	 * @return boolean true if enabled or false
 	 *
 	 * The Share API is enabled by default if not configured
 	 */
@@ -135,7 +138,7 @@ class Share {
 
 	/**
 	 * Find which users can access a shared item
-	 * @param $path to the file
+	 * @param string $path to the file
 	 * @param $user owner of the file
 	 * @param include owner to the list of users with access to the file
 	 * @return array
@@ -247,6 +250,7 @@ class Share {
 	 * @param mixed Parameters (optional)
 	 * @param int Number of items to return (optional) Returns all by default
 	 * @param bool include collections (optional)
+	 * @param string $itemType
 	 * @return Return depends on format
 	 */
 	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
@@ -262,7 +266,7 @@ class Share {
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed Parameters (optional)
 	 * @param bool include collections (optional)
-	 * @return Return depends on format
+	 * @return string depends on format
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
@@ -403,6 +407,7 @@ class Share {
 	 * @param mixed Parameters
 	 * @param int Number of items to return (optional) Returns all by default
 	 * @param bool include collections
+	 * @param string $itemType
 	 * @return Return depends on format
 	 */
 	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
@@ -646,7 +651,7 @@ class Share {
 	 * @param string Item source
 	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string User or group the item is being shared with
-	 * @return Returns true on success or false on failure
+	 * @return boolean true on success or false on failure
 	 */
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),
@@ -661,7 +666,9 @@ class Share {
 	 * Unshare an item from all users, groups, and remove all links
 	 * @param string Item type
 	 * @param string Item source
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @return boolean true on success or false on failure
 	 */
 	public static function unshareAll($itemType, $itemSource) {
 		// Get all of the owners of shares of this item.
@@ -693,7 +700,9 @@ class Share {
 	 * Unshare an item shared with the current user
 	 * @param string Item type
 	 * @param string Item target
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemTarget
+	 * @return boolean true on success or false on failure
 	 *
 	 * Unsharing from self is not allowed for items inside collections
 	 */
@@ -749,12 +758,12 @@ class Share {
 
 	/**
 	 * Set the permissions of an item for a specific user or group
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param int CRUDS permissions
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType Item type
+	 * @param string $itemSource Item source
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param integer|null $permissions CRUDS
+	 * @return boolean true on success or false on failure
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith,
@@ -836,7 +845,7 @@ class Share {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $date expiration date
-	 * @return Share_Backend
+	 * @return boolean
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date) {
 		if ($items = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(),
@@ -930,7 +939,7 @@ class Share {
 
 	/**
 	 * Check if resharing is allowed
-	 * @return Returns true if allowed or false
+	 * @return boolean true if allowed or false
 	 *
 	 * Resharing is allowed by default if not configured
 	 */
@@ -1152,7 +1161,7 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
 							.'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 							.'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`, `mail_send`';
+							.'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
@@ -1241,7 +1250,28 @@ class Share {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$row['path'] = '/Shared/'.basename($row['path']);
+					// FIXME: Doesn't always construct the correct path, example:
+					// Folder '/a/b', share '/a' and '/a/b' to user2
+					// user2 reshares /Shared/b and ask for share status of /Shared/a/b
+					// expected result: path=/Shared/a/b; actual result /Shared/b because of the parent
+					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
+					$parentResult = $query->execute(array($row['parent']));
+					if (\OC_DB::isError($result)) {
+						\OC_Log::write('OCP\Share', 'Can\'t select parent: ' .
+								\OC_DB::getErrorMessage($result) . ', select=' . $select . ' where=' . $where,
+								\OC_Log::ERROR);
+					} else {
+						$parentRow = $parentResult->fetchRow();
+						$tmpPath = '/Shared' . $parentRow['file_target'];
+						// find the right position where the row path continues from the target path
+						$pos = strrpos($row['path'], $parentRow['file_target']);
+						$subPath = substr($row['path'], $pos);
+						$splitPath = explode('/', $subPath);
+						foreach (array_slice($splitPath, 2) as $pathPart) {
+							$tmpPath = $tmpPath . '/' . $pathPart;
+						}
+						$row['path'] = $tmpPath;
+					}
 				} else {
 					if (!isset($mounts[$row['storage']])) {
 						$mountPoints = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
@@ -1380,15 +1410,15 @@ class Share {
 
 	/**
 	 * Put shared item into the database
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param string User that is the owner of shared item
-	 * @param int CRUDS permissions
-	 * @param bool|array Parent folder target (optional)
-	 * @param string token (optional)
-	 * @param string name of the source item (optional)
+	 * @param string $itemType Item type
+	 * @param string $itemSource Item source
+	 * @param integer $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param string $uidOwner User that is the owner of shared item
+	 * @param int $permissions CRUDS permissions
+	 * @param bool|array, $parentFolder Parent folder target (optional)
+	 * @param string $token (optional)
+	 * @param string $itemSourceName name of the source item (optional)
 	 * @return bool Returns true on success or false on failure
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1629,6 +1659,7 @@ class Share {
 	 * @param string User that is the owner of shared item
 	 * @param string The suggested target originating from a reshare (optional)
 	 * @param int The id of the parent group share (optional)
+	 * @param integer $shareType
 	 * @return string Item target
 	 */
 	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1936,7 +1967,9 @@ interface Share_Backend {
 	 * Get the source of the item to be stored in the database
 	 * @param string Item source
 	 * @param string Owner of the item
-	 * @return mixed|array|false Source
+	 * @param string $itemSource
+	 * @param string $uidOwner
+	 * @return boolean Source
 	 *
 	 * Return an array if the item is file dependent, the array needs two keys: 'item' and 'file'
 	 * Return false if the item does not exist for the user
@@ -1959,8 +1992,8 @@ interface Share_Backend {
 
 	/**
 	 * Converts the shared item sources back into the item in the specified format
-	 * @param array Shared items
-	 * @param int Format
+	 * @param array $items Shared items
+	 * @param integer $format
 	 * @return TODO
 	 *
 	 * The items array is a 3-dimensional array with the item_source as the
@@ -1992,6 +2025,9 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 	 * Get the file path of the item
 	 * @param string Item source
 	 * @param string User that is the owner of shared item
+	 * @param string $itemSource
+	 * @param string $uidOwner
+	 * @return boolean
 	 */
 	public function getFilePath($itemSource, $uidOwner);
 

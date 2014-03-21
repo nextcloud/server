@@ -250,6 +250,10 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
  * dummy class to access protected methods of \OCA\Encryption\Keymanager for testing
  */
 class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
+
+	/**
+	 * @param string $sharekey
+	 */
 	public static function testGetFilenameFromShareKey($sharekey) {
 		return self::getFilenameFromShareKey($sharekey);
 	}

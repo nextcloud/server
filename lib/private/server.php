@@ -124,6 +124,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AllConfig', function($c) {
 			return new \OC\AllConfig();
 		});
+		$this->registerService('AppConfig', function ($c) {
+			return new \OC\AppConfig(\OC_DB::getConnection());
+		});
 		$this->registerService('L10NFactory', function($c) {
 			return new \OC\L10N\Factory();
 		});
@@ -147,6 +150,17 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('AvatarManager', function($c) {
 			return new AvatarManager();
+		});
+		$this->registerService('JobList', function ($c) {
+			/**
+			 * @var Server $c
+			 */
+			$config = $c->getConfig();
+			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
+		});
+		$this->registerService('Router', function ($c){
+			$router = new \OC\Route\Router();
+			return $router;
 		});
 	}
 
@@ -270,6 +284,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * Returns the app config manager
+	 *
+	 * @return \OCP\IAppConfig
+	 */
+	function getAppConfig(){
+		return $this->query('AppConfig');
+	}
+
+	/**
 	 * get an L10N instance
 	 * @param $app string appid
 	 * @return \OC_L10N
@@ -335,5 +358,25 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getActivityManager() {
 		return $this->query('ActivityManager');
+	}
+
+	/**
+	 * Returns an job list for controlling background jobs
+	 *
+	 * @return \OCP\BackgroundJob\IJobList
+	 */
+	function getJobList(){
+		return $this->query('JobList');
+	}
+
+	/**
+	 * Returns a router for generating and matching urls
+	 *
+	 * @return \OCP\Route\IRouter
+	 */
+	function getRouter(){
+		$router = $this->query('Router');
+		$router->loadRoutes();
+		return $router;
 	}
 }

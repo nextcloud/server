@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Clave",
-"Upload" => "Subir"
+"Password" => "Clave"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -9,8 +9,6 @@
 
 namespace Test;
 
-use OC\Hooks\PublicEmitter;
-
 class User extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend

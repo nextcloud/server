@@ -41,6 +41,9 @@ class Dir {
 		return true;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public static function register($path, $content) {
 		self::$dirs[$path] = $content;
 	}

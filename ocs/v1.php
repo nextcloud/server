@@ -30,12 +30,12 @@ try {
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	// match the request
-	OC::getRouter()->match('/ocs'.OC_Request::getRawPathInfo());
-
+	OC::$server->getRouter()->match('/ocs'.OC_Request::getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
+	OC_API::setContentType();
 	OC_OCS::notFound();
 } catch (MethodNotAllowedException $e) {
+	OC_API::setContentType();
 	OC_Response::setStatus(405);
 }
 

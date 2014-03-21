@@ -166,6 +166,16 @@ class Cache {
 	 */
 	public function getFolderContents($folder) {
 		$fileId = $this->getId($folder);
+		return $this->getFolderContentsById($fileId);
+	}
+
+	/**
+	 * get the metadata of all files stored in $folder
+	 *
+	 * @param int $fileId the file id of the folder
+	 * @return array
+	 */
+	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
@@ -487,7 +497,7 @@ class Cache {
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
-	 * @param $path
+	 * @param string|boolean $path
 	 */
 	public function correctFolderSize($path) {
 		$this->calculateFolderSize($path);

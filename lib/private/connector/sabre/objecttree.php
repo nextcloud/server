@@ -94,6 +94,9 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		}
 		if ($sourceDir !== $destinationDir) {
 			// for a full move we need update privileges on sourcePath and sourceDir as well as destinationDir
+			if (ltrim($destinationDir, '/') === '' && strtolower($sourceNode->getName()) === 'shared') {
+				throw new \Sabre_DAV_Exception_Forbidden();
+			}
 			if (!$fs->isUpdatable($sourceDir)) {
 				throw new \Sabre_DAV_Exception_Forbidden();
 			}
@@ -103,6 +106,11 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			if (!$fs->isDeletable($sourcePath)) {
 				throw new \Sabre_DAV_Exception_Forbidden();
 			}
+		}
+
+		$fileName = basename($destinationPath);
+		if (!\OCP\Util::isValidFileName($fileName)) {
+			throw new \Sabre_DAV_Exception_BadRequest();
 		}
 
 		$renameOkay = $fs->rename($sourcePath, $destinationPath);

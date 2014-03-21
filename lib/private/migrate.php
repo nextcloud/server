@@ -35,12 +35,8 @@ class OC_Migrate{
 	static private $zip=false;
 	// Stores the type of export
 	static private $exporttype=false;
-	// Array of temp files to be deleted after zip creation
-	static private $tmpfiles=array();
 	// Holds the db object
-	static private $MDB2=false;
-	// Schema db object
-	static private $schema=false;
+	static private $migration_database=false;
 	// Path to the sqlite db
 	static private $dbpath=false;
 	// Holds the path to the zip file
@@ -50,7 +46,7 @@ class OC_Migrate{
 
 	/**
 	 * register a new migration provider
-	 * @param OC_Migrate_Provider $provider
+	 * @param OC_Migration_Provider $provider
 	 */
 	public static function registerProvider($provider) {
 		self::$providers[]=$provider;
@@ -76,7 +72,7 @@ class OC_Migrate{
 	 * @param optional $uid string user id of user to export if export type is user, defaults to current
 	 * @param ootional $type string type of export, defualts to user
 	 * @param otional $path string path to zip output folder
-	 * @return false on error, path to zip on success
+	 * @return string on error, path to zip on success
 	 */
 	public static function export( $uid=null, $type='user', $path=null ) {
 		$datadir = OC_Config::getValue( 'datadirectory' );
@@ -131,7 +127,7 @@ class OC_Migrate{
 				if( !self::connectDB() ) {
 					return json_encode( array( 'success' => false ) );
 				}
-				self::$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
+				self::$content = new OC_Migration_Content( self::$zip, self::$migration_database );
 				// Export the app info
 				$exportdata = self::exportAppData();
 				// Add the data dir to the zip
@@ -257,7 +253,7 @@ class OC_Migrate{
 				$userfolder = $extractpath . $json->exporteduser;
 				$newuserfolder = $datadir . '/' . self::$uid;
 				foreach(scandir($userfolder) as $file){
-					if($file !== '.' && $file !== '..' && is_dir($file)) {
+					if($file !== '.' && $file !== '..' && is_dir($userfolder.'/'.$file)) {
 						$file = str_replace(array('/', '\\'), '',  $file);
 
 						// Then copy the folder over
@@ -311,7 +307,7 @@ class OC_Migrate{
 
 	/**
 	* @brief recursively deletes a directory
-	* @param $dir string path of dir to delete
+	* @param string $dir string path of dir to delete
 	* $param optional $deleteRootToo bool delete the root directory
 	* @return bool
 	*/
@@ -356,24 +352,6 @@ class OC_Migrate{
 		}
 		self::$zip->close();
 		return $to;
-	}
-
-	/**
-	 * @brief connects to a MDB2 database scheme
-	 * @returns bool
-	 */
-	static private function connectScheme() {
-		// We need a mdb2 database connection
-		self::$MDB2->loadModule( 'Manager' );
-		self::$MDB2->loadModule( 'Reverse' );
-
-		// Connect if this did not happen before
-		if( !self::$schema ) {
-			require_once 'MDB2/Schema.php';
-			self::$schema=MDB2_Schema::factory( self::$MDB2 );
-		}
-
-		return true;
 	}
 
 	/**
@@ -429,7 +407,7 @@ class OC_Migrate{
 	/**
 	 * @brief generates json containing export info, and merges any data supplied
 	 * @param optional $array array of data to include in the returned json
-	 * @return bool
+	 * @return string
 	 */
 	static private function getExportInfo( $array=array() ) {
 		$info = array(
@@ -453,6 +431,7 @@ class OC_Migrate{
 	/**
 	 * @brief connects to migration.db, or creates if not found
 	 * @param $db optional path to migration.db, defaults to user data dir
+	 * @param string $path
 	 * @return bool whether the operation was successful
 	 */
 	static private function connectDB( $path=null ) {
@@ -463,47 +442,18 @@ class OC_Migrate{
 			return false;
 		}
 		// Already connected
-		if(!self::$MDB2) {
-			require_once 'MDB2.php';
-
+		if(!self::$migration_database) {
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-
-			// DB type
-			if( class_exists( 'SQLite3' ) ) {
-				$dbtype = 'sqlite3';
-			} else if( is_callable( 'sqlite_open' ) ) {
-				$dbtype = 'sqlite';
-			} else {
-				OC_Log::write( 'migration', 'SQLite not found', OC_Log::ERROR );
-				return false;
-			}
-
-			// Prepare options array
-			$options = array(
-				'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
-				'log_line_break' => '<br>',
-				'idxname_format' => '%s',
-				'debug' => true,
-				'quote_identifier' => true
-				);
-			$dsn = array(
-				'phptype'  => $dbtype,
-				'database' => self::$dbpath,
-				'mode' => '0644'
+			$connectionParams = array(
+					'path' => self::$dbpath,
+					'driver' => 'pdo_sqlite',
 			);
+			$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
+			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
+			$connectionParams['tablePrefix'] = '';
 
 			// Try to establish connection
-			self::$MDB2 = MDB2::factory( $dsn, $options );
-			// Die if we could not connect
-			if( PEAR::isError( self::$MDB2 ) ) {
-				die( self::$MDB2->getMessage() );
-				OC_Log::write( 'migration', 'Failed to create/connect to migration.db', OC_Log::FATAL );
-				OC_Log::write( 'migration', self::$MDB2->getUserInfo(), OC_Log::FATAL );
-				OC_Log::write( 'migration', self::$MDB2->getMessage(), OC_Log::FATAL );
-				return false;
-			}
-			// We always, really always want associative arrays
-			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
+			self::$migration_database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
 		}
 		return true;
 
@@ -511,14 +461,11 @@ class OC_Migrate{
 
 	/**
 	 * @brief creates the tables in migration.db from an apps database.xml
-	 * @param $appid string id of the app
+	 * @param string $appid string id of the app
 	 * @return bool whether the operation was successful
 	 */
 	static private function createAppTables( $appid ) {
-
-		if( !self::connectScheme() ) {
-			return false;
-		}
+		$schema_manager = new OC\DB\MDB2SchemaManager(self::$migration_database);
 
 		// There is a database.xml file
 		$content = file_get_contents(OC_App::getAppPath($appid) . '/appinfo/database.xml' );
@@ -538,29 +485,16 @@ class OC_Migrate{
 		file_put_contents( $file2, $content );
 
 		// Try to create tables
-		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-
-		unlink( $file2 );
-
-		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ) {
-			OC_Log::write( 'migration', 'Failed to parse database.xml for: '.$appid, OC_Log::FATAL );
-			OC_Log::write( 'migration', $definition->getMessage().': '.$definition->getUserInfo(), OC_Log::FATAL );
-			return false;
-		}
-
-		$definition['overwrite'] = true;
-
-		$ret = self::$schema->createDatabase( $definition );
-
-		// Die in case something went wrong
-		if( $ret instanceof MDB2_Error ) {
+		try {
+			$schema_manager->createDbFromStructure($file2);
+		} catch(Exception $e) {
+			unlink( $file2 );
 			OC_Log::write( 'migration', 'Failed to create tables for: '.$appid, OC_Log::FATAL );
-			OC_Log::write( 'migration', $ret->getMessage().': '.$ret->getUserInfo(), OC_Log::FATAL );
+			OC_Log::write( 'migration', $e->getMessage(), OC_Log::FATAL );
 			return false;
 		}
-		return $tables;
 
+		return $tables;
 	}
 
 	/**
@@ -602,7 +536,7 @@ class OC_Migrate{
 
 	/**
 	* @brief imports a new user
-	* @param $db string path to migration.db
+	* @param string $db string path to migration.db
 	* @param $info object of migration info
 	* @param $uid optional uid to use
 	* @return array of apps with import statuses, or false on failure.
@@ -646,7 +580,7 @@ class OC_Migrate{
 						if( !self::connectDB( $db ) ) {
 							return false;
 						}
-						$content = new OC_Migration_Content( self::$zip, self::$MDB2 );
+						$content = new OC_Migration_Content( self::$zip, self::$migration_database );
 						$provider->setData( self::$uid, $content, $info );
 						// Then do the import
 						if( !$appsstatus[$id] = $provider->import( $info->apps->$id, $importinfo ) ) {
