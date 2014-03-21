@@ -5,6 +5,11 @@
 	min-width: initial !important;
 }
 
+/* do not show Deleted Files on mobile, not optimized yet and button too long */
+#controls #trash {
+	display: none;
+}
+
 /* hide size and date columns */
 table th#headerSize,
 table td.filesize,
