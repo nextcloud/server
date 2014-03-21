@@ -1013,7 +1013,7 @@ function initCore() {
 		if (!OC._matchMedia) {
 			return;
 		}
-		var mq = OC._matchMedia('(max-width: 600px)');
+		var mq = OC._matchMedia('(max-width: 768px)');
 		var lastMatch = mq.matches;
 		var $toggle = $('#header #owncloud');
 		var $navigation = $('#navigation');
