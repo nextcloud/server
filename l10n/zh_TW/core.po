@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,11 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "無法寄送郵件給這些使用者：%s"
@@ -35,19 +39,6 @@ msgstr "已停用維護模式"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "已更新資料庫"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "更新檔案快取，這可能要很久…"
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "已更新檔案快取"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "已完成 %d%%"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -293,11 +284,11 @@ msgid "Share"
 msgstr "分享"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "錯誤"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -413,19 +404,19 @@ msgstr "受密碼保護"
 msgid "Error unsetting expiration date"
 msgstr "取消到期日設定失敗"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "設定到期日發生錯誤"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "正在傳送…"
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Email 已寄出"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "警告"
 

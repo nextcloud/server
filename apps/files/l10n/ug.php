@@ -33,7 +33,6 @@ $TRANSLATIONS = array(
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",
 "Delete" => "ئۆچۈر",
-"Upload too large" => "يۈكلەندىغىنى بەك چوڭ",
-"Upgrading filesystem cache..." => "ھۆججەت سىستېما غەملىكىنى يۈكسەلدۈرۈۋاتىدۇ…"
+"Upload too large" => "يۈكلەندىغىنى بەك چوڭ"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

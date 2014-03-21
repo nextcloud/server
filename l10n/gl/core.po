@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 11:03+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +19,11 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr "A data de caducidade está no pasado."
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Non é posíbel enviar correo aos usuarios seguintes: %s"
@@ -34,19 +39,6 @@ msgstr "Modo de mantemento desactivado"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Base de datos actualizada"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Actualizando o ficheiro da caché, isto pode levar bastante tempo..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Ficheiro da caché actualizado"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% feito ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -270,23 +262,23 @@ msgstr "Produciuse un erro ao cargar o modelo de ficheiro existente"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Contrasinal moi feble"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Contrasinal feble"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Contrasinal non moi aló"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Bo contrasinal"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Contrasinal forte"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -297,11 +289,11 @@ msgid "Share"
 msgstr "Compartir"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
@@ -417,19 +409,19 @@ msgstr "Protexido con contrasinal"
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Correo enviado"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Aviso"
 
@@ -485,7 +477,7 @@ msgstr "Restabelecer o contrasinal %s"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Produciuse un problema ao mesmo tempo que enviaba o correo, póñase en contacto co administrador."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -663,7 +655,7 @@ msgstr "Crear unha <strong>contra de administrador</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Almacenamento e base de datos"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -764,7 +756,7 @@ msgstr "Accesos alternativos"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Ola,<br><br>só facerlle saber que %s compartiu <strong>%s</strong> con vostede.<br><a href=\"%s\">Véxao!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

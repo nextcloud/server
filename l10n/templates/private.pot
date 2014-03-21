@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,7 +193,7 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
-#: setup/postgresql.php:24 setup/postgresql.php:70
+#: setup/postgresql.php:31 setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
@@ -204,16 +204,16 @@ msgstr ""
 #: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:144
 #: setup/oci.php:151 setup/oci.php:162 setup/oci.php:169 setup/oci.php:178
 #: setup/oci.php:186 setup/oci.php:195 setup/oci.php:201
-#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
-#: setup/postgresql.php:125 setup/postgresql.php:134
+#: setup/postgresql.php:103 setup/postgresql.php:112 setup/postgresql.php:129
+#: setup/postgresql.php:139 setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:145
 #: setup/oci.php:152 setup/oci.php:163 setup/oci.php:179 setup/oci.php:187
-#: setup/oci.php:196 setup/postgresql.php:90 setup/postgresql.php:99
-#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#: setup/oci.php:196 setup/postgresql.php:104 setup/postgresql.php:113
+#: setup/postgresql.php:130 setup/postgresql.php:140 setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
@@ -249,7 +249,7 @@ msgstr ""
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: setup/postgresql.php:23 setup/postgresql.php:69
+#: setup/postgresql.php:30 setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
@@ -261,13 +261,13 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:198
+#: setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:199
+#: setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

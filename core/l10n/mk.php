@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Turned on maintenance mode" => "Вклучен е модот за одржување",
 "Turned off maintenance mode" => "Ислкучен е модот за одржување",
 "Updated database" => "Базата е надградена",
-"Updated filecache" => "Кешот е надграден",
 "No image or file provided" => "Не е доставена фотографија или датотека",
 "Unknown filetype" => "Непознат тип на датотека",
 "Invalid image" => "Невалидна фотографија",

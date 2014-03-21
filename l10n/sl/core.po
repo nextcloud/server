@@ -4,13 +4,13 @@
 # 
 # Translators:
 # barbarak <barbarak@arnes.si>, 2013
-# mateju <>, 2013
+# mateju <>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,11 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Ni mogoče poslati sporočila za: %s"
@@ -35,19 +39,6 @@ msgstr "Vzdrževalni način je onemogočen"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Posodobljena podatkovna zbirka"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Poteka posodabljanje predpomnilnika datotek. Opravilo je lahko dolgotrajno ..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Predpomnilnik datotek je posodobljen"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% končano ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -281,23 +272,23 @@ msgstr "Napaka nalaganja predloge obstoječih datotek"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Zelo šibko geslo"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Šibko geslo"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Slabo geslo"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Dobro geslo"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Odlično geslo"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -308,11 +299,11 @@ msgid "Share"
 msgstr "Souporaba"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Napaka"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Napaka med souporabo"
 
@@ -428,19 +419,19 @@ msgstr "Zaščiteno z geslom"
 msgid "Error unsetting expiration date"
 msgstr "Napaka brisanja datuma preteka"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Napaka nastavljanja datuma preteka"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Pošiljanje ..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Elektronska pošta je poslana"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -496,7 +487,7 @@ msgstr "Ponastavitev gesla %s"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Prišlo je do napake med pošiljanjem elektronskega sporočila. Stopite v stik s skrbnikom sistema."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -674,7 +665,7 @@ msgstr "Ustvari <strong>skrbniški račun</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Shramba in podatkovna zbirka"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -775,7 +766,7 @@ msgstr "Druge prijavne možnosti"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

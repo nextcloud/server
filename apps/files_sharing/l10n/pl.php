@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "Udostępnianie jest wyłączone",
 "For more info, please ask the person who sent this link." => "Aby uzyskać więcej informacji proszę poprosić osobę, która wysłał ten link.",
 "shared by %s" => "udostępniony przez %s",
+"Download %s" => "Pobierz %s",
 "Direct link" => "Bezpośredni link"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

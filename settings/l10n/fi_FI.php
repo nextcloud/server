@@ -1,12 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Invalid value supplied for %s" => "Virheellinen arvo kohdassa %s",
 "Saved" => "Tallennettu",
 "test email settings" => "testaa sähköpostiasetukset",
 "If you received this email, the settings seem to be correct." => "Jos sait tämän sähköpostin, kaikki asetukset vaikuttavat olevan kunnossa.",
 "A problem occurred while sending the e-mail. Please revisit your settings." => "Sähköpostia lähettäessä tapahtui virhe. Tarkista asetukset.",
 "Email sent" => "Sähköposti lähetetty",
+"You need to set your user email before being able to send test emails." => "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta.",
 "Send mode" => "Lähetystila",
 "Encryption" => "Salaus",
+"Authentication method" => "Tunnistautumistapa",
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Authentication error" => "Tunnistautumisvirhe",
 "Your full name has been changed." => "Koko nimesi on muutettu.",

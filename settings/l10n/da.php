@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Gemt",
 "Email sent" => "E-mail afsendt",
 "Encryption" => "Kryptering",
 "Unable to load list from App Store" => "Kunne ikke indlæse listen fra App Store",

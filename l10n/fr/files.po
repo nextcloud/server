@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
-# Christophe Lherieau <skimpax@gmail.com>, 2013
+# Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # etiess <etiess@gmail.com>, 2013
 # MathieuP, 2013
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Le nom de fichier ne peut être vide."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" n'est pas un nom de fichier valide."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -50,7 +50,7 @@ msgstr "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' e
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Le dossier cible a été déplacé ou supprimé."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -154,12 +154,12 @@ msgstr "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un f
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "La taille totale du fichier {size1} excède la taille maximale d'envoi {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Espace insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -254,7 +254,7 @@ msgstr[1] "Téléversement de %n fichiers"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" n'est pas un nom de fichier valide."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -419,7 +419,3 @@ msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Analyse en cours"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Mise à niveau du cache du système de fichier"

@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Upload is te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
 "Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
-"Current scanning" => "Er wordt gescand",
-"Upgrading filesystem cache..." => "Upgraden bestandssysteem cache..."
+"Current scanning" => "Er wordt gescand"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

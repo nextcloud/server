@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You need to set your user email before being able to send test emails." => "U moet uw e-mailadres instellen voordat u testberichten kunt versturen.",
 "Send mode" => "Verstuurmodus",
 "Encryption" => "Versleuteling",
+"Authentication method" => "Authenticatiemethode",
 "Unable to load list from App Store" => "Kan de lijst niet van de App store laden",
 "Authentication error" => "Authenticatie fout",
 "Your full name has been changed." => "Uw volledige naam is gewijzigd.",

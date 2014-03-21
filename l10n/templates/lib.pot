@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,8 +193,8 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
@@ -207,9 +207,9 @@ msgstr ""
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
@@ -218,9 +218,9 @@ msgstr ""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
@@ -268,13 +268,13 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: private/setup.php:198
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: private/setup.php:199
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

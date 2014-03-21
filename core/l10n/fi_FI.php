@@ -1,12 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "Päättymispäivä on menneisyydessä.",
 "Couldn't send mail to following users: %s " => "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
 "Turned on maintenance mode" => "Siirrytty ylläpitotilaan",
 "Turned off maintenance mode" => "Ylläpitotila laitettu pois päältä",
 "Updated database" => "Tietokanta ajan tasalla",
-"Updating filecache, this may take really long..." => "Päivitetään tiedostojen välimuistia, tämä saattaa kestää todella kauan...",
-"Updated filecache" => "Tiedostojen välimuisti päivitetty",
-"... %d%% done ..." => "... %d%% valmis ...",
 "No image or file provided" => "Kuvaa tai tiedostoa ei määritelty",
 "Unknown filetype" => "Tuntematon tiedostotyyppi",
 "Invalid image" => "Virhellinen kuva",

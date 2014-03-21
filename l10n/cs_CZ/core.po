@@ -8,14 +8,15 @@
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
 # Martin <fireball@atlas.cz>, 2013
+# m23 <black23@gmail.com>, 2014
 # pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,11 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
@@ -40,19 +45,6 @@ msgstr "Vypnut režim údržby"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Zaktualizována databáze"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Aktualizuji souborovou mezipaměť, toto může trvat opravdu dlouho..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Aktualizována souborová mezipaměť"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% dokončeno ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -281,23 +273,23 @@ msgstr "Chyba při nahrávání šablony existence souboru"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Velmi slabé heslo"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Slabé heslo"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Středně silné heslo"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Dobré heslo"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Silné heslo"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -308,11 +300,11 @@ msgid "Share"
 msgstr "Sdílet"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -428,19 +420,19 @@ msgstr "Chráněno heslem"
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Varování"
 
@@ -674,7 +666,7 @@ msgstr "Vytvořit <strong>účet správce</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Úložiště & databáze"
 
 #: templates/installation.php:77
 msgid "Data folder"

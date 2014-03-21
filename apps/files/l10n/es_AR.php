@@ -85,7 +85,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "El tamaño del archivo que querés subir es demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que intentás subir sobrepasan el tamaño máximo ",
 "Files are being scanned, please wait." => "Se están escaneando los archivos, por favor esperá.",
-"Current scanning" => "Escaneo actual",
-"Upgrading filesystem cache..." => "Actualizando el cache del sistema de archivos"
+"Current scanning" => "Escaneo actual"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

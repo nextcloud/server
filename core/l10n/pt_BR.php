@@ -1,12 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "A data de vencimento passou.",
 "Couldn't send mail to following users: %s " => "Não foi possível enviar e-mail para os seguintes usuários: %s",
 "Turned on maintenance mode" => "Ativar modo de manutenção",
 "Turned off maintenance mode" => "Desligar o modo de manutenção",
 "Updated database" => "Atualizar o banco de dados",
-"Updating filecache, this may take really long..." => "Atualizar cahe de arquivos, isto pode levar algum tempo...",
-"Updated filecache" => "Atualizar cache de arquivo",
-"... %d%% done ..." => "... %d%% concluído ...",
 "No image or file provided" => "Nenhuma imagem ou arquivo fornecido",
 "Unknown filetype" => "Tipo de arquivo desconhecido",
 "Invalid image" => "Imagem inválida",

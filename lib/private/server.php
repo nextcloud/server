@@ -158,6 +158,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->getConfig();
 			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
 		});
+		$this->registerService('Router', function ($c){
+			$router = new \OC\Route\Router();
+			return $router;
+		});
 	}
 
 	/**
@@ -363,5 +367,16 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getJobList(){
 		return $this->query('JobList');
+	}
+
+	/**
+	 * Returns a router for generating and matching urls
+	 *
+	 * @return \OCP\Route\IRouter
+	 */
+	function getRouter(){
+		$router = $this->query('Router');
+		$router->loadRoutes();
+		return $router;
 	}
 }

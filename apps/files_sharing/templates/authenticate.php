@@ -12,7 +12,7 @@
 				placeholder="" value=""
 				autocomplete="off" autocapitalize="off" autocorrect="off"
 				autofocus />
-			<input type="submit" value="" class="svg icon icon-confirm" />
+			<input type="submit" value="" class="svg icon-confirm" />
 		</p>
 	</fieldset>
 </form>

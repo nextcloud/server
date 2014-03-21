@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 09:00+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,11 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr "Son kullanma tarihi geçmişte."
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Şu kullanıcılara posta gönderilemedi: %s"
@@ -37,19 +41,6 @@ msgstr "Bakım kipi kapatıldı"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Veritabanı güncellendi"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Dosya önbelleği güncelleniyor. Bu, gerçekten uzun sürebilir."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Dosya önbelleği güncellendi"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "%%%d tamamlandı ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -273,23 +264,23 @@ msgstr "Dosya mevcut şablonu yüklenirken hata"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Çok güçsüz parola"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Güçsüz parola"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Normal parola"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "İyi parola"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Güçlü parola"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -300,11 +291,11 @@ msgid "Share"
 msgstr "Paylaş"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Hata"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata  "
 
@@ -420,19 +411,19 @@ msgstr "Parola korumalı"
 msgid "Error unsetting expiration date"
 msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Gönderiliyor..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "E-posta gönderildi"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Uyarı"
 
@@ -488,7 +479,7 @@ msgstr "%s parola sıfırlama"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "E-posta gönderilirken bir hata oluştu. Lütfen yönetinizle iletişime geçin."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -666,7 +657,7 @@ msgstr "Bir <strong>yönetici hesabı</strong> oluşturun"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Depolama ve veritabanı"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -767,7 +758,7 @@ msgstr "Alternatif Girişler"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Merhaba, <br><br> %s sizinle <strong>%s</strong> paylaşımında bulundu.<br><a href=\"%s\">Paylaşımı gör!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

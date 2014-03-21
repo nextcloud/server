@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 16:01+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,11 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -37,19 +41,6 @@ msgstr ""
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Bază de date actualizată"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr ""
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr ""
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -305,11 +296,11 @@ msgid "Share"
 msgstr "Partajează"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Eroare"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Eroare la partajare"
 
@@ -425,19 +416,19 @@ msgstr "Protejare cu parolă"
 msgid "Error unsetting expiration date"
 msgstr "Eroare la anularea datei de expirare"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Eroare la specificarea datei de expirare"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Se expediază..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Mesajul a fost expediat"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Atenție"
 

@@ -20,6 +20,11 @@ $htaccessworking=OC_Util::isHtAccessWorking();
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
 
+// Should we display sendmail as an option?
+if (findBinaryPath('sendmailsendmail')) {
+	$tmpl->assign('sendmail_is_available', true);
+}
+
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('mail_domain', OC_Config::getValue( "mail_domain", '' ));
 $tmpl->assign('mail_from_address', OC_Config::getValue( "mail_from_address", '' ));
@@ -63,3 +68,17 @@ foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();
+
+/**
+ * Try to find a programm
+ *
+ * @param string $program
+ * @return null|string
+ */
+function findBinaryPath($program) {
+	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	if ($returnCode === 0 && count($output) > 0) {
+		return escapeshellcmd($output[0]);
+	}
+	return null;
+}

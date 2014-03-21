@@ -8,8 +8,8 @@
 
 class Test_Image extends PHPUnit_Framework_TestCase {
 	public static function tearDownAfterClass() {
-		unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
-		unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
+		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
+		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
 	}
 
 	public function testGetMimeTypeForFile() {
@@ -235,5 +235,25 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($img->fitIn(200, 250));
 		$this->assertEquals(200, $img->width());
 		$this->assertEquals(200, $img->height());
+	}
+
+	function convertDataProvider() {
+		return array(
+			array( 'image/gif'),
+			array( 'image/jpeg'),
+			array( 'image/png'),
+		);
+	}
+
+	/**
+	 * @dataProvider convertDataProvider
+	 */
+	public function testConvert($mimeType) {
+		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
+		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
+
+		$img->save($tempFile, $mimeType);
+		$actualMimeType = \OC_Image::getMimeTypeForFile($tempFile);
+		$this->assertEquals($mimeType, $actualMimeType);
 	}
 }

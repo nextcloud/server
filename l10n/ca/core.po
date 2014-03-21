@@ -5,12 +5,13 @@
 # Translators:
 # rogerc, 2013-2014
 # rogerc, 2013
+# aseques <sacoo2@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,11 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "No s'ha pogut enviar correu als usuaris següents: %s"
@@ -35,19 +40,6 @@ msgstr "Desactivat el mode de manteniment"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Actualitzada la base de dades"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Actualitzant la memòria de cau del fitxers, això pot trigar molt..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Actualitzada la memòria de cau dels fitxers"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% fet ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -271,23 +263,23 @@ msgstr "Error en carregar la plantilla de fitxer existent"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Contrasenya massa feble"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Contrasenya feble"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Contrasenya passable"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Contrasenya bona"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Contrasenya forta"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -298,11 +290,11 @@ msgid "Share"
 msgstr "Comparteix"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -418,19 +410,19 @@ msgstr "Protegeix amb contrasenya"
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Avís"
 
@@ -486,7 +478,7 @@ msgstr "restableix la contrasenya %s"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Hi ha hagut un problema enviant el correu, parleu amb el vostre administrador."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -664,7 +656,7 @@ msgstr "Crea un <strong>compte d'administrador</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Emmagatzematge i base de dades"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -724,13 +716,13 @@ msgstr "Surt"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "L'ha rebutjat l'acceditació automàtica!"
+msgstr "Inici de sessió automàtic rebutjat!"
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!"
+msgstr "Si no heu canviat la contrasenya recentment el vostre compte pot estar compromès!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
@@ -765,7 +757,7 @@ msgstr "Acreditacions alternatives"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

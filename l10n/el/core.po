@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,11 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s"
@@ -42,19 +46,6 @@ msgstr "Η κατάσταση συντήρησης απενεργοποιήθη�
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Ενημερωμένη βάση δεδομένων"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Ενημέρωση αποθηκευμένων αρχείων, αυτό μπορεί να πάρα πολύ ώρα..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Ενημέρωση αποθηκευμένων αρχείων"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% ολοκληρώθηκαν ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -278,11 +269,11 @@ msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Πολύ αδύναμο συνθηματικό"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Αδύναμο συνθηματικό"
 
 #: js/setup.js:86
 msgid "So-so password"
@@ -290,11 +281,11 @@ msgstr ""
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Καλό συνθηματικό"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Δυνατό συνθηματικό"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -305,11 +296,11 @@ msgid "Share"
 msgstr "Διαμοιρασμός"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
@@ -425,19 +416,19 @@ msgstr "Προστασία με συνθηματικό"
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
@@ -493,7 +484,7 @@ msgstr "%s επαναφορά κωδικού πρόσβασης"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Παρουσιάστηκε σφάλμα κατά την αποστολή email, παρακαλώ επικοινωνήστε με τον διαχειριστή."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"

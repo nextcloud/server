@@ -308,7 +308,7 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param string $str file size in a fancy format
+	 * @param string $str file size in human readable format
 	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
@@ -338,38 +338,9 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = round($bytes, 2);
+		$bytes = round($bytes);
 
 		return $bytes;
-	}
-
-	/**
-	 * @brief Recursive editing of file permissions
-	 * @param string $path path to file or folder
-	 * @param int $filemode unix style file permissions
-	 * @return bool
-	 */
-	static function chmodr($path, $filemode) {
-		if (!is_dir($path))
-			return chmod($path, $filemode);
-		$dh = opendir($path);
-		if(is_resource($dh)) {
-			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' && $file != '..') {
-					$fullpath = $path . '/' . $file;
-					if (is_link($fullpath))
-						return false;
-					elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return false; elseif (!self::chmodr($fullpath, $filemode))
-						return false;
-				}
-			}
-			closedir($dh);
-		}
-		if (@chmod($path, $filemode))
-			return true;
-		else
-			return false;
 	}
 
 	/**

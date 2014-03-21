@@ -4,12 +4,13 @@
 # 
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgstr "O nome de ficheiro non pode estar baleiro"
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "«%s» é un nome incorrecto de ficheiro."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -46,7 +47,7 @@ msgstr "Nome incorrecto, non se permite «\\», «/», «<», «>», «:», «\"
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "O cartafol de destino foi movido ou eliminado."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -150,12 +151,12 @@ msgstr "Non é posíbel enviar {filename}, xa que ou é un directorio ou ten 0 b
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "O tamaño total do ficheiro {size1} excede do límite de envío {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Non hai espazo libre abondo, o seu envío é de {size1} mais só dispón de {size2}"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -250,7 +251,7 @@ msgstr[1] "Cargando %n ficheiros"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "«{name}» é un nome incorrecto de ficheiro."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -415,7 +416,3 @@ msgstr "Estanse analizando os ficheiros. Agarde."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Análise actual"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Anovando a caché do sistema de ficheiros..."

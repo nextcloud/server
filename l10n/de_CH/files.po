@@ -11,13 +11,13 @@
 # Marcel Kühlhorn <tux93@opensuse.org>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 # SteinQuadrat, 2013
-# traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
+# traductor, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,3 @@ msgstr "Dateien werden gescannt, bitte warten."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Scanne"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Dateisystem-Cache wird aktualisiert ..."

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # vkehayas <vkehayas@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-16 03:12-0400\n"
+"PO-Revision-Date: 2014-03-15 22:50+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,7 +160,7 @@ msgstr "Το αναγνωριστικό έληξε. Παρακαλώ φορτώ�
 
 #: private/json.php:75
 msgid "Unknown user"
-msgstr ""
+msgstr "Άγνωστος χρήστης"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -194,23 +195,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Το όνομα χρήστη και/ή ο κωδικός της MS SQL δεν είναι έγκυρα: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Χρειάζεται να εισάγετε είτε έναν υπάρχον λογαριασμό ή του διαχειριστή."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "Μη έγκυρο όνομα χρήστη ή/και συνθηματικό της MySQL/MariaDB"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
@@ -219,9 +220,9 @@ msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\""
@@ -229,7 +230,7 @@ msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "Υπάρχει ήδη ο χρήστης '%s'@'localhost' της MySQL/MariaDB"
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
@@ -238,7 +239,7 @@ msgstr ""
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Υπάρχει ήδη ο χρήστης '%s'@'%%' της MySQL/MariaDB"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
@@ -257,7 +258,7 @@ msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό τη
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\", ονομα: %s, κωδικος: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL"
 

@@ -320,6 +320,8 @@ OC.Upload = {
 				 */
 				start: function(e) {
 					OC.Upload.log('start', e, null);
+					//hide the tooltip otherwise it covers the progress bar
+					$('#upload').tipsy('hide');
 				},
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);

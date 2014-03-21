@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-15 02:13-0400\n"
+"PO-Revision-Date: 2014-03-14 09:50+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,24 +22,24 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Forneceu un valor incorrecto para %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Gardado"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "correo de proba dos axustes"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Se recibiu este correo, semella que a configuración é correcta."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Produciuse un problema ao enviar o correo. Revise os seus axustes."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -46,19 +47,19 @@ msgstr "Correo enviado"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "É necesario configurar o correo do usuario antes de poder enviar mensaxes de correo de proba."
 
-#: admin/controller.php:116 templates/admin.php:280
+#: admin/controller.php:116 templates/admin.php:284
 msgid "Send mode"
-msgstr ""
+msgstr "Modo de envío"
 
-#: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: admin/controller.php:120 templates/admin.php:317
+#: admin/controller.php:120 templates/admin.php:321
 msgid "Authentication method"
-msgstr ""
+msgstr "Método de autenticación"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -158,7 +159,7 @@ msgstr "Non é posíbel cambiar o contrasinal"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Enviando..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -166,7 +167,7 @@ msgstr "Documentación do usuario"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Documentación do administrador"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -212,31 +213,31 @@ msgstr "Actualizar"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Seleccione unha imaxe para o perfil"
 
-#: js/personal.js:274
-msgid "Very weak password"
-msgstr ""
-
-#: js/personal.js:275
-msgid "Weak password"
-msgstr ""
-
-#: js/personal.js:276
-msgid "So-so password"
-msgstr ""
-
 #: js/personal.js:277
-msgid "Good password"
-msgstr ""
+msgid "Very weak password"
+msgstr "Contrasinal moi feble"
 
 #: js/personal.js:278
-msgid "Strong password"
-msgstr ""
+msgid "Weak password"
+msgstr "Contrasinal feble"
 
-#: js/personal.js:301
+#: js/personal.js:279
+msgid "So-so password"
+msgstr "Contrasinal non moi aló"
+
+#: js/personal.js:280
+msgid "Good password"
+msgstr "Bo contrasinal"
+
+#: js/personal.js:281
+msgid "Strong password"
+msgstr "Contrasinal forte"
+
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Descifrando ficheiros... isto pode levar un anaco."
 
@@ -319,32 +320,32 @@ msgstr "Acceso"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Simple"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Xestor NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
-#: templates/admin.php:43 templates/admin.php:57
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "Aviso de seguranza"
 
-#: templates/admin.php:46
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr "Está accedendo a %s a través de HTTP. Suxerímoslle que configure o seu servidor para requirir, no seu canto, o uso de HTTPS."
 
-#: templates/admin.php:60
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -353,68 +354,68 @@ msgid ""
 "root."
 msgstr "O seu cartafol de datos e os seus ficheiros probabelmente sexan accesíbeis a través de internet. O ficheiro .htaccess non está a traballar. Suxerímoslle que configure o seu servidor web de tal maneira que o cartafol de datos non estea accesíbel ou que mova o o directorio de datos fóra da raíz de documentos do servidor web."
 
-#: templates/admin.php:71
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "Configurar os avisos"
 
-#: templates/admin.php:74
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
 
-#: templates/admin.php:75
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Volva comprobar as <a href=\"%s\">guías de instalación</a>"
 
-#: templates/admin.php:86
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "Non se atopou o módulo «fileinfo»"
 
-#: templates/admin.php:89
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME."
 
-#: templates/admin.php:100
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
 msgstr "A versión de PHP está desactualizada"
 
-#: templates/admin.php:103
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "A versión de PHP está desactualizada. Recomendámoslle que a actualice á versión 5.3.8 ou posterior xa que as versións anteriores son coñecidas por estragarse. É probábel que esta instalación no estea a funcionar correctamente."
 
-#: templates/admin.php:114
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "A configuración rexional non funciona"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Non é posíbel estabelecer a configuración rexional do sistema a unha que admita UTF-8."
 
-#: templates/admin.php:123
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Isto significa que pode haber problemas con certos caracteres en nomes de ficheiro."
 
-#: templates/admin.php:127
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Recomendamoslle que instale no sistema os paquetes necesarios para admitir unha das seguintes configuracións rexionais: %s."
 
-#: templates/admin.php:139
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "A conexión á Internet non funciona"
 
-#: templates/admin.php:142
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -423,162 +424,162 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Este servidor non ten conexión a Internet. Isto significa que algunhas das funcionalidades como a montaxe de almacenamento externo, as notificacións sobre actualizacións ou instalación de aplicativos de terceiros non funcionan. O acceso aos ficheiros de forma remota e o envío de mensaxes de notificación poderían non funcionar. Suxerímoslle que active a conexión a Internet deste servidor se quere dispor de todas as funcionalidades."
 
-#: templates/admin.php:156
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:163
+#: templates/admin.php:167
 msgid "Execute one task with each page loaded"
 msgstr "Executar unha tarefa con cada páxina cargada"
 
-#: templates/admin.php:171
+#: templates/admin.php:175
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php está rexistrado nun servizo de WebCron para chamar a cron.php cada 15 minutos a través de HTTP."
 
-#: templates/admin.php:179
+#: templates/admin.php:183
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Use o servizo de sistema cron para chamar ao ficheiro cron.php cada 15 minutos."
 
-#: templates/admin.php:184
+#: templates/admin.php:188
 msgid "Sharing"
 msgstr "Compartindo"
 
-#: templates/admin.php:190
+#: templates/admin.php:194
 msgid "Enable Share API"
 msgstr "Activar o API para compartir"
 
-#: templates/admin.php:191
+#: templates/admin.php:195
 msgid "Allow apps to use the Share API"
 msgstr "Permitir que os aplicativos empreguen o API para compartir"
 
-#: templates/admin.php:198
+#: templates/admin.php:202
 msgid "Allow links"
 msgstr "Permitir ligazóns"
 
-#: templates/admin.php:199
+#: templates/admin.php:203
 msgid "Allow users to share items to the public with links"
 msgstr "Permitir que os usuarios compartan elementos ao público con ligazóns"
 
-#: templates/admin.php:207
+#: templates/admin.php:211
 msgid "Allow public uploads"
 msgstr "Permitir os envíos públicos"
 
-#: templates/admin.php:208
+#: templates/admin.php:212
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Permitir que os usuarios lle permitan a outros enviar aos seus cartafoles compartidos publicamente"
 
-#: templates/admin.php:216
+#: templates/admin.php:220
 msgid "Allow resharing"
 msgstr "Permitir compartir"
 
-#: templates/admin.php:217
+#: templates/admin.php:221
 msgid "Allow users to share items shared with them again"
 msgstr "Permitir que os usuarios compartan de novo os elementos compartidos con eles"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Allow users to share with anyone"
 msgstr "Permitir que os usuarios compartan con calquera"
 
-#: templates/admin.php:227
+#: templates/admin.php:231
 msgid "Allow users to only share with users in their groups"
 msgstr "Permitir que os usuarios compartan só cos usuarios dos seus grupos"
 
-#: templates/admin.php:234
+#: templates/admin.php:238
 msgid "Allow mail notification"
 msgstr "Permitir o envío de notificacións por correo"
 
-#: templates/admin.php:235
+#: templates/admin.php:239
 msgid "Allow user to send mail notification for shared files"
 msgstr "Permitir que os usuarios envíen notificacións por correo dos ficheiros compartidos"
 
-#: templates/admin.php:242
+#: templates/admin.php:246
 msgid "Security"
 msgstr "Seguranza"
 
-#: templates/admin.php:255
+#: templates/admin.php:259
 msgid "Enforce HTTPS"
 msgstr "Forzar HTTPS"
 
-#: templates/admin.php:257
+#: templates/admin.php:261
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forzar que os clientes se conecten a %s empregando unha conexión cifrada."
 
-#: templates/admin.php:263
+#: templates/admin.php:267
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Conéctese a %s empregando HTTPS para activar ou desactivar o forzado de SSL."
 
-#: templates/admin.php:275
+#: templates/admin.php:279
 msgid "Email Server"
-msgstr ""
+msgstr "Servidor de correo"
 
-#: templates/admin.php:277
+#: templates/admin.php:281
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Isto utilizase para o envío de notificacións."
 
-#: templates/admin.php:308
+#: templates/admin.php:312
 msgid "From address"
-msgstr ""
-
-#: templates/admin.php:330
-msgid "Authentication required"
-msgstr ""
+msgstr "Desde o enderezo"
 
 #: templates/admin.php:334
+msgid "Authentication required"
+msgstr "Requírese autenticación"
+
+#: templates/admin.php:338
 msgid "Server address"
 msgstr "Enderezo do servidor"
 
-#: templates/admin.php:338
+#: templates/admin.php:342
 msgid "Port"
 msgstr "Porto"
 
-#: templates/admin.php:343
+#: templates/admin.php:347
 msgid "Credentials"
 msgstr "Credenciais"
 
-#: templates/admin.php:344
+#: templates/admin.php:348
 msgid "SMTP Username"
-msgstr ""
-
-#: templates/admin.php:347
-msgid "SMTP Password"
-msgstr ""
+msgstr "Nome de usuario SMTP"
 
 #: templates/admin.php:351
+msgid "SMTP Password"
+msgstr "Contrasinal SMTP"
+
+#: templates/admin.php:355
 msgid "Test email settings"
-msgstr ""
+msgstr "Correo de proba dos axustes"
 
-#: templates/admin.php:352
+#: templates/admin.php:356
 msgid "Send email"
-msgstr ""
+msgstr "Enviar o correo"
 
-#: templates/admin.php:357
+#: templates/admin.php:361
 msgid "Log"
 msgstr "Rexistro"
 
-#: templates/admin.php:358
+#: templates/admin.php:362
 msgid "Log level"
 msgstr "Nivel de rexistro"
 
-#: templates/admin.php:390
+#: templates/admin.php:394
 msgid "More"
 msgstr "Máis"
 
-#: templates/admin.php:391
+#: templates/admin.php:395
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:397 templates/personal.php:181
+#: templates/admin.php:401 templates/personal.php:181
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:401 templates/personal.php:184
+#: templates/admin.php:405 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -602,7 +603,7 @@ msgstr "Escolla un aplicativo"
 
 #: templates/apps.php:42
 msgid "Documentation:"
-msgstr ""
+msgstr "Documentación:"
 
 #: templates/apps.php:48
 msgid "See application page at apps.owncloud.com"
@@ -610,7 +611,7 @@ msgstr "Consulte a páxina do aplicativo en apps.owncloud.com"
 
 #: templates/apps.php:50
 msgid "See application website"
-msgstr ""
+msgstr "Vexa o sitio web do aplicativo"
 
 #: templates/apps.php:52
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -689,7 +690,7 @@ msgstr "O seu enderezo de correo"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Escriba un enderezo de correo para permitir a recuperación de contrasinais e recibir notificacións"
 
 #: templates/personal.php:96
 msgid "Profile picture"

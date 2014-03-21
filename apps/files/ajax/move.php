@@ -1,10 +1,8 @@
 <?php
 
-// Init owncloud
-
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+\OC::$session->close();
 
 // Get data
 $dir = stripslashes($_POST["dir"]);

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Dosya adı boş olamaz."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "'%s' geçersiz bir dosya adı."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -49,7 +49,7 @@ msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakter
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Hedef klasör taşındı veya silindi."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -153,12 +153,12 @@ msgstr "Bir dizin veya 0 bayt olduğundan {filename} yüklenemedi"
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Toplam dosya boyutu {size1} gönderme sınırını {size2} aşıyor"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Yeterince boş alan yok. Gönderdiğiniz boyut {size1} ancak {size2} alan mevcut"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -253,7 +253,7 @@ msgstr[1] "%n dosya yükleniyor"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" geçersiz bir dosya adı."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -418,7 +418,3 @@ msgstr "Dosyalar taranıyor, lütfen bekleyin."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Güncel tarama"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Sistem dosyası önbelleği güncelleniyor"

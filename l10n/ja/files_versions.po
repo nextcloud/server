@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-04 01:55-0400\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-03-13 17:12-0400\n"
 "PO-Revision-Date: 2013-08-04 01:10+0000\n"
 "Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
@@ -23,22 +23,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "元に戻せませんでした: %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
 msgstr "バージョン"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
 msgstr "{file} を {timestamp} のリヴィジョンに戻すことができません。"
 
-#: js/versions.js:79
+#: js/versions.js:87
 msgid "More versions..."
 msgstr "もっと他のバージョン..."
 
-#: js/versions.js:116
+#: js/versions.js:125
 msgid "No other versions available"
 msgstr "利用可能な他のバージョンはありません"
 
-#: js/versions.js:149
+#: js/versions.js:155
 msgid "Restore"
 msgstr "復元"

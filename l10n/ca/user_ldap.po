@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# rogerc, 2013
+# rogerc, 2013-2014
 # rogerc, 2013
 # victek, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-19 01:55-0400\n"
+"PO-Revision-Date: 2014-03-18 08:52+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -166,7 +166,7 @@ msgstr "Ajuda"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Els grups que compleixen aquests criteris estan disponibles a %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -202,7 +202,7 @@ msgstr "grups trobats"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Usuaris acreditats amb aquest atribut:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -270,7 +270,7 @@ msgstr "Podeu especificar DN Base per usuaris i grups a la pestanya Avançat"
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Limita l'accés a %s usuaris que compleixin amb aquest criteri:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -414,13 +414,13 @@ msgstr "Associació membres-grup"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Grups imbricats"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Quan està activat, els grups que contenen grups estan permesos. (Només funciona si l'atribut del grup membre conté DNs.)"
 
 #: templates/settings.php:41
 msgid "Special Attributes"

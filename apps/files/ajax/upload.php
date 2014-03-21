@@ -58,6 +58,7 @@ if (empty($_POST['dirToken'])) {
 
 
 OCP\JSON::callCheck();
+\OC::$session->close();
 
 
 // get array with current storage stats (e.g. max file size)

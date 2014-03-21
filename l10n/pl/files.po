@@ -5,7 +5,7 @@
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # I Robot, 2013
-# bobie <maciej.przybecki@gmail.com>, 2013
+# bobie <maciej.przybecki@gmail.com>, 2013-2014
 # Mariusz Fik <fisiu@opensuse.org>, 2013
 # Michal Plichta <mplichta@gmail.com>, 2013
 # adbrand <pkwiecin@adbrand.pl>, 2013
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Nazwa pliku nie może być pusta."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" jest nieprawidłową nazwą pliku."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -51,7 +51,7 @@ msgstr "Nieprawidłowa nazwa. Znaki '\\', '/', '<', '>', ':', '\"', '|', '?' ora
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Folder docelowy został przeniesiony lub usunięty"
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -155,12 +155,12 @@ msgstr "Nie można przesłać {filename} być może jest katalogiem lub posiada 
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Całkowity rozmiar {size1} przekracza limit uploadu {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Brak wolnej przestrzeni, przesyłasz {size1} a pozostało tylko {size2}"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -258,7 +258,7 @@ msgstr[2] "Wysyłanie %n plików"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" jest nieprawidłową nazwą pliku."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -423,7 +423,3 @@ msgstr "Skanowanie plików, proszę czekać."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Aktualnie skanowane"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Uaktualnianie plików pamięci podręcznej..."

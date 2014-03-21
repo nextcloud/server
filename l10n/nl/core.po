@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 18:11+0000\n"
+"POT-Creation-Date: 2014-03-21 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 08:20+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,11 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr "De vervaldatum ligt in het verleden."
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kon geen e-mail sturen aan de volgende gebruikers: %s"
@@ -36,19 +40,6 @@ msgstr "Onderhoudsmodus uitgeschakeld"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Database bijgewerkt"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Bijwerken bestandscache. Dit kan even duren..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Bestandscache bijgewerkt"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% gereed ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -299,11 +290,11 @@ msgid "Share"
 msgstr "Delen"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Fout"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
@@ -419,19 +410,19 @@ msgstr "Wachtwoord beveiligd"
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Versturen ..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "E-mail verzonden"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Waarschuwing"
 

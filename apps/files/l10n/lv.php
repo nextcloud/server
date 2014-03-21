@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Datne ir par lielu, lai to augšupielādētu",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
 "Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
-"Current scanning" => "Šobrīd tiek caurskatīts",
-"Upgrading filesystem cache..." => "Uzlabo datņu sistēmas kešatmiņu..."
+"Current scanning" => "Šobrīd tiek caurskatīts"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

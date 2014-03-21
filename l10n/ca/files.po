@@ -6,12 +6,13 @@
 # rogerc, 2013-2014
 # jmontane <joan@montane.cat>, 2013
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2013
+# mickymadsystems <micky@madsystems.cat>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +38,7 @@ msgstr "El nom del fitxer no pot ser buit."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" no es un fitxer vàlid."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -48,7 +49,7 @@ msgstr "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "La carpeta de destí s'ha mogut o eliminat."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -152,12 +153,12 @@ msgstr "No es pot pujar {filename} perquè és una carpeta o té 0 bytes"
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Mida total del fitxer {size1} excedeix el límit de pujada {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "No hi ha prou espai lliure, està carregant {size1} però només pot {size2}"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -252,7 +253,7 @@ msgstr[1] "Pujant %n fitxers"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" no es un fitxer vàlid."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -417,7 +418,3 @@ msgstr "S'estan escanejant els fitxers, espereu"
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Actualment escanejant"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Actualitzant la memòria de cau del sistema de fitxers..."

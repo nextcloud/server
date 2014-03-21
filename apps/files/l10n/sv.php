@@ -82,7 +82,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "För stor uppladdning",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
 "Files are being scanned, please wait." => "Filer skannas, var god vänta",
-"Current scanning" => "Aktuell skanning",
-"Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
+"Current scanning" => "Aktuell skanning"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

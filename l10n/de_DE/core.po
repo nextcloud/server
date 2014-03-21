@@ -11,15 +11,15 @@
 # Marcel Kühlhorn <tux93@opensuse.org>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # stefanniedermann <stefan.niedermann@googlemail.com>, 2014
-# traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
+# traductor, 2013
 # noxin <transifex.com@davidmainzer.com>, 2013
 # Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 16:10+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,11 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:112 ajax/share.php:154
+#: ajax/share.php:88
+msgid "Expiration date is in the past."
+msgstr ""
+
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "An folgende Benutzer konnte keine E-Mail gesendet werden: %s"
@@ -44,19 +48,6 @@ msgstr "Wartungsmodus ausgeschaltet"
 #: ajax/update.php:17
 msgid "Updated database"
 msgstr "Datenbank aktualisiert"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Aktualisiere Datei-Cache, dies könnte eine Weile dauern..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Datei-Cache aktualisiert"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% erledigt ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -307,11 +298,11 @@ msgid "Share"
 msgstr "Teilen"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
-#: js/share.js:723 templates/installation.php:10
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Fehler"
 
-#: js/share.js:160 js/share.js:755
+#: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -427,19 +418,19 @@ msgstr "Passwortgeschützt"
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:723
+#: js/share.js:729
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:742
+#: js/share.js:754
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:753
+#: js/share.js:765
 msgid "Email sent"
 msgstr "Email gesendet"
 
-#: js/share.js:777
+#: js/share.js:789
 msgid "Warning"
 msgstr "Warnung"
 

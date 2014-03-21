@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amplificator, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-19 23:12+0000\n"
+"Last-Translator: Amplificator\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,22 +40,22 @@ msgstr "Fejl ved konfiguration af Google Drive plads"
 
 #: js/settings.js:313 js/settings.js:320
 msgid "Saved"
-msgstr ""
+msgstr "Gemt"
 
-#: lib/config.php:512
+#: lib/config.php:518
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b> Advarsel: </ b> \"smbclient\" ikke er installeret. Montering af CIFS / SMB delinger er ikke muligt. Spørg din systemadministrator om at installere det."
 
-#: lib/config.php:516
+#: lib/config.php:522
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b> Advarsel: </ b> FTP-understøttelse i PHP ikke er aktiveret eller installeret. Montering af FTP delinger er ikke muligt. Spørg din systemadministrator om at installere det."
 
-#: lib/config.php:519
+#: lib/config.php:525
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -116,7 +117,7 @@ msgstr "Aktiver ekstern opbevaring for brugere"
 
 #: templates/settings.php:130
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Tillad brugere at montere følgende som eksternt lager"
 
 #: templates/settings.php:147
 msgid "SSL root certificates"

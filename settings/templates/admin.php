@@ -26,11 +26,15 @@ $mail_smtpsecure = array(
 );
 
 $mail_smtpmode = array(
-	'sendmail',
-	'smtp',
-	'qmail',
 	'php',
+	'smtp',
 );
+if ($_['sendmail_is_available']) {
+	$mail_smtpmode[] = 'sendmail';
+}
+if ($_['mail_smtpmode'] == 'qmail') {
+	$mail_smtpmode[] = 'qmail';
+}
 
 ?>
 
@@ -216,7 +220,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
-		<?php if (!\OCP\App::isEnabled('files_encryption')) { ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
@@ -225,7 +228,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
 			</td>
 		</tr>
-		<?php } ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"

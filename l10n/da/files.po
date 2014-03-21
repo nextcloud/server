@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sappe, 2013
+# Sappe, 2013-2014
 # claus_chr <claus_chr@webspeed.dk>, 2013
 # lodahl <leiflodahl@gmail.com>, 2013
+# Amplificator, 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-03-20 01:55-0400\n"
+"PO-Revision-Date: 2014-03-20 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +39,7 @@ msgstr "Filnavnet kan ikke stå tomt."
 #: ajax/newfile.php:62
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" er et ugyldigt filnavn."
 
 #: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
 msgid ""
@@ -49,7 +50,7 @@ msgstr "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke 
 #: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Mappen er blevet slettet eller fjernet."
 
 #: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
 #, php-format
@@ -153,12 +154,12 @@ msgstr "Kan ikke upload {filename} da det er enten en mappe eller indholder 0 by
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Den totale filstørrelse {size1} er større end uploadgrænsen {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Der er ikke tilstrækkeligt friplads. Du uplaoder {size1} men der er kun {size2} tilbage"
 
 #: js/file-upload.js:338
 msgid "Upload cancelled."
@@ -253,7 +254,7 @@ msgstr[1] "Uploader %n filer"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "'{name}' er et ugyldigt filnavn."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -418,7 +419,3 @@ msgstr "Filerne bliver indlæst, vent venligst."
 #: templates/index.php:108
 msgid "Current scanning"
 msgstr "Indlæser"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Opgraderer filsystems cachen..."
