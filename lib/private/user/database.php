@@ -45,7 +45,6 @@ class OC_User_Database extends OC_User_Backend {
 	private static $hasher = null;
 
 	private $cache = array();
-	private $cache_complete = false;
 
 	private function getHasher() {
 		if (!self::$hasher) {
@@ -71,11 +70,8 @@ class OC_User_Database extends OC_User_Backend {
 			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
 			$result = $query->execute(array($uid, $hash));
-			
-			if ($result) {
-				$this->cache[$uid]['uid'] = $uid;
-				return true;
-			}
+
+			return $result ? true : false;
 		}
 
 		return false;
@@ -157,24 +153,15 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Get a list of all display names and user ids.
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = 0) {
-		$this->loadUsers();
-
-		$search = strtolower($search);
-		$i = 0;
-
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = array();
-		foreach ($this->cache as $uid => $value) {
-			if ((preg_match('/^.*'.$search.'.*/', strtolower($uid)) || preg_match('/^.*'.$search.'.*/', strtolower($value['displayname']))) && $offset <= $i) {
-				$displayNames[$uid] = $value['displayname'];
-				if (!is_null($limit)) {
-					$limit--;
-					if ($limit <= 0) {
-						break;
-					}
-				}
-			}
-			$i++;
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
+			. ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
+			. 'LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search . '%', $search . '%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$displayNames[$row['uid']] = $row['displayname'];
 		}
 
 		return $displayNames;
@@ -238,58 +225,18 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Load an user in the cache
-	 * @param string $uid the username
-	 * @returns boolean
-	 */
-	private function loadUsers() {
-		if (!$this->cache_complete) {
-			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` ORDER BY `uid`');
-			$result = $query->execute();
-
-			if (OC_DB::isError($result)) {
-				OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
-				return false;
-			}
-
-			while ($row = $result->fetchRow()) {
-				$uid = $row['uid'];
-				$this->cache[$uid]['uid'] = $uid;
-				$this->cache[$uid]['displayname'] = $row['displayname'];
-			}
-
-			$this->cache_complete = true;
-		}
-
-		return true;
-	}
-
-	/**
 	 * @brief Get a list of all users
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
 	 */
-	public function getUsers($search = '', $limit = null, $offset = 0) {
-		$this->loadUsers();
-
-		$search = strtolower($search);
-		$i = 0;
-
+	public function getUsers($search = '', $limit = null, $offset = null) {
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search . '%'));
 		$users = array();
-		foreach ($this->cache as $uid => $value) {
-			if (preg_match('/^'.$search.'.*/', strtolower($uid)) && $offset <= $i) {
-				$users[] = $uid;
-				if (!is_null($limit)) {
-					$limit--;
-					if ($limit <= 0) {
-						break;
-					}
-				}
-			}
-			$i++;
+		while ($row = $result->fetchRow()) {
+			$users[] = $row['uid'];
 		}
-
 		return $users;
 	}
 
@@ -329,8 +276,13 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return int | bool
 	 */
 	public function countUsers() {
-		$this->loadUsers();
-		return count($this->cache);
+		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
+		$result = $query->execute();
+		if (OC_DB::isError($result)) {
+			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			return false;
+		}
+		return $result->fetchOne();
 	}
 
 }
