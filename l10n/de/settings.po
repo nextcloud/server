@@ -4,6 +4,7 @@
 # 
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
+# I Robot, 2014
 # Mario Siegmann <mario_siegmann@web.de>, 2013-2014
 # ninov <ninovdl@ymail.com>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 01:55-0400\n"
-"PO-Revision-Date: 2014-03-12 11:20+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-03-22 01:55-0400\n"
+"PO-Revision-Date: 2014-03-21 11:10+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,15 +56,15 @@ msgstr "E-Mail wurde verschickt"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Du musst zunächst deine Benutzer-E-Mail-Adresse setzen, bevor du Test-E-Mail verschicken kannst."
 
-#: admin/controller.php:116 templates/admin.php:284
+#: admin/controller.php:116 templates/admin.php:282
 msgid "Send mode"
 msgstr "Sende-Modus"
 
-#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:295 templates/personal.php:159
 msgid "Encryption"
 msgstr "Verschlüsselung"
 
-#: admin/controller.php:120 templates/admin.php:321
+#: admin/controller.php:120 templates/admin.php:319
 msgid "Authentication method"
 msgstr "Authentifizierungsmethode"
 
@@ -219,31 +220,31 @@ msgstr "Aktualisierung durchführen"
 msgid "Updated"
 msgstr "Aktualisiert"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Wähle ein Profilbild"
 
-#: js/personal.js:274
+#: js/personal.js:277
 msgid "Very weak password"
 msgstr "Sehr schwaches Passwort"
 
-#: js/personal.js:275
+#: js/personal.js:278
 msgid "Weak password"
 msgstr "Schwaches Passwort"
 
-#: js/personal.js:276
+#: js/personal.js:279
 msgid "So-so password"
 msgstr "Durchschnittliches Passwort"
 
-#: js/personal.js:277
+#: js/personal.js:280
 msgid "Good password"
 msgstr "Gutes Passwort"
 
-#: js/personal.js:278
+#: js/personal.js:281
 msgid "Strong password"
 msgstr "Starkes Passwort"
 
-#: js/personal.js:301
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Entschlüssle Dateien ... Bitte warten, denn dieser Vorgang kann einige Zeit beanspruchen."
 
@@ -468,124 +469,124 @@ msgstr "Erlaubt Links"
 msgid "Allow users to share items to the public with links"
 msgstr "Erlaubt Benutzern, Inhalte über öffentliche Links zu teilen"
 
-#: templates/admin.php:211
+#: templates/admin.php:210
 msgid "Allow public uploads"
 msgstr "Öffentliches Hochladen erlauben"
 
-#: templates/admin.php:212
+#: templates/admin.php:211
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Erlaubt es Benutzern, andere Benutzer einzurichten, dass diese in deren öffentlich freigegebenen Ordner hochladen dürfen"
 
-#: templates/admin.php:220
+#: templates/admin.php:218
 msgid "Allow resharing"
 msgstr "Erlaubt erneutes Teilen"
 
-#: templates/admin.php:221
+#: templates/admin.php:219
 msgid "Allow users to share items shared with them again"
 msgstr "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
-#: templates/admin.php:228
+#: templates/admin.php:226
 msgid "Allow users to share with anyone"
 msgstr "Erlaubt Benutzern, mit jedem zu teilen"
 
-#: templates/admin.php:231
+#: templates/admin.php:229
 msgid "Allow users to only share with users in their groups"
 msgstr "Erlaubt Benutzern, nur mit Benutzern ihrer Gruppe zu teilen"
 
-#: templates/admin.php:238
+#: templates/admin.php:236
 msgid "Allow mail notification"
 msgstr "Mail-Benachrichtigung erlauben"
 
-#: templates/admin.php:239
+#: templates/admin.php:237
 msgid "Allow user to send mail notification for shared files"
 msgstr "Benutzern erlauben Mail-Benachrichtigungen für freigegebene Dateien zu senden"
 
-#: templates/admin.php:246
+#: templates/admin.php:244
 msgid "Security"
 msgstr "Sicherheit"
 
-#: templates/admin.php:259
+#: templates/admin.php:257
 msgid "Enforce HTTPS"
 msgstr "Erzwinge HTTPS"
 
-#: templates/admin.php:261
+#: templates/admin.php:259
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Zwingt die clientseitigen Anwendungen, verschlüsselte Verbindungen zu %s herzustellen."
 
-#: templates/admin.php:267
+#: templates/admin.php:265
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Bitte verbinde dich zu deinem %s über HTTPS um die SSL-Erzwingung zu aktivieren oder zu deaktivieren."
 
-#: templates/admin.php:279
+#: templates/admin.php:277
 msgid "Email Server"
 msgstr "E-Mail-Server"
 
-#: templates/admin.php:281
+#: templates/admin.php:279
 msgid "This is used for sending out notifications."
 msgstr "Dies wird zum Senden von Benachrichtigungen verwendet."
 
-#: templates/admin.php:312
+#: templates/admin.php:310
 msgid "From address"
 msgstr "Absender-Adresse"
 
-#: templates/admin.php:334
+#: templates/admin.php:332
 msgid "Authentication required"
 msgstr "Authentifizierung benötigt"
 
-#: templates/admin.php:338
+#: templates/admin.php:336
 msgid "Server address"
 msgstr "Adresse des Servers"
 
-#: templates/admin.php:342
+#: templates/admin.php:340
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:347
+#: templates/admin.php:345
 msgid "Credentials"
 msgstr "Zugangsdaten"
 
-#: templates/admin.php:348
+#: templates/admin.php:346
 msgid "SMTP Username"
 msgstr "SMTP Benutzername"
 
-#: templates/admin.php:351
+#: templates/admin.php:349
 msgid "SMTP Password"
 msgstr "SMTP Passwor"
 
-#: templates/admin.php:355
+#: templates/admin.php:353
 msgid "Test email settings"
 msgstr "Teste E-Mail-Einstellunge"
 
-#: templates/admin.php:356
+#: templates/admin.php:354
 msgid "Send email"
 msgstr "Sende E-Mail"
 
-#: templates/admin.php:361
+#: templates/admin.php:359
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:362
+#: templates/admin.php:360
 msgid "Log level"
 msgstr "Loglevel"
 
-#: templates/admin.php:394
+#: templates/admin.php:392
 msgid "More"
 msgstr "Mehr"
 
-#: templates/admin.php:395
+#: templates/admin.php:393
 msgid "Less"
 msgstr "Weniger"
 
-#: templates/admin.php:401 templates/personal.php:181
+#: templates/admin.php:399 templates/personal.php:181
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:405 templates/personal.php:184
+#: templates/admin.php:403 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -654,7 +655,7 @@ msgstr "Erstinstallation erneut durchführen"
 #: templates/personal.php:27
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Du verwendest <strong>%s</strong> der verfügbaren <strong>%s<strong>"
+msgstr "Du verwendest <strong>%s</strong> der verfügbaren <strong>%s</strong>"
 
 #: templates/personal.php:39 templates/users.php:21 templates/users.php:87
 msgid "Password"

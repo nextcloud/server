@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-20 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 05:55+0000\n"
+"POT-Creation-Date: 2014-03-22 01:55-0400\n"
+"PO-Revision-Date: 2014-03-22 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -535,6 +535,18 @@ msgstr "Nytt passord"
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
 msgstr "Tilbakestill passord"
+
+#: setup/controller.php:138
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr ""
+
+#: setup/controller.php:142
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"

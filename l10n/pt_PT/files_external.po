@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Mouxy <daniel@mouxy.net>, 2013
+# Helder Meneses <helder.meneses@gmail.com>, 2014
 # jmruas <jmruas@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-16 03:12-0400\n"
-"PO-Revision-Date: 2014-03-15 16:30+0000\n"
-"Last-Translator: jmruas <jmruas@gmail.com>\n"
+"POT-Creation-Date: 2014-03-22 01:55-0400\n"
+"PO-Revision-Date: 2014-03-21 10:30+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,20 +44,20 @@ msgstr "Erro ao configurar o armazenamento do Google Drive"
 msgid "Saved"
 msgstr "Guardado"
 
-#: lib/config.php:512
+#: lib/config.php:631
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Atenção:</b> O cliente \"smbclient\" não está instalado. Não é possível montar as partilhas CIFS/SMB . Peça ao seu administrador para instalar."
 
-#: lib/config.php:516
+#: lib/config.php:635
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Aviso:</b> O suporte FTP no PHP não está activate ou instalado. Não é possível montar as partilhas FTP. Peça ao seu administrador para instalar."
 
-#: lib/config.php:519
+#: lib/config.php:638
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -118,7 +119,7 @@ msgstr "Activar Armazenamento Externo para o Utilizador"
 
 #: templates/settings.php:130
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Permitir que os utilizadores montem o seguinte armazenamento externo"
 
 #: templates/settings.php:147
 msgid "SSL root certificates"
