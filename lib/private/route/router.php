@@ -47,6 +47,8 @@ class Router implements IRouter {
 
 	protected $loaded = false;
 
+	protected $loadedApps = array();
+
 	public function __construct() {
 		$baseUrl = \OC_Helper::linkTo('', 'index.php');
 		if (!\OC::$CLI) {
@@ -93,27 +95,44 @@ class Router implements IRouter {
 	/**
 	 * loads the api routes
 	 */
-	public function loadRoutes() {
+	public function loadRoutes($app = null) {
 		if ($this->loaded) {
 			return;
 		}
-		$this->loaded = true;
-		foreach ($this->getRoutingFiles() as $app => $file) {
+		if (is_null($app)) {
+			$this->loaded = true;
+			$routingFiles = $this->getRoutingFiles();
+		} else {
+			if (isset($this->loadedApps[$app])) {
+				return;
+			}
+			$this->loadedApps[$app] = true;
+			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
+			if (file_exists($file)) {
+				$routingFiles = array($file);
+			} else {
+				$routingFiles = array();
+			}
+		}
+		foreach ($routingFiles as $app => $file) {
 			$this->useCollection($app);
 			require_once $file;
 			$collection = $this->getCollection($app);
 			$collection->addPrefix('/apps/' . $app);
 			$this->root->addCollection($collection);
 		}
-		$this->useCollection('root');
-		require_once 'settings/routes.php';
-		require_once 'core/routes.php';
+		if (!isset($this->loadedApps['core'])) {
+			$this->loadedApps['core'] = true;
+			$this->useCollection('root');
+			require_once 'settings/routes.php';
+			require_once 'core/routes.php';
 
-		// include ocs routes
-		require_once 'ocs/routes.php';
-		$collection = $this->getCollection('ocs');
-		$collection->addPrefix('/ocs');
-		$this->root->addCollection($collection);
+			// include ocs routes
+			require_once 'ocs/routes.php';
+			$collection = $this->getCollection('ocs');
+			$collection->addPrefix('/ocs');
+			$this->root->addCollection($collection);
+		}
 	}
 
 	/**
@@ -158,7 +177,12 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 */
 	public function match($url) {
-		$this->loadRoutes();
+		if (substr($url, 0, 6) === '/apps/') {
+			list(, , $app,) = explode('/', $url, 4);
+			$this->loadRoutes($app);
+		} else {
+			$this->loadRoutes();
+		}
 		$matcher = new UrlMatcher($this->root, $this->context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {

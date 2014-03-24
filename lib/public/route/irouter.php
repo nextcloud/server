@@ -22,7 +22,7 @@ interface IRouter {
 	/**
 	 * loads the api routes
 	 */
-	public function loadRoutes();
+	public function loadRoutes($app = null);
 
 	/**
 	 * Sets the collection to use for adding routes
