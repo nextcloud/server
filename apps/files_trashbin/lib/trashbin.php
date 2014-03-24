@@ -922,8 +922,11 @@ class Trashbin {
 
 		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
 		$dh = $view->opendir('/files');
+		if (!$dh) {
+			return false;
+		}
 		while ($file = readdir($dh)) {
-			if($file !== '.' and $file !== '..'){
+			if ($file !== '.' and $file !== '..') {
 				return false;
 			}
 		}
