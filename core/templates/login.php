@@ -46,8 +46,8 @@
 		</p>
 
 		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
-		<a class="warning" href="<?php print_unescaped(OC_Helper::linkToRoute('core_lostpassword_index')) ?>">
-			<?php p($l->t('Lost your password?')); ?>
+		<a id="lost-password" class="warning" href="">
+			<?php p($l->t('Forgot your password? Reset it!')); ?>
 		</a>
 		<?php endif; ?>
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
@@ -74,4 +74,4 @@
 
 <?php
 OCP\Util::addscript('core', 'visitortimezone');
-
+OCP\Util::addScript('core', 'lostpassword');

@@ -8,7 +8,7 @@ OCP\Util::addStyle('lostpassword', 'lostpassword');
 	?>
 	</p></div>
 <?php else: ?>
-	<form action="<?php print_unescaped(OC_Helper::linkToRoute('core_lostpassword_send_email')) ?>" method="post">
+	<form action="<?php //print_unescaped(OC_Helper::linkToRoute('core_lostpassword_send_email')) ?>" method="post">
 		<fieldset>
 			<?php if ($_['error']): ?>
 				<div class="error"><p>

@@ -36,47 +36,37 @@ class Controller {
 		return \OC_Preferences::getValue($user, 'owncloud', 'lostpassword') === hash('sha256', $token);
 	}
 
-	public static function index($args) {
-		self::displayLostPasswordPage(false, false);
-	}
-
-	public static function sendEmail($args) {
-
+	public static function sendEmail($user, $proceed) {
+		$l = \OC_L10N::get('core');
 		$isEncrypted = \OC_App::isEnabled('files_encryption');
 
-		if(!$isEncrypted || isset($_POST['continue'])) {
-			$continue = true;
-		} else {
-			$continue = false;
+		if ($isEncrypted && $proceed !== 'Yes'){
+			throw new EncryptedDataException();
 		}
 
-		if (\OC_User::userExists($_POST['user']) && $continue) {
-			$token = hash('sha256', \OC_Util::generateRandomBytes(30).\OC_Config::getValue('passwordsalt', ''));
-			\OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword',
-				hash('sha256', $token)); // Hash the token again to prevent timing attacks
-			$email = \OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
-			if (!empty($email)) {
-				$link = \OC_Helper::linkToRoute('core_lostpassword_reset',
-					array('user' => $_POST['user'], 'token' => $token));
-				$link = \OC_Helper::makeURLAbsolute($link);
+		if (!\OC_User::userExists($user)) {
+			throw new \Exception($l->t('Couldn’t send reset email. Please make sure your username is correct.'));
+		}
+		$token = hash('sha256', \OC_Util::generateRandomBytes(30).\OC_Config::getValue('passwordsalt', ''));
+		\OC_Preferences::setValue($user, 'owncloud', 'lostpassword',
+			hash('sha256', $token)); // Hash the token again to prevent timing attacks
+		$email = \OC_Preferences::getValue($user, 'settings', 'email', '');
+		if (empty($email)) {
+			throw new \Exception($l->t('Couldn’t send reset email because there is no email address for this username. Please contact your administrator.'));
+		}
+		$link = \OC_Helper::linkToRoute('core_lostpassword_reset',
+			array('user' => $user, 'token' => $token));
+		$link = \OC_Helper::makeURLAbsolute($link);
 
-				$tmpl = new \OC_Template('core/lostpassword', 'email');
-				$tmpl->assign('link', $link, false);
-				$msg = $tmpl->fetchPage();
-				$l = \OC_L10N::get('core');
-				$from = \OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
-				try {
-					$defaults = new \OC_Defaults();
-					\OC_Mail::send($email, $_POST['user'], $l->t('%s password reset', array($defaults->getName())), $msg, $from, $defaults->getName());
-				} catch (Exception $e) {
-					\OC_Template::printErrorPage( $l->t('A problem has occurred whilst sending the email, please contact your administrator.') );
-				}
-				self::displayLostPasswordPage(false, true);
-			} else {
-				self::displayLostPasswordPage(true, false);
-			}
-		} else {
-			self::displayLostPasswordPage(true, false);
+		$tmpl = new \OC_Template('core/lostpassword', 'email');
+		$tmpl->assign('link', $link, false);
+		$msg = $tmpl->fetchPage();
+		$from = \OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
+		try {
+			$defaults = new \OC_Defaults();
+			\OC_Mail::send($email, $user, $l->t('%s password reset', array($defaults->getName())), $msg, $from, $defaults->getName());
+		} catch (\Exception $e) {
+			throw new \Exception( $l->t('Couldn’t send reset email. Please contact your administrator.'));
 		}
 	}
 

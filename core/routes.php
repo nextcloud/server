@@ -70,18 +70,15 @@ $this->create('core_ajax_preview', '/core/preview')
 	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->actionInclude('core/ajax/preview.php');
-$this->create('core_lostpassword_index', '/lostpassword/')
-	->get()
-	->action('OC\Core\LostPassword\Controller', 'index');
-$this->create('core_lostpassword_send_email', '/lostpassword/')
+$this->create('core_ajax_password_lost', '/core/ajax/password/lost')
 	->post()
-	->action('OC\Core\LostPassword\Controller', 'sendEmail');
+	->action('OC\Core\Lostpassword\AjaxController', 'lost');
+$this->create('core_ajax_password_reset', '/core/ajax/password/reset/{token}/{user}')
+	->post()
+	->action('OC\Core\LostPassword\AjaxController', 'resetPassword');
 $this->create('core_lostpassword_reset', '/lostpassword/reset/{token}/{user}')
 	->get()
 	->action('OC\Core\LostPassword\Controller', 'reset');
-$this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{user}')
-	->post()
-	->action('OC\Core\LostPassword\Controller', 'resetPassword');
 
 // Avatar routes
 $this->create('core_avatar_get_tmp', '/avatar/tmp')
