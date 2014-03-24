@@ -43,4 +43,8 @@ class SMB_Auto extends \OC\Files\Storage\SMB{
 	public static function login( $params ) {
 		\OC::$session->set('smb-credentials', $params);
 	}
+
+	public function isSharable($path) {
+		return false;
+	}
 }
