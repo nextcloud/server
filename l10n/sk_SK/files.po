@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-20 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 05:55+0000\n"
+"POT-Creation-Date: 2014-03-24 01:55-0400\n"
+"PO-Revision-Date: 2014-03-24 05:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -18,66 +18,66 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/move.php:17
+#: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
 msgstr "Nie je možné presunúť %s - súbor s týmto menom už existuje"
 
-#: ajax/move.php:27 ajax/move.php:30
+#: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
 msgstr "Nie je možné presunúť %s"
 
-#: ajax/newfile.php:57 js/files.js:98
+#: ajax/newfile.php:58 js/files.js:98
 msgid "File name cannot be empty."
 msgstr "Meno súboru nemôže byť prázdne"
 
-#: ajax/newfile.php:62
+#: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty."
 
-#: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
 msgstr "Názov %s už používa priečinok s%. Prosím zvoľte iný názov."
 
-#: ajax/newfile.php:96
+#: ajax/newfile.php:97
 msgid "Not a valid source"
 msgstr "Neplatný zdroj"
 
-#: ajax/newfile.php:101
+#: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "Server nie je oprávnený otvárať adresy URL. Overte nastavenia servera."
 
-#: ajax/newfile.php:118
+#: ajax/newfile.php:119
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Chyba pri sťahovaní súboru %s do %s"
 
-#: ajax/newfile.php:155
+#: ajax/newfile.php:156
 msgid "Error when creating the file"
 msgstr "Chyba pri vytváraní súboru"
 
-#: ajax/newfolder.php:21
+#: ajax/newfolder.php:22
 msgid "Folder name cannot be empty."
 msgstr "Názov priečinka nemôže byť prázdny."
 
-#: ajax/newfolder.php:65
+#: ajax/newfolder.php:66
 msgid "Error when creating the folder"
 msgstr "Chyba pri vytváraní priečinka"
 
@@ -89,54 +89,54 @@ msgstr "Nemožno nastaviť priečinok pre nahrané súbory."
 msgid "Invalid Token"
 msgstr "Neplatný token"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:68
 msgid "No file was uploaded. Unknown error"
 msgstr "Žiaden súbor nebol nahraný. Neznáma chyba"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:75
 msgid "There is no error, the file uploaded with success"
 msgstr "Nenastala žiadna chyba, súbor bol úspešne nahraný"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:76
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Nahraný súbor prekročil limit nastavený v upload_max_filesize v súbore php.ini:"
 
-#: ajax/upload.php:77
+#: ajax/upload.php:78
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Ukladaný súbor prekračuje nastavenie MAX_FILE_SIZE z volieb HTML formulára."
 
-#: ajax/upload.php:78
+#: ajax/upload.php:79
 msgid "The uploaded file was only partially uploaded"
 msgstr "Ukladaný súbor sa nahral len čiastočne"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:80
 msgid "No file was uploaded"
 msgstr "Žiadny súbor nebol uložený"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:81
 msgid "Missing a temporary folder"
 msgstr "Chýba dočasný priečinok"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:82
 msgid "Failed to write to disk"
 msgstr "Zápis na disk sa nepodaril"
 
-#: ajax/upload.php:99
+#: ajax/upload.php:100
 msgid "Not enough storage available"
 msgstr "Nedostatok dostupného úložného priestoru"
 
-#: ajax/upload.php:156
+#: ajax/upload.php:157
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Nahrávanie zlyhalo. Nepodarilo sa nájsť nahrávaný súbor"
 
-#: ajax/upload.php:166
+#: ajax/upload.php:167
 msgid "Upload failed. Could not get file info."
 msgstr "Nahrávanie zlyhalo. Nepodarilo sa získať informácie o súbore."
 
-#: ajax/upload.php:185
+#: ajax/upload.php:186
 msgid "Invalid directory."
 msgstr "Neplatný priečinok."
 
@@ -157,40 +157,40 @@ msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:338
+#: js/file-upload.js:340
 msgid "Upload cancelled."
 msgstr "Odosielanie zrušené."
 
-#: js/file-upload.js:383
+#: js/file-upload.js:385
 msgid "Could not get result from server."
 msgstr "Nepodarilo sa dostať výsledky zo servera."
 
-#: js/file-upload.js:475
+#: js/file-upload.js:477
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
 
-#: js/file-upload.js:562
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "URL nemôže byť prázdna"
 
-#: js/file-upload.js:566
+#: js/file-upload.js:568
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "V domovskom priečinku je názov \"Shared\" vyhradený názov súboru"
 
-#: js/file-upload.js:568 js/filelist.js:430
+#: js/file-upload.js:570 js/filelist.js:430
 msgid "{new_name} already exists"
 msgstr "{new_name} už existuje"
 
-#: js/file-upload.js:634
+#: js/file-upload.js:636
 msgid "Could not create file"
 msgstr "Nemožno vytvoriť súbor"
 
-#: js/file-upload.js:650
+#: js/file-upload.js:652
 msgid "Could not create folder"
 msgstr "Nemožno vytvoriť priečinok"
 
-#: js/file-upload.js:700
+#: js/file-upload.js:702
 msgid "Error fetching URL"
 msgstr "Chyba pri načítavaní URL"
 

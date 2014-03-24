@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-20 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 05:55+0000\n"
+"POT-Creation-Date: 2014-03-24 01:55-0400\n"
+"PO-Revision-Date: 2014-03-24 05:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -19,66 +19,66 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/move.php:17
+#: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
 msgstr "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da"
 
-#: ajax/move.php:27 ajax/move.php:30
+#: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
 msgstr "Ezin dira fitxategiak mugitu %s"
 
-#: ajax/newfile.php:57 js/files.js:98
+#: ajax/newfile.php:58 js/files.js:98
 msgid "File name cannot be empty."
 msgstr "Fitxategi izena ezin da hutsa izan."
 
-#: ajax/newfile.php:62
+#: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
 
-#: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
 msgstr "%s izena dagoeneko erabilita dago %s karpetan. Mesdez hautatu izen ezberdina."
 
-#: ajax/newfile.php:96
+#: ajax/newfile.php:97
 msgid "Not a valid source"
 msgstr "Ez da jatorri baliogarria"
 
-#: ajax/newfile.php:101
+#: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "Zerbitzaria ez dago URLak irekitzeko baimendua, mesedez egiaztatu zerbitzariaren konfigurazioa"
 
-#: ajax/newfile.php:118
+#: ajax/newfile.php:119
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Errorea %s %sra deskargatzerakoan"
 
-#: ajax/newfile.php:155
+#: ajax/newfile.php:156
 msgid "Error when creating the file"
 msgstr "Errorea fitxategia sortzerakoan"
 
-#: ajax/newfolder.php:21
+#: ajax/newfolder.php:22
 msgid "Folder name cannot be empty."
 msgstr "Karpeta izena ezin da hutsa izan."
 
-#: ajax/newfolder.php:65
+#: ajax/newfolder.php:66
 msgid "Error when creating the folder"
 msgstr "Errorea karpeta sortzerakoan"
 
@@ -90,54 +90,54 @@ msgstr "Ezin da igoera direktorioa ezarri."
 msgid "Invalid Token"
 msgstr "Lekuko baliogabea"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:68
 msgid "No file was uploaded. Unknown error"
 msgstr "Ez da fitxategirik igo. Errore ezezaguna"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:75
 msgid "There is no error, the file uploaded with success"
 msgstr "Ez da errorerik egon, fitxategia ongi igo da"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:76
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:"
 
-#: ajax/upload.php:77
+#: ajax/upload.php:78
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Igotako fitxategia HTML formularioan zehaztutako MAX_FILE_SIZE direktiba baino handidagoa da."
 
-#: ajax/upload.php:78
+#: ajax/upload.php:79
 msgid "The uploaded file was only partially uploaded"
 msgstr "Igotako fitxategiaren zati bat bakarrik igo da"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:80
 msgid "No file was uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:81
 msgid "Missing a temporary folder"
 msgstr "Aldi bateko karpeta falta da"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:82
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
 
-#: ajax/upload.php:99
+#: ajax/upload.php:100
 msgid "Not enough storage available"
 msgstr "Ez dago behar aina leku erabilgarri,"
 
-#: ajax/upload.php:156
+#: ajax/upload.php:157
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Igoerak huts egin du. Ezin izan da igotako fitxategia aurkitu"
 
-#: ajax/upload.php:166
+#: ajax/upload.php:167
 msgid "Upload failed. Could not get file info."
 msgstr "Igoerak huts egin du. Ezin izan da fitxategiaren informazioa eskuratu."
 
-#: ajax/upload.php:185
+#: ajax/upload.php:186
 msgid "Invalid directory."
 msgstr "Baliogabeko karpeta."
 
@@ -158,40 +158,40 @@ msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:338
+#: js/file-upload.js:340
 msgid "Upload cancelled."
 msgstr "Igoera ezeztatuta"
 
-#: js/file-upload.js:383
+#: js/file-upload.js:385
 msgid "Could not get result from server."
 msgstr "Ezin da zerbitzaritik emaitzik lortu"
 
-#: js/file-upload.js:475
+#: js/file-upload.js:477
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
 
-#: js/file-upload.js:562
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "URLa ezin da hutsik egon"
 
-#: js/file-upload.js:566
+#: js/file-upload.js:568
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Etxeko (home) karpetan 'Shared' erreserbatutako fitxategi izena da"
 
-#: js/file-upload.js:568 js/filelist.js:430
+#: js/file-upload.js:570 js/filelist.js:430
 msgid "{new_name} already exists"
 msgstr "{new_name} dagoeneko existitzen da"
 
-#: js/file-upload.js:634
+#: js/file-upload.js:636
 msgid "Could not create file"
 msgstr "Ezin izan da fitxategia sortu"
 
-#: js/file-upload.js:650
+#: js/file-upload.js:652
 msgid "Could not create folder"
 msgstr "Ezin izan da karpeta sortu"
 
-#: js/file-upload.js:700
+#: js/file-upload.js:702
 msgid "Error fetching URL"
 msgstr "Errorea URLa eskuratzerakoan"
 

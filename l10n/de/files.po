@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-20 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 05:55+0000\n"
+"POT-Creation-Date: 2014-03-24 01:55-0400\n"
+"PO-Revision-Date: 2014-03-24 05:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -25,66 +25,66 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/move.php:17
+#: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
 msgstr "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert bereits"
 
-#: ajax/move.php:27 ajax/move.php:30
+#: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
 msgstr "Konnte %s nicht verschieben"
 
-#: ajax/newfile.php:57 js/files.js:98
+#: ajax/newfile.php:58 js/files.js:98
 msgid "File name cannot be empty."
 msgstr "Der Dateiname darf nicht leer sein."
 
-#: ajax/newfile.php:62
+#: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
 msgstr "\"%s\" ist kein gültiger Dateiname."
 
-#: ajax/newfile.php:68 ajax/newfolder.php:27 js/files.js:105
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig."
 
-#: ajax/newfile.php:75 ajax/newfolder.php:34 ajax/upload.php:137
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr "Der Zielordner wurde verschoben oder gelöscht."
 
-#: ajax/newfile.php:87 ajax/newfolder.php:46 lib/app.php:74
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
 msgstr "Der Name %s wird bereits im Ordner %s benutzt. Bitte wähle  einen anderen Namen."
 
-#: ajax/newfile.php:96
+#: ajax/newfile.php:97
 msgid "Not a valid source"
 msgstr "Keine gültige Quelle"
 
-#: ajax/newfile.php:101
+#: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "Dem Server ist das Öffnen von URLs nicht erlaubt, bitte die Serverkonfiguration prüfen"
 
-#: ajax/newfile.php:118
+#: ajax/newfile.php:119
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Fehler beim Herunterladen von %s nach %s"
 
-#: ajax/newfile.php:155
+#: ajax/newfile.php:156
 msgid "Error when creating the file"
 msgstr "Fehler beim Erstellen der Datei"
 
-#: ajax/newfolder.php:21
+#: ajax/newfolder.php:22
 msgid "Folder name cannot be empty."
 msgstr "Der Ordner-Name darf nicht leer sein."
 
-#: ajax/newfolder.php:65
+#: ajax/newfolder.php:66
 msgid "Error when creating the folder"
 msgstr "Fehler beim Erstellen des Ordners"
 
@@ -96,54 +96,54 @@ msgstr "Das Upload-Verzeichnis konnte nicht gesetzt werden."
 msgid "Invalid Token"
 msgstr "Ungültiges Merkmal"
 
-#: ajax/upload.php:67
+#: ajax/upload.php:68
 msgid "No file was uploaded. Unknown error"
 msgstr "Keine Datei hochgeladen. Unbekannter Fehler"
 
-#: ajax/upload.php:74
+#: ajax/upload.php:75
 msgid "There is no error, the file uploaded with success"
 msgstr "Es ist kein Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen."
 
-#: ajax/upload.php:75
+#: ajax/upload.php:76
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini"
 
-#: ajax/upload.php:77
+#: ajax/upload.php:78
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Die Datei ist größer, als die MAX_FILE_SIZE Direktive erlaubt, die im HTML-Formular spezifiziert ist"
 
-#: ajax/upload.php:78
+#: ajax/upload.php:79
 msgid "The uploaded file was only partially uploaded"
 msgstr "Die Datei konnte nur teilweise übertragen werden"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:80
 msgid "No file was uploaded"
 msgstr "Keine Datei konnte übertragen werden."
 
-#: ajax/upload.php:80
+#: ajax/upload.php:81
 msgid "Missing a temporary folder"
 msgstr "Kein temporärer Ordner vorhanden"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:82
 msgid "Failed to write to disk"
 msgstr "Fehler beim Schreiben auf die Festplatte"
 
-#: ajax/upload.php:99
+#: ajax/upload.php:100
 msgid "Not enough storage available"
 msgstr "Nicht genug Speicher vorhanden."
 
-#: ajax/upload.php:156
+#: ajax/upload.php:157
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Hochladen fehlgeschlagen. Hochgeladene Datei konnte nicht gefunden werden."
 
-#: ajax/upload.php:166
+#: ajax/upload.php:167
 msgid "Upload failed. Could not get file info."
 msgstr "Hochladen fehlgeschlagen. Dateiinformationen konnten nicht abgerufen werden."
 
-#: ajax/upload.php:185
+#: ajax/upload.php:186
 msgid "Invalid directory."
 msgstr "Ungültiges Verzeichnis."
 
@@ -164,40 +164,40 @@ msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr "Nicht genügend freier Speicherplatz, du möchtest {size1} hochladen, es sind jedoch nur noch {size2} verfügbar."
 
-#: js/file-upload.js:338
+#: js/file-upload.js:340
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/file-upload.js:383
+#: js/file-upload.js:385
 msgid "Could not get result from server."
 msgstr "Ergebnis konnte nicht vom Server abgerufen werden."
 
-#: js/file-upload.js:475
+#: js/file-upload.js:477
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dateiupload läuft. Wenn Du die Seite jetzt verlässt, wird der Upload abgebrochen."
 
-#: js/file-upload.js:562
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "Die URL darf nicht leer sein"
 
-#: js/file-upload.js:566
+#: js/file-upload.js:568
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Das Benutzerverzeichnis 'Shared' ist ein reservierter Dateiname"
 
-#: js/file-upload.js:568 js/filelist.js:430
+#: js/file-upload.js:570 js/filelist.js:430
 msgid "{new_name} already exists"
 msgstr "{new_name} existiert bereits"
 
-#: js/file-upload.js:634
+#: js/file-upload.js:636
 msgid "Could not create file"
 msgstr "Die Datei konnte nicht erstellt werden"
 
-#: js/file-upload.js:650
+#: js/file-upload.js:652
 msgid "Could not create folder"
 msgstr "Der Ordner konnte nicht erstellt werden"
 
-#: js/file-upload.js:700
+#: js/file-upload.js:702
 msgid "Error fetching URL"
 msgstr "Fehler beim Abrufen der URL"
 

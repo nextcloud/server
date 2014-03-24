@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "Datum expirace je v minulosti.",
 "Couldn't send mail to following users: %s " => "Nebylo možné odeslat e-mail následujícím uživatelům: %s",
 "Turned on maintenance mode" => "Zapnut režim údržby",
 "Turned off maintenance mode" => "Vypnut režim údržby",
@@ -108,6 +109,7 @@ $TRANSLATIONS = array(
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">evidence chyb ownCloud</a>",
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizace byla úspěšná. Přesměrovávám na ownCloud.",
 "%s password reset" => "reset hesla %s",
+"A problem has occurred whilst sending the email, please contact your administrator." => "Při odesílání e-mailu nastala chyba, kontaktujte prosím svého administrátora.",
 "Use the following link to reset your password: {link}" => "Heslo obnovíte použitím následujícího odkazu: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Odkaz na obnovení hesla byl odeslán na vaši e-mailovou adresu.<br>Pokud jej v krátké době neobdržíte, zkontrolujte váš koš a složku spam.<br>Pokud jej nenaleznete, kontaktujte svého správce.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Požadavek selhal!<br>Ujistili jste se, že vaše uživatelské jméno a e-mail jsou správně?",
@@ -120,6 +122,8 @@ $TRANSLATIONS = array(
 "To login page" => "Na stránku přihlášení",
 "New password" => "Nové heslo",
 "Reset password" => "Obnovit heslo",
+"Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Mac OS X není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!",
+"For the best results, please consider using a GNU/Linux server instead." => "Místo toho zvažte pro nejlepší funkčnost použití GNU/Linux serveru.",
 "Personal" => "Osobní",
 "Users" => "Uživatelé",
 "Apps" => "Aplikace",
@@ -168,6 +172,7 @@ $TRANSLATIONS = array(
 "remember" => "zapamatovat",
 "Log in" => "Přihlásit",
 "Alternative Logins" => "Alternativní přihlášení",
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej ty,<br><br>jen ti dávám vědět, že %s sdílí <strong>%s</strong> s tebou.<br><a href=\"%s\">Zobrazit!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Tato instalace ownCloudu je momentálně v jednouživatelském módu.",
 "This means only administrators can use the instance." => "To znamená, že pouze správci systému mohou aplikaci používat.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktujte, prosím, správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",

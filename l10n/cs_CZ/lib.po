@@ -6,15 +6,15 @@
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
 # m23 <black23@gmail.com>, 2014
-# pstast <petr@stastny.eu>, 2013
+# pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-19 01:55-0400\n"
-"PO-Revision-Date: 2014-03-18 21:30+0000\n"
-"Last-Translator: m23 <black23@gmail.com>\n"
+"POT-Creation-Date: 2014-03-24 01:55-0400\n"
+"PO-Revision-Date: 2014-03-23 21:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,7 @@ msgstr "MySQL/MariaDB uživatel '%s'@'localhost' již existuje."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr "Zahodit uživatele z MySQL/MariaDB"
+msgstr "Smazat tohoto uživatele z MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
@@ -245,7 +245,7 @@ msgstr "MySQL/MariaDB uživatel '%s'@'%%' již existuje"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr "Zahodit uživatele z MySQL/MariaDB."
+msgstr "Smazat tohoto uživatele z MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -272,13 +272,13 @@ msgstr "Zadejte uživatelské jméno správce."
 msgid "Set an admin password."
 msgstr "Zadejte heslo správce."
 
-#: private/setup.php:198
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité."
 
-#: private/setup.php:199
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."

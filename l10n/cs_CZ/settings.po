@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-21 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 21:20+0000\n"
-"Last-Translator: m23 <black23@gmail.com>\n"
+"POT-Creation-Date: 2014-03-24 01:55-0400\n"
+"PO-Revision-Date: 2014-03-23 22:50+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Uvedena nesprávná hodnota pro %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -35,16 +35,16 @@ msgstr "Uloženo"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr "nastavení zkušebního emailu"
+msgstr "otestovat nastavení e-mailu"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Pokud jste obdrželi tento e-mail, nastavení se zdají být v pořádku."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Při odesílání e-mailu nastala chyba. Překontrolujte vaše nastavení."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -52,11 +52,11 @@ msgstr "E-mail odeslán"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Pro možnost odeslání zkušebních e-mailů musíte nejprve nastavit svou e-mailovou adresu."
 
 #: admin/controller.php:116 templates/admin.php:282
 msgid "Send mode"
-msgstr ""
+msgstr "Mód odesílání"
 
 #: admin/controller.php:118 templates/admin.php:295 templates/personal.php:159
 msgid "Encryption"
@@ -64,7 +64,7 @@ msgstr "Šifrování"
 
 #: admin/controller.php:120 templates/admin.php:319
 msgid "Authentication method"
-msgstr "Metoda autentifikace"
+msgstr "Metoda ověření"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -325,11 +325,11 @@ msgstr "Přihlásit"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Čistý text"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Správce NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
@@ -522,11 +522,11 @@ msgstr "Připojte se k %s skrze HTTPS pro povolení nebo zakázání vynucován�
 
 #: templates/admin.php:277
 msgid "Email Server"
-msgstr "Emailový server"
+msgstr "E-mailový server"
 
 #: templates/admin.php:279
 msgid "This is used for sending out notifications."
-msgstr "Toto se používá při odesílání upozornění."
+msgstr "Toto se používá pro odesílání upozornění."
 
 #: templates/admin.php:310
 msgid "From address"
@@ -534,7 +534,7 @@ msgstr "Adresa odesílatele"
 
 #: templates/admin.php:332
 msgid "Authentication required"
-msgstr "Ověření vyžadováno"
+msgstr "Vyžadováno ověření"
 
 #: templates/admin.php:336
 msgid "Server address"
@@ -558,7 +558,7 @@ msgstr "SMTP heslo"
 
 #: templates/admin.php:353
 msgid "Test email settings"
-msgstr "Nastavení zkušebního emailu"
+msgstr "Otestovat nastavení e-mailu"
 
 #: templates/admin.php:354
 msgid "Send email"
@@ -695,7 +695,7 @@ msgstr "Vaše e-mailová adresa"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Zadejte e-mailovou adresu pro umožnění obnovy zapomenutého hesla a pro přijímání upozornění."
 
 #: templates/personal.php:96
 msgid "Profile picture"

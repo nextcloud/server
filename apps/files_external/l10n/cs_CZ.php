@@ -22,7 +22,7 @@ $TRANSLATIONS = array(
 "Users" => "Uživatelé",
 "Delete" => "Smazat",
 "Enable User External Storage" => "Zapnout externí uživatelské úložiště",
-"Allow users to mount the following external storage" => "Povolit uživatelů připojit externí úložiště",
+"Allow users to mount the following external storage" => "Povolit uživatelů připojit následující externí úložiště",
 "SSL root certificates" => "Kořenové certifikáty SSL",
 "Import Root Certificate" => "Importovat kořenového certifikátu"
 );
