@@ -189,11 +189,11 @@ $(document).ready(function() {
 					if (placeholder.indexOf('*') === 0) {
 						var class_string = is_optional ? ' class="optional"' : '';
 						td.append('<input type="password"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					else if (placeholder.indexOf('!') === 0) {
+					} else if (placeholder.indexOf('!') === 0) {
 						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
-					else if (placeholder.indexOf('#') === 0) {
+					} else if (placeholder.indexOf('#') === 0) {
 						td.append('<input type="hidden" data-parameter="'+parameter+'" />');
-					else {
+					} else {
 						var class_string = is_optional ? ' class="optional"' : '';
 						td.append('<input type="text"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
