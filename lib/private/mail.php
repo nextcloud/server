@@ -125,7 +125,7 @@ class OC_Mail {
 	 * @param string $emailAddress a given email address to be validated
 	 * @return bool
 	 */
-	public static function ValidateAddress($emailAddress) {
+	public static function validateAddress($emailAddress) {
 		$emailAddress = self::buildAsciiEmail($emailAddress);
 		return PHPMailer::ValidateAddress($emailAddress);
 	}

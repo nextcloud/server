@@ -266,7 +266,7 @@ class Util {
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
+		if (\OC_Mail::validateAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
