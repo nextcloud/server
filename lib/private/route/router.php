@@ -106,15 +106,15 @@ class Router implements IRouter {
 			if (isset($this->loadedApps[$app])) {
 				return;
 			}
-			$this->loadedApps[$app] = true;
 			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
 			if (file_exists($file)) {
-				$routingFiles = array($file);
+				$routingFiles[$app] = array($file);
 			} else {
 				$routingFiles = array();
 			}
 		}
 		foreach ($routingFiles as $app => $file) {
+			$this->loadedApps[$app] = true;
 			$this->useCollection($app);
 			require_once $file;
 			$collection = $this->getCollection($app);
@@ -171,7 +171,7 @@ class Router implements IRouter {
 	}
 
 	/**
-	 * Find the route matching $url.
+	 * Find the route matching $url
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
@@ -180,6 +180,8 @@ class Router implements IRouter {
 		if (substr($url, 0, 6) === '/apps/') {
 			list(, , $app,) = explode('/', $url, 4);
 			$this->loadRoutes($app);
+		} else if(substr($url, 0, 6) === '/core/') {
+			$this->loadRoutes('core');
 		} else {
 			$this->loadRoutes();
 		}
