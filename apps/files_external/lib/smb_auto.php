@@ -15,7 +15,7 @@ class SMB_Auto extends \OC\Files\Storage\SMB{
 			$username_as_share = ($params['username_as_share'] === 'true');
 
 			$params_auth = \OC::$session->get('smb-credentials');
-			$user = \OC_User::getDisplayName($params_auth['uid']);
+			$user = \OC::$session->get('loginname');
 			$password = $params_auth['password'];
 
 			$root=isset($params['root'])?$params['root']:'/';
