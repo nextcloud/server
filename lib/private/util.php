@@ -516,8 +516,10 @@ class OC_Util {
 				}
 			}
 			catch (\Doctrine\DBAL\DBALException $e){
+				\OCP\Util::logException('core', $e);
 				$errors[] = array(
-					'error' => 'PostgreSQL >= 9 required'
+					'error' => 'Error occurred while checking PostgreSQL version',
+					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
 				);
 			}
 		}
