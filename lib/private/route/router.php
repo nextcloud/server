@@ -158,6 +158,7 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 */
 	public function match($url) {
+		$this->loadRoutes();
 		$matcher = new UrlMatcher($this->root, $this->context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {
@@ -196,6 +197,7 @@ class Router implements IRouter {
 	 * @return string
 	 */
 	public function generate($name, $parameters = array(), $absolute = false) {
+		$this->loadRoutes();
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
 
