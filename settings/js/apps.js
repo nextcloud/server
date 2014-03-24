@@ -82,9 +82,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('p.appslink').hide();
 			page.find('span.score').hide();
 		}
-		if (typeof($('#app-navigation li[data-id="'+app.id+'"]').data('errormsg')) !== "undefined") {
+		if (typeof($('#app-navigation ul li[data-id="'+app.id+'"]').data('errormsg')) !== "undefined") {
 			page.find(".warning").show();
-			page.find(".warning").text($('#app-navigation li[data-id="'+app.id+'"]').data('errormsg'));
+			page.find(".warning").text($('#app-navigation ul li[data-id="'+app.id+'"]').data('errormsg'));
 		} else {
 			page.find(".warning").hide();
 		}
