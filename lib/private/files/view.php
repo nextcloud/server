@@ -25,6 +25,8 @@
 
 namespace OC\Files;
 
+use OC\Files\Cache\Updater;
+
 class View {
 	private $fakeRoot = '';
 	private $internal_path_cache = array();
@@ -308,6 +310,9 @@ class View {
 					fclose($target);
 					fclose($data);
 					if ($this->shouldEmitHooks($path) && $result !== false) {
+						Updater::writeHook(array(
+							'path' => $this->getHookPath($path)
+						));
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -433,6 +438,7 @@ class View {
 				}
 				if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
+					Updater::writeHook(array('path' => $this->getHookPath($path2)));
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_write,
@@ -441,6 +447,10 @@ class View {
 						)
 					);
 				} elseif ($this->shouldEmitHooks() && $result !== false) {
+					Updater::renameHook(array(
+						'oldpath' => $this->getHookPath($path1),
+						'newpath' => $this->getHookPath($path2)
+					));
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -741,7 +751,10 @@ class View {
 	}
 
 	/**
+	 * @param string[] $hooks
 	 * @param string $path
+	 * @param bool $post
+	 * @return bool
 	 */
 	private function runHooks($hooks, $path, $post = false) {
 		$path = $this->getHookPath($path);
@@ -749,6 +762,16 @@ class View {
 		$run = true;
 		if ($this->shouldEmitHooks($path)) {
 			foreach ($hooks as $hook) {
+				// manually triger updater hooks to ensure they are called first
+				if ($post) {
+					if ($hook == 'write') {
+						Updater::writeHook(array('path' => $path));
+					} elseif ($hook == 'touch') {
+						Updater::touchHook(array('path' => $path));
+					} else if ($hook == 'delete') {
+						Updater::deleteHook(array('path' => $path));
+					}
+				}
 				if ($hook != 'read') {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -820,7 +843,7 @@ class View {
 				$data = $cache->get($internalPath);
 			}
 
-			if ($data and $data['fileid']) {
+			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
 					$mountPoints = Filesystem::getMountPoints($path);
