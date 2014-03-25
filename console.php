@@ -21,6 +21,9 @@ if (!OC::$CLI) {
 	exit(0);
 }
 
+// load all apps to get all api routes properly setup
+OC_App::loadApps();
+
 $defaults = new OC_Defaults;
 $application = new Application($defaults->getName(), \OC_Util::getVersionString());
 require_once 'core/register_command.php';
