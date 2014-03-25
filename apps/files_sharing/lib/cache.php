@@ -357,9 +357,10 @@ class Shared_Cache extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
+	 * @param array $entry (optional) meta data of the folder
 	 * @return int
 	 */
-	public function calculateFolderSize($path) {
+	public function calculateFolderSize($path, $entry = null) {
 		if ($cache = $this->getSourceCache($path)) {
 			return $cache->calculateFolderSize($this->files[$path]);
 		}

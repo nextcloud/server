@@ -38,8 +38,8 @@ class Updater {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$scanner = $storage->getScanner($internalPath);
-			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
-			$cache->correctFolderSize($internalPath);
+			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
+			$cache->correctFolderSize($internalPath, $data);
 			self::correctFolder($path, $storage->filemtime($internalPath));
 			self::correctParentStorageMtime($storage, $internalPath);
 		}

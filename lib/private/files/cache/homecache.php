@@ -13,15 +13,21 @@ class HomeCache extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
+	 * @param array $entry (optional) meta data of the folder
 	 * @return int
 	 */
-	public function calculateFolderSize($path) {
+	public function calculateFolderSize($path, $entry = null) {
 		if ($path !== '/' and $path !== '' and $path !== 'files' and $path !== 'files_trashbin') {
-			return parent::calculateFolderSize($path);
+			return parent::calculateFolderSize($path, $entry);
+		} elseif ($path === '' or $path === '/') {
+			// since the size of / isn't used (the size of /files is used instead) there is no use in calculating it
+			return 0;
 		}
 
 		$totalSize = 0;
-		$entry = $this->get($path);
+		if (is_null($entry)) {
+			$entry = $this->get($path);
+		}
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
 			$sql = 'SELECT SUM(`size`) AS f1, ' .
@@ -45,6 +51,7 @@ class HomeCache extends Cache {
 
 	/**
 	 * @param string $path
+	 * @return array
 	 */
 	public function get($path) {
 		$data = parent::get($path);
