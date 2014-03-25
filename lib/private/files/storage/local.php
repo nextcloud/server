@@ -35,7 +35,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function mkdir($path) {
-			return @mkdir($this->datadir . $path);
+			return @mkdir($this->datadir . $path, 0777, true);
 		}
 
 		public function rmdir($path) {
