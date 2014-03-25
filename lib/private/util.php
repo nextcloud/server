@@ -514,8 +514,7 @@ class OC_Util {
 						);
 					}
 				}
-			}
-			catch (\Doctrine\DBAL\DBALException $e){
+			} catch (\Doctrine\DBAL\DBALException $e) {
 				\OCP\Util::logException('core', $e);
 				$errors[] = array(
 					'error' => 'Error occurred while checking PostgreSQL version',
