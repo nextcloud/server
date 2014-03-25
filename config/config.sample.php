@@ -178,6 +178,9 @@ $CONFIG = array(
 /* Enable or disable the logging of IP addresses in case of webform auth failures */
 "log_authfailip" => false,
 
+/* Whether ownCloud should log the last successfull cron exec */
+"cron_log" => true,
+
 /* Whether http-basic username must equal username to login */
 "basic_auth" => true,
 

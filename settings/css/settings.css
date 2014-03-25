@@ -167,6 +167,26 @@ table.shareAPI td { padding-bottom: 0.8em; }
 	width: 40px;
 }
 
+.cronlog {
+	margin-left: 10px;
+}
+
+.cronstatus {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+span.success {
+        background: #37ce02;
+        border-radius: 8px;
+}
+
+span.error {
+        background: #ce3702;
+}
+
 /* HELP */
 .pressed {background-color:#DDD;}
 

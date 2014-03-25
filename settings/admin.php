@@ -45,6 +45,8 @@ $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $tmpl->assign('old_php', OC_Util::isPHPoutdated());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
+$tmpl->assign('cron_log', OC_Config::getValue('cron_log', true));
+$tmpl->assign('lastcron', OC_Appconfig::getValue('core', 'lastcron', false));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
 
 // Check if connected using HTTPS

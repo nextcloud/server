@@ -157,7 +157,24 @@ if (!$_['internetconnectionworking']) {
 ;?>
 
 <fieldset class="personalblock" id="backgroundjobs">
-	<h2><?php p($l->t('Cron'));?></h2>
+	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
+	<?php if ($_['cron_log']): ?>
+	<p class="cronlog inlineblock">
+		<?php if ($_['lastcron'] !== false):
+			$human_time = OC_Util::formatDate($_['lastcron']) . " UTC";
+			if (time() - $_['lastcron'] <= 3600): ?>
+				<span class="cronstatus success"></span>
+				<?php p($l->t("Last cron was executed at %s.", array($human_time)));
+			else: ?>
+				<span class="cronstatus error"></span>
+				<?php p($l->t("Last cron was executed at %s. This is more than an hour ago, something seems wrong.", array($human_time)));
+			endif;
+		else: ?>
+			<span class="cronstatus error"></span>
+			<?php p($l->t("Cron was not executed yet!"));
+		endif; ?>
+	</p>
+	<?php endif; ?>
 	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
