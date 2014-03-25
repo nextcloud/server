@@ -268,6 +268,10 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				if (!is_null($cm) && $cm->isEnabled()) {
 					$contacts = $cm->search($_GET['search'], array('FN', 'EMAIL'));
 					foreach ($contacts as $contact) {
+						if (!isset($emails = $contact['EMAIL']) {
+							continue;
+						}
+
 						$emails = $contact['EMAIL'];
 						if (!is_array($emails)) {
 							$emails = array($emails);
@@ -275,7 +279,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 						foreach($emails as $email) {
 							$result[] = array(
-								'id' => $contact['ID'],
+								'id' => $contact['id'],
 								'email' => $email,
 								'displayname' => $contact['FN'],
 							);
