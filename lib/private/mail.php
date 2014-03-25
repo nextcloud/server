@@ -73,6 +73,7 @@ class OC_Mail {
 		$mailo->FromName = $fromname;;
 		$mailo->Sender = $fromaddress;
 		try {
+			$toaddress = self::buildAsciiEmail($toaddress);
 			$mailo->AddAddress($toaddress, $toname);
 
 			if($ccaddress<>'') $mailo->AddCC($ccaddress, $ccname);
@@ -124,7 +125,23 @@ class OC_Mail {
 	 * @param string $emailAddress a given email address to be validated
 	 * @return bool
 	 */
-	public static function ValidateAddress($emailAddress) {
+	public static function validateAddress($emailAddress) {
+		$emailAddress = self::buildAsciiEmail($emailAddress);
 		return PHPMailer::ValidateAddress($emailAddress);
 	}
+
+	/**
+	 * IDN domains will be properly converted to ascii domains.
+	 *
+	 * @param string $emailAddress
+	 * @return string
+	 */
+	public static function buildAsciiEmail($emailAddress) {
+
+		list($name, $domain) = explode('@', $emailAddress, 2);
+		$domain = idn_to_ascii($domain);
+
+		return "$name@$domain";
+	}
+
 }
