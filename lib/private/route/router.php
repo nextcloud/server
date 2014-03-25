@@ -114,12 +114,14 @@ class Router implements IRouter {
 			}
 		}
 		foreach ($routingFiles as $app => $file) {
-			$this->loadedApps[$app] = true;
-			$this->useCollection($app);
-			require_once $file;
-			$collection = $this->getCollection($app);
-			$collection->addPrefix('/apps/' . $app);
-			$this->root->addCollection($collection);
+			if (!$this->loadedApps[$app]) {
+				$this->loadedApps[$app] = true;
+				$this->useCollection($app);
+				require_once $file;
+				$collection = $this->getCollection($app);
+				$collection->addPrefix('/apps/' . $app);
+				$this->root->addCollection($collection);
+			}
 		}
 		if (!isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
@@ -181,7 +183,7 @@ class Router implements IRouter {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
 			$this->loadRoutes($app);
-		} else if(substr($url, 0, 6) === '/core/' or substr($url, 0, 5) === '/ocs/' or substr($url, 0, 10) === '/settings/') {
+		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 5) === '/ocs/' or substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('core');
 		} else {
 			$this->loadRoutes();
