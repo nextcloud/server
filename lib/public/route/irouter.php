@@ -10,8 +10,6 @@ namespace OCP\Route;
 
 interface IRouter {
 
-	public function __construct();
-
 	/**
 	 * Get the files to load the routes from
 	 *
@@ -24,7 +22,7 @@ interface IRouter {
 	/**
 	 * loads the api routes
 	 */
-	public function loadRoutes();
+	public function loadRoutes($app = null);
 
 	/**
 	 * Sets the collection to use for adding routes

@@ -7,7 +7,8 @@
  */
 
 // Post installation check
-/** @var $this OC_Router */
+
+/** @var $this OCP\Route\IRouter */
 $this->create('post_setup_check', '/post-setup-check')
 	->action('OC_Setup', 'postSetupCheck');
 

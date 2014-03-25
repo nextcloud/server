@@ -159,7 +159,15 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
 		});
 		$this->registerService('Router', function ($c){
-			$router = new \OC\Route\Router();
+			/**
+			 * @var Server $c
+			 */
+			$cacheFactory = $c->getMemCacheFactory();
+			if ($cacheFactory->isAvailable()) {
+				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'));
+			} else {
+				$router = new \OC\Route\Router();
+			}
 			return $router;
 		});
 	}
@@ -327,7 +335,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Returns an \OCP\CacheFactory instance
 	 *
-	 * @return \OCP\CacheFactory
+	 * @return \OCP\ICacheFactory
 	 */
 	function getMemCacheFactory() {
 		return $this->query('MemCacheFactory');
@@ -375,8 +383,6 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\Route\IRouter
 	 */
 	function getRouter(){
-		$router = $this->query('Router');
-		$router->loadRoutes();
-		return $router;
+		return $this->query('Router');
 	}
 }

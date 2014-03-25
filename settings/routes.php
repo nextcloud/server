@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-/** @var $this OC_Router */
+/** @var $this OCP\Route\IRouter */
 
 // Settings pages
 $this->create('settings_help', '/settings/help')
