@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# cybertorture <cybertorture@gmail.com>, 2014
+# cybertorture, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
+"POT-Creation-Date: 2014-03-25 01:55-0400\n"
+"PO-Revision-Date: 2014-03-24 08:40+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -358,7 +358,7 @@ msgstr "Не са открити хора"
 
 #: js/share.js:324 js/share.js:363
 msgid "group"
-msgstr ""
+msgstr "група"
 
 #: js/share.js:335
 msgid "Resharing is not allowed"

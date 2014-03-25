@@ -54,6 +54,7 @@ $TRANSLATIONS = array(
 "Expiration date" => "Дата на изтичане",
 "Share via email:" => "сподели по поща:",
 "No people found" => "Не са открити хора",
+"group" => "група",
 "Resharing is not allowed" => "Допълнително споделяне не е разрешено",
 "Shared in {item} with {user}" => "Споделено в {item} с {user}",
 "Unshare" => "Премахни споделяне",
