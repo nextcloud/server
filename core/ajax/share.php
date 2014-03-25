@@ -268,7 +268,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				if (!is_null($cm) && $cm->isEnabled()) {
 					$contacts = $cm->search($_GET['search'], array('FN', 'EMAIL'));
 					foreach ($contacts as $contact) {
-						if (!isset($emails = $contact['EMAIL']) {
+						if (!isset($contact['EMAIL'])) {
 							continue;
 						}
 
