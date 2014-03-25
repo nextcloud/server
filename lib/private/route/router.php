@@ -108,7 +108,7 @@ class Router implements IRouter {
 			}
 			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
 			if (file_exists($file)) {
-				$routingFiles[$app] = array($file);
+				$routingFiles = array($app => $file);
 			} else {
 				$routingFiles = array();
 			}
