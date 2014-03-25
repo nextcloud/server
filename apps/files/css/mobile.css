@@ -49,5 +49,12 @@ table td.filename .nametext {
 	display: none;
 }
 
+/* ellipsis on file names */
+.nametext {
+	width: 60%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
 }
