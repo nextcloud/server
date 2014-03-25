@@ -21,7 +21,6 @@
 
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-OC_App::loadApps();
 
 $defaults = new \OCP\Defaults();
 

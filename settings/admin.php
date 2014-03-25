@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkAdminUser();
-OC_App::loadApps();
 
 OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "admin" );
