@@ -57,4 +57,12 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 }
 
+/* proper notification area for multi line messages */
+#notification-container {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
 }
