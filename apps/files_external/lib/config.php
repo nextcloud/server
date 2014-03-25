@@ -123,8 +123,8 @@ class OC_Mount_Config {
 						'password' => '*Password',
 						'share' => 'Share',
 						'root' => '&Root'));
-				$backends['\OC\Files\Storage\SMB_Auto'] = array(
-					'backend' => 'SMB / CIFS Auto',
+				$backends['\OC\Files\Storage\SMB_OC'] = array(
+					'backend' => 'SMB / CIFS using OC login',
 					'configuration' => array(
 						'host' => 'URL',
 						'username_as_share' => '!Username as share',

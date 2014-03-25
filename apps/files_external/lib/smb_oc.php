@@ -8,7 +8,7 @@
 
 namespace OC\Files\Storage;
 
-class SMB_Auto extends \OC\Files\Storage\SMB{
+class SMB_OC extends \OC\Files\Storage\SMB {
 	public function __construct($params) {
 		if (isset($params['host']) && \OC::$session->exists('smb-credentials')) {
 			$host=$params['host'];

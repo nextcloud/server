@@ -14,7 +14,7 @@ OC::$CLASSPATH['OC\Files\Storage\OwnCloud'] = 'files_external/lib/owncloud.php';
 OC::$CLASSPATH['OC\Files\Storage\Google'] = 'files_external/lib/google.php';
 OC::$CLASSPATH['OC\Files\Storage\Swift'] = 'files_external/lib/swift.php';
 OC::$CLASSPATH['OC\Files\Storage\SMB'] = 'files_external/lib/smb.php';
-OC::$CLASSPATH['OC\Files\Storage\SMB_Auto'] = 'files_external/lib/smb_auto.php';
+OC::$CLASSPATH['OC\Files\Storage\SMB_OC'] = 'files_external/lib/smb_oc.php';
 OC::$CLASSPATH['OC\Files\Storage\AmazonS3'] = 'files_external/lib/amazons3.php';
 OC::$CLASSPATH['OC\Files\Storage\Dropbox'] = 'files_external/lib/dropbox.php';
 OC::$CLASSPATH['OC\Files\Storage\SFTP'] = 'files_external/lib/sftp.php';
@@ -29,5 +29,5 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login');
-OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_Auto', 'login');
+OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
