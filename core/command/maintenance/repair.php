@@ -33,9 +33,22 @@ class Repair extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		\OC_DB::enableCaching(false);
+		$maintenanceMode = \OC_Config::getValue('maintenance', false);
+		\OC_Config::setValue('maintenance', true);
+
 		$this->repair->listen('\OC\Repair', 'step', function ($description) use ($output) {
 			$output->writeln(' - ' . $description);
 		});
+		$this->repair->listen('\OC\Repair', 'info', function ($description) use ($output) {
+			$output->writeln('     - ' . $description);
+		});
+		$this->repair->listen('\OC\Repair', 'error', function ($description) use ($output) {
+			$output->writeln('     - ERROR: ' . $description);
+		});
+
 		$this->repair->run();
+
+		\OC_Config::setValue('maintenance', $maintenanceMode);
 	}
 }

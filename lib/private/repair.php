@@ -11,11 +11,51 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 
 class Repair extends BasicEmitter {
+	private $stepClasses;
+
 	/**
-	 * run a series of repair steps for common problems
-	 * progress can be reported by emitting \OC\Repair::step events
+	 * Creates a new repair step runner
+	 *
+	 * @param array $stepClasses optional list of step classes
+	 */
+	public function __construct($stepClasses = array()) {
+		$this->stepClasses = $stepClasses;
+	}
+
+	/**
+	 * Run a series of repair steps for common problems
 	 */
 	public function run() {
-		$this->emit('\OC\Repair', 'step', array('No repair steps configured at the moment'));
+		$steps = array();
+
+		// instantiate all classes, just to make
+		// sure they all exist before starting
+		foreach ($this->stepClasses as $className) {
+			$steps[] = new $className();
+		}
+
+		$self = $this;
+		// run each repair step
+		foreach ($steps as $step) {
+			$this->emit('\OC\Repair', 'step', array($step->getName()));
+
+			$step->listen('\OC\Repair', 'error', function ($description) use ($self) {
+				$self->emit('\OC\Repair', 'error', array($description));
+			});
+			$step->listen('\OC\Repair', 'info', function ($description) use ($self) {
+				$self->emit('\OC\Repair', 'info', array($description));
+			});
+			$step->run();
+		}
 	}
+
+	/**
+	 * Add repair step class
+	 *
+	 * @param string $className name of a repair step class
+	 */
+	public function addStep($className) {
+		$this->stepClasses[] = $className;
+	}
+
 }
