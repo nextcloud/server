@@ -1,6 +1,11 @@
 
 $(document).ready(function() {
 
+	Files.updateStorageStatistics = function() {
+		// no op because the trashbin doesn't have
+		// storage info like free space / used space
+	};
+
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
 			var tr = FileList.findFileEl(filename);
