@@ -251,6 +251,10 @@ class Swift extends \OC\Files\Storage\Common {
 			$mtime = $object->extra_headers['X-Object-Meta-Timestamp'];
 		}
 
+		if (!empty($mtime)) {
+			$mtime = floor($mtime);
+		}
+
 		$stat = array();
 		$stat['size'] = $object->content_length;
 		$stat['mtime'] = $mtime;
