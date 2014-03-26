@@ -24,6 +24,9 @@
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
+// don't block php session during download
+session_write_close();
+
 $filename = $_GET["file"];
 
 if(!\OC\Files\Filesystem::file_exists($filename)) {
