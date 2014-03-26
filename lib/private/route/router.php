@@ -114,7 +114,7 @@ class Router implements IRouter {
 			}
 		}
 		foreach ($routingFiles as $app => $file) {
-			if (!$this->loadedApps[$app]) {
+			if (!isset($this->loadedApps[$app])) {
 				$this->loadedApps[$app] = true;
 				$this->useCollection($app);
 				require_once $file;
