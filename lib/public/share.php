@@ -1250,6 +1250,10 @@ class Share {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
+					// FIXME: Doesn't always construct the correct path, example:
+					// Folder '/a/b', share '/a' and '/a/b' to user2
+					// user2 reshares /Shared/b and ask for share status of /Shared/a/b
+					// expected result: path=/Shared/a/b; actual result /Shared/b because of the parent
 					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
 					$parentResult = $query->execute(array($row['parent']));
 					if (\OC_DB::isError($result)) {
@@ -1258,12 +1262,15 @@ class Share {
 								\OC_Log::ERROR);
 					} else {
 						$parentRow = $parentResult->fetchRow();
-						$splitPath = explode('/', $row['path']);
 						$tmpPath = '/Shared' . $parentRow['file_target'];
+						// find the right position where the row path continues from the target path
+						$pos = strrpos($row['path'], $parentRow['file_target']);
+						$subPath = substr($row['path'], $pos);
+						$splitPath = explode('/', $subPath);
 						foreach (array_slice($splitPath, 2) as $pathPart) {
 							$tmpPath = $tmpPath . '/' . $pathPart;
 						}
-						$row['path'] =  $tmpPath;
+						$row['path'] = $tmpPath;
 					}
 				} else {
 					if (!isset($mounts[$row['storage']])) {

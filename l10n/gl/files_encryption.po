@@ -5,13 +5,13 @@
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
 # mbouzada <mbouzada@gmail.com>, 2013
-# mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-12-01 11:50+0000\n"
+"POT-Creation-Date: 2014-03-15 02:13-0400\n"
+"PO-Revision-Date: 2014-03-14 08:50+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -83,18 +83,18 @@ msgid ""
 "administrator"
 msgstr "Produciuse un erro descoñecido. Comprobe os axustes do sistema ou póñase en contacto co administrador"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Non se cumpren os requisitos."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Asegúrese de que está instalado o PHP 5.3.3 ou posterior e de o OpenSSL xunto coa extensión PHP estean activados e configurados correctamente. Polo de agora foi desactivado o aplicativo de cifrado."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Os seguintes usuarios non teñen configuración para o cifrado:"
 
@@ -102,9 +102,9 @@ msgstr "Os seguintes usuarios non teñen configuración para o cifrado:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Comezou o cifrado inicial... Isto pode levar bastante tempo. Agarde."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Gardando..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "O cifrado inicial está en execución... Tenteo máis tarde."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

@@ -137,7 +137,9 @@ window.FileList={
 
 		var download_url = null;
 		if (!param.download_url) {
-			download_url = OC.Router.generate('download', { file: $('#dir').val()+'/'+name });
+			download_url = OC.generateUrl(
+				'apps/files/download{file}',
+				{ file: $('#dir').val()+'/'+name });
 		} else {
 			download_url = param.download_url;
 		}

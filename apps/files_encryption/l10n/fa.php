@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Private key password successfully updated." => "رمزعبور کلید خصوصی با موفقیت به روز شد.",
 "Could not update the private key password. Maybe the old password was not correct." => "رمزعبور کلید خصوصی را نمی تواند به روز کند. شاید رمزعبور قدیمی صحیح نمی باشد.",
 "Missing requirements." => "نیازمندی های گمشده",
-"Saving..." => "در حال ذخیره سازی...",
 "personal settings" => "تنظیمات شخصی",
 "Encryption" => "رمزگذاری",
 "Enable recovery key (allow to recover users files in case of password loss):" => "فعال کردن کلید بازیابی(اجازه بازیابی فایل های کاربران در صورت از دست دادن رمزعبور):",

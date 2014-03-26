@@ -290,12 +290,18 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
-			return array();
+		$errors = array();
+		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
+
+		if (!\OC::needUpgrade() && OC_Config::getValue('installed', false)) {
+			// this check needs to be done every time
+			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		$errors = array();
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
+			return $errors;
+		}
 
 		$defaults = new \OC_Defaults();
 
@@ -341,7 +347,6 @@ class OC_Util {
 					);
 			}
 		}
-		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
@@ -485,11 +490,46 @@ class OC_Util {
 			);
 		}
 
+		$errors = array_merge($errors, self::checkDatabaseVersion());
+
 		// Cache the result of this function
 		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
 
 		return $errors;
 	}
+
+	/**
+	 * Check the database version
+	 * @return array errors array
+	 */
+	public static function checkDatabaseVersion() {
+		$errors = array();
+		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		if ($dbType === 'pgsql') {
+			// check PostgreSQL version
+			try {
+				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
+				$data = $result->fetchRow();
+				if (isset($data['server_version'])) {
+					$version = $data['server_version'];
+					if (version_compare($version, '9.0.0', '<')) {
+						$errors[] = array(
+							'error' => 'PostgreSQL >= 9 required',
+							'hint' => 'Please upgrade your database version'
+						);
+					}
+				}
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				\OCP\Util::logException('core', $e);
+				$errors[] = array(
+					'error' => 'Error occurred while checking PostgreSQL version',
+					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
+				);
+			}
+		}
+		return $errors;
+	}
+
 
 	/**
 	 * @brief check if there are still some encrypted files stored
@@ -526,7 +566,7 @@ class OC_Util {
 				.' cannot be listed by other users.';
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if (substr($perms, -1) != '0') {
-				OC_Helper::chmodr($dataDirectory, 0770);
+				chmod($dataDirectory, 0770);
 				clearstatcache();
 				$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($perms, 2, 1) != '0') {
@@ -536,6 +576,25 @@ class OC_Util {
 					);
 				}
 			}
+		}
+		return $errors;
+	}
+
+	/**
+	 * Check that the data directory exists and is valid by
+	 * checking the existence of the ".ocdata" file.
+	 *
+	 * @param string $dataDirectory data directory path
+	 * @return bool true if the data directory is valid, false otherwise
+	 */
+	public static function checkDataDirectoryValidity($dataDirectory) {
+		$errors = array();
+		if (!file_exists($dataDirectory.'/.ocdata')) {
+			$errors[] = array(
+				'error' => 'Data directory (' . $dataDirectory . ') is invalid',
+				'hint' => 'Please check that the data directory contains a file' .
+					' ".ocdata" in its root.'
+			);
 		}
 		return $errors;
 	}
@@ -1061,10 +1120,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @return bool - well are we running on windows or not
+	 * Checks whether the server is running on Windows
+	 * @return bool true if running on Windows, false otherwise
 	 */
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
+	}
+
+	/**
+	 * Checks whether the server is running on Mac OS X
+	 * @return bool true if running on Mac OS X, false otherwise
+	 */
+	public static function runningOnMac() {
+		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
 	}
 
 	/**

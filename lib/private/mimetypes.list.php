@@ -77,6 +77,7 @@ return array(
 	'md' => 'text/markdown',
 	'mdb' => 'application/msaccess',
 	'mdwn' => 'text/markdown',
+	'mkv' => 'video/x-matroska',
 	'mobi' => 'application/x-mobipocket-ebook',
 	'mov' => 'video/quicktime',
 	'mp3' => 'audio/mpeg',

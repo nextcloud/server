@@ -26,11 +26,15 @@ $mail_smtpsecure = array(
 );
 
 $mail_smtpmode = array(
-	'sendmail',
-	'smtp',
-	'qmail',
 	'php',
+	'smtp',
 );
+if ($_['sendmail_is_available']) {
+	$mail_smtpmode[] = 'sendmail';
+}
+if ($_['mail_smtpmode'] == 'qmail') {
+	$mail_smtpmode[] = 'qmail';
+}
 
 ?>
 
@@ -153,7 +157,24 @@ if (!$_['internetconnectionworking']) {
 ;?>
 
 <fieldset class="personalblock" id="backgroundjobs">
-	<h2><?php p($l->t('Cron'));?></h2>
+	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
+	<?php if ($_['cron_log']): ?>
+	<p class="cronlog inlineblock">
+		<?php if ($_['lastcron'] !== false):
+			$human_time = OC_Util::formatDate($_['lastcron']) . " UTC";
+			if (time() - $_['lastcron'] <= 3600): ?>
+				<span class="cronstatus success"></span>
+				<?php p($l->t("Last cron was executed at %s.", array($human_time)));
+			else: ?>
+				<span class="cronstatus error"></span>
+				<?php p($l->t("Last cron was executed at %s. This is more than an hour ago, something seems wrong.", array($human_time)));
+			endif;
+		else: ?>
+			<span class="cronstatus error"></span>
+			<?php p($l->t("Cron was not executed yet!"));
+		endif; ?>
+	</p>
+	<?php endif; ?>
 	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
@@ -199,7 +220,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
-		<?php if (!\OCP\App::isEnabled('files_encryption')) { ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
@@ -208,7 +228,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
 			</td>
 		</tr>
-		<?php } ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
@@ -314,7 +333,7 @@ if (!$_['internetconnectionworking']) {
 	</p>
 
 	<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentification method' )); ?></label>
+		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
 		<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
 			<?php foreach ($mail_smtpauthtype as $authtype => $name):
 				$selected = '';

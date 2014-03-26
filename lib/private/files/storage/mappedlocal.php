@@ -31,7 +31,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 'local::'.$this->datadir;
 	}
 	public function mkdir($path) {
-		return @mkdir($this->buildPath($path));
+		return @mkdir($this->buildPath($path), 0777, true);
 	}
 	public function rmdir($path) {
 		try {

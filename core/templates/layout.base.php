@@ -31,7 +31,7 @@
 		<?php endforeach; ?>
 	</head>
 
-	<body>
+	<body id="body-public">
 		<?php print_unescaped($_['content']); ?>
 	</body>
 </html>

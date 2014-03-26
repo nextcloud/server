@@ -42,6 +42,10 @@ class Preview {
 	private $scalingup;
 	private $mimetype;
 
+	//filemapper used for deleting previews
+	// index is path, value is fileinfo
+	static public $deleteFileMapper = array();
+
 	//preview images object
 	/**
 	 * @var \OC_Image
@@ -166,7 +170,11 @@ class Preview {
 	}
 
 	protected function getFileInfo() {
-		if (!$this->info) {
+		$absPath = $this->fileView->getAbsolutePath($this->file);
+		$absPath = Files\Filesystem::normalizePath($absPath);
+		if(array_key_exists($absPath, self::$deleteFileMapper)) {
+			$this->info = self::$deleteFileMapper[$absPath];
+		} else if (!$this->info) {
 			$this->info = $this->fileView->getFileInfo($this->file);
 		}
 		return $this->info;
@@ -181,7 +189,10 @@ class Preview {
 		$this->file = $file;
 		$this->info = null;
 		if ($file !== '') {
-			$this->mimetype = $this->getFileInfo()->getMimetype();
+			$this->getFileInfo();
+			if($this->info !== null && $this->info !== false) {
+				$this->mimetype = $this->info->getMimetype();
+			}
 		}
 		return $this;
 	}
@@ -274,10 +285,13 @@ class Preview {
 		$file = $this->getFile();
 
 		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
+		if($fileInfo !== null && $fileInfo !== false) {
+			$fileId = $fileInfo->getId();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
-		return $this->userView->unlink($previewPath);
+			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+			return $this->userView->unlink($previewPath);
+		}
+		return false;
 	}
 
 	/**
@@ -288,11 +302,14 @@ class Preview {
 		$file = $this->getFile();
 
 		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
+		if($fileInfo !== null && $fileInfo !== false) {
+			$fileId = $fileInfo->getId();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		$this->userView->deleteAll($previewPath);
-		return $this->userView->rmdir($previewPath);
+			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+			$this->userView->deleteAll($previewPath);
+			return $this->userView->rmdir($previewPath);
+		}
+		return false;
 	}
 
 	/**
@@ -398,6 +415,9 @@ class Preview {
 		$scalingUp = $this->getScalingUp();
 
 		$fileInfo = $this->getFileInfo($file);
+		if($fileInfo === null || $fileInfo === false) {
+			return new \OC_Image();
+		}
 		$fileId = $fileInfo->getId();
 
 		$cached = $this->isCached();
@@ -463,7 +483,7 @@ class Preview {
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
-		$this->preview->show();
+		$this->preview->show('image/png');
 		return;
 	}
 
@@ -623,12 +643,35 @@ class Preview {
 		self::post_delete($args);
 	}
 
-	public static function post_delete($args) {
+	public static function prepare_delete_files($args) {
+		self::prepare_delete($args, 'files/');
+	}
+
+	public static function prepare_delete($args, $prefix='') {
 		$path = $args['path'];
 		if (substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
 		}
-		$preview = new Preview(\OC_User::getUser(), 'files/', $path);
+
+		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/' . $prefix);
+		$info = $view->getFileInfo($path);
+
+		\OC\Preview::$deleteFileMapper = array_merge(
+			\OC\Preview::$deleteFileMapper,
+			array(
+				Files\Filesystem::normalizePath($view->getAbsolutePath($path)) => $info,
+			)
+		);
+	}
+
+	public static function post_delete_files($args) {
+		self::post_delete($args, 'files/');
+	}
+
+	public static function post_delete($args, $prefix='') {
+		$path = Files\Filesystem::normalizePath($args['path']);
+
+		$preview = new Preview(\OC_User::getUser(), $prefix, $path);
 		$preview->deleteAllPreviews();
 	}
 

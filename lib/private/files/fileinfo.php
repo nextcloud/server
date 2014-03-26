@@ -55,8 +55,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function offsetGet($offset) {
 		if ($offset === 'type') {
 			return $this->getType();
+		} elseif (isset($this->data[$offset])) {
+			return $this->data[$offset];
+		} else {
+			return null;
 		}
-		return $this->data[$offset];
 	}
 
 	/**

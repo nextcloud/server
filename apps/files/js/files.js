@@ -783,9 +783,9 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 
 		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
-			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
+			previewURL = OC.generateUrl('/publicpreview.png?') + $.param(urlSpec);
 		} else {
-			previewURL = OC.Router.generate('core_ajax_preview', urlSpec);
+			previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		}
 		previewURL = previewURL.replace('(', '%28');
 		previewURL = previewURL.replace(')', '%29');

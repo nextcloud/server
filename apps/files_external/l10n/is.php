@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "Users" => "Notendur",
 "Delete" => "Eyða",
 "Enable User External Storage" => "Virkja ytra gagnasvæði notenda",
-"Allow users to mount their own external storage" => "Leyfa notendum að bæta við sínum eigin ytri gagnasvæðum",
 "SSL root certificates" => "SSL rótar skilríki",
 "Import Root Certificate" => "Flytja inn rótar skilríki"
 );

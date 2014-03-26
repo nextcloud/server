@@ -340,6 +340,13 @@ class Proxy extends \OC_FileProxy {
 
 		// if path is a folder do nothing
 		if ($view->is_dir($path)) {
+			$proxyState = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+			$fileInfo = $view->getFileInfo($path);
+			\OC_FileProxy::$enabled = $proxyState;
+			if (isset($fileInfo['unencrypted_size']) && $fileInfo['unencrypted_size'] > 0) {
+				return $fileInfo['unencrypted_size'];
+			}
 			return $size;
 		}
 

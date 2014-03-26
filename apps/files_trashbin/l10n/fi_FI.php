@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Kohdetta %s ei voitu poistaa pysyvästi",
 "Couldn't restore %s" => "Kohteen %s palautus epäonnistui",
+"Deleted files" => "Poistetut tiedostot",
 "Error" => "Virhe",
 "restored" => "palautettu",
 "Nothing in here. Your trash bin is empty!" => "Tyhjää täynnä! Roskakorissa ei ole mitään.",

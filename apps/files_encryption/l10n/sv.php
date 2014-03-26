@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Missing requirements." => "Krav som saknas",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Kontrollera att PHP 5.3.3 eller senare är installerad och att tillägget OpenSSL PHP är aktiverad och korrekt konfigurerad. Kryptering är tillsvidare inaktiverad.",
 "Following users are not set up for encryption:" => "Följande användare har inte aktiverat kryptering:",
-"Saving..." => "Sparar...",
 "Go directly to your " => "Gå direkt till din",
 "personal settings" => "personliga inställningar",
 "Encryption" => "Kryptering",

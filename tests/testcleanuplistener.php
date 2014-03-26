@@ -83,6 +83,7 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		$knownEntries = array(
 			'owncloud.log' => true,
 			'owncloud.db' => true,
+			'.ocdata' => true,
 			'..' => true,
 			'.' => true
 		);

@@ -7,7 +7,8 @@ if(!OC_User::isLoggedIn()) {
 	exit;
 }
 
-session_write_close();
+\OC::$session->close();
+
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';

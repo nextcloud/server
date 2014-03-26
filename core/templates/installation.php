@@ -95,7 +95,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
-			<?php p($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
+			<?php print_unescaped($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
 		<label class="<?php p($type) ?>" for="<?php p($type) ?>"><?php p($label) ?></label>
 		<?php endif; ?>
 		<?php endforeach; ?>
