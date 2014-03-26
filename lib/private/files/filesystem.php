@@ -351,17 +351,6 @@ class Filesystem {
 	}
 
 	/**
-	 * fill in the correct values for $user
-	 *
-	 * @param string $user
-	 * @param string $input
-	 * @return string
-	 */
-	private static function setUserVars($user, $input) {
-		return str_replace('$user', $user, $input);
-	}
-
-	/**
 	 * get the default filesystem view
 	 *
 	 * @return View
