@@ -31,22 +31,22 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 		$this->tearDown();
 
 		// add items except one - because this is the test case for the broken share table
-		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (`fileid`, `storage`, `path_hash`, ' .
+		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (`storage`, `path_hash`, ' .
 			'`parent`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`) ' .
-			'VALUES (?, 1, ?, 1, 1, 1, 1, 1, 1)');
+			'VALUES (1, ?, 1, 1, 1, 1, 1, 1)');
 		$items = array(1, 3);
 		$fileIds = array();
 		foreach($items as $item) {
-			// the number is used as file_id and path_hash
-			$addItems->execute(array($item, $item));
+			// the number is used as path_hash
+			$addItems->execute(array($item));
 			$fileIds[] = \OC_DB::insertId('*PREFIX*filecache');
 		}
 
-		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`file_source`, `id`, `item_type`, `uid_owner`) VALUES (?, ?, \'file\', 1)');
-		// the number is used as item_source and id
-		$addShares->execute(array(1, $fileIds[0]));
-		$addShares->execute(array(2, 200)); // id of "deleted" file
-		$addShares->execute(array(3, $fileIds[1]));
+		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`file_source`, `item_type`, `uid_owner`) VALUES (?, \'file\', 1)');
+		// the number is used as item_source
+		$addShares->execute(array($fileIds[0]));
+		$addShares->execute(array(200)); // id of "deleted" file
+		$addShares->execute(array($fileIds[1]));
 	}
 
 	function tearDown() {
