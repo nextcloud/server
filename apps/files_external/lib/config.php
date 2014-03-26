@@ -349,7 +349,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'options' => $mount['options'],
 						'applicable' => array('groups' => array(), 'users' => array($user)),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
+						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
