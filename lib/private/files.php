@@ -148,8 +148,9 @@ class OC_Files {
 			set_time_limit($executionTime);
 		} else {
 			if ($xsendfile) {
+				$view = \OC\Files\Filesystem::getView();
 				/** @var $storage \OC\Files\Storage\Storage */
-				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
+				list($storage) = $view->resolvePath($filename);
 				if ($storage->isLocal()) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 				} else {
