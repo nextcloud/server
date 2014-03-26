@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 01:55-0400\n"
-"PO-Revision-Date: 2014-03-12 14:01+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,15 +49,15 @@ msgstr "E-mail enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Você precisa configurar seu e-mail de usuário antes de ser capaz de enviar e-mails de teste."
 
-#: admin/controller.php:116 templates/admin.php:284
+#: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
 msgstr "Modo enviar"
 
-#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
 msgid "Encryption"
 msgstr "Criptografia"
 
-#: admin/controller.php:120 templates/admin.php:321
+#: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
 msgstr "Método de autenticação"
 
@@ -213,31 +213,31 @@ msgstr "Atualizar"
 msgid "Updated"
 msgstr "Atualizado"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Selecione uma imagem para o perfil"
 
-#: js/personal.js:274
+#: js/personal.js:277
 msgid "Very weak password"
 msgstr "Senha muito fraca"
 
-#: js/personal.js:275
+#: js/personal.js:278
 msgid "Weak password"
 msgstr "Senha fraca"
 
-#: js/personal.js:276
+#: js/personal.js:279
 msgid "So-so password"
 msgstr "So-so senha"
 
-#: js/personal.js:277
+#: js/personal.js:280
 msgid "Good password"
 msgstr "Boa senha"
 
-#: js/personal.js:278
+#: js/personal.js:281
 msgid "Strong password"
 msgstr "Senha forte"
 
-#: js/personal.js:301
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decriptando arquivos... Por favor aguarde, isso pode levar algum tempo."
 
@@ -429,157 +429,173 @@ msgid "Cron"
 msgstr "Cron"
 
 #: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr "Execute uma tarefa com cada página carregada"
 
-#: templates/admin.php:175
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php está registrado no serviço webcron para chamar cron.php a cada 15 minutos sobre http."
 
-#: templates/admin.php:183
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Use o sistema de serviço cron para chamar o arquivo cron.php a cada 15 minutos."
 
-#: templates/admin.php:188
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "Compartilhamento"
 
-#: templates/admin.php:194
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "Habilitar API de Compartilhamento"
 
-#: templates/admin.php:195
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "Permitir que aplicativos usem a API de Compartilhamento"
 
-#: templates/admin.php:202
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "Permitir links"
 
-#: templates/admin.php:203
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "Permitir que usuários compartilhem itens com o público usando links"
 
-#: templates/admin.php:211
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "Permitir envio público"
 
-#: templates/admin.php:212
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Permitir que usuários deem permissão a outros para enviarem arquivios para suas pastas compartilhadas publicamente"
 
-#: templates/admin.php:220
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "Permitir recompartilhamento"
 
-#: templates/admin.php:221
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "Permitir que usuários compartilhem novamente itens compartilhados com eles"
 
-#: templates/admin.php:228
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "Permitir que usuários compartilhem com qualquer um"
 
-#: templates/admin.php:231
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "Permitir que usuários compartilhem somente com usuários em seus grupos"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "Permitir notificação por email"
 
-#: templates/admin.php:239
+#: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
 msgstr "Permitir usuários enviar notificação por email de arquivos compartilhados"
 
-#: templates/admin.php:246
+#: templates/admin.php:261
 msgid "Security"
 msgstr "Segurança"
 
-#: templates/admin.php:259
+#: templates/admin.php:274
 msgid "Enforce HTTPS"
 msgstr "Forçar HTTPS"
 
-#: templates/admin.php:261
+#: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Obrigar os clientes que se conectem a %s através de uma conexão criptografada."
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor, se conectar ao seu %s via HTTPS para forçar ativar ou desativar SSL."
 
-#: templates/admin.php:279
+#: templates/admin.php:294
 msgid "Email Server"
 msgstr "Servidor de Email"
 
-#: templates/admin.php:281
+#: templates/admin.php:296
 msgid "This is used for sending out notifications."
 msgstr "Isto é usado para o envio de notificações."
 
-#: templates/admin.php:312
+#: templates/admin.php:327
 msgid "From address"
 msgstr "Do Endereço"
 
-#: templates/admin.php:334
+#: templates/admin.php:349
 msgid "Authentication required"
 msgstr "Autenticação é requerida"
 
-#: templates/admin.php:338
+#: templates/admin.php:353
 msgid "Server address"
 msgstr "Endereço do servidor"
 
-#: templates/admin.php:342
+#: templates/admin.php:357
 msgid "Port"
 msgstr "Porta"
 
-#: templates/admin.php:347
+#: templates/admin.php:362
 msgid "Credentials"
 msgstr "Credenciais"
 
-#: templates/admin.php:348
+#: templates/admin.php:363
 msgid "SMTP Username"
 msgstr "Nome do Usuário SMTP"
 
-#: templates/admin.php:351
+#: templates/admin.php:366
 msgid "SMTP Password"
 msgstr "Senha SMTP"
 
-#: templates/admin.php:355
+#: templates/admin.php:370
 msgid "Test email settings"
 msgstr "Configurações de e-mail de teste"
 
-#: templates/admin.php:356
+#: templates/admin.php:371
 msgid "Send email"
 msgstr "Enviar email"
 
-#: templates/admin.php:361
+#: templates/admin.php:376
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:362
+#: templates/admin.php:377
 msgid "Log level"
 msgstr "Nível de registro"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "More"
 msgstr "Mais"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:401 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:181
 msgid "Version"
 msgstr "Versão"
 
-#: templates/admin.php:405 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

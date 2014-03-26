@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 17:12-0400\n"
-"PO-Revision-Date: 2014-03-13 18:21+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "Email inviata"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email."
 
-#: admin/controller.php:116 templates/admin.php:284
+#: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
 msgstr "Modalità di invio"
 
-#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
 msgid "Encryption"
 msgstr "Cifratura"
 
-#: admin/controller.php:120 templates/admin.php:321
+#: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
 msgstr "Metodo di autenticazione"
 
@@ -431,157 +431,173 @@ msgid "Cron"
 msgstr "Cron"
 
 #: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr "Esegui un'operazione con ogni pagina caricata"
 
-#: templates/admin.php:175
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php è registrato su un servizio webcron per invocare cron.php ogni 15 minuti su http."
 
-#: templates/admin.php:183
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Usa il servizio cron di sistema per invocare il file cron.php ogni 15 minuti."
 
-#: templates/admin.php:188
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "Condivisione"
 
-#: templates/admin.php:194
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "Abilita API di condivisione"
 
-#: templates/admin.php:195
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "Consenti alle applicazioni di utilizzare le API di condivisione"
 
-#: templates/admin.php:202
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "Consenti collegamenti"
 
-#: templates/admin.php:203
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti"
 
-#: templates/admin.php:211
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "Consenti caricamenti pubblici"
 
-#: templates/admin.php:212
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Consenti agli utenti di abilitare altri al caricamento nelle loro cartelle pubbliche condivise"
 
-#: templates/admin.php:220
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "Consenti la ri-condivisione"
 
-#: templates/admin.php:221
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "Consenti agli utenti di condividere a loro volta elementi condivisi da altri"
 
-#: templates/admin.php:228
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "Consenti agli utenti di condividere con chiunque"
 
-#: templates/admin.php:231
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "Consenti agli utenti di condividere solo con utenti dei loro gruppi"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "Consenti le notifiche tramite posta elettronica"
 
-#: templates/admin.php:239
+#: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
 msgstr "Consenti all'utente di inviare notifiche tramite posta elettronica per i file condivisi"
 
-#: templates/admin.php:246
+#: templates/admin.php:261
 msgid "Security"
 msgstr "Protezione"
 
-#: templates/admin.php:259
+#: templates/admin.php:274
 msgid "Enforce HTTPS"
 msgstr "Forza HTTPS"
 
-#: templates/admin.php:261
+#: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forza i client a connettersi a %s tramite una connessione cifrata."
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Connettiti al tuo %s tramite HTTPS per abilitare o disabilitare l'applicazione di SSL."
 
-#: templates/admin.php:279
+#: templates/admin.php:294
 msgid "Email Server"
 msgstr "Server di posta"
 
-#: templates/admin.php:281
+#: templates/admin.php:296
 msgid "This is used for sending out notifications."
 msgstr "Viene utilizzato per inviare le notifiche."
 
-#: templates/admin.php:312
+#: templates/admin.php:327
 msgid "From address"
 msgstr "Indirizzo mittente"
 
-#: templates/admin.php:334
+#: templates/admin.php:349
 msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
-#: templates/admin.php:338
+#: templates/admin.php:353
 msgid "Server address"
 msgstr "Indirizzo del server"
 
-#: templates/admin.php:342
+#: templates/admin.php:357
 msgid "Port"
 msgstr "Porta"
 
-#: templates/admin.php:347
+#: templates/admin.php:362
 msgid "Credentials"
 msgstr "Credenziali"
 
-#: templates/admin.php:348
+#: templates/admin.php:363
 msgid "SMTP Username"
 msgstr "Nome utente SMTP"
 
-#: templates/admin.php:351
+#: templates/admin.php:366
 msgid "SMTP Password"
 msgstr "Password SMTP"
 
-#: templates/admin.php:355
+#: templates/admin.php:370
 msgid "Test email settings"
 msgstr "Prova impostazioni email"
 
-#: templates/admin.php:356
+#: templates/admin.php:371
 msgid "Send email"
 msgstr "Invia email"
 
-#: templates/admin.php:361
+#: templates/admin.php:376
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:362
+#: templates/admin.php:377
 msgid "Log level"
 msgstr "Livello di log"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "More"
 msgstr "Altro"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "Less"
 msgstr "Meno"
 
-#: templates/admin.php:401 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:181
 msgid "Version"
 msgstr "Versione"
 
-#: templates/admin.php:405 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-12 05:54+0000\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -47,15 +47,15 @@ msgstr "Email terkirim"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:280
+#: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:293 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
 msgid "Encryption"
 msgstr "Enkripsi"
 
-#: admin/controller.php:120 templates/admin.php:317
+#: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
 msgstr ""
 
@@ -211,31 +211,31 @@ msgstr "Perbarui"
 msgid "Updated"
 msgstr "Diperbarui"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Pilih foto profil"
 
-#: js/personal.js:274
+#: js/personal.js:277
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:275
+#: js/personal.js:278
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:276
+#: js/personal.js:279
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:280
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:281
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:301
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Mendeskripsi berkas... Modon tunggu, ini memerlukan beberapa saat."
 
@@ -332,18 +332,18 @@ msgstr ""
 msgid "TLS"
 msgstr ""
 
-#: templates/admin.php:43 templates/admin.php:57
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "Peringatan Keamanan"
 
-#: templates/admin.php:46
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr "Anda mengakses %s melalui HTTP. Kami sangat menyarankan Anda untuk mengkonfigurasi server dengan menggunakan HTTPS sebagai gantinya."
 
-#: templates/admin.php:60
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -352,68 +352,68 @@ msgid ""
 "root."
 msgstr "Direktori data dan berkas Anda mungkin dapat diakses dari internet. Berkas .htaccess tidak bekerja. Kami sangat menyarankan untuk mengkonfigurasi server web Anda agar direktori data tidak lagi dapat diakses atau Anda dapat memindahkan direktori data di luar dokumen root webserver."
 
-#: templates/admin.php:71
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "Peringatan Persiapan"
 
-#: templates/admin.php:74
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak."
 
-#: templates/admin.php:75
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Silakan periksa kembali <a href=\"%s\">petunjuk instalasi</a>."
 
-#: templates/admin.php:86
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "Module 'fileinfo' tidak ada"
 
-#: templates/admin.php:89
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Module 'fileinfo' pada PHP tidak ada. Kami sangat menyarankan untuk mengaktifkan modul ini untuk mendapatkan hasil terbaik pada proses pendeteksian mime-type."
 
-#: templates/admin.php:100
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
 msgstr "Versi PHP telah usang"
 
-#: templates/admin.php:103
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Versi PHP telah usang. Kami sangat menyarankan untuk diperbarui ke versi 5.3.8 atau yang lebih baru karena versi lama diketahui rusak. Ada kemungkinan bahwa instalasi ini tidak bekerja dengan benar."
 
-#: templates/admin.php:114
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "Kode pelokalan tidak berfungsi"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Sistem lokal tidak dapat diatur untuk satu yang mendukung UTF-8."
 
-#: templates/admin.php:123
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Ini artinya mungkin ada masalah dengan karakter tertentu pada nama berkas."
 
-#: templates/admin.php:127
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Kami sangat menyarankan untuk menginstal paket yang dibutuhkan pada sistem agar mendukung salah satu bahasa berikut: %s."
 
-#: templates/admin.php:139
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "Koneksi internet tidak berfungsi"
 
-#: templates/admin.php:142
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -422,162 +422,178 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:156
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:163
+#: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr "Jalankan tugas setiap kali halaman dimuat"
 
-#: templates/admin.php:171
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php didaftarkan pada layanan webcron untuk memanggil cron.php setiap 15 menit melalui http."
 
-#: templates/admin.php:179
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Menggunakan sistem layanan cron untuk memanggil berkas cron.php setiap 15 menit."
 
-#: templates/admin.php:184
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "Berbagi"
 
-#: templates/admin.php:190
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "Aktifkan API Pembagian"
 
-#: templates/admin.php:191
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "Izinkan aplikasi untuk menggunakan API Pembagian"
 
-#: templates/admin.php:198
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "Izinkan tautan"
 
-#: templates/admin.php:199
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "Izinkan pengguna untuk berbagi item kepada publik lewat tautan"
 
-#: templates/admin.php:207
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "Izinkan unggahan publik"
 
-#: templates/admin.php:208
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Izinkan pengguna memungkinkan orang lain untuk mengunggah kedalam folder berbagi publik mereka"
 
-#: templates/admin.php:216
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "Izinkan pembagian ulang"
 
-#: templates/admin.php:217
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "Izinkan pengguna untuk berbagi kembali item yang dibagikan kepada mereka."
 
-#: templates/admin.php:224
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "Izinkan pengguna untuk berbagi kepada siapa saja"
 
-#: templates/admin.php:227
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "Hanya izinkan pengguna untuk berbagi dengan pengguna pada grup mereka sendiri"
 
-#: templates/admin.php:234
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "Izinkan pemberitahuan email"
 
-#: templates/admin.php:235
+#: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
 msgstr "Izinkan pengguna mengirim pemberitahuan email pada berkas yang dibagikan"
 
-#: templates/admin.php:242
+#: templates/admin.php:261
 msgid "Security"
 msgstr "Keamanan"
 
-#: templates/admin.php:255
+#: templates/admin.php:274
 msgid "Enforce HTTPS"
 msgstr "Selalu Gunakan HTTPS"
 
-#: templates/admin.php:257
+#: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Memaksa klien untuk menghubungkan ke %s menggunakan sambungan yang dienskripsi."
 
-#: templates/admin.php:263
+#: templates/admin.php:282
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Mohon sambungkan ke %s menggunakan HTTPS untuk mengaktifkannya atau menonaktifkan penegakan SSL."
 
-#: templates/admin.php:275
+#: templates/admin.php:294
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:277
+#: templates/admin.php:296
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:308
+#: templates/admin.php:327
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:330
+#: templates/admin.php:349
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:334
+#: templates/admin.php:353
 msgid "Server address"
 msgstr "Alamat server"
 
-#: templates/admin.php:338
+#: templates/admin.php:357
 msgid "Port"
 msgstr "port"
 
-#: templates/admin.php:343
+#: templates/admin.php:362
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:363
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:347
+#: templates/admin.php:366
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:351
+#: templates/admin.php:370
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:352
+#: templates/admin.php:371
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:357
+#: templates/admin.php:376
 msgid "Log"
 msgstr "Catat"
 
-#: templates/admin.php:358
+#: templates/admin.php:377
 msgid "Log level"
 msgstr "Level pencatatan"
 
-#: templates/admin.php:390
+#: templates/admin.php:409
 msgid "More"
 msgstr "Lainnya"
 
-#: templates/admin.php:391
+#: templates/admin.php:410
 msgid "Less"
 msgstr "Ciutkan"
 
-#: templates/admin.php:397 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:181
 msgid "Version"
 msgstr "Versi"
 
-#: templates/admin.php:401 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

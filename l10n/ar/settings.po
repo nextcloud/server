@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-21 01:55-0400\n"
-"PO-Revision-Date: 2014-03-20 11:40+0000\n"
-"Last-Translator: m.shehab <shehab.mahmood@gmail.com>\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,15 +50,15 @@ msgstr "تم ارسال البريد الالكتروني"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:282
+#: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
 msgstr "وضعية الإرسال"
 
-#: admin/controller.php:118 templates/admin.php:295 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
 msgid "Encryption"
 msgstr "التشفير"
 
-#: admin/controller.php:120 templates/admin.php:319
+#: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
 msgstr "أسلوب التطابق"
 
@@ -430,157 +430,173 @@ msgid "Cron"
 msgstr "مجدول"
 
 #: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها"
 
-#: templates/admin.php:175
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه"
 
-#: templates/admin.php:183
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "استخدم نظام خدمة cron لـ استدعاء ملف cron.php كل 15 دقيقة "
 
-#: templates/admin.php:188
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "مشاركة"
 
-#: templates/admin.php:194
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "السماح بالمشاركة عن طريق الAPI "
 
-#: templates/admin.php:195
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "السماح للتطبيقات بالمشاركة عن طريق الAPI"
 
-#: templates/admin.php:202
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "السماح بالعناوين"
 
-#: templates/admin.php:203
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
 
-#: templates/admin.php:210
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "السماح بالرفع للعامة "
 
-#: templates/admin.php:211
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "السماح للمستخدمين بتفعيل الرفع للاخرين من خلال مجلد المشاركة العام "
 
-#: templates/admin.php:218
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "السماح بإعادة المشاركة "
 
-#: templates/admin.php:219
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
 
-#: templates/admin.php:226
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
 
-#: templates/admin.php:229
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
 
-#: templates/admin.php:236
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "السماح بتنبيهات البريد الالكتروني."
 
-#: templates/admin.php:237
+#: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
 msgstr "السماح للمستخدم الى ارسال تنبيه البريد الالكتروني للملفات المشتركة "
 
-#: templates/admin.php:244
+#: templates/admin.php:261
 msgid "Security"
 msgstr "حماية"
 
-#: templates/admin.php:257
+#: templates/admin.php:274
 msgid "Enforce HTTPS"
 msgstr "فرض HTTPS"
 
-#: templates/admin.php:259
+#: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "اجبار العميل للاتصال بـ %s عن طريق اتصال مشفر"
 
-#: templates/admin.php:265
+#: templates/admin.php:282
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "يرجى الاتصال بـ %s عن طريق HTTPS لتفعيل او تعطيل SSL enforcement."
 
-#: templates/admin.php:277
+#: templates/admin.php:294
 msgid "Email Server"
 msgstr "خادم البريد الالكتروني"
 
-#: templates/admin.php:279
+#: templates/admin.php:296
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:310
+#: templates/admin.php:327
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:332
+#: templates/admin.php:349
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:336
+#: templates/admin.php:353
 msgid "Server address"
 msgstr "عنوان الخادم"
 
-#: templates/admin.php:340
+#: templates/admin.php:357
 msgid "Port"
 msgstr "المنفذ"
 
-#: templates/admin.php:345
+#: templates/admin.php:362
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:346
+#: templates/admin.php:363
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:354
+#: templates/admin.php:371
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:359
+#: templates/admin.php:376
 msgid "Log"
 msgstr "سجل"
 
-#: templates/admin.php:360
+#: templates/admin.php:377
 msgid "Log level"
 msgstr "مستوى السجل"
 
-#: templates/admin.php:392
+#: templates/admin.php:409
 msgid "More"
 msgstr "المزيد"
 
-#: templates/admin.php:393
+#: templates/admin.php:410
 msgid "Less"
 msgstr "أقل"
 
-#: templates/admin.php:399 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:181
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/admin.php:403 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

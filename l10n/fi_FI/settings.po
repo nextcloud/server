@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 01:55-0400\n"
-"PO-Revision-Date: 2014-03-12 11:00+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,15 +48,15 @@ msgstr "Sähköposti lähetetty"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta."
 
-#: admin/controller.php:116 templates/admin.php:284
+#: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
 msgstr "Lähetystila"
 
-#: admin/controller.php:118 templates/admin.php:297 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
 msgid "Encryption"
 msgstr "Salaus"
 
-#: admin/controller.php:120 templates/admin.php:321
+#: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
 msgstr "Tunnistautumistapa"
 
@@ -212,31 +212,31 @@ msgstr "Päivitä"
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: js/personal.js:244
+#: js/personal.js:246
 msgid "Select a profile picture"
 msgstr "Valitse profiilikuva"
 
-#: js/personal.js:274
+#: js/personal.js:277
 msgid "Very weak password"
 msgstr "Erittäin heikko salasana"
 
-#: js/personal.js:275
+#: js/personal.js:278
 msgid "Weak password"
 msgstr "Heikko salasana"
 
-#: js/personal.js:276
+#: js/personal.js:279
 msgid "So-so password"
 msgstr "Kohtalainen salasana"
 
-#: js/personal.js:277
+#: js/personal.js:280
 msgid "Good password"
 msgstr "Hyvä salasana"
 
-#: js/personal.js:278
+#: js/personal.js:281
 msgid "Strong password"
 msgstr "Vahva salasana"
 
-#: js/personal.js:301
+#: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Puretaan tiedostojen salausta... Odota, tämä voi kestää jonkin aikaa."
 
@@ -428,157 +428,173 @@ msgid "Cron"
 msgstr "Cron"
 
 #: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:175
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:183
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumiseen 15 minuutin välein"
 
-#: templates/admin.php:188
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "Jakaminen"
 
-#: templates/admin.php:194
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
-#: templates/admin.php:195
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
-#: templates/admin.php:202
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "Salli linkit"
 
-#: templates/admin.php:203
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
-#: templates/admin.php:211
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "Salli julkiset lähetykset"
 
-#: templates/admin.php:212
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr ""
 
-#: templates/admin.php:220
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "Salli uudelleenjakaminen"
 
-#: templates/admin.php:221
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
 
-#: templates/admin.php:228
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
 
-#: templates/admin.php:231
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "Salli sähköposti-ilmoitukset"
 
-#: templates/admin.php:239
+#: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
 msgstr "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista"
 
-#: templates/admin.php:246
+#: templates/admin.php:261
 msgid "Security"
 msgstr "Tietoturva"
 
-#: templates/admin.php:259
+#: templates/admin.php:274
 msgid "Enforce HTTPS"
 msgstr "Pakota HTTPS"
 
-#: templates/admin.php:261
+#: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Pakottaa asiakasohjelmistot ottamaan yhteyden %siin salatun yhteyden kautta."
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:279
+#: templates/admin.php:294
 msgid "Email Server"
 msgstr "Sähköpostipalvelin"
 
-#: templates/admin.php:281
+#: templates/admin.php:296
 msgid "This is used for sending out notifications."
 msgstr "Tätä käytetään ilmoitusten lähettämiseen."
 
-#: templates/admin.php:312
+#: templates/admin.php:327
 msgid "From address"
 msgstr "Lähettäjän osoite"
 
-#: templates/admin.php:334
+#: templates/admin.php:349
 msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
-#: templates/admin.php:338
+#: templates/admin.php:353
 msgid "Server address"
 msgstr "Palvelimen osoite"
 
-#: templates/admin.php:342
+#: templates/admin.php:357
 msgid "Port"
 msgstr "Portti"
 
-#: templates/admin.php:347
+#: templates/admin.php:362
 msgid "Credentials"
 msgstr "Tilitiedot"
 
-#: templates/admin.php:348
+#: templates/admin.php:363
 msgid "SMTP Username"
 msgstr "SMTP-käyttäjätunnus"
 
-#: templates/admin.php:351
+#: templates/admin.php:366
 msgid "SMTP Password"
 msgstr "SMTP-salasana"
 
-#: templates/admin.php:355
+#: templates/admin.php:370
 msgid "Test email settings"
 msgstr "Testaa sähköpostiasetukset"
 
-#: templates/admin.php:356
+#: templates/admin.php:371
 msgid "Send email"
 msgstr "Lähetä sähköpostiviesti"
 
-#: templates/admin.php:361
+#: templates/admin.php:376
 msgid "Log"
 msgstr "Loki"
 
-#: templates/admin.php:362
+#: templates/admin.php:377
 msgid "Log level"
 msgstr "Lokitaso"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "More"
 msgstr "Enemmän"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:401 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:181
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:405 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:184
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
