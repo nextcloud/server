@@ -319,7 +319,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'options' => $mount['options'],
 						'applicable' => array('groups' => array($group), 'users' => array()),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
@@ -349,7 +349,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'options' => $mount['options'],
 						'applicable' => array('groups' => array(), 'users' => array($user)),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 					);
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
@@ -389,7 +389,7 @@ class OC_Mount_Config {
 					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
 					'backend' => $backends[$mount['class']]['backend'],
 					'options' => $mount['options'],
-					'status' => self::getBackendStatus($mount['class'], $mount['options'])
+					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 				);
 			}
 		}
@@ -402,7 +402,7 @@ class OC_Mount_Config {
 	 * @param array $options backend configuration options
 	 * @return bool true if the connection succeeded, false otherwise
 	 */
-	private static function getBackendStatus($class, $options) {
+	private static function getBackendStatus($class, $options, $isPersonal) {
 		if (self::$skipTest) {
 			return true;
 		}
@@ -412,7 +412,7 @@ class OC_Mount_Config {
 		if (class_exists($class)) {
 			try {
 				$storage = new $class($options);
-				return $storage->test();
+				return $storage->test($isPersonal);
 			} catch (Exception $exception) {
 				\OCP\Util::logException('files_external', $exception);
 				return false;
@@ -479,7 +479,7 @@ class OC_Mount_Config {
 			$mountPoints[$mountType] = $mount;
 		}
 		self::writeData($isPersonal, $mountPoints);
-		return self::getBackendStatus($class, $classOptions);
+		return self::getBackendStatus($class, $classOptions, $isPersonal);
 	}
 
 	/**
