@@ -54,8 +54,9 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 
 	public function test($isPersonal = true) {
 		if ($isPersonal) {
-			if ($this->stat(''))
+			if ($this->stat('')) {
 				return true;
+			}
 			return false;
 		} else {
 			$smb = new \smb();
@@ -67,23 +68,26 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 
 			// Share cannot be checked if dynamic
 			if ($this->username_as_share) {
-				if ($smb->look($pu))
+				if ($smb->look($pu)) {
 					return true;
-				else
+				} else {
 					return false;
+				}
 			}
-			if (!$pu['share'])
+			if (!$pu['share']) {
 				return false;
+			}
 
 			// The following error messages are expected due to anonymous login
 			$regexp = array(
 				'(NT_STATUS_ACCESS_DENIED)' => 'skip'
 			) + $smb->getRegexp();
 
-			if ($smb->client("-d 0 " . escapeshellarg('//' . $pu['host'] . '/' . $pu['share']) . " -c exit", $pu, $regexp))
+			if ($smb->client("-d 0 " . escapeshellarg('//' . $pu['host'] . '/' . $pu['share']) . " -c exit", $pu, $regexp)) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 	}
 }
