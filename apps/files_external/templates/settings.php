@@ -16,17 +16,17 @@
 			</thead>
 			<tbody width="100%">
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
-			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
-				<tr <?php print_unescaped(($mountPoint != '') ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
+			<?php foreach ($_['mounts'] as $mount): ?>
+				<tr <?php print_unescaped(($mount['mountpoint'] !== '') ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
 					<td class="status">
 					<?php if (isset($mount['status'])): ?>
 						<span class="<?php p(($mount['status']) ? 'success' : 'error'); ?>"></span>
 					<?php endif; ?>
 					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php p($mountPoint); ?>"
+												  value="<?php p($mount['mountpoint']); ?>"
 												  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
-					<?php if ($mountPoint == ''): ?>
+					<?php if ($mount['mountpoint'] == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php print_unescaped(json_encode($_['backends'])); ?>'>
 								<option value="" disabled selected
@@ -41,8 +41,8 @@
 							data-class="<?php p($mount['class']); ?>"><?php p($mount['backend']); ?></td>
 					<?php endif; ?>
 					<td class ="configuration" width="100%">
-						<?php if (isset($mount['configuration'])): ?>
-							<?php foreach ($mount['configuration'] as $parameter => $value): ?>
+						<?php if (isset($mount['options'])): ?>
+							<?php foreach ($mount['options'] as $parameter => $value): ?>
 								<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
 									<?php $placeholder = $_['backends'][$mount['class']]['configuration'][$parameter]; ?>
 									<?php if (strpos($placeholder, '*') !== false): ?>
@@ -108,7 +108,7 @@
 							</select>
 						</td>
 					<?php endif; ?>
-					<td <?php if ($mountPoint != ''): ?>class="remove"
+					<td <?php if ($mount['mountpoint'] != ''): ?>class="remove"
 						<?php else: ?>style="visibility:hidden;"
 						<?php endif ?>><img alt="<?php p($l->t('Delete')); ?>"
 											title="<?php p($l->t('Delete')); ?>"
