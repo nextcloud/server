@@ -5,6 +5,7 @@
 * @author Michael Gapczynski
 * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
 * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+* @copyright 2014 Robin McCorkell <rmccorkell@karoshi.org.uk>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -122,11 +123,18 @@ class OC_Mount_Config {
 						'password' => '*Password',
 						'share' => 'Share',
 						'root' => '&Root'));
+				$backends['\OC\Files\Storage\SMB_OC'] = array(
+					'backend' => 'SMB / CIFS using OC login',
+					'configuration' => array(
+						'host' => 'URL',
+						'username_as_share' => '!Username as share',
+						'share' => '&Share',
+						'root' => '&Root'));
 			}
 		}
 
 		if(OC_Mount_Config::checkcurl()){
-		   	$backends['\OC\Files\Storage\DAV']=array(
+			$backends['\OC\Files\Storage\DAV']=array(
 				'backend' => 'WebDAV',
 				'configuration' => array(
 					'host' => 'URL',
@@ -134,7 +142,7 @@ class OC_Mount_Config {
 					'password' => '*Password',
 					'root' => '&Root',
 					'secure' => '!Secure https://'));
-		   	$backends['\OC\Files\Storage\OwnCloud']=array(
+			$backends['\OC\Files\Storage\OwnCloud']=array(
 				'backend' => 'ownCloud',
 				'configuration' => array(
 					'host' => 'URL',
@@ -185,7 +193,7 @@ class OC_Mount_Config {
 	 * @return array of mount point string as key, mountpoint config as value
 	 */
 	public static function getAbsoluteMountPoints($user) {
-		$mountPoints = array();	
+		$mountPoints = array();
 
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$mount_file = \OC_Config::getValue("mount_file", $datadir . "/mount.json");
@@ -311,7 +319,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'options' => $mount['options'],
 						'applicable' => array('groups' => array($group), 'users' => array()),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
@@ -341,7 +349,7 @@ class OC_Mount_Config {
 						'backend' => $backends[$mount['class']]['backend'],
 						'options' => $mount['options'],
 						'applicable' => array('groups' => array(), 'users' => array($user)),
-						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						'status' => self::getBackendStatus($mount['class'], $mount['options'], false)
 					);
 					$hash = self::makeConfigHash($config);
 					// If an existing config exists (with same class, mountpoint and options)
@@ -381,7 +389,7 @@ class OC_Mount_Config {
 					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
 					'backend' => $backends[$mount['class']]['backend'],
 					'options' => $mount['options'],
-					'status' => self::getBackendStatus($mount['class'], $mount['options'])
+					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 				);
 			}
 		}
@@ -394,7 +402,7 @@ class OC_Mount_Config {
 	 * @param array $options backend configuration options
 	 * @return bool true if the connection succeeded, false otherwise
 	 */
-	private static function getBackendStatus($class, $options) {
+	private static function getBackendStatus($class, $options, $isPersonal) {
 		if (self::$skipTest) {
 			return true;
 		}
@@ -404,7 +412,7 @@ class OC_Mount_Config {
 		if (class_exists($class)) {
 			try {
 				$storage = new $class($options);
-				return $storage->test();
+				return $storage->test($isPersonal);
 			} catch (Exception $exception) {
 				\OCP\Util::logException('files_external', $exception);
 				return false;
@@ -471,7 +479,7 @@ class OC_Mount_Config {
 			$mountPoints[$mountType] = $mount;
 		}
 		self::writeData($isPersonal, $mountPoints);
-		return self::getBackendStatus($class, $classOptions);
+		return self::getBackendStatus($class, $classOptions, $isPersonal);
 	}
 
 	/**
