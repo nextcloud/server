@@ -12,11 +12,6 @@ input#openid, input#webdav { width:20em; }
 	display: block;
 }
 
-.personalblock input[type="checkbox"] {
-	position: relative;
-	top: 2px;
-}
-
 /* Sync clients */
 .clientsbox { margin:12px; }
 .clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
