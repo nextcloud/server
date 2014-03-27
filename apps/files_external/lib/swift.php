@@ -374,7 +374,7 @@ class Swift extends \OC\Files\Storage\Common {
 					'X-Object-Meta-Timestamp' => $mtime
 				)
 			);
-			return $object->Update($settings);
+			return $object->UpdateMetadata($settings);
 		} else {
 			$object = $this->container->DataObject();
 			if (is_null($mtime)) {
