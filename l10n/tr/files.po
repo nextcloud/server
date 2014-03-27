@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-24 05:00+0000\n"
+"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 06:01+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgid ""
 "allowed."
 msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:141
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr "Hedef klasör taşındı veya silindi."
@@ -92,54 +92,54 @@ msgstr "Yükleme dizini tanımlanamadı."
 msgid "Invalid Token"
 msgstr "Geçersiz Simge"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:71
 msgid "No file was uploaded. Unknown error"
 msgstr "Dosya yüklenmedi. Bilinmeyen hata"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:78
 msgid "There is no error, the file uploaded with success"
 msgstr "Dosya başarıyla yüklendi, hata oluşmadı"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:79
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı."
 
-#: ajax/upload.php:78
+#: ajax/upload.php:81
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Yüklenecek dosyanın boyutu HTML formunda belirtilen MAX_FILE_SIZE limitini aşıyor"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:82
 msgid "The uploaded file was only partially uploaded"
 msgstr "Dosya kısmen karşıya yüklenebildi"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:83
 msgid "No file was uploaded"
 msgstr "Hiç dosya gönderilmedi"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:84
 msgid "Missing a temporary folder"
 msgstr "Geçici dizin eksik"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:85
 msgid "Failed to write to disk"
 msgstr "Diske yazılamadı"
 
-#: ajax/upload.php:100
+#: ajax/upload.php:103
 msgid "Not enough storage available"
 msgstr "Yeterli disk alanı yok"
 
-#: ajax/upload.php:157
+#: ajax/upload.php:160
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Yükleme başarısız. Yüklenen dosya bulunamadı"
 
-#: ajax/upload.php:167
+#: ajax/upload.php:170
 msgid "Upload failed. Could not get file info."
 msgstr "Yükleme başarısız. Dosya bilgisi alınamadı."
 
-#: ajax/upload.php:186
+#: ajax/upload.php:189
 msgid "Invalid directory."
 msgstr "Geçersiz dizin."
 

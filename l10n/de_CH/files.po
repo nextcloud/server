@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-24 05:00+0000\n"
+"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 06:01+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgid ""
 "allowed."
 msgstr "Ungültiger Name, «\\», «/», «<», «>», «:», «\"», «|», «?» und «*» sind nicht zulässig."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:141
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -97,54 +97,54 @@ msgstr "Das Upload-Verzeichnis konnte nicht gesetzt werden."
 msgid "Invalid Token"
 msgstr "Ungültiges Merkmal"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:71
 msgid "No file was uploaded. Unknown error"
 msgstr "Keine Datei hochgeladen. Unbekannter Fehler"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:78
 msgid "There is no error, the file uploaded with success"
 msgstr "Es ist kein Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen."
 
-#: ajax/upload.php:76
+#: ajax/upload.php:79
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini"
 
-#: ajax/upload.php:78
+#: ajax/upload.php:81
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Die Datei ist grösser, als die MAX_FILE_SIZE Vorgabe erlaubt, die im HTML-Formular spezifiziert ist"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:82
 msgid "The uploaded file was only partially uploaded"
 msgstr "Die Datei konnte nur teilweise übertragen werden"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:83
 msgid "No file was uploaded"
 msgstr "Keine Datei konnte übertragen werden."
 
-#: ajax/upload.php:81
+#: ajax/upload.php:84
 msgid "Missing a temporary folder"
 msgstr "Kein temporärer Ordner vorhanden"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:85
 msgid "Failed to write to disk"
 msgstr "Fehler beim Schreiben auf die Festplatte"
 
-#: ajax/upload.php:100
+#: ajax/upload.php:103
 msgid "Not enough storage available"
 msgstr "Nicht genug Speicher vorhanden."
 
-#: ajax/upload.php:157
+#: ajax/upload.php:160
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:167
+#: ajax/upload.php:170
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:186
+#: ajax/upload.php:189
 msgid "Invalid directory."
 msgstr "Ungültiges Verzeichnis."
 

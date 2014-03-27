@@ -4,14 +4,15 @@
 # 
 # Translators:
 # rogerc, 2013-2014
+# Josep Torné <josep@substantiu.com>, 2014
 # rogerc, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 13:43+0000\n"
+"Last-Translator: Josep Torné <josep@substantiu.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -431,7 +432,7 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "L'últim cron s'ha executat el %s"
 
 #: templates/admin.php:170
 #, php-format

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"PO-Revision-Date: 2014-03-26 10:42+0000\n"
+"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -432,18 +432,18 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Ostatni cron był uruchomiony %s."
 
 #: templates/admin.php:170
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Ostatni cron był uruchomiony %s. To jest więcej niż godzinę temu, wygląda na to, że coś jest nie tak."
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron nie został jeszcze uruchomiony!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
