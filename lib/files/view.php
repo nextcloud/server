@@ -1059,15 +1059,21 @@ class View {
 	 * @return string
 	 */
 	public function getPath($id) {
-		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mounts = Mount::findByStorageId($storage);
+		$mounts = Mount::findIn($this->fakeRoot);
+		$mounts[] = Mount::find($this->fakeRoot);
+		// reverse the array so we start with the storage this view is in
+		// which is the most likely to contain the file we're looking for
+		$mounts = array_reverse($mounts);
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount $mount
 			 */
-			$fullPath = $mount->getMountPoint() . $internalPath;
-			if (!is_null($path = $this->getRelativePath($fullPath))) {
-				return $path;
+			$cache = $mount->getStorage()->getCache();
+			if ($internalPath = $cache->getPathById($id)) {
+				$fullPath = $mount->getMountPoint() . $internalPath;
+				if (!is_null($path = $this->getRelativePath($fullPath))) {
+					return $path;
+				}
 			}
 		}
 		return null;
