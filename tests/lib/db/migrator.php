@@ -9,6 +9,7 @@
 
 namespace Test\DB;
 
+use \Doctrine\DBAL\DBALException;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 
@@ -23,31 +24,29 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$this->tableName = 'test_' . uniqid();
 		$this->connection = \OC_DB::getConnection();
-		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver) {
-			$this->markTestSkipped('Migration tests dont function on sqlite since sqlite doesnt give an error on existing duplicate data');
-		}
 	}
 
 	public function tearDown() {
 		$this->connection->exec('DROP TABLE ' . $this->tableName);
 	}
 
-	private function getInitialSchema() {
-		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->tableName);
+	/**
+	 * @return \Doctrine\DBAL\Schema\Schema[]
+	 */
+	private function getDuplicateKeySchemas() {
+		$startSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
 		$table->addIndex(array('id'), $this->tableName . '_id');
-		return $schema;
-	}
 
-	private function getNewSchema() {
-		$schema = new Schema(array(), array(), $this->getSchemaConfig());
-		$table = $schema->createTable($this->tableName);
+		$endSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer');
 		$table->addColumn('name', 'string');
 		$table->addUniqueIndex(array('id'), $this->tableName . '_id');
-		return $schema;
+
+		return array($startSchema, $endSchema);
 	}
 
 	private function getSchemaConfig() {
@@ -56,36 +55,65 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		return $config;
 	}
 
+	private function isSQLite() {
+		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
+	}
+
 	private function getMigrator() {
-		return new \OC\DB\Migrator($this->connection);
+		if ($this->isSQLite()) {
+			return new \OC\DB\SQLiteMigrator($this->connection);
+		} else {
+			return new \OC\DB\Migrator($this->connection);
+		}
 	}
 
 	/**
 	 * @expectedException \OC\DB\MigrationException
 	 */
 	public function testDuplicateKeyUpgrade() {
+		if ($this->isSQLite()) {
+			$this->markTestSkipped('sqlite doesnt throw errors when creating a new key on existing data');
+		}
+		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
-		$migrator->migrate($this->getInitialSchema());
+		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
 		$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'bar'));
 		$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'qwerty'));
 
-		$migrator->checkMigrate($this->getNewSchema());
+		$migrator->checkMigrate($endSchema);
 		$this->fail('checkMigrate should have failed');
 	}
 
 	public function testUpgrade() {
+		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
-		$migrator->migrate($this->getInitialSchema());
+		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
 		$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'bar'));
 		$this->connection->insert($this->tableName, array('id' => 3, 'name' => 'qwerty'));
 
-		$newSchema = $this->getNewSchema();
-		$migrator->checkMigrate($newSchema);
-		$migrator->migrate($newSchema);
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
 		$this->assertTrue(true);
+	}
+
+	public function testInsertAfterUpgrade() {
+		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->migrate($endSchema);
+
+		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
+		$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'bar'));
+		try {
+			$this->connection->insert($this->tableName, array('id' => 2, 'name' => 'qwerty'));
+			$this->fail('Expected duplicate key insert to fail');
+		} catch (DBALException $e) {
+			$this->assertTrue(true);
+		}
 	}
 }

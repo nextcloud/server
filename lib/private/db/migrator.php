@@ -37,6 +37,7 @@ class Migrator {
 
 	/**
 	 * @param Schema $targetSchema
+	 * @throws \OC\DB\MigrationException
 	 */
 	public function checkMigrate(Schema $targetSchema) {
 		/**
