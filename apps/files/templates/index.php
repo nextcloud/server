@@ -5,15 +5,15 @@
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li class="icon-filetype-text"
+					<li class="icon-filetype-text svg"
 						data-type="file" data-newname="<?php p($l->t('New text file')) ?>.txt">
 						<p><?php p($l->t('Text file'));?></p>
 					</li>
-					<li class="icon-filetype-folder"
+					<li class="icon-filetype-folder svg"
 						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
 						<p><?php p($l->t('Folder'));?></p>
 					</li>
-					<li class="icon-link" data-type="web">
+					<li class="icon-link svg" data-type="web">
 						<p><?php p($l->t('From link'));?></p>
 					</li>
 				</ul>
