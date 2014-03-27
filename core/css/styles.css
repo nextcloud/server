@@ -101,9 +101,14 @@ select,
 button, .button,
 #quota,
 .pager li a {
-	width:10em; margin:.3em; padding:.6em .5em .4em;
-	font-size:1em;
-	background:#fff; color:#333; border:1px solid #ddd; outline:none;
+	width: 130px;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	font-size: 13px;
+	background: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	outline: none;
 	border-radius: 3px;
 }
 input[type="hidden"] {
