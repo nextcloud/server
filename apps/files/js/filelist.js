@@ -71,7 +71,7 @@ window.FileList={
 		});
 		// filename td
 		td = $('<td></td>').attr({
-			"class": "filename",
+			"class": "filename svg",
 			"style": 'background-image:url('+iconurl+'); background-size: 32px;'
 		});
 		var rand = Math.random().toString(16).slice(2);
