@@ -77,6 +77,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo {
 	background-image: url(../img/logo.svg);
+	background-repeat: no-repeat;
 	width: 250px;
 	height: 118px;
 	margin: 0 auto;
@@ -84,6 +85,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo-wide {
 	background-image: url(../img/logo-wide.svg);
+	background-repeat: no-repeat;
 	width: 147px;
 	height: 32px;
 }
