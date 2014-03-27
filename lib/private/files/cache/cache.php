@@ -597,6 +597,22 @@ class Cache {
 	 * get the storage id of the storage for a file and the internal path of the file
 	 *
 	 * @param int $id
+	 * @return string | null
+	 */
+	public function getPathById($id) {
+		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ? AND `storage` = ?';
+		$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
+		if ($row = $result->fetchRow()) {
+			return $row['path'];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * get the storage id of the storage for a file and the internal path of the file
+	 *
+	 * @param int $id
 	 * @return array, first element holding the storage id, second the path
 	 */
 	static public function getById($id) {
