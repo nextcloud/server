@@ -26,8 +26,14 @@ OCP\App::registerAdmin('user_ldap', 'settings');
 $configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 if(count($configPrefixes) === 1) {
+	$ocConfig = \OC::$server->getConfig();
+	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
+		new OCA\user_ldap\lib\FilesystemHelper(),
+		new OCA\user_ldap\lib\LogWrapper(),
+		new \OCP\Image(),
+		\OC::$server->getAvatarManager());
 	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
-	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper);
+	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);
 	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess);
 	$groupBackend = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
 } else if(count($configPrefixes) > 1) {
