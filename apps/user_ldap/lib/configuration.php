@@ -345,7 +345,7 @@ class Configuration {
 			'has_memberof_filter_support'		=> 0,
 			'last_jpegPhoto_lookup'				=> 0,
 			'ldap_nested_groups'		        => 0,
-			'ldap_paging_size'					=> 0,
+			'ldap_paging_size'					=> 500,
 		);
 	}
 
