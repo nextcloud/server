@@ -747,7 +747,8 @@ class Share extends \OC\Share\Constants {
 	 * @return \OCP\Share_Backend
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date) {
-		$items = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE, null, -1, false);
+		$user = \OC_User::getUser();
+		$items = self::getItems($itemType, $itemSource, null, null, $user, self::FORMAT_NONE, null, -1, false);
 		if (!empty($items)) {
 			if ($date == '') {
 				$date = null;
@@ -759,6 +760,12 @@ class Share extends \OC\Share\Constants {
 			foreach ($items as $item) {
 				$query->bindValue(2, (int) $item['id']);
 				$query->execute();
+				\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'date' => $date,
+					'uidOwner' => $user
+				));
 			}
 			return true;
 		}
