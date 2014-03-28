@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-03-28 01:55-0400\n"
+"PO-Revision-Date: 2014-03-27 14:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Сохранено"
 
 #: admin/controller.php:90
 msgid "test email settings"
@@ -232,23 +232,23 @@ msgstr "Выберите картинку профиля"
 
 #: js/personal.js:277
 msgid "Very weak password"
-msgstr ""
+msgstr "Очень слабый пароль"
 
 #: js/personal.js:278
 msgid "Weak password"
-msgstr ""
+msgstr "Слабый пароль"
 
 #: js/personal.js:279
 msgid "So-so password"
-msgstr ""
+msgstr "Так себе пароль"
 
 #: js/personal.js:280
 msgid "Good password"
-msgstr ""
+msgstr "Хороший пароль"
 
 #: js/personal.js:281
 msgid "Strong password"
-msgstr ""
+msgstr "Устойчивый к взлому пароль"
 
 #: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."

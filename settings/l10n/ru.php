@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Сохранено",
 "Email sent" => "Письмо отправлено",
 "Encryption" => "Шифрование",
 "Unable to load list from App Store" => "Не удалось загрузить список из App Store",
@@ -37,6 +38,11 @@ $TRANSLATIONS = array(
 "Update" => "Обновить",
 "Updated" => "Обновлено",
 "Select a profile picture" => "Выберите картинку профиля",
+"Very weak password" => "Очень слабый пароль",
+"Weak password" => "Слабый пароль",
+"So-so password" => "Так себе пароль",
+"Good password" => "Хороший пароль",
+"Strong password" => "Устойчивый к взлому пароль",
 "Decrypting files... Please wait, this can take some time." => "Расшифровка файлов... Пожалуйста, подождите, это может занять некоторое время.",
 "deleted" => "удален",
 "undo" => "отмена",
