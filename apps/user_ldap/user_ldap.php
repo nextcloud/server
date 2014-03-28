@@ -31,42 +31,11 @@ use OCA\user_ldap\lib\BackendUtility;
 class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	private function updateQuota($dn) {
-		$quota = null;
-		$quotaDefault = $this->access->connection->ldapQuotaDefault;
-		$quotaAttribute = $this->access->connection->ldapQuotaAttribute;
-		if(!empty($quotaDefault)) {
-			$quota = $quotaDefault;
-		}
-		if(!empty($quotaAttribute)) {
-			$aQuota = $this->access->readAttribute($dn, $quotaAttribute);
-
-			if($aQuota && (count($aQuota) > 0)) {
-				$quota = $aQuota[0];
-			}
-		}
-		if(!is_null($quota)) {
-			\OCP\Config::setUserValue(	$this->access->dn2username($dn),
-										'files',
-										'quota',
-										\OCP\Util::computerFileSize($quota));
-		}
+		$this->access->updateQuota($dn);
 	}
 
 	private function updateEmail($dn) {
-		$email = null;
-		$emailAttribute = $this->access->connection->ldapEmailAttribute;
-		if(!empty($emailAttribute)) {
-			$aEmail = $this->access->readAttribute($dn, $emailAttribute);
-			if($aEmail && (count($aEmail) > 0)) {
-				$email = $aEmail[0];
-			}
-			if(!is_null($email)) {
-				\OCP\Config::setUserValue(	$this->access->dn2username($dn),
-											'settings',
-											'email',
-											$email);
-			}
-		}
+		$this->access->updateEmail($dn);
 	}
 
 	/**
