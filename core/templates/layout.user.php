@@ -46,7 +46,7 @@
 	</div>
 	<header><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud">
-				<div class='logo-wide'></div>
+				<div class="logo-wide svg"></div>
 			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
