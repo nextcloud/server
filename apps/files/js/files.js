@@ -196,11 +196,14 @@ var Files = {
 		if (width !== Files.lastWidth) {
 			if ((width < Files.lastWidth || firstRun) && width < Files.breadcrumbsWidth) {
 				if (Files.hiddenBreadcrumbs === 0) {
-					Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
-					$(Files.breadcrumbs[1]).find('a').hide();
-					$(Files.breadcrumbs[1]).append('<span>...</span>');
-					Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
-					Files.hiddenBreadcrumbs = 2;
+					bc = $(Files.breadcrumbs[1]).get(0);
+					if (typeof bc != 'undefined') {
+						Files.breadcrumbsWidth -= bc.offsetWidth;
+						$(Files.breadcrumbs[1]).find('a').hide();
+						$(Files.breadcrumbs[1]).append('<span>...</span>');
+						Files.breadcrumbsWidth += bc.offsetWidth;
+						Files.hiddenBreadcrumbs = 2;
+					}
 				}
 				var i = Files.hiddenBreadcrumbs;
 				while (width < Files.breadcrumbsWidth && i > 1 && i < Files.breadcrumbs.length - 1) {
