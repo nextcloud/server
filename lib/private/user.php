@@ -321,8 +321,6 @@ class OC_User {
 	 */
 	public static function isLoggedIn() {
 		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
-			OC_App::loadApps(array('authentication'));
-			self::setupBackends();
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;

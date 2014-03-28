@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkSubAdminUser();
-OC_App::loadApps();
 
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );
