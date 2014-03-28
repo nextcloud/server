@@ -32,11 +32,13 @@ OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', array(
 	'backend' => (string)$l->t('Local'),
+	'priority' => 150,
 	'configuration' => array(
 		'datadir' => (string)$l->t('Location'))));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 	'backend' => (string)$l->t('Amazon S3'),
+	'priority' => 100,
 	'configuration' => array(
 		'key' => (string)$l->t('Key'),
 		'secret' => '*'.$l->t('Secret'),
@@ -45,6 +47,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 	'backend' => (string)$l->t('Amazon S3 and compliant'),
+	'priority' => 100,
 	'configuration' => array(
 		'key' => (string)$l->t('Access Key'),
 		'secret' => '*'.$l->t('Secret Key'),
@@ -58,6 +61,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
 	'backend' => 'Dropbox',
+	'priority' => 100,
 	'configuration' => array(
 		'configured' => '#configured',
 		'app_key' => (string)$l->t('App key'),
@@ -69,6 +73,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
 	'backend' => 'FTP',
+	'priority' => 100,
 	'configuration' => array(
 		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
@@ -79,6 +84,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
 	'backend' => 'Google Drive',
+	'priority' => 100,
 	'configuration' => array(
 		'configured' => '#configured',
 		'client_id' => (string)$l->t('Client ID'),
@@ -90,6 +96,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
 	'backend' => (string)$l->t('OpenStack Object Storage'),
+	'priority' => 100,
 	'configuration' => array(
 		'user' => (string)$l->t('Username (required)'),
 		'bucket' => (string)$l->t('Bucket (required)'),
@@ -107,6 +114,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
 if (!OC_Util::runningOnWindows()) {
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', array(
 		'backend' => 'SMB / CIFS',
+		'priority' => 100,
 		'configuration' => array(
 			'host' => (string)$l->t('Host'),
 			'user' => (string)$l->t('Username'),
@@ -117,6 +125,7 @@ if (!OC_Util::runningOnWindows()) {
 
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', array(
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),
+			'priority' => 90,
 			'configuration' => array(
 				'host' => (string)$l->t('Host'),
 				'username_as_share' => '!'.$l->t('Username as share'),
@@ -127,6 +136,7 @@ if (!OC_Util::runningOnWindows()) {
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
 	'backend' => 'WebDAV',
+	'priority' => 100,
 	'configuration' => array(
 		'host' => (string)$l->t('URL'),
 		'user' => (string)$l->t('Username'),
@@ -137,6 +147,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
 	'backend' => 'ownCloud',
+	'priority' => 100,
 	'configuration' => array(
 		'host' => (string)$l->t('URL'),
 		'user' => (string)$l->t('Username'),
@@ -147,6 +158,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 	'backend' => 'SFTP',
+	'priority' => 100,
 	'configuration' => array(
 		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
