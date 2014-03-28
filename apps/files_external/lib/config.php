@@ -149,6 +149,26 @@ class OC_Mount_Config {
 				}
 			}
 		}
+		if (isset($mountConfig[self::MOUNT_TYPE_USER]) && isset($mountConfig[self::MOUNT_TYPE_USER]['all'])) {
+			$mounts = $mountConfig[self::MOUNT_TYPE_USER]['all'];
+			foreach ($mounts as $mountPoint => $options) {
+				$mountPoint = self::setUserVars($user, $mountPoint);
+				foreach ($options as &$option) {
+					$option = self::setUserVars($user, $option);
+				}
+				$options['options'] = self::decryptPasswords($options['options']);
+				if (!isset($options['priority'])) {
+					$options['priority'] = $backends[$options['class']]['priority'];
+				}
+
+				if ( (!isset($mountPoints[$mountPoint]))
+					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
+					|| ($mountPoints[$mountPoint]['priority_type'] != 'global') ) {
+					$options['priority_type'] = 'global';
+					$mountPoints[$mountPoint] = $options;
+				}
+			}
+		}
 		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				if (\OC_Group::inGroup($user, $group)) {
@@ -174,7 +194,7 @@ class OC_Mount_Config {
 		}
 		if (isset($mountConfig[self::MOUNT_TYPE_USER])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER] as $mountUser => $mounts) {
-				if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
+				if (strtolower($mountUser) === strtolower($user)) {
 					foreach ($mounts as $mountPoint => $options) {
 						$mountPoint = self::setUserVars($user, $mountPoint);
 						foreach ($options as &$option) {
