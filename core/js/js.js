@@ -759,11 +759,11 @@ SVGSupport.checkMimeType=function(){
 						if(value[0]==='"'){
 							value=value.substr(1,value.length-2);
 						}
-						headers[parts[0]]=value;
+						headers[parts[0].toLowerCase()]=value;
 					}
 				}
 			});
-			if(headers["Content-Type"]!=='image/svg+xml'){
+			if(headers["content-type"]!=='image/svg+xml'){
 				replaceSVG();
 				SVGSupport.checkMimeType.correct=false;
 			}
