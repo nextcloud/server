@@ -701,17 +701,18 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function redirectToDefaultPage() {
+		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
+			$location = $urlGenerator->getAbsoluteURL('/index.php/apps/'.OC::$REQUESTEDAPP.'/index.php');
 		} else {
 			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultPage) {
-				$location = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/'.$defaultPage);
+				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
+				$location = $urlGenerator->getAbsoluteURL('/index.php/files/index.php');
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
