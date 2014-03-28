@@ -551,7 +551,7 @@ $(document).ready(function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 		OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 			$li.remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
@@ -597,7 +597,7 @@ $(document).ready(function() {
 		OC.Share.setPermissions($('#dropdown').data('item-type'),
 			$('#dropdown').data('item-source'),
 			li.data('share-type'),
-			li.data('share-with'),
+			li.attr('data-share-with'),
 			permissions);
 	});
 
@@ -782,7 +782,7 @@ $(document).ready(function() {
 		}
 
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 
 		$.post(OC.filePath('core', 'ajax', 'share.php'), {action: action, recipient: shareWith, shareType: shareType, itemSource: itemSource, itemType: itemType}, function(result) {
 			if (result.status !== 'success') {
