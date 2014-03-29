@@ -703,7 +703,7 @@ class OC_Util {
 	public static function redirectToDefaultPage() {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
-			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
+			$location = urldecode($_REQUEST['redirect_url']);
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
 			$location = $urlGenerator->getAbsoluteURL('/index.php/apps/'.OC::$REQUESTEDAPP.'/index.php');
