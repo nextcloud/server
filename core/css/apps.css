@@ -35,9 +35,6 @@
 #app-navigation li:hover > a  {
 	background-color: #ddd;
 }
-#app-navigation .active {
-	font-weight:700;
-}
 #app-navigation .selected,
 #app-navigation .selected a {
 	background-color:#ddd;
