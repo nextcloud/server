@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-30 01:55-0400\n"
+"PO-Revision-Date: 2014-03-29 20:30+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "Datum preteka je v preteklosti."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Ni mogoče poslati sporočila za: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Vzdrževalni način je omogočen"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Vzdrževalni način je onemogočen"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Posodobljena podatkovna zbirka"
 
@@ -140,15 +140,15 @@ msgstr "december"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:496
+#: js/js.js:543
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:995
+#: js/js.js:1103
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:996
+#: js/js.js:1104
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -156,7 +156,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:997
+#: js/js.js:1105
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -164,15 +164,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:998
+#: js/js.js:1106
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:999
+#: js/js.js:1107
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1000
+#: js/js.js:1108
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -180,11 +180,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1001
+#: js/js.js:1109
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1002
+#: js/js.js:1110
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -192,15 +192,15 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1003
+#: js/js.js:1111
 msgid "months ago"
 msgstr "mesecev nazaj"
 
-#: js/js.js:1004
+#: js/js.js:1112
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1005
+#: js/js.js:1113
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -545,17 +545,17 @@ msgstr "Novo geslo"
 msgid "Reset password"
 msgstr "Ponastavi geslo"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Sistem Mac OS X ni podprt, zato %s ne bo deloval zanesljivo v tem okolju. Program uporabljate na lastno odgovornost! "
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "Za najbolj še rezultate je priporočljivo uporabljati strežnik GNU/Linux."
 
 #: strings.php:5
 msgid "Personal"
