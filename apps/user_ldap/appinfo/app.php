@@ -30,8 +30,8 @@ if(count($configPrefixes) === 1) {
 	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
 		new OCA\user_ldap\lib\FilesystemHelper(),
 		new OCA\user_ldap\lib\LogWrapper(),
-		new \OCP\Image(),
-		\OC::$server->getAvatarManager());
+		\OC::$server->getAvatarManager(),
+		new \OCP\Image());
 	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);
 	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess);
