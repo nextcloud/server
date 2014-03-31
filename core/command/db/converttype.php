@@ -35,7 +35,7 @@ class ConvertType extends Command {
 			$dialog = $this->getHelperSet()->get('dialog');
 			$password = $dialog->askHiddenResponse(
 				$output,
-				'What is the database password?',
+				'<question>What is the database password?</question>',
 				false
 			);
 			$input->setOption('password', $password);
