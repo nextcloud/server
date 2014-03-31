@@ -299,7 +299,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 
-	public function hashProvider(){
+	public function hashProvider() {
 		return array(
 			array('Foobar', 'md5'),
 			array('Foobar', 'sha1'),
@@ -314,5 +314,24 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->file_put_contents('hash.txt', $data);
 		$this->assertEquals(hash($type, $data), $this->instance->hash($type, 'hash.txt'));
 		$this->assertEquals(hash($type, $data, true), $this->instance->hash($type, 'hash.txt', true));
+	}
+
+	public function testHashInFileName() {
+		$this->instance->file_put_contents('#test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#test.txt'));
+
+		$this->instance->mkdir('#foo');
+		$this->instance->file_put_contents('#foo/test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#foo/test.txt'));
+
+		$dh = $this->instance->opendir('#foo');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+
+		$this->assertEquals(array('test.txt'), $content);
 	}
 }
