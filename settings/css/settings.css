@@ -152,7 +152,6 @@ table.grid td.date{
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
-input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }
 
 #mail_settings p label:first-child {
