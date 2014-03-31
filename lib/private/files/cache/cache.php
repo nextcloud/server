@@ -594,7 +594,7 @@ class Cache {
 	}
 
 	/**
-	 * get the storage id of the storage for a file and the internal path of the file
+	 * get the path of a file on this storage by it's id
 	 *
 	 * @param int $id
 	 * @return string | null
@@ -611,6 +611,8 @@ class Cache {
 
 	/**
 	 * get the storage id of the storage for a file and the internal path of the file
+	 * unlike getPathById this does not limit the search to files on this storage and
+	 * instead does a global search in the cache table
 	 *
 	 * @param int $id
 	 * @return array, first element holding the storage id, second the path

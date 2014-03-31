@@ -400,6 +400,13 @@ class Shared_Cache extends Cache {
 		return false;
 	}
 
+	/**
+	 * get the path of a file on this storage by it's id
+	 *
+	 * @param int $id
+	 * @param string $pathEnd (optional) used internally for recursive calls
+	 * @return string | null
+	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
 		if ($path = $this->getShareById($id)) {
