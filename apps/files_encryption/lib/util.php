@@ -1164,8 +1164,10 @@ class Util {
 	/**
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
+	 * @param boolean $sharingEnabled
+	 * @param string $filePath path relativ to current users files folder
 	 */
-	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false) {
+	public function getSharingUsersArray($sharingEnabled, $filePath) {
 
 		// Check if key recovery is enabled
 		if (
@@ -1182,12 +1184,14 @@ class Util {
 
 		$ownerPath = \OCA\Encryption\Helper::stripPartialFileExtension($ownerPath);
 
-		$userIds = array();
+		// always add owner to the list of users with access to the file
+		$userIds = array($owner);
+
 		if ($sharingEnabled) {
 
 			// Find out who, if anyone, is sharing the file
-			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true);
-			$userIds = $result['users'];
+			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
+			$userIds = \array_merge($userIds, $result['users']);
 			if ($result['public']) {
 				$userIds[] = $this->publicShareKeyId;
 			}
@@ -1201,11 +1205,6 @@ class Util {
 			$recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-		}
-
-		// add current user if given
-		if ($currentUserId !== false) {
-			$userIds[] = $currentUserId;
 		}
 
 		// check if it is a group mount

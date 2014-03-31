@@ -135,9 +135,9 @@ class Share {
 
 	/**
 	 * Find which users can access a shared item
-	 * @param $path to the file
-	 * @param $user owner of the file
-	 * @param include owner to the list of users with access to the file
+	 * @param string $path to the file
+	 * @param string $user owner of the file
+	 * @param bool $includeOwner include owner to the list of users with access to the file
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/data/file.txt'
