@@ -30,30 +30,39 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 	private function getConnecterAndLdapMock() {
 		static $conMethods;
 		static $accMethods;
+		static $umMethods;
 
 		if(is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
+			$umMethods  = get_class_methods('\OCA\user_ldap\lib\user\Manager');
 		}
 		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));
+		$um = $this->getMock('\OCA\user_ldap\lib\user\Manager',
+			$umMethods, array(
+				$this->getMock('\OCP\IConfig'),
+				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
+				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
+				$this->getMock('\OCP\IAvatarManager'),
+				$this->getMock('\OCP\Image')));
 
-		return array($lw, $connector);
+		return array($lw, $connector, $um);
 	}
 
 	public function testEscapeFilterPartValidChars() {
-		list($lw, $con) = $this->getConnecterAndLdapMock();
-		$access = new Access($con, $lw);
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
 
 		$input = 'okay';
 		$this->assertTrue($input === $access->escapeFilterPart($input));
 	}
 
 	public function testEscapeFilterPartEscapeWildcard() {
-		list($lw, $con) = $this->getConnecterAndLdapMock();
-		$access = new Access($con, $lw);
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
 
 		$input = '*';
 		$expected = '\\\\*';
@@ -61,8 +70,8 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEscapeFilterPartEscapeWildcard2() {
-		list($lw, $con) = $this->getConnecterAndLdapMock();
-		$access = new Access($con, $lw);
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
 
 		$input = 'foo*bar';
 		$expected = 'foo\\\\*bar';
