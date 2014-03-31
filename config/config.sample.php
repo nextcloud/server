@@ -178,6 +178,12 @@ $CONFIG = array(
 /* Enable or disable the logging of IP addresses in case of webform auth failures */
 "log_authfailip" => false,
 
+/* Whether ownCloud should log the last successfull cron exec */
+"cron_log" => true,
+
+/* Whether http-basic username must equal username to login */
+"basic_auth" => true,
+
 /*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
  * This rotates the current owncloud logfile to a new name, this way the total log usage
@@ -270,6 +276,15 @@ $CONFIG = array(
 /* all css and js files will be served by the web server statically in one js file and ons css file*/
 'asset-pipeline.enabled' => false,
 
- /* where mount.json file should be stored, defaults to data/mount.json */
- 'mount_file' => '',
+/* where mount.json file should be stored, defaults to data/mount.json */
+'mount_file' => '',
+
+/*
+ * Location of the cache folder, defaults to "data/$user/cache" where "$user" is the current user.
+ *
+ * When specified, the format will change to "$cache_path/$user" where "$cache_path" is the configured
+ * cache directory and "$user" is the user.
+ *
+ */
+'cache_path' => ''
 );

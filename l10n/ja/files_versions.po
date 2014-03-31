@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# tt yn <tetuyano+transi@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-03-13 17:12-0400\n"
+"PO-Revision-Date: 2013-08-04 01:10+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/rollbackVersion.php:13
+#, php-format
+msgid "Could not revert: %s"
+msgstr "元に戻せませんでした: %s"
+
+#: js/versions.js:14
+msgid "Versions"
+msgstr "バージョン"
+
+#: js/versions.js:60
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr "{file} を {timestamp} のリヴィジョンに戻すことができません。"
+
+#: js/versions.js:87
+msgid "More versions..."
+msgstr "もっと他のバージョン..."
+
+#: js/versions.js:125
+msgid "No other versions available"
+msgstr "利用可能な他のバージョンはありません"
+
+#: js/versions.js:155
+msgid "Restore"
+msgstr "復元"

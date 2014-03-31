@@ -31,7 +31,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 'local::'.$this->datadir;
 	}
 	public function mkdir($path) {
-		return @mkdir($this->buildPath($path));
+		return @mkdir($this->buildPath($path), 0777, true);
 	}
 	public function rmdir($path) {
 		try {
@@ -276,7 +276,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 0;
 	}
 
-	public function hash($path, $type, $raw=false) {
+	public function hash($type, $path, $raw=false) {
 		return hash_file($type, $this->buildPath($path), $raw);
 	}
 

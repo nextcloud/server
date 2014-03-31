@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkAdminUser();
-OC_App::loadApps();
 
 OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "admin" );
@@ -19,6 +18,11 @@ $htaccessworking=OC_Util::isHtAccessWorking();
 
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
+
+// Should we display sendmail as an option?
+if (findBinaryPath('sendmailsendmail')) {
+	$tmpl->assign('sendmail_is_available', true);
+}
 
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('mail_domain', OC_Config::getValue( "mail_domain", '' ));
@@ -40,6 +44,8 @@ $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $tmpl->assign('old_php', OC_Util::isPHPoutdated());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
+$tmpl->assign('cron_log', OC_Config::getValue('cron_log', true));
+$tmpl->assign('lastcron', OC_Appconfig::getValue('core', 'lastcron', false));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
 
 // Check if connected using HTTPS
@@ -61,3 +67,17 @@ foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();
+
+/**
+ * Try to find a programm
+ *
+ * @param string $program
+ * @return null|string
+ */
+function findBinaryPath($program) {
+	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	if ($returnCode === 0 && count($output) > 0) {
+		return escapeshellcmd($output[0]);
+	}
+	return null;
+}

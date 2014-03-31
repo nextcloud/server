@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkLoggedIn();
-OC_App::loadApps();
 
 $defaults = new OC_Defaults(); // initialize themable default strings and urls
 

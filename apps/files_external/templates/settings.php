@@ -16,17 +16,17 @@
 			</thead>
 			<tbody width="100%">
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
-			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
-				<tr <?php print_unescaped(($mountPoint != '') ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
+			<?php foreach ($_['mounts'] as $mount): ?>
+				<tr <?php print_unescaped(($mount['mountpoint'] !== '') ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
 					<td class="status">
 					<?php if (isset($mount['status'])): ?>
 						<span class="<?php p(($mount['status']) ? 'success' : 'error'); ?>"></span>
 					<?php endif; ?>
 					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php p($mountPoint); ?>"
+												  value="<?php p($mount['mountpoint']); ?>"
 												  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
-					<?php if ($mountPoint == ''): ?>
+					<?php if ($mount['mountpoint'] == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php print_unescaped(json_encode($_['backends'])); ?>'>
 								<option value="" disabled selected
@@ -41,32 +41,35 @@
 							data-class="<?php p($mount['class']); ?>"><?php p($mount['backend']); ?></td>
 					<?php endif; ?>
 					<td class ="configuration" width="100%">
-						<?php if (isset($mount['configuration'])): ?>
-							<?php foreach ($mount['configuration'] as $parameter => $value): ?>
+						<?php if (isset($mount['options'])): ?>
+							<?php foreach ($mount['options'] as $parameter => $value): ?>
 								<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
-									<?php $placeholder = $_['backends'][$mount['class']]['configuration'][$parameter]; ?>
-									<?php if (strpos($placeholder, '*') !== false): ?>
+									<?php
+										$placeholder = $_['backends'][$mount['class']]['configuration'][$parameter];
+										$is_optional = FALSE;
+										if (strpos($placeholder, '&') === 0) {
+											$is_optional = TRUE;
+											$placeholder = substr($placeholder, 1);
+										}
+									?>
+									<?php if (strpos($placeholder, '*') === 0): ?>
 										<input type="password"
+											   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
 											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
-									<?php elseif (strpos($placeholder, '!') !== false): ?>
+									<?php elseif (strpos($placeholder, '!') === 0): ?>
 										<label><input type="checkbox"
 													  data-parameter="<?php p($parameter); ?>"
 													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
 													  /><?php p(substr($placeholder, 1)); ?></label>
-									<?php elseif (strpos($placeholder, '&') !== false): ?>
-										<input type="text"
-											   class="optional"
-											   data-parameter="<?php p($parameter); ?>"
-											   value="<?php p($value); ?>"
-											   placeholder="<?php p(substr($placeholder, 1)); ?>" />
-									<?php elseif (strpos($placeholder, '#') !== false): ?>
+									<?php elseif (strpos($placeholder, '#') === 0): ?>
 										<input type="hidden"
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>" />
 									<?php else: ?>
 										<input type="text"
+											   <?php if ($is_optional): ?> class="optional"<?php endif; ?>
 											   data-parameter="<?php p($parameter); ?>"
 											   value="<?php p($value); ?>"
 											   placeholder="<?php p($placeholder); ?>" />
@@ -108,7 +111,7 @@
 							</select>
 						</td>
 					<?php endif; ?>
-					<td <?php if ($mountPoint != ''): ?>class="remove"
+					<td <?php if ($mount['mountpoint'] != ''): ?>class="remove"
 						<?php else: ?>style="visibility:hidden;"
 						<?php endif ?>><img alt="<?php p($l->t('Delete')); ?>"
 											title="<?php p($l->t('Delete')); ?>"
@@ -122,12 +125,18 @@
 
 		<?php if ($_['isAdminPage']): ?>
 			<br />
-			<input type="checkbox"
-				   name="allowUserMounting"
-				   id="allowUserMounting"
-				   value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
-			<label for="allowUserMounting"><?php p($l->t('Enable User External Storage')); ?></label><br/>
-			<em><?php p($l->t('Allow users to mount their own external storage')); ?></em>
+			<input type="checkbox" name="allowUserMounting" id="allowUserMounting"
+				value="1" <?php if ($_['allowUserMounting'] == 'yes') print_unescaped(' checked="checked"'); ?> />
+			<label for="allowUserMounting"><?php p($l->t('Enable User External Storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
+
+			<p id="userMountingBackups"<?php if ($_['allowUserMounting'] != 'yes'): ?> class="hidden"<?php endif; ?>>
+				<?php p($l->t('Allow users to mount the following external storage')); ?><br />
+				<?php $i = 0; foreach ($_['personal_backends'] as $class => $backend): ?>
+					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($class); ?>" <?php if ($backend['enabled']) print_unescaped(' checked="checked"'); ?> />
+					<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend['backend']); ?></label> <br />
+					<?php $i++; ?>
+				<?php endforeach; ?>
+			</p>
 		<?php endif; ?>
 	</fieldset>
 </form>

@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Grant access" => "Sta toegang toe",
 "Please provide a valid Dropbox app key and secret." => "Geef een geldige Dropbox key en secret.",
 "Error configuring Google Drive storage" => "Fout tijdens het configureren van Google Drive opslag",
+"Saved" => "Bewaard",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Waarschuwing:</b> \"smbclient\" is niet geïnstalleerd. Mounten van CIFS/SMB shares is niet mogelijk. Vraag uw beheerder om smbclient te installeren.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Waarschuwing:</b> FTP ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van FTP shares is niet mogelijk. Vraag uw beheerder FTP ondersteuning te installeren.",
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Waarschuwing:</b> Curl ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van ownCloud / WebDAV of GoogleDrive is niet mogelijk. Vraag uw systeembeheerder dit te installeren.",
@@ -21,7 +22,7 @@ $TRANSLATIONS = array(
 "Users" => "Gebruikers",
 "Delete" => "Verwijder",
 "Enable User External Storage" => "Externe opslag voor gebruikers activeren",
-"Allow users to mount their own external storage" => "Sta gebruikers toe om hun eigen externe opslag aan te koppelen",
+"Allow users to mount the following external storage" => "Sta gebruikers toe de volgende externe opslag aan te koppelen",
 "SSL root certificates" => "SSL root certificaten",
 "Import Root Certificate" => "Importeer root certificaat"
 );

@@ -152,7 +152,6 @@ table.grid td.date{
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
-input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }
 
 #mail_settings p label:first-child {
@@ -165,6 +164,26 @@ table.shareAPI td { padding-bottom: 0.8em; }
 }
 #mail_smtpport {
 	width: 40px;
+}
+
+.cronlog {
+	margin-left: 10px;
+}
+
+.cronstatus {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+span.success {
+        background: #37ce02;
+        border-radius: 8px;
+}
+
+span.error {
+        background: #ce3702;
 }
 
 /* HELP */

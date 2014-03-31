@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nepavyko negrįžtamai ištrinti %s",
 "Couldn't restore %s" => "Nepavyko atkurti %s",
+"Deleted files" => "Ištrinti failai",
 "Error" => "Klaida",
 "restored" => "atstatyta",
 "Nothing in here. Your trash bin is empty!" => "Nieko nėra. Jūsų šiukšliadėžė tuščia!",

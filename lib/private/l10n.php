@@ -405,7 +405,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief Choose a language
-	 * @param array $texts Associative Array with possible strings
+	 * @param array $text Associative Array with possible strings
 	 * @returns String
 	 *
 	 * $text is an array 'de' => 'hallo welt', 'en' => 'hello world', ...
@@ -413,14 +413,14 @@ class OC_L10N implements \OCP\IL10N {
 	 * This function is useful to avoid loading thousands of files if only one
 	 * simple string is needed, for example in appinfo.php
 	 */
-	public static function selectLanguage($texts) {
-		$lang = self::findLanguage(array_keys($texts));
-		return $texts[$lang];
+	public static function selectLanguage($text) {
+		$lang = self::findLanguage(array_keys($text));
+		return $text[$lang];
 	}
 
 	/**
 	 * @brief find the best language
-	 * @param array|string $app Array or string, details below
+	 * @param array|string $app details below
 	 * @returns string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
@@ -532,8 +532,9 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @param string $lang
 	 * @param string $app
+	 * @param string $lang
+	 * @returns bool
 	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available

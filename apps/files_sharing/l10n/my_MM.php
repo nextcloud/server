@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "စကားဝှက်",
-"Download" => "ဒေါင်းလုတ်"
+"Password" => "စကားဝှက်"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "მომხმარებელი",
 "Delete" => "წაშლა",
 "Enable User External Storage" => "მომხმარებლის ექსტერნალ საცავის აქტივირება",
-"Allow users to mount their own external storage" => "მიეცით მომხმარებლებს თავისი ექსტერნალ საცავის მონტირების  უფლება",
 "SSL root certificates" => "SSL root სერთიფიკატები",
 "Import Root Certificate" => "Root სერთიფიკატის იმპორტირება"
 );

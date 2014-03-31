@@ -74,6 +74,36 @@ class Controller {
 	}
 
 	/**
+	 * Send a mail to test the settings
+	 */
+	public static function sendTestMail() {
+		\OC_Util::checkAdminUser();
+		\OCP\JSON::callCheck();
+
+		$l = \OC_L10N::get('settings');
+		$email = \OC_Preferences::getValue(\OC_User::getUser(), 'settings', 'email', '');
+		if (!empty($email)) {
+			$defaults = new \OC_Defaults();
+
+			try {
+				\OC_Mail::send($email, $_POST['user'],
+					$l->t('test email settings'),
+					$l->t('If you received this email, the settings seem to be correct.'),
+					\OCP\Util::getDefaultEmailAddress('no-reply'), $defaults->getName());
+			} catch (\Exception $e) {
+				$message = $l->t('A problem occurred while sending the e-mail. Please revisit your settings.');
+				\OC_JSON::error( array( "data" => array( "message" => $message)) );
+				exit;
+			}
+
+			\OC_JSON::success(array("data" => array( "message" => $l->t("Email sent") )));
+		} else {
+			$message = $l->t('You need to set your user email before being able to send test emails.');
+			\OC_JSON::error( array( "data" => array( "message" => $message)) );
+		}
+	}
+
+	/**
 	 * Get the field name to use it in error messages
 	 *
 	 * @param string $setting
@@ -87,7 +117,7 @@ class Controller {
 			case 'mail_smtpsecure':
 				return $l->t( 'Encryption' );
 			case 'mail_smtpauthtype':
-				return $l->t( 'Authentification method' );
+				return $l->t( 'Authentication method' );
 		}
 	}
 }

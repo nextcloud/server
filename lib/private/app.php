@@ -219,6 +219,8 @@ class OC_App{
 				$appdata=OC_OCSClient::getApplication($app);
 				$download=OC_OCSClient::getApplicationDownload($app, 1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
+					// Replace spaces in download link without encoding entire URL
+					$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 					$info = array('source'=>'http', 'href'=>$download['downloadlink'], 'appdata'=>$appdata);
 					$app=OC_Installer::installApp($info);
 				}

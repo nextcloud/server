@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "Failed to write to disk" => "دىسكىغا يازالمىدى",
 "Not enough storage available" => "يېتەرلىك ساقلاش بوشلۇقى يوق",
 "Files" => "ھۆججەتلەر",
-"Not enough space available" => "يېتەرلىك بوشلۇق يوق",
 "Upload cancelled." => "يۈكلەشتىن ۋاز كەچتى.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ھۆججەت يۈكلەش مەشغۇلاتى ئېلىپ بېرىلىۋاتىدۇ. Leaving the page now will cancel the upload.",
 "{new_name} already exists" => "{new_name} مەۋجۇت",
@@ -34,7 +33,6 @@ $TRANSLATIONS = array(
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",
 "Delete" => "ئۆچۈر",
-"Upload too large" => "يۈكلەندىغىنى بەك چوڭ",
-"Upgrading filesystem cache..." => "ھۆججەت سىستېما غەملىكىنى يۈكسەلدۈرۈۋاتىدۇ…"
+"Upload too large" => "يۈكلەندىغىنى بەك چوڭ"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

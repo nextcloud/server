@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Flávio Veras <flaviove@gmail.com>, 2013
+# Flávio Veras <flaviove@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 13:20+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,40 +18,44 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
+#: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
 msgstr "Acesso concedido"
 
-#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
+#: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
 msgstr "Erro ao configurar armazenamento do Dropbox"
 
-#: js/dropbox.js:65 js/google.js:86
+#: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "Permitir acesso"
 
-#: js/dropbox.js:101
+#: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Por favor forneça um app key e secret válido do Dropbox"
 
-#: js/google.js:42 js/google.js:121
+#: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Erro ao configurar armazenamento do Google Drive"
 
-#: lib/config.php:461
+#: js/settings.js:313 js/settings.js:320
+msgid "Saved"
+msgstr "Salvo"
+
+#: lib/config.php:512
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Aviso:</b> \"smbclient\" não está instalado. Impossível montar compartilhamentos de CIFS/SMB. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:465
+#: lib/config.php:516
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Aviso:</b> O suporte para FTP do PHP não está ativado ou instalado. Impossível montar compartilhamentos FTP. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:468
+#: lib/config.php:519
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -103,22 +107,22 @@ msgid "Users"
 msgstr "Usuários"
 
 #: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:155 templates/settings.php:156
 msgid "Delete"
 msgstr "Excluir"
 
-#: templates/settings.php:129
+#: templates/settings.php:127
 msgid "Enable User External Storage"
 msgstr "Habilitar Armazenamento Externo do Usuário"
 
 #: templates/settings.php:130
-msgid "Allow users to mount their own external storage"
-msgstr "Permitir usuários a montar seus próprios armazenamentos externos"
+msgid "Allow users to mount the following external storage"
+msgstr "Permitir que usuários montem o seguinte armazenamento externo"
 
-#: templates/settings.php:141
+#: templates/settings.php:147
 msgid "SSL root certificates"
 msgstr "Certificados SSL raíz"
 
-#: templates/settings.php:159
+#: templates/settings.php:165
 msgid "Import Root Certificate"
 msgstr "Importar Certificado Raíz"

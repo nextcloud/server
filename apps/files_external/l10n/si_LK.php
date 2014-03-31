@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Users" => "පරිශීලකයන්",
 "Delete" => "මකා දමන්න",
 "Enable User External Storage" => "පරිශීලක භාහිර ගබඩාවන් සක්‍රිය කරන්න",
-"Allow users to mount their own external storage" => "පරිශීලකයන්ට තමාගේම භාහිර ගබඩාවන් මවුන්ට් කිරීමේ අයිතිය දෙන්න",
 "SSL root certificates" => "SSL මූල සහතිකයන්",
 "Import Root Certificate" => "මූල සහතිකය ආයාත කරන්න"
 );

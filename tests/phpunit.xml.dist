@@ -29,4 +29,7 @@
 			</exclude>
 		</whitelist>
 	</filter>
+	<listeners>
+		<listener class="StartSessionListener" file="startsessionlistener.php" />
+	</listeners>
 </phpunit>

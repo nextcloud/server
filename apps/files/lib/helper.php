@@ -51,17 +51,20 @@ class Helper
 	/**
 	 * Comparator function to sort files alphabetically and have
 	 * the directories appear first
-	 * @param array $a file
-	 * @param array $b file
-	 * @return -1 if $a must come before $b, 1 otherwise
+	 *
+	 * @param \OCP\Files\FileInfo $a file
+	 * @param \OCP\Files\FileInfo $b file
+	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
 	public static function fileCmp($a, $b) {
-		if ($a['type'] === 'dir' and $b['type'] !== 'dir') {
+		$aType = $a->getType();
+		$bType = $b->getType();
+		if ($aType === 'dir' and $bType !== 'dir') {
 			return -1;
-		} elseif ($a['type'] !== 'dir' and $b['type'] === 'dir') {
+		} elseif ($aType !== 'dir' and $bType === 'dir') {
 			return 1;
 		} else {
-			return strnatcasecmp($a['name'], $b['name']);
+			return strnatcasecmp($a->getName(), $b->getName());
 		}
 	}
 

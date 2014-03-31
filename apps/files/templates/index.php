@@ -5,15 +5,15 @@
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li class="icon icon-filetype-text"
+					<li class="icon-filetype-text svg"
 						data-type="file" data-newname="<?php p($l->t('New text file')) ?>.txt">
 						<p><?php p($l->t('Text file'));?></p>
 					</li>
-					<li class="icon icon-filetype-folder"
+					<li class="icon-filetype-folder svg"
 						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
 						<p><?php p($l->t('Folder'));?></p>
 					</li>
-					<li class="icon icon-link" data-type="web">
+					<li class="icon-link svg" data-type="web">
 						<p><?php p($l->t('From link'));?></p>
 					</li>
 				</ul>
@@ -35,7 +35,7 @@
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg icon icon-upload"></a>
+					<a href="#" class="svg icon-upload"></a>
 			</div>
 			<?php if ($_['trash']): ?>
 			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?> />
@@ -66,7 +66,7 @@
 					<input type="checkbox" id="select_all" />
 					<label for="select_all"></label>
 					<span class="name"><?php p($l->t( 'Name' )); ?></span>
-					<span class="selectedActions">
+					<span id="selectedActionsList" class="selectedActions">
 						<?php if($_['allowZipDownload']) : ?>
 							<a href="" class="download">
 								<img class="svg" alt="Download"

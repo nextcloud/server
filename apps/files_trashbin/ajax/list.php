@@ -1,11 +1,5 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
-
 OCP\JSON::checkLoggedIn();
 
 // Load the files
@@ -26,9 +20,9 @@ if($doBreadcrumb) {
 }
 
 // make filelist
-$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
-
-if ($files === null){
+try {
+	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
+} catch (Exception $e) {
 	header("HTTP/1.0 404 Not Found");
 	exit();
 }

@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Access forbidden" => "پہنچ کی اجازت نہیں",
 "Cloud not found" => "نہیں مل سکا",
 "Create an <strong>admin account</strong>" => "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں",
-"Advanced" => "ایڈوانسڈ",
 "Data folder" => "ڈیٹا فولڈر",
 "Configure the database" => "ڈیٹا بیس کونفگر کریں",
 "will be used" => "استعمال ہو گا",

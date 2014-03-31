@@ -10,7 +10,7 @@ table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
 caption, th, td { text-align:left; font-weight:normal; }
 table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
-a, a *, input, input *, select, .button span, li, label { cursor:pointer; }
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
 body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
 
@@ -77,6 +77,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo {
 	background-image: url(../img/logo.svg);
+	background-repeat: no-repeat;
 	width: 250px;
 	height: 118px;
 	margin: 0 auto;
@@ -84,6 +85,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo-wide {
 	background-image: url(../img/logo-wide.svg);
+	background-repeat: no-repeat;
 	width: 147px;
 	height: 32px;
 }
@@ -99,11 +101,18 @@ input[type="time"],
 textarea,
 select,
 button, .button,
+input[type="submit"],
+input[type="button"],
 #quota,
 .pager li a {
-	width:10em; margin:.3em; padding:.6em .5em .4em;
-	font-size:1em;
-	background:#fff; color:#333; border:1px solid #ddd; outline:none;
+	width: 130px;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	font-size: 13px;
+	background: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	outline: none;
 	border-radius: 3px;
 }
 input[type="hidden"] {
@@ -168,13 +177,12 @@ input[type="submit"], input[type="button"],
 button, .button,
 #quota, select, .pager li a {
 	width: auto;
-	padding: .4em;
+	padding: 5px;
 	background-color: rgba(240,240,240,.9);
 	font-weight: bold;
 	color: #555;
 	border: 1px solid rgba(190,190,190,.9);
 	cursor: pointer;
-	border-radius: 3px;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
@@ -204,18 +212,18 @@ textarea:disabled {
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border: 1px solid #1d2d44;
-	background: #35537a;
+	background-color: #35537a;
 	color: #ddd;
 }
 	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
 	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
 		border: 1px solid #1d2d44;
-		background: #304d76;
+		background-color: #304d76;
 		color: #fff;
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
 		border: 1px solid #1d2d44;
-		background: #1d2d44;
+		background-color: #1d2d44;
 		color: #bbb;
 	}
 
@@ -233,7 +241,7 @@ textarea:disabled {
 }
 
 input[type="submit"].enabled {
-	background: #66f866;
+	background-color: #66f866;
 	border: 1px solid #5e5;
 }
 
@@ -245,6 +253,7 @@ input[type="submit"].enabled {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
+	top:45px;
 	right: 0;
 	left: 0;
 	height: 44px;

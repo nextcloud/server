@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nemožno zmazať %s navždy",
 "Couldn't restore %s" => "Nemožno obnoviť %s",
+"Deleted files" => "Zmazané súbory",
 "Error" => "Chyba",
 "restored" => "obnovené",
 "Nothing in here. Your trash bin is empty!" => "Žiadny obsah. Kôš je prázdny!",

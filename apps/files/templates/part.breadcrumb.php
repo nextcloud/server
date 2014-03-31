@@ -1,4 +1,4 @@
-<div class="crumb <?php if(!count($_["breadcrumb"])) p('last');?>" data-dir=''>
+<div class="crumb svg <?php if(!count($_["breadcrumb"])) p('last');?>" data-dir=''>
 	<a href="<?php print_unescaped($_['baseURL']); ?>">
 		<?php if(isset($_['rootBreadCrumb'])):
 			echo $_['rootBreadCrumb'];

@@ -37,17 +37,16 @@ if ($isIE8 && isset($_GET['dir'])){
 $ajaxLoad = false;
 
 if (!$isIE8){
-	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
+	try {
+		$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
+	} catch (Exception $e) {
+		header('Location: ' . OCP\Util::linkTo('files_trashbin', 'index.php'));
+		exit();
+	}
 }
 else{
 	$files = array();
 	$ajaxLoad = true;
-}
-
-// Redirect if directory does not exist
-if ($files === null){
-	header('Location: ' . OCP\Util::linkTo('files_trashbin', 'index.php'));
-	exit();
 }
 
 $dirlisting = false;

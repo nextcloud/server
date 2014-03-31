@@ -46,7 +46,7 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 		));
 
 		// router mock
-		$router = $this->getMock("\OC_Router", array('create'));
+		$router = $this->getMock("\OC\Route\Router", array('create'));
 
 		// load route configuration
 		$container = new DIContainer('app1');
@@ -91,7 +91,7 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 		$route = $this->mockRoute($verb, $controllerName, $actionName);
 
 		// router mock
-		$router = $this->getMock("\OC_Router", array('create'));
+		$router = $this->getMock("\OC\Route\Router", array('create'));
 
 		// we expect create to be called once:
 		$router
@@ -116,7 +116,7 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName)
 	{
 		// router mock
-		$router = $this->getMock("\OC_Router", array('create'));
+		$router = $this->getMock("\OC\Route\Router", array('create'));
 
 		// route mocks
 		$indexRoute = $this->mockRoute('GET', $controllerName, 'index');
@@ -174,7 +174,7 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 	private function mockRoute($verb, $controllerName, $actionName)
 	{
 		$container = new DIContainer('app1');
-		$route = $this->getMock("\OC_Route", array('method', 'action'), array(), '', false);
+		$route = $this->getMock("\OC\Route\Route", array('method', 'action'), array(), '', false);
 		$route
 			->expects($this->exactly(1))
 			->method('method')

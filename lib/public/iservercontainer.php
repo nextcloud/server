@@ -190,4 +190,10 @@ interface IServerContainer {
 	 */
 	function getJobList();
 
+	/**
+	 * Returns a router for generating and matching urls
+	 *
+	 * @return \OCP\Route\IRouter
+	 */
+	function getRouter();
 }

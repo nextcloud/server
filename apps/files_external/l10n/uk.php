@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Користувачі",
 "Delete" => "Видалити",
 "Enable User External Storage" => "Активувати користувацькі зовнішні сховища",
-"Allow users to mount their own external storage" => "Дозволити користувачам монтувати власні зовнішні сховища",
 "SSL root certificates" => "SSL корневі сертифікати",
 "Import Root Certificate" => "Імпортувати корневі сертифікати"
 );

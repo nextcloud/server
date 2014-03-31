@@ -106,6 +106,10 @@ class OC_Setup {
 			//guess what this does
 			OC_Installer::installShippedApps();
 
+			// create empty file in data dir, so we can later find
+			// out that this is indeed an ownCloud data directory
+			file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.ocdata', '');
+
 			//create htaccess files for apache hosts
 			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 				self::createHtaccess();
@@ -147,7 +151,7 @@ class OC_Setup {
 		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
 		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
-		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
+		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_mime.c>\n";
