@@ -22,10 +22,17 @@ class ConvertType extends Command {
 	protected $config;
 
 	/**
-	 * @param \OC\Config $config
+	 * @var \OC\DB\ConnectionFactory
 	 */
-	public function __construct($config) {
+	protected $connectionFactory;
+
+	/**
+	 * @param \OC\Config $config
+	 * @param \OC\DB\ConnectionFactory $connectionFactory
+	 */
+	public function __construct($config, $connectionFactory) {
 		$this->config = $config;
+		$this->connectionFactory = $connectionFactory;
 		parent::__construct();
 	}
 
@@ -87,12 +94,6 @@ class ConvertType extends Command {
 		;
 	}
 
-	private static $type2driver = array(
-		'mysql' => 'pdo_mysql',
-		'pgsql' => 'pdo_pgsql',
-		'oci' => 'oci8',
-		'mssql' => 'pdo_sqlsrv',
-	);
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$fromDB = \OC_DB::getConnection();
 		$toDB = $this->getToDBConnection($input, $output);
@@ -140,35 +141,17 @@ class ConvertType extends Command {
 
 	private function getToDBConnection($input, $output) {
 		$type = $input->getArgument('type');
-		$username = $input->getArgument('username');
-		$hostname = $input->getArgument('hostname');
-		$dbname = $input->getArgument('database');
-		$password = $input->getOption('password');
-
-		if (!isset(self::$type2driver[$type])) {
-			throw new \InvalidArgumentException('Unknown type: '.$type);
-		}
 		$connectionParams = array(
-				'driver' => self::$type2driver[$type],
-				'user' => $username,
-				'password' => $password,
-				'host' => $hostname,
-				'dbname' => $dbname,
+			'host' => $input->getArgument('hostname'),
+			'user' => $input->getArgument('username'),
+			'password' => $input->getOption('password'),
+			'dbname' => $input->getArgument('database'),
+			'tablePrefix' => $this->config->getValue('dbtableprefix', 'oc_'),
 		);
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
 		}
-		switch ($type) {
-			case 'mysql':
-			case 'mssql':
-				$connectionParams['charset'] = 'UTF8';
-				break;
-			case 'oci':
-				$connectionParams['charset'] = 'AL32UTF8';
-				break;
-		}
-
-		return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
 
 	private function getTables($db) {
