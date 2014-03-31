@@ -118,11 +118,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if (!$handle) {
 			return false;
 		}
-		$size = $this->filesize($path);
-		if ($size == 0) {
-			return '';
-		}
-		return fread($handle, $size);
+		$data = stream_get_contents($handle);
+		return $data;
 	}
 
 	public function file_put_contents($path, $data) {

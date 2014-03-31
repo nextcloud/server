@@ -113,11 +113,22 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	function loremFileProvider() {
+		$root = \OC::$SERVERROOT . '/tests/data/';
+		return array(
+			// small file
+			array($root . 'lorem.txt'),
+			// bigger file (> 8 KB which is the standard PHP block size)
+			array($root . 'lorem-big.txt')
+		);
+	}
+
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
+	 *
+	 * @dataProvider loremFileProvider
 	 */
-	public function testGetPutContents() {
-		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+	public function testGetPutContents($sourceFile) {
 		$sourceText = file_get_contents($sourceFile);
 
 		//fill a file with string data
