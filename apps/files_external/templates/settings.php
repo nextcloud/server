@@ -137,11 +137,10 @@
 </form>
 
 <?php if ( ! $_['isAdminPage']):  ?>
-<form id="files_external"
+<form id="files_external" class="section"
 	  method="post"
 	  enctype="multipart/form-data"
 	  action="<?php p(OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php')); ?>">
-<fieldset class="personalblock">
 		<h2><?php p($l->t('SSL root certificates'));?></h2>
 		<table id="sslCertificate" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
 			<tbody width="100%">
@@ -161,6 +160,5 @@
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']); ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import">
 		<input type="submit" name="cert_import" value="<?php p($l->t('Import Root Certificate')); ?>" />
-</fieldset>
 </form>
 <?php endif; ?>
