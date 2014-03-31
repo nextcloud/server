@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"POT-Creation-Date: 2014-03-31 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgid "Unable to load list from App Store"
 msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr ""
 
@@ -126,31 +126,31 @@ msgstr ""
 msgid "Couldn't update app."
 msgstr ""
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr ""
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr ""
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr ""
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid "Wrong admin recovery password. Please check the password and try again."
 msgstr ""
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr ""
 

@@ -886,5 +886,5 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 class TestShareApi extends \OCA\Files\Share\Api {
 	public function correctPathTest($path, $folder) {
 		return self::correctPath($path, $folder);
-}
+	}
 }

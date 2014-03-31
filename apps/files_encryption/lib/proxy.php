@@ -128,6 +128,8 @@ class Proxy extends \OC_FileProxy {
 
 					// re-enable proxy - our work is done
 					\OC_FileProxy::$enabled = $proxyStatus;
+				} else {
+					return false;
 				}
 			}
 		}

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Swab <swab@i.ua>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-03-28 01:55-0400\n"
+"PO-Revision-Date: 2014-03-27 14:41+0000\n"
+"Last-Translator: Swab <swab@i.ua>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,22 +40,22 @@ msgstr "Ошибка при настройке хранилища Google Drive"
 
 #: js/settings.js:313 js/settings.js:320
 msgid "Saved"
-msgstr ""
+msgstr "Сохранено"
 
-#: lib/config.php:512
+#: lib/config.php:654
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Внимание:</b> \"smbclient\" не установлен. Подключение по CIFS/SMB невозможно. Пожалуйста, обратитесь к системному администратору, чтобы установить его."
 
-#: lib/config.php:516
+#: lib/config.php:658
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Внимание:</b> Поддержка FTP не включена в PHP. Подключение по FTP невозможно. Пожалуйста, обратитесь к системному администратору, чтобы включить."
 
-#: lib/config.php:519
+#: lib/config.php:661
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -116,7 +117,7 @@ msgstr "Включить пользовательские внешние нос�
 
 #: templates/settings.php:130
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Разрешить пользователям монтировать следующую внешнюю систему хранения данных"
 
 #: templates/settings.php:147
 msgid "SSL root certificates"

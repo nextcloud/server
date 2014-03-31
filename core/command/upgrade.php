@@ -34,9 +34,6 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		global $RUNTIME_NOAPPS;
-
-		$RUNTIME_NOAPPS = true; //no apps, yet
 
 		require_once \OC::$SERVERROOT . '/lib/base.php';
 

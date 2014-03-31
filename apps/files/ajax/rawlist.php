@@ -1,8 +1,5 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES = array('filesystem');
-
 OCP\JSON::checkLoggedIn();
 \OC::$session->close();
 

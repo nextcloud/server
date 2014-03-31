@@ -78,8 +78,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given app and file.
 	 */
 	public static function linkToAbsolute($app, $file, $args = array()) {
-		$urlLinkTo = self::linkTo($app, $file, $args);
-		return self::makeURLAbsolute($urlLinkTo);
+		return self::linkTo($app, $file, $args);
 	}
 
 	/**

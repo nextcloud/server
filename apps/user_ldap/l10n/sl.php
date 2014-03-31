@@ -85,6 +85,7 @@ $TRANSLATIONS = array(
 "One Group Base DN per line" => "Eno osnovno ime skupine na vrstico",
 "Group Search Attributes" => "Skupinski atributi iskanja",
 "Group-Member association" => "Povezava član-skupina",
+"Nested Groups" => "Gnezdene skupine",
 "Special Attributes" => "Posebni atributi",
 "Quota Field" => "Polje količinske omejitve",
 "Quota Default" => "Privzeta količinska omejitev",

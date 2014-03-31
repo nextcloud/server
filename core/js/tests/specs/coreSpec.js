@@ -279,5 +279,109 @@ describe('Core base tests', function() {
 			expect(OC.generateUrl('apps/files/download{file}', {file: '/Welcome.txt'})).toEqual(OC.webroot + '/index.php/apps/files/download/Welcome.txt');
 		});
 	});
+	describe('Main menu mobile toggle', function() {
+		var oldMatchMedia;
+		var $toggle;
+		var $navigation;
+
+		beforeEach(function() {
+			oldMatchMedia = OC._matchMedia;
+			// a separate method was needed because window.matchMedia
+			// cannot be stubbed due to a bug in PhantomJS:
+			// https://github.com/ariya/phantomjs/issues/12069
+			OC._matchMedia = sinon.stub();
+			$('#testArea').append('<div id="header">' +
+				'<a id="owncloud" href="#"></a>' +
+				'</div>' +
+				'<div id="navigation"></div>');
+			$toggle = $('#owncloud');
+			$navigation = $('#navigation');
+		});
+
+		afterEach(function() {
+			OC._matchMedia = oldMatchMedia;
+		});
+		it('Sets up menu toggle in mobile mode', function() {
+			OC._matchMedia.returns({matches: true});
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+			expect($navigation.hasClass('menu')).toEqual(true);
+		});
+		it('Does not set up menu toggle in desktop mode', function() {
+			OC._matchMedia.returns({matches: false});
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+			expect($navigation.hasClass('menu')).toEqual(false);
+		});
+		it('Switches on menu toggle when mobile mode changes', function() {
+			var mq = {matches: false};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+		});
+		it('Switches off menu toggle when mobile mode changes', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+		});
+		it('Clicking menu toggle toggles navigation in mobile mode', function() {
+			OC._matchMedia.returns({matches: true});
+			window.initCore();
+			$navigation.hide(); // normally done through media query triggered CSS
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(false);
+		});
+		it('Clicking menu toggle does not toggle navigation in desktop mode', function() {
+			OC._matchMedia.returns({matches: false});
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(true);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+		});
+		it('Switching to mobile mode hides navigation', function() {
+			var mq = {matches: false};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(false);
+		});
+		it('Switching to desktop mode shows navigation', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(false);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(true);
+		});
+		it('Switch to desktop with opened menu then back to mobile resets toggle', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+		});
+	});
 });
 

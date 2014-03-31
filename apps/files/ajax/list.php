@@ -1,11 +1,5 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
-
 OCP\JSON::checkLoggedIn();
 \OC::$session->close();
 

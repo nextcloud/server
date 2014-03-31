@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
+"POT-Creation-Date: 2014-03-31 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr ""
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr ""
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr ""
 
@@ -139,59 +139,59 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:496
+#: js/js.js:543
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:995
+#: js/js.js:1103
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:996
+#: js/js.js:1104
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:997
+#: js/js.js:1105
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:998
+#: js/js.js:1106
 msgid "today"
 msgstr ""
 
-#: js/js.js:999
+#: js/js.js:1107
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1000
+#: js/js.js:1108
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1001
+#: js/js.js:1109
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1002
+#: js/js.js:1110
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1003
+#: js/js.js:1111
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:1004
+#: js/js.js:1112
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1005
+#: js/js.js:1113
 msgid "years ago"
 msgstr ""
 
@@ -534,14 +534,14 @@ msgstr ""
 msgid "Reset password"
 msgstr ""
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr ""
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid "For the best results, please consider using a GNU/Linux server instead."
 msgstr ""
 
