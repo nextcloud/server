@@ -11,6 +11,8 @@ var oc_webroot;
 var oc_current_user = document.getElementsByTagName('head')[0].getAttribute('data-user');
 var oc_requesttoken = document.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
 
+window.oc_config = window.oc_config || {};
+
 if (typeof oc_webroot === "undefined") {
 	oc_webroot = location.pathname;
 	var pos = oc_webroot.indexOf('/index.php/');
@@ -25,7 +27,7 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 	if (!window.console) {
 		window.console = {};
 	}
-	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd'];
 	for (var i = 0; i < methods.length; i++) {
 		console[methods[i]] = function () { };
 	}
@@ -192,6 +194,30 @@ var OC={
 	linkToRemoteBase:function(service) {
 		return OC.webroot + '/remote.php/' + service;
 	},
+
+	/**
+	 * Generates the absolute url for the given relative url, which can contain parameters.
+	 *
+	 * @returns {string}
+	 * @param {string} url
+	 * @param params
+	 */
+	generateUrl: function(url, params) {
+		var _build = function (text, vars) {
+			return text.replace(/{([^{}]*)}/g,
+				function (a, b) {
+					var r = vars[b];
+					return typeof r === 'string' || typeof r === 'number' ? r : a;
+				}
+			);
+		};
+		if (url.charAt(0) !== '/') {
+			url = '/' + url;
+
+		}
+		return OC.webroot + '/index.php' + _build(url, params);
+	},
+
 	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
@@ -456,6 +482,53 @@ var OC={
 				}).show();
 			}, 'html');
 		}
+	},
+
+	// for menu toggling
+	registerMenu: function($toggle, $menuEl) {
+		$menuEl.addClass('menu');
+		$toggle.addClass('menutoggle');
+		$toggle.on('click.menu', function(event) {
+			if ($menuEl.is(OC._currentMenu)) {
+				$menuEl.hide();
+				OC._currentMenu = null;
+				OC._currentMenuToggle = null;
+				return false;
+			}
+			// another menu was open?
+			else if (OC._currentMenu) {
+				// close it
+				OC._currentMenu.hide();
+			}
+			$menuEl.show();
+			OC._currentMenu = $menuEl;
+			OC._currentMenuToggle = $toggle;
+			return false
+		});
+	},
+
+	unregisterMenu: function($toggle, $menuEl) {
+		// close menu if opened
+		if ($menuEl.is(OC._currentMenu)) {
+			$menuEl.hide();
+			OC._currentMenu = null;
+			OC._currentMenuToggle = null;
+		}
+		$toggle.off('click.menu').removeClass('menutoggle');
+		$menuEl.removeClass('menu');
+	},
+
+	/**
+	 * Wrapper for matchMedia
+	 *
+	 * This is makes it possible for unit tests to
+	 * stub matchMedia (which doesn't work in PhantomJS)
+	 */
+	_matchMedia: function(media) {
+		if (window.matchMedia) {
+			return window.matchMedia(media);
+		}
+		return false;
 	}
 };
 OC.search.customResults={};
@@ -464,6 +537,34 @@ OC.search.lastQuery='';
 OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
+
+OC.msg={
+	startSaving:function(selector){
+		OC.msg.startAction(selector, t('core', 'Saving...'));
+	},
+	finishedSaving:function(selector, data){
+		OC.msg.finishedAction(selector, data);
+	},
+	startAction:function(selector, message){
+		$(selector)
+			.html( message )
+			.removeClass('success')
+			.removeClass('error')
+			.stop(true, true)
+			.show();
+	},
+	finishedAction:function(selector, data){
+		if( data.status === "success" ){
+			$(selector).html( data.data.message )
+				.addClass('success')
+				.stop(true, true)
+				.delay(3000)
+				.fadeOut(900);
+		}else{
+			$(selector).html( data.data.message ).addClass('error');
+		}
+	}
+};
 
 OC.Notification={
 	queuedNotifications: [],
@@ -608,6 +709,9 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 		setItem:function(name,item){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
+		removeItem:function(name,item){
+			return localStorage.removeItem(OC.localStorage.namespace+name);
+		},
 		getItem:function(name){
 			var item = localStorage.getItem(OC.localStorage.namespace+name);
 			if(item===null) {
@@ -655,11 +759,11 @@ SVGSupport.checkMimeType=function(){
 						if(value[0]==='"'){
 							value=value.substr(1,value.length-2);
 						}
-						headers[parts[0]]=value;
+						headers[parts[0].toLowerCase()]=value;
 					}
 				}
 			});
-			if(headers["Content-Type"]!=='image/svg+xml'){
+			if(headers["content-type"]!=='image/svg+xml'){
 				replaceSVG();
 				SVGSupport.checkMimeType.correct=false;
 			}
@@ -742,8 +846,37 @@ function fillWindow(selector) {
 	console.warn("This function is deprecated! Use CSS instead");
 }
 
-$(document).ready(function(){
-	sessionHeartBeat();
+/**
+ * Initializes core
+ */
+function initCore() {
+
+	/**
+	 * Calls the server periodically to ensure that session doesn't
+	 * time out
+	 */
+	function initSessionHeartBeat(){
+		// interval in seconds
+		var interval = 900;
+		if (oc_config.session_lifetime) {
+			interval = Math.floor(oc_config.session_lifetime / 2);
+		}
+		// minimum one minute
+		if (interval < 60) {
+			interval = 60;
+		}
+		var url = OC.generateUrl('/heartbeat');
+		setInterval(function(){
+			$.post(url);
+		}, interval * 1000);
+	}
+
+	// session heartbeat (defaults to enabled)
+	if (typeof(oc_config.session_keepalive) === 'undefined' ||
+		!!oc_config.session_keepalive) {
+
+		initSessionHeartBeat();
+	}
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -827,6 +960,7 @@ $(document).ready(function(){
 	// checkShowCredentials();
 	// $('input#user, input#password').keyup(checkShowCredentials);
 
+	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {
 			$('#expand').click()
@@ -839,7 +973,8 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(document).click(function(){//hide the settings menu when clicking outside it
+	//hide the user menu when clicking outside it
+	$(document).click(function(){
 		$('#settings #expanddiv').slideUp(200);
 	});
 
@@ -851,12 +986,71 @@ $(document).ready(function(){
 	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
-
 	$('input').tipsy({gravity:'w', fade:true});
-	$('input[type=text]').focus(function(){
-		this.select();
+
+	// toggle for menus
+	$(document).on('mouseup.closemenus', function(event) {
+		var $el = $(event.target);
+		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
+			// don't close when clicking on the menu directly or a menu toggle
+			return false;
+		}
+		if (OC._currentMenu) {
+			OC._currentMenu.hide();
+		}
+		OC._currentMenu = null;
+		OC._currentMenuToggle = null;
 	});
-});
+
+
+	/**
+	 * Set up the main menu toggle to react to media query changes.
+	 * If the screen is small enough, the main menu becomes a toggle.
+	 * If the screen is bigger, the main menu is not a toggle any more.
+	 */
+	function setupMainMenu() {
+		// toggle the navigation on mobile
+		if (!OC._matchMedia) {
+			return;
+		}
+		var mq = OC._matchMedia('(max-width: 768px)');
+		var lastMatch = mq.matches;
+		var $toggle = $('#header #owncloud');
+		var $navigation = $('#navigation');
+
+		function updateMainMenu() {
+			// mobile mode ?
+			if (lastMatch && !$toggle.hasClass('menutoggle')) {
+				// init the menu
+				OC.registerMenu($toggle, $navigation);
+				$toggle.data('oldhref', $toggle.attr('href'));
+				$toggle.attr('href', '#');
+				$navigation.hide();
+			}
+			else {
+				OC.unregisterMenu($toggle, $navigation);
+				$toggle.attr('href', $toggle.data('oldhref'));
+				$navigation.show();
+			}
+		}
+
+		updateMainMenu();
+
+		// TODO: debounce this
+		$(window).resize(function() {
+			if (lastMatch !== mq.matches) {
+				lastMatch = mq.matches;
+				updateMainMenu();
+			}
+		});
+	}
+
+	if (window.matchMedia) {
+		setupMainMenu();
+	}
+}
+
+$(document).ready(initCore);
 
 /**
  * Filter Jquery selector by attribute value
@@ -956,6 +1150,17 @@ OC.set=function(name, value) {
 	context[tail]=value;
 };
 
+// fix device width on windows phone
+(function() {
+	if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+		var msViewportStyle = document.createElement("style");
+		msViewportStyle.appendChild(
+			document.createTextNode("@-ms-viewport{width:auto!important}")
+		);
+		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+	}
+})();
+
 /**
  * select a range in an input field
  * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
@@ -986,15 +1191,3 @@ jQuery.fn.exists = function(){
 	return this.length > 0;
 };
 
-/**
- * Calls the server periodically every 15 mins to ensure that session doesnt
- * time out
- */
-function sessionHeartBeat(){
-	OC.Router.registerLoadedCallback(function(){
-		var url = OC.Router.generate('heartbeat');
-		setInterval(function(){
-			$.post(url);
-		}, 900000);
-	});
-}

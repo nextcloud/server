@@ -30,6 +30,7 @@ interface OC_User_Interface {
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	* @return boolean
 	*/
 	public function implementsActions($actions);
 
@@ -39,6 +40,7 @@ interface OC_User_Interface {
 	* @returns true/false
 	*
 	* Deletes a user
+	* @return boolean
 	*/
 	public function deleteUser($uid);
 

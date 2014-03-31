@@ -63,6 +63,8 @@ class Helper {
 
 		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Encryption\Hooks', 'preRename');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Encryption\Hooks', 'postDelete');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Encryption\Hooks', 'preDelete');
 	}
 
 	/**
@@ -101,7 +103,7 @@ class Helper {
 	 * @brief enable recovery
 	 *
 	 * @param $recoveryKeyId
-	 * @param $recoveryPassword
+	 * @param string $recoveryPassword
 	 * @internal param \OCA\Encryption\Util $util
 	 * @internal param string $password
 	 * @return bool
@@ -109,10 +111,11 @@ class Helper {
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
 
 		$view = new \OC\Files\View('/');
+		$appConfig = \OC::$server->getAppConfig();
 
 		if ($recoveryKeyId === null) {
 			$recoveryKeyId = 'recovery_' . substr(md5(time()), 0, 8);
-			\OC_Appconfig::setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
+			$appConfig->setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
 		}
 
 		if (!$view->is_dir('/owncloud_private_key')) {
@@ -145,7 +148,7 @@ class Helper {
 			\OC_FileProxy::$enabled = true;
 
 			// Set recoveryAdmin as enabled
-			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+			$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 
 			$return = true;
 
@@ -153,7 +156,7 @@ class Helper {
 			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 			$return = $util->checkRecoveryPassword($recoveryPassword);
 			if ($return) {
-				\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 			}
 		}
 
@@ -207,7 +210,7 @@ class Helper {
 	/**
 	 * @brief disable recovery
 	 *
-	 * @param $recoveryPassword
+	 * @param string $recoveryPassword
 	 * @return bool
 	 */
 	public static function adminDisableRecovery($recoveryPassword) {
@@ -216,7 +219,7 @@ class Helper {
 
 		if ($return) {
 			// Set recoveryAdmin as disabled
-			\OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 0);
+			\OC::$server->getAppConfig()->setValue('files_encryption', 'recoveryAdminEnabled', 0);
 		}
 
 		return $return;
@@ -342,6 +345,7 @@ class Helper {
 
 	/**
 	 * @brief redirect to a error page
+	 * @param Session $session
 	 */
 	public static function redirectToErrorPage($session, $errorCode = null) {
 
@@ -363,9 +367,14 @@ class Helper {
 		$post = 0;
 		if(count($_POST) > 0) {
 			$post = 1;
-			}
-			header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
-			exit();
+		}
+
+		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN) {
+			throw new \Exception("Encryption error: $errorCode");
+		}
+
+		header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
+		exit();
 	}
 
 	/**
@@ -420,8 +429,8 @@ class Helper {
 
 	/**
 	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
-	 * @param unescaped path
-	 * @return escaped path
+	 * @param string $path unescaped path
+	 * @return string path
 	 */
 	public static function escapeGlobPattern($path) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
@@ -439,7 +448,7 @@ class Helper {
 	/**
 	 * @brief get the path of the original file
 	 * @param string $tmpFile path of the tmp file
-	 * @return mixed path of the original file or false
+	 * @return string|false path of the original file or false
 	 */
 	public static function getPathFromTmpFile($tmpFile) {
 		if (isset(self::$tmpFileMapping[$tmpFile])) {

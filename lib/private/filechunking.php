@@ -16,6 +16,9 @@ class OC_FileChunking {
 		return $matches;
 	}
 
+	/**
+	 * @param string[] $info
+	 */
 	public function __construct($info) {
 		$this->info = $info;
 	}
@@ -37,8 +40,8 @@ class OC_FileChunking {
 	/**
 	 * Stores the given $data under the given $key - the number of stored bytes is returned
 	 *
-	 * @param $index
-	 * @param $data
+	 * @param string $index
+	 * @param resource $data
 	 * @return int
 	 */
 	public function store($index, $data) {
@@ -87,7 +90,7 @@ class OC_FileChunking {
 
 	/**
 	 * Removes one specific chunk
-	 * @param $index
+	 * @param string $index
 	 */
 	public function remove($index) {
 		$cache = $this->getCache();
@@ -124,6 +127,9 @@ class OC_FileChunking {
 		);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	public function file_assemble($path) {
 		$absolutePath = \OC\Files\Filesystem::normalizePath(\OC\Files\Filesystem::getView()->getAbsolutePath($path));
 		$data = '';

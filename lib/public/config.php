@@ -42,7 +42,7 @@ class Config {
 	/**
 	 * Gets a value from config.php
 	 * @param string $key key
-	 * @param string $default = null default value
+	 * @param mixed $default = null default value
 	 * @return string the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
@@ -55,7 +55,7 @@ class Config {
 	/**
 	 * Sets a value
 	 * @param string $key key
-	 * @param string $value value
+	 * @param mixed $value value
 	 * @return bool
 	 *
 	 * This function sets the value and writes the config.php. If the file can
@@ -89,7 +89,7 @@ class Config {
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return string true/false
+	 * @return boolean true/false
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */

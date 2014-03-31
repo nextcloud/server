@@ -27,6 +27,9 @@ class OC_L10N_String{
 	 */
 	protected $count;
 
+	/**
+	 * @param OC_L10N $l10n
+	 */
 	public function __construct($l10n, $text, $parameters, $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;

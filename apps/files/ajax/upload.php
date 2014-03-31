@@ -22,6 +22,7 @@ if (empty($_POST['dirToken'])) {
 } else {
 	// return only read permissions for public upload
 	$allowedPermissions = OCP\PERMISSION_READ;
+	$public_directory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
 
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
 	if ($linkItem === false) {
@@ -45,7 +46,7 @@ if (empty($_POST['dirToken'])) {
 		$dir = sprintf(
 			"/%s/%s",
 			$path,
-			isset($_POST['subdir']) ? $_POST['subdir'] : ''
+			$public_directory
 		);
 
 		if (!$dir || empty($dir) || $dir === false) {
@@ -57,6 +58,10 @@ if (empty($_POST['dirToken'])) {
 
 
 OCP\JSON::callCheck();
+if (!\OCP\App::isEnabled('files_encryption')) {
+	// encryption app need to create keys later, so can't close too early
+	\OC::$session->close();
+}
 
 
 // get array with current storage stats (e.g. max file size)
@@ -112,7 +117,14 @@ if (strpos($dir, '..') === false) {
 		} else {
 			$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir).'/'.$files['name'][$i]);
 		}
-		
+
+		$directory = \OC\Files\Filesystem::normalizePath(stripslashes($dir));
+		if (isset($public_directory)) {
+			// If we are uploading from the public app,
+			// we want to send the relative path in the ajax request.
+			$directory = $public_directory;
+		}
+
 		if ( ! \OC\Files\Filesystem::file_exists($target)
 			|| (isset($_POST['resolution']) && $_POST['resolution']==='replace')
 		) {
@@ -139,7 +151,8 @@ if (strpos($dir, '..') === false) {
 							'originalname' => $files['tmp_name'][$i],
 							'uploadMaxFilesize' => $maxUploadFileSize,
 							'maxHumanFilesize' => $maxHumanFileSize,
-							'permissions' => $meta['permissions'] & $allowedPermissions
+							'permissions' => $meta['permissions'] & $allowedPermissions,
+							'directory' => $directory,
 						);
 					}
 
@@ -166,7 +179,8 @@ if (strpos($dir, '..') === false) {
 					'originalname' => $files['tmp_name'][$i],
 					'uploadMaxFilesize' => $maxUploadFileSize,
 					'maxHumanFilesize' => $maxHumanFileSize,
-					'permissions' => $meta['permissions'] & $allowedPermissions
+					'permissions' => $meta['permissions'] & $allowedPermissions,
+					'directory' => $directory,
 				);
 			}
 		}

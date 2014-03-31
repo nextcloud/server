@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "Share" => "Zdieľať",
 "group" => "skupina",
 "Delete" => "Odstrániť",
-"Personal" => "Osobné",
-"Advanced" => "Pokročilé"
+"Personal" => "Osobné"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

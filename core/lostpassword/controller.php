@@ -8,6 +8,11 @@
 namespace OC\Core\LostPassword;
 
 class Controller {
+
+	/**
+	 * @param boolean $error
+	 * @param boolean $requested
+	 */
 	protected static function displayLostPasswordPage($error, $requested) {
 		$isEncrypted = \OC_App::isEnabled('files_encryption');
 		\OC_Template::printGuestPage('core/lostpassword', 'lostpassword',
@@ -16,6 +21,9 @@ class Controller {
 				'isEncrypted' => $isEncrypted));
 	}
 	
+	/**
+	 * @param boolean $success
+	 */
 	protected static function displayResetPasswordPage($success, $args) {
 		$route_args = array();
 		$route_args['token'] = $args['token'];
@@ -61,7 +69,7 @@ class Controller {
 					$defaults = new \OC_Defaults();
 					\OC_Mail::send($email, $_POST['user'], $l->t('%s password reset', array($defaults->getName())), $msg, $from, $defaults->getName());
 				} catch (Exception $e) {
-					\OC_Template::printErrorPage( 'A problem occurs during sending the e-mail please contact your administrator.');
+					\OC_Template::printErrorPage( $l->t('A problem has occurred whilst sending the email, please contact your administrator.') );
 				}
 				self::displayLostPasswordPage(false, true);
 			} else {

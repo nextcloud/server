@@ -73,6 +73,7 @@ class Tags implements \OCP\ITags {
 	* Constructor.
 	*
 	* @param string $user The user whos data the object will operate on.
+	* @param string $type
 	*/
 	public function __construct($user, $type, $defaultTags = array()) {
 		$this->user = $user;
@@ -83,8 +84,6 @@ class Tags implements \OCP\ITags {
 	/**
 	* Load tags from db.
 	*
-	* @param string $type The type identifier e.g. 'contact' or 'event'.
-	* @param array $defaultTags An array of default tags to be used if none are stored.
 	*/
 	protected function loadTags($defaultTags=array()) {
 		$this->tags = array();
@@ -176,7 +175,7 @@ class Tags implements \OCP\ITags {
 	*
 	* Throws an exception if the tag could not be found.
 	*
-	* @param string|integer $tag Tag id or name.
+	* @param string $tag Tag id or name.
 	* @return array An array of object ids or false on error.
 	*/
 	public function getIdsForTag($tag) {
@@ -235,7 +234,7 @@ class Tags implements \OCP\ITags {
 	* Add a new tag.
 	*
 	* @param string $name A string with a name of the tag
-	* @return int the id of the added tag or false if it already exists.
+	* @return false|string the id of the added tag or false if it already exists.
 	*/
 	public function add($name) {
 		$name = trim($name);
@@ -512,7 +511,7 @@ class Tags implements \OCP\ITags {
 	* Creates a tag/object relation.
 	*
 	* @param int $objid The id of the object
-	* @param int|string $tag The id or name of the tag
+	* @param string $tag The id or name of the tag
 	* @return boolean Returns false on database error.
 	*/
 	public function tagAs($objid, $tag) {
@@ -544,7 +543,7 @@ class Tags implements \OCP\ITags {
 	* Delete single tag/object relation from the db
 	*
 	* @param int $objid The id of the object
-	* @param int|string $tag The id or name of the tag
+	* @param string $tag The id or name of the tag
 	* @return boolean
 	*/
 	public function unTag($objid, $tag) {

@@ -25,8 +25,8 @@
 namespace OC\AppFramework\Http;
 
 
-use OCP\AppFramework\Http\Response,
-	OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http;
 
 
 class ResponseTest extends \PHPUnit_Framework_TestCase {
@@ -78,7 +78,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetEtag() {
 		$this->childResponse->setEtag('hi');
-		$this->assertEquals('hi', $this->childResponse->getEtag());
+		$this->assertSame('hi', $this->childResponse->getEtag());
 	}
 
 

@@ -34,7 +34,6 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\IMiddleWare;
 use OCP\AppFramework\Middleware;
 use OCP\IServerContainer;
 
@@ -135,7 +134,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 
 	/**
 	 * @param Middleware $middleWare
-	 * @return boolean
+	 * @return boolean|null
 	 */
 	function registerMiddleWare(Middleware $middleWare) {
 		array_push($this->middleWares, $middleWare);

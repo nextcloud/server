@@ -134,6 +134,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 
 	/**
 	 * get the best guess for the modification time of an iRODS collection
+	 * @param string $path
 	 */
 	private function collectionMTime($path) {
 		$dh = $this->opendir($path);

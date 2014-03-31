@@ -1,4 +1,11 @@
 <?php
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\FileAsset;
+use Assetic\Asset\GlobAsset;
+use Assetic\AssetManager;
+use Assetic\AssetWriter;
+use Assetic\Filter\CssRewriteFilter;
+
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
@@ -7,6 +14,10 @@
  */
 
 class OC_TemplateLayout extends OC_Template {
+
+	/**
+	 * @param string $renderas
+	 */
 	public function __construct( $renderas ) {
 		// Decide which page we show
 
@@ -53,35 +64,38 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
+
 		$versionParameter = '?v=' . md5(implode(OC_Util::getVersion()));
-		// Add the js files
-		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
-		$this->assign('jsfiles', array(), false);
-		if (OC_Config::getValue('installed', false) && $renderas!='error') {
+		$useAssetPipeline = OC_Config::getValue('asset-pipeline.enabled', false);
+		if ($useAssetPipeline) {
+
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config') . $versionParameter);
-		}
-		if (!empty(OC_Util::$coreScripts)) {
-			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false) . $versionParameter);
-		}
-		foreach($jsfiles as $info) {
-			$root = $info[0];
-			$web = $info[1];
-			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file . $versionParameter);
-		}
 
-		// Add the css files
-		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
-		$this->assign('cssfiles', array());
-		if (!empty(OC_Util::$coreStyles)) {
-			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false) . $versionParameter);
-		}
-		foreach($cssfiles as $info) {
-			$root = $info[0];
-			$web = $info[1];
-			$file = $info[2];
+			$this->generateAssets();
 
-			$this->append( 'cssfiles', $web.'/'.$file . $versionParameter);
+		} else {
+
+			// Add the js files
+			$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
+			$this->assign('jsfiles', array(), false);
+			if (OC_Config::getValue('installed', false) && $renderas!='error') {
+				$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config') . $versionParameter);
+			}
+			foreach($jsfiles as $info) {
+				$web = $info[1];
+				$file = $info[2];
+				$this->append( 'jsfiles', $web.'/'.$file . $versionParameter);
+			}
+
+			// Add the css files
+			$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
+			$this->assign('cssfiles', array());
+			foreach($cssfiles as $info) {
+				$web = $info[1];
+				$file = $info[2];
+
+				$this->append( 'cssfiles', $web.'/'.$file . $versionParameter);
+			}
 		}
 	}
 
@@ -111,5 +125,58 @@ class OC_TemplateLayout extends OC_Template {
 			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
 		$locator->find($scripts);
 		return $locator->getResources();
+	}
+
+	public function generateAssets()
+	{
+		$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
+		$jsHash = self::hashScriptNames($jsFiles);
+
+		if (!file_exists("assets/$jsHash.js")) {
+			$jsFiles = array_map(function ($item) {
+				$root = $item[0];
+				$file = $item[2];
+				return new FileAsset($root . '/' . $file, array(), $root, $file);
+			}, $jsFiles);
+			$jsCollection = new AssetCollection($jsFiles);
+			$jsCollection->setTargetPath("assets/$jsHash.js");
+
+			$writer = new AssetWriter(\OC::$SERVERROOT);
+			$writer->writeAsset($jsCollection);
+		}
+
+		$cssFiles = self::findStylesheetFiles(OC_Util::$styles);
+		$cssHash = self::hashScriptNames($cssFiles);
+
+		if (!file_exists("assets/$cssHash.css")) {
+			$cssFiles = array_map(function ($item) {
+				$root = $item[0];
+				$file = $item[2];
+				$assetPath = $root . '/' . $file;
+				$sourceRoot =  \OC::$SERVERROOT;
+				$sourcePath = substr($assetPath, strlen(\OC::$SERVERROOT));
+				return new FileAsset($assetPath, array(new CssRewriteFilter()), $sourceRoot, $sourcePath);
+			}, $cssFiles);
+			$cssCollection = new AssetCollection($cssFiles);
+			$cssCollection->setTargetPath("assets/$cssHash.css");
+
+			$writer = new AssetWriter(\OC::$SERVERROOT);
+			$writer->writeAsset($cssCollection);
+		}
+
+		$this->append('jsfiles', OC_Helper::linkTo('assets', "$jsHash.js"));
+		$this->append('cssfiles', OC_Helper::linkTo('assets', "$cssHash.css"));
+	}
+
+	private static function hashScriptNames($files)
+	{
+		$files = array_map(function ($item) {
+			$root = $item[0];
+			$file = $item[2];
+			return $root . '/' . $file;
+		}, $files);
+
+		sort($files);
+		return hash('md5', implode('', $files));
 	}
 }

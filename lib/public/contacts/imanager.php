@@ -96,7 +96,7 @@ namespace OCP\Contacts {
 		 * This function can be used to delete the contact identified by the given id
 		 *
 		 * @param object $id the unique identifier to a contact
-		 * @param $address_book_key
+		 * @param   $address_book_key
 		 * @return bool successful or not
 		 */
 		function delete($id, $address_book_key);
@@ -106,7 +106,7 @@ namespace OCP\Contacts {
 		 * Otherwise the contact will be updated by replacing the entire data set.
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
-		 * @param $address_book_key string to identify the address book in which the contact shall be created or updated
+		 * @param   $address_book_key string to identify the address book in which the contact shall be created or updated
 		 * @return array representing the contact just created or updated
 		 */
 		function createOrUpdate($properties, $address_book_key);
@@ -122,6 +122,7 @@ namespace OCP\Contacts {
 		 * Registers an address book
 		 *
 		 * @param \OCP\IAddressBook $address_book
+		 * @return void
 		 */
 		function registerAddressBook(\OCP\IAddressBook $address_book);
 
@@ -129,6 +130,7 @@ namespace OCP\Contacts {
 		 * Unregisters an address book
 		 *
 		 * @param \OCP\IAddressBook $address_book
+		 * @return void
 		 */
 		function unregisterAddressBook(\OCP\IAddressBook $address_book);
 
@@ -138,6 +140,7 @@ namespace OCP\Contacts {
 		 *
 		 * @param string $key
 		 * @param \Closure $callable
+		 * @return void
 		 */
 		function register($key, \Closure $callable);
 
@@ -148,6 +151,7 @@ namespace OCP\Contacts {
 
 		/**
 		 * removes all registered address book instances
+		 * @return void
 		 */
 		function clear();
 	}

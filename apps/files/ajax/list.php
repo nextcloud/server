@@ -1,17 +1,13 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
-
 OCP\JSON::checkLoggedIn();
+\OC::$session->close();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
-if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
+$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
+if (!$dirInfo->getType() === 'dir') {
 	header("HTTP/1.0 404 Not Found");
 	exit();
 }
@@ -20,7 +16,7 @@ $doBreadcrumb = isset($_GET['breadcrumb']);
 $data = array();
 $baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
 
-$permissions = \OCA\Files\Helper::getDirPermissions($dir);
+$permissions = $dirInfo->getPermissions();
 
 // Make breadcrumb
 if($doBreadcrumb) {

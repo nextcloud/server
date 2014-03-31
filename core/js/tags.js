@@ -25,11 +25,11 @@ OC.Tags= {
 				});
 				self.deleteButton = {
 					text: t('core', 'Delete'),
-					click: function() {self._deleteTags(self, type, self._selectedIds())},
+					click: function() {self._deleteTags(self, type, self._selectedIds())}
 				};
 				self.addButton = {
 					text: t('core', 'Add'),
-					click: function() {self._addTag(self, type, self.$taginput.val())},
+					click: function() {self._addTag(self, type, self.$taginput.val())}
 				};
 
 				self._fillTagList(type, self.$taglist);
@@ -69,7 +69,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_ids_for_tag', {type: type});
+			url = OC.generateUrl('/tags/{type}/ids', {type: type});
 		$.getJSON(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response.ids);
@@ -90,7 +90,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_favorites', {type: type});
+			url = OC.generateUrl('/tags/{type}/favorites', {type: type});
 		$.getJSON(url, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response.ids);
@@ -111,7 +111,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_tags', {type: type});
+			url = OC.generateUrl('/tags/{type}', {type: type});
 		$.getJSON(url, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response.tags);
@@ -133,7 +133,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_tag', {type: type, id: id});
+			url = OC.generateUrl('/tags/{type}/tag/{id}/', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response);
@@ -157,7 +157,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_untag', {type: type, id: id});
+			url = OC.generateUrl('/tags/{type}/untag/{id}/', {type: type, id: id});
 		$.post(url, {tag: tag}, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response);
@@ -181,7 +181,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_favorite', {type: type, id: id});
+			url = OC.generateUrl('/tags/{type}/favorite/{id}/', {type: type, id: id});
 		$.post(url, function(response) {
 			if(response.status === 'success') {
 				defer.resolve(response);
@@ -205,7 +205,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_unfavorite', {type: type, id: id});
+			url = OC.generateUrl('/tags/{type}/unfavorite/{id}/', {type: type, id: id});
 		$.post(url, function(response) {
 			if(response.status === 'success') {
 				defer.resolve();
@@ -229,7 +229,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_add', {type: type});
+			url = OC.generateUrl('/tags/{type}/add', {type: type});
 		$.post(url,{tag:tag}, function(response) {
 			if(typeof cb == 'function') {
 				cb(response);
@@ -256,7 +256,7 @@ OC.Tags= {
 		type = type ? type : this.type;
 		var defer = $.Deferred(),
 			self = this,
-			url = OC.Router.generate('core_tags_delete', {type: type});
+			url = OC.generateUrl('/tags/{type}/delete', {type: type});
 		if(!tags || !tags.length) {
 			throw new Error(t('core', 'No tags selected for deletion.'));
 		}
@@ -349,5 +349,5 @@ OC.Tags= {
 			console.warn(response);
 		});
 	}
-}
+};
 

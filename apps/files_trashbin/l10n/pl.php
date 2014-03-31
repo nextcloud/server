@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nie można trwale usunąć %s",
 "Couldn't restore %s" => "Nie można przywrócić %s",
+"Deleted files" => "Pliki usunięte",
 "Error" => "Błąd",
 "restored" => "przywrócony",
 "Nothing in here. Your trash bin is empty!" => "Nic tu nie ma. Twój kosz jest pusty!",

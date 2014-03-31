@@ -27,16 +27,16 @@
 class OC_Migration_Content{
 
 	private $zip=false;
-	// Holds the MDB2 object
+	// Holds the database object
 	private $db=null;
 	// Holds an array of tmpfiles to delete after zip creation
 	private $tmpfiles=array();
 
 	/**
 	* @brief sets up the
-	* @param $zip ZipArchive object
-	* @param optional $db a MDB2 database object (required for exporttype user)
-	* @return bool
+	* @param ZipArchive $zip ZipArchive object
+	* @param $db a database object (required for exporttype user)
+	* @return boolean|null
 	*/
 	public function __construct( $zip, $db=null ) {
 
@@ -47,6 +47,10 @@ class OC_Migration_Content{
 
 	// @brief prepares the db
 	// @param $query the sql query to prepare
+
+	/**
+	 * @param string $query
+	 */
 	public function prepare( $query ) {
 
 		// Only add database to tmpfiles if actually used
@@ -63,22 +67,14 @@ class OC_Migration_Content{
 
 		// Optimize the query
 		$query = $this->db->prepare( $query );
+		$query = new OC_DB_StatementWrapper($query, false);
 
-		// Die if we have an error (error means: bad query, not 0 results!)
-		if( PEAR::isError( $query ) ) {
-			$entry = 'DB Error: "'.$query->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$query.'<br />';
-			OC_Log::write( 'migration', $entry, OC_Log::FATAL );
-			return false;
-		} else {
-			return $query;
-		}
-
+		return $query;
 	}
 
 	/**
 	* @brief processes the db query
-	* @param $query the query to process
+	* @param string $query the query to process
 	* @return string of processed query
 	*/
 	private function processQuery( $query ) {
@@ -134,7 +130,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief saves a sql data set into migration.db
-	* @param $data a sql data set returned from self::prepare()->query()
+	* @param OC_DB_StatementWrapper $data a sql data set returned from self::prepare()->query()
 	* @param $options array of copyRows options
 	* @return void
 	*/
@@ -156,20 +152,14 @@ class OC_Migration_Content{
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = $this->prepare( $sql );
-			if( !$query ) {
-				OC_Log::write( 'migration', 'Invalid sql produced: '.$sql, OC_Log::FATAL );
-				return false;
-				exit();
+			$query->execute( $values );
+			// Do we need to return some values?
+			if( array_key_exists( 'idcol', $options ) ) {
+				// Yes we do
+				$return[] = $row[$options['idcol']];
 			} else {
-				$query->execute( $values );
-				// Do we need to return some values?
-				if( array_key_exists( 'idcol', $options ) ) {
-					// Yes we do
-					$return[] = $row[$options['idcol']];
-				} else {
-					// Take a guess and return the first field :)
-					$return[] = reset($row);
-				}
+				// Take a guess and return the first field :)
+				$return[] = reset($row);
 			}
 			$fields = '';
 			$values = '';
@@ -179,7 +169,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief adds a directory to the zip object
-	* @param $dir string path of the directory to add
+	* @param boolean|string $dir string path of the directory to add
 	* @param $recursive bool
 	* @param $internaldir string path of folder to add dir to in zip
 	* @return bool
@@ -214,8 +204,8 @@ class OC_Migration_Content{
 
 	/**
 	* @brief adds a file to the zip from a given string
-	* @param $data string of data to add
-	* @param $path the relative path inside of the zip to save the file to
+	* @param string $data string of data to add
+	* @param string $path the relative path inside of the zip to save the file to
 	* @return bool
 	*/
 	public function addFromString( $data, $path ) {

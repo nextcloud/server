@@ -48,13 +48,15 @@
 		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
 		<p class="infield grouptop">
 			<input type="text" name="adminlogin" id="adminlogin" placeholder=""
-				value="<?php p(OC_Helper::init_var('adminlogin')); ?>" autocomplete="off" autofocus required />
+				value="<?php p($_['adminlogin']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required />
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
 			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass" placeholder=""
-				value="<?php p(OC_Helper::init_var('adminpass')); ?>" required />
+				value="<?php p($_['adminpass']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" required />
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
 			<input type="checkbox" id="show" name="show" />
@@ -65,7 +67,7 @@
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -74,86 +76,45 @@
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
-				placeholder="<?php p(OC::$SERVERROOT."/data"); ?>"
-				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
+				placeholder="<?php p(OC::$SERVERROOT.'/data'); ?>"
+				value="<?php p($_['directory']); ?>"
+				autocomplete="off" autocapitalize="off" autocorrect="off" />
 		</div>
 	</fieldset>
 	<?php endif; ?>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
-	<fieldset id='databaseField'>
+	<fieldset id='databaseBackend'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
 		<div id="selectDbType">
-		<?php if($_['hasSQLite']): ?>
-		<input type='hidden' id='hasSQLite' value="true" />
-		<?php if(!$hasOtherDB): ?>
-		<p>SQLite <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
+		<?php foreach($_['databases'] as $type => $label): ?>
+		<?php if(count($_['databases']) === 1): ?>
+		<p class="info"><?php p($label . ' ' . $l->t( 'will be used' )); ?>.</p>
+		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value="sqlite" id="sqlite"
-			<?php OC_Helper::init_radio('dbtype', 'sqlite', 'sqlite'); ?>/>
-		<label class="sqlite" for="sqlite">SQLite</label>
+		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
+			<?php print_unescaped($_['dbtype'] === $type ? 'checked="checked" ' : '') ?>/>
+		<label class="<?php p($type) ?>" for="<?php p($type) ?>"><?php p($label) ?></label>
 		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasMySQL']): ?>
-		<input type='hidden' id='hasMySQL' value='true'/>
-		<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>MySQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
-		<?php else: ?>
-		<input type="radio" name="dbtype" value="mysql" id="mysql"
-			<?php OC_Helper::init_radio('dbtype', 'mysql', 'sqlite'); ?>/>
-		<label class="mysql" for="mysql">MySQL</label>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasPostgreSQL']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>PostgreSQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
-		<?php else: ?>
-		<label class="pgsql" for="pgsql">PostgreSQL</label>
-		<input type="radio" name="dbtype" value='pgsql' id="pgsql"
-			<?php OC_Helper::init_radio('dbtype', 'pgsql', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasOracle']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasMSSQL']): ?>
-		<p>Oracle <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
-		<?php else: ?>
-		<label class="oci" for="oci">Oracle</label>
-		<input type="radio" name="dbtype" value='oci' id="oci"
-			<?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if($_['hasMSSQL']): ?>
-		<input type='hidden' id='hasMSSQL' value='true'/>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
-		<p>MS SQL <?php p($l->t( 'will be used' )); ?>.</p>
-		<input type="hidden" id="dbtype" name="dbtype" value="mssql" />
-		<?php else: ?>
-		<label class="mssql" for="mssql">MS SQL</label>
-		<input type="radio" name="dbtype" value='mssql' id="mssql" <?php OC_Helper::init_radio('dbtype', 'mssql', 'sqlite'); ?>/>
-		<?php endif; ?>
-		<?php endif; ?>
+		<?php endforeach; ?>
 		</div>
+	</fieldset>
 
 		<?php if($hasOtherDB): ?>
+		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
 				<input type="text" name="dbuser" id="dbuser" placeholder=""
-					value="<?php p(OC_Helper::init_var('dbuser')); ?>" autocomplete="off" />
+					value="<?php p($_['dbuser']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 			<p class="infield groupmiddle">
 				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
-					value="<?php p(OC_Helper::init_var('dbpass')); ?>" />
+					value="<?php p($_['dbpass']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
 				<input type="checkbox" id="dbpassword" name="dbpassword" />
 				<label for="dbpassword"></label>
@@ -161,26 +122,29 @@
 			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
 				<input type="text" name="dbname" id="dbname" placeholder=""
-					value="<?php p(OC_Helper::init_var('dbname')); ?>"
-					autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
+					value="<?php p($_['dbname']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off"
+					pattern="[0-9a-zA-Z$_-]+" />
 			</p>
 			<?php if($_['hasOracle']): ?>
 			<div id="use_oracle_db">
 				<p class="infield groupmiddle">
 					<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
 					<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
-						value="<?php p(OC_Helper::init_var('dbtablespace')); ?>" autocomplete="off" />
+						value="<?php p($_['dbtablespace']); ?>"
+						autocomplete="off" autocapitalize="off" autocorrect="off" />
 				</p>
 			</div>
 			<?php endif; ?>
 			<p class="infield groupbottom">
 				<label for="dbhost" class="infield"><?php p($l->t( 'Database host' )); ?></label>
 				<input type="text" name="dbhost" id="dbhost" placeholder=""
-					value="<?php p(OC_Helper::init_var('dbhost')); ?>" />
+					value="<?php p($_['dbhost']); ?>"
+					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 		</div>
+		</fieldset>
 		<?php endif; ?>
-	</fieldset>
 	<?php endif; ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>

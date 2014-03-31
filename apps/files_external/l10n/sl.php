@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Grant access" => "Odobri dostop",
 "Please provide a valid Dropbox app key and secret." => "Vpisati je treba veljaven ključ programa in kodo za Dropbox",
 "Error configuring Google Drive storage" => "Napaka nastavljanja shrambe Google Drive",
+"Saved" => "Shranjeno",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Opozorilo:</b> paket \"smbclient\" ni nameščen. Priklapljanje pogonov CIFS/SMB ne bo mogoče.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Opozorilo:</b> podpora FTP v PHP ni omogočena ali pa ni nameščena. Priklapljanje pogonov FTP zato ne bo mogoče.",
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Opozorilo:</b> podpora za Curl v PHP ni omogočena ali pa ni nameščena. Priklapljanje točke ownCloud / WebDAV ali GoogleDrive zato ne bo mogoče. Zahtevane pakete je treba pred uporabo namestiti.",
@@ -21,7 +22,7 @@ $TRANSLATIONS = array(
 "Users" => "Uporabniki",
 "Delete" => "Izbriši",
 "Enable User External Storage" => "Omogoči zunanjo uporabniško podatkovno shrambo",
-"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe",
+"Allow users to mount the following external storage" => "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
 "SSL root certificates" => "Korenska potrdila SSL",
 "Import Root Certificate" => "Uvozi korensko potrdilo"
 );

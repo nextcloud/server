@@ -8,8 +8,11 @@
 		<?php endif; ?>
 		<p class="infield">
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-			<input type="password" name="password" id="password" placeholder="" value="" autofocus />
-			<input type="submit" value="" class="svg icon icon-confirm" />
+			<input type="password" name="password" id="password"
+				placeholder="" value=""
+				autocomplete="off" autocapitalize="off" autocorrect="off"
+				autofocus />
+			<input type="submit" value="" class="svg icon-confirm" />
 		</p>
 	</fieldset>
 </form>

@@ -9,10 +9,7 @@
 namespace Test\Files\Node;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Mount\Manager;
 use OC\Files\Node\Root;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\User\User;

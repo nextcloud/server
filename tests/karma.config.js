@@ -29,25 +29,52 @@
  * environment variable to the apps name, for example "core" or "files_encryption".
  * Multiple apps can be specified by separating them with space.
  *
+ * Setting the environment variable NOCOVERAGE to 1 will disable the coverage
+ * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
+
+/* jshint node: true */
 module.exports = function(config) {
 
+	function findApps() {
+		/*
+		var fs = require('fs');
+		var apps = fs.readdirSync('apps');
+		return apps;
+		*/
+		// other apps tests don't run yet... needs further research / clean up
+		return ['files'];
+	}
+
+	// respect NOCOVERAGE env variable
+	// it is useful to disable coverage for debugging
+	// because the coverage preprocessor will wrap the JS files somehow
+	var enableCoverage = !parseInt(process.env.NOCOVERAGE, 10);
+	console.log('Coverage preprocessor: ', enableCoverage?'enabled':'disabled');
+
 	// default apps to test when none is specified (TODO: read from filesystem ?)
-	var defaultApps = 'core files';
-	var appsToTest = process.env.KARMA_TESTSUITE || defaultApps;
+	var appsToTest = process.env.KARMA_TESTSUITE;
+    if (appsToTest) {
+		appsToTest = appsToTest.split(' ');
+	}
+	else {
+		appsToTest = ['core'].concat(findApps());
+	}
+
+	console.log('Apps to test: ', appsToTest);
 
 	// read core files from core.json,
 	// these are required by all apps so always need to be loaded
 	// note that the loading order is important that's why they
 	// are specified in a separate file
 	var corePath = 'core/js/';
-	var coreFiles = require('../' + corePath + 'core.json').modules;
+	var coreModule = require('../' + corePath + 'core.json');
 	var testCore = false;
 	var files = [];
 	var index;
+	var preprocessors = {};
 
 	// find out what apps to test from appsToTest
-	appsToTest = appsToTest.split(' ');
 	index = appsToTest.indexOf('core');
 	if (index > -1) {
 		appsToTest.splice(index, 1);
@@ -60,10 +87,22 @@ module.exports = function(config) {
 	// core mocks
 	files.push(corePath + 'tests/specHelper.js');
 
-	// add core files
-	for ( var i = 0; i < coreFiles.length; i++ ) {
-		files.push( corePath + coreFiles[i] );
+	// add core library files
+	for ( var i = 0; i < coreModule.libraries.length; i++ ) {
+		var srcFile = corePath + coreModule.libraries[i];
+		files.push(srcFile);
 	}
+
+	// add core modules files
+	for ( var i = 0; i < coreModule.modules.length; i++ ) {
+		var srcFile = corePath + coreModule.modules[i];
+		files.push(srcFile);
+		if (enableCoverage) {
+			preprocessors[srcFile] = 'coverage';
+		}
+	}
+
+	// TODO: settings pages
 
 	// need to test the core app as well ?
 	if (testCore) {
@@ -73,7 +112,11 @@ module.exports = function(config) {
 
 	for ( var i = 0; i < appsToTest.length; i++ ) {
 		// add app JS
-		files.push('apps/' + appsToTest[i] + '/js/*.js');
+		var srcFile = 'apps/' + appsToTest[i] + '/js/*.js';
+		files.push(srcFile);
+		if (enableCoverage) {
+			preprocessors[srcFile] = 'coverage';
+		}
 		// add test specs
 		files.push('apps/' + appsToTest[i] + '/tests/js/*.js');
 	}
@@ -82,7 +125,6 @@ module.exports = function(config) {
 
 		// base path, that will be used to resolve files and exclude
 		basePath: '..',
-
 
 		// frameworks to use
 		frameworks: ['jasmine'],
@@ -106,9 +148,7 @@ module.exports = function(config) {
 		// web server port
 		port: 9876,
 
-		preprocessors: {
-			'apps/files/js/*.js': 'coverage'
-		},
+		preprocessors: preprocessors,
 
 		coverageReporter: {
 			dir:'tests/karma-coverage',

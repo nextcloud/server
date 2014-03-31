@@ -205,6 +205,9 @@ class OC_User {
 				// Delete user files in /data/
 				OC_Helper::rmdirr(\OC_User::getHome($uid));
 
+				// Delete the users entry in the storage table
+				\OC\Files\Cache\Storage::remove('home::' . $uid);
+
 				// Remove it from the Cache
 				self::getManager()->delete($uid);
 			}
@@ -219,11 +222,12 @@ class OC_User {
 	 * @brief Try to login a user
 	 * @param $uid The username of the user to log in
 	 * @param $password The password of the user
-	 * @return bool
+	 * @return boolean|null
 	 *
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login($uid, $password) {
+		session_regenerate_id(true);
 		return self::getUserSession()->login($uid, $password);
 	}
 
@@ -243,7 +247,6 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
 		if($uid) {
-			session_regenerate_id(true);
 			self::setUserId($uid);
 			self::setDisplayName($uid);
 			self::getUserSession()->setLoginName($uid);
@@ -287,6 +290,7 @@ class OC_User {
 
 	/**
 	 * @brief Sets user display name for session
+	 * @param string $uid
 	 */
 	public static function setDisplayName($uid, $displayName = null) {
 		if (is_null($displayName)) {
@@ -317,8 +321,6 @@ class OC_User {
 	 */
 	public static function isLoggedIn() {
 		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
-			OC_App::loadApps(array('authentication'));
-			self::setupBackends();
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;
@@ -478,7 +480,7 @@ class OC_User {
 	 * @brief Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return mixed user id a string on success, false otherwise
+	 * @return string|false user id a string on success, false otherwise
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
@@ -512,6 +514,8 @@ class OC_User {
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
+	 * @param integer $limit
+	 * @param integer $offset
 	 */
 	public static function getUsers($search = '', $limit = null, $offset = null) {
 		$users = self::getManager()->search($search, $limit, $offset);
@@ -606,7 +610,7 @@ class OC_User {
 
 	/**
 	 * @brief Returns the first active backend from self::$_usedBackends.
-	 * @return null if no backend active, otherwise OCP\Authentication\IApacheBackend
+	 * @return OCP\Authentication\IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
 	 */
 	private static function findFirstActiveUsedBackend() {
 		foreach (self::$_usedBackends as $backend) {

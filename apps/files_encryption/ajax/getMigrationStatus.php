@@ -13,16 +13,14 @@ use OCA\Encryption\Util;
 $loginname = isset($_POST['user']) ? $_POST['user'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-$migrationCompleted = true;
+$migrationStatus = Util::MIGRATION_COMPLETED;
 
 if ($loginname !== '' && $password !== '') {
 	$username = \OCP\User::checkPassword($loginname, $password);
 	if ($username) {
 		$util = new Util(new \OC_FilesystemView('/'), $username);
-		if ($util->getMigrationStatus() !== Util::MIGRATION_COMPLETED) {
-			$migrationCompleted = false;
-		}
+		$migrationStatus = $util->getMigrationStatus();
 	}
 }
 
-\OCP\JSON::success(array('data' => array('migrationCompleted' => $migrationCompleted)));
+\OCP\JSON::success(array('data' => array('migrationStatus' => $migrationStatus)));

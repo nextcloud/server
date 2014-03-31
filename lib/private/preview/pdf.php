@@ -7,34 +7,41 @@
  */
 namespace OC\Preview;
 
+use Imagick;
+
 if (extension_loaded('imagick')) {
 
-	class PDF extends Provider {
+	$checkImagick = new Imagick();
 
-		public function getMimeType() {
-			return '/application\/pdf/';
-		}
+	if(count($checkImagick->queryFormats('PDF')) === 1) {
 
-		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {	
-			$tmpPath = $fileview->toTmpFile($path);
+		class PDF extends Provider {
 
-			//create imagick object from pdf
-			try{
-				$pdf = new \imagick($tmpPath . '[0]');
-				$pdf->setImageFormat('jpg');
-			} catch (\Exception $e) {
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				return false;
+			public function getMimeType() {
+				return '/application\/pdf/';
 			}
 
-			unlink($tmpPath);
+			public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+				$tmpPath = $fileview->toTmpFile($path);
 
-			//new image object
-			$image = new \OC_Image($pdf);
-			//check if image object is valid
-			return $image->valid() ? $image : false;
+				//create imagick object from pdf
+				try{
+					$pdf = new Imagick($tmpPath . '[0]');
+					$pdf->setImageFormat('jpg');
+				} catch (\Exception $e) {
+					\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+					return false;
+				}
+
+				unlink($tmpPath);
+
+				//new image object
+				$image = new \OC_Image($pdf);
+				//check if image object is valid
+				return $image->valid() ? $image : false;
+			}
 		}
-	}
 
-	\OC\Preview::registerProvider('OC\Preview\PDF');
+		\OC\Preview::registerProvider('OC\Preview\PDF');
+	}
 }

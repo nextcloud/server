@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,38 +24,38 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: private/app.php:243
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Приложение \"%s\" нельзя установить, так как оно не совместимо с текущей версией ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Не выбрано имя приложения"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Помощь"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Личное"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Пользователи"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:873
+#: private/app.php:875
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Не смог обновить \"%s\"."
@@ -68,14 +68,9 @@ msgstr "Неизвестный тип файла"
 msgid "Invalid image"
 msgstr "Изображение повреждено"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "веб-сервисы под вашим управлением"
-
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "не могу открыть \"%s\""
 
 #: private/files.php:231
 msgid "ZIP download is turned off."
@@ -99,73 +94,77 @@ msgid ""
 "administrator."
 msgstr "Загрузите файлы раздельно маленькими частями или вежливо попросите вашего администратора."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Не указан источник при установке приложения"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Не указан атрибут href при установке приложения через http"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Не указан путь при установке приложения из локального файла"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Архивы %s не поддерживаются"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Не возможно открыть архив при установке приложения"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Приложение не имеет файла info.xml"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Приложение невозможно установить. В нем содержится запрещенный код."
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Приложение невозможно установить. Не совместимо с текущей версией ownCloud."
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Приложение невозможно установить. Оно содержит параметр <shipped>true</shipped> который не допустим для приложений, не входящих в поставку."
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Приложение невозможно установить. Версия в info.xml/version не совпадает с версией заявленной в магазине приложений"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Папка приложения уже существует"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Не удалось создать директорию. Исправьте права доступа. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Приложение не разрешено"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:63 private/json.php:88
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
-#: private/json.php:51
+#: private/json.php:52
 msgid "Token expired. Please reload page."
 msgstr "Токен просрочен. Перезагрузите страницу."
+
+#: private/json.php:75
+msgid "Unknown user"
+msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -206,8 +205,8 @@ msgid "You need to enter either an existing account or the administrator."
 msgstr "Вы должны войти или в существующий аккаунт или под администратором."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "Неверное имя пользователя и/или пароль MySQL"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -234,21 +233,21 @@ msgstr "Вызываемая команда была: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Пользователь MySQL '%s'@'localhost' уже существует."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Удалить этого пользователя из MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Пользователь MySQL '%s'@'%%' уже существует"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Удалить этого пользователя из MySQL."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -275,70 +274,76 @@ msgstr "Установить имя пользователя для admin."
 msgid "Set an admin password."
 msgstr "становит пароль для admin."
 
-#: private/setup.php:195
+#: private/setup.php:198
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
 
-#: private/setup.php:196
+#: private/setup.php:199
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:73
+#: private/share/mailnotifications.php:119
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s поделился »%s« с вами"
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Категория \"%s\"  не найдена"
 
-#: private/template/functions.php:130
+#: private/template/functions.php:133
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:134
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минута назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:135
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:136
 msgid "today"
 msgstr "сегодня"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:137
 msgid "yesterday"
 msgstr "вчера"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:139
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:141
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:142
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:144
 msgid "last year"
 msgstr "в прошлом году"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:145
 msgid "years ago"
 msgstr "несколько лет назад"

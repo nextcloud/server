@@ -1,28 +1,22 @@
 {
+	"libraries": [
+		"jquery-1.10.0.min.js",
+		"jquery-migrate-1.2.1.min.js",
+		"jquery-ui-1.10.0.custom.js",
+		"jquery-showpassword.js",
+		"jquery.infieldlabel.js",
+		"jquery.placeholder.js",
+		"jquery-tipsy.js"
+	],
 	"modules": [
-	"jquery-1.10.0.min.js",
-	"jquery-migrate-1.2.1.min.js",
-	"jquery-ui-1.10.0.custom.js",
-	"jquery-showpassword.js",
-	"jquery.infieldlabel.js",
-	"jquery.placeholder.js",
-	"jquery-tipsy.js",
-	"compatibility.js",
-	"jquery.ocdialog.js",
-	"oc-dialogs.js",
-	"js.js",
-	"octemplate.js",
-	"eventsource.js",
-	"config.js",
-	"multiselect.js",
-	"search.js",
-	"router.js",
-	"oc-requesttoken.js",
-	"styles.js",
-	"apps.js",
-	"fixes.js",
-	"jquery-ui-2.10.0.custom.js",
-	"jquery-tipsy.js",
-	"jquery.ocdialog.js"
+		"compatibility.js",
+		"jquery.ocdialog.js",
+		"oc-dialogs.js",
+		"js.js",
+		"octemplate.js",
+		"eventsource.js",
+		"config.js",
+		"multiselect.js",
+		"oc-requesttoken.js"
 	]
 }

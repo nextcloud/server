@@ -61,8 +61,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return false;
 		}
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = $this->access->readAttribute($dn_group,
-						$this->access->connection->ldapGroupMemberAssocAttr);
+		$members = array_keys($this->_groupMembers($dn_group));
 		if(!$members) {
 			$this->access->connection->writeToCache('inGroup'.$uid.':'.$gid, false);
 			return false;
@@ -87,6 +86,39 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$this->access->connection->writeToCache('inGroup'.$uid.':'.$gid, $isInGroup);
 
 		return $isInGroup;
+	}
+
+	private function _groupMembers($dnGroup, &$seen = null) {
+		if ($seen === null) {
+			$seen = array();
+		}
+		$allMembers = array();
+		if (array_key_exists($dnGroup, $seen)) {
+			// avoid loops
+			return array();
+		}
+		// used extensively in cron job, caching makes sense for nested groups
+		$cacheKey = '_groupMembers'.$dnGroup;
+		if($this->access->connection->isCached($cacheKey)) {
+			return $this->access->connection->getFromCache($cacheKey);
+		}
+		$seen[$dnGroup] = 1;
+		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr,
+												$this->access->connection->ldapGroupFilter);
+		if (is_array($members)) {
+			foreach ($members as $memberDN) {
+				$allMembers[$memberDN] = 1;
+				$nestedGroups = $this->access->connection->ldapNestedGroups;
+				if (!empty($nestedGroups)) {
+					$subMembers = $this->_groupMembers($memberDN, $seen);
+					if ($subMembers) {
+						$allMembers = array_merge($allMembers, $subMembers);
+					}
+				}
+			}
+		}
+		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		return $allMembers;
 	}
 
 	/**
@@ -124,16 +156,43 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		}
 
-		$filter = $this->access->combineFilterWithAnd(array(
-			$this->access->connection->ldapGroupFilter,
-			$this->access->connection->ldapGroupMemberAssocAttr.'='.$uid
-		));
-		$groups = $this->access->fetchListOfGroups($filter,
-				array($this->access->connection->ldapGroupDisplayName, 'dn'));
+		$groups = array_values($this->getGroupsByMember($uid));
 		$groups = array_unique($this->access->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
+	}
+
+	private function getGroupsByMember($dn, &$seen = null) {
+		if ($seen === null) {
+			$seen = array();
+		}
+		$allGroups = array();
+		if (array_key_exists($dn, $seen)) {
+		    // avoid loops
+		    return array();
+		}
+		$seen[$dn] = true;
+		$filter = $this->access->combineFilterWithAnd(array(
+			$this->access->connection->ldapGroupFilter,
+			$this->access->connection->ldapGroupMemberAssocAttr.'='.$dn
+		));
+		$groups = $this->access->fetchListOfGroups($filter,
+			array($this->access->connection->ldapGroupDisplayName, 'dn'));
+		if (is_array($groups)) {
+			foreach ($groups as $groupobj) {
+				$groupDN = $groupobj['dn'];
+				$allGroups[$groupDN] = $groupobj;
+				$nestedGroups = $this->access->connection->ldapNestedGroups;
+				if (!empty($nestedGroups)) {
+					$supergroups = $this->getGroupsByMember($groupDN, $seen);
+					if (is_array($supergroups) && (count($supergroups)>0)) {
+						$allGroups = array_merge($allGroups, $supergroups);
+					}
+				}
+			}
+		}
+		return $allGroups;
 	}
 
 	/**
@@ -172,8 +231,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 
-		$members = $this->access->readAttribute($groupDN,
-						$this->access->connection->ldapGroupMemberAssocAttr);
+		$members = array_keys($this->_groupMembers($groupDN));
 		if(!$members) {
 			//in case users could not be retrieved, return empty resultset
 			$this->access->connection->writeToCache($cachekey, array());

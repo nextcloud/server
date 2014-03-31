@@ -61,7 +61,12 @@ td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
-li.selected { background-color:#ddd; }
+
+li.selected,
+#leftcontent li.selected {
+	background-color: #ddd;
+}
+
 table.grid { width:100%; }
 #rightcontent { padding-left: 10px; }
 div.quota {
@@ -149,6 +154,38 @@ span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
 input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }
+
+#mail_settings p label:first-child {
+	display: inline-block;
+	width: 300px;
+	text-align: right;
+}
+#mail_settings p select:nth-child(2) {
+	width: 143px;
+}
+#mail_smtpport {
+	width: 40px;
+}
+
+.cronlog {
+	margin-left: 10px;
+}
+
+.cronstatus {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+span.success {
+        background: #37ce02;
+        border-radius: 8px;
+}
+
+span.error {
+        background: #ce3702;
+}
 
 /* HELP */
 .pressed {background-color:#DDD;}

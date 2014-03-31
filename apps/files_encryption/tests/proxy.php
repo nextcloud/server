@@ -112,54 +112,24 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	}
 
-	function testPreUnlinkWithoutTrash() {
-
-		// remember files_trashbin state
-		$stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
-
-		// we want to tests with app files_trashbin enabled
-		\OC_App::disable('files_trashbin');
+	function testPostFileSizeWithDirectory() {
 
 		$this->view->file_put_contents($this->filename, $this->data);
 
-		// create a dummy file that we can delete something outside of data/user/files
-		$this->rootView->file_put_contents("dummy.txt", $this->data);
+		\OC_FileProxy::$enabled = false;
 
-		// check if all keys are generated
-		$this->assertTrue($this->rootView->file_exists(
-			'/files_encryption/share-keys/'
-			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
-		$this->assertTrue($this->rootView->file_exists(
-			'/files_encryption/keyfiles/' . $this->filename . '.key'));
+		// get root size, must match the file's unencrypted size
+		$unencryptedSize = $this->view->filesize('');
 
+		\OC_FileProxy::$enabled = true;
 
-		// delete dummy file outside of data/user/files
-		$this->rootView->unlink("dummy.txt");
+		$encryptedSize = $this->view->filesize('');
 
-		// all keys should still exist
-		$this->assertTrue($this->rootView->file_exists(
-			'/files_encryption/share-keys/'
-			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
-		$this->assertTrue($this->rootView->file_exists(
-			'/files_encryption/keyfiles/' . $this->filename . '.key'));
+		$this->assertTrue($encryptedSize !== $unencryptedSize);
 
-
-		// delete the file in data/user/files
+		// cleanup
 		$this->view->unlink($this->filename);
 
-		// now also the keys should be gone
-		$this->assertFalse($this->rootView->file_exists(
-			'/files_encryption/share-keys/'
-			. $this->filename . '.' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '.shareKey'));
-		$this->assertFalse($this->rootView->file_exists(
-			'/files_encryption/keyfiles/' . $this->filename . '.key'));
-
-		if ($stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
-		}
-		else {
-			OC_App::disable('files_trashbin');
-		}
 	}
 
 }

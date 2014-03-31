@@ -243,7 +243,7 @@ class OC_Group {
 
 	/**
 	 * @brief get a list of all users in several groups
-	 * @param array $gids
+	 * @param string[] $gids
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset

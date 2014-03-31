@@ -1,18 +1,22 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "Anfonwyd yr e-bost",
+"Encryption" => "Amgryptiad",
 "Authentication error" => "Gwall dilysu",
 "Invalid request" => "Cais annilys",
 "Error" => "Gwall",
-"Saving..." => "Yn cadw...",
 "undo" => "dadwneud",
 "Groups" => "Grwpiau",
 "Delete" => "Dileu",
+"None" => "Dim",
+"Login" => "Mewngofnodi",
 "Security Warning" => "Rhybudd Diogelwch",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",
-"Encryption" => "Amgryptiad",
+"Cancel" => "Diddymu",
+"Login Name" => "Mewngofnodi",
 "Other" => "Arall",
 "Username" => "Enw defnyddiwr"
 );

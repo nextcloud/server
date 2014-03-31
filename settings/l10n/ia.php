@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "Email" => "E-posta",
 "Your email address" => "Tu adresse de e-posta",
 "Profile picture" => "Imagine de profilo",
+"Cancel" => "Cancellar",
 "Language" => "Linguage",
 "Help translate" => "Adjuta a traducer",
 "Create" => "Crear",

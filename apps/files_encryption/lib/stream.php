@@ -167,6 +167,9 @@ class Stream {
 		} else {
 
 			$this->meta = stream_get_meta_data($this->handle);
+			// sometimes fopen changes the mode, e.g. for a url "r" convert to "r+"
+			// but we need to remember the original access type
+			$this->meta['mode'] = $mode;
 
 		}
 
@@ -567,7 +570,7 @@ class Stream {
 
 			// get file info
 			$fileInfo = $this->rootView->getFileInfo($path);
-			if (is_array($fileInfo)) {
+			if ($fileInfo) {
 				// set encryption data
 				$fileInfo['encrypted'] = true;
 				$fileInfo['size'] = $this->size;

@@ -57,6 +57,9 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		return $this->verbosity === 'detail';
 	}
 
+	/**
+	 * @param string $dir
+	 */
 	private function unlinkDir($dir) {
 		if ($dh = @opendir($dir)) {
 			while (($file = readdir($dh)) !== false) {
@@ -80,6 +83,7 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		$knownEntries = array(
 			'owncloud.log' => true,
 			'owncloud.db' => true,
+			'.ocdata' => true,
 			'..' => true,
 			'.' => true
 		);

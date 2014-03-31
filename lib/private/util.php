@@ -11,8 +11,6 @@ class OC_Util {
 	public static $headers=array();
 	private static $rootMounted=false;
 	private static $fsSetup=false;
-	public static $coreStyles=array();
-	public static $coreScripts=array();
 
 	/**
 	 * @brief Can be set up
@@ -32,9 +30,7 @@ class OC_Util {
 		}
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		if(!isset($RUNTIME_NOAPPS) || !$RUNTIME_NOAPPS) {
-			OC_App::loadApps(array('filesystem'));
-		}
+		OC_App::loadApps(array('filesystem'));
 
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
@@ -65,7 +61,7 @@ class OC_Util {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota));
+						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
 					}
 				}
 
@@ -90,10 +86,14 @@ class OC_Util {
 		return true;
 	}
 
+	/**
+	 * @param string $user
+	 */
 	public static function getUserQuota($user){
-		$userQuota = OC_Preferences::getValue($user, 'files', 'quota', 'default');
+		$config = \OC::$server->getConfig();
+		$userQuota = $config->getUserValue($user, 'files', 'quota', 'default');
 		if($userQuota === 'default') {
-			$userQuota = OC_AppConfig::getValue('files', 'default_quota', 'none');
+			$userQuota = $config->getAppValue('files', 'default_quota', 'none');
 		}
 		if($userQuota === 'none') {
 			return \OC\Files\SPACE_UNLIMITED;
@@ -214,7 +214,7 @@ class OC_Util {
 	 * @brief add a javascript file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addScript( $application, $file = null ) {
@@ -233,7 +233,7 @@ class OC_Util {
 	 * @brief add a css file
 	 *
 	 * @param string $application
-	 * @param filename $file
+	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addStyle( $application, $file = null ) {
@@ -288,12 +288,18 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
-			return array();
+		$errors = array();
+		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
+
+		if (!\OC::needUpgrade() && OC_Config::getValue('installed', false)) {
+			// this check needs to be done every time
+			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		$errors = array();
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
+			return $errors;
+		}
 
 		$defaults = new \OC_Defaults();
 
@@ -339,7 +345,6 @@ class OC_Util {
 					);
 			}
 		}
-		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
@@ -483,11 +488,46 @@ class OC_Util {
 			);
 		}
 
+		$errors = array_merge($errors, self::checkDatabaseVersion());
+
 		// Cache the result of this function
 		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
 
 		return $errors;
 	}
+
+	/**
+	 * Check the database version
+	 * @return array errors array
+	 */
+	public static function checkDatabaseVersion() {
+		$errors = array();
+		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		if ($dbType === 'pgsql') {
+			// check PostgreSQL version
+			try {
+				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
+				$data = $result->fetchRow();
+				if (isset($data['server_version'])) {
+					$version = $data['server_version'];
+					if (version_compare($version, '9.0.0', '<')) {
+						$errors[] = array(
+							'error' => 'PostgreSQL >= 9 required',
+							'hint' => 'Please upgrade your database version'
+						);
+					}
+				}
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				\OCP\Util::logException('core', $e);
+				$errors[] = array(
+					'error' => 'Error occurred while checking PostgreSQL version',
+					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
+				);
+			}
+		}
+		return $errors;
+	}
+
 
 	/**
 	 * @brief check if there are still some encrypted files stored
@@ -512,7 +552,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check for correct file permissions of data directory
-	 * @paran string $dataDirectory
+	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
@@ -524,7 +564,7 @@ class OC_Util {
 				.' cannot be listed by other users.';
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if (substr($perms, -1) != '0') {
-				OC_Helper::chmodr($dataDirectory, 0770);
+				chmod($dataDirectory, 0770);
 				clearstatcache();
 				$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($perms, 2, 1) != '0') {
@@ -534,6 +574,25 @@ class OC_Util {
 					);
 				}
 			}
+		}
+		return $errors;
+	}
+
+	/**
+	 * Check that the data directory exists and is valid by
+	 * checking the existence of the ".ocdata" file.
+	 *
+	 * @param string $dataDirectory data directory path
+	 * @return bool true if the data directory is valid, false otherwise
+	 */
+	public static function checkDataDirectoryValidity($dataDirectory) {
+		$errors = array();
+		if (!file_exists($dataDirectory.'/.ocdata')) {
+			$errors[] = array(
+				'error' => 'Data directory (' . $dataDirectory . ') is invalid',
+				'hint' => 'Please check that the data directory contains a file' .
+					' ".ocdata" in its root.'
+			);
 		}
 		return $errors;
 	}
@@ -566,6 +625,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the app is enabled, redirects to home if not
+	 * @param string $app
 	 * @return void
 	 */
 	public static function checkAppEnabled($app) {
@@ -625,7 +685,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the user is a subadmin, redirects to home if not
-	 * @return array $groups where the current user is subadmin
+	 * @return null|boolean $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
 		OC_Util::checkLoggedIn();
@@ -641,17 +701,18 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function redirectToDefaultPage() {
+		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			$location = urldecode($_REQUEST['redirect_url']);
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
+			$location = $urlGenerator->getAbsoluteURL('/index.php/apps/'.OC::$REQUESTEDAPP.'/index.php');
 		} else {
 			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultPage) {
-				$location = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/'.$defaultPage);
+				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
+				$location = $urlGenerator->getAbsoluteURL('/index.php/files/index.php');
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
@@ -788,8 +849,12 @@ class OC_Util {
 		}
 
 		$fp = @fopen($testFile, 'w');
-		@fwrite($fp, $testContent);
-		@fclose($fp);
+		if (!$fp) {
+			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+				'Make sure it is possible for the webserver to write to '.$testFile);
+		}
+		fwrite($fp, $testContent);
+		fclose($fp);
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$fileName);
@@ -920,7 +985,7 @@ class OC_Util {
 
 	/**
 	 * @brief Check if the connection to the internet is disabled on purpose
-	 * @return bool
+	 * @return string
 	 */
 	public static function isInternetConnectionEnabled(){
 		return \OC_Config::getValue("has_internet_connection", true);
@@ -1008,13 +1073,13 @@ class OC_Util {
 	public static function getUrlContent($url) {
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
+			$max_redirects = 10;
 
 			curl_setopt($curl, CURLOPT_HEADER, 0);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+			
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy', '') != '') {
@@ -1023,9 +1088,50 @@ class OC_Util {
 			if(OC_Config::getValue('proxyuserpwd', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
-			$data = curl_exec($curl);
+			
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) { 
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
+				$data = curl_exec($curl);
+			} else {
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+				$mr = $max_redirects;
+				if ($mr > 0) { 
+					$newurl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+					
+					$rcurl = curl_copy_handle($curl);
+					curl_setopt($rcurl, CURLOPT_HEADER, true);
+					curl_setopt($rcurl, CURLOPT_NOBODY, true);
+					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
+					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
+					do {
+						curl_setopt($rcurl, CURLOPT_URL, $newurl);
+						$header = curl_exec($rcurl);
+						if (curl_errno($rcurl)) {
+							$code = 0;
+						} else {
+							$code = curl_getinfo($rcurl, CURLINFO_HTTP_CODE);
+							if ($code == 301 || $code == 302) {
+								preg_match('/Location:(.*?)\n/', $header, $matches);
+								$newurl = trim(array_pop($matches));
+							} else {
+								$code = 0;
+							}
+						}
+					} while ($code && --$mr);
+					curl_close($rcurl);
+					if ($mr > 0) {
+						curl_setopt($curl, CURLOPT_URL, $newurl);
+					} 
+				}
+				
+				if($mr == 0 && $max_redirects > 0) {
+					$data = false;
+				} else {
+					$data = curl_exec($curl);
+				}
+			}
 			curl_close($curl);
-
 		} else {
 			$contextArray = null;
 
@@ -1054,10 +1160,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @return bool - well are we running on windows or not
+	 * Checks whether the server is running on Windows
+	 * @return bool true if running on Windows, false otherwise
 	 */
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
+	}
+
+	/**
+	 * Checks whether the server is running on Mac OS X
+	 * @return bool true if running on Mac OS X, false otherwise
+	 */
+	public static function runningOnMac() {
+		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
 	}
 
 	/**
@@ -1125,6 +1240,7 @@ class OC_Util {
 	}
 
 	/**
+	 * @param boolean|string $file
 	 * @return string
 	 */
 	public static function basename($file) {
@@ -1144,5 +1260,26 @@ class OC_Util {
 			$version .= ' Build:' . $build;
 		}
 		return $version;
+	}
+
+	/**
+	 * Returns whether the given file name is valid
+	 * @param $file string file name to check
+	 * @return bool true if the file name is valid, false otherwise
+	 */
+	public static function isValidFileName($file) {
+		$trimmed = trim($file);
+		if ($trimmed === '') {
+			return false;
+		}
+		if ($trimmed === '.' || $trimmed === '..') {
+			return false;
+		}
+		foreach (str_split($trimmed) as $char) {
+			if (strpos(\OCP\FILENAME_INVALID_CHARS, $char) !== false) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

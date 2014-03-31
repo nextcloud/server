@@ -45,6 +45,7 @@ interface IUserSession {
 	/**
 	 * Logs the user out including all the session data
 	 * Logout, destroys session
+	 * @return void
 	 */
 	public function logout();
 

@@ -54,13 +54,21 @@ abstract class Proxy {
 		return 'group-'.$gid.'-lastSeenOn';
 	}
 
+	/**
+	 * @param boolean $passOnWhen
+	 * @param string $method
+	 */
 	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
+
+	/**
+	 * @param string $method
+	 */
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
 	 * @brief Takes care of the request to the User backend
 	 * @param $uid string, the uid connected to the request
-	 * @param $method string, the method of the user backend that shall be called
+	 * @param string $method string, the method of the user backend that shall be called
 	 * @param $parameters an array of parameters to be passed
 	 * @return mixed, the result of the specified method
 	 */
@@ -80,6 +88,9 @@ abstract class Proxy {
 		return $prefix.md5($key);
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function getFromCache($key) {
 		if(!$this->isCached($key)) {
 			return null;
@@ -89,11 +100,17 @@ abstract class Proxy {
 		return unserialize(base64_decode($this->cache->get($key)));
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function isCached($key) {
 		$key = $this->getCacheKey($key);
 		return $this->cache->hasKey($key);
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function writeToCache($key, $value) {
 		$key   = $this->getCacheKey($key);
 		$value = base64_encode(serialize($value));

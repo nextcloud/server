@@ -19,6 +19,8 @@
 *
 */
 
+/* global OC */
+
 /**
  * Simulate the variables that are normally set by PHP code
  */
@@ -57,12 +59,23 @@ window.oc_webroot = location.href + '/';
 window.oc_appswebroots = {
 	"files": window.oc_webroot + '/apps/files/'
 };
+window.oc_config = {
+	session_lifetime: 600 * 1000,
+	session_keepalive: false
+};
+window.oc_defaults = {};
 
 // global setup for all tests
 (function setupTests() {
-	var fakeServer = null;
+	var fakeServer = null,
+		$testArea = null,
+		routesRequestStub;
 
 	beforeEach(function() {
+		// test area for elements that need absolute selector access or measure widths/heights
+		// which wouldn't work for detached or hidden elements
+		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px;"></div>');
+		$('body').append($testArea);
 		// enforce fake XHR, tests should not depend on the server and
 		// must use fake responses for expected calls
 		fakeServer = sinon.fakeServer.create();
@@ -84,6 +97,8 @@ window.oc_appswebroots = {
 		// uncomment this to log requests
 		// console.log(window.fakeServer.requests);
 		fakeServer.restore();
+
+		$testArea.remove();
 	});
 })();
 

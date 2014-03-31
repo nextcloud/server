@@ -1,7 +1,7 @@
 <fieldset id="ldapWizard3">
 	<div>
 		<p>
-			<?php p($l->t('What attribute shall be used as login name:'));?>
+			<?php p($l->t('Users login with this attribute:'));?>
 		</p>
 		<p>
 			<label for="ldap_loginfilter_username">

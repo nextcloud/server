@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Users" => "Kasutajad",
 "Delete" => "Kustuta",
 "Enable User External Storage" => "Luba kasutajatele väline salvestamine",
-"Allow users to mount their own external storage" => "Luba kasutajatel ühendada külge nende enda välised salvestusseadmed",
 "SSL root certificates" => "SSL root sertifikaadid",
 "Import Root Certificate" => "Impordi root sertifikaadid"
 );

@@ -7,40 +7,46 @@
  */
 namespace OC\Preview;
 
+use Imagick;
+
 if (extension_loaded('imagick')) {
 
-	class SVG extends Provider {
+	$checkImagick = new Imagick();
 
-		public function getMimeType() {
-			return '/image\/svg\+xml/';
-		}
+	if(count($checkImagick->queryFormats('SVG')) === 1) {
 
-		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-			try{
-				$svg = new \Imagick();
-				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
+		class SVG extends Provider {
 
-				$content = stream_get_contents($fileview->fopen($path, 'r'));
-				if(substr($content, 0, 5) !== '<?xml') {
-					$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
-				}
-
-				$svg->readImageBlob($content);
-				$svg->setImageFormat('png32');
-			} catch (\Exception $e) {
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				return false;
+			public function getMimeType() {
+				return '/image\/svg\+xml/';
 			}
 
+			public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+				try{
+					$svg = new Imagick();
+					$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 
-			//new image object
-			$image = new \OC_Image();
-			$image->loadFromData($svg);
-			//check if image object is valid
-			return $image->valid() ? $image : false;
+					$content = stream_get_contents($fileview->fopen($path, 'r'));
+					if(substr($content, 0, 5) !== '<?xml') {
+						$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+					}
+
+					$svg->readImageBlob($content);
+					$svg->setImageFormat('png32');
+				} catch (\Exception $e) {
+					\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+					return false;
+				}
+
+
+				//new image object
+				$image = new \OC_Image();
+				$image->loadFromData($svg);
+				//check if image object is valid
+				return $image->valid() ? $image : false;
+			}
 		}
+
+		\OC\Preview::registerProvider('OC\Preview\SVG');
 	}
-
-	\OC\Preview::registerProvider('OC\Preview\SVG');
-
 }

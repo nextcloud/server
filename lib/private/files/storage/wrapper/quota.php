@@ -16,17 +16,38 @@ class Quota extends Wrapper {
 	protected $quota;
 
 	/**
+	 * @var string $sizeRoot
+	 */
+	protected $sizeRoot;
+
+	/**
 	 * @param array $parameters
 	 */
 	public function __construct($parameters) {
 		$this->storage = $parameters['storage'];
 		$this->quota = $parameters['quota'];
+		$this->sizeRoot = isset($parameters['root']) ? $parameters['root'] : '';
 	}
 
+	/**
+	 * @return quota value
+	 */
+	public function getQuota() {
+		return $this->quota;
+	}
+
+	/**
+	 * @param string $path
+	 */
 	protected function getSize($path) {
 		$cache = $this->getCache();
 		$data = $cache->get($path);
 		if (is_array($data) and isset($data['size'])) {
+			if (isset($data['unencrypted_size'])
+				&& $data['unencrypted_size'] > 0
+			) {
+				return $data['unencrypted_size'];
+			}
 			return $data['size'];
 		} else {
 			return \OC\Files\SPACE_NOT_COMPUTED;
@@ -43,12 +64,19 @@ class Quota extends Wrapper {
 		if ($this->quota < 0) {
 			return $this->storage->free_space($path);
 		} else {
-			$used = $this->getSize('');
+			$used = $this->getSize($this->sizeRoot);
 			if ($used < 0) {
 				return \OC\Files\SPACE_NOT_COMPUTED;
 			} else {
 				$free = $this->storage->free_space($path);
-				return min($free, (max($this->quota - $used, 0)));
+				$quotaFree = max($this->quota - $used, 0);
+				// if free space is known
+				if ($free >= 0) {
+					$free = min($free, $quotaFree);
+				} else {
+					$free = $quotaFree;
+				}
+				return $free;
 			}
 		}
 	}

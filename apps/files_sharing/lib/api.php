@@ -68,7 +68,7 @@ class Api {
 	public static function getShare($params) {
 
 		$s = self::getShareFromId($params['id']);
-		$params['itemSource'] = $s['item_source'];
+		$params['itemSource'] = $s['file_source'];
 		$params['itemType'] = $s['item_type'];
 		$params['specificShare'] = true;
 
@@ -98,7 +98,13 @@ class Api {
 						break;
 					}
 				}
+			} else {
+				$path = $params['path'];
+				foreach ($shares as $key => $share) {
+					$shares[$key]['path'] = $path;
+				}
 			}
+
 
 			// include also reshares in the lists. This means that the result
 			// will contain every user with access to the file.
@@ -107,8 +113,10 @@ class Api {
 			}
 
 			if ($receivedFrom) {
-				$shares['received_from'] = $receivedFrom['uid_owner'];
-				$shares['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				foreach ($shares as $key => $share) {
+					$shares[$key]['received_from'] = $receivedFrom['uid_owner'];
+					$shares[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				}
 			}
 		} else {
 			$shares = null;
@@ -172,14 +180,16 @@ class Api {
 			// workaround because folders are named 'dir' in this context
 			$itemType = $file['type'] === 'file' ? 'file' : 'folder';
 			$share = \OCP\Share::getItemShared($itemType, $file['fileid']);
-			$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
-			if ($receivedFrom) {
-				$share['received_from'] = $receivedFrom['uid_owner'];
-				$share['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
-			}
-			if ($share) {
-				$share['filename'] = $file['name'];
-				$result[] = $share;
+			if($share) {
+				$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
+				reset($share);
+				$key = key($share);
+				$share[$key]['path'] = self::correctPath($share[$key]['path'], $path);
+				if ($receivedFrom) {
+					$share[$key]['received_from'] = $receivedFrom['uid_owner'];
+					$share[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
+				}
+				$result = array_merge($result, $share);
 			}
 		}
 
@@ -219,7 +229,7 @@ class Api {
 				//allow password protection
 				$shareWith = isset($_POST['password']) ? $_POST['password'] : null;
 				//check public link share
-				$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+				$publicUploadEnabled = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 				if(isset($_POST['publicUpload']) && $publicUploadEnabled !== 'yes') {
 					return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 				}
@@ -282,9 +292,8 @@ class Api {
 	public static function updateShare($params) {
 
 		$share = self::getShareFromId($params['id']);
-		$itemSource = isset($share['item_source']) ? $share['item_source'] : null;
 
-		if($itemSource === null) {
+		if(!isset($share['file_source'])) {
 			return new \OC_OCS_Result(null, 404, "wrong share Id, share doesn't exist.");
 		}
 
@@ -318,7 +327,7 @@ class Api {
 		$shareType = $share['share_type'];
 		$permissions = isset($params['_put']['permissions']) ? (int)$params['_put']['permissions'] : null;
 
-		$publicUploadStatus = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+		$publicUploadStatus = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 		$publicUploadEnabled = ($publicUploadStatus === 'yes') ? true : false;
 
 
@@ -357,7 +366,7 @@ class Api {
 	 */
 	private static function updatePublicUpload($share, $params) {
 
-		$publicUploadEnabled = \OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes');
+		$publicUploadEnabled = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_public_upload', 'yes');
 		if($publicUploadEnabled !== 'yes') {
 			return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
 		}
@@ -432,10 +441,10 @@ class Api {
 	public static function deleteShare($params) {
 
 		$share = self::getShareFromId($params['id']);
-		$itemSource = isset($share['item_source']) ? $share['item_source'] : null;
+		$fileSource = isset($share['file_source']) ? $share['file_source'] : null;
 		$itemType = isset($share['item_type']) ? $share['item_type'] : null;;
 
-		if($itemSource === null) {
+		if($fileSource === null) {
 			return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 		}
 
@@ -449,7 +458,7 @@ class Api {
 		try {
 			$return = \OCP\Share::unshare(
 					$itemType,
-					$itemSource,
+					$fileSource,
 					$shareType,
 					$shareWith);
 		} catch (\Exception $e) {
@@ -505,7 +514,7 @@ class Api {
 	 * @return array with: item_source, share_type, share_with, item_type, permissions
 	 */
 	private static function getShareFromId($shareID) {
-		$sql = 'SELECT `item_source`, `share_type`, `share_with`, `item_type`, `permissions` FROM `*PREFIX*share` WHERE `id` = ?';
+		$sql = 'SELECT `file_source`, `item_source`, `share_type`, `share_with`, `item_type`, `permissions` FROM `*PREFIX*share` WHERE `id` = ?';
 		$args = array($shareID);
 		$query = \OCP\DB::prepare($sql);
 		$result = $query->execute($args);
@@ -520,6 +529,17 @@ class Api {
 
 		return null;
 
+	}
+
+	/**
+	 * @brief make sure that the path has the correct root
+	 *
+	 * @param string $path path returned from the share API
+	 * @param string $folder current root folder
+	 * @return string the correct path
+	 */
+	protected static function correctPath($path, $folder) {
+		return \OC_Filesystem::normalizePath('/' . $folder . '/' . basename($path));
 	}
 
 }

@@ -1,11 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"%s shared »%s« with you" => "%s teilt »%s« mit Ihnen",
 "Turned on maintenance mode" => "Wartungsmodus eingeschaltet",
 "Turned off maintenance mode" => "Wartungsmodus ausgeschaltet",
 "Updated database" => "Datenbank aktualisiert",
-"Updating filecache, this may take really long..." => "Aktualisiere Dateicache, dies könnte eine Weile dauern...",
-"Updated filecache" => "Dateicache aktualisiert",
 "Sunday" => "Sonntag",
 "Monday" => "Montag",
 "Tuesday" => "Dienstag",
@@ -26,6 +23,7 @@ $TRANSLATIONS = array(
 "November" => "November",
 "December" => "Dezember",
 "Settings" => "Einstellungen",
+"Saving..." => "Speichern...",
 "seconds ago" => "Gerade eben",
 "_%n minute ago_::_%n minutes ago_" => array("Vor %n Minute","Vor %n Minuten"),
 "_%n hour ago_::_%n hours ago_" => array("Vor %n Stunde","Vor %n Stunden"),
@@ -109,7 +107,6 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Für Informationen, wie Sie Ihren Server richtig konfigurieren lesen Sie bitte die <a href=\"%s\" target=\"_blank\">Dokumentation</a>.",
 "Create an <strong>admin account</strong>" => "<strong>Administrator-Konto</strong> anlegen",
-"Advanced" => "Fortgeschritten",
 "Data folder" => "Datenverzeichnis",
 "Configure the database" => "Datenbank einrichten",
 "will be used" => "wird verwendet",

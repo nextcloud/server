@@ -114,7 +114,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	* $request['myvar'] = 'something'; // This throws an exception.
 	*
 	* @param string $offset The key to lookup
-	* @return string|null
+	* @return boolean
 	*/
 	public function offsetExists($offset) {
 		return isset($this->items['parameters'][$offset]);

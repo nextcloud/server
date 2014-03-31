@@ -9,6 +9,11 @@
 namespace OC\Files\Storage;
 
 abstract class StreamWrapper extends Common {
+
+	/**
+	 * @param string $path
+	 * @return string|null
+	 */
 	abstract public function constructUrl($path);
 
 	public function mkdir($path) {
@@ -76,10 +81,17 @@ abstract class StreamWrapper extends Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $target
+	 */
 	public function getFile($path, $target) {
 		return copy($this->constructUrl($path), $target);
 	}
 
+	/**
+	 * @param string $target
+	 */
 	public function uploadFile($path, $target) {
 		return copy($path, $this->constructUrl($target));
 	}

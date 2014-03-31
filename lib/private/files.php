@@ -21,26 +21,46 @@
  *
  */
 
+// TODO: get rid of this using proper composer packages
+require_once 'mcnetic/phpzipstreamer/ZipStreamer.php';
+
+class GET_TYPE {
+	const FILE = 1;
+	const ZIP_FILES = 2;
+	const ZIP_DIR = 3;
+}
+
 /**
- * Class for fileserver access
+ * Class for file server access
  *
  */
 class OC_Files {
-	static $tmpFiles = array();
 
-	static public function getFileInfo($path, $includeMountPoints = true){
-		return \OC\Files\Filesystem::getFileInfo($path, $includeMountPoints);
-	}
-
-	static public function getDirectoryContent($path){
-		return \OC\Files\Filesystem::getDirectoryContent($path);
+	/**
+	 * @param string $filename
+	 * @param string $name
+	 * @param bool $zip
+	 */
+	private static function sendHeaders($filename, $name, $zip = false) {
+		OC_Response::setContentDispositionHeader($name, 'attachment');
+		header('Content-Transfer-Encoding: binary');
+		OC_Response::disableCaching();
+		if ($zip) {
+			header('Content-Type: application/zip');
+		} else {
+			$filesize = \OC\Files\Filesystem::filesize($filename);
+			header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
+			if ($filesize > -1) {
+				header("Content-Length: ".$filesize);
+			}
+		}
 	}
 
 	/**
 	 * return the content of a file or return a zip file containing multiple files
 	 *
 	 * @param string $dir
-	 * @param string $file ; separated list of files to download
+	 * @param string $files ; separated list of files to download
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
@@ -51,92 +71,50 @@ class OC_Files {
 			$xsendfile = true;
 		}
 
-		if (is_array($files) && count($files) == 1) {
+		if (is_array($files) && count($files) === 1) {
 			$files = $files[0];
 		}
 
 		if (is_array($files)) {
-			self::validateZipDownload($dir, $files);
-			$executionTime = intval(ini_get('max_execution_time'));
-			set_time_limit(0);
-			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				$l = OC_L10N::get('lib');
-				throw new Exception($l->t('cannot open "%s"', array($filename)));
-			}
-			foreach ($files as $file) {
-				$file = $dir . '/' . $file;
-				if (\OC\Files\Filesystem::is_file($file)) {
-					$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
-					self::$tmpFiles[] = $tmpFile;
-					$zip->addFile($tmpFile, basename($file));
-				} elseif (\OC\Files\Filesystem::is_dir($file)) {
-					self::zipAddDir($file, $zip);
-				}
-			}
-			$zip->close();
-			if ($xsendfile) {
-				$filename = OC_Helper::moveToNoClean($filename);
-			}
+			$get_type = GET_TYPE::ZIP_FILES;
 			$basename = basename($dir);
 			if ($basename) {
 				$name = $basename . '.zip';
 			} else {
 				$name = 'download.zip';
 			}
-			
-			set_time_limit($executionTime);
-		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
-			self::validateZipDownload($dir, $files);
-			$executionTime = intval(ini_get('max_execution_time'));
-			set_time_limit(0);
-			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
-				$l = OC_L10N::get('lib');
-				throw new Exception($l->t('cannot open "%s"', array($filename)));
-			}
-			$file = $dir . '/' . $files;
-			self::zipAddDir($file, $zip);
-			$zip->close();
-			if ($xsendfile) {
-				$filename = OC_Helper::moveToNoClean($filename);
-			}
-			$name = $files . '.zip';
-			set_time_limit($executionTime);
+
+			$filename = $dir . '/' . $name;
 		} else {
-			$zip = false;
 			$filename = $dir . '/' . $files;
-			$name = $files;
+			if (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
+				$get_type = GET_TYPE::ZIP_DIR;
+				// downloading root ?
+				if ($files === '') {
+					$name = 'download.zip';
+				} else {
+					$name = $files . '.zip';
+				}
+
+			} else {
+				$get_type = GET_TYPE::FILE;
+				$name = $files;
+			}
+		}
+
+		if ($get_type === GET_TYPE::FILE) {
+			$zip = false;
 			if ($xsendfile && OC_App::isEnabled('files_encryption')) {
 				$xsendfile = false;
 			}
+		} else {
+			self::validateZipDownload($dir, $files);
+			$zip = new ZipStreamer(false);
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			OC_Response::setContentDispositionHeader($name, 'attachment');
-			header('Content-Transfer-Encoding: binary');
-			OC_Response::disableCaching();
-			if ($zip) {
-				ini_set('zlib.output_compression', 'off');
-				header('Content-Type: application/zip');
-				header('Content-Length: ' . filesize($filename));
-				self::addSendfileHeader($filename);
-			}else{
-				$filesize = \OC\Files\Filesystem::filesize($filename);
-				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
-				if ($filesize > -1) {
-					header("Content-Length: ".$filesize);
-				}
-				if ($xsendfile) {
-					list($storage) = \OC\Files\Filesystem::resolvePath(\OC\Files\Filesystem::getView()->getAbsolutePath($filename));
-					if ($storage instanceof \OC\Files\Storage\Local) {
-						self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
-					}
-				}
-			}
-		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
+			self::sendHeaders($filename, $name, $zip);
+		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template('', '404', 'guest');
 			$tmpl->assign('file', $name);
@@ -149,36 +127,53 @@ class OC_Files {
 			return ;
 		}
 		if ($zip) {
-			$handle = fopen($filename, 'r');
-			if ($handle) {
-				$chunkSize = 8 * 1024; // 1 MB chunks
-				while (!feof($handle)) {
-					echo fread($handle, $chunkSize);
-					flush();
+			$executionTime = intval(ini_get('max_execution_time'));
+			set_time_limit(0);
+			if ($get_type === GET_TYPE::ZIP_FILES) {
+				foreach ($files as $file) {
+					$file = $dir . '/' . $file;
+					if (\OC\Files\Filesystem::is_file($file)) {
+						$fh = \OC\Files\Filesystem::fopen($file, 'r');
+						$zip->addFileFromStream($fh, basename($file));
+						fclose($fh);
+					} elseif (\OC\Files\Filesystem::is_dir($file)) {
+						self::zipAddDir($file, $zip);
+					}
 				}
+			} elseif ($get_type === GET_TYPE::ZIP_DIR) {
+				$file = $dir . '/' . $files;
+				self::zipAddDir($file, $zip);
 			}
-			if (!$xsendfile) {
-				unlink($filename);
-			}
-		}else{
-			\OC\Files\Filesystem::readfile($filename);
-		}
-		foreach (self::$tmpFiles as $tmpFile) {
-			if (file_exists($tmpFile) and is_file($tmpFile)) {
-				unlink($tmpFile);
+			$zip->finalize();
+			set_time_limit($executionTime);
+		} else {
+			if ($xsendfile) {
+				$view = \OC\Files\Filesystem::getView();
+				/** @var $storage \OC\Files\Storage\Storage */
+				list($storage) = $view->resolvePath($filename);
+				if ($storage->isLocal()) {
+					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+				} else {
+					\OC\Files\Filesystem::readfile($filename);
+				}
+			} else {
+				\OC\Files\Filesystem::readfile($filename);
 			}
 		}
 	}
 
+	/**
+	 * @param false|string $filename
+	 */
 	private static function addSendfileHeader($filename) {
 		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
 			header("X-Sendfile: " . $filename);
  		}
  		if (isset($_SERVER['MOD_X_SENDFILE2_ENABLED'])) {
-			if (isset($_SERVER['HTTP_RANGE']) && 
+			if (isset($_SERVER['HTTP_RANGE']) &&
 				preg_match("/^bytes=([0-9]+)-([0-9]*)$/", $_SERVER['HTTP_RANGE'], $range)) {
 				$filelength = filesize($filename);
- 				if ($range[2] == "") {
+ 				if ($range[2] === "") {
  					$range[2] = $filelength - 1;
  				}
  				header("Content-Range: bytes $range[1]-$range[2]/" . $filelength);
@@ -188,24 +183,35 @@ class OC_Files {
  				header("X-Sendfile: " . $filename);
  			}
 		}
-		
+
 		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			header("X-Accel-Redirect: " . $filename);
 		}
 	}
 
+	/**
+	 * @param string $dir
+	 * @param ZipStreamer $zip
+	 * @param string $internalDir
+	 */
 	public static function zipAddDir($dir, $zip, $internalDir='') {
 		$dirname=basename($dir);
-		$zip->addEmptyDir($internalDir.$dirname);
+		$rootDir = $internalDir.$dirname;
+		if (!empty($rootDir)) {
+			$zip->addEmptyDir($rootDir);
+		}
 		$internalDir.=$dirname.='/';
-		$files=OC_Files::getDirectoryContent($dir);
+		// prevent absolute dirs
+		$internalDir = ltrim($internalDir, '/');
+
+		$files=\OC\Files\Filesystem::getDirectoryContent($dir);
 		foreach($files as $file) {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;
 			if(\OC\Files\Filesystem::is_file($file)) {
-				$tmpFile=\OC\Files\Filesystem::toTmpFile($file);
-				OC_Files::$tmpFiles[]=$tmpFile;
-				$zip->addFile($tmpFile, $internalDir.$filename);
+				$fh = \OC\Files\Filesystem::fopen($file, 'r');
+				$zip->addFileFromStream($fh, $internalDir.$filename);
+				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				self::zipAddDir($file, $zip, $internalDir);
 			}
@@ -215,8 +221,8 @@ class OC_Files {
 	/**
 	 * checks if the selected files are within the size constraint. If not, outputs an error page.
 	 *
-	 * @param dir   $dir
-	 * @param files $files
+	 * @param string $dir
+	 * @param array | string $files
 	 */
 	static function validateZipDownload($dir, $files) {
 		if (!OC_Config::getValue('allowZipDownload', true)) {
@@ -263,8 +269,8 @@ class OC_Files {
 	/**
 	 * set the maximum upload size limit for apache hosts using .htaccess
 	 *
-	 * @param int size filesisze in bytes
-	 * @return false on failure, size on success
+	 * @param int $size file size in bytes
+	 * @return bool false on failure, size on success
 	 */
 	static function setUploadLimit($size) {
 		//don't allow user to break his config -- upper boundary
@@ -280,11 +286,12 @@ class OC_Files {
 		}
 
 		//don't allow user to break his config -- broken or malicious size input
-		if (intval($size) == 0) {
+		if (intval($size) === 0) {
 			return false;
 		}
 
-		$htaccess = @file_get_contents(OC::$SERVERROOT . '/.htaccess'); //supress errors in case we don't have permissions for
+		//suppress errors in case we don't have permissions for
+		$htaccess = @file_get_contents(OC::$SERVERROOT . '/.htaccess');
 		if (!$htaccess) {
 			return false;
 		}
@@ -302,7 +309,7 @@ class OC_Files {
 			if ($content !== null) {
 				$htaccess = $content;
 			}
-			if ($hasReplaced == 0) {
+			if ($hasReplaced === 0) {
 				$htaccess .= "\n" . $setting;
 			}
 		}

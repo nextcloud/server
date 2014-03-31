@@ -155,7 +155,7 @@ class Response {
 
 	/**
 	 * Get "last modified" date
-	 * @return string RFC2822 formatted last modified date
+	 * @return \DateTime RFC2822 formatted last modified date
 	 */
 	public function getLastModified() {
 		return $this->lastModified;

@@ -30,12 +30,18 @@ class ArrayParser {
 	const TYPE_STRING = 3;
 	const TYPE_ARRAY = 4;
 
+	/**
+	 * @param string $string
+	 */
 	function parsePHP($string) {
 		$string = $this->stripPHPTags($string);
 		$string = $this->stripAssignAndReturn($string);
 		return $this->parse($string);
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function stripPHPTags($string) {
 		$string = trim($string);
 		if (substr($string, 0, 5) === '<?php') {
@@ -47,6 +53,9 @@ class ArrayParser {
 		return $string;
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function stripAssignAndReturn($string) {
 		$string = trim($string);
 		if (substr($string, 0, 6) === 'return') {
@@ -74,6 +83,9 @@ class ArrayParser {
 		return null;
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function getType($string) {
 		$string = strtolower($string);
 		$first = substr($string, 0, 1);
@@ -90,19 +102,31 @@ class ArrayParser {
 		}
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function parseString($string) {
 		return substr($string, 1, -1);
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function parseNum($string) {
 		return intval($string);
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function parseBool($string) {
 		$string = strtolower($string);
 		return $string === 'true';
 	}
 
+	/**
+	 * @param string $string
+	 */
 	function parseArray($string) {
 		$body = substr($string, 5);
 		$body = trim($body);
@@ -131,6 +155,9 @@ class ArrayParser {
 		return $result;
 	}
 
+	/**
+	 * @param string $body
+	 */
 	function splitArray($body) {
 		$inSingleQuote = false;//keep track if we are inside quotes
 		$inDoubleQuote = false;

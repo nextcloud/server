@@ -21,6 +21,7 @@ class OC_JSON{
 
 	/**
 	* Check if the app is enabled, send json error msg if not
+	* @param string $app
 	*/
 	public static function checkAppEnabled($app) {
 		if( !OC_App::isEnabled($app)) {

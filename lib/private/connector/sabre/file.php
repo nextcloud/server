@@ -58,6 +58,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			throw new \Sabre_DAV_Exception_ServiceUnavailable();
 		}
 
+		$fileName = basename($this->path);
+		if (!\OCP\Util::isValidFileName($fileName)) {
+			throw new \Sabre_DAV_Exception_BadRequest();
+		}
+
 		// chunked handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			return $this->createFileChunked($data);
@@ -142,15 +147,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @throws Sabre_DAV_Exception_Forbidden
 	 */
 	public function delete() {
+		$fs = $this->getFS();
 
 		if ($this->path === 'Shared') {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
-		if (!\OC\Files\Filesystem::isDeletable($this->path)) {
+		if (!$fs->isDeletable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
-		\OC\Files\Filesystem::unlink($this->path);
+		$fs->unlink($this->path);
 
 		// remove properties
 		$this->removeProperties();
@@ -206,6 +212,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 	}
 
+	/**
+	 * @param resource $data
+	 */
 	private function createFileChunked($data)
 	{
 		list($path, $name) = \Sabre_DAV_URLUtil::splitPath($this->path);

@@ -15,7 +15,7 @@
 		</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path('', 'favicon-touch.png')); ?>" />
@@ -45,18 +45,20 @@
 		<?php endif; ?>
 	</div>
 	<header><div id="header">
-			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
-				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
+			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud">
+				<div class="logo-wide svg"></div>
+			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-			<ul id="settings" class="svg">
+			<div id="settings" class="svg">
 				<span id="expand" tabindex="0" role="link">
-					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv"></div>
 					<?php endif; ?>
+					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
+					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>
 				<div id="expanddiv">
+				<ul>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li>
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
@@ -72,8 +74,9 @@
 							<?php p($l->t('Log out'));?>
 						</a>
 					</li>
+				</ul>
 				</div>
-			</ul>
+			</div>
 
 			<form class="searchbox" action="#" method="post">
 				<input id="searchbox" class="svg" type="search" name="query"
@@ -83,37 +86,40 @@
 		</div></header>
 
 		<nav><div id="navigation">
-			<ul id="apps" class="svg">
-				<div class="wrapper"><!-- for sticky footer of apps management -->
+			<div id="apps" class="svg">
+				<ul class="wrapper"><!-- for sticky footer of apps management -->
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" src="<?php print_unescaped($entry['icon']); ?>"/>
+							<img class="icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
 							<span>
 								<?php p($entry['name']); ?>
 							</span>
 						</a>
 					</li>
 				<?php endforeach; ?>
+
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
-					<div class="push"></div><!-- for for sticky footer of apps management -->
+					<li class="push"></li><!-- for sticky footer of apps management -->
 				<?php endif; ?>
-				</div>
+				</ul>
 
 				<!-- show "More apps" link to app administration directly in app navigation, as sticky footer -->
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
-					<li id="apps-management">
+				<ul id="apps-management">
+					<li>
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<img class="icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<span>
 								<?php p($l->t('Apps')); ?>
 							</span>
 						</a>
 					</li>
+				</ul>
 				<?php endif; ?>
-			</ul>
+			</div>
 		</div></nav>
 
 		<div id="content-wrapper">

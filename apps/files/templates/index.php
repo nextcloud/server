@@ -5,21 +5,27 @@
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('text/plain')) ?>')"
-						data-type='file' data-newname='<?php p($l->t('New text file')) ?>.txt'><p><?php p($l->t('Text file'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\mimetype_icon('dir')) ?>')"
-						data-type='folder' data-newname='<?php p($l->t('New folder')) ?>'><p><?php p($l->t('Folder'));?></p></li>
-					<li style="background-image:url('<?php p(OCP\image_path('core', 'places/link.svg')) ?>')"
-						data-type='web'><p><?php p($l->t('From link'));?></p></li>
+					<li class="icon-filetype-text svg"
+						data-type="file" data-newname="<?php p($l->t('New text file')) ?>.txt">
+						<p><?php p($l->t('Text file'));?></p>
+					</li>
+					<li class="icon-filetype-folder svg"
+						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
+						<p><?php p($l->t('Folder'));?></p>
+					</li>
+					<li class="icon-link svg" data-type="web">
+						<p><?php p($l->t('From link'));?></p>
+					</li>
 				</ul>
 			</div>
 			<?php endif;?>
 			<div id="upload" class="button"
 				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
-					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
-						   value="<?php p($_['uploadMaxFilesize']) ?>">
+					<input type="hidden" id="max_upload" name="MAX_FILE_SIZE" value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
+					<input type="hidden" id="upload_limit" value="<?php p($_['uploadLimit']) ?>">
+					<input type="hidden" id="free_space" value="<?php p($_['freeSpace']) ?>">
 					<?php if(isset($_['dirToken'])):?>
 					<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 					<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
@@ -29,7 +35,7 @@
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg icon icon-upload"></a>
+					<a href="#" class="svg icon-upload"></a>
 			</div>
 			<?php if ($_['trash']): ?>
 			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?> />
@@ -60,7 +66,7 @@
 					<input type="checkbox" id="select_all" />
 					<label for="select_all"></label>
 					<span class="name"><?php p($l->t( 'Name' )); ?></span>
-					<span class="selectedActions">
+					<span id="selectedActionsList" class="selectedActions">
 						<?php if($_['allowZipDownload']) : ?>
 							<a href="" class="download">
 								<img class="svg" alt="Download"

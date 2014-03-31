@@ -1,8 +1,10 @@
 <?php
 $TRANSLATIONS = array(
-"Couldn't delete %s permanently" => "Không thể óa %s vĩnh viễn",
+"Couldn't delete %s permanently" => "Không thể xóa %s vĩnh viễn",
 "Couldn't restore %s" => "Không thể khôi phục %s",
+"Deleted files" => "File đã bị xóa",
 "Error" => "Lỗi",
+"restored" => "khôi phục",
 "Nothing in here. Your trash bin is empty!" => "Không có gì ở đây. Thùng rác của bạn rỗng!",
 "Name" => "Tên",
 "Restore" => "Khôi phục",

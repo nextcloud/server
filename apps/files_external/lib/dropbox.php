@@ -50,6 +50,9 @@ class Dropbox extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function deleteMetaData($path) {
 		$path = $this->root.$path;
 		if (isset($this->metaData[$path])) {
@@ -61,7 +64,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 	/**
 	 * @brief Returns the path's metadata
-	 * @param $path path for which to return the metadata
+	 * @param string $path path for which to return the metadata
 	 * @param $list if true, also return the directory's contents
 	 * @return directory contents if $list is true, file metadata if $list is
 	 * false, null if the file doesn't exist or "false" if the operation failed

@@ -19,6 +19,10 @@ class DummyUser extends \OC\User\User {
 	 */
 	private $uid;
 
+	/**
+	 * @param string $uid
+	 * @param string $home
+	 */
 	public function __construct($uid, $home) {
 		$this->home = $home;
 		$this->uid = $uid;
@@ -86,7 +90,6 @@ class HomeCache extends \PHPUnit_Framework_TestCase {
 
 		// check that files and root size ignored the unknown sizes
 		$this->assertEquals(1000, $this->cache->calculateFolderSize('files'));
-		$this->assertEquals(1000, $this->cache->calculateFolderSize(''));
 
 		// clean up
 		$this->cache->remove('');

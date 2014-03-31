@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -10,25 +11,28 @@ namespace OC\Cache;
 
 class File {
 	protected $storage;
+
+	/**
+	 * Returns the cache storage for the logged in user
+	 * @return cache storage
+	 */
 	protected function getStorage() {
 		if (isset($this->storage)) {
 			return $this->storage;
 		}
 		if(\OC_User::isLoggedIn()) {
 			\OC\Files\Filesystem::initMountPoints(\OC_User::getUser());
-			$subdir = 'cache';
-			$view = new \OC\Files\View('/' . \OC_User::getUser());
-			if(!$view->file_exists($subdir)) {
-				$view->mkdir($subdir);
-			}
-			$this->storage = new \OC\Files\View('/' . \OC_User::getUser().'/'.$subdir);
+			$this->storage = new \OC\Files\View('/' . \OC_User::getUser() . '/cache');
 			return $this->storage;
 		}else{
 			\OC_Log::write('core', 'Can\'t get cache storage, user not logged in', \OC_Log::ERROR);
-			return false;
+			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function get($key) {
 		$result = null;
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -59,6 +63,9 @@ class File {
 		return $result;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function set($key, $value, $ttl=0) {
 		$storage = $this->getStorage();
 		$result = false;
@@ -87,6 +94,9 @@ class File {
 		return false;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function remove($key) {
 		$storage = $this->getStorage();
 		if(!$storage) {

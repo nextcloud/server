@@ -41,6 +41,7 @@ interface Node {
 
 	/**
 	 * Delete the file or folder
+	 * @return void
 	 */
 	public function delete();
 
@@ -58,6 +59,7 @@ interface Node {
 	 *
 	 * @param int $mtime (optional) modified date as unix timestamp
 	 * @throws \OCP\Files\NotPermittedException
+	 * @return void
 	 */
 	public function touch($mtime = null);
 
