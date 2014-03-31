@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertType extends Command {
 	/**
-	 * @var \OC\Config $config
+	 * @var \OC\Config
 	 */
 	protected $config;
 
