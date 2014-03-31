@@ -102,14 +102,14 @@ class ConvertType extends Command {
 			$schemaManager = $toDB->getSchemaManager();
 			$toTables = $schemaManager->listTableNames();
 			if (!empty($toTables)) {
-				$output->writeln('Clearing schema in new database');
+				$output->writeln('<info>Clearing schema in new database</info>');
 			}
 			foreach($toTables as $table) {
 				$schemaManager->dropTable($table);
 			}
 		}
 
-		$output->writeln('Creating schema in new database');
+		$output->writeln('<info>Creating schema in new database</info>');
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
 		$apps = \OC_App::getEnabledApps();
