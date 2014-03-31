@@ -153,7 +153,7 @@ class ConvertType extends Command {
 		$password = $input->getOption('password');
 
 		if (!isset(self::$type2driver[$type])) {
-			throw new InvalidArgumentException('Unknown type: '.$type);
+			throw new \InvalidArgumentException('Unknown type: '.$type);
 		}
 		$connectionParams = array(
 				'driver' => self::$type2driver[$type],
