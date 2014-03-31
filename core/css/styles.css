@@ -99,6 +99,8 @@ input[type="time"],
 textarea,
 select,
 button, .button,
+input[type="submit"],
+input[type="button"],
 #quota,
 .pager li a {
 	width: 130px;
@@ -173,14 +175,12 @@ input[type="submit"], input[type="button"],
 button, .button,
 #quota, select, .pager li a {
 	width: auto;
-	padding: .4em;
+	padding: 5px;
 	background-color: rgba(240,240,240,.9);
 	font-weight: bold;
 	color: #555;
 	border: 1px solid rgba(190,190,190,.9);
 	cursor: pointer;
-	border-radius: 3px;
-	outline: none;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
