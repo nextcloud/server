@@ -94,13 +94,9 @@ class ConvertType extends Command {
 		'mssql' => 'pdo_sqlsrv',
 	);
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		// connect 'from' database
 		$fromDB = \OC_DB::getConnection();
-
-		// connect 'to' database
 		$toDB = $this->getToDBConnection($input, $output);
 
-		// Clearing schema in new database
 		if ($input->getOption('clear-schema')) {
 			$schemaManager = $toDB->getSchemaManager();
 			$toTables = $schemaManager->listTableNames();
@@ -112,7 +108,6 @@ class ConvertType extends Command {
 			}
 		}
 
-		// create tables in new database
 		$output->writeln('Creating schema in new database');
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
@@ -123,10 +118,9 @@ class ConvertType extends Command {
 			}
 		}
 
-		// get tables from 'to' database
 		$toTables = $this->getTables($toDB);
-		// get tables from 'from' database
 		$fromTables = $this->getTables($fromDB);
+
 		// warn/fail if there are more tables in 'from' database
 		$tables = array_diff($fromTables, $toTables);
 		if (!empty($tables)) {
@@ -140,7 +134,6 @@ class ConvertType extends Command {
 				return;
 			}
 		}
-		// enable maintenance mode to prevent changes
 		$tables = array_intersect($toTables, $fromTables);
 		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
 	}
