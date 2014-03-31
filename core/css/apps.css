@@ -32,12 +32,10 @@
 #app-navigation .active a {
 	background-color: #eee;
 }
-#app-navigation li:hover > a  {
-	background-color: #ddd;
-}
+#app-navigation li:hover > a,
 #app-navigation .selected,
 #app-navigation .selected a {
-	background-color:#ddd;
+	background-color: #ddd;
 }
 
 /* special rules for first-level entries and folders */
