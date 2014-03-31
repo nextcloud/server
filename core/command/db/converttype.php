@@ -9,6 +9,10 @@
 
 namespace OC\Core\Command\Db;
 
+use OC\Config;
+use OC\DB\Connection;
+use OC\DB\ConnectionFactory;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +34,7 @@ class ConvertType extends Command {
 	 * @param \OC\Config $config
 	 * @param \OC\DB\ConnectionFactory $connectionFactory
 	 */
-	public function __construct($config, $connectionFactory) {
+	public function __construct(Config $config, ConnectionFactory $connectionFactory) {
 		$this->config = $config;
 		$this->connectionFactory = $connectionFactory;
 		parent::__construct();
@@ -139,7 +143,7 @@ class ConvertType extends Command {
 		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
 	}
 
-	private function getToDBConnection($input, $output) {
+	private function getToDBConnection(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
 		$connectionParams = array(
 			'host' => $input->getArgument('hostname'),
@@ -154,12 +158,12 @@ class ConvertType extends Command {
 		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
 
-	private function getTables($db) {
+	private function getTables(Connection $db) {
 		$schemaManager = $db->getSchemaManager();
 		return $schemaManager->listTableNames();
 	}
 
-	private function copyTable($fromDB, $toDB, $table, $output) {
+	private function copyTable(Connection $fromDB, Connection $toDB, $table, OutputInterface $output) {
 		$progress = $this->getHelperSet()->get('progress');
 		$query = 'SELECT COUNT(*) FROM '.$table;
 		$count = $fromDB->fetchColumn($query);
@@ -178,7 +182,7 @@ class ConvertType extends Command {
 		$progress->finish();
 	}
 
-	private function convertDB($fromDB, $toDB, $tables, $input, $output) {
+	private function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setValue('maintenance', true);
 		$type = $input->getArgument('type');
 		try {
@@ -209,7 +213,7 @@ class ConvertType extends Command {
 		$this->config->setValue('maintenance', false);
 	}
 
-	private function saveDBInfo($input) {
+	private function saveDBInfo(InputInterface $input) {
 		$type = $input->getArgument('type');
 		$username = $input->getArgument('username');
 		$dbhost = $input->getArgument('hostname');
