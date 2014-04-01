@@ -9,7 +9,7 @@
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<!--<th><?php p($l->t('Options')); ?></th> -->
-				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Applicable').'</th>'); ?>
+				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
