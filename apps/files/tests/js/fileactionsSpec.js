@@ -38,15 +38,17 @@ describe('FileActions tests', function() {
 		var $tr = FileList.addFile('testName.txt', 1234, new Date(), false, false, {download_url: 'test/download/url'});
 
 		// no actions before call
-		expect($tr.find('.action[data-action=Download]').length).toEqual(0);
-		expect($tr.find('.action[data-action=Rename]').length).toEqual(0);
+		expect($tr.find('.action.action-download').length).toEqual(0);
+		expect($tr.find('.action.action-rename').length).toEqual(0);
 		expect($tr.find('.action.delete').length).toEqual(0);
 
 		FileActions.display($tr.find('td.filename'), true);
 
 		// actions defined after cal
-		expect($tr.find('.action[data-action=Download]').length).toEqual(1);
-		expect($tr.find('.nametext .action[data-action=Rename]').length).toEqual(1);
+		expect($tr.find('.action.action-download').length).toEqual(1);
+		expect($tr.find('.action.action-download').attr('data-action')).toEqual('Download');
+		expect($tr.find('.nametext .action.action-rename').length).toEqual(1);
+		expect($tr.find('.nametext .action.action-rename').attr('data-action')).toEqual('Rename');
 		expect($tr.find('.action.delete').length).toEqual(1);
 	});
 	it('calling display() twice correctly replaces file actions', function() {
@@ -56,8 +58,8 @@ describe('FileActions tests', function() {
 		FileActions.display($tr.find('td.filename'), true);
 
 		// actions defined after cal
-		expect($tr.find('.action[data-action=Download]').length).toEqual(1);
-		expect($tr.find('.nametext .action[data-action=Rename]').length).toEqual(1);
+		expect($tr.find('.action.action-download').length).toEqual(1);
+		expect($tr.find('.nametext .action.action-rename').length).toEqual(1);
 		expect($tr.find('.action.delete').length).toEqual(1);
 	});
 	it('redirects to download URL when clicking download', function() {
@@ -66,10 +68,20 @@ describe('FileActions tests', function() {
 		var $tr = FileList.addFile('test download File.txt', 1234, new Date(), false, false, {download_url: 'test/download/url'});
 		FileActions.display($tr.find('td.filename'), true);
 
-		$tr.find('.action[data-action=Download]').click();
+		$tr.find('.action-download').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
 		expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=test%20download%20File.txt');
 		redirectStub.restore();
+	});
+	it('deletes file when clicking delete', function() {
+		var deleteStub = sinon.stub(FileList, 'do_delete');
+		var $tr = FileList.addFile('test delete File.txt', 1234, new Date());
+		FileActions.display($tr.find('td.filename'), true);
+
+		$tr.find('.action.delete').click();
+
+		expect(deleteStub.calledOnce).toEqual(true);
+		deleteStub.restore();
 	});
 });

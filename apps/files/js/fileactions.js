@@ -180,7 +180,7 @@ var FileActions = {
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
-			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
+			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete'].action}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
 
