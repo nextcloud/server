@@ -29,6 +29,7 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
 
 class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	protected $backend;
+	protected $access;
 
 	public function setUp() {
 		\OC_User::clearBackends();
@@ -38,18 +39,37 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
+		static $umMethods;
+		static $uMethods;
 
-		if(is_null($conMethods) || is_null($accMethods)) {
+		if(is_null($conMethods) || is_null($accMethods) || is_null($umMethods)) {
 			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
+			unset($accMethods[array_search('getConnection', $accMethods)]);
+			$umMethods  = get_class_methods('\OCA\user_ldap\lib\user\Manager');
+			$uMethods   = get_class_methods('\OCA\user_ldap\lib\user\User');
+			unset($uMethods[array_search('getUsername', $uMethods)]);
+			unset($uMethods[array_search('getDN', $uMethods)]);
+			unset($uMethods[array_search('__construct', $uMethods)]);
 		}
 		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));
+
+		$um = new \OCA\user_ldap\lib\user\Manager(
+				$this->getMock('\OCP\IConfig'),
+				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
+				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
+				$this->getMock('\OCP\IAvatarManager'),
+				$this->getMock('\OCP\Image')
+			);
+
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
-								 array($connector, $lw));
+								 array($connector, $lw, $um));
+
+		$um->setLdapAccess($access);
 
 		return $access;
 	}
@@ -60,16 +80,16 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 			   ->will($this->returnCallback(function($uid) {
 					switch ($uid) {
 						case 'gunslinger':
-							return 'dnOfRoland';
+							return 'dnOfRoland,dc=test';
 							break;
 						case 'formerUser':
-							return 'dnOfFormerUser';
+							return 'dnOfFormerUser,dc=test';
 							break;
 						case 'newyorker':
-							return 'dnOfNewYorker';
+							return 'dnOfNewYorker,dc=test';
 							break;
 						case 'ladyofshadows':
-							return 'dnOfLadyOfShadows';
+							return 'dnOfLadyOfShadows,dc=test';
 							break;
 						default:
 							return false;
@@ -102,14 +122,14 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 			   ->method('fetchListOfUsers')
 			   ->will($this->returnCallback(function($filter) {
 					if($filter === 'roland') {
-						return array('dnOfRoland');
+						return array('dnOfRoland,dc=test');
 					}
 					return array();
 			   }));
 
 		$access->expects($this->any())
 			   ->method('dn2username')
-			   ->with($this->equalTo('dnOfRoland'))
+			   ->with($this->equalTo('dnOfRoland,dc=test'))
 			   ->will($this->returnValue('gunslinger'));
 
 		$access->expects($this->any())
@@ -337,7 +357,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 		$access->expects($this->any())
 			   ->method('readAttribute')
 			   ->will($this->returnCallback(function($dn) {
-					if($dn === 'dnOfRoland') {
+					if($dn === 'dnOfRoland,dc=test') {
 						return array();
 					}
 					return false;
@@ -365,7 +385,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 		$access->expects($this->any())
 			   ->method('readAttribute')
 			   ->will($this->returnCallback(function($dn) {
-					if($dn === 'dnOfRoland') {
+					if($dn === 'dnOfRoland,dc=test') {
 						return array();
 					}
 					return false;
@@ -411,13 +431,13 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 			   ->method('readAttribute')
 			   ->will($this->returnCallback(function($dn, $attr) {
 					switch ($dn) {
-						case 'dnOfRoland':
+						case 'dnOfRoland,dc=test':
 							if($attr === 'testAttribute') {
 								return array('/tmp/rolandshome/');
 							}
 							return array();
 							break;
-						case 'dnOfLadyOfShadows':
+						case 'dnOfLadyOfShadows,dc=test':
 							if($attr === 'testAttribute') {
 								return array('susannah/');
 							}
@@ -457,7 +477,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 			   ->method('readAttribute')
 			   ->will($this->returnCallback(function($dn, $attr) {
 					switch ($dn) {
-						case 'dnOfRoland':
+						case 'dnOfRoland,dc=test':
 							if($attr === 'displayname') {
 								return array('Roland Deschain');
 							}
