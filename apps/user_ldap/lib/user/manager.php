@@ -137,7 +137,7 @@ class Manager {
 			return $this->users['byUid'][$id];
 		}
 
-		if(strpos($id, 'dc=') === false) {
+		if(strpos(mb_strtolower($id, 'UTF-8'), 'dc=') === false) {
 			//most likely a uid
 			$dn = $this->access->username2dn($id);
 			if($dn !== false) {
