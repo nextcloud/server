@@ -40,7 +40,7 @@ $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 $dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
 // Redirect if directory does not exist
-if (!$dirInfo->getType() === 'dir') {
+if (!$dirInfo || !$dirInfo->getType() === 'dir') {
 	header('Location: ' . OCP\Util::getScriptName() . '');
 	exit();
 }
