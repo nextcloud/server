@@ -167,7 +167,11 @@ var UserList = {
 	empty: function() {
 		//one row needs to be kept, because it is cloned to add new rows
 		$('tbody tr:not(:first)').remove();
-		$('tbody tr').first().hide();
+		tr = $('tbody tr').first();
+		tr.hide();
+		//on an update a user may be missing when the username matches with that
+		//of the hidden row. So change this to a random string.
+		tr.attr('data-uid', Math.random().toString(36).substring(2));
 		UserList.isEmpty = true;
 		UserList.offset = 0;
 	},
