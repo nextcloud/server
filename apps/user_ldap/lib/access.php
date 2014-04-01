@@ -105,6 +105,12 @@ class Access extends LDAPUtility {
 		return false;
 	}
 
+	/**
+	* @brief fetches the quota from LDAP and stores it as ownCloud user value
+	* @param string the DN of the user
+	* @param string optional, the internal ownCloud name of the user
+	* @return null
+	*/
 	public function updateQuota($dn, $ocname = null) {
 		$quota = null;
 		$quotaDefault = $this->connection->ldapQuotaDefault;
@@ -128,6 +134,12 @@ class Access extends LDAPUtility {
 		}
 	}
 
+	/**
+	* @brief fetches the email from LDAP and stores it as ownCloud user value
+	* @param string the DN of the user
+	* @param string optional, the internal ownCloud name of the user
+	* @return null
+	*/
 	public function updateEmail($dn, $ocname = null) {
 		$email = null;
 		$emailAttribute = $this->connection->ldapEmailAttribute;
@@ -144,7 +156,6 @@ class Access extends LDAPUtility {
 			}
 		}
 	}
-
 
 	/**
 	 * @brief checks wether the given attribute`s valua is probably a DN
