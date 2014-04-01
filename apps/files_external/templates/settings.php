@@ -9,7 +9,7 @@
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<!--<th><?php p($l->t('Options')); ?></th> -->
-				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Applicable').'</th>'); ?>
+				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
@@ -88,9 +88,12 @@
 					data-applicable-users='<?php if (isset($mount['applicable']['users']))
 													print_unescaped(json_encode($mount['applicable']['users'])); ?>'>
 						<select class="chzn-select"
-								multiple style="width:20em;"
-								data-placeholder="<?php p($l->t('None set')); ?>">
-							<option value="all" <?php if (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users'])) print_unescaped('selected="selected"');?> ><?php p($l->t('All Users')); ?></option>
+							multiple style="width:20em;"
+							data-placeholder="<?php p($l->t('No user or group')); ?>">
+							<option value="all"
+								<?php if (empty($mount['class']) || (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users']))) print_unescaped('selected="selected"');?> >
+								<?php p($l->t('All Users')); ?>
+							</option>
 							<optgroup label="<?php p($l->t('Groups')); ?>">
 							<?php foreach ($_['groups'] as $group): ?>
 								<option value="<?php p($group); ?>(group)"
