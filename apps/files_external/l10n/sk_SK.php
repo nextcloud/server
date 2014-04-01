@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Grant access" => "Povoliť prístup",
 "Please provide a valid Dropbox app key and secret." => "Zadajte platný kľúč aplikácie a heslo Dropbox",
 "Error configuring Google Drive storage" => "Chyba pri konfigurácii úložiska Google drive",
+"Saved" => "Uložené",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Upozornenie:</b> \"smbclient\" nie je nainštalovaný. Nie je možné pripojenie oddielov CIFS/SMB. Požiadajte administrátora systému, nech ho nainštaluje.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Upozornenie:</b> Podpora FTP v PHP nie je povolená alebo nainštalovaná. Nie je možné pripojenie oddielov FTP. Požiadajte administrátora systému, nech ho nainštaluje.",
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Varovanie:</b> nie je nainštalovaná, alebo povolená, podpora Curl v PHP. Nie je možné pripojenie oddielov ownCloud, WebDAV, či GoogleDrive. Prosím požiadajte svojho administrátora systému, nech ju nainštaluje.",

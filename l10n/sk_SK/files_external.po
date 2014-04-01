@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"PO-Revision-Date: 2014-03-31 10:51+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -38,24 +38,24 @@ msgstr "Zadajte platný kľúč aplikácie a heslo Dropbox"
 msgid "Error configuring Google Drive storage"
 msgstr "Chyba pri konfigurácii úložiska Google drive"
 
-#: js/settings.js:313 js/settings.js:320
+#: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Uložené"
 
-#: lib/config.php:512
+#: lib/config.php:654
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Upozornenie:</b> \"smbclient\" nie je nainštalovaný. Nie je možné pripojenie oddielov CIFS/SMB. Požiadajte administrátora systému, nech ho nainštaluje."
 
-#: lib/config.php:516
+#: lib/config.php:658
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Upozornenie:</b> Podpora FTP v PHP nie je povolená alebo nainštalovaná. Nie je možné pripojenie oddielov FTP. Požiadajte administrátora systému, nech ho nainštaluje."
 
-#: lib/config.php:519
+#: lib/config.php:661
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
@@ -90,39 +90,39 @@ msgstr "Aplikovateľné"
 msgid "Add storage"
 msgstr "Pridať úložisko"
 
-#: templates/settings.php:90
+#: templates/settings.php:93
 msgid "None set"
 msgstr "Žiadne nastavené"
 
-#: templates/settings.php:91
+#: templates/settings.php:94
 msgid "All Users"
 msgstr "Všetci používatelia"
 
-#: templates/settings.php:92
+#: templates/settings.php:95
 msgid "Groups"
 msgstr "Skupiny"
 
-#: templates/settings.php:100
+#: templates/settings.php:103
 msgid "Users"
 msgstr "Používatelia"
 
-#: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:155 templates/settings.php:156
+#: templates/settings.php:116 templates/settings.php:117
+#: templates/settings.php:158 templates/settings.php:159
 msgid "Delete"
 msgstr "Zmazať"
 
-#: templates/settings.php:127
+#: templates/settings.php:130
 msgid "Enable User External Storage"
 msgstr "Povoliť externé úložisko"
 
-#: templates/settings.php:130
+#: templates/settings.php:133
 msgid "Allow users to mount the following external storage"
 msgstr ""
 
-#: templates/settings.php:147
+#: templates/settings.php:150
 msgid "SSL root certificates"
 msgstr "Koreňové SSL certifikáty"
 
-#: templates/settings.php:165
+#: templates/settings.php:168
 msgid "Import Root Certificate"
 msgstr "Importovať koreňový certifikát"

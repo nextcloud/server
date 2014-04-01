@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "zdieľanie je zakázané",
 "For more info, please ask the person who sent this link." => "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
 "shared by %s" => "Zdieľa %s",
+"Download %s" => "Stiahnuť %s",
 "Direct link" => "Priama linka"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

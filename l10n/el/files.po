@@ -7,14 +7,15 @@
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # gtsamis <gtsamis@yahoo.com>, 2013
 # frerisp <petrosfreris@gmail.com>, 2013
+# pe_ppe <peppe@cs.uoi.gr>, 2014
 # vkehayas <vkehayas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"PO-Revision-Date: 2014-03-31 16:30+0000\n"
+"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +51,7 @@ msgstr "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' �
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:141
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Ο φάκελος προορισμού έχει μετακινηθεί ή διαγραφεί."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
@@ -154,12 +155,12 @@ msgstr "Αδυναμία φόρτωσης {filename} καθώς είναι κα�
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Το συνολικό μέγεθος αρχείου {size1} υπερβαίνει το όριο μεταφόρτωσης {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Δεν υπάρχει αρκετός ελεύθερος χώρος, μεταφορτώνετε μέγεθος {size1} αλλά υπάρχει χώρος μόνο {size2}"
 
 #: js/file-upload.js:340
 msgid "Upload cancelled."
@@ -198,15 +199,15 @@ msgstr "Αδυναμία δημιουργίας φακέλου"
 msgid "Error fetching URL"
 msgstr "Σφάλμα φόρτωσης URL"
 
-#: js/fileactions.js:149
+#: js/fileactions.js:164
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/fileactions.js:162
+#: js/fileactions.js:177
 msgid "Delete permanently"
 msgstr "Μόνιμη διαγραφή"
 
-#: js/fileactions.js:223
+#: js/fileactions.js:238
 msgid "Rename"
 msgstr "Μετονομασία"
 
@@ -230,13 +231,13 @@ msgstr "αναίρεση"
 msgid "Error deleting file."
 msgstr "Σφάλμα διαγραφής αρχείου."
 
-#: js/filelist.js:687 js/filelist.js:761 js/files.js:691
+#: js/filelist.js:687 js/filelist.js:761 js/files.js:694
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n φάκελος"
 msgstr[1] "%n φάκελοι"
 
-#: js/filelist.js:688 js/filelist.js:762 js/files.js:697
+#: js/filelist.js:688 js/filelist.js:762 js/files.js:700
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n αρχείο"
@@ -283,29 +284,29 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr "Η κρυπτογράφηση απενεργοποιήθηκε, αλλά τα αρχεία σας είναι ακόμα κρυπτογραφημένα. Παρακαλούμε απενεργοποιήσετε την κρυπτογράφηση αρχείων από τις προσωπικές σας ρυθμίσεις"
 
-#: js/files.js:379
+#: js/files.js:382
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος."
 
-#: js/files.js:610 js/files.js:654
+#: js/files.js:613 js/files.js:657
 msgid "Error moving file"
 msgstr "Σφάλμα κατά τη μετακίνηση του αρχείου"
 
-#: js/files.js:610 js/files.js:654
+#: js/files.js:613 js/files.js:657
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/files.js:672 templates/index.php:68
+#: js/files.js:675 templates/index.php:68
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/files.js:673 templates/index.php:80
+#: js/files.js:676 templates/index.php:80
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:674 templates/index.php:82
+#: js/files.js:677 templates/index.php:82
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
