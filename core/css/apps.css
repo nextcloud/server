@@ -29,9 +29,13 @@
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 #app-navigation .active,
-#app-navigation .active a,
-#app-navigation li:hover > a {
+#app-navigation .active a {
 	background-color: #ddd;
+}
+#app-navigation li:hover > a,
+#app-navigation .selected,
+#app-navigation .selected a {
+	background-color: #ccc;
 }
 
 /* special rules for first-level entries and folders */
