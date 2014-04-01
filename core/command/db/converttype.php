@@ -43,6 +43,7 @@ class ConvertType extends Command {
 	protected function interact(InputInterface $input, OutputInterface $output) {
 		parent::interact($input, $output);
 		if (!$input->getOption('password')) {
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 			$password = $dialog->askHiddenResponse(
 				$output,
@@ -56,7 +57,7 @@ class ConvertType extends Command {
 	protected function configure() {
 		$this
 			->setName('db:convert-type')
-			->setDescription('Convert the owncloud database to the newly configured one')
+			->setDescription('Convert the ownCloud database to the newly configured one')
 			->addArgument(
 				'type',
 				InputArgument::REQUIRED,
@@ -130,10 +131,11 @@ class ConvertType extends Command {
 		$tables = array_diff($fromTables, $toTables);
 		if (!empty($tables)) {
 			$output->writeln('<error>The following tables do NOT exist any more: '.join(', ', $tables).'</error>');
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 			if (!$dialog->askConfirmation(
 				$output,
-				'<question>Continue with the convertion?</question>',
+				'<question>Continue with the conversion?</question>',
 				false
 			)) {
 				return;
@@ -164,6 +166,7 @@ class ConvertType extends Command {
 	}
 
 	private function copyTable(Connection $fromDB, Connection $toDB, $table, OutputInterface $output) {
+		/** @var $progress \Symfony\Component\Console\Helper\ProgressHelper */
 		$progress = $this->getHelperSet()->get('progress');
 		$query = 'SELECT COUNT(*) FROM '.$table;
 		$count = $fromDB->fetchColumn($query);
