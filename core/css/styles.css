@@ -466,9 +466,14 @@ input[name="adminpass-clone"] {
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login form label.infield { /* labels are ellipsized when too long, keep them short */
-	position:absolute; width:90%; padding-left:1.4em;
-	font-size:19px; color:#aaa;
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	position: absolute;
+	width: auto;
+	margin-left: 26px;
+	font-size: 19px;
+	color: #aaa;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #body-login #databaseField .infield { padding-left:0; }
 #body-login form input[type="checkbox"]+label {
