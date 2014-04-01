@@ -215,7 +215,8 @@ var UserList = {
 			gid = '';
 		}
 		UserList.currentGid = gid;
-		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad, gid: gid }), function (result) {
+		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad, gid: gid });
+		$.get(OC.generateUrl('/settings/ajax/userlist') + '?' + query, function (result) {
 			var loadedUsers = 0;
 			var trs = [];
 			if (result.status === 'success') {
@@ -375,8 +376,12 @@ $(document).ready(function () {
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
-	$(window).scroll(function(e) {UserList._onScroll(e);});
-		UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
+
+
+	UserList.scrollArea = $('#app-content');
+	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
+
+
 	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
