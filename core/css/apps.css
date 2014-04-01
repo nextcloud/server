@@ -151,9 +151,6 @@
 	transition: padding-bottom 500ms ease 0s;
 	padding-bottom: 40px;
 }
-#app-navigation .personalblock > legend { /* TODO @Raydiation: still needed? */
-	padding: 10px 0; margin: 0;
-}
 #app-navigation .error {
 	color: #dd1144;
 }
@@ -242,3 +239,22 @@ button.loading {
 	padding-right: 30px;
 }
 
+
+/* general styles for the content area */
+.section {
+	display: block;
+	padding: 30px;
+	color: #555;
+	border-top: 1px solid #ddd;
+}
+.section h2 {
+	font-size: 20px;
+	font-weight: normal;
+	margin-bottom: 7px;
+}
+/* slight position correction of checkboxes and radio buttons */
+.section input[type="checkbox"],
+.section input[type="radio"] {
+	vertical-align: -2px;
+	margin-right: 4px;
+}
