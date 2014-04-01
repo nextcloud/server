@@ -568,21 +568,25 @@ class Stream {
 			// part file.
 			$path = Helper::stripPartialFileExtension($this->rawPath);
 
-			// get file info
-			$fileInfo = $this->rootView->getFileInfo($path);
-			if ($fileInfo) {
-				// set encryption data
-				$fileInfo['encrypted'] = true;
-				$fileInfo['size'] = $this->size;
-				$fileInfo['unencrypted_size'] = $this->unencryptedSize;
+			$fileInfo = array(
+				'encrypted' => true,
+				'size' => $this->size,
+				'unencrypted_size' => $this->unencryptedSize,
+			);
 
-				// set fileinfo
-				$this->rootView->putFileInfo($path, $fileInfo);
-			}
+			// set fileinfo
+			$this->rootView->putFileInfo($path, $fileInfo);
 
 		}
 
-		return fclose($this->handle);
+		$result = fclose($this->handle);
+
+		if ($result === false) {
+			\OCP\Util::writeLog('Encryption library', 'Could not close stream, file could be corrupted', \OCP\Util::FATAL);
+		}
+
+		return $result;
+
 	}
 
 }
