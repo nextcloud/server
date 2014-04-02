@@ -94,7 +94,6 @@ select.quota.active { background: #fff; }
 
 /* APPS */
 .appinfo { margin: 1em 40px; }
-h3 { font-size: 1.4em; font-weight: bold; }
 #app-navigation {
 	padding-bottom: 0px;
 }
