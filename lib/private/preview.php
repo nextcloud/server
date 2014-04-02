@@ -355,7 +355,8 @@ class Preview {
 			$y = (int)$size[1];
 
 			$aspectRatio = (float)($x / $y);
-			if ($aspectRatio !== $wantedAspectRatio) {
+			$epsilon = 0.000001;
+			if (($aspectRatio - $wantedAspectRatio) >= $epsilon) {
 				continue;
 			}
 
