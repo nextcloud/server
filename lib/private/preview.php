@@ -373,23 +373,7 @@ class Preview {
 			$possibleThumbnails[$x] = $thumbnail['path'];
 		}
 
-		if (count($possibleThumbnails) === 0) {
-			return false;
-		}
-
-		if (count($possibleThumbnails) === 1) {
-			return current($possibleThumbnails);
-		}
-
 		ksort($possibleThumbnails);
-
-		if (key(reset($possibleThumbnails)) > $maxX) {
-			return current(reset($possibleThumbnails));
-		}
-
-		if (key(end($possibleThumbnails)) < $maxX) {
-			return current(end($possibleThumbnails));
-		}
 
 		foreach ($possibleThumbnails as $width => $path) {
 			if ($width < $maxX) {
@@ -398,6 +382,8 @@ class Preview {
 				return $path;
 			}
 		}
+		
+		return false;
 	}
 
 	/**
