@@ -314,16 +314,12 @@ class Preview {
 
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
-	 * @return mixed (bool / string)
-	 *                false if thumbnail does not exist
-	 *                path to thumbnail if thumbnail exists
+	 * @return string|false path to thumbnail if it exists or false
 	 */
 	private function isCached() {
 		$file = $this->getFile();
 		$maxX = $this->getMaxX();
 		$maxY = $this->getMaxY();
-		$scalingUp = $this->getScalingUp();
-		$maxScaleFactor = $this->getMaxScaleFactor();
 
 		$fileInfo = $this->getFileInfo($file);
 		$fileId = $fileInfo->getId();
@@ -333,16 +329,40 @@ class Preview {
 		}
 
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		if (!$this->userView->is_dir($previewPath)) {
-			return false;
-		}
 
 		//does a preview with the wanted height and width already exist?
 		if ($this->userView->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
 			return $previewPath . $maxX . '-' . $maxY . '.png';
 		}
 
-		$wantedAspectRatio = (float)($maxX / $maxY);
+		return $this->isCachedBigger();
+	}
+
+	/**
+	 * @brief check if a bigger version of thumbnail of file is cached
+	 * @return string|false path to bigger thumbnail if it exists or false
+	*/
+	private function isCachedBigger() {
+		
+		$file = $this->getFile();
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
+		$scalingUp = $this->getScalingUp();
+		$maxScaleFactor = $this->getMaxScaleFactor();
+
+		$fileInfo = $this->fileView->getFileInfo($file);
+		$fileId = $fileInfo['fileid'];
+
+		if (is_null($fileId)) {
+			return false;
+		}
+
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		if (!$this->userView->is_dir($previewPath)) {
+			return false;
+		}
+		
+		$wantedAspectRatio = (float) ($maxX / $maxY);
 
 		//array for usable cached thumbnails
 		$possibleThumbnails = array();
@@ -351,10 +371,10 @@ class Preview {
 		foreach ($allThumbnails as $thumbnail) {
 			$name = rtrim($thumbnail['name'], '.png');
 			$size = explode('-', $name);
-			$x = (int)$size[0];
-			$y = (int)$size[1];
+			$x = (int) $size[0];
+			$y = (int) $size[1];
 
-			$aspectRatio = (float)($x / $y);
+			$aspectRatio = (float) ($x / $y);
 			$epsilon = 0.000001;
 			if (($aspectRatio - $wantedAspectRatio) >= $epsilon) {
 				continue;
@@ -382,10 +402,9 @@ class Preview {
 				return $path;
 			}
 		}
-		
+
 		return false;
 	}
-
 	/**
 	 * @brief return a preview of a file
 	 * @return \OC_Image
