@@ -91,23 +91,25 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Find which users can access a shared item
-	 * @param $path to the file
-	 * @param $user owner of the file
-	 * @param include owner to the list of users with access to the file
+	 * @param string $path to the file
+	 * @param string $ownerUser owner of the file
+	 * @param bool $includeOwner include owner to the list of users with access to the file
+	 * @param bool $returnUserPaths Return an array with the user => path map
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/data/file.txt'
 	 */
-	public static function getUsersSharingFile($path, $user, $includeOwner = false) {
+	public static function getUsersSharingFile($path, $ownerUser, $includeOwner = false, $returnUserPaths = false) {
 
-		$shares = array();
+		$shares = $sharePaths = $fileTargets = array();
 		$publicShare = false;
 		$source = -1;
 		$cache = false;
 
-		$view = new \OC\Files\View('/' . $user . '/files');
+		$view = new \OC\Files\View('/' . $ownerUser . '/files');
 		if ($view->file_exists($path)) {
 			$meta = $view->getFileInfo($path);
+			$path = substr($meta->getPath(), strlen('/' . $ownerUser . '/files'));
 		} else {
 			// if the file doesn't exists yet we start with the parent folder
 			$meta = $view->getFileInfo(dirname($path));
@@ -119,10 +121,9 @@ class Share extends \OC\Share\Constants {
 		}
 
 		while ($source !== -1) {
-
 			// Fetch all shares with another user
 			$query = \OC_DB::prepare(
-				'SELECT `share_with`
+				'SELECT `share_with`, `file_source`, `file_target`
 				FROM
 				`*PREFIX*share`
 				WHERE
@@ -136,12 +137,15 @@ class Share extends \OC\Share\Constants {
 			} else {
 				while ($row = $result->fetchRow()) {
 					$shares[] = $row['share_with'];
+					if ($returnUserPaths) {
+						$fileTargets[(int) $row['file_source']][$row['share_with']] = $row;
+					}
 				}
 			}
-			// We also need to take group shares into account
 
+			// We also need to take group shares into account
 			$query = \OC_DB::prepare(
-				'SELECT `share_with`
+				'SELECT `share_with`, `file_source`, `file_target`
 				FROM
 				`*PREFIX*share`
 				WHERE
@@ -156,6 +160,11 @@ class Share extends \OC\Share\Constants {
 				while ($row = $result->fetchRow()) {
 					$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
 					$shares = array_merge($shares, $usersInGroup);
+					if ($returnUserPaths) {
+						foreach ($usersInGroup as $user) {
+							$fileTargets[(int) $row['file_source']][$user] = $row;
+						}
+					}
 				}
 			}
 
@@ -188,9 +197,39 @@ class Share extends \OC\Share\Constants {
 				$source = -1;
 			}
 		}
+
 		// Include owner in list of users, if requested
 		if ($includeOwner) {
-			$shares[] = $user;
+			$shares[] = $ownerUser;
+			if ($returnUserPaths) {
+				$sharePaths[$ownerUser] = $path;
+			}
+		}
+
+		if ($returnUserPaths) {
+			$fileTargetIDs = array_keys($fileTargets);
+			$fileTargetIDs = array_unique($fileTargetIDs);
+
+			$query = \OC_DB::prepare(
+				'SELECT `fileid`, `path`
+				FROM `*PREFIX*filecache`
+				WHERE `fileid` IN (' . implode(',', $fileTargetIDs) . ')'
+			);
+			$result = $query->execute();
+
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			} else {
+				while ($row = $result->fetchRow()) {
+					foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
+						$sharedPath = '/Shared' . $shareData['file_target'];
+						$sharedPath .= substr($path, strlen($row['path']) -5);
+						$sharePaths[$uid] = $sharedPath;
+					}
+				}
+			}
+
+			return $sharePaths;
 		}
 
 		return array("users" => array_unique($shares), "public" => $publicShare);
