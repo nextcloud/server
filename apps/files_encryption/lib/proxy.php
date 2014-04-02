@@ -211,16 +211,6 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @return bool
-	 */
-	public function postTouch($path) {
-		$this->handleFile($path);
-
-		return true;
-	}
-
-	/**
 	 * @brief remember initial fopen mode because sometimes it gets changed during the request
 	 * @param string $path path
 	 * @param string $mode type of access
@@ -376,39 +366,4 @@ class Proxy extends \OC_FileProxy {
 		return $size;
 	}
 
-	/**
-	 * @param $path
-	 */
-	public function handleFile($path) {
-
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$view = new \OC_FilesystemView('/');
-		$session = new \OCA\Encryption\Session($view);
-		$userId = Helper::getUser($path);
-		$util = new Util($view, $userId);
-
-		// split the path parts
-		$pathParts = explode('/', $path);
-
-		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
-		// only if file is on 'files' folder fix file size and sharing
-		if (isset($pathParts[2]) && $pathParts[2] === 'files' && $util->fixFileSize($path)) {
-
-			// get sharing app state
-			$sharingEnabled = \OCP\Share::isEnabled();
-
-			// get users
-			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $relativePath);
-
-			// update sharing-keys
-			$util->setSharedFileKeyfiles($session, $usersSharing, $relativePath);
-		}
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-	}
 }
