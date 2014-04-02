@@ -314,19 +314,16 @@ class Preview {
 
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
+	 * @param int $fileId fileId of the original image
 	 * @return string|false path to thumbnail if it exists or false
 	 */
-	private function isCached() {
-		$file = $this->getFile();
-		$maxX = $this->getMaxX();
-		$maxY = $this->getMaxY();
-
-		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
-
+	private function isCached($fileId) {
 		if (is_null($fileId)) {
 			return false;
 		}
+		
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
 
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
 
@@ -335,65 +332,24 @@ class Preview {
 			return $previewPath . $maxX . '-' . $maxY . '.png';
 		}
 
-		return $this->isCachedBigger();
+		return $this->isCachedBigger($fileId);
 	}
 
 	/**
 	 * @brief check if a bigger version of thumbnail of file is cached
+	 * @param int $fileId fileId of the original image
 	 * @return string|false path to bigger thumbnail if it exists or false
 	*/
-	private function isCachedBigger() {
-		
-		$file = $this->getFile();
-		$maxX = $this->getMaxX();
-		$maxY = $this->getMaxY();
-		$scalingUp = $this->getScalingUp();
-		$maxScaleFactor = $this->getMaxScaleFactor();
-
-		$fileInfo = $this->fileView->getFileInfo($file);
-		$fileId = $fileInfo['fileid'];
+	private function isCachedBigger($fileId) {
 
 		if (is_null($fileId)) {
 			return false;
 		}
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		if (!$this->userView->is_dir($previewPath)) {
-			return false;
-		}
-		
-		$wantedAspectRatio = (float) ($maxX / $maxY);
+		$maxX = $this->getMaxX();
 
 		//array for usable cached thumbnails
-		$possibleThumbnails = array();
-
-		$allThumbnails = $this->userView->getDirectoryContent($previewPath);
-		foreach ($allThumbnails as $thumbnail) {
-			$name = rtrim($thumbnail['name'], '.png');
-			$size = explode('-', $name);
-			$x = (int) $size[0];
-			$y = (int) $size[1];
-
-			$aspectRatio = (float) ($x / $y);
-			$epsilon = 0.000001;
-			if (($aspectRatio - $wantedAspectRatio) >= $epsilon) {
-				continue;
-			}
-
-			if ($x < $maxX || $y < $maxY) {
-				if ($scalingUp) {
-					$scalefactor = $maxX / $x;
-					if ($scalefactor > $maxScaleFactor) {
-						continue;
-					}
-				} else {
-					continue;
-				}
-			}
-			$possibleThumbnails[$x] = $thumbnail['path'];
-		}
-
-		ksort($possibleThumbnails);
+		$possibleThumbnails = $this->getPossibleThumbnails($fileId);
 
 		foreach ($possibleThumbnails as $width => $path) {
 			if ($width < $maxX) {
@@ -403,6 +359,67 @@ class Preview {
 			}
 		}
 
+		return false;
+	}
+	/**
+	 * @brief get possible bigger thumbnails of the given image
+	 * @param int $fileId fileId of the original image
+	 * @return array of paths to bigger thumbnails
+	*/
+	private function getPossibleThumbnails($fileId) {
+
+		if (is_null($fileId)) {
+			return array();
+		}
+
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+
+		$wantedAspectRatio = (float) ($this->getMaxX() / $this->getMaxY());
+
+		//array for usable cached thumbnails
+		$possibleThumbnails = array();
+
+		$allThumbnails = $this->userView->getDirectoryContent($previewPath);
+		foreach ($allThumbnails as $thumbnail) {
+			$name = rtrim($thumbnail['name'], '.png');
+			list($x, $y, $aspectRatio) = $this->getDimensionsFromFilename($name);
+
+			if (($aspectRatio - $wantedAspectRatio) >= 0.000001
+				|| $this->unscalable($x, $y)
+			) {
+				continue;
+			}
+			$possibleThumbnails[$x] = $thumbnail['path'];
+		}
+
+		ksort($possibleThumbnails);
+
+		return $possibleThumbnails;
+	}
+	private function getDimensionsFromFilename($name) {
+			$size = explode('-', $name);
+			$x = (int) $size[0];
+			$y = (int) $size[1];
+			$aspectRatio = (float) ($x / $y);
+			return array('x' => $x,'y' => $y,'aspectRatio' => $aspectRatio);
+	}
+	private function unscalable($x, $y) {
+		
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
+		$scalingUp = $this->getScalingUp();
+		$maxScaleFactor = $this->getMaxScaleFactor();
+		
+		if ($x < $maxX || $y < $maxY) {
+			if ($scalingUp) {
+				$scalefactor = $maxX / $x;
+				if ($scalefactor > $maxScaleFactor) {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
 		return false;
 	}
 	/**
@@ -426,7 +443,7 @@ class Preview {
 		}
 		$fileId = $fileInfo->getId();
 
-		$cached = $this->isCached();
+		$cached = $this->isCached($fileId);
 
 		if ($cached) {
 			$stream = $this->userView->fopen($cached, 'r');
