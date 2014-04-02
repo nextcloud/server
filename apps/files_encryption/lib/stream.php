@@ -545,7 +545,7 @@ class Stream {
 				$util = new Util($this->rootView, $this->userId);
 
 				// Get all users sharing the file includes current user
-				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath, $this->userId);
+				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath);
 				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
