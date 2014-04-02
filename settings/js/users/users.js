@@ -219,7 +219,8 @@ var UserList = {
 			gid = '';
 		}
 		UserList.currentGid = gid;
-		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad, gid: gid });
+		pattern = filter.getPattern();
+		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad, gid: gid, pattern: pattern });
 		$.get(OC.generateUrl('/settings/ajax/userlist') + '?' + query, function (result) {
 			var loadedUsers = 0;
 			var trs = [];
@@ -538,16 +539,5 @@ $(document).ready(function () {
 		);
 	});
 	// Implements User Search
-	$('#usersearchform input').keyup(function() {
-		var inputVal = $(this).val(), regex = new RegExp(inputVal, "i");;
-		$('table tbody tr td.name').each(function (key,element) {
-			if (regex.test($(element).text())) {
-				$(element).parent().show();
-			} else {
-				$(element).parent().hide();
-			}
-		});
-	});
-
-
+	filter = new UserManagementFilter($('#usersearchform input'), UserList);
 });

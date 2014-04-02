@@ -9,6 +9,7 @@ OC_Util::checkSubAdminUser();
 
 // We have some javascript foo!
 OC_Util::addScript('settings', 'users/deleteHandler');
+OC_Util::addScript('settings', 'users/filter');
 OC_Util::addScript( 'settings', 'users/users' );
 OC_Util::addScript( 'settings', 'users/groups' );
 OC_Util::addScript( 'core', 'multiselect' );
