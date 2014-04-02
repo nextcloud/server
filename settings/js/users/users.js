@@ -88,6 +88,7 @@ var UserList = {
 			tr.show();
 			$('tbody tr').first().remove();
 			UserList.isEmpty = false;
+			UserList.checkUsersToLoad();
 		}
 		if (sort) {
 			UserList.doSort();
@@ -164,6 +165,14 @@ var UserList = {
 			$('tbody').append(items);
 		}
 	},
+	checkUsersToLoad: function() {
+		//30 shall be loaded initially, from then on always 10 upon scrolling
+		if(UserList.isEmpty === false) {
+			UserList.usersToLoad = 10;
+		} else {
+			UserList.usersToLoad = 30;
+		}
+	},
 	empty: function() {
 		//one row needs to be kept, because it is cloned to add new rows
 		$('tbody tr:not(:first)').remove();
@@ -174,6 +183,7 @@ var UserList = {
 		tr.attr('data-uid', Math.random().toString(36).substring(2));
 		UserList.isEmpty = true;
 		UserList.offset = 0;
+		UserList.checkUsersToLoad();
 	},
 	hide: function(uid) {
 		$('tr[data-uid="' + uid + '"]').hide();
