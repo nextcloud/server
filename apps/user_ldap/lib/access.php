@@ -106,7 +106,8 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	* @brief fetches the quota from LDAP and stores it as ownCloud user value
+	* @brief fetches the quota from LDAP and, if provided, stores it as ownCloud
+	* user value
 	* @param string the DN of the user
 	* @param string optional, the internal ownCloud name of the user
 	* @return null
@@ -135,7 +136,8 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	* @brief fetches the email from LDAP and stores it as ownCloud user value
+	* @brief fetches the email from LDAP and, if provided, stores it as ownCloud
+	* user value
 	* @param string the DN of the user
 	* @param string optional, the internal ownCloud name of the user
 	* @return null
