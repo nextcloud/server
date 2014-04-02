@@ -2,8 +2,9 @@
 /**
 * ownCloud
 *
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+* @author Bjoern Schiessle, Michael Gapczynski
+* @copyright 2012 Michael Gapczynski <mtgap@owncloud.com>
+ *           2014 Bjoern Schiessle <schiessle@owncloud.com>
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -146,42 +147,50 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return array();
 	}
 
-	public static function getSource($target) {
-		if ($target == '') {
-			return false;
-		}
-		$target = '/'.$target;
-		$target = rtrim($target, '/');
-		$pos = strpos($target, '/', 1);
-		// Get shared folder name
-		if ($pos !== false) {
-			$folder = substr($target, 0, $pos);
-			$source = \OCP\Share::getItemSharedWith('folder', $folder, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-			if ($source) {
-				$source['path'] = $source['path'].substr($target, strlen($folder));
+	/**
+	 * @brief resolve reshares to return the correct source item
+	 * @param array $source
+	 * @return array source item
+	 */
+	protected static function resolveReshares($source) {
+		if (isset($source['parent'])) {
+			$parent = $source['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					$fileOwner = $item['uid_owner'];
+					break;
+				}
 			}
 		} else {
-			$source = \OCP\Share::getItemSharedWith('file', $target, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+			$fileOwner = $source['uid_owner'];
+		}
+		if (isset($fileOwner)) {
+			$source['fileOwner'] = $fileOwner;
+		} else {
+			\OCP\Util::writeLog('files_sharing', "No owner found for reshare", \OCP\Util::ERROR);
+		}
+
+		return $source;
+	}
+
+	public static function getSource($target, $mountPoint, $itemType) {
+
+		if ($itemType === 'folder') {
+			$source = \OCP\Share::getItemSharedWith('folder', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+			if ($source && $target !== '') {
+				$source['path'] = $source['path'].'/'.$target;
+			}
+		} else {
+			$source = \OCP\Share::getItemSharedWith('file', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 		}
 		if ($source) {
-			if (isset($source['parent'])) {
-				$parent = $source['parent'];
-				while (isset($parent)) {
-					$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-					$item = $query->execute(array($parent))->fetchRow();
-					if (isset($item['parent'])) {
-						$parent = $item['parent'];
-					} else {
-						$fileOwner = $item['uid_owner'];
-						break;
-					}
-				}
-			} else {
-				$fileOwner = $source['uid_owner'];
-			}
-			$source['fileOwner'] = $fileOwner;
-			return $source;
+			return self::resolveReshares($source);
 		}
+
 		\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::DEBUG);
 		return false;
 	}
