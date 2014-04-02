@@ -106,6 +106,60 @@ class Access extends LDAPUtility {
 	}
 
 	/**
+	* @brief fetches the quota from LDAP and, if provided, stores it as ownCloud
+	* user value
+	* @param string the DN of the user
+	* @param string optional, the internal ownCloud name of the user
+	* @return null
+	*/
+	public function updateQuota($dn, $ocname = null) {
+		$quota = null;
+		$quotaDefault = $this->connection->ldapQuotaDefault;
+		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		if(!empty($quotaDefault)) {
+			$quota = $quotaDefault;
+		}
+		if(!empty($quotaAttribute)) {
+			$aQuota = $this->readAttribute($dn, $quotaAttribute);
+
+			if($aQuota && (count($aQuota) > 0)) {
+				$quota = $aQuota[0];
+			}
+		}
+		if(!is_null($quota)) {
+			if(is_null($ocname)) {
+				$ocname = $this->dn2username($dn);
+			}
+			\OCP\Config::setUserValue($ocname, 'files', 'quota',
+				\OCP\Util::computerFileSize($quota));
+		}
+	}
+
+	/**
+	* @brief fetches the email from LDAP and, if provided, stores it as ownCloud
+	* user value
+	* @param string the DN of the user
+	* @param string optional, the internal ownCloud name of the user
+	* @return null
+	*/
+	public function updateEmail($dn, $ocname = null) {
+		$email = null;
+		$emailAttribute = $this->connection->ldapEmailAttribute;
+		if(!empty($emailAttribute)) {
+			$aEmail = $this->readAttribute($dn, $emailAttribute);
+			if($aEmail && (count($aEmail) > 0)) {
+				$email = $aEmail[0];
+			}
+			if(!is_null($email)) {
+				if(is_null($ocname)) {
+					$ocname = $this->dn2username($dn);
+				}
+				\OCP\Config::setUserValue($ocname, 'settings', 'email', $email);
+			}
+		}
+	}
+
+	/**
 	 * @brief checks wether the given attribute`s valua is probably a DN
 	 * @param $attr the attribute in question
 	 * @return if so true, otherwise false
@@ -596,6 +650,11 @@ class Access extends LDAPUtility {
 
 		if($insRows === 0) {
 			return false;
+		}
+
+		if($isUser) {
+			$this->updateEmail($dn, $ocname);
+			$this->updateQuota($dn, $ocname);
 		}
 
 		return true;
