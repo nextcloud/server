@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,35 +316,35 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: templates/admin.php:5
+#: templates/admin.php:4
 msgid "File handling"
 msgstr ""
 
-#: templates/admin.php:7
+#: templates/admin.php:6
 msgid "Maximum upload size"
 msgstr ""
 
-#: templates/admin.php:10
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr ""
 
-#: templates/admin.php:15
+#: templates/admin.php:14
 msgid "Needed for multi-file and folder downloads."
 msgstr ""
 
-#: templates/admin.php:17
+#: templates/admin.php:16
 msgid "Enable ZIP-download"
 msgstr ""
 
-#: templates/admin.php:20
+#: templates/admin.php:19
 msgid "0 is unlimited"
 msgstr ""
 
-#: templates/admin.php:22
+#: templates/admin.php:21
 msgid "Maximum input size for ZIP files"
 msgstr ""
 
-#: templates/admin.php:26
+#: templates/admin.php:25
 msgid "Save"
 msgstr ""
 

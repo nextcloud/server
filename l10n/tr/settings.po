@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-28 01:55-0400\n"
-"PO-Revision-Date: 2014-03-27 19:31+0000\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-01 19:31+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarla
 msgid "Send mode"
 msgstr "Gönderme kipi"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
 msgstr "Şifreleme"
 
@@ -68,7 +68,7 @@ msgid "Unable to load list from App Store"
 msgstr "App Store'dan liste yüklenemiyor"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Kimlik doğrulama hatası"
 
@@ -130,32 +130,32 @@ msgstr "%s grubundan kullanıcı kaldırılamıyor"
 msgid "Couldn't update app."
 msgstr "Uygulama güncellenemedi."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Hatalı parola"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Kullanıcı girilmedi"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Lütfen bir yönetici kurtarma parolası girin, aksi takdirde tüm kullanıcı verisi kaybedilecek"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Hatalı yönetici kurtarma parolası. Lütfen parolayı denetleyip yeniden deneyin."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme anahtarı başarıyla güncellendi."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Parola değiştirilemiyor"
 
@@ -207,7 +207,7 @@ msgstr "Uygulama güncellenirken hata"
 msgid "Error"
 msgstr "Hata"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Güncelleme"
 
@@ -288,7 +288,7 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Uyarı: \"{user}\" kullanıcısı için zaten bir Ev dizini mevcut"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "Türkçe"
 
@@ -354,7 +354,7 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu döküman dizini dışına almanızı şiddetle tavsiye ederiz."
+msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu belge kök dizini dışına almanızı şiddetle tavsiye ederiz."
 
 #: templates/admin.php:75
 msgid "Setup Warning"
@@ -364,7 +364,7 @@ msgstr "Kurulum Uyarısı"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor."
+msgstr "Web sunucunuz dosya aktarımı için düzgün bir şekilde yapılandırılmamış. WevDAV arayüzü sorunlu görünüyor."
 
 #: templates/admin.php:79
 #, php-format
@@ -531,7 +531,7 @@ msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen ,%s'a HTTPS ile bağlanın."
+msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın."
 
 #: templates/admin.php:294
 msgid "Email Server"
@@ -593,11 +593,11 @@ msgstr "Daha fazla"
 msgid "Less"
 msgstr "Az"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -615,23 +615,23 @@ msgstr "Uygulamanızı Ekleyin"
 msgid "More Apps"
 msgstr "Daha Fazla Uygulama"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Bir Uygulama Seçin"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr "Belgelendirme:"
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Uygulamanın sayfasına apps.owncloud.com adresinden bakın "
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr "Uygulama web sitesine bakın"
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisanslayan <span class=\"author\"></span>"
 
@@ -668,108 +668,108 @@ msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Kullandığınız: <strong>%s</strong>. Kullanılabilir alan: <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Parola"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Şifreniz değiştirildi"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Parolanız değiştirilemiyor"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Mevcut parola"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Yeni parola"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Parola değiştir"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Tam Adı"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "E-posta"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "E-posta adresiniz"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Parola kurtarmayı ve bildirim almayı açmak için bir e-posta adresi girin"
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Profil resmi"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Yeni yükle"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Dosyalardan seç"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Resmi kaldır"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "PNG veya JPG. Genellikle karedir ancak kesebileceksiniz."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "Görüntü resminiz, özgün hesabınız tarafından sağlanıyor."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "İptal"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Profil resmi olarak seç"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Dil"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifrelemesini kaldırın"
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Oturum açma parolası"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Tüm dosyaların şifresini çöz"
 

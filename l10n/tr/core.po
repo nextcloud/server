@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-28 01:55-0400\n"
-"PO-Revision-Date: 2014-03-27 19:31+0000\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-01 17:50+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,24 +21,24 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "Son kullanma tarihi geçmişte."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Şu kullanıcılara posta gönderilemedi: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Bakım kipi etkinleştirildi"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Bakım kipi kapatıldı"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Veritabanı güncellendi"
 
@@ -142,59 +142,59 @@ msgstr "Aralık"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:496
+#: js/js.js:543
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
-#: js/js.js:995
+#: js/js.js:1103
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:996
+#: js/js.js:1104
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n dakika önce"
 msgstr[1] "%n dakika önce"
 
-#: js/js.js:997
+#: js/js.js:1105
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n saat önce"
 msgstr[1] "%n saat önce"
 
-#: js/js.js:998
+#: js/js.js:1106
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:999
+#: js/js.js:1107
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:1000
+#: js/js.js:1108
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n gün önce"
 msgstr[1] "%n gün önce"
 
-#: js/js.js:1001
+#: js/js.js:1109
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:1002
+#: js/js.js:1110
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n ay önce"
 msgstr[1] "%n ay önce"
 
-#: js/js.js:1003
+#: js/js.js:1111
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:1004
+#: js/js.js:1112
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:1005
+#: js/js.js:1113
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -537,14 +537,14 @@ msgstr "Yeni parola"
 msgid "Reset password"
 msgstr "Parolayı sıfırla"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr "Mac OS X desteklenmemediğinden %s bu platformda düzgün çalışmayacak. Kendi riskinizle kullanın!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr "En iyi sonuçlar için GNU/Linux sunucusu kullanın."
@@ -709,7 +709,7 @@ msgstr "Kurulumu tamamla"
 
 #: templates/installation.php:150
 msgid "Finishing …"
-msgstr "Tamamlanıyor .."
+msgstr "Tamamlanıyor ..."
 
 #: templates/layout.user.php:40
 msgid ""

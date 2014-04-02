@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 13:20+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-02 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,91 +38,91 @@ msgstr "Por favor forneça um app key e secret válido do Dropbox"
 msgid "Error configuring Google Drive storage"
 msgstr "Erro ao configurar armazenamento do Google Drive"
 
-#: js/settings.js:313 js/settings.js:320
+#: js/settings.js:318 js/settings.js:325
 msgid "Saved"
 msgstr "Salvo"
 
-#: lib/config.php:512
+#: lib/config.php:654
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Aviso:</b> \"smbclient\" não está instalado. Impossível montar compartilhamentos de CIFS/SMB. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:516
+#: lib/config.php:658
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Aviso:</b> O suporte para FTP do PHP não está ativado ou instalado. Impossível montar compartilhamentos FTP. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:519
+#: lib/config.php:661
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
 msgstr "<b> Aviso: </b> O suport a Curl em PHP não está habilitado ou instalado. A montagem do ownCloud / WebDAV ou GoogleDrive não é possível. Por favor, solicite ao seu administrador do sistema instalá-lo."
 
-#: templates/settings.php:3
+#: templates/settings.php:2
 msgid "External Storage"
 msgstr "Armazenamento Externo"
 
-#: templates/settings.php:9 templates/settings.php:28
+#: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
 msgstr "Nome da pasta"
 
-#: templates/settings.php:10
+#: templates/settings.php:9
 msgid "External storage"
 msgstr "Armazenamento Externo"
 
-#: templates/settings.php:11
+#: templates/settings.php:10
 msgid "Configuration"
 msgstr "Configuração"
 
-#: templates/settings.php:12
+#: templates/settings.php:11
 msgid "Options"
 msgstr "Opções"
 
-#: templates/settings.php:13
-msgid "Applicable"
-msgstr "Aplicável"
+#: templates/settings.php:12
+msgid "Available for"
+msgstr ""
 
-#: templates/settings.php:33
+#: templates/settings.php:32
 msgid "Add storage"
 msgstr "Adicionar Armazenamento"
 
-#: templates/settings.php:90
-msgid "None set"
-msgstr "Nenhum definido"
+#: templates/settings.php:92
+msgid "No user or group"
+msgstr ""
 
-#: templates/settings.php:91
+#: templates/settings.php:95
 msgid "All Users"
 msgstr "Todos os Usuários"
 
-#: templates/settings.php:92
+#: templates/settings.php:97
 msgid "Groups"
 msgstr "Grupos"
 
-#: templates/settings.php:100
+#: templates/settings.php:105
 msgid "Users"
 msgstr "Usuários"
 
-#: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:155 templates/settings.php:156
+#: templates/settings.php:118 templates/settings.php:119
+#: templates/settings.php:158 templates/settings.php:159
 msgid "Delete"
 msgstr "Excluir"
 
-#: templates/settings.php:127
+#: templates/settings.php:132
 msgid "Enable User External Storage"
 msgstr "Habilitar Armazenamento Externo do Usuário"
 
-#: templates/settings.php:130
+#: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
 msgstr "Permitir que usuários montem o seguinte armazenamento externo"
 
-#: templates/settings.php:147
+#: templates/settings.php:150
 msgid "SSL root certificates"
 msgstr "Certificados SSL raíz"
 
-#: templates/settings.php:165
+#: templates/settings.php:168
 msgid "Import Root Certificate"
 msgstr "Importar Certificado Raíz"
