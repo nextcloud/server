@@ -35,7 +35,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function mkdir($path) {
-			return @mkdir($this->datadir . $path);
+			return @mkdir($this->datadir . $path, 0777, true);
 		}
 
 		public function rmdir($path) {
@@ -256,7 +256,7 @@ if (\OC_Util::runningOnWindows()) {
 			return 0;
 		}
 
-		public function hash($path, $type, $raw = false) {
+		public function hash($type, $path, $raw = false) {
 			return hash_file($type, $this->datadir . $path, $raw);
 		}
 

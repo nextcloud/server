@@ -23,7 +23,6 @@
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
-OC_App::loadApps();
 
 $query=(isset($_GET['query']))?$_GET['query']:'';
 if($query) {

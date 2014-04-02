@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "外部儲存",
 "Configuration" => "設定",
 "Options" => "選項",
-"Applicable" => "可用的",
 "Add storage" => "增加儲存區",
-"None set" => "尚未設定",
 "All Users" => "所有使用者",
 "Groups" => "群組",
 "Users" => "使用者",
 "Delete" => "刪除",
 "Enable User External Storage" => "啓用使用者外部儲存",
-"Allow users to mount their own external storage" => "允許使用者自行掛載他們的外部儲存",
 "SSL root certificates" => "SSL 根憑證",
 "Import Root Certificate" => "匯入根憑證"
 );

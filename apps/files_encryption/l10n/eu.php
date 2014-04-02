@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Mesedez ziurtatu PHP 5.3.3 edo berriago bat instalatuta dagoela eta OpenSSL PHP hedapenarekin gaitua eta ongi konfiguratuta dagoela. Oraingoz, enkriptazio aplikazioa desgaituta dago.",
 "Following users are not set up for encryption:" => "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:",
 "Initial encryption started... This can take some time. Please wait." => "Hasierako enkriptazioa hasi da... Honek denbora har dezake. Mesedez itxaron.",
-"Saving..." => "Gordetzen...",
 "Go directly to your " => "Joan zuzenean zure",
 "personal settings" => "ezarpen pertsonalak",
 "Encryption" => "Enkriptazioa",

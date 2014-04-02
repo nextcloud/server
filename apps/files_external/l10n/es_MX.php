@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Almacenamiento externo",
 "Configuration" => "Configuración",
 "Options" => "Opciones",
-"Applicable" => "Aplicable",
 "Add storage" => "Añadir almacenamiento",
-"None set" => "No se ha configurado",
 "All Users" => "Todos los usuarios",
 "Groups" => "Grupos",
 "Users" => "Usuarios",
 "Delete" => "Eliminar",
 "Enable User External Storage" => "Habilitar almacenamiento externo de usuario",
-"Allow users to mount their own external storage" => "Permitir a los usuarios montar su propio almacenamiento externo",
 "SSL root certificates" => "Certificados raíz SSL",
 "Import Root Certificate" => "Importar certificado raíz"
 );

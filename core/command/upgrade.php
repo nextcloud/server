@@ -27,10 +27,13 @@ class Upgrade extends Command {
 		;
 	}
 
+	/**
+	 * Execute the upgrade command
+	 *
+	 * @param InputInterface $input input interface
+	 * @param OutputInterface $output output interface
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		global $RUNTIME_NOAPPS;
-
-		$RUNTIME_NOAPPS = true; //no apps, yet
 
 		require_once \OC::$SERVERROOT . '/lib/base.php';
 
@@ -53,15 +56,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'filecacheStart', function () use($output) {
-				$output->writeln('<info>Updating filecache, this may take really long...</info>');
-			});
-			$updater->listen('\OC\Updater', 'filecacheDone', function () use($output) {
-				$output->writeln('<info>Updated filecache</info>');
-			});
-			$updater->listen('\OC\Updater', 'filecacheProgress', function ($out) use($output) {
-				$output->writeln('... ' . $out . '% done ...');
-			});
 
 			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
 				$output->writeln($message);
@@ -69,6 +63,9 @@ class Upgrade extends Command {
 			});
 
 			$updater->upgrade();
+
+			$this->postUpgradeCheck($input, $output);
+
 			return self::ERROR_SUCCESS;
 		} else if(\OC_Config::getValue('maintenance', false)) {
 			//Possible scenario: ownCloud core is updated but an app failed
@@ -82,6 +79,23 @@ class Upgrade extends Command {
 		} else {
 			$output->writeln('<info>ownCloud is already latest version</info>');
 			return self::ERROR_UP_TO_DATE;
+		}
+	}
+
+	/**
+	 * Perform a post upgrade check (specific to the command line tool)
+	 *
+	 * @param InputInterface $input input interface
+	 * @param OutputInterface $output output interface
+	 */
+	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
+		$trustedDomains = \OC_Config::getValue('trusted_domains', array());
+		if (empty($trustedDomains)) {
+			$output->write(
+				'<warning>The setting "trusted_domains" could not be ' .
+				'set automatically by the upgrade script, ' .
+				'please set it manually</warning>'
+			);
 		}
 	}
 }

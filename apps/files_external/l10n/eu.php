@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Kanpoko biltegiratzea",
 "Configuration" => "Konfigurazioa",
 "Options" => "Aukerak",
-"Applicable" => "Aplikagarria",
 "Add storage" => "Gehitu biltegiratzea",
-"None set" => "Ezarri gabe",
 "All Users" => "Erabiltzaile guztiak",
 "Groups" => "Taldeak",
 "Users" => "Erabiltzaileak",
 "Delete" => "Ezabatu",
 "Enable User External Storage" => "Gaitu erabiltzaileentzako Kanpo Biltegiratzea",
-"Allow users to mount their own external storage" => "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen",
 "SSL root certificates" => "SSL erro ziurtagiriak",
 "Import Root Certificate" => "Inportatu Erro Ziurtagiria"
 );

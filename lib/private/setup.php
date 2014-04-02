@@ -106,6 +106,10 @@ class OC_Setup {
 			//guess what this does
 			OC_Installer::installShippedApps();
 
+			// create empty file in data dir, so we can later find
+			// out that this is indeed an ownCloud data directory
+			file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.ocdata', '');
+
 			// Update htaccess files for apache hosts
 			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 				self::updateHtaccess();

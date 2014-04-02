@@ -21,14 +21,9 @@
 *
 */
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
-
 // Check if we are a user
 OCP\User::checkLoggedIn();
+\OC::$session->close();
 
 $files = $_GET["files"];
 $dir = $_GET["dir"];

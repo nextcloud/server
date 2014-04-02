@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Ārējā krātuve",
 "Configuration" => "Konfigurācija",
 "Options" => "Opcijas",
-"Applicable" => "Piemērojams",
 "Add storage" => "Pievienot krātuvi",
-"None set" => "Neviens nav iestatīts",
 "All Users" => "Visi lietotāji",
 "Groups" => "Grupas",
 "Users" => "Lietotāji",
 "Delete" => "Dzēst",
 "Enable User External Storage" => "Aktivēt lietotāja ārējo krātuvi",
-"Allow users to mount their own external storage" => "Ļaut lietotājiem montēt pašiem savu ārējo krātuvi",
 "SSL root certificates" => "SSL saknes sertifikāti",
 "Import Root Certificate" => "Importēt saknes sertifikātus"
 );

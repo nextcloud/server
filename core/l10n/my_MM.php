@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "Cloud not found" => "မတွေ့ရှိမိပါ",
 "Security Warning" => "လုံခြုံရေးသတိပေးချက်",
 "Create an <strong>admin account</strong>" => "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်",
-"Advanced" => "အဆင့်မြင့်",
 "Data folder" => "အချက်အလက်ဖိုလ်ဒါလ်",
 "Database user" => "Database သုံးစွဲသူ",
 "Database password" => "Database စကားဝှက်",

@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "외부 저장소",
 "Configuration" => "설정",
 "Options" => "옵션",
-"Applicable" => "적용 가능",
 "Add storage" => "저장소 추가",
-"None set" => "설정되지 않음",
 "All Users" => "모든 사용자",
 "Groups" => "그룹",
 "Users" => "사용자",
 "Delete" => "삭제",
 "Enable User External Storage" => "사용자 외부 저장소 사용",
-"Allow users to mount their own external storage" => "사용자별 외부 저장소 마운트 허용",
 "SSL root certificates" => "SSL 루트 인증서",
 "Import Root Certificate" => "루트 인증서 가져오기"
 );

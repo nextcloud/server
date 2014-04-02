@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "حافظه خارجی",
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",
-"Applicable" => "قابل اجرا",
 "Add storage" => "اضافه کردن حافظه",
-"None set" => "تنظیم نشده",
 "All Users" => "تمام کاربران",
 "Groups" => "گروه ها",
 "Users" => "کاربران",
 "Delete" => "حذف",
 "Enable User External Storage" => "فعال سازی حافظه خارجی کاربر",
-"Allow users to mount their own external storage" => "اجازه به کاربران برای متصل کردن منابع ذخیره ی خارجی خودشان",
 "SSL root certificates" => "گواهی های اصلی SSL ",
 "Import Root Certificate" => "وارد کردن گواهی اصلی"
 );

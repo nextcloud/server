@@ -179,7 +179,7 @@ describe('Core base tests', function() {
 		});
 		it('Encodes special characters', function() {
 			expect(OC.buildQueryString({
-				unicode: '汉字',
+				unicode: '汉字'
 			})).toEqual('unicode=%E6%B1%89%E5%AD%97');
 			expect(OC.buildQueryString({
 			   	b: 'spaace value',
@@ -199,22 +199,20 @@ describe('Core base tests', function() {
 				'booleantrue': true
 			})).toEqual('booleanfalse=false&booleantrue=true');
 			expect(OC.buildQueryString({
-			   	'number': 123,
+			   	'number': 123
 			})).toEqual('number=123');
 		});
 	});
 	describe('Session heartbeat', function() {
 		var clock,
 			oldConfig,
-			loadedStub,
 			routeStub,
 			counter;
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			oldConfig = window.oc_config;
-			loadedStub = sinon.stub(OC.Router, 'registerLoadedCallback');
-			routeStub = sinon.stub(OC.Router, 'generate').returns('/heartbeat');
+			routeStub = sinon.stub(OC, 'generateUrl').returns('/heartbeat');
 			counter = 0;
 
 			fakeServer.autoRespond = true;
@@ -227,7 +225,6 @@ describe('Core base tests', function() {
 		afterEach(function() {
 			clock.restore();
 			window.oc_config = oldConfig;
-			loadedStub.restore();
 			routeStub.restore();
 		});
 		it('sends heartbeat half the session lifetime when heartbeat enabled', function() {
@@ -236,9 +233,7 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(loadedStub.calledOnce).toEqual(true);
-			loadedStub.yield();
-			expect(routeStub.calledWith('heartbeat')).toEqual(true);
+			expect(routeStub.calledWith('/heartbeat')).toEqual(true);
 
 			expect(counter).toEqual(0);
 
@@ -264,7 +259,6 @@ describe('Core base tests', function() {
 				session_lifetime: 300
 			};
 			window.initCore();
-			expect(loadedStub.notCalled).toEqual(true);
 			expect(routeStub.notCalled).toEqual(true);
 
 			expect(counter).toEqual(0);
@@ -275,6 +269,119 @@ describe('Core base tests', function() {
 			expect(counter).toEqual(0);
 		});
 
+	});
+	describe('Generate Url', function() {
+		it('returns absolute urls', function() {
+			expect(OC.generateUrl('heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+			expect(OC.generateUrl('/heartbeat')).toEqual(OC.webroot + '/index.php/heartbeat');
+		});
+		it('substitutes parameters', function() {
+			expect(OC.generateUrl('apps/files/download{file}', {file: '/Welcome.txt'})).toEqual(OC.webroot + '/index.php/apps/files/download/Welcome.txt');
+		});
+	});
+	describe('Main menu mobile toggle', function() {
+		var oldMatchMedia;
+		var $toggle;
+		var $navigation;
+
+		beforeEach(function() {
+			oldMatchMedia = OC._matchMedia;
+			// a separate method was needed because window.matchMedia
+			// cannot be stubbed due to a bug in PhantomJS:
+			// https://github.com/ariya/phantomjs/issues/12069
+			OC._matchMedia = sinon.stub();
+			$('#testArea').append('<div id="header">' +
+				'<a id="owncloud" href="#"></a>' +
+				'</div>' +
+				'<div id="navigation"></div>');
+			$toggle = $('#owncloud');
+			$navigation = $('#navigation');
+		});
+
+		afterEach(function() {
+			OC._matchMedia = oldMatchMedia;
+		});
+		it('Sets up menu toggle in mobile mode', function() {
+			OC._matchMedia.returns({matches: true});
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+			expect($navigation.hasClass('menu')).toEqual(true);
+		});
+		it('Does not set up menu toggle in desktop mode', function() {
+			OC._matchMedia.returns({matches: false});
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+			expect($navigation.hasClass('menu')).toEqual(false);
+		});
+		it('Switches on menu toggle when mobile mode changes', function() {
+			var mq = {matches: false};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+		});
+		it('Switches off menu toggle when mobile mode changes', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($toggle.hasClass('menutoggle')).toEqual(true);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($toggle.hasClass('menutoggle')).toEqual(false);
+		});
+		it('Clicking menu toggle toggles navigation in mobile mode', function() {
+			OC._matchMedia.returns({matches: true});
+			window.initCore();
+			$navigation.hide(); // normally done through media query triggered CSS
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(false);
+		});
+		it('Clicking menu toggle does not toggle navigation in desktop mode', function() {
+			OC._matchMedia.returns({matches: false});
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(true);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+		});
+		it('Switching to mobile mode hides navigation', function() {
+			var mq = {matches: false};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(false);
+		});
+		it('Switching to desktop mode shows navigation', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(false);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(true);
+		});
+		it('Switch to desktop with opened menu then back to mobile resets toggle', function() {
+			var mq = {matches: true};
+			OC._matchMedia.returns(mq);
+			window.initCore();
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = false;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(true);
+			mq.matches = true;
+			$(window).trigger('resize');
+			expect($navigation.is(':visible')).toEqual(false);
+			$toggle.click();
+			expect($navigation.is(':visible')).toEqual(true);
+		});
 	});
 });
 

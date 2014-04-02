@@ -21,6 +21,7 @@ class OC_Defaults {
 	private $defaultDocBaseUrl;
 	private $defaultSlogan;
 	private $defaultLogoClaim;
+	private $defaultMailHeaderColor;
 
 	function __construct() {
 		$this->l = OC_L10N::get('core');
@@ -33,6 +34,7 @@ class OC_Defaults {
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
 		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
+		$this->defaultMailHeaderColor = "#1d2d44"; /* header color of mail notifications */
 
 		if (class_exists("OC_Theme")) {
 			$this->theme = new OC_Theme();
@@ -179,6 +181,18 @@ class OC_Defaults {
 			return $this->theme->buildDocLinkToKey($key);
 		}
 		return $this->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+	}
+
+	/**
+	 * Returns mail header color
+	 * @return mail header color
+	 */
+	public function getMailHeaderColor() {
+		if ($this->themeExist('getMailHeaderColor')) {
+			return $this->theme->getMailHeaderColor();
+		} else {
+			return $this->defaultMailHeaderColor;
+		}
 	}
 
 }

@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Lưu trữ ngoài",
 "Configuration" => "Cấu hình",
 "Options" => "Tùy chọn",
-"Applicable" => "Áp dụng",
 "Add storage" => "Thêm bộ nhớ",
-"None set" => "không",
 "All Users" => "Tất cả người dùng",
 "Groups" => "Nhóm",
 "Users" => "Người dùng",
 "Delete" => "Xóa",
 "Enable User External Storage" => "Kích hoạt tính năng lưu trữ ngoài",
-"Allow users to mount their own external storage" => "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài của họ",
 "SSL root certificates" => "Chứng chỉ SSL root",
 "Import Root Certificate" => "Nhập Root Certificate"
 );

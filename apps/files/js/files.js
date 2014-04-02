@@ -87,9 +87,12 @@ var Files = {
 	 * Throws a string exception with an error message if
 	 * the file name is not valid
 	 */
-	isFileNameValid: function (name) {
+	isFileNameValid: function (name, root) {
 		var trimmedName = name.trim();
-		if (trimmedName === '.' || trimmedName === '..') {
+		if (trimmedName === '.'
+				|| trimmedName === '..'
+				|| (root === '/' &&  trimmedName.toLowerCase() === 'shared'))
+		{
 			throw t('files', '"{name}" is an invalid file name.', {name: name});
 		} else if (trimmedName.length === 0) {
 			throw t('files', 'File name cannot be empty.');
@@ -193,11 +196,14 @@ var Files = {
 		if (width !== Files.lastWidth) {
 			if ((width < Files.lastWidth || firstRun) && width < Files.breadcrumbsWidth) {
 				if (Files.hiddenBreadcrumbs === 0) {
-					Files.breadcrumbsWidth -= $(Files.breadcrumbs[1]).get(0).offsetWidth;
-					$(Files.breadcrumbs[1]).find('a').hide();
-					$(Files.breadcrumbs[1]).append('<span>...</span>');
-					Files.breadcrumbsWidth += $(Files.breadcrumbs[1]).get(0).offsetWidth;
-					Files.hiddenBreadcrumbs = 2;
+					bc = $(Files.breadcrumbs[1]).get(0);
+					if (typeof bc != 'undefined') {
+						Files.breadcrumbsWidth -= bc.offsetWidth;
+						$(Files.breadcrumbs[1]).find('a').hide();
+						$(Files.breadcrumbs[1]).append('<span>...</span>');
+						Files.breadcrumbsWidth += bc.offsetWidth;
+						Files.hiddenBreadcrumbs = 2;
+					}
 				}
 				var i = Files.hiddenBreadcrumbs;
 				while (width < Files.breadcrumbsWidth && i > 1 && i < Files.breadcrumbs.length - 1) {
@@ -780,9 +786,9 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 
 		if ( $('#isPublic').length ) {
 			urlSpec.t = $('#dirToken').val();
-			previewURL = OC.Router.generate('core_ajax_public_preview', urlSpec);
+			previewURL = OC.generateUrl('/publicpreview.png?') + $.param(urlSpec);
 		} else {
-			previewURL = OC.Router.generate('core_ajax_preview', urlSpec);
+			previewURL = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 		}
 		previewURL = previewURL.replace('(', '%28');
 		previewURL = previewURL.replace(')', '%29');

@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Išorinė saugykla",
 "Configuration" => "Konfigūracija",
 "Options" => "Nustatymai",
-"Applicable" => "Pritaikyti",
 "Add storage" => "Pridėti saugyklą",
-"None set" => "Nieko nepasirinkta",
 "All Users" => "Visi vartotojai",
 "Groups" => "Grupės",
 "Users" => "Vartotojai",
 "Delete" => "Ištrinti",
 "Enable User External Storage" => "Įjungti vartotojų išorines saugyklas",
-"Allow users to mount their own external storage" => "Leisti vartotojams pridėti savo išorines saugyklas",
 "SSL root certificates" => "SSL sertifikatas",
 "Import Root Certificate" => "Įkelti pagrindinį sertifikatą"
 );

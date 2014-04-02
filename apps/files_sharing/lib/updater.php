@@ -135,4 +135,19 @@ class Shared_Updater {
 		}
 	}
 
+	/**
+	 * clean up oc_share table from files which are no longer exists
+	 *
+	 * This fixes issues from updates from files_sharing < 0.3.5.6 (ownCloud 4.5)
+	 * It will just be called during the update of the app
+	 */
+	static public function fixBrokenSharesOnAppUpdate() {
+		// delete all shares where the original file no longer exists
+		$findAndRemoveShares = \OC_DB::prepare('DELETE FROM `*PREFIX*share` ' .
+			'WHERE `file_source` NOT IN ( ' .
+				'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `item_type` IN (\'file\', \'folder\'))'
+		);
+		$findAndRemoveShares->execute(array());
+	}
+
 }

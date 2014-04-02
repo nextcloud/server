@@ -13,15 +13,12 @@ $TRANSLATIONS = array(
 "External storage" => "Extern lagring",
 "Configuration" => "Konfiguration",
 "Options" => "Alternativ",
-"Applicable" => "Tillämplig",
 "Add storage" => "Lägg till lagring",
-"None set" => "Ingen angiven",
 "All Users" => "Alla användare",
 "Groups" => "Grupper",
 "Users" => "Användare",
 "Delete" => "Radera",
 "Enable User External Storage" => "Aktivera extern lagring för användare",
-"Allow users to mount their own external storage" => "Tillåt användare att montera egen extern lagring",
 "SSL root certificates" => "SSL rotcertifikat",
 "Import Root Certificate" => "Importera rotcertifikat"
 );

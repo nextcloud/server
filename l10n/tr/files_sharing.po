@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-13 14:43-0500\n"
-"PO-Revision-Date: 2013-12-13 19:00+0000\n"
+"POT-Creation-Date: 2014-03-13 01:55-0400\n"
+"PO-Revision-Date: 2014-03-12 10:51+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: js/share.js:13
+msgid "Shared by {owner}"
+msgstr "{owner} tarafından paylaşılmış"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -54,32 +58,16 @@ msgstr "paylaşım devre dışı"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin."
 
-#: templates/public.php:18
+#: templates/public.php:17
 #, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s, %s klasörünü sizinle paylaştı"
+msgid "shared by %s"
+msgstr "paylaşan: %s"
 
-#: templates/public.php:21
+#: templates/public.php:44
 #, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s, %s dosyasını sizinle paylaştı"
+msgid "Download %s"
+msgstr "İndir: %s"
 
-#: templates/public.php:29 templates/public.php:95
-msgid "Download"
-msgstr "İndir"
-
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Yükle"
-
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Yüklemeyi iptal et"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Kullanılabilir önizleme yok"
-
-#: templates/public.php:99
+#: templates/public.php:48
 msgid "Direct link"
 msgstr "Doğrudan bağlantı"

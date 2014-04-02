@@ -17,7 +17,6 @@
 		"eventsource.js",
 		"config.js",
 		"multiselect.js",
-		"router.js",
 		"oc-requesttoken.js"
 	]
 }

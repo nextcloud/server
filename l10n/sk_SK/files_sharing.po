@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mhh <marian.hvolka@stuba.sk>, 2013
+# mhh <marian.hvolka@stuba.sk>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
+"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"PO-Revision-Date: 2014-03-31 10:40+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: js/share.js:13
+msgid "Shared by {owner}"
+msgstr "Zdieľa {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -54,32 +58,16 @@ msgstr "zdieľanie je zakázané"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz."
 
-#: templates/public.php:18
+#: templates/public.php:17
 #, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s zdieľa s vami priečinok %s"
+msgid "shared by %s"
+msgstr "Zdieľa %s"
 
-#: templates/public.php:21
+#: templates/public.php:44
 #, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s zdieľa s vami súbor %s"
+msgid "Download %s"
+msgstr "Stiahnuť %s"
 
-#: templates/public.php:29 templates/public.php:95
-msgid "Download"
-msgstr "Sťahovanie"
-
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Nahrať"
-
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Zrušiť nahrávanie"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Žiaden náhľad k dispozícii pre"
-
-#: templates/public.php:99
+#: templates/public.php:48
 msgid "Direct link"
 msgstr "Priama linka"

@@ -48,7 +48,7 @@ OC.Share={
 					var action = $(file).find('.fileactions .action[data-action="Share"]');
 					var img = action.find('img').attr('src', image);
 					action.addClass('permanent');
-					action.html(' '+t('core', 'Shared')).prepend(img);
+					action.html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 				} else {
 					var dir = $('#dir').val();
 					if (dir.length > 1) {
@@ -63,7 +63,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(action).addClass('permanent');
-										$(action).html(' '+t('core', 'Shared')).prepend(img);
+										$(action).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 									}
 								});
 							}
@@ -103,10 +103,10 @@ OC.Share={
 				var img = action.find('img').attr('src', image);
 				if (shares) {
 					action.addClass('permanent');
-					action.html(' '+ escapeHTML(t('core', 'Shared'))).prepend(img);
+					action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
 				} else {
 					action.removeClass('permanent');
-					action.html(' '+ escapeHTML(t('core', 'Share'))).prepend(img);
+					action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
 				}
 			}
 		}
@@ -551,7 +551,7 @@ $(document).ready(function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 		OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 			$li.remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
@@ -584,8 +584,8 @@ $(document).ready(function() {
 				$(checkboxes).filter('input[name="edit"]').attr('checked', false);
 			// Check Edit if Create, Update, or Delete is checked
 			} else if (($(this).attr('name') == 'create'
-					 || $(this).attr('name') == 'update'
-					 || $(this).attr('name') == 'delete'))
+				|| $(this).attr('name') == 'update'
+				|| $(this).attr('name') == 'delete'))
 			{
 				$(checkboxes).filter('input[name="edit"]').attr('checked', true);
 			}
@@ -597,7 +597,7 @@ $(document).ready(function() {
 		OC.Share.setPermissions($('#dropdown').data('item-type'),
 			$('#dropdown').data('item-source'),
 			li.data('share-type'),
-			li.data('share-with'),
+			li.attr('data-share-with'),
 			permissions);
 	});
 
@@ -718,9 +718,21 @@ $(document).ready(function() {
 	$(document).on('change', '#dropdown #expirationDate', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
+
+		$(this).tipsy('hide');
+		$(this).removeClass('error');
+
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
+				var expirationDateField = $('#dropdown #expirationDate');
+				if (!result.data.message) {
+					expirationDateField.attr('original-title', t('core', 'Error setting expiration date'));
+				} else {
+					expirationDateField.attr('original-title', result.data.message);
+				}
+				expirationDateField.tipsy({gravity: 'n', fade: true});
+				expirationDateField.tipsy('show');
+				expirationDateField.addClass('error');
 			}
 		});
 	});
@@ -770,7 +782,7 @@ $(document).ready(function() {
 		}
 
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 
 		$.post(OC.filePath('core', 'ajax', 'share.php'), {action: action, recipient: shareWith, shareType: shareType, itemSource: itemSource, itemType: itemType}, function(result) {
 			if (result.status !== 'success') {

@@ -26,11 +26,15 @@ $mail_smtpsecure = array(
 );
 
 $mail_smtpmode = array(
-	'sendmail',
-	'smtp',
-	'qmail',
 	'php',
+	'smtp',
 );
+if ($_['sendmail_is_available']) {
+	$mail_smtpmode[] = 'sendmail';
+}
+if ($_['mail_smtpmode'] == 'qmail') {
+	$mail_smtpmode[] = 'qmail';
+}
 
 ?>
 
@@ -39,35 +43,35 @@ $mail_smtpmode = array(
 // is ssl working ?
 if (!$_['isConnectedViaHTTPS']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Security Warning'));?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead.', $theme->getTitle())); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // is htaccess working ?
 if (!$_['htaccessworking']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Security Warning'));?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // is WebDAV working ?
 if (!$_['isWebDavWorking']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Setup Warning'));?></h2>
 
 	<span class="securitywarning">
@@ -75,42 +79,42 @@ if (!$_['isWebDavWorking']) {
 		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', link_to_docs('admin-install'))); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Module \'fileinfo\' missing'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.')); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // is PHP at least at 5.3.8?
 if ($_['old_php']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly.')); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // is locale working ?
 if (!$_['isLocaleWorking']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Locale not working'));?></h2>
 
 		<span class="connectionwarning">
@@ -128,21 +132,21 @@ if (!$_['isLocaleWorking']) {
 			?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
 // is internet connection working ?
 if (!$_['internetconnectionworking']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Internet connection not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 ?>
@@ -152,8 +156,25 @@ if (!$_['internetconnectionworking']) {
 }
 ;?>
 
-<fieldset class="personalblock" id="backgroundjobs">
-	<h2><?php p($l->t('Cron'));?></h2>
+<div class="section" id="backgroundjobs">
+	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
+	<?php if ($_['cron_log']): ?>
+	<p class="cronlog inlineblock">
+		<?php if ($_['lastcron'] !== false):
+			$human_time = OC_Util::formatDate($_['lastcron']) . " UTC";
+			if (time() - $_['lastcron'] <= 3600): ?>
+				<span class="cronstatus success"></span>
+				<?php p($l->t("Last cron was executed at %s.", array($human_time)));
+			else: ?>
+				<span class="cronstatus error"></span>
+				<?php p($l->t("Last cron was executed at %s. This is more than an hour ago, something seems wrong.", array($human_time)));
+			endif;
+		else: ?>
+			<span class="cronstatus error"></span>
+			<?php p($l->t("Cron was not executed yet!"));
+		endif; ?>
+	</p>
+	<?php endif; ?>
 	<p>
 				<input type="radio" name="mode" value="ajax"
 					   id="backgroundjobs_ajax" <?php if ($_['backgroundjobs_mode'] === "ajax") {
@@ -178,9 +199,9 @@ if (!$_['internetconnectionworking']) {
 				<label for="backgroundjobs_cron">Cron</label><br/>
 				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15 minutes.")); ?></em>
 	</p>
-</fieldset>
+</div>
 
-<fieldset class="personalblock" id="shareAPI">
+<div class="section" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
 	<table class="shareAPI">
 		<tr>
@@ -199,7 +220,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
-		<?php if (!\OCP\App::isEnabled('files_encryption')) { ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
@@ -208,7 +228,6 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
 			</td>
 		</tr>
-		<?php } ?>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
@@ -236,9 +255,9 @@ if (!$_['internetconnectionworking']) {
 			</td>
 		</tr>
 	</table>
-</fieldset>
+</div>
 
-<fieldset class="personalblock" id="security">
+<div class="section" id="security">
 	<h2><?php p($l->t('Security'));?></h2>
 	<table>
 		<tr>
@@ -269,10 +288,10 @@ if (!$_['internetconnectionworking']) {
 			</td>
 		</tr>
 	</table>
-</fieldset>
+</div>
 
-<fieldset id="mail_settings" class="personalblock">
-	<h2><?php p($l->t('Email Server'));?> <span class="msg"></span></h2>
+<div id="mail_settings" class="section">
+	<h2><?php p($l->t('Email Server'));?> <span id="mail_settings_msg" class="msg"></span></h2>
 
 	<p><?php p($l->t('This is used for sending out notifications.')); ?></p>
 
@@ -314,7 +333,7 @@ if (!$_['internetconnectionworking']) {
 	</p>
 
 	<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentification method' )); ?></label>
+		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
 		<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
 			<?php foreach ($mail_smtpauthtype as $authtype => $name):
 				$selected = '';
@@ -347,9 +366,13 @@ if (!$_['internetconnectionworking']) {
 			   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
 	</p>
 
-</fieldset>
+	<br />
+	<em><?php p($l->t( 'Test email settings' )); ?></em>
+	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t( 'Send email' )); ?>"/>
+	<span id="sendtestmail_msg" class="msg"></span>
+</div>
 
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
 <?php for ($i = 0; $i < 5; $i++):
@@ -387,9 +410,9 @@ if (!$_['internetconnectionworking']) {
 	<input id="lessLog" type="button" value="<?php p($l->t('Less'));?>...">
 	<?php endif; ?>
 
-</fieldset>
+</div>
 
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Version'));?></h2>
 	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
 <?php if (OC_Util::getEditionString() === ''): ?>
@@ -397,9 +420,8 @@ if (!$_['internetconnectionworking']) {
 		<?php print_unescaped($l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.')); ?>
 	</p>
 <?php endif; ?>
-</fieldset>
-<fieldset class="personalblock credits-footer">
-<p>
-	<?php print_unescaped($theme->getShortFooter()); ?>
-</p>
-</fieldset>
+</div>
+
+<div class="section credits-footer">
+	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+</div>

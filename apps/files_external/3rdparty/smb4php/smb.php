@@ -8,6 +8,8 @@
 # Homepage: http://www.phpclasses.org/smb4php
 #
 # Copyright (c) 2007 Victor M. Varela <vmvarela@gmail.com>
+# Copyright (c) 2012 Frank Karlitschek <frank@owncloud.org>
+# Copyright (c) 2014 Robin McCorkell <rmccorkell@karoshi.org.uk>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +21,6 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# Addition 17/12/2012 Frank Karlitschek (frank@owncloud.org)
 # On the official website http://www.phpclasses.org/smb4php the
 # license is listed as LGPL so we assume that this is
 # dual-licensed GPL/LGPL
@@ -42,6 +43,42 @@ define ('SMB4PHP_AUTHMODE', 'arg'); # set to 'env' to use USER enviroment variab
 $GLOBALS['__smb_cache'] = array ('stat' => array (), 'dir' => array ());
 
 class smb {
+
+	private static $regexp = array (
+		'^added interface ip=(.*) bcast=(.*) nmask=(.*)$' => 'skip',
+		'Anonymous login successful' => 'skip',
+		'^Domain=\[(.*)\] OS=\[(.*)\] Server=\[(.*)\]$' => 'skip',
+		'^\tSharename[ ]+Type[ ]+Comment$' => 'shares',
+		'^\t---------[ ]+----[ ]+-------$' => 'skip',
+		'^\tServer   [ ]+Comment$' => 'servers',
+		'^\t---------[ ]+-------$' => 'skip',
+		'^\tWorkgroup[ ]+Master$' => 'workg',
+		'^\t(.*)[ ]+(Disk|IPC)[ ]+IPC.*$' => 'skip',
+		'^\tIPC\\\$(.*)[ ]+IPC' => 'skip',
+		'^\t(.*)[ ]+(Disk)[ ]+(.*)$' => 'share',
+		'^\t(.*)[ ]+(Printer)[ ]+(.*)$' => 'skip',
+		'([0-9]+) blocks of size ([0-9]+)\. ([0-9]+) blocks available' => 'skip',
+		'Got a positive name query response from ' => 'skip',
+		'^(session setup failed): (.*)$' => 'error',
+		'^(.*): ERRSRV - ERRbadpw' => 'error',
+		'^Error returning browse list: (.*)$' => 'error',
+		'^tree connect failed: (.*)$' => 'error',
+		'^(Connection to .* failed)(.*)$' => 'error-connect',
+		'^NT_STATUS_(.*) ' => 'error',
+		'^NT_STATUS_(.*)\$' => 'error',
+		'ERRDOS - ERRbadpath \((.*).\)' => 'error',
+		'cd (.*): (.*)$' => 'error',
+		'^cd (.*): NT_STATUS_(.*)' => 'error',
+		'^\t(.*)$' => 'srvorwg',
+		'^([0-9]+)[ ]+([0-9]+)[ ]+(.*)$' => 'skip',
+		'^Job ([0-9]+) cancelled' => 'skip',
+		'^[ ]+(.*)[ ]+([0-9]+)[ ]+(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[ ](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[ ]+([0-9]+)[ ]+([0-9]{2}:[0-9]{2}:[0-9]{2})[ ]([0-9]{4})$' => 'files',
+		'^message start: ERRSRV - (ERRmsgoff)' => 'error'
+	);
+
+	function getRegexp() {
+		return self::$regexp;
+	}
 
 	function parse_url ($url) {
 		$pu = parse_url (trim($url));
@@ -74,46 +111,16 @@ class smb {
 	}
 
 
-	function execute ($command, $purl) {
+	function execute ($command, $purl, $regexp = NULL) {
 		return smb::client ('-d 0 '
 				. escapeshellarg ('//' . $purl['host'] . '/' . $purl['share'])
-				. ' -c ' . escapeshellarg ($command), $purl
+				. ' -c ' . escapeshellarg ($command), $purl, $regexp
 		);
 	}
 
-	function client ($params, $purl) {
+	function client ($params, $purl, $regexp = NULL) {
 
-		static $regexp = array (
-			'^added interface ip=(.*) bcast=(.*) nmask=(.*)$' => 'skip',
-			'Anonymous login successful' => 'skip',
-			'^Domain=\[(.*)\] OS=\[(.*)\] Server=\[(.*)\]$' => 'skip',
-			'^\tSharename[ ]+Type[ ]+Comment$' => 'shares',
-			'^\t---------[ ]+----[ ]+-------$' => 'skip',
-			'^\tServer   [ ]+Comment$' => 'servers',
-			'^\t---------[ ]+-------$' => 'skip',
-			'^\tWorkgroup[ ]+Master$' => 'workg',
-			'^\t(.*)[ ]+(Disk|IPC)[ ]+IPC.*$' => 'skip',
-			'^\tIPC\\\$(.*)[ ]+IPC' => 'skip',
-			'^\t(.*)[ ]+(Disk)[ ]+(.*)$' => 'share',
-			'^\t(.*)[ ]+(Printer)[ ]+(.*)$' => 'skip',
-			'([0-9]+) blocks of size ([0-9]+)\. ([0-9]+) blocks available' => 'skip',
-			'Got a positive name query response from ' => 'skip',
-			'^(session setup failed): (.*)$' => 'error',
-			'^(.*): ERRSRV - ERRbadpw' => 'error',
-			'^Error returning browse list: (.*)$' => 'error',
-			'^tree connect failed: (.*)$' => 'error',
-			'^(Connection to .* failed)(.*)$' => 'error-connect',
-			'^NT_STATUS_(.*) ' => 'error',
-			'^NT_STATUS_(.*)\$' => 'error',
-			'ERRDOS - ERRbadpath \((.*).\)' => 'error',
-			'cd (.*): (.*)$' => 'error',
-			'^cd (.*): NT_STATUS_(.*)' => 'error',
-			'^\t(.*)$' => 'srvorwg',
-			'^([0-9]+)[ ]+([0-9]+)[ ]+(.*)$' => 'skip',
-			'^Job ([0-9]+) cancelled' => 'skip',
-			'^[ ]+(.*)[ ]+([0-9]+)[ ]+(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[ ](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[ ]+([0-9]+)[ ]+([0-9]{2}:[0-9]{2}:[0-9]{2})[ ]([0-9]{4})$' => 'files',
-			'^message start: ERRSRV - (ERRmsgoff)' => 'error'
-		);
+		if ($regexp === NULL) $regexp = smb::$regexp;
 
 		if (SMB4PHP_AUTHMODE == 'env') {
 			putenv("USER={$purl['user']}%{$purl['pass']}");
@@ -238,17 +245,10 @@ class smb {
 					trigger_error ("url_stat(): list failed for host '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'share':
-				if ($o = smb::look ($pu)) {
-					$found = FALSE;
-					$lshare = strtolower ($pu['share']);  # fix by Eric Leung
-					foreach ($o['disk'] as $s) if ($lshare == strtolower($s)) {
-						$found = TRUE;
-						$stat = stat ("/tmp");
-						break;
-					}
-					if (! $found)
-						trigger_error ("url_stat(): disk resource '{$lshare}' not found in '{$pu['host']}'", E_USER_WARNING);
-				}
+				if (smb::execute("ls", $pu))
+					$stat = stat ("/tmp");
+				else
+					trigger_error ("url_stat(): disk resource '{$pu['share']}' not found in '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'path':
 				if ($o = smb::execute ('dir "'.$pu['path'].'"', $pu)) {

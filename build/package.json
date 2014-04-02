@@ -14,7 +14,9 @@
                 "karma": "*",
                 "karma-jasmine": "*",
                 "karma-junit-reporter": "*",
-	            "karma-coverage": "*"
+	            "karma-coverage": "*",
+                "karma-phantomjs-launcher": "*",
+                "phantomjs": "*"
         },
         "engine": "node >= 0.8"
 }

@@ -9,14 +9,11 @@ $TRANSLATIONS = array(
 "Folder name" => "ෆොල්ඩරයේ නම",
 "Configuration" => "වින්‍යාසය",
 "Options" => "විකල්පයන්",
-"Applicable" => "අදාළ",
-"None set" => "කිසිවක් නැත",
 "All Users" => "සියළු පරිශීලකයන්",
 "Groups" => "කණ්ඩායම්",
 "Users" => "පරිශීලකයන්",
 "Delete" => "මකා දමන්න",
 "Enable User External Storage" => "පරිශීලක භාහිර ගබඩාවන් සක්‍රිය කරන්න",
-"Allow users to mount their own external storage" => "පරිශීලකයන්ට තමාගේම භාහිර ගබඩාවන් මවුන්ට් කිරීමේ අයිතිය දෙන්න",
 "SSL root certificates" => "SSL මූල සහතිකයන්",
 "Import Root Certificate" => "මූල සහතිකය ආයාත කරන්න"
 );

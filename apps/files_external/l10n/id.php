@@ -12,15 +12,12 @@ $TRANSLATIONS = array(
 "External storage" => "Penyimpanan eksternal",
 "Configuration" => "Konfigurasi",
 "Options" => "Opsi",
-"Applicable" => "Berlaku",
 "Add storage" => "Tambahkan penyimpanan",
-"None set" => "Tidak satupun di set",
 "All Users" => "Semua Pengguna",
 "Groups" => "Grup",
 "Users" => "Pengguna",
 "Delete" => "Hapus",
 "Enable User External Storage" => "Aktifkan Penyimpanan Eksternal Pengguna",
-"Allow users to mount their own external storage" => "Izinkan pengguna untuk mengaitkan penyimpanan eksternal mereka",
 "SSL root certificates" => "Sertifikat root SSL",
 "Import Root Certificate" => "Impor Sertifikat Root"
 );
