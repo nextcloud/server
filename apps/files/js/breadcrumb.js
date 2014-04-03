@@ -86,7 +86,7 @@
 				var $image;
 				var $link = $('<a></a>').attr('href', this.getCrumbUrl(part, i));
 				$link.text(part.name);
-				$crumb = $('<div class="crumb"></div>');
+				$crumb = $('<div class="crumb svg"></div>');
 				$crumb.append($link);
 				$crumb.attr('data-dir', part.dir);
 
