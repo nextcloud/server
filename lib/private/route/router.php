@@ -183,7 +183,7 @@ class Router implements IRouter {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 5) === '/ocs/' or substr($url, 0, 10) === '/settings/') {
+		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('core');
 		} else {
 			$this->loadRoutes();
