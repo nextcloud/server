@@ -267,7 +267,7 @@ class DAV extends \OC\Files\Storage\Common {
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_USERPWD, $this->user . ':' . $this->password);
-		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri() . str_replace(' ', '%20', $target));
+		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri() . $this->encodePath($target));
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
 		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));
