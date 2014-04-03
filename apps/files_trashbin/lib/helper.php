@@ -8,11 +8,14 @@ class Helper
 {
 	/**
 	 * Retrieves the contents of a trash bin directory.
+	 *
 	 * @param string $dir path to the directory inside the trashbin
 	 * or empty to retrieve the root of the trashbin
+	 * @param string $sortAttribute attribute to sort on or empty to disable sorting
+	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @return \OCP\Files\FileInfo[]
 	 */
-	public static function getTrashFiles($dir){
+	public static function getTrashFiles($dir, $sortAttribute = '', $sortDescending = false){
 		$result = array();
 		$timestamp = null;
 		$user = \OCP\User::getUser();
@@ -57,8 +60,9 @@ class Helper
 			closedir($dirContent);
 		}
 
-		usort($result, array('\OCA\Files\Helper', 'fileCmp'));
-
+		if ($sortAttribute !== '') {
+			return \OCA\Files\Helper::sortFiles($result, $sortAttribute, $sortDescending);
+		}
 		return $result;
 	}
 

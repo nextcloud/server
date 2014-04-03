@@ -17,8 +17,11 @@ $baseUrl = OCP\Util::linkTo('files', 'index.php') . '?dir=';
 
 $permissions = $dirInfo->getPermissions();
 
+$sortAttribute = isset( $_GET['sort'] ) ? $_GET['sort'] : 'name';
+$sortDirection = isset( $_GET['sortdirection'] ) ? ($_GET['sortdirection'] === 'desc') : false;
+
 // make filelist
-$files = \OCA\Files\Helper::getFiles($dir);
+$files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
 
 $data['directory'] = $dir;
 $data['files'] = \OCA\Files\Helper::formatFileInfos($files);
