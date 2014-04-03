@@ -109,7 +109,7 @@ class Preview {
 	 * @brief returns the path of the file you want a thumbnail from
 	 * @return string
 	 */
-	public function    getFile() {
+	public function getFile() {
 		return $this->file;
 	}
 
@@ -384,7 +384,7 @@ class Preview {
 			$name = rtrim($thumbnail['name'], '.png');
 			list($x, $y, $aspectRatio) = $this->getDimensionsFromFilename($name);
 
-			if (($aspectRatio - $wantedAspectRatio) >= 0.000001
+			if (abs($aspectRatio - $wantedAspectRatio) >= 0.000001
 				|| $this->unscalable($x, $y)
 			) {
 				continue;
