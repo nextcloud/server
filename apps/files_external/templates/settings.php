@@ -16,16 +16,16 @@
 		<tbody width="100%">
 		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 		<?php foreach ($_['mounts'] as $mount): ?>
-			<tr <?php print_unescaped(($mount['mountpoint'] !== '') ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
+			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
 				<td class="status">
 				<?php if (isset($mount['status'])): ?>
 					<span class="<?php p(($mount['status']) ? 'success' : 'error'); ?>"></span>
 				<?php endif; ?>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint"
-											  value="<?php p($mount['mountpoint']); ?>"
+											  value="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
 											  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
-				<?php if ($mount['mountpoint'] == ''): ?>
+				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
 						<select id="selectBackend" data-configurations='<?php print_unescaped(json_encode($_['backends'])); ?>'>
 							<option value="" disabled selected
@@ -113,7 +113,7 @@
 						</select>
 					</td>
 				<?php endif; ?>
-				<td <?php if ($mount['mountpoint'] != ''): ?>class="remove"
+				<td <?php if (isset($mount['mountpoint'])): ?>class="remove"
 					<?php else: ?>style="visibility:hidden;"
 					<?php endif ?>><img alt="<?php p($l->t('Delete')); ?>"
 										title="<?php p($l->t('Delete')); ?>"
