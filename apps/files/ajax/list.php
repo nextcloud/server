@@ -7,7 +7,7 @@ OCP\JSON::checkLoggedIn();
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 $dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
-if (!$dirInfo->getType() === 'dir') {
+if (!$dirInfo || !$dirInfo->getType() === 'dir') {
 	header("HTTP/1.0 404 Not Found");
 	exit();
 }
