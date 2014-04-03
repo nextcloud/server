@@ -745,7 +745,7 @@ class OC {
 						// Ignore HTTP Authentication for 5 more mintues.
 						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], time() + 300, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
 					} elseif ($_SERVER['PHP_AUTH_USER'] === self::$session->get('loginname')) {
-						// Ignore HTTP Aunthentication to allow a different user to log in.
+						// Ignore HTTP Authentication to allow a different user to log in.
 						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], 0, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
 					}
 				}
