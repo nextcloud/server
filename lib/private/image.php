@@ -34,7 +34,7 @@ class OC_Image {
 
 	/**
 	* @brief Get mime type for an image file.
-	* @param string|null $filepath The path to a local image file.
+	* @param string|null $filePath The path to a local image file.
 	* @return string The mime type if the it could be determined, otherwise an empty string.
 	*/
 	static public function getMimeTypeForFile($filePath) {

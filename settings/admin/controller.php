@@ -106,8 +106,8 @@ class Controller {
 	/**
 	 * Get the field name to use it in error messages
 	 *
-	 * @param $setting string
-	 * @param $l \OC_L10N
+	 * @param string $setting
+	 * @param \OC_L10N $l
 	 * @return string
 	 */
 	public static function getFieldname($setting, $l) {
