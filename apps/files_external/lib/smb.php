@@ -140,7 +140,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	 */
 	public static function checkDependencies() {
 		if (function_exists('shell_exec')) {
-			$output = shell_exec('which smbclient');
+			$output=shell_exec('command -v smbclient 2> /dev/null');
 			if (!empty($output)) {
 				return true;
 			}
