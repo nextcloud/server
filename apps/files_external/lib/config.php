@@ -756,6 +756,11 @@ class OC_Mount_Config {
 		$applicable = key($mountPoint);
 		if (isset($data[$mountType])) {
 			if (isset($data[$mountType][$applicable])) {
+				if (isset($mountPoints[$mountType][$applicable][$mountPoint])
+					&& isset($mountPoints[$mountType][$applicable][$mountPoint]['priority'])) {
+					$mount[$applicable][$mountPoint]['priority']
+						= $mountPoints[$mountType][$applicable][$mountPoint]['priority'];
+				}
 				$data[$mountType][$applicable]
 					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
 			} else {
