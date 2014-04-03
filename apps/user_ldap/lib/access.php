@@ -130,8 +130,7 @@ class Access extends LDAPUtility {
 			if(is_null($ocname)) {
 				$ocname = $this->dn2username($dn);
 			}
-			\OCP\Config::setUserValue($ocname, 'files', 'quota',
-				\OCP\Util::computerFileSize($quota));
+			\OCP\Config::setUserValue($ocname, 'files', 'quota', $quota);
 		}
 	}
 
