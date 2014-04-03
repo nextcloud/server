@@ -283,6 +283,10 @@ input[type="submit"].enabled {
 	padding: 7px 10px
 }
 
+#controls .button.hidden {
+	display: none;
+}
+
 #content { position:relative; height:100%; width:100%; }
 #content .hascontrols {
 	position: relative;
@@ -921,6 +925,9 @@ div.crumb {
 	display: block;
 	background: url('../img/breadcrumb.svg') no-repeat right center;
 	height: 44px;
+}
+div.crumb.hidden {
+	display: none;
 }
 div.crumb a,
 div.crumb span {

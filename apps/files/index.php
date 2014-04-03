@@ -32,6 +32,7 @@ OCP\Util::addscript('files', 'file-upload');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('files', 'jquery-visibility');
+OCP\Util::addscript('files', 'breadcrumb');
 OCP\Util::addscript('files', 'filelist');
 
 OCP\App::setActiveNavigationEntry('files_index');
@@ -60,37 +61,12 @@ if ($isIE8 && isset($_GET['dir'])){
 	exit();
 }
 
-$ajaxLoad = false;
-$files = array();
 $user = OC_User::getUser();
-if ($isIE8){
-    // after the redirect above, the URL will have a format
-    // like "files#?dir=path" which means that no path was given
-    // (dir is not set). In that specific case, we don't return any
-    // files because the client will take care of switching the dir
-    // to the one from the hash, then ajax-load the initial file list
-    $files = array();
-    $ajaxLoad = true;
-}
-else{
-    $files = \OCA\Files\Helper::getFiles($dir);
-}
 
 $config = \OC::$server->getConfig();
 
-// Make breadcrumb
-$breadcrumb = \OCA\Files\Helper::makeBreadcrumb($dir);
-
-// make breadcrumb und filelist markup
-$list = new OCP\Template('files', 'part.list', '');
-$list->assign('files', $files);
-$list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
-$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
-$list->assign('isPublic', false);
-$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', $breadcrumb);
-$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
-
+// needed for share init, permissions will be reloaded
+// anyway with ajax load
 $permissions = $dirInfo->getPermissions();
 
 // information about storage capacities
@@ -112,20 +88,12 @@ if ($trashEnabled) {
     $trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
 }
 
-$isCreatable = \OC\Files\Filesystem::isCreatable($dir . '/');
-$fileHeader = (!isset($files) or count($files) > 0);
-$emptyContent = ($isCreatable and !$fileHeader) or $ajaxLoad;
-
 OCP\Util::addscript('files', 'fileactions');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'keyboardshortcuts');
 $tmpl = new OCP\Template('files', 'index', 'user');
-$tmpl->assign('fileList', $list->fetchPage());
-$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
 $tmpl->assign('dir', $dir);
-$tmpl->assign('isCreatable', $isCreatable);
 $tmpl->assign('permissions', $permissions);
-$tmpl->assign('files', $files);
 $tmpl->assign('trash', $trashEnabled);
 $tmpl->assign('trashEmpty', $trashEmpty);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize); // minimium of freeSpace and uploadLimit
@@ -141,8 +109,5 @@ $tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_
 $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow_links', 'yes'));
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('disableSharing', false);
-$tmpl->assign('ajaxLoad', $ajaxLoad);
-$tmpl->assign('emptyContent', $emptyContent);
-$tmpl->assign('fileHeader', $fileHeader);
 
 $tmpl->printPage();

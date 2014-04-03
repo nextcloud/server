@@ -4,20 +4,7 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$doBreadcrumb = isset( $_GET['breadcrumb'] ) ? true : false;
 $data = array();
-
-// Make breadcrumb
-if($doBreadcrumb) {
-	$breadcrumb = \OCA\Files_Trashbin\Helper::makeBreadcrumb($dir);
-
-	$breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
-	$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-	$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
-	$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
-
-	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
-}
 
 // make filelist
 try {
@@ -27,19 +14,11 @@ try {
 	exit();
 }
 
-$dirlisting = false;
-if ($dir && $dir !== '/') {
-    $dirlisting = true;
-}
-
 $encodedDir = \OCP\Util::encodePath($dir);
-$list = new OCP\Template('files_trashbin', 'part.list', '');
-$list->assign('files', $files, false);
-$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$encodedDir);
-$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
-$list->assign('dirlisting', $dirlisting);
-$list->assign('disableDownloadActions', true);
-$data['files'] = $list->fetchPage();
+
+$data['permissions'] = 0;
+$data['directory'] = $dir;
+$data['files'] = \OCA\Files_Trashbin\Helper::formatFileInfos($files);
 
 OCP\JSON::success(array('data' => $data));
 

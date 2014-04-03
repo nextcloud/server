@@ -1,3 +1,4 @@
-#fileList td a.file, #fileList td a.file span {
+#fileList tr[data-type="file"] td a.name,
+#fileList tr[data-type="file"] td a.name span {
     cursor: default;
 }

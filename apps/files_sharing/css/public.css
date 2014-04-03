@@ -35,6 +35,11 @@ body {
 	background: #fff;
 	text-align: center;
 	margin: 45px auto 0;
+	min-height: 150px;
+}
+
+#preview .notCreatable {
+	display: none;
 }
 
 #noPreview {

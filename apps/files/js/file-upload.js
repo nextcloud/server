@@ -180,7 +180,7 @@ OC.Upload = {
 	},
 
 	init: function() {
-		if ( $('#file_upload_start').exists() && $('#file_upload_start').is(':visible')) {
+		if ( $('#file_upload_start').exists() ) {
 
 			var file_upload_param = {
 				dropZone: $('#content'), // restrict dropZone to content div
@@ -483,28 +483,6 @@ OC.Upload = {
 			$('#file_upload_start').attr('multiple', 'multiple');
 		}
 
-		//if the breadcrumb is to long, start by replacing foldernames with '...' except for the current folder
-		var crumb=$('div.crumb').first();
-		while($('div.controls').height() > 40 && crumb.next('div.crumb').length > 0) {
-			crumb.children('a').text('...');
-			crumb = crumb.next('div.crumb');
-		}
-		//if that isn't enough, start removing items from the breacrumb except for the current folder and it's parent
-		var crumb = $('div.crumb').first();
-		var next = crumb.next('div.crumb');
-		while($('div.controls').height()>40 && next.next('div.crumb').length > 0) {
-			crumb.remove();
-			crumb = next;
-			next = crumb.next('div.crumb');
-		}
-		//still not enough, start shorting down the current folder name
-		var crumb=$('div.crumb>a').last();
-		while($('div.controls').height() > 40 && crumb.text().length > 6) {
-			var text=crumb.text();
-			text = text.substr(0,text.length-6)+'...';
-			crumb.text(text);
-		}
-
 		$(document).click(function(ev) {
 			// do not close when clicking in the dropdown
 			if ($(ev.target).closest('#new').length){
@@ -617,21 +595,7 @@ OC.Upload = {
 								{dir:$('#dir').val(), filename:name},
 								function(result) {
 									if (result.status === 'success') {
-										var date = new Date();
-										// TODO: ideally addFile should be able to receive
-										// all attributes and set them automatically,
-										// and also auto-load the preview
-										var tr = FileList.addFile(name, 0, date, false, hidden);
-										tr.attr('data-size', result.data.size);
-										tr.attr('data-mime', result.data.mime);
-										tr.attr('data-id', result.data.id);
-										tr.attr('data-etag', result.data.etag);
-										tr.find('.filesize').text(humanFileSize(result.data.size));
-										var path = getPathForPreview(name);
-										Files.lazyLoadPreview(path, result.data.mime, function(previewpath) {
-											tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
-										}, null, null, result.data.etag);
-										FileActions.display(tr.find('td.filename'), true);
+										FileList.add(result.data, {hidden: hidden, insert: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create file'));
 									}
@@ -644,10 +608,7 @@ OC.Upload = {
 								{dir:$('#dir').val(), foldername:name},
 								function(result) {
 									if (result.status === 'success') {
-										var date=new Date();
-										FileList.addDir(name, 0, date, hidden);
-										var tr = FileList.findFileEl(name);
-										tr.attr('data-id', result.data.id);
+										FileList.add(result.data, {hidden: hidden, insert: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
 									}
@@ -682,20 +643,10 @@ OC.Upload = {
 								}
 							});
 							eventSource.listen('success',function(data) {
-								var mime = data.mime;
-								var size = data.size;
-								var id = data.id;
+								var file = data;
 								$('#uploadprogressbar').fadeOut();
-								var date = new Date();
-								FileList.addFile(localName, size, date, false, hidden);
-								var tr = FileList.findFileEl(localName);
-								tr.data('mime', mime).data('id', id);
-								tr.attr('data-id', id);
-								var path = $('#dir').val()+'/'+localName;
-								Files.lazyLoadPreview(path, mime, function(previewpath) {
-									tr.find('td.filename').attr('style', 'background-image:url('+previewpath+')');
-								}, null, null, data.etag);
-								FileActions.display(tr.find('td.filename'), true);
+
+								FileList.add(file, {hidden: hidden, insert: true});
 							});
 							eventSource.listen('error',function(error) {
 								$('#uploadprogressbar').fadeOut();
