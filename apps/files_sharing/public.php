@@ -128,10 +128,6 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('dirToken', $linkItem['token']);
 		$tmpl->assign('sharingToken', $token);
-		$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-		$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-		$tmpl->assign('freeSpace', $freeSpace);
-		$tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
