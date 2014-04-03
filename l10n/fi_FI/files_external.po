@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-02 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-03 01:55-0400\n"
+"PO-Revision-Date: 2014-04-02 06:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,7 @@ msgstr "Valinnat"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Saatavuus"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -92,7 +92,7 @@ msgstr "Lisää tallennustila"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Ei käyttäjää tai ryhmää"
 
 #: templates/settings.php:95
 msgid "All Users"

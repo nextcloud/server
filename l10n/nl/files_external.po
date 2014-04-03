@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-02 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-03 01:55-0400\n"
+"PO-Revision-Date: 2014-04-02 07:50+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,7 @@ msgstr "Opties"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Beschikbaar voor"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -92,7 +92,7 @@ msgstr "Toevoegen opslag"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Geen gebruiker of groep"
 
 #: templates/settings.php:95
 msgid "All Users"

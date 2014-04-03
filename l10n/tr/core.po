@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-01 17:50+0000\n"
+"POT-Creation-Date: 2014-04-03 01:55-0400\n"
+"PO-Revision-Date: 2014-04-02 13:00+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -297,7 +297,7 @@ msgstr "Hata"
 
 #: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
-msgstr "Paylaşım sırasında hata  "
+msgstr "Paylaşım sırasında hata"
 
 #: js/share.js:171
 msgid "Error while unsharing"

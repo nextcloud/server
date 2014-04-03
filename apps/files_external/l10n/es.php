@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Configuration" => "Configuración",
 "Options" => "Opciones",
 "Add storage" => "Añadir almacenamiento",
+"No user or group" => "Ningún usuario o grupo",
 "All Users" => "Todos los usuarios",
 "Groups" => "Grupos",
 "Users" => "Usuarios",

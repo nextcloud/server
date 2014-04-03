@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jessica Di Maria <dimariaj87@gmail.com>, 2014
 # Paolo Velati <paolo.velati@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-02 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-03 01:55-0400\n"
+"PO-Revision-Date: 2014-04-02 17:41+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +85,7 @@ msgstr "Opzioni"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Disponibile per"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -92,7 +93,7 @@ msgstr "Aggiungi archiviazione"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Nessun utente o gruppo"
 
 #: templates/settings.php:95
 msgid "All Users"
