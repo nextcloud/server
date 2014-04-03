@@ -84,11 +84,6 @@ class File {
 	public function hasKey($key) {
 		$storage = $this->getStorage();
 		if ($storage && $storage->is_file($key)) {
-			$mtime = $storage->filemtime($key);
-			if ($mtime < time()) {
-				$storage->unlink($key);
-				return false;
-			}
 			return true;
 		}
 		return false;
