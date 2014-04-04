@@ -635,7 +635,7 @@ Files.getMimeIcon = function(mime, ready) {
 		ready(Files.getMimeIcon.cache[mime]);
 	} else {
 		$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
-			if(SVGSupport()){
+			if(OC.Util.hasSVGSupport()){
 				path = path.substr(0, path.length-4) + '.svg';
 			}
 			Files.getMimeIcon.cache[mime]=path;
