@@ -26,8 +26,6 @@ window.FileList = {
 
 	// number of files per page
 	pageSize: 20,
-	// zero based page number
-	pageNumber: 0,
 	totalPages: 0,
 
 	/**
@@ -227,9 +225,6 @@ window.FileList = {
 	},
 
 	_onScroll: function(e) {
-		if (this.pageNumber + 1 >= this.totalPages) {
-			return;
-		}
 		if ($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
 			this._nextPage(true);
 		}
@@ -324,16 +319,17 @@ window.FileList = {
 	 * @param animate true to animate the new elements
 	 */
 	_nextPage: function(animate) {
-		var tr, index, count = this.pageSize,
+		var index = this.$fileList.children().length,
+			count = this.pageSize,
+			tr,
 			newTrs = [],
 			selected = this.isAllSelected();
 
-		if (this.pageNumber + 1 >= this.totalPages) {
+		if (index >= this.files.length) {
 			return;
 		}
 
 		this.pageNumber++;
-		index = this.pageNumber * this.pageSize;
 
 		while (count > 0 && index < this.files.length) {
 			tr = this._renderRow(this.files[index], {updateSummary: false});
@@ -343,7 +339,7 @@ window.FileList = {
 				tr.find('input:checkbox').prop('checked', true);
 			}
 			if (animate) {
-				tr.addClass('appear transparent'); // TODO
+				tr.addClass('appear transparent');
 				newTrs.push(tr);
 			}
 			index++;
@@ -365,7 +361,7 @@ window.FileList = {
 	 * This operation will rerender the list and update the summary.
 	 * @param filesArray array of file data (map)
 	 */
-	setFiles:function(filesArray) {
+	setFiles: function(filesArray) {
 		// detach to make adding multiple rows faster
 		this.files = filesArray;
 		this.pageNumber = -1;
@@ -516,34 +512,57 @@ window.FileList = {
 
 	/**
 	 * Adds an entry to the files array and also into the DOM
+	 * in a sorted manner.
 	 *
 	 * @param fileData map of file attributes
 	 * @param options map of attributes:
-	 * - "insert" true to insert in a sorted manner, false to append (default)
 	 * - "updateSummary" true to update the summary after adding (default), false otherwise
 	 * @return new tr element (not appended to the table)
 	 */
 	add: function(fileData, options) {
 		var index = -1;
-		var $tr = this._renderRow(fileData, options);
+		var $tr;
+		var $rows;
+		var $insertionPoint;
 		options = options || {};
 
-		this.isEmpty = false;
+		// there are three situations to cover:
+		// 1) insertion point is visible on the current page
+		// 2) insertion point is on a not visible page (visible after scrolling)
+		// 3) insertion point is at the end of the list
 
-		if (options.insert) {
-			index = this._findInsertionIndex(fileData);
-			if (index < this.files.length) {
-				this.files.splice(index, 0, fileData);
-				this.$fileList.children().eq(index).before($tr);
-			}
-			else {
-				this.files.push(fileData);
+		$rows = this.$fileList.children();
+		index = this._findInsertionIndex(fileData);
+		if (index > this.files.length) {
+			index = this.files.length;
+		}
+		else {
+			$insertionPoint = $rows.eq(index);
+		}
+
+		// is the insertion point visible ?
+		if ($insertionPoint.length) {
+			// only render if it will really be inserted
+			$tr = this._renderRow(fileData, options);
+			$insertionPoint.before($tr);
+		}
+		else {
+			// if insertion point is after the last visible
+			// entry, append
+			if (index === $rows.length) {
+				$tr = this._renderRow(fileData, options);
 				this.$fileList.append($tr);
 			}
 		}
-		else {
-			this.files.push(fileData);
-			this.$fileList.append($tr);
+
+		this.isEmpty = false;
+		this.files.splice(index, 0, fileData);
+
+		if ($tr && options.animate) {
+			$tr.addClass('appear transparent');
+			window.setTimeout(function() {
+				$tr.removeClass('transparent');
+			});
 		}
 
 		// defaults to true if not defined
@@ -880,7 +899,7 @@ window.FileList = {
 							// reinsert row
 							FileList.files.splice(tr.index(), 1);
 							tr.remove();
-							FileList.add(fileInfo, {insert: true});
+							FileList.add(fileInfo);
 						}
 					});
 				}
@@ -1351,7 +1370,7 @@ $(document).ready(function() {
 				FileList.remove(file.name);
 
 				// create new file context
-				data.context = FileList.add(file, {insert: true});
+				data.context = FileList.add(file, {animate: true});
 			}
 		}
 	});

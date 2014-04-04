@@ -236,7 +236,7 @@ describe('FileList tests', function() {
 			var $tr;
 			var fileData = {
 				type: 'file',
-				name: 'P comes after O.txt'
+				name: 'ZZZ.txt'
 			};
 			FileList.setFiles(testFiles);
 			$tr = FileList.add(fileData);
@@ -245,7 +245,7 @@ describe('FileList tests', function() {
 		it('inserts files in a sorted manner when insert option is enabled', function() {
 			var $tr;
 			for (var i = 0; i < testFiles.length; i++) {
-				FileList.add(testFiles[i], {insert: true});
+				FileList.add(testFiles[i]);
 			}
 			expect(FileList.files[0].name).toEqual('somedir');
 			expect(FileList.files[1].name).toEqual('One.txt');
@@ -259,9 +259,9 @@ describe('FileList tests', function() {
 				name: 'P comes after O.txt'
 			};
 			for (var i = 0; i < testFiles.length; i++) {
-				FileList.add(testFiles[i], {insert: true});
+				FileList.add(testFiles[i]);
 			}
-			$tr = FileList.add(fileData, {insert: true});
+			$tr = FileList.add(fileData);
 			// after "One.txt"
 			expect($tr.index()).toEqual(2);
 			expect(FileList.files[2]).toEqual(fileData);
@@ -273,9 +273,9 @@ describe('FileList tests', function() {
 				name: 'somedir2 comes after somedir'
 			};
 			for (var i = 0; i < testFiles.length; i++) {
-				FileList.add(testFiles[i], {insert: true});
+				FileList.add(testFiles[i]);
 			}
-			$tr = FileList.add(fileData, {insert: true});
+			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(1);
 			expect(FileList.files[1]).toEqual(fileData);
 		});
@@ -286,9 +286,9 @@ describe('FileList tests', function() {
 				name: 'zzz.txt'
 			};
 			for (var i = 0; i < testFiles.length; i++) {
-				FileList.add(testFiles[i], {insert: true});
+				FileList.add(testFiles[i]);
 			}
-			$tr = FileList.add(fileData, {insert: true});
+			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(4);
 			expect(FileList.files[4]).toEqual(fileData);
 		});
@@ -428,7 +428,7 @@ describe('FileList tests', function() {
 			var $input, request;
 
 			for (var i = 0; i < testFiles.length; i++) {
-				FileList.add(testFiles[i], {insert: true});
+				FileList.add(testFiles[i]);
 			}
 
 			// trigger rename prompt
@@ -516,14 +516,12 @@ describe('FileList tests', function() {
 	});
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
-			var addSpy = sinon.spy(FileList, 'add');
 			expect(FileList.files.length).toEqual(0);
 			expect(FileList.files).toEqual([]);
 			FileList.setFiles(testFiles);
 			expect($('#fileList tr').length).toEqual(4);
 			expect(FileList.files.length).toEqual(4);
 			expect(FileList.files).toEqual(testFiles);
-			addSpy.restore();
 		});
 		it('updates summary using the file sizes', function() {
 			var $summary;
@@ -591,6 +589,117 @@ describe('FileList tests', function() {
 			FileList.remove('unexist.txt');
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+		});
+	});
+	describe('Rendering next page on scroll', function() {
+
+		function generateFiles(startIndex, endIndex) {
+			var files = [];
+			var name;
+			for (var i = startIndex; i <= endIndex; i++) {
+				name = 'File with index ';
+				if (i < 10) {
+					// do not rely on localeCompare here
+					// and make the sorting predictable
+					// cross-browser
+					name += '0';
+				}
+				name += i + '.txt';
+				files.push({
+					id: i,
+					type: 'file',
+					name: name,
+					mimetype: 'text/plain',
+					size: i * 2,
+					etag: 'abc'
+				});
+			}
+			return files;
+		}
+
+		beforeEach(function() {
+			FileList.setFiles(generateFiles(0, 64));
+		});
+		it('renders only the first page', function() {
+			expect(FileList.files.length).toEqual(65);
+			expect($('#fileList tr').length).toEqual(20);
+		});
+		it('renders the second page when scrolling down (trigger nextPage)', function() {
+			// TODO: can't simulate scrolling here, so calling nextPage directly
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(65);
+			FileList._nextPage(true);
+			// stays at 65
+			expect($('#fileList tr').length).toEqual(65);
+		});
+		it('inserts into the DOM if insertion point is in the visible page ', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 15b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(21);
+			expect(FileList.findFileEl('File with index 15b.txt').index()).toEqual(16);
+		});
+		it('does not inserts into the DOM if insertion point is not the visible page ', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 28b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(20);
+			expect(FileList.findFileEl('File with index 28b.txt').length).toEqual(0);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			expect(FileList.findFileEl('File with index 28b.txt').index()).toEqual(29);
+		});
+		it('appends into the DOM when inserting a file after the last visible element', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 19b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(21);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(41);
+		});
+		it('appends into the DOM when inserting a file on the last page when visible', function() {
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(65);
+			FileList._nextPage(true);
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 88.txt'
+			});
+			expect($('#fileList tr').length).toEqual(66);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(66);
+		});
+		it('shows additional page when appending a page of files and scrolling down', function() {
+			var newFiles = generateFiles(66, 81);
+			for (var i = 0; i < newFiles.length; i++) {
+				FileList.add(newFiles[i]);
+			}
+			expect($('#fileList tr').length).toEqual(20);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(80);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(81);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(81);
 		});
 	});
 	describe('file previews', function() {

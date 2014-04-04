@@ -30,6 +30,7 @@ describe('FileActions tests', function() {
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
 		// dummy files table
 		$filesTable = $body.append('<table id="filestable"></table>');
+		FileList.files = [];
 	});
 	afterEach(function() {
 		$('#dir, #permissions, #filestable').remove();
