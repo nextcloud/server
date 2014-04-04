@@ -640,7 +640,7 @@ class Preview {
 	}
 
 	public static function post_write($args) {
-		self::post_delete($args);
+		self::post_delete($args, 'files/');
 	}
 
 	public static function prepare_delete_files($args) {
