@@ -89,6 +89,12 @@ class Shared_Cache extends Cache {
 				return $cache->get($this->files[$file]);
 			}
 		} else {
+			// if we are at the root of the mount point we want to return the
+			// cache information for the source item
+			if (!is_int($file) || $file === 0) {
+				$file = $this->storage->getSourceId();
+				$mountPoint = $this->storage->getMountPoint();
+			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
 				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`'
@@ -109,6 +115,9 @@ class Shared_Cache extends Cache {
 				$data['size'] = (int)$data['unencrypted_size'];
 			} else {
 				$data['size'] = (int)$data['size'];
+			}
+			if (isset($mountPoint)) {
+				$data['path'] = 'files/' . $mountPoint;
 			}
 			return $data;
 		}

@@ -30,15 +30,31 @@ class Shared extends \OC\Files\Storage\Common {
 
 	private $mountPoint;   // mount point relative to data/user/files
 	private $type;         // can be "file" or "folder"
+	private $shareId;      // share Id to identify the share in the database
+	private $fileSource;   // file cache ID of the shared item
 	private $files = array();
 
 	public function __construct($arguments) {
 		$this->mountPoint = $arguments['shareTarget'];
 		$this->type = $arguments['shareType'];
+		$this->shareId = $arguments['shareId'];
+		$this->fileSource = $arguments['fileSource'];
 	}
 
+	/**
+	 * @breif get id of the mount point
+	 * @return string
+	 */
 	public function getId() {
 		return 'shared::' . $this->mountPoint;
+	}
+
+	/**
+	 * @breif get file cache of the shared item source
+	 * @return string
+	 */
+	public function getSourceId() {
+		return $this->fileSource;
 	}
 
 	/**
@@ -289,11 +305,89 @@ class Shared extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @param string $path the absolute path
+	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
+	 */
+	private static function stripUserFilesPath($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		// it is not a file relative to data/user/files
+		if (count($split) < 3 || $split[1] !== 'files') {
+			\OCP\Util::writeLog('file sharing',
+					'Can not strip userid and "files/" from path: ' . $path,
+					\OCP\Util::DEBUG);
+			return false;
+		}
+
+		// skip 'user' and 'files'
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
+		return '/' . $relPath;
+	}
+
+	/**
+	 * @brief rename a shared foder/file
+	 * @param string $sourcePath
+	 * @param string $targetPath
+	 * @return bool
+	 */
+	private function renameMountPoint($sourcePath, $targetPath) {
+
+		// it shoulbn't be possible to move a Shared storage into another one
+		list($targetStorage, ) = \OC\Files\Filesystem::resolvePath($targetPath);
+		if ($targetStorage instanceof \OC\Files\Storage\Shared) {
+			\OCP\Util::writeLog('file sharing',
+					'It is not allowed to move one mount point into another one',
+					\OCP\Util::DEBUG);
+			return false;
+		}
+
+		$relTargetPath = $this->stripUserFilesPath($targetPath);
+
+		// rename mount point
+		$query = \OC_DB::prepare(
+				'Update `*PREFIX*share`
+					SET `file_target` = ?
+					WHERE `id` = ?'
+				);
+
+		$result = $query->execute(array($relTargetPath, $this->shareId));
+
+		if ($result) {
+			// update the mount manager with the new paths
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mount = $mountManager->find($sourcePath);
+			$mount->setMountPoint($targetPath . '/');
+			$mountManager->addMount($mount);
+			$mountManager->removeMount($sourcePath . '/');
+
+		} else {
+			\OCP\Util::writeLog('file sharing',
+					'Could not rename mount point for shared folder "' . $sourcePath . '" to "' . $targetPath . '"',
+					\OCP\Util::ERROR);
+		}
+
+		return $result;
+	}
+
+
 	public function rename($path1, $path2) {
+
+		$sourceMountPoint = \OC\Files\Filesystem::getMountPoint($path1);
+
+		// if we renamed the mount point we need to adjust the file_target in the
+		// database
+		if (strlen($sourceMountPoint) >= strlen($path1)) {
+			return $this->renameMountPoint($path1, $path2);
+		}
+
 		// Renaming/moving is only allowed within shared folders
-		$pos1 = strpos($path1, '/', 1);
-		$pos2 = strpos($path2, '/', 1);
-		if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
+		$oldSource = $this->getSourcePath($path1);
+		if ($oldSource) {
 			$newSource = $this->getSourcePath(dirname($path2)) . '/' . basename($path2);
 			// Within the same folder, we only need UPDATE permissions
 			if (dirname($path1) == dirname($path2) and $this->isUpdatable($path1)) {
@@ -405,6 +499,8 @@ class Shared extends \OC\Files\Storage\Common {
 						array(
 							'shareTarget' => $share['file_target'],
 							'shareType' => $share['item_type'],
+							'shareId' => $share['id'],
+							'fileSource' => $share['file_source'],
 							),
 						$options['user_dir'] . '/' . $share['file_target']);
 			}
