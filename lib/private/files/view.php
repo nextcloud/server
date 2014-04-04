@@ -832,6 +832,9 @@ class View {
 			$user = \OC_User::getUser();
 
 			if (!$cache->inCache($internalPath)) {
+				if (!$storage->file_exists($internalPath)) {
+					return false;
+				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
