@@ -84,16 +84,7 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function get($file) {
-		if ($file == '') {
-			$data = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
-			$etag = \OCP\Config::getUserValue(\OCP\User::getUser(), 'files_sharing', 'etag');
-			if (!isset($etag)) {
-				$etag = $this->storage->getETag('');
-				\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $etag);
-			}
-			$data['etag'] = $etag;
-			return $data;
-		} else if (is_string($file)) {
+		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
 				return $cache->get($this->files[$file]);
 			}

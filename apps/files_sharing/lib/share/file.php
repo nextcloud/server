@@ -109,22 +109,6 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$files[] = $file;
 			}
 			return $files;
-		} else if ($format == self::FORMAT_FILE_APP_ROOT) {
-			$mtime = 0;
-			$size = 0;
-			foreach ($items as $item) {
-				if ($item['mtime'] > $mtime) {
-					$mtime = $item['mtime'];
-				}
-				$size += (int)$item['size'];
-			}
-			return array(
-				'fileid' => -1,
-				'name' => 'Shared',
-				'mtime' => $mtime,
-				'mimetype' => 'httpd/unix-directory',
-				'size' => $size
-			);
 		} else if ($format == self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {
