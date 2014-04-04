@@ -313,19 +313,15 @@ var createDragShadow = function(event) {
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
 	if (!isDragSelected) {
 		//select dragged file
-		$(event.target).parents('tr').find('td input:first').prop('checked',true);
+		FileList._selectFileEl($(event.target).parents('tr:first'), true);
 	}
 
-	var selectedFiles = FileList.getSelectedFiles();
+	// do not show drag shadow for too many files
+	var selectedFiles = _.first(FileList.getSelectedFiles(), FileList.pageSize);
 
 	if (!isDragSelected && selectedFiles.length === 1) {
 		//revert the selection
-		$(event.target).parents('tr').find('td input:first').prop('checked',false);
-	}
-
-	//also update class when we dragged more than one file
-	if (selectedFiles.length > 1) {
-		$(event.target).parents('tr').addClass('selected');
+		FileList._selectFileEl($(event.target).parents('tr:first'), false);
 	}
 
 	// build dragshadow

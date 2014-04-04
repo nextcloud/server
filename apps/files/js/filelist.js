@@ -29,6 +29,23 @@ window.FileList = {
 	totalPages: 0,
 
 	/**
+	 * Array of files in the current folder.
+	 * The entries are of file data.
+	 */
+	files: [],
+
+	/**
+	 * Map of file id to file data
+	 */
+	_selectedFiles: {},
+
+	/**
+	 * Summary of selected files.
+	 * Instance of FileSummary.
+	 */
+	_selectionSummary: null,
+
+	/**
 	 * Compare two file info objects, sorting by
 	 * folders first, then by name.
 	 */
@@ -55,6 +72,8 @@ window.FileList = {
 		this.$el = $('#filestable');
 		this.$fileList = $('#fileList');
 		this.files = [];
+		this._selectedFiles = {};
+		this._selectionSummary = new FileSummary();
 
 		this.fileSummary = this._createSummary();
 
@@ -82,48 +101,70 @@ window.FileList = {
 	},
 
 	/**
+	 * Selected/deselects the given file element and updated
+	 * the internal selection cache.
+	 *
+	 * @param $tr single file row element
+	 * @param state true to select, false to deselect
+	 */
+	_selectFileEl: function($tr, state) {
+		var $checkbox = $tr.find('input:checkbox');
+		var oldData = !!this._selectedFiles[$tr.data('id')];
+		var data;
+		$checkbox.prop('checked', state);
+		$tr.toggleClass('selected', state);
+		// already selected ?
+		if (state === oldData) {
+			return;
+		}
+		data = this.elementToFile($tr);
+		if (state) {
+			this._selectedFiles[$tr.data('id')] = data;
+			this._selectionSummary.add(data);
+		}
+		else {
+			delete this._selectedFiles[$tr.data('id')];
+			this._selectionSummary.remove(data);
+		}
+		this.$el.find('#select_all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
+	},
+
+	/**
 	 * Event handler for when clicking on files to select them
 	 */
 	_onClickFile: function(event) {
+		var $tr = $(this).closest('tr');
 		if (event.ctrlKey || event.shiftKey) {
 			event.preventDefault();
 			if (event.shiftKey) {
-				var last = $(FileList._lastChecked).parent().parent().prevAll().length;
-				var first = $(this).parent().parent().prevAll().length;
-				var start = Math.min(first, last);
-				var end = Math.max(first, last);
-				var rows = $(this).parent().parent().parent().children('tr');
-				for (var i = start; i < end; i++) {
-					$(rows).each(function(index) {
-						if (index === i) {
-							var checkbox = $(this).children().children('input:checkbox');
-							$(checkbox).attr('checked', 'checked');
-							$(checkbox).parent().parent().addClass('selected');
-						}
-					});
+				var $lastTr = $(FileList._lastChecked);
+				var lastIndex = $lastTr.index();
+				var currentIndex = $tr.index();
+				var $rows = FileList.$fileList.children('tr');
+
+				// last clicked checkbox below current one ?
+				if (lastIndex > currentIndex) {
+					var aux = lastIndex;
+					lastIndex = currentIndex;
+					currentIndex = aux;
+				}
+
+				// auto-select everything in-between
+				for (var i = lastIndex + 1; i < currentIndex; i++) {
+					FileList._selectFileEl($rows.eq(i), true);
 				}
 			}
-			var checkbox = $(this).parent().children('input:checkbox');
-			FileList._lastChecked = checkbox;
-			if ($(checkbox).attr('checked')) {
-				$(checkbox).removeAttr('checked');
-				$(checkbox).parent().parent().removeClass('selected');
-				$('#select_all').removeAttr('checked');
-			} else {
-				$(checkbox).attr('checked', 'checked');
-				$(checkbox).parent().parent().toggleClass('selected');
-				var selectedCount = $('td.filename input:checkbox:checked').length;
-				if (selectedCount === $('td.filename input:checkbox').length) {
-					$('#select_all').attr('checked', 'checked');
-				}
+			else {
+				FileList._lastChecked = $tr;
 			}
+			var $checkbox = $tr.find('input:checkbox');
+			FileList._selectFileEl($tr, !$checkbox.prop('checked'));
 			FileList.updateSelectionSummary();
 		} else {
-			var filename=$(this).parent().parent().attr('data-file');
-			var tr = FileList.findFileEl(filename);
-			var renaming=tr.data('renaming');
+			var filename = $tr.attr('data-file');
+			var renaming = $tr.data('renaming');
 			if (!renaming) {
-				FileActions.currentFile = $(this).parent();
+				FileActions.currentFile = $tr.find('td');
 				var mime=FileActions.getCurrentMimeType();
 				var type=FileActions.getCurrentType();
 				var permissions = FileActions.getCurrentPermissions();
@@ -134,49 +175,36 @@ window.FileList = {
 				}
 			}
 		}
-
 	},
 
 	/**
 	 * Event handler for when clicking on a file's checkbox
 	 */
-	_onClickFileCheckbox: function(event) {
-		// FIXME: not sure what the difference is supposed to be with FileList._onClickFile
-		if (event.shiftKey) {
-			var last = $(FileList._lastChecked).parent().parent().prevAll().length;
-			var first = $(this).parent().parent().prevAll().length;
-			var start = Math.min(first, last);
-			var end = Math.max(first, last);
-			var rows = $(this).parent().parent().parent().children('tr');
-			for (var i = start; i < end; i++) {
-				$(rows).each(function(index) {
-					if (index === i) {
-						var checkbox = $(this).children().children('input:checkbox');
-						$(checkbox).attr('checked', 'checked');
-						$(checkbox).parent().parent().addClass('selected');
-					}
-				});
-			}
-		}
-		var selectedCount=$('td.filename input:checkbox:checked').length;
-		$(this).parent().parent().toggleClass('selected');
-		if (!$(this).attr('checked')) {
-			$('#select_all').attr('checked',false);
-		} else {
-			if (selectedCount===$('td.filename input:checkbox').length) {
-				$('#select_all').attr('checked',true);
-			}
-		}
+	_onClickFileCheckbox: function() {
+		var $tr = $(this).closest('tr');
+		FileList._selectFileEl($tr, !$tr.hasClass('selected'));
+		FileList._lastChecked = $tr;
 		FileList.updateSelectionSummary();
 	},
 
 	/**
 	 * Event handler for when selecting/deselecting all files
 	 */
-	_onClickSelectAll: function(e) {
+	_onClickSelectAll: function() {
 		var checked = $(this).prop('checked');
 		FileList.$fileList.find('td.filename input:checkbox').prop('checked', checked)
-			.parent().parent().toggleClass('selected', checked);
+			.closest('tr').toggleClass('selected', checked);
+		FileList._selectedFiles = {};
+		if (checked) {
+			for (var i = 0; i < FileList.files.length; i++) {
+				var fileData = FileList.files[i];
+				FileList._selectedFiles[fileData.id] = fileData;
+				FileList._selectionSummary.add(fileData);
+			}
+		}
+		else {
+			FileList._selectionSummary.clear();
+		}
 		FileList.updateSelectionSummary();
 	},
 
@@ -191,7 +219,7 @@ window.FileList = {
 			dir = OC.dirname(dir) || '/';
 		}
 		else {
-			files = FileList.getSelectedFiles('name');
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
 		}
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		OC.redirect(Files.getDownloadUrl(files, dir));
@@ -204,7 +232,7 @@ window.FileList = {
 	_onClickDeleteSelected: function(event) {
 		var files = null;
 		if (!FileList.isAllSelected()) {
-			files = FileList.getSelectedFiles('name');
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
 		}
 		FileList.do_delete(files);
 		event.preventDefault();
@@ -322,8 +350,9 @@ window.FileList = {
 		var index = this.$fileList.children().length,
 			count = this.pageSize,
 			tr,
+			fileData,
 			newTrs = [],
-			selected = this.isAllSelected();
+			isAllSelected = this.isAllSelected();
 
 		if (index >= this.files.length) {
 			return;
@@ -332,9 +361,10 @@ window.FileList = {
 		this.pageNumber++;
 
 		while (count > 0 && index < this.files.length) {
-			tr = this._renderRow(this.files[index], {updateSummary: false});
+			fileData = this.files[index];
+			tr = this._renderRow(fileData, {updateSummary: false});
 			this.$fileList.append(tr);
-			if (selected) {
+			if (isAllSelected || this._selectedFiles[fileData.id]) {
 				tr.addClass('selected');
 				tr.find('input:checkbox').prop('checked', true);
 			}
@@ -371,7 +401,7 @@ window.FileList = {
 		this.$fileList.empty();
 
 		// clear "Select all" checkbox
-		$('#select_all').prop('checked', false);
+		this.$el.find('#select_all').prop('checked', false);
 
 		this.isEmpty = this.files.length === 0;
 		this._nextPage();
@@ -675,7 +705,9 @@ window.FileList = {
 				previousDir: currentDir
 			}
 		));
-		FileList.reload();
+		this._selectedFiles = {};
+		this._selectionSummary.clear();
+		this.reload();
 	},
 	linkTo: function(dir) {
 		return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
@@ -811,6 +843,10 @@ window.FileList = {
 		var index = fileEl.index();
 		if (!fileEl.length) {
 			return null;
+		}
+		if (this._selectedFiles[fileEl.data('id')]) {
+			// remove from selection first
+			this._selectFileEl(fileEl, false);
 		}
 		if (fileEl.data('permissions') & OC.PERMISSION_DELETE) {
 			// file is only draggable when delete permissions are set
@@ -1131,40 +1167,17 @@ window.FileList = {
 	 * Update UI based on the current selection
 	 */
 	updateSelectionSummary: function() {
-		var allSelected = this.isAllSelected();
-		var selected;
-		var summary = {
-			totalFiles: 0,
-			totalDirs: 0,
-			totalSize: 0
-		};
-
-		if (allSelected) {
-			summary = this.fileSummary.summary;
-		}
-		else {
-			selected = this.getSelectedFiles();
-			for (var i = 0; i < selected.length; i++ ){
-				if (selected[i].type === 'dir') {
-					summary.totalDirs++;
-				}
-				else {
-					summary.totalFiles++;
-				}
-				summary.totalSize += parseInt(selected[i].size, 10) || 0;
-			}
-		}
+		var summary = this._selectionSummary.summary;
 		if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 			$('#headerName span.name').text(t('files','Name'));
 			$('#headerSize').text(t('files','Size'));
 			$('#modified').text(t('files','Modified'));
 			$('table').removeClass('multiselect');
 			$('.selectedActions').addClass('hidden');
-			$('#select_all').removeAttr('checked');
 		}
 		else {
 			$('.selectedActions').removeClass('hidden');
-			$('#headerSize').text(humanFileSize(summary.totalSize));
+			$('#headerSize').text(OC.Util.humanFileSize(summary.totalSize));
 			var selection = '';
 			if (summary.totalDirs > 0) {
 				selection += n('files', '%n folder', '%n folders', summary.totalDirs);
@@ -1190,32 +1203,14 @@ window.FileList = {
 	},
 
 	/**
-	 * @brief get a list of selected files
-	 * @param {string} property (option) the property of the file requested
-	 * @return {array}
+	 * Returns the file info of the selected files
 	 *
-	 * possible values for property: name, mime, size and type
-	 * if property is set, an array with that property for each file is returnd
-	 * if it's ommited an array of objects with all properties is returned
+	 * @return array of file names
 	 */
-	getSelectedFiles: function(property) {
-		var elements=$('td.filename input:checkbox:checked').parent().parent();
-		var files=[];
-		elements.each(function(i,element) {
-			// TODO: make the json format the same as in FileList.add()
-			var file = FileList.elementToFile($(element));
-			// FIXME: legacy attributes
-			file.origin = file.id;
-			file.mime = file.mimetype;
-			if (property) {
-				files.push(file[property]);
-			} else {
-				files.push(file);
-			}
-		});
-		return files;
+	getSelectedFiles: function() {
+		return _.values(this._selectedFiles);
 	}
-}
+};
 
 $(document).ready(function() {
 	FileList.initialize();

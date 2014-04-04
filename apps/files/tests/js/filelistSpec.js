@@ -24,6 +24,33 @@ describe('FileList tests', function() {
 	var testFiles, alertStub, notificationStub,
 		pushStateStub;
 
+	/**
+	 * Generate test file data
+	 */
+	function generateFiles(startIndex, endIndex) {
+		var files = [];
+		var name;
+		for (var i = startIndex; i <= endIndex; i++) {
+			name = 'File with index ';
+			if (i < 10) {
+				// do not rely on localeCompare here
+				// and make the sorting predictable
+				// cross-browser
+				name += '0';
+			}
+			name += i + '.txt';
+			files.push({
+				id: i,
+				type: 'file',
+				name: name,
+				mimetype: 'text/plain',
+				size: i * 2,
+				etag: 'abc'
+			});
+		}
+		return files;
+	}
+
 	beforeEach(function() {
 		// init horrible parameters
 		var $body = $('body');
@@ -592,31 +619,6 @@ describe('FileList tests', function() {
 		});
 	});
 	describe('Rendering next page on scroll', function() {
-
-		function generateFiles(startIndex, endIndex) {
-			var files = [];
-			var name;
-			for (var i = startIndex; i <= endIndex; i++) {
-				name = 'File with index ';
-				if (i < 10) {
-					// do not rely on localeCompare here
-					// and make the sorting predictable
-					// cross-browser
-					name += '0';
-				}
-				name += i + '.txt';
-				files.push({
-					id: i,
-					type: 'file',
-					name: name,
-					mimetype: 'text/plain',
-					size: i * 2,
-					etag: 'abc'
-				});
-			}
-			return files;
-		}
-
 		beforeEach(function() {
 			FileList.setFiles(generateFiles(0, 64));
 		});
@@ -1012,17 +1014,91 @@ describe('FileList tests', function() {
 
 			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
 		});
+		it('Selects/deselect a file when clicking on the name while holding Ctrl', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+
+			// click on second entry, does not clear the selection
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual(['One.txt', 'Three.pdf']);
+
+			// deselect now
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual(['One.txt']);
+		});
+		it('Selects a range when clicking on one file then Shift clicking on another one', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			$tr.find('td.filename input:checkbox').click();
+			e = new $.Event('click');
+			e.shiftKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+			expect(FileList.findFileEl('Two.jpg').find('input:checkbox').prop('checked')).toEqual(true);
+			var selection = _.pluck(FileList.getSelectedFiles(), 'name');
+			expect(selection.length).toEqual(3);
+			expect(selection).toContain('One.txt');
+			expect(selection).toContain('Two.jpg');
+			expect(selection).toContain('Three.pdf');
+		});
+		it('Selects a range when clicking on one file then Shift clicking on another one that is above the first one', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			$tr2.find('td.filename input:checkbox').click();
+			e = new $.Event('click');
+			e.shiftKey = true;
+			$tr.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+			expect(FileList.findFileEl('Two.jpg').find('input:checkbox').prop('checked')).toEqual(true);
+			var selection = _.pluck(FileList.getSelectedFiles(), 'name');
+			expect(selection.length).toEqual(3);
+			expect(selection).toContain('One.txt');
+			expect(selection).toContain('Two.jpg');
+			expect(selection).toContain('Three.pdf');
+		});
 		it('Selecting all files will automatically check "select all" checkbox', function() {
 			expect($('#select_all').prop('checked')).toEqual(false);
 			$('#fileList tr td.filename input:checkbox').click();
 			expect($('#select_all').prop('checked')).toEqual(true);
 		});
+		it('Selecting all files on the first visible page will not automatically check "select all" checkbox', function() {
+			FileList.setFiles(generateFiles(0, 41));
+			expect($('#select_all').prop('checked')).toEqual(false);
+			$('#fileList tr td.filename input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+		});
 		it('Clicking "select all" will select/deselect all files', function() {
+			FileList.setFiles(generateFiles(0, 41));
 			$('#select_all').click();
 			expect($('#select_all').prop('checked')).toEqual(true);
 			$('#fileList tr input:checkbox').each(function() {
 				expect($(this).prop('checked')).toEqual(true);
 			});
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(42);
 
 			$('#select_all').click();
 			expect($('#select_all').prop('checked')).toEqual(false);
@@ -1030,6 +1106,7 @@ describe('FileList tests', function() {
 			$('#fileList tr input:checkbox').each(function() {
 				expect($(this).prop('checked')).toEqual(false);
 			});
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(0);
 		});
 		it('Clicking "select all" then deselecting a file will uncheck "select all"', function() {
 			$('#select_all').click();
@@ -1039,6 +1116,18 @@ describe('FileList tests', function() {
 			$tr.find('input:checkbox').click();
 
 			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+		});
+		it('Auto-selects files on next page when "select all" is checked', function() {
+			FileList.setFiles(generateFiles(0, 41));
+			$('#select_all').click();
+
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(20);
+			FileList._nextPage(true);
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(40);
+			FileList._nextPage(true);
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(42);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(42);
 		});
 		it('Selecting files updates selection summary', function() {
 			var $summary = $('#headerName span.name');
@@ -1080,6 +1169,19 @@ describe('FileList tests', function() {
 			FileList.changeDirectory('/');
 			fakeServer.respond();
 			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual([]);
+		});
+		it('getSelectedFiles returns the selected files even when they are on the next page', function() {
+			var selectedFiles;
+			FileList.setFiles(generateFiles(0, 41));
+			$('#select_all').click();
+			// unselect one to not have the "allFiles" case
+			FileList.$fileList.find('tr input:checkbox:first').click();
+
+			// only 20 files visible, must still return all the selected ones
+			selectedFiles = _.pluck(FileList.getSelectedFiles(), 'name');
+
+			expect(selectedFiles.length).toEqual(41);
 		});
 		describe('Actions', function() {
 			beforeEach(function() {
@@ -1087,38 +1189,53 @@ describe('FileList tests', function() {
 				FileList.findFileEl('Three.pdf').find('input:checkbox').click();
 				FileList.findFileEl('somedir').find('input:checkbox').click();
 			});
-			it('getSelectedFiles returns the selected files', function() {
+			it('getSelectedFiles returns the selected file data', function() {
 				var files = FileList.getSelectedFiles();
 				expect(files.length).toEqual(3);
 				expect(files[0]).toEqual({
 					id: 1,
 					name: 'One.txt',
-					mime: 'text/plain',
 					mimetype: 'text/plain',
 					type: 'file',
 					size: 12,
-					etag: 'abc',
-					origin: 1
+					etag: 'abc'
 				});
 				expect(files[1]).toEqual({
 					id: 3,
 					type: 'file',
 					name: 'Three.pdf',
-					mime: 'application/pdf',
 					mimetype: 'application/pdf',
 					size: 58009,
-					etag: '123',
-					origin: 3
+					etag: '123'
 				});
 				expect(files[2]).toEqual({
 					id: 4,
 					type: 'dir',
 					name: 'somedir',
-					mime: 'httpd/unix-directory',
 					mimetype: 'httpd/unix-directory',
 					size: 250,
-					etag: '456',
-					origin: 4
+					etag: '456'
+				});
+			});
+			it('Removing a file removes it from the selection', function() {
+				FileList.remove('Three.pdf');
+				var files = FileList.getSelectedFiles();
+				expect(files.length).toEqual(2);
+				expect(files[0]).toEqual({
+					id: 1,
+					name: 'One.txt',
+					mimetype: 'text/plain',
+					type: 'file',
+					size: 12,
+					etag: 'abc'
+				});
+				expect(files[1]).toEqual({
+					id: 4,
+					type: 'dir',
+					name: 'somedir',
+					mimetype: 'httpd/unix-directory',
+					size: 250,
+					etag: '456'
 				});
 			});
 			describe('Download', function() {

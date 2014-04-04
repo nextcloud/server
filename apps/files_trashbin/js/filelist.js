@@ -113,7 +113,7 @@
 			};
 		}
 		else {
-			files = FileList.getSelectedFiles('name');
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
 			for (var i = 0; i < files.length; i++) {
 				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
 				deleteAction.removeClass('delete-icon').addClass('progress-icon');
@@ -155,7 +155,7 @@
 			};
 		}
 		else {
-			files = FileList.getSelectedFiles('name');
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
 			params = {
 				files: JSON.stringify(files),
 				dir: FileList.getCurrentDirectory()

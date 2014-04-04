@@ -28,8 +28,9 @@
 	 * @param $tr table row element
 	 * $param summary optional initial summary value
 	 */
-	var FileSummary = function($tr, summary) {
+	var FileSummary = function($tr) {
 		this.$el = $tr;
+		this.clear();
 		this.render();
 	};
 
@@ -75,6 +76,12 @@
 			}
 		},
 		/**
+		 * Returns the total of files and directories
+		 */
+		getTotal: function() {
+			return this.summary.totalDirs + this.summary.totalFiles;
+		},
+		/**
 		 * Recalculates the summary based on the given files array
 		 * @param files array of files
 		 */
@@ -99,6 +106,12 @@
 			this.setSummary(summary);
 		},
 		/**
+		 * Clears the summary
+		 */
+		clear: function() {
+			this.calculate([]);
+		},
+		/**
 		 * Sets the current summary values
 		 * @param summary map
 		 */
@@ -111,6 +124,9 @@
 		 * Renders the file summary element
 		 */
 		update: function() {
+			if (!this.$el) {
+				return;
+			}
 			if (!this.summary.totalFiles && !this.summary.totalDirs) {
 				this.$el.addClass('hidden');
 				return;
@@ -144,6 +160,10 @@
 			}
 		},
 		render: function() {
+			if (!this.$el) {
+				return;
+			}
+			// TODO: ideally this should be separate to a template or something
 			var summary = this.summary;
 			var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 			var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
