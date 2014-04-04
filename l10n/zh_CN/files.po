@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
+"POT-Creation-Date: 2014-04-04 01:55-0400\n"
+"PO-Revision-Date: 2014-04-04 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgid ""
 "allowed."
 msgstr "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。"
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:141
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:145
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -67,12 +67,12 @@ msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "服务器没有允许打开URL网址，请检查服务器配置"
 
-#: ajax/newfile.php:119
+#: ajax/newfile.php:118
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "当下载 %s 到 %s 时出错"
 
-#: ajax/newfile.php:156
+#: ajax/newfile.php:146
 msgid "Error when creating the file"
 msgstr "当创建文件是出错"
 
@@ -84,62 +84,62 @@ msgstr "文件夹名称不能为空"
 msgid "Error when creating the folder"
 msgstr "创建文件夹出错"
 
-#: ajax/upload.php:19 ajax/upload.php:53
+#: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
 msgstr "无法设置上传文件夹。"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:33
 msgid "Invalid Token"
 msgstr "无效密匙"
 
-#: ajax/upload.php:71
+#: ajax/upload.php:75
 msgid "No file was uploaded. Unknown error"
 msgstr "没有文件被上传。未知错误"
 
-#: ajax/upload.php:78
+#: ajax/upload.php:82
 msgid "There is no error, the file uploaded with success"
 msgstr "文件上传成功，没有错误发生"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:83
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "上传文件大小已超过php.ini中upload_max_filesize所规定的值"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "上传的文件长度超出了 HTML 表单中 MAX_FILE_SIZE 的限制"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:86
 msgid "The uploaded file was only partially uploaded"
 msgstr "已上传文件只上传了部分（不完整）"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:87
 msgid "No file was uploaded"
 msgstr "没有文件被上传"
 
-#: ajax/upload.php:84
+#: ajax/upload.php:88
 msgid "Missing a temporary folder"
 msgstr "缺少临时目录"
 
-#: ajax/upload.php:85
+#: ajax/upload.php:89
 msgid "Failed to write to disk"
 msgstr "写入磁盘失败"
 
-#: ajax/upload.php:103
+#: ajax/upload.php:107
 msgid "Not enough storage available"
 msgstr "没有足够的存储空间"
 
-#: ajax/upload.php:160
+#: ajax/upload.php:159
 msgid "Upload failed. Could not find uploaded file"
 msgstr "上传失败。不能发现上传的文件"
 
-#: ajax/upload.php:170
+#: ajax/upload.php:169
 msgid "Upload failed. Could not get file info."
 msgstr "上传失败。不能获取文件信息。"
 
-#: ajax/upload.php:189
+#: ajax/upload.php:184
 msgid "Invalid directory."
 msgstr "无效文件夹。"
 
@@ -173,77 +173,77 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传中。现在离开此页会导致上传动作被取消。"
 
-#: js/file-upload.js:564
+#: js/file-upload.js:542
 msgid "URL cannot be empty"
 msgstr "URL不能为空"
 
-#: js/file-upload.js:568
+#: js/file-upload.js:546
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "主目录里 'Shared' 是系统预留目录名"
 
-#: js/file-upload.js:570 js/filelist.js:430
+#: js/file-upload.js:548 js/filelist.js:603
 msgid "{new_name} already exists"
 msgstr "{new_name} 已存在"
 
-#: js/file-upload.js:636
+#: js/file-upload.js:600
 msgid "Could not create file"
 msgstr "不能创建文件"
 
-#: js/file-upload.js:652
+#: js/file-upload.js:613
 msgid "Could not create folder"
 msgstr "不能创建文件夹"
 
-#: js/file-upload.js:702
+#: js/file-upload.js:653
 msgid "Error fetching URL"
 msgstr "获取URL出错"
 
-#: js/fileactions.js:149
+#: js/fileactions.js:164
 msgid "Share"
 msgstr "分享"
 
-#: js/fileactions.js:162
+#: js/fileactions.js:177
 msgid "Delete permanently"
 msgstr "永久删除"
 
-#: js/fileactions.js:223
+#: js/fileactions.js:238
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:107 js/filelist.js:110 js/filelist.js:992
+#: js/filelist.js:102 js/files.js:552
+msgid "Error moving file"
+msgstr "移动文件错误"
+
+#: js/filelist.js:102 js/files.js:552
+msgid "Error"
+msgstr "错误"
+
+#: js/filelist.js:267 js/filelist.js:1113
 msgid "Pending"
 msgstr "等待"
 
-#: js/filelist.js:456
+#: js/filelist.js:630
 msgid "Could not rename file"
 msgstr "不能重命名文件"
 
-#: js/filelist.js:591
-msgid "replaced {new_name} with {old_name}"
-msgstr "已将 {old_name}替换成 {new_name}"
-
-#: js/filelist.js:591
-msgid "undo"
-msgstr "撤销"
-
-#: js/filelist.js:662
+#: js/filelist.js:789
 msgid "Error deleting file."
 msgstr "删除文件出错。"
 
-#: js/filelist.js:687 js/filelist.js:761 js/files.js:691
+#: js/filelist.js:814 js/filelist.js:891 js/files.js:589
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 文件夹"
 
-#: js/filelist.js:688 js/filelist.js:762 js/files.js:697
+#: js/filelist.js:815 js/filelist.js:892 js/files.js:595
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n个文件"
 
-#: js/filelist.js:695
+#: js/filelist.js:822
 msgid "{dirs} and {files}"
 msgstr "{dirs} 和 {files}"
 
-#: js/filelist.js:931 js/filelist.js:969
+#: js/filelist.js:1052 js/filelist.js:1090
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "上传 %n 个文件"
@@ -279,29 +279,21 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr "加密是被禁用的，但是您的文件还是被加密了。请到您的个人配置里设置文件加密选项。"
 
-#: js/files.js:379
+#: js/files.js:331
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "下载正在准备中。如果文件较大可能会花费一些时间。"
 
-#: js/files.js:610 js/files.js:654
-msgid "Error moving file"
-msgstr "移动文件错误"
-
-#: js/files.js:610 js/files.js:654
-msgid "Error"
-msgstr "错误"
-
-#: js/files.js:672 templates/index.php:68
+#: js/files.js:570 templates/index.php:67
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:673 templates/index.php:80
+#: js/files.js:571 templates/index.php:79
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:674 templates/index.php:82
+#: js/files.js:572 templates/index.php:81
 msgid "Modified"
 msgstr "修改日期"
 
@@ -309,109 +301,109 @@ msgstr "修改日期"
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr "无效的文件夹名。”Shared“ 是 Owncloud 预留的文件夹"
 
-#: lib/app.php:111
+#: lib/app.php:93
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s 不能被重命名"
 
-#: lib/helper.php:14 templates/index.php:23
+#: lib/helper.php:14 templates/index.php:22
 msgid "Upload"
 msgstr "上传"
 
-#: templates/admin.php:5
+#: templates/admin.php:4
 msgid "File handling"
 msgstr "文件处理"
 
-#: templates/admin.php:7
+#: templates/admin.php:6
 msgid "Maximum upload size"
 msgstr "最大上传大小"
 
-#: templates/admin.php:10
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "最大允许: "
 
-#: templates/admin.php:15
+#: templates/admin.php:14
 msgid "Needed for multi-file and folder downloads."
 msgstr "多文件和文件夹下载需要此项。"
 
-#: templates/admin.php:17
+#: templates/admin.php:16
 msgid "Enable ZIP-download"
 msgstr "启用 ZIP 下载"
 
-#: templates/admin.php:20
+#: templates/admin.php:19
 msgid "0 is unlimited"
 msgstr "0 为无限制"
 
-#: templates/admin.php:22
+#: templates/admin.php:21
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP 文件的最大输入大小"
 
-#: templates/admin.php:26
+#: templates/admin.php:25
 msgid "Save"
 msgstr "保存"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "新建"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "New text file"
 msgstr "创建文本文件"
 
-#: templates/index.php:10
+#: templates/index.php:9
 msgid "Text file"
 msgstr "文本文件"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "New folder"
 msgstr "添加文件夹"
 
-#: templates/index.php:14
+#: templates/index.php:13
 msgid "Folder"
 msgstr "文件夹"
 
-#: templates/index.php:17
+#: templates/index.php:16
 msgid "From link"
 msgstr "来自链接"
 
-#: templates/index.php:41
+#: templates/index.php:40
 msgid "Deleted files"
 msgstr "已删除文件"
 
-#: templates/index.php:46
+#: templates/index.php:45
 msgid "Cancel upload"
 msgstr "取消上传"
 
-#: templates/index.php:52
+#: templates/index.php:51
 msgid "You don’t have permission to upload or create files here"
 msgstr "您没有权限来上传湖州哦和创建文件"
 
-#: templates/index.php:57
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "这里还什么都没有。上传些东西吧！"
 
-#: templates/index.php:74
+#: templates/index.php:73
 msgid "Download"
 msgstr "下载"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "删除"
 
-#: templates/index.php:98
+#: templates/index.php:96
 msgid "Upload too large"
 msgstr "上传文件过大"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "您正尝试上传的文件超过了此服务器可以上传的最大容量限制"
 
-#: templates/index.php:105
+#: templates/index.php:103
 msgid "Files are being scanned, please wait."
 msgstr "文件正在被扫描，请稍候。"
 
-#: templates/index.php:108
+#: templates/index.php:106
 msgid "Current scanning"
 msgstr "当前扫描"
