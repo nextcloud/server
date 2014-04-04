@@ -39,7 +39,7 @@ OCP\App::setActiveNavigationEntry('files_index');
 // Load the files
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $dir = \OC\Files\Filesystem::normalizePath($dir);
-$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
+$dirInfo = \OC\Files\Filesystem::getFileInfo($dir, false);
 // Redirect if directory does not exist
 if (!$dirInfo || !$dirInfo->getType() === 'dir') {
 	header('Location: ' . OCP\Util::getScriptName() . '');
@@ -70,7 +70,7 @@ $config = \OC::$server->getConfig();
 $permissions = $dirInfo->getPermissions();
 
 // information about storage capacities
-$storageInfo=OC_Helper::getStorageInfo($dir);
+$storageInfo=OC_Helper::getStorageInfo($dir, $dirInfo);
 $freeSpace=$storageInfo['free'];
 $uploadLimit=OCP\Util::uploadLimit();
 $maxUploadFilesize=OCP\Util::maxUploadFilesize($dir, $freeSpace);
