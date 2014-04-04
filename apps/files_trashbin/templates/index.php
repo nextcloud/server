@@ -29,7 +29,7 @@
 			<th id="headerDate">
 				<span id="modified"><?php p($l->t( 'Deleted' )); ?></span>
 				<span class="selectedActions">
-					<a href="" class="delete">
+					<a href="" class="delete-selected">
 						<?php p($l->t('Delete'))?>
 						<img class="svg" alt="<?php p($l->t('Delete'))?>"
 							src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />

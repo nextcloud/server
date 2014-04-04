@@ -49,8 +49,8 @@
 		}
 	};
 
-	var oldAdd = FileList.add;
-	FileList.add = function(fileData, options) {
+	var oldRenderRow = FileList._renderRow;
+	FileList._renderRow = function(fileData, options) {
 		options = options || {};
 		var dir = FileList.getCurrentDirectory();
 		var dirListing = dir !== '' && dir !== '/';
@@ -62,7 +62,7 @@
 			fileData.displayName = fileData.name;
 			fileData.name = fileData.name + '.d' + Math.floor(fileData.mtime / 1000);
 		}
-		return oldAdd.call(this, fileData, options);
+		return oldRenderRow.call(this, fileData, options);
 	};
 
 	FileList.linkTo = function(dir){
