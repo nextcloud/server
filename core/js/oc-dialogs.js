@@ -19,6 +19,8 @@
  *
  */
 
+/* global OC, t */
+
 /**
  * this class to ease the usage of jquery dialogs
  */
@@ -138,6 +140,9 @@ var OCdialogs = {
 					self.$filePicker = null;
 				}
 			});
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(self.$filePicker.parent());
+			}
 		})
 		.fail(function(status, error) {
 			// If the method is called while navigating away
