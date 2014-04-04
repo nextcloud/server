@@ -233,6 +233,7 @@ describe('FileList tests', function() {
 			expect($tr.find('.filesize').text()).toEqual('0 B');
 		});
 		it('adds new file to the end of the list', function() {
+			var $tr;
 			var fileData = {
 				type: 'file',
 				name: 'P comes after O.txt'
@@ -241,15 +242,55 @@ describe('FileList tests', function() {
 			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(4);
 		});
-		it('adds new file at correct position in insert mode', function() {
+		it('inserts files in a sorted manner when insert option is enabled', function() {
+			var $tr;
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i], {insert: true});
+			}
+			expect(FileList.files[0].name).toEqual('somedir');
+			expect(FileList.files[1].name).toEqual('One.txt');
+			expect(FileList.files[2].name).toEqual('Three.pdf');
+			expect(FileList.files[3].name).toEqual('Two.jpg');
+		});
+		it('inserts new file at correct position', function() {
+			var $tr;
 			var fileData = {
 				type: 'file',
 				name: 'P comes after O.txt'
 			};
-			FileList.setFiles(testFiles);
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i], {insert: true});
+			}
 			$tr = FileList.add(fileData, {insert: true});
 			// after "One.txt"
+			expect($tr.index()).toEqual(2);
+			expect(FileList.files[2]).toEqual(fileData);
+		});
+		it('inserts new folder at correct position in insert mode', function() {
+			var $tr;
+			var fileData = {
+				type: 'dir',
+				name: 'somedir2 comes after somedir'
+			};
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i], {insert: true});
+			}
+			$tr = FileList.add(fileData, {insert: true});
 			expect($tr.index()).toEqual(1);
+			expect(FileList.files[1]).toEqual(fileData);
+		});
+		it('inserts new file at the end correctly', function() {
+			var $tr;
+			var fileData = {
+				type: 'file',
+				name: 'zzz.txt'
+			};
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i], {insert: true});
+			}
+			$tr = FileList.add(fileData, {insert: true});
+			expect($tr.index()).toEqual(4);
+			expect(FileList.files[4]).toEqual(fileData);
 		});
 		it('removes empty content message and shows summary when adding first file', function() {
 			var fileData = {
@@ -280,6 +321,7 @@ describe('FileList tests', function() {
 			expect($removedEl).toBeDefined();
 			expect($removedEl.attr('data-file')).toEqual('One.txt');
 			expect($('#fileList tr').length).toEqual(3);
+			expect(FileList.files.length).toEqual(3);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
 			$summary = $('#filestable .summary');
@@ -294,6 +336,7 @@ describe('FileList tests', function() {
 			FileList.setFiles([testFiles[0]]);
 			FileList.remove('One.txt');
 			expect($('#fileList tr').length).toEqual(0);
+			expect(FileList.files.length).toEqual(0);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
 			$summary = $('#filestable .summary');
@@ -358,6 +401,7 @@ describe('FileList tests', function() {
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(true);
 			expect(FileList.isEmpty).toEqual(true);
+			expect(FileList.files.length).toEqual(0);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
 		});
@@ -383,37 +427,41 @@ describe('FileList tests', function() {
 		function doRename() {
 			var $input, request;
 
-			FileList.setFiles(testFiles);
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i], {insert: true});
+			}
 
 			// trigger rename prompt
 			FileList.rename('One.txt');
 			$input = FileList.$fileList.find('input.filename');
-			$input.val('One_renamed.txt').blur();
+			$input.val('Tu_after_three.txt').blur();
 
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
 			expect(request.url.substr(0, request.url.indexOf('?'))).toEqual(OC.webroot + '/index.php/apps/files/ajax/rename.php');
-			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'One_renamed.txt', file: 'One.txt'});
+			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'Tu_after_three.txt', file: 'One.txt'});
 
 			// element is renamed before the request finishes
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(1);
 			// input is gone
 			expect(FileList.$fileList.find('input.filename').length).toEqual(0);
 		}
-		it('Keeps renamed file entry if rename ajax call suceeded', function() {
+		it('Inserts renamed file entry at correct position if rename ajax call suceeded', function() {
 			doRename();
 
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt',
+					type: 'file'
 				}
 			}));
 
 			// element stays renamed
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').index()).toEqual(2); // after Two.txt
 
 			expect(alertStub.notCalled).toEqual(true);
 		});
@@ -429,7 +477,8 @@ describe('FileList tests', function() {
 
 			// element was reverted
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(0);
+			expect(FileList.findFileEl('One.txt').index()).toEqual(1); // after somedir
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(0);
 
 			expect(alertStub.calledOnce).toEqual(true);
 		});
@@ -440,12 +489,12 @@ describe('FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt'
 				}
 			}));
 
-			$tr = FileList.findFileEl('One_renamed.txt');
-			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One_renamed.txt');
+			$tr = FileList.findFileEl('Tu_after_three.txt');
+			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=Tu_after_three.txt');
 		});
 		// FIXME: fix this in the source code!
 		xit('Correctly updates file link after rename when path has same name', function() {
@@ -457,20 +506,23 @@ describe('FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt'
 				}
 			}));
 
-			$tr = FileList.findFileEl('One_renamed.txt');
+			$tr = FileList.findFileEl('Tu_after_three.txt');
 			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One.txt');
 		});
 	});
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
 			var addSpy = sinon.spy(FileList, 'add');
+			expect(FileList.files.length).toEqual(0);
+			expect(FileList.files).toEqual([]);
 			FileList.setFiles(testFiles);
-			expect(addSpy.callCount).toEqual(4);
 			expect($('#fileList tr').length).toEqual(4);
+			expect(FileList.files.length).toEqual(4);
+			expect(FileList.files).toEqual(testFiles);
 			addSpy.restore();
 		});
 		it('updates summary using the file sizes', function() {

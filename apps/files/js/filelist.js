@@ -31,6 +31,20 @@ window.FileList = {
 	totalPages: 0,
 
 	/**
+	 * Compare two file info objects, sorting by
+	 * folders first, then by name.
+	 */
+	_fileInfoCompare: function(fileInfo1, fileInfo2) {
+		if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
+			return -1;
+		}
+		if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
+			return 1;
+		}
+		return fileInfo1.name.localeCompare(fileInfo2.name);
+	},
+
+	/**
 	 * Initialize the file list and its components
 	 */
 	initialize: function() {
@@ -42,6 +56,7 @@ window.FileList = {
 		// TODO: FileList should not know about global elements
 		this.$el = $('#filestable');
 		this.$fileList = $('#fileList');
+		this.files = [];
 
 		this.fileSummary = this._createSummary();
 
@@ -321,7 +336,8 @@ window.FileList = {
 		index = this.pageNumber * this.pageSize;
 
 		while (count > 0 && index < this.files.length) {
-			tr = this.add(this.files[index], {updateSummary: false});
+			tr = this._renderRow(this.files[index], {updateSummary: false});
+			this.$fileList.append(tr);
 			if (selected) {
 				tr.addClass('selected');
 				tr.find('input:checkbox').prop('checked', true);
@@ -497,8 +513,10 @@ window.FileList = {
 		tr.append(td);
 		return tr;
 	},
+
 	/**
-	 * Adds an entry to the files table using the data from the given file data
+	 * Adds an entry to the files array and also into the DOM
+	 *
 	 * @param fileData map of file attributes
 	 * @param options map of attributes:
 	 * - "insert" true to insert in a sorted manner, false to append (default)
@@ -506,6 +524,47 @@ window.FileList = {
 	 * @return new tr element (not appended to the table)
 	 */
 	add: function(fileData, options) {
+		var index = -1;
+		var $tr = this._renderRow(fileData, options);
+		options = options || {};
+
+		this.isEmpty = false;
+
+		if (options.insert) {
+			index = this._findInsertionIndex(fileData);
+			if (index < this.files.length) {
+				this.files.splice(index, 0, fileData);
+				this.$fileList.children().eq(index).before($tr);
+			}
+			else {
+				this.files.push(fileData);
+				this.$fileList.append($tr);
+			}
+		}
+		else {
+			this.files.push(fileData);
+			this.$fileList.append($tr);
+		}
+
+		// defaults to true if not defined
+		if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
+			this.fileSummary.add(fileData, true);
+			this.updateEmptyContent();
+		}
+		return $tr;
+	},
+
+	/**
+	 * Creates a new row element based on the given attributes
+	 * and returns it.
+	 *
+	 * @param fileData map of file attributes
+	 * @param options map of attributes:
+	 * - "index" optional index at which to insert the element
+	 * - "updateSummary" true to update the summary after adding (default), false otherwise
+	 * @return new tr element (not appended to the table)
+	 */
+	_renderRow: function(fileData, options) {
 		options = options || {};
 		var type = fileData.type || 'file',
 			mime = fileData.mimetype,
@@ -523,16 +582,6 @@ window.FileList = {
 			options
 		);
 		var filenameTd = tr.find('td.filename');
-
-		// sorted insert is expensive, so needs to be explicitly
-		// requested
-		if (options.insert) {
-			this.insertElement(fileData.name, type, tr);
-		}
-		else {
-			this.$fileList.append(tr);
-		}
-		FileList.isEmpty = false;
 
 		// TODO: move dragging to FileActions ?
 		// enable drag only for deletable files
@@ -568,12 +617,6 @@ window.FileList = {
 				previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
 				filenameTd.css('background-image', 'url(' + previewUrl + ')');
 			}
-		}
-
-		// defaults to true if not defined
-		if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
-			this.fileSummary.add(fileData, true);
-			this.updateEmptyContent();
 		}
 		return tr;
 	},
@@ -742,9 +785,10 @@ window.FileList = {
 	 * "updateSummary": true to update the summary (default), false otherwise
 	 * @return deleted element
 	 */
-	remove:function(name, options){
+	remove: function(name, options){
 		options = options || {};
 		var fileEl = FileList.findFileEl(name);
+		var index = fileEl.index();
 		if (!fileEl.length) {
 			return null;
 		}
@@ -752,51 +796,32 @@ window.FileList = {
 			// file is only draggable when delete permissions are set
 			fileEl.find('td.filename').draggable('destroy');
 		}
+		this.files.splice(index, 1);
 		fileEl.remove();
 		// TODO: improve performance on batch update
-		FileList.isEmpty = !this.$fileList.find('tr').length;
+		FileList.isEmpty = !this.files.length;
 		if (typeof(options.updateSummary) === 'undefined' || !!options.updateSummary) {
 			FileList.updateEmptyContent();
 			this.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')}, true);
 		}
 		return fileEl;
 	},
-	insertElement:function(name, type, element) {
-		// find the correct spot to insert the file or folder
-		var pos,
-			fileElements = this.$fileList.find('tr[data-file][data-type="'+type+'"]:not(.hidden)');
-		if (name.localeCompare($(fileElements[0]).attr('data-file')) < 0) {
-			pos = -1;
-		} else if (name.localeCompare($(fileElements[fileElements.length-1]).attr('data-file')) > 0) {
-			pos = fileElements.length - 1;
-		} else {
-			for(pos = 0; pos<fileElements.length-1; pos++) {
-				if (name.localeCompare($(fileElements[pos]).attr('data-file')) > 0
-					&& name.localeCompare($(fileElements[pos+1]).attr('data-file')) < 0)
-				{
-					break;
-				}
-			}
+	/**
+	 * Finds the index of the row before which the given
+	 * fileData should be inserted, considering the current
+	 * sorting
+	 */
+	_findInsertionIndex: function(fileData) {
+		var index = 0;
+		while (index < this.files.length && this._fileInfoCompare(fileData, this.files[index]) > 0) {
+			index++;
 		}
-		if (fileElements.exists()) {
-			if (pos === -1) {
-				$(fileElements[0]).before(element);
-			} else {
-				$(fileElements[pos]).after(element);
-			}
-		} else if (type === 'dir' && !FileList.isEmpty) {
-			this.$fileList.find('tr[data-file]:first').before(element);
-		} else if (type === 'file' && !FileList.isEmpty) {
-			this.$fileList.find('tr[data-file]:last').before(element);
-		} else {
-			this.$fileList.append(element);
-		}
-		FileList.isEmpty = false;
-		FileList.updateEmptyContent();
+		return index;
 	},
 	rename: function(oldname) {
 		var tr, td, input, form;
 		tr = FileList.findFileEl(oldname);
+		var oldFileInfo = this.files[tr.index()];
 		tr.data('renaming',true);
 		td = tr.children('td.filename');
 		input = $('<input type="text" class="filename"/>').val(oldname);
@@ -844,51 +869,18 @@ window.FileList = {
 							file: oldname
 						},
 						success: function(result) {
+							var fileInfo;
 							if (!result || result.status === 'error') {
 								OC.dialogs.alert(result.data.message, t('core', 'Could not rename file'));
-								// revert changes
-								newname = oldname;
-								tr.attr('data-file', newname);
-								var path = td.children('a.name').attr('href');
-								td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newname)));
-								var basename = newname;
-								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-									basename = newname.substr(0,newname.lastIndexOf('.'));
-								}
-								td.find('a.name span.nametext').text(basename);
-								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-									if ( ! td.find('a.name span.extension').exists() ) {
-										td.find('a.name span.nametext').append('<span class="extension"></span>');
-									}
-									td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
-								}
-								tr.find('.fileactions').effect('highlight', {}, 5000);
-								tr.effect('highlight', {}, 5000);
-								// remove loading mark and recover old image
-								td.css('background-image', oldBackgroundImage);
+								fileInfo = oldFileInfo;
 							}
 							else {
-								var fileInfo = result.data;
-								tr.attr('data-mime', fileInfo.mime);
-								tr.attr('data-etag', fileInfo.etag);
-								if (fileInfo.isPreviewAvailable) {
-									Files.lazyLoadPreview(directory + '/' + fileInfo.name, result.data.mime, function(previewpath) {
-										tr.find('td.filename').attr('style','background-image:url('+previewpath+')');
-									}, null, null, result.data.etag);
-								}
-								else {
-									tr.find('td.filename')
-										.removeClass('preview')
-										.attr('style','background-image:url('
-												+ OC.Util.replaceSVGIcon(fileInfo.icon)
-												+ ')');
-								}
+								fileInfo = result.data;
 							}
 							// reinsert row
-							tr.detach();
-							FileList.insertElement( tr.attr('data-file'), tr.attr('data-type'),tr );
-							// update file actions in case the extension changed
-							FileActions.display( tr.find('td.filename'), true);
+							FileList.files.splice(tr.index(), 1);
+							tr.remove();
+							FileList.add(fileInfo, {insert: true});
 						}
 					});
 				}
