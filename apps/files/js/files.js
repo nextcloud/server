@@ -663,6 +663,8 @@ Files.generatePreviewUrl = function(urlSpec) {
 	if (!urlSpec.y) {
 		urlSpec.y = $('#filestable').data('preview-y');
 	}
+	urlSpec.y *= window.devicePixelRatio;
+	urlSpec.x *= window.devicePixelRatio;
 	urlSpec.forceIcon = 0;
 	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 }
@@ -670,7 +672,7 @@ Files.generatePreviewUrl = function(urlSpec) {
 Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 	// get mime icon url
 	Files.getMimeIcon(mime, function(iconURL) {
-		var previewURL;
+		var previewURL,
 			urlSpec = {};
 		ready(iconURL); // set mimeicon URL
 
@@ -696,7 +698,7 @@ Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 			if (img.width > 5) {
 				ready(previewURL);
 			}
-		}
+		};
 		img.src = previewURL;
 	});
 };
