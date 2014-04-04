@@ -701,6 +701,14 @@ describe('FileList tests', function() {
 			FileList._nextPage(true);
 			expect($('#fileList tr').length).toEqual(81);
 		});
+		it('automatically renders next page when there are not enough elements visible', function() {
+			// delete the 15 first elements
+			for (var i = 0; i < 15; i++) {
+				FileList.remove(FileList.files[0].name);
+			}
+			// still makes sure that there are 20 elements visible, if any
+			expect($('#fileList tr').length).toEqual(25);
+		});
 	});
 	describe('file previews', function() {
 		var previewLoadStub;

@@ -570,6 +570,7 @@ window.FileList = {
 			this.fileSummary.add(fileData, true);
 			this.updateEmptyContent();
 		}
+
 		return $tr;
 	},
 
@@ -823,6 +824,15 @@ window.FileList = {
 			FileList.updateEmptyContent();
 			this.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')}, true);
 		}
+
+		var lastIndex = this.$fileList.children().length;
+		// if there are less elements visible than one page
+		// but there are still pending elements in the array,
+		// then directly append the next page
+		if (lastIndex < this.files.length && lastIndex < this.pageSize) {
+			this._nextPage(true);
+		}
+
 		return fileEl;
 	},
 	/**
