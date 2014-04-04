@@ -250,7 +250,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'foo');
 		$info = \OC\Files\Filesystem::getFileInfo('test.txt');
-		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $info['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -261,7 +261,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		 */
 
 		$sharedCache = $sharedStorage->getCache();
-		$this->assertEquals('test.txt', $sharedCache->getPathById($info->getId()));
+		$this->assertEquals('test.txt', $sharedCache->getPathById($info['fileid']));
 	}
 
 	public function testGetPathByIdShareSubFolder() {
@@ -271,7 +271,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		\OC\Files\Filesystem::touch('foo/bar/test.txt', 'bar');
 		$folderInfo = \OC\Files\Filesystem::getFileInfo('foo');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('foo/bar/test.txt');
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -282,7 +282,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		 */
 
 		$sharedCache = $sharedStorage->getCache();
-		$this->assertEquals('foo', $sharedCache->getPathById($folderInfo->getId()));
-		$this->assertEquals('foo/bar/test.txt', $sharedCache->getPathById($fileInfo->getId()));
+		$this->assertEquals('foo', $sharedCache->getPathById($folderInfo['fileid']));
+		$this->assertEquals('foo/bar/test.txt', $sharedCache->getPathById($fileInfo['fileid']));
 	}
 }
