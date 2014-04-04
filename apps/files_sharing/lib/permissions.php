@@ -31,7 +31,9 @@ class Shared_Permissions extends Permissions {
 	 */
 	public function get($fileId, $user) {
 		if ($fileId == -1) {
-			return \OCP\PERMISSION_READ;
+			// if we ask for the mount point return -1 so that we can get the correct
+			// permissions by the path, with the root fileId we have no idea which share is meant
+			return -1;
 		}
 		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE,
 			null, true);
