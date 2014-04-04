@@ -41,8 +41,8 @@ class Preview {
 	private $file;
 	private $maxX;
 	private $maxY;
-	private $scalingup;
-	private $mimetype;
+	private $scalingUp;
+	private $mimeType;
 
 	//filemapper used for deleting previews
 	// index is path, value is fileinfo
@@ -137,7 +137,7 @@ class Preview {
 	 * @return bool
 	 */
 	public function getScalingUp() {
-		return $this->scalingup;
+		return $this->scalingUp;
 	}
 
 	/**
@@ -194,18 +194,18 @@ class Preview {
 		if ($file !== '') {
 			$this->getFileInfo();
 			if($this->info !== null && $this->info !== false) {
-				$this->mimetype = $this->info->getMimetype();
+				$this->mimeType = $this->info->getMimetype();
 			}
 		}
 		return $this;
 	}
 
 	/**
-	 * @brief set mimetype explicitly
-	 * @param string $mimetype
+	 * @brief set mime type explicitly
+	 * @param string $mimeType
 	 */
-	public function setMimetype($mimetype) {
-		$this->mimetype = $mimetype;
+	public function setMimetype($mimeType) {
+		$this->mimeType = $mimeType;
 	}
 
 	/**
@@ -257,7 +257,7 @@ class Preview {
 		if ($this->getMaxScaleFactor() === 1) {
 			$scalingUp = false;
 		}
-		$this->scalingup = $scalingUp;
+		$this->scalingUp = $scalingUp;
 		return $this;
 	}
 
@@ -320,7 +320,7 @@ class Preview {
 	 * @param int $fileId fileId of the original image
 	 * @return string|false path to thumbnail if it exists or false
 	 */
-	private function isCached($fileId) {
+	public function isCached($fileId) {
 		if (is_null($fileId)) {
 			return false;
 		}
@@ -406,7 +406,7 @@ class Preview {
 			$x = (int) $size[0];
 			$y = (int) $size[1];
 			$aspectRatio = (float) ($x / $y);
-			return array('x' => $x,'y' => $y,'aspectRatio' => $aspectRatio);
+			return array($x, $y, $aspectRatio);
 	}
 
 	private function unscalable($x, $y) {
@@ -464,8 +464,8 @@ class Preview {
 		if (is_null($this->preview)) {
 			$preview = null;
 
-			foreach (self::$providers as $supportedMimetype => $provider) {
-				if (!preg_match($supportedMimetype, $this->mimetype)) {
+			foreach (self::$providers as $supportedMimeType => $provider) {
+				if (!preg_match($supportedMimeType, $this->mimeType)) {
 					continue;
 				}
 
@@ -534,7 +534,7 @@ class Preview {
 		$x = $this->getMaxX();
 		$y = $this->getMaxY();
 		$scalingUp = $this->getScalingUp();
-		$maxscalefactor = $this->getMaxScaleFactor();
+		$maxScaleFactor = $this->getMaxScaleFactor();
 
 		if (!($image instanceof \OC_Image)) {
 			\OC_Log::write('core', '$this->preview is not an instance of OC_Image', \OC_Log::DEBUG);
@@ -543,16 +543,16 @@ class Preview {
 
 		$image->fixOrientation();
 
-		$realx = (int)$image->width();
-		$realy = (int)$image->height();
+		$realX = (int)$image->width();
+		$realY = (int)$image->height();
 
-		if ($x === $realx && $y === $realy) {
+		if ($x === $realX && $y === $realY) {
 			$this->preview = $image;
 			return;
 		}
 
-		$factorX = $x / $realx;
-		$factorY = $y / $realy;
+		$factorX = $x / $realX;
+		$factorY = $y / $realY;
 
 		if ($factorX >= $factorY) {
 			$factor = $factorX;
@@ -566,25 +566,25 @@ class Preview {
 			}
 		}
 
-		if (!is_null($maxscalefactor)) {
-			if ($factor > $maxscalefactor) {
-				\OC_Log::write('core', 'scalefactor reduced from ' . $factor . ' to ' . $maxscalefactor, \OC_Log::DEBUG);
-				$factor = $maxscalefactor;
+		if (!is_null($maxScaleFactor)) {
+			if ($factor > $maxScaleFactor) {
+				\OC_Log::write('core', 'scale factor reduced from ' . $factor . ' to ' . $maxScaleFactor, \OC_Log::DEBUG);
+				$factor = $maxScaleFactor;
 			}
 		}
 
-		$newXsize = (int)($realx * $factor);
-		$newYsize = (int)($realy * $factor);
+		$newXSize = (int)($realX * $factor);
+		$newYSize = (int)($realY * $factor);
 
-		$image->preciseResize($newXsize, $newYsize);
+		$image->preciseResize($newXSize, $newYSize);
 
-		if ($newXsize === $x && $newYsize === $y) {
+		if ($newXSize === $x && $newYSize === $y) {
 			$this->preview = $image;
 			return;
 		}
 
-		if ($newXsize >= $x && $newYsize >= $y) {
-			$cropX = floor(abs($x - $newXsize) * 0.5);
+		if ($newXSize >= $x && $newYSize >= $y) {
+			$cropX = floor(abs($x - $newXSize) * 0.5);
 			//don't crop previews on the Y axis, this sucks if it's a document.
 			//$cropY = floor(abs($y - $newYsize) * 0.5);
 			$cropY = 0;
@@ -595,36 +595,36 @@ class Preview {
 			return;
 		}
 
-		if ($newXsize < $x || $newYsize < $y) {
-			if ($newXsize > $x) {
-				$cropX = floor(($newXsize - $x) * 0.5);
-				$image->crop($cropX, 0, $x, $newYsize);
+		if ($newXSize < $x || $newYSize < $y) {
+			if ($newXSize > $x) {
+				$cropX = floor(($newXSize - $x) * 0.5);
+				$image->crop($cropX, 0, $x, $newYSize);
 			}
 
-			if ($newYsize > $y) {
-				$cropY = floor(($newYsize - $y) * 0.5);
-				$image->crop(0, $cropY, $newXsize, $y);
+			if ($newYSize > $y) {
+				$cropY = floor(($newYSize - $y) * 0.5);
+				$image->crop(0, $cropY, $newXSize, $y);
 			}
 
-			$newXsize = (int)$image->width();
-			$newYsize = (int)$image->height();
+			$newXSize = (int)$image->width();
+			$newYSize = (int)$image->height();
 
 			//create transparent background layer
-			$backgroundlayer = imagecreatetruecolor($x, $y);
-			$white = imagecolorallocate($backgroundlayer, 255, 255, 255);
-			imagefill($backgroundlayer, 0, 0, $white);
+			$backgroundLayer = imagecreatetruecolor($x, $y);
+			$white = imagecolorallocate($backgroundLayer, 255, 255, 255);
+			imagefill($backgroundLayer, 0, 0, $white);
 
 			$image = $image->resource();
 
-			$mergeX = floor(abs($x - $newXsize) * 0.5);
-			$mergeY = floor(abs($y - $newYsize) * 0.5);
+			$mergeX = floor(abs($x - $newXSize) * 0.5);
+			$mergeY = floor(abs($y - $newYSize) * 0.5);
 
-			imagecopy($backgroundlayer, $image, $mergeX, $mergeY, 0, 0, $newXsize, $newYsize);
+			imagecopy($backgroundLayer, $image, $mergeX, $mergeY, 0, 0, $newXSize, $newYSize);
 
 			//$black = imagecolorallocate(0,0,0);
 			//imagecolortransparent($transparentlayer, $black);
 
-			$image = new \OC_Image($backgroundlayer);
+			$image = new \OC_Image($backgroundLayer);
 
 			$this->preview = $image;
 			return;
@@ -706,9 +706,9 @@ class Preview {
 	}
 
 	/**
-	 * @param string $mimetype
+	 * @param string $mimeType
 	 */
-	public static function isMimeSupported($mimetype) {
+	public static function isMimeSupported($mimeType) {
 		if (!\OC_Config::getValue('enable_previews', true)) {
 			return false;
 		}
@@ -720,8 +720,8 @@ class Preview {
 
 		//remove last element because it has the mimetype *
 		$providers = array_slice(self::$providers, 0, -1);
-		foreach ($providers as $supportedMimetype => $provider) {
-			if (preg_match($supportedMimetype, $mimetype)) {
+		foreach ($providers as $supportedMimeType => $provider) {
+			if (preg_match($supportedMimeType, $mimeType)) {
 				return true;
 			}
 		}
