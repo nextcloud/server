@@ -13,6 +13,8 @@
  */
 namespace OC;
 
+use OC\Preview\Provider;
+
 require_once 'preview/image.php';
 require_once 'preview/movies.php';
 require_once 'preview/mp3.php';
@@ -46,8 +48,9 @@ class Preview {
 	// index is path, value is fileinfo
 	static public $deleteFileMapper = array();
 
-	//preview images object
 	/**
+	 * preview images object
+	 *
 	 * @var \OC_Image
 	 */
 	private $preview;
@@ -198,7 +201,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief set mimetype explicitely
+	 * @brief set mimetype explicitly
 	 * @param string $mimetype
 	 */
 	public function setMimetype($mimetype) {
@@ -361,6 +364,7 @@ class Preview {
 
 		return false;
 	}
+
 	/**
 	 * @brief get possible bigger thumbnails of the given image
 	 * @param int $fileId fileId of the original image
@@ -396,6 +400,7 @@ class Preview {
 
 		return $possibleThumbnails;
 	}
+
 	private function getDimensionsFromFilename($name) {
 			$size = explode('-', $name);
 			$x = (int) $size[0];
@@ -403,6 +408,7 @@ class Preview {
 			$aspectRatio = (float) ($x / $y);
 			return array('x' => $x,'y' => $y,'aspectRatio' => $aspectRatio);
 	}
+
 	private function unscalable($x, $y) {
 		
 		$maxX = $this->getMaxX();
@@ -422,6 +428,7 @@ class Preview {
 		}
 		return false;
 	}
+
 	/**
 	 * @brief return a preview of a file
 	 * @return \OC_Image
@@ -464,6 +471,7 @@ class Preview {
 
 				\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
 
+				/** @var $provider Provider */
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
 
 				if (!($preview instanceof \OC_Image)) {
@@ -507,7 +515,6 @@ class Preview {
 			$this->getPreview();
 		}
 		$this->preview->show('image/png');
-		return;
 	}
 
 	/**
@@ -516,7 +523,6 @@ class Preview {
 	 */
 	public function show() {
 		$this->showPreview();
-		return;
 	}
 
 	/**
@@ -653,6 +659,7 @@ class Preview {
 			$class = $provider['class'];
 			$options = $provider['options'];
 
+			/** @var $object Provider */
 			$object = new $class($options);
 
 			self::$providers[$object->getMimeType()] = $object;
