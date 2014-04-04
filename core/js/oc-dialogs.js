@@ -557,7 +557,6 @@ var OCdialogs = {
 					filename: entry.name,
 					date: OC.mtime2date(Math.floor(entry.mtime / 1000))
 				});
-				$li.find('img').attr('src', entry.icon);
 				if (entry.isPreviewAvailable) {
 					var urlSpec = {
 						file: dir + '/' + entry.name
@@ -565,10 +564,16 @@ var OCdialogs = {
 					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
 					$li.find('img').attr('src', previewUrl);
 				}
+				else {
+					$li.find('img').attr('src', OC.Util.replaceSVGIcon(entry.icon));
+				}
 				self.$filelist.append($li);
 			});
 
 			self.$filelist.removeClass('loading');
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(self.$filePicker.find('.dirtree'));
+			}
 		});
 	},
 	/**
