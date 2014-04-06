@@ -30,7 +30,7 @@ class OC_Defaults {
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
 		$this->defaultTitle = "ownCloud"; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = "http://owncloud.org";
-		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
+		$this->defaultSyncClientUrl = "https://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
 		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
