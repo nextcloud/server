@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-01 19:31+0000\n"
+"POT-Creation-Date: 2014-04-06 01:55-0400\n"
+"PO-Revision-Date: 2014-04-06 00:10+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -282,8 +282,8 @@ msgstr "Web sunucunuz dosya aktarımı için düzgün bir şekilde yapılandır�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s sizinle »%s« paylaşımında bulundu"
@@ -295,7 +295,7 @@ msgstr "\"%s\" kategorisi bulunamadı"
 
 #: private/template/functions.php:133
 msgid "seconds ago"
-msgstr "saniye önce"
+msgstr "saniyeler önce"
 
 #: private/template/functions.php:134
 msgid "%n minute ago"

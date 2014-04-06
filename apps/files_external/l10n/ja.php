@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Configuration" => "設定",
 "Options" => "オプション",
 "Add storage" => "ストレージを追加",
+"No user or group" => "ユーザーもしくはグループがありません",
 "All Users" => "すべてのユーザー",
 "Groups" => "グループ",
 "Users" => "ユーザー",

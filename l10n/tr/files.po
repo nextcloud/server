@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-04 05:56+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-06 01:55-0400\n"
+"PO-Revision-Date: 2014-04-05 14:30+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -302,7 +302,7 @@ msgstr "Değiştirilme"
 
 #: lib/app.php:60
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr "Geçersiz dizin adı. 'Shared' ismi ayrılmıştır."
+msgstr "Geçersiz klasör adı. 'Shared' ismi ayrılmıştır."
 
 #: lib/app.php:93
 #, php-format

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AsavarTzeth <asavartzeth@gmail.com>, 2014
 # DanielMalmgren <daniel@kolefors.se>, 2013
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-04 05:56+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-06 01:55-0400\n"
+"PO-Revision-Date: 2014-04-05 18:40+0000\n"
+"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +43,7 @@ msgstr "Filnamn kan inte vara tomt."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" är ett ogiltigt filnamn."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
 msgid ""
@@ -53,7 +54,7 @@ msgstr "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:145
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Målmappen har flyttats eller tagits bort."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
@@ -69,7 +70,7 @@ msgstr "Inte en giltig källa"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "Servern är inte tillåten att öppna URL:er, vänligen kontrollera server konfigurationen"
 
 #: ajax/newfile.php:118
 #, php-format
@@ -157,12 +158,12 @@ msgstr "Kan inte ladda upp {filename} eftersom den antingen är en mapp eller ha
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Totala filstorleken {size1} överskrider uppladdningsgränsen {size2}"
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Inte tillräckligt med ledigt utrymme, du laddar upp {size1} men endast {size2} finns kvar."
 
 #: js/file-upload.js:340
 msgid "Upload cancelled."
@@ -199,7 +200,7 @@ msgstr "Kunde ej skapa katalog"
 
 #: js/file-upload.js:653
 msgid "Error fetching URL"
-msgstr ""
+msgstr "Fel vid hämtning av URL"
 
 #: js/fileactions.js:164
 msgid "Share"
@@ -257,7 +258,7 @@ msgstr[1] "Laddar upp %n filer"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" är ett ogiltligt filnamn."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -355,7 +356,7 @@ msgstr "Ny"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Ny textfil"
 
 #: templates/index.php:9
 msgid "Text file"

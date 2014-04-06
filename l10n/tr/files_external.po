@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-04 05:30+0000\n"
+"POT-Creation-Date: 2014-04-06 01:55-0400\n"
+"PO-Revision-Date: 2014-04-05 14:30+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr "<b>Uyarı:</b> PHP içerisinde Curl desteği etkin veya yüklü değil. OwnCloud / WebDAV veya GoogleDrive bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinizde danışın."
+msgstr "<b>Uyarı:</b> PHP içerisinde Curl desteği etkin veya yüklü değil. ownCloud / WebDAV veya GoogleDrive bağlama işlemi mümkün olmadı. Lütfen kurulumu için sistem yöneticinizde danışın."
 
 #: templates/settings.php:2
 msgid "External Storage"
@@ -68,7 +68,7 @@ msgstr "Harici Depolama"
 
 #: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
-msgstr "Dizin ismi"
+msgstr "Klasör ismi"
 
 #: templates/settings.php:9
 msgid "External storage"
