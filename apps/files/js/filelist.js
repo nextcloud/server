@@ -1103,33 +1103,38 @@ $(document).ready(function() {
 				size += parseInt(file.size);
 				data.context.attr('data-size', size);
 				data.context.find('td.filesize').text(humanFileSize(size));
-			} 
-			else {				
+			} else {
 				// only append new file if uploaded into the current folder
-				if (file.directory != '/' && file.directory !== FileList.getCurrentDirectory()) {
+				if (file.directory !== '/' && file.directory !== FileList.getCurrentDirectory()) {
 
-					file_directory = file.directory.replace('/','').replace(/\/$/, "").split('/');
+					var fileDirectory = file.directory.replace('/','').replace(/\/$/, "").split('/');
 
-					if (file_directory.length == 1) {
-						file_directory = file_directory[0];
+					if (fileDirectory.length === 1) {
+						fileDirectory = fileDirectory[0];
 
 						// Get the directory 
-						if ($('tr[data-file="'+file_directory+'"]').length == 0)
-						{
-							FileList.addDir(file_directory, 0, new Date(), false);
+						if ($('tr[data-file="'+fileDirectory+'"]').length === 0) {
+							var dir = {
+								name: fileDirectory,
+								type: 'dir',
+								mimetype: 'httpd/unix-directory',
+								permissions: file.permissions,
+								size: 0,
+								id: file.parentId
+							};
+							FileList.add(dir, {insert: true});
 						}
-					}
-					else {
-						file_directory = file_directory[0];
+					} else {
+						fileDirectory = fileDirectory[0];
 					}
 					
-					file_directory = FileList.findFileEl(file_directory);
+					fileDirectory = FileList.findFileEl(fileDirectory);
 
 					// update folder size
-					var size = parseInt(file_directory.attr('data-size'));
+					var size = parseInt(fileDirectory.attr('data-size'));
 					size += parseInt(file.size);
-					file_directory.attr('data-size', size);
-					file_directory.find('td.filesize').text(humanFileSize(size));
+					fileDirectory.attr('data-size', size);
+					fileDirectory.find('td.filesize').text(humanFileSize(size));
 
 					return;
 				}
