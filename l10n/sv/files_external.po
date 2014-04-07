@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AsavarTzeth <asavartzeth@gmail.com>, 2014
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-04 05:30+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-07 01:55-0400\n"
+"PO-Revision-Date: 2014-04-06 11:00+0000\n"
+"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Fel vid konfigurering av Google Drive"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Sparad"
 
 #: lib/config.php:654
 msgid ""
@@ -84,7 +85,7 @@ msgstr "Alternativ"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Tillgänglig för"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -92,7 +93,7 @@ msgstr "Lägg till lagring"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Ingen användare eller grupp"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -117,7 +118,7 @@ msgstr "Aktivera extern lagring för användare"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Tillåt användare att montera följande extern lagring"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

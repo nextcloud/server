@@ -10,6 +10,8 @@ $TRANSLATIONS = array(
 "the link expired" => "giltighet för länken har gått ut",
 "sharing is disabled" => "delning är inaktiverat",
 "For more info, please ask the person who sent this link." => "För mer information, kontakta den person som skickade den här länken.",
+"shared by %s" => "delad av %s",
+"Download %s" => "Ladda ner %s",
 "Direct link" => "Direkt länk"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

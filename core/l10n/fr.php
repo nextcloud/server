@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "La date d'expiration est dans le passé.",
 "Couldn't send mail to following users: %s " => "Impossible d'envoyer un mail aux utilisateurs suivant : %s",
 "Turned on maintenance mode" => "Basculé en mode maintenance",
 "Turned off maintenance mode" => "Basculé en mode production (non maintenance)",
@@ -121,6 +122,8 @@ $TRANSLATIONS = array(
 "To login page" => "Retour à la page d'authentification",
 "New password" => "Nouveau mot de passe",
 "Reset password" => "Réinitialiser le mot de passe",
+"Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Mac OS X n'est pas supporté et %s ne fonctionnera pas correctement sur cette plateforme. Son utilisation est à vos risques et périls !",
+"For the best results, please consider using a GNU/Linux server instead." => "Pour des résultats meilleurs encore, pensez à utiliser un serveur GNU/Linux à la place.",
 "Personal" => "Personnel",
 "Users" => "Utilisateurs",
 "Apps" => "Applications",
