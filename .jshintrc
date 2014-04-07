@@ -23,6 +23,9 @@
 		"beforeEach": true,
 		"afterEach": true,
 		"sinon": true,
-		"fakeServer": true
+		"fakeServer": true,
+		"OC": true,
+		"t": true,
+		"n": true
 	}
 }
