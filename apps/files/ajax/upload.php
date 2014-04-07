@@ -196,7 +196,6 @@ if (strpos($dir, '..') === false) {
 
 if ($error === false) {
 	OCP\JSON::encodedPrint($result);
-	exit();
 } else {
 	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error, 'code' => $errorCode), $storageStats))));
 }
