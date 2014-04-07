@@ -14,14 +14,13 @@ $TRANSLATIONS = array(
 "External storage" => "Εξωτερική αποθήκευση",
 "Configuration" => "Ρυθμίσεις",
 "Options" => "Επιλογές",
-"Applicable" => "Εφαρμόσιμο",
 "Add storage" => "Προσθηκη αποθηκευσης",
-"None set" => "Κανένα επιλεγμένο",
 "All Users" => "Όλοι οι Χρήστες",
 "Groups" => "Ομάδες",
 "Users" => "Χρήστες",
 "Delete" => "Διαγραφή",
 "Enable User External Storage" => "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη",
+"Allow users to mount the following external storage" => "Χορήγηση άδειας στους χρήστες να συνδέσουν τα παρακάτω εξωτερικά μέσα αποθήκευσης",
 "SSL root certificates" => "Πιστοποιητικά SSL root",
 "Import Root Certificate" => "Εισαγωγή Πιστοποιητικού Root"
 );

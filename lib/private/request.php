@@ -166,10 +166,11 @@ class OC_Request {
 	 */
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
-		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
+		$overwriteWebRoot = OC_Config::getValue('overwritewebroot', '');
+		if ($overwriteWebRoot !== '' and self::isOverwriteCondition()) {
 			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -strlen('lib/private/')));
 			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
-			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
+			$name = '/' . ltrim($overwriteWebRoot . $suburi, '/');
 		}
 		return $name;
 	}

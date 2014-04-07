@@ -432,25 +432,28 @@ class Util {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		// we only need 24 byte from the last chunk
 		$data = '';
-		$handle = $this->view->fopen($path, 'r');
-		if (is_resource($handle)) {
-			// suppress fseek warining, we handle the case that fseek doesn't
-			// work in the else branch
-			if (@fseek($handle, -24, SEEK_END) === 0) {
-				$data = fgets($handle);
-			} else {
-				// if fseek failed on the storage we create a local copy from the file
-				// and read this one
-				fclose($handle);
-				$localFile = $this->view->getLocalFile($path);
-				$handle = fopen($localFile, 'r');
-				if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+
+		// we only need 24 byte from the last chunk
+		if ($this->view->file_exists($path)) {
+			$handle = $this->view->fopen($path, 'r');
+			if (is_resource($handle)) {
+				// suppress fseek warining, we handle the case that fseek doesn't
+				// work in the else branch
+				if (@fseek($handle, -24, SEEK_END) === 0) {
 					$data = fgets($handle);
+				} else {
+					// if fseek failed on the storage we create a local copy from the file
+					// and read this one
+					fclose($handle);
+					$localFile = $this->view->getLocalFile($path);
+					$handle = fopen($localFile, 'r');
+					if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+						$data = fgets($handle);
+					}
 				}
+				fclose($handle);
 			}
-			fclose($handle);
 		}
 
 		// re-enable proxy
@@ -1124,8 +1127,9 @@ class Util {
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
 	 * @param boolean $sharingEnabled
+	 * @param string $filePath path relativ to current users files folder
 	 */
-	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false) {
+	public function getSharingUsersArray($sharingEnabled, $filePath) {
 
 		$appConfig = \OC::$server->getAppConfig();
 
@@ -1144,12 +1148,14 @@ class Util {
 
 		$ownerPath = \OCA\Encryption\Helper::stripPartialFileExtension($ownerPath);
 
-		$userIds = array();
+		// always add owner to the list of users with access to the file
+		$userIds = array($owner);
+
 		if ($sharingEnabled) {
 
 			// Find out who, if anyone, is sharing the file
-			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true);
-			$userIds = $result['users'];
+			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
+			$userIds = \array_merge($userIds, $result['users']);
 			if ($result['public']) {
 				$userIds[] = $this->publicShareKeyId;
 			}
@@ -1163,11 +1169,6 @@ class Util {
 			$recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-		}
-
-		// add current user if given
-		if ($currentUserId !== false) {
-			$userIds[] = $currentUserId;
 		}
 
 		// check if it is a group mount

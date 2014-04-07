@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013
+# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
 # Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-01 10:01+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,24 +22,24 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Sisestatud sobimatu väärtus %s jaoks"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Salvestatud"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "testi e-posti seadeid"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Kui said selle kirja, siis on seadistus korrektne."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Kirja saatmisel tekkis tõrge. Palun kontrolli üle oma seadistus."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -47,26 +47,26 @@ msgstr "E-kiri on saadetud"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Pead seadistama oma e-postienne kui on võimalik saata test-kirju."
 
 #: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
-msgstr ""
+msgstr "Saatmise viis"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
 #: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
-msgstr ""
+msgstr "Autentimise meetod"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "App Store'i nimekirja laadimine ebaõnnestus"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Autentimise viga"
 
@@ -128,38 +128,38 @@ msgstr "Kasutajat ei saa eemaldada grupist %s"
 msgid "Couldn't update app."
 msgstr "Rakenduse uuendamine ebaõnnestus."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Vale parool"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Kasutajat ei sisestatud"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Palun sisesta administraatori taasteparool, muidu kaotad kõik kasutajate andmed"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Vale administraatori taasteparool. Palun kontrolli parooli ning proovi uuesti."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Tagarakend ei toeta parooli vahetust, kuid kasutaja krüptimisvõti uuendati edukalt."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Ei suuda parooli muuta"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Saadan..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -167,7 +167,7 @@ msgstr "Kasutaja dokumentatsioon"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Admin dokumentatsioon"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -205,7 +205,7 @@ msgstr "Viga rakenduse uuendamisel"
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Uuenda"
 
@@ -219,23 +219,23 @@ msgstr "Vali profiili pilt"
 
 #: js/personal.js:277
 msgid "Very weak password"
-msgstr ""
+msgstr "Väga nõrk parool"
 
 #: js/personal.js:278
 msgid "Weak password"
-msgstr ""
+msgstr "Nõrk parool"
 
 #: js/personal.js:279
 msgid "So-so password"
-msgstr ""
+msgstr "Enam-vähem sobiv parool"
 
 #: js/personal.js:280
 msgid "Good password"
-msgstr ""
+msgstr "Hea parool"
 
 #: js/personal.js:281
 msgid "Strong password"
-msgstr ""
+msgstr "Väga hea parool"
 
 #: js/personal.js:316
 msgid "Decrypting files... Please wait, this can take some time."
@@ -286,7 +286,7 @@ msgstr "Sisesta nõuetele vastav parool"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Hoiatus: kasutaja \"{user}\" kodukataloog on juba olemas"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "Eesti"
 
@@ -320,19 +320,19 @@ msgstr "Logi sisse"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Tavatekst"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -431,18 +431,18 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Cron käivitati viimati %s."
 
 #: templates/admin.php:170
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Cron käivitati viimati %s. See on rohkem kui tund tagasi, midagi on valesti."
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron pole kordagi käivitatud!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
@@ -533,19 +533,19 @@ msgstr "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine."
 
 #: templates/admin.php:294
 msgid "Email Server"
-msgstr ""
+msgstr "Postiserver"
 
 #: templates/admin.php:296
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Seda kasutatakse teadete välja saatmiseks."
 
 #: templates/admin.php:327
 msgid "From address"
-msgstr ""
+msgstr "Saatja aadress"
 
 #: templates/admin.php:349
 msgid "Authentication required"
-msgstr ""
+msgstr "Autentimine on vajalik"
 
 #: templates/admin.php:353
 msgid "Server address"
@@ -561,19 +561,19 @@ msgstr "Kasutajatunnused"
 
 #: templates/admin.php:363
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP kasutajatunnus"
 
 #: templates/admin.php:366
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP parool"
 
 #: templates/admin.php:370
 msgid "Test email settings"
-msgstr ""
+msgstr "Testi e-posti seadeid"
 
 #: templates/admin.php:371
 msgid "Send email"
-msgstr ""
+msgstr "Saada kiri"
 
 #: templates/admin.php:376
 msgid "Log"
@@ -591,11 +591,11 @@ msgstr "Rohkem"
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -613,23 +613,23 @@ msgstr "Lisa oma rakendus"
 msgid "More Apps"
 msgstr "Veel rakendusi"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Vali programm"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Dokumentatsioon:"
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Vaata rakendi veebilehte"
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
@@ -666,108 +666,108 @@ msgstr "Näita veelkord Esmase Käivituse Juhendajat"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Parool"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Sinu parooli on muudetud"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Sa ei saa oma parooli muuta"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Praegune parool"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Uus parool"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Muuda parooli"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Täispikk nimi"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "E-post"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Sinu e-posti aadress"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Täida e-posti aadress võimaldamaks parooli taastamist ning teadete saamist."
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Profiili pilt"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Laadi uus üles"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Vali failidest uus"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Eemalda pilt"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Kas png või jpg. Võimalikult ruudukujuline, kuid sul on võimalus seda veel lõigata."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "Sinu avatari pakub sinu algne konto."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Loobu"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Vali profiilipildiks"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Keel"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Aita tõlkida"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "Kasuta seda aadressi <a href=\"%s\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Küpteeringu rakend pole lubatud, dekrüpteeri kõik oma failid"
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Sisselogimise parool"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Dekrüpteeri kõik failid"
 

@@ -84,25 +84,7 @@ class App {
 		) {
 			// successful rename
 			$meta = $this->view->getFileInfo($dir . '/' . $newname);
-			if ($meta['mimetype'] === 'httpd/unix-directory') {
-				$meta['type'] = 'dir';
-			}
-			else {
-				$meta['type'] = 'file';
-			}
-			// these need to be set for determineIcon()
-			$meta['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']);
-			$meta['directory'] = $dir;
-			$fileinfo = array(
-				'id' => $meta['fileid'],
-				'mime' => $meta['mimetype'],
-				'size' => $meta['size'],
-				'etag' => $meta['etag'],
-				'directory' => $meta['directory'],
-				'name' => $newname,
-				'isPreviewAvailable' => $meta['isPreviewAvailable'],
-				'icon' => \OCA\Files\Helper::determineIcon($meta)
-			);
+			$fileinfo = \OCA\Files\Helper::formatFileInfo($meta);
 			$result['success'] = true;
 			$result['data'] = $fileinfo;
 		} else {

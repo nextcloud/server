@@ -159,6 +159,7 @@ function escapeHTML(s) {
 * @param file The filename
 * @param dir The directory the file is in - e.g. $('#dir').val()
 * @return string
+* @deprecated use Files.getDownloadURL() instead
 */
 function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
@@ -371,6 +372,7 @@ var OC={
 	 */
 	parseQueryString:function(queryString){
 		var parts,
+			pos,
 			components,
 			result = {},
 			key,
@@ -378,12 +380,25 @@ var OC={
 		if (!queryString){
 			return null;
 		}
-		if (queryString[0] === '?'){
-			queryString = queryString.substr(1);
+		pos = queryString.indexOf('?');
+		if (pos >= 0){
+			queryString = queryString.substr(pos + 1);
 		}
-		parts = queryString.split('&');
+		parts = queryString.replace(/\+/g, '%20').split('&');
 		for (var i = 0; i < parts.length; i++){
-			components = parts[i].split('=');
+			// split on first equal sign
+			var part = parts[i]
+			pos = part.indexOf('=');
+			if (pos >= 0) {
+				components = [
+					part.substr(0, pos),
+					part.substr(pos + 1)
+				]
+			}
+			else {
+				// key only
+				components = [part];
+			}
 			if (!components.length){
 				continue;
 			}
@@ -391,8 +406,14 @@ var OC={
 			if (!key){
 				continue;
 			}
-			value = components[1];
-			result[key] = value && decodeURIComponent(value);
+			// if equal sign was there, return string
+			if (components.length > 1) {
+				result[key] = decodeURIComponent(components[1]);
+			}
+			// no equal sign => null value
+			else {
+				result[key] = null;
+			}
 		}
 		return result;
 	},

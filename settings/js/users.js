@@ -226,7 +226,7 @@ var UserList = {
 		$('table+.loading').css('visibility', 'visible');
 		UserList.updating = true;
 		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad });
-		$.get(OC.generateUrl('/settings/ajax/userlist') + query, function (result) {
+		$.get(OC.generateUrl('/settings/ajax/userlist') + '?' + query, function (result) {
 			var loadedUsers = 0;
 			var trs = [];
 			if (result.status === 'success') {

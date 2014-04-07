@@ -148,3 +148,7 @@ function outerHTML(node){
 		return h;
 	})(node);
 }
+
+// devicePixelRatio for IE10
+window.devicePixelRatio = window.devicePixelRatio ||
+	window.screen.deviceXDPI / window.screen.logicalXDPI || 1;

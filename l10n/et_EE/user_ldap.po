@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013
+# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
 # Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-01 07:05+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,7 +165,7 @@ msgstr "Abiinfo"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Kriteeriumiga sobivad grupid on saadaval %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -201,7 +201,7 @@ msgstr "gruppi leitud"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Logimiseks kasutatkse atribuuti: "
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -269,7 +269,7 @@ msgstr "Sa saad kasutajate ja gruppide baas DN-i määrata lisavalikute vahekaar
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Piira %s liigpääs kriteeriumiga sobivatele kasutajatele:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -413,13 +413,13 @@ msgstr "Grupiliikme seotus"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Sisegrupp"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Sisse lülitamisel on toetatakse gruppe sisaldavad gruppe. (Toimib, kui grupi liikme atribuut sisaldab DN-e.)"
 
 #: templates/settings.php:41
 msgid "Special Attributes"

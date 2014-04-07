@@ -8,16 +8,7 @@
  *
  */
 
-/* global OC, FileList, FileActions */
-
-// Override download path to files_sharing/public.php
-function fileDownloadPath(dir, file) {
-	var url = $('#downloadURL').val();
-	if (url.indexOf('&path=') != -1) {
-		url += '/'+file;
-	}
-	return url;
-}
+/* global OC, FileActions, FileList, Files */
 
 $(document).ready(function() {
 
@@ -31,31 +22,43 @@ $(document).ready(function() {
 				action($('#filename').val());
 			}
 		}
-		FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename) {
-			var tr = FileList.findFileEl(filename);
-			if (tr.length > 0) {
-				window.location = $(tr).find('a.name').attr('href');
-			}
-		});
-
-		// override since the format is different
-		FileList.getDownloadUrl = function(filename, dir) {
-			if ($.isArray(filename)) {
-				filename = JSON.stringify(filename);
-			}
-			var path = dir || FileList.getCurrentDirectory();
-			var params = {
-				service: 'files',
-				t: $('#sharingToken').val(),
-				path: path,
-				download: null
-			};
-			if (filename) {
-				params.files = filename;
-			}
-			return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
-		};
 	}
+
+	// override since the format is different
+	Files.getDownloadUrl = function(filename, dir) {
+		if ($.isArray(filename)) {
+			filename = JSON.stringify(filename);
+		}
+		var path = dir || FileList.getCurrentDirectory();
+		var params = {
+			service: 'files',
+			t: $('#sharingToken').val(),
+			path: path,
+			files: filename,
+			download: null
+		};
+		return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
+	};
+
+	Files.getAjaxUrl = function(action, params) {
+		params = params || {};
+		params.t = $('#sharingToken').val();
+		return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
+	};
+
+	FileList.linkTo = function(dir) {
+		var params = {
+			service: 'files',
+			t: $('#sharingToken').val(),
+			dir: dir
+		};
+		return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
+	};
+
+	Files.generatePreviewUrl = function(urlSpec) {
+		urlSpec.t = $('#dirToken').val();
+		return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
+	};
 
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploadadd', function(e, data) {

@@ -8,9 +8,26 @@
  *
  */
 
-/* global OC, t, FileList, FileActions */
-
+/* global OC, t, BreadCrumb, FileActions, FileList, Files */
 $(document).ready(function() {
+	var deletedRegExp = new RegExp(/^(.+)\.d[0-9]+$/);
+
+	/**
+	 * Convert a file name in the format filename.d12345 to the real file name.
+	 * This will use basename.
+	 * The name will not be changed if it has no ".d12345" suffix.
+	 * @param name file name
+	 * @return converted file name
+	 */
+	function getDeletedFileName(name) {
+		name = OC.basename(name);
+		var match = deletedRegExp.exec(name);
+		if (match && match.length > 1) {
+			name = match[1];
+		}
+		return name;
+	}
+
 	function removeCallback(result) {
 		if (result.status !== 'success') {
 			OC.dialogs.alert(result.data.message, t('core', 'Error'));
@@ -18,7 +35,7 @@ $(document).ready(function() {
 
 		var files = result.data.success;
 		for (var i = 0; i < files.length; i++) {
-			FileList.findFileEl(OC.basename(files[i].filename)).remove();
+			FileList.remove(OC.basename(files[i].filename), {updateSummary: false});
 		}
 		FileList.updateFileSummary();
 		FileList.updateEmptyContent();
@@ -74,7 +91,6 @@ $(document).ready(function() {
 		}
 		procesSelection();
 	});
-
 	$('.undelete').click('click', function(event) {
 		event.preventDefault();
 		var allFiles = $('#select_all').is(':checked');
@@ -89,7 +105,7 @@ $(document).ready(function() {
 			};
 		}
 		else {
-			files = getSelectedFiles('name');
+			files = Files.getSelectedFiles('name');
 			for (var i = 0; i < files.length; i++) {
 				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
 				deleteAction.removeClass('delete-icon').addClass('progress-icon');
@@ -131,7 +147,7 @@ $(document).ready(function() {
 			};
 		}
 		else {
-			files = getSelectedFiles('name');
+			files = Files.getSelectedFiles('name');
 			params = {
 				files: JSON.stringify(files),
 				dir: FileList.getCurrentDirectory()
@@ -158,7 +174,7 @@ $(document).ready(function() {
 						}
 						FileList.hideMask();
 						// simply remove all files
-						FileList.update('');
+						FileList.setFiles([]);
 						enableActions();
 					}
 					else {
@@ -191,7 +207,7 @@ $(document).ready(function() {
 		var filename = $(this).parent().parent().attr('data-file');
 		var tr = FileList.findFileEl(filename);
 		var renaming = tr.data('renaming');
-		if(!renaming && !FileList.isLoading(filename)){
+		if(!renaming){
 			if(mime.substr(0, 5) === 'text/'){ //no texteditor for now
 				return;
 			}
@@ -203,47 +219,61 @@ $(document).ready(function() {
 				action(filename);
 			}
 		}
-
-		// event handlers for breadcrumb items
-		$('#controls').delegate('.crumb:not(.home) a', 'click', onClickBreadcrumb);
 	});
+
+	/**
+	 * Override crumb URL maker (hacky!)
+	 */
+	FileList.breadcrumb.getCrumbUrl = function(part, index) {
+		if (index === 0) {
+			return OC.linkTo('files', 'index.php');
+		}
+		return OC.linkTo('files_trashbin', 'index.php')+"?dir=" + encodeURIComponent(part.dir);
+	};
+
+	Files.generatePreviewUrl = function(urlSpec) {
+		return OC.generateUrl('/apps/files_trashbin/ajax/preview.php?') + $.param(urlSpec);
+	};
+
+	Files.getDownloadUrl = function(action, params) {
+		// no downloads
+		return '#';
+	};
+
+	Files.getAjaxUrl = function(action, params) {
+		var q = '';
+		if (params) {
+			q = '?' + OC.buildQueryString(params);
+		}
+		return OC.filePath('files_trashbin', 'ajax', action + '.php') + q;
+	};
+
+
+	/**
+	 * Override crumb making to add "Deleted Files" entry
+	 * and convert files with ".d" extensions to a more
+	 * user friendly name.
+	 */
+	var oldMakeCrumbs = BreadCrumb.prototype._makeCrumbs;
+	BreadCrumb.prototype._makeCrumbs = function() {
+		var parts = oldMakeCrumbs.apply(this, arguments);
+		// duplicate first part
+		parts.unshift(parts[0]);
+		parts[1] = {
+			dir: '/',
+			name: t('files_trashbin', 'Deleted Files')
+		};
+		for (var i = 2; i < parts.length; i++) {
+			parts[i].name = getDeletedFileName(parts[i].name);
+		}
+		return parts;
+	};
 
 	FileActions.actions.dir = {
 		// only keep 'Open' action for navigation
 		'Open': FileActions.actions.dir.Open
 	};
 });
-
-/**
- * @brief get a list of selected files
- * @param string property (option) the property of the file requested
- * @return array
- *
- * possible values for property: name, mime, size and type
- * if property is set, an array with that property for each file is returnd
- * if it's ommited an array of objects with all properties is returned
- */
-function getSelectedFiles(property){
-	var elements=$('td.filename input:checkbox:checked').parent().parent();
-	var files=[];
-	elements.each(function(i,element){
-		var file={
-			name:$(element).attr('data-file'),
-			timestamp:$(element).attr('data-timestamp'),
-			type:$(element).attr('data-type')
-		};
-		if(property){
-			files.push(file[property]);
-		}else{
-			files.push(file);
-		}
-	});
-	return files;
-}
-
-function fileDownloadPath(dir, file) {
-	return OC.filePath('files_trashbin', '', 'download.php') + '?file='+encodeURIComponent(file);
-}
 
 function enableActions() {
 	$(".action").css("display", "inline");

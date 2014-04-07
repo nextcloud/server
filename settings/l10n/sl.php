@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Invalid value supplied for %s" => "Navedena je napačna vrednost za %s",
 "Saved" => "Shranjeno",
+"test email settings" => "preizkusi nastavitve elektronske pošte",
 "Email sent" => "Elektronska pošta je poslana",
 "Send mode" => "Način pošiljanja",
 "Encryption" => "Šifriranje",

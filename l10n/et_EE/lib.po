@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013
+# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
 # Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-02 01:55-0400\n"
+"PO-Revision-Date: 2014-04-01 08:10+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,23 +67,23 @@ msgstr "Vigane pilt"
 msgid "web services under your control"
 msgstr "veebitenused sinu kontrolli all"
 
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Failid tuleb alla laadida ükshaaval."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:262
 msgid "Back to Files"
 msgstr "Tagasi failide juurde"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -159,7 +159,7 @@ msgstr "Kontrollkood aegus. Paelun lae leht uuesti."
 
 #: private/json.php:75
 msgid "Unknown user"
-msgstr ""
+msgstr "Tundmatu kasutaja"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -194,23 +194,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL kasutajatunnus ja/või parool pole õiged: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Sisesta kas juba olemasolev konto või administrator."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB kasutajatunnus ja/või parool pole õiged"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Andmebaasi viga: \"%s\""
@@ -219,9 +219,9 @@ msgstr "Andmebaasi viga: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Tõrkuv käsk oli: \"%s\""
@@ -229,20 +229,20 @@ msgstr "Tõrkuv käsk oli: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB kasutaja '%s'@'localhost' on juba olemas."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Kustuta see MySQL/MariaDB kasutaja"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB user '%s'@'%%' on juba olemas"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Kustuta see MySQL/MariaDB kasutaja."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -257,7 +257,7 @@ msgstr "Oracle kasutajatunnus ja/või parool pole õiged"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Tõrkuv käsk oli: \"%s\", nimi: %s, parool: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL kasutajatunnus ja/või parool pole õiged"
 
@@ -269,13 +269,13 @@ msgstr "Määra admin kasutajanimi."
 msgid "Set an admin password."
 msgstr "Määra admini parool."
 
-#: private/setup.php:198
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
-#: private/setup.php:199
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
