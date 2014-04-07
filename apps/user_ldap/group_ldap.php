@@ -299,9 +299,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @brief get a list of all groups
 	 * @returns array with group names
 	 *
-	 * Returns a list with all groups
+	 * Returns a list with all groups (used by getGroups)
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0) {
+	protected function getGroupsChunk($search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
@@ -332,6 +332,48 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$this->access->connection->writeToCache($cachekey, $ldap_groups);
 		return $ldap_groups;
+	}
+
+	/**
+	 * @brief get a list of all groups using a paged search
+	 * @returns array with group names
+	 *
+	 * Returns a list with all groups
+   	 * Uses a paged search if available to override a
+   	 * server side search limit.
+   	 * (active directory has a limit of 1000 by default)
+	 */
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
+		if(!$this->enabled) {
+			return array();
+		}
+		$pagingsize = $this->access->connection->ldapPagingSize;
+		if ((! $this->access->connection->hasPagedResultSupport)
+		   	|| empty($pagingsize)) {
+			return $this->getGroupsChunk($search, $limit, $offset);
+		}
+		$maxGroups = 100000; // limit max results (just for safety reasons)
+		if ($limit > -1) {
+		   $overallLimit = min($limit, $maxGroups);
+		} else {
+		   $overallLimit = $maxGroups;
+		}
+		$chunkOffset = $offset;
+		$allGroups = array();
+		while ($chunkOffset < $overallLimit) {
+			$chunkLimit = min($pagingsize, $overallLimit - $chunkOffset);
+			$ldapGroups = $this->getGroupsChunk($search, $chunkLimit, $chunkOffset);
+			$nread = count($ldapGroups);
+			\OCP\Util::writeLog('user_ldap', 'getGroups('.$search.'): read '.$nread.' at offset '.$chunkOffset.' (limit: '.$chunkLimit.')', \OCP\Util::DEBUG);
+			if ($nread) {
+				$allGroups = array_merge($allGroups, $ldapGroups);
+				$chunkOffset += $nread;
+			}
+			if ($nread < $chunkLimit) {
+				break;
+			}
+		}
+		return $allGroups;
 	}
 
 	public function groupMatchesFilter($group) {
