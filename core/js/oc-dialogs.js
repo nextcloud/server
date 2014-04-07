@@ -364,6 +364,9 @@ var OCdialogs = {
 						title: title,
 						type: 'fileexists',
 
+						allnewfiles: t('files','New Files'),
+						allexistingfiles: t('files','Already existing files'),
+
 						why: t('files','Which files do you want to keep?'),
 						what: t('files','If you select both versions, the copied file will have a number added to its name.')
 					});
