@@ -343,7 +343,7 @@ var OCdialogs = {
 				addConflict(conflicts, original, replacement);
 
 				var count = $(dialog_id+ ' .conflict').length;
-				var title = n('files',
+				var title = n('core',
 								'{count} file conflict',
 								'{count} file conflicts',
 								count,
@@ -358,17 +358,17 @@ var OCdialogs = {
 				//create dialog
 				this._fileexistsshown = true;
 				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-					var title = t('files','One file conflict');
+					var title = t('core','One file conflict');
 					var $dlg = $tmpl.octemplate({
 						dialog_name: dialog_name,
 						title: title,
 						type: 'fileexists',
 
-						allnewfiles: t('files','New Files'),
-						allexistingfiles: t('files','Already existing files'),
+						allnewfiles: t('core','New Files'),
+						allexistingfiles: t('core','Already existing files'),
 
-						why: t('files','Which files do you want to keep?'),
-						what: t('files','If you select both versions, the copied file will have a number added to its name.')
+						why: t('core','Which files do you want to keep?'),
+						what: t('core','If you select both versions, the copied file will have a number added to its name.')
 					});
 					$('body').append($dlg);
 
@@ -433,10 +433,10 @@ var OCdialogs = {
 						var count = $(dialog_id).find('.conflict .replacement input[type="checkbox"]:checked').length;
 						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allnewfiles').prop('checked', true);
-							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
+							$(dialog_id).find('.allnewfiles + .count').text(t('core','(all selected)'));
 						} else if (count > 0) {
 							$(dialog_id).find('.allnewfiles').prop('checked', false);
-							$(dialog_id).find('.allnewfiles + .count').text(t('files','({count} selected)',{count:count}));
+							$(dialog_id).find('.allnewfiles + .count').text(t('core','({count} selected)',{count:count}));
 						} else {
 							$(dialog_id).find('.allnewfiles').prop('checked', false);
 							$(dialog_id).find('.allnewfiles + .count').text('');
@@ -446,10 +446,10 @@ var OCdialogs = {
 						var count = $(dialog_id).find('.conflict .original input[type="checkbox"]:checked').length;
 						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', true);
-							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
+							$(dialog_id).find('.allexistingfiles + .count').text(t('core','(all selected)'));
 						} else if (count > 0) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', false);
-							$(dialog_id).find('.allexistingfiles + .count').text(t('files','({count} selected)',{count:count}));
+							$(dialog_id).find('.allexistingfiles + .count').text(t('core','({count} selected)',{count:count}));
 						} else {
 							$(dialog_id).find('.allexistingfiles').prop('checked', false);
 							$(dialog_id).find('.allexistingfiles + .count').text('');
