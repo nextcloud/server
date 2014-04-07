@@ -147,7 +147,7 @@ class AppConfig implements \OCP\IAppConfig {
 	 */
 	public function hasKey($app, $key) {
 		$values = $this->getAppValues($app);
-		return isset($values[$key]);
+		return array_key_exists($key, $values);
 	}
 
 	/**
