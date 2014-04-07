@@ -29,8 +29,8 @@ class OC_Defaults {
 		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
 		$this->defaultTitle = "ownCloud"; /* can be a longer name, for titles */
-		$this->defaultBaseUrl = "http://owncloud.org";
-		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
+		$this->defaultBaseUrl = "https://owncloud.org";
+		$this->defaultSyncClientUrl = "https://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
 		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
