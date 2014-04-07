@@ -41,6 +41,11 @@ class OC_Mount_Config {
 
 	private static $backends = array();
 
+	/**
+	 * @param string $class
+	 * @param array $definition
+	 * @return bool
+	 */
 	public static function registerBackend($class, $definition) {
 		if (!isset($definition['backend'])) {
 			return false;
@@ -51,34 +56,50 @@ class OC_Mount_Config {
 	}
 
 	/**
+	 * Setup backends
+	 *
+	 * @return array of previously registered backends
+	 */
+	public static function setUp($backends = array()) {
+		$backup = self::$backends;
+		self::$backends = $backends;
+
+		return $backup;
+	}
+
+	/**
 	* Get details on each of the external storage backends, used for the mount config UI
 	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
 	* If the configuration parameter should be secret, add a '*' to the beginning of the value
 	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
 	* If the configuration parameter is optional, add a '&' to the beginning of the value
 	* If the configuration parameter is hidden, add a '#' to the beginning of the value
-	* @return string
+	* @return array
 	*/
 	public static function getBackends() {
 		$sortFunc = function($a, $b) {
 			return strcasecmp($a['backend'], $b['backend']);
 		};
 
+		$backEnds = array();
+
 		foreach (OC_Mount_Config::$backends as $class => $backend) {
 			if (isset($backend['has_dependencies']) and $backend['has_dependencies'] === true) {
 				if (!method_exists($class, 'checkDependencies')) {
-					\OCP\Util::writeLog('files_external', "Backend class $class has dependencies but doesn't provide method checkDependencies()", \OCP\Util::DEBUG);
+					\OCP\Util::writeLog('files_external',
+						"Backend class $class has dependencies but doesn't provide method checkDependencies()",
+						\OCP\Util::DEBUG);
 					continue;
 				} elseif ($class::checkDependencies() !== true) {
 					continue;
 				}
 			}
-			$backends[$class] = $backend;
+			$backEnds[$class] = $backend;
 		}
 
-		uasort($backends, $sortFunc);
+		uasort($backEnds, $sortFunc);
 
-		return $backends;
+		return $backEnds;
 	}
 
 	/**
@@ -185,19 +206,19 @@ class OC_Mount_Config {
 	*/
 	public static function getPersonalBackends() {
 
-		$backends = self::getBackends();
+		$backEnds = self::getBackends();
 
 		// Remove local storage and other disabled storages
-		unset($backends['\OC\Files\Storage\Local']);
+		unset($backEnds['\OC\Files\Storage\Local']);
 
-		$allowed_backends = explode(',', OCP\Config::getAppValue('files_external', 'user_mounting_backends', ''));
-		foreach ($backends as $backend => $null) {
-			if (!in_array($backend, $allowed_backends)) {
-				unset($backends[$backend]);
+		$allowedBackEnds = explode(',', OCP\Config::getAppValue('files_external', 'user_mounting_backends', ''));
+		foreach ($backEnds as $backend => $null) {
+			if (!in_array($backend, $allowedBackEnds)) {
+				unset($backEnds[$backend]);
 			}
 		}
 
-		return $backends;
+		return $backEnds;
 	}
 
 	/**
@@ -280,7 +301,7 @@ class OC_Mount_Config {
 	*/
 	public static function getPersonalMountPoints() {
 		$mountPoints = self::readData(true);
-		$backends = self::getBackends();
+		$backEnds = self::getBackends();
 		$uid = OCP\User::getUser();
 		$personal = array();
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
@@ -294,7 +315,7 @@ class OC_Mount_Config {
 					'class' => $mount['class'],
 					// Remove '/uid/files/' from mount point
 					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
-					'backend' => $backends[$mount['class']]['backend'],
+					'backend' => $backEnds[$mount['class']]['backend'],
 					'options' => $mount['options'],
 					'status' => self::getBackendStatus($mount['class'], $mount['options'], true)
 				);
@@ -529,6 +550,9 @@ class OC_Mount_Config {
 			if (isset($backend['has_dependencies']) and $backend['has_dependencies'] === true) {
 				$result = $class::checkDependencies();
 				if ($result !== true) {
+					if (!is_array($result)) {
+						$result = array($result);
+					}
 					foreach ($result as $key => $value) {
 						if (is_numeric($key)) {
 							OC_Mount_Config::addDependency($dependencies, $value, $backend['backend']);
