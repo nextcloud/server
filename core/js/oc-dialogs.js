@@ -358,14 +358,17 @@ var OCdialogs = {
 				//create dialog
 				this._fileexistsshown = true;
 				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-					var title = t('files','One file conflict');
+					var title = t('core','One file conflict');
 					var $dlg = $tmpl.octemplate({
 						dialog_name: dialog_name,
 						title: title,
 						type: 'fileexists',
 
-						why: t('files','Which files do you want to keep?'),
-						what: t('files','If you select both versions, the copied file will have a number added to its name.')
+						allnewfiles: t('core','New Files'),
+						allexistingfiles: t('core','Already existing files'),
+
+						why: t('core','Which files do you want to keep?'),
+						what: t('core','If you select both versions, the copied file will have a number added to its name.')
 					});
 					$('body').append($dlg);
 
