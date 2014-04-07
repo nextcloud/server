@@ -23,6 +23,7 @@
 		"beforeEach": true,
 		"afterEach": true,
 		"sinon": true,
-		"fakeServer": true
+		"fakeServer": true,
+		"_": true
 	}
 }
