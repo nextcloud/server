@@ -24,6 +24,9 @@
 		"afterEach": true,
 		"sinon": true,
 		"fakeServer": true,
-		"_": true
+		"_": true,
+		"OC": true,
+		"t": true,
+		"n": true
 	}
 }
