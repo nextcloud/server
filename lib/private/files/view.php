@@ -633,11 +633,11 @@ class View {
 		if (Filesystem::isValidPath($path)) {
 
 			// Get directory that the file is going into
-			$file_path = \OC_User::getHome(\OC_User::getUser()) . '/files'.substr($path, 0, strrpos($path,'/'));
+			$filePath = dirname($path);
 
 			// Create the directories if any
-			if(empty($file_path) === false) {
-				mkdir($file_path, 0770, true);
+			if (!$this->file_exists($filePath)) {
+				$this->mkdir($filePath);
 			}
 
 			if (!$tmpFile) {
