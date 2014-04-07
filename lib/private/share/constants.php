@@ -34,7 +34,7 @@ class Constants {
 	const FORMAT_STATUSES = -2;
 	const FORMAT_SOURCES = -3;  // ToDo Check if it is still in use otherwise remove it
 
-	const TOKEN_LENGTH = 32; // see db_structure.xml
+	const TOKEN_LENGTH = 16; // old length is 32, thus 32 in db_structure.xml
 
 	protected static $shareTypeUserAndGroups = -1;
 	protected static $shareTypeGroupUserUnique = 2;
