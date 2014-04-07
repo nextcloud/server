@@ -1020,7 +1020,8 @@ $(document).ready(function() {
 			data.formData = function(form) {
 				return [
 					{name: 'dir', value: dir},
-					{name: 'requesttoken', value: oc_requesttoken}
+					{name: 'requesttoken', value: oc_requesttoken},
+					{name: 'file_directory', value: data.files[0]['relativePath']}
 				];
 			};
 		} else {
@@ -1102,10 +1103,34 @@ $(document).ready(function() {
 				size += parseInt(file.size);
 				data.context.attr('data-size', size);
 				data.context.find('td.filesize').text(humanFileSize(size));
-
-			} else {
+			} 
+			else {				
 				// only append new file if uploaded into the current folder
-				if (file.directory !== FileList.getCurrentDirectory()) {
+				if (file.directory != '/' && file.directory !== FileList.getCurrentDirectory()) {
+
+					file_directory = file.directory.replace('/','').replace(/\/$/, "").split('/');
+
+					if (file_directory.length == 1) {
+						file_directory = file_directory[0];
+
+						// Get the directory 
+						if ($('tr[data-file="'+file_directory+'"]').length == 0)
+						{
+							FileList.addDir(file_directory, 0, new Date(), false);
+						}
+					}
+					else {
+						file_directory = file_directory[0];
+					}
+					
+					file_directory = FileList.findFileEl(file_directory);
+
+					// update folder size
+					var size = parseInt(file_directory.attr('data-size'));
+					size += parseInt(file.size);
+					file_directory.attr('data-size', size);
+					file_directory.find('td.filesize').text(humanFileSize(size));
+
 					return;
 				}
 

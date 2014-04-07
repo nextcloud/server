@@ -329,7 +329,8 @@ OC.Upload = {
 						// noone set update parameters, we set the minimum
 						data.formData = {
 							requesttoken: oc_requesttoken,
-									 dir: $('#dir').val()
+							dir: $('#dir').val(),
+							file_directory: data.files[0]['relativePath']
 						};
 					}
 				},
@@ -682,4 +683,5 @@ OC.Upload = {
 $(document).ready(function() {
 	OC.Upload.init();
 });
+
 

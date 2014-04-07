@@ -629,10 +629,21 @@ class View {
 	}
 
 	public function fromTmpFile($tmpFile, $path) {
+
 		if (Filesystem::isValidPath($path)) {
+
+			// Get directory that the file is going into
+			$file_path = \OC_User::getHome(\OC_User::getUser()) . '/files'.substr($path, 0, strrpos($path,'/'));
+
+			// Create the directories if any
+			if(empty($file_path) === false) {
+				mkdir($file_path, 0770, true);
+			}
+
 			if (!$tmpFile) {
 				debug_print_backtrace();
 			}
+
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
