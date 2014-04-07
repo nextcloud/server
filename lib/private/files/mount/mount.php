@@ -66,6 +66,13 @@ class Mount {
 	}
 
 	/**
+	 * @param string $mountPoint new mount point
+	 */
+	public function setMountPoint($mountPoint) {
+		$this->mountPoint = $mountPoint;
+	}
+
+	/**
 	 * create the storage that is mounted
 	 *
 	 * @return \OC\Files\Storage\Storage
