@@ -16,6 +16,7 @@ filter:
         - 'core/js/jquery-ui-1.10.0.custom.js'
         - 'core/js/jquery.inview.js'  
         - 'core/js/jquery.placeholder.js'
+        - 'core/js/underscore.js'
 
         
 imports:
