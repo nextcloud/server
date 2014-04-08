@@ -37,8 +37,7 @@ class Helper
 					$sid = explode(':', $sid);
 					if ($sid[0] === 'shared') {
 						$icon = \OC_Helper::mimetypeIcon('dir-shared');
-					}
-					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
+					} elseif ($sid[0] !== 'local' and $sid[0] !== 'home') {
 						$icon = \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
