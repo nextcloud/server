@@ -323,6 +323,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		//   and let it count.
 		//For now this is not important, because the only use of this method
 		//does not supply a search string
+		$groupUsers = array();
 		foreach($members as $member) {
 			if($isMemberUid) {
 				//we got uids, need to get their DNs to 'tranlsate' them to usernames
@@ -350,7 +351,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			}
 		}
 
-		return $groupUsers;
+		return count($groupUsers);
 	}
 
 	/**
