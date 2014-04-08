@@ -36,6 +36,23 @@ class Migrator {
 	}
 
 	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
+	 * @return string
+	 */
+	public function generateChangeScript(Schema $targetSchema) {
+		$schemaDiff = $this->getDiff($targetSchema, $this->connection);
+
+		$script = '';
+		$sqls = $schemaDiff->toSql($this->connection->getDatabasePlatform());
+		foreach ($sqls as $sql) {
+			$script .= $sql . ';';
+			$script .= PHP_EOL;
+		}
+
+		return $script;
+	}
+
+	/**
 	 * @param Schema $targetSchema
 	 * @throws \OC\DB\MigrationException
 	 */
@@ -109,16 +126,8 @@ class Migrator {
 		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
 	}
 
-	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
-	 * @param \Doctrine\DBAL\Connection $connection
-	 */
-	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
-		if (is_null($connection)) {
-			$connection = $this->connection;
-		}
-
-		$sourceSchema = $this->connection->getSchemaManager()->createSchema();
+	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about
 		/** @var $table \Doctrine\DBAL\Schema\Table */
@@ -139,7 +148,24 @@ class Migrator {
 
 		foreach ($schemaDiff->changedTables as $tableDiff) {
 			$tableDiff->name = $this->connection->quoteIdentifier($tableDiff->name);
+			foreach ($tableDiff->changedColumns as $column) {
+				$column->oldColumnName = $this->connection->quoteIdentifier($column->oldColumnName);
+			}
 		}
+
+		return $schemaDiff;
+	}
+
+	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
+	 * @param \Doctrine\DBAL\Connection $connection
+	 */
+	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
+		if (is_null($connection)) {
+			$connection = $this->connection;
+		}
+
+		$schemaDiff = $this->getDiff($targetSchema, $connection);
 
 		$connection->beginTransaction();
 		foreach ($schemaDiff->toSql($connection->getDatabasePlatform()) as $sql) {
