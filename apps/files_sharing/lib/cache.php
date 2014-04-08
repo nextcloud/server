@@ -86,7 +86,9 @@ class Shared_Cache extends Cache {
 	public function get($file) {
 		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
-				return $cache->get($this->files[$file]);
+				$data = $cache->get($this->files[$file]);
+				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
+				return $data;
 			}
 		} else {
 			// if we are at the root of the mount point we want to return the

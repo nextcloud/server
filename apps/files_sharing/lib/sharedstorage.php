@@ -32,6 +32,7 @@ class Shared extends \OC\Files\Storage\Common {
 	private $type;         // can be "file" or "folder"
 	private $shareId;      // share Id to identify the share in the database
 	private $fileSource;   // file cache ID of the shared item
+	private $sharedFrom;   // the user who shared the file
 	private $files = array();
 
 	public function __construct($arguments) {
@@ -39,6 +40,7 @@ class Shared extends \OC\Files\Storage\Common {
 		$this->type = $arguments['shareType'];
 		$this->shareId = $arguments['shareId'];
 		$this->fileSource = $arguments['fileSource'];
+		$this->sharedFrom = $arguments['sharedFrom'];
 	}
 
 	/**
@@ -498,6 +500,7 @@ class Shared extends \OC\Files\Storage\Common {
 							'shareType' => $share['item_type'],
 							'shareId' => $share['id'],
 							'fileSource' => $share['file_source'],
+							'sharedFrom' => $share['uid_owner'],
 							),
 						$options['user_dir'] . '/' . $share['file_target']);
 			}
@@ -510,6 +513,14 @@ class Shared extends \OC\Files\Storage\Common {
 	 */
 	public function getMountPoint() {
 		return ltrim($this->mountPoint, '/');
+	}
+
+	/**
+	 * @brief get the user who shared the file
+	 * @return string
+	 */
+	public function getSharedFrom() {
+		return $this->sharedFrom;
 	}
 
 	/**
