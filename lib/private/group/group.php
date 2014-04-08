@@ -189,7 +189,7 @@ class Group {
 	public function count($search) {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if(method_exists($backend, 'countUsersInGroup')) {
+			if($backend->implementsActions(OC_GROUP_BACKEND_COUNT_USERS)) {
 				if($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
