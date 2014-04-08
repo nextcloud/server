@@ -47,7 +47,7 @@ class Shared_Cache extends Cache {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	private function getSourceCache($target) {
-		if ($target === false) {
+		if ($target === false || $target === $this->storage->getMountPoint()) {
 			$target = '';
 		}
 		$source = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getShareType());
@@ -86,8 +86,11 @@ class Shared_Cache extends Cache {
 	public function get($file) {
 		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
+				$path = 'files/' . $this->storage->getMountPoint();
+				$path .= ($file !== '') ? '/' . $file : '';
 				$data = $cache->get($this->files[$file]);
 				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
+				$data['path'] = $path;
 				return $data;
 			}
 		} else {
@@ -99,7 +102,7 @@ class Shared_Cache extends Cache {
 			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`'
+				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($file));
 			$data = $result->fetchRow();
@@ -138,12 +141,15 @@ class Shared_Cache extends Cache {
 			$folder = '';
 		}
 
+		$dir = 'files/' . $this->storage->getMountPoint();
+		$dir .= ($folder !== '') ? '/' . $folder : '';
+
 		$cache = $this->getSourceCache($folder);
 		if ($cache) {
 			$parent = $this->storage->getFile($folder);
 			$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
 			foreach ($sourceFolderContent as $key => $c) {
-				$sourceFolderContent[$key]['usersPath'] = 'files/' . $folder . '/' . $c['name'];
+				$sourceFolderContent[$key]['path'] = $dir . '/' . $c['name'];
 				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
 				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
 			}
@@ -178,7 +184,11 @@ class Shared_Cache extends Cache {
 	 * @return int
 	 */
 	public function getId($file) {
-		if ($cache = $this->getSourceCache($file)) {
+		if ($file === false) {
+			return $this->storage->getSourceId();
+		}
+		$cache = $this->getSourceCache($file);
+		if ($cache) {
 			return $cache->getId($this->files[$file]);
 		}
 		return -1;
@@ -292,9 +302,6 @@ class Shared_Cache extends Cache {
 				if ($file['mimetype'] === 'httpd/unix-directory') {
 					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
 				} else if (($mimepart && $file['mimepart'] === $mimepart) || ($mimetype && $file['mimetype'] === $mimetype)) {
-					// usersPath not reliable
-					//$file['path'] = $file['usersPath'];
-					$file['path'] = ltrim($dir . '/' . $file['name'], '/');
 					$result[] = $file;
 				}
 			}

@@ -184,7 +184,6 @@ class Api {
 				$receivedFrom =  \OCP\Share::getItemSharedWithBySource($itemType, $file['fileid']);
 				reset($share);
 				$key = key($share);
-				$share[$key]['path'] = self::correctPath($share[$key]['path'], $path);
 				if ($receivedFrom) {
 					$share[$key]['received_from'] = $receivedFrom['uid_owner'];
 					$share[$key]['received_from_displayname'] = \OCP\User::getDisplayName($receivedFrom['uid_owner']);
@@ -529,17 +528,6 @@ class Api {
 
 		return null;
 
-	}
-
-	/**
-	 * @brief make sure that the path has the correct root
-	 *
-	 * @param string $path path returned from the share API
-	 * @param string $folder current root folder
-	 * @return string the correct path
-	 */
-	protected static function correctPath($path, $folder) {
-		return \OC_Filesystem::normalizePath('/' . $folder . '/' . basename($path));
 	}
 
 }

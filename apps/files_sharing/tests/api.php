@@ -324,10 +324,10 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 		$testValues=array(
-			array('query' => 'Shared/' . $this->folder,
-				'expectedResult' => '/Shared' . $this->folder . $this->filename),
-			array('query' => 'Shared/' . $this->folder . $this->subfolder,
-				'expectedResult' => '/Shared' . $this->folder . $this->subfolder . $this->filename),
+			array('query' => $this->folder,
+				'expectedResult' => $this->folder . $this->filename),
+			array('query' => $this->folder . $this->subfolder,
+				'expectedResult' => $this->folder . $this->subfolder . $this->filename),
 		);
 		foreach ($testValues as $value) {
 
@@ -382,7 +382,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// share was successful?
 		$this->assertTrue(is_string($result));
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -395,7 +395,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->subfolder;
+		$expectedPath = $this->subfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 		// cleanup
@@ -444,7 +444,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -457,7 +457,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->subsubfolder;
+		$expectedPath = $this->subsubfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 
@@ -512,8 +512,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		// ask for shared/subfolder
-		$expectedPath1 = '/Shared' . $this->subfolder;
+		// ask for subfolder
+		$expectedPath1 = $this->subfolder;
 		$_GET['path'] = $expectedPath1;
 
 		$result1 = Share\Api::getAllShares(array());
@@ -524,8 +524,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$data1 = $result1->getData();
 		$share1 = reset($data1);
 
-		// ask for shared/folder/subfolder
-		$expectedPath2 = '/Shared' . $this->folder . $this->subfolder;
+		// ask for folder/subfolder
+		$expectedPath2 = $this->folder . $this->subfolder;
 		$_GET['path'] = $expectedPath2;
 
 		$result2 = Share\Api::getAllShares(array());
@@ -595,7 +595,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -608,7 +608,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->filename;
+		$expectedPath = $this->filename;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 
@@ -868,46 +868,4 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 	}
 
-	function testCorrectPath() {
-		$path = "/foo/bar/test.txt";
-		$folder = "/correct/path";
-		$expectedResult = "/correct/path/test.txt";
-
-		$shareApiDummy = new TestShareApi();
-
-		$this->assertSame($expectedResult, $shareApiDummy->correctPathTest($path, $folder));
-	}
-
-	/**
-	 * @expectedException \Exception
-	 */
-	public function testShareNonExisting() {
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		$id = PHP_INT_MAX - 1;
-		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 */
-	public function testShareNotOwner() {
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
-		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
-
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-	}
-
-}
-
-/**
- * @brief dumnmy class to test protected methods
- */
-class TestShareApi extends \OCA\Files\Share\Api {
-	public function correctPathTest($path, $folder) {
-		return self::correctPath($path, $folder);
-	}
 }

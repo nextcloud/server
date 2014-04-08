@@ -138,15 +138,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function opendir($path) {
-		if ($path == '' || $path == '/') {
-			$files = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_Folder::FORMAT_OPENDIR);
-			\OC\Files\Stream\Dir::register($this->mountPoint, $files);
-			return opendir('fakedir://' . $this->mountPoint);
-		} else if ($source = $this->getSourcePath($path)) {
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-			return $storage->opendir($internalPath);
-		}
-		return false;
+		$source = $this->getSourcePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+		return $storage->opendir($internalPath);
 	}
 
 	public function is_dir($path) {
@@ -242,25 +236,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function filemtime($path) {
-		if ($path == '' || $path == '/') {
-			$mtime = 0;
-			$dh = $this->opendir($path);
-			if (is_resource($dh)) {
-				while (($filename = readdir($dh)) !== false) {
-					$tempmtime = $this->filemtime($filename);
-					if ($tempmtime > $mtime) {
-						$mtime = $tempmtime;
-					}
-				}
-			}
-			return $mtime;
-		} else {
-			$source = $this->getSourcePath($path);
-			if ($source) {
-				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-				return $storage->filemtime($internalPath);
-			}
-		}
+		$source = $this->getSourcePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+		return $storage->filemtime($internalPath);
 	}
 
 	public function file_get_contents($path) {
@@ -285,7 +263,7 @@ class Shared extends \OC\Files\Storage\Common {
 				return false;
 			}
 			$info = array(
-				'target' => $this->mountPoint . $path,
+				'target' => $this->mountPoint . '/' . $path,
 				'source' => $source,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
@@ -532,9 +510,6 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function hasUpdated($path, $time) {
-		if ($path == '') {
-			return false;
-		}
 		return $this->filemtime($path) > $time;
 	}
 

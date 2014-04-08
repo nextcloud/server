@@ -87,7 +87,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				'path' => $items[key($items)]['path'],
 				'storage' => $items[key($items)]['storage'],
 				'permissions' => $items[key($items)]['permissions'],
-				'uid_owner' => $items[key($items)]['uid_owner']
+				'uid_owner' => $items[key($items)]['uid_owner'],
 			);
 		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = array();
