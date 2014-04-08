@@ -19,7 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_Config extends PHPUnit_Framework_TestCase
+class Test_OCPConfig extends PHPUnit_Framework_TestCase
 {
 
 	public function testSetAppValueIfSetToNull() {
