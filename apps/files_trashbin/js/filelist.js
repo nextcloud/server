@@ -133,7 +133,7 @@
 					}
 					FileList.hideMask();
 					// simply remove all files
-					FileList.update('');
+					FileList.setFiles([]);
 					enableActions();
 				}
 				else {

@@ -26,7 +26,6 @@ window.FileList = {
 
 	// number of files per page
 	pageSize: 20,
-	totalPages: 0,
 
 	/**
 	 * Array of files in the current folder.
@@ -358,8 +357,6 @@ window.FileList = {
 			return;
 		}
 
-		this.pageNumber++;
-
 		while (count > 0 && index < this.files.length) {
 			fileData = this.files[index];
 			tr = this._renderRow(fileData, {updateSummary: false});
@@ -394,8 +391,6 @@ window.FileList = {
 	setFiles: function(filesArray) {
 		// detach to make adding multiple rows faster
 		this.files = filesArray;
-		this.pageNumber = -1;
-		this.totalPages = Math.ceil(filesArray.length / this.pageSize);
 
 		this.$fileList.detach();
 		this.$fileList.empty();
@@ -847,6 +842,7 @@ window.FileList = {
 		if (this._selectedFiles[fileEl.data('id')]) {
 			// remove from selection first
 			this._selectFileEl(fileEl, false);
+			this.updateSelectionSummary();
 		}
 		if (fileEl.data('permissions') & OC.PERMISSION_DELETE) {
 			// file is only draggable when delete permissions are set
