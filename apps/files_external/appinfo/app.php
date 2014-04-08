@@ -31,3 +31,136 @@ OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', array(
+	'backend' => 'Local',
+	'configuration' => array(
+		'datadir' => 'Location')));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
+	'backend' => 'Amazon S3',
+	'configuration' => array(
+		'key' => 'Key',
+		'secret' => '*Secret',
+		'bucket' => 'Bucket'),
+	'has_dependencies' => true));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
+	'backend' => 'Amazon S3 and compliant',
+	'configuration' => array(
+		'key' => 'Access Key',
+		'secret' => '*Secret Key',
+		'bucket' => 'Bucket',
+		'hostname' => '&Hostname (optional)',
+		'port' => '&Port (optional)',
+		'region' => '&Region (optional)',
+		'use_ssl' => '!Enable SSL',
+		'use_path_style' => '!Enable Path Style'),
+	'has_dependencies' => true));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
+	'backend' => 'Dropbox',
+	'configuration' => array(
+		'configured' => '#configured',
+		'app_key' => 'App key',
+		'app_secret' => '*App secret',
+		'token' => '#token',
+		'token_secret' => '#token_secret'),
+	'custom' => 'dropbox',
+	'has_dependencies' => true));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
+	'backend' => 'FTP',
+	'configuration' => array(
+		'host' => 'URL',
+		'user' => 'Username',
+		'password' => '*Password',
+		'root' => '&Root',
+		'secure' => '!Secure ftps://'),
+	'has_dependencies' => true));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
+	'backend' => 'Google Drive',
+	'configuration' => array(
+		'configured' => '#configured',
+		'client_id' => 'Client ID',
+		'client_secret' => '*Client secret',
+		'token' => '#token'),
+	'custom' => 'google',
+	'has_dependencies' => true));
+
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
+	'backend' => 'OpenStack Object Storage',
+	'configuration' => array(
+		'user' => 'Username (required)',
+		'bucket' => 'Bucket (required)',
+		'region' => '&Region (optional for OpenStack Object Storage)',
+		'key' => '*API Key (required for Rackspace Cloud Files)',
+		'tenant' => '&Tenantname (required for OpenStack Object Storage)',
+		'password' => '*Password (required for OpenStack Object Storage)',
+		'service_name' => '&Service Name (required for OpenStack Object Storage)',
+		'url' => '&URL of identity endpoint (required for OpenStack Object Storage)',
+		'timeout' => '&Timeout of HTTP requests in seconds (optional)',
+	),
+	'has_dependencies' => true));
+
+
+if (!OC_Util::runningOnWindows()) {
+	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', array(
+		'backend' => 'SMB / CIFS',
+		'configuration' => array(
+			'host' => 'URL',
+			'user' => 'Username',
+			'password' => '*Password',
+			'share' => 'Share',
+			'root' => '&Root'),
+		'has_dependencies' => true));
+
+	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', array(
+			'backend' => 'SMB / CIFS using OC login',
+			'configuration' => array(
+				'host' => 'URL',
+				'username_as_share' => '!Username as share',
+				'share' => '&Share',
+				'root' => '&Root'),
+		'has_dependencies' => true));
+}
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
+	'backend' => 'WebDAV',
+	'configuration' => array(
+		'host' => 'URL',
+		'user' => 'Username',
+		'password' => '*Password',
+		'root' => '&Root',
+		'secure' => '!Secure https://'),
+	'has_dependencies' => true));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
+	'backend' => 'ownCloud',
+	'configuration' => array(
+		'host' => 'URL',
+		'user' => 'Username',
+		'password' => '*Password',
+		'root' => '&Remote subfolder',
+		'secure' => '!Secure https://')));
+
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
+	'backend' => 'SFTP',
+	'configuration' => array(
+		'host' => 'URL',
+		'user' => 'Username',
+		'password' => '*Password',
+		'root' => '&Root')));
+
+OC_Mount_Config::registerBackend('\OC\Files\Storage\iRODS', array(
+	'backend' => 'iRODS',
+	'configuration' => array(
+		'host' => 'Host',
+		'port' => 'Port',
+		'use_logon_credentials' => '!Use ownCloud login',
+		'user' => 'Username',
+		'password' => '*Password',
+		'auth_mode' => 'Authentication Mode',
+		'zone' => 'Zone')));
