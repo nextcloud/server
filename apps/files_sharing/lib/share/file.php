@@ -28,6 +28,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_OPENDIR = 3;
 	const FORMAT_GET_ALL = 4;
 	const FORMAT_PERMISSIONS = 5;
+	const FORMAT_TARGET_NAMES = 6;
 
 	private $path;
 
@@ -50,24 +51,31 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return false;
 	}
 
+	/**
+	 * @brief create unique target
+	 * @param string $filePath
+	 * @param string $shareWith
+	 * @param string $exclude
+	 * @return string
+	 */
 	public function generateTarget($filePath, $shareWith, $exclude = null) {
 		$target = '/'.basename($filePath);
-		if (isset($exclude)) {
-			if ($pos = strrpos($target, '.')) {
-				$name = substr($target, 0, $pos);
-				$ext = substr($target, $pos);
-			} else {
-				$name = $target;
-				$ext = '';
-			}
-			$i = 2;
-			$append = '';
-			while (in_array($name.$append.$ext, $exclude)) {
-				$append = ' ('.$i.')';
-				$i++;
-			}
-			$target = $name.$append.$ext;
+		\OC\Files\Filesystem::initMountPoints($shareWith);
+		$view = new \OC\Files\View('/' . $shareWith . '/files');
+		$excludeList = \OCP\Share::getItemsSharedWithUser('file', $shareWith, self::FORMAT_TARGET_NAMES);
+		if (is_array($exclude)) {
+			$excludeList = array_merge($excludeList, $exclude);
 		}
+
+		$pathinfo = pathinfo($target);
+		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
+		$name = $pathinfo['filename'];
+		$i = 2;
+		while ($view->file_exists($target) || in_array($target, $excludeList)) {
+			$target = '/' . $name . ' ('.$i.')' . $ext;
+			$i++;
+		}
+
 		return $target;
 	}
 
@@ -127,6 +135,12 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$filePermissions[$item['file_source']] = $item['permissions'];
 			}
 			return $filePermissions;
+		} else if ($format === self::FORMAT_TARGET_NAMES) {
+			$targets = array();
+			foreach ($items as $item) {
+				$targets[] = $item['file_target'];
+			}
+			return $targets;
 		}
 		return array();
 	}
