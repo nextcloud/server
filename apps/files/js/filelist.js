@@ -580,7 +580,7 @@ window.FileList = {
 			var filename = input.val();
 			if (filename !== oldname) {
 				// Files.isFileNameValid(filename) throws an exception itself
-				Files.isFileNameValid(filename, FileList.getCurrentDirectory());
+				Files.isFileNameValid(filename);
 				if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				}

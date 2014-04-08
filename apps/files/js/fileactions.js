@@ -118,10 +118,6 @@ var FileActions = {
 		};
 
 		var addAction = function (name, action, displayName) {
-			// NOTE: Temporary fix to prevent rename action in root of Shared directory
-			if (name === 'Rename' && $('#dir').val() === '/Shared') {
-				return true;
-			}
 
 			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
 
@@ -160,7 +156,7 @@ var FileActions = {
 				addAction(name, ah, displayName);
 			}
 		});
-		if(actions.Share && !($('#dir').val() === '/' && file === 'Shared')){
+		if(actions.Share){
 			displayName = t('files', 'Share');
 			addAction('Share', actions.Share, displayName);
 		}
@@ -223,7 +219,7 @@ $(document).ready(function () {
 	$('#fileList tr').each(function () {
 		FileActions.display($(this).children('td.filename'));
 	});
-	
+
 	$('#fileList').trigger(jQuery.Event("fileActionsReady"));
 
 });
