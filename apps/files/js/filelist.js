@@ -92,11 +92,11 @@ window.FileList = {
 			FileList.breadcrumb.resize(width, false);
 		});
 
-		this.$fileList.on('click','td.filename a', this._onClickFile);
-		this.$fileList.on('change', 'td.filename input:checkbox', this._onClickFileCheckbox);
-		this.$el.find('#select_all').click(this._onClickSelectAll);
-		this.$el.find('.download').click(this._onClickDownloadSelected);
-		this.$el.find('.delete-selected').click(this._onClickDeleteSelected);
+		this.$fileList.on('click','td.filename a', _.bind(this._onClickFile, this));
+		this.$fileList.on('change', 'td.filename input:checkbox', _.bind(this._onClickFileCheckbox, this));
+		this.$el.find('#select_all').click(_.bind(this._onClickSelectAll, this));
+		this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
+		this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
 	},
 
 	/**
@@ -132,14 +132,14 @@ window.FileList = {
 	 * Event handler for when clicking on files to select them
 	 */
 	_onClickFile: function(event) {
-		var $tr = $(this).closest('tr');
+		var $tr = $(event.target).closest('tr');
 		if (event.ctrlKey || event.shiftKey) {
 			event.preventDefault();
 			if (event.shiftKey) {
-				var $lastTr = $(FileList._lastChecked);
+				var $lastTr = $(this._lastChecked);
 				var lastIndex = $lastTr.index();
 				var currentIndex = $tr.index();
-				var $rows = FileList.$fileList.children('tr');
+				var $rows = this.$fileList.children('tr');
 
 				// last clicked checkbox below current one ?
 				if (lastIndex > currentIndex) {
@@ -150,15 +150,15 @@ window.FileList = {
 
 				// auto-select everything in-between
 				for (var i = lastIndex + 1; i < currentIndex; i++) {
-					FileList._selectFileEl($rows.eq(i), true);
+					this._selectFileEl($rows.eq(i), true);
 				}
 			}
 			else {
-				FileList._lastChecked = $tr;
+				this._lastChecked = $tr;
 			}
 			var $checkbox = $tr.find('input:checkbox');
-			FileList._selectFileEl($tr, !$checkbox.prop('checked'));
-			FileList.updateSelectionSummary();
+			this._selectFileEl($tr, !$checkbox.prop('checked'));
+			this.updateSelectionSummary();
 		} else {
 			var filename = $tr.attr('data-file');
 			var renaming = $tr.data('renaming');
@@ -179,32 +179,32 @@ window.FileList = {
 	/**
 	 * Event handler for when clicking on a file's checkbox
 	 */
-	_onClickFileCheckbox: function() {
-		var $tr = $(this).closest('tr');
-		FileList._selectFileEl($tr, !$tr.hasClass('selected'));
-		FileList._lastChecked = $tr;
-		FileList.updateSelectionSummary();
+	_onClickFileCheckbox: function(e) {
+		var $tr = $(e.target).closest('tr');
+		this._selectFileEl($tr, !$tr.hasClass('selected'));
+		this._lastChecked = $tr;
+		this.updateSelectionSummary();
 	},
 
 	/**
 	 * Event handler for when selecting/deselecting all files
 	 */
-	_onClickSelectAll: function() {
-		var checked = $(this).prop('checked');
-		FileList.$fileList.find('td.filename input:checkbox').prop('checked', checked)
+	_onClickSelectAll: function(e) {
+		var checked = $(e.target).prop('checked');
+		this.$fileList.find('td.filename input:checkbox').prop('checked', checked)
 			.closest('tr').toggleClass('selected', checked);
-		FileList._selectedFiles = {};
+		this._selectedFiles = {};
 		if (checked) {
-			for (var i = 0; i < FileList.files.length; i++) {
-				var fileData = FileList.files[i];
-				FileList._selectedFiles[fileData.id] = fileData;
-				FileList._selectionSummary.add(fileData);
+			for (var i = 0; i < this.files.length; i++) {
+				var fileData = this.files[i];
+				this._selectedFiles[fileData.id] = fileData;
+				this._selectionSummary.add(fileData);
 			}
 		}
 		else {
-			FileList._selectionSummary.clear();
+			this._selectionSummary.clear();
 		}
-		FileList.updateSelectionSummary();
+		this.updateSelectionSummary();
 	},
 
 	/**
@@ -212,13 +212,13 @@ window.FileList = {
 	 */
 	_onClickDownloadSelected: function(event) {
 		var files;
-		var dir = FileList.getCurrentDirectory();
-		if (FileList.isAllSelected()) {
+		var dir = this.getCurrentDirectory();
+		if (this.isAllSelected()) {
 			files = OC.basename(dir);
 			dir = OC.dirname(dir) || '/';
 		}
 		else {
-			files = _.pluck(FileList.getSelectedFiles(), 'name');
+			files = _.pluck(this.getSelectedFiles(), 'name');
 		}
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		OC.redirect(Files.getDownloadUrl(files, dir));
@@ -231,9 +231,9 @@ window.FileList = {
 	_onClickDeleteSelected: function(event) {
 		var files = null;
 		if (!FileList.isAllSelected()) {
-			files = _.pluck(FileList.getSelectedFiles(), 'name');
+			files = _.pluck(this.getSelectedFiles(), 'name');
 		}
-		FileList.do_delete(files);
+		this.do_delete(files);
 		event.preventDefault();
 		return false;
 	},
