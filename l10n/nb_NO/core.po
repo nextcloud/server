@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-07 01:55-0400\n"
-"PO-Revision-Date: 2014-04-06 16:40+0000\n"
-"Last-Translator: espenbye <espenbye@me.com>\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,32 +233,40 @@ msgid "One file conflict"
 msgstr "En filkonflikt"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Hvilke filer vil du beholde?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Hvis du velger begge versjonene vil den kopierte filen få et nummer lagt til i navnet."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Fortsett"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(alle valgt)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valgt)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Feil ved lasting av \"filen eksisterer\"-mal"
 

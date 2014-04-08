@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 01:55-0400\n"
-"PO-Revision-Date: 2014-03-31 16:30+0000\n"
-"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,63 +144,63 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:543
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1103
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1104
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1105
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1106
+#: js/js.js:1127
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1107
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1108
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1109
+#: js/js.js:1130
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1110
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1111
+#: js/js.js:1132
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:1112
+#: js/js.js:1133
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1113
+#: js/js.js:1134
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -239,32 +239,40 @@ msgid "One file conflict"
 msgstr "Ένα αρχείο διαφέρει"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Ποια αρχεία θέλετε να κρατήσετε;"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Εάν επιλέξετε και τις δυο εκδοχές, ένας αριθμός θα προστεθεί στο αντιγραφόμενο αρχείο."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(όλα τα επιλεγμένα)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} επιλέχθησαν)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Σφάλμα κατά την φόρτωση του προτύπου ύπαρξης αρχείου"
 

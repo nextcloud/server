@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "無法寄送郵件給這些使用者：%s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "已啓用維護模式"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "已停用維護模式"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "已更新資料庫"
 
@@ -136,59 +136,59 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分鐘前"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小時前"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 個月前"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "幾年前"
 
@@ -226,32 +226,40 @@ msgid "One file conflict"
 msgstr "一個檔案衝突"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "您要保留哪一個檔案？"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "如果您同時選擇兩個版本，被複製的那個檔案名稱後面會加上編號"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "取消"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "繼續"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "（已全選）"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "（已選 {count} 項）"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "載入檔案存在樣板出錯"
 
@@ -530,14 +538,14 @@ msgstr "新密碼"
 msgid "Reset password"
 msgstr "重設密碼"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr ""
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr ""

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 01:55-0400\n"
-"PO-Revision-Date: 2014-03-31 10:51+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:52+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
 msgstr "Šifrovanie"
 
@@ -205,7 +205,7 @@ msgstr "chyba pri aktualizácii aplikácie"
 msgid "Error"
 msgstr "Chyba"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Aktualizovať"
 
@@ -213,31 +213,31 @@ msgstr "Aktualizovať"
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Vybrať avatara"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Veľmi slabé heslo"
+
+#: js/personal.js:275
+msgid "Weak password"
+msgstr "Slabé heslo"
+
+#: js/personal.js:276
+msgid "So-so password"
+msgstr "Priemerné heslo"
+
+#: js/personal.js:277
+msgid "Good password"
+msgstr "Dobré heslo"
 
 #: js/personal.js:278
-msgid "Weak password"
-msgstr ""
-
-#: js/personal.js:279
-msgid "So-so password"
-msgstr ""
-
-#: js/personal.js:280
-msgid "Good password"
-msgstr ""
-
-#: js/personal.js:281
 msgid "Strong password"
-msgstr ""
+msgstr "Silné heslo"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dešifrujem súbory ... Počkajte prosím, môže to chvíľu trvať."
 
@@ -591,11 +591,11 @@ msgstr "Viac"
 msgid "Less"
 msgstr "Menej"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
 msgstr "Verzia"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -613,23 +613,23 @@ msgstr "Pridať vašu aplikáciu"
 msgid "More Apps"
 msgstr "Viac aplikácií"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Vyberte aplikáciu"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr ""
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Pozrite si stránku aplikácií na apps.owncloud.com"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>"
 
@@ -666,108 +666,108 @@ msgstr "Znovu zobraziť sprievodcu prvým spustením"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Použili ste <strong>%s</strong> z <strong>%s</strong> dostupných "
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Vaše heslo bolo zmenené"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Nie je možné zmeniť vaše heslo"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Aktuálne heslo"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nové heslo"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Zmeniť heslo"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Meno a priezvisko"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Vaša emailová adresa"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Avatar"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Nahrať nový"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Vyberte nový zo súborov"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Zmazať obrázok"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Formát súboru png alebo jpg. V ideálnom prípade štvorec, ale budete mať možnosť ho orezať."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "Váš avatar je použitý z pôvodného účtu."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Vybrať ako avatara"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Jazyk"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Pomôcť s prekladom"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "Použite túto linku <a href=\"%s\" target=\"_blank\">pre prístup k vašim súborom cez WebDAV</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Šifrovacia aplikácia už nie je spustená, dešifrujte všetky svoje súbory."
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Prihlasovacie heslo"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Dešifrovať všetky súbory"
 

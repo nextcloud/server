@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
-"Last-Translator: pstast <petr@stastny.eu>\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -427,41 +427,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr "Pokud zapnuto, je možno používat skupiny, které obsahují jiné skupiny. (Funguje pouze pokud atribut člena skupiny obsahuje DN.)"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr ""
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Speciální atributy"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Pole pro kvótu"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Výchozí kvóta"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "v bajtech"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Pole e-mailu"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Pravidlo pojmenování domovské složky uživatele"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr."
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Interní uživatelské jméno"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -477,15 +488,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Ve výchozím nastavení bude uživatelské jméno vytvořeno z UUID atributu. To zajistí unikátnost uživatelského jména a není potřeba provádět konverzi znaků. Interní uživatelské jméno je omezeno na znaky: [ a-zA-Z0-9_.@- ]. Ostatní znaky jsou nahrazeny jejich ASCII ekvivalentem nebo jednoduše vynechány. V případě kolize uživatelských jmen bude přidáno/navýšeno číslo. Interní uživatelské jméno je používáno k interní identifikaci uživatele. Je také výchozím názvem uživatelského domovského adresáře. Je také součástí URL pro vzdálený přístup, například všech *DAV služeb. S tímto nastavením může být výchozí chování změněno. Pro dosažení podobného chování jako před ownCloudem 5 uveďte atribut zobrazovaného jména do pole níže. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele z LDAP."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Atribut interního uživatelského jména:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Nastavit ručně UUID atribut"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -496,19 +507,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Ve výchozím nastavení je UUID atribut nalezen automaticky. UUID atribut je používán pro nezpochybnitelnou identifikaci uživatelů a skupin z LDAP. Navíc je na základě UUID tvořeno také interní uživatelské jméno, pokud není nastaveno jinak. Můžete výchozí nastavení přepsat a použít atribut, který sami zvolíte. Musíte se ale ujistit, že atribut, který vyberete, bude uveden jak u uživatelů, tak i u skupin a je unikátní. Ponechte prázdné pro výchozí chování. Změna bude mít vliv jen na nově namapované (přidané) uživatele a skupiny z LDAP."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "UUID atribut pro uživatele:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "UUID atribut pro skupiny:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Mapování uživatelských jmen z LDAPu"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -522,10 +533,10 @@ msgid ""
 "experimental stage."
 msgstr "Uživatelská jména jsou používány pro uchovávání a přiřazování (meta)dat. Pro správnou identifikaci a rozpoznání uživatelů bude mít každý uživatel z LDAP interní uživatelské jméno. To vyžaduje mapování uživatelských jmen na uživatele LDAP. Vytvořené uživatelské jméno je mapováno na UUID uživatele v LDAP. Navíc je cachována DN pro zmenšení interakce s LDAP, ale není používána pro identifikaci. Pokud se DN změní, bude to správně rozpoznáno. Interní uživatelské jméno se používá celé. Vyčištění mapování zanechá zbytky všude. Vyčištění navíc není specifické konfiguraci, bude mít vliv na všechny LDAP konfigurace! Nikdy nečistěte mapování v produkčním prostředí, jen v testovací nebo experimentální fázi."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Zrušit mapování uživatelských jmen LDAPu"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Zrušit mapování názvů skupin LDAPu"

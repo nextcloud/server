@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-30 01:55-0400\n"
-"PO-Revision-Date: 2014-03-29 20:50+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -425,41 +425,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr ""
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr ""
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Posebni atributi"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Polje količinske omejitve"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Privzeta količinska omejitev"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "v bajtih"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Polje elektronske pošte"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Pravila poimenovanja uporabniške osebne mape"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LDAP/AD."
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Programsko uporabniško ime"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -475,15 +486,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Privzeto je notranje uporabniško ime ustvarjeno na osnovi atributa UUID. To omogoča določitev uporabniškega imena kot enoličnega, zato znakov ni treba pretvarjati. Notranje ime je omejeno na standardne znake: [ a-zA-Z0-9_.@- ]. Morebitni drugi znaki so zamenjani z ustreznim ASCII znakom, ali pa so enostavno izpuščeni. V primeru sporov je prišteta ali odšteta številčna vrednost. Notranje uporabniško ime je uporabljeno za določanje uporabnika in je privzeto ime uporabnikove domače mape. Hkrati je tudi del oddaljenega naslova URL, na primer za storitve *DAV. S to nastavitvijo je prepisan privzet način delovanja. Pri različicah ownCloud, nižjih od 5.0, je podoben učinek mogoče doseči z vpisom prikaznega imena oziroma z neizpolnjenim (praznim) poljem te vrednosti. Spremembe bodo uveljavljene le za nove preslikane (dodane) uporabnike LDAP."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Programski atribut uporabniškega imena:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Prezri zaznavo UUID"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -494,19 +505,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Privzeto je atribut UUID samodejno zaznan. Uporabljen je za določevanje uporabnikov LDAP in skupin. Notranje uporabniško ime je določeno prav na atributu UUID, če ni določeno drugače. To nastavitev je mogoče prepisati in poslati poljuben atribut. Zagotoviti je treba le, da je ta pridobljen kot enolični podatek za uporabnika ali skupino. Prazno polje določa privzeti način. Spremembe bodo vplivale na novo preslikane (dodane) uporabnike LDAP in skupine."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "Atribut UUID za uporabnike:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "Atribut UUID za skupine:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Uporabniška preslikava uporabniškega imena na LDAP"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -520,10 +531,10 @@ msgid ""
 "experimental stage."
 msgstr "Uporabniška imena so uporabljena za shranjevanje in dodeljevanje (meta) podatkov. Za natančno določanje in prepoznavanje uporabnikov je uporabljen sistem notranjega uporabniškega imena vsakega uporabnika LDAP. Ta možnost zahteva preslikavo uporabniškega imena v uporabnika LDAP in preslikano na njegov UUID. Sistem predpomni enolična imena za zmanjšanje odvisnosti LDAP, vendar pa ta podatek ni uporabljen za določevanje uporabnika. Če se enolično ime spremeni, se spremeni notranje uporabniško ime. Čiščenje preslikav pušča ostanke podatkov in vpliva na vse nastavitve LDAP! V delovnem okolju zato spreminjanje preslikav ni priporočljivo, možnost pa je na voljo za preizkušanje."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Izbriši preslikavo uporabniškega imena na LDAP"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Izbriši preslikavo skupine na LDAP"

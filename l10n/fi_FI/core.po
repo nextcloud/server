@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -20,24 +20,24 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "Päättymispäivä on menneisyydessä."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Siirrytty ylläpitotilaan"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Ylläpitotila laitettu pois päältä"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Tietokanta ajan tasalla"
 
@@ -137,63 +137,63 @@ msgstr "marraskuu"
 msgid "December"
 msgstr "joulukuu"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuutti sitten"
 msgstr[1] "%n minuuttia sitten"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tunti sitten"
 msgstr[1] "%n tuntia sitten"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päivä sitten"
 msgstr[1] "%n päivää sitten"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuukausi sitten"
 msgstr[1] "%n kuukautta sitten"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "vuotta sitten"
 
@@ -232,32 +232,40 @@ msgid "One file conflict"
 msgstr "Yhden tiedoston ristiriita"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Mitkä tiedostot haluat säilyttää?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jos valitset kummatkin versiot, kopioidun tiedoston nimeen lisätään numero."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Peru"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Jatka"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(kaikki valittu)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valittu)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Virhe ladatessa mallipohjaa"
 
@@ -536,14 +544,14 @@ msgstr "Uusi salasana"
 msgid "Reset password"
 msgstr "Palauta salasana"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr ""
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr ""

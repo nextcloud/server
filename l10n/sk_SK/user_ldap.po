@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -423,41 +423,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr ""
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr ""
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Špeciálne atribúty"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Pole kvóty"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Predvolená kvóta"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "v bajtoch"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Pole emailu"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Pravidlo pre nastavenie názvu používateľského priečinka dát"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút z LDAP/AD."
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Interné používateľské meno"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -473,15 +484,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "V predvolenom nastavení bude interné používateľské meno vytvorené z UUID atribútu. Zabezpečí sa to, že používateľské meno bude jedinečné a znaky nemusia byť prevedené. Interné meno má obmedzenie, iba tieto znaky sú povolené: [a-zA-Z0-9_ @ -.]. Ostatné znaky sú nahradené ich ASCII alebo jednoducho vynechané. Pri kolíziách používateľských mien bude číslo pridané / odobrané. Interné používateľské meno sa používa na internú identifikáciu používateľa. Je tiež predvoleným názvom používateľského domovského priečinka v ownCloud. Je tiež súčasťou URL pre vzdialený prístup, napríklad pre všetky služby *DAV. S týmto nastavením sa dá prepísať predvolené správanie. Pre dosiahnutie podobného správania sa ako pred verziou ownCloud 5 zadajte atribút zobrazenia používateľského mena v tomto poli. Ponechajte prázdne pre predvolené správanie. Zmeny budú mať vplyv iba na novo namapovaných (pridaných) LDAP používateľov."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Atribút interného používateľského mena:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Prepísať UUID detekciu"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -492,19 +503,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "V predvolenom nastavení je UUID atribút detekovaný automaticky. UUID atribút je použitý na jedinečnú identifikáciu používateľov a skupín z LDAP. Naviac je na základe UUID vytvorené tiež interné používateľské meno, ak nie je nastavené inak. Môžete predvolené nastavenie prepísať a použiť atribút ktorý si sami zvolíte. Musíte sa ale ubezpečiť, že atribút ktorý vyberiete bude uvedený pri používateľoch, aj pri skupinách a je jedinečný. Ponechajte prázdne pre predvolené správanie. Zmena bude mať vplyv len na novo namapovaných (pridaných) používateľov a skupiny z LDAP."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "UUID atribút pre používateľov:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "UUID atribút pre skupiny:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Mapovanie názvov LDAP používateľských mien"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -518,10 +529,10 @@ msgid ""
 "experimental stage."
 msgstr "Používateľské mená sa používajú pre uchovávanie a priraďovanie (meta) dát. Pre správnu identifikáciu a rozpoznanie používateľov bude mať každý používateľ z LDAP interné používateľské meno. To je nevyhnutné pre namapovanie používateľských mien na používateľov v LDAP. Vytvorené používateľské meno je namapované na UUID používateľa v LDAP. Naviac je cachovaná DN pre obmedzenie interakcie s LDAP, ale nie je používaná pre identifikáciu. Ak sa DN zmení, bude to správne rozpoznané. Interné používateľské meno sa používa všade. Vyčistenie namapovaní vymaže zvyšky všade. Vyčistenie naviac nie je špecifické, bude mať vplyv na všetky LDAP konfigurácie! Nikdy nečistite namapovanie v produkčnom prostredí, len v testovacej alebo experimentálnej fáze."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Zrušiť mapovanie LDAP používateľských mien"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Zrušiť mapovanie názvov LDAP skupín"
