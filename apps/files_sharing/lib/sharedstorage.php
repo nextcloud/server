@@ -452,9 +452,6 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function getMimeType($path) {
-		if ($path == '' || $path == '/') {
-			return 'httpd/unix-directory';
-		}
 		if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->getMimeType($internalPath);
