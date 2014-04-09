@@ -291,6 +291,15 @@ class View {
 								Filesystem::signal_param_run => &$run
 							)
 						);
+					} else {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_update,
+							array(
+								Filesystem::signal_param_path => $this->getHookPath($path),
+								Filesystem::signal_param_run => &$run,
+							)
+						);
 					}
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -319,6 +328,12 @@ class View {
 								Filesystem::signal_post_create,
 								array(Filesystem::signal_param_path => $this->getHookPath($path))
 							);
+						} else {
+							\OC_Hook::emit(
+								Filesystem::CLASSNAME,
+								Filesystem::signal_post_update,
+								array(Filesystem::signal_param_path => $this->getHookPath($path))
+							);
 						}
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
@@ -335,7 +350,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -516,6 +531,15 @@ class View {
 							Filesystem::signal_param_run => &$run
 						)
 					);
+				} elseif ($run) {
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME,
+						Filesystem::signal_update,
+						array(
+							Filesystem::signal_param_path => $this->getHookPath($path2),
+							Filesystem::signal_param_run => &$run,
+						)
+					);
 				}
 				if ($run) {
 					\OC_Hook::emit(
@@ -570,6 +594,12 @@ class View {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_create,
+							array(Filesystem::signal_param_path => $this->getHookPath($path2))
+						);
+					} else {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_update,
 							array(Filesystem::signal_param_path => $this->getHookPath($path2))
 						);
 					}
