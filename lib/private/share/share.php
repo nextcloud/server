@@ -210,21 +210,23 @@ class Share extends \OC\Share\Constants {
 			$fileTargetIDs = array_keys($fileTargets);
 			$fileTargetIDs = array_unique($fileTargetIDs);
 
-			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `path`
-				FROM `*PREFIX*filecache`
-				WHERE `fileid` IN (' . implode(',', $fileTargetIDs) . ')'
-			);
-			$result = $query->execute();
+			if (!empty($fileTargetIDs)) {
+				$query = \OC_DB::prepare(
+					'SELECT `fileid`, `path`
+					FROM `*PREFIX*filecache`
+					WHERE `fileid` IN (' . implode(',', $fileTargetIDs) . ')'
+				);
+				$result = $query->execute();
 
-			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-			} else {
-				while ($row = $result->fetchRow()) {
-					foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
-						$sharedPath = '/Shared' . $shareData['file_target'];
-						$sharedPath .= substr($path, strlen($row['path']) -5);
-						$sharePaths[$uid] = $sharedPath;
+				if (\OCP\DB::isError($result)) {
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				} else {
+					while ($row = $result->fetchRow()) {
+						foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
+							$sharedPath = '/Shared' . $shareData['file_target'];
+							$sharedPath .= substr($path, strlen($row['path']) -5);
+							$sharePaths[$uid] = $sharedPath;
+						}
 					}
 				}
 			}
