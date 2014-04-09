@@ -242,11 +242,18 @@ OC.Upload = {
 						data.errorThrown = errorMessage;
 					}
 
-					if (file.type === '' && file.size === 4096) {
-						data.textStatus = 'dirorzero';
-						data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
-							{filename: file.name}
-						);
+					// in case folder drag and drop is not supported file will point to a directory
+					if (!file.type && file.size%4096 === 0 && file.size <= 102400) {
+						try {
+							reader = new FileReader();
+							reader.readAsBinaryString(f);
+						} catch (NS_ERROR_FILE_ACCESS_DENIED) {
+							//file is a directory
+							data.textStatus = 'dirorzero';
+							data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
+								{filename: file.name}
+							);
+						}
 					}
 
 					// add size
