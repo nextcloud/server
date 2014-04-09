@@ -219,18 +219,20 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 
-		// user2 has a local file with the same name
+		// user2 update the shared file
 		$this->user2View->file_put_contents($this->filename, $this->data);
 
-		// check if all keys are generated
-		$this->assertTrue($this->rootView->file_exists(
+		// keys should be stored at user1s dir, not in user2s
+		$this->assertFalse($this->rootView->file_exists(
 			self::TEST_ENCRYPTION_HOOKS_USER2 . '/files_encryption/share-keys/'
 			. $this->filename . '.' . \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '.shareKey'));
-		$this->assertTrue($this->rootView->file_exists(
+		$this->assertFalse($this->rootView->file_exists(
 			self::TEST_ENCRYPTION_HOOKS_USER2 . '/files_encryption/keyfiles/' . $this->filename . '.key'));
 
 		// delete the Shared file from user1 in data/user2/files/Shared
-		$this->user2View->unlink('/Shared/' . $this->filename);
+		$result = $this->user2View->unlink($this->filename);
+
+		$this->assertTrue($result);
 
 		// now keys from user1s home should be gone
 		$this->assertFalse($this->rootView->file_exists(
@@ -242,25 +244,11 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->rootView->file_exists(
 			self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/' . $this->filename . '.key'));
 
-		// but user2 keys should still exist
-		$this->assertTrue($this->rootView->file_exists(
-				self::TEST_ENCRYPTION_HOOKS_USER2 . '/files_encryption/share-keys/'
-				. $this->filename . '.' . \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '.shareKey'));
-		$this->assertTrue($this->rootView->file_exists(
-				self::TEST_ENCRYPTION_HOOKS_USER2 . '/files_encryption/keyfiles/' . $this->filename . '.key'));
-
 		// cleanup
-
-		$this->user2View->unlink($this->filename);
 
 		\Test_Encryption_Util::logoutHelper();
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
-
-		// unshare the file
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_HOOKS_USER2);
-
-		$this->user1View->unlink($this->filename);
 
 		if ($stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');

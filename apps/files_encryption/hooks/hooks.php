@@ -342,9 +342,7 @@ class Hooks {
 
 				// if parent has the same type than the child it is a 1:1 share
 				if ($parent['item_type'] === $params['itemType']) {
-
-					// prefix path with Shared
-					$path = '/Shared' . $parent['file_target'];
+					$path = $parent['file_target'];
 				} else {
 
 					// NOTE: parent is folder but shared was a file!
@@ -376,11 +374,9 @@ class Hooks {
 								break;
 							}
 						}
-						// prefix path with Shared
-						$path = '/Shared' . $parent['file_target'] . $path;
+						$path = $parent['file_target'] . $path;
 					} else {
-						// prefix path with Shared
-						$path = '/Shared' . $parent['file_target'] . $params['fileTarget'];
+						$path = $parent['file_target'] . $params['fileTarget'];
 					}
 				}
 			}
@@ -388,7 +384,8 @@ class Hooks {
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			// get the path including mount point only if not a shared folder
-			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
+			list($storage, ) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/files' . $path);
+			if (!($storage instanceof \OC\Files\Storage\Shared)) {
 				// get path including the the storage mount point
 				$path = $util->getPathWithMountPoint($params['itemSource']);
 			}
@@ -454,7 +451,7 @@ class Hooks {
 				}
 
 				// prefix path with Shared
-				$path = '/Shared' . $parent['file_target'] . $path;
+				$path = $parent['file_target'] . $path;
 			}
 
 			// for group shares get a list of the group members
@@ -469,9 +466,10 @@ class Hooks {
 			}
 
 			// get the path including mount point only if not a shared folder
-			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
+			list($storage, ) = \OC\Files\Filesystem::resolvePath($path);
+			if (!($storage instanceof \OC\Files\Storage\Shared)) {
 				// get path including the the storage mount point
-				$path = $util->getPathWithMountPoint($params['itemSource']);
+				//$path = $util->getPathWithMountPoint($params['itemSource']);
 			}
 
 			// if we unshare a folder we need a list of all (sub-)files
@@ -510,6 +508,8 @@ class Hooks {
 		// otherwise we perform a stream copy, so we get a new set of keys
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		list($storage1, ) = Filesystem::resolvePath($params['oldpath']);
+
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'uid' => $ownerOld,

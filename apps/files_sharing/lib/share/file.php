@@ -60,6 +60,12 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	 */
 	public function generateTarget($filePath, $shareWith, $exclude = null) {
 		$target = '/'.basename($filePath);
+
+		// for group shares we return the target right away
+		if ($shareWith === false) {
+			return $target;
+		}
+
 		\OC\Files\Filesystem::initMountPoints($shareWith);
 		$view = new \OC\Files\View('/' . $shareWith . '/files');
 		$excludeList = \OCP\Share::getItemsSharedWithUser('file', $shareWith, self::FORMAT_TARGET_NAMES);

@@ -1408,11 +1408,10 @@ class Util {
 					$this->userFilesDir . '/' . $dir));
 
 			foreach ($content as $c) {
-				$usersPath = isset($c['usersPath']) ? $c['usersPath'] : $c['path'];
 				if ($c['type'] === 'dir') {
-					$dirList[] = substr($usersPath, strlen("files"));
+					$dirList[] = substr($c['path'], strlen("files"));
 				} else {
-					$result[] = substr($usersPath, strlen("files"));
+					$result[] = substr($c['path'], strlen("files"));
 				}
 			}
 
