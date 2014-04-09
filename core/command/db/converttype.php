@@ -98,6 +98,12 @@ class ConvertType extends Command {
 				InputOption::VALUE_NONE,
 				'remove all tables from the destination database'
 			)
+			->addOption(
+				'all-apps',
+				null,
+				InputOption::VALUE_NONE,
+				'whether to create schema for all apps instead of only installed apps'
+			)
 		;
 	}
 
@@ -120,7 +126,7 @@ class ConvertType extends Command {
 		$output->writeln('<info>Creating schema in new database</info>');
 		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
-		$apps = \OC_App::getEnabledApps();
+		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach($apps as $app) {
 			if(file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
 				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
