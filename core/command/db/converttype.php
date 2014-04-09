@@ -102,6 +102,14 @@ class ConvertType extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		if ($input->getArgument('type') === $this->config->getValue('dbtype', '')) {
+			$output->writeln(sprintf(
+				'<error>Can not convert from %1$s to %1$s.</error>',
+				$input->getArgument('type')
+			));
+			return 1;
+		}
+
 		$fromDB = \OC_DB::getConnection();
 		$toDB = $this->getToDBConnection($input, $output);
 
