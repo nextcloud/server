@@ -134,10 +134,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
-	 * @param Middleware $middleWare
-	 * @return boolean
+	 * @param string $middleWare
+	 * @return boolean|null
 	 */
-	function registerMiddleWare(Middleware $middleWare) {
+	function registerMiddleWare($middleWare) {
 		array_push($this->middleWares, $middleWare);
 	}
 
