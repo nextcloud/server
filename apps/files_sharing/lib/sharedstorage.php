@@ -144,13 +144,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function is_dir($path) {
-		if ($path == '' || $path == '/') {
-			return true;
-		} else if ($source = $this->getSourcePath($path)) {
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-			return $storage->is_dir($internalPath);
-		}
-		return false;
+		$source = $this->getSourcePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+		return $storage->is_dir($internalPath);
 	}
 
 	public function is_file($path) {
