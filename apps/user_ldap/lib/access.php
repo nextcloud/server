@@ -777,8 +777,7 @@ class Access extends LDAPUtility {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
 		if(is_null($limit)) {
-			//TODO replace 400 with $this->connection->ldapPagingSize; once PR 6221 is merged and move it to callee countUsers()
-			$limit = 400;
+			$limit = $this->connection->ldapPagingSize;
 		}
 
 		$counter = 0;
