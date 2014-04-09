@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 23:30+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -422,41 +422,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr "Etkinleştirildiğinde, grup içeren gruplar desteklenir (Sadece grup üyesi DN niteliği içeriyorsa çalışır)."
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr "Sayfalama yığın boyutu"
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr "Yığın boyutu, kullanıcı veya grup numaralandırması benzeri hantal sonuçlar döndürebilen sayfalandırılmış LDAP aramaları için kullanılır. (0 yapmak bu durumlarda sayfalandırılmış LDAP aramalarını devre dışı bırakır.)"
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Özel Öznitelikler"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Kota Alanı"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Öntanımlı Kota"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "byte cinsinden"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "E-posta Alanı"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Kullanıcı Ana Dizini İsimlendirme Kuralı"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Kullanıcı adı bölümünü boş bırakın (varsayılan). "
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Dahili Kullanıcı Adı"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -472,15 +483,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Öntanımlı olarak UUID niteliğinden dahili bir kullanıcı adı oluşturulacak. Bu, kullanıcı adının benzersiz ve karakterlerinin dönüştürme gereksinimini ortadan kaldırır. Dahili kullanıcı adı, sadece bu karakterlerin izin verildiği kısıtlamaya sahip: [ a-zA-Z0-9_.@- ]. Diğer karakterler ise ASCII karşılıkları ile yer değiştirilir veya basitçe yoksayılır. Çakışmalar olduğunda ise bir numara eklenir veya arttırılır. Dahili kullanıcı adı, bir kullanıcıyı dahili olarak tanımlamak için kullanılır. Ayrıca kullanıcı ev klasörü için öntanımlı bir isimdir. Bu ayrıca uzak adreslerin (örneğin tüm *DAV hizmetleri) bir parçasıdır. Bu yar ise, öntanımlı davranışın üzerine yazılabilir. ownCloud 5'ten önce benzer davranışı yapabilmek için aşağıdaki alana bir kullanıcı görünen adı niteliği girin. Öntanımlı davranış için boş bırakın. Değişiklikler, sadece yeni eşleştirilen (eklenen) LDAP kullanıcılarında etkili olacaktır."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Dahili Kullanıcı Adı Özniteliği:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "UUID tespitinin üzerine yaz"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -491,19 +502,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Öntanımlı olarak, UUID niteliği otomatik olarak tespit edilmez. UUID niteliği LDAP kullanıcılarını ve gruplarını şüphesiz biçimde tanımlamak için kullanılır. Ayrıca yukarıda belirtilmemişse, bu UUID'ye bağlı olarak dahili bir kullanıcı adı oluşturulacaktır. Bu ayarın üzerine yazabilir ve istediğiniz bir nitelik belirtebilirsiniz. Ancak istediğiniz niteliğin benzersiz olduğundan ve hem kullanıcı hem de gruplar tarafından getirilebileceğinden emin olmalısınız. Öntanımlı davranış için boş bırakın. Değişiklikler sadece yeni eşleştirilen (eklenen) LDAP kullanıcı ve gruplarında etkili olacaktır."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "Kullanıcılar için UUID Özniteliği:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "Gruplar için UUID Özniteliği:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirme"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -517,10 +528,10 @@ msgid ""
 "experimental stage."
 msgstr "Kullanıcı adları, (üst) veri depolaması ve ataması için kullanılır. Kullanıcıları kesin olarak tanımlamak ve algılamak için, her LDAP kullanıcısı bir dahili kullanıcı adına sahip olacak. Bu kullanıcı adı ile LDAP kullanıcısı arasında bir eşleşme gerektirir. Oluşturulan kullanıcı adı LDAP kullanıcısının UUID'si ile eşleştirilir. Ek olarak LDAP etkileşimini azaltmak için DN de önbelleğe alınır ancak bu kimlik tanıma için kullanılmaz. Eğer DN değişirse, değişiklikler tespit edilir. Dahili kullanıcı her yerde kullanılır. Eşleştirmeleri temizlemek, her yerde kalıntılar bırakacaktır. Eşleştirmeleri temizlemek yapılandırmaya hassas bir şekilde bağlı değildir, tüm LDAP yapılandırmalarını etkiler! Üretim ortamında eşleştirmeleri asla temizlemeyin, sadece sınama veya deneysel aşamada kullanın."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirmesini Temizle"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Grup Adı-LDAP Grubu Eşleştirme"

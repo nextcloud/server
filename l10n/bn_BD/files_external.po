@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-02 05:55+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-09 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -41,24 +41,33 @@ msgstr "Google Drive সংরক্ষণাগার নির্ধারণ 
 msgid "Saved"
 msgstr ""
 
-#: lib/config.php:654
-msgid ""
-"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
-"is not possible. Please ask your system administrator to install it."
+#: lib/config.php:592
+msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:658
-msgid ""
-"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
-" of FTP shares is not possible. Please ask your system administrator to "
-"install it."
+#: lib/config.php:602
+msgid " and "
 msgstr ""
 
-#: lib/config.php:661
+#: lib/config.php:624
+#, php-format
 msgid ""
-"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
-"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
-"your system administrator to install it."
+"<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
+"of %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:626
+#, php-format
+msgid ""
+"<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
+" %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:628
+#, php-format
+msgid ""
+"<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
+" ask your system administrator to install it."
 msgstr ""
 
 #: templates/settings.php:2

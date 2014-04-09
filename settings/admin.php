@@ -20,9 +20,7 @@ $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;
 
 // Should we display sendmail as an option?
-if (findBinaryPath('sendmailsendmail')) {
-	$tmpl->assign('sendmail_is_available', true);
-}
+$tmpl->assign('sendmail_is_available', (bool) findBinaryPath('sendmailsendmail'));
 
 $tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('mail_domain', OC_Config::getValue( "mail_domain", '' ));

@@ -45,11 +45,6 @@ $(document).ready(function() {
 		});
 
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
-			var dir = $('#dir').val();
-			var item = dir + '/' + filename;
-			if (dir == '/') {
-				item = dir + filename;
-			}
 			var tr = FileList.findFileEl(filename);
 			var itemType = 'file';
 			if ($(tr).data('type') == 'dir') {

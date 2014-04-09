@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 06:01+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -420,41 +420,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr ""
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr ""
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Spesielle attributter"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Felt med lagringskvote"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Standard lagringskvote"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "i bytes"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Felt med e-postadresse"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Navneregel for brukers hjemmemappe"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "La stå tom for brukernavn (standard). Ellers, spesifiser en LDAP/AD attributt."
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Internt brukernavn"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -470,15 +481,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Som standard vil det interne brukernavnet bli laget utifra UUID-attributten. Dette sikrer at brukernavnet er unikt og at det ikke er nødvendig å konvertere tegn. Det interne brukernavnet har den begrensningen at bare disse tegnene er tillatt: [ a-zA-Z0-9_.@- ]. Andre tegn erstattes av tilsvarende ASCII-tegn eller blir ganske enkelt utelatt. Ved kollisjon blir et nummer lagt til / øket. Det interne brukernavnet brukes til å identifisere en bruker internt. Det er også standardnavnet på brukerens hjemmemappe. Det er også med i fjern-URL-er, for eksempel for alle *DAV-tjenester. Med denne innstillingen kan standard oppførsel overstyres. For å få en oppførsel som likner oppførselen før ownCloud 5, legg inn attributten for brukerens visningsnavn i dette feltet. La feltet stå tomt for standard oppførsel. Endringer vil kun påvirke nylig tilknyttede (opprettede) LDAP-brukere."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Attributt for internt brukernavn:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Overstyr UUID-oppdaging"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -489,19 +500,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Som standard blir UUID-attributten oppdaget automatisk. UUID-attributten brukes til å identifisere LDAP-brukere og -grupper uten tvil. Det interne brukernavnet vil også bli laget basert på UUID, hvis ikke annet er spesifisert ovenfor. Du kan overstyre innstillingen og oppgi den attributten du ønsker. Du må forsikre det om at din valgte attributt kan hentes ut både for brukere og for grupper og at den er unik. La stå tomt for standard oppførsel. Endringer vil kun påvirke nylig tilknyttede (opprettede) LDAP-brukere og -grupper."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "UUID-attributt for brukere:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "UUID-attributt for grupper:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Tilknytning av brukernavn til LDAP-bruker"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -515,10 +526,10 @@ msgid ""
 "experimental stage."
 msgstr "Brukernavn brukes til å lagre og tilordne (meta)data. For at brukere skal identifiseres og gjenkjennes presist, vil hver LDAP-bruker ha et internt brukernavn. Dette krever en tilknytning fra brukernavn til LDAP-bruker. Brukernavn som opprettes blir knyttet til LDAP-brukerens UUID. I tillegg mellomlagres DN for å redusere LDAP-kommunikasjon, men det brukes ikke til identifisering. Hvis DN endres vil endringene bli oppdaget. Det interne brukernavnet brukes alle steder. Nullstilling av tilknytningene vil etterlate seg rester overalt. Nullstilling av tilknytningene skjer ikke pr. konfigurasjon, det påvirker alle LDAP-konfigurasjoner! Nullstill aldri tilknytningene i et produksjonsmiljø, kun ved testing eller eksperimentering."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Nullstill tilknytning av brukernavn til LDAP-bruker"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Nullstill tilknytning av gruppenavn til LDAP-gruppe"

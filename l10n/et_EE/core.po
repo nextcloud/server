@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-01 07:30+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 06:10+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,63 +136,63 @@ msgstr "November"
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:543
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/js.js:1103
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:1104
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut tagasi"
 msgstr[1] "%n minutit tagasi"
 
-#: js/js.js:1105
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tund tagasi"
 msgstr[1] "%n tundi tagasi"
 
-#: js/js.js:1106
+#: js/js.js:1127
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:1107
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:1108
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päev tagasi"
 msgstr[1] "%n päeva tagasi"
 
-#: js/js.js:1109
+#: js/js.js:1130
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:1110
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuu tagasi"
 msgstr[1] "%n kuud tagasi"
 
-#: js/js.js:1111
+#: js/js.js:1132
 msgid "months ago"
 msgstr "kuu tagasi"
 
-#: js/js.js:1112
+#: js/js.js:1133
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:1113
+#: js/js.js:1134
 msgid "years ago"
 msgstr "aastat tagasi"
 
@@ -231,32 +231,40 @@ msgid "One file conflict"
 msgstr "Üks failikonflikt"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr "Uued failid"
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Milliseid faile sa soovid alles hoida?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Jätka"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(kõik valitud)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valitud)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Viga faili olemasolu malli laadimisel"
 

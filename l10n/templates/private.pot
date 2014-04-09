@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-07 01:55-0400\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -328,4 +328,22 @@ msgstr ""
 
 #: template/functions.php:145
 msgid "years ago"
+msgstr ""
+
+#: user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: user/manager.php:251
+msgid "A valid username must be provided"
+msgstr ""
+
+#: user/manager.php:255
+msgid "A valid password must be provided"
+msgstr ""
+
+#: user/manager.php:260
+msgid "The username is already being used"
 msgstr ""

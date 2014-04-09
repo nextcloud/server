@@ -20,7 +20,6 @@
 */
 
 /* global OC */
-/* global SVGSupport, replaceSVG */
 (function() {
 	/**
 	 * Creates an breadcrumb element in the given container
@@ -104,8 +103,8 @@
 			$crumb.addClass('last');
 
 			// in case svg is not supported by the browser we need to execute the fallback mechanism
-			if (!SVGSupport()) {
-				replaceSVG();
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(this.$el);
 			}
 
 			// setup drag and drop

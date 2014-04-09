@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "No" => "ไม่ตกลง",
 "Ok" => "ตกลง",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
+"New Files" => "ไฟล์ใหม่",
 "Cancel" => "ยกเลิก",
 "Shared" => "แชร์แล้ว",
 "Share" => "แชร์",

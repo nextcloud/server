@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Σφάλμα φόρτωσης προτύπου μηνυμάτων: {σφάλμα}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} αρχείο διαφέρει","{count} αρχεία διαφέρουν"),
 "One file conflict" => "Ένα αρχείο διαφέρει",
+"New Files" => "Νέα Αρχεία",
 "Which files do you want to keep?" => "Ποια αρχεία θέλετε να κρατήσετε;",
 "If you select both versions, the copied file will have a number added to its name." => "Εάν επιλέξετε και τις δυο εκδοχές, ένας αριθμός θα προστεθεί στο αντιγραφόμενο αρχείο.",
 "Cancel" => "Άκυρο",

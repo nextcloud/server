@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-01 08:10+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-09 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -280,8 +280,8 @@ msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide s
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
@@ -338,3 +338,21 @@ msgstr "viimasel aastal"
 #: private/template/functions.php:145
 msgid "years ago"
 msgstr "aastat tagasi"
+
+#: private/user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: private/user/manager.php:251
+msgid "A valid username must be provided"
+msgstr ""
+
+#: private/user/manager.php:255
+msgid "A valid password must be provided"
+msgstr ""
+
+#: private/user/manager.php:260
+msgid "The username is already being used"
+msgstr ""

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-04 05:30+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-09 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -42,25 +42,34 @@ msgstr "Lỗi cấu hình lưu trữ Google Drive"
 msgid "Saved"
 msgstr ""
 
-#: lib/config.php:654
-msgid ""
-"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
-"is not possible. Please ask your system administrator to install it."
-msgstr "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó."
+#: lib/config.php:592
+msgid "<b>Note:</b> "
+msgstr ""
 
-#: lib/config.php:658
-msgid ""
-"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
-" of FTP shares is not possible. Please ask your system administrator to "
-"install it."
-msgstr "<b>Cảnh báo:</b> FTP trong PHP chưa được cài đặt hoặc chưa được  mở. Mount FTP shares là không thể. Xin hãy yêu cầu quản trị hệ thống của bạn cài đặt nó."
+#: lib/config.php:602
+msgid " and "
+msgstr ""
 
-#: lib/config.php:661
+#: lib/config.php:624
+#, php-format
 msgid ""
-"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
-"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
-"your system administrator to install it."
-msgstr "<b>Cảnh báo:</b> Tính năng Curl trong PHP chưa được kích hoạt hoặc cài đặt. Việc gắn kết ownCloud / WebDAV hay GoogleDrive không thực hiện được. Vui lòng liên hệ người quản trị để cài đặt nó."
+"<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
+"of %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:626
+#, php-format
+msgid ""
+"<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
+" %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:628
+#, php-format
+msgid ""
+"<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
+" ask your system administrator to install it."
+msgstr ""
 
 #: templates/settings.php:2
 msgid "External Storage"

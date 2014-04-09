@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-07 01:55-0400\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,31 +210,31 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
