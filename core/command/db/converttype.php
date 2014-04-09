@@ -123,15 +123,7 @@ class ConvertType extends Command {
 			$this->clearSchema($toDB->getSchemaManager(), $input, $output);
 		}
 
-		$output->writeln('<info>Creating schema in new database</info>');
-		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
-		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
-		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
-		foreach($apps as $app) {
-			if(file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
-				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
-			}
-		}
+		$this->createSchema($toDB, $input, $output);
 
 		$toTables = $this->getTables($toDB);
 		$fromTables = $this->getTables($fromDB);
@@ -152,6 +144,18 @@ class ConvertType extends Command {
 		}
 		$tables = array_intersect($toTables, $fromTables);
 		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
+	}
+
+	protected function createSchema(Connection $toDB, InputInterface $input, OutputInterface $output) {
+		$output->writeln('<info>Creating schema in new database</info>');
+		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
+		$schemaManager->createDbFromStructure(\OC::$SERVERROOT.'/db_structure.xml');
+		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
+		foreach($apps as $app) {
+			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
+				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
+			}
+		}
 	}
 
 	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
