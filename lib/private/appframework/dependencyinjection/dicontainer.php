@@ -98,7 +98,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 
 			foreach($middleWares as $middleWare) {
-				$dispatcher->registerMiddleware($middleWare);
+				$dispatcher->registerMiddleware($c[$middleWare]);
 			}
 
 			return $dispatcher;
@@ -133,10 +133,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
-	 * @param Middleware $middleWare
+	 * @param string $middleWare
 	 * @return boolean|null
 	 */
-	function registerMiddleWare(Middleware $middleWare) {
+	function registerMiddleWare($middleWare) {
 		array_push($this->middleWares, $middleWare);
 	}
 
