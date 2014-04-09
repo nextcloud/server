@@ -1098,7 +1098,8 @@ $(document).ready(function() {
 						fileDirectory = fileDirectory[0];
 
 						// Get the directory 
-						if ($('tr[data-file="'+fileDirectory+'"]').length === 0) {
+						var fd = FileList.findFileEl(fileDirectory);
+						if (fd.length === 0) {
 							var dir = {
 								name: fileDirectory,
 								type: 'dir',
