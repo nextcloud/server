@@ -147,19 +147,19 @@ describe('Core base tests', function() {
 		});
 		describe('Images', function() {
 			it('Generates image path with given extension', function() {
-				var svgSupportStub = sinon.stub(window, 'SVGSupport', function() { return true; });
+				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return true; });
 				expect(OC.imagePath('core', 'somefile.jpg')).toEqual(OC.webroot + '/core/img/somefile.jpg');
 				expect(OC.imagePath(TESTAPP, 'somefile.jpg')).toEqual(TESTAPP_ROOT + '/img/somefile.jpg');
 				svgSupportStub.restore();
 			});
 			it('Generates image path with svg extension when svg support exists', function() {
-				var svgSupportStub = sinon.stub(window, 'SVGSupport', function() { return true; });
+				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return true; });
 				expect(OC.imagePath('core', 'somefile')).toEqual(OC.webroot + '/core/img/somefile.svg');
 				expect(OC.imagePath(TESTAPP, 'somefile')).toEqual(TESTAPP_ROOT + '/img/somefile.svg');
 				svgSupportStub.restore();
 			});
 			it('Generates image path with png ext when svg support is not available', function() {
-				var svgSupportStub = sinon.stub(window, 'SVGSupport', function() { return false; });
+				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return false; });
 				expect(OC.imagePath('core', 'somefile')).toEqual(OC.webroot + '/core/img/somefile.png');
 				expect(OC.imagePath(TESTAPP, 'somefile')).toEqual(TESTAPP_ROOT + '/img/somefile.png');
 				svgSupportStub.restore();

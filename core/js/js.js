@@ -295,7 +295,7 @@ var OC={
 	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
-			file+=(SVGSupport())?'.svg':'.png';
+			file+=(OC.Util.hasSVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
 	},
@@ -497,7 +497,7 @@ var OC={
 							throw e;
 						});
 					}
-					if(!SVGSupport()) {
+					if(!OC.Util.hasSVGSupport()) {
 						OC.Util.replaceSVG();
 					}
 				}).show();
@@ -874,7 +874,7 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
+	if(!OC.Util.hasSVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		OC.Util.replaceSVG();
 	}else{
 		SVGSupport.checkMimeType();
