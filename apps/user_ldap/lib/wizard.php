@@ -869,12 +869,14 @@ class Wizard extends LDAPUtility {
 	 * @param string $attr the attribute of which a list of values shall be returned
 	 * @param $lfw bool, whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
+	 * @param int $dnReadLimit the amount of how many DNs should be analyzed.
+	 * The lower, the faster
 	 * @param string $maxF string. if not null, this variable will have the filter that
 	 * yields most result entries
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
 	 */
-	private function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, &$maxF = null) {
+	public function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, $dnReadLimit = 3, &$maxF = null) {
 		$dnRead = array();
 		$foundItems = array();
 		$maxEntries = 0;
@@ -884,11 +886,16 @@ class Wizard extends LDAPUtility {
 		}
 		$base = $this->configuration->ldapBase[0];
 		$cr = $this->getConnection();
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
+		$lastFilter = null;
+		if(isset($filters[count($filters)-1])) {
+			$lastFilter = $filters[count($filters)-1];
+		}
 		foreach($filters as $filter) {
-			if($lfw && count($foundItems) > 0) {
+			if($lfw && $lastFilter === $filter && count($foundItems) > 0) {
+				//skip when the filter is a wildcard and results were found
 				continue;
 			}
 			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
@@ -902,8 +909,10 @@ class Wizard extends LDAPUtility {
 					$maxEntries = $entries;
 					$maxF = $filter;
 				}
+				$dnReadCount = 0;
 				do {
 					$entry = $this->ldap->$getEntryFunc($cr, $rr);
+					$getEntryFunc = 'nextEntry';
 					if(!$this->ldap->isResource($entry)) {
 						continue 2;
 					}
@@ -916,13 +925,14 @@ class Wizard extends LDAPUtility {
 					$state = $this->getAttributeValuesFromEntry($attributes,
 																$attr,
 																$newItems);
+					$dnReadCount++;
 					$foundItems = array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
-					$getEntryFunc = 'nextEntry';
 					$rr = $entry; //will be expected by nextEntry next round
-				} while($state === self::LRESULT_PROCESSED_SKIP
-						|| $this->ldap->isResource($entry));
+				} while(($state === self::LRESULT_PROCESSED_SKIP
+						|| $this->ldap->isResource($entry))
+						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
 			}
 		}
 
@@ -950,9 +960,19 @@ class Wizard extends LDAPUtility {
 			$objectclasses[$key] = $p.$value;
 		}
 		$maxEntryObjC = '';
+
+		//how deep to dig?
+		//When looking for objectclasses, testing few entries is sufficient,
+		//when looking for group we need to get all names, though.
+		if(strtolower($attr) === 'objectclass') {
+			$dig = 3;
+		} else {
+			$dig = 0;
+		}
+
 		$availableFeatures =
 			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   true, $maxEntryObjC);
+											   true, $dig, $maxEntryObjC);
 		if(is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
 			natcasesort($availableFeatures);
