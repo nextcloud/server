@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "有効期限が切れています。",
 "Couldn't send mail to following users: %s " => "次のユーザーにメールを送信できませんでした: %s",
 "Turned on maintenance mode" => "メンテナンスモードがオンになりました",
 "Turned off maintenance mode" => "メンテナンスモードがオフになりました",
@@ -49,6 +50,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "メッセージテンプレートの読み込みエラー: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} ファイルが競合"),
 "One file conflict" => "1ファイルが競合",
+"New Files" => "新しいファイル",
 "Which files do you want to keep?" => "どちらのファイルを保持したいですか？",
 "If you select both versions, the copied file will have a number added to its name." => "両方のバージョンを選択した場合は、ファイル名の後ろに数字を追加したファイルのコピーを作成します。",
 "Cancel" => "キャンセル",
@@ -121,6 +123,8 @@ $TRANSLATIONS = array(
 "To login page" => "ログインページへ戻る",
 "New password" => "新しいパスワードを入力",
 "Reset password" => "パスワードをリセット",
+"Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Mac OS X では、サポートされていません。このOSでは、%sは正常に動作しないかもしれません。ご自身の責任においてご利用ください。",
+"For the best results, please consider using a GNU/Linux server instead." => "最も良い方法としては、代わりにGNU/Linuxサーバーを利用することをご検討ください。",
 "Personal" => "個人",
 "Users" => "ユーザー",
 "Apps" => "アプリ",

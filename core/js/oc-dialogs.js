@@ -19,6 +19,8 @@
  *
  */
 
+/* global OC, t */
+
 /**
  * this class to ease the usage of jquery dialogs
  */
@@ -138,6 +140,9 @@ var OCdialogs = {
 					self.$filePicker = null;
 				}
 			});
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(self.$filePicker.parent());
+			}
 		})
 		.fail(function(status, error) {
 			// If the method is called while navigating away
@@ -294,7 +299,7 @@ var OCdialogs = {
 				conflict.find('.replacement .mtime').text(formatDate(replacement.lastModifiedDate));
 			}
 			var path = original.directory + '/' +original.name;
-			Files.lazyLoadPreview(path, original.mime, function(previewpath){
+			Files.lazyLoadPreview(path, original.mimetype, function(previewpath){
 				conflict.find('.original .icon').css('background-image','url('+previewpath+')');
 			}, 96, 96, original.etag);
 			getCroppedPreview(replacement).then(
@@ -343,7 +348,7 @@ var OCdialogs = {
 				addConflict(conflicts, original, replacement);
 
 				var count = $(dialog_id+ ' .conflict').length;
-				var title = n('files',
+				var title = n('core',
 								'{count} file conflict',
 								'{count} file conflicts',
 								count,
@@ -358,14 +363,17 @@ var OCdialogs = {
 				//create dialog
 				this._fileexistsshown = true;
 				$.when(this._getFileExistsTemplate()).then(function($tmpl) {
-					var title = t('files','One file conflict');
+					var title = t('core','One file conflict');
 					var $dlg = $tmpl.octemplate({
 						dialog_name: dialog_name,
 						title: title,
 						type: 'fileexists',
 
-						why: t('files','Which files do you want to keep?'),
-						what: t('files','If you select both versions, the copied file will have a number added to its name.')
+						allnewfiles: t('core','New Files'),
+						allexistingfiles: t('core','Already existing files'),
+
+						why: t('core','Which files do you want to keep?'),
+						what: t('core','If you select both versions, the copied file will have a number added to its name.')
 					});
 					$('body').append($dlg);
 
@@ -430,10 +438,10 @@ var OCdialogs = {
 						var count = $(dialog_id).find('.conflict .replacement input[type="checkbox"]:checked').length;
 						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allnewfiles').prop('checked', true);
-							$(dialog_id).find('.allnewfiles + .count').text(t('files','(all selected)'));
+							$(dialog_id).find('.allnewfiles + .count').text(t('core','(all selected)'));
 						} else if (count > 0) {
 							$(dialog_id).find('.allnewfiles').prop('checked', false);
-							$(dialog_id).find('.allnewfiles + .count').text(t('files','({count} selected)',{count:count}));
+							$(dialog_id).find('.allnewfiles + .count').text(t('core','({count} selected)',{count:count}));
 						} else {
 							$(dialog_id).find('.allnewfiles').prop('checked', false);
 							$(dialog_id).find('.allnewfiles + .count').text('');
@@ -443,10 +451,10 @@ var OCdialogs = {
 						var count = $(dialog_id).find('.conflict .original input[type="checkbox"]:checked').length;
 						if (count === $(dialog_id+ ' .conflict').length) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', true);
-							$(dialog_id).find('.allexistingfiles + .count').text(t('files','(all selected)'));
+							$(dialog_id).find('.allexistingfiles + .count').text(t('core','(all selected)'));
 						} else if (count > 0) {
 							$(dialog_id).find('.allexistingfiles').prop('checked', false);
-							$(dialog_id).find('.allexistingfiles + .count').text(t('files','({count} selected)',{count:count}));
+							$(dialog_id).find('.allexistingfiles + .count').text(t('core','({count} selected)',{count:count}));
 						} else {
 							$(dialog_id).find('.allexistingfiles').prop('checked', false);
 							$(dialog_id).find('.allexistingfiles + .count').text('');
@@ -514,7 +522,7 @@ var OCdialogs = {
 		}
 
 		return $.getJSON(
-			OC.filePath('files', 'ajax', 'rawlist.php'),
+			OC.filePath('files', 'ajax', 'list.php'),
 			{
 				dir: dir,
 				mimetypes: JSON.stringify(mimeType)
@@ -539,7 +547,7 @@ var OCdialogs = {
 		this.$filelist.empty().addClass('loading');
 		this.$filePicker.data('path', dir);
 		$.when(this._getFileList(dir, this.$filePicker.data('mimetype'))).then(function(response) {
-			$.each(response.data, function(index, file) {
+			$.each(response.data.files, function(index, file) {
 				if (file.type === 'dir') {
 					dirs.push(file);
 				} else {
@@ -555,13 +563,25 @@ var OCdialogs = {
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
-					date: OC.mtime2date(entry.mtime)
+					date: OC.mtime2date(Math.floor(entry.mtime / 1000))
 				});
-				$li.find('img').attr('src', entry.mimetype_icon);
+				if (entry.isPreviewAvailable) {
+					var urlSpec = {
+						file: dir + '/' + entry.name
+					};
+					var previewUrl = OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
+					$li.find('img').attr('src', previewUrl);
+				}
+				else {
+					$li.find('img').attr('src', OC.Util.replaceSVGIcon(entry.icon));
+				}
 				self.$filelist.append($li);
 			});
 
 			self.$filelist.removeClass('loading');
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(self.$filePicker.find('.dirtree'));
+			}
 		});
 	},
 	/**

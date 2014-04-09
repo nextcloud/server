@@ -8,6 +8,15 @@
 
 class Test_Mail extends PHPUnit_Framework_TestCase {
 
+	protected function setUp()
+	{
+		if (!function_exists('idn_to_ascii')) {
+			$this->markTestSkipped(
+				'The intl extension is not available.'
+			);
+		}
+	}
+
 	/**
 	 * @dataProvider buildAsciiEmailProvider
 	 * @param $expected

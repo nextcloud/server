@@ -137,6 +137,9 @@ class OC_Mail {
 	 * @return string
 	 */
 	public static function buildAsciiEmail($emailAddress) {
+		if (!function_exists('idn_to_ascii')) {
+			return $emailAddress;
+		}
 
 		list($name, $domain) = explode('@', $emailAddress, 2);
 		$domain = idn_to_ascii($domain);

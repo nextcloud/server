@@ -64,7 +64,7 @@ class Config {
 	public static function setSystemValue( $key, $value ) {
 		try {
 			\OC_Config::setValue( $key, $value );
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			return false;
 		}
 		return true;
@@ -96,7 +96,7 @@ class Config {
 	public static function setAppValue( $app, $key, $value ) {
 		try {
 			\OC_Appconfig::setValue( $app, $key, $value );
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			return false;
 		}
 		return true;
@@ -131,7 +131,7 @@ class Config {
 	public static function setUserValue( $user, $app, $key, $value ) {
 		try {
 			\OC_Preferences::setValue( $user, $app, $key, $value );
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			return false;
 		}
 		return true;

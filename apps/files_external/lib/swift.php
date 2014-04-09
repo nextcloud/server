@@ -65,6 +65,18 @@ class Swift extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
+	const SUBCONTAINER_FILE='.subcontainers';
+
+	/**
+	 * translate directory path to container name
+	 * @param string $path
+	 * @return string
+	 */
+	private function getContainerName($path) {
+		$path=trim(trim($this->root, '/') . "/".$path, '/.');
+		return str_replace('/', '\\', $path);
+	}
+
 	/**
 	 * @param string $path
 	 */
@@ -490,4 +502,16 @@ class Swift extends \OC\Files\Storage\Common {
 		), $tmpFile);
 		unlink($tmpFile);
 	}
+
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			return array('curl');
+		}
+	}
+
 }

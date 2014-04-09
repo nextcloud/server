@@ -4,14 +4,15 @@
 # 
 # Translators:
 # onionhead <brthomassen@gmail.com>, 2013
+# espenbye <espenbye@me.com>, 2014
 # vidaren <news@vidartysse.net>, 2014
 # Stein-Aksel Basma <stabasm@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
+"POT-Creation-Date: 2014-04-08 01:56-0400\n"
+"PO-Revision-Date: 2014-04-08 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -20,24 +21,24 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Klarte ikke å sende mail til følgende brukere: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Slo på vedlikeholdsmodus"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Slo av vedlikeholdsmodus"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Oppdaterte databasen"
 
@@ -137,63 +138,63 @@ msgstr "November"
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Lagrer..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minutt siden"
 msgstr[1] "%n minutter siden"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time siden"
 msgstr[1] "%n timer siden"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dager siden"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "forrige måned"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dager siden"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "i fjor"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "år siden"
 
@@ -232,42 +233,50 @@ msgid "One file conflict"
 msgstr "En filkonflikt"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Hvilke filer vil du beholde?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Hvis du velger begge versjonene vil den kopierte filen få et nummer lagt til i navnet."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Fortsett"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(alle valgt)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valgt)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Feil ved lasting av \"filen eksisterer\"-mal"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Veldig svakt passord"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Svakt passord"
 
 #: js/setup.js:86
 msgid "So-so password"
@@ -275,11 +284,11 @@ msgstr ""
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Bra passord"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Sterkt passord"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -536,14 +545,14 @@ msgstr "Nytt passord"
 msgid "Reset password"
 msgstr "Tilbakestill passord"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr ""
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr ""
@@ -668,7 +677,7 @@ msgstr "opprett en <strong>administrator-konto</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Lagring og database"
 
 #: templates/installation.php:77
 msgid "Data folder"

@@ -30,7 +30,6 @@ class MailNotifications {
 
 	/**
 	 *
-	 * @param string $recipient user id
 	 * @param string $sender user id (if nothing is set we use the currently logged-in user)
 	 */
 	public function __construct($sender = null) {

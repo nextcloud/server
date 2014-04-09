@@ -268,7 +268,72 @@ describe('Core base tests', function() {
 			// still nothing
 			expect(counter).toEqual(0);
 		});
-
+	});
+	describe('Parse query string', function() {
+		it('Parses query string from full URL', function() {
+			var query = OC.parseQueryString('http://localhost/stuff.php?q=a&b=x');
+			expect(query).toEqual({q: 'a', b: 'x'});
+		});
+		it('Parses query string from query part alone', function() {
+			var query = OC.parseQueryString('q=a&b=x');
+			expect(query).toEqual({q: 'a', b: 'x'});
+		});
+		it('Returns null hash when empty query', function() {
+			var query = OC.parseQueryString('');
+			expect(query).toEqual(null);
+		});
+		it('Returns empty hash when empty query with question mark', function() {
+			var query = OC.parseQueryString('?');
+			expect(query).toEqual({});
+		});
+		it('Decodes regular query strings', function() {
+			var query = OC.parseQueryString('a=abc&b=def');
+			expect(query).toEqual({
+				a: 'abc',
+				b: 'def'
+			});
+		});
+		it('Ignores empty parts', function() {
+			var query = OC.parseQueryString('&q=a&&b=x&');
+			expect(query).toEqual({q: 'a', b: 'x'});
+		});
+		it('Ignores lone equal signs', function() {
+			var query = OC.parseQueryString('&q=a&=&b=x&');
+			expect(query).toEqual({q: 'a', b: 'x'});
+		});
+		it('Includes extra equal signs in value', function() {
+			var query = OC.parseQueryString('u=a=x&q=a=b');
+			expect(query).toEqual({u: 'a=x', q: 'a=b'});
+		});
+		it('Decodes plus as space', function() {
+			var query = OC.parseQueryString('space+key=space+value');
+			expect(query).toEqual({'space key': 'space value'});
+		});
+		it('Decodes special characters', function() {
+			var query = OC.parseQueryString('unicode=%E6%B1%89%E5%AD%97');
+			expect(query).toEqual({unicode: '汉字'});
+			query = OC.parseQueryString('b=spaace%20value&space%20key=normalvalue&slash%2Fthis=amp%26ersand');
+			expect(query).toEqual({
+				b: 'spaace value',
+				'space key': 'normalvalue',
+				'slash/this': 'amp&ersand'
+			});
+		});
+		it('Decodes empty values', function() {
+			var query = OC.parseQueryString('keywithemptystring=&keywithnostring');
+			expect(query).toEqual({
+				'keywithemptystring': '',
+				'keywithnostring': null
+			});
+		});
+		it('Does not interpret data types', function() {
+			var query = OC.parseQueryString('booleanfalse=false&booleantrue=true&number=123');
+			expect(query).toEqual({
+				'booleanfalse': 'false',
+				'booleantrue': 'true',
+				'number': '123'
+			});
+		});
 	});
 	describe('Generate Url', function() {
 		it('returns absolute urls', function() {
@@ -381,6 +446,32 @@ describe('Core base tests', function() {
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
 			expect($navigation.is(':visible')).toEqual(true);
+		});
+	});
+	describe('SVG extension replacement', function() {
+		var svgSupportStub;
+
+		beforeEach(function() {
+			svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport');
+		});
+		afterEach(function() {
+			svgSupportStub.restore();
+		});
+		it('does not replace svg extension with png when SVG is supported', function() {
+			svgSupportStub.returns(true);
+			expect(
+				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
+			).toEqual(
+				'/path/to/myicon.svg?someargs=1'
+			);
+		});
+		it('replaces svg extension with png when SVG not supported', function() {
+			svgSupportStub.returns(false);
+			expect(
+				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
+			).toEqual(
+				'/path/to/myicon.png?someargs=1'
+			);
 		});
 	});
 });

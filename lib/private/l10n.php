@@ -75,7 +75,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * get an L10N instance
 	 * @param string $app
 	 * @param string|null $lang
-	 * @return OC_L10N
+	 * @return \OC_L10N
 	 */
 	public static function get($app, $lang=null) {
 		if (is_null($lang)) {
@@ -89,7 +89,6 @@ class OC_L10N implements \OCP\IL10N {
 	 * @brief The constructor
 	 * @param string $app app requesting l10n
 	 * @param string $lang default: null Language
-	 * @returns OC_L10N-Object
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
@@ -352,7 +351,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief Localization
 	 * @param string $type Type of localization
-	 * @param $params parameters for this localization
+	 * @param array $data parameters for this localization
 	 * @returns String or false
 	 *
 	 * Returns the localized data.

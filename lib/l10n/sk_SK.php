@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "Application is not enabled" => "Aplikácia nie je zapnutá",
 "Authentication error" => "Chyba autentifikácie",
 "Token expired. Please reload page." => "Token vypršal. Obnovte, prosím, stránku.",
+"Unknown user" => "Neznámy používateľ",
 "Files" => "Súbory",
 "Text" => "Text",
 "Images" => "Obrázky",

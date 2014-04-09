@@ -159,6 +159,7 @@ function escapeHTML(s) {
 * @param file The filename
 * @param dir The directory the file is in - e.g. $('#dir').val()
 * @return string
+* @deprecated use Files.getDownloadURL() instead
 */
 function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
@@ -371,6 +372,7 @@ var OC={
 	 */
 	parseQueryString:function(queryString){
 		var parts,
+			pos,
 			components,
 			result = {},
 			key,
@@ -378,12 +380,25 @@ var OC={
 		if (!queryString){
 			return null;
 		}
-		if (queryString[0] === '?'){
-			queryString = queryString.substr(1);
+		pos = queryString.indexOf('?');
+		if (pos >= 0){
+			queryString = queryString.substr(pos + 1);
 		}
-		parts = queryString.split('&');
+		parts = queryString.replace(/\+/g, '%20').split('&');
 		for (var i = 0; i < parts.length; i++){
-			components = parts[i].split('=');
+			// split on first equal sign
+			var part = parts[i]
+			pos = part.indexOf('=');
+			if (pos >= 0) {
+				components = [
+					part.substr(0, pos),
+					part.substr(pos + 1)
+				]
+			}
+			else {
+				// key only
+				components = [part];
+			}
 			if (!components.length){
 				continue;
 			}
@@ -391,8 +406,14 @@ var OC={
 			if (!key){
 				continue;
 			}
-			value = components[1];
-			result[key] = value && decodeURIComponent(value);
+			// if equal sign was there, return string
+			if (components.length > 1) {
+				result[key] = decodeURIComponent(components[1]);
+			}
+			// no equal sign => null value
+			else {
+				result[key] = null;
+			}
 		}
 		return result;
 	},
@@ -477,7 +498,7 @@ var OC={
 						});
 					}
 					if(!SVGSupport()) {
-						replaceSVG();
+						OC.Util.replaceSVG();
 					}
 				}).show();
 			}, 'html');
@@ -764,7 +785,7 @@ SVGSupport.checkMimeType=function(){
 				}
 			});
 			if(headers["content-type"]!=='image/svg+xml'){
-				replaceSVG();
+				OC.Util.replaceSVG();
 				SVGSupport.checkMimeType.correct=false;
 			}
 		}
@@ -772,35 +793,10 @@ SVGSupport.checkMimeType=function(){
 };
 SVGSupport.checkMimeType.correct=true;
 
-//replace all svg images with png for browser compatibility
-function replaceSVG(){
-	$('img.svg').each(function(index,element){
-		element=$(element);
-		var src=element.attr('src');
-		element.attr('src',src.substr(0,src.length-3)+'png');
-	});
-	$('.svg').each(function(index,element){
-		element=$(element);
-		var background=element.css('background-image');
-		if(background){
-			var i=background.lastIndexOf('.svg');
-			if(i>=0){
-				background=background.substr(0,i)+'.png'+background.substr(i+4);
-				element.css('background-image',background);
-			}
-		}
-		element.find('*').each(function(index,element) {
-			element=$(element);
-			var background=element.css('background-image');
-			if(background){
-				var i=background.lastIndexOf('.svg');
-				if(i>=0){
-					background=background.substr(0,i)+'.png'+background.substr(i+4);
-					element.css('background-image',background);
-				}
-			}
-		});
-	});
+// replace all svg images with png for browser compatibility
+// @deprecated use OC.Util.replaceSVG instead
+function replaceSVG($el){
+	return OC.Util.replaceSVG($el);
 }
 
 /**
@@ -879,7 +875,7 @@ function initCore() {
 	}
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
-		replaceSVG();
+		OC.Util.replaceSVG();
 	}else{
 		SVGSupport.checkMimeType();
 	}
@@ -1112,6 +1108,72 @@ function relative_modified_date(timestamp) {
 	else if(timediff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
 }
+
+OC.Util = {
+	/**
+	 * Returns whether the browser supports SVG
+	 *
+	 * @return true if the browser supports SVG, false otherwise
+	 */
+	// TODO: replace with original function
+	hasSVGSupport: SVGSupport,
+	/**
+	 * If SVG is not supported, replaces the given icon's extension
+	 * from ".svg" to ".png".
+	 * If SVG is supported, return the image path as is.
+	 *
+	 * @param file image path with svg extension
+	 * @return fixed image path with png extension if SVG is not
+	 * supported
+	 */
+	replaceSVGIcon: function(file) {
+		if (!OC.Util.hasSVGSupport()) {
+			var i = file.lastIndexOf('.svg');
+			if (i >= 0) {
+				file = file.substr(0, i) + '.png' + file.substr(i+4);
+			}
+		}
+		return file;
+	},
+	/**
+	 * Replace SVG images in all elements that have the "svg" class set
+	 * with PNG images.
+	 *
+	 * @param $el root element from which to search, defaults to $('body')
+	 */
+	replaceSVG: function($el) {
+		if (!$el) {
+			$el = $('body');
+		}
+		$el.find('img.svg').each(function(index,element){
+			element=$(element);
+			var src=element.attr('src');
+			element.attr('src',src.substr(0, src.length-3) + 'png');
+		});
+		$el.find('.svg').each(function(index,element){
+			element = $(element);
+			var background = element.css('background-image');
+			if (background){
+				var i = background.lastIndexOf('.svg');
+				if (i >= 0){
+					background = background.substr(0,i) + '.png' + background.substr(i + 4);
+					element.css('background-image', background);
+				}
+			}
+			element.find('*').each(function(index, element) {
+				element = $(element);
+				var background = element.css('background-image');
+				if (background) {
+					var i = background.lastIndexOf('.svg');
+					if(i >= 0){
+						background = background.substr(0,i) + '.png' + background.substr(i + 4);
+						element.css('background-image', background);
+					}
+				}
+			});
+		});
+	}
+};
 
 /**
  * get a variable by name

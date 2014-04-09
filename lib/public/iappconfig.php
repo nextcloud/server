@@ -55,9 +55,8 @@ interface IAppConfig {
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
-	 * @param app
-	 * @param key
-	 * @param string $key
+	 * @param string|false $key
+	 * @param string|false $app
 	 * @return array
 	 */
 	public function getValues($app, $key);

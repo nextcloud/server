@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Fejl ved indlæsning af besked skabelon: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} filkonflikt","{count} filkonflikter"),
 "One file conflict" => "En filkonflikt",
+"New Files" => "Nye filer",
 "Which files do you want to keep?" => "Hvilke filer ønsker du at beholde?",
 "If you select both versions, the copied file will have a number added to its name." => "Hvis du vælger begge versioner, vil den kopierede fil få tilføjet et nummer til sit navn.",
 "Cancel" => "Annuller",

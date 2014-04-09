@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  * Pure-PHP implementation of Triple DES.
@@ -45,19 +44,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category   Crypt
- * @package    Crypt_TripleDES
- * @author     Jim Wigginton <terrafrost@php.net>
- * @copyright  MMVII Jim Wigginton
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link       http://phpseclib.sourceforge.net
+ * @category  Crypt
+ * @package   Crypt_TripleDES
+ * @author    Jim Wigginton <terrafrost@php.net>
+ * @copyright MMVII Jim Wigginton
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link      http://phpseclib.sourceforge.net
  */
 
 /**
  * Include Crypt_DES
  */
 if (!class_exists('Crypt_DES')) {
-    require_once('DES.php');
+    include_once 'DES.php';
 }
 
 /**
@@ -77,12 +76,13 @@ define('CRYPT_DES_MODE_CBC3', CRYPT_DES_MODE_CBC);
 /**
  * Pure-PHP implementation of Triple DES.
  *
+ * @package Crypt_TripleDES
  * @author  Jim Wigginton <terrafrost@php.net>
  * @version 0.1.0
  * @access  public
- * @package Crypt_TripleDES
  */
-class Crypt_TripleDES extends Crypt_DES {
+class Crypt_TripleDES extends Crypt_DES
+{
     /**
      * The default password key_size used by setPassword()
      *
@@ -417,6 +417,3 @@ class Crypt_TripleDES extends Crypt_DES {
         parent::_setupKey();
     }
 }
-
-// vim: ts=4:sw=4:et:
-// vim6: fdl=1:

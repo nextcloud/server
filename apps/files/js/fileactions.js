@@ -8,7 +8,7 @@
  *
  */
 
-/* global OC, FileList	*/
+/* global OC, FileList, Files */
 /* global trashBinApp */
 var FileActions = {
 	actions: {},
@@ -180,7 +180,7 @@ var FileActions = {
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
-			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
+			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete'].action}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
 
@@ -214,7 +214,7 @@ $(document).ready(function () {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
-			var url = FileList.getDownloadUrl(filename);
+			var url = Files.getDownloadUrl(filename);
 			if (url) {
 				OC.redirect(url);
 			}

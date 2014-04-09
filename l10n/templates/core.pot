@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-31 01:55-0400\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,63 +135,63 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:543
+#: js/js.js:564
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1103
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:1104
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1105
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1106
+#: js/js.js:1127
 msgid "today"
 msgstr ""
 
-#: js/js.js:1107
+#: js/js.js:1128
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1108
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1109
+#: js/js.js:1130
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1110
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1111
+#: js/js.js:1132
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:1112
+#: js/js.js:1133
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1113
+#: js/js.js:1134
 msgid "years ago"
 msgstr ""
 
@@ -230,32 +230,40 @@ msgid "One file conflict"
 msgstr ""
 
 #: js/oc-dialogs.js:367
-msgid "Which files do you want to keep?"
+msgid "New Files"
 msgstr ""
 
 #: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
+msgid "Which files do you want to keep?"
+msgstr ""
+
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its "
 "name."
 msgstr ""
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr ""
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr ""
 

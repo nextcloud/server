@@ -6,6 +6,7 @@
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
+# pe_ppe <peppe@cs.uoi.gr>, 2014
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # vkehayas <vkehayas@gmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"PO-Revision-Date: 2014-03-31 17:11+0000\n"
+"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Άκυρη τιμή για το %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -72,7 +73,7 @@ msgid "Unable to load list from App Store"
 msgstr "Σφάλμα στην φόρτωση της λίστας από το App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Σφάλμα πιστοποίησης"
 
@@ -134,32 +135,32 @@ msgstr "Αδυναμία αφαίρεσης χρήστη από την ομάδ�
 msgid "Couldn't update app."
 msgstr "Αδυναμία ενημέρωσης εφαρμογής"
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Εσφαλμένο συνθηματικό"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Δεν εισήχθη χρήστης"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Παρακαλώ παρέχετε έναν κωδικό ανάκτησης διαχειριστή, διαφορετικά όλα τα δεδομένα χρήστη θα χαθούν"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Λάθος κωδικός ανάκτησης διαχειριστή. Παρακαλώ ελέγξτε τον κωδικό και δοκιμάστε ξανά."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Το βασικό πλαίσιο δεν υποστηρίζει αλλαγή κωδικού, αλλά το κλειδί κρυπτογράφησης των χρηστών ενημερώθηκε επιτυχώς."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Αδυναμία αλλαγής συνθηματικού"
 
@@ -233,7 +234,7 @@ msgstr "Αδύναμο συνθηματικό"
 
 #: js/personal.js:279
 msgid "So-so password"
-msgstr ""
+msgstr "Μέτριο συνθηματικό"
 
 #: js/personal.js:280
 msgid "Good password"
@@ -292,7 +293,7 @@ msgstr "Πρέπει να δοθεί έγκυρο συνθηματικό"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Προειδοποίηση: Ο μητρικός κατάλογος του χρήστη \"{user}\" υπάρχει ήδη"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "__όνομα_γλώσσας__"
 
@@ -326,7 +327,7 @@ msgstr "Σύνδεση"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Απλό"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
@@ -437,18 +438,18 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Η τελευταία εκτέλεση του cron ήταν στις %s"
 
 #: templates/admin.php:170
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Η τελευταία εκτέλεση του cron ήταν στις %s. Αυτό είναι πάνω από μια ώρα πριν, ίσως κάτι δεν πάει καλά."
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Η διεργασία cron δεν εκτελέστηκε ακόμα!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"

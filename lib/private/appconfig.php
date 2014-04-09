@@ -147,7 +147,7 @@ class AppConfig implements \OCP\IAppConfig {
 	 */
 	public function hasKey($app, $key) {
 		$values = $this->getAppValues($app);
-		return isset($values[$key]);
+		return array_key_exists($key, $values);
 	}
 
 	/**
@@ -218,8 +218,8 @@ class AppConfig implements \OCP\IAppConfig {
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 *
-	 * @param boolean $app
-	 * @param string $key
+	 * @param string|false $app
+	 * @param string|false $key
 	 * @return array
 	 */
 	public function getValues($app, $key) {

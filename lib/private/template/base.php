@@ -77,7 +77,7 @@ class Base {
 	/**
 	 * @brief Appends a variable
 	 * @param string $key key
-	 * @param string $value value
+	 * @param mixed $value value
 	 * @return boolean|null
 	 *
 	 * This function assigns a variable in an array context. If the key already

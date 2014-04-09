@@ -40,6 +40,7 @@ $TRANSLATIONS = array(
 "No" => "Nein",
 "Ok" => "OK",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"New Files" => "Neue Dateien",
 "Cancel" => "Abbrechen",
 "Shared" => "Geteilt",
 "Share" => "Teilen",

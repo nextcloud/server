@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-23 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 07:20+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 06:02+0000\n"
 "Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,24 +21,24 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "Data wygaśnięcia jest w przeszłości"
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nie można było wysłać wiadomości do następujących użytkowników: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Włączony tryb konserwacji"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Wyłączony tryb konserwacji"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Zaktualizuj bazę"
 
@@ -138,67 +138,67 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Grudzień"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Zapisywanie..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minute temu"
 msgstr[1] "%n minut temu"
 msgstr[2] "%n minut temu"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n godzine temu"
 msgstr[1] "%n godzin temu"
 msgstr[2] "%n godzin temu"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dzień temu"
 msgstr[1] "%n dni temu"
 msgstr[2] "%n dni temu"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "w zeszłym miesiącu"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n miesiąc temu"
 msgstr[1] "%n miesięcy temu"
 msgstr[2] "%n miesięcy temu"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "w zeszłym roku"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "lat temu"
 
@@ -238,32 +238,40 @@ msgid "One file conflict"
 msgstr "Konflikt pliku"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr "Nowe pliki"
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr "Już istniejące pliki"
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Które pliki chcesz zachować?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jeśli wybierzesz obie wersje, skopiowany plik będzie miał dodany numerek w nazwie"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Kontynuuj "
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(wszystkie zaznaczone)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} zaznaczonych)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Błąd podczas ładowania szablonu istniejącego pliku"
 
@@ -542,14 +550,14 @@ msgstr "Nowe hasło"
 msgid "Reset password"
 msgstr "Zresetuj hasło"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr "Mac OS X nie jest wspierany i %s nie będzie działać poprawnie na tej platformie. Używasz na własne ryzyko!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr "Aby uzyskać najlepsze rezultaty, rozważ w to miejsce użycie serwera GNU/Linux."

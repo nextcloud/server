@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Error cargando la plantilla del mensaje: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("un archivo en conflicto","{count} archivos en conflicto"),
 "One file conflict" => "Un archivo en conflicto",
+"New Files" => "Nuevos archivos",
 "Which files do you want to keep?" => "¿Qué archivos deseas retener?",
 "If you select both versions, the copied file will have a number added to its name." => "Si tu seleccionas ambas versiones, el archivo copiado tendrá un número agregado a su nombre.",
 "Cancel" => "Cancelar",

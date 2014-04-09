@@ -113,11 +113,22 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	function loremFileProvider() {
+		$root = \OC::$SERVERROOT . '/tests/data/';
+		return array(
+			// small file
+			array($root . 'lorem.txt'),
+			// bigger file (> 8 KB which is the standard PHP block size)
+			array($root . 'lorem-big.txt')
+		);
+	}
+
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
+	 *
+	 * @dataProvider loremFileProvider
 	 */
-	public function testGetPutContents() {
-		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+	public function testGetPutContents($sourceFile) {
 		$sourceText = file_get_contents($sourceFile);
 
 		//fill a file with string data
@@ -299,7 +310,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 
-	public function hashProvider(){
+	public function hashProvider() {
 		return array(
 			array('Foobar', 'md5'),
 			array('Foobar', 'sha1'),
@@ -314,5 +325,24 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->file_put_contents('hash.txt', $data);
 		$this->assertEquals(hash($type, $data), $this->instance->hash($type, 'hash.txt'));
 		$this->assertEquals(hash($type, $data, true), $this->instance->hash($type, 'hash.txt', true));
+	}
+
+	public function testHashInFileName() {
+		$this->instance->file_put_contents('#test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#test.txt'));
+
+		$this->instance->mkdir('#foo');
+		$this->instance->file_put_contents('#foo/test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#foo/test.txt'));
+
+		$dh = $this->instance->opendir('#foo');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+
+		$this->assertEquals(array('test.txt'), $content);
 	}
 }

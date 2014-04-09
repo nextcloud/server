@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AsavarTzeth <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 18:10+0000\n"
+"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,24 +25,24 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Utgångsdatumet är i det förflutna."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Gick inte att skicka e-post till följande användare: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Aktiverade underhållsläge"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Deaktiverade underhållsläge"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Uppdaterade databasen"
 
@@ -141,63 +142,63 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Sparar..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "år sedan"
 
@@ -236,54 +237,62 @@ msgid "One file conflict"
 msgstr "En filkonflikt"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr "Nya filer"
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr "Filer som redan existerar"
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Vilken fil vill du behålla?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Om du väljer båda versionerna kommer de kopierade filerna ha nummer tillagda i filnamnet."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(Alla valda)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valda)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Fel uppstod filmall existerar"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Väldigt svagt lösenord"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Svagt lösenord"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Okej lösenord"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Bra lösenord"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Starkt lösenord"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -460,7 +469,7 @@ msgstr "Inga taggar valda för borttagning."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Vänligen ladda om sidan."
 
 #: js/update.js:17
 msgid ""
@@ -482,7 +491,7 @@ msgstr "%s återställ lösenord"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Ett problem har uppstått under tiden e-post sändes, vänligen kontakta din administratör."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -540,17 +549,17 @@ msgstr "Nytt lösenord"
 msgid "Reset password"
 msgstr "Återställ lösenordet"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Mac OS X stöds inte och %s kommer inte att fungera korrekt på denna plattform. Använd på egen risk!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "För bästa resultat, överväg att använda en GNU/Linux server istället."
 
 #: strings.php:5
 msgid "Personal"
@@ -672,7 +681,7 @@ msgstr "Skapa ett <strong>administratörskonto</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Lagring & databas"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -719,7 +728,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Denna applikation kräver JavaScript aktiverat för att fungera korrekt. Vänligen <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktivera JavaScript</a> och ladda om gränssnittet."
 
 #: templates/layout.user.php:44
 #, php-format
@@ -773,15 +782,15 @@ msgstr "Alternativa inloggningar"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hej där,<br><br>ville bara informera dig om att %s delade <strong>%s</strong> med dig.<br><a href=\"%s\">Visa den!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Denna ownCloud instans är för närvarande i enanvändarläge"
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Detta betyder att endast administartörer kan använda instansen."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

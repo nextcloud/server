@@ -6,7 +6,8 @@
 		"jquery-showpassword.js",
 		"jquery.infieldlabel.js",
 		"jquery.placeholder.js",
-		"jquery-tipsy.js"
+		"jquery-tipsy.js",
+		"underscore.js"
 	],
 	"modules": [
 		"compatibility.js",
