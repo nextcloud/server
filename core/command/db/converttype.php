@@ -145,7 +145,7 @@ class ConvertType extends Command {
 		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
 	}
 
-	private function getToDBConnection(InputInterface $input, OutputInterface $output) {
+	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
 		$connectionParams = array(
 			'host' => $input->getArgument('hostname'),
@@ -160,12 +160,12 @@ class ConvertType extends Command {
 		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
 
-	private function getTables(Connection $db) {
+	protected function getTables(Connection $db) {
 		$schemaManager = $db->getSchemaManager();
 		return $schemaManager->listTableNames();
 	}
 
-	private function copyTable(Connection $fromDB, Connection $toDB, $table, OutputInterface $output) {
+	protected function copyTable(Connection $fromDB, Connection $toDB, $table, OutputInterface $output) {
 		/** @var $progress \Symfony\Component\Console\Helper\ProgressHelper */
 		$progress = $this->getHelperSet()->get('progress');
 		$query = 'SELECT COUNT(*) FROM '.$table;
@@ -185,7 +185,7 @@ class ConvertType extends Command {
 		$progress->finish();
 	}
 
-	private function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
+	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setValue('maintenance', true);
 		$type = $input->getArgument('type');
 		try {
@@ -216,7 +216,7 @@ class ConvertType extends Command {
 		$this->config->setValue('maintenance', false);
 	}
 
-	private function saveDBInfo(InputInterface $input) {
+	protected function saveDBInfo(InputInterface $input) {
 		$type = $input->getArgument('type');
 		$username = $input->getArgument('username');
 		$dbhost = $input->getArgument('hostname');
