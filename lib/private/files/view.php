@@ -393,6 +393,7 @@ class View {
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
+			$exists = $this->file_exists($path2);
 
 			if ($path1 == null or $path2 == null) {
 				return false;
@@ -400,6 +401,23 @@ class View {
 			$run = true;
 			if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
 				// if it was a rename from a part file to a regular file it was a write and not a rename operation
+				if (!$exists) {
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME, Filesystem::signal_create,
+						array(
+							Filesystem::signal_param_path => $this->getHookPath($path2),
+							Filesystem::signal_param_run => &$run
+						)
+					);
+				} else {
+					\OC_Hook::emit(
+						Filesystem::CLASSNAME, Filesystem::signal_update,
+						array(
+							Filesystem::signal_param_path => $this->getHookPath($path2),
+							Filesystem::signal_param_run => &$run,
+						)
+					);
+				}
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_write,
 					array(
@@ -463,6 +481,19 @@ class View {
 				if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					Updater::writeHook(array('path' => $this->getHookPath($path2)));
+					if (!$exists) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_create,
+							array(Filesystem::signal_param_path => $this->getHookPath($path2))
+						);
+					} else {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_update,
+							array(Filesystem::signal_param_path => $this->getHookPath($path2))
+						);
+					}
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_write,
