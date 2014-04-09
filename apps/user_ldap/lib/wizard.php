@@ -895,6 +895,7 @@ class Wizard extends LDAPUtility {
 		}
 		foreach($filters as $filter) {
 			if($lfw && $lastFilter === $filter && count($foundItems) > 0) {
+				//skip when the filter is a wildcard and results were found
 				continue;
 			}
 			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
