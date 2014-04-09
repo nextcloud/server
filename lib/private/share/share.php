@@ -1395,8 +1395,8 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
-			.' `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
-			.' `file_target`, `token`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 		// Share with a group
 		if ($shareType == self::SHARE_TYPE_GROUP) {
 			$groupItemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'],
@@ -1440,10 +1440,9 @@ class Share extends \OC\Share\Constants {
 			} else {
 				$groupFileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType,
-				$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token));
-			// Save this id, any extra rows for this group share will need to reference it
-			$parent = \OC_DB::insertid('*PREFIX*share');
+			$queriesToExecute = array();
+			$queriesToExecute['groupShare'] = array($itemType, $itemSource, $groupItemTarget, $shareType,
+				$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token, $parent);
 			// Loop through all users of this group in case we need to add an extra row
 			foreach ($shareWith['users'] as $uid) {
 				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid,
@@ -1469,12 +1468,21 @@ class Share extends \OC\Share\Constants {
 				}
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-					$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
+					$queriesToExecute[] = array($itemType, $itemSource, $itemTarget,
 						self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(),
-							$fileSource, $fileTarget, $token));
+							$fileSource, $fileTarget, $token);
 					$id = \OC_DB::insertid('*PREFIX*share');
 				}
 			}
+			$query->execute($queriesToExecute['groupShare']);
+			// Save this id, any extra rows for this group share will need to reference it
+			$parent = \OC_DB::insertid('*PREFIX*share');
+			unset($queriesToExecute['groupShare']);
+			foreach ($queriesToExecute as $qe) {
+				$qe[] = $parent;
+				$query->execute($qe);
+			}
+
 			\OC_Hook::emit('OCP\Share', 'post_shared', array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
@@ -1534,8 +1542,8 @@ class Share extends \OC\Share\Constants {
 			} else {
 				$fileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner,
-				$permissions, time(), $fileSource, $fileTarget, $token));
+			$query->execute(array($itemType, $itemSource, $itemTarget, $shareType, $shareWith, $uidOwner,
+				$permissions, time(), $fileSource, $fileTarget, $token, $parent));
 			$id = \OC_DB::insertid('*PREFIX*share');
 			\OC_Hook::emit('OCP\Share', 'post_shared', array(
 				'itemType' => $itemType,
