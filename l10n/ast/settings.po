@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-07 19:30+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 22:40+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "Corréu unviáu"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -53,7 +53,7 @@ msgstr ""
 
 #: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
-msgstr ""
+msgstr "Cifráu"
 
 #: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
@@ -254,7 +254,7 @@ msgstr ""
 #: js/users.js:101 templates/users.php:24 templates/users.php:88
 #: templates/users.php:116
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: js/users.js:105 templates/users.php:90 templates/users.php:128
 msgid "Group Admin"
@@ -583,11 +583,11 @@ msgstr ""
 
 #: templates/admin.php:409
 msgid "More"
-msgstr ""
+msgstr "Más"
 
 #: templates/admin.php:410
 msgid "Less"
-msgstr ""
+msgstr "Menos"
 
 #: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
@@ -666,7 +666,7 @@ msgstr ""
 
 #: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: templates/personal.php:39
 msgid "Your password was changed"
@@ -694,7 +694,7 @@ msgstr ""
 
 #: templates/personal.php:76
 msgid "Email"
-msgstr ""
+msgstr "Corréu-e"
 
 #: templates/personal.php:78
 msgid "Your email address"
@@ -732,7 +732,7 @@ msgstr ""
 
 #: templates/personal.php:104
 msgid "Cancel"
-msgstr ""
+msgstr "Encaboxar"
 
 #: templates/personal.php:105
 msgid "Choose as profile image"
@@ -775,7 +775,7 @@ msgstr ""
 
 #: templates/users.php:28
 msgid "Create"
-msgstr ""
+msgstr "Crear"
 
 #: templates/users.php:34
 msgid "Admin Recovery Password"
@@ -805,7 +805,7 @@ msgstr "Otru"
 
 #: templates/users.php:85
 msgid "Username"
-msgstr ""
+msgstr "Nome d'usuariu"
 
 #: templates/users.php:92
 msgid "Storage"

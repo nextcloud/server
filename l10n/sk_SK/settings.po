@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-08 05:52+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 07:10+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:299
 msgid "Send mode"
-msgstr ""
+msgstr "Mód odosielania"
 
 #: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
@@ -59,7 +59,7 @@ msgstr "Šifrovanie"
 
 #: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
-msgstr ""
+msgstr "Autentifikačná metóda"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -167,7 +167,7 @@ msgstr "Príručka používateľa"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Príručka správcu"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -324,7 +324,7 @@ msgstr ""
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:24
 msgid "SSL"
@@ -541,7 +541,7 @@ msgstr ""
 
 #: templates/admin.php:327
 msgid "From address"
-msgstr ""
+msgstr "Z adresy"
 
 #: templates/admin.php:349
 msgid "Authentication required"
@@ -619,7 +619,7 @@ msgstr "Vyberte aplikáciu"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Dokumentácia:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -627,7 +627,7 @@ msgstr "Pozrite si stránku aplikácií na apps.owncloud.com"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Pozrite si webstránku aplikácie"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"

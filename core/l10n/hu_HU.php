@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Nem sikerült betölteni az üzenet sablont: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} fájl ütközik","{count} fájl ütközik"),
 "One file conflict" => "Egy file ütközik",
+"New Files" => "Új fájlok",
 "Which files do you want to keep?" => "Melyik file-okat akarod megtartani?",
 "If you select both versions, the copied file will have a number added to its name." => "Ha kiválasztod mindazokaz a verziókat, a másolt fileok neve sorszámozva lesz.",
 "Cancel" => "Mégsem",

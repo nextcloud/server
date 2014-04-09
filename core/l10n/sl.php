@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Napaka nalaganja predloge sporočil: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} spor datotek","{count} spora datotek","{count} spori datotek","{count} sporov datotek"),
 "One file conflict" => "En spor datotek",
+"New Files" => "Nove datoteke",
 "Which files do you want to keep?" => "Katare datoteke želite ohraniti?",
 "If you select both versions, the copied file will have a number added to its name." => "Če izberete obe različici, bo kopirani datoteki k imenu dodana številka.",
 "Cancel" => "Prekliči",

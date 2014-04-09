@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-07 19:30+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 22:20+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: ajax/newfile.php:58 js/files.js:98
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "El nome de ficheru nun pue quedar baleru."
 
 #: ajax/newfile.php:63
 #, php-format
@@ -40,7 +40,7 @@ msgstr ""
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nome inválidu, los caráuteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" nun tán permitíos."
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:145
 #: lib/app.php:65
@@ -90,11 +90,11 @@ msgstr ""
 
 #: ajax/upload.php:75
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Nun se xubió dengún ficheru. Fallu desconocíu"
 
 #: ajax/upload.php:82
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Nun hai dengún fallu, el ficheru xubióse ensin problemes"
 
 #: ajax/upload.php:83
 msgid ""
@@ -105,27 +105,27 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "El ficheru xubíu perpasa la direutiva \"MAX_FILE_SIZE\" especificada nel formulariu HTML"
 
 #: ajax/upload.php:86
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "El ficheru xubióse de mou parcial"
 
 #: ajax/upload.php:87
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nun se xubió dengún ficheru"
 
 #: ajax/upload.php:88
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Falta una carpeta temporal"
 
 #: ajax/upload.php:89
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Fallu al escribir al discu"
 
 #: ajax/upload.php:107
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Nun hai abondu espaciu disponible"
 
 #: ajax/upload.php:159
 msgid "Upload failed. Could not find uploaded file"
@@ -141,7 +141,7 @@ msgstr ""
 
 #: appinfo/app.php:11 js/filelist.js:14
 msgid "Files"
-msgstr ""
+msgstr "Ficheros"
 
 #: js/file-upload.js:247
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -203,7 +203,7 @@ msgstr ""
 
 #: js/fileactions.js:238
 msgid "Rename"
-msgstr ""
+msgstr "Renomar"
 
 #: js/filelist.js:102 js/files.js:552
 msgid "Error moving file"
@@ -286,11 +286,11 @@ msgstr ""
 
 #: js/files.js:570 templates/index.php:67
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: js/files.js:571 templates/index.php:79
 msgid "Size"
-msgstr ""
+msgstr "Tamañu"
 
 #: js/files.js:572 templates/index.php:81
 msgid "Modified"
@@ -307,7 +307,7 @@ msgstr ""
 
 #: lib/helper.php:14 templates/index.php:22
 msgid "Upload"
-msgstr ""
+msgstr "Xubir"
 
 #: templates/admin.php:4
 msgid "File handling"
@@ -339,7 +339,7 @@ msgstr ""
 
 #: templates/admin.php:25
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: templates/index.php:5
 msgid "New"
@@ -371,7 +371,7 @@ msgstr ""
 
 #: templates/index.php:45
 msgid "Cancel upload"
-msgstr ""
+msgstr "Encaboxar xuba"
 
 #: templates/index.php:51
 msgid "You don’t have permission to upload or create files here"

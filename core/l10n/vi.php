@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Lỗi khi tải mẫu thông điệp: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} tập tin xung đột"),
 "One file conflict" => "Một tập tin xung đột",
+"New Files" => "File mới",
 "Which files do you want to keep?" => "Bạn muốn tiếp tục với những tập tin nào?",
 "If you select both versions, the copied file will have a number added to its name." => "Nếu bạn chọn cả hai phiên bản, tập tin được sao chép sẽ được đánh thêm số vào tên của nó.",
 "Cancel" => "Hủy",

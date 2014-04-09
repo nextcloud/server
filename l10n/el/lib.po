@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-01 01:55-0400\n"
-"PO-Revision-Date: 2014-03-31 16:30+0000\n"
-"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-09 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,8 +282,8 @@ msgstr "Ο διακομιστής σας δεν έχει ρυθμιστεί κα
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "Ο %s διαμοιράστηκε μαζί σας το »%s«"
@@ -340,3 +340,21 @@ msgstr "τελευταίο χρόνο"
 #: private/template/functions.php:145
 msgid "years ago"
 msgstr "χρόνια πριν"
+
+#: private/user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: private/user/manager.php:251
+msgid "A valid username must be provided"
+msgstr ""
+
+#: private/user/manager.php:255
+msgid "A valid password must be provided"
+msgstr ""
+
+#: private/user/manager.php:260
+msgid "The username is already being used"
+msgstr ""

@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "Ok" => "Akcepti",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} dosierkonflikto","{count} dosierkonfliktoj"),
 "One file conflict" => "Unu dosierkonflikto",
+"New Files" => "Novaj dosieroj",
 "Which files do you want to keep?" => "Kiujn dosierojn vi volas konservi?",
 "If you select both versions, the copied file will have a number added to its name." => "Se vi elektos ambaŭ eldonojn, la kopiota dosiero havos numeron aldonitan al sia nomo.",
 "Cancel" => "Nuligi",

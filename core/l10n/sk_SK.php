@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Chyba pri nahrávaní šablóny správy: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} konflikt súboru","{count} konflikty súboru","{count} konfliktov súboru"),
 "One file conflict" => "Jeden konflikt súboru",
+"New Files" => "Nové súbory",
 "Which files do you want to keep?" => "Ktoré súbory chcete ponechať?",
 "If you select both versions, the copied file will have a number added to its name." => "Ak zvolíte obe verzie, názov nakopírovaného súboru bude doplnený o číslo.",
 "Cancel" => "Zrušiť",

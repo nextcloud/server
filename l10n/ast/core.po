@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-08 05:56+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 22:40+0000\n"
+"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +37,7 @@ msgstr ""
 
 #: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
+msgstr "Base de datos anovada"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -136,7 +137,7 @@ msgstr "Avientu"
 
 #: js/js.js:479
 msgid "Settings"
-msgstr ""
+msgstr "Axustes"
 
 #: js/js.js:564
 msgid "Saving..."
@@ -144,59 +145,59 @@ msgstr ""
 
 #: js/js.js:1124
 msgid "seconds ago"
-msgstr ""
+msgstr "fai segundos"
 
 #: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fai %n minutu"
+msgstr[1] "fai %n minutos"
 
 #: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fai %n hora"
+msgstr[1] "fai %n hores"
 
 #: js/js.js:1127
 msgid "today"
-msgstr ""
+msgstr "güei"
 
 #: js/js.js:1128
 msgid "yesterday"
-msgstr ""
+msgstr "ayeri"
 
 #: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fai %n día"
+msgstr[1] "fai %n díes"
 
 #: js/js.js:1130
 msgid "last month"
-msgstr ""
+msgstr "mes caberu"
 
 #: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "fai %n mes"
+msgstr[1] "fai %n meses"
 
 #: js/js.js:1132
 msgid "months ago"
-msgstr ""
+msgstr "fai meses"
 
 #: js/js.js:1133
 msgid "last year"
-msgstr ""
+msgstr "añu caberu"
 
 #: js/js.js:1134
 msgid "years ago"
-msgstr ""
+msgstr "fai años"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Esbillar"
 
 #: js/oc-dialogs.js:146
 msgid "Error loading file picker template: {error}"
@@ -204,11 +205,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:172
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: js/oc-dialogs.js:182
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: js/oc-dialogs.js:199
 msgid "Ok"
@@ -238,7 +239,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "¿Qué ficheros quies caltener?"
 
 #: js/oc-dialogs.js:371
 msgid ""
@@ -248,11 +249,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:379
 msgid "Cancel"
-msgstr ""
+msgstr "Encaboxar"
 
 #: js/oc-dialogs.js:389
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 #: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
@@ -288,7 +289,7 @@ msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
-msgstr ""
+msgstr "Compartíu"
 
 #: js/share.js:109
 msgid "Share"
@@ -325,7 +326,7 @@ msgstr ""
 
 #: js/share.js:220
 msgid "Share link"
-msgstr ""
+msgstr "Compartir enllaz"
 
 #: js/share.js:223
 msgid "Password protect"
@@ -333,7 +334,7 @@ msgstr ""
 
 #: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: js/share.js:230
 msgid "Allow Public Upload"
@@ -345,7 +346,7 @@ msgstr ""
 
 #: js/share.js:235
 msgid "Send"
-msgstr ""
+msgstr "Unviar"
 
 #: js/share.js:240
 msgid "Set expiration date"
@@ -381,7 +382,7 @@ msgstr "Dexar de compartir"
 
 #: js/share.js:409
 msgid "notify by email"
-msgstr ""
+msgstr "notificar per corréu"
 
 #: js/share.js:412
 msgid "can edit"
@@ -389,27 +390,27 @@ msgstr "pue editar"
 
 #: js/share.js:414
 msgid "access control"
-msgstr ""
+msgstr "control d'accesu"
 
 #: js/share.js:417
 msgid "create"
-msgstr ""
+msgstr "crear"
 
 #: js/share.js:420
 msgid "update"
-msgstr ""
+msgstr "xubir"
 
 #: js/share.js:423
 msgid "delete"
-msgstr ""
+msgstr "desaniciar"
 
 #: js/share.js:426
 msgid "share"
-msgstr ""
+msgstr "compartir"
 
 #: js/share.js:698
 msgid "Password protected"
-msgstr ""
+msgstr "Contraseña protexida"
 
 #: js/share.js:711
 msgid "Error unsetting expiration date"
@@ -425,7 +426,7 @@ msgstr ""
 
 #: js/share.js:765
 msgid "Email sent"
-msgstr ""
+msgstr "Corréu unviáu"
 
 #: js/share.js:789
 msgid "Warning"
@@ -445,11 +446,11 @@ msgstr "Desaniciar"
 
 #: js/tags.js:31
 msgid "Add"
-msgstr ""
+msgstr "Amestar"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Editar etiquetes"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
@@ -507,7 +508,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
 #: templates/login.php:32
 msgid "Username"
-msgstr ""
+msgstr "Nome d'usuariu"
 
 #: lostpassword/templates/lostpassword.php:25
 msgid ""
@@ -523,7 +524,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Reaniciar"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -551,7 +552,7 @@ msgstr ""
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "Pa los meyores resultaos, por favor considera l'usu d'un sirvidor GNU/Linux nel so llugar."
 
 #: strings.php:5
 msgid "Personal"
@@ -626,7 +627,7 @@ msgstr ""
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "¡Salú!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -685,7 +686,7 @@ msgstr ""
 
 #: templates/installation.php:94
 msgid "will be used"
-msgstr ""
+msgstr "usaráse"
 
 #: templates/installation.php:109
 msgid "Database user"
@@ -713,7 +714,7 @@ msgstr ""
 
 #: templates/installation.php:150
 msgid "Finishing …"
-msgstr ""
+msgstr "Finando ..."
 
 #: templates/layout.user.php:40
 msgid ""
@@ -729,7 +730,7 @@ msgstr ""
 
 #: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
-msgstr ""
+msgstr "Zarrar sesión"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -755,7 +756,7 @@ msgstr ""
 
 #: templates/login.php:46
 msgid "Lost your password?"
-msgstr ""
+msgstr "¿Escaeciesti la to contraseña?"
 
 #: templates/login.php:51
 msgid "remember"
@@ -763,11 +764,11 @@ msgstr ""
 
 #: templates/login.php:54
 msgid "Log in"
-msgstr ""
+msgstr "Aniciar sesión"
 
 #: templates/login.php:60
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Anicios de sesión alternativos"
 
 #: templates/mail.php:15
 #, php-format
@@ -792,7 +793,7 @@ msgstr ""
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Gracies pola to paciencia."
 
 #: templates/update.admin.php:3
 #, php-format

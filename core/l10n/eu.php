@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Errorea mezu txantiloia kargatzean: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("fitxategi {count}ek konfliktua sortu du","{count} fitxategik konfliktua sortu dute"),
 "One file conflict" => "Fitxategi batek konfliktua sortu du",
+"New Files" => "Fitxategi Berriak",
 "Which files do you want to keep?" => "Ze fitxategi mantendu nahi duzu?",
 "If you select both versions, the copied file will have a number added to its name." => "Bi bertsioak hautatzen badituzu, kopiatutako fitxategiaren izenean zenbaki bat atxikituko zaio.",
 "Cancel" => "Ezeztatu",

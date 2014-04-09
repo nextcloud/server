@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-07 14:16+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 21:40+0000\n"
+"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,11 +38,11 @@ msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Contraseña camudada esitosamente."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Nun pue camudase la contraseña. Quiciabes la contraseña vieya nun fore correuta."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
@@ -109,11 +110,11 @@ msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
-msgstr ""
+msgstr "axustes personales"
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"
-msgstr ""
+msgstr "Cifráu"
 
 #: templates/settings-admin.php:5
 msgid ""
@@ -130,11 +131,11 @@ msgstr ""
 
 #: templates/settings-admin.php:19 templates/settings-personal.php:50
 msgid "Enabled"
-msgstr ""
+msgstr "Habilitáu"
 
 #: templates/settings-admin.php:27 templates/settings-personal.php:58
 msgid "Disabled"
-msgstr ""
+msgstr "Deshabilitáu"
 
 #: templates/settings-admin.php:32
 msgid "Change recovery key password:"
@@ -154,7 +155,7 @@ msgstr ""
 
 #: templates/settings-admin.php:56
 msgid "Change Password"
-msgstr ""
+msgstr "Camudar conseña"
 
 #: templates/settings-personal.php:8
 msgid "Your private key password no longer match your log-in password:"
@@ -168,7 +169,7 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Si nun recuerdes la to contraseña vieya pues entrugar al to alministrador pa recuperar los tos ficheros."
 
 #: templates/settings-personal.php:21
 msgid "Old log-in password"
@@ -198,4 +199,4 @@ msgstr ""
 
 #: templates/settings-personal.php:60
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Nun pue anovase'l ficheru de recuperación"
