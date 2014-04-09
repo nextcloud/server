@@ -448,5 +448,31 @@ describe('Core base tests', function() {
 			expect($navigation.is(':visible')).toEqual(true);
 		});
 	});
+	describe('SVG extension replacement', function() {
+		var svgSupportStub;
+
+		beforeEach(function() {
+			svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport');
+		});
+		afterEach(function() {
+			svgSupportStub.restore();
+		});
+		it('does not replace svg extension with png when SVG is supported', function() {
+			svgSupportStub.returns(true);
+			expect(
+				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
+			).toEqual(
+				'/path/to/myicon.svg?someargs=1'
+			);
+		});
+		it('replaces svg extension with png when SVG not supported', function() {
+			svgSupportStub.returns(false);
+			expect(
+				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
+			).toEqual(
+				'/path/to/myicon.png?someargs=1'
+			);
+		});
+	});
 });
 
