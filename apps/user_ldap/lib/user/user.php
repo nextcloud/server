@@ -268,8 +268,7 @@ class User {
 			}
 		}
 		if(!is_null($quota)) {
-			$this->config->setUserValue($this->uid, 'files', 'quota',
-				\OCP\Util::computerFileSize($quota));
+			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		}
 	}
 
