@@ -22,6 +22,9 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	private $tableName;
 
 	public function setUp() {
+		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\OCI8\Driver) {
+			$this->markTestSkipped('DB migration tests arent supported on OCI');
+		}
 		$this->tableName = 'test_' . uniqid();
 		$this->connection = \OC_DB::getConnection();
 	}
