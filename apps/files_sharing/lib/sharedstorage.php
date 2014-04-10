@@ -272,6 +272,9 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function unlink($path) {
 		// Delete the file if DELETE permission is granted
+		if ($path == '') {
+			$path = $this->mountPoint;
+		}
 		if ($source = $this->getSourcePath($path)) {
 			if ($this->isDeletable($path)) {
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
