@@ -29,6 +29,7 @@
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
+					<input type="hidden" id="requesttoken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 					<?php if(isset($_['dirToken'])):?>
 					<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 					<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
