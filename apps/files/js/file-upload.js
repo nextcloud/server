@@ -333,11 +333,15 @@ OC.Upload = {
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);
 					if ( ! data.formData ) {
+						var fileDirectory = '';
+						if(typeof data.files[0].relativePath !== 'undefined') {
+							fileDirectory = data.files[0].relativePath;
+						}
 						// noone set update parameters, we set the minimum
 						data.formData = {
 							requesttoken: oc_requesttoken,
 							dir: $('#dir').val(),
-							file_directory: data.files[0]['relativePath']
+							file_directory: fileDirectory
 						};
 					}
 				},
