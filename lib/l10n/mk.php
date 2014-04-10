@@ -28,6 +28,8 @@ $TRANSLATIONS = array(
 "last month" => "минатиот месец",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "минатата година",
-"years ago" => "пред години"
+"years ago" => "пред години",
+"A valid username must be provided" => "Мора да се обезбеди валидно корисничко име ",
+"A valid password must be provided" => "Мора да се обезбеди валидна лозинка"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

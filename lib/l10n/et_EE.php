@@ -66,6 +66,9 @@ $TRANSLATIONS = array(
 "last month" => "viimasel kuul",
 "_%n month ago_::_%n months ago_" => array("","%n kuud tagasi"),
 "last year" => "viimasel aastal",
-"years ago" => "aastat tagasi"
+"years ago" => "aastat tagasi",
+"A valid username must be provided" => "Sisesta nõuetele vastav kasutajatunnus",
+"A valid password must be provided" => "Sisesta nõuetele vastav parool",
+"The username is already being used" => "Kasutajanimi on juba kasutuses"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

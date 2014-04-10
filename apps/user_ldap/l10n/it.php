@@ -90,6 +90,7 @@ $TRANSLATIONS = array(
 "Group-Member association" => "Associazione gruppo-utente ",
 "Nested Groups" => "Gruppi nidificati",
 "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" => "Quando è attivato, i gruppi che contengono altri gruppi sono supportati. (Funziona solo se l'attributo del gruppo membro contiene DN.)",
+"Paging chunksize" => "Dimensione del blocco di paginazione",
 "Special Attributes" => "Attributi speciali",
 "Quota Field" => "Campo Quota",
 "Quota Default" => "Quota predefinita",

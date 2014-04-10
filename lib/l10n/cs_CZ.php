@@ -66,6 +66,9 @@ $TRANSLATIONS = array(
 "last month" => "minulý měsíc",
 "_%n month ago_::_%n months ago_" => array("před %n měsícem","před %n měsíci","před %n měsíci"),
 "last year" => "minulý rok",
-"years ago" => "před lety"
+"years ago" => "před lety",
+"A valid username must be provided" => "Musíte zadat platné uživatelské jméno",
+"A valid password must be provided" => "Musíte zadat platné heslo",
+"The username is already being used" => "Uživatelské jméno je již využíváno"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

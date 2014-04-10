@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Updated database" => "Base de datos anovada",
+"Invalid image" => "Imaxe inválida",
 "Sunday" => "Domingu",
 "Monday" => "Llunes",
 "Tuesday" => "Martes",
@@ -41,6 +42,7 @@ $TRANSLATIONS = array(
 "Continue" => "Continuar",
 "Shared" => "Compartíu",
 "Share" => "Compartir",
+"Error" => "Fallu",
 "Share link" => "Compartir enllaz",
 "Password" => "Contraseña",
 "Send" => "Unviar",
@@ -62,6 +64,7 @@ $TRANSLATIONS = array(
 "Reset" => "Reaniciar",
 "For the best results, please consider using a GNU/Linux server instead." => "Pa los meyores resultaos, por favor considera l'usu d'un sirvidor GNU/Linux nel so llugar.",
 "Personal" => "Personal",
+"Users" => "Usuarios",
 "Cheers!" => "¡Salú!",
 "will be used" => "usaráse",
 "Finishing …" => "Finando ...",

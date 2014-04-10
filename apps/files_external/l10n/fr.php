@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Veuillez fournir une clé d'application (app key) ainsi qu'un mot de passe valides.",
 "Error configuring Google Drive storage" => "Erreur lors de la configuration du support de stockage Google Drive",
 "Saved" => "Sauvegarder",
+" and " => "et",
 "External Storage" => "Stockage externe",
 "Folder name" => "Nom du dossier",
 "External storage" => "Stockage externe",

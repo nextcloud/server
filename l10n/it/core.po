@@ -4,16 +4,16 @@
 # 
 # Translators:
 # nappo <leone@inventati.org>, 2013
-# idetao <marcxosm@gmail.com>, 2013
+# idetao <marcxosm@gmail.com>, 2013-2014
 # Paolo Velati <paolo.velati@gmail.com>, 2013-2014
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 06:10+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 23:10+0000\n"
+"Last-Translator: idetao <marcxosm@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -146,127 +146,127 @@ msgstr "Impostazioni"
 msgid "Saving..."
 msgstr "Salvataggio in corso..."
 
-#: js/js.js:1124
+#: js/js.js:1099
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:1125
+#: js/js.js:1100
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuto fa"
 msgstr[1] "%n minuti fa"
 
-#: js/js.js:1126
+#: js/js.js:1101
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ora fa"
 msgstr[1] "%n ore fa"
 
-#: js/js.js:1127
+#: js/js.js:1102
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:1128
+#: js/js.js:1103
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:1129
+#: js/js.js:1104
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n giorno fa"
 msgstr[1] "%n giorni fa"
 
-#: js/js.js:1130
+#: js/js.js:1105
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:1131
+#: js/js.js:1106
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n mese fa"
 msgstr[1] "%n mesi fa"
 
-#: js/js.js:1132
+#: js/js.js:1107
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:1133
+#: js/js.js:1108
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:1134
+#: js/js.js:1109
 msgid "years ago"
 msgstr "anni fa"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Scegli"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Errore durante il caricamento del modello del selettore file: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Sì"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Errore durante il caricamento del modello di messaggio: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} file in conflitto"
 msgstr[1] "{count} file in conflitto"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Un file in conflitto"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr "File nuovi"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
-msgstr ""
+msgstr "File già esistenti"
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Quali file vuoi mantenere?"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se selezioni entrambe le versioni, sarà aggiunto un numero al nome del file copiato."
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Annulla"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Continua"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(tutti i selezionati)"
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:457
 msgid "({count} selected)"
 msgstr "({count} selezionati)"
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:465
 msgid "Error loading file exists template"
 msgstr "Errore durante il caricamento del modello del file esistente"
 

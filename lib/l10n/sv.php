@@ -66,6 +66,8 @@ $TRANSLATIONS = array(
 "last month" => "förra månaden",
 "_%n month ago_::_%n months ago_" => array("%n månad sedan","%n månader sedan"),
 "last year" => "förra året",
-"years ago" => "år sedan"
+"years ago" => "år sedan",
+"A valid username must be provided" => "Ett giltigt användarnamn måste anges",
+"A valid password must be provided" => "Ett giltigt lösenord måste anges"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

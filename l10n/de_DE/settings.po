@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-03 20:10+0000\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 06:10+0000\n"
 "Last-Translator: kabum <uu.kabum@gmail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -220,31 +220,31 @@ msgstr "Update durchführen"
 msgid "Updated"
 msgstr "Aktualisiert"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Wählen Sie ein Profilbild"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr "Sehr schwaches Passwort"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr "Schwaches Passwort"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr "Passables Passwort"
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr "Gutes Passwort"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr "Starkes Passwort"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Entschlüssle Dateien ... Bitte warten Sie, denn dieser Vorgang kann einige Zeit beanspruchen."
 

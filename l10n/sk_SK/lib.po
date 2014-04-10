@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 06:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -351,11 +351,11 @@ msgstr ""
 
 #: private/user/manager.php:251
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Musíte zadať platné používateľské meno"
 
 #: private/user/manager.php:255
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Musíte zadať platné heslo"
 
 #: private/user/manager.php:260
 msgid "The username is already being used"

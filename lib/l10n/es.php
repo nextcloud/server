@@ -66,6 +66,10 @@ $TRANSLATIONS = array(
 "last month" => "mes pasado",
 "_%n month ago_::_%n months ago_" => array("Hace %n mes","Hace %n meses"),
 "last year" => "año pasado",
-"years ago" => "hace años"
+"years ago" => "hace años",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
+"A valid username must be provided" => "Se debe proporcionar un nombre de usuario válido",
+"A valid password must be provided" => "Se debe proporcionar una contraseña válida",
+"The username is already being used" => "El nombre de usuario ya está en uso"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

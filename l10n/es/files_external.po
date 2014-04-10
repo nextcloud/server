@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 18:50+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,32 +45,32 @@ msgstr "Guardado"
 
 #: lib/config.php:592
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Nota:</b> "
 
 #: lib/config.php:602
 msgid " and "
-msgstr ""
+msgstr "y"
 
 #: lib/config.php:624
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> El soporte de cURL en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador de sistema que lo instale."
 
 #: lib/config.php:626
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> El soporte de FTP en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador de sistema que lo instale."
 
 #: lib/config.php:628
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> \"%s\" no está instalado. No se puede montar %s. Pídale al administrador de sistema que lo instale."
 
 #: templates/settings.php:2
 msgid "External Storage"
@@ -94,7 +94,7 @@ msgstr "Opciones"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Disponible para"
 
 #: templates/settings.php:32
 msgid "Add storage"

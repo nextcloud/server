@@ -43,6 +43,8 @@ $TRANSLATIONS = array(
 "last month" => "минулого місяця",
 "_%n month ago_::_%n months ago_" => array("","","%n місяців тому"),
 "last year" => "минулого року",
-"years ago" => "роки тому"
+"years ago" => "роки тому",
+"A valid username must be provided" => "Потрібно задати вірне ім'я користувача",
+"A valid password must be provided" => "Потрібно задати вірний пароль"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} file in conflitto","{count} file in conflitto"),
 "One file conflict" => "Un file in conflitto",
 "New Files" => "File nuovi",
+"Already existing files" => "File già esistenti",
 "Which files do you want to keep?" => "Quali file vuoi mantenere?",
 "If you select both versions, the copied file will have a number added to its name." => "Se selezioni entrambe le versioni, sarà aggiunto un numero al nome del file copiato.",
 "Cancel" => "Annulla",

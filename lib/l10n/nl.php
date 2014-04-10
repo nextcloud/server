@@ -66,6 +66,8 @@ $TRANSLATIONS = array(
 "last month" => "vorige maand",
 "_%n month ago_::_%n months ago_" => array("%n maand geleden","%n maanden geleden"),
 "last year" => "vorig jaar",
-"years ago" => "jaar geleden"
+"years ago" => "jaar geleden",
+"A valid username must be provided" => "Er moet een geldige gebruikersnaam worden opgegeven",
+"A valid password must be provided" => "Er moet een geldig wachtwoord worden opgegeven"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

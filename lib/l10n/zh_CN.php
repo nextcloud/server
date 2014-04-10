@@ -48,6 +48,8 @@ $TRANSLATIONS = array(
 "last month" => "上月",
 "_%n month ago_::_%n months ago_" => array("%n 月前"),
 "last year" => "去年",
-"years ago" => "年前"
+"years ago" => "年前",
+"A valid username must be provided" => "必须提供合法的用户名",
+"A valid password must be provided" => "必须提供合法的密码"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

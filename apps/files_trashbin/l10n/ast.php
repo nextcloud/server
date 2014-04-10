@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Error" => "Fallu",
 "Name" => "Nome",
 "Restore" => "Restaurar",
 "Delete" => "Desaniciar"
