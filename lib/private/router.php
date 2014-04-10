@@ -184,7 +184,8 @@ class OC_Router {
 	/**
 	 * To isolate the variable scope used inside the $file it is required in it's own method
 	 * @param $file
-	 */	private function requireRouteFile($file) {
+	 */
+	private function requireRouteFile($file) {
 		require_once $file;
 	}
 }
