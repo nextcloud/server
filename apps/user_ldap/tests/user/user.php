@@ -197,7 +197,7 @@ class Test_User_User extends \PHPUnit_Framework_TestCase {
 			->with($this->equalTo('alice'),
 				$this->equalTo('files'),
 				$this->equalTo('quota'),
-				$this->equalTo(\OCP\Util::computerFileSize('42 GB')))
+				$this->equalTo('42 GB'))
 			->will($this->returnValue(true));
 
 		$uid = 'alice';
@@ -240,7 +240,7 @@ class Test_User_User extends \PHPUnit_Framework_TestCase {
 			->with($this->equalTo('alice'),
 				$this->equalTo('files'),
 				$this->equalTo('quota'),
-				$this->equalTo(\OCP\Util::computerFileSize('23 GB')))
+				$this->equalTo('23 GB'))
 			->will($this->returnValue(true));
 
 		$uid = 'alice';
@@ -283,7 +283,7 @@ class Test_User_User extends \PHPUnit_Framework_TestCase {
 			->with($this->equalTo('alice'),
 				$this->equalTo('files'),
 				$this->equalTo('quota'),
-				$this->equalTo(\OCP\Util::computerFileSize('23 GB')))
+				$this->equalTo('23 GB'))
 			->will($this->returnValue(true));
 
 		$uid = 'alice';
