@@ -49,13 +49,21 @@ abstract class Controller {
 	 */
 	protected $request;
 
+	protected $app; // removed in oc7, backwards compability change for oc 6
+
 	/**
 	 * constructor of the controller
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
 	 */
 	public function __construct($appName, IRequest $request){
-		$this->appName = $appName;
+		// backwards compatibility fix, removed in oc7
+		if($appName instanceof IAppContainer) {
+			$this->appName = $appName->getAppName();
+			$this->app = $appName;
+		} else {
+			$this->appName = $appName;	
+		}
 		$this->request = $request;
 	}
 
