@@ -38,10 +38,10 @@ use OCP\IRequest;
 abstract class Controller {
 
 	/**
-	 * app container for dependency injection
-	 * @var \OCP\AppFramework\IAppContainer
+	 * app name
+	 * @var string
 	 */
-	protected $app;
+	protected $appName;
 
 	/**
 	 * current request
@@ -49,13 +49,21 @@ abstract class Controller {
 	 */
 	protected $request;
 
+	protected $app; // removed in oc7, backwards compability change for oc 6
+
 	/**
 	 * constructor of the controller
-	 * @param IAppContainer $app interface to the app
+	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
 	 */
-	public function __construct(IAppContainer $app, IRequest $request){
-		$this->app = $app;
+	public function __construct($appName, IRequest $request){
+		// backwards compatibility fix, removed in oc7
+		if($appName instanceof IAppContainer) {
+			$this->appName = $appName->getAppName();
+			$this->app = $appName;
+		} else {
+			$this->appName = $appName;	
+		}
 		$this->request = $request;
 	}
 
@@ -136,7 +144,7 @@ abstract class Controller {
 	 */
 	public function render($templateName, array $params=array(),
 							$renderAs='user', array $headers=array()){
-		$response = new TemplateResponse($this->app->getAppName(), $templateName);
+		$response = new TemplateResponse($this->appName, $templateName);
 		$response->setParams($params);
 		$response->renderAs($renderAs);
 
