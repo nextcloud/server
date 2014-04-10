@@ -336,4 +336,48 @@ class Shared_Cache extends Cache {
 		return $ids;
 	}
 
+	/**
+	 * get the path of a file on this storage by it's id
+	 *
+	 * @param int $id
+	 * @param string $pathEnd (optional) used internally for recursive calls
+	 * @return string | null
+	 **/
+	public function getPathById($id, $pathEnd = '') {
+		// direct shares are easy
+		if ($path = $this->getShareById($id)) {
+			return $path . $pathEnd;
+		} else {
+			// if the item is a direct share we try and get the path of the parent and append the name of the item to it
+			list($parent, $name) = $this->getParentInfo($id);
+			if ($parent > 0) {
+				return $this->getPathById($parent, '/' . $name . $pathEnd);
+			} else {
+				return null;
+			}
+		}
+	}
+
+	private function getShareById($id) {
+		$item = \OCP\Share::getItemSharedWithBySource('file', $id);
+		if ($item) {
+			return trim($item['file_target'], '/');
+		}
+		$item = \OCP\Share::getItemSharedWithBySource('folder', $id);
+		if ($item) {
+			return trim($item['file_target'], '/');
+		}
+		return null;
+	}
+
+	private function getParentInfo($id) {
+		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
+		$query = \OC_DB::prepare($sql);
+		$result = $query->execute(array($id));
+		if ($row = $result->fetchRow()) {
+			return array($row['parent'], $row['name']);
+		} else {
+			return array(-1, '');
+		}
+	}
 }

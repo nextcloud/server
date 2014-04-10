@@ -981,6 +981,45 @@ class Test_Files_Sharing_Api extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($expectedResult, $shareApiDummy->correctPathTest($path, $folder));
 	}
 
+	public function testGetPathByIdDirectShare() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OC\Files\Filesystem::file_put_contents('test.txt', 'foo');
+		$info = \OC\Files\Filesystem::getFileInfo('test.txt');
+		\OCP\Share::shareItem('file', $info['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OC_Util::tearDownFS();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('/Shared/test.txt'));
+		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/Shared/test.txt');
+		/**
+		 * @var \OC\Files\Storage\Shared $sharedStorage
+		 */
+
+		$sharedCache = $sharedStorage->getCache();
+		$this->assertEquals('test.txt', $sharedCache->getPathById($info['fileid']));
+	}
+
+	public function testGetPathByIdShareSubFolder() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OC\Files\Filesystem::mkdir('foo');
+		\OC\Files\Filesystem::mkdir('foo/bar');
+		\OC\Files\Filesystem::touch('foo/bar/test.txt', 'bar');
+		$folderInfo = \OC\Files\Filesystem::getFileInfo('foo');
+		$fileInfo = \OC\Files\Filesystem::getFileInfo('foo/bar/test.txt');
+		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OC_Util::tearDownFS();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('/Shared/foo'));
+		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/Shared/foo');
+		/**
+		 * @var \OC\Files\Storage\Shared $sharedStorage
+		 */
+
+		$sharedCache = $sharedStorage->getCache();
+		$this->assertEquals('foo', $sharedCache->getPathById($folderInfo['fileid']));
+		$this->assertEquals('foo/bar/test.txt', $sharedCache->getPathById($fileInfo['fileid']));
+	}
 }
 
 /**
