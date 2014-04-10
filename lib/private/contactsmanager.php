@@ -143,12 +143,11 @@ namespace OC {
 		 * In order to improve lazy loading a closure can be registered which will be called in case
 		 * address books are actually requested
 		 *
-		 * @param string $key
 		 * @param \Closure $callable
 		 */
-		public function register($key, \Closure $callable)
+		public function register(\Closure $callable)
 		{
-			$this->address_book_loaders[$key] = $callable;
+			$this->address_book_loaders[] = $callable;
 		}
 
 		/**

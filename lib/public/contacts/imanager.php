@@ -138,11 +138,10 @@ namespace OCP\Contacts {
 		 * In order to improve lazy loading a closure can be registered which will be called in case
 		 * address books are actually requested
 		 *
-		 * @param string $key
 		 * @param \Closure $callable
 		 * @return void
 		 */
-		function register($key, \Closure $callable);
+		function register(\Closure $callable);
 
 		/**
 		 * @return array
