@@ -172,7 +172,7 @@ namespace OC {
 		protected function loadAddressBooks()
 		{
 			foreach($this->address_book_loaders as $callable) {
-				$callable();
+				$callable($this);
 			}
 			$this->address_book_loaders = array();
 		}
