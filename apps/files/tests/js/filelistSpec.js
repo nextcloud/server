@@ -1118,6 +1118,32 @@ describe('FileList tests', function() {
 			expect($('#select_all').prop('checked')).toEqual(false);
 			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
 		});
+		it('Updates the selection summary when doing a few manipulations with "Select all"', function() {
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+
+			var $tr = FileList.findFileEl('One.txt');
+			// unselect one
+			$tr.find('input:checkbox').click();
+
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+
+			// select all
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(4);
+
+			// unselect one
+			$tr.find('input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+
+			// re-select it
+			$tr.find('input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(4);
+		});
 		it('Auto-selects files on next page when "select all" is checked', function() {
 			FileList.setFiles(generateFiles(0, 41));
 			$('#select_all').click();

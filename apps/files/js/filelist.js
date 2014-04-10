@@ -194,15 +194,13 @@ window.FileList = {
 		this.$fileList.find('td.filename input:checkbox').prop('checked', checked)
 			.closest('tr').toggleClass('selected', checked);
 		this._selectedFiles = {};
+		this._selectionSummary.clear();
 		if (checked) {
 			for (var i = 0; i < this.files.length; i++) {
 				var fileData = this.files[i];
 				this._selectedFiles[fileData.id] = fileData;
 				this._selectionSummary.add(fileData);
 			}
-		}
-		else {
-			this._selectionSummary.clear();
 		}
 		this.updateSelectionSummary();
 	},
