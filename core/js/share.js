@@ -480,15 +480,16 @@ OC.Share={
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
 		$('#allowPublicUploadWrapper').hide();
+		$('#expirationDate').hide();
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	showExpirationDate:function(date) {
 		$('#expirationCheckbox').attr('checked', true);
-		$('#expirationDate').before('<br />');
 		$('#expirationDate').val(date);
-		$('#expirationDate').show();
+		$('#expirationDate').show('blind');
+		$('#expirationDate').css('display','block');
 		$('#expirationDate').datepicker({
 			dateFormat : 'dd-mm-yy'
 		});
@@ -558,7 +559,7 @@ $(document).ready(function() {
 			OC.Share.itemShares[shareType].splice(index, 1);
 			OC.Share.updateIcon(itemType, itemSource);
 			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-				$('#expiration').hide();
+				$('#expiration').hide('blind');
 			}
 		});
 		return false;
@@ -618,7 +619,7 @@ $(document).ready(function() {
 				OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
 				OC.Share.updateIcon(itemType, itemSource);
 				if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-					$('#expiration').hide();
+					$('#expiration').hide('blind');
 				}
 			});
 		}
@@ -710,7 +711,7 @@ $(document).ready(function() {
 				if (!result || result.status !== 'success') {
 					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
-				$('#expirationDate').hide();
+				$('#expirationDate').hide('blind');
 			});
 		}
 	});
