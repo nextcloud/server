@@ -232,7 +232,7 @@ class ConvertType extends Command {
 							array("nextval('".$sequence->getName()."'::regclass)", $dbname));
 					$table_name = $info['table_name'];
 					$column_name = $info['column_name'];
-					$toDB->executeQuery("SELECT setval('" . $sequence->getName() . "', (SELECT MAX(" . $column_name . ") FROM " . $table_name . ")+1)");
+					$toDB->executeQuery("SELECT setval('" . $sequence->getName() . "', (SELECT MAX(" . $column_name . ") FROM " . $table_name . "))");
 				}
 			}
 			// save new database config
