@@ -236,6 +236,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 		$this->access->connection->writeToCache('userExists'.$uid, true);
 		$this->updateQuota($dn);
+		$this->updateEmail($dn);
 		$this->updateAvatar($uid, $dn);
 		return true;
 	}
