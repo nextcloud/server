@@ -8,8 +8,7 @@
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 class MDB2SchemaManager {
@@ -55,6 +54,20 @@ class MDB2SchemaManager {
 	}
 
 	/**
+	 * @return \OC\DB\Migrator
+	 */
+	protected function getMigrator() {
+		$platform = $this->conn->getDatabasePlatform();
+		if ($platform instanceof SqlitePlatform) {
+			return new SQLiteMigrator($this->conn);
+		} else if ($platform instanceof OraclePlatform) {
+			return new OracleMigrator($this->conn);
+		} else {
+			return new Migrator($this->conn);
+		}
+	}
+
+	/**
 	 * update the database scheme
 	 * @param string $file file to read structure from
 	 * @param bool $generateSql only return the sql needed for the upgrade
@@ -65,24 +78,12 @@ class MDB2SchemaManager {
 		$platform = $this->conn->getDatabasePlatform();
 		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
-		if ($platform instanceof SqlitePlatform) {
-			$check = true;
-			$migrator = new SQLiteMigrator($this->conn);
-		} else if ($platform instanceof MySqlPlatform or $platform instanceof PostgreSqlPlatform) {
-			$check = true;
-			$migrator = new Migrator($this->conn);
-		} else {
-			// dont do the upgrade check for oracle
-			$check = false;
-			$migrator = new Migrator($this->conn);
-		}
+		$migrator = $this->getMigrator();
 
 		if ($generateSql) {
 			return $migrator->generateChangeScript($toSchema);
 		} else {
-			if ($check) {
-				$migrator->checkMigrate($toSchema);
-			}
+			$migrator->checkMigrate($toSchema);
 			$migrator->migrate($toSchema);
 			return true;
 		}
