@@ -310,7 +310,7 @@ OC.Encryption.msg={
 	startDecrypting:function(selector){
 		var spinner = '<img src="'+ OC.imagePath('core', 'loading-small.gif') +'">';
 		$(selector)
-			.html( t('files_encryption', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
+			.html( t('settings', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
 			.removeClass('success')
 			.removeClass('error')
 			.stop(true, true)
