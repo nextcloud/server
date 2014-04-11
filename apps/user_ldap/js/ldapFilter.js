@@ -64,13 +64,16 @@ LdapFilter.prototype.determineMode = function() {
 	LdapWizard.ajax(param,
 		function(result) {
 			property = 'ldap' + filter.target + 'FilterMode';
-			filter.mode = result.changes[property];
+			filter.mode = parseInt(result.changes[property]);
 			if(filter.mode === LdapWizard.filterModeRaw
 				&& $('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 			} else if(filter.mode === LdapWizard.filterModeAssisted
 				&& !$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
+			} else {
+				console.log('LDAP Wizard determineMode: returned mode was »' +
+					filter.mode + '« of type ' + typeof filter.mode);
 			}
 			filter.unlock();
 		},
