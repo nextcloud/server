@@ -1,7 +1,16 @@
 <?php
+/**
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 
 namespace OCA\Files;
 
+/**
+ * Helper class for manipulating file information
+ */
 class Helper
 {
 	public static function buildFileStorageStatistics($dir) {
@@ -57,7 +66,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function fileCmp($a, $b) {
+	public static function compareFileNames($a, $b) {
 		$aType = $a->getType();
 		$bType = $b->getType();
 		if ($aType === 'dir' and $bType !== 'dir') {
@@ -76,7 +85,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function mtimeCmp($a, $b) {
+	public static function compareTimestamp($a, $b) {
 		$aTime = $a->getMTime();
 		$bTime = $b->getMTime();
 		return $aTime - $bTime;
@@ -89,7 +98,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function sizeCmp($a, $b) {
+	public static function compareSize($a, $b) {
 		$aSize = $a->getSize();
 		$bSize = $b->getSize();
 		return $aSize - $bSize;
@@ -165,11 +174,11 @@ class Helper
 	 * @return \OCP\Files\FileInfo[] sorted files
 	 */
 	public static function sortFiles($files, $sortAttribute = 'name', $sortDescending = false) {
-		$sortFunc = 'fileCmp';
+		$sortFunc = 'compareFileNames';
 		if ($sortAttribute === 'mtime') {
-			$sortFunc = 'mtimeCmp';
+			$sortFunc = 'compareTimestamp';
 		} else if ($sortAttribute === 'size') {
-			$sortFunc = 'sizeCmp';
+			$sortFunc = 'compareSize';
 		}
 		usort($files, array('\OCA\Files\Helper', $sortFunc));
 		if ($sortDescending) {
