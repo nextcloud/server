@@ -497,13 +497,13 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Generate a pseudo random 1024kb ASCII key, used as file key
+	 * @brief Generate a pseudo random 256-bit ASCII key, used as file key
 	 * @returns $key Generated key
 	 */
 	public static function generateKey() {
 
 		// Generate key
-		if ($key = base64_encode(openssl_random_pseudo_bytes(183, $strong))) {
+		if ($key = base64_encode(openssl_random_pseudo_bytes(32, $strong))) {
 
 			if (!$strong) {
 
