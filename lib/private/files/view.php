@@ -348,7 +348,8 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
-		if (!$internalPath || $internalPath === '' || $internalPath === '/') {
+		if (!($storage instanceof \OC\Files\Storage\Shared) &&
+				(!$internalPath || $internalPath === '' || $internalPath === '/')) {
 			// do not allow deleting the storage's root / the mount point
 			// because for some storages it might delete the whole contents
 			// but isn't supposed to work that way
