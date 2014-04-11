@@ -129,10 +129,10 @@ class ConvertType extends Command {
 		$fromTables = $this->getTables($fromDB);
 
 		// warn/fail if there are more tables in 'from' database
-		$tables = array_diff($fromTables, $toTables);
-		if (!empty($tables)) {
+		$extraFromTables = array_diff($fromTables, $toTables);
+		if (!empty($extraFromTables)) {
 			$output->writeln('<comment>The following tables will not be converted:</comment>');
-			$output->writeln($tables);
+			$output->writeln($extraFromTables);
 			if (!$input->getOption('all-apps')) {
 				$output->writeln('<comment>Please note that tables belonging to available but currently not installed apps</comment>');
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
@@ -147,8 +147,8 @@ class ConvertType extends Command {
 				return;
 			}
 		}
-		$tables = array_intersect($toTables, $fromTables);
-		$this->convertDB($fromDB, $toDB, $tables, $input, $output);
+		$intersectingTables = array_intersect($toTables, $fromTables);
+		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 	}
 
 	protected function createSchema(Connection $toDB, InputInterface $input, OutputInterface $output) {
