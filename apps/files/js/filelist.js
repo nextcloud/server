@@ -78,7 +78,7 @@ window.FileList = {
 
 		this.breadcrumb = new BreadCrumb({
 			onClick: this._onClickBreadCrumb,
-			onDrop: this._onDropOnBreadCrumb,
+			onDrop: _.bind(this._onDropOnBreadCrumb, this),
 			getCrumbUrl: function(part, index) {
 				return self.linkTo(part.dir);
 			}
@@ -259,44 +259,31 @@ window.FileList = {
 	 * Event handler when dropping on a breadcrumb
 	 */
 	_onDropOnBreadCrumb: function( event, ui ) {
-		var target=$(this).data('dir');
-		var dir = FileList.getCurrentDirectory();
-		while(dir.substr(0,1) === '/') {//remove extra leading /'s
-			dir=dir.substr(1);
+		var $target = $(event.target);
+		if (!$target.is('.crumb')) {
+			$target = $target.closest('.crumb');
+		}
+		var targetPath = $(event.target).data('dir');
+		var dir = this.getCurrentDirectory();
+		while (dir.substr(0,1) === '/') {//remove extra leading /'s
+			dir = dir.substr(1);
 		}
 		dir = '/' + dir;
 		if (dir.substr(-1,1) !== '/') {
 			dir = dir + '/';
 		}
-		if (target === dir || target+'/' === dir) {
+		// do nothing if dragged on current dir
+		if (targetPath === dir || targetPath + '/' === dir) {
 			return;
 		}
-		var files = ui.helper.find('tr');
-		$(files).each(function(i,row) {
-			var dir = $(row).data('dir');
-			var file = $(row).data('filename');
-			//slapdash selector, tracking down our original element that the clone budded off of.
-			var origin = $('tr[data-id=' + $(row).data('origin') + ']');
-			var td = origin.children('td.filename');
-			var oldBackgroundImage = td.css('background-image');
-			td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
-			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
-				if (result) {
-					if (result.status === 'success') {
-						FileList.remove(file);
-						FileList.updateSelectionSummary();
-						$('#notification').hide();
-					} else {
-						$('#notification').hide();
-						$('#notification').text(result.data.message);
-						$('#notification').fadeIn();
-					}
-				} else {
-					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
-				}
-				td.css('background-image', oldBackgroundImage);
-			});
-		});
+
+		var files = this.getSelectedFiles();
+		if (files.length === 0) {
+			// single one selected without checkbox?
+			files = _.map(ui.helper.find('tr'), FileList.elementToFile);
+		}
+
+		FileList.move(_.pluck(files, 'name'), targetPath);
 	},
 
 	/**
@@ -329,6 +316,7 @@ window.FileList = {
 	 * @return file data
 	 */
 	elementToFile: function($el){
+		$el = $($el);
 		return {
 			id: parseInt($el.attr('data-id'), 10),
 			name: $el.attr('data-file'),
@@ -877,6 +865,77 @@ window.FileList = {
 		}
 		return index;
 	},
+	/**
+	 * Moves a file to a given target folder.
+	 *
+	 * @param fileNames array of file names to move
+	 * @param targetPath absolute target path
+	 */
+	move: function(fileNames, targetPath) {
+		var self = this;
+		var dir = this.getCurrentDirectory();
+		var target = OC.basename(targetPath);
+		if (!_.isArray(fileNames)) {
+			fileNames = [fileNames];
+		}
+		_.each(fileNames, function(fileName) {
+			var $tr = self.findFileEl(fileName);
+			var $td = $tr.children('td.filename');
+			var oldBackgroundImage = $td.css('background-image');
+			$td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+			// TODO: improve performance by sending all file names in a single call
+			$.post(
+				OC.filePath('files', 'ajax', 'move.php'),
+				{
+					dir: dir,
+					file: fileName,
+					target: targetPath
+				},
+				function(result) {
+					if (result) {
+						if (result.status === 'success') {
+							// if still viewing the same directory
+							if (self.getCurrentDirectory() === dir) {
+								// recalculate folder size
+								var oldFile = self.findFileEl(target);
+								var newFile = self.findFileEl(fileName);
+								var oldSize = oldFile.data('size');
+								var newSize = oldSize + newFile.data('size');
+								oldFile.data('size', newSize);
+								oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+
+								// TODO: also update entry in FileList.files
+
+								self.remove(fileName);
+							}
+						} else {
+							OC.Notification.hide();
+							if (result.status === 'error' && result.data.message) {
+								OC.Notification.show(result.data.message);
+							}
+							else {
+								OC.Notification.show(t('files', 'Error moving file.'));
+							}
+							// hide notification after 10 sec
+							setTimeout(function() {
+								OC.Notification.hide();
+							}, 10000);
+						}
+					} else {
+						OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
+					}
+					$td.css('background-image', oldBackgroundImage);
+			});
+		});
+
+	},
+
+	/**
+	 * Triggers file rename input field for the given file name.
+	 * If the user enters a new name, the file will be renamed.
+	 *
+	 * @param oldname file name of the file to rename
+	 */
 	rename: function(oldname) {
 		var tr, td, input, form;
 		tr = FileList.findFileEl(oldname);

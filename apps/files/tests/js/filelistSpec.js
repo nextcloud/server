@@ -541,6 +541,100 @@ describe('FileList tests', function() {
 			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One.txt');
 		});
 	});
+	describe('Moving files', function() {
+		beforeEach(function() {
+			FileList.setFiles(testFiles);
+		});
+		it('Moves single file to target folder', function() {
+			var request;
+			FileList.move('One.txt', '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'One.txt',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			expect(notificationStub.notCalled).toEqual(true);
+		});
+		it('Moves list of files to target folder', function() {
+			var request;
+			FileList.move(['One.txt', 'Two.jpg'], '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(2);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			request = fakeServer.requests[1];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'Two.jpg', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'One.txt',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			fakeServer.requests[1].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'Two.jpg',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('Two.jpg').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(12311);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 kB');
+
+			expect(notificationStub.notCalled).toEqual(true);
+		});
+		it('Shows notification if a file could not be moved', function() {
+			var request;
+			FileList.move('One.txt', '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'error',
+				data: {
+					message: 'Error while moving file',
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(1);
+
+			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationStub.getCall(0).args[0]).toEqual('Error while moving file');
+		});
+	});
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
 			expect(FileList.files.length).toEqual(0);
@@ -932,14 +1026,12 @@ describe('FileList tests', function() {
 				}
 			};
 			// returns a list of tr that were dragged
-			// FIXME: why are their attributes different than the
-			// regular file trs ?
 			ui.helper.find.returns([
-				$('<tr data-filename="One.txt" data-dir="' + testDir + '"></tr>'),
-				$('<tr data-filename="Two.jpg" data-dir="' + testDir + '"></tr>')
+				$('<tr data-file="One.txt" data-dir="' + testDir + '"></tr>'),
+				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			FileList._onDropOnBreadCrumb.call($crumb, new $.Event('drop'), ui);
+			FileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui);
 
 			// will trigger two calls to move.php (first one was previous list.php)
 			expect(fakeServer.requests.length).toEqual(3);
@@ -976,14 +1068,12 @@ describe('FileList tests', function() {
 				}
 			};
 			// returns a list of tr that were dragged
-			// FIXME: why are their attributes different than the
-			// regular file trs ?
 			ui.helper.find.returns([
-				$('<tr data-filename="One.txt" data-dir="' + testDir + '"></tr>'),
-				$('<tr data-filename="Two.jpg" data-dir="' + testDir + '"></tr>')
+				$('<tr data-file="One.txt" data-dir="' + testDir + '"></tr>'),
+				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			FileList._onDropOnBreadCrumb.call($crumb, new $.Event('drop'), ui);
+			FileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui);
 
 			// no extra server request
 			expect(fakeServer.requests.length).toEqual(1);

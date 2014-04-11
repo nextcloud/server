@@ -142,6 +142,7 @@ var Files = {
 		}
 	},
 
+	// TODO: move to FileList class
 	setupDragAndDrop: function() {
 		var $fileList = $('#fileList');
 
@@ -308,6 +309,7 @@ function boolOperationFinished(data, callback) {
 	}
 }
 
+// TODO: move to FileList
 var createDragShadow = function(event) {
 	//select dragged file
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
@@ -333,9 +335,12 @@ var createDragShadow = function(event) {
 	var dir=$('#dir').val();
 
 	$(selectedFiles).each(function(i,elem) {
-		var newtr = $('<tr/>').attr('data-dir', dir).attr('data-filename', elem.name).attr('data-origin', elem.origin);
+		var newtr = $('<tr/>')
+			.attr('data-dir', dir)
+			.attr('data-file', elem.name)
+			.attr('data-origin', elem.origin);
 		newtr.append($('<td/>').addClass('filename').text(elem.name));
-		newtr.append($('<td/>').addClass('size').text(humanFileSize(elem.size)));
+		newtr.append($('<td/>').addClass('size').text(OC.Util.humanFileSize(elem.size)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
@@ -352,6 +357,7 @@ var createDragShadow = function(event) {
 
 //options for file drag/drop
 //start&stop handlers needs some cleaning up
+// TODO: move to FileList class
 var dragOptions={
 	revert: 'invalid', revertDuration: 300,
 	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
@@ -381,50 +387,24 @@ if ( $('html.ie').length === 0) {
 	dragOptions['distance'] = 20;
 }
 
-var folderDropOptions={
+// TODO: move to FileList class
+var folderDropOptions = {
 	hoverClass: "canDrop",
 	drop: function( event, ui ) {
-		//don't allow moving a file into a selected folder
+		// don't allow moving a file into a selected folder
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
 
-		var target = $(this).closest('tr').data('file');
+		var targetPath = FileList.getCurrentDirectory() + '/' + $(this).closest('tr').data('file');
 
-		var files = ui.helper.find('tr');
-		$(files).each(function(i,row) {
-			var dir = $(row).data('dir');
-			var file = $(row).data('filename');
-							//slapdash selector, tracking down our original element that the clone budded off of.
-				var origin = $('tr[data-id=' + $(row).data('origin') + ']');
-				var td = origin.children('td.filename');
-				var oldBackgroundImage = td.css('background-image');
-				td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
-			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
-				if (result) {
-					if (result.status === 'success') {
-						//recalculate folder size
-						var oldFile = FileList.findFileEl(target);
-						var newFile = FileList.findFileEl(file);
-						var oldSize = oldFile.data('size');
-						var newSize = oldSize + newFile.data('size');
-						oldFile.data('size', newSize);
-						oldFile.find('td.filesize').text(humanFileSize(newSize));
+		var files = FileList.getSelectedFiles();
+		if (files.length === 0) {
+			// single one selected without checkbox?
+			files = _.map(ui.helper.find('tr'), FileList.elementToFile);
+		}
 
-						FileList.remove(file);
-						FileList.updateSelectionSummary();
-						$('#notification').hide();
-					} else {
-						$('#notification').hide();
-						$('#notification').text(result.data.message);
-						$('#notification').fadeIn();
-					}
-				} else {
-					OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
-				}
-				td.css('background-image', oldBackgroundImage);
-			});
-		});
+		FileList.move(_.pluck(files, 'name'), targetPath);
 	},
 	tolerance: 'pointer'
 };
