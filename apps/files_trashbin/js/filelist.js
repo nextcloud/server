@@ -80,6 +80,7 @@
 	FileList.initialize = function() {
 		var result = oldInit.apply(this, arguments);
 		$('.undelete').click('click', FileList._onClickRestoreSelected);
+		this.setSort('mtime', 'desc');
 		return result;
 	};
 

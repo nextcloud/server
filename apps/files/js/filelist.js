@@ -80,9 +80,7 @@ window.FileList = {
 
 		this.fileSummary = this._createSummary();
 
-		this._sort = 'name';
-		this._sortDirection = 'asc';
-		this._sortComparator = this.Comparators.name;
+		this.setSort('name', 'asc');
 
 		this.breadcrumb = new BreadCrumb({
 			onClick: this._onClickBreadCrumb,
@@ -1583,7 +1581,6 @@ $(document).ready(function() {
 			targetDir = parseCurrentDirFromUrl();
 		}
 		if (targetDir) {
-			FileList.setSort('name', 'asc');
 			FileList.changeDirectory(targetDir, false);
 		}
 	};
