@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","Il y a %n mois"),
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Seuls les caractères suivants sont autorisés dans un nom d'utilisateur : \"a-z\", \"A-Z\", \"0-9\", et \"_.@-\"",
 "A valid username must be provided" => "Un nom d'utilisateur valide doit être saisi",
 "A valid password must be provided" => "Un mot de passe valide doit être saisi",
 "The username is already being used" => "Le nom d'utilisateur est déjà utilisé"
