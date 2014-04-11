@@ -131,7 +131,12 @@ class ConvertType extends Command {
 		// warn/fail if there are more tables in 'from' database
 		$tables = array_diff($fromTables, $toTables);
 		if (!empty($tables)) {
-			$output->writeln('<error>The following tables do NOT exist any more: '.join(', ', $tables).'</error>');
+			$output->writeln('<comment>The following tables will not be converted:</comment>');
+			$output->writeln($tables);
+			if (!$input->getOption('all-apps')) {
+				$output->writeln('<comment>Please note that tables belonging to available but currently not installed apps</comment>');
+				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
+			}
 			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 			if (!$dialog->askConfirmation(
