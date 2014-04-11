@@ -805,7 +805,7 @@ class OC_Util {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
 			//Specify encoding for PHP<5.4
-			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
