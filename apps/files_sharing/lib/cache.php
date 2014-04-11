@@ -169,9 +169,8 @@ class Shared_Cache extends Cache {
 	 * @return int file id
 	 */
 	public function put($file, array $data) {
-		if ($file === '' && isset($data['etag'])) {
-			return \OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $data['etag']);
-		} else if ($cache = $this->getSourceCache($file)) {
+		$file = ($file === false) ? '' : $file;
+		if ($cache = $this->getSourceCache($file)) {
 			return $cache->put($this->files[$file], $data);
 		}
 		return false;
@@ -368,6 +367,7 @@ class Shared_Cache extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
+		$path = ($path === false) ? '' : $path;
 		if ($cache = $this->getSourceCache($path)) {
 			return $cache->calculateFolderSize($this->files[$path]);
 		}
