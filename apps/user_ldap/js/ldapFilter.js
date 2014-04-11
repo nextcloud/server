@@ -50,7 +50,8 @@ LdapFilter.prototype.compose = function() {
 			}
 		},
 		function (result) {
-			// error handling
+			console.log('LDAP Wizard: could not compose filter. '+
+				'Please check owncloud.log');
 		}
 	);
 }
