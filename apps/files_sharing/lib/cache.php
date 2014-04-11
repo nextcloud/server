@@ -102,7 +102,7 @@ class Shared_Cache extends Cache {
 			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`'
+				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($file));
 			$data = $result->fetchRow();
@@ -212,6 +212,7 @@ class Shared_Cache extends Cache {
 	 * @param string $file
 	 */
 	public function remove($file) {
+		$file = ($file === false) ? '' : $file;
 		if ($cache = $this->getSourceCache($file)) {
 			$cache->remove($this->files[$file]);
 		}
