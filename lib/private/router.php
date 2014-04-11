@@ -65,7 +65,7 @@ class OC_Router {
 	public function loadRoutes() {
 		foreach($this->getRoutingFiles() as $app => $file) {
 			$this->useCollection($app);
-			require_once $file;
+			$this->requireRouteFile($file);
 			$collection = $this->getCollection($app);
 			$this->root->addCollection($collection, '/apps/'.$app);
 		}
@@ -179,5 +179,13 @@ class OC_Router {
 			);
 		}
 		OCP\JSON::success ( array( 'data' => $routes ) );
+	}
+
+	/**
+	 * To isolate the variable scope used inside the $file it is required in it's own method
+	 * @param $file
+	 */
+	private function requireRouteFile($file) {
+		require_once $file;
 	}
 }
