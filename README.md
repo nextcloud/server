@@ -12,7 +12,7 @@ Quality: [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/owncloud/cor
 http://doc.owncloud.org/server/6.0/developer_manual/app/index.html
 
 ### Contribution Guidelines
-http://owncloud.org/dev/contribute/
+http://owncloud.org/contribute/
 
 ### Get in touch
 * [Forum](http://forum.owncloud.org)
