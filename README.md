@@ -16,7 +16,7 @@ http://owncloud.org/contribute/
 
 ### Get in touch
 * [Forum](http://forum.owncloud.org)
-* [Mailing list](https://mail.kde.org/mailman/listinfo/owncloud)
+* [Mailing list](http://mailman.owncloud.org/mailman/listinfo)
 * [IRC channel](https://webchat.freenode.net/?channels=owncloud)
 * [Twitter](https://twitter.com/ownClouders)
 
