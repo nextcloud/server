@@ -70,7 +70,7 @@ class DIContainerTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
-		$this->container['Request'] = new Request();
+		$this->container['Request'] = new Request(array('method' => 'GET'));
 		$security = $this->container['SecurityMiddleware'];
 		$dispatcher = $this->container['MiddlewareDispatcher'];
 
