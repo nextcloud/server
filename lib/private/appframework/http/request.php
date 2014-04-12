@@ -65,6 +65,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
 
+		if(!array_key_exists('method', $vars)) {
+			$vars['method'] = 'GET';			
+		}
+
 		foreach($this->allowedKeys as $name) {
 			$this->items[$name] = isset($vars[$name])
 				? $vars[$name] 
@@ -76,6 +80,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$params = json_decode(file_get_contents($this->inputStream), true);
 			if(count($params) > 0) {
 				$this->items['params'] = $params;
+				if($vars['method'] === 'POST') {
+					$this->items['post'] = $params;					
+				}
 			}
 		// Handle application/x-www-form-urlencoded for methods other than GET
 		// or post correctly
