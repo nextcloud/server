@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Porta di backup (Replica)",
 "Disable Main Server" => "Disabilita server principale",
 "Only connect to the replica server." => "Collegati solo al server di replica.",
-"Case insensitve LDAP server (Windows)" => "Case insensitve LDAP server (Windows)",
 "Turn off SSL certificate validation." => "Disattiva il controllo del certificato SSL.",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Non consigliata, da utilizzare solo per test! Se la connessione funziona solo con questa opzione, importa il certificate SSL del server LDAP sul tuo server %s.",
 "Cache Time-To-Live" => "Tempo di vita della cache",

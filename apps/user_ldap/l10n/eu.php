@@ -61,7 +61,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Babeskopia (Replica) Ataka",
 "Disable Main Server" => "Desgaitu Zerbitzari Nagusia",
 "Only connect to the replica server." => "Konektatu bakarrik erreplika zerbitzarira",
-"Case insensitve LDAP server (Windows)" => "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (windows)",
 "Turn off SSL certificate validation." => "Ezgaitu SSL ziurtagirien egiaztapena.",
 "Cache Time-To-Live" => "Katxearen Bizi-Iraupena",
 "in seconds. A change empties the cache." => "segundutan. Aldaketak katxea husten du.",
