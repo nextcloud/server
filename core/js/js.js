@@ -151,7 +151,7 @@ function n(app, text_singular, text_plural, count, vars) {
 * @return Sanitized string
 */
 function escapeHTML(s) {
-	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
 }
 
 /**
