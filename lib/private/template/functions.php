@@ -7,16 +7,17 @@
  */
 
 /**
- * Prints an XSS escaped string
- * @param string $string the string which will be escaped and printed
+ * Prints a sanitized string
+ * @param string|array $string the string which will be escaped and printed
  */
 function p($string) {
 	print(OC_Util::sanitizeHTML($string));
 }
 
 /**
- * Prints an unescaped string
- * @param string $string the string which will be printed as it is
+ * Prints an unsanitized string - usage of this function may result into XSS.
+ * Consider using p() instead.
+ * @param string|array $string the string which will be printed as it is
  */
 function print_unescaped($string) {
 	print($string);
