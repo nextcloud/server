@@ -7,6 +7,7 @@
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
+# henrikhjelm <mailto@henrikhjelm.se>, 2014
 # Jan Busk, 2013
 # Jan Busk, 2013
 # medialabs, 2013
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-13 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 11:20+0000\n"
+"Last-Translator: henrikhjelm <mailto@henrikhjelm.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,17 +97,17 @@ msgstr "Kan inte lägga till grupp"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Filer dekrypteras utan fel"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Det gick inte att dekryptera dina filer, kontrollera din owncloud.log eller fråga administratören"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Det gick inte att dekryptera filerna, kontrollera ditt lösenord och försök igen"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"

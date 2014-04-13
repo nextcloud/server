@@ -11,16 +11,16 @@
 # Mystyle <maelvstyle@gmail.com>, 2013
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
-# RyDroid <rydroid_trans@yahoo.fr>, 2013
+# RyDroid <rydroid_trans@yahoo.fr>, 2013-2014
 # tcit <thomas.citharet@gmail.com>, 2014
 # PVince81 <PVince81@owncloud.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-13 01:54-0400\n"
+"PO-Revision-Date: 2014-04-13 03:10+0000\n"
+"Last-Translator: RyDroid <rydroid_trans@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,17 +97,17 @@ msgstr "Impossible d'ajouter le groupe"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Fichiers décryptés avec succès"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Impossible de décrypter vos fichiers, veuillez vérifier votre owncloud.log ou demander à votre administrateur"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Impossible de décrypter vos fichiers, vérifiez votre mot de passe et essayez à nouveau"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
