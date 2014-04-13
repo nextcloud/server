@@ -214,11 +214,9 @@ class OC {
 	}
 
 	/*
-	* This function adds some security related headers to all requests 
-	* served via base.php
-	* The implementation of this function as to happen here to ensure that
-	* all third-party components (e.g. SabreDAV) also benefit from this
-	* headers
+	* This function adds some security related headers to all requests served via base.php
+	* The implementation of this function as hto happen here to ensure that all third-party 
+	* components (e.g. SabreDAV) also benefit from this headers.
 	*/
 	public static function addSecurityHeaders() {
 		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
