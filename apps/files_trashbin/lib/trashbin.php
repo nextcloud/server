@@ -824,13 +824,15 @@ class Trashbin {
 			$matches = glob($escapedVersionsName . '*');
 		}
 
-		foreach ($matches as $ma) {
-			if ($timestamp) {
-				$parts = explode('.v', substr($ma, 0, $offset));
-				$versions[] = (end($parts));
-			} else {
-				$parts = explode('.v', $ma);
-				$versions[] = (end($parts));
+		if (is_array($matches)) {
+			foreach ($matches as $ma) {
+				if ($timestamp) {
+					$parts = explode('.v', substr($ma, 0, $offset));
+					$versions[] = (end($parts));
+				} else {
+					$parts = explode('.v', $ma);
+					$versions[] = (end($parts));
+				}
 			}
 		}
 		return $versions;
