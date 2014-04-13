@@ -64,7 +64,8 @@ class OC_Template extends \OC\Template\Base {
 		$this->path = $path;
 
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
-}
+	}
+
 	/**
 	 * autodetect the formfactor of the used device
 	 * default -> the normal desktop browser interface
