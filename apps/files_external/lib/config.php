@@ -206,6 +206,12 @@ class OC_Mount_Config {
 	*/
 	public static function getPersonalBackends() {
 
+		// Check whether the user has permissions to add personal storage backends
+		// return an empty array if this is not the case
+		if(OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
+			return array();
+		}
+
 		$backEnds = self::getBackends();
 
 		// Remove local storage and other disabled storages
