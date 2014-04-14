@@ -193,7 +193,7 @@ class ConvertType extends Command {
 		return $schemaManager->listTableNames();
 	}
 
-	protected function copyTable(Connection $fromDB, Connection $toDB, $table, OutputInterface $output) {
+	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
 		/** @var $progress \Symfony\Component\Console\Helper\ProgressHelper */
 		$progress = $this->getHelperSet()->get('progress');
 		$query = 'SELECT COUNT(*) FROM '.$table;
@@ -204,9 +204,13 @@ class ConvertType extends Command {
 		$progress->setRedrawFrequency($count > 100 ? 5 : 1);
 		while($row = $statement->fetch()) {
 			$progress->advance();
-			$data = array();
-			foreach ($row as $columnName => $value) {
-				$data[$toDB->quoteIdentifier($columnName)] = $value;
+			if ($input->getArgument('type') === 'oci') {
+				$data = $row;
+			} else {
+				$data = array();
+				foreach ($row as $columnName => $value) {
+					$data[$toDB->quoteIdentifier($columnName)] = $value;
+				}
 			}
 			$toDB->insert($table, $data);
 		}
@@ -220,7 +224,7 @@ class ConvertType extends Command {
 			// copy table rows
 			foreach($tables as $table) {
 				$output->writeln($table);
-				$this->copyTable($fromDB, $toDB, $table, $output);
+				$this->copyTable($fromDB, $toDB, $table, $input, $output);
 			}
 			if ($type == 'pgsql') {
 				$sequences = $toDB->getSchemaManager()->listSequences();
