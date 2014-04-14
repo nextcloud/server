@@ -92,8 +92,8 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			return new SecurityMiddleware($app, $c['Request']);
 		});
 
-        $middleWares = $this->middleWares;
-		$this['MiddlewareDispatcher'] = $this->share(function($c) use ($middleWares) {
+		$middleWares = &$this->middleWares;
+		$this['MiddlewareDispatcher'] = $this->share(function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 
