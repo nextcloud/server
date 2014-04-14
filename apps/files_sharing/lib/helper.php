@@ -80,7 +80,7 @@ class Helper {
 	 * @param array $linkItem link item array
 	 * @param string $password optional password
 	 *
-	 * @return true if authorized, false otherwise
+	 * @return boolean true if authorized, false otherwise
 	 */
 	public static function authenticate($linkItem, $password) {
 		if ($password !== null) {

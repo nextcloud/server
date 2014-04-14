@@ -146,6 +146,9 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return array();
 	}
 
+	/**
+	 * @param string $target
+	 */
 	public static function getSource($target) {
 		if ($target == '') {
 			return false;

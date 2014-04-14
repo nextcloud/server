@@ -907,6 +907,11 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
  * @brief dumnmy class to test protected methods
  */
 class TestShareApi extends \OCA\Files\Share\Api {
+
+	/**
+	 * @param string $path
+	 * @param string $folder
+	 */
 	public function correctPathTest($path, $folder) {
 		return self::correctPath($path, $folder);
 	}
