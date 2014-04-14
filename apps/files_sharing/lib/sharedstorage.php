@@ -28,19 +28,11 @@ namespace OC\Files\Storage;
  */
 class Shared extends \OC\Files\Storage\Common {
 
-	private $mountPoint;   // mount point relative to data/user/files
-	private $type;         // can be "file" or "folder"
-	private $shareId;      // share Id to identify the share in the database
-	private $fileSource;   // file cache ID of the shared item
-	private $sharedFrom;   // the user who shared the file
+	private $share;   // the shared resource
 	private $files = array();
 
 	public function __construct($arguments) {
-		$this->mountPoint = $arguments['shareTarget'];
-		$this->type = $arguments['shareType'];
-		$this->shareId = $arguments['shareId'];
-		$this->fileSource = $arguments['fileSource'];
-		$this->sharedFrom = $arguments['sharedFrom'];
+		$this->share = $arguments['share'];
 	}
 
 	/**
@@ -48,7 +40,7 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	public function getId() {
-		return 'shared::' . $this->mountPoint;
+		return 'shared::' . $this->getMountPoint();
 	}
 
 	/**
@@ -56,7 +48,7 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	public function getSourceId() {
-		return $this->fileSource;
+		return $this->share['file_source'];
 	}
 
 	/**
@@ -69,14 +61,14 @@ class Shared extends \OC\Files\Storage\Common {
 		if (!isset($this->files[$target])) {
 			// Check for partial files
 			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
-				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5), $this->getMountPoint(), $this->getShareType());
+				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5), $this->getMountPoint(), $this->getItemType());
 				if ($source) {
 					$source['path'] .= '.part';
 					// All partial files have delete permission
 					$source['permissions'] |= \OCP\PERMISSION_DELETE;
 				}
 			} else {
-				$source = \OC_Share_Backend_File::getSource($target, $this->getMountPoint(), $this->getShareType());
+				$source = \OC_Share_Backend_File::getSource($target, $this->getMountPoint(), $this->getItemType());
 			}
 			$this->files[$target] = $source;
 		}
@@ -191,7 +183,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function isCreatable($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
 	}
@@ -202,21 +194,21 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function isUpdatable($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
 	}
@@ -241,7 +233,7 @@ class Shared extends \OC\Files\Storage\Common {
 		$source = $this->getSourcePath($path);
 		if ($source) {
 			$info = array(
-				'target' => $this->mountPoint . $path,
+				'target' => $this->getMountPoint() . $path,
 				'source' => $source,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
@@ -259,7 +251,7 @@ class Shared extends \OC\Files\Storage\Common {
 				return false;
 			}
 			$info = array(
-				'target' => $this->mountPoint . '/' . $path,
+				'target' => $this->getMountPoint() . '/' . $path,
 				'source' => $source,
 			);
 			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
@@ -332,7 +324,7 @@ class Shared extends \OC\Files\Storage\Common {
 					WHERE `id` = ?'
 				);
 
-		$result = $query->execute(array($relTargetPath, $this->shareId));
+		$result = $query->execute(array($relTargetPath, $this->getShareId()));
 
 		if ($result) {
 			// update the mount manager with the new paths
@@ -358,7 +350,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 		// if we renamed the mount point we need to adjust the file_target in the
 		// database
-		if (strlen($sourceMountPoint) >= strlen($path1)) {
+		if (\OC\Files\Filesystem::normalizePath($sourceMountPoint) === \OC\Files\Filesystem::normalizePath($path1)) {
 			return $this->renameMountPoint($path1, $path2);
 		}
 
@@ -417,7 +409,7 @@ class Shared extends \OC\Files\Storage\Common {
 					}
 			}
 			$info = array(
-				'target' => $this->mountPoint . $path,
+				'target' => $this->getMountPoint() . $path,
 				'source' => $source,
 				'mode' => $mode,
 			);
@@ -438,7 +430,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function free_space($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
@@ -471,11 +463,7 @@ class Shared extends \OC\Files\Storage\Common {
 			foreach ($shares as $share) {
 				\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',
 						array(
-							'shareTarget' => $share['file_target'],
-							'shareType' => $share['item_type'],
-							'shareId' => $share['id'],
-							'fileSource' => $share['file_source'],
-							'sharedFrom' => $share['uid_owner'],
+							'share' => $share,
 							),
 						$options['user_dir'] . '/' . $share['file_target']);
 			}
@@ -487,7 +475,23 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	public function getMountPoint() {
-		return ltrim($this->mountPoint, '/');
+		return $this->share['file_target'];
+	}
+
+	/**
+	 * @brief get share type
+	 * @return integer can be single user share (0) group share (1), unique group share name (2)
+	 */
+	private function getShareType() {
+		return $this->share['share_type'];
+	}
+
+	/**
+	 * @brief get share ID
+	 * @return integer unique share ID
+	 */
+	private function getShareId() {
+		return $this->share['id'];
 	}
 
 	/**
@@ -495,15 +499,15 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	public function getSharedFrom() {
-		return $this->sharedFrom;
+		return $this->share['uid_owner'];
 	}
 
 	/**
 	 * @brief return share type, can be "file" or "folder"
 	 * @return string
 	 */
-	public function getShareType() {
-		return $this->type;
+	public function getItemType() {
+		return $this->share['item_type'];
 	}
 
 	public function hasUpdated($path, $time) {
@@ -528,7 +532,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function getOwner($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		$source = $this->getFile($path);
 		if ($source) {
@@ -539,7 +543,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function getETag($path) {
 		if ($path == '') {
-			$path = $this->mountPoint;
+			$path = $this->getMountPoint();
 		}
 		if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);

@@ -50,7 +50,7 @@ class Shared_Cache extends Cache {
 		if ($target === false || $target === $this->storage->getMountPoint()) {
 			$target = '';
 		}
-		$source = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getShareType());
+		$source = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
 		if (isset($source['path']) && isset($source['fileOwner'])) {
 			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
 			$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
@@ -86,7 +86,7 @@ class Shared_Cache extends Cache {
 	public function get($file) {
 		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
-				$path = 'files/' . $this->storage->getMountPoint();
+				$path = 'files' . $this->storage->getMountPoint();
 				$path .= ($file !== '') ? '/' . $file : '';
 				$data = $cache->get($this->files[$file]);
 				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
@@ -141,7 +141,7 @@ class Shared_Cache extends Cache {
 			$folder = '';
 		}
 
-		$dir = 'files/' . $this->storage->getMountPoint();
+		$dir = 'files' . $this->storage->getMountPoint();
 		$dir .= ($folder !== '') ? '/' . $folder : '';
 
 		$cache = $this->getSourceCache($folder);
@@ -226,7 +226,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function move($source, $target) {
 		if ($cache = $this->getSourceCache($source)) {
-			$file = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getShareType());
+			$file = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
 			if ($file && isset($file['path'])) {
 				$cache->move($this->files[$source], $file['path']);
 			}
