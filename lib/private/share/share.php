@@ -1139,6 +1139,7 @@ class Share extends \OC\Share\Constants {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
+				$row['unique_name'] = true; // remember that we use a unique name for this user
 				$row['share_with'] = $items[$row['parent']]['share_with'];
 				// Remove the parent group share
 				unset($items[$row['parent']]);

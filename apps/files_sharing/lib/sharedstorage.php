@@ -317,14 +317,27 @@ class Shared extends \OC\Files\Storage\Common {
 
 		$relTargetPath = $this->stripUserFilesPath($targetPath);
 
-		// rename mount point
-		$query = \OC_DB::prepare(
-				'Update `*PREFIX*share`
-					SET `file_target` = ?
-					WHERE `id` = ?'
-				);
+		// if the user renames a mount point from a group share we need to create a new db entry
+		// for the unique name
+		if ($this->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->uniqueNameSet() === false) {
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
+			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+			$arguments = array($this->share['item_type'], $this->share['item_source'], $this->share['item_target'],
+				2, \OCP\User::getUser(), $this->share['uid_owner'], $this->share['permissions'], $this->share['stime'], $this->share['file_source'],
+				$relTargetPath, $this->share['token'], $this->share['id']);
 
-		$result = $query->execute(array($relTargetPath, $this->getShareId()));
+		} else {
+			// rename mount point
+			$query = \OC_DB::prepare(
+					'Update `*PREFIX*share`
+						SET `file_target` = ?
+						WHERE `id` = ?'
+					);
+			$arguments = array($relTargetPath, $this->getShareId());
+		}
+
+		$result = $query->execute($arguments);
 
 		if ($result) {
 			// update the mount manager with the new paths
@@ -333,6 +346,7 @@ class Shared extends \OC\Files\Storage\Common {
 			$mount->setMountPoint($targetPath . '/');
 			$mountManager->addMount($mount);
 			$mountManager->removeMount($sourcePath . '/');
+			$this->setUniqueName();
 
 		} else {
 			\OCP\Util::writeLog('file sharing',
@@ -484,6 +498,21 @@ class Shared extends \OC\Files\Storage\Common {
 	 */
 	private function getShareType() {
 		return $this->share['share_type'];
+	}
+
+	/**
+	 * @brief does the group share already has a user specific unique name
+	 * @return bool
+	 */
+	private function uniqueNameSet() {
+		return (isset($this->share['unique_name']) && $this->share['unique_name']);
+	}
+
+	/**
+	 * @brief the share now uses a unique name of this user
+	 */
+	private function setUniqueName() {
+		$this->share['unique_name'] = true;
 	}
 
 	/**
