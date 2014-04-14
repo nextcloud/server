@@ -187,6 +187,27 @@ class Group {
 	}
 
 	/**
+	 * returns the number of users matching the search string
+	 *
+	 * @param string $search
+	 * @return int | bool
+	 */
+	public function count($search) {
+		$users = false;
+		foreach ($this->backends as $backend) {
+			if($backend->implementsActions(OC_GROUP_BACKEND_COUNT_USERS)) {
+				if($users === false) {
+					//we could directly add to a bool variable, but this would
+					//be ugly
+					$users = 0;
+				}
+				$users += $backend->countUsersInGroup($this->gid, $search);
+			}
+		}
+		return $users;
+	}
+
+	/**
 	 * search for users in the group by displayname
 	 *
 	 * @param string $search

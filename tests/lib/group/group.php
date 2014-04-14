@@ -299,6 +299,68 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('user1', $user1->getUID());
 	}
 
+	public function testCountUsers() {
+		$backend1 = $this->getMock('OC_Group_Database');
+		$userManager = $this->getUserManager();
+		$group = new \OC\Group\Group('group1', array($backend1), $userManager);
+
+		$backend1->expects($this->once())
+			->method('countUsersInGroup')
+			->with('group1', '2')
+			->will($this->returnValue(3));
+
+		$backend1->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+
+		$users = $group->count('2');
+
+		$this->assertSame(3, $users);
+	}
+
+	public function testCountUsersMultipleBackends() {
+		$backend1 = $this->getMock('OC_Group_Database');
+		$backend2 = $this->getMock('OC_Group_Database');
+		$userManager = $this->getUserManager();
+		$group = new \OC\Group\Group('group1', array($backend1, $backend2), $userManager);
+
+		$backend1->expects($this->once())
+			->method('countUsersInGroup')
+			->with('group1', '2')
+			->will($this->returnValue(3));
+		$backend1->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+
+		$backend2->expects($this->once())
+			->method('countUsersInGroup')
+			->with('group1', '2')
+			->will($this->returnValue(4));
+		$backend2->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+
+		$users = $group->count('2');
+
+		$this->assertSame(7, $users);
+	}
+
+	public function testCountUsersNoMethod() {
+		$backend1 = $this->getMock('OC_Group_Database');
+		$userManager = $this->getUserManager();
+		$group = new \OC\Group\Group('group1', array($backend1), $userManager);
+
+		$backend1->expects($this->never())
+			->method('countUsersInGroup');
+		$backend1->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnValue(false));
+
+		$users = $group->count('2');
+
+		$this->assertSame(false, $users);
+	}
+
 	public function testDelete() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();

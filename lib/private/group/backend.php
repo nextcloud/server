@@ -34,6 +34,7 @@ define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
 define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
 define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
 define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000);
+define('OC_GROUP_BACKEND_COUNT_USERS',       0x00100000);
 
 /**
  * Abstract base class for user management
@@ -45,6 +46,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 		OC_GROUP_BACKEND_ADD_TO_GROUP => 'addToGroup',
 		OC_GROUP_BACKEND_REMOVE_FROM_GOUP => 'removeFromGroup',
 		OC_GROUP_BACKEND_GET_DISPLAYNAME => 'displayNamesInGroup',
+		OC_GROUP_BACKEND_COUNT_USERS => 'countUsersInGroup',
 	);
 
 	/**
