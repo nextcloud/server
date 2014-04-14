@@ -17,6 +17,4 @@ OCP\Util::addScript('files_sharing', 'share');
 \OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Shared_Updater', 'postDeleteHook');
 \OC_Hook::connect('OC_Filesystem', 'delete', '\OC\Files\Cache\Shared_Updater', 'deleteHook');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
-\OC_Hook::connect('OCP\Share', 'post_shared', '\OC\Files\Cache\Shared_Updater', 'shareHook');
-\OC_Hook::connect('OCP\Share', 'pre_unshare', '\OC\Files\Cache\Shared_Updater', 'shareHook');
 \OC_Hook::connect('OC_Appconfig', 'post_set_value', '\OCA\Files\Share\Maintainer', 'configChangeHook');
