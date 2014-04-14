@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Pongsametrey SOK <metreysk@gmail.com>, 2014
-# សុវិចិត្រ Sovichet ទេព Tep <sovichet.tep@gmail.com>, 2014
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
+"POT-Creation-Date: 2014-04-14 01:54-0400\n"
+"PO-Revision-Date: 2014-04-13 09:30+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
-msgstr ""
+msgstr "កូដនីយកម្ម"
 
 #: admin/controller.php:120 templates/admin.php:336
 msgid "Authentication method"
@@ -791,7 +791,7 @@ msgstr "ចូល"
 
 #: templates/users.php:28
 msgid "Create"
-msgstr ""
+msgstr "បង្កើត"
 
 #: templates/users.php:34
 msgid "Admin Recovery Password"

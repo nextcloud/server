@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Email sent" => "បាន​ផ្ញើ​អ៊ីមែល",
+"Encryption" => "កូដនីយកម្ម",
 "Unable to load list from App Store" => "មិនអាចផ្ទុកបញ្ជីកម្មវិធីពី App Store",
 "Authentication error" => "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
 "Group already exists" => "មាន​ក្រុម​នេះ​រួច​ហើយ",
@@ -76,6 +77,7 @@ $TRANSLATIONS = array(
 "Help translate" => "ជួយ​បក​ប្រែ",
 "WebDAV" => "WebDAV",
 "Login Name" => "ចូល",
+"Create" => "បង្កើត",
 "Other" => "ផ្សេងៗ",
 "Username" => "ឈ្មោះ​អ្នកប្រើ"
 );
