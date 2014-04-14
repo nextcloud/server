@@ -902,6 +902,8 @@ class OC_Util {
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
+		// also don't care if the host can't be verified
+		$client->setVerifyHost(0);
 
 		$return = true;
 		try {
