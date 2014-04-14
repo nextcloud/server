@@ -36,6 +36,9 @@ class WizardResult {
 		$this->markedChange = true;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function addOptions($key, $values) {
 		if(!is_array($values)) {
 			$values = array($values);

@@ -485,7 +485,7 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief sets the found value for the configuration key in the WizardResult
 	 * as well as in the Configuration instance
-	 * @param $key the configuration key
+	 * @param string $key the configuration key
 	 * @param $value the (detected) value
 	 * @return null
 	 *
@@ -1000,7 +1000,7 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief appends a list of values fr
 	 * @param $result resource, the return value from ldap_get_attributes
-	 * @param $attribute string, the attribute values to look for
+	 * @param string $attribute the attribute values to look for
 	 * @param &$known array, new values will be appended here
 	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
 	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP

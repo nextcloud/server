@@ -923,8 +923,8 @@ class Access extends LDAPUtility {
 
 	/**
 	* @brief escapes (user provided) parts for LDAP filter
-	* @param String $input, the provided value
-	* @returns the escaped string
+	* @param string $input, the provided value
+	* @return the escaped string
 	*/
 	public function escapeFilterPart($input) {
 		$search  = array('*', '\\', '(', ')');
