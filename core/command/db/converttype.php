@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Andreas Fischer <bantu@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -230,25 +231,15 @@ class ConvertType extends Command {
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
 		$this->config->setValue('maintenance', true);
-		$type = $input->getArgument('type');
 		try {
 			// copy table rows
 			foreach($tables as $table) {
 				$output->writeln($table);
 				$this->copyTable($fromDB, $toDB, $table, $input, $output);
 			}
-			if ($type == 'pgsql') {
-				$sequences = $toDB->getSchemaManager()->listSequences();
-				$dbname = $input->getArgument('database');
-				foreach($sequences as $sequence) {
-					$info = $toDB->fetchAssoc('SELECT table_schema, table_name, column_name '
-						.'FROM information_schema.columns '
-						.'WHERE column_default = ? AND table_catalog = ?',
-							array("nextval('".$sequence->getName()."'::regclass)", $dbname));
-					$table_name = $info['table_name'];
-					$column_name = $info['column_name'];
-					$toDB->executeQuery("SELECT setval('" . $sequence->getName() . "', (SELECT MAX(" . $column_name . ") FROM " . $table_name . "))");
-				}
+			if ($input->getArgument('type') === 'pgsql') {
+				$tools = new \OC\DB\PgSqlTools;
+				$tools->resynchronizeDatabaseSequences($toDB);
 			}
 			// save new database config
 			$this->saveDBInfo($input);
