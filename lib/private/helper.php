@@ -431,6 +431,16 @@ class OC_Helper {
 	}
 
 	/**
+	 * Get a secure mimetype that won't expose potential XSS.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+	static function getSecureMimeType($mimeType) {
+		return self::getMimetypeDetector()->getSecureMimeType($mimeType);
+	}
+
+	/**
 	 * get the mimetype form a data string
 	 *
 	 * @param string $data
