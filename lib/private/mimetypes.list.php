@@ -22,6 +22,10 @@
 
 /**
  * Array mapping file extensions to mimetypes (in alphabetical order).
+ *
+ * The first index in the mime type array is the assumed correct mimetype
+ * and the second is either a secure alternative or null if the correct
+ * is considered secure.
  */
 return array(
 	'7z' => array('application/x-7z-compressed', null),
