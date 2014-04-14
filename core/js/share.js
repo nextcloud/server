@@ -211,6 +211,7 @@ OC.Share={
 				}
 			});
 
+			html += '<p align="right"><button class="icon-close share-dropdown-close" /></p>';
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with user or group …')+'" />';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
@@ -550,6 +551,10 @@ $(document).ready(function() {
 				OC.Share.showDropDown(itemType, itemSource, appendTo, link, possiblePermissions);
 			}
 		}
+	});
+
+	$(document).on('click', '.share-dropdown-close', function(event) {
+		OC.Share.hideDropDown();
 	});
 
 	$(this).click(function(event) {
