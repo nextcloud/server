@@ -22,6 +22,7 @@ $users = array();
 $groups = array();
 $adminGroup = array();
 $userManager = \OC_User::getManager();
+$groupManager = \OC_Group::getManager();
 
 if (isset($_GET['offset'])) {
 	$offset = $_GET['offset'];
@@ -89,14 +90,18 @@ $sortGroupsKeys = array();
 $sortAdminGroupsIndex = 0;
 $sortAdminGroupsKeys = array();
 foreach( $accessiblegroups as $gid ) {
-	$usersInGroup = OC_Group::usersInGroup($gid, '', $limit, $offset);
+	$group = $groupManager->get($gid);
+	if(!$group) {
+		continue;
+	}
+	$usersInGroup = $group->count();
 	if (!OC_User::isAdminUser($gid)) {
 		$groups[] = array(
 			'id' => str_replace(' ','', $gid ),
 			'name' => $gid,
 			'useringroup' => $usersInGroup,
 		);
-		$sortGroupsKeys[$sortGroupsIndex] = count($usersInGroup);
+		$sortGroupsKeys[$sortGroupsIndex] = $usersInGroup;
 		$sortGroupsIndex++;
 	} else {
 		$adminGroup[] =  array(
@@ -104,7 +109,7 @@ foreach( $accessiblegroups as $gid ) {
 			'name' => $gid,
 			'useringroup' => $usersInGroup
 		);
-		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = count($usersInGroup);
+		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = $usersInGroup;
 		$sortAdminGroupsIndex++;
 	}
 }

@@ -10,9 +10,10 @@
  * @param jQuery input element that works as the user text input field
  * @param object the UserList object
  */
-function UserManagementFilter(filterInput, userList) {
+function UserManagementFilter(filterInput, userList, groupList) {
 	this.filterInput = filterInput;
 	this.userList = userList;
+	this.groupList = groupList;
 	this.thread = undefined;
 	this.oldval = this.filterInput.val();
 
@@ -25,8 +26,6 @@ function UserManagementFilter(filterInput, userList) {
 UserManagementFilter.prototype.init = function() {
 	umf = this;
 	this.filterInput.keyup(function(e) {
-		console.log(e.keyCode);
-
 		//we want to react on any printable letter, plus on modyfing stuff like
 		//Backspace and Delete. extended https://stackoverflow.com/a/12467610
 		var valid =
@@ -61,6 +60,8 @@ UserManagementFilter.prototype.init = function() {
 UserManagementFilter.prototype.run = function() {
 	this.userList.empty();
 	this.userList.update();
+	this.groupList.empty();
+	this.groupList.update();
 }
 
 /**

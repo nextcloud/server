@@ -6,17 +6,22 @@
  */
 
  var GroupList = {
-	addGroup: function(gid) {
+	addGroup: function(gid, usercount) {
+		if(usercount === undefined || usercount === 0) {
+			usercount = '';
+		}
 		var li = $('li[data-gid]').last().clone();
 		var ul = $('li[data-gid]').first().parent();
 		li.attr('data-gid', gid);
-		li.attr('data-usercount', 0);
+		li.attr('data-usercount', usercount);
 		li.find('a span').first().text(gid);
-		li.find('span[class=usercount]').first().text('');
+		li.find('span[class=usercount]').first().text(usercount);
 
 		$(li).appendTo(ul);
 
 		GroupList.sortGroups(0);
+
+		return li;
 	},
 
 	sortGroups: function(usercount) {
@@ -73,6 +78,41 @@
 				}
 			}
 		)
+	},
+
+	update: function() {
+		if (GroupList.updating) {
+			return;
+		}
+		GroupList.updating = true;
+		pattern = filter.getPattern();
+		var query = $.param({ pattern: pattern });
+		$.get(OC.generateUrl('/settings/ajax/grouplist') + '?' + query, function (result) {
+			var lis = [];
+			if (result.status === 'success') {
+				$.each(result.data, function (i, subset) {
+					$.each(subset, function (index, group) {
+						if($('li[data-gid="' + group.name + '"]').length > 0) {
+							return true;
+						}
+						var li = GroupList.addGroup(group.name, group.usercount);
+						li.addClass('appear transparent');
+						lis.push(li);
+					});
+				});
+				if (result.data.length > 0) {
+					GroupList.doSort();
+				} else {
+					GroupList.noMoreEntries = true;
+				}
+				setTimeout(function() {
+					for (var i = 0; i < lis.length; i++) {
+						lis[i].removeClass('transparent');
+					}
+				}, 0);
+			}
+			GroupList.updating = false;
+		});
 	},
 
 	elementBelongsToAddGroup: function(el) {
@@ -133,6 +173,9 @@
 	},
 	remove: function(gid) {
 		$('li').filterAttr('data-gid', gid).remove();
+	},
+	empty: function() {
+		$('li:not([data-gid=""])').remove();
 	},
 	initDeleteHandling: function() {
 		//set up handler

@@ -403,8 +403,6 @@ $(document).ready(function () {
 		UserList.applyMultiplySelect($(element));
 	});
 
-
-
 	$('table').on('click', 'td.password>img', function (event) {
 		event.stopPropagation();
 		var img = $(this);
@@ -549,5 +547,6 @@ $(document).ready(function () {
 		);
 	});
 	// Implements User Search
-	filter = new UserManagementFilter($('#usersearchform input'), UserList);
+	filter = new UserManagementFilter(
+		$('#usersearchform input'), UserList, GroupList);
 });
