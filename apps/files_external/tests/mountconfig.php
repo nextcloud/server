@@ -128,9 +128,6 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$isPersonal = false;
 		$this->assertFalse(OC_Mount_Config::addMountPoint('', $storageClass, array(), $mountType, $applicable, $isPersonal));
 		$this->assertFalse(OC_Mount_Config::addMountPoint('/', $storageClass, array(), $mountType, $applicable, $isPersonal));
-		$this->assertFalse(OC_Mount_Config::addMountPoint('Shared', $storageClass, array(), $mountType, $applicable, $isPersonal));
-		$this->assertFalse(OC_Mount_Config::addMountPoint('/Shared', $storageClass, array(), $mountType, $applicable, $isPersonal));
-
 	}
 
 	/**
@@ -488,7 +485,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 			'root' => 'someroot'
 		);
 
-		// add mount point as "test" user 
+		// add mount point as "test" user
 		$this->assertTrue(
 			OC_Mount_Config::addMountPoint(
 				'/ext',
