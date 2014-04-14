@@ -33,8 +33,7 @@ define('OC_GROUP_BACKEND_CREATE_GROUP',      0x00000001);
 define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
 define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
 define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
-// deprecated, do not use 0x00010000 for new features though.
-// define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000);
+define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000); //OBSOLETE
 
 /**
  * Abstract base class for user management
