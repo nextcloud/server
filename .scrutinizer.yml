@@ -17,6 +17,7 @@ filter:
         - 'core/js/jquery.inview.js'  
         - 'core/js/jquery.placeholder.js'
         - 'core/js/underscore.js'
+        - 'core/js/jquery.multiselect.js'
 
         
 imports:
