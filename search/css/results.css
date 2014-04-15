@@ -59,7 +59,7 @@
 }
 #searchresults .text {
 	padding-left: 16px;
-	color: 999;
+	color: #999;
 }
 
 #searchresults td.result * {
