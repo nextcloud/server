@@ -48,11 +48,11 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Register a sharing backend class that implements OCP\Share_Backend for an item type
-	 * @param string Item type
-	 * @param string Backend class
-	 * @param string (optional) Depends on item type
-	 * @param array (optional) List of supported file extensions if this item type depends on files
-	 * @return Returns true if backend is registered or false if error
+	 * @param string $itemType Item type
+	 * @param string $class Backend class
+	 * @param string $collectionOf (optional) Depends on item type
+	 * @param array $supportedFileExtensions (optional) List of supported file extensions if this item type depends on files
+	 * @return boolean true if backend is registered or false if error
 	 */
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		if (self::isEnabled()) {
@@ -78,7 +78,7 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Check if the Share API is enabled
-	 * @return Returns true if enabled or false
+	 * @return boolean true if enabled or false
 	 *
 	 * The Share API is enabled by default if not configured
 	 */
@@ -91,9 +91,9 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Find which users can access a shared item
-	 * @param $path to the file
-	 * @param $user owner of the file
-	 * @param include owner to the list of users with access to the file
+	 * @param string $path to the file
+	 * @param string $user owner of the file
+	 * @param bool $includeOwner include owner to the list of users with access to the file
 	 * @return array
 	 * @note $path needs to be relative to user data dir, e.g. 'file.txt'
 	 *       not '/admin/data/file.txt'
@@ -198,12 +198,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the items of item type shared with the current user
-	 * @param string Item type
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param int Number of items to return (optional) Returns all by default
-	 * @param bool include collections (optional)
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters (optional)
+	 * @param int $limit Number of items to return (optional) Returns all by default
+	 * @param bool $includeCollections (optional)
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
 		$parameters = null, $limit = -1, $includeCollections = false) {
@@ -216,9 +216,9 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param bool include collections (optional)
-	 * @return Return depends on format
+	 * @param mixed $parameters (optional)
+	 * @param bool $includeCollections (optional)
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
@@ -277,12 +277,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the item of item type shared with the current user by source
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters
-	 * @param bool include collections
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters
+	 * @param bool $includeCollections
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
@@ -292,9 +292,9 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the item of item type shared by a link
-	 * @param string Item type
-	 * @param string Item source
-	 * @param string Owner of link
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param string $uidOwner Owner of link
 	 * @return Item
 	 */
 	public static function getItemSharedWithByLink($itemType, $itemSource, $uidOwner) {
@@ -354,12 +354,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the shared items of item type owned by the current user
-	 * @param string Item type
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters
-	 * @param int Number of items to return (optional) Returns all by default
-	 * @param bool include collections
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters
+	 * @param int $limit Number of items to return (optional) Returns all by default
+	 * @param bool $includeCollections
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
 		$limit = -1, $includeCollections = false) {
@@ -369,12 +369,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the shared item of item type owned by the current user
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters
-	 * @param bool include collections
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters
+	 * @param bool $includeCollections
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
 	                                     $parameters = null, $includeCollections = false) {
@@ -384,11 +384,11 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get all users an item is shared with
-	 * @param string Item type
-	 * @param string Item source
-	 * @param string Owner
-	 * @param bool Include collections
-	 * @praram bool check expire date
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param string $uidOwner
+	 * @param bool $includeCollections
+	 * @param bool $checkExpireDate
 	 * @return Return array of users
 	 */
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
@@ -559,11 +559,11 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Unshare an item from a user, group, or delete a private link
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @return boolean true on success or false on failure
 	 */
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		$item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),self::FORMAT_NONE, null, 1);
@@ -576,9 +576,9 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Unshare an item from all users, groups, and remove all links
-	 * @param string Item type
-	 * @param string Item source
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @return boolean true on success or false on failure
 	 */
 	public static function unshareAll($itemType, $itemSource) {
 		// Get all of the owners of shares of this item.
@@ -608,9 +608,9 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Unshare an item shared with the current user
-	 * @param string Item type
-	 * @param string Item target
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemTarget
+	 * @return boolean true on success or false on failure
 	 *
 	 * Unsharing from self is not allowed for items inside collections
 	 */
@@ -643,6 +643,7 @@ class Share extends \OC\Share\Constants {
 		}
 		return false;
 	}
+
 	/**
 	 * sent status if users got informed by mail about share
 	 * @param string $itemType
@@ -667,12 +668,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Set the permissions of an item for a specific user or group
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param int CRUDS permissions
-	 * @return Returns true on success or false on failure
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param int $permissions CRUDS permissions
+	 * @return boolean true on success or false on failure
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith,
@@ -754,7 +755,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $date expiration date
-	 * @return \OCP\Share_Backend
+	 * @return boolean
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date) {
 		$user = \OC_User::getUser();
@@ -853,7 +854,7 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Check if resharing is allowed
-	 * @return Returns true if allowed or false
+	 * @return boolean true if allowed or false
 	 *
 	 * Resharing is allowed by default if not configured
 	 */
@@ -870,7 +871,7 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get a list of collection item types for the specified item type
-	 * @param string Item type
+	 * @param string $itemType
 	 * @return array
 	 */
 	private static function getCollectionItemTypes($itemType) {
@@ -894,17 +895,17 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get shared items from the database
-	 * @param string Item type
+	 * @param string $itemType
 	 * @param string Item source or target (optional)
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
-	 * @param string User or group the item is being shared with
-	 * @param string User that is the owner of shared items (optional)
-	 * @param int Format to convert items to with formatItems()
-	 * @param mixed Parameters to pass to formatItems()
-	 * @param int Number of items to return, -1 to return all matches (optional)
-	 * @param bool Include collection item types (optional)
-	 * @param bool TODO (optional)
-	 * @prams bool check expire date
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param string uidOwner User that is the owner of shared items (optional)
+	 * @param int $format Format to convert items to with formatItems()
+	 * @param mixed $parameters to pass to formatItems()
+	 * @param int $limit Number of items to return, -1 to return all matches (optional)
+	 * @param bool $includeCollections Include collection item types (optional)
+	 * @param bool $itemShareWithBySource (optional)
+	 * @param bool $checkExpireDate
 	 * @return array
 	 *
 	 * See public functions getItem(s)... for parameter usage
@@ -1242,15 +1243,15 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Put shared item into the database
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param string User that is the owner of shared item
-	 * @param int CRUDS permissions
-	 * @param bool|array Parent folder target (optional)
-	 * @param string token (optional)
-	 * @param string name of the source item (optional)
+	 * @param string $itemType Item type
+	 * @param string $itemSource Item source
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param string $uidOwner User that is the owner of shared item
+	 * @param int $permissions CRUDS permissions
+	 * @param bool|array $parentFolder Parent folder target (optional)
+	 * @param string $token (optional)
+	 * @param string $itemSourceName name of the source item (optional)
 	 * @return bool Returns true on success or false on failure
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1600,11 +1601,11 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * @brief format result
 	 * @param array $items result
-	 * @prams string $column is it a file share or a general share ('file_target' or 'item_target')
-	 * @params \OCP\Share_Backend $backend sharing backend
+	 * @param string $column is it a file share or a general share ('file_target' or 'item_target')
+	 * @param \OCP\Share_Backend $backend sharing backend
 	 * @param int $format
-	 * @param array additional format parameters
-	 * @return array formate result
+	 * @param array $parameters additional format parameters
+	 * @return array format result
 	 */
 	private static function formatResult($items, $column, $backend, $format = self::FORMAT_NONE , $parameters = null) {
 		if ($format === self::FORMAT_NONE) {
