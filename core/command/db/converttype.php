@@ -110,6 +110,13 @@ class ConvertType extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
+		if ($this->connectionFactory->normalizeType($type) === 'sqlite3') {
+			$output->writeln(sprintf(
+				'<error>Converting to SQLite (sqlite3) is currently not supported.</error>',
+				$type
+			));
+			return 1;
+		}
 		if ($type === $this->config->getValue('dbtype', '')) {
 			$output->writeln(sprintf(
 				'<error>Can not convert from %1$s to %1$s.</error>',
