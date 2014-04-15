@@ -419,6 +419,14 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
+	 * The given language is forced to be used while executing the current request
+	 * @param string $lang
+	 */
+	public static function forceLanguage($lang) {
+		self::$language = $lang;
+	}
+
+	/**
 	 * @brief find the best language
 	 * @param array|string $app details below
 	 * @returns string language
