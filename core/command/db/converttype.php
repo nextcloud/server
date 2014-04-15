@@ -108,7 +108,7 @@ class ConvertType extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function validateInput(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
 		if ($this->connectionFactory->normalizeType($type) === 'sqlite3') {
 			$output->writeln(sprintf(
@@ -124,22 +124,29 @@ class ConvertType extends Command {
 			));
 			return 1;
 		}
+		if ($type === 'oci' && $input->getOption('clear-schema')) {
+			// Doctrine unconditionally tries (at least in version 2.3)
+			// to drop sequence triggers when dropping a table, even though
+			// such triggers may not exist. This results in errors like
+			// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
+			$output->writeln(sprintf(
+				'<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>',
+				$type
+			));
+			return 1;
+		}
+	}
+
+	protected function execute(InputInterface $input, OutputInterface $output) {
+		$inputError = $this->validateInput($input, $output);
+		if ($inputError) {
+			return $inputError;
+		}
 
 		$fromDB = \OC_DB::getConnection();
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
-			if ($type === 'oci') {
-				// Doctrine unconditionally tries (at least in version 2.3)
-				// to drop sequence triggers when dropping a table, even though
-				// such triggers may not exist. This results in errors like
-				// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
-				$output->writeln(sprintf(
-					'<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>',
-					$type
-				));
-				return 1;
-			}
 			$this->clearSchema($toDB->getSchemaManager(), $input, $output);
 		}
 
