@@ -10,8 +10,6 @@
 
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
-
 use OC\Config;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
@@ -156,7 +154,7 @@ class ConvertType extends Command {
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
-			$this->clearSchema($toDB->getSchemaManager(), $input, $output);
+			$this->clearSchema($toDB, $input, $output);
 		}
 
 		$this->createSchema($toDB, $input, $output);
@@ -214,19 +212,18 @@ class ConvertType extends Command {
 		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
 
-	protected function clearSchema(AbstractSchemaManager $schemaManager, InputInterface $input, OutputInterface $output) {
-		$toTables = $schemaManager->listTableNames();
+	protected function clearSchema(Connection $db, InputInterface $input, OutputInterface $output) {
+		$toTables = $this->getTables($db);
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
 		foreach($toTables as $table) {
-			$schemaManager->dropTable($table);
+			$db->getSchemaManager()->dropTable($table);
 		}
 	}
 
 	protected function getTables(Connection $db) {
-		$schemaManager = $db->getSchemaManager();
-		return $schemaManager->listTableNames();
+		return $db->getSchemaManager()->listTableNames();
 	}
 
 	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
