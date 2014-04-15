@@ -243,6 +243,7 @@ OC.Upload = {
 					}
 
 					// in case folder drag and drop is not supported file will point to a directory
+					// http://stackoverflow.com/a/20448357
 					if (!file.type && file.size%4096 === 0 && file.size <= 102400) {
 						try {
 							reader = new FileReader();
