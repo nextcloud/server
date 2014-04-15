@@ -17,24 +17,40 @@ namespace OC\Files\Type;
  */
 class Detection {
 	protected $mimetypes = array();
+	protected $secureMimeTypes = array();
 
 	/**
-	 * add an extension -> mimetype mapping
+	 * Add an extension -> mimetype mapping
+	 *
+	 * $mimetype is the assumed correct mime type
+	 * The optional $secureMimeType is an alternative to send to send
+	 * to avoid potential XSS.
 	 *
 	 * @param string $extension
 	 * @param string $mimetype
+	 * @param string|null $secureMimeType
 	 */
-	public function registerType($extension, $mimetype) {
-		$this->mimetypes[$extension] = $mimetype;
+	public function registerType($extension, $mimetype, $secureMimeType = null) {
+		$this->mimetypes[$extension] = array($mimetype, $secureMimeType);
+		$this->secureMimeTypes[$mimetype] = $secureMimeType ?: $mimetype;
 	}
 
 	/**
-	 * add an array of extension -> mimetype mappings
+	 * Add an array of extension -> mimetype mappings
+	 *
+	 * The mimetype value is in itself an array where the first index is
+	 * the assumed correct mimetype and the second is either a secure alternative
+	 * or null if the correct is considered secure.
 	 *
 	 * @param array $types
 	 */
 	public function registerTypeArray($types) {
 		$this->mimetypes = array_merge($this->mimetypes, $types);
+
+		// Update the alternative mimetypes to avoid having to look them up each time.
+		foreach ($this->mimetypes as $mimeType) {
+			$this->secureMimeTypes[$mimeType[0]] = $mimeType[1] ?: $mimeType[0];
+		}
 	}
 
 	/**
@@ -48,7 +64,9 @@ class Detection {
 			//try to guess the type by the file extension
 			$extension = strtolower(strrchr(basename($path), "."));
 			$extension = substr($extension, 1); //remove leading .
-			return (isset($this->mimetypes[$extension])) ? $this->mimetypes[$extension] : 'application/octet-stream';
+			return (isset($this->mimetypes[$extension]) && isset($this->mimetypes[$extension][0]))
+				? $this->mimetypes[$extension][0]
+				: 'application/octet-stream';
 		} else {
 			return 'application/octet-stream';
 		}
@@ -122,5 +140,17 @@ class Detection {
 			unset($tmpFile);
 			return $mime;
 		}
+	}
+
+	/**
+	 * Get a secure mimetype that won't expose potential XSS.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+	public function getSecureMimeType($mimeType) {
+		return isset($this->secureMimeTypes[$mimeType])
+			? $this->secureMimeTypes[$mimeType]
+			: 'application/octet-stream';
 	}
 }

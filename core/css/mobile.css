@@ -19,6 +19,7 @@
 .searchbox input[type="search"]:focus,
 .searchbox input[type="search"]:active {
 	width: 155px;
+	max-width: 50%;
 }
 
 /* do not show display name on mobile when profile picture is present */

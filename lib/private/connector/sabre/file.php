@@ -191,7 +191,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return mixed
 	 */
 	public function getContentType() {
-		return $this->info->getMimetype();
+		$mimeType = $this->info->getMimetype();
+
+		return \OC_Helper::getSecureMimeType($mimeType);
 	}
 
 	/**
