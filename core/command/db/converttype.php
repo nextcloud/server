@@ -111,10 +111,7 @@ class ConvertType extends Command {
 	protected function validateInput(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
 		if ($this->connectionFactory->normalizeType($type) === 'sqlite3') {
-			$output->writeln(sprintf(
-				'<error>Converting to SQLite (sqlite3) is currently not supported.</error>',
-				$type
-			));
+			$output->writeln('<error>Converting to SQLite (sqlite3) is currently not supported.</error>');
 			return 1;
 		}
 		if ($type === $this->config->getValue('dbtype', '')) {
@@ -129,10 +126,7 @@ class ConvertType extends Command {
 			// to drop sequence triggers when dropping a table, even though
 			// such triggers may not exist. This results in errors like
 			// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
-			$output->writeln(sprintf(
-				'<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>',
-				$type
-			));
+			$output->writeln('<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>');
 			return 1;
 		}
 	}
