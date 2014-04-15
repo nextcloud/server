@@ -928,4 +928,27 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 	}
 
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testShareNonExisting() {
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$id = PHP_INT_MAX - 1;
+		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testShareNotOwner() {
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
+		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+	}
+
 }
