@@ -35,7 +35,7 @@
 			?>
 		<?php endforeach; ?>
 	</head>
-
+	<?php flush(); ?>
 	<body id="<?php p($_['bodyid']);?>">
 	<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('This application requires JavaScript to be enabled for correct operation.  Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and re-load this interface.')); ?></div></div></noscript>
 	<div id="notification-container">
