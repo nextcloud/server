@@ -9,13 +9,14 @@
 	list-style:none;
 	max-height:80%;
 	overflow-x:hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	padding-bottom:6px;
 	position:fixed;
 	right:0;
 	text-overflow:ellipsis;
 	top:45px;
 	width:380px;
+	max-width: 95%;
 	z-index:75;
 }
 
@@ -44,18 +45,21 @@
 
 #searchresults td {
 	padding:0 .3em;
-	height: 32px;
+	height: 44px;
 }
 #searchresults tr.template {
 	display: none;
 }
 
-#searchresults td.result {
-	width:250px;
+#searchresults .name,
+#searchresults .text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-#searchresults td.result div.text {
-	padding-left:1em;
-	white-space:nowrap;
+#searchresults .text {
+	padding-left: 16px;
+	color: #999;
 }
 
 #searchresults td.result * {
