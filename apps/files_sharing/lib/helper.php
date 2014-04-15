@@ -2,6 +2,9 @@
 
 namespace OCA\Files_Sharing;
 
+use OC_Config;
+use PasswordHash;
+
 class Helper {
 
 	/**
@@ -26,9 +29,6 @@ class Helper {
 			exit;
 		}
 
-		$type = $linkItem['item_type'];
-		$fileSource = $linkItem['file_source'];
-		$shareOwner = $linkItem['uid_owner'];
 		$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
 		$path = null;
 		if (isset($rootLinkItem['uid_owner'])) {
@@ -61,7 +61,6 @@ class Helper {
 		}
 
 		$basePath = $path;
-		$rootName = basename($path);
 
 		if ($relativePath !== null && \OC\Files\Filesystem::isReadable($basePath . $relativePath)) {
 			$path .= \OC\Files\Filesystem::normalizePath($relativePath);

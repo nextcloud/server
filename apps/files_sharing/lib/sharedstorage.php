@@ -299,14 +299,14 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief rename a shared foder/file
+	 * @brief rename a shared folder/file
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @return bool
 	 */
 	private function renameMountPoint($sourcePath, $targetPath) {
 
-		// it shoulbn't be possible to move a Shared storage into another one
+		// it shouldn't be possible to move a Shared storage into another one
 		list($targetStorage, ) = \OC\Files\Filesystem::resolvePath($targetPath);
 		if ($targetStorage instanceof \OC\Files\Storage\Shared) {
 			\OCP\Util::writeLog('file sharing',
@@ -452,6 +452,7 @@ class Shared extends \OC\Files\Storage\Common {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->free_space($internalPath);
 		}
+		return \OC\Files\SPACE_UNKNOWN;
 	}
 
 	public function getLocalFile($path) {

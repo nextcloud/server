@@ -18,7 +18,7 @@ if (version_compare($installedVersion, '0.4', '<')) {
 			$users[] = $row['share_with'];
 			$shares[$row['id']] = $row['file_target'];
 		} else if ($row['share_type'] === "1" && ($row['item_type'] === 'file' || $row['item_type'] === 'folder')) {
-			//collect all group sharesX
+			//collect all group shares
 			$users = array_merge($users, \OC_group::usersInGroup($row['share_with']));
 			$shares[$row['id']] = $row['file_target'];
 		} else if ($row['share_type'] === "2") {
@@ -48,7 +48,9 @@ if (version_compare($installedVersion, '0.4', '<')) {
 		$statement .= ' END WHERE `id` IN (' . $ids . ')';
 
 		$query = OCP\DB::prepare($statement);
+
 		$query->execute(array());
+
 	}
 
 }
