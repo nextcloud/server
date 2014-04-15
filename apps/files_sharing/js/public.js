@@ -62,11 +62,17 @@ $(document).ready(function() {
 
 	var file_upload_start = $('#file_upload_start');
 	file_upload_start.on('fileuploadadd', function(e, data) {
+		var fileDirectory = '';
+		if(typeof data.files[0].relativePath !== 'undefined') {
+			fileDirectory = data.files[0].relativePath;
+		}
+
 		// Add custom data to the upload handler
 		data.formData = {
 			requesttoken: $('#publicUploadRequestToken').val(),
 			dirToken: $('#dirToken').val(),
-			subdir: $('input#dir').val()
+			subdir: $('input#dir').val(),
+			file_directory: fileDirectory
 		};
 	});
 

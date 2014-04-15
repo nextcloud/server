@@ -629,10 +629,21 @@ class View {
 	}
 
 	public function fromTmpFile($tmpFile, $path) {
+
 		if (Filesystem::isValidPath($path)) {
+
+			// Get directory that the file is going into
+			$filePath = dirname($path);
+
+			// Create the directories if any
+			if (!$this->file_exists($filePath)) {
+				$this->mkdir($filePath);
+			}
+
 			if (!$tmpFile) {
 				debug_print_backtrace();
 			}
+
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
