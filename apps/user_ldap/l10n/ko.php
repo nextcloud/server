@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "백업 (복제) 포트",
 "Disable Main Server" => "주 서버 비활성화",
 "Only connect to the replica server." => "복제 서버에만 연결합니다.",
-"Case insensitve LDAP server (Windows)" => "서버에서 대소문자를 구분하지 않음 (Windows)",
 "Turn off SSL certificate validation." => "SSL 인증서 유효성 검사를 해제합니다.",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "테스트 목적으로만 사용하십시오! 이 옵션을 사용해야만 연결할 수 있으면 %s 서버에 LDAP 서버의 SSL 인증서를 설치하십시오.",
 "Cache Time-To-Live" => "캐시 유지 시간",

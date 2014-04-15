@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Porta do servidor de backup (Replica)",
 "Disable Main Server" => "Desactivar servidor principal",
 "Only connect to the replica server." => "Ligar apenas ao servidor de réplicas.",
-"Case insensitve LDAP server (Windows)" => "Servidor LDAP (Windows) não sensível a maiúsculas.",
 "Turn off SSL certificate validation." => "Desligar a validação de certificado SSL.",
 "Cache Time-To-Live" => "Cache do tempo de vida dos objetos no servidor",
 "in seconds. A change empties the cache." => "em segundos. Uma alteração esvazia a cache.",

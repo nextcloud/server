@@ -60,6 +60,8 @@ $TRANSLATIONS = array(
 "last month" => "bulan kemarin",
 "_%n month ago_::_%n months ago_" => array("%n bulan yang lalu"),
 "last year" => "tahun kemarin",
-"years ago" => "beberapa tahun lalu"
+"years ago" => "beberapa tahun lalu",
+"A valid username must be provided" => "Tuliskan nama pengguna yang valid",
+"A valid password must be provided" => "Tuliskan sandi yang valid"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

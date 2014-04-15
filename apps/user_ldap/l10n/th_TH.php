@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>คำเตือน:</b> โมดูล PHP LDAP ยังไม่ได้ถูกติดตั้ง, ระบบด้านหลังจะไม่สามารถทำงานได้ กรุณาติดต่อผู้ดูแลระบบของคุณเพื่อทำการติดตั้งโมดูลดังกล่าว",
 "Connection Settings" => "ตั้งค่าการเชื่อมต่อ",
 "Disable Main Server" => "ปิดใช้งานเซิร์ฟเวอร์หลัก",
-"Case insensitve LDAP server (Windows)" => "เซิร์ฟเวอร์ LDAP ประเภท Case insensitive (วินโดวส์)",
 "Turn off SSL certificate validation." => "ปิดใช้งานการตรวจสอบความถูกต้องของใบรับรองความปลอดภัย SSL",
 "in seconds. A change empties the cache." => "ในอีกไม่กี่วินาที ระบบจะเปลี่ยนแปลงข้อมูลในแคชให้ว่างเปล่า",
 "Directory Settings" => "ตั้งค่าไดเร็กทอรี่",

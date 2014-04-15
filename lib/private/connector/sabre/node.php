@@ -139,12 +139,15 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	/**
 	 * @brief Returns the last modification time, as a unix timestamp
-	 * @return int
+	 * @return int timestamp as integer
 	 */
 	public function getLastModified() {
 		$this->getFileinfoCache();
-		return $this->fileinfo_cache['mtime'];
-
+		$timestamp = $this->fileinfo_cache['mtime'];
+		if (!empty($timestamp)) {
+			return (int)$timestamp;
+		}
+		return $timestamp;
 	}
 
 	/**

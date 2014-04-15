@@ -60,6 +60,8 @@ $TRANSLATIONS = array(
 "last month" => "지난 달",
 "_%n month ago_::_%n months ago_" => array("%n달 전 "),
 "last year" => "작년",
-"years ago" => "년 전"
+"years ago" => "년 전",
+"A valid username must be provided" => "올바른 사용자 이름을 입력해야 함",
+"A valid password must be provided" => "올바른 암호를 입력해야 함"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

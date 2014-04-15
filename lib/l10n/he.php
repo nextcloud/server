@@ -29,6 +29,8 @@ $TRANSLATIONS = array(
 "last month" => "חודש שעבר",
 "_%n month ago_::_%n months ago_" => array("","לפני %n חודשים"),
 "last year" => "שנה שעברה",
-"years ago" => "שנים"
+"years ago" => "שנים",
+"A valid username must be provided" => "יש לספק שם משתמש תקני",
+"A valid password must be provided" => "יש לספק ססמה תקנית"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

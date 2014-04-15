@@ -331,6 +331,26 @@ OC.Share={
 					.append( insert )
 					.appendTo( ul );
 			};
+			$('#email').autocomplete({
+				minLength: 1,
+				source: function (search, response) {
+					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWithEmail', search: search.term }, function(result) {
+						if (result.status == 'success' && result.data.length > 0) {
+							response(result.data);
+						}
+					});
+					},
+				select: function( event, item ) {
+					$('#email').val(item.item.email);
+					return false;
+				}
+			})
+			.data("ui-autocomplete")._renderItem = function( ul, item ) {
+				return $( "<li>" )
+					.append( "<a>" + item.displayname + "<br>" + item.email + "</a>" )
+					.appendTo( ul );
+			};
+
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';

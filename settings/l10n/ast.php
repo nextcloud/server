@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Email sent" => "Corréu unviáu",
 "Encryption" => "Cifráu",
 "Invalid request" => "Solicitú non válida",
+"Error" => "Fallu",
 "Groups" => "Grupos",
 "Delete" => "Desaniciar",
 "More" => "Más",

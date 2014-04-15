@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-02 01:55-0400\n"
-"PO-Revision-Date: 2014-04-01 10:01+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,6 +85,20 @@ msgstr "Grupp on juba olemas"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Keela grupi lisamine"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -213,31 +227,31 @@ msgstr "Uuenda"
 msgid "Updated"
 msgstr "Uuendatud"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Vali profiili pilt"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr "Väga nõrk parool"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr "Nõrk parool"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr "Enam-vähem sobiv parool"
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr "Hea parool"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr "Väga hea parool"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 

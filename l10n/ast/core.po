@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 22:40+0000\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 21:20+0000\n"
 "Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Imaxe inválida"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -143,127 +143,127 @@ msgstr "Axustes"
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1124
+#: js/js.js:1099
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1125
+#: js/js.js:1100
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1126
+#: js/js.js:1101
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1127
+#: js/js.js:1102
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1128
+#: js/js.js:1103
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1129
+#: js/js.js:1104
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1130
+#: js/js.js:1105
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1131
+#: js/js.js:1106
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1132
+#: js/js.js:1107
 msgid "months ago"
 msgstr "fai meses"
 
-#: js/js.js:1133
+#: js/js.js:1108
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1134
+#: js/js.js:1109
 msgid "years ago"
 msgstr "fai años"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Esbillar"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr ""
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "¿Qué ficheros quies caltener?"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Encaboxar"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:457
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:465
 msgid "Error loading file exists template"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr "Compartir"
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
 #: templates/installation.php:10
 msgid "Error"
-msgstr ""
+msgstr "Fallu"
 
 #: js/share.js:160 js/share.js:767
 msgid "Error while sharing"
@@ -560,7 +560,7 @@ msgstr "Personal"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #: strings.php:7 templates/layout.user.php:116
 msgid "Apps"

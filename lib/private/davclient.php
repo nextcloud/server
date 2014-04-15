@@ -29,6 +29,8 @@ class OC_DAVClient extends \Sabre_DAV_Client {
 
 	protected $requestTimeout;
 
+	protected $verifyHost;
+
 	/**
 	 * @brief Sets the request timeout or 0 to disable timeout.
 	 * @param integer $timeout in seconds or 0 to disable
@@ -37,9 +39,20 @@ class OC_DAVClient extends \Sabre_DAV_Client {
 		$this->requestTimeout = (int)$timeout;
 	}
 
+	/**
+	 * @brief Sets the CURLOPT_SSL_VERIFYHOST setting
+	 * @param integer $value value to set CURLOPT_SSL_VERIFYHOST to
+	*/
+	public function setVerifyHost($value) {
+		$this->verifyHost = $value;
+	}
+
 	protected function curlRequest($url, $settings) {
 		if ($this->requestTimeout > 0) {
 			$settings[CURLOPT_TIMEOUT] = $this->requestTimeout;
+		}
+		if (!is_null($this->verifyHost)) {
+			$settings[CURLOPT_SSL_VERIFYHOST] = $this->verifyHost;
 		}
 		return parent::curlRequest($url, $settings);
 	}

@@ -42,6 +42,8 @@ $TRANSLATIONS = array(
 "last month" => "ماه قبل",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "سال قبل",
-"years ago" => "سال‌های قبل"
+"years ago" => "سال‌های قبل",
+"A valid username must be provided" => "نام کاربری صحیح باید وارد شود",
+"A valid password must be provided" => "رمز عبور صحیح باید وارد شود"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

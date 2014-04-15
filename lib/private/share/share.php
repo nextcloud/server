@@ -431,6 +431,16 @@ class Share extends \OC\Share\Constants {
 			$itemSourceName = $itemSource;
 		}
 
+		// verify that the file exists before we try to share it
+		if ($itemType === 'file' or $itemType === 'folder') {
+			$path = \OC\Files\Filesystem::getPath($itemSource);
+			if (!$path) {
+				$message = 'Sharing ' . $itemSourceName . ' failed, because the file does not exist';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+		}
+
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
@@ -1523,7 +1533,7 @@ class Share extends \OC\Share\Constants {
 		$select = '*';
 		if ($format == self::FORMAT_STATUSES) {
 			if ($fileDependent) {
-				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `share_with`, `uid_owner` , `file_source`';
+				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `storage`, `share_with`, `uid_owner` , `file_source`';
 			} else {
 				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`, `item_source`';
 			}

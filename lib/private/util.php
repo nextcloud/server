@@ -805,7 +805,7 @@ class OC_Util {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
 			//Specify encoding for PHP<5.4
-			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -902,6 +902,8 @@ class OC_Util {
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
+		// also don't care if the host can't be verified
+		$client->setVerifyHost(0);
 
 		$return = true;
 		try {

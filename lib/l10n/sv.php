@@ -66,6 +66,10 @@ $TRANSLATIONS = array(
 "last month" => "förra månaden",
 "_%n month ago_::_%n months ago_" => array("%n månad sedan","%n månader sedan"),
 "last year" => "förra året",
-"years ago" => "år sedan"
+"years ago" => "år sedan",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Endast följande tecken är tillåtna i ett användarnamn: \"az\", \"AZ\", \"0-9\", och \"_ @ -.\"",
+"A valid username must be provided" => "Ett giltigt användarnamn måste anges",
+"A valid password must be provided" => "Ett giltigt lösenord måste anges",
+"The username is already being used" => "Användarnamnet används redan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-11 14:15+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,7 +199,7 @@ msgstr "MS SQL kullanıcı adı ve/veya parolası geçersiz: %s"
 #: private/setup/oci.php:114 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Bir konto veya kullanici birlemek ihtiyacin. "
+msgstr "Siz veya yönetici mevcut bir hesap girmeli."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
@@ -215,7 +215,7 @@ msgstr "MySQL/MariaDB kullanıcı adı ve/veya parolası geçersiz"
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr "DB Hata: ''%s''"
+msgstr "VT Hatası: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
 #: private/setup/oci.php:122 private/setup/oci.php:145
@@ -226,7 +226,7 @@ msgstr "DB Hata: ''%s''"
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "Komut rahasiz ''%s''. "
+msgstr "Saldırgan komut: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
@@ -252,7 +252,7 @@ msgstr "Oracle bağlantısı kurulamadı"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr "Adi klullanici ve/veya parola Oracle mantikli değildir. "
+msgstr "Oracle kullanıcı adı ve/veya parolası geçerli değil"
 
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
@@ -261,15 +261,15 @@ msgstr "Hatalı komut: \"%s\", ad: %s, parola: %s"
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
-msgstr "PostgreSQL adi kullanici ve/veya parola yasal degildir. "
+msgstr "PostgreSQL  kullanıcı adı ve/veya parolası geçerli değil"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr "Bir adi kullanici vermek. "
+msgstr "Bir yönetici kullanıcı adı ayarlayın."
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr "Parola yonetici birlemek. "
+msgstr "Bir yönetici kullanıcı parolası ayarlayın."
 
 #: private/setup.php:202
 msgid ""
@@ -345,16 +345,16 @@ msgstr "yıl önce"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Kullanıcı adında sadece bu karakterlere izin verilmektedir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-\""
 
 #: private/user/manager.php:251
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
 #: private/user/manager.php:255
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
 #: private/user/manager.php:260
 msgid "The username is already being used"
-msgstr ""
+msgstr "Bu kullanıcı adı zaten kullanımda"

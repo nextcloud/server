@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-14 01:54-0400\n"
+"PO-Revision-Date: 2014-04-14 04:55+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -294,55 +294,55 @@ msgstr "%s s vámi sdílí »%s«"
 msgid "Could not find category \"%s\""
 msgstr "Nelze nalézt kategorii \"%s\""
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "před pár sekundami"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "dnes"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "včera"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "minulý rok"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "před lety"
 
@@ -354,12 +354,12 @@ msgstr ""
 
 #: private/user/manager.php:251
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Musíte zadat platné uživatelské jméno"
 
 #: private/user/manager.php:255
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Musíte zadat platné heslo"
 
 #: private/user/manager.php:260
 msgid "The username is already being used"
-msgstr ""
+msgstr "Uživatelské jméno je již využíváno"

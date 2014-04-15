@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-07 17:00+0000\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Javanese (http://www.transifex.com/projects/p/owncloud/language/jv/)\n"
 "MIME-Version: 1.0\n"
@@ -82,6 +82,20 @@ msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
+msgstr ""
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
 #: ajax/lostpassword.php:12
