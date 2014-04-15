@@ -1168,7 +1168,8 @@ class View {
 			 * @var \OC\Files\Mount\Mount $mount
 			 */
 			$cache = $mount->getStorage()->getCache();
-			if ($internalPath = $cache->getPathById($id)) {
+			$internalPath = $cache->getPathById($id);
+			if (is_string($internalPath)) {
 				$fullPath = $mount->getMountPoint() . $internalPath;
 				if (!is_null($path = $this->getRelativePath($fullPath))) {
 					return $path;

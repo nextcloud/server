@@ -347,6 +347,7 @@ class Shared extends \OC\Files\Storage\Common {
 			$mountManager->addMount($mount);
 			$mountManager->removeMount($sourcePath . '/');
 			$this->setUniqueName();
+			$this->setMountPoint($relTargetPath);
 
 		} else {
 			\OCP\Util::writeLog('file sharing',
@@ -498,6 +499,10 @@ class Shared extends \OC\Files\Storage\Common {
 	 */
 	private function getShareType() {
 		return $this->share['share_type'];
+	}
+
+	private function setMountPoint($path) {
+		$this->share['file_target'] = $path;
 	}
 
 	/**

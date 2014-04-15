@@ -255,7 +255,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		 */
 
 		$sharedCache = $sharedStorage->getCache();
-		$this->assertEquals('test.txt', $sharedCache->getPathById($info->getId()));
+		$this->assertEquals('', $sharedCache->getPathById($info->getId()));
 	}
 
 	public function testGetPathByIdShareSubFolder() {
@@ -276,7 +276,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		 */
 
 		$sharedCache = $sharedStorage->getCache();
-		$this->assertEquals('foo', $sharedCache->getPathById($folderInfo->getId()));
-		$this->assertEquals('foo/bar/test.txt', $sharedCache->getPathById($fileInfo->getId()));
+		$this->assertEquals('', $sharedCache->getPathById($folderInfo->getId()));
+		$this->assertEquals('bar/test.txt', $sharedCache->getPathById($fileInfo->getId()));
 	}
 }

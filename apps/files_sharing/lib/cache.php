@@ -411,7 +411,7 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * get the path of a file on this storage by it's id
+	 * get the path of a file on this storage relative to the mount point by it's id
 	 *
 	 * @param int $id
 	 * @param string $pathEnd (optional) used internally for recursive calls
@@ -419,8 +419,9 @@ class Shared_Cache extends Cache {
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
-		if ($path = $this->getShareById($id)) {
-			return $path . $pathEnd;
+		$path = $this->getShareById($id);
+		if (is_string($path)) {
+			return ltrim($pathEnd, '/');
 		} else {
 			// if the item is a direct share we try and get the path of the parent and append the name of the item to it
 			list($parent, $name) = $this->getParentInfo($id);

@@ -866,6 +866,66 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$this->assertTrue($result3->succeeded());
 
+		// cleanup
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue($result);
+
+
+
+	}
+
+	/**
+	 * @brief share a folder which contains a share mount point, should be forbidden
+	 */
+	public function testShareFolderWithAMountPoint() {
+		// user 1 shares a folder with user2
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		// user2 shares a file from the folder as link
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view->mkdir("localDir");
+
+		// move mount point to the folder "localDir"
+		$result = $view->rename($this->folder, 'localDir/'.$this->folder);
+		$this->assertTrue($result !== false);
+
+		// try to share "localDir"
+		$fileInfo2 = $view->getFileInfo('localDir');
+
+		$this->assertTrue($fileInfo2 instanceof \OC\Files\FileInfo);
+
+		try {
+			$result2 = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+					\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+		} catch (\Exception $e) {
+			$result2 = false;
+		}
+
+		$this->assertFalse($result2);
+
+		//cleanup
+
+		$result = $view->rename('localDir/' . $this->folder, $this->folder);
+		$this->assertTrue($result !== false);
+		$view->unlink('localDir');
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 	}
 
 }

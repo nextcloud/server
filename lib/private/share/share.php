@@ -489,6 +489,7 @@ class Share extends \OC\Share\Constants {
 			$itemSourceName = $itemSource;
 		}
 
+
 		// verify that the file exists before we try to share it
 		if ($itemType === 'file' or $itemType === 'folder') {
 			$path = \OC\Files\Filesystem::getPath($itemSource);
@@ -496,6 +497,21 @@ class Share extends \OC\Share\Constants {
 				$message = 'Sharing ' . $itemSourceName . ' failed, because the file does not exist';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
+			}
+		}
+
+		//verify that we don't share a folder which already contains a share mount point
+		if ($itemType === 'folder') {
+			$path = '/' . $uidOwner . '/files' . \OC\Files\Filesystem::getPath($itemSource) . '/';
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mounts = $mountManager->getAll();
+			foreach ($mounts as $mountPoint => $mount) {
+				if ($mount->getStorage() instanceof \OC\Files\Storage\Shared && strpos($mountPoint, $path) === 0) {
+					$message = 'Sharing "' . $itemSourceName . '" failed, because it contains files shared with you!';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
+				}
+
 			}
 		}
 
