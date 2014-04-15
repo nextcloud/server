@@ -100,15 +100,15 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		$check = array(
 				array(
 					'name' => 'bar.txt',
-					'path' => 'files/shareddir/bar.txt'
+					'path' => 'bar.txt'
 				),
 				array(
 					'name' => 'another too.txt',
-					'path' => 'files/shareddir/subdir/another too.txt'
+					'path' => 'subdir/another too.txt'
 				),
 				array(
 					'name' => 'another.txt',
-					'path' => 'files/shareddir/subdir/another.txt'
+					'path' => 'subdir/another.txt'
 				),
 			);
 		$this->verifyFiles($check, $results);
@@ -151,17 +151,17 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 			array(
 				array(
 					'name' => 'bar.txt',
-					'path' => 'files/shareddir/bar.txt',
+					'path' => 'bar.txt',
 					'mimetype' => 'text/plain',
 				),
 				array(
 					'name' => 'emptydir',
-					'path' => 'files/shareddir/emptydir',
+					'path' => 'emptydir',
 					'mimetype' => 'httpd/unix-directory',
 				),
 				array(
 					'name' => 'subdir',
-					'path' => 'files/shareddir/subdir',
+					'path' => 'subdir',
 					'mimetype' => 'httpd/unix-directory',
 				),
 			),
@@ -185,17 +185,17 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 			array(
 				array(
 					'name' => 'another too.txt',
-					'path' => 'files/subdir/another too.txt',
+					'path' => 'another too.txt',
 					'mimetype' => 'text/plain',
 				),
 				array(
 					'name' => 'another.txt',
-					'path' => 'files/subdir/another.txt',
+					'path' => 'another.txt',
 					'mimetype' => 'text/plain',
 				),
 				array(
 					'name' => 'not a text file.xml',
-					'path' => 'files/subdir/not a text file.xml',
+					'path' => 'not a text file.xml',
 					'mimetype' => 'application/xml',
 				),
 			),

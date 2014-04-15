@@ -896,6 +896,7 @@ class Share extends \OC\Share\Constants {
 		$hookParams = array(
 			'itemType'      => $item['item_type'],
 			'itemSource'    => $item['item_source'],
+			'fileSource'    => $item['file_source'],
 			'shareType'     => $item['share_type'],
 			'shareWith'     => $item['share_with'],
 			'itemParent'    => $item['parent'],

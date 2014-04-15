@@ -141,15 +141,14 @@ class Shared_Cache extends Cache {
 			$folder = '';
 		}
 
-		$dir = 'files' . $this->storage->getMountPoint();
-		$dir .= ($folder !== '') ? '/' . $folder : '';
+		$dir = ($folder !== '') ? $folder . '/' : '';
 
 		$cache = $this->getSourceCache($folder);
 		if ($cache) {
 			$parent = $this->storage->getFile($folder);
 			$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
 			foreach ($sourceFolderContent as $key => $c) {
-				$sourceFolderContent[$key]['path'] = $dir . '/' . $c['name'];
+				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
 				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
 				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
 			}
