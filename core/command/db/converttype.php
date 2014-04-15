@@ -109,10 +109,11 @@ class ConvertType extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ($input->getArgument('type') === $this->config->getValue('dbtype', '')) {
+		$type = $input->getArgument('type');
+		if ($type === $this->config->getValue('dbtype', '')) {
 			$output->writeln(sprintf(
 				'<error>Can not convert from %1$s to %1$s.</error>',
-				$input->getArgument('type')
+				$type
 			));
 			return 1;
 		}
@@ -121,14 +122,14 @@ class ConvertType extends Command {
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
-			if ($input->getArgument('type') === 'oci') {
+			if ($type === 'oci') {
 				// Doctrine unconditionally tries (at least in version 2.3)
 				// to drop sequence triggers when dropping a table, even though
 				// such triggers may not exist. This results in errors like
 				// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
 				$output->writeln(sprintf(
 					'<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>',
-					$input->getArgument('type')
+					$type
 				));
 				return 1;
 			}
