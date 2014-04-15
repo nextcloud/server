@@ -97,23 +97,24 @@ class ConvertType extends Command {
 	protected function validateInput(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
 		if ($this->connectionFactory->normalizeType($type) === 'sqlite3') {
-			$output->writeln('<error>Converting to SQLite (sqlite3) is currently not supported.</error>');
-			return 1;
+			throw new \InvalidArgumentException(
+				'Converting to SQLite (sqlite3) is currently not supported.'
+			);
 		}
 		if ($type === $this->config->getValue('dbtype', '')) {
-			$output->writeln(sprintf(
-				'<error>Can not convert from %1$s to %1$s.</error>',
+			throw new \InvalidArgumentException(sprintf(
+				'Can not convert from %1$s to %1$s.',
 				$type
 			));
-			return 1;
 		}
 		if ($type === 'oci' && $input->getOption('clear-schema')) {
 			// Doctrine unconditionally tries (at least in version 2.3)
 			// to drop sequence triggers when dropping a table, even though
 			// such triggers may not exist. This results in errors like
 			// "ORA-04080: trigger 'OC_STORAGES_AI_PK' does not exist".
-			$output->writeln('<error>The --clear-schema option is not supported when converting to Oracle (oci).</error>');
-			return 1;
+			throw new \InvalidArgumentException(
+				'The --clear-schema option is not supported when converting to Oracle (oci).'
+			);
 		}
 	}
 
@@ -148,11 +149,7 @@ class ConvertType extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$inputError = $this->validateInput($input, $output);
-		if ($inputError) {
-			return $inputError;
-		}
-
+		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
 		$fromDB = \OC_DB::getConnection();
