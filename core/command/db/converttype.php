@@ -43,20 +43,6 @@ class ConvertType extends Command {
 		parent::__construct();
 	}
 
-	protected function interact(InputInterface $input, OutputInterface $output) {
-		parent::interact($input, $output);
-		if (!$input->getOption('password')) {
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
-			$password = $dialog->askHiddenResponse(
-				$output,
-				'<question>What is the database password?</question>',
-				false
-			);
-			$input->setOption('password', $password);
-		}
-	}
-
 	protected function configure() {
 		$this
 			->setName('db:convert-type')
@@ -91,7 +77,7 @@ class ConvertType extends Command {
 				'password',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'the password of the database to convert to. Will be asked when not specified'
+				'the password of the database to convert to. Will be asked when not specified. Can also be passed via stdin.'
 			)
 			->addOption(
 				'clear-schema',
@@ -131,11 +117,40 @@ class ConvertType extends Command {
 		}
 	}
 
+	protected function readPassword(InputInterface $input, OutputInterface $output) {
+		// Explicitly specified password
+		if ($input->getOption('password')) {
+			return;
+		}
+
+		// Read from stdin
+		$password = file_get_contents('php://stdin');
+		if (trim($password) !== '') {
+			$input->setOption('password', $password);
+			return;
+		}
+
+		// Read password by interacting
+		if ($input->isInteractive()) {
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
+			$dialog = $this->getHelperSet()->get('dialog');
+			$password = $dialog->askHiddenResponse(
+				$output,
+				'<question>What is the database password?</question>',
+				false
+			);
+			$input->setOption('password', $password);
+			return;
+		}
+	}
+
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$inputError = $this->validateInput($input, $output);
 		if ($inputError) {
 			return $inputError;
 		}
+
+		$this->readPassword($input, $output);
 
 		$fromDB = \OC_DB::getConnection();
 		$toDB = $this->getToDBConnection($input, $output);
