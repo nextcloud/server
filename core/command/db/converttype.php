@@ -123,8 +123,11 @@ class ConvertType extends Command {
 			return;
 		}
 
-		// Read from stdin
+		// Read from stdin. stream_set_blocking is used to prevent blocking
+		// when nothing is passed via stdin.
+		stream_set_blocking(STDIN, 0);
 		$password = file_get_contents('php://stdin');
+		stream_set_blocking(STDIN, 1);
 		if (trim($password) !== '') {
 			$input->setOption('password', $password);
 			return;
