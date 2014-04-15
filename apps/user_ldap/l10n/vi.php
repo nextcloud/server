@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Connection Settings" => "Connection Settings",
 "Backup (Replica) Port" => "Cổng sao lưu (Replica)",
 "Disable Main Server" => "Tắt máy chủ chính",
-"Case insensitve LDAP server (Windows)" => "Trường hợp insensitve LDAP máy chủ (Windows)",
 "Turn off SSL certificate validation." => "Tắt xác thực chứng nhận SSL",
 "in seconds. A change empties the cache." => "trong vài giây. Một sự thay đổi bộ nhớ cache.",
 "Directory Settings" => "Directory Settings",

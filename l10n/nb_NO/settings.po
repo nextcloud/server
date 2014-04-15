@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Lagret"
 
 #: admin/controller.php:90
 msgid "test email settings"
@@ -55,7 +55,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
 msgstr "Kryptering"
 
@@ -68,7 +68,7 @@ msgid "Unable to load list from App Store"
 msgstr "Lasting av liste fra App Store feilet."
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Autentiseringsfeil"
 
@@ -87,6 +87,20 @@ msgstr "Gruppen finnes allerede"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Kan ikke legge til gruppe"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -130,38 +144,38 @@ msgstr "Kan ikke slette bruker fra gruppen %s"
 msgid "Couldn't update app."
 msgstr "Kunne ikke oppdatere app."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Feil passord"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Ingen bruker angitt"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Vennligst oppgi et administrativt gjenopprettingspassord. Ellers vil alle brukerdata gå tapt"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Feil administrativt gjenopprettingspassord. Sjekk passordet og prøv igjen."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Serveren støtter ikke endring av passord, men oppdatering av brukerens krypteringsnøkkel var vellykket."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Kunne ikke endre passord"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Sender..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -207,7 +221,7 @@ msgstr "Feil ved oppdatering av app"
 msgid "Error"
 msgstr "Feil"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Oppdater"
 
@@ -215,31 +229,31 @@ msgstr "Oppdater"
 msgid "Updated"
 msgstr "Oppdatert"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Velg et profilbilde"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Veldig svakt passord"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Svakt passord"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Bra passord"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Sterkt passord"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterer filer... Vennligst vent, dette kan ta litt tid."
 
@@ -288,7 +302,7 @@ msgstr "Oppgi et gyldig passord"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Advarsel: Hjemmemappe for bruker \"{user}\" eksisterer allerede"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -330,11 +344,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -543,7 +557,7 @@ msgstr ""
 
 #: templates/admin.php:327
 msgid "From address"
-msgstr ""
+msgstr "Fra adresse"
 
 #: templates/admin.php:349
 msgid "Authentication required"
@@ -563,11 +577,11 @@ msgstr ""
 
 #: templates/admin.php:363
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP-brukernavn"
 
 #: templates/admin.php:366
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP-passord"
 
 #: templates/admin.php:370
 msgid "Test email settings"
@@ -575,7 +589,7 @@ msgstr ""
 
 #: templates/admin.php:371
 msgid "Send email"
-msgstr ""
+msgstr "Send e-post"
 
 #: templates/admin.php:376
 msgid "Log"
@@ -593,11 +607,11 @@ msgstr "Mer"
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
 msgstr "Versjon"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -615,23 +629,23 @@ msgstr "Legg til din App"
 msgid "More Apps"
 msgstr "Flere Apps"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Velg en app"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Dokumentasjon:"
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Se applikasjonens side på apps.owncloud.org"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisensiert av <span class=\"author\"></span>"
 
@@ -668,108 +682,108 @@ msgstr "Vis \"Førstegangs veiveiseren\" på nytt"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Passord"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Passord har blitt endret"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Kunne ikke endre passordet ditt"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Nåværende passord"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nytt passord"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Endre passord"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Fullt navn"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "Epost"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Din e-postadresse"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Profilbilde"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Last opp nytt"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Velg nytt fra Filer"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Fjern bilde"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Enten png eller jpg. Helst kvadratisk men du kan beskjære det."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "Avataren din kommer fra din opprinnelige konto."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Velg som profilbilde"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Bidra til oversettelsen"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "Bruk denne adressen for å <a href=\"%s\" target=\"_blank\">aksessere filene dine via WebDAV</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Krypterings-appen er ikke aktiv lenger. Vennligst dekrypter alle filene dine"
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Innloggingspassord"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Dekrypter alle filer"
 

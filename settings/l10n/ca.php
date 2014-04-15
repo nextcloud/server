@@ -93,6 +93,7 @@ $TRANSLATIONS = array(
 "Internet connection not working" => "La connexió a internet no funciona",
 "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." => "Aquest servidor no té cap connexió a internet que funcioni. Això significa que algunes de les característiques com el muntatge d'emmagatzemament extern, les notificacions quant a actualitzacions o la instal·lació d'aplicacions de tercers no funcionarà. L'accés remot a fitxers i l'enviament de correus electrònics podria tampoc no funcionar. Us suggerim que habiliteu la connexió a internet per aquest servidor si voleu tenir totes les característiques.",
 "Cron" => "Cron",
+"Last cron was executed at %s." => "L'últim cron s'ha executat el %s",
 "Execute one task with each page loaded" => "Executa una tasca per cada paquet carregat",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php està registrat en un servei webcron que fa una crida a cron.php cada 15 minuts a través de http.",
 "Use systems cron service to call the cron.php file every 15 minutes." => "Utilitza el servei cron del sistema per fer una crida al fitxer cron.php cada 15 minuts.",

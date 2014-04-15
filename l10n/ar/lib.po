@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-23 13:40+0000\n"
-"Last-Translator: Abderraouf Mehdi Bouhali <armbouhali@gmail.com>\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 06:10+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,23 +67,23 @@ msgstr "الصورة غير صالحة"
 msgid "web services under your control"
 msgstr "خدمات الشبكة تحت سيطرتك"
 
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "تحميل ملفات ZIP متوقف"
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "الملفات بحاجة الى ان يتم تحميلها واحد تلو الاخر"
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:262
 msgid "Back to Files"
 msgstr "العودة الى الملفات"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "الملفات المحددة كبيرة جدا ليتم ضغطها في ملف zip"
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -280,8 +280,8 @@ msgstr "اعدادات خادمك غير صحيحة بشكل تسمح لك بم�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s شارك »%s« معك"
@@ -354,3 +354,21 @@ msgstr "السنةالماضية"
 #: private/template/functions.php:145
 msgid "years ago"
 msgstr "سنة مضت"
+
+#: private/user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: private/user/manager.php:251
+msgid "A valid username must be provided"
+msgstr "يجب ادخال اسم مستخدم صحيح"
+
+#: private/user/manager.php:255
+msgid "A valid password must be provided"
+msgstr "يجب ادخال كلمة مرور صحيحة"
+
+#: private/user/manager.php:260
+msgid "The username is already being used"
+msgstr ""

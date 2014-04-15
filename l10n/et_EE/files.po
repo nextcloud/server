@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-24 05:00+0000\n"
+"POT-Creation-Date: 2014-04-04 01:55-0400\n"
+"PO-Revision-Date: 2014-04-04 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Faili nimi ei saa olla tühi."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" on vigane failinimi."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
 msgid ""
@@ -44,10 +44,10 @@ msgid ""
 "allowed."
 msgstr "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:145
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Sihtkataloog on ümber tõstetud või kustutatud."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
 #, php-format
@@ -65,12 +65,12 @@ msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "Server ei võimalda URL-ide avamist, palun kontrolli serveri seadistust"
 
-#: ajax/newfile.php:119
+#: ajax/newfile.php:118
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "Viga %s allalaadimisel %s"
 
-#: ajax/newfile.php:156
+#: ajax/newfile.php:146
 msgid "Error when creating the file"
 msgstr "Viga faili loomisel"
 
@@ -82,62 +82,62 @@ msgstr "Kataloogi nimi ei saa olla tühi."
 msgid "Error when creating the folder"
 msgstr "Viga kataloogi loomisel"
 
-#: ajax/upload.php:19 ajax/upload.php:53
+#: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
 msgstr "Üleslaadimiste kausta määramine ebaõnnestus."
 
-#: ajax/upload.php:29
+#: ajax/upload.php:33
 msgid "Invalid Token"
 msgstr "Vigane kontrollkood"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "No file was uploaded. Unknown error"
 msgstr "Ühtegi faili ei laetud üles. Tundmatu viga"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:82
 msgid "There is no error, the file uploaded with success"
 msgstr "Ühtegi tõrget polnud, fail on üles laetud"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:83
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse:"
 
-#: ajax/upload.php:78
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Üleslaetud fail ületab MAX_FILE_SIZE suuruse, mis on HTML vormi jaoks määratud"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:86
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fail laeti üles ainult osaliselt"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:87
 msgid "No file was uploaded"
 msgstr "Ühtegi faili ei laetud üles"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:88
 msgid "Missing a temporary folder"
 msgstr "Ajutiste failide kaust puudub"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:89
 msgid "Failed to write to disk"
 msgstr "Kettale kirjutamine ebaõnnestus"
 
-#: ajax/upload.php:100
+#: ajax/upload.php:107
 msgid "Not enough storage available"
 msgstr "Saadaval pole piisavalt ruumi"
 
-#: ajax/upload.php:157
+#: ajax/upload.php:159
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Üleslaadimine ebaõnnestus. Üleslaetud faili ei leitud"
 
-#: ajax/upload.php:167
+#: ajax/upload.php:169
 msgid "Upload failed. Could not get file info."
 msgstr "Üleslaadimine ebaõnnestus. Faili info hankimine ebaõnnestus."
 
-#: ajax/upload.php:186
+#: ajax/upload.php:184
 msgid "Invalid directory."
 msgstr "Vigane kaust."
 
@@ -151,12 +151,12 @@ msgstr "Ei saa üles laadida {filename}, kuna see on kataloog või selle suurus 
 
 #: js/file-upload.js:258
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Faili suurus {size1} ületab faili üleslaadimise mahu piirangu {size2}."
 
 #: js/file-upload.js:268
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Pole piisavalt vaba ruumi. Sa laadid üles {size1}, kuid ainult {size2} on saadaval."
 
 #: js/file-upload.js:340
 msgid "Upload cancelled."
@@ -171,79 +171,79 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Faili üleslaadimine on töös. Lehelt lahkumine katkestab selle üleslaadimise."
 
-#: js/file-upload.js:564
+#: js/file-upload.js:542
 msgid "URL cannot be empty"
 msgstr "URL ei saa olla tühi"
 
-#: js/file-upload.js:568
+#: js/file-upload.js:546
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr "Kodukataloogis 'Shared' on reserveeritud failinimi"
 
-#: js/file-upload.js:570 js/filelist.js:430
+#: js/file-upload.js:548 js/filelist.js:603
 msgid "{new_name} already exists"
 msgstr "{new_name} on juba olemas"
 
-#: js/file-upload.js:636
+#: js/file-upload.js:600
 msgid "Could not create file"
 msgstr "Ei suuda luua faili"
 
-#: js/file-upload.js:652
+#: js/file-upload.js:613
 msgid "Could not create folder"
 msgstr "Ei suuda luua kataloogi"
 
-#: js/file-upload.js:702
+#: js/file-upload.js:653
 msgid "Error fetching URL"
 msgstr "Viga URL-i haaramisel"
 
-#: js/fileactions.js:149
+#: js/fileactions.js:164
 msgid "Share"
 msgstr "Jaga"
 
-#: js/fileactions.js:162
+#: js/fileactions.js:177
 msgid "Delete permanently"
 msgstr "Kustuta jäädavalt"
 
-#: js/fileactions.js:223
+#: js/fileactions.js:238
 msgid "Rename"
 msgstr "Nimeta ümber"
 
-#: js/filelist.js:107 js/filelist.js:110 js/filelist.js:992
+#: js/filelist.js:102 js/files.js:552
+msgid "Error moving file"
+msgstr "Viga faili eemaldamisel"
+
+#: js/filelist.js:102 js/files.js:552
+msgid "Error"
+msgstr "Viga"
+
+#: js/filelist.js:267 js/filelist.js:1113
 msgid "Pending"
 msgstr "Ootel"
 
-#: js/filelist.js:456
+#: js/filelist.js:630
 msgid "Could not rename file"
 msgstr "Ei suuda faili ümber nimetada"
 
-#: js/filelist.js:591
-msgid "replaced {new_name} with {old_name}"
-msgstr "asendas nime {old_name} nimega {new_name}"
-
-#: js/filelist.js:591
-msgid "undo"
-msgstr "tagasi"
-
-#: js/filelist.js:662
+#: js/filelist.js:789
 msgid "Error deleting file."
 msgstr "Viga faili kustutamisel."
 
-#: js/filelist.js:687 js/filelist.js:761 js/files.js:691
+#: js/filelist.js:814 js/filelist.js:891 js/files.js:589
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kataloog"
 msgstr[1] "%n kataloogi"
 
-#: js/filelist.js:688 js/filelist.js:762 js/files.js:697
+#: js/filelist.js:815 js/filelist.js:892 js/files.js:595
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fail"
 msgstr[1] "%n faili"
 
-#: js/filelist.js:695
+#: js/filelist.js:822
 msgid "{dirs} and {files}"
 msgstr "{dirs} ja {files}"
 
-#: js/filelist.js:931 js/filelist.js:969
+#: js/filelist.js:1052 js/filelist.js:1090
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Laadin üles %n faili"
@@ -251,7 +251,7 @@ msgstr[1] "Laadin üles %n faili"
 
 #: js/files.js:96
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" on vigane failinimi."
 
 #: js/files.js:117
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -280,29 +280,21 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr "Krüpteering on keelatud, kuid sinu failid on endiselt krüpteeritud. Palun vaata oma personaalseid seadeid oma failide dekrüpteerimiseks."
 
-#: js/files.js:379
+#: js/files.js:331
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. "
 
-#: js/files.js:610 js/files.js:654
-msgid "Error moving file"
-msgstr "Viga faili eemaldamisel"
-
-#: js/files.js:610 js/files.js:654
-msgid "Error"
-msgstr "Viga"
-
-#: js/files.js:672 templates/index.php:68
+#: js/files.js:570 templates/index.php:67
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:673 templates/index.php:80
+#: js/files.js:571 templates/index.php:79
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:674 templates/index.php:82
+#: js/files.js:572 templates/index.php:81
 msgid "Modified"
 msgstr "Muudetud"
 
@@ -310,109 +302,109 @@ msgstr "Muudetud"
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr "Vigane kausta nimi. Nime 'Shared' kasutamine on reserveeritud."
 
-#: lib/app.php:111
+#: lib/app.php:93
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s ümbernimetamine ebaõnnestus"
 
-#: lib/helper.php:14 templates/index.php:23
+#: lib/helper.php:14 templates/index.php:22
 msgid "Upload"
 msgstr "Lae üles"
 
-#: templates/admin.php:5
+#: templates/admin.php:4
 msgid "File handling"
 msgstr "Failide käsitlemine"
 
-#: templates/admin.php:7
+#: templates/admin.php:6
 msgid "Maximum upload size"
 msgstr "Maksimaalne üleslaadimise suurus"
 
-#: templates/admin.php:10
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "maks. võimalik: "
 
-#: templates/admin.php:15
+#: templates/admin.php:14
 msgid "Needed for multi-file and folder downloads."
 msgstr "Vajalik mitme faili ja kausta allalaadimiste jaoks."
 
-#: templates/admin.php:17
+#: templates/admin.php:16
 msgid "Enable ZIP-download"
 msgstr "Luba ZIP-ina allalaadimine"
 
-#: templates/admin.php:20
+#: templates/admin.php:19
 msgid "0 is unlimited"
 msgstr "0 tähendab piiramatut"
 
-#: templates/admin.php:22
+#: templates/admin.php:21
 msgid "Maximum input size for ZIP files"
 msgstr "Maksimaalne ZIP-faili sisestatava faili suurus"
 
-#: templates/admin.php:26
+#: templates/admin.php:25
 msgid "Save"
 msgstr "Salvesta"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "Uus"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "New text file"
 msgstr "Uus tekstifail"
 
-#: templates/index.php:10
+#: templates/index.php:9
 msgid "Text file"
 msgstr "Tekstifail"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "New folder"
 msgstr "Uus kaust"
 
-#: templates/index.php:14
+#: templates/index.php:13
 msgid "Folder"
 msgstr "Kaust"
 
-#: templates/index.php:17
+#: templates/index.php:16
 msgid "From link"
 msgstr "Allikast"
 
-#: templates/index.php:41
+#: templates/index.php:40
 msgid "Deleted files"
 msgstr "Kustutatud failid"
 
-#: templates/index.php:46
+#: templates/index.php:45
 msgid "Cancel upload"
 msgstr "Tühista üleslaadimine"
 
-#: templates/index.php:52
+#: templates/index.php:51
 msgid "You don’t have permission to upload or create files here"
 msgstr "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks"
 
-#: templates/index.php:57
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "Siin pole midagi. Lae midagi üles!"
 
-#: templates/index.php:74
+#: templates/index.php:73
 msgid "Download"
 msgstr "Lae alla"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Kustuta"
 
-#: templates/index.php:98
+#: templates/index.php:96
 msgid "Upload too large"
 msgstr "Üleslaadimine on liiga suur"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse."
 
-#: templates/index.php:105
+#: templates/index.php:103
 msgid "Files are being scanned, please wait."
 msgstr "Faile skannitakse, palun oota."
 
-#: templates/index.php:108
+#: templates/index.php:106
 msgid "Current scanning"
 msgstr "Praegune skannimine"

@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "Помилка при завантаженні шаблону повідомлення: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} файловий конфлікт","{count} файлових конфліктів","{count} файлових конфліктів"),
 "One file conflict" => "Один файловий конфлікт",
+"New Files" => "Нових Файлів",
 "Which files do you want to keep?" => "Які файли ви хочете залишити?",
 "If you select both versions, the copied file will have a number added to its name." => "Якщо ви оберете обидві версії, скопійований файл буде мати номер, доданий у його ім'я.",
 "Cancel" => "Відмінити",

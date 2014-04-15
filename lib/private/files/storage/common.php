@@ -118,17 +118,17 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if (!$handle) {
 			return false;
 		}
-		$size = $this->filesize($path);
-		if ($size == 0) {
-			return '';
-		}
-		return fread($handle, $size);
+		$data = stream_get_contents($handle);
+		fclose($handle);
+		return $data;
 	}
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
 		$this->removeCachedFile($path);
-		return fwrite($handle, $data);
+		$count = fwrite($handle, $data);
+		fclose($handle);
+		return $count;
 	}
 
 	public function rename($path1, $path2) {
@@ -159,10 +159,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function hash($type, $path, $raw = false) {
-		$tmpFile = $this->getLocalFile($path);
-		$hash = hash($type, $tmpFile, $raw);
-		unlink($tmpFile);
-		return $hash;
+		$fh = $this->fopen($path, 'rb');
+		$ctx = hash_init($type);
+		hash_update_stream($ctx, $fh);
+		fclose($fh);
+		return hash_final($ctx, $raw);
 	}
 
 	public function search($query) {

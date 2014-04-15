@@ -66,6 +66,9 @@ $TRANSLATIONS = array(
 "last month" => "1ヶ月前",
 "_%n month ago_::_%n months ago_" => array("%nヶ月前"),
 "last year" => "1年前",
-"years ago" => "年前"
+"years ago" => "年前",
+"A valid username must be provided" => "有効なユーザー名を指定する必要があります",
+"A valid password must be provided" => "有効なパスワードを指定する必要があります",
+"The username is already being used" => "ユーザ名はすでに使われています"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

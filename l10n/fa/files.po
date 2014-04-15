@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-24 05:00+0000\n"
+"POT-Creation-Date: 2014-04-04 01:55-0400\n"
+"PO-Revision-Date: 2014-04-04 05:56+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "allowed."
 msgstr "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '*'  مجاز نمی باشند."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:138
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:145
 #: lib/app.php:65
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -65,12 +65,12 @@ msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr ""
 
-#: ajax/newfile.php:119
+#: ajax/newfile.php:118
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr ""
 
-#: ajax/newfile.php:156
+#: ajax/newfile.php:146
 msgid "Error when creating the file"
 msgstr ""
 
@@ -82,62 +82,62 @@ msgstr ""
 msgid "Error when creating the folder"
 msgstr ""
 
-#: ajax/upload.php:19 ajax/upload.php:53
+#: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
 msgstr "قادر به تنظیم پوشه آپلود نمی باشد."
 
-#: ajax/upload.php:29
+#: ajax/upload.php:33
 msgid "Invalid Token"
 msgstr "رمز نامعتبر"
 
-#: ajax/upload.php:68
+#: ajax/upload.php:75
 msgid "No file was uploaded. Unknown error"
 msgstr "هیچ فایلی آپلود نشد.خطای ناشناس"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:82
 msgid "There is no error, the file uploaded with success"
 msgstr "هیچ خطایی نیست بارگذاری پرونده موفقیت آمیز بود"
 
-#: ajax/upload.php:76
+#: ajax/upload.php:83
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "پرونده آپلود شده بیش ازدستور  ماکزیمم_حجم فایل_برای آپلود در   php.ini استفاده کرده است."
 
-#: ajax/upload.php:78
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "حداکثر حجم قابل بار گذاری از طریق HTML MAX_FILE_SIZE است"
 
-#: ajax/upload.php:79
+#: ajax/upload.php:86
 msgid "The uploaded file was only partially uploaded"
 msgstr "پرونده بارگذاری شده فقط تاحدودی بارگذاری شده"
 
-#: ajax/upload.php:80
+#: ajax/upload.php:87
 msgid "No file was uploaded"
 msgstr "هیچ پروندهای بارگذاری نشده"
 
-#: ajax/upload.php:81
+#: ajax/upload.php:88
 msgid "Missing a temporary folder"
 msgstr "یک پوشه موقت گم شده"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:89
 msgid "Failed to write to disk"
 msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 
-#: ajax/upload.php:100
+#: ajax/upload.php:107
 msgid "Not enough storage available"
 msgstr "فضای کافی در دسترس نیست"
 
-#: ajax/upload.php:157
+#: ajax/upload.php:159
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:167
+#: ajax/upload.php:169
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:186
+#: ajax/upload.php:184
 msgid "Invalid directory."
 msgstr "فهرست راهنما نامعتبر می باشد."
 
@@ -171,77 +171,77 @@ msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. "
 
-#: js/file-upload.js:564
+#: js/file-upload.js:542
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:568
+#: js/file-upload.js:546
 msgid "In the home folder 'Shared' is a reserved filename"
 msgstr ""
 
-#: js/file-upload.js:570 js/filelist.js:430
+#: js/file-upload.js:548 js/filelist.js:603
 msgid "{new_name} already exists"
 msgstr "{نام _جدید} در حال حاضر وجود دارد."
 
-#: js/file-upload.js:636
+#: js/file-upload.js:600
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:652
+#: js/file-upload.js:613
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:702
+#: js/file-upload.js:653
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:149
+#: js/fileactions.js:164
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/fileactions.js:162
+#: js/fileactions.js:177
 msgid "Delete permanently"
 msgstr "حذف قطعی"
 
-#: js/fileactions.js:223
+#: js/fileactions.js:238
 msgid "Rename"
 msgstr "تغییرنام"
 
-#: js/filelist.js:107 js/filelist.js:110 js/filelist.js:992
+#: js/filelist.js:102 js/files.js:552
+msgid "Error moving file"
+msgstr ""
+
+#: js/filelist.js:102 js/files.js:552
+msgid "Error"
+msgstr "خطا"
+
+#: js/filelist.js:267 js/filelist.js:1113
 msgid "Pending"
 msgstr "در انتظار"
 
-#: js/filelist.js:456
+#: js/filelist.js:630
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:591
-msgid "replaced {new_name} with {old_name}"
-msgstr "{نام_جدید} با { نام_قدیمی} جایگزین شد."
-
-#: js/filelist.js:591
-msgid "undo"
-msgstr "بازگشت"
-
-#: js/filelist.js:662
+#: js/filelist.js:789
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:687 js/filelist.js:761 js/files.js:691
+#: js/filelist.js:814 js/filelist.js:891 js/files.js:589
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:688 js/filelist.js:762 js/files.js:697
+#: js/filelist.js:815 js/filelist.js:892 js/files.js:595
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 
-#: js/filelist.js:695
+#: js/filelist.js:822
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: js/filelist.js:931 js/filelist.js:969
+#: js/filelist.js:1052 js/filelist.js:1090
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "در حال بارگذاری %n فایل"
@@ -277,29 +277,21 @@ msgid ""
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:379
+#: js/files.js:331
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "دانلود شما در حال آماده شدن است. در صورتیکه پرونده ها بزرگ باشند ممکن است مدتی طول بکشد."
 
-#: js/files.js:610 js/files.js:654
-msgid "Error moving file"
-msgstr ""
-
-#: js/files.js:610 js/files.js:654
-msgid "Error"
-msgstr "خطا"
-
-#: js/files.js:672 templates/index.php:68
+#: js/files.js:570 templates/index.php:67
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:673 templates/index.php:80
+#: js/files.js:571 templates/index.php:79
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:674 templates/index.php:82
+#: js/files.js:572 templates/index.php:81
 msgid "Modified"
 msgstr "تاریخ"
 
@@ -307,109 +299,109 @@ msgstr "تاریخ"
 msgid "Invalid folder name. Usage of 'Shared' is reserved."
 msgstr ""
 
-#: lib/app.php:111
+#: lib/app.php:93
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s نمیتواند تغییر نام دهد."
 
-#: lib/helper.php:14 templates/index.php:23
+#: lib/helper.php:14 templates/index.php:22
 msgid "Upload"
 msgstr "بارگزاری"
 
-#: templates/admin.php:5
+#: templates/admin.php:4
 msgid "File handling"
 msgstr "اداره پرونده ها"
 
-#: templates/admin.php:7
+#: templates/admin.php:6
 msgid "Maximum upload size"
 msgstr "حداکثر اندازه بارگزاری"
 
-#: templates/admin.php:10
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "حداکثرمقدارممکن:"
 
-#: templates/admin.php:15
+#: templates/admin.php:14
 msgid "Needed for multi-file and folder downloads."
 msgstr "احتیاج پیدا خواهد شد برای چند پوشه و پرونده"
 
-#: templates/admin.php:17
+#: templates/admin.php:16
 msgid "Enable ZIP-download"
 msgstr "فعال سازی بارگیری پرونده های فشرده"
 
-#: templates/admin.php:20
+#: templates/admin.php:19
 msgid "0 is unlimited"
 msgstr "0 نامحدود است"
 
-#: templates/admin.php:22
+#: templates/admin.php:21
 msgid "Maximum input size for ZIP files"
 msgstr "حداکثرمقدار برای بار گزاری پرونده های فشرده"
 
-#: templates/admin.php:26
+#: templates/admin.php:25
 msgid "Save"
 msgstr "ذخیره"
 
-#: templates/index.php:6
+#: templates/index.php:5
 msgid "New"
 msgstr "جدید"
 
-#: templates/index.php:9
+#: templates/index.php:8
 msgid "New text file"
 msgstr ""
 
-#: templates/index.php:10
+#: templates/index.php:9
 msgid "Text file"
 msgstr "فایل متنی"
 
-#: templates/index.php:13
+#: templates/index.php:12
 msgid "New folder"
 msgstr "پوشه جدید"
 
-#: templates/index.php:14
+#: templates/index.php:13
 msgid "Folder"
 msgstr "پوشه"
 
-#: templates/index.php:17
+#: templates/index.php:16
 msgid "From link"
 msgstr "از پیوند"
 
-#: templates/index.php:41
+#: templates/index.php:40
 msgid "Deleted files"
 msgstr "فایل های حذف شده"
 
-#: templates/index.php:46
+#: templates/index.php:45
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:52
+#: templates/index.php:51
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/index.php:57
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:74
+#: templates/index.php:73
 msgid "Download"
 msgstr "دانلود"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "حذف"
 
-#: templates/index.php:98
+#: templates/index.php:96
 msgid "Upload too large"
 msgstr "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)"
 
-#: templates/index.php:100
+#: templates/index.php:98
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:105
+#: templates/index.php:103
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:108
+#: templates/index.php:106
 msgid "Current scanning"
 msgstr "بازرسی کنونی"

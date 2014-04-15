@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "jagamine on peatatud",
 "For more info, please ask the person who sent this link." => "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
 "shared by %s" => "jagas %s",
+"Download %s" => "Laadi alla %s",
 "Direct link" => "Otsene link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

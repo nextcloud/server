@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Back" => "Înapoi",
 "Continue" => "Continuă",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Atenție</b> Modulul PHP LDAP nu este instalat, infrastructura nu va funcționa. Contactează administratorul sistemului pentru al instala.",
-"Case insensitve LDAP server (Windows)" => "Server LDAP insensibil la majuscule (Windows)",
 "Turn off SSL certificate validation." => "Oprește validarea certificatelor SSL ",
 "in seconds. A change empties the cache." => "în secunde. O schimbare curăță memoria tampon.",
 "User Display Name Field" => "Câmpul cu numele vizibil al utilizatorului",

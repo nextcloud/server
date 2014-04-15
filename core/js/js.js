@@ -159,6 +159,7 @@ function escapeHTML(s) {
 * @param file The filename
 * @param dir The directory the file is in - e.g. $('#dir').val()
 * @return string
+* @deprecated use Files.getDownloadURL() instead
 */
 function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
@@ -294,7 +295,7 @@ var OC={
 	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
-			file+=(SVGSupport())?'.svg':'.png';
+			file+=(OC.Util.hasSVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
 	},
@@ -371,6 +372,7 @@ var OC={
 	 */
 	parseQueryString:function(queryString){
 		var parts,
+			pos,
 			components,
 			result = {},
 			key,
@@ -378,12 +380,25 @@ var OC={
 		if (!queryString){
 			return null;
 		}
-		if (queryString[0] === '?'){
-			queryString = queryString.substr(1);
+		pos = queryString.indexOf('?');
+		if (pos >= 0){
+			queryString = queryString.substr(pos + 1);
 		}
-		parts = queryString.split('&');
+		parts = queryString.replace(/\+/g, '%20').split('&');
 		for (var i = 0; i < parts.length; i++){
-			components = parts[i].split('=');
+			// split on first equal sign
+			var part = parts[i]
+			pos = part.indexOf('=');
+			if (pos >= 0) {
+				components = [
+					part.substr(0, pos),
+					part.substr(pos + 1)
+				]
+			}
+			else {
+				// key only
+				components = [part];
+			}
 			if (!components.length){
 				continue;
 			}
@@ -391,8 +406,14 @@ var OC={
 			if (!key){
 				continue;
 			}
-			value = components[1];
-			result[key] = value && decodeURIComponent(value);
+			// if equal sign was there, return string
+			if (components.length > 1) {
+				result[key] = decodeURIComponent(components[1]);
+			}
+			// no equal sign => null value
+			else {
+				result[key] = null;
+			}
 		}
 		return result;
 	},
@@ -476,12 +497,59 @@ var OC={
 							throw e;
 						});
 					}
-					if(!SVGSupport()) {
-						replaceSVG();
+					if(!OC.Util.hasSVGSupport()) {
+						OC.Util.replaceSVG();
 					}
 				}).show();
 			}, 'html');
 		}
+	},
+
+	// for menu toggling
+	registerMenu: function($toggle, $menuEl) {
+		$menuEl.addClass('menu');
+		$toggle.addClass('menutoggle');
+		$toggle.on('click.menu', function(event) {
+			if ($menuEl.is(OC._currentMenu)) {
+				$menuEl.hide();
+				OC._currentMenu = null;
+				OC._currentMenuToggle = null;
+				return false;
+			}
+			// another menu was open?
+			else if (OC._currentMenu) {
+				// close it
+				OC._currentMenu.hide();
+			}
+			$menuEl.show();
+			OC._currentMenu = $menuEl;
+			OC._currentMenuToggle = $toggle;
+			return false
+		});
+	},
+
+	unregisterMenu: function($toggle, $menuEl) {
+		// close menu if opened
+		if ($menuEl.is(OC._currentMenu)) {
+			$menuEl.hide();
+			OC._currentMenu = null;
+			OC._currentMenuToggle = null;
+		}
+		$toggle.off('click.menu').removeClass('menutoggle');
+		$menuEl.removeClass('menu');
+	},
+
+	/**
+	 * Wrapper for matchMedia
+	 *
+	 * This is makes it possible for unit tests to
+	 * stub matchMedia (which doesn't work in PhantomJS)
+	 */
+	_matchMedia: function(media) {
+		if (window.matchMedia) {
+			return window.matchMedia(media);
+		}
+		return false;
 	}
 };
 OC.search.customResults={};
@@ -712,12 +780,12 @@ SVGSupport.checkMimeType=function(){
 						if(value[0]==='"'){
 							value=value.substr(1,value.length-2);
 						}
-						headers[parts[0]]=value;
+						headers[parts[0].toLowerCase()]=value;
 					}
 				}
 			});
-			if(headers["Content-Type"]!=='image/svg+xml'){
-				replaceSVG();
+			if(headers["content-type"]!=='image/svg+xml'){
+				OC.Util.replaceSVG();
 				SVGSupport.checkMimeType.correct=false;
 			}
 		}
@@ -725,35 +793,10 @@ SVGSupport.checkMimeType=function(){
 };
 SVGSupport.checkMimeType.correct=true;
 
-//replace all svg images with png for browser compatibility
-function replaceSVG(){
-	$('img.svg').each(function(index,element){
-		element=$(element);
-		var src=element.attr('src');
-		element.attr('src',src.substr(0,src.length-3)+'png');
-	});
-	$('.svg').each(function(index,element){
-		element=$(element);
-		var background=element.css('background-image');
-		if(background){
-			var i=background.lastIndexOf('.svg');
-			if(i>=0){
-				background=background.substr(0,i)+'.png'+background.substr(i+4);
-				element.css('background-image',background);
-			}
-		}
-		element.find('*').each(function(index,element) {
-			element=$(element);
-			var background=element.css('background-image');
-			if(background){
-				var i=background.lastIndexOf('.svg');
-				if(i>=0){
-					background=background.substr(0,i)+'.png'+background.substr(i+4);
-					element.css('background-image',background);
-				}
-			}
-		});
-	});
+// replace all svg images with png for browser compatibility
+// @deprecated use OC.Util.replaceSVG instead
+function replaceSVG($el){
+	return OC.Util.replaceSVG($el);
 }
 
 /**
@@ -831,8 +874,8 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
-		replaceSVG();
+	if(!OC.Util.hasSVGSupport()){ //replace all svg images with png images for browser that dont support svg
+		OC.Util.replaceSVG();
 	}else{
 		SVGSupport.checkMimeType();
 	}
@@ -940,6 +983,67 @@ function initCore() {
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
 	$('input').tipsy({gravity:'w', fade:true});
+
+	// toggle for menus
+	$(document).on('mouseup.closemenus', function(event) {
+		var $el = $(event.target);
+		if ($el.closest('.menu').length || $el.closest('.menutoggle').length) {
+			// don't close when clicking on the menu directly or a menu toggle
+			return false;
+		}
+		if (OC._currentMenu) {
+			OC._currentMenu.hide();
+		}
+		OC._currentMenu = null;
+		OC._currentMenuToggle = null;
+	});
+
+
+	/**
+	 * Set up the main menu toggle to react to media query changes.
+	 * If the screen is small enough, the main menu becomes a toggle.
+	 * If the screen is bigger, the main menu is not a toggle any more.
+	 */
+	function setupMainMenu() {
+		// toggle the navigation on mobile
+		if (!OC._matchMedia) {
+			return;
+		}
+		var mq = OC._matchMedia('(max-width: 768px)');
+		var lastMatch = mq.matches;
+		var $toggle = $('#header #owncloud');
+		var $navigation = $('#navigation');
+
+		function updateMainMenu() {
+			// mobile mode ?
+			if (lastMatch && !$toggle.hasClass('menutoggle')) {
+				// init the menu
+				OC.registerMenu($toggle, $navigation);
+				$toggle.data('oldhref', $toggle.attr('href'));
+				$toggle.attr('href', '#');
+				$navigation.hide();
+			}
+			else {
+				OC.unregisterMenu($toggle, $navigation);
+				$toggle.attr('href', $toggle.data('oldhref'));
+				$navigation.show();
+			}
+		}
+
+		updateMainMenu();
+
+		// TODO: debounce this
+		$(window).resize(function() {
+			if (lastMatch !== mq.matches) {
+				lastMatch = mq.matches;
+				updateMainMenu();
+			}
+		});
+	}
+
+	if (window.matchMedia) {
+		setupMainMenu();
+	}
 }
 
 $(document).ready(initCore);
@@ -1004,6 +1108,72 @@ function relative_modified_date(timestamp) {
 	else if(timediff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
 }
+
+OC.Util = {
+	/**
+	 * Returns whether the browser supports SVG
+	 *
+	 * @return true if the browser supports SVG, false otherwise
+	 */
+	// TODO: replace with original function
+	hasSVGSupport: SVGSupport,
+	/**
+	 * If SVG is not supported, replaces the given icon's extension
+	 * from ".svg" to ".png".
+	 * If SVG is supported, return the image path as is.
+	 *
+	 * @param file image path with svg extension
+	 * @return fixed image path with png extension if SVG is not
+	 * supported
+	 */
+	replaceSVGIcon: function(file) {
+		if (!OC.Util.hasSVGSupport()) {
+			var i = file.lastIndexOf('.svg');
+			if (i >= 0) {
+				file = file.substr(0, i) + '.png' + file.substr(i+4);
+			}
+		}
+		return file;
+	},
+	/**
+	 * Replace SVG images in all elements that have the "svg" class set
+	 * with PNG images.
+	 *
+	 * @param $el root element from which to search, defaults to $('body')
+	 */
+	replaceSVG: function($el) {
+		if (!$el) {
+			$el = $('body');
+		}
+		$el.find('img.svg').each(function(index,element){
+			element=$(element);
+			var src=element.attr('src');
+			element.attr('src',src.substr(0, src.length-3) + 'png');
+		});
+		$el.find('.svg').each(function(index,element){
+			element = $(element);
+			var background = element.css('background-image');
+			if (background){
+				var i = background.lastIndexOf('.svg');
+				if (i >= 0){
+					background = background.substr(0,i) + '.png' + background.substr(i + 4);
+					element.css('background-image', background);
+				}
+			}
+			element.find('*').each(function(index, element) {
+				element = $(element);
+				var background = element.css('background-image');
+				if (background) {
+					var i = background.lastIndexOf('.svg');
+					if(i >= 0){
+						background = background.substr(0,i) + '.png' + background.substr(i + 4);
+						element.css('background-image', background);
+					}
+				}
+			});
+		});
+	}
+};
 
 /**
  * get a variable by name

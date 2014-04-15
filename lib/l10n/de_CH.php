@@ -47,6 +47,8 @@ $TRANSLATIONS = array(
 "last month" => "Letzten Monat",
 "_%n month ago_::_%n months ago_" => array("","Vor %n Monaten"),
 "last year" => "Letztes Jahr",
-"years ago" => "Vor  Jahren"
+"years ago" => "Vor  Jahren",
+"A valid username must be provided" => "Es muss ein gültiger Benutzername angegeben werden",
+"A valid password must be provided" => "Es muss ein gültiges Passwort angegeben werden"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

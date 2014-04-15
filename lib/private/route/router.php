@@ -114,10 +114,10 @@ class Router implements IRouter {
 			}
 		}
 		foreach ($routingFiles as $app => $file) {
-			if (!$this->loadedApps[$app]) {
+			if (!isset($this->loadedApps[$app])) {
 				$this->loadedApps[$app] = true;
 				$this->useCollection($app);
-				require_once $file;
+				$this->requireRouteFile($file);
 				$collection = $this->getCollection($app);
 				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
@@ -183,7 +183,7 @@ class Router implements IRouter {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 5) === '/ocs/' or substr($url, 0, 10) === '/settings/') {
+		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('core');
 		} else {
 			$this->loadRoutes();
@@ -228,6 +228,14 @@ class Router implements IRouter {
 	public function generate($name, $parameters = array(), $absolute = false) {
 		$this->loadRoutes();
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
+	}
+
+	/**
+	 * To isolate the variable scope used inside the $file it is required in it's own method
+	 * @param $file
+	 */
+	private function requireRouteFile($file) {
+		require_once $file;
 	}
 
 }

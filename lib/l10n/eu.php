@@ -60,6 +60,9 @@ $TRANSLATIONS = array(
 "last month" => "joan den hilabetean",
 "_%n month ago_::_%n months ago_" => array("orain dela hilabete %n","orain dela %n hilabete"),
 "last year" => "joan den urtean",
-"years ago" => "urte"
+"years ago" => "urte",
+"A valid username must be provided" => "Baliozko erabiltzaile izena eman behar da",
+"A valid password must be provided" => "Baliozko pasahitza eman behar da",
+"The username is already being used" => "Erabiltzaile izena dagoeneko erabiltzen ari da"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

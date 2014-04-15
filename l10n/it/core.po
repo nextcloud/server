@@ -4,15 +4,15 @@
 # 
 # Translators:
 # nappo <leone@inventati.org>, 2013
-# idetao <marcxosm@gmail.com>, 2013
+# idetao <marcxosm@gmail.com>, 2013-2014
 # Paolo Velati <paolo.velati@gmail.com>, 2013-2014
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-23 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 09:00+0000\n"
+"POT-Creation-Date: 2014-04-11 01:54-0400\n"
+"PO-Revision-Date: 2014-04-10 22:35+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -21,24 +21,24 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "La data di scadenza è nel passato."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Impossibile inviare email ai seguenti utenti: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Modalità di manutenzione attivata"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Modalità di manutenzione disattivata"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Database aggiornato"
 
@@ -138,127 +138,135 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Dicembre"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Salvataggio in corso..."
 
-#: js/js.js:995
+#: js/js.js:1099
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:996
+#: js/js.js:1100
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuto fa"
 msgstr[1] "%n minuti fa"
 
-#: js/js.js:997
+#: js/js.js:1101
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ora fa"
 msgstr[1] "%n ore fa"
 
-#: js/js.js:998
+#: js/js.js:1102
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:999
+#: js/js.js:1103
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:1000
+#: js/js.js:1104
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n giorno fa"
 msgstr[1] "%n giorni fa"
 
-#: js/js.js:1001
+#: js/js.js:1105
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:1002
+#: js/js.js:1106
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n mese fa"
 msgstr[1] "%n mesi fa"
 
-#: js/js.js:1003
+#: js/js.js:1107
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:1004
+#: js/js.js:1108
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:1005
+#: js/js.js:1109
 msgid "years ago"
 msgstr "anni fa"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Scegli"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Errore durante il caricamento del modello del selettore file: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Sì"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Errore durante il caricamento del modello di messaggio: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} file in conflitto"
 msgstr[1] "{count} file in conflitto"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Un file in conflitto"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "File nuovi"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "File già esistenti"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Quali file vuoi mantenere?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se selezioni entrambe le versioni, sarà aggiunto un numero al nome del file copiato."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Annulla"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Continua"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(tutti i selezionati)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:457
 msgid "({count} selected)"
 msgstr "({count} selezionati)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:465
 msgid "Error loading file exists template"
 msgstr "Errore durante il caricamento del modello del file esistente"
 
@@ -290,12 +298,12 @@ msgstr "Condivisi"
 msgid "Share"
 msgstr "Condividi"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Errore"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:787
 msgid "Error while sharing"
 msgstr "Errore durante la condivisione"
 
@@ -359,71 +367,71 @@ msgstr "Condividi tramite email:"
 msgid "No people found"
 msgstr "Non sono state trovate altre persone"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:383
 msgid "group"
 msgstr "gruppo"
 
-#: js/share.js:335
+#: js/share.js:355
 msgid "Resharing is not allowed"
 msgstr "La ri-condivisione non è consentita"
 
-#: js/share.js:379
+#: js/share.js:399
 msgid "Shared in {item} with {user}"
 msgstr "Condiviso in {item} con {user}"
 
-#: js/share.js:401
+#: js/share.js:421
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/share.js:409
+#: js/share.js:429
 msgid "notify by email"
 msgstr "notifica tramite email"
 
-#: js/share.js:412
+#: js/share.js:432
 msgid "can edit"
 msgstr "può modificare"
 
-#: js/share.js:414
+#: js/share.js:434
 msgid "access control"
 msgstr "controllo d'accesso"
 
-#: js/share.js:417
+#: js/share.js:437
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:420
+#: js/share.js:440
 msgid "update"
 msgstr "aggiornare"
 
-#: js/share.js:423
+#: js/share.js:443
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:426
+#: js/share.js:446
 msgid "share"
 msgstr "condividi"
 
-#: js/share.js:698
+#: js/share.js:718
 msgid "Password protected"
 msgstr "Protetta da password"
 
-#: js/share.js:711
+#: js/share.js:731
 msgid "Error unsetting expiration date"
 msgstr "Errore durante la rimozione della data di scadenza"
 
-#: js/share.js:729
+#: js/share.js:749
 msgid "Error setting expiration date"
 msgstr "Errore durante l'impostazione della data di scadenza"
 
-#: js/share.js:754
+#: js/share.js:774
 msgid "Sending ..."
 msgstr "Invio in corso..."
 
-#: js/share.js:765
+#: js/share.js:785
 msgid "Email sent"
 msgstr "Messaggio inviato"
 
-#: js/share.js:789
+#: js/share.js:809
 msgid "Warning"
 msgstr "Avviso"
 
@@ -537,14 +545,14 @@ msgstr "Nuova password"
 msgid "Reset password"
 msgstr "Ripristina la password"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr "Mac OS X non è supportato e %s non funzionerà correttamente su questa piattaforma. Usalo a tuo rischio!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr "Per avere il risultato migliore, prendi in considerazione l'utilizzo di un server GNU/Linux."

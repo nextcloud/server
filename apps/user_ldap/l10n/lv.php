@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Norādi rezerves serveri (nav obligāti). Tam ir jābūt galvenā LDAP/AD servera kopijai.",
 "Backup (Replica) Port" => "Rezerves (kopijas) ports",
 "Disable Main Server" => "Deaktivēt galveno serveri",
-"Case insensitve LDAP server (Windows)" => "Reģistrnejutīgs LDAP serveris (Windows)",
 "Turn off SSL certificate validation." => "Izslēgt SSL sertifikātu validēšanu.",
 "Cache Time-To-Live" => "Kešatmiņas dzīvlaiks",
 "in seconds. A change empties the cache." => "sekundēs. Izmaiņas iztukšos kešatmiņu.",

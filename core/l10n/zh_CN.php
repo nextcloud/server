@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "Error loading message template: {error}" => "加载消息模板出错: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} 个文件冲突"),
 "One file conflict" => "1个文件冲突",
+"New Files" => "新文件",
 "Which files do you want to keep?" => "想要保留哪一个文件呢？",
 "If you select both versions, the copied file will have a number added to its name." => "如果同时选择了连个版本，复制的文件名将会添加上一个数字。",
 "Cancel" => "取消",

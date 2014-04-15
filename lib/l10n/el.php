@@ -44,7 +44,9 @@ $TRANSLATIONS = array(
 "DB Error: \"%s\"" => "Σφάλμα Βάσης Δεδομένων: \"%s\"",
 "Offending command was: \"%s\"" => "Η εντολη παραβατικοτητας ηταν: \"%s\"",
 "MySQL/MariaDB user '%s'@'localhost' exists already." => "Υπάρχει ήδη ο χρήστης '%s'@'localhost' της MySQL/MariaDB",
+"Drop this user from MySQL/MariaDB" => "Κατάργηση του χρήστη από MySQL/MariaDB",
 "MySQL/MariaDB user '%s'@'%%' already exists" => "Υπάρχει ήδη ο χρήστης '%s'@'%%' της MySQL/MariaDB",
+"Drop this user from MySQL/MariaDB." => "Κατάργηση του χρήστη από MySQL/MariaDB.",
 "Oracle connection could not be established" => "Αδυναμία σύνδεσης Oracle",
 "Oracle username and/or password not valid" => "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle",
 "Offending command was: \"%s\", name: %s, password: %s" => "Η εντολη παραβατικοτητας ηταν: \"%s\", ονομα: %s, κωδικος: %s",
@@ -64,6 +66,8 @@ $TRANSLATIONS = array(
 "last month" => "τελευταίο μήνα",
 "_%n month ago_::_%n months ago_" => array("","%n μήνες πριν"),
 "last year" => "τελευταίο χρόνο",
-"years ago" => "χρόνια πριν"
+"years ago" => "χρόνια πριν",
+"A valid username must be provided" => "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
+"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

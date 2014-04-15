@@ -66,6 +66,9 @@ $TRANSLATIONS = array(
 "last month" => "el mes passat",
 "_%n month ago_::_%n months ago_" => array("fa %n mes","fa %n mesos"),
 "last year" => "l'any passat",
-"years ago" => "anys enrere"
+"years ago" => "anys enrere",
+"A valid username must be provided" => "Heu de facilitar un nom d'usuari vàlid",
+"A valid password must be provided" => "Heu de facilitar una contrasenya vàlida",
+"The username is already being used" => "El nom d'usuari ja està en ús"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

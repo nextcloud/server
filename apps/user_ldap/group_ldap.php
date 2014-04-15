@@ -277,6 +277,84 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
+	 * @brief returns the number of users in a group, who match the search term
+	 * @param string the internal group name
+	 * @param string optional, a search string
+	 * @returns int | bool
+	 */
+	public function countUsersInGroup($gid, $search = '') {
+		$cachekey = 'countUsersInGroup-'.$gid.'-'.$search;
+		if(!$this->enabled || !$this->groupExists($gid)) {
+			return false;
+		}
+		$groupUsers = $this->access->connection->getFromCache($cachekey);
+		if(!is_null($groupUsers)) {
+			return $groupUsers;
+		}
+
+		$groupDN = $this->access->groupname2dn($gid);
+		if(!$groupDN) {
+			// group couldn't be found, return empty resultset
+			$this->access->connection->writeToCache($cachekey, false);
+			return false;
+		}
+
+		$members = array_keys($this->_groupMembers($groupDN));
+		if(!$members) {
+			//in case users could not be retrieved, return empty resultset
+			$this->access->connection->writeToCache($cachekey, false);
+			return false;
+		}
+
+		if(empty($search)) {
+			$groupUsers = count($members);
+			$this->access->connection->writeToCache($cachekey, $groupUsers);
+			return $groupUsers;
+		}
+		$isMemberUid =
+			(strtolower($this->access->connection->ldapGroupMemberAssocAttr)
+			=== 'memberuid');
+
+		//we need to apply the search filter
+		//alternatives that need to be checked:
+		//a) get all users by search filter and array_intersect them
+		//b) a, but only when less than 1k 10k ?k users like it is
+		//c) put all DNs|uids in a LDAP filter, combine with the search string
+		//   and let it count.
+		//For now this is not important, because the only use of this method
+		//does not supply a search string
+		$groupUsers = array();
+		foreach($members as $member) {
+			if($isMemberUid) {
+				//we got uids, need to get their DNs to 'tranlsate' them to usernames
+				$filter = $this->access->combineFilterWithAnd(array(
+					\OCP\Util::mb_str_replace('%uid', $member,
+						$this->access->connection->ldapLoginFilter, 'UTF-8'),
+					$this->access->getFilterPartForUserSearch($search)
+				));
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				if(count($ldap_users) < 1) {
+					continue;
+				}
+				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
+			} else {
+				//we need to apply the search filter now
+				if(!$this->access->readAttribute($member,
+					$this->access->connection->ldapUserDisplayName,
+					$this->access->getFilterPartForUserSearch($search))) {
+					continue;
+				}
+				// dn2username will also check if the users belong to the allowed base
+				if($ocname = $this->access->dn2username($member)) {
+					$groupUsers[] = $ocname;
+				}
+			}
+		}
+
+		return count($groupUsers);
+	}
+
+	/**
 	 * @brief get a list of all display names in a group
 	 * @returns array with display names (value) and user ids(key)
 	 */
@@ -299,9 +377,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @brief get a list of all groups
 	 * @returns array with group names
 	 *
-	 * Returns a list with all groups
+	 * Returns a list with all groups (used by getGroups)
 	 */
-	public function getGroups($search = '', $limit = -1, $offset = 0) {
+	protected function getGroupsChunk($search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
@@ -332,6 +410,48 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$this->access->connection->writeToCache($cachekey, $ldap_groups);
 		return $ldap_groups;
+	}
+
+	/**
+	 * @brief get a list of all groups using a paged search
+	 * @returns array with group names
+	 *
+	 * Returns a list with all groups
+   	 * Uses a paged search if available to override a
+   	 * server side search limit.
+   	 * (active directory has a limit of 1000 by default)
+	 */
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
+		if(!$this->enabled) {
+			return array();
+		}
+		$pagingsize = $this->access->connection->ldapPagingSize;
+		if ((! $this->access->connection->hasPagedResultSupport)
+		   	|| empty($pagingsize)) {
+			return $this->getGroupsChunk($search, $limit, $offset);
+		}
+		$maxGroups = 100000; // limit max results (just for safety reasons)
+		if ($limit > -1) {
+		   $overallLimit = min($limit, $maxGroups);
+		} else {
+		   $overallLimit = $maxGroups;
+		}
+		$chunkOffset = $offset;
+		$allGroups = array();
+		while ($chunkOffset < $overallLimit) {
+			$chunkLimit = min($pagingsize, $overallLimit - $chunkOffset);
+			$ldapGroups = $this->getGroupsChunk($search, $chunkLimit, $chunkOffset);
+			$nread = count($ldapGroups);
+			\OCP\Util::writeLog('user_ldap', 'getGroups('.$search.'): read '.$nread.' at offset '.$chunkOffset.' (limit: '.$chunkLimit.')', \OCP\Util::DEBUG);
+			if ($nread) {
+				$allGroups = array_merge($allGroups, $ldapGroups);
+				$chunkOffset += $nread;
+			}
+			if ($nread < $chunkLimit) {
+				break;
+			}
+		}
+		return $allGroups;
 	}
 
 	public function groupMatchesFilter($group) {
@@ -376,6 +496,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(OC_GROUP_BACKEND_GET_DISPLAYNAME	& $actions);
+		return (bool)((
+			OC_GROUP_BACKEND_GET_DISPLAYNAME
+			| OC_GROUP_BACKEND_COUNT_USERS
+			) & $actions);
 	}
 }

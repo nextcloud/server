@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-22 01:55-0400\n"
-"PO-Revision-Date: 2014-03-22 05:55+0000\n"
+"POT-Creation-Date: 2014-04-09 01:55-0400\n"
+"PO-Revision-Date: 2014-04-08 06:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Aegumise kuupäev on minevikus."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s "
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Haldusrežiimis sisse lülitatud"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Haldusrežiimis välja lülitatud"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Uuendatud andmebaas"
 
@@ -136,63 +136,63 @@ msgstr "November"
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/js.js:995
+#: js/js.js:1124
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:996
+#: js/js.js:1125
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut tagasi"
 msgstr[1] "%n minutit tagasi"
 
-#: js/js.js:997
+#: js/js.js:1126
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tund tagasi"
 msgstr[1] "%n tundi tagasi"
 
-#: js/js.js:998
+#: js/js.js:1127
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:999
+#: js/js.js:1128
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:1000
+#: js/js.js:1129
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päev tagasi"
 msgstr[1] "%n päeva tagasi"
 
-#: js/js.js:1001
+#: js/js.js:1130
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:1002
+#: js/js.js:1131
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuu tagasi"
 msgstr[1] "%n kuud tagasi"
 
-#: js/js.js:1003
+#: js/js.js:1132
 msgid "months ago"
 msgstr "kuu tagasi"
 
-#: js/js.js:1004
+#: js/js.js:1133
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:1005
+#: js/js.js:1134
 msgid "years ago"
 msgstr "aastat tagasi"
 
@@ -231,54 +231,62 @@ msgid "One file conflict"
 msgstr "Üks failikonflikt"
 
 #: js/oc-dialogs.js:367
+msgid "New Files"
+msgstr "Uued failid"
+
+#: js/oc-dialogs.js:368
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:370
 msgid "Which files do you want to keep?"
 msgstr "Milliseid faile sa soovid alles hoida?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:371
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:379
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:389
 msgid "Continue"
 msgstr "Jätka"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
 msgid "(all selected)"
 msgstr "(kõik valitud)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
 msgid "({count} selected)"
 msgstr "({count} valitud)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:460
 msgid "Error loading file exists template"
 msgstr "Viga faili olemasolu malli laadimisel"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Väga nõrk parool"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Nõrk parool"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Enam-vähem sobiv parool"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Hea parool"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Väga hea parool"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -477,7 +485,7 @@ msgstr "%s parooli lähtestus"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Tekkis tõrge e-posti saatmisel, palun kontakteeru administraatoriga."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -535,17 +543,17 @@ msgstr "Uus parool"
 msgid "Reset password"
 msgstr "Nulli parool"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Mac OS X ei ole toetatud ja %s ei pruugi korralikult toimida sellel platvormil. Kasuta seda omal vastutusel!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "Parema tulemuse saavitamiseks palun kaalu serveris GNU/Linux kasutamist."
 
 #: strings.php:5
 msgid "Personal"
@@ -667,7 +675,7 @@ msgstr "Loo <strong>admini konto</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Andmehoidla ja andmebaas"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -768,7 +776,7 @@ msgstr "Alternatiivsed sisselogimisviisid"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hei,<br><br>annan teada, et %s jagas sinuga <strong>%s</strong>. <a href=\"%s\">Vaata seda!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

@@ -586,4 +586,15 @@ class Google extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			return array('curl');
+		}
+	}
+
 }

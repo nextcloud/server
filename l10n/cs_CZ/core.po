@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-24 01:55-0400\n"
-"PO-Revision-Date: 2014-03-23 22:41+0000\n"
+"POT-Creation-Date: 2014-04-14 01:54-0400\n"
+"PO-Revision-Date: 2014-04-14 04:55+0000\n"
 "Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -25,24 +25,24 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:87
 msgid "Expiration date is in the past."
 msgstr "Datum expirace je v minulosti."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Zapnut režim údržby"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Vypnut režim údržby"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Zaktualizována databáze"
 
@@ -142,132 +142,140 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: js/js.js:458
+#: js/js.js:479
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:496
+#: js/js.js:564
 msgid "Saving..."
 msgstr "Ukládám..."
 
-#: js/js.js:995
+#: js/js.js:1099
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:996
+#: js/js.js:1100
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:997
+#: js/js.js:1101
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:998
+#: js/js.js:1102
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:999
+#: js/js.js:1103
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:1000
+#: js/js.js:1104
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:1001
+#: js/js.js:1105
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:1002
+#: js/js.js:1106
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:1003
+#: js/js.js:1107
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:1004
+#: js/js.js:1108
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:1005
+#: js/js.js:1109
 msgid "years ago"
 msgstr "před lety"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Vybrat"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Chyba při nahrávání šablony výběru souborů: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Ano"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Chyba při nahrávání šablony zprávy: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} souborový konflikt"
 msgstr[1] "{count} souborové konflikty"
 msgstr[2] "{count} souborových konfliktů"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Jeden konflikt souboru"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "Nové soubory"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Které soubory chcete ponechat?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněný o číslo."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(vybráno vše)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:457
 msgid "({count} selected)"
 msgstr "(vybráno {count})"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:465
 msgid "Error loading file exists template"
 msgstr "Chyba při nahrávání šablony existence souboru"
 
@@ -299,12 +307,12 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:787
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -368,71 +376,71 @@ msgstr "Sdílet e-mailem:"
 msgid "No people found"
 msgstr "Žádní lidé nenalezeni"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:383
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:335
+#: js/share.js:355
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:379
+#: js/share.js:399
 msgid "Shared in {item} with {user}"
 msgstr "Sdíleno v {item} s {user}"
 
-#: js/share.js:401
+#: js/share.js:421
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:409
+#: js/share.js:429
 msgid "notify by email"
 msgstr "upozornit e-mailem"
 
-#: js/share.js:412
+#: js/share.js:432
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:414
+#: js/share.js:434
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:417
+#: js/share.js:437
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:420
+#: js/share.js:440
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:423
+#: js/share.js:443
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:426
+#: js/share.js:446
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:698
+#: js/share.js:718
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:711
+#: js/share.js:731
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:729
+#: js/share.js:749
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:754
+#: js/share.js:774
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:765
+#: js/share.js:785
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:789
+#: js/share.js:809
 msgid "Warning"
 msgstr "Varování"
 
@@ -546,14 +554,14 @@ msgstr "Nové heslo"
 msgid "Reset password"
 msgstr "Obnovit heslo"
 
-#: setup/controller.php:138
+#: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr "Mac OS X není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!"
 
-#: setup/controller.php:142
+#: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
 msgstr "Místo toho zvažte pro nejlepší funkčnost použití GNU/Linux serveru."

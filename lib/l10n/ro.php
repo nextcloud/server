@@ -31,6 +31,8 @@ $TRANSLATIONS = array(
 "last month" => "ultima lună",
 "_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "ultimul an",
-"years ago" => "ani în urmă"
+"years ago" => "ani în urmă",
+"A valid username must be provided" => "Trebuie să furnizaţi un nume de utilizator valid",
+"A valid password must be provided" => "Trebuie să furnizaţi o parolă validă"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

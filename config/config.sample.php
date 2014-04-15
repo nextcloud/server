@@ -41,7 +41,7 @@ $CONFIG = array(
 /* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
 "overwriteprotocol" => "",
 
-/* The automatic webroot detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the automatic detection. For example "/domain.tld/ownCloud" */
+/* The automatic webroot detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the automatic detection. For example "/domain.tld/ownCloud". The value "/" can be used to remove the root. */
 "overwritewebroot" => "",
 
 /* The automatic detection of ownCloud can fail in certain reverse proxy situations. This option allows to define a manually override condition as regular expression for the remote ip address. For example "^10\.0\.0\.[1-3]$" */
@@ -276,6 +276,15 @@ $CONFIG = array(
 /* all css and js files will be served by the web server statically in one js file and ons css file*/
 'asset-pipeline.enabled' => false,
 
- /* where mount.json file should be stored, defaults to data/mount.json */
- 'mount_file' => '',
+/* where mount.json file should be stored, defaults to data/mount.json */
+'mount_file' => '',
+
+/*
+ * Location of the cache folder, defaults to "data/$user/cache" where "$user" is the current user.
+ *
+ * When specified, the format will change to "$cache_path/$user" where "$cache_path" is the configured
+ * cache directory and "$user" is the user.
+ *
+ */
+'cache_path' => ''
 );

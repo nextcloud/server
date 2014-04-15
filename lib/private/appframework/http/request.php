@@ -60,7 +60,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string|false 'requesttoken' the requesttoken or false when not available
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars=array()) {
+	public function __construct(array $vars=array(), $stream='php://input') {
+
+		$this->inputStream = $stream;
+		$this->items['params'] = array();
+
+		if(!array_key_exists('method', $vars)) {
+			$vars['method'] = 'GET';			
+		}
 
 		foreach($this->allowedKeys as $name) {
 			$this->items[$name] = isset($vars[$name])
@@ -68,25 +75,32 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				: array();
 		}
 
-		if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-			&& in_array('fakeinput', stream_get_wrappers())) {
-			$this->inputStream = 'fakeinput://data';
-		} else {
-			$this->inputStream = 'php://input';
-		}
-
-		// Only 'application/x-www-form-urlencoded' requests are automatically
-		// transformed by PHP, 'application/json' must be decoded manually.
-		if ($this->method === 'POST'
-			&& strpos($this->getHeader('Content-Type'), 'application/json') !== false
-		) {
-			$this->items['params'] = $this->items['post'] = json_decode(file_get_contents($this->inputStream), true);
-		}
+		// 'application/json' must be decoded manually.
+		if (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
+			$params = json_decode(file_get_contents($this->inputStream), true);
+			if(count($params) > 0) {
+				$this->items['params'] = $params;
+				if($vars['method'] === 'POST') {
+					$this->items['post'] = $params;					
+				}
+			}
+		// Handle application/x-www-form-urlencoded for methods other than GET
+		// or post correctly
+		} elseif($vars['method'] !== 'GET'
+				&& $vars['method'] !== 'POST'
+				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
+			
+			parse_str(file_get_contents($this->inputStream), $params);
+			if(is_array($params)) {
+				$this->items['params'] = $params;
+			}
+		} 
 
 		$this->items['parameters'] = array_merge(
 			$this->items['get'],
 			$this->items['post'],
-			$this->items['urlParams']
+			$this->items['urlParams'],
+			$this->items['params']
 		);
 
 	}
@@ -313,47 +327,22 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @throws \LogicException
 	 */
 	protected function getContent() {
-		if ($this->content === false && $this->method === 'PUT') {
-			throw new \LogicException(
-				'"put" can only be accessed once if not '
-				. 'application/x-www-form-urlencoded or application/json.'
-			);
-		}
-
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->method === 'PUT'
 			&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false
 			&& strpos($this->getHeader('Content-Type'), 'application/json') === false
 		) {
+			if ($this->content === false) {
+				throw new \LogicException(
+					'"put" can only be accessed once if not '
+					. 'application/x-www-form-urlencoded or application/json.'
+				);
+			}
 			$this->content = false;
 			return fopen($this->inputStream, 'rb');
+		} else {
+			return $this->parameters;
 		}
-
-		if (is_null($this->content)) {
-			$this->content = file_get_contents($this->inputStream);
-
-			/*
-			* Normal jquery ajax requests are sent as application/x-www-form-urlencoded
-			* and in $_GET and $_POST PHP transformes the data into an array.
-			* The first condition mimics this.
-			* The second condition allows for sending raw application/json data while
-			* still getting the result as an array.
-			*
-			*/
-			if (strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
-				parse_str($this->content, $content);
-				if(is_array($content)) {
-					$this->content = $content;
-				}
-			} elseif (strpos($this->getHeader('Content-Type'), 'application/json') !== false) {
-				$content = json_decode($this->content, true);
-				if(is_array($content)) {
-					$this->content = $content;
-				}
-			}
-		}
-
-		return $this->content;
 	}
 
 	/**

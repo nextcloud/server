@@ -65,6 +65,18 @@ class Swift extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
+	const SUBCONTAINER_FILE='.subcontainers';
+
+	/**
+	 * translate directory path to container name
+	 * @param string $path
+	 * @return string
+	 */
+	private function getContainerName($path) {
+		$path=trim(trim($this->root, '/') . "/".$path, '/.');
+		return str_replace('/', '\\', $path);
+	}
+
 	/**
 	 * @param string $path
 	 */
@@ -251,6 +263,10 @@ class Swift extends \OC\Files\Storage\Common {
 			$mtime = $object->extra_headers['X-Object-Meta-Timestamp'];
 		}
 
+		if (!empty($mtime)) {
+			$mtime = floor($mtime);
+		}
+
 		$stat = array();
 		$stat['size'] = $object->content_length;
 		$stat['mtime'] = $mtime;
@@ -370,7 +386,7 @@ class Swift extends \OC\Files\Storage\Common {
 					'X-Object-Meta-Timestamp' => $mtime
 				)
 			);
-			return $object->Update($settings);
+			return $object->UpdateMetadata($settings);
 		} else {
 			$object = $this->container->DataObject();
 			if (is_null($mtime)) {
@@ -486,4 +502,16 @@ class Swift extends \OC\Files\Storage\Common {
 		), $tmpFile);
 		unlink($tmpFile);
 	}
+
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			return array('curl');
+		}
+	}
+
 }

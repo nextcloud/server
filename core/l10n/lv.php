@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "No" => "Nē",
 "Ok" => "Labi",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
+"New Files" => "Jaunās datnes",
 "Cancel" => "Atcelt",
 "Shared" => "Kopīgs",
 "Share" => "Dalīties",

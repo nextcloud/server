@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "Back" => "Antaŭen",
 "Connection Settings" => "Agordo de konekto",
 "Disable Main Server" => "Malkapabligi la ĉefan servilon",
-"Case insensitve LDAP server (Windows)" => "LDAP-servilo blinda je litergrandeco (Vindozo)",
 "Turn off SSL certificate validation." => "Malkapabligi validkontrolon de SSL-atestiloj.",
 "Cache Time-To-Live" => "Vivotempo de la kaŝmemoro",
 "in seconds. A change empties the cache." => "sekunde. Ajna ŝanĝo malplenigas la kaŝmemoron.",

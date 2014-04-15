@@ -1,8 +1,5 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES = array('filesystem');
-
 $dir = '/';
 
 if (isset($_GET['dir'])) {

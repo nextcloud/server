@@ -6,13 +6,14 @@
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # etiess <etiess@gmail.com>, 2013
 # plachance <patlachance@gmail.com>, 2013
+# RyDroid <rydroid_trans@yahoo.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-13 17:12-0400\n"
-"PO-Revision-Date: 2014-03-13 16:21+0000\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"POT-Creation-Date: 2014-04-13 01:54-0400\n"
+"PO-Revision-Date: 2014-04-13 03:10+0000\n"
+"Last-Translator: RyDroid <rydroid_trans@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +148,7 @@ msgstr[1] "%s utilisateurs trouvés"
 msgid "Invalid Host"
 msgstr "Hôte invalide"
 
-#: lib/wizard.php:963
+#: lib/wizard.php:983
 msgid "Could not find the desired feature"
 msgstr "Impossible de trouver la fonction souhaitée"
 
@@ -338,7 +339,7 @@ msgid "Only connect to the replica server."
 msgstr "Se connecter uniquement au serveur de replica."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
 msgstr "Serveur LDAP insensible à la casse (Windows)"
 
 #: templates/settings.php:27
@@ -422,41 +423,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr "Si activé, les groupes contenant d'autres groupes sont supportés (fonctionne uniquement si l'attribut membre du groupe contient des DNs)."
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr "Dimensionnement des paginations"
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr "La taille d'une part (chunksize) est utilisée pour les recherches paginées de LDAP qui peuvent retourner des résultats par lots comme une énumération d'utilisateurs ou groupes. (Configurer à 0 pour désactiver les recherches paginées de LDAP.)"
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Attributs spéciaux"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Champ du quota"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Quota par défaut"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "en bytes"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Champ Email"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Convention de nommage du répertoire utilisateur"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Laisser vide "
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Nom d'utilisateur interne"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -472,15 +484,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Par défaut le nom d'utilisateur interne sera créé à partir de l'attribut UUID. Ceci permet d'assurer que le nom d'utilisateur est unique et que les caractères ne nécessitent pas de conversion. Le nom d'utilisateur interne doit contenir uniquement les caractères suivants : [ a-zA-Z0-9_.@- ]. Les autres caractères sont remplacés par leur correspondance ASCII ou simplement omis. En cas de collision, un nombre est incrémenté/décrémenté. Le nom d'utilisateur interne est utilisé pour identifier l'utilisateur au sein du système. C'est aussi le nom par défaut du répertoire utilisateur dans ownCloud. C'est aussi le port d'URLs distants, par exemple pour tous les services *DAV. Le comportement par défaut peut être modifié à l'aide de ce paramètre. Pour obtenir un comportement similaire aux versions précédentes à ownCloud 5, saisir le nom d'utilisateur à afficher dans le champ suivant. Laissez à blanc pour le comportement par défaut. Les modifications prendront effet seulement pour les nouveaux (ajoutés) utilisateurs LDAP."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Nom d'utilisateur interne:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Surcharger la détection d'UUID"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -491,19 +503,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Par défaut, l'attribut UUID est automatiquement  détecté. Cet attribut est utilisé pour identifier les utilisateurs et groupes de façon fiable. Un nom d'utilisateur interne basé sur l'UUID sera automatiquement créé, sauf s'il est spécifié autrement ci-dessus. Vous pouvez modifier ce comportement et définir l'attribut de votre choix. Vous devez alors vous assurer que l'attribut de votre choix peut être récupéré pour les utilisateurs ainsi que pour les groupes et qu'il soit unique. Laisser à blanc pour le comportement par défaut. Les modifications seront effectives uniquement pour les nouveaux (ajoutés) utilisateurs et groupes LDAP."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "Attribut UUID pour les utilisateurs :"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "Attribut UUID pour les groupes :"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Association Nom d'utilisateur-Utilisateur LDAP"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -517,10 +529,10 @@ msgid ""
 "experimental stage."
 msgstr "Les noms d'utilisateurs sont utilisés pour le stockage et l'assignation de (meta) données. Pour identifier et reconnaitre précisément les utilisateurs, chaque utilisateur LDAP aura un nom interne spécifique. Cela requiert l'association d'un nom d'utilisateur ownCloud à un nom d'utilisateur LDAP. Le nom d'utilisateur créé est associé à l'attribut UUID de l'utilisateur LDAP. Par ailleurs, le DN est mémorisé en cache pour limiter les interactions LDAP mais il n'est pas utilisé pour l'identification. Si le DN est modifié, ces modifications seront retrouvées. Seul le nom interne à ownCloud est utilisé au sein du produit. Supprimer les associations créera des orphelins et l'action affectera toutes les configurations LDAP. NE JAMAIS SUPPRIMER LES ASSOCIATIONS EN ENVIRONNEMENT DE PRODUCTION, mais uniquement sur des environnements de tests et d'expérimentation."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Supprimer l'association utilisateur interne-utilisateur LDAP"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Supprimer l'association nom de groupe-groupe LDAP"

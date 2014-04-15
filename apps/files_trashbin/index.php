@@ -11,6 +11,7 @@ $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('files_trashbin', 'trash');
+OCP\Util::addScript('files', 'breadcrumb');
 OCP\Util::addScript('files', 'filelist');
 // filelist overrides
 OCP\Util::addScript('files_trashbin', 'filelist');
@@ -34,48 +35,7 @@ if ($isIE8 && isset($_GET['dir'])){
 	exit();
 }
 
-$ajaxLoad = false;
-
-if (!$isIE8){
-	try {
-		$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
-	} catch (Exception $e) {
-		header('Location: ' . OCP\Util::linkTo('files_trashbin', 'index.php'));
-		exit();
-	}
-}
-else{
-	$files = array();
-	$ajaxLoad = true;
-}
-
-$dirlisting = false;
-if ($dir && $dir !== '/') {
-    $dirlisting = true;
-}
-
-$breadcrumb = \OCA\Files_Trashbin\Helper::makeBreadcrumb($dir);
-
-$breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', $breadcrumb);
-$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
-$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
-
-$list = new OCP\Template('files_trashbin', 'part.list', '');
-$list->assign('files', $files);
-
-$encodedDir = \OCP\Util::encodePath($dir);
-$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$encodedDir);
-$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$encodedDir);
-$list->assign('dirlisting', $dirlisting);
-$list->assign('disableDownloadActions', true);
-
-$tmpl->assign('dirlisting', $dirlisting);
-$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
-$tmpl->assign('fileList', $list->fetchPage());
-$tmpl->assign('files', $files);
 $tmpl->assign('dir', $dir);
 $tmpl->assign('disableSharing', true);
-$tmpl->assign('ajaxLoad', true);
 
 $tmpl->printPage();

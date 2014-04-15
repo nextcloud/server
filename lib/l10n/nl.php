@@ -66,6 +66,10 @@ $TRANSLATIONS = array(
 "last month" => "vorige maand",
 "_%n month ago_::_%n months ago_" => array("%n maand geleden","%n maanden geleden"),
 "last year" => "vorig jaar",
-"years ago" => "jaar geleden"
+"years ago" => "jaar geleden",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
+"A valid username must be provided" => "Er moet een geldige gebruikersnaam worden opgegeven",
+"A valid password must be provided" => "Er moet een geldig wachtwoord worden opgegeven",
+"The username is already being used" => "De gebruikersnaam bestaat al"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

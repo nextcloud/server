@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot, 2014
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # stefanniedermann <stefan.niedermann@googlemail.com>, 2014
-# traductor <transifex-3.7.mensaje@spamgourmet.com>, 2013
+# traductor, 2013
 # noxin <transifex.com@davidmainzer.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 21:54+0000\n"
+"POT-Creation-Date: 2014-04-14 01:54-0400\n"
+"PO-Revision-Date: 2014-04-13 20:58+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -70,23 +71,23 @@ msgstr "Ungültiges Bild"
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "Der ZIP-Download ist deaktiviert."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:262
 msgid "Back to Files"
 msgstr "Zurück zu \"Dateien\""
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -197,8 +198,8 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL Benutzername und/oder Passwort ungültig: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Sie müssen entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben."
 
@@ -211,9 +212,9 @@ msgstr "MySQL/MariaDB Benutzername und/oder Passwort sind nicht gültig"
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB Fehler: \"%s\""
@@ -222,9 +223,9 @@ msgstr "DB Fehler: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Fehlerhafter Befehl war: \"%s\""
@@ -260,7 +261,7 @@ msgstr "Oracle Benutzername und/oder Passwort ungültig"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL Benutzername und/oder Passwort ungültig"
 
@@ -272,19 +273,19 @@ msgstr "Setze Administrator Benutzername."
 msgid "Set an admin password."
 msgstr "Setze Administrator Passwort"
 
-#: private/setup.php:198
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
-#: private/setup.php:199
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s hat »%s« mit Ihnen geteilt"
@@ -294,50 +295,68 @@ msgstr "%s hat »%s« mit Ihnen geteilt"
 msgid "Could not find category \"%s\""
 msgstr "Die Kategorie \"%s\" konnte nicht gefunden werden."
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "Heute"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "Gestern"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "Vor  Jahren"
+
+#: private/user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "Folgende Zeichen sind im Benutzernamen erlaubt: \"a-z\", \"A-Z\", \"0-9\" und \"_.@-\""
+
+#: private/user/manager.php:251
+msgid "A valid username must be provided"
+msgstr "Es muss ein gültiger Benutzername angegeben werden"
+
+#: private/user/manager.php:255
+msgid "A valid password must be provided"
+msgstr "Es muss ein gültiges Passwort angegeben werden"
+
+#: private/user/manager.php:260
+msgid "The username is already being used"
+msgstr "Der Benutzername existiert bereits"

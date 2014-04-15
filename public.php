@@ -1,29 +1,36 @@
 <?php
-$RUNTIME_NOAPPS = true;
 
 try {
 
 	require_once 'lib/base.php';
 	OC::checkMaintenanceMode();
 	OC::checkSingleUserMode();
-	if (!isset($_GET['service'])) {
+	$pathInfo = OC_Request::getPathInfo();
+	if (!$pathInfo && !isset($_GET['service'])) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
+	} elseif ($_GET['service']) {
+		$service = $_GET['service'];
+	} else {
+		$pathInfo = trim($pathInfo, '/');
+		list($service) = explode('/', $pathInfo);
 	}
-	$file = OCP\CONFIG::getAppValue('core', 'public_' . strip_tags($_GET['service']));
-	if(is_null($file)) {
+	$file = OCP\CONFIG::getAppValue('core', 'public_' . strip_tags($service));
+	if (is_null($file)) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
 	}
 
-	$parts=explode('/', $file, 2);
-	$app=$parts[0];
+	$parts = explode('/', $file, 2);
+	$app = $parts[0];
 
 	OC_Util::checkAppEnabled($app);
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);
 
-	require_once OC_App::getAppPath($app) .'/'. $parts[1];
+	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
+
+	require_once OC_App::getAppPath($app) . '/' . $parts[1];
 
 } catch (Exception $ex) {
 	//show the user a detailed error page

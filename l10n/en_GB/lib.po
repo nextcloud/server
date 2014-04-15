@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-18 01:55-0400\n"
-"PO-Revision-Date: 2014-03-17 13:08+0000\n"
+"POT-Creation-Date: 2014-04-10 01:54-0400\n"
+"PO-Revision-Date: 2014-04-09 14:20+0000\n"
 "Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -66,23 +66,23 @@ msgstr "Invalid image"
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "ZIP download is turned off."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Files need to be downloaded one by one."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:262
 msgid "Back to Files"
 msgstr "Back to Files"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Selected files too large to generate zip file."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -268,19 +268,19 @@ msgstr "Set an admin username."
 msgid "Set an admin password."
 msgstr "Set an admin password."
 
-#: private/setup.php:198
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Your web server is not yet properly setup to allow files synchronisation because the WebDAV interface seems to be broken."
 
-#: private/setup.php:199
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Please double check the <a href='%s'>installation guides</a>."
 
-#: private/share/mailnotifications.php:73
-#: private/share/mailnotifications.php:119
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s shared \"%s\" with you"
@@ -337,3 +337,21 @@ msgstr "last year"
 #: private/template/functions.php:145
 msgid "years ago"
 msgstr "years ago"
+
+#: private/user/manager.php:246
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
+
+#: private/user/manager.php:251
+msgid "A valid username must be provided"
+msgstr "A valid username must be provided"
+
+#: private/user/manager.php:255
+msgid "A valid password must be provided"
+msgstr "A valid password must be provided"
+
+#: private/user/manager.php:260
+msgid "The username is already being used"
+msgstr "The username is already being used"

@@ -78,8 +78,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given app and file.
 	 */
 	public static function linkToAbsolute($app, $file, $args = array()) {
-		$urlLinkTo = self::linkTo($app, $file, $args);
-		return self::makeURLAbsolute($urlLinkTo);
+		return self::linkTo($app, $file, $args);
 	}
 
 	/**
@@ -876,12 +875,15 @@ class OC_Helper {
 	 * Calculate the disc space for the given path
 	 *
 	 * @param string $path
+	 * @param \OCP\Files\FileInfo $rootInfo (optional)
 	 * @return array
 	 */
-	public static function getStorageInfo($path) {
+	public static function getStorageInfo($path, $rootInfo = null) {
 		// return storage info without adding mount points
-		$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
-		$used = $rootInfo['size'];
+		if (is_null($rootInfo)) {
+			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
+		}
+		$used = $rootInfo->getSize();
 		if ($used < 0) {
 			$used = 0;
 		}

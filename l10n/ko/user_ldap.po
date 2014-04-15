@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:12+0000\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr[0] "사용자 %s명 찾음"
 msgid "Invalid Host"
 msgstr "잘못된 호스트"
 
-#: lib/wizard.php:963
+#: lib/wizard.php:983
 msgid "Could not find the desired feature"
 msgstr "필요한 기능을 찾을 수 없음"
 
@@ -336,8 +336,8 @@ msgid "Only connect to the replica server."
 msgstr "복제 서버에만 연결합니다."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "서버에서 대소문자를 구분하지 않음 (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -420,41 +420,52 @@ msgid ""
 "the group member attribute contains DNs.)"
 msgstr ""
 
-#: templates/settings.php:41
+#: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr ""
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "특수 속성"
 
-#: templates/settings.php:43
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "할당량 필드"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "기본 할당량"
 
-#: templates/settings.php:44
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "바이트 단위"
 
-#: templates/settings.php:45
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "이메일 필드"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "사용자 홈 폴더 이름 규칙"
 
-#: templates/settings.php:46
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오."
 
-#: templates/settings.php:52
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "내부 사용자 이름"
 
-#: templates/settings.php:53
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -470,15 +481,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "기본적으로 내부 사용자 이름은 UUID 속성에서 생성됩니다. 사용자 이름이 중복되지 않고 문자열을 변환할 필요가 없도록 합니다. 내부 사용자 이름에는 다음과 같은 문자열만 사용할 수 있습니다: [a-zA-Z0-9_.@-] 다른 문자열은 ASCII에 해당하는 문자열로 변경되거나 없는 글자로 취급됩니다. 충돌하는 경우 숫자가 붙거나 증가합니다. 내부 사용자 이름은 내부적으로 사용자를 식별하는 데 사용되며, 사용자 홈 폴더의 기본 이름입니다. 또한 *DAV와 같은 외부 URL의 일부로 사용됩니다. 이 설정을 사용하면 기본 설정을 재정의할 수 있습니다. ownCloud 5 이전의 행동을 사용하려면 아래 필드에 사용자의 표시 이름 속성을 입력하십시오. 비워 두면 기본 설정을 사용합니다. 새로 추가되거나 매핑된 LDAP 사용자에게만 적용됩니다."
 
-#: templates/settings.php:54
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "내부 사용자 이름 속성:"
 
-#: templates/settings.php:55
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "UUID 확인 재정의"
 
-#: templates/settings.php:56
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -489,19 +500,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "기본적으로 UUID 속성은 자동적으로 감지됩니다. UUID 속성은 LDAP 사용자와 그룹을 정확히 식별하는 데 사용됩니다. 지정하지 않은 경우 내부 사용자 이름은 UUID를 기반으로 생성됩니다. 이 설정을 다시 정의하고 임의의 속성을 지정할 수 있습니다. 사용자와 그룹 모두에게 속성을 적용할 수 있고 중복된 값이 없는지 확인하십시오. 비워 두면 기본 설정을 사용합니다. 새로 추가되거나 매핑된 LDAP 사용자와 그룹에만 적용됩니다."
 
-#: templates/settings.php:57
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "사용자 UUID 속성:"
 
-#: templates/settings.php:58
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "그룹 UUID 속성:"
 
-#: templates/settings.php:59
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "사용자 이름-LDAP 사용자 매핑"
 
-#: templates/settings.php:60
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -515,10 +526,10 @@ msgid ""
 "experimental stage."
 msgstr "사용자 이름은 (메타) 데이터를 저장하고 할당하는 데 사용됩니다. 사용자를 정확하게 식별하기 위하여 각각 LDAP 사용자는 내부 사용자 이름을 갖습니다. 이는 사용자 이름과 LDAP 사용자 간의 매핑이 필요합니다. 생성된 사용자 이름은 LDAP 사용자의 UUID로 매핑됩니다. 추가적으로 LDAP 통신을 줄이기 위해서 DN이 캐시에 저장되지만 식별에 사용되지는 않습니다. DN이 변경되면 변경 사항이 기록됩니다. 내부 사용자 이름은 계속 사용됩니다. 매핑을 비우면 흔적이 남아 있게 됩니다. 매핑을 비우는 작업은 모든 LDAP 설정에 영향을 줍니다! 테스트 및 실험 단계에만 사용하고, 사용 중인 서버에서는 시도하지 마십시오."
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "사용자 이름-LDAP 사용자 매핑 비우기"
 
-#: templates/settings.php:61
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "그룹 이름-LDAP 그룹 매핑 비우기"

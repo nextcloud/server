@@ -122,7 +122,7 @@ interface IServerContainer {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string appid
+	 * @param string $app appid
 	 * @return \OCP\IL10N
 	 */
 	function getL10N($app);

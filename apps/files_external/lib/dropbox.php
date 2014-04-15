@@ -311,4 +311,15 @@ class Dropbox extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * check if curl is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('curl_init')) {
+			return true;
+		} else {
+			return array('curl');
+		}
+	}
+
 }

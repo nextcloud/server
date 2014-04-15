@@ -48,7 +48,7 @@ OC.Share={
 					var action = $(file).find('.fileactions .action[data-action="Share"]');
 					var img = action.find('img').attr('src', image);
 					action.addClass('permanent');
-					action.html(' '+t('core', 'Shared')).prepend(img);
+					action.html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 				} else {
 					var dir = $('#dir').val();
 					if (dir.length > 1) {
@@ -63,7 +63,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(action).addClass('permanent');
-										$(action).html(' '+t('core', 'Shared')).prepend(img);
+										$(action).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 									}
 								});
 							}
@@ -103,10 +103,10 @@ OC.Share={
 				var img = action.find('img').attr('src', image);
 				if (shares) {
 					action.addClass('permanent');
-					action.html(' '+ escapeHTML(t('core', 'Shared'))).prepend(img);
+					action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
 				} else {
 					action.removeClass('permanent');
-					action.html(' '+ escapeHTML(t('core', 'Share'))).prepend(img);
+					action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
 				}
 			}
 		}
@@ -331,6 +331,26 @@ OC.Share={
 					.append( insert )
 					.appendTo( ul );
 			};
+			$('#email').autocomplete({
+				minLength: 1,
+				source: function (search, response) {
+					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWithEmail', search: search.term }, function(result) {
+						if (result.status == 'success' && result.data.length > 0) {
+							response(result.data);
+						}
+					});
+					},
+				select: function( event, item ) {
+					$('#email').val(item.item.email);
+					return false;
+				}
+			})
+			.data("ui-autocomplete")._renderItem = function( ul, item ) {
+				return $( "<li>" )
+					.append( "<a>" + item.displayname + "<br>" + item.email + "</a>" )
+					.appendTo( ul );
+			};
+
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';
@@ -551,7 +571,7 @@ $(document).ready(function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 		OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 			$li.remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
@@ -597,7 +617,7 @@ $(document).ready(function() {
 		OC.Share.setPermissions($('#dropdown').data('item-type'),
 			$('#dropdown').data('item-source'),
 			li.data('share-type'),
-			li.data('share-with'),
+			li.attr('data-share-with'),
 			permissions);
 	});
 
@@ -782,7 +802,7 @@ $(document).ready(function() {
 		}
 
 		var shareType = $li.data('share-type');
-		var shareWith = $li.data('share-with');
+		var shareWith = $li.attr('data-share-with');
 
 		$.post(OC.filePath('core', 'ajax', 'share.php'), {action: action, recipient: shareWith, shareType: shareType, itemSource: itemSource, itemType: itemType}, function(result) {
 			if (result.status !== 'success') {

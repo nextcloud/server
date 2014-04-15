@@ -60,7 +60,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = \OC_App::getAppPath($app);
 			// Check if the app is in the app folder
 			if ($app_path && file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) == 'php' || substr($file, -3) == 'css') {
+				if (substr($file, -3) == 'php') {
 
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $app;
 					if ($frontControllerActive) {
@@ -148,6 +148,12 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getAbsoluteURL($url) {
 		$separator = $url[0] === '/' ? '' : '/';
-		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . $separator . $url;
+
+		// The ownCloud web root can already be prepended.
+		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
+			? ''
+			: \OC::$WEBROOT;
+
+		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost(). $webRoot . $separator . $url;
 	}
 }

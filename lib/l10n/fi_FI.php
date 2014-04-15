@@ -59,6 +59,10 @@ $TRANSLATIONS = array(
 "last month" => "viime kuussa",
 "_%n month ago_::_%n months ago_" => array("%n kuukausi sitten","%n kuukautta sitten"),
 "last year" => "viime vuonna",
-"years ago" => "vuotta sitten"
+"years ago" => "vuotta sitten",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\"",
+"A valid username must be provided" => "Anna kelvollinen käyttäjätunnus",
+"A valid password must be provided" => "Anna kelvollinen salasana",
+"The username is already being used" => "Käyttäjätunnus on jo käytössä"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

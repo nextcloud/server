@@ -23,6 +23,8 @@ $TRANSLATIONS = array(
 "last month" => "førre månad",
 "_%n month ago_::_%n months ago_" => array("","%n månadar sidan"),
 "last year" => "i fjor",
-"years ago" => "år sidan"
+"years ago" => "år sidan",
+"A valid username must be provided" => "Du må oppgje eit gyldig brukarnamn",
+"A valid password must be provided" => "Du må oppgje eit gyldig passord"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
