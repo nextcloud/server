@@ -162,12 +162,6 @@ class Group {
 		$users = array();
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			if (!is_null($limit)) {
-				$limit -= count($userIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($userIds);
-			}
 			$users += $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
@@ -190,12 +184,6 @@ class Group {
 				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
 			} else {
 				$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			}
-			if (!is_null($limit)) {
-				$limit -= count($userIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($userIds);
 			}
 			$users = $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {

@@ -175,13 +175,6 @@ class Manager extends PublicEmitter {
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
 					$users[] = $this->getUserObject($uid, $backend);
-					if (!is_null($limit)) {
-						$limit--;
-					}
-					if (!is_null($offset) and $offset > 0) {
-						$offset--;
-					}
-
 				}
 			}
 		}
@@ -211,13 +204,6 @@ class Manager extends PublicEmitter {
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
 					$users[] = $this->getUserObject($uid, $backend);
-					if (!is_null($limit)) {
-						$limit--;
-					}
-					if (!is_null($offset) and $offset > 0) {
-						$offset--;
-					}
-
 				}
 			}
 		}
