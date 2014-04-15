@@ -1,5 +1,6 @@
 <?php
 /**
+ * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
  * Copyright (c) 2014 Andreas Fischer <bantu@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
