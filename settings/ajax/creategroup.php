@@ -4,7 +4,7 @@ OCP\JSON::callCheck();
 OC_JSON::checkAdminUser();
 
 $groupname = $_POST["groupname"];
-$l = OC_L10N::get('core');
+$l = OC_L10N::get('settings');
 
 // Does the group exist?
 if( in_array( $groupname, OC_Group::getGroups())) {
