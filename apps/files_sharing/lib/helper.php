@@ -145,4 +145,35 @@ class Helper {
 
 		return $result;
 	}
+
+	public static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, $filename);
+	}
+
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @param string $path the absolute path
+	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
+	 */
+	public static function stripUserFilesPath($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		// it is not a file relative to data/user/files
+		if (count($split) < 3 || $split[1] !== 'files') {
+			return false;
+		}
+
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
+		return $relPath;
+	}
 }

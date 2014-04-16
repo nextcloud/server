@@ -410,16 +410,16 @@ class View {
 				// if source and target are on the same storage we can call the rename operation from the
 				// storage. If it is a "Shared" file/folder we call always the rename operation of the
 				// shared storage to handle mount point renaming, etc correctly
-				if ($mp1 == $mp2) {
+				if ($storage1 instanceof \OC\Files\Storage\Shared) {
 					if ($storage1) {
-						$result = $storage1->rename($internalPath1, $internalPath2);
+						$result = $storage1->rename($absolutePath1, $absolutePath2);
 						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
 					}
-				} elseif ($storage1 instanceof \OC\Files\Storage\Shared) {
+				} elseif ($mp1 == $mp2) {
 					if ($storage1) {
-						$result = $storage1->rename($absolutePath1, $absolutePath2);
+						$result = $storage1->rename($internalPath1, $internalPath2);
 						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;

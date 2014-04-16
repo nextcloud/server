@@ -362,6 +362,9 @@ class Shared extends \OC\Files\Storage\Common {
 	public function rename($path1, $path2) {
 
 		$sourceMountPoint = \OC\Files\Filesystem::getMountPoint($path1);
+		$targetMountPoint = \OC\Files\Filesystem::getMountPoint($path2);
+		$relPath1 = \OCA\Files_Sharing\Helper::stripUserFilesPath($path1);
+		$relPath2 = \OCA\Files_Sharing\Helper::stripUserFilesPath($path2);
 
 		// if we renamed the mount point we need to adjust the file_target in the
 		// database
@@ -369,21 +372,19 @@ class Shared extends \OC\Files\Storage\Common {
 			return $this->renameMountPoint($path1, $path2);
 		}
 
-		// Renaming/moving is only allowed within shared folders
-		$oldSource = $this->getSourcePath($path1);
-		if ($oldSource) {
-			$newSource = $this->getSourcePath(dirname($path2)) . '/' . basename($path2);
-			// Within the same folder, we only need UPDATE permissions
-			if (dirname($path1) == dirname($path2) and $this->isUpdatable($path1)) {
-				list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
-				list(, $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
-				return $storage->rename($oldInternalPath, $newInternalPath);
+
+		if (	// Within the same mount point, we only need UPDATE permissions
+				($sourceMountPoint === $targetMountPoint && $this->isUpdatable($sourceMountPoint)) ||
 				// otherwise DELETE and CREATE permissions required
-			} elseif ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
-				$rootView = new \OC\Files\View('');
-				return $rootView->rename($oldSource, $newSource);
-			}
+				($this->isDeletable($path1) && $this->isCreatable(dirname($path2)))) {
+
+			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
+			$targetFilename = basename($relPath2);
+			list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
+			$rootView = new \OC\Files\View('');
+			return $rootView->rename('/' . $user1 . '/files/' . $path1, '/' . $user2 . '/files/' . $path2 . '/' . $targetFilename);
 		}
+
 		return false;
 	}
 
