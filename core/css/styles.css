@@ -402,7 +402,12 @@ input[type="submit"].enabled {
 }
 
 /* Icons for username and password fields to better recognize them */
-#adminlogin, #adminpass, #user, #password {
+#adminlogin,
+#adminpass,
+input[name='adminpass-clone'],
+#user,
+#password,
+input[name='password-clone'] {
 	width: 223px !important;
 	padding-left: 36px !important;
 }
@@ -419,14 +424,6 @@ input[type="submit"].enabled {
 }
 #adminpass-icon, #password-icon {
 	top: 1.1em;
-}
-input[name="password-clone"] {
-	padding-left: 1.8em;
-	width: 11.7em !important;
-}
-input[name="adminpass-clone"] {
-	padding-left: 1.8em;
-	width: 11.7em !important;
 }
 
 /* General new input field look */
