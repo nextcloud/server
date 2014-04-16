@@ -12,13 +12,30 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
-body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
+
+
+body {
+	background: #fefefe;
+	font: normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+	color: #000;
+	height: auto;
+}
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header {
-	position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em;
-	background:#1d2d44 url('../img/noise.png') repeat;
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 45px;
+	line-height: 2.5em;
+	background: #1d2d44 url('../img/noise.png') repeat;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #body-login {
@@ -50,10 +67,16 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
+	height: 100%;
 	max-width: 40%;
 	white-space: nowrap;
-	overflow: hidden;
+}
+.header-right #details {
+	display: inline-block;
+	margin-top: 6px;
+	width: 100%;
 	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 /* Profile picture in header */
