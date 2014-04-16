@@ -107,6 +107,7 @@ thead {
 .directLink input {
 	margin-left: 5px;
 	width: 300px;
+	max-width: 90%;
 }
 .public_actions {
 	padding: 4px;
