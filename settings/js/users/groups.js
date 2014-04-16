@@ -77,7 +77,7 @@
 					GroupList.toggleAddGroup();
 				}
 			}
-		)
+		);
 	},
 
 	update: function() {
@@ -85,7 +85,7 @@
 			return;
 		}
 		GroupList.updating = true;
-		pattern = filter.getPattern();
+		var pattern = filter.getPattern();
 		var query = $.param({ pattern: pattern });
 		$.get(OC.generateUrl('/settings/ajax/grouplist') + '?' + query, function (result) {
 			var lis = [];
@@ -116,12 +116,12 @@
 	},
 
 	elementBelongsToAddGroup: function(el) {
-		return !(el !== $('#newgroup-form').get(0)
-				&& $('#newgroup-form').find($(el)).length === 0);
+		return !(el !== $('#newgroup-form').get(0) &&
+				$('#newgroup-form').find($(el)).length === 0);
 	},
 
 	hasAddGroupNameText: function() {
-		name = $('#newgroupname').val();
+		var name = $('#newgroupname').val();
 		if($.trim(name) === '') {
 			return false;
 		}
@@ -158,7 +158,7 @@
 	isGroupNameValid: function(groupname) {
 		if ($.trim(groupname) === '') {
 			OC.dialogs.alert(
-				t('settings', 'A valid groupname must be provided'),
+				t('settings', 'A valid group name must be provided'),
 				t('settings', 'Error creating group'));
 			return false;
 		}
@@ -184,15 +184,15 @@
 
 		//configure undo
 		OC.Notification.hide();
-		msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
-			  t('settings', 'undo') + '</span>';
+		var msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
+			t('settings', 'undo') + '</span>';
 		GroupDeleteHandler.setNotification(OC.Notification, 'deletegroup', msg,
-										  GroupList.show);
+										GroupList.show);
 
 		//when to mark user for delete
-		$('ul').on('click', 'span.utils>a', function (event) {
+		$('ul').on('click', 'span.utils>a', function () {
 			// Call function for handling delete/undo
-			gid = $(this).parent().parent().attr('data-gid');
+			var gid = $(this).parent().parent().attr('data-gid');
 			GroupDeleteHandler.mark(gid);
 		});
 
@@ -201,8 +201,8 @@
 		$(window).on('beforeunload', function () {
 			GroupDeleteHandler.delete();
 		});
-	},
-}
+	}
+};
 
 $(document).ready( function () {
 	GroupList.initDeleteHandling();
@@ -214,9 +214,9 @@ $(document).ready( function () {
 	});
 
 	$(document).on('click keydown keyup', function(event) {
-		if(!GroupList.isAddGroupButtonVisible()
-			&& !GroupList.elementBelongsToAddGroup(event.target)
-		    && !GroupList.hasAddGroupNameText()) {
+		if(!GroupList.isAddGroupButtonVisible() &&
+			!GroupList.elementBelongsToAddGroup(event.target) &&
+			!GroupList.hasAddGroupNameText()) {
 			GroupList.toggleAddGroup();
 		}
 		// Escape
@@ -236,7 +236,7 @@ $(document).ready( function () {
 
 	// click on group name
 	// FIXME: also triggered when clicking on "remove"
-	$('ul').on('click', 'li[data-gid]', function (event) {
+	$('ul').on('click', 'li[data-gid]', function () {
 		var li = $(this);
 		var gid = $(li).attr('data-gid');
 		GroupList.showGroup(gid);
@@ -296,6 +296,6 @@ $(document).ready( function () {
 });
 
 var wrongKey = function(event) {
-	return ((event.type === 'keydown' || event.type === 'keypress') 
-		&& (event.keyCode !== 32 && event.keyCode !== 13));
+	return ((event.type === 'keydown' || event.type === 'keypress') &&
+		(event.keyCode !== 32 && event.keyCode !== 13));
 };

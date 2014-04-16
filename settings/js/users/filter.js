@@ -5,7 +5,7 @@
  */
 
 /**
- * @brief this object takes care of the filter funcationality on the user
+ * @brief this object takes care of the filter functionality on the user
  * management page
  * @param jQuery input element that works as the user text input field
  * @param object the UserList object
@@ -24,9 +24,9 @@ function UserManagementFilter(filterInput, userList, groupList) {
  * @brief sets up when the filter action shall be triggered
  */
 UserManagementFilter.prototype.init = function() {
-	umf = this;
+	var umf = this;
 	this.filterInput.keyup(function(e) {
-		//we want to react on any printable letter, plus on modyfing stuff like
+		//we want to react on any printable letter, plus on modifying stuff like
 		//Backspace and Delete. extended https://stackoverflow.com/a/12467610
 		var valid =
 			e.keyCode ===  0 || e.keyCode ===  8  || // like ö or ж; backspace
@@ -51,7 +51,7 @@ UserManagementFilter.prototype.init = function() {
 		}
 		umf.oldVal = umf.getPattern();
 	});
-}
+};
 
 /**
  * @brief the filter action needs to be done, here the accurate steps are being
@@ -62,7 +62,7 @@ UserManagementFilter.prototype.run = function() {
 	this.userList.update();
 	this.groupList.empty();
 	this.groupList.update();
-}
+};
 
 /**
  * @brief returns the filter String
@@ -70,4 +70,4 @@ UserManagementFilter.prototype.run = function() {
  */
 UserManagementFilter.prototype.getPattern = function() {
 	return this.filterInput.val();
-}
+};
