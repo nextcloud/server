@@ -65,11 +65,11 @@ if (!\OC_Util::runningOnWindows()) {
 			}
 
 			/**
-			 * @param $maxX
-			 * @param $maxY
-			 * @param $absPath
-			 * @param $tmpPath
-			 * @param $second
+			 * @param int $maxX
+			 * @param int $maxY
+			 * @param string $absPath
+			 * @param string $tmpPath
+			 * @param int $second
 			 * @return bool|\OC_Image
 			 */
 			private function generateThumbNail($maxX, $maxY, $absPath, $second)
@@ -77,12 +77,12 @@ if (!\OC_Util::runningOnWindows()) {
 				$tmpPath = \OC_Helper::tmpFile();
 
 				if (self::$avconvBinary) {
-					$cmd = self::$avconvBinary . ' -an -y -ss ' . $second .
+					$cmd = self::$avconvBinary . ' -an -y -ss ' . escapeshellarg($second) .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
 				} else {
-					$cmd = self::$ffmpegBinary . ' -y -ss ' .$second .
+					$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1' .
 						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
