@@ -586,8 +586,8 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 .error-wide {
-	width: 800px;
-	margin-left: -250px;
+	width: 700px;
+	margin-left: -200px !important;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
