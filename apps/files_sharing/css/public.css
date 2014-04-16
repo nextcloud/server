@@ -14,19 +14,6 @@ body {
 	padding:7px;
 }
 
-.header-right {
-	padding: 0;
-	height: 32px;
-}
-
-#details {
-	color:#fff;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
-	padding-right: 5px;
-}
-
 #controls {
 	left: 0;
 }
