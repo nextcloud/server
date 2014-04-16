@@ -119,8 +119,6 @@ class OC_JSON{
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data, $setContentType=true) {
-		// Disable mimesniffing, don't move this to setContentTypeHeader!
-		header( 'X-Content-Type-Options: nosniff' );
 		if($setContentType) {
 			self::setContentTypeHeader();
 		}
