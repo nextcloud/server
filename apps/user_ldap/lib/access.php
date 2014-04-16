@@ -434,16 +434,25 @@ class Access extends LDAPUtility {
 			$ocname = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
 			if($ocname) {
 				$ownCloudNames[] = $ocname;
-				$this->cacheDisplayName($ocname, $nameByLDAP);
+				if($isUsers) {
+					//cache the user names so it does not need to be retrieved
+					//again later (e.g. sharing dialogue).
+					$this->cacheUserDisplayName($ocname, $nameByLDAP);
+				}
 			}
 			continue;
 		}
 		return $ownCloudNames;
 	}
 
-	public function cacheDisplayName($uid, $displayName) {
+	/**
+	 * @brief caches the user display name
+	 * @param string the internal owncloud username
+	 * @param string the display name
+	 */
+	public function cacheUserDisplayName($ocname, $displayName) {
 		$cacheKeyTrunk = 'getDisplayName';
-		$this->connection->writeToCache($cacheKeyTrunk.$uid,$displayName);
+		$this->connection->writeToCache($cacheKeyTrunk.$ocname, $displayName);
 	}
 
 	/**
