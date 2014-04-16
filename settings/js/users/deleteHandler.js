@@ -14,7 +14,7 @@
  * @param Function markCallback: the function to be called after successfully
  * marking the object for deletion.
  * @param Function removeCallback: the function to be called after successful
- * delete. The id of the object will be passed as argument. Insuccessful
+ * delete. The id of the object will be passed as argument. Unsuccessful
  * operations will display an error using OC.dialogs, no callback is fired.
  */
 function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
@@ -37,23 +37,23 @@ function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
 /**
  * @brief enabled the notification system. Required for undo UI.
  * @param Object notifier: Usually OC.Notification
- * @param String dataID: an identifier for the notificatior, e.g. 'deleteuser'
+ * @param String dataID: an identifier for the notifier, e.g. 'deleteuser'
  * @param String message: the message that should be shown upon delete. %oid
  * will be replaced with the affected id of the item to be deleted
- * @param Function undoCb: called after "undo" was clicked so consument can
+ * @param Function undoCb: called after "undo" was clicked so the consumer can
  * update the web interface
  */
-DeleteHandler.prototype.setNotification = function(notifier, dataID, message, undoCb) {
+DeleteHandler.prototype.setNotification = function(notifier, dataID, message, undoCallback) {
 	this.notifier = notifier;
 	this.notificationDataID = dataID;
 	this.notificationMessage = message;
-	this.undoCallback = undoCb;
+	this.undoCallback = undoCallback;
 
-	dh = this;
+	var dh = this;
 
 	$('#notification').on('click', '.undo', function () {
 		if ($('#notification').data(dh.notificationDataID)) {
-			oid = dh.oidToDelete;
+			var oid = dh.oidToDelete;
 			UserDeleteHandler.cancel();
 			if(typeof dh.undoCallback !== 'undefined') {
 				dh.undoCallback(oid);
@@ -61,7 +61,7 @@ DeleteHandler.prototype.setNotification = function(notifier, dataID, message, un
 		}
 		dh.notifier.hide();
 	});
-}
+};
 
 /**
  * @brief shows the Undo Notification (if configured)
@@ -72,12 +72,12 @@ DeleteHandler.prototype.showNotification = function() {
 			this.hideNotification();
 		}
 		$('#notification').data(this.notificationDataID, true);
-		msg = this.notificationMessage.replace(this.notificationPlaceholder,
+		var msg = this.notificationMessage.replace(this.notificationPlaceholder,
 											this.oidToDelete);
 		console.log('NOTISHOW ' + msg);
 		this.notifier.showHtml(msg);
 	}
-}
+};
 
 /**
  * @brief hides the Undo Notification
@@ -87,10 +87,10 @@ DeleteHandler.prototype.hideNotification = function() {
 		$('#notification').removeData(this.notificationDataID);
 		this.notifier.hide();
 	}
-}
+};
 
 /**
- * @brief initilizes the delete operation for a given object id
+ * @brief initializes the delete operation for a given object id
  * @param String oid: the object id
  */
 DeleteHandler.prototype.mark = function(oid) {
@@ -101,19 +101,19 @@ DeleteHandler.prototype.mark = function(oid) {
 	this.canceled = false;
 	this.markCallback(oid);
 	this.showNotification();
-}
+};
 
 /**
  * @brief cancels a delete operation
  */
-DeleteHandler.prototype.cancel = function(oid) {
+DeleteHandler.prototype.cancel = function() {
 	this.canceled = true;
 	this.oidToDelete = false;
-}
+};
 
 /**
  * @brief executes a delete operation. Requires that the operation has been
- * initilized by mark(). On error, it will show a message via
+ * initialized by mark(). On error, it will show a message via
  * OC.dialogs.alert. On success, a callback is fired so that the client can
  * update the web interface accordingly.
  */
@@ -122,15 +122,15 @@ DeleteHandler.prototype.delete = function() {
 		return false;
 	}
 
-	dh = this;
+	var dh = this;
 	console.log($('#notification').data(this.notificationDataID));
 	if($('#notification').data(this.notificationDataID) === true) {
 		dh.hideNotification();
 		console.log('HIDDEN NOTI');
 	}
 
-	payload = {};
-	payload[dh['ajaxParamID']] = dh.oidToDelete;
+	var payload = {};
+	payload[dh.ajaxParamID] = dh.oidToDelete;
 	$.ajax({
 		type: 'POST',
 		url: OC.filePath('settings', 'ajax', dh.ajaxEndpoint),
@@ -150,4 +150,4 @@ DeleteHandler.prototype.delete = function() {
 			}
 		}
 	});
-}
+};
