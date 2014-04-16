@@ -38,6 +38,7 @@ class WizardResult {
 
 	/**
 	 * @param string $key
+	 * @param array|string $values
 	 */
 	public function addOptions($key, $values) {
 		if(!is_array($values)) {
