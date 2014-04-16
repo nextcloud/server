@@ -472,7 +472,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-#body-login #databaseField .infield { padding-left:0; }
+#body-login #databaseField .infield {
+	margin-left: 0;
+}
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
