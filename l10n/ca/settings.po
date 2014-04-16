@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,17 +89,17 @@ msgstr "No es pot afegir el grup"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Els fitxers s'han desencriptat amb èxit"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "No es poden desencriptar els fitxers. Comproveu owncloud.log o demaneu-ho a l'administrador."
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "No s'han pogut desencriptar els fitxers, comproveu la contrasenya i proveu-ho de nou"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -453,11 +453,11 @@ msgstr "L'últim cron s'ha executat el %s"
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "L'últim cron es va executar a %s. Fa més d'una hora, alguna cosa sembla que va malament."
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "El cron encara no s'ha executat!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
