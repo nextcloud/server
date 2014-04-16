@@ -103,4 +103,12 @@
 }
 
 
+/* fix error display on smaller screens */
+.error-wide {
+	width: 100%;
+	margin-left: 0 !important;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 }
