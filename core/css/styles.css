@@ -464,7 +464,7 @@ p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login form label.infield { /* labels are ellipsized when too long, keep them short */
 	position: absolute;
-	width: auto;
+	width: 82%;
 	margin-left: 26px;
 	font-size: 19px;
 	color: #aaa;
