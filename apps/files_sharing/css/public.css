@@ -97,4 +97,5 @@ thead {
 .directLink input {
 	margin-left: 5px;
 	width: 300px;
+	max-width: 90%;
 }
