@@ -7,21 +7,25 @@
 
  var GroupList = {
 	addGroup: function(gid, usercount) {
-		if(usercount === undefined || usercount === 0) {
-			usercount = '';
-		}
 		var li = $('li[data-gid]').last().clone();
 		var ul = $('li[data-gid]').first().parent();
 		li.attr('data-gid', gid);
-		li.attr('data-usercount', usercount);
 		li.find('a span').first().text(gid);
-		li.find('span[class=usercount]').first().text(usercount);
+		GroupList.setUserCount(li, usercount);
 
 		$(li).appendTo(ul);
 
 		GroupList.sortGroups(0);
 
 		return li;
+	},
+
+	setUserCount: function(groupLiElement, usercount) {
+		if(usercount === undefined || usercount === 0) {
+			usercount = '';
+		}
+		groupLiElement.attr('data-usercount', usercount);
+		groupLiElement.find('span[class=usercount]').first().text(usercount);
 	},
 
 	sortGroups: function(usercount) {
@@ -93,6 +97,8 @@
 				$.each(result.data, function (i, subset) {
 					$.each(subset, function (index, group) {
 						if($('li[data-gid="' + group.name + '"]').length > 0) {
+							var li = $('li[data-gid="' + group.name + '"]');
+							GroupList.setUserCount(li, group.usercount);
 							return true;
 						}
 						var li = GroupList.addGroup(group.name, group.usercount);

@@ -289,10 +289,12 @@ var UserList = {
 							group: group
 						},
 						function (response) {
-							if(response.status === 'success'
-									&& UserList.availableGroups.indexOf(response.data.groupname) === -1
-									&& response.data.action === 'add') {
-								UserList.availableGroups.push(response.data.groupname);
+							if(response.status === 'success') {
+								GroupList.update();
+								if(UserList.availableGroups.indexOf(response.data.groupname) === -1
+										&& response.data.action === 'add') {
+									UserList.availableGroups.push(response.data.groupname);
+								}
 							}
 							if(response.data.message) {
 								OC.Notification.show(response.data.message);
