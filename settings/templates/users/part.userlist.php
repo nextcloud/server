@@ -95,7 +95,7 @@
 			<td class="storageLocation"><?php p($user["storageLocation"]); ?></td>
 			<?php
 			if($user["lastLogin"] === 0) {
-				$lastLogin = 'never';
+				$lastLogin = $l->t('never');
 				$lastLoginDate = '';
 			} else {
 				$lastLogin = relative_modified_date($user["lastLogin"]);
