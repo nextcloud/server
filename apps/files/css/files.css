@@ -51,7 +51,7 @@
 	margin: 5px;
 	padding-left: 42px;
 	padding-bottom: 2px;
-	background-position: initial;
+	background-position: left center;
 	cursor: pointer;
 }
 #new > ul > li > p {
