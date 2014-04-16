@@ -9,11 +9,6 @@
 class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject $config
-	 */
-	protected $config;
-
-	/**
 	 * @small
 	 * @brief test linkTo URL construction
 	 * @dataProvider provideDocRootAppUrlParts
