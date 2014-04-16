@@ -259,6 +259,9 @@ class User {
 		return $this->lastLogin;
 	}
 
+	/**
+	 * @brief updates the timestamp of the most recent login of this user
+	 */
 	public function updateLastLogin() {
 		$this->lastLogin = time();
 		\OC_Preferences::setValue($this->uid, 'login', 'lastLogin', $this->lastLogin);
