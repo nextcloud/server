@@ -36,8 +36,8 @@ namespace OC {
 		public function search($pattern, $searchProperties = array(), $options = array()) {
 			$this->loadAddressBooks();
 			$result = array();
-			foreach($this->address_books as $address_book) {
-				$r = $address_book->search($pattern, $searchProperties, $options);
+			foreach($this->addressBooks as $addressBook) {
+				$r = $addressBook->search($pattern, $searchProperties, $options);
 				$result = array_merge($result, $r);
 			}
 
@@ -48,20 +48,20 @@ namespace OC {
 		 * This function can be used to delete the contact identified by the given id
 		 *
 		 * @param object $id the unique identifier to a contact
-		 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
+		 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
 		 * @return bool successful or not
 		 */
-		public function delete($id, $address_book_key) {
-			$address_book = $this->getAddressBook($address_book_key);
-			if (!$address_book) {
+		public function delete($id, $addressBookKey) {
+			$addressBook = $this->getAddressBook($addressBookKey);
+			if (!$addressBook) {
 				return null;
 			}
 
-			if ($address_book->getPermissions() & \OCP\PERMISSION_DELETE) {
+			if ($addressBook->getPermissions() & \OCP\PERMISSION_DELETE) {
 				return null;
 			}
 
-			return $address_book->delete($id);
+			return $addressBook->delete($id);
 		}
 
 		/**
@@ -69,20 +69,20 @@ namespace OC {
 		 * Otherwise the contact will be updated by replacing the entire data set.
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
-		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
+		 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
 		 * @return array representing the contact just created or updated
 		 */
-		public function createOrUpdate($properties, $address_book_key) {
-			$address_book = $this->getAddressBook($address_book_key);
-			if (!$address_book) {
+		public function createOrUpdate($properties, $addressBookKey) {
+			$addressBook = $this->getAddressBook($addressBookKey);
+			if (!$addressBook) {
 				return null;
 			}
 
-			if ($address_book->getPermissions() & \OCP\PERMISSION_CREATE) {
+			if ($addressBook->getPermissions() & \OCP\PERMISSION_CREATE) {
 				return null;
 			}
 
-			return $address_book->createOrUpdate($properties);
+			return $addressBook->createOrUpdate($properties);
 		}
 
 		/**
@@ -91,21 +91,21 @@ namespace OC {
 		 * @return bool true if enabled, false if not
 		 */
 		public function isEnabled() {
-			return !empty($this->address_books) || !empty($this->address_book_loaders);
+			return !empty($this->addressBooks) || !empty($this->addressBookLoaders);
 		}
 
 		/**
-		 * @param \OCP\IAddressBook $address_book
+		 * @param \OCP\IAddressBook $addressBook
 		 */
-		public function registerAddressBook(\OCP\IAddressBook $address_book) {
-			$this->address_books[$address_book->getKey()] = $address_book;
+		public function registerAddressBook(\OCP\IAddressBook $addressBook) {
+			$this->addressBooks[$addressBook->getKey()] = $addressBook;
 		}
 
 		/**
-		 * @param \OCP\IAddressBook $address_book
+		 * @param \OCP\IAddressBook $addressBook
 		 */
-		public function unregisterAddressBook(\OCP\IAddressBook $address_book) {
-			unset($this->address_books[$address_book->getKey()]);
+		public function unregisterAddressBook(\OCP\IAddressBook $addressBook) {
+			unset($this->addressBooks[$addressBook->getKey()]);
 		}
 
 		/**
@@ -114,8 +114,8 @@ namespace OC {
 		public function getAddressBooks() {
 			$this->loadAddressBooks();
 			$result = array();
-			foreach($this->address_books as $address_book) {
-				$result[$address_book->getKey()] = $address_book->getDisplayName();
+			foreach($this->addressBooks as $addressBook) {
+				$result[$addressBook->getKey()] = $addressBook->getDisplayName();
 			}
 
 			return $result;
@@ -125,19 +125,19 @@ namespace OC {
 		 * removes all registered address book instances
 		 */
 		public function clear() {
-			$this->address_books = array();
-			$this->address_book_loaders = array();
+			$this->addressBooks = array();
+			$this->addressBookLoaders = array();
 		}
 
 		/**
 		 * @var \OCP\IAddressBook[] which holds all registered address books
 		 */
-		private $address_books = array();
+		private $addressBooks = array();
 
 		/**
 		 * @var \Closure[] to call to load/register address books
 		 */
-		private $address_book_loaders = array();
+		private $addressBookLoaders = array();
 
 		/**
 		 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -147,23 +147,23 @@ namespace OC {
 		 */
 		public function register(\Closure $callable)
 		{
-			$this->address_book_loaders[] = $callable;
+			$this->addressBookLoaders[] = $callable;
 		}
 
 		/**
 		 * Get (and load when needed) the address book for $key
 		 *
-		 * @param string $address_book_key
+		 * @param string $addressBookKey
 		 * @return \OCP\IAddressBook
 		 */
-		protected function getAddressBook($address_book_key)
+		protected function getAddressBook($addressBookKey)
 		{
 			$this->loadAddressBooks();
-			if (!array_key_exists($address_book_key, $this->address_books)) {
+			if (!array_key_exists($addressBookKey, $this->addressBooks)) {
 				return null;
 			}
 
-			return $this->address_books[$address_book_key];
+			return $this->addressBooks[$addressBookKey];
 		}
 
 		/**
@@ -171,10 +171,10 @@ namespace OC {
 		 */
 		protected function loadAddressBooks()
 		{
-			foreach($this->address_book_loaders as $callable) {
+			foreach($this->addressBookLoaders as $callable) {
 				$callable($this);
 			}
-			$this->address_book_loaders = array();
+			$this->addressBookLoaders = array();
 		}
 	}
 }
