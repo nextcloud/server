@@ -360,6 +360,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		$this->mapper->copy($fullPath1, $fullPath2);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function stripLeading($path) {
 		if(strpos($path, '/') === 0) {
 			$path = substr($path, 1);

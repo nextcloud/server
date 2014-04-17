@@ -81,6 +81,9 @@ class Router implements IRouter {
 		return $this->routingFiles;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getCacheKey() {
 		if (!isset($this->cacheKey)) {
 			$files = $this->getRoutingFiles();
@@ -94,6 +97,7 @@ class Router implements IRouter {
 
 	/**
 	 * loads the api routes
+	 * @return void
 	 */
 	public function loadRoutes($app = null) {
 		if ($this->loaded) {
@@ -152,6 +156,7 @@ class Router implements IRouter {
 	 * Sets the collection to use for adding routes
 	 *
 	 * @param string $name Name of the collection to use.
+	 * @return void
 	 */
 	public function useCollection($name) {
 		$this->collection = $this->getCollection($name);
@@ -177,6 +182,7 @@ class Router implements IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
+	 * @return void
 	 */
 	public function match($url) {
 		if (substr($url, 0, 6) === '/apps/') {
@@ -207,6 +213,7 @@ class Router implements IRouter {
 
 	/**
 	 * Get the url generator
+	 * @return \Symfony\Component\Routing\Generator\UrlGenerator
 	 *
 	 */
 	public function getGenerator() {

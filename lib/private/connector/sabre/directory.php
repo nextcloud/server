@@ -105,6 +105,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Returns a specific child node, referenced by its name
 	 *
 	 * @param string $name
+	 * @param OC\Files\FileInfo $info
 	 * @throws Sabre_DAV_Exception_FileNotFound
 	 * @return Sabre_DAV_INode
 	 */
