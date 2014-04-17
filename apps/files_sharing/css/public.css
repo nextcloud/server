@@ -91,13 +91,26 @@ thead {
 	margin: 0;
 }
 
+
 .directDownload,
 .directLink {
 	margin-bottom: 20px;
 }
+
+/* keep long file names in one line to not overflow download button on mobile */
+.directDownload #download {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 90%;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
 .directDownload .button img {
 	vertical-align: text-bottom;
 }
+
 .directLink label {
 	font-weight: normal;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
