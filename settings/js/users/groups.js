@@ -6,6 +6,8 @@
  */
 
  var GroupList = {
+	activeGID: '',
+
 	addGroup: function(gid, usercount) {
 		var li = $('li[data-gid]').last().clone();
 		var ul = $('li[data-gid]').first().parent();
@@ -26,6 +28,10 @@
 		}
 		groupLiElement.attr('data-usercount', usercount);
 		groupLiElement.find('span[class=usercount]').first().text(usercount);
+	},
+
+	getCurrentGID: function() {
+		return GroupList.activeGID;
 	},
 
 	sortGroups: function(usercount) {
@@ -135,6 +141,7 @@
 	},
 
 	showGroup: function (gid) {
+		GroupList.activeGID = gid;
 		UserList.empty();
 		UserList.update(gid);
 		$('#app-navigation li').removeClass('active');

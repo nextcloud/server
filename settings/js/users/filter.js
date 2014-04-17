@@ -59,7 +59,7 @@ UserManagementFilter.prototype.init = function() {
  */
 UserManagementFilter.prototype.run = function() {
 	this.userList.empty();
-	this.userList.update();
+	this.userList.update(GroupList.getCurrentGID());
 	this.groupList.empty();
 	this.groupList.update();
 };
