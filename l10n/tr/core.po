@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-17 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 21:49+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -298,12 +298,12 @@ msgstr "Paylaşılan"
 msgid "Share"
 msgstr "Paylaş"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:732
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Hata"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:788
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata"
 
@@ -325,7 +325,7 @@ msgstr "{owner} tarafından sizinle paylaşıldı"
 
 #: js/share.js:214
 msgid "Share with user or group …"
-msgstr "Kullanıcı veya grup ile paylaş.."
+msgstr "Kullanıcı veya grup ile paylaş..."
 
 #: js/share.js:220
 msgid "Share link"
@@ -411,27 +411,27 @@ msgstr "sil"
 msgid "share"
 msgstr "paylaş"
 
-#: js/share.js:718
+#: js/share.js:719
 msgid "Password protected"
 msgstr "Parola korumalı"
 
-#: js/share.js:731
+#: js/share.js:732
 msgid "Error unsetting expiration date"
 msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:749
+#: js/share.js:750
 msgid "Error setting expiration date"
 msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:774
+#: js/share.js:775
 msgid "Sending ..."
 msgstr "Gönderiliyor..."
 
-#: js/share.js:785
+#: js/share.js:786
 msgid "Email sent"
 msgstr "E-posta gönderildi"
 
-#: js/share.js:809
+#: js/share.js:810
 msgid "Warning"
 msgstr "Uyarı"
 
