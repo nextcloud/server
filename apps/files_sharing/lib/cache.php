@@ -91,6 +91,9 @@ class Shared_Cache extends Cache {
 				$data = $cache->get($this->files[$file]);
 				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
 				$data['path'] = $path;
+				if ($file === '') {
+					$data['is_share_mount_point'] = true;
+				}
 				return $data;
 			}
 		} else {
@@ -123,6 +126,7 @@ class Shared_Cache extends Cache {
 			}
 			if (isset($mountPoint)) {
 				$data['path'] = 'files/' . $mountPoint;
+				$data['is_share_mount_point'] = true;
 			}
 			return $data;
 		}

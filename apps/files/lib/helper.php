@@ -96,6 +96,9 @@ class Helper
 		if (isset($i['displayname_owner'])) {
 			$entry['shareOwner'] = $i['displayname_owner'];
 		}
+		if (isset($i['is_share_mount_point'])) {
+			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
+		}
 		return $entry;
 	}
 
