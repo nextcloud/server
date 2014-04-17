@@ -46,6 +46,7 @@
 
    <index>
     <name>owncloud_name_users</name>
+	   <primary>true</primary>
     <unique>true</unique>
     <field>
      <name>owncloud_name</name>
@@ -90,6 +91,7 @@
    <index>
     <name>ldap_dn_groups</name>
     <unique>true</unique>
+	   <primary>true</primary>
     <field>
      <name>ldap_dn</name>
     </field>
@@ -132,6 +134,7 @@
    <index>
     <name>ldap_group_members_index</name>
     <unique>true</unique>
+	   <primary>true</primary>
     <field>
      <name>owncloudname</name>
     </field>

@@ -13,6 +13,15 @@
 
   <declaration>
 
+	  <field>
+		  <name>auto_id</name>
+		  <type>integer</type>
+		  <default>0</default>
+		  <notnull>true</notnull>
+		  <autoincrement>1</autoincrement>
+		  <length>4</length>
+	  </field>
+
    <field>
     <name>id</name>
     <type>text</type>

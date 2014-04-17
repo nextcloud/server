@@ -109,7 +109,7 @@ class MDB2SchemaManager {
 	 */
 	public function simulateUpdateDbFromStructure($file) {
 		$toSchema = $this->readSchemaFromFile($file);
-		$migrator = $this->getMigrator()->checkMigrate($toSchema);
+		$this->getMigrator()->checkMigrate($toSchema);
 		return true;
 	}
 

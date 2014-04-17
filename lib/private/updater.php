@@ -150,6 +150,7 @@ class Updater extends BasicEmitter {
 			// This is added to prevent host header poisoning
 			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost())));
 		}
+
 		/*
 		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
 		 */
