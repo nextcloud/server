@@ -28,21 +28,21 @@
 		<li data-gid="admin">
 			<a href="#"><?php p($l->t('Admins')); ?></a>
 			<span class="utils">
-				<span class="usercount"><?php if($adminGroup['useringroup'] > 0) { p($adminGroup['useringroup']); } ?></span>
+				<span class="usercount"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></span>
 			</span>
 		</li>
 	<?php endforeach; ?>
 
 	<!--List of Groups-->
 	<?php foreach($_["groups"] as $group): ?>
-		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['useringroup']) ?>">
+		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>">
 			<a href="#">
 				<span><?php p($group['name']); ?></span>
 				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				original-title="<?php p($l->t('Edit'))?>" alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
 			</a>
 			<span class="utils">
-				<span class="usercount"><?php if($group['useringroup'] > 0) { p($group['useringroup']); } ?></span>
+				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
 					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
 				</a>

@@ -30,46 +30,57 @@ if (isset($_GET['pattern']) && !empty($_GET['pattern'])) {
 $groups = array();
 $adminGroups = array();
 $groupManager = \OC_Group::getManager();
+$isAdmin = OC_User::isAdminUser(OC_User::getUser());
+
+//we pass isAdmin as true, because OC_SubAdmin has no search feature,
+//groups will be filtered out later
+$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), true, $groupManager);
+$groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
+list($adminGroup, $groups) = $groupsInfo->get($pattern);
 
 $accessiblegroups = $groupManager->search($pattern);
-if (!OC_User::isAdminUser(OC_User::getUser())) {
+if(!$isAdmin) {
 	$subadminGroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessiblegroups = array_intersect($accessiblegroups, $subadminGroups);
+	$accessiblegroups = array_intersect($groups, $subadminGroups);
 }
 
-$sortGroupsIndex = 0;
-$sortGroupsKeys = array();
-$sortAdminGroupsIndex = 0;
-$sortAdminGroupsKeys = array();
-
-foreach($accessiblegroups as $group) {
-	$gid = $group->getGID();
-	$usersInGroup = OC_Group::usersInGroup($gid, '');
-	if (!OC_User::isAdminUser($gid)) {
-		$groups[] = array(
-			'id' => str_replace(' ','', $gid ),
-			'name' => $gid,
-			'usercount' => count($usersInGroup),
-		);
-		$sortGroupsKeys[$sortGroupsIndex] = count($usersInGroup);
-		$sortGroupsIndex++;
-	} else {
-		$adminGroup[] =  array(
-			'id' => str_replace(' ','', $gid ),
-			'name' => $gid,
-			'usercount' => count($usersInGroup)
-		);
-		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = count($usersInGroup);
-		$sortAdminGroupsIndex++;
-	}
-}
-
-if(!empty($groups)) {
-	array_multisort($sortGroupsKeys, SORT_DESC, $groups);
-}
-if(!empty($adminGroup)) {
-	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
-}
+// $sortGroupsIndex = 0;
+// $sortGroupsKeys = array();
+// $sortAdminGroupsIndex = 0;
+// $sortAdminGroupsKeys = array();
+//
+// foreach($accessiblegroups as $group) {
+// 	$gid = $group->getGID();
+// 	$group = $groupManager->get($gid);
+// 	if(!$group) {
+// 		continue;
+// 	}
+// 	$usersInGroup = $group->count();
+// 	if (!OC_User::isAdminUser($gid)) {
+// 		$groups[] = array(
+// 			'id' => str_replace(' ','', $gid ),
+// 			'name' => $gid,
+// 			'usercount' => $usersInGroup,
+// 		);
+// 		$sortGroupsKeys[$sortGroupsIndex] = $usersInGroup;
+// 		$sortGroupsIndex++;
+// 	} else {
+// 		$adminGroup[] =  array(
+// 			'id' => str_replace(' ','', $gid ),
+// 			'name' => $gid,
+// 			'usercount' => $usersInGroup
+// 		);
+// 		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = $usersInGroup;
+// 		$sortAdminGroupsIndex++;
+// 	}
+// }
+//
+// if(!empty($groups)) {
+// 	array_multisort($sortGroupsKeys, SORT_DESC, $groups);
+// }
+// if(!empty($adminGroup)) {
+// 	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
+// }
 
 OC_JSON::success(
 	array('data' => array('adminGroups' => $adminGroups, 'groups' => $groups)));

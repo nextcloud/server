@@ -19,8 +19,6 @@ OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
 $users = array();
-$groups = array();
-$adminGroup = array();
 $userManager = \OC_User::getManager();
 $groupManager = \OC_Group::getManager();
 
@@ -36,16 +34,19 @@ if (isset($_GET['limit'])) {
 }
 
 $isadmin = OC_User::isAdminUser(OC_User::getUser());
+
+$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isadmin, $groupManager);
+$groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
+list($adminGroup, $groups) = $groupsInfo->get();
+
 $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
 if($isadmin) {
-	$accessiblegroups = OC_Group::getGroups();
 	$accessibleusers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
-	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessibleusers = OC_Group::displayNamesInGroups($accessiblegroups, '', 30);
+	$accessibleusers = OC_Group::displayNamesInGroups($groups, '', 30);
 	$subadmins = false;
 }
 
@@ -85,50 +86,13 @@ foreach($accessibleusers as $uid => $displayName) {
 	);
 }
 
-$sortGroupsIndex = 0;
-$sortGroupsKeys = array();
-$sortAdminGroupsIndex = 0;
-$sortAdminGroupsKeys = array();
-foreach( $accessiblegroups as $gid ) {
-	$group = $groupManager->get($gid);
-	if(!$group) {
-		continue;
-	}
-	$usersInGroup = $group->count();
-	if (!OC_User::isAdminUser($gid)) {
-		$groups[] = array(
-			'id' => str_replace(' ','', $gid ),
-			'name' => $gid,
-			'useringroup' => $usersInGroup,
-		);
-		$sortGroupsKeys[$sortGroupsIndex] = $usersInGroup;
-		$sortGroupsIndex++;
-	} else {
-		$adminGroup[] =  array(
-			'id' => str_replace(' ','', $gid ),
-			'name' => $gid,
-			'useringroup' => $usersInGroup
-		);
-		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = $usersInGroup;
-		$sortAdminGroupsIndex++;
-	}
-}
-
-//sorts groups by number of users (descending)
-if(!empty($groups)) {
-	array_multisort($sortGroupsKeys, SORT_DESC, $groups);
-}
-if(!empty($adminGroup)) {
-	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
-}
-
 $tmpl = new OC_Template( "settings", "users/main", "user" );
 $tmpl->assign( 'users', $users );
 $tmpl->assign( 'groups', $groups );
 $tmpl->assign( 'adminGroup', $adminGroup );
 $tmpl->assign( 'isadmin', (int) $isadmin);
 $tmpl->assign( 'subadmins', $subadmins);
-$tmpl->assign( 'numofgroups', count($accessiblegroups));
+$tmpl->assign( 'numofgroups', count($groups) + count($adminGroup));
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
 $tmpl->assign( 'defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
