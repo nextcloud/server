@@ -44,43 +44,5 @@ if(!$isAdmin) {
 	$accessiblegroups = array_intersect($groups, $subadminGroups);
 }
 
-// $sortGroupsIndex = 0;
-// $sortGroupsKeys = array();
-// $sortAdminGroupsIndex = 0;
-// $sortAdminGroupsKeys = array();
-//
-// foreach($accessiblegroups as $group) {
-// 	$gid = $group->getGID();
-// 	$group = $groupManager->get($gid);
-// 	if(!$group) {
-// 		continue;
-// 	}
-// 	$usersInGroup = $group->count();
-// 	if (!OC_User::isAdminUser($gid)) {
-// 		$groups[] = array(
-// 			'id' => str_replace(' ','', $gid ),
-// 			'name' => $gid,
-// 			'usercount' => $usersInGroup,
-// 		);
-// 		$sortGroupsKeys[$sortGroupsIndex] = $usersInGroup;
-// 		$sortGroupsIndex++;
-// 	} else {
-// 		$adminGroup[] =  array(
-// 			'id' => str_replace(' ','', $gid ),
-// 			'name' => $gid,
-// 			'usercount' => $usersInGroup
-// 		);
-// 		$sortAdminGroupsKeys[$sortAdminGroupsIndex] = $usersInGroup;
-// 		$sortAdminGroupsIndex++;
-// 	}
-// }
-//
-// if(!empty($groups)) {
-// 	array_multisort($sortGroupsKeys, SORT_DESC, $groups);
-// }
-// if(!empty($adminGroup)) {
-// 	array_multisort($sortAdminGroupsKeys, SORT_DESC, $adminGroup);
-// }
-
 OC_JSON::success(
 	array('data' => array('adminGroups' => $adminGroups, 'groups' => $groups)));
