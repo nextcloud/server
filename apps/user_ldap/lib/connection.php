@@ -134,6 +134,9 @@ class Connection extends LDAPUtility {
 		return $this->ldapConnectionRes;
 	}
 
+	/**
+	 * @param string|null $key
+	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-'.$this->configID.'-'.$this->configPrefix.'-';
 		if(is_null($key)) {

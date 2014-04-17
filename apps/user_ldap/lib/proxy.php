@@ -80,6 +80,9 @@ abstract class Proxy {
 		return $result;
 	}
 
+	/**
+	 * @param string|null $key
+	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
 		if(is_null($key)) {
