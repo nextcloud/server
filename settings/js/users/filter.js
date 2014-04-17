@@ -71,3 +71,15 @@ UserManagementFilter.prototype.run = function() {
 UserManagementFilter.prototype.getPattern = function() {
 	return this.filterInput.val();
 };
+
+/**
+ * @brief adds reset functionality to an HTML element
+ * @param jQuery the jQuery representation of that element
+ */
+UserManagementFilter.prototype.addResetButton = function(button) {
+	var umf = this;
+	button.click(function(){
+		umf.filterInput.val('');
+		umf.run();
+	});
+};

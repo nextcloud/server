@@ -63,8 +63,8 @@ li.active span.utils .delete {
 }
 li.active .rename {
 	padding: 8px 14px 20px 14px;
-	top: 0px; position: absolute; width: 16px; height: 16px; 
-	opacity: 0.5; 
+	top: 0px; position: absolute; width: 16px; height: 16px;
+	opacity: 0.5;
 	display: inline-block !important;
 }
 li.active span.utils .delete img { margin: 14px; }
@@ -107,6 +107,12 @@ div.quota>span {
 	text-shadow: 0 1px 0 #fff;
 }
 select.quota.active { background: #fff; }
+
+input.userFilter {width: 200px;}
+span.userFilterReset {
+	width: 16px; height: 16px; position: absolute;
+	padding-top: 20px; margin-left: -20px;
+}
 
 /* positioning fixes */
 #newuser .multiselect {
