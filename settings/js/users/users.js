@@ -145,12 +145,43 @@ var UserList = {
 		}
 		return aa.length - bb.length;
 	},
+	preSortSearchString: function(a, b) {
+		var pattern = filter.getPattern();
+		if(typeof pattern === 'undefined') {
+			return undefined;
+		}
+		pattern = pattern.toLowerCase();
+		var aMatches = false;
+		var bMatches = false;
+		if(typeof a === 'string' && a.toLowerCase().indexOf(pattern) === 0) {
+			aMatches = true;
+		}
+		if(typeof b === 'string' && b.toLowerCase().indexOf(pattern) === 0) {
+			bMatches = true;
+		}
+
+		if((aMatches && bMatches) || (!aMatches && !bMatches)) {
+			return undefined;
+		}
+
+		if(aMatches) {
+			return -1;
+		} else {
+			return 1;
+		}
+	},
 	doSort: function() {
 		var self = this;
 		var rows = $('tbody tr').get();
 
 		rows.sort(function(a, b) {
-			return UserList.alphanum($(a).find('td.name').text(), $(b).find('td.name').text());
+			a = $(a).find('td.name').text();
+			b = $(b).find('td.name').text();
+			var firstSort = UserList.preSortSearchString(a, b);
+			if(typeof firstSort !== 'undefined') {
+				return firstSort;
+			}
+			return UserList.alphanum(a, b);
 		});
 
 		var items = [];
@@ -391,6 +422,10 @@ function setQuota (uid, quota, ready) {
 $(document).ready(function () {
 	UserList.initDeleteHandling();
 
+	// Implements User Search
+	filter = new UserManagementFilter(
+		$('#usersearchform input'), UserList, GroupList);
+
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
 
@@ -548,7 +583,5 @@ $(document).ready(function () {
 			}
 		);
 	});
-	// Implements User Search
-	filter = new UserManagementFilter(
-		$('#usersearchform input'), UserList, GroupList);
+
 });
