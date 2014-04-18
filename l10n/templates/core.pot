@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-17 01:55-0400\n"
+"POT-Creation-Date: 2014-04-18 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,12 +295,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:732
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:160 js/share.js:788
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr ""
 
@@ -364,71 +364,71 @@ msgstr ""
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr ""
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr ""
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr ""
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr ""
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr ""
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr ""
 
-#: js/share.js:719
+#: js/share.js:721
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:732
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:750
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:775
+#: js/share.js:777
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:786
+#: js/share.js:788
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:810
+#: js/share.js:812
 msgid "Warning"
 msgstr ""
 
