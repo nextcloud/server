@@ -129,7 +129,7 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 
 	private function getControllerMock(){
 		return $this->getMock('OCP\AppFramework\Controller', array('method'),
-			array($this->getAPIMock(), new Request()));
+			array($this->getAPIMock(), new Request(array('method' => 'GET'))));
 	}
 
 

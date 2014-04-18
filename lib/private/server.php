@@ -35,6 +35,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				$requesttoken = false;
 			}
 
+			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())) {
+				$stream = 'fakeinput://data';
+			} else {
+				$stream = 'php://input';
+			}
+
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -48,7 +55,7 @@ class Server extends SimpleContainer implements IServerContainer {
 						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
-				)
+				), $stream
 			);
 		});
 		$this->registerService('PreviewManager', function($c) {
