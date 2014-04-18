@@ -208,12 +208,13 @@ class OC_App {
 	/**
 	 * enables an app
 	 * @param mixed $app app
+	 * @param array $groups (optional) when set, only these groups will have access to the app
 	 * @throws \Exception
 	 * @return void
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
-	public static function enable($app) {
+	public static function enable($app, $groups = null) {
 		self::$enabledAppsCache = array(); // flush
 		if (!OC_Installer::isInstalled($app)) {
 			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
@@ -242,7 +243,11 @@ class OC_App {
 					)
 				);
 			} else {
-				OC_Appconfig::setValue($app, 'enabled', 'yes');
+				if (!is_null($groups)) {
+					OC_Appconfig::setValue($app, 'enabled', json_encode($groups));
+				}else{
+					OC_Appconfig::setValue($app, 'enabled', 'yes');
+				}
 				if (isset($appdata['id'])) {
 					OC_Appconfig::setValue($app, 'ocsid', $appdata['id']);
 				}
@@ -723,10 +728,15 @@ class OC_App {
 					continue;
 				}
 
-				if (OC_Appconfig::getValue($app, 'enabled', 'no') == 'yes') {
+				$enabled = OC_Appconfig::getValue($app, 'enabled', 'no');
+				$info['groups'] = null;
+				if ($enabled === 'yes') {
 					$active = true;
-				} else {
+				} else if($enabled === 'no') {
 					$active = false;
+				} else {
+					$active = true;
+					$info['groups'] = $enabled;
 				}
 
 				$info['active'] = $active;
