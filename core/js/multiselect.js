@@ -162,6 +162,7 @@
 						button.css('width','');
 					});
 					list.animate({'width':newOuterWidth,'left':pos.left+3});
+					self.change();
 				});
 				var li=$('<li></li>');
 				li.append(input).append(label);
