@@ -33,16 +33,16 @@ if (isset($_GET['limit'])) {
 	$limit = 10;
 }
 
-$isadmin = OC_User::isAdminUser(OC_User::getUser());
+$isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
-$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isadmin, $groupManager);
+$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
 list($adminGroup, $groups) = $groupsInfo->get();
 
 $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
-if($isadmin) {
+if($isAdmin) {
 	$accessibleusers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
@@ -90,7 +90,7 @@ $tmpl = new OC_Template( "settings", "users/main", "user" );
 $tmpl->assign( 'users', $users );
 $tmpl->assign( 'groups', $groups );
 $tmpl->assign( 'adminGroup', $adminGroup );
-$tmpl->assign( 'isadmin', (int) $isadmin);
+$tmpl->assign( 'isAdmin', (int) $isAdmin);
 $tmpl->assign( 'subadmins', $subadmins);
 $tmpl->assign( 'numofgroups', count($groups) + count($adminGroup));
 $tmpl->assign( 'quota_preset', $quotaPreset);
