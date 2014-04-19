@@ -197,12 +197,6 @@ class MapperTest extends MapperTestUtility {
 
 
 	public function testUpdateNoId(){
-		$sql = 'UPDATE `*PREFIX*table` ' .
-				'SET ' .
-				'`pre_name` = ?,'.
-				'`email` = ? ' .
-				'WHERE `id` = ?';
-
 		$params = array('john', 'my@email');
 		$entity = new Example();
 		$entity->setPreName($params[0]);
