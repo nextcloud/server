@@ -404,7 +404,7 @@ var UserList = {
 		if (UserList.scrollArea.scrollTop() + UserList.scrollArea.height() > UserList.scrollArea.get(0).scrollHeight - 500) {
 			UserList.update(UserList.currentGid, true);
 		}
-	},
+	}
 };
 
 function setQuota (uid, quota, ready) {
