@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-19 01:55-0400\n"
+"PO-Revision-Date: 2014-04-18 11:20+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -172,7 +172,7 @@ msgstr "onte"
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
-msgstr[1] "hai %n días"
+msgstr[1] "vai %n días"
 
 #: js/js.js:1105
 msgid "last month"
@@ -296,12 +296,12 @@ msgstr "Compartir"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
@@ -365,71 +365,71 @@ msgstr "Compartir por correo:"
 msgid "No people found"
 msgstr "Non se atopou xente"
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupo"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Non se permite volver a compartir"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Deixar de compartir"
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notificar por correo"
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Correo enviado"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
 msgstr "Aviso"
 
