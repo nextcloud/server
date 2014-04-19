@@ -37,7 +37,7 @@ class Db implements IDb {
      * @param string $sql the sql query with ? placeholder for params
      * @param int $limit the maximum number of rows
      * @param int $offset from which row we want to start
-     * @return \OCP\DB a query object
+     * @return \OC_DB_StatementWrapper prepared SQL query
      */
     public function prepareQuery($sql, $limit=null, $offset=null){
         return \OCP\DB::prepare($sql, $limit, $offset);
