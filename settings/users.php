@@ -43,10 +43,10 @@ $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
 if($isAdmin) {
-	$accessibleusers = OC_User::getDisplayNames('', 30);
+	$accessibleUsers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
-	$accessibleusers = OC_Group::displayNamesInGroups($groups, '', 30);
+	$accessibleUsers = OC_Group::displayNamesInGroups($groups, '', 30);
 	$subadmins = false;
 }
 
@@ -63,7 +63,7 @@ $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 	&& array_search($defaultQuota, array('none', 'default'))===false;
 
 // load users and quota
-foreach($accessibleusers as $uid => $displayName) {
+foreach($accessibleUsers as $uid => $displayName) {
 	$quota=OC_Preferences::getValue($uid, 'files', 'quota', 'default');
 	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false
 		&& array_search($quota, array('none', 'default'))===false;
