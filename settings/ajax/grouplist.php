@@ -38,10 +38,10 @@ $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), true, $groupManager);
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
 list($adminGroup, $groups) = $groupsInfo->get($pattern);
 
-$accessiblegroups = $groupManager->search($pattern);
+$accessibleGroups = $groupManager->search($pattern);
 if(!$isAdmin) {
 	$subadminGroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessiblegroups = array_intersect($groups, $subadminGroups);
+	$accessibleGroups = array_intersect($groups, $subadminGroups);
 }
 
 OC_JSON::success(
