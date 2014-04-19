@@ -24,6 +24,10 @@
 namespace OCP\AppFramework\Db;
 
 
+/**
+ * @method integer getId()
+ * @method void setId(integer $id)
+ */
 abstract class Entity {
 
 	public $id;

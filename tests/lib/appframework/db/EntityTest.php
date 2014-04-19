@@ -24,7 +24,20 @@
 namespace OCP\AppFramework\Db;
 
 
-
+/**
+ * @method integer getId()
+ * @method void setId(integer $id)
+ * @method integer getTestId()
+ * @method void setTestId(integer $id)
+ * @method string getName()
+ * @method void setName(string $name)
+ * @method string getName()
+ * @method void setEmail(string $email)
+ * @method string getEmail()
+ * @method void setEmailName(string $email)
+ * @method string getPreName()
+ * @method void setPreName(string $preName)
+ */
 class TestEntity extends Entity {
 	public $name;
 	public $email;
