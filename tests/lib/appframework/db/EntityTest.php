@@ -110,7 +110,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testSetterMarksFieldUpdated(){
-		$id = 3;
 		$this->entity->setId(3);
 
 		$this->assertContains('id', $this->entity->getUpdatedFields());
