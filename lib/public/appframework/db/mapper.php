@@ -40,7 +40,7 @@ abstract class Mapper {
 	private $db;
 
 	/**
-	 * @param Db $db Instance of the Db abstraction layer
+	 * @param IDb $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity 
 	 * @param string $entityClass the name of the entity that the sql should be
 	 * mapped to queries without using sql
@@ -79,8 +79,8 @@ abstract class Mapper {
 
 	/**
 	 * Creates a new entry in the db from an entity
-	 * @param Entity $enttiy the entity that should be created
-	 * @return the saved entity with the set id
+	 * @param Entity $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
 	 */
 	public function insert(Entity $entity){
 		// get updated fields to save, fields have to be set using a setter to
@@ -124,7 +124,7 @@ abstract class Mapper {
 	/**
 	 * Updates an entry in the db from an entity
 	 * @throws \InvalidArgumentException if entity has no id
-	 * @param Entity $enttiy the entity that should be created
+	 * @param Entity $entity the entity that should be created
 	 */
 	public function update(Entity $entity){
 		// entity needs an id
