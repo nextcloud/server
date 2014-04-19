@@ -113,6 +113,14 @@ interface IServerContainer {
 	 */
 	function getConfig();
 
+
+	/**
+	 * Returns an instance of the db facade
+	 * @return \OCP\IDb
+	 */
+	function getDb();
+
+
 	/**
 	 * Returns the app config manager
 	 *

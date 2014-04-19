@@ -24,6 +24,8 @@
 
 namespace OCP\AppFramework\Db;
 
+use \OCP\IDb;
+
 
 require_once __DIR__ . '/MapperTestUtility.php';
 

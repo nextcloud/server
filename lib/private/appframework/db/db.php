@@ -23,7 +23,7 @@
 
 namespace OC\AppFramework\Db;
 
-use \OCP\AppFramework\Db\IDb;
+use \OCP\IDb;
 
 
 /**

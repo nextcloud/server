@@ -46,7 +46,7 @@ abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp(){
 		$this->db = $this->getMockBuilder(
-			'\OCP\AppFramework\Db\IDb')
+			'\OCP\IDb')
 			->disableOriginalConstructor()
 			->getMock();
 

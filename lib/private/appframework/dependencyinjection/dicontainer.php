@@ -62,13 +62,6 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		});
 
 		/**
-		 * Database
-		 */
-		$this['Db'] = $this->share(function($c){
-			return new Db();
-		});
-
-		/**
 		 * Http
 		 */
 		$this['Request'] = $this->share(function($c) {

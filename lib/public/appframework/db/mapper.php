@@ -26,6 +26,8 @@
 
 namespace OCP\AppFramework\Db;
 
+use \OCP\IDb;
+
 
 /**
  * Simple parent class for inheriting your data access layer from. This class

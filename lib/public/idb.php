@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCP\AppFramework\Db;
+namespace OCP;
 
 
 /**
