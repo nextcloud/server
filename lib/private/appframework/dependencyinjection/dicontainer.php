@@ -32,7 +32,6 @@ use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
-use OC\AppFramework\Db\Db;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
