@@ -531,7 +531,7 @@ var OC={
 		$toggle.addClass('menutoggle');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.hide();
+				$menuEl.slideUp(200);
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
 				return false;
@@ -541,7 +541,7 @@ var OC={
 				// close it
 				OC._currentMenu.hide();
 			}
-			$menuEl.show();
+			$menuEl.slideToggle(200);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 			return false;
@@ -554,7 +554,7 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.hide();
+			$menuEl.slideUp(200);
 			OC._currentMenu = null;
 			OC._currentMenuToggle = null;
 		}
@@ -1097,7 +1097,7 @@ function initCore() {
 			return false;
 		}
 		if (OC._currentMenu) {
-			OC._currentMenu.hide();
+			OC._currentMenu.slideUp(200);
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
