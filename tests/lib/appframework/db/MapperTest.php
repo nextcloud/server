@@ -29,7 +29,14 @@ use \OCP\IDb;
 
 require_once __DIR__ . '/MapperTestUtility.php';
 
-
+/**
+ * @method integer getId()
+ * @method void setId(integer $id)
+ * @method string getEmail()
+ * @method void setEmail(string $email)
+ * @method string getPreName()
+ * @method void setPreName(string $preName)
+ */
 class Example extends Entity {
 	public $preName;
 	public $email;

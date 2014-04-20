@@ -31,10 +31,8 @@ namespace OCP\AppFramework\Db;
  * @method void setTestId(integer $id)
  * @method string getName()
  * @method void setName(string $name)
- * @method string getName()
- * @method void setEmail(string $email)
  * @method string getEmail()
- * @method void setEmailName(string $email)
+ * @method void setEmail(string $email)
  * @method string getPreName()
  * @method void setPreName(string $preName)
  */
