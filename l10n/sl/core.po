@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-21 01:55-0400\n"
+"PO-Revision-Date: 2014-04-20 20:53+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,7 +246,7 @@ msgstr "Nove datoteke"
 
 #: js/oc-dialogs.js:373
 msgid "Already existing files"
-msgstr ""
+msgstr "Obstoječe datoteke"
 
 #: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
@@ -306,12 +306,12 @@ msgstr "V souporabi"
 msgid "Share"
 msgstr "Souporaba"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Napaka"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Napaka med souporabo"
 
@@ -375,71 +375,71 @@ msgstr "Pošlji povezavo do dokumenta preko elektronske pošte:"
 msgid "No people found"
 msgstr "Ni najdenih uporabnikov"
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Nadaljnja souporaba ni dovoljena"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "V souporabi v {item} z uporabnikom {user}"
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Prekliči souporabo"
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr "obvesti po elektronski pošti"
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "lahko ureja"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "nadzor dostopa"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "ustvari"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "posodobi"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "izbriše"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "določi souporabo"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Zaščiteno z geslom"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Napaka brisanja datuma preteka"
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Napaka nastavljanja datuma preteka"
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Pošiljanje ..."
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Elektronska pošta je poslana"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
 msgstr "Opozorilo"
 
