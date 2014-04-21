@@ -27,9 +27,9 @@
  */
 
 /**
- * create a new event source
- * @param string src
- * @param object data to be send as GET
+ * Create a new event source
+ * @param {string} src
+ * @param {object} [data] to be send as GET
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
@@ -74,12 +74,12 @@ OC.EventSource=function(src,data){
 			this.close();
 		}
 	}.bind(this));
-}
+};
 OC.EventSource.fallBackSources=[];
 OC.EventSource.iframeCount=0;//number of fallback iframes
 OC.EventSource.fallBackCallBack=function(id,type,data){
 	OC.EventSource.fallBackSources[id].fallBackCallBack(type,data);
-}
+};
 OC.EventSource.prototype={
 	typelessListeners:[],
 	iframe:null,
@@ -127,4 +127,4 @@ OC.EventSource.prototype={
 			this.source.close();
 		}
 	}
-}
+};

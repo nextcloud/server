@@ -147,7 +147,7 @@ function n(app, text_singular, text_plural, count, vars) {
 
 /**
 * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
-* @param {string} String to sanitize
+* @param {string} s String to sanitize
 * @return {string} Sanitized string
 */
 function escapeHTML(s) {
@@ -207,7 +207,7 @@ var OC={
 	
 	/**
 	 * Generates the absolute url for the given relative url, which can contain parameters.
-	 * @param {string} URL
+	 * @param {string} url
 	 * @param params
 	 * @return {string} Absolute URL for the given relative URL
 	 */
@@ -281,8 +281,8 @@ var OC={
 	 * Redirect to the target URL, can also be used for downloads.
 	 * @param {string} targetURL URL to redirect to
 	 */
-	redirect: function(targetUrl) {
-		window.location = targetUrl;
+	redirect: function(targetURL) {
+		window.location = targetURL;
 	},
 	
 	/**
@@ -304,7 +304,7 @@ var OC={
 	 * Load a script for the server and load it. If the script is already loaded, 
 	 * the event handeler will be called directly
 	 * @param {string} app the app id to which the script belongs
-	 * @param {string} script the filename of the script
+	 * @param {string} script the filename of the script
 	 * @param ready event handeler to be called when the script is loaded
 	 */
 	addScript:function(app,script,ready){
@@ -326,7 +326,7 @@ var OC={
 	/**
 	 * Loads a CSS file
 	 * @param {string} app the app id to which the css style belongs
-	 * @param {string} style the filename of the css file
+	 * @param {string} style the filename of the css file
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
@@ -1188,7 +1188,7 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 
 /**
  * Returns a human readable filesize
- * @param {number} Size in bytes
+ * @param {number} size Size in bytes
  * @return {string}
  */
 function humanFileSize(size) {
@@ -1235,7 +1235,7 @@ function getURLParameter(name) {
 
 /**
  * Takes an absolute timestamp and return a string with a human-friendly relative date
- * @param {number} A Unix timestamp
+ * @param {number} timestamp A Unix timestamp
  */
 function relative_modified_date(timestamp) {
 	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
@@ -1344,7 +1344,7 @@ OC.get=function(name) {
 /**
  * Set a variable by name
  * @param {string} name
- * @param mixed value
+ * @param {*} value
  */
 OC.set=function(name, value) {
 	var namespaces = name.split(".");
