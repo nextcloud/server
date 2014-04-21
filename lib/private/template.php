@@ -136,6 +136,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $theme
 	 * @param string $app
 	 * @param string $fext
+	 * @return array
 	 */
 	protected function findTemplate($theme, $app, $name, $fext) {
 		// Check if it is a app template or not.
@@ -232,7 +233,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @brief Shortcut to print a simple page for guests
 	 * @param string $application The application we render the template for
 	 * @param string $name Name of the template
-	 * @param string $parameters Parameters for the template
+	 * @param array|string $parameters Parameters for the template
 	 * @return bool
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
@@ -261,7 +262,6 @@ class OC_Template extends \OC\Template\Base {
 	 * print error page using Exception details
 	 * @param Exception $exception
 	 */
-	
 	public static function printExceptionErrorPage(Exception $exception) {
 		$error_msg = $exception->getMessage();
 		if ($exception->getCode()) {

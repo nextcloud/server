@@ -36,8 +36,8 @@ class OC_VObject{
 
 	/**
 	 * @brief Parses the VObject
-	 * @param string VObject as string
-	 * @returns Sabre_VObject or null
+	 * @param string $data VObject as string
+	 * @returns Sabre\VObject\Reader|null
 	 */
 	public static function parse($data) {
 		try {
@@ -55,7 +55,7 @@ class OC_VObject{
 
 	/**
 	 * @brief Escapes semicolons
-	 * @param string $value
+	 * @param array $value
 	 * @return string
 	 */
 	public static function escapeSemicolons($value) {
@@ -88,7 +88,7 @@ class OC_VObject{
 	}
 
 	/**
-	 * Constuctor
+	 * Constructor
 	 * @param Sabre\VObject\Component or string
 	 */
 	public function __construct($vobject_or_name) {
@@ -99,6 +99,11 @@ class OC_VObject{
 		}
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param $item
+	 * @param null $itemValue
+	 */
 	public function add($item, $itemValue = null) {
 		if ($item instanceof OC_VObject) {
 			$item = $item->getVObject();
@@ -110,8 +115,8 @@ class OC_VObject{
 	 * @brief Add property to vobject
 	 * @param object $name of property
 	 * @param object $value of property
-	 * @param object $parameters of property
-	 * @returns Sabre_VObject_Property newly created
+	 * @param array|object $parameters of property
+	 * @returns Sabre\VObject\Property newly created
 	 */
 	public function addProperty($name, $value, $parameters=array()) {
 		if(is_array($value)) {
@@ -131,6 +136,11 @@ class OC_VObject{
 		$this->vobject->add('UID', $uid);
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param mixed  $name
+	 * @param string $string
+	 */
 	public function setString($name, $string) {
 		if ($string != '') {
 			$string = strtr($string, array("\r\n"=>"\n"));
@@ -145,7 +155,7 @@ class OC_VObject{
 	 * When $datetime is set to 'now', use the current time
 	 * When $datetime is null, unset the property
 	 *
-	 * @param string property name
+	 * @param string $name
 	 * @param DateTime $datetime
 	 * @param int $dateType
 	 * @return void
@@ -163,12 +173,22 @@ class OC_VObject{
 		}
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param $name
+	 * @return string
+	 */
 	public function getAsString($name) {
 		return $this->vobject->__isset($name) ?
 			$this->vobject->__get($name)->value :
 			'';
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param $name
+	 * @return array
+	 */
 	public function getAsArray($name) {
 		$values = array();
 		if ($this->vobject->__isset($name)) {
@@ -178,6 +198,11 @@ class OC_VObject{
 		return $values;
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param $name
+	 * @return array|OC_VObject|\Sabre\VObject\Property
+	 */
 	public function &__get($name) {
 		if ($name == 'children') {
 			return $this->vobject->children;
@@ -189,18 +214,38 @@ class OC_VObject{
 		return $return;
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param string $name
+	 * @param string $value
+	 */
 	public function __set($name, $value) {
 		return $this->vobject->__set($name, $value);
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param string $name
+	 */
 	public function __unset($name) {
 		return $this->vobject->__unset($name);
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param string $name
+	 * @return bool
+	 */
 	public function __isset($name) {
 		return $this->vobject->__isset($name);
 	}
 
+	/**
+	 * @todo Write documentation
+	 * @param $function
+	 * @param $arguments
+	 * @return mixed
+	 */
 	public function __call($function, $arguments) {
 		return call_user_func_array(array($this->vobject, $function), $arguments);
 	}

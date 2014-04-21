@@ -71,6 +71,7 @@ class AppConfig implements \OCP\IAppConfig {
 
 	/**
 	 * @param string $app
+	 * @return \string[]
 	 */
 	private function getAppValues($app) {
 		$appCache = $this->getAppCache($app);

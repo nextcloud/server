@@ -201,6 +201,7 @@ class OC_Request {
 
 	/**
 	 * @brief get Path info from request, not urldecoded
+	 * @throws Exception
 	 * @return string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {

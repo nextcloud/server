@@ -50,7 +50,7 @@ class OC_Response {
 
 	/**
 	* @brief Set response status
-	* @param $status a HTTP status code, see also the STATUS constants
+	* @param int $status a HTTP status code, see also the STATUS constants
 	*/
 	static public function setStatus($status) {
 		$protocol = $_SERVER['SERVER_PROTOCOL'];
