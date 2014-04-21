@@ -169,8 +169,10 @@ class OC_App {
 		}
 		$appConfig = \OC::$server->getAppConfig();
 		$appStatus = $appConfig->getValues(false, 'enabled');
-		$apps = array();
 		foreach ($appStatus as $app => $enabled) {
+			if ($app === 'files') {
+				continue;
+			}
 			if ($enabled === 'yes') {
 				$apps[] = $app;
 			} else if ($enabled !== 'no') {
@@ -186,6 +188,8 @@ class OC_App {
 				}
 			}
 		}
+		sort($apps);
+		array_unshift($apps, 'files');
 		self::$enabledAppsCache = $apps;
 		return $apps;
 	}
