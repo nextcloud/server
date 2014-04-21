@@ -87,10 +87,11 @@ class Shared extends \OC\Files\Storage\Common {
 			if (!isset($source['fullPath'])) {
 				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
 				$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
-				if (is_array($mount)) {
+				if (is_array($mount) && !empty($mount)) {
 					$this->files[$target]['fullPath'] = $mount[key($mount)]->getMountPoint() . $source['path'];
 				} else {
 					$this->files[$target]['fullPath'] = false;
+					\OCP\Util::writeLog('files_sharing', "Unable to get mount for shared storage '" . $source['storage'] . "' user '" . $source['fileOwner'] . "'", \OCP\Util::ERROR);
 				}
 			}
 			return $this->files[$target]['fullPath'];
