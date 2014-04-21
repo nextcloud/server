@@ -88,7 +88,7 @@ class OC_App {
 	 * check if an app is of a specific type
 	 *
 	 * @param string $app
-	 * @param string /array $types
+	 * @param string|array $types
 	 * @return bool
 	 */
 	public static function isType($app, $types) {
