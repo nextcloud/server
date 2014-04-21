@@ -11,7 +11,7 @@ class Helper
 		$l = new \OC_L10N('files');
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
+		$maxHumanFilesize = $l->t('Upload (max. %s)', array($maxHumanFilesize));
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
