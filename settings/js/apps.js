@@ -277,7 +277,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 $(document).ready(function(){
 	$('#app-navigation ul li').each(function(index,li){
 		var app = OC.get('appData_'+$(li).data('id'));
-		app.groups= $(li).data('groups') || [];
+		if (app) {
+			app.groups= $(li).data('groups') || [];
+		}
 		$(li).data('app',app);
 		$(this).find('span.hidden').remove();
 	});
