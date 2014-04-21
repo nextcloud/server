@@ -397,7 +397,7 @@ var OC={
 		parts = queryString.replace(/\+/g, '%20').split('&');
 		for (var i = 0; i < parts.length; i++){
 			// split on first equal sign
-			var part = parts[i]
+			var part = parts[i];
 			pos = part.indexOf('=');
 			if (pos >= 0) {
 				components = [
@@ -675,9 +675,10 @@ OC.Notification={
 	 * @param {string} html Message to display
 	 */
 	showHtml: function(html) {
-		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').html(html);
-			$('#notification').fadeIn().css("display","inline");
+		var notification = $('#notification');
+		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			notification.html(html);
+			notification.fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push(html);
 		}
@@ -688,9 +689,10 @@ OC.Notification={
 	 * @param {string} text Message to display
 	 */
 	show: function(text) {
-		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').text(text);
-			$('#notification').fadeIn().css("display","inline");
+		var notification = $('#notification');
+		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			notification.text(text);
+			notification.fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
