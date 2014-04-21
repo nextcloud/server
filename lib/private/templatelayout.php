@@ -1,8 +1,6 @@
 <?php
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
-use Assetic\AssetManager;
 use Assetic\AssetWriter;
 use Assetic\Filter\CssRewriteFilter;
 
@@ -99,6 +97,10 @@ class OC_TemplateLayout extends OC_Template {
 		}
 	}
 
+	/**
+	 * @param $styles
+	 * @return array
+	 */
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
@@ -113,6 +115,10 @@ class OC_TemplateLayout extends OC_Template {
 		return $locator->getResources();
 	}
 
+	/**
+	 * @param $scripts
+	 * @return array
+	 */
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
@@ -168,6 +174,10 @@ class OC_TemplateLayout extends OC_Template {
 		$this->append('cssfiles', OC_Helper::linkTo('assets', "$cssHash.css"));
 	}
 
+	/**
+	 * @param $files
+	 * @return string
+	 */
 	private static function hashScriptNames($files)
 	{
 		$files = array_map(function ($item) {

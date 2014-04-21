@@ -95,6 +95,7 @@ class URLGenerator implements IURLGenerator {
 	 * @brief Creates path to an image
 	 * @param string $app app
 	 * @param string $image image name
+	 * @throws \RuntimeException If the image does not exist
 	 * @return string the url
 	 *
 	 * Returns the path to the image.

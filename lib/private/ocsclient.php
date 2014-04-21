@@ -95,7 +95,8 @@ class OC_OCSClient{
 	 * @returns array with application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
-	 * @param integer $page
+	 * @param $categories
+	 * @param int $page
 	 * @param string $filter
 	 */
 	public static function getApplications($categories, $page, $filter) {
@@ -148,6 +149,7 @@ class OC_OCSClient{
 
 	/**
 	 * @brief Get an the applications from the OCS server
+	 * @param string $id
 	 * @returns array with application data
 	 *
 	 * This function returns an  applications from the OCS server
@@ -189,12 +191,13 @@ class OC_OCSClient{
 	}
 
 	/**
-		* @brief Get the download url for an application from the OCS server
-		* @returns array with application data
-		*
-		* This function returns an download url for an applications from the OCS server
-		* @param integer $item
-		*/
+	 * @brief Get the download url for an application from the OCS server
+	 * @returns array with application data
+	 *
+	 * This function returns an download url for an applications from the OCS server
+	 * @param string $id
+	 * @param integer $item
+	 */
 	public static function getApplicationDownload($id, $item) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
 			return null;

@@ -568,7 +568,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the navigation
-	 * @return string
+	 * @return array
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
