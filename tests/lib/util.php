@@ -69,7 +69,6 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
-
 	function testEncodePath(){
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
