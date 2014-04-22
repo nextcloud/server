@@ -67,7 +67,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$goodString = 'This is a good string without HTML.';
 		$result = OC_Util::sanitizeHTML($goodString);
 		$this->assertEquals('This is a good string without HTML.', $result);
-}
+	}
 
 
 	function testEncodePath(){
