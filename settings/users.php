@@ -22,17 +22,6 @@ $users = array();
 $userManager = \OC_User::getManager();
 $groupManager = \OC_Group::getManager();
 
-if (isset($_GET['offset'])) {
-	$offset = $_GET['offset'];
-} else {
-	$offset = 0;
-}
-if (isset($_GET['limit'])) {
-	$limit = $_GET['limit'];
-} else {
-	$limit = 10;
-}
-
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
 $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);

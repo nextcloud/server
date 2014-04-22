@@ -81,9 +81,8 @@ class MetaData {
 		$sortAdminGroupsKeys = array();
 
 		foreach($this->getGroups($search) as $group) {
-			$usersInGroup = $group->count();
 			$groupMetaData = $this->generateGroupMetaData($group);
-			if (strtolower($gid) !== 'admin') {
+			if (strtolower($group->getGID()) !== 'admin') {
 				$this->addEntry(
 					$groups,
 					$sortGroupsKeys,
