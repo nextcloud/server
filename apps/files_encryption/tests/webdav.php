@@ -247,6 +247,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
 		$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
 		$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
+		$server->debugExceptions = true;
 
 		// And off we go!
 		if ($body) {

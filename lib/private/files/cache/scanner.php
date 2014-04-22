@@ -115,11 +115,12 @@ class Scanner extends BasicEmitter {
 					}
 					if ($reuseExisting) {
 						// prevent empty etag
-						$etag = $cacheData['etag'];
-						$propagateETagChange = false;
-						if (empty($etag)) {
+						if (empty($cacheData['etag'])) {
 							$etag = $data['etag'];
 							$propagateETagChange = true;
+						} else {
+							$etag = $cacheData['etag'];
+							$propagateETagChange = false;
 						}
 						// only reuse data if the file hasn't explicitly changed
 						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
