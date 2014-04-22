@@ -20,10 +20,10 @@
  */
 
 /**
- * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
+ * Wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * use server side events with caution, to many open requests can hang the server
+ * Use server side events with caution, too many open requests can hang the server
  */
 
 /**
