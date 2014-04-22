@@ -1101,10 +1101,10 @@ class View {
 			 * @var \OC\Files\Mount\Mount $mount
 			 */
 			$cache = $mount->getStorage()->getCache();
-			if ($internalPath = $cache->getPathById($id)) {
+			if (!is_null($internalPath = $cache->getPathById($id))) {
 				$fullPath = $mount->getMountPoint() . $internalPath;
 				if (!is_null($path = $this->getRelativePath($fullPath))) {
-					return $path;
+					return rtrim($path, '/');
 				}
 			}
 		}

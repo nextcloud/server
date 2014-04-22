@@ -150,6 +150,22 @@ class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testGetPathStorageRoot() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+
+		$cachedData = $rootView->getFileInfo('/substorage');
+		$id1 = $cachedData['fileid'];
+		$this->assertEquals('/substorage', $rootView->getPath($id1));
+	}
+
+	/**
+	 * @medium
+	 */
 	function testMountPointOverwrite() {
 		$storage1 = $this->getTestStorage(false);
 		$storage2 = $this->getTestStorage();
