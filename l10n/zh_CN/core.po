@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 14:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -294,12 +294,12 @@ msgstr "已共享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "错误"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "共享时出错"
 
@@ -363,71 +363,71 @@ msgstr "通过Email共享"
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "组"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "在 {item} 与 {user} 共享。"
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr "以邮件通知"
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "邮件已发送"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
 msgstr "警告"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-21 01:55-0400\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,15 +148,15 @@ msgstr ""
 msgid "Application is not enabled"
 msgstr ""
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr ""
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr ""
 

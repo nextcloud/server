@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-21 01:55-0400\n"
-"PO-Revision-Date: 2014-04-20 20:59+0000\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 16:38+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -149,15 +149,15 @@ msgstr "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s"
 msgid "Application is not enabled"
 msgstr "Program ni omogočen"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Napaka overjanja"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Žeton je potekel. Stran je treba ponovno naložiti."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Neznan uporabnik"
 

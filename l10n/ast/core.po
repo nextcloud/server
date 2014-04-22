@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 16:38+0000\n"
 "Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -141,7 +141,7 @@ msgstr "Axustes"
 
 #: js/js.js:564
 msgid "Saving..."
-msgstr ""
+msgstr "Guardando..."
 
 #: js/js.js:1099
 msgid "seconds ago"
@@ -295,12 +295,12 @@ msgstr "Compartíu"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr ""
 
@@ -364,73 +364,73 @@ msgstr ""
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
-msgstr ""
+msgstr "Avisu"
 
 #: js/tags.js:4
 msgid "The object type is not specified."

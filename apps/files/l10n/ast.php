@@ -22,6 +22,7 @@ $TRANSLATIONS = array(
 "Upload" => "Xubir",
 "Save" => "Guardar",
 "New folder" => "Nueva carpeta",
+"Folder" => "Carpeta",
 "Cancel upload" => "Encaboxar xuba",
 "Download" => "Descargar",
 "Delete" => "Desaniciar"

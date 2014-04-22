@@ -5,6 +5,7 @@
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
+# svetlemodry <jaroslav@lichtblau.cz>, 2014
 # m23 <black23@gmail.com>, 2014
 # pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-14 01:54-0400\n"
-"PO-Revision-Date: 2014-04-14 04:55+0000\n"
-"Last-Translator: pstast <petr@stastny.eu>\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 17:44+0000\n"
+"Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +54,7 @@ msgstr "Uživatelé"
 msgid "Admin"
 msgstr "Administrace"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -78,7 +79,7 @@ msgstr "Stahování v ZIPu je vypnuto."
 msgid "Files need to be downloaded one by one."
 msgstr "Soubory musí být stahovány jednotlivě."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Zpět k souborům"
 
@@ -152,15 +153,15 @@ msgstr "Nelze vytvořit složku aplikace. Opravte práva souborů. %s"
 msgid "Application is not enabled"
 msgstr "Aplikace není povolena"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Chyba ověření"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token vypršel. Obnovte prosím stránku."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Neznámý uživatel"
 
@@ -346,20 +347,20 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "před lety"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
 msgstr "Musíte zadat platné uživatelské jméno"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
 msgstr "Musíte zadat platné heslo"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
 msgstr "Uživatelské jméno je již využíváno"
