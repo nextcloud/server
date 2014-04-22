@@ -28,13 +28,23 @@ class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testP() {
-		// FIXME: do we need more testcases?
-		$htmlString = "<script>alert('xss');</script>";
+		$badString = '<img onload="alert(1)" />';
 		ob_start();
-		p($htmlString);
+		p($badString);
 		$result = ob_get_clean();
+		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
 
-		$this->assertEquals("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
+		$badString = "<script>alert('Hacked!');</script>";
+		ob_start();
+		p($badString);
+		$result = ob_get_clean();
+		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
+
+		$goodString = 'This is a good string without HTML.';
+		ob_start();
+		p($goodString);
+		$result = ob_get_clean();
+		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
 	public function testPNormalString() {
