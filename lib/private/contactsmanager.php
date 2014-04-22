@@ -37,7 +37,12 @@ namespace OC {
 			$result = array();
 			foreach($this->address_books as $address_book) {
 				$r = $address_book->search($pattern, $searchProperties, $options);
-				$result = array_merge($result, $r);
+				$contacts = array();
+				foreach($r as $c){
+					$c['addressbook-key'] = $address_book->getKey();
+					$contacts[] = $c;
+				}
+				$result = array_merge($result, $contacts);
 			}
 
 			return $result;
