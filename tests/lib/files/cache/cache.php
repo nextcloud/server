@@ -239,6 +239,12 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($this->cache->search('folder%')));
 		$this->assertEquals(3, count($this->cache->search('%')));
 
+		// case insensitive search should match the same files
+		$this->assertEquals(2, count($this->cache->search('%Foo%')));
+		$this->assertEquals(1, count($this->cache->search('Foo')));
+		$this->assertEquals(1, count($this->cache->search('%Folder%')));
+		$this->assertEquals(1, count($this->cache->search('Folder%')));
+
 		$this->assertEquals(3, count($this->cache->searchByMime('foo')));
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
