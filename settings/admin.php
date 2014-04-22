@@ -14,7 +14,7 @@ OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
 $forms=OC_App::getForms('admin');
-$htaccessworking=OC_Util::isHtAccessWorking();
+$htaccessworking=OC_Util::isHtaccessWorking();
 
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain = count(OC_Log_Owncloud::getEntries(4)) > 3;

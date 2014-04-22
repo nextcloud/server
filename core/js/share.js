@@ -331,25 +331,27 @@ OC.Share={
 					.append( insert )
 					.appendTo( ul );
 			};
-			$('#email').autocomplete({
-				minLength: 1,
-				source: function (search, response) {
-					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWithEmail', search: search.term }, function(result) {
-						if (result.status == 'success' && result.data.length > 0) {
-							response(result.data);
-						}
-					});
-					},
-				select: function( event, item ) {
-					$('#email').val(item.item.email);
-					return false;
-				}
-			})
-			.data("ui-autocomplete")._renderItem = function( ul, item ) {
-				return $( "<li>" )
-					.append( "<a>" + item.displayname + "<br>" + item.email + "</a>" )
-					.appendTo( ul );
-			};
+			if (link) {
+				$('#email').autocomplete({
+					minLength: 1,
+					source: function (search, response) {
+						$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWithEmail', search: search.term }, function(result) {
+							if (result.status == 'success' && result.data.length > 0) {
+								response(result.data);
+							}
+						});
+						},
+					select: function( event, item ) {
+						$('#email').val(item.item.email);
+						return false;
+					}
+				})
+				.data("ui-autocomplete")._renderItem = function( ul, item ) {
+					return $( "<li>" )
+						.append( "<a>" + item.displayname + "<br>" + item.email + "</a>" )
+						.appendTo( ul );
+				};
+			}
 
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
@@ -500,15 +502,16 @@ OC.Share={
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
 		$('#allowPublicUploadWrapper').hide();
+		$('#expirationDate').hide();
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	showExpirationDate:function(date) {
 		$('#expirationCheckbox').attr('checked', true);
-		$('#expirationDate').before('<br />');
 		$('#expirationDate').val(date);
-		$('#expirationDate').show();
+		$('#expirationDate').show('blind');
+		$('#expirationDate').css('display','block');
 		$('#expirationDate').datepicker({
 			dateFormat : 'dd-mm-yy'
 		});
@@ -578,7 +581,7 @@ $(document).ready(function() {
 			OC.Share.itemShares[shareType].splice(index, 1);
 			OC.Share.updateIcon(itemType, itemSource);
 			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-				$('#expiration').hide();
+				$('#expiration').hide('blind');
 			}
 		});
 		return false;
@@ -638,7 +641,7 @@ $(document).ready(function() {
 				OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
 				OC.Share.updateIcon(itemType, itemSource);
 				if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-					$('#expiration').hide();
+					$('#expiration').hide('blind');
 				}
 			});
 		}
@@ -730,7 +733,7 @@ $(document).ready(function() {
 				if (!result || result.status !== 'success') {
 					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
-				$('#expirationDate').hide();
+				$('#expirationDate').hide('blind');
 			});
 		}
 	});

@@ -363,6 +363,9 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return false;
 	}
 
+	/**
+	 * @param string $path
+	 */
 	protected function getCachedFile($path) {
 		if (!isset($this->cachedFiles[$path])) {
 			$this->cachedFiles[$path] = $this->toTmpFile($path);

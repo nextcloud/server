@@ -46,7 +46,7 @@ class ActivityManager implements IManager {
 					$type,
 					$priority);
 				} catch (\Exception $ex) {
-					// TODO: log the excepetion
+					// TODO: log the exception
 				}
 			}
 

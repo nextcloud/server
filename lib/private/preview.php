@@ -72,6 +72,7 @@ class Preview {
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param bool $scalingUp Disable/Enable upscaling of previews
+	 * @throws \Exception
 	 * @return mixed (bool / string)
 	 *                    false if thumbnail does not exist
 	 *                    path to thumbnail if thumbnail exists
@@ -172,6 +173,9 @@ class Preview {
 		return $this->configMaxY;
 	}
 
+	/**
+	 * @return false|Files\FileInfo|\OCP\Files\FileInfo
+	 */
 	protected function getFileInfo() {
 		$absPath = $this->fileView->getAbsolutePath($this->file);
 		$absPath = Files\Filesystem::normalizePath($absPath);
@@ -211,6 +215,7 @@ class Preview {
 	/**
 	 * @brief set the the max width of the preview
 	 * @param int $maxX
+	 * @throws \Exception
 	 * @return $this
 	 */
 	public function setMaxX($maxX = 1) {
@@ -231,6 +236,7 @@ class Preview {
 	/**
 	 * @brief set the the max height of the preview
 	 * @param int $maxY
+	 * @throws \Exception
 	 * @return $this
 	 */
 	public function setMaxY($maxY = 1) {
@@ -401,6 +407,10 @@ class Preview {
 		return $possibleThumbnails;
 	}
 
+	/**
+	 * @param string $name
+	 * @return array
+	 */
 	private function getDimensionsFromFilename($name) {
 			$size = explode('-', $name);
 			$x = (int) $size[0];
@@ -409,6 +419,11 @@ class Preview {
 			return array($x, $y, $aspectRatio);
 	}
 
+	/**
+	 * @param int $x
+	 * @param int $y
+	 * @return bool
+	 */
 	private function unscalable($x, $y) {
 		
 		$maxX = $this->getMaxX();
@@ -707,6 +722,7 @@ class Preview {
 
 	/**
 	 * @param string $mimeType
+	 * @return bool
 	 */
 	public static function isMimeSupported($mimeType) {
 		if (!\OC_Config::getValue('enable_previews', true)) {

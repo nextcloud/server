@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 22:10+0000\n"
+"Last-Translator: Γιάννης Ανθυμίδης <yannanth@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -463,11 +463,11 @@ msgstr "Η τελευταία εκτέλεση του cron ήταν στις %s.
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr "Η διεργασία cron δεν εκτελέστηκε ακόμα!"
+msgstr "Η διεργασία cron δεν έχει εκτελεστεί ακόμα!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
-msgstr "Εκτέλεση μιας διεργασίας με κάθε σελίδα που φορτώνεται"
+msgstr "Εκτελεί μια διεργασία κάθε φορά που φορτώνεται μια σελίδα"
 
 #: templates/admin.php:192
 msgid ""
@@ -485,52 +485,52 @@ msgstr "Διαμοιρασμός"
 
 #: templates/admin.php:211
 msgid "Enable Share API"
-msgstr "Ενεργοποίηση API Διαμοιρασμού"
+msgstr "Ενεργοποίηση API διαμοιρασμού"
 
 #: templates/admin.php:212
 msgid "Allow apps to use the Share API"
-msgstr "Να επιτρέπεται στις εφαρμογές να χρησιμοποιούν το API Διαμοιρασμού"
+msgstr "Επιτρέπει την χρήση του API διαμοιρασμού σε εφαρμογές "
 
 #: templates/admin.php:219
 msgid "Allow links"
-msgstr "Να επιτρέπονται σύνδεσμοι"
+msgstr "Επιτρέπονται οι σύνδεσμοι"
 
 #: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
-msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
+msgstr "Επιτρέπει τους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
 
 #: templates/admin.php:227
 msgid "Allow public uploads"
-msgstr "Επιτρέψτε κοινόχρηστο ανέβασμα"
+msgstr "Επιτρέπεται το κοινόχρηστο ανέβασμα"
 
 #: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr "Επιτρέψτε στους χρήστες να καθιστούν άλλους χρήστες ικανούς να ανεβάζουν στους κοινόχρηστους φακέλους τους"
+msgstr "Επιτρέπει τους χρήστες να καθιστούν άλλους χρήστες ικανούς να ανεβάζουν στους κοινόχρηστους φακέλους τους"
 
 #: templates/admin.php:235
 msgid "Allow resharing"
-msgstr "Να επιτρέπεται ο επαναδιαμοιρασμός"
+msgstr "Επιτρέπεται ο επαναδιαμοιρασμός"
 
 #: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
-msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
+msgstr "Επιτρέπει στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
 
 #: templates/admin.php:243
 msgid "Allow users to share with anyone"
-msgstr "Να επιτρέπεται ο διαμοιρασμός με οποιονδήποτε"
+msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός με οποιονδήποτε"
 
 #: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
-msgstr "Να επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
+msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
 
 #: templates/admin.php:253
 msgid "Allow mail notification"
-msgstr "Επιτρέψτε ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
+msgstr "Επιτρέπονται ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
 
 #: templates/admin.php:254
 msgid "Allow user to send mail notification for shared files"
-msgstr "Επιτρέψτε στο χρήστη να στέλνει ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
+msgstr "Επιτρέπει τους χρήστες να στέλνουν ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
 
 #: templates/admin.php:261
 msgid "Security"
@@ -543,7 +543,7 @@ msgstr "Επιβολή χρήσης HTTPS"
 #: templates/admin.php:276
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr "Επιβάλλει τους δέκτες να συνδέονται με το %s μέσω κρυπογραφημένης σύνδεσης."
+msgstr "Επιβάλλει τους πελάτες να συνδέονται στο %s μέσω κρυπτογραφημένης σύνδεσης."
 
 #: templates/admin.php:282
 #, php-format

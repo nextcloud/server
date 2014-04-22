@@ -11,7 +11,7 @@ class Helper
 		$l = new \OC_L10N('files');
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
+		$maxHumanFilesize = $l->t('Upload (max. %s)', array($maxHumanFilesize));
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
@@ -73,13 +73,14 @@ class Helper
 	/**
 	 * Formats the file info to be returned as JSON to the client.
 	 *
-	 * @param \OCP\Files\FileInfo file info
+	 * @param \OCP\Files\FileInfo $i
 	 * @return array formatted file info
 	 */
 	public static function formatFileInfo($i) {
 		$entry = array();
 
 		$entry['id'] = $i['fileid'];
+		$entry['parentId'] = $i['parent'];
 		$entry['date'] = \OCP\Util::formatDate($i['mtime']);
 		$entry['mtime'] = $i['mtime'] * 1000;
 		// only pick out the needed attributes

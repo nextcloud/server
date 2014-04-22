@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Error" => "Fallu",
 "Groups" => "Grupos",
 "Delete" => "Desaniciar",
+"Port" => "Puertu",
 "More" => "Más",
 "Less" => "Menos",
 "Password" => "Contraseña",

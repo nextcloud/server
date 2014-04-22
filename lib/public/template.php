@@ -67,7 +67,7 @@ function preview_icon( $path ) {
  * Returns the path to the preview of the image.
  * @param string $path of file
  * @param string $token
- * @return link to the preview
+ * @return string link to the preview
  */
 function publicPreview_icon ( $path, $token ) {
 	return(\publicPreview_icon( $path, $token ));

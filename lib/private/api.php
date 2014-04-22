@@ -127,9 +127,9 @@ class OC_API {
 	/**
 	 * merge the returned result objects into one response
 	 * @param array $responses
+	 * @return array|\OC_OCS_Result
 	 */
 	public static function mergeResponses($responses) {
-		$response = array();
 		// Sort into shipped and thirdparty
 		$shipped = array(
 			'succeeded' => array(),
@@ -191,7 +191,7 @@ class OC_API {
 		// Merge the successful responses
 		$data = array();
 
-		foreach($responses as $app => $response) {
+		foreach($responses as $response) {
 			if($response['shipped']) {
 				$data = array_merge_recursive($response['response']->getData(), $data);
 			} else {

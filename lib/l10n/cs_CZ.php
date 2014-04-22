@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("před %n měsícem","před %n měsíci","před %n měsíci"),
 "last year" => "minulý rok",
 "years ago" => "před lety",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Musíte zadat platné uživatelské jméno",
 "A valid password must be provided" => "Musíte zadat platné heslo",
 "The username is already being used" => "Uživatelské jméno je již využíváno"

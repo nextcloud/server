@@ -64,29 +64,6 @@ class OC_Template extends \OC\Template\Base {
 		$this->path = $path;
 
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
-
-		// Some headers to enhance security
-		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
-		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-
-		// iFrame Restriction Policy
-		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
-		if($xFramePolicy) {
-			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
-		}
-		
-		// Content Security Policy
-		// If you change the standard policy, please also change it in config.sample.php
-		$policy = OC_Config::getValue('custom_csp_policy',
-			'default-src \'self\'; '
-			.'script-src \'self\' \'unsafe-eval\'; '
-			.'style-src \'self\' \'unsafe-inline\'; '
-			.'frame-src *; '
-			.'img-src *; '
-			.'font-src \'self\' data:; '
-			.'media-src *');
-		header('Content-Security-Policy:'.$policy); // Standard
-
 	}
 
 	/**
@@ -159,6 +136,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $theme
 	 * @param string $app
 	 * @param string $fext
+	 * @return array
 	 */
 	protected function findTemplate($theme, $app, $name, $fext) {
 		// Check if it is a app template or not.
@@ -255,7 +233,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @brief Shortcut to print a simple page for guests
 	 * @param string $application The application we render the template for
 	 * @param string $name Name of the template
-	 * @param string $parameters Parameters for the template
+	 * @param array|string $parameters Parameters for the template
 	 * @return bool
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
@@ -284,7 +262,6 @@ class OC_Template extends \OC\Template\Base {
 	 * print error page using Exception details
 	 * @param Exception $exception
 	 */
-	
 	public static function printExceptionErrorPage(Exception $exception) {
 		$error_msg = $exception->getMessage();
 		if ($exception->getCode()) {

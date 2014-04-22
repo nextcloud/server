@@ -57,7 +57,7 @@ class Util {
 	 * @param string $mailtext
 	 * @param string $fromaddress
 	 * @param string $fromname
-	 * @param bool $html
+	 * @param int $html
 	 * @param string $altbody
 	 * @param string $ccaddress
 	 * @param string $ccname
@@ -85,7 +85,7 @@ class Util {
 	 * write exception into the log. Include the stack trace
 	 * if DEBUG mode is enabled
 	 * @param string $app app name
-	 * @param Exception $ex exception to log
+	 * @param \Exception $ex exception to log
 	 */
 	public static function logException( $app, \Exception $ex ) {
 		$class = get_class($ex);
@@ -156,6 +156,7 @@ class Util {
 	 * formats a timestamp in the "right" way
 	 * @param int $timestamp $timestamp
 	 * @param bool $dateOnly option to omit time from the result
+	 * @return string timestamp
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
 		return(\OC_Util::formatDate( $timestamp, $dateOnly ));
@@ -203,9 +204,8 @@ class Util {
 	 * Creates an url using a defined route
 	 * @param $route
 	 * @param array $parameters
-	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @return the url
+	 * @return string the url
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
 		return \OC_Helper::linkToRoute($route, $parameters);
@@ -284,8 +284,7 @@ class Util {
 
 	/**
 	 * Returns the request uri, even if the website uses one or more reverse proxies
-	 *
-	 * @return the request uri
+	 * @return string the request uri
 	 */
 	public static function getRequestUri() {
 		return(\OC_Request::requestUri());
@@ -293,8 +292,7 @@ class Util {
 
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
-	 *
-	 * @return the script name
+	 * @returns string the script name
 	 */
 	public static function getScriptName() {
 		return(\OC_Request::scriptName());
@@ -350,7 +348,7 @@ class Util {
 	 * Emits a signal. To get data from the slot use references!
 	 * @param string $signalclass class name of emitter
 	 * @param string $signalname name of signal
-	 * @param string $params defautl: array() array with additional data
+	 * @param array $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
 	 *
 	 * TODO: write example
@@ -467,9 +465,8 @@ class Util {
 
 	/**
 	 * Calculate free space left within user quota
-	 * 
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @return int number of bytes representing
 	 */
 	public static function freeSpace($dir) {
 		return \OC_Helper::freeSpace($dir);

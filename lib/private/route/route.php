@@ -25,6 +25,7 @@ class Route extends SymfonyRoute implements IRoute {
 
 	/**
 	 * Specify POST as the method to use with this route
+	 * @return \OC\Route\Route
 	 */
 	public function post() {
 		$this->method('POST');
@@ -33,6 +34,7 @@ class Route extends SymfonyRoute implements IRoute {
 
 	/**
 	 * Specify GET as the method to use with this route
+	 * @return \OC\Route\Route
 	 */
 	public function get() {
 		$this->method('GET');
@@ -41,6 +43,7 @@ class Route extends SymfonyRoute implements IRoute {
 
 	/**
 	 * Specify PUT as the method to use with this route
+	 * @return \OC\Route\Route
 	 */
 	public function put() {
 		$this->method('PUT');
@@ -49,6 +52,7 @@ class Route extends SymfonyRoute implements IRoute {
 
 	/**
 	 * Specify DELETE as the method to use with this route
+	 * @return \OC\Route\Route
 	 */
 	public function delete() {
 		$this->method('DELETE');
@@ -57,6 +61,7 @@ class Route extends SymfonyRoute implements IRoute {
 
 	/**
 	 * Specify PATCH as the method to use with this route
+	 * @return \OC\Route\Route
 	 */
 	public function patch() {
 		$this->method('PATCH');
@@ -120,6 +125,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * The action to execute when this route matches, includes a file like
 	 * it is called directly
 	 * @param $file
+	 * @return void
 	 */
 	public function actionInclude($file) {
 		$function = create_function('$param',

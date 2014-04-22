@@ -17,10 +17,14 @@ interface IRouter {
 	 */
 	public function getRoutingFiles();
 
+	/**
+	 * @return string
+	 */
 	public function getCacheKey();
 
 	/**
 	 * loads the api routes
+	 * @return void
 	 */
 	public function loadRoutes($app = null);
 
@@ -28,6 +32,7 @@ interface IRouter {
 	 * Sets the collection to use for adding routes
 	 *
 	 * @param string $name Name of the collection to use.
+	 * @return void
 	 */
 	public function useCollection($name);
 
@@ -47,6 +52,7 @@ interface IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
+	 * @return void
 	 */
 	public function match($url);
 

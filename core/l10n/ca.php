@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} conflicte de fitxer","{count} conflictes de fitxer"),
 "One file conflict" => "Un fitxer en conflicte",
 "New Files" => "Fitxers nous",
+"Already existing files" => "Fitxers que ja existeixen",
 "Which files do you want to keep?" => "Quin fitxer voleu conservar?",
 "If you select both versions, the copied file will have a number added to its name." => "Si seleccioneu les dues versions, el fitxer copiat tindrà un número afegit al seu nom.",
 "Cancel" => "Cancel·la",
