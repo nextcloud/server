@@ -302,10 +302,10 @@ var OC={
 	
 	/**
 	 * Load a script for the server and load it. If the script is already loaded, 
-	 * the event handeler will be called directly
+	 * the event handler will be called directly
 	 * @param {string} app the app id to which the script belongs
 	 * @param {string} script the filename of the script
-	 * @param ready event handeler to be called when the script is loaded
+	 * @param ready event handler to be called when the script is loaded
 	 */
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
@@ -516,7 +516,7 @@ var OC={
 	},
 
 	/**
-	 * For menu toggeling
+	 * For menu toggling
 	 * @todo Write documentation
 	 */
 	registerMenu: function($toggle, $menuEl) {
@@ -670,7 +670,7 @@ OC.Notification={
 	
 	/**
 	 * Shows a notification as HTML without being sanitized before.
-	 * If you pass unsanitized userinput this may lead to a XSS vulnerability.
+	 * If you pass unsanitized user input this may lead to a XSS vulnerability.
 	 * Consider using show() instead of showHTML()
 	 * @param {string} html Message to display
 	 */
@@ -715,14 +715,14 @@ OC.Breadcrumb={
 	/**
 	 * @todo Write documentation
 	 * @param dir
-	 * @param leafname
-	 * @param leaflink
+	 * @param leafName
+	 * @param leafLink
 	 */
-	show:function(dir, leafname, leaflink){
+	show:function(dir, leafName, leafLink){
 		if(!this.container){//default
 			this.container=$('#controls');
 		}
-		this._show(this.container, dir, leafname, leaflink);
+		this._show(this.container, dir, leafName, leafLink);
 	},
 	_show:function(container, dir, leafname, leaflink){
 		var self = this;
@@ -929,7 +929,7 @@ function replaceSVG($el){
 }
 
 /**
- * prototypal inharitence functions
+ * prototypical inheritance functions
  * @todo Write documentation
  * usage:
  * MySubObject=object(MyObject)
@@ -1187,7 +1187,7 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 };
 
 /**
- * Returns a human readable filesize
+ * Returns a human readable file size
  * @param {number} size Size in bytes
  * @return {string}
  */
@@ -1238,21 +1238,20 @@ function getURLParameter(name) {
  * @param {number} timestamp A Unix timestamp
  */
 function relative_modified_date(timestamp) {
-	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
-	var diffminutes = Math.round(timediff/60);
-	var diffhours = Math.round(diffminutes/60);
-	var diffdays = Math.round(diffhours/24);
-	var diffmonths = Math.round(diffdays/31);
-	if(timediff < 60) { return t('core','seconds ago'); }
-	else if(timediff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffminutes); }
-	else if(timediff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffhours); }
-	else if(timediff < 86400) { return t('core','today'); }
-	else if(timediff < 172800) { return t('core','yesterday'); }
-	else if(timediff < 2678400) { return n('core', '%n day ago', '%n days ago', diffdays); }
-	else if(timediff < 5184000) { return t('core','last month'); }
-	else if(timediff < 31556926) { return n('core', '%n month ago', '%n months ago', diffmonths); }
-	//else if(timediff < 31556926) { return t('core','months ago'); }
-	else if(timediff < 63113852) { return t('core','last year'); }
+	var timeDiff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffMinutes = Math.round(timeDiff/60);
+	var diffHours = Math.round(diffMinutes/60);
+	var diffDays = Math.round(diffHours/24);
+	var diffMonths = Math.round(diffDays/31);
+	if(timeDiff < 60) { return t('core','seconds ago'); }
+	else if(timeDiff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffMinutes); }
+	else if(timeDiff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffHours); }
+	else if(timeDiff < 86400) { return t('core','today'); }
+	else if(timeDiff < 172800) { return t('core','yesterday'); }
+	else if(timeDiff < 2678400) { return n('core', '%n day ago', '%n days ago', diffDays); }
+	else if(timeDiff < 5184000) { return t('core','last month'); }
+	else if(timeDiff < 31556926) { return n('core', '%n month ago', '%n months ago', diffMonths); }
+	else if(timeDiff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
 }
 
