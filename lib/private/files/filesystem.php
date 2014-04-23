@@ -374,6 +374,9 @@ class Filesystem {
 	 * Returns path like /admin/files
 	 */
 	static public function getRoot() {
+		if (!self::$defaultInstance) {
+			return null;
+		}
 		return self::$defaultInstance->getRoot();
 	}
 
