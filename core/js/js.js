@@ -1,7 +1,7 @@
 /**
  * Disable console output unless DEBUG mode is enabled.
  * Add
- *	 define('DEBUG', true);
+ *	define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
@@ -27,9 +27,10 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 	if (!window.console) {
 		window.console = {};
 	}
+	var noOp = function() { };
 	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd'];
 	for (var i = 0; i < methods.length; i++) {
-		console[methods[i]] = function () { };
+		console[methods[i]] = noOp;
 	}
 }
 
@@ -50,9 +51,9 @@ function initL10N(app) {
 			t.cache[app] = [];
 		}
 	}
-	if (typeof t.plural_function[app] == 'undefined') {
+	if (typeof t.plural_function[app] === 'undefined') {
 		t.plural_function[app] = function (n) {
-			var p = (n != 1) ? 1 : 0;
+			var p = (n !== 1) ? 1 : 0;
 			return { 'nplural' : 2, 'plural' : p };
 		};
 
@@ -61,14 +62,16 @@ function initL10N(app) {
 		 * https://developer.berlios.de/projects/jsgettext/
 		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
 		 */
-		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\(\)])+)', 'm');
+		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\\(\\)])+)', 'm');
 		if (pf_re.test(t.plural_form)) {
 			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 			//pf = "nplurals=2; plural=(n != 1);";
 			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
 			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
 			var pf = t.plural_form;
-			if (! /;\s*$/.test(pf)) pf = pf.concat(';');
+			if (! /;\s*$/.test(pf)) {
+				pf = pf.concat(';');
+			}
 			/* We used to use eval, but it seems IE has issues with it.
 			 * We now use "new Function", though it carries a slightly
 			 * bigger performance hit.
@@ -403,7 +406,7 @@ var OC={
 				components = [
 					part.substr(0, pos),
 					part.substr(pos + 1)
-				]
+				];
 			}
 			else {
 				// key only
@@ -434,25 +437,16 @@ var OC={
 	 * @return {string} String containing a URL query (without question) mark
 	 */
 	buildQueryString: function(params) {
-		var s = '';
-		var first = true;
 		if (!params) {
-			return s;
+			return '';
 		}
-		for (var key in params) {
-			var value = params[key];
-			if (first) {
-				first = false;
-			}
-			else {
-				s += '&';
-			}
-			s += encodeURIComponent(key);
+		return $.map(params, function(value, key) {
+			var s = encodeURIComponent(key);
 			if (value !== null && typeof(value) !== 'undefined') {
 				s += '=' + encodeURIComponent(value);
 			}
-		}
-		return s;
+			return s;
+		}).join('&');
 	},
 
 	/**
@@ -471,11 +465,11 @@ var OC={
 		var props = {scriptName:'settings.php', cache:true};
 		$.extend(props, args);
 		var settings = $('#appsettings');
-		if(settings.length == 0) {
+		if(settings.length === 0) {
 			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
 		}
 		var popup = $('#appsettings_popup');
-		if(popup.length == 0) {
+		if(popup.length === 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
 			popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
@@ -537,7 +531,7 @@ var OC={
 			$menuEl.show();
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
-			return false
+			return false;
 		});
 	},
 
@@ -1090,7 +1084,7 @@ function initCore() {
 	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {
-			$('#expand').click()
+			$('#expand').click();
 		}
 	});
 	$('#settings #expand').click(function(event) {
