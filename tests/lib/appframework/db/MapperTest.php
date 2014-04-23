@@ -217,6 +217,20 @@ class MapperTest extends MapperTestUtility {
 	}
 
 
+	public function testUpdateNothingChangedNoQuery(){
+		$params = array('john', 'my@email');
+		$entity = new Example();
+		$entity->setId(3);
+		$entity->setEmail($params[1]);
+		$entity->resetUpdatedFields();
+
+		$this->db->expects($this->never())
+			->method('prepareQuery');
+
+		$this->mapper->update($entity);
+	}
+
+
 	public function testMapRowToEntity(){
 		$entity1 = $this->mapper->mapRow(array('pre_name' => 'test1', 'email' => 'test2'));
 		$entity2 = new Example();

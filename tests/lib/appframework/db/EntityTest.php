@@ -42,8 +42,9 @@ class TestEntity extends Entity {
 	public $testId;
 	public $preName;
 
-	public function __construct(){
+	public function __construct($name=null){
 		$this->addType('testId', 'integer');		
+		$this->name = $name;
 	}
 };
 
@@ -210,5 +211,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase {
 		$entity->setId(3);
 		$this->assertEquals('integer', gettype($entity->getId()));
 	}
+
+
+	public function testFieldsNotMarkedUpdatedIfNothingChanges() {
+		$entity = new TestEntity('hey');
+		$entity->setName('hey');
+		$this->assertEquals(0, count($entity->getUpdatedFields()));
+	}
+
 
 }

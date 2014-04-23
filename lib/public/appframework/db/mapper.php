@@ -127,6 +127,12 @@ abstract class Mapper {
 	 * @param Entity $entity the entity that should be created
 	 */
 	public function update(Entity $entity){
+		// if entity wasn't changed it makes no sense to run a db query
+		$properties = $entity->getUpdatedFields();
+		if(count($properties) === 0) {
+			return $entity;
+		}
+
 		// entity needs an id
 		$id = $entity->getId();
 		if($id === null){
@@ -136,7 +142,6 @@ abstract class Mapper {
 
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
-		$properties = $entity->getUpdatedFields();
 		// dont update the id field
 		unset($properties['id']);
 
