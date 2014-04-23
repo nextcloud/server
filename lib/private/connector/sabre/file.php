@@ -42,6 +42,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 *
 	 * @param resource $data
 	 * @throws Sabre_DAV_Exception_Forbidden
+	 * @throws OC_Connector_Sabre_Exception_UnsupportedMediaType
+	 * @throws Sabre_DAV_Exception_BadRequest
+	 * @throws Sabre_DAV_Exception
+	 * @throws OC_Connector_Sabre_Exception_EntityTooLarge
+	 * @throws Sabre_DAV_Exception_ServiceUnavailable
 	 * @return string|null
 	 */
 	public function put($data) {
@@ -198,6 +203,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 	/**
 	 * @param resource $data
+	 * @return null|string
 	 */
 	private function createFileChunked($data)
 	{

@@ -29,7 +29,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Data will either be supplied as a stream resource, or in certain cases
 	 * as a string. Keep in mind that you may have to support either.
 	 *
-	 * After succesful creation of the file, you may choose to return the ETag
+	 * After successful creation of the file, you may choose to return the ETag
 	 * of the new file here.
 	 *
 	 * The returned ETag must be surrounded by double-quotes (The quotes should
@@ -55,7 +55,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		}
 
 		// for chunked upload also updating a existing file is a "createFile"
-		// because we create all the chunks before reasamble them to the existing file.
+		// because we create all the chunks before re-assemble them to the existing file.
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 
 			// exit if we can't create a new file and we don't updatable existing file
@@ -108,7 +108,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 *
 	 * @param string $name
 	 * @param \OCP\Files\FileInfo $info
-	 * @throws Sabre_DAV_Exception_FileNotFound
+	 * @throws Sabre_DAV_Exception_NotFound
 	 * @return Sabre_DAV_INode
 	 */
 	public function getChild($name, $info = null) {

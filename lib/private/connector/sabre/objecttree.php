@@ -39,6 +39,7 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 * Returns the INode object for the requested path
 	 *
 	 * @param string $path
+	 * @throws \Sabre_DAV_Exception_ServiceUnavailable
 	 * @throws \Sabre_DAV_Exception_NotFound
 	 * @return \Sabre_DAV_INode
 	 */
@@ -97,6 +98,8 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 *
 	 * @param string $sourcePath The path to the file which should be moved
 	 * @param string $destinationPath The full destination path, so not just the destination parent node
+	 * @throws \Sabre_DAV_Exception_BadRequest
+	 * @throws \Sabre_DAV_Exception_ServiceUnavailable
 	 * @throws \Sabre_DAV_Exception_Forbidden
 	 * @return int
 	 */
@@ -160,6 +163,7 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 	 *
 	 * @param string $source
 	 * @param string $destination
+	 * @throws \Sabre_DAV_Exception_ServiceUnavailable
 	 * @return void
 	 */
 	public function copy($source, $destination) {
@@ -173,10 +177,10 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 			$this->fileView->mkdir($destination);
 			$dh = $this->fileView->opendir($source);
 			if (is_resource($dh)) {
-				while (($subnode = readdir($dh)) !== false) {
+				while (($subNode = readdir($dh)) !== false) {
 
-					if ($subnode == '.' || $subnode == '..') continue;
-					$this->copy($source . '/' . $subnode, $destination . '/' . $subnode);
+					if ($subNode == '.' || $subNode == '..') continue;
+					$this->copy($source . '/' . $subNode, $destination . '/' . $subNode);
 
 				}
 			}

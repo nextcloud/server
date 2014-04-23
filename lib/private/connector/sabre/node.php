@@ -81,6 +81,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	/**
 	 * @brief Renames the node
 	 * @param string $name The new name
+	 * @throws Sabre_DAV_Exception_BadRequest
+	 * @throws Sabre_DAV_Exception_Forbidden
 	 */
 	public function setName($name) {
 
@@ -138,6 +140,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	/**
 	 * @brief Updates properties on this node,
 	 * @see Sabre_DAV_IProperties::updateProperties
+	 * @param array $properties
 	 * @return boolean
 	 */
 	public function updateProperties($properties) {
