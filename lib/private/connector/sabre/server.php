@@ -28,11 +28,6 @@
  */
 class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
-	public function setObjectTree($tree) {
-		$this->tree = $tree;
-	}
-
-
 	/**
 	 * @see Sabre_DAV_Server
 	 */
@@ -45,22 +40,22 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 		// The only two options for the depth of a propfind is 0 or 1
 		// if ($depth!=0) $depth = 1;
 
-		$newProperties = $this->getPropertiesForPath($uri, $requestedProperties, $depth);
+		$newProperties = $this->getPropertiesForPath($uri,$requestedProperties,$depth);
 
 		// This is a multi-status response
 		$this->httpResponse->sendStatus(207);
-		$this->httpResponse->setHeader('Content-Type', 'application/xml; charset=utf-8');
-		$this->httpResponse->setHeader('Vary', 'Brief,Prefer');
+		$this->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
+		$this->httpResponse->setHeader('Vary','Brief,Prefer');
 
 		// Normally this header is only needed for OPTIONS responses, however..
 		// iCal seems to also depend on these being set for PROPFIND. Since
 		// this is not harmful, we'll add it.
-		$features = array('1', '3', 'extended-mkcol');
-		foreach ($this->plugins as $plugin) {
-			$features = array_merge($features, $plugin->getFeatures());
+		$features = array('1','3', 'extended-mkcol');
+		foreach($this->plugins as $plugin) {
+			$features = array_merge($features,$plugin->getFeatures());
 		}
 
-		$this->httpResponse->setHeader('DAV', implode(', ', $features));
+		$this->httpResponse->setHeader('DAV',implode(', ',$features));
 
 		$prefer = $this->getHTTPPrefer();
 		$minimal = $prefer['return-minimal'];
@@ -72,11 +67,10 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 	/**
 	 * Small helper to support PROPFIND with DEPTH_INFINITY.
-	 *
 	 * @param string $path
 	 */
 	private function addPathNodesRecursively(&$nodes, $path) {
-		foreach ($this->tree->getChildren($path) as $childNode) {
+		foreach($this->tree->getChildren($path) as $childNode) {
 			$nodes[$path . '/' . $childNode->getName()] = $childNode;
 			if ($childNode instanceof Sabre_DAV_ICollection)
 				$this->addPathNodesRecursively($nodes, $path . '/' . $childNode->getName());
@@ -87,7 +81,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 		//	if ($depth!=0) $depth = 1;
 
-		$path = rtrim($path, '/');
+		$path = rtrim($path,'/');
 
 		$returnPropertyList = array();
 
@@ -95,10 +89,9 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 		$nodes = array(
 			$path => $parentNode
 		);
-		if ($depth == 1 && $parentNode instanceof Sabre_DAV_ICollection) {
-			foreach ($this->tree->getChildren($path) as $childNode) {
+		if ($depth==1 && $parentNode instanceof Sabre_DAV_ICollection) {
+			foreach($this->tree->getChildren($path) as $childNode)
 				$nodes[$path . '/' . $childNode->getName()] = $childNode;
-			}
 		} else if ($depth == self::DEPTH_INFINITY && $parentNode instanceof Sabre_DAV_ICollection) {
 			$this->addPathNodesRecursively($nodes, $path);
 		}
@@ -106,9 +99,9 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 		// If the propertyNames array is empty, it means all properties are requested.
 		// We shouldn't actually return everything we know though, and only return a
 		// sensible list.
-		$allProperties = count($propertyNames) == 0;
+		$allProperties = count($propertyNames)==0;
 
-		foreach ($nodes as $myPath => $node) {
+		foreach($nodes as $myPath=>$node) {
 
 			$currentPropertyNames = $propertyNames;
 
@@ -135,15 +128,15 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 			// to make certain decisions about the entry.
 			// WebDAV dictates we should add a / and the end of href's for collections
 			$removeRT = false;
-			if (!in_array('{DAV:}resourcetype', $currentPropertyNames)) {
+			if (!in_array('{DAV:}resourcetype',$currentPropertyNames)) {
 				$currentPropertyNames[] = '{DAV:}resourcetype';
 				$removeRT = true;
 			}
 
-			$result = $this->broadcastEvent('beforeGetProperties', array($myPath, $node, &$currentPropertyNames, &$newProperties));
+			$result = $this->broadcastEvent('beforeGetProperties',array($myPath, $node, &$currentPropertyNames, &$newProperties));
 			// If this method explicitly returned false, we must ignore this
 			// node as it is inaccessible.
-			if ($result === false) continue;
+			if ($result===false) continue;
 
 			if (count($currentPropertyNames) > 0) {
 
@@ -156,7 +149,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 					// So as we loop through this list, we will only take the
 					// properties that were actually requested and discard the
 					// rest.
-					foreach ($currentPropertyNames as $k => $currentPropertyName) {
+					foreach($currentPropertyNames as $k=>$currentPropertyName) {
 						if (isset($nodeProperties[$currentPropertyName])) {
 							unset($currentPropertyNames[$k]);
 							$newProperties[200][$currentPropertyName] = $nodeProperties[$currentPropertyName];
@@ -167,14 +160,12 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 			}
 
-			foreach ($currentPropertyNames as $prop) {
+			foreach($currentPropertyNames as $prop) {
 
 				if (isset($newProperties[200][$prop])) continue;
 
-				switch ($prop) {
-					case '{DAV:}getlastmodified'       :
-						if ($node->getLastModified()) $newProperties[200][$prop] = new Sabre_DAV_Property_GetLastModified($node->getLastModified());
-						break;
+				switch($prop) {
+					case '{DAV:}getlastmodified'       : if ($node->getLastModified()) $newProperties[200][$prop] = new Sabre_DAV_Property_GetLastModified($node->getLastModified()); break;
 					case '{DAV:}getcontentlength'      :
 						if ($node instanceof Sabre_DAV_IFile) {
 							$size = $node->getSize();
@@ -195,22 +186,18 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 							$newProperties[200][$prop] = $quotaInfo[1];
 						}
 						break;
-					case '{DAV:}getetag'               :
-						if ($node instanceof Sabre_DAV_IFile && $etag = $node->getETag()) $newProperties[200][$prop] = $etag;
-						break;
-					case '{DAV:}getcontenttype'        :
-						if ($node instanceof Sabre_DAV_IFile && $ct = $node->getContentType()) $newProperties[200][$prop] = $ct;
-						break;
+					case '{DAV:}getetag'               : if ($node instanceof Sabre_DAV_IFile && $etag = $node->getETag())  $newProperties[200][$prop] = $etag; break;
+					case '{DAV:}getcontenttype'        : if ($node instanceof Sabre_DAV_IFile && $ct = $node->getContentType())  $newProperties[200][$prop] = $ct; break;
 					case '{DAV:}supported-report-set'  :
 						$reports = array();
-						foreach ($this->plugins as $plugin) {
+						foreach($this->plugins as $plugin) {
 							$reports = array_merge($reports, $plugin->getSupportedReportSet($myPath));
 						}
 						$newProperties[200][$prop] = new Sabre_DAV_Property_SupportedReportSet($reports);
 						break;
 					case '{DAV:}resourcetype' :
 						$newProperties[200]['{DAV:}resourcetype'] = new Sabre_DAV_Property_ResourceType();
-						foreach ($this->resourceTypeMapping as $className => $resourceType) {
+						foreach($this->resourceTypeMapping as $className => $resourceType) {
 							if ($node instanceof $className) $newProperties[200]['{DAV:}resourcetype']->add($resourceType);
 						}
 						break;
@@ -222,16 +209,16 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 			}
 
-			$this->broadcastEvent('afterGetProperties', array(trim($myPath, '/'), &$newProperties, $node));
+			$this->broadcastEvent('afterGetProperties',array(trim($myPath,'/'),&$newProperties, $node));
 
-			$newProperties['href'] = trim($myPath, '/');
+			$newProperties['href'] = trim($myPath,'/');
 
 			// Its is a WebDAV recommendation to add a trailing slash to collectionnames.
 			// Apple's iCal also requires a trailing slash for principals (rfc 3744), though this is non-standard.
-			if ($myPath != '' && isset($newProperties[200]['{DAV:}resourcetype'])) {
+			if ($myPath!='' && isset($newProperties[200]['{DAV:}resourcetype'])) {
 				$rt = $newProperties[200]['{DAV:}resourcetype'];
 				if ($rt->is('{DAV:}collection') || $rt->is('{DAV:}principal')) {
-					$newProperties['href'] .= '/';
+					$newProperties['href'] .='/';
 				}
 			}
 
