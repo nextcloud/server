@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Modificat",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Nom de carpeta no vàlid. L'ús de 'Shared' és reservat",
 "%s could not be renamed" => "%s no es pot canviar el nom",
-"Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
 "max. possible: " => "màxim possible:",

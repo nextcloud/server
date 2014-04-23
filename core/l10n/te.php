@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n రోజు క్రితం","%n రోజుల క్రితం"),
 "last month" => "పోయిన నెల",
 "_%n month ago_::_%n months ago_" => array("%n నెల క్రితం","%n నెలల క్రితం"),
-"months ago" => "నెలల క్రితం",
 "last year" => "పోయిన సంవత్సరం",
 "years ago" => "సంవత్సరాల క్రితం",
 "Yes" => "అవును",

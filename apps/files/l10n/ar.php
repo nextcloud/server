@@ -44,7 +44,6 @@ $TRANSLATIONS = array(
 "Size" => "حجم",
 "Modified" => "معدل",
 "%s could not be renamed" => "%s  لا يمكن إعادة تسميته. ",
-"Upload" => "رفع",
 "File handling" => "التعامل مع الملف",
 "Maximum upload size" => "الحد الأقصى لحجم الملفات التي يمكن رفعها",
 "max. possible: " => "الحد الأقصى المسموح به",

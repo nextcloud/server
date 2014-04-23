@@ -102,7 +102,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Povoliť používateľom zdieľať s kýmkoľvek",
 "Allow users to only share with users in their groups" => "Povoliť používateľom zdieľať len s používateľmi v ich skupinách",
 "Allow mail notification" => "Povoliť odosielať upozornenia emailom",
-"Allow user to send mail notification for shared files" => "Povoliť používateľom odosielať upozornenia emailom pre svoje zdieľané súbory",
 "Security" => "Zabezpečenie",
 "Enforce HTTPS" => "Vynútiť HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Vynúti pripájanie klientov k %s šifrovaným pripojením.",

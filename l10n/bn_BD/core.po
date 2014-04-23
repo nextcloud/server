@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -134,63 +134,59 @@ msgstr "নভেম্বর"
 msgid "December"
 msgstr "ডিসেম্বর"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "সংরক্ষণ করা হচ্ছে.."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "সেকেন্ড পূর্বে"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "আজ"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "গতকাল"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "গত মাস"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "মাস পূর্বে"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "গত বছর"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "বছর পূর্বে"
 
@@ -294,12 +290,12 @@ msgstr "ভাগাভাগিকৃত"
 msgid "Share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "সমস্যা"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "ভাগাভাগি করতে সমস্যা দেখা দিয়েছে  "
 
@@ -363,71 +359,71 @@ msgstr "ই-মেইলের মাধ্যমে ভাগাভাগি �
 msgid "No people found"
 msgstr "কোন ব্যক্তি খুঁজে পাওয়া গেল না"
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr ""
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "পূনঃরায় ভাগাভাগি অনুমোদিত নয়"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "{user} এর সাথে {item} ভাগাভাগি করা হয়েছে"
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "ভাগাভাগি বাতিল "
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "সম্পাদনা করতে পারবেন"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "অধিগম্যতা নিয়ন্ত্রণ"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "তৈরী করুন"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "পরিবর্ধন কর"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "মুছে ফেল"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "কূটশব্দদ্বারা সুরক্ষিত"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ বাতিল করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "পাঠানো হচ্ছে......"
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "ই-মেইল পাঠানো হয়েছে"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
 msgstr "সতর্কবাণী"
 
@@ -455,7 +451,7 @@ msgstr ""
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr ""
 

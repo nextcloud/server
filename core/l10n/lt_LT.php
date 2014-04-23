@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("prieš %n dieną","prieš %n dienas","prieš %n dienų"),
 "last month" => "praeitą mėnesį",
 "_%n month ago_::_%n months ago_" => array("prieš %n mėnesį","prieš %n mėnesius","prieš %n mėnesių"),
-"months ago" => "prieš mėnesį",
 "last year" => "praeitais metais",
 "years ago" => "prieš metus",
 "Choose" => "Pasirinkite",

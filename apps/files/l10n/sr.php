@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "Name" => "Име",
 "Size" => "Величина",
 "Modified" => "Измењено",
-"Upload" => "Отпреми",
 "File handling" => "Управљање датотекама",
 "Maximum upload size" => "Највећа величина датотеке",
 "max. possible: " => "највећа величина:",

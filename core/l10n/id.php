@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n hari yang lalu"),
 "last month" => "bulan kemarin",
 "_%n month ago_::_%n months ago_" => array("%n bulan yang lalu"),
-"months ago" => "beberapa bulan lalu",
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
 "Choose" => "Pilih",

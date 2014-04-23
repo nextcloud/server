@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Spremenjeno",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Neveljavno ime mape. Ime 'Souporaba' je zadržana za javno mapo.",
 "%s could not be renamed" => "%s ni mogoče preimenovati",
-"Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",
 "Maximum upload size" => "Največja velikost za pošiljanja",
 "max. possible: " => "največ mogoče:",

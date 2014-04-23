@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n ditë më parë","%n ditë më parë"),
 "last month" => "muajin e shkuar",
 "_%n month ago_::_%n months ago_" => array("%n muaj më parë","%n muaj më parë"),
-"months ago" => "muaj më parë",
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
 "Choose" => "Zgjidh",

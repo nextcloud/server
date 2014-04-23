@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -145,63 +145,59 @@ msgstr "November"
 msgid "December"
 msgstr "Dezember"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "Vor Monaten"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -305,12 +301,12 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:731
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fehler"
 
-#: js/share.js:160 js/share.js:787
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -374,71 +370,71 @@ msgstr "Mittels einer E-Mail teilen:"
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:324 js/share.js:383
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "Gruppe"
 
-#: js/share.js:355
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Das Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:399
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Freigegeben in {item} von {user}"
 
-#: js/share.js:421
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:429
+#: js/share.js:431
 msgid "notify by email"
 msgstr "Per E-Mail informieren"
 
-#: js/share.js:432
+#: js/share.js:434
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:434
+#: js/share.js:436
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:437
+#: js/share.js:439
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:440
+#: js/share.js:442
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:443
+#: js/share.js:445
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:446
+#: js/share.js:448
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:718
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Passwortgeschützt"
 
-#: js/share.js:731
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:749
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:774
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:785
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Email gesendet"
 
-#: js/share.js:809
+#: js/share.js:812
 msgid "Warning"
 msgstr "Warnung"
 
@@ -466,7 +462,7 @@ msgstr "Schlagwörter bearbeiten"
 msgid "Error loading dialog template: {error}"
 msgstr "Fehler beim Laden der Dialogvorlage: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Es wurden keine Schlagwörter zum Löschen ausgewählt."
 

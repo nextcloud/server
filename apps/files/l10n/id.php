@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Modified" => "Dimodifikasi",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Nama folder tidak sah. Menggunakan 'Shared' sudah digunakan.",
 "%s could not be renamed" => "%s tidak dapat diubah nama",
-"Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran pengunggahan maksimum",
 "max. possible: " => "Kemungkinan maks.:",

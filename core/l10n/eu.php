@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("orain dela egun %n","orain dela %n egun"),
 "last month" => "joan den hilabetean",
 "_%n month ago_::_%n months ago_" => array("orain dela hilabete %n","orain dela %n hilabete"),
-"months ago" => "hilabete",
 "last year" => "joan den urtean",
 "years ago" => "urte",
 "Choose" => "Aukeratu",

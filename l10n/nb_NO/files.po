@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -310,8 +310,9 @@ msgid "%s could not be renamed"
 msgstr "Kunne ikke gi nytt navn til %s"
 
 #: lib/helper.php:14 templates/index.php:22
-msgid "Upload"
-msgstr "Last opp"
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
 
 #: templates/admin.php:4
 msgid "File handling"

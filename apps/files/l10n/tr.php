@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Değiştirilme",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Geçersiz klasör adı. 'Shared' ismi ayrılmıştır.",
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
-"Upload" => "Yükle",
 "File handling" => "Dosya işlemleri",
 "Maximum upload size" => "Maksimum yükleme boyutu",
 "max. possible: " => "mümkün olan en fazla: ",

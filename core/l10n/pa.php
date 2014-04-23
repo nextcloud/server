@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "ਪਿਛਲੇ ਮਹੀਨੇ",
 "_%n month ago_::_%n months ago_" => array("",""),
-"months ago" => "ਮਹੀਨੇ ਪਹਿਲਾਂ",
 "last year" => "ਪਿਛਲੇ ਸਾਲ",
 "years ago" => "ਸਾਲਾਂ ਪਹਿਲਾਂ",
 "Choose" => "ਚੁਣੋ",

@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "Name" => "Nafn",
 "Size" => "Stærð",
 "Modified" => "Breytt",
-"Upload" => "Senda inn",
 "File handling" => "Meðhöndlun skrár",
 "Maximum upload size" => "Hámarks stærð innsendingar",
 "max. possible: " => "hámark mögulegt: ",

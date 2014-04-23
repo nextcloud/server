@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Name" => "Nama",
 "Size" => "Saiz",
 "Modified" => "Dimodifikasi",
-"Upload" => "Muat naik",
 "File handling" => "Pengendalian fail",
 "Maximum upload size" => "Saiz maksimum muat naik",
 "max. possible: " => "maksimum:",

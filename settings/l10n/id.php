@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Izinkan pengguna untuk berbagi kepada siapa saja",
 "Allow users to only share with users in their groups" => "Hanya izinkan pengguna untuk berbagi dengan pengguna pada grup mereka sendiri",
 "Allow mail notification" => "Izinkan pemberitahuan email",
-"Allow user to send mail notification for shared files" => "Izinkan pengguna mengirim pemberitahuan email pada berkas yang dibagikan",
 "Security" => "Keamanan",
 "Enforce HTTPS" => "Selalu Gunakan HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Memaksa klien untuk menghubungkan ke %s menggunakan sambungan yang dienskripsi.",

@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "Modified" => "Aldatuta",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Baliogabeako karpeta izena. 'Shared' izena erreserbatuta dago.",
 "%s could not be renamed" => "%s ezin da berrizendatu",
-"Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",
 "Maximum upload size" => "Igo daitekeen gehienezko tamaina",
 "max. possible: " => "max, posiblea:",

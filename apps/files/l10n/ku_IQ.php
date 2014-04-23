@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "ناو",
-"Upload" => "بارکردن",
 "Save" => "پاشکه‌وتکردن",
 "Folder" => "بوخچه",
 "Download" => "داگرتن"

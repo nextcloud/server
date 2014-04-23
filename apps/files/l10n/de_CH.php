@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Size" => "Grösse",
 "Modified" => "Geändert",
 "%s could not be renamed" => "%s konnte nicht umbenannt werden",
-"Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",
 "Maximum upload size" => "Maximale Upload-Grösse",
 "max. possible: " => "maximal möglich:",

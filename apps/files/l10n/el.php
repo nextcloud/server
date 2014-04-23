@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Τροποποιήθηκε",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Άκυρο όνομα φακέλου. Η χρήση του 'Shared' διατηρείται από το σύστημα.",
 "%s could not be renamed" => "Αδυναμία μετονομασίας του %s",
-"Upload" => "Μεταφόρτωση",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",
 "max. possible: " => "μέγιστο δυνατό:",

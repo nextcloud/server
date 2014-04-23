@@ -114,7 +114,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Tillåt delning med alla",
 "Allow users to only share with users in their groups" => "Tillåt bara delning med användare i egna grupper",
 "Allow mail notification" => "Tillåt e-post notifikation",
-"Allow user to send mail notification for shared files" => "Tillåt användare att skicka e-port notifikationer för delade filer",
 "Security" => "Säkerhet",
 "Enforce HTTPS" => "Kräv HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Tvingar klienterna att ansluta till %s via en krypterad anslutning.",

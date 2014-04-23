@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("acum %n zi","acum %n zile","acum %n zile"),
 "last month" => "ultima lună",
 "_%n month ago_::_%n months ago_" => array("","",""),
-"months ago" => "luni în urmă",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "Choose" => "Alege",

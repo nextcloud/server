@@ -55,7 +55,6 @@ $TRANSLATIONS = array(
 "Size" => "Kích cỡ",
 "Modified" => "Thay đổi",
 "%s could not be renamed" => "%s không thể đổi tên",
-"Upload" => "Tải lên",
 "File handling" => "Xử lý tập tin",
 "Maximum upload size" => "Kích thước tối đa ",
 "max. possible: " => "tối đa cho phép:",

@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Upravené",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Názov priečinka je chybný. Použitie názvu 'Shared' nie je povolené.",
 "%s could not be renamed" => "%s nemohol byť premenovaný",
-"Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",
 "Maximum upload size" => "Maximálna veľkosť odosielaného súboru",
 "max. possible: " => "najväčšie možné:",

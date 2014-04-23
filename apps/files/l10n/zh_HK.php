@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "Name" => "名稱",
-"Upload" => "上傳",
 "Save" => "儲存",
 "Download" => "下載",
 "Delete" => "刪除"

@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Ændret",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Ugyldig mappenavn. 'Shared' er reserveret.",
 "%s could not be renamed" => "%s kunne ikke omdøbes",
-"Upload" => "Upload",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimal upload-størrelse",
 "max. possible: " => "max. mulige: ",

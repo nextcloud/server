@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Size" => "Mărime",
 "Modified" => "Modificat",
 "%s could not be renamed" => "%s nu a putut fi redenumit",
-"Upload" => "Încărcă",
 "File handling" => "Manipulare fișiere",
 "Maximum upload size" => "Dimensiune maximă admisă la încărcare",
 "max. possible: " => "max. posibil:",

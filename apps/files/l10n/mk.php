@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Size" => "Големина",
 "Modified" => "Променето",
 "%s could not be renamed" => "%s не може да биде преименуван",
-"Upload" => "Подигни",
 "File handling" => "Ракување со датотеки",
 "Maximum upload size" => "Максимална големина за подигање",
 "max. possible: " => "макс. можно:",

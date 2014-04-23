@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n день тому","%n дні тому","%n днів тому"),
 "last month" => "минулого місяця",
 "_%n month ago_::_%n months ago_" => array("%n місяць тому","%n місяці тому","%n місяців тому"),
-"months ago" => "місяці тому",
 "last year" => "минулого року",
 "years ago" => "роки тому",
 "Choose" => "Обрати",

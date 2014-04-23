@@ -55,7 +55,6 @@ $TRANSLATIONS = array(
 "Size" => "大小",
 "Modified" => "修改時間",
 "%s could not be renamed" => "無法重新命名 %s",
-"Upload" => "上傳",
 "File handling" => "檔案處理",
 "Maximum upload size" => "上傳限制",
 "max. possible: " => "最大允許：",

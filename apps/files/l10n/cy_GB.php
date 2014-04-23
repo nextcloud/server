@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "Name" => "Enw",
 "Size" => "Maint",
 "Modified" => "Addaswyd",
-"Upload" => "Llwytho i fyny",
 "File handling" => "Trafod ffeiliau",
 "Maximum upload size" => "Maint mwyaf llwytho i fyny",
 "max. possible: " => "mwyaf. posib:",

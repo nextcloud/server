@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "允許使用者與任何人分享檔案",
 "Allow users to only share with users in their groups" => "僅允許使用者在群組內分享",
 "Allow mail notification" => "允許郵件通知",
-"Allow user to send mail notification for shared files" => "允許使用者分享檔案時寄出通知郵件",
 "Security" => "安全性",
 "Enforce HTTPS" => "強制啟用 HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "強迫用戶端使用加密連線連接到 %s",

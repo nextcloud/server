@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:40+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -88,17 +88,17 @@ msgstr "Skupine ni mogoče dodati"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Datoteke so uspešno odšifrirane"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Datotek ni mogoče odšifrirati. Preverite dnevnik owncloud.log ali pa se posvetujte s skrbnikom."
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Datotek ni mogoče odšifrirati. Preverite geslo in poskusite znova."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -522,8 +522,8 @@ msgid "Allow mail notification"
 msgstr "Dovoli obvestila preko elektronske pošte"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Dovoli uporabniku poslati obvestila preko elektronske pošte za datoteke v souporabi"
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
 
 #: templates/admin.php:261
 msgid "Security"

@@ -22,7 +22,6 @@ $TRANSLATIONS = array(
 "Name" => "பெயர்",
 "Size" => "அளவு",
 "Modified" => "மாற்றப்பட்டது",
-"Upload" => "பதிவேற்றுக",
 "File handling" => "கோப்பு கையாளுதல்",
 "Maximum upload size" => "பதிவேற்றக்கூடிய ஆகக்கூடிய அளவு ",
 "max. possible: " => "ஆகக் கூடியது:",

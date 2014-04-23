@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 16:38+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,19 +136,19 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -156,7 +156,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -164,15 +164,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -180,11 +180,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -192,15 +192,11 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "mesecev nazaj"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -467,7 +463,7 @@ msgstr "Uredi oznake"
 msgid "Error loading dialog template: {error}"
 msgstr "Napaka nalaganja predloge pogovornega okna: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Ni izbranih oznak za izbris."
 

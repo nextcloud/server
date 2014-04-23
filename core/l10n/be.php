@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("","","",""),
 "last month" => "У мінулым месяцы",
 "_%n month ago_::_%n months ago_" => array("","","",""),
-"months ago" => "Месяцаў таму",
 "last year" => "У мінулым годзе",
 "years ago" => "Гадоў таму",
 "Choose" => "Выбар",

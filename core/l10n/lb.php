@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "leschte Mount",
 "_%n month ago_::_%n months ago_" => array("",""),
-"months ago" => "Méint hir",
 "last year" => "Lescht Joer",
 "years ago" => "Joren hir",
 "Choose" => "Auswielen",

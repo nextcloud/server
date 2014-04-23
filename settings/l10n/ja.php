@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "ユーザーに誰とでも共有することを許可する",
 "Allow users to only share with users in their groups" => "ユーザーにグループ内のユーザーとのみ共有を許可する",
 "Allow mail notification" => "メール通知を許可",
-"Allow user to send mail notification for shared files" => "共有ファイルに関するメール通知の送信をユーザーに許可する",
 "Security" => "セキュリティ",
 "Enforce HTTPS" => "常にHTTPSを使用する",
 "Forces the clients to connect to %s via an encrypted connection." => "クライアントから %sへの接続を常に暗号化します。",

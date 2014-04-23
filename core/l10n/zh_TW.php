@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n 天前"),
 "last month" => "上個月",
 "_%n month ago_::_%n months ago_" => array("%n 個月前"),
-"months ago" => "幾個月前",
 "last year" => "去年",
 "years ago" => "幾年前",
 "Choose" => "選擇",

@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",
-"Upload" => "Incargar",
 "Maximum upload size" => "Dimension maxime de incargamento",
 "Save" => "Salveguardar",
 "New" => "Nove",

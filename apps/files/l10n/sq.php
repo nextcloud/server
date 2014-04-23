@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Size" => "Madhësia",
 "Modified" => "Ndryshuar",
 "%s could not be renamed" => "Nuk është i mundur riemërtimi i %s",
-"Upload" => "Ngarko",
 "File handling" => "Trajtimi i Skedarëve",
 "Maximum upload size" => "Madhësia maksimale e nagarkimit",
 "max. possible: " => "maks i mundshëm",

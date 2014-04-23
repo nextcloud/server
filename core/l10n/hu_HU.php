@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n nappal ezelőtt","%n nappal ezelőtt"),
 "last month" => "múlt hónapban",
 "_%n month ago_::_%n months ago_" => array("%n hónappal ezelőtt","%n hónappal ezelőtt"),
-"months ago" => "több hónapja",
 "last year" => "tavaly",
 "years ago" => "több éve",
 "Choose" => "Válasszon",

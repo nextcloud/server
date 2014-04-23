@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Salli käyttäjien jakaa kenen tahansa kanssa",
 "Allow users to only share with users in their groups" => "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken",
 "Allow mail notification" => "Salli sähköposti-ilmoitukset",
-"Allow user to send mail notification for shared files" => "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista",
 "Security" => "Tietoturva",
 "Enforce HTTPS" => "Pakota HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Pakottaa asiakasohjelmistot ottamaan yhteyden %siin salatun yhteyden kautta.",

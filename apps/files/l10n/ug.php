@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Name" => "ئاتى",
 "Size" => "چوڭلۇقى",
 "Modified" => "ئۆزگەرتكەن",
-"Upload" => "يۈكلە",
 "Save" => "ساقلا",
 "New" => "يېڭى",
 "Text file" => "تېكىست ھۆججەت",

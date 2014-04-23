@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "更新日時",
 "Invalid folder name. Usage of 'Shared' is reserved." => "無効なフォルダー名。「Shared」の利用は予約されています。",
 "%s could not be renamed" => "%sの名前を変更できませんでした",
-"Upload" => "アップロード",
 "File handling" => "ファイル操作",
 "Maximum upload size" => "最大アップロードサイズ",
 "max. possible: " => "最大容量: ",

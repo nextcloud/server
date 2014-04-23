@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "누구나와 공유할 수 있도록 허용",
 "Allow users to only share with users in their groups" => "사용자가 속해 있는 그룹의 사용자에게만 공유할 수 있도록 허용",
 "Allow mail notification" => "메일 알림 허용",
-"Allow user to send mail notification for shared files" => "사용자에게 공유 파일에 대한 메일 알림을 허용합니다",
 "Security" => "보안",
 "Enforce HTTPS" => "HTTPS 강제 사용",
 "Forces the clients to connect to %s via an encrypted connection." => "클라이언트가 %s에 연결할 때 암호화 연결을 강제로 사용합니다.",

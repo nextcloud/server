@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "verlede maand",
 "_%n month ago_::_%n months ago_" => array("",""),
-"months ago" => "maande gelede",
 "last year" => "verlede jaar",
 "years ago" => "jare gelede",
 "Choose" => "Kies",

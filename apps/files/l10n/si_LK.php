@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Name" => "නම",
 "Size" => "ප්‍රමාණය",
 "Modified" => "වෙනස් කළ",
-"Upload" => "උඩුගත කරන්න",
 "File handling" => "ගොනු පරිහරණය",
 "Maximum upload size" => "උඩුගත කිරීමක උපරිම ප්‍රමාණය",
 "max. possible: " => "හැකි උපරිමය:",

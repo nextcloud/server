@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Name" => "Nome",
 "Size" => "Tamañu",
-"Upload" => "Xubir",
 "Save" => "Guardar",
 "New folder" => "Nueva carpeta",
 "Folder" => "Carpeta",

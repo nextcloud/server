@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "Modified" => "수정됨",
 "Invalid folder name. Usage of 'Shared' is reserved." => "폴더 이름이 잘못되었습니다. '공유됨'은 예약된 폴더 이름입니다.",
 "%s could not be renamed" => "%s의 이름을 변경할 수 없습니다",
-"Upload" => "업로드",
 "File handling" => "파일 처리",
 "Maximum upload size" => "최대 업로드 크기",
 "max. possible: " => "최대 가능:",

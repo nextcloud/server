@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("Šodien, %n dienas","Pirms %n dienas","Pirms %n dienām"),
 "last month" => "pagājušajā mēnesī",
 "_%n month ago_::_%n months ago_" => array("Šomēnes, %n mēneši","Pirms %n mēneša","Pirms %n mēnešiem"),
-"months ago" => "mēnešus atpakaļ",
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
 "Choose" => "Izvēlieties",

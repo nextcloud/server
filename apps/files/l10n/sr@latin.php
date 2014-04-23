@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Name" => "Ime",
 "Size" => "Veličina",
 "Modified" => "Zadnja izmena",
-"Upload" => "Pošalji",
 "Maximum upload size" => "Maksimalna veličina pošiljke",
 "Save" => "Snimi",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",

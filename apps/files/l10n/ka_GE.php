@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "Name" => "სახელი",
 "Size" => "ზომა",
 "Modified" => "შეცვლილია",
-"Upload" => "ატვირთვა",
 "File handling" => "ფაილის დამუშავება",
 "Maximum upload size" => "მაქსიმუმ ატვირთის ზომა",
 "max. possible: " => "მაქს. შესაძლებელი:",

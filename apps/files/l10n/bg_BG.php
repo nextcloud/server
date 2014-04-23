@@ -20,7 +20,6 @@ $TRANSLATIONS = array(
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",
-"Upload" => "Качване",
 "Maximum upload size" => "Максимален размер за качване",
 "0 is unlimited" => "Ползвайте 0 за без ограничения",
 "Save" => "Запис",

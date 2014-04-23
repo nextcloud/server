@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "Size" => "اندازه",
 "Modified" => "تاریخ",
 "%s could not be renamed" => "%s نمیتواند تغییر نام دهد.",
-"Upload" => "بارگزاری",
 "File handling" => "اداره پرونده ها",
 "Maximum upload size" => "حداکثر اندازه بارگزاری",
 "max. possible: " => "حداکثرمقدارممکن:",

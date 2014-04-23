@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "Size" => "Storleik",
 "Modified" => "Endra",
 "%s could not be renamed" => "Klarte ikkje å omdøypa på %s",
-"Upload" => "Last opp",
 "File handling" => "Filhandtering",
 "Maximum upload size" => "Maksimal opplastingsstorleik",
 "max. possible: " => "maks. moglege:",

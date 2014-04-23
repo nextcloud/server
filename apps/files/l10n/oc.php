@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Name" => "Nom",
 "Size" => "Talha",
 "Modified" => "Modificat",
-"Upload" => "Amontcarga",
 "File handling" => "Manejament de fichièr",
 "Maximum upload size" => "Talha maximum d'amontcargament",
 "max. possible: " => "max. possible: ",

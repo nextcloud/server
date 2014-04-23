@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Modified" => "Ändrad",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Ogiltigt mappnamn. Användande av 'Shared' är reserverat av ownCloud",
 "%s could not be renamed" => "%s kunde inte namnändras",
-"Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",
 "max. possible: " => "max. möjligt:",

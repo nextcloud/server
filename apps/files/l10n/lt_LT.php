@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "Modified" => "Pakeista",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Netinkamas aplanko pavadinimas. „Shared“ pavadinimas yra rezervuotas.",
 "%s could not be renamed" => "%s negali būti pervadintas",
-"Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",
 "Maximum upload size" => "Maksimalus įkeliamo failo dydis",
 "max. possible: " => "maks. galima:",

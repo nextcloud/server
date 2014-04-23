@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "Name" => "ឈ្មោះ",
 "Size" => "ទំហំ",
-"Upload" => "ផ្ទុក​ឡើង",
 "Save" => "រក្សាទុក",
 "New folder" => "ថត​ថ្មី",
 "Folder" => "ថត",

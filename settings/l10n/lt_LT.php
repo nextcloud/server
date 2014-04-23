@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Leisti naudotojams dalintis su bet kuo",
 "Allow users to only share with users in their groups" => "Leisti naudotojams dalintis tik su naudotojais savo grupėje",
 "Allow mail notification" => "Leisti el. pašto perspėjimą",
-"Allow user to send mail notification for shared files" => "Leisti naudotojui siųsti perspėjimą el. laišku dėl bendrinamų failų",
 "Security" => "Saugumas",
 "Enforce HTTPS" => "Reikalauti HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Verčia klientus jungtis prie %s per šifruotą ryšį.",
