@@ -223,7 +223,7 @@ class Share extends \OC\Share\Constants {
 				} else {
 					while ($row = $result->fetchRow()) {
 						foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
-							$sharedPath = '/Shared' . $shareData['file_target'];
+							$sharedPath = $shareData['file_target'];
 							$sharedPath .= substr($path, strlen($row['path']) -5);
 							$sharePaths[$uid] = $sharedPath;
 						}
