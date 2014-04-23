@@ -6,6 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
+$l = \OC_L10N::get('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
@@ -32,37 +33,37 @@ OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login'
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', array(
-	'backend' => 'Local',
+	'backend' => (string)$l->t('Local'),
 	'configuration' => array(
-		'datadir' => 'Location')));
+		'datadir' => (string)$l->t('Location'))));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
-	'backend' => 'Amazon S3',
+	'backend' => (string)$l->t('Amazon S3'),
 	'configuration' => array(
-		'key' => 'Key',
-		'secret' => '*Secret',
-		'bucket' => 'Bucket'),
+		'key' => (string)$l->t('Key'),
+		'secret' => '*'.$l->t('Secret'),
+		'bucket' => (string)$l->t('Bucket')),
 	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
-	'backend' => 'Amazon S3 and compliant',
+	'backend' => (string)$l->t('Amazon S3 and compliant'),
 	'configuration' => array(
-		'key' => 'Access Key',
-		'secret' => '*Secret Key',
-		'bucket' => 'Bucket',
-		'hostname' => '&Hostname (optional)',
-		'port' => '&Port (optional)',
-		'region' => '&Region (optional)',
-		'use_ssl' => '!Enable SSL',
-		'use_path_style' => '!Enable Path Style'),
+		'key' => (string)$l->t('Access Key'),
+		'secret' => '*'.$l->t('Secret Key'),
+		'bucket' => (string)$l->t('Bucket'),
+		'hostname' => '&'.$l->t('Hostname (optional)'),
+		'port' => '&'.$l->t('Port (optional)'),
+		'region' => '&'.$l->t('Region (optional)'),
+		'use_ssl' => '!'.$l->t('Enable SSL'),
+		'use_path_style' => '!'.$l->t('Enable Path Style')),
 	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
 	'backend' => 'Dropbox',
 	'configuration' => array(
 		'configured' => '#configured',
-		'app_key' => 'App key',
-		'app_secret' => '*App secret',
+		'app_key' => (string)$l->t('App key'),
+		'app_secret' => '*'.$l->t('App secret'),
 		'token' => '#token',
 		'token_secret' => '#token_secret'),
 	'custom' => 'dropbox',
@@ -71,36 +72,36 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
 OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
 	'backend' => 'FTP',
 	'configuration' => array(
-		'host' => 'URL',
-		'user' => 'Username',
-		'password' => '*Password',
-		'root' => '&Root',
-		'secure' => '!Secure ftps://'),
+		'host' => (string)$l->t('URL'),
+		'user' => (string)$l->t('Username'),
+		'password' => '*'.$l->t('Password'),
+		'root' => '&'.$l->t('Root'),
+		'secure' => '!'.$l->t('Secure ftps://')),
 	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Google', array(
 	'backend' => 'Google Drive',
 	'configuration' => array(
 		'configured' => '#configured',
-		'client_id' => 'Client ID',
-		'client_secret' => '*Client secret',
+		'client_id' => (string)$l->t('Client ID'),
+		'client_secret' => '*'.$l->t('Client secret'),
 		'token' => '#token'),
 	'custom' => 'google',
 	'has_dependencies' => true));
 
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
-	'backend' => 'OpenStack Object Storage',
+	'backend' => (string)$l->t('OpenStack Object Storage'),
 	'configuration' => array(
-		'user' => 'Username (required)',
-		'bucket' => 'Bucket (required)',
-		'region' => '&Region (optional for OpenStack Object Storage)',
-		'key' => '*API Key (required for Rackspace Cloud Files)',
-		'tenant' => '&Tenantname (required for OpenStack Object Storage)',
-		'password' => '*Password (required for OpenStack Object Storage)',
-		'service_name' => '&Service Name (required for OpenStack Object Storage)',
-		'url' => '&URL of identity endpoint (required for OpenStack Object Storage)',
-		'timeout' => '&Timeout of HTTP requests in seconds (optional)',
+		'user' => (string)$l->t('Username (required)'),
+		'bucket' => (string)$l->t('Bucket (required)'),
+		'region' => '&'.$l->t('Region (optional for OpenStack Object Storage)'),
+		'key' => '*'.$l->t('API Key (required for Rackspace Cloud Files)'),
+		'tenant' => '&'.$l->t('Tenantname (required for OpenStack Object Storage)'),
+		'password' => '*'.$l->t('Password (required for OpenStack Object Storage)'),
+		'service_name' => '&'.$l->t('Service Name (required for OpenStack Object Storage)'),
+		'url' => '&'.$l->t('URL of identity endpoint (required for OpenStack Object Storage)'),
+		'timeout' => '&'.$l->t('Timeout of HTTP requests in seconds (optional)'),
 	),
 	'has_dependencies' => true));
 
@@ -109,58 +110,58 @@ if (!OC_Util::runningOnWindows()) {
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', array(
 		'backend' => 'SMB / CIFS',
 		'configuration' => array(
-			'host' => 'URL',
-			'user' => 'Username',
-			'password' => '*Password',
-			'share' => 'Share',
-			'root' => '&Root'),
+			'host' => (string)$l->t('URL'),
+			'user' => (string)$l->t('Username'),
+			'password' => '*'.$l->t('Password'),
+			'share' => (string)$l->t('Share'),
+			'root' => '&'.$l->t('Root')),
 		'has_dependencies' => true));
 
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', array(
-			'backend' => 'SMB / CIFS using OC login',
+			'backend' => (string)$l->t('SMB / CIFS using OC login'),
 			'configuration' => array(
-				'host' => 'URL',
-				'username_as_share' => '!Username as share',
-				'share' => '&Share',
-				'root' => '&Root'),
+				'host' => (string)$l->t('URL'),
+				'username_as_share' => '!'.$l->t('Username as share'),
+				'share' => '&'.$l->t('Share'),
+				'root' => '&'.$l->t('Root')),
 		'has_dependencies' => true));
 }
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\DAV', array(
 	'backend' => 'WebDAV',
 	'configuration' => array(
-		'host' => 'URL',
-		'user' => 'Username',
-		'password' => '*Password',
-		'root' => '&Root',
-		'secure' => '!Secure https://'),
+		'host' => (string)$l->t('URL'),
+		'user' => (string)$l->t('Username'),
+		'password' => '*'.$l->t('Password'),
+		'root' => '&'.$l->t('Root'),
+		'secure' => '!'.$l->t('Secure https://')),
 	'has_dependencies' => true));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
 	'backend' => 'ownCloud',
 	'configuration' => array(
-		'host' => 'URL',
-		'user' => 'Username',
-		'password' => '*Password',
-		'root' => '&Remote subfolder',
-		'secure' => '!Secure https://')));
+		'host' => (string)$l->t('URL'),
+		'user' => (string)$l->t('Username'),
+		'password' => '*'.$l->t('Password'),
+		'root' => '&'.$l->t('Remote subfolder'),
+		'secure' => '!'.$l->t('Secure https://'))));
 
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 	'backend' => 'SFTP',
 	'configuration' => array(
-		'host' => 'URL',
-		'user' => 'Username',
-		'password' => '*Password',
-		'root' => '&Root')));
+		'host' => (string)$l->t('URL'),
+		'user' => (string)$l->t('Username'),
+		'password' => '*'.$l->t('Password'),
+		'root' => '&'.$l->t('Root'))));
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\iRODS', array(
 	'backend' => 'iRODS',
 	'configuration' => array(
-		'host' => 'Host',
-		'port' => 'Port',
-		'use_logon_credentials' => '!Use ownCloud login',
-		'user' => 'Username',
-		'password' => '*Password',
-		'auth_mode' => 'Authentication Mode',
-		'zone' => 'Zone')));
+		'host' => (string)$l->t('Host'),
+		'port' => (string)$l->t('Port'),
+		'use_logon_credentials' => '!'.$l->t('Use ownCloud login'),
+		'user' => (string)$l->t('Username'),
+		'password' => '*'.$l->t('Password'),
+		'auth_mode' => (string)$l->t('Authentication Mode'),
+		'zone' => (string)$l->t('Zone'))));
