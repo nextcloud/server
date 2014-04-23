@@ -572,7 +572,8 @@ window.FileList = {
 		input.focus();
 		//preselect input
 		var len = input.val().lastIndexOf('.');
-		if (len === -1) {
+		if ( len === -1 ||
+			tr.data('type') === 'dir' ) {
 			len = input.val().length;
 		}
 		input.selectRange(0, len);
