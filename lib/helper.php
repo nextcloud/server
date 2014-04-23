@@ -26,6 +26,7 @@
  */
 class OC_Helper {
 	private static $mimetypes=array();
+	private static $secureMimeTypes = array();
 	private static $tmpFiles=array();
 	private static $mimetypeIcons = array();
 
@@ -399,11 +400,16 @@ class OC_Helper {
 		if(strpos($path, '.')) {
 			//try to guess the type by the file extension
 			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
-				self::$mimetypes=include 'mimetypes.list.php';
+				self::$mimetypes = include 'mimetypes.list.php';
+
+				// Update the alternative mimetypes to avoid having to look them up each time.
+				foreach (self::$mimetypes as $mimeType) {
+					self::$secureMimeTypes[$mimeType[0]] = $mimeType[1] ? : $mimeType[0];
+				}
 			}
 			$extension=strtolower(strrchr(basename($path), "."));
 			$extension=substr($extension, 1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension][0]:'application/octet-stream';
 		}else{
 			$mimeType='application/octet-stream';
 		}
@@ -441,6 +447,21 @@ class OC_Helper {
 		}
 		return $mimeType;
 	}
+
+	/**
+	 * Get a secure mimetype that won't expose potential XSS.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+    public static function getSecureMimeType($mimeType) {
+		if (!self::$mimetypes) {
+			self::getMimeType('foo.txt'); // make sure the mimetypes are loaded
+		}
+		return isset(self::$secureMimeTypes[$mimeType])
+			? self::$secureMimeTypes[$mimeType]
+			: 'application/octet-stream';
+}
 
 	/**
 	 * get the mimetype form a data string
