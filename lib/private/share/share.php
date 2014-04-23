@@ -844,9 +844,20 @@ class Share extends \OC\Share\Constants {
 	 * @return bool True if item was expired, false otherwise.
 	 */
 	protected static function expireItem(array $item) {
+
+		// get default expire settings
+		$defaultSettings = Helper::getDefaultExpireSetting();
+		// calculate expire date
 		if (!empty($item['expiration'])) {
-			$now = new \DateTime();
-			$expires = new \DateTime($item['expiration']);
+			$userDefinedExpire = new \DateTime($item['expiration']);
+			$userDefinedExpireTimestamp = $userDefinedExpire->getTimestamp();
+		} else {
+			$userDefinedExpireTimestamp = null;
+		}
+		$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $userDefinedExpireTimestamp);
+
+		if (is_int($expires)) {
+			$now = time();
 			if ($now > $expires) {
 				self::unshareItem($item);
 				return true;
