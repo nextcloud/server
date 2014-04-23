@@ -1,3 +1,5 @@
+/* global LdapWizard */
+
 function LdapFilter(target)  {
 	this.locked = true;
 	this.target = false;
@@ -49,12 +51,12 @@ LdapFilter.prototype.compose = function() {
 				LdapWizard.detectGroupMemberAssoc();
 			}
 		},
-		function (result) {
+		function () {
 			console.log('LDAP Wizard: could not compose filter. '+
 				'Please check owncloud.log');
 		}
 	);
-}
+};
 
 LdapFilter.prototype.determineMode = function() {
 	var param = 'action=get'+encodeURIComponent(this.target)+'FilterMode'+
@@ -64,13 +66,13 @@ LdapFilter.prototype.determineMode = function() {
 	var filter = this;
 	LdapWizard.ajax(param,
 		function(result) {
-			property = 'ldap' + filter.target + 'FilterMode';
-			filter.mode = parseInt(result.changes[property]);
-			if(filter.mode === LdapWizard.filterModeRaw
-				&& $('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+			var property = 'ldap' + filter.target + 'FilterMode';
+			filter.mode = parseInt(result.changes[property], 10);
+			if(filter.mode === LdapWizard.filterModeRaw &&
+				$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
-			} else if(filter.mode === LdapWizard.filterModeAssisted
-				&& !$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+			} else if(filter.mode === LdapWizard.filterModeAssisted &&
+				!$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 			} else {
 				console.log('LDAP Wizard determineMode: returned mode was »' +
@@ -78,7 +80,7 @@ LdapFilter.prototype.determineMode = function() {
 			}
 			filter.unlock();
 		},
-		function (result) {
+		function () {
 			//on error case get back to default i.e. Assisted
 			if(!$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
@@ -87,8 +89,7 @@ LdapFilter.prototype.determineMode = function() {
 			filter.unlock();
 		}
 	);
-
-}
+};
 
 LdapFilter.prototype.unlock = function() {
 	this.locked = false;
@@ -96,4 +97,4 @@ LdapFilter.prototype.unlock = function() {
 		this.lazyRunCompose = false;
 		this.compose();
 	}
-}
+};

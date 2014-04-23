@@ -14,7 +14,7 @@ var LdapConfiguration = {
 
 						//deal with Checkboxes
 						if($(elementID).is('input[type=checkbox]')) {
-							if(parseInt(configvalue) === 1) {
+							if(parseInt(configvalue, 10) === 1) {
 								$(elementID).attr('checked', 'checked');
 							} else {
 								$(elementID).removeAttr('checked');
@@ -478,7 +478,7 @@ var LdapWizard = {
 	},
 
 	functionalityCheck: function() {
-		//criterias to enable the connection:
+		//criteria to enable the connection:
 		// - host, port, basedn, user filter, login filter
 		host        = $('#ldap_host').val();
 		port        = $('#ldap_port').val();
@@ -556,7 +556,7 @@ var LdapWizard = {
 			noneSelectedText: caption,
 			click: function(event, ui) {
 				LdapWizard.saveMultiSelect(id,
-										   $('#'+id).multiselect("getChecked"));
+										$('#'+id).multiselect("getChecked"));
 			}
 		});
 	},
@@ -575,8 +575,8 @@ var LdapWizard = {
 	},
 
 	postInitUserFilter: function() {
-		if(LdapWizard.userFilterObjectClassesHasRun
-		   && LdapWizard.userFilterAvailableGroupsHasRun) {
+		if(LdapWizard.userFilterObjectClassesHasRun &&
+			LdapWizard.userFilterAvailableGroupsHasRun) {
 			LdapWizard.userFilter.compose();
 			LdapWizard.countUsers();
 		}
