@@ -55,6 +55,15 @@ class Response {
 	}
 
 	/**
+	 * Sets the content disposition header (with possible workarounds)
+	 * @param string $filename file name
+	 * @param string $type disposition type, either 'attachment' or 'inline'
+	 */
+	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
+		\OC_Response::setContentDispositionHeader( $filename, $type );
+	}
+
+	/**
 	* @brief disable browser caching
 	* @see enableCaching with cache_time = 0
 	*/

@@ -38,12 +38,7 @@ if(!$view->file_exists($filename)) {
 
 $ftype=$view->getMimeType( $filename );
 
-header('Content-Type:'.$ftype);if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
-	header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
-} else {
-	header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
-										 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
-}
+OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
 OCP\Response::disableCaching();
 header('Content-Length: '. $view->filesize($filename));
 
