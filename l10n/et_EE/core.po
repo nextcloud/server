@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-24 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 05:13+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,59 +136,59 @@ msgstr "November"
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut tagasi"
 msgstr[1] "%n minutit tagasi"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tund tagasi"
 msgstr[1] "%n tundi tagasi"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päev tagasi"
 msgstr[1] "%n päeva tagasi"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuu tagasi"
 msgstr[1] "%n kuud tagasi"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "aastat tagasi"
 
@@ -232,7 +232,7 @@ msgstr "Uued failid"
 
 #: js/oc-dialogs.js:373
 msgid "Already existing files"
-msgstr ""
+msgstr "Juba olemasolevad failid"
 
 #: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"

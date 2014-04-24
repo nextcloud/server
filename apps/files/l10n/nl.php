@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Modified" => "Aangepast",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Ongeldige mapnaam. Gebruik van 'Shared' is gereserveerd.",
 "%s could not be renamed" => "%s kon niet worden hernoemd",
+"Upload (max. %s)" => "Upload (max. %s)",
 "File handling" => "Bestand",
 "Maximum upload size" => "Maximale bestandsgrootte voor uploads",
 "max. possible: " => "max. mogelijk: ",

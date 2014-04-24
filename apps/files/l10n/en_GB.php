@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Modified" => "Modified",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Invalid folder name. Usage of 'Shared' is reserved.",
 "%s could not be renamed" => "%s could not be renamed",
+"Upload (max. %s)" => "Upload (max. %s)",
 "File handling" => "File handling",
 "Maximum upload size" => "Maximum upload size",
 "max. possible: " => "max. possible: ",
@@ -87,6 +88,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Upload too large",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "The files you are trying to upload exceed the maximum size for file uploads on this server.",
 "Files are being scanned, please wait." => "Files are being scanned, please wait.",
-"Current scanning" => "Current scanning"
+"Current scanning" => "Currently scanning"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

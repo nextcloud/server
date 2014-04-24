@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Modified" => "Muokattu",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Virheellinen kansion nimi. 'Shared':n käyttö on varattu.",
 "%s could not be renamed" => "kohteen %s nimeäminen uudelleen epäonnistui",
+"Upload (max. %s)" => "Lähetys (enintään %s)",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
 "max. possible: " => "suurin mahdollinen:",

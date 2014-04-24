@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-24 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 11:10+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,7 @@ msgstr "Kimlik doğrulama yöntemi"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "App Store'dan liste yüklenemiyor"
+msgstr "Uygulama Mağazasın'dan liste yüklenemiyor"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20 changepassword/controller.php:49
@@ -378,7 +378,7 @@ msgstr "Kurulum Uyarısı"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Web sunucunuz dosya aktarımı için düzgün bir şekilde yapılandırılmamış. WevDAV arayüzü sorunlu görünüyor."
+msgstr "Web sunucunuz dosya eşitlemesine izin vermek üzere düzgün bir şekilde yapılandırılmamış. WebDAV arayüzü sorunlu görünüyor."
 
 #: templates/admin.php:79
 #, php-format
@@ -525,7 +525,7 @@ msgstr "Posta bilgilendirmesine izin ver"
 
 #: templates/admin.php:254
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
 
 #: templates/admin.php:261
 msgid "Security"

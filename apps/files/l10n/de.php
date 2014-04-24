@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Modified" => "Geändert",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Ungültiger Verzeichnisname. Die Nutzung von 'Shared' ist reserviert.",
 "%s could not be renamed" => "%s konnte nicht umbenannt werden",
+"Upload (max. %s)" => "Hochladen (max. %s)",
 "File handling" => "Dateibehandlung",
 "Maximum upload size" => "Maximale Upload-Größe",
 "max. possible: " => "maximal möglich:",

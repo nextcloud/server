@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","%n kuud tagasi"),
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Kasutajanimes on lubatud ainult järgnevad tähemärgid: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\"",
 "A valid username must be provided" => "Sisesta nõuetele vastav kasutajatunnus",
 "A valid password must be provided" => "Sisesta nõuetele vastav parool",
 "The username is already being used" => "Kasutajanimi on juba kasutuses"

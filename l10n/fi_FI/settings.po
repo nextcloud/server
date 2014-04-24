@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-24 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 08:11+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -356,7 +356,7 @@ msgstr "Turvallisuusvaroitus"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "Käytät %sia HTTP-yhteydellä. Suosittelemme määrittämään palvelimen vaatimaan salattua HTTPS-yhteyttä."
 
 #: templates/admin.php:64
 msgid ""
@@ -522,7 +522,7 @@ msgstr "Salli sähköposti-ilmoitukset"
 
 #: templates/admin.php:254
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista"
 
 #: templates/admin.php:261
 msgid "Security"
@@ -743,7 +743,7 @@ msgstr "Joko png- tai jpg-kuva. Mieluite neliö, voit kuitenkin rajata kuvaa."
 
 #: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Avatar-kuvasi pohjautuu alkuperäiseen tiliisi."
 
 #: templates/personal.php:104
 msgid "Cancel"
@@ -778,7 +778,7 @@ msgstr "Salaussovellus ei ole enää käytössä, joten pura kaikkien tiedostoje
 
 #: templates/personal.php:157
 msgid "Log-in password"
-msgstr ""
+msgstr "Kirjautumissalasana"
 
 #: templates/personal.php:162
 msgid "Decrypt all Files"

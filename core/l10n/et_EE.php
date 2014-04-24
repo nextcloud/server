@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} failikonflikt","{count} failikonflikti"),
 "One file conflict" => "Üks failikonflikt",
 "New Files" => "Uued failid",
+"Already existing files" => "Juba olemasolevad failid",
 "Which files do you want to keep?" => "Milliseid faile sa soovid alles hoida?",
 "If you select both versions, the copied file will have a number added to its name." => "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number.",
 "Cancel" => "Loobu",

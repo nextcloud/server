@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Modified" => "Muudetud",
 "Invalid folder name. Usage of 'Shared' is reserved." => "Vigane kausta nimi. Nime 'Shared' kasutamine on reserveeritud.",
 "%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
+"Upload (max. %s)" => "Üleslaadimine (max. %s)",
 "File handling" => "Failide käsitlemine",
 "Maximum upload size" => "Maksimaalne üleslaadimise suurus",
 "max. possible: " => "maks. võimalik: ",

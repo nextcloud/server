@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 13:52+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-04-24 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "ownCloud yazılımının bu sürümü ile uyumlu olmadığı için \"%s\
 
 #: private/app.php:248
 msgid "No app name specified"
-msgstr "Uygulama adı belirtimedli"
+msgstr "Uygulama adı belirtilmedi"
 
 #: private/app.php:353
 msgid "Help"
@@ -75,11 +75,11 @@ msgstr "ZIP indirmeleri kapatıldı."
 
 #: private/files.php:233
 msgid "Files need to be downloaded one by one."
-msgstr "Dosyaların birer birer indirilmesi gerekmektedir."
+msgstr "Dosyaların tek tek indirilmesi gerekmektedir."
 
 #: private/files.php:234 private/files.php:261
 msgid "Back to Files"
-msgstr "Dosyalara dön"
+msgstr "Dosyalara Dön"
 
 #: private/files.php:259
 msgid "Selected files too large to generate zip file."
@@ -199,7 +199,7 @@ msgstr "MS SQL kullanıcı adı ve/veya parolası geçersiz: %s"
 #: private/setup/oci.php:114 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Siz veya yönetici mevcut bir hesap girmeli."
+msgstr "Mevcut bit hesap ya da yönetici hesabını girmelisiniz."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
@@ -244,7 +244,7 @@ msgstr "MySQL/MariaDB kullanıcısı '%s'@'%%' zaten mevcut"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr "Bu kullanıcıyı MySQL/MariaDB'dan at (drop)"
+msgstr "Bu kullanıcıyı MySQL/MariaDB'dan at (drop)."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -275,7 +275,7 @@ msgstr "Bir yönetici kullanıcı parolası ayarlayın."
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Web sunucunuz dosya aktarımı için düzgün bir şekilde yapılandırılmamış. WevDAV arayüzü sorunlu görünüyor."
+msgstr "Web sunucunuz dosya eşitlemesine izin vermek üzere düzgün bir şekilde yapılandırılmamış. WebDAV arayüzü sorunlu görünüyor."
 
 #: private/setup.php:203
 #, php-format
@@ -287,6 +287,104 @@ msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s sizinle »%s« paylaşımında bulundu"
+
+#: private/share/share.php:490
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: private/share/share.php:496
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: private/share/share.php:505
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:518 private/share/share.php:546
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: private/share/share.php:526
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: private/share/share.php:533
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: private/share/share.php:596
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: private/share/share.php:603
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:740
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:801
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:895
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:902
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:908
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1325
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1334
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1349
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1361
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1375
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
 
 #: private/tags.php:193
 #, php-format
@@ -339,7 +437,7 @@ msgstr "geçen yıl"
 
 #: private/template/functions.php:146
 msgid "years ago"
-msgstr "yıl önce"
+msgstr "yıllar önce"
 
 #: private/user/manager.php:232
 msgid ""

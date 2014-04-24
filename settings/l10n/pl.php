@@ -114,6 +114,7 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Zezwalaj użytkownikom na współdzielenie z kimkolwiek",
 "Allow users to only share with users in their groups" => "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup",
 "Allow mail notification" => "Pozwól na mailowe powiadomienia",
+"Allow users to send mail notification for shared files" => "Zezwól użytkownikom na wysyłanie powiadomień email dla udostępnionych plików",
 "Security" => "Bezpieczeństwo",
 "Enforce HTTPS" => "Wymuś HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego.",
