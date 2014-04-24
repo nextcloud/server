@@ -698,6 +698,7 @@ class OC {
 	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
+		$l = \OC_L10N::get('lib');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -719,8 +720,8 @@ class OC {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 			OC_Template::printErrorPage(
-				'You are accessing the server from an untrusted domain.',
-				'Please contact your administrator'
+				$l->t('You are accessing the server from an untrusted domain.'),
+				$l->t('Please contact your administrator')
 			);
 			return;
 		}
