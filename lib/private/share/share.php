@@ -223,7 +223,7 @@ class Share extends \OC\Share\Constants {
 				} else {
 					while ($row = $result->fetchRow()) {
 						foreach ($fileTargets[$row['fileid']] as $uid => $shareData) {
-							$sharedPath = '/Shared' . $shareData['file_target'];
+							$sharedPath = $shareData['file_target'];
 							$sharedPath .= substr($path, strlen($row['path']) -5);
 							$sharePaths[$uid] = $sharedPath;
 						}
@@ -249,6 +249,22 @@ class Share extends \OC\Share\Constants {
 	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE,
 		$parameters = null, $limit = -1, $includeCollections = false) {
 		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
+			$parameters, $limit, $includeCollections);
+	}
+
+	/**
+	 * Get the items of item type shared with a user
+	 * @param string Item type
+	 * @param sting user id for which user we want the shares
+	 * @param int Format (optional) Format type must be defined by the backend
+	 * @param mixed Parameters (optional)
+	 * @param int Number of items to return (optional) Returns all by default
+	 * @param bool include collections (optional)
+	 * @return Return depends on format
+	 */
+	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
+		$parameters = null, $limit = -1, $includeCollections = false) {
+		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, $user, null, $format,
 			$parameters, $limit, $includeCollections);
 	}
 
@@ -473,6 +489,7 @@ class Share extends \OC\Share\Constants {
 			$itemSourceName = $itemSource;
 		}
 
+
 		// verify that the file exists before we try to share it
 		if ($itemType === 'file' or $itemType === 'folder') {
 			$path = \OC\Files\Filesystem::getPath($itemSource);
@@ -481,6 +498,21 @@ class Share extends \OC\Share\Constants {
 				$message_t = $l->t('Sharing %s failed, because the file does not exist', array($itemSourceName));
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName), \OC_Log::ERROR);
 				throw new \Exception($message_t);
+			}
+		}
+
+		//verify that we don't share a folder which already contains a share mount point
+		if ($itemType === 'folder') {
+			$path = '/' . $uidOwner . '/files' . \OC\Files\Filesystem::getPath($itemSource) . '/';
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mounts = $mountManager->getAll();
+			foreach ($mounts as $mountPoint => $mount) {
+				if ($mount->getStorage() instanceof \OC\Files\Storage\Shared && strpos($mountPoint, $path) === 0) {
+					$message = 'Sharing "' . $itemSourceName . '" failed, because it contains files shared with you!';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
+				}
+
 			}
 		}
 
@@ -876,6 +908,7 @@ class Share extends \OC\Share\Constants {
 		$hookParams = array(
 			'itemType'      => $item['item_type'],
 			'itemSource'    => $item['item_source'],
+			'fileSource'    => $item['file_source'],
 			'shareType'     => $item['share_type'],
 			'shareWith'     => $item['share_with'],
 			'itemParent'    => $item['parent'],
@@ -1135,6 +1168,7 @@ class Share extends \OC\Share\Constants {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
+				$row['unique_name'] = true; // remember that we use a unique name for this user
 				$row['share_with'] = $items[$row['parent']]['share_with'];
 				// Remove the parent group share
 				unset($items[$row['parent']]);
@@ -1173,10 +1207,6 @@ class Share extends \OC\Share\Constants {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					// FIXME: Doesn't always construct the correct path, example:
-					// Folder '/a/b', share '/a' and '/a/b' to user2
-					// user2 reshares /Shared/b and ask for share status of /Shared/a/b
-					// expected result: path=/Shared/a/b; actual result /Shared/b because of the parent
 					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
 					$parentResult = $query->execute(array($row['parent']));
 					if (\OC_DB::isError($result)) {
@@ -1185,7 +1215,7 @@ class Share extends \OC\Share\Constants {
 								\OC_Log::ERROR);
 					} else {
 						$parentRow = $parentResult->fetchRow();
-						$tmpPath = '/Shared' . $parentRow['file_target'];
+						$tmpPath = $parentRow['file_target'];
 						// find the right position where the row path continues from the target path
 						$pos = strrpos($row['path'], $parentRow['file_target']);
 						$subPath = substr($row['path'], $pos);
@@ -1395,8 +1425,8 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
-			.' `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
-			.' `file_target`, `token`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 		// Share with a group
 		if ($shareType == self::SHARE_TYPE_GROUP) {
 			$groupItemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith['group'],
@@ -1440,10 +1470,9 @@ class Share extends \OC\Share\Constants {
 			} else {
 				$groupFileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType,
-				$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token));
-			// Save this id, any extra rows for this group share will need to reference it
-			$parent = \OC_DB::insertid('*PREFIX*share');
+			$queriesToExecute = array();
+			$queriesToExecute['groupShare'] = array($itemType, $itemSource, $groupItemTarget, $shareType,
+				$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token, $parent);
 			// Loop through all users of this group in case we need to add an extra row
 			foreach ($shareWith['users'] as $uid) {
 				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid,
@@ -1469,12 +1498,21 @@ class Share extends \OC\Share\Constants {
 				}
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-					$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
+					$queriesToExecute[] = array($itemType, $itemSource, $itemTarget,
 						self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(),
-							$fileSource, $fileTarget, $token));
+							$fileSource, $fileTarget, $token);
 					$id = \OC_DB::insertid('*PREFIX*share');
 				}
 			}
+			$query->execute($queriesToExecute['groupShare']);
+			// Save this id, any extra rows for this group share will need to reference it
+			$parent = \OC_DB::insertid('*PREFIX*share');
+			unset($queriesToExecute['groupShare']);
+			foreach ($queriesToExecute as $qe) {
+				$qe[] = $parent;
+				$query->execute($qe);
+			}
+
 			\OC_Hook::emit('OCP\Share', 'post_shared', array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
@@ -1534,8 +1572,8 @@ class Share extends \OC\Share\Constants {
 			} else {
 				$fileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner,
-				$permissions, time(), $fileSource, $fileTarget, $token));
+			$query->execute(array($itemType, $itemSource, $itemTarget, $shareType, $shareWith, $uidOwner,
+				$permissions, time(), $fileSource, $fileTarget, $token, $parent));
 			$id = \OC_DB::insertid('*PREFIX*share');
 			\OC_Hook::emit('OCP\Share', 'post_shared', array(
 				'itemType' => $itemType,

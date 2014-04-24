@@ -91,6 +91,22 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
+	 * Get the items of item type shared with a user
+	 * @param string Item type
+	 * @param sting user id for which user we want the shares
+	 * @param int Format (optional) Format type must be defined by the backend
+	 * @param mixed Parameters (optional)
+	 * @param int Number of items to return (optional) Returns all by default
+	 * @param bool include collections (optional)
+	 * @return Return depends on format
+	 */
+	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
+		$parameters = null, $limit = -1, $includeCollections = false) {
+
+		return \OC\Share\Share::getItemsSharedWithUser($itemType, $user, $format, $parameters, $limit, $includeCollections);
+	}
+
+	/**
 	 * Get the item of item type shared with the current user
 	 * @param string $itemType
 	 * @param string $itemTarget

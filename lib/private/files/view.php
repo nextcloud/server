@@ -348,7 +348,8 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
-		if (!$internalPath || $internalPath === '' || $internalPath === '/') {
+		if (!($storage instanceof \OC\Files\Storage\Shared) &&
+				(!$internalPath || $internalPath === '' || $internalPath === '/')) {
 			// do not allow deleting the storage's root / the mount point
 			// because for some storages it might delete the whole contents
 			// but isn't supposed to work that way
@@ -404,11 +405,21 @@ class View {
 			if ($run) {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
-				if ($mp1 == $mp2) {
-					list($storage, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
-					if ($storage) {
-						$result = $storage->rename($internalPath1, $internalPath2);
+				list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+				list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
+				// if source and target are on the same storage we can call the rename operation from the
+				// storage. If it is a "Shared" file/folder we call always the rename operation of the
+				// shared storage to handle mount point renaming, etc correctly
+				if ($storage1 instanceof \OC\Files\Storage\Shared) {
+					if ($storage1) {
+						$result = $storage1->rename($absolutePath1, $absolutePath2);
+						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
+					} else {
+						$result = false;
+					}
+				} elseif ($mp1 == $mp2) {
+					if ($storage1) {
+						$result = $storage1->rename($internalPath1, $internalPath2);
 						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
@@ -417,7 +428,6 @@ class View {
 					if ($this->is_dir($path1)) {
 						$result = $this->copy($path1, $path2);
 						if ($result === true) {
-							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 							$result = $storage1->unlink($internalPath1);
 						}
 					} else {
@@ -431,7 +441,6 @@ class View {
 						fclose($target);
 
 						if ($result !== false) {
-							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 							$storage1->unlink($internalPath1);
 						}
 					}
@@ -972,8 +981,13 @@ class View {
 								$permissions = $subStorage->getPermissions($rootEntry['path']);
 								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 							}
-							// do not allow renaming/deleting the mount point
-							$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+							// do not allow renaming/deleting the mount point if they are not shared files/folders
+							// for shared files/folders we use the permissions given by the owner
+							if ($subStorage instanceof \OC\Files\Storage\Shared) {
+								$rootEntry['permissions'] = $permissions;
+							} else {
+								$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+							}
 
 							//remove any existing entry with the same name
 							foreach ($files as $i => $file) {
@@ -1154,7 +1168,8 @@ class View {
 			 * @var \OC\Files\Mount\Mount $mount
 			 */
 			$cache = $mount->getStorage()->getCache();
-			if ($internalPath = $cache->getPathById($id)) {
+			$internalPath = $cache->getPathById($id);
+			if (is_string($internalPath)) {
 				$fullPath = $mount->getMountPoint() . $internalPath;
 				if (!is_null($path = $this->getRelativePath($fullPath))) {
 					return $path;

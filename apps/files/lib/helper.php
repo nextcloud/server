@@ -37,8 +37,7 @@ class Helper
 					$sid = explode(':', $sid);
 					if ($sid[0] === 'shared') {
 						$icon = \OC_Helper::mimetypeIcon('dir-shared');
-					}
-					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
+					} elseif ($sid[0] !== 'local' and $sid[0] !== 'home') {
 						$icon = \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
@@ -96,6 +95,9 @@ class Helper
 		$entry['etag'] = $i['etag'];
 		if (isset($i['displayname_owner'])) {
 			$entry['shareOwner'] = $i['displayname_owner'];
+		}
+		if (isset($i['is_share_mount_point'])) {
+			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
 		}
 		return $entry;
 	}

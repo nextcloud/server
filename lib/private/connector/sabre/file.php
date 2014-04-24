@@ -71,13 +71,6 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
 
-		// if file is located in /Shared we write the part file to the users
-		// root folder because we can't create new files in /shared
-		// we extend the name with a random number to avoid overwriting a existing file
-		if (dirname($partpath) === 'Shared') {
-			$partpath = pathinfo($partpath, PATHINFO_FILENAME) . rand() . '.part';
-		}
-
 		try {
 			$putOkay = $fs->file_put_contents($partpath, $data);
 			if ($putOkay === false) {
@@ -148,10 +141,6 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function delete() {
 		$fs = $this->getFS();
-
-		if ($this->path === 'Shared') {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
 
 		if (!$fs->isDeletable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();

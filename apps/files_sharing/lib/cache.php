@@ -2,8 +2,9 @@
 /**
  * ownCloud
  *
- * @author Michael Gapczynski
- * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ * @author Bjoern Schiessle, Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski <mtgap@owncloud.com>
+ *            2014 Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -46,12 +47,15 @@ class Shared_Cache extends Cache {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	private function getSourceCache($target) {
-		$source = \OC_Share_Backend_File::getSource($target);
+		if ($target === false || $target === $this->storage->getMountPoint()) {
+			$target = '';
+		}
+		$source = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
 		if (isset($source['path']) && isset($source['fileOwner'])) {
 			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
-			$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
-			if (is_array($mount)) {
-				$fullPath = $mount[key($mount)]->getMountPoint() . $source['path'];
+			$mounts = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
+			if (is_array($mounts) and count($mounts)) {
+				$fullPath = $mounts[0]->getMountPoint() . $source['path'];
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
 				if ($storage) {
 					$this->files[$target] = $internalPath;
@@ -80,23 +84,28 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function get($file) {
-		if ($file == '') {
-			$data = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
-			$etag = \OCP\Config::getUserValue(\OCP\User::getUser(), 'files_sharing', 'etag');
-			if (!isset($etag)) {
-				$etag = $this->storage->getETag('');
-				\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $etag);
-			}
-			$data['etag'] = $etag;
-			return $data;
-		} else if (is_string($file)) {
+		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
-				return $cache->get($this->files[$file]);
+				$path = 'files' . $this->storage->getMountPoint();
+				$path .= ($file !== '') ? '/' . $file : '';
+				$data = $cache->get($this->files[$file]);
+				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
+				$data['path'] = $path;
+				if ($file === '') {
+					$data['is_share_mount_point'] = true;
+				}
+				return $data;
 			}
 		} else {
+			// if we are at the root of the mount point we want to return the
+			// cache information for the source item
+			if (!is_int($file) || $file === 0) {
+				$file = $this->storage->getSourceId();
+				$mountPoint = $this->storage->getMountPoint();
+			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`'
+				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($file));
 			$data = $result->fetchRow();
@@ -115,6 +124,10 @@ class Shared_Cache extends Cache {
 			} else {
 				$data['size'] = (int)$data['size'];
 			}
+			if (isset($mountPoint)) {
+				$data['path'] = 'files/' . $mountPoint;
+				$data['is_share_mount_point'] = true;
+			}
 			return $data;
 		}
 		return false;
@@ -127,28 +140,26 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function getFolderContents($folder) {
-		if ($folder == '') {
-			$files = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS);
-			foreach ($files as &$file) {
-				$file['mimetype'] = $this->getMimetype($file['mimetype']);
-				$file['mimepart'] = $this->getMimetype($file['mimepart']);
-				$file['usersPath'] = 'files/Shared/' . ltrim($file['path'], '/');
-			}
-			return $files;
-		} else {
-			$cache = $this->getSourceCache($folder);
-			if ($cache) {
-				$parent = $this->storage->getFile($folder);
-				$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
-				foreach ($sourceFolderContent as $key => $c) {
-					$sourceFolderContent[$key]['usersPath'] = 'files/Shared/' . $folder . '/' . $c['name'];
-					$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
-					$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
-				}
 
-				return $sourceFolderContent;
-			}
+		if ($folder === false) {
+			$folder = '';
 		}
+
+		$dir = ($folder !== '') ? $folder . '/' : '';
+
+		$cache = $this->getSourceCache($folder);
+		if ($cache) {
+			$parent = $this->storage->getFile($folder);
+			$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
+			foreach ($sourceFolderContent as $key => $c) {
+				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
+				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
+				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
+			}
+
+			return $sourceFolderContent;
+		}
+
 		return false;
 	}
 
@@ -161,9 +172,8 @@ class Shared_Cache extends Cache {
 	 * @return int file id
 	 */
 	public function put($file, array $data) {
-		if ($file === '' && isset($data['etag'])) {
-			return \OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $data['etag']);
-		} else if ($cache = $this->getSourceCache($file)) {
+		$file = ($file === false) ? '' : $file;
+		if ($cache = $this->getSourceCache($file)) {
 			return $cache->put($this->files[$file], $data);
 		}
 		return false;
@@ -176,7 +186,11 @@ class Shared_Cache extends Cache {
 	 * @return int
 	 */
 	public function getId($file) {
-		if ($cache = $this->getSourceCache($file)) {
+		if ($file === false) {
+			return $this->storage->getSourceId();
+		}
+		$cache = $this->getSourceCache($file);
+		if ($cache) {
 			return $cache->getId($this->files[$file]);
 		}
 		return -1;
@@ -201,6 +215,7 @@ class Shared_Cache extends Cache {
 	 * @param string $file
 	 */
 	public function remove($file) {
+		$file = ($file === false) ? '' : $file;
 		if ($cache = $this->getSourceCache($file)) {
 			$cache->remove($this->files[$file]);
 		}
@@ -214,7 +229,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function move($source, $target) {
 		if ($cache = $this->getSourceCache($source)) {
-			$file = \OC_Share_Backend_File::getSource($target);
+			$file = \OC_Share_Backend_File::getSource($target, $this->storage->getMountPoint(), $this->storage->getItemType());
 			if ($file && isset($file['path'])) {
 				$cache->move($this->files[$source], $file['path']);
 			}
@@ -290,9 +305,6 @@ class Shared_Cache extends Cache {
 				if ($file['mimetype'] === 'httpd/unix-directory') {
 					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
 				} else if (($mimepart && $file['mimepart'] === $mimepart) || ($mimetype && $file['mimetype'] === $mimetype)) {
-					// usersPath not reliable
-					//$file['path'] = $file['usersPath'];
-					$file['path'] = ltrim($dir . '/' . $file['name'], '/');
 					$result[] = $file;
 				}
 			}
@@ -359,6 +371,7 @@ class Shared_Cache extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
+		$path = ($path === false) ? '' : $path;
 		if ($cache = $this->getSourceCache($path)) {
 			return $cache->calculateFolderSize($this->files[$path]);
 		}
@@ -401,7 +414,7 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * get the path of a file on this storage by it's id
+	 * get the path of a file on this storage relative to the mount point by it's id
 	 *
 	 * @param int $id
 	 * @param string $pathEnd (optional) used internally for recursive calls
@@ -409,8 +422,9 @@ class Shared_Cache extends Cache {
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
-		if ($path = $this->getShareById($id)) {
-			return $path . $pathEnd;
+		$path = $this->getShareById($id);
+		if (is_string($path)) {
+			return ltrim($pathEnd, '/');
 		} else {
 			// if the item is a direct share we try and get the path of the parent and append the name of the item to it
 			list($parent, $name) = $this->getParentInfo($id);

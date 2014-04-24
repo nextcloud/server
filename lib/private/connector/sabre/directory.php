@@ -50,10 +50,6 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 
-		if (strtolower($name) === 'shared' && empty($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
-
 		// for chunked upload also updating a existing file is a "createFile"
 		// because we create all the chunks before reasamble them to the existing file.
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
@@ -85,10 +81,6 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return void
 	 */
 	public function createDirectory($name) {
-
-		if (strtolower($name) === 'shared' && empty($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
 
 		if (!\OC\Files\Filesystem::isCreatable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();
@@ -195,10 +187,6 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @throws Sabre_DAV_Exception_Forbidden
 	 */
 	public function delete() {
-
-		if ($this->path === 'Shared') {
-			throw new \Sabre_DAV_Exception_Forbidden();
-		}
 
 		if (!\OC\Files\Filesystem::isDeletable($this->path)) {
 			throw new \Sabre_DAV_Exception_Forbidden();

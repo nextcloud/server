@@ -48,7 +48,7 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/Shared/shareddir');
+		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
@@ -77,12 +77,12 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('shareddir/bar.txt', array('storage_mtime' => 10));
-		$this->sharedStorage->file_put_contents('shareddir/bar.txt', $textData);
-		$this->sharedCache->put('shareddir', array('storage_mtime' => 10));
+		$this->sharedCache->put('bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedStorage->file_put_contents('bar.txt', $textData);
+		$this->sharedCache->put('', array('mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory'));
 
 		// run the propagation code
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('shareddir');
+		$result = $this->sharedStorage->getWatcher()->checkUpdate('');
 
 		$this->assertTrue($result);
 
@@ -94,7 +94,7 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 		$this->assertEquals($initialSizes['files/container/shareddir'] + $dataLen, $newSizes['files/container/shareddir']);
 
 		// no more updates
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('shareddir');
+		$result = $this->sharedStorage->getWatcher()->checkUpdate('');
 
 		$this->assertFalse($result);
 	}
@@ -108,12 +108,12 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('shareddir/subdir/bar.txt', array('storage_mtime' => 10));
-		$this->sharedStorage->file_put_contents('shareddir/subdir/bar.txt', $textData);
-		$this->sharedCache->put('shareddir/subdir', array('storage_mtime' => 10));
+		$this->sharedCache->put('subdir/bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedStorage->file_put_contents('subdir/bar.txt', $textData);
+		$this->sharedCache->put('subdir', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
 
 		// run the propagation code
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('shareddir/subdir');
+		$result = $this->sharedStorage->getWatcher()->checkUpdate('subdir');
 
 		$this->assertTrue($result);
 
@@ -126,20 +126,9 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 		$this->assertEquals($initialSizes['files/container/shareddir/subdir'] + $dataLen, $newSizes['files/container/shareddir/subdir']);
 
 		// no more updates
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('shareddir/subdir');
+		$result = $this->sharedStorage->getWatcher()->checkUpdate('subdir');
 
 		$this->assertFalse($result);
-	}
-
-	function testNoUpdateOnRoot() {
-		// no updates when called for root path
-		$result = $this->sharedStorage->getWatcher()->checkUpdate('');
-
-		$this->assertFalse($result);
-
-		// FIXME: for some reason when running this "naked" test,
-		// there will be remaining nonsensical entries in the
-		// database with a path "test-share-user1/container/..."
 	}
 
 	/**
