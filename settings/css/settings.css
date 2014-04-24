@@ -132,6 +132,7 @@ table.grid td.date{
 span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
 table.shareAPI td { padding-bottom: 0.8em; }
+table.shareAPI input#shareapi_expire_after_n_days {width: 25px;}
 
 #mail_settings p label:first-child {
 	display: inline-block;

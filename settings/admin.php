@@ -45,6 +45,10 @@ $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundj
 $tmpl->assign('cron_log', OC_Config::getValue('cron_log', true));
 $tmpl->assign('lastcron', OC_Appconfig::getValue('core', 'lastcron', false));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
+$tmpl->assign('shareDefaultExpireDateSet', OC_Appconfig::getValue('core', 'shareapi_default_expire_date', 'no'));
+$tmpl->assign('shareExpireAfterNDays', OC_Appconfig::getValue('core', 'shareapi_expire_after_n_days', '7'));
+$tmpl->assign('shareEnforceExpireDate', OC_Appconfig::getValue('core', 'shareapi_enforce_expire_date', 'no'));
+
 
 // Check if connected using HTTPS
 if (OC_Request::serverProtocol() === 'https') {
