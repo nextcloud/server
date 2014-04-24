@@ -28,46 +28,31 @@ class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testPJavaScript() {
-		$badString = '<img onload="alert(1)" />';
-		ob_start();
-		p($badString);
-		$result = ob_get_clean();
-		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
+		$this->expectOutputString('&lt;img onload=&quot;alert(1)&quot; /&gt;');
+		p('<img onload="alert(1)" />');
 	}
 
 	public function testPJavaScriptWithScriptTags() {
-		$badString = "<script>alert('Hacked!');</script>";
-		ob_start();
-		p($badString);
-		$result = ob_get_clean();
-		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
+		$this->expectOutputString('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;');
+		p("<script>alert('Hacked!');</script>");
 	}
 
 	public function testPNormalString() {
-		$goodString = 'This is a good string without HTML.';
-		ob_start();
-		p($goodString);
-		$result = ob_get_clean();
-		$this->assertEquals('This is a good string without HTML.', $result);
+		$string = 'This is a good string without HTML.';
+		$this->expectOutputString($string);
+		p($string);
 	}
 
 	public function testPrintUnescaped() {
 		$htmlString = "<script>alert('xss');</script>";
-
-		ob_start();
+		$this->expectOutputString($htmlString);
 		print_unescaped($htmlString);
-		$result = ob_get_clean();
-
-		$this->assertEquals($htmlString, $result);
 	}
 
 	public function testPrintUnescapedNormalString() {
-		$normalString = "This is a good string!";
-		ob_start();
-		print_unescaped($normalString);
-		$result = ob_get_clean();
-
-		$this->assertEquals("This is a good string!", $result);
+		$string = 'This is a good string!';
+		$this->expectOutputString($string);
+		print_unescaped($string);
 	}
 
 	// ---------------------------------------------------------------------------
