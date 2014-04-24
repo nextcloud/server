@@ -185,7 +185,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return mixed
 	 */
 	public function getETag() {
-		return $this->info->getEtag();
+		return '"' . $this->info->getEtag() . '"';
 	}
 
 	/**
