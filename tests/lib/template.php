@@ -27,13 +27,15 @@ class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
 		$loader->load('OC_Template');
 	}
 
-	public function testP() {
+	public function testPJavaScript() {
 		$badString = '<img onload="alert(1)" />';
 		ob_start();
 		p($badString);
 		$result = ob_get_clean();
 		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
+	}
 
+	public function testPJavaScriptWithScriptTags() {
 		$badString = "<script>alert('Hacked!');</script>";
 		ob_start();
 		p($badString);
