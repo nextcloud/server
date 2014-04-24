@@ -1612,9 +1612,9 @@ class Share extends \OC\Share\Constants {
 		$select = '*';
 		if ($format == self::FORMAT_STATUSES) {
 			if ($fileDependent) {
-				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `storage`, `share_with`, `uid_owner` , `file_source`';
+				$select = '`*PREFIX*share`.`id`, `*PREFIX*share`.`parent`, `share_type`, `path`, `storage`, `share_with`, `uid_owner` , `file_source`, `stime`';
 			} else {
-				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`, `item_source`';
+				$select = '`id`, `parent`, `share_type`, `share_with`, `uid_owner`, `item_source`, `stime`';
 			}
 		} else {
 			if (isset($uidOwner)) {
@@ -1630,7 +1630,7 @@ class Share extends \OC\Share\Constants {
 				if ($fileDependent) {
 					if ($format == \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`, `uid_owner`, '
-								. '`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
+								. '`share_type`, `share_with`, `file_source`, `path`, `file_target`, `stime`, '
 								. '`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
 								. '`name`, `mtime`, `mimetype`, `mimepart`, `size`, `unencrypted_size`, `encrypted`, `etag`, `mail_send`';
 					} else {
