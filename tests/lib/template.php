@@ -39,21 +39,14 @@ class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
 		p($badString);
 		$result = ob_get_clean();
 		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
+	}
 
+	public function testPNormalString() {
 		$goodString = 'This is a good string without HTML.';
 		ob_start();
 		p($goodString);
 		$result = ob_get_clean();
 		$this->assertEquals('This is a good string without HTML.', $result);
-	}
-
-	public function testPNormalString() {
-		$normalString = "This is a good string!";
-		ob_start();
-		p($normalString);
-		$result = ob_get_clean();
-
-		$this->assertEquals("This is a good string!", $result);
 	}
 
 	public function testPrintUnescaped() {
