@@ -60,6 +60,7 @@ return array(
 	'epub' => array('application/epub+zip', null),
 	'exe' => array('application/x-ms-dos-executable', null),
 	'flac' => array('audio/flac', null),
+	'flv' => array('video/x-flv', null),
 	'gif' => array('image/gif', null),
 	'gz' => array('application/x-gzip', null),
 	'gzip' => array('application/x-gzip', null),
