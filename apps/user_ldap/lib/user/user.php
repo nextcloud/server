@@ -28,6 +28,11 @@ use OCA\user_ldap\lib\Connection;
 use OCA\user_ldap\lib\FilesystemHelper;
 use OCA\user_ldap\lib\LogWrapper;
 
+/**
+ * User
+ *
+ * represents an LDAP user, gets and holds user-specific information from LDAP
+ */
 class User {
 	/**
 	 * @var IUserTools

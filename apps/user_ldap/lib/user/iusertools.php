@@ -23,6 +23,11 @@
 
 namespace OCA\user_ldap\lib\user;
 
+/**
+ * IUserTools
+ *
+ * defines methods that are required by User class for LDAP interaction
+ */
 interface IUserTools {
 	public function getConnection();
 

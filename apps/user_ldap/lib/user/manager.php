@@ -28,6 +28,12 @@ use OCA\user_ldap\lib\user\User;
 use OCA\user_ldap\lib\LogWrapper;
 use OCA\user_ldap\lib\FilesystemHelper;
 
+/**
+ * Manager
+ *
+ * upon request, returns an LDAP user object either by creating or from run-time
+ * cache
+ */
 class Manager {
 	/**
 	 * @var IUserTools
