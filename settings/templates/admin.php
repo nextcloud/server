@@ -259,14 +259,14 @@ if (!$_['internetconnectionworking']) {
 			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_default_expire_date" id="shareapi_default_expire_date"
 				       value="1" <?php if ($_['shareDefaultExpireDateSet'] == 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareapi_default_expire_date"><?php p($l->t('Set default expire date'));?></label><br/>
+				<label for="shareapi_default_expire_date"><?php p($l->t('Set default expiration date'));?></label><br/>
 				<?php p($l->t( 'Expire after ' )); ?>
 				<input type="text" name='shareapi_expire_after_n_days' id="shareapi_expire_after_n_days" placeholder="<?php p('7')?>"
 					   value='<?php p($_['shareExpireAfterNDays']) ?>' />
 				<?php p($l->t( 'days' )); ?>
 				<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapi_enforce_expire_date"
 				       value="1" <?php if ($_['shareEnforceExpireDate'] == 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareapi_enforce_expire_date"><?php p($l->t('Enforce expire date'));?></label><br/>
+				<label for="shareapi_enforce_expire_date"><?php p($l->t('Enforce expiration date'));?></label><br/>
 				<em><?php p($l->t('Expire shares by default after N days')); ?></em>
 			</td>
 		</tr>
