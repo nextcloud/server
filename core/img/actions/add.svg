@@ -1,13 +1,4 @@
 <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <metadata>
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:title/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
  <g transform="matrix(-0.70711,-0.70711,0.70711,-0.70711,-724.84998,753.15998)">
   <path d="m3.7547,1041.6,1.4142-1.4142,3.5355,3.5355,3.5355-3.5355,1.4142,1.4142-3.5355,3.5355,3.5355,3.5356-1.4142,1.4142-3.5355-3.5356-3.5164,3.5547-1.4333-1.4333,3.5355-3.5356z"/>
  </g>
