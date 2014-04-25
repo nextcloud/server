@@ -39,14 +39,12 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
-		static $umMethods;
 		static $uMethods;
 
-		if(is_null($conMethods) || is_null($accMethods) || is_null($umMethods)) {
+		if(is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
 			unset($accMethods[array_search('getConnection', $accMethods)]);
-			$umMethods  = get_class_methods('\OCA\user_ldap\lib\user\Manager');
 			$uMethods   = get_class_methods('\OCA\user_ldap\lib\user\User');
 			unset($uMethods[array_search('getUsername', $uMethods)]);
 			unset($uMethods[array_search('getDN', $uMethods)]);
