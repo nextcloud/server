@@ -86,14 +86,13 @@ class Shared_Cache extends Cache {
 	public function get($file) {
 		if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
-				$path = 'files' . $this->storage->getMountPoint();
-				$path .= ($file !== '') ? '/' . $file : '';
 				$data = $cache->get($this->files[$file]);
 				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
-				$data['path'] = $path;
+				$data['path'] = '';
 				if ($file === '') {
 					$data['is_share_mount_point'] = true;
 				}
+				$data['uid_owner'] = $this->storage->getOwner($file);
 				return $data;
 			}
 		} else {
@@ -299,6 +298,11 @@ class Shared_Cache extends Cache {
 			$files = $this->getFolderContents($dir);
 			// no results?
 			if (!$files) {
+				// maybe it's a single shared file
+				$file = $this->get('');
+				if (($mimepart && $file['mimepart'] === $mimepart) || ($mimetype && $file['mimetype'] === $mimetype)) {
+					$result[] = $file;
+				}
 				continue;
 			}
 			foreach ($files as $file) {
