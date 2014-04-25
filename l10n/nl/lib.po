@@ -10,15 +10,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-11 01:54-0400\n"
-"PO-Revision-Date: 2014-04-10 06:50+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr ""
 
 #: private/app.php:236
 #, php-format
@@ -51,7 +59,7 @@ msgstr "Gebruikers"
 msgid "Admin"
 msgstr "Beheerder"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Upgrade \"%s\" mislukt."
@@ -76,7 +84,7 @@ msgstr "ZIP download is uitgeschakeld."
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
@@ -150,15 +158,15 @@ msgstr "Kan de app map niet aanmaken, Herstel de permissies. %s"
 msgid "Application is not enabled"
 msgstr "De applicatie is niet actief"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Authenticatie fout"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token verlopen.  Herlaad de pagina."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Onbekende gebruiker"
 
@@ -287,73 +295,176 @@ msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 msgid "%s shared »%s« with you"
 msgstr "%s deelde »%s« met jou"
 
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
 #: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Kon categorie \"%s\" niet vinden"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuut geleden"
 msgstr[1] "%n minuten geleden"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n uur geleden"
 msgstr[1] "%n uur geleden"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "vandaag"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "gisteren"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag terug"
 msgstr[1] "%n dagen geleden"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "vorige maand"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n maand geleden"
 msgstr[1] "%n maanden geleden"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "vorig jaar"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "jaar geleden"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
 msgstr "Er moet een geldige gebruikersnaam worden opgegeven"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
 msgstr "Er moet een geldig wachtwoord worden opgegeven"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
 msgstr "De gebruikersnaam bestaat al"

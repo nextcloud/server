@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "Name" => "Ime",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",
-"Upload" => "Učitaj",
 "File handling" => "datoteka za rukovanje",
 "Maximum upload size" => "Maksimalna veličina prijenosa",
 "max. possible: " => "maksimalna moguća: ",

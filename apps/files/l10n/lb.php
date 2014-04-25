@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",
-"Upload" => "Eroplueden",
 "File handling" => "Fichier handling",
 "Maximum upload size" => "Maximum Upload Gréisst ",
 "max. possible: " => "max. méiglech:",

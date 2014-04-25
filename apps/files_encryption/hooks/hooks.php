@@ -302,25 +302,6 @@ class Hooks {
 	 */
 	public static function postShared($params) {
 
-		// NOTE: $params has keys:
-		// [itemType] => file
-		// itemSource -> int, filecache file ID
-		// [parent] =>
-		// [itemTarget] => /13
-		// shareWith -> string, uid of user being shared to
-		// fileTarget -> path of file being shared
-		// uidOwner -> owner of the original file being shared
-		// [shareType] => 0
-		// [shareWith] => test1
-		// [uidOwner] => admin
-		// [permissions] => 17
-		// [fileSource] => 13
-		// [fileTarget] => /test8
-		// [id] => 10
-		// [token] =>
-		// [run] => whether emitting script should continue to run
-		// TODO: Should other kinds of item be encrypted too?
-
 		if (\OCP\App::isEnabled('files_encryption') === false) {
 			return true;
 		}
@@ -331,71 +312,22 @@ class Hooks {
 			$session = new \OCA\Encryption\Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
-			$path = $util->fileIdToPath($params['itemSource']);
-
-			$share = $util->getParentFromShare($params['id']);
-			//if parent is set, then this is a re-share action
-			if ($share['parent'] !== null) {
-
-				// get the parent from current share
-				$parent = $util->getShareParent($params['parent']);
-
-				// if parent has the same type than the child it is a 1:1 share
-				if ($parent['item_type'] === $params['itemType']) {
-
-					// prefix path with Shared
-					$path = '/Shared' . $parent['file_target'];
-				} else {
-
-					// NOTE: parent is folder but shared was a file!
-					// we try to rebuild the missing path
-					// some examples we face here
-					// user1 share folder1 with user2 folder1 has
-					// the following structure
-					// /folder1/subfolder1/subsubfolder1/somefile.txt
-					// user2 re-share subfolder2 with user3
-					// user3 re-share somefile.txt user4
-					// so our path should be
-					// /Shared/subfolder1/subsubfolder1/somefile.txt
-					// while user3 is sharing
-
-					if ($params['itemType'] === 'file') {
-						// get target path
-						$targetPath = $util->fileIdToPath($params['fileSource']);
-						$targetPathSplit = array_reverse(explode('/', $targetPath));
-
-						// init values
-						$path = '';
-						$sharedPart = ltrim($parent['file_target'], '/');
-
-						// rebuild path
-						foreach ($targetPathSplit as $pathPart) {
-							if ($pathPart !== $sharedPart) {
-								$path = '/' . $pathPart . $path;
-							} else {
-								break;
-							}
-						}
-						// prefix path with Shared
-						$path = '/Shared' . $parent['file_target'] . $path;
-					} else {
-						// prefix path with Shared
-						$path = '/Shared' . $parent['file_target'] . $params['fileTarget'];
-					}
-				}
-			}
+			$path = \OC\Files\Filesystem::getPath($params['fileSource']);
 
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			// get the path including mount point only if not a shared folder
-			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
-				// get path including the the storage mount point
-				$path = $util->getPathWithMountPoint($params['itemSource']);
+			list($storage, ) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/files' . $path);
+
+			if (!($storage instanceof \OC\Files\Storage\Local)) {
+				$mountPoint = 'files' . $storage->getMountPoint();
+			} else {
+				$mountPoint = '';
 			}
 
 			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles($path);
+				$allFiles = $util->getAllFiles($path, $mountPoint);
 			} else {
 				$allFiles = array($path);
 			}
@@ -412,13 +344,6 @@ class Hooks {
 	 */
 	public static function postUnshare($params) {
 
-		// NOTE: $params has keys:
-		// [itemType] => file
-		// [itemSource] => 13
-		// [shareType] => 0
-		// [shareWith] => test1
-		// [itemParent] =>
-
 		if (\OCP\App::isEnabled('files_encryption') === false) {
 			return true;
 		}
@@ -428,34 +353,7 @@ class Hooks {
 			$view = new \OC_FilesystemView('/');
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
-			$path = $util->fileIdToPath($params['itemSource']);
-
-			// check if this is a re-share
-			if ($params['itemParent']) {
-
-				// get the parent from current share
-				$parent = $util->getShareParent($params['itemParent']);
-
-				// get target path
-				$targetPath = $util->fileIdToPath($params['itemSource']);
-				$targetPathSplit = array_reverse(explode('/', $targetPath));
-
-				// init values
-				$path = '';
-				$sharedPart = ltrim($parent['file_target'], '/');
-
-				// rebuild path
-				foreach ($targetPathSplit as $pathPart) {
-					if ($pathPart !== $sharedPart) {
-						$path = '/' . $pathPart . $path;
-					} else {
-						break;
-					}
-				}
-
-				// prefix path with Shared
-				$path = '/Shared' . $parent['file_target'] . $path;
-			}
+			$path = \OC\Files\Filesystem::getPath($params['fileSource']);
 
 			// for group shares get a list of the group members
 			if ($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
@@ -469,14 +367,17 @@ class Hooks {
 			}
 
 			// get the path including mount point only if not a shared folder
-			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
-				// get path including the the storage mount point
-				$path = $util->getPathWithMountPoint($params['itemSource']);
+			list($storage, ) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/files' . $path);
+
+			if (!($storage instanceof \OC\Files\Storage\Local)) {
+				$mountPoint = 'files' . $storage->getMountPoint();
+			} else {
+				$mountPoint = '';
 			}
 
 			// if we unshare a folder we need a list of all (sub-)files
 			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles($path);
+				$allFiles = $util->getAllFiles($path, $mountPoint);
 			} else {
 				$allFiles = array($path);
 			}
@@ -510,6 +411,8 @@ class Hooks {
 		// otherwise we perform a stream copy, so we get a new set of keys
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		list($storage1, ) = Filesystem::resolvePath($params['oldpath']);
+
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'uid' => $ownerOld,

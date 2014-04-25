@@ -970,33 +970,6 @@ class Util {
 	}
 
 	/**
-	 * @brief get path of a file.
-	 * @param int $fileId id of the file
-	 * @return string path of the file
-	 */
-	public static function fileIdToPath($fileId) {
-
-		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($fileId));
-
-		$path = false;
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-			if ($row) {
-				$path = substr($row['path'], strlen('files'));
-			}
-		}
-
-		return $path;
-
-	}
-
-	/**
 	 * @brief Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
 	 * @return array as multi-dimensional array. keys: ready, unready
@@ -1398,7 +1371,7 @@ class Util {
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
-	public function getAllFiles($dir) {
+	public function getAllFiles($dir, $mountPoint = '') {
 		$result = array();
 		$dirList = array($dir);
 
@@ -1408,65 +1381,19 @@ class Util {
 					$this->userFilesDir . '/' . $dir));
 
 			foreach ($content as $c) {
-				$usersPath = isset($c['usersPath']) ? $c['usersPath'] : $c['path'];
+				// getDirectoryContent() returns the paths relative to the mount points, so we need
+				// to re-construct the complete path
+				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c['path'] : $c['path'];
 				if ($c['type'] === 'dir') {
-					$dirList[] = substr($usersPath, strlen("files"));
+					$dirList[] = substr($path, strlen("files"));
 				} else {
-					$result[] = substr($usersPath, strlen("files"));
+					$result[] = substr($path, strlen("files"));
 				}
 			}
 
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @brief get shares parent.
-	 * @param int $id of the current share
-	 * @return array of the parent
-	 */
-	public static function getShareParent($id) {
-
-		$sql = 'SELECT `file_target`, `item_type` FROM `*PREFIX*share` WHERE `id` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($id));
-
-		$row = array();
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-		}
-
-		return $row;
-
-	}
-
-	/**
-	 * @brief get shares parent.
-	 * @param int $id of the current share
-	 * @return array of the parent
-	 */
-	public static function getParentFromShare($id) {
-
-		$sql = 'SELECT `parent` FROM `*PREFIX*share` WHERE `id` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($id));
-
-		$row = array();
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-		}
-
-		return $row;
-
 	}
 
 	/**
@@ -1708,23 +1635,6 @@ class Util {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		$this->recoverAllFiles('/', $privateKey);
-	}
-
-	/**
-	 * Get the path including the storage mount point
-	 * @param int $id
-	 * @return string the path including the mount point like AmazonS3/folder/file.txt
-	 */
-	public function getPathWithMountPoint($id) {
-		list($storage, $internalPath) = \OC\Files\Cache\Cache::getById($id);
-		$mount = \OC\Files\Filesystem::getMountByStorageId($storage);
-		$mountPoint = $mount[0]->getMountPoint();
-		$path = \OC\Files\Filesystem::normalizePath($mountPoint . '/' . $internalPath);
-
-		// reformat the path to be relative e.g. /user/files/folder becomes /folder/
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
-		return $relativePath;
 	}
 
 	/**

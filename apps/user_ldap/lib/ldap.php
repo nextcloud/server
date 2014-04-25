@@ -139,7 +139,9 @@ class LDAP implements ILDAPWrapper {
 		if(function_exists($func)) {
 			$this->preFunctionCall($func, $arguments);
 			$result = call_user_func_array($func, $arguments);
-			$this->postFunctionCall();
+			if ($result === FALSE) {
+				$this->postFunctionCall();
+			}
 			return $result;
 		}
 	}

@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array(""),
 "last month" => "ماه قبل",
 "_%n month ago_::_%n months ago_" => array(""),
-"months ago" => "ماه‌های قبل",
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل",
 "Choose" => "انتخاب کردن",

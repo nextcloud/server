@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n ημέρα πριν","%n ημέρες πριν"),
 "last month" => "τελευταίο μήνα",
 "_%n month ago_::_%n months ago_" => array("%n μήνας πριν","%n μήνες πριν"),
-"months ago" => "μήνες πριν",
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
 "Choose" => "Επιλέξτε",

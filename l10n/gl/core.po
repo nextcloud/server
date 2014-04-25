@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-19 01:55-0400\n"
-"PO-Revision-Date: 2014-04-18 11:20+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,63 +136,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "decembro"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Gardando..."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "hai %n minuto"
 msgstr[1] "hai %n minutos"
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "hai %n hora"
 msgstr[1] "hai %n horas"
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
 msgstr[1] "vai %n días"
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "hai %n mes"
 msgstr[1] "hai %n meses"
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "meses atrás"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -457,7 +453,7 @@ msgstr "Editar etiquetas"
 msgid "Error loading dialog template: {error}"
 msgstr "Produciuse un erro ao cargar o modelo do dialogo: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Non se seleccionaron etiquetas para borrado."
 

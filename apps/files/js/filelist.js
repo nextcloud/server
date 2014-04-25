@@ -178,6 +178,13 @@ window.FileList = {
 		if (type === 'dir') {
 			mime = mime || 'httpd/unix-directory';
 		}
+
+		// user should always be able to rename a share mount point
+		var allowRename = 0;
+		if (fileData.isShareMountPoint) {
+			allowRename = OC.PERMISSION_UPDATE;
+		}
+
 		//containing tr
 		var tr = $('<tr></tr>').attr({
 			"data-id" : fileData.id,
@@ -187,7 +194,7 @@ window.FileList = {
 			"data-mime": mime,
 			"data-mtime": mtime,
 			"data-etag": fileData.etag,
-			"data-permissions": fileData.permissions || this.getDirectoryPermissions()
+			"data-permissions": fileData.permissions | allowRename || this.getDirectoryPermissions()
 		});
 
 		if (type === 'dir') {
@@ -282,6 +289,10 @@ window.FileList = {
 		var type = fileData.type || 'file',
 			mime = fileData.mimetype,
 			permissions = parseInt(fileData.permissions, 10) || 0;
+
+		if (fileData.isShareMountPoint) {
+			permissions = permissions | OC.PERMISSION_UPDATE;
+		}
 
 		if (type === 'dir') {
 			mime = mime || 'httpd/unix-directory';
@@ -572,7 +583,8 @@ window.FileList = {
 		input.focus();
 		//preselect input
 		var len = input.val().lastIndexOf('.');
-		if (len === -1) {
+		if ( len === -1 ||
+			tr.data('type') === 'dir' ) {
 			len = input.val().length;
 		}
 		input.selectRange(0, len);
@@ -580,7 +592,7 @@ window.FileList = {
 			var filename = input.val();
 			if (filename !== oldname) {
 				// Files.isFileNameValid(filename) throws an exception itself
-				Files.isFileNameValid(filename, FileList.getCurrentDirectory());
+				Files.isFileNameValid(filename);
 				if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				}

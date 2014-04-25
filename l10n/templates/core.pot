@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,63 +135,59 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:479
+#: js/js.js:483
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:564
+#: js/js.js:583
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1099
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:1100
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1101
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1102
+#: js/js.js:1243
 msgid "today"
 msgstr ""
 
-#: js/js.js:1103
+#: js/js.js:1244
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1104
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1105
+#: js/js.js:1246
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1106
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr ""
-
-#: js/js.js:1108
+#: js/js.js:1248
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1109
+#: js/js.js:1249
 msgid "years ago"
 msgstr ""
 
@@ -456,7 +452,7 @@ msgstr ""
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr ""
 

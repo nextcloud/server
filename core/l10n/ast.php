@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("fai %n día","fai %n díes"),
 "last month" => "mes caberu",
 "_%n month ago_::_%n months ago_" => array("fai %n mes","fai %n meses"),
-"months ago" => "fai meses",
 "last year" => "añu caberu",
 "years ago" => "fai años",
 "Choose" => "Esbillar",

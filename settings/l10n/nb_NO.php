@@ -97,7 +97,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Tillat brukere å dele med alle",
 "Allow users to only share with users in their groups" => "Tillat kun deling med andre brukere i samme gruppe",
 "Allow mail notification" => "Tillat påminnelser i e-post",
-"Allow user to send mail notification for shared files" => "Tillat at brukere sender epost-påminnelser for delte filer",
 "Security" => "Sikkerhet",
 "Enforce HTTPS" => "Tving HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Tvinger klientene til å koble til %s via en kryptert forbindelse.",

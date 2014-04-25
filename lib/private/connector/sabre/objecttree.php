@@ -115,13 +115,19 @@ class ObjectTree extends \Sabre_DAV_ObjectTree {
 		list($sourceDir,) = \Sabre_DAV_URLUtil::splitPath($sourcePath);
 		list($destinationDir,) = \Sabre_DAV_URLUtil::splitPath($destinationPath);
 
+		$isShareMountPoint = false;
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath( '/' . \OCP\User::getUser() . '/files/' . $sourcePath);
+		if ($storage instanceof \OC\Files\Storage\Shared && !$internalPath) {
+			$isShareMountPoint = true;
+		}
+
 		// check update privileges
-		if (!$this->fileView->isUpdatable($sourcePath)) {
+		if (!$this->fileView->isUpdatable($sourcePath) && !$isShareMountPoint) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 		if ($sourceDir !== $destinationDir) {
 			// for a full move we need update privileges on sourcePath and sourceDir as well as destinationDir
-			if (ltrim($destinationDir, '/') === '' && strtolower($sourceNode->getName()) === 'shared') {
+			if (ltrim($destinationDir, '/') === '') {
 				throw new \Sabre_DAV_Exception_Forbidden();
 			}
 			if (!$this->fileView->isUpdatable($sourceDir)) {

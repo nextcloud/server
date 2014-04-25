@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array(""),
 "last month" => "เดือนที่แล้ว",
 "_%n month ago_::_%n months ago_" => array(""),
-"months ago" => "เดือน ที่ผ่านมา",
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปี ที่ผ่านมา",
 "Choose" => "เลือก",

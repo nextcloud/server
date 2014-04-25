@@ -324,10 +324,10 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 		$testValues=array(
-			array('query' => 'Shared/' . $this->folder,
-				'expectedResult' => '/Shared' . $this->folder . $this->filename),
-			array('query' => 'Shared/' . $this->folder . $this->subfolder,
-				'expectedResult' => '/Shared' . $this->folder . $this->subfolder . $this->filename),
+			array('query' => $this->folder,
+				'expectedResult' => $this->folder . $this->filename),
+			array('query' => $this->folder . $this->subfolder,
+				'expectedResult' => $this->folder . $this->subfolder . $this->filename),
 		);
 		foreach ($testValues as $value) {
 
@@ -382,7 +382,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// share was successful?
 		$this->assertTrue(is_string($result));
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -395,7 +395,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->subfolder;
+		$expectedPath = $this->subfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 		// cleanup
@@ -444,7 +444,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -457,7 +457,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->subsubfolder;
+		$expectedPath = $this->subsubfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 
@@ -512,8 +512,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		// ask for shared/subfolder
-		$expectedPath1 = '/Shared' . $this->subfolder;
+		// ask for subfolder
+		$expectedPath1 = $this->subfolder;
 		$_GET['path'] = $expectedPath1;
 
 		$result1 = Share\Api::getAllShares(array());
@@ -524,8 +524,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$data1 = $result1->getData();
 		$share1 = reset($data1);
 
-		// ask for shared/folder/subfolder
-		$expectedPath2 = '/Shared' . $this->folder . $this->subfolder;
+		// ask for folder/subfolder
+		$expectedPath2 = $this->folder . $this->subfolder;
 		$_GET['path'] = $expectedPath2;
 
 		$result2 = Share\Api::getAllShares(array());
@@ -595,7 +595,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_string($result));
 
 
-		$_GET['path'] = '/Shared';
+		$_GET['path'] = '/';
 		$_GET['subfiles'] = 'true';
 
 		$result = Share\Api::getAllShares(array());
@@ -608,7 +608,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		// we should get exactly one result
 		$this->assertEquals(1, count($data));
 
-		$expectedPath = '/Shared' . $this->filename;
+		$expectedPath = $this->filename;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
 
@@ -866,16 +866,66 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$this->assertTrue($result3->succeeded());
 
+		// cleanup
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue($result);
+
+
+
 	}
 
-	function testCorrectPath() {
-		$path = "/foo/bar/test.txt";
-		$folder = "/correct/path";
-		$expectedResult = "/correct/path/test.txt";
+	/**
+	 * @brief share a folder which contains a share mount point, should be forbidden
+	 */
+	public function testShareFolderWithAMountPoint() {
+		// user 1 shares a folder with user2
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
 
-		$shareApiDummy = new TestShareApi();
+		$fileInfo = $this->view->getFileInfo($this->folder);
 
-		$this->assertSame($expectedResult, $shareApiDummy->correctPathTest($path, $folder));
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		// user2 shares a file from the folder as link
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view->mkdir("localDir");
+
+		// move mount point to the folder "localDir"
+		$result = $view->rename($this->folder, 'localDir/'.$this->folder);
+		$this->assertTrue($result !== false);
+
+		// try to share "localDir"
+		$fileInfo2 = $view->getFileInfo('localDir');
+
+		$this->assertTrue($fileInfo2 instanceof \OC\Files\FileInfo);
+
+		try {
+			$result2 = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+					\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+		} catch (\Exception $e) {
+			$result2 = false;
+		}
+
+		$this->assertFalse($result2);
+
+		//cleanup
+
+		$result = $view->rename('localDir/' . $this->folder, $this->folder);
+		$this->assertTrue($result !== false);
+		$view->unlink('localDir');
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 	}
 
 	/**
@@ -901,13 +951,4 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
 	}
 
-}
-
-/**
- * @brief dumnmy class to test protected methods
- */
-class TestShareApi extends \OCA\Files\Share\Api {
-	public function correctPathTest($path, $folder) {
-		return self::correctPath($path, $folder);
-	}
 }

@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n일 전 "),
 "last month" => "지난 달",
 "_%n month ago_::_%n months ago_" => array("%n달 전 "),
-"months ago" => "개월 전",
 "last year" => "작년",
 "years ago" => "년 전",
 "Choose" => "선택",

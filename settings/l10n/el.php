@@ -111,7 +111,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Επιτρέπεται στους χρήστες ο διαμοιρασμός με οποιονδήποτε",
 "Allow users to only share with users in their groups" => "Επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας",
 "Allow mail notification" => "Επιτρέπονται ειδοποιήσεις ηλεκτρονικού ταχυδρομείου",
-"Allow user to send mail notification for shared files" => "Επιτρέπει τους χρήστες να στέλνουν ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία",
 "Security" => "Ασφάλεια",
 "Enforce HTTPS" => "Επιβολή χρήσης HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Επιβάλλει τους πελάτες να συνδέονται στο %s μέσω κρυπτογραφημένης σύνδεσης.",

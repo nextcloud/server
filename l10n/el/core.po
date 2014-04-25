@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 22:00+0000\n"
-"Last-Translator: Γιάννης Ανθυμίδης <yannanth@gmail.com>\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,63 +145,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "μήνες πριν"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -466,7 +462,7 @@ msgstr "Επεξεργασία ετικετών"
 msgid "Error loading dialog template: {error}"
 msgstr "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφάλμα}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή."
 

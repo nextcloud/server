@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "Овозможи корисниците да споделуваат со секого",
 "Allow users to only share with users in their groups" => "Овозможи корисниците да споделуваат со корисници од своите групи",
 "Allow mail notification" => "Овозможи известување по електронска пошта",
-"Allow user to send mail notification for shared files" => "Овозможи корисник да испраќа известување по електронска пошта за споделени датотеки",
 "Security" => "Безбедност",
 "Enforce HTTPS" => "Наметни HTTPS",
 "Server address" => "Адреса на сервер",

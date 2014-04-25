@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "síðasta mánuði",
 "_%n month ago_::_%n months ago_" => array("",""),
-"months ago" => "mánuðir síðan",
 "last year" => "síðasta ári",
 "years ago" => "einhverjum árum",
 "Choose" => "Veldu",

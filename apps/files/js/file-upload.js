@@ -235,7 +235,7 @@ OC.Upload = {
 					var file = data.files[0];
 					try {
 						// FIXME: not so elegant... need to refactor that method to return a value
-						Files.isFileNameValid(file.name, FileList.getCurrentDirectory());
+						Files.isFileNameValid(file.name);
 					}
 					catch (errorMessage) {
 						data.textStatus = 'invalidcharacters';
@@ -555,8 +555,6 @@ OC.Upload = {
 					throw t('files', 'URL cannot be empty');
 				} else if (type !== 'web' && !Files.isFileNameValid(filename)) {
 					// Files.isFileNameValid(filename) throws an exception itself
-				} else if (FileList.getCurrentDirectory() === '/' && filename.toLowerCase() === 'shared') {
-					throw t('files', 'In the home folder \'Shared\' is a reserved filename');
 				} else if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				} else {

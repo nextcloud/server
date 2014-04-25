@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# akong <akong@aspa.idv.tw>, 2014
 # pellaeon <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21,24 +22,24 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "無效的提供值 %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "已儲存"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "測試郵件設定"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "假如您收到這個郵件，此設定看起來是正確的。"
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "當寄出郵件時發生問題。請重新檢視您的設定。"
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -46,19 +47,19 @@ msgstr "Email 已寄出"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "在準備要寄出測試郵件時您需要設定您的使用者郵件。"
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
-msgstr ""
+msgstr "寄送模式"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
-msgstr ""
+msgstr "驗證方式"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -71,11 +72,11 @@ msgstr "認證錯誤"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "您的全名已變更。"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "無法變更全名"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -87,17 +88,17 @@ msgstr "群組增加失敗"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "檔案解密成功"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "無法解密您的檔案，請檢查您的 owncloud.log 或是詢問您的管理者"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "無法解密您的檔案，確認您的密碼並再重試一次"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -172,7 +173,7 @@ msgstr "無法修改密碼"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "寄送中..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -180,7 +181,7 @@ msgstr "用戶說明文件"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "管理者文件"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -232,23 +233,23 @@ msgstr "選擇大頭貼"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "非常弱的密碼"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "弱的密碼"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "普通的密碼"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "好的密碼"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "很強的密碼"
 
 #: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
@@ -305,23 +306,23 @@ msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "全部(嚴重問題,錯誤,警告,資訊,除錯)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "資訊,警告,錯誤和嚴重問題"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "警告,錯誤和嚴重問題"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "錯誤和嚴重問題"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "只有嚴重問題"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
@@ -333,19 +334,19 @@ msgstr "登入"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "文字"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -356,7 +357,7 @@ msgstr "安全性警告"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "您正透過未加密網頁存取 %s。我們強烈建議您設定您的主機必須使用加密網頁。"
 
 #: templates/admin.php:64
 msgid ""
@@ -394,14 +395,14 @@ msgstr "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模�
 
 #: templates/admin.php:104
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "您的 PHP 版本已過期"
 
 #: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "您的 PHP 版本已過期。我們強烈建議更新到 5.3.8 或更新的版本，因為舊的版本已知會毀損。這個可能會在安裝後無法使用。"
 
 #: templates/admin.php:118
 msgid "Locale not working"
@@ -409,20 +410,20 @@ msgstr "語系無法運作"
 
 #: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "系統語系無法設定只支援 UTF-8"
 
 #: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "這個意思是指在檔名中使用一些字元可能會有問題"
 
 #: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "我們強烈建議在您的系統上安裝必要的套件來支援以下的語系: %s"
 
 #: templates/admin.php:143
 msgid "Internet connection not working"
@@ -444,18 +445,18 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "最後的排程已執行於 %s。"
 
 #: templates/admin.php:170
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "最後的排程已執行於 %s。現在過了好幾個小時，看起來是有錯誤。"
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "排程沒有執行!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
@@ -521,94 +522,114 @@ msgid "Allow mail notification"
 msgstr "允許郵件通知"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "允許使用者分享檔案時寄出通知郵件"
+msgid "Allow users to send mail notification for shared files"
+msgstr "允許使用者寄送有關分享檔案的郵件通知"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expire date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expire date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "強迫用戶端使用加密連線連接到 %s"
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。"
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
-msgstr ""
+msgstr "郵件伺服器"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "這是使用於寄送通知。"
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
-msgstr ""
+msgstr "寄件地址"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
-msgstr ""
+msgstr "必須驗證"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "伺服器位址"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "連接埠"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "認證"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP 帳號"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP 密碼"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "測試郵件設定"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
-msgstr ""
+msgstr "寄送郵件"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -632,7 +653,7 @@ msgstr "選擇一個應用程式"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "文件:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -640,7 +661,7 @@ msgstr "查看應用程式頁面於 apps.owncloud.com"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "檢視應用程式網站"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -705,7 +726,7 @@ msgstr "變更密碼"
 
 #: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
-msgstr ""
+msgstr "全名"
 
 #: templates/personal.php:76
 msgid "Email"
@@ -719,7 +740,7 @@ msgstr "您的電子郵件信箱"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "填入電子郵件地址來啟用忘記密碼和接收通知的功能"
 
 #: templates/personal.php:89
 msgid "Profile picture"
@@ -743,7 +764,7 @@ msgstr "可以使用 png 或 jpg 格式，最好是方形的，但是您之後�
 
 #: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "您的圖像是由您原來的帳號所提供的。"
 
 #: templates/personal.php:104
 msgid "Cancel"
@@ -774,7 +795,7 @@ msgstr "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存�
 
 #: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "加密的軟體不能長時間啟用，請解密所有您的檔案"
 
 #: templates/personal.php:157
 msgid "Log-in password"
@@ -808,7 +829,7 @@ msgstr "預設儲存區"
 
 #: templates/users.php:42 templates/users.php:137
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "請輸入空間配額(例如: \"512 MB\"或是 \"12 GB\")"
 
 #: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
@@ -828,7 +849,7 @@ msgstr "儲存區"
 
 #: templates/users.php:106
 msgid "change full name"
-msgstr ""
+msgstr "變更全名"
 
 #: templates/users.php:110
 msgid "set new password"

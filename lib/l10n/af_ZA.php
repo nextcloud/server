@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Settings" => "Instellings",
 "Users" => "Gebruikers",
 "Admin" => "Admin",
+"Unknown filetype" => "Onbekende leertipe",
 "web services under your control" => "webdienste onder jou beheer",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),

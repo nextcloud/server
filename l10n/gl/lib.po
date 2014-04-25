@@ -9,15 +9,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-19 01:55-0400\n"
-"PO-Revision-Date: 2014-04-18 11:20+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr ""
 
 #: private/app.php:236
 #, php-format
@@ -75,7 +83,7 @@ msgstr "As descargas ZIP están desactivadas."
 msgid "Files need to be downloaded one by one."
 msgstr "Os ficheiros necesitan seren descargados dun en un."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Volver aos ficheiros"
 
@@ -149,15 +157,15 @@ msgstr "Non é posíbel crear o cartafol de aplicativos. Corrixa os permisos. %s
 msgid "Application is not enabled"
 msgstr "O aplicativo non está activado"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Produciuse un erro de autenticación"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Testemuña caducada. Recargue a páxina."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Usuario descoñecido"
 
@@ -285,6 +293,109 @@ msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s compartiu «%s» con vostede"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Fallou a compartición de %s, xa que o propietario do elemento é o usuario %s"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Fallou a compartición de %s, xa que o usuario %s non existe"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Fallou a compartición de %s, xa que o usuario %s non é membro de ningún grupo que sexa membro de %s"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Fallou a compartición de %s, xa que este elemento xa está compartido con %s"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Fallou a compartición de %s, xa que o grupo %s non existe"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Fallou a compartición de %s, xa que %s non é membro do grupo %s"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Fallou a compartición de %s, xa que non está permitido compartir con ligazóns"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr "Non se admite a compartición do tipo %s para %s"
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr "Non é posíbel estabelecer permisos para %s, xa que os permisos superan os permisos concedidos a %s"
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "Non é posíbel estabelecer permisos para %s, xa que non se atopa o elemento"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr "A infraestrutura de compartición %s ten que implementar a interface OCP\\Share_Backend"
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr "Non se atopou a infraestrutura de compartición %s"
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr "Non se atopou a infraestrutura de compartición para %s"
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr "Fallou a compartición de %s, xa que a compartición orixinal é do usuario %s"
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr "Fallou a compartición de %s, xa que os permisos superan os permisos concedidos a %s"
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr "Fallou a compartición de %s, xa que non está permitido repetir a compartción"
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr "Fallou a compartición de %s, xa que a infraestrutura de compartición para %s non foi quen de atopar a orixe"
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr "Fallou a compartición de %s, xa que non foi posíbel atopar o ficheiro na caché de ficheiros"
 
 #: private/tags.php:193
 #, php-format
