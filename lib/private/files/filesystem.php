@@ -325,13 +325,22 @@ class Filesystem {
 		$userObject = \OC_User::getManager()->get($user);
 
 		if (!is_null($userObject)) {
+			$homeStorage = \OC_Config::getValue( 'home_storage', array(
+				'class' => '\OC\Files\Storage\Home',
+				'arguments' => array()
+			));
+			if (empty($config['class'])) {
+				//FIXME log error? or fallback to '\OC\Files\Storage\Home'?
+			}
+			if (!isset($config['arguments'])) {
+				$config['arguments'] = array();
+			}
+			$homeStorage['arguments']['user'] = $userObject;
 			// check for legacy home id (<= 5.0.12)
 			if (\OC\Files\Cache\Storage::exists('local::' . $root . '/')) {
-				self::mount('\OC\Files\Storage\Home', array('user' => $userObject, 'legacy' => true), $user);
+				$homeStorage['arguments']['legacy'] = true;
 			}
-			else {
-				self::mount('\OC\Files\Storage\Home', array('user' => $userObject), $user);
-			}
+			self::mount($homeStorage['class'], $homeStorage['arguments'], $user);
 		}
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
