@@ -13,9 +13,20 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutFails() {
 		// setup
-		$file = new OC_Connector_Sabre_File('/test.txt');
-		$file->fileView = $this->getMock('\OC\Files\View', array('file_put_contents'), array(), '', FALSE);
-		$file->fileView->expects($this->any())->method('file_put_contents')->withAnyParameters()->will($this->returnValue(false));
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array(), '', false);
+		$view->expects($this->any())
+			->method('file_put_contents')
+			->will($this->returnValue(false));
+
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue('/test.txt'));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions'=>\OCP\PERMISSION_ALL
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
 		$etag = $file->put('test data');
@@ -26,10 +37,25 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutFailsOnRename() {
 		// setup
-		$file = new OC_Connector_Sabre_File('/test.txt');
-		$file->fileView = $this->getMock('\OC\Files\View', array('file_put_contents', 'rename'), array(), '', FALSE);
-		$file->fileView->expects($this->any())->method('file_put_contents')->withAnyParameters()->will($this->returnValue(true));
-		$file->fileView->expects($this->any())->method('rename')->withAnyParameters()->will($this->returnValue(false));
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'rename', 'getRelativePath'), array(), '', false);
+		$view->expects($this->any())
+			->method('file_put_contents')
+			->withAnyParameters()
+			->will($this->returnValue(true));
+		$view->expects($this->any())
+			->method('rename')
+			->withAnyParameters()
+			->will($this->returnValue(false));
+
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue('/test.txt'));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
 		$etag = $file->put('test data');
@@ -40,9 +66,19 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutInvalidChars() {
 		// setup
-		$file = new OC_Connector_Sabre_File('/super*star.txt');
-		$file->fileView = $this->getMock('\OC\Files\View', array('file_put_contents'), array(), '', FALSE);
-		$file->fileView->expects($this->any())->method('file_put_contents')->withAnyParameters()->will($this->returnValue(false));
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array(), '', false);
+		$view->expects($this->any())
+			->method('file_put_contents')
+			->will($this->returnValue(false));
+
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue('/super*star.txt'));
+
+		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
 		$etag = $file->put('test data');
@@ -54,17 +90,16 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSetNameInvalidChars() {
 		// setup
-		$file = new OC_Connector_Sabre_File('/test.txt');
-		$file->fileView = $this->getMock('\OC\Files\View', array('isUpdatable'), array(), '', FALSE);
-		$file->fileView->expects($this->any())->method('isUpdatable')->withAnyParameters()->will($this->returnValue(true));
-		$file->setName('/super*star.txt');
-	}
+		$view = $this->getMock('\OC\Files\View', array('getRelativePath'), array(), '', false);
 
-	/**
-	 * @expectedException Sabre_DAV_Exception_Forbidden
-	 */
-	public function testDeleteSharedFails() {
-		$file = new OC_Connector_Sabre_File('Shared');
-		$file->delete();
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue('/super*star.txt'));
+
+		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+		$file = new OC_Connector_Sabre_File($view, $info);
+		$file->setName('/super*star.txt');
 	}
 }
