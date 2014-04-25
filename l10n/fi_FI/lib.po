@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-24 01:54-0400\n"
-"PO-Revision-Date: 2014-04-24 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr ""
 
 #: private/app.php:236
 #, php-format
@@ -133,7 +141,7 @@ msgstr ""
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Sovellusta ei voi asentaa, koska info.xml/version ilmoittaa versioksi eri arvon kuin sovelluskauppa"
 
 #: private/installer.php:170
 msgid "App directory already exists"
@@ -223,7 +231,7 @@ msgstr "Tietokantavirhe: \"%s\""
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Loukkaava komento oli: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
@@ -254,7 +262,7 @@ msgstr "Oraclen käyttäjätunnus ja/tai salasana on väärin"
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Loukkaava komento oli: \"%s\", nimi: %s, salasana: %s"
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
@@ -272,7 +280,7 @@ msgstr "Aseta ylläpitäjän salasana."
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web-palvelimen asetukset eivät ole kelvolliset tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki."
 
 #: private/setup.php:203
 #, php-format
@@ -285,103 +293,108 @@ msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 msgid "%s shared »%s« with you"
 msgstr "%s jakoi kohteen »%s« kanssasi"
 
-#: private/share/share.php:490
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on kohteen omistaja"
 
-#: private/share/share.php:496
+#: private/share/share.php:529
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjää %s ei ole olemassa"
 
-#: private/share/share.php:505
+#: private/share/share.php:538
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr ""
 
-#: private/share/share.php:518 private/share/share.php:546
+#: private/share/share.php:551 private/share/share.php:579
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa"
 
-#: private/share/share.php:526
+#: private/share/share.php:559
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska ryhmää %s ei ole olemassa"
 
-#: private/share/share.php:533
+#: private/share/share.php:566
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %s jäsen"
 
-#: private/share/share.php:596
+#: private/share/share.php:629
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska jakaminen linkkejä käyttäen ei ole sallittu"
 
-#: private/share/share.php:603
+#: private/share/share.php:636
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:740
+#: private/share/share.php:773
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:801
+#: private/share/share.php:834
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Kohteen %s oikeuksien asettaminen epäonnistui, koska kohdetta ei löytynyt"
 
-#: private/share/share.php:895
+#: private/share/share.php:940
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:902
+#: private/share/share.php:947
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:908
+#: private/share/share.php:953
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1325
+#: private/share/share.php:1367
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on alkuperäinen jakaja"
 
-#: private/share/share.php:1334
+#: private/share/share.php:1376
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1349
+#: private/share/share.php:1391
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska jakaminen uudelleen ei ole sallittu"
 
-#: private/share/share.php:1361
+#: private/share/share.php:1403
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1375
+#: private/share/share.php:1417
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Kohteen %s jakaminen epäonnistui, koska tiedostoa ei löytynyt tiedostovälimuistista"
 
 #: private/tags.php:193
 #, php-format

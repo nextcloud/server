@@ -5,6 +5,7 @@
 # Translators:
 # AsavarTzeth <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
+# enoch85 <enoch85@gmail.com>, 2014
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # medialabs, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 13:01+0000\n"
+"Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,59 +143,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Sparar..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "år sedan"
 
@@ -621,7 +622,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\n"
+msgstr "Hej där!,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -630,7 +631,7 @@ msgstr "Utdelningen kommer att upphöra %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "Vi höres!"
+msgstr "Ha de fint!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39

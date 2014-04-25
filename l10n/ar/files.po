@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "فشل في نقل الملف %s - يوجد ملف بنفس هذا ال�
 msgid "Could not move %s"
 msgstr "فشل في نقل %s"
 
-#: ajax/newfile.php:58 js/files.js:98
+#: ajax/newfile.php:58 js/files.js:96
 msgid "File name cannot be empty."
 msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
@@ -38,18 +38,18 @@ msgstr "اسم الملف لا يجوز أن يكون فارغا"
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '|', '?' و \"*\" غير مسموح استخدامها"
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:65
+#: lib/app.php:60
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -175,59 +175,55 @@ msgstr "عملية رفع الملفات قيد التنفيذ. اغلاق ال�
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559
-msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
-
-#: js/file-upload.js:561 js/filelist.js:585
+#: js/file-upload.js:559 js/filelist.js:597
 msgid "{new_name} already exists"
 msgstr "{new_name} موجود مسبقا"
 
-#: js/file-upload.js:613
+#: js/file-upload.js:611
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:626
+#: js/file-upload.js:624
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:666
+#: js/file-upload.js:664
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:164
+#: js/fileactions.js:160
 msgid "Share"
 msgstr "شارك"
 
-#: js/fileactions.js:177
+#: js/fileactions.js:173
 msgid "Delete permanently"
 msgstr "حذف بشكل دائم"
 
-#: js/fileactions.js:238
+#: js/fileactions.js:234
 msgid "Rename"
 msgstr "إعادة تسميه"
 
-#: js/filelist.js:102 js/files.js:552
+#: js/filelist.js:102 js/files.js:550
 msgid "Error moving file"
 msgstr "حدث خطأ أثناء نقل الملف"
 
-#: js/filelist.js:102 js/files.js:552
+#: js/filelist.js:102 js/files.js:550
 msgid "Error"
 msgstr "خطأ"
 
-#: js/filelist.js:251 js/filelist.js:1129
+#: js/filelist.js:258 js/filelist.js:1141
 msgid "Pending"
 msgstr "قيد الانتظار"
 
-#: js/filelist.js:612
+#: js/filelist.js:624
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:775
+#: js/filelist.js:787
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:800 js/filelist.js:876 js/files.js:589
+#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "لا يوجد مجلدات %n"
@@ -237,7 +233,7 @@ msgstr[3] "عدد قليل من مجلدات %n"
 msgstr[4] "عدد كبير من مجلدات %n"
 msgstr[5] "مجلدات %n"
 
-#: js/filelist.js:801 js/filelist.js:877 js/files.js:595
+#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "لا يوجد ملفات %n"
@@ -247,11 +243,11 @@ msgstr[3] "قليل من ملفات %n"
 msgstr[4] "الكثير من ملفات %n"
 msgstr[5] " ملفات %n"
 
-#: js/filelist.js:808
+#: js/filelist.js:820
 msgid "{dirs} and {files}"
 msgstr "{dirs} و {files}"
 
-#: js/filelist.js:1037 js/filelist.js:1076
+#: js/filelist.js:1049 js/filelist.js:1088
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "لا يوجد ملفات %n لتحميلها"
@@ -261,60 +257,56 @@ msgstr[3] "يتم تحميل عدد قليل من ملفات %n"
 msgstr[4] "يتم تحميل عدد كبير من ملفات %n"
 msgstr[5] "يتم تحميل ملفات %n"
 
-#: js/files.js:96
+#: js/files.js:94
 msgid "\"{name}\" is an invalid file name."
 msgstr ""
 
-#: js/files.js:117
+#: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "مساحتك التخزينية ممتلئة, لا يمكم تحديث ملفاتك أو مزامنتها بعد الآن !"
 
-#: js/files.js:121
+#: js/files.js:119
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "مساحتك التخزينية امتلأت تقريبا "
 
-#: js/files.js:134
+#: js/files.js:132
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "تم تمكين تشفير البرامج لكن لم يتم تهيئة المفاتيح لذا يرجى تسجيل الخروج ثم تسجيل الدخول مرة آخرى."
 
-#: js/files.js:138
+#: js/files.js:136
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "المفتاح الخاص بتشفير التطبيقات غير صالح. يرجى تحديث كلمة السر الخاصة بالمفتاح الخاص من الإعدادت الشخصية حتى تتمكن من الوصول للملفات المشفرة."
 
-#: js/files.js:142
+#: js/files.js:140
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "تم تعطيل التشفير لكن ملفاتك لا تزال مشفرة. فضلا اذهب إلى الإعدادات الشخصية لإزالة التشفير عن ملفاتك."
 
-#: js/files.js:331
+#: js/files.js:329
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير."
 
-#: js/files.js:570 templates/index.php:67
+#: js/files.js:568 templates/index.php:67
 msgid "Name"
 msgstr "اسم"
 
-#: js/files.js:571 templates/index.php:79
+#: js/files.js:569 templates/index.php:79
 msgid "Size"
 msgstr "حجم"
 
-#: js/files.js:572 templates/index.php:81
+#: js/files.js:570 templates/index.php:81
 msgid "Modified"
 msgstr "معدل"
 
-#: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
-
-#: lib/app.php:93
+#: lib/app.php:86
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s  لا يمكن إعادة تسميته. "

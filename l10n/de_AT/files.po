@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/newfile.php:58 js/files.js:98
+#: ajax/newfile.php:58 js/files.js:96
 msgid "File name cannot be empty."
 msgstr ""
 
@@ -36,18 +36,18 @@ msgstr ""
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:105
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr ""
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:65
+#: lib/app.php:60
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:74
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -173,134 +173,126 @@ msgstr ""
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559
-msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
-
-#: js/file-upload.js:561 js/filelist.js:585
+#: js/file-upload.js:559 js/filelist.js:597
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:613
+#: js/file-upload.js:611
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:626
+#: js/file-upload.js:624
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:666
+#: js/file-upload.js:664
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:164
+#: js/fileactions.js:160
 msgid "Share"
 msgstr "Freigeben"
 
-#: js/fileactions.js:177
+#: js/fileactions.js:173
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:238
+#: js/fileactions.js:234
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:102 js/files.js:552
+#: js/filelist.js:102 js/files.js:550
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:102 js/files.js:552
+#: js/filelist.js:102 js/files.js:550
 msgid "Error"
 msgstr ""
 
-#: js/filelist.js:251 js/filelist.js:1129
+#: js/filelist.js:258 js/filelist.js:1141
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:612
+#: js/filelist.js:624
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:775
+#: js/filelist.js:787
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:800 js/filelist.js:876 js/files.js:589
+#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:801 js/filelist.js:877 js/files.js:595
+#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:808
+#: js/filelist.js:820
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: js/filelist.js:1037 js/filelist.js:1076
+#: js/filelist.js:1049 js/filelist.js:1088
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/files.js:96
+#: js/files.js:94
 msgid "\"{name}\" is an invalid file name."
 msgstr ""
 
-#: js/files.js:117
+#: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr ""
 
-#: js/files.js:121
+#: js/files.js:119
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:134
+#: js/files.js:132
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr ""
 
-#: js/files.js:138
+#: js/files.js:136
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:142
+#: js/files.js:140
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:331
+#: js/files.js:329
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:570 templates/index.php:67
+#: js/files.js:568 templates/index.php:67
 msgid "Name"
 msgstr ""
 
-#: js/files.js:571 templates/index.php:79
+#: js/files.js:569 templates/index.php:79
 msgid "Size"
 msgstr ""
 
-#: js/files.js:572 templates/index.php:81
+#: js/files.js:570 templates/index.php:81
 msgid "Modified"
 msgstr ""
 
-#: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
-
-#: lib/app.php:93
+#: lib/app.php:86
 #, php-format
 msgid "%s could not be renamed"
 msgstr ""

@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Save" => "Salveguardar",
 "New" => "Nove",
 "Text file" => "File de texto",
+"New folder" => "Nove dossier",
 "Folder" => "Dossier",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Download" => "Discargar",

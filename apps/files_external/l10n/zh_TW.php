@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Grant access" => "允許存取",
 "Please provide a valid Dropbox app key and secret." => "請提供有效的 Dropbox app key 和 app secret 。",
 "Error configuring Google Drive storage" => "設定 Google Drive 儲存時發生錯誤",
+"Saved" => "已儲存",
 "External Storage" => "外部儲存",
 "Folder name" => "資料夾名稱",
 "External storage" => "外部儲存",

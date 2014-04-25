@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 20:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -136,59 +136,59 @@ msgstr "noviembre"
 msgid "December"
 msgstr "diciembre"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Configuración"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Hace %n minuto"
 msgstr[1] "Hace %n minutos"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Hace %n hora"
 msgstr[1] "Hace %n horas"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Hace %n día"
 msgstr[1] "Hace %n días"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Hace %n mes"
 msgstr[1] "Hace %n meses"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "años atrás"
 
@@ -266,23 +266,23 @@ msgstr "Error cargando la plantilla de archivo existente"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Contraseña muy débil."
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Contraseña débil."
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Contraseña de nivel medio. "
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Buena contraseña. "
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Contraseña fuerte."
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"

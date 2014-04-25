@@ -5,13 +5,14 @@
 # Translators:
 # cjtess <claudio.tessone@gmail.com>, 2013
 # cnngimenez, 2014
+# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 20:00+0000\n"
+"Last-Translator: Javier Victor Mariano Bruno <koryyyy@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,43 +89,43 @@ msgstr "Éxito"
 msgid "Error"
 msgstr "Error"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Configuración válida"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Configuración incorrecta"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Configuración incompleta"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Seleccionar grupos"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Seleccionar las clases de objetos"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Seleccionar atributos"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "El este de conexión ha sido completado satisfactoriamente"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Falló es test de conexión"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "¿Realmente desea borrar la configuración actual del servidor?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Confirmar borrado"
 
@@ -146,7 +147,7 @@ msgstr[1] "%s usuarios encontrados"
 msgid "Invalid Host"
 msgstr "Host inválido"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
 msgstr "No se pudo encontrar la característica deseada"
 
@@ -165,7 +166,7 @@ msgstr "Ayuda"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Los grupos que cumplen con estos criterios están disponibles en %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -201,7 +202,7 @@ msgstr "grupos encontrados"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Los usuarios inician sesión con este atributo:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -269,7 +270,7 @@ msgstr "Podés especificar el DN base para usuarios y grupos en la pestaña \"Av
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Limitar acceso %s a los usuarios que cumplen con este criterio:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -338,7 +339,7 @@ msgstr "Conectarse únicamente al servidor de réplica."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Servidor de LDAP insensible a mayúsculas/minúsculas (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -413,17 +414,17 @@ msgstr "Asociación Grupo-Miembro"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Grupos Anidados"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Cuando se activa, grupos que contienen grupos son soportados. (Solo funciona si el atributo de miembro del grupo contiene DNs)"
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Tamaño del fragmento de paginación"
 
 #: templates/settings.php:40
 msgid ""

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# azdk94 <azdk94@gmail.com>, 2014
 # volodya327 <volodya327@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 16:30+0000\n"
+"Last-Translator: azdk94 <azdk94@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Термін дії минув."
 
 #: ajax/share.php:119 ajax/share.php:161
 #, php-format
@@ -135,63 +136,63 @@ msgstr "Листопад"
 msgid "December"
 msgstr "Грудень"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Зберігаю..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n хвилину тому"
 msgstr[1] "%n хвилини тому"
 msgstr[2] "%n хвилин тому"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n годину тому"
 msgstr[1] "%n години тому"
 msgstr[2] "%n годин тому"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день тому"
 msgstr[1] "%n дні тому"
 msgstr[2] "%n днів тому"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n місяць тому"
 msgstr[1] "%n місяці тому"
 msgstr[2] "%n місяців тому"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "роки тому"
 
@@ -270,11 +271,11 @@ msgstr "Помилка при завантаженні файлу існуючо
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Дуже слабкий пароль"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Слабкий пароль"
 
 #: js/setup.js:86
 msgid "So-so password"
@@ -282,11 +283,11 @@ msgstr ""
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Добрий пароль"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Надійний пароль"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -548,7 +549,7 @@ msgstr "Скинути пароль"
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Mac OS X не підтримується і %s не буде коректно працювати на цій платформі. Випробовуєте на свій риск!"
 
 #: setup/controller.php:144
 msgid ""
@@ -776,7 +777,7 @@ msgstr "Альтернативні Логіни"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Агов,<br><br>просто щоб ви знали, що %s поділився »%s« з вами.<br><a href=\"%s\">Подивіться!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

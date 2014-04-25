@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Could not get result from server." => "無法從伺服器取回結果",
 "File upload is in progress. Leaving the page now will cancel the upload." => "檔案上傳中，離開此頁面將會取消上傳。",
 "URL cannot be empty" => "URL 不能留空",
-"In the home folder 'Shared' is a reserved filename" => "在家目錄中不能使用「共享」作為檔名",
 "{new_name} already exists" => "{new_name} 已經存在",
 "Could not create file" => "無法建立檔案",
 "Could not create folder" => "無法建立資料夾",

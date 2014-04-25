@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Folder name" => "Nomine de dossier",
 "Groups" => "Gruppos",
 "Users" => "Usatores",
 "Delete" => "Deler"

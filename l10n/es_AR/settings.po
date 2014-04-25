@@ -6,12 +6,13 @@
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 # cjtess <claudio.tessone@gmail.com>, 2013
 # cnngimenez, 2013-2014
+# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -23,24 +24,24 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Parámetro suministrado invalido para %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Guardado"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "Configuración de correo de prueba."
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Si recibió este correo, la configuración parece estar correcta."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Un problema ocurrió cuando se intentó enviar el correo electrónico. Por favor revea su configuración."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -48,19 +49,19 @@ msgstr "e-mail mandado"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Necesita especificar el usuario de correo electrónico antes de poder enviar correos electrónicos de prueba."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
-msgstr ""
+msgstr "Modo de envio"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Encriptación"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
-msgstr ""
+msgstr "Método de autenticación"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -89,7 +90,7 @@ msgstr "No fue posible añadir el grupo"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Archivos des-encriptados correctamente"
 
 #: ajax/decryptall.php:33
 msgid ""
@@ -174,7 +175,7 @@ msgstr "Imposible cambiar la contraseña"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Enviando..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -182,7 +183,7 @@ msgstr "Documentación de Usuario"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Documentación de Administrador."
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -234,23 +235,23 @@ msgstr "Seleccionar una imágen de perfil"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Contraseña muy débil."
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Contraseña débil."
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Contraseña de nivel medio. "
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Buena contraseña. "
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Contraseña fuerte."
 
 #: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
@@ -335,19 +336,19 @@ msgstr "Ingresar"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Plano"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Administrador NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -524,93 +525,113 @@ msgstr "Permitir notificaciones por correo"
 
 #: templates/admin.php:254
 msgid "Allow users to send mail notification for shared files"
+msgstr "Habilitar a los usuarios para enviar notificaciones por correo para archivos compartidos"
+
+#: templates/admin.php:262
+msgid "Set default expire date"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expire date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Seguridad"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Forzar HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Fuerza al cliente a conectarse a %s por medio de una conexión encriptada."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor conéctese a su %s por medio de HTTPS para habilitar o deshabilitar la característica SSL"
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
-msgstr ""
+msgstr "Servidor de correo electrónico"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Esto es usado para enviar notificaciones."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
-msgstr ""
+msgstr "Dirección remitente"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
-msgstr ""
+msgstr "Autentificación requerida"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Dirección del servidor"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Puerto"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
-msgstr ""
+msgstr "Nombre de usuario SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
-msgstr ""
+msgstr "Contraseña SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "Configuracion de correo de prueba."
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
-msgstr ""
+msgstr "Enviar correo"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Nivel de Log"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -634,7 +655,7 @@ msgstr "Elegí una App"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Documentación:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -642,7 +663,7 @@ msgstr "Mirá la web de aplicaciones apps.owncloud.com"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Ver sitio web de la aplicación"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -721,7 +742,7 @@ msgstr "Tu dirección de e-mail"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Rellene una direccion de correo para habilitar la recuperacion de contraseña y recibir notificaciones. "
 
 #: templates/personal.php:89
 msgid "Profile picture"

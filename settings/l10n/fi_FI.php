@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "Security Warning" => "Turvallisuusvaroitus",
 "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." => "Käytät %sia HTTP-yhteydellä. Suosittelemme määrittämään palvelimen vaatimaan salattua HTTPS-yhteyttä.",
 "Setup Warning" => "Asetusvaroitus",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web-palvelimen asetukset eivät ole kelvolliset tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Lue <a href=\"%s\">asennusohjeet</a> tarkasti.",
 "Module 'fileinfo' missing" => "Moduuli 'fileinfo' puuttuu",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltavaa, jotta MIME-tyypin havaitseminen onnistuu parhaalla mahdollisella tavalla.",

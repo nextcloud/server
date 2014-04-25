@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# HannesNell <hannesn@workforce.co.za>, 2014
 # kalliet <kst@fam-tank.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 12:53+0000\n"
+"Last-Translator: HannesNell <hannesn@workforce.co.za>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +46,7 @@ msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Onbekende leertipe"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
@@ -53,7 +54,7 @@ msgstr ""
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Geen tydelike profiel foto beskikbaar nie, probeer weer"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
@@ -135,59 +136,59 @@ msgstr "November"
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Instellings"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "sekondes gelede"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minute gelede"
 msgstr[1] "%n minute gelede"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "vandag"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "gister"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "verlede maand"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "verlede jaar"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "jare gelede"
 
@@ -245,11 +246,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:384
 msgid "Cancel"
-msgstr ""
+msgstr "Kanseleer"
 
 #: js/oc-dialogs.js:394
 msgid "Continue"
-msgstr ""
+msgstr "Gaan voort"
 
 #: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
@@ -306,7 +307,7 @@ msgstr ""
 
 #: js/share.js:178
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Fout met verandering van regte"
 
 #: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
@@ -326,7 +327,7 @@ msgstr ""
 
 #: js/share.js:223
 msgid "Password protect"
-msgstr ""
+msgstr "Beskerm met Wagwoord"
 
 #: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
@@ -334,7 +335,7 @@ msgstr "Wagwoord"
 
 #: js/share.js:230
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Laat Publieke Oplaai toe"
 
 #: js/share.js:234
 msgid "Email link to person"
@@ -346,11 +347,11 @@ msgstr "Stuur"
 
 #: js/share.js:240
 msgid "Set expiration date"
-msgstr ""
+msgstr "Stel verval datum"
 
 #: js/share.js:241
 msgid "Expiration date"
-msgstr ""
+msgstr "Verval datum"
 
 #: js/share.js:277
 msgid "Share via email:"
@@ -362,7 +363,7 @@ msgstr ""
 
 #: js/share.js:324 js/share.js:385
 msgid "group"
-msgstr ""
+msgstr "groep"
 
 #: js/share.js:357
 msgid "Resharing is not allowed"
@@ -370,7 +371,7 @@ msgstr ""
 
 #: js/share.js:401
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Gedeel in {item} met {user}"
 
 #: js/share.js:423
 msgid "Unshare"
@@ -386,27 +387,27 @@ msgstr "kan wysig"
 
 #: js/share.js:436
 msgid "access control"
-msgstr ""
+msgstr "toegang beheer"
 
 #: js/share.js:439
 msgid "create"
-msgstr ""
+msgstr "skep"
 
 #: js/share.js:442
 msgid "update"
-msgstr ""
+msgstr "opdateer"
 
 #: js/share.js:445
 msgid "delete"
-msgstr ""
+msgstr "uitvee"
 
 #: js/share.js:448
 msgid "share"
-msgstr ""
+msgstr "deel"
 
 #: js/share.js:721
 msgid "Password protected"
-msgstr ""
+msgstr "Beskerm met Wagwoord"
 
 #: js/share.js:734
 msgid "Error unsetting expiration date"
@@ -414,7 +415,7 @@ msgstr ""
 
 #: js/share.js:752
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Fout met opstel van verval datum"
 
 #: js/share.js:777
 msgid "Sending ..."
@@ -442,7 +443,7 @@ msgstr ""
 
 #: js/tags.js:31
 msgid "Add"
-msgstr ""
+msgstr "Voeg by"
 
 #: js/tags.js:39
 msgid "Edit tags"
@@ -465,7 +466,7 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Die opdateering was nie suksesvol nie. Raporteer die probleem by <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -474,7 +475,7 @@ msgstr ""
 #: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s wagwoord herstel"
 
 #: lostpassword/controller.php:72
 msgid ""
@@ -495,7 +496,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Versoek het gefaal!<br>Het jy seker gemaak jou e-pos/gebruiker naam is korrek?"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
@@ -516,7 +517,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Ja, Ek wil regtig my wagwoord herstel"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
@@ -600,7 +601,7 @@ msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Toegang verbode"
 
 #: templates/404.php:15
 msgid "Cloud not found"
@@ -628,16 +629,16 @@ msgstr ""
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "Sekuriteits waarskuwing"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Jou PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
 
 #: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Opdateer asseblief jou PHP instelasie om %s veilig te gebruik"
 
 #: templates/installation.php:33
 msgid ""
@@ -655,14 +656,14 @@ msgstr ""
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Jou data gids en leers is moontlik toeganklik vanaf die internet omdat die .htaccess leer nie werk nie."
 
 #: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Vir inligting oor hoe om jou bediener behoorlik op te stel, sien asseblief die<a href=\"%s\" target=\"_blank\">dokumentasie</a>."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
@@ -674,7 +675,7 @@ msgstr ""
 
 #: templates/installation.php:77
 msgid "Data folder"
-msgstr ""
+msgstr "Data vouer"
 
 #: templates/installation.php:90
 msgid "Configure the database"
@@ -698,11 +699,11 @@ msgstr "Databasis naam"
 
 #: templates/installation.php:132
 msgid "Database tablespace"
-msgstr ""
+msgstr "Databasis tabelspasie"
 
 #: templates/installation.php:140
 msgid "Database host"
-msgstr ""
+msgstr "Databasis gasheer"
 
 #: templates/installation.php:150
 msgid "Finish setup"
@@ -722,7 +723,7 @@ msgstr ""
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s is beskikbaar. Kry meer inligting oor opdatering."
 
 #: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
@@ -730,7 +731,7 @@ msgstr "Teken uit"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatiese aantekening afgekeur!"
 
 #: templates/login.php:10
 msgid ""
@@ -740,7 +741,7 @@ msgstr ""
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Verander asseblief jou wagwoord om jou rekening te beveilig"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"

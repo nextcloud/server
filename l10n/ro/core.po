@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 19:20+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -138,63 +138,63 @@ msgstr "Noiembrie"
 msgid "December"
 msgstr "Decembrie"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Setări"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Se salvează..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "acum %n minut"
 msgstr[1] "acum %n minute"
 msgstr[2] "acum %n minute"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "acum %n oră"
 msgstr[1] "acum %n ore"
 msgstr[2] "acum %n ore"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "acum %n zi"
 msgstr[1] "acum %n zile"
 msgstr[2] "acum %n zile"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -273,11 +273,11 @@ msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Parolă foarte slabă"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Parolă slabă"
 
 #: js/setup.js:86
 msgid "So-so password"
