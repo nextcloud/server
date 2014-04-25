@@ -102,22 +102,4 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$file = new OC_Connector_Sabre_File($view, $info);
 		$file->setName('/super*star.txt');
 	}
-
-	/**
-	 * @expectedException Sabre_DAV_Exception_Forbidden
-	 */
-	public function testDeleteSharedFails() {
-		$view = $this->getMock('\OC\Files\View', array('getRelativePath'), array(), '', false);
-
-		$view->expects($this->any())
-			->method('getRelativePath')
-			->will($this->returnValue('Shared'));
-
-		$info = new \OC\Files\FileInfo('/Shared', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
-		));
-
-		$file = new OC_Connector_Sabre_File($view, $info);
-		$file->delete();
-	}
 }
