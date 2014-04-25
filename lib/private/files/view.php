@@ -1110,8 +1110,9 @@ class View {
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
-							$result['path'] = $relativeMountPoint . $result['path'];
-							$files[] = new FileInfo($mountPoint . $result['path'], $storage, $internalPath, $result);
+							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
+							$path = rtrim($mountPoint . $internalPath, '/');
+							$files[] = new FileInfo($path, $storage, $internalPath, $result);
 						}
 					}
 				}
