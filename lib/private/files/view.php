@@ -996,6 +996,7 @@ class View {
 									break;
 								}
 							}
+							$rootEntry['path'] = substr($path . '/' . $rootEntry['name'], strlen($user) + 2); // full path without /$user/
 							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry);
 						}
 					}
