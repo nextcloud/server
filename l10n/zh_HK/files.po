@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 17:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -283,7 +283,7 @@ msgstr "名稱"
 
 #: js/files.js:569 templates/index.php:79
 msgid "Size"
-msgstr ""
+msgstr "大小"
 
 #: js/files.js:570 templates/index.php:81
 msgid "Modified"
@@ -345,7 +345,7 @@ msgstr ""
 
 #: templates/index.php:12
 msgid "New folder"
-msgstr ""
+msgstr "新文件夾"
 
 #: templates/index.php:13
 msgid "Folder"

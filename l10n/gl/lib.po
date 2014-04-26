@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 12:20+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: base.php:723
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Esta accedendo desde un dominio non fiábel."
 
 #: base.php:724
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Contacte co administrador"
 
 #: private/app.php:236
 #, php-format
@@ -297,44 +297,44 @@ msgstr "%s compartiu «%s» con vostede"
 #: private/share/share.php:498
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Fallou a compartición de %s, o ficheiro non existe"
 
 #: private/share/share.php:523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr "Fallou a compartición de %s, xa que o propietario do elemento é o usuario %s"
+msgstr "Fallou a compartición de %s, o propietario do elemento é o usuario %s"
 
 #: private/share/share.php:529
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr "Fallou a compartición de %s, xa que o usuario %s non existe"
+msgstr "Fallou a compartición de %s, o usuario %s non existe"
 
 #: private/share/share.php:538
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr "Fallou a compartición de %s, xa que o usuario %s non é membro de ningún grupo que sexa membro de %s"
+msgstr "Fallou a compartición de %s, o usuario %s non é membro de ningún grupo que sexa membro de %s"
 
 #: private/share/share.php:551 private/share/share.php:579
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr "Fallou a compartición de %s, xa que este elemento xa está compartido con %s"
+msgstr "Fallou a compartición de %s, este elemento xa está compartido con %s"
 
 #: private/share/share.php:559
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr "Fallou a compartición de %s, xa que o grupo %s non existe"
+msgstr "Fallou a compartición de %s, o grupo %s non existe"
 
 #: private/share/share.php:566
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr "Fallou a compartición de %s, xa que %s non é membro do grupo %s"
+msgstr "Fallou a compartición de %s, %s non é membro do grupo %s"
 
 #: private/share/share.php:629
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr "Fallou a compartición de %s, xa que non está permitido compartir con ligazóns"
+msgstr "Fallou a compartición de %s, non está permitido compartir con ligazóns"
 
 #: private/share/share.php:636
 #, php-format
@@ -346,12 +346,12 @@ msgstr "Non se admite a compartición do tipo %s para %s"
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr "Non é posíbel estabelecer permisos para %s, xa que os permisos superan os permisos concedidos a %s"
+msgstr "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s"
 
 #: private/share/share.php:834
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr "Non é posíbel estabelecer permisos para %s, xa que non se atopa o elemento"
+msgstr "Non é posíbel estabelecer permisos para %s, non se atopa o elemento"
 
 #: private/share/share.php:940
 #, php-format
@@ -371,31 +371,31 @@ msgstr "Non se atopou a infraestrutura de compartición para %s"
 #: private/share/share.php:1367
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr "Fallou a compartición de %s, xa que a compartición orixinal é do usuario %s"
+msgstr "Fallou a compartición de %s, compartición orixinal é do usuario %s"
 
 #: private/share/share.php:1376
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr "Fallou a compartición de %s, xa que os permisos superan os permisos concedidos a %s"
+msgstr "Fallou a compartición de %s, os permisos superan os permisos concedidos a %s"
 
 #: private/share/share.php:1391
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr "Fallou a compartición de %s, xa que non está permitido repetir a compartción"
+msgstr "Fallou a compartición de %s, non está permitido repetir a compartción"
 
 #: private/share/share.php:1403
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr "Fallou a compartición de %s, xa que a infraestrutura de compartición para %s non foi quen de atopar a orixe"
+msgstr "Fallou a compartición de %s, a infraestrutura de compartición para %s non foi quen de atopar a orixe"
 
 #: private/share/share.php:1417
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr "Fallou a compartición de %s, xa que non foi posíbel atopar o ficheiro na caché de ficheiros"
+msgstr "Fallou a compartición de %s, non foi posíbel atopar o ficheiro na caché de ficheiros"
 
 #: private/tags.php:193
 #, php-format

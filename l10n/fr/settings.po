@@ -7,6 +7,7 @@
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # etiess <etiess@gmail.com>, 2013
+# ptit_boogy <ptit.boogy@gmail.com>, 2014
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -535,24 +536,24 @@ msgid "Allow users to send mail notification for shared files"
 msgstr "Autoriser les utilisateurs à envoyer une notification par courriel concernant les fichiers partagés"
 
 #: templates/admin.php:262
-msgid "Set default expire date"
+msgid "Set default expiration date"
 msgstr ""
 
 #: templates/admin.php:263
 msgid "Expire after "
-msgstr ""
+msgstr "Expire après"
 
 #: templates/admin.php:266
 msgid "days"
-msgstr ""
+msgstr "jours"
 
 #: templates/admin.php:269
-msgid "Enforce expire date"
+msgid "Enforce expiration date"
 msgstr ""
 
 #: templates/admin.php:270
 msgid "Expire shares by default after N days"
-msgstr ""
+msgstr "Par défaut, les partages expireront après N jours"
 
 #: templates/admin.php:278
 msgid "Security"

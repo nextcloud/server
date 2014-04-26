@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -526,24 +526,24 @@ msgid "Allow users to send mail notification for shared files"
 msgstr "Luba kasutajatel saata e-posti teavitusi jagatud failide kohta"
 
 #: templates/admin.php:262
-msgid "Set default expire date"
+msgid "Set default expiration date"
 msgstr ""
 
 #: templates/admin.php:263
 msgid "Expire after "
-msgstr ""
+msgstr "Aegu pärast"
 
 #: templates/admin.php:266
 msgid "days"
-msgstr ""
+msgstr "päeva"
 
 #: templates/admin.php:269
-msgid "Enforce expire date"
+msgid "Enforce expiration date"
 msgstr ""
 
 #: templates/admin.php:270
 msgid "Expire shares by default after N days"
-msgstr ""
+msgstr "Peata jagamine N päeva möödudes"
 
 #: templates/admin.php:278
 msgid "Security"

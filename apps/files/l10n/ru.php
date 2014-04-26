@@ -62,6 +62,7 @@ $TRANSLATIONS = array(
 "Size" => "Размер",
 "Modified" => "Дата изменения",
 "%s could not be renamed" => "%s не может быть переименован",
+"Upload (max. %s)" => "Загружено (max. %s)",
 "File handling" => "Управление файлами",
 "Maximum upload size" => "Максимальный размер загружаемого файла",
 "max. possible: " => "макс. возможно: ",

@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 07:00+0000\n"
+"Last-Translator: ptit_boogy <ptit.boogy@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +24,11 @@ msgstr ""
 
 #: base.php:723
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Vous accédez au serveur à partir d'un domaine non-approuvé."
 
 #: base.php:724
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Veuillez contacter votre administrateur"
 
 #: private/app.php:236
 #, php-format
@@ -300,7 +300,7 @@ msgstr "%s partagé »%s« avec vous"
 #: private/share/share.php:498
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Le partage de %s a échoué car le fichier n'existe pas"
 
 #: private/share/share.php:523
 #, php-format

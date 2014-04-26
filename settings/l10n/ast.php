@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Encryption" => "Cifráu",
 "Invalid request" => "Solicitú non válida",
 "Error" => "Fallu",
+"deleted" => "desaniciáu",
 "Groups" => "Grupos",
 "Delete" => "Desaniciar",
 "Port" => "Puertu",

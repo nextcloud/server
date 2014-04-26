@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Kimlik doğrulama yöntemi"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Uygulama Mağazasın'dan liste yüklenemiyor"
+msgstr "Uygulama Mağazası'ndan liste yüklenemiyor"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20 changepassword/controller.php:49
@@ -528,24 +528,24 @@ msgid "Allow users to send mail notification for shared files"
 msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
 
 #: templates/admin.php:262
-msgid "Set default expire date"
+msgid "Set default expiration date"
 msgstr ""
 
 #: templates/admin.php:263
 msgid "Expire after "
-msgstr ""
+msgstr "Şu süreden sonra süresi dolsun"
 
 #: templates/admin.php:266
 msgid "days"
-msgstr ""
+msgstr "gün"
 
 #: templates/admin.php:269
-msgid "Enforce expire date"
+msgid "Enforce expiration date"
 msgstr ""
 
 #: templates/admin.php:270
 msgid "Expire shares by default after N days"
-msgstr ""
+msgstr "Paylaşımların süresini öntanımlı olarak N günden sonra doldur"
 
 #: templates/admin.php:278
 msgid "Security"

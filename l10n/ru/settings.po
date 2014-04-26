@@ -7,6 +7,7 @@
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
+# Denis Plastinin <denispal@gmail.com>, 2014
 # Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
@@ -22,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -186,7 +187,7 @@ msgstr "Невозможно изменить пароль"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Отправляется ..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -194,7 +195,7 @@ msgstr "Пользовательская документация"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Документация администратора"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -355,11 +356,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -539,7 +540,7 @@ msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
 #: templates/admin.php:262
-msgid "Set default expire date"
+msgid "Set default expiration date"
 msgstr ""
 
 #: templates/admin.php:263
@@ -551,7 +552,7 @@ msgid "days"
 msgstr ""
 
 #: templates/admin.php:269
-msgid "Enforce expire date"
+msgid "Enforce expiration date"
 msgstr ""
 
 #: templates/admin.php:270
@@ -608,11 +609,11 @@ msgstr "Полномочия"
 
 #: templates/admin.php:380
 msgid "SMTP Username"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: templates/admin.php:383
 msgid "SMTP Password"
-msgstr ""
+msgstr "Пароль"
 
 #: templates/admin.php:387
 msgid "Test email settings"
@@ -620,7 +621,7 @@ msgstr ""
 
 #: templates/admin.php:388
 msgid "Send email"
-msgstr ""
+msgstr "Отправить сообщение"
 
 #: templates/admin.php:393
 msgid "Log"
@@ -666,7 +667,7 @@ msgstr "Выберите приложение"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Документация"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"

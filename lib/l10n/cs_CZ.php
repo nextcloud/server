@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please contact your administrator" => "Kontaktujte prosím vašeho správce systému.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud.",
 "No app name specified" => "Nebyl zadan název aplikace",
 "Help" => "Nápověda",
@@ -56,12 +57,14 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité.",
 "Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
 "%s shared »%s« with you" => "%s s vámi sdílí »%s«",
+"Sharing %s failed, because the file does not exist" => "Sdílení %s selhalo, protože soubor neexistuje",
 "Sharing %s failed, because the user %s is the item owner" => "Sdílení položky %s selhalo, protože uživatel %s je jejím vlastníkem",
 "Sharing %s failed, because the user %s does not exist" => "Sdílení položky %s selhalo, protože uživatel %s neexistuje",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Sdílení položky %s selhalo, protože uživatel %s není členem žádné skupiny společné s uživatelem %s",
 "Sharing %s failed, because this item is already shared with %s" => "Sdílení položky %s selhalo, protože položka již je s uživatelem %s sdílená",
 "Sharing %s failed, because the group %s does not exist" => "Sdílení položky %s selhalo, protože skupina %s neexistuje",
 "Sharing %s failed, because %s is not a member of the group %s" => "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s",
+"Sharing %s failed, because sharing with links is not allowed" => "Sdílení položky %s selhalo, protože sdílení pomocí linků není povoleno",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\"",
 "seconds ago" => "před pár sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("před %n minutou","před %n minutami","před %n minutami"),

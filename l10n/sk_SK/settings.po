@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Zadaná neplatná hodnota pre %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -30,16 +30,16 @@ msgstr "Uložené"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "nastavenia testovacieho emailu"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Ak ste dostali tento email, nastavenie je správne."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Vyskytol sa problém pri odosielaní emailu. Prosím, znovu skontrolujte svoje nastavenia."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -47,7 +47,7 @@ msgstr "Email odoslaný"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Musíte nastaviť svoj po​​užívateľský email, než budete môcť odoslať testovací email."
 
 #: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
@@ -88,17 +88,17 @@ msgstr "Nie je možné pridať skupinu"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Súbory sú úspešne dešifrované"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoj owncloud.log alebo požiadajte o pomoc správcu"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoje heslo a skúste to znova"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -334,7 +334,7 @@ msgstr "Prihlásenie"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Neformátovaný"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
@@ -456,7 +456,7 @@ msgstr ""
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron sa ešte nespustil!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
@@ -523,22 +523,22 @@ msgstr "Povoliť odosielať upozornenia emailom"
 
 #: templates/admin.php:254
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Povoliť používateľom zasielať emailom oznámenie o zdieľaní súborov"
 
 #: templates/admin.php:262
-msgid "Set default expire date"
+msgid "Set default expiration date"
 msgstr ""
 
 #: templates/admin.php:263
 msgid "Expire after "
-msgstr ""
+msgstr "Platnosť"
 
 #: templates/admin.php:266
 msgid "days"
-msgstr ""
+msgstr "dni"
 
 #: templates/admin.php:269
-msgid "Enforce expire date"
+msgid "Enforce expiration date"
 msgstr ""
 
 #: templates/admin.php:270
@@ -571,7 +571,7 @@ msgstr "Email server"
 
 #: templates/admin.php:313
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Používa sa na odosielanie upozornení."
 
 #: templates/admin.php:344
 msgid "From address"
@@ -579,7 +579,7 @@ msgstr "Z adresy"
 
 #: templates/admin.php:366
 msgid "Authentication required"
-msgstr ""
+msgstr "Vyžaduje sa overenie"
 
 #: templates/admin.php:370
 msgid "Server address"
@@ -603,7 +603,7 @@ msgstr "SMTP heslo"
 
 #: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "Nastavenia testovacieho emailu"
 
 #: templates/admin.php:388
 msgid "Send email"

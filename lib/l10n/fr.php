@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Vous accédez au serveur à partir d'un domaine non-approuvé.",
+"Please contact your administrator" => "Veuillez contacter votre administrateur",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "L'application \"%s\" ne peut être installée car elle n'est pas compatible avec cette version de ownCloud.",
 "No app name specified" => "Aucun nom d'application spécifié",
 "Help" => "Aide",
@@ -56,6 +58,7 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Votre serveur web, n'est pas correctement configuré pour permettre la synchronisation des fichiers, car l'interface WebDav ne fonctionne pas comme il faut.",
 "Please double check the <a href='%s'>installation guides</a>." => "Veuillez vous référer au <a href='%s'>guide d'installation</a>.",
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
+"Sharing %s failed, because the file does not exist" => "Le partage de %s a échoué car le fichier n'existe pas",
 "Sharing %s failed, because the user %s is the item owner" => "Le partage de %s a échoué car l'utilisateur %s est le propriétaire de l'objet",
 "Sharing %s failed, because the user %s does not exist" => "Le partage de %s a échoué car l'utilisateur %s n'existe pas",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Le partage de %s a échoué car l'utilisateur %s n'est membre d'aucun groupe auquel %s appartient",

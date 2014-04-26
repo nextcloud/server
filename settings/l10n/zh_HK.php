@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Email sent" => "郵件已傳",
 "Encryption" => "加密",
 "Error" => "錯誤",
+"Update" => "更新",
 "Groups" => "群組",
 "Delete" => "刪除",
 "None" => "空",

@@ -62,6 +62,7 @@ $TRANSLATIONS = array(
 "Size" => "Veľkosť",
 "Modified" => "Upravené",
 "%s could not be renamed" => "%s nemohol byť premenovaný",
+"Upload (max. %s)" => "Nahrať (max. %s)",
 "File handling" => "Nastavenie správania sa k súborom",
 "Maximum upload size" => "Maximálna veľkosť odosielaného súboru",
 "max. possible: " => "najväčšie možné:",
