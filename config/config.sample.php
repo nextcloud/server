@@ -54,7 +54,7 @@ $CONFIG = array(
 "proxyuserpwd" => "",
 
 /* List of trusted domains, to prevent host header poisoning ownCloud is only using these Host headers */
-'trusted_domains' => array('demo.owncloud.org'),
+'trusted_domains' => array('demo.owncloud.org', 'otherdomain.owncloud.org'),
 
 /* Theme to use for ownCloud */
 "theme" => "",
