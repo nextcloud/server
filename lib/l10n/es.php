@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Está accediendo al servidor desde un dominio inseguro.",
+"Please contact your administrator" => "Contacte a su administrador",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "La aplicación \"%s\" no puede ser instalada porque no es compatible con esta versión de ownCloud",
 "No app name specified" => "No se ha especificado nombre de la aplicación",
 "Help" => "Ayuda",
@@ -56,6 +58,21 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>.",
 "%s shared »%s« with you" => "%s ha compatido  »%s« contigo",
+"Sharing %s failed, because the file does not exist" => "No se pudo compartir %s porque el archivo no existe",
+"Sharing %s failed, because the user %s is the item owner" => "Compartiendo %s ha fallado, ya que el usuario %s es el dueño del elemento",
+"Sharing %s failed, because the user %s does not exist" => "Compartiendo %s ha fallado, ya que el usuario %s no existe",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Compartiendo %s ha fallado, ya que el usuario %s no es miembro de algún grupo que %s es miembro",
+"Sharing %s failed, because this item is already shared with %s" => "Compartiendo %s ha fallado, ya que este elemento ya está compartido con %s",
+"Sharing %s failed, because the group %s does not exist" => "Compartiendo %s ha fallado, ya que el grupo %s no existe",
+"Sharing %s failed, because %s is not a member of the group %s" => "Compartiendo %s ha fallado, ya que %s no es miembro del grupo %s",
+"Sharing %s failed, because sharing with links is not allowed" => "Compartiendo %s ha fallado, ya que compartir con enlaces no está permitido",
+"Share type %s is not valid for %s" => "Compartir tipo %s no es válido para %s",
+"Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s",
+"Setting permissions for %s failed, because the item was not found" => "Configuración de permisos para %s ha fallado, ya que el elemento no fue encontrado",
+"Sharing %s failed, because the user %s is the original sharer" => "Compartiendo %s ha fallado, ya que el usuario %s es el compartidor original",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "Compartiendo %s ha fallado, ya que los permisos superan los permisos otorgados a %s",
+"Sharing %s failed, because resharing is not allowed" => "Compartiendo %s ha fallado, ya que volver a compartir no está permitido",
+"Sharing %s failed, because the file could not be found in the file cache" => "Compartiendo %s ha fallado, ya que el archivo no pudo ser encontrado en el cache de archivo",
 "Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\"",
 "seconds ago" => "hace segundos",
 "_%n minute ago_::_%n minutes ago_" => array("Hace %n minuto","Hace %n minutos"),
@@ -66,6 +83,10 @@ $TRANSLATIONS = array(
 "last month" => "mes pasado",
 "_%n month ago_::_%n months ago_" => array("Hace %n mes","Hace %n meses"),
 "last year" => "año pasado",
-"years ago" => "hace años"
+"years ago" => "hace años",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
+"A valid username must be provided" => "Se debe proporcionar un nombre de usuario válido",
+"A valid password must be provided" => "Se debe proporcionar una contraseña válida",
+"The username is already being used" => "El nombre de usuario ya está en uso"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

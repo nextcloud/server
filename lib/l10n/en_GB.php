@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "You are accessing the server from an untrusted domain.",
+"Please contact your administrator" => "Please contact your administrator",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "App \"%s\" can't be installed because it is not compatible with this version of ownCloud.",
 "No app name specified" => "No app name specified",
 "Help" => "Help",
@@ -56,6 +58,25 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Your web server is not yet properly setup to allow files synchronisation because the WebDAV interface seems to be broken.",
 "Please double check the <a href='%s'>installation guides</a>." => "Please double check the <a href='%s'>installation guides</a>.",
 "%s shared »%s« with you" => "%s shared \"%s\" with you",
+"Sharing %s failed, because the file does not exist" => "Sharing %s failed, because the file does not exist",
+"Sharing %s failed, because the user %s is the item owner" => "Sharing %s failed, because the user %s is the item owner",
+"Sharing %s failed, because the user %s does not exist" => "Sharing %s failed, because the user %s does not exist",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of",
+"Sharing %s failed, because this item is already shared with %s" => "Sharing %s failed, because this item is already shared with %s",
+"Sharing %s failed, because the group %s does not exist" => "Sharing %s failed, because the group %s does not exist",
+"Sharing %s failed, because %s is not a member of the group %s" => "Sharing %s failed, because %s is not a member of the group %s",
+"Sharing %s failed, because sharing with links is not allowed" => "Sharing %s failed, because sharing with links is not allowed",
+"Share type %s is not valid for %s" => "Share type %s is not valid for %s",
+"Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Setting permissions for %s failed, because the permissions exceed permissions granted to %s",
+"Setting permissions for %s failed, because the item was not found" => "Setting permissions for %s failed, because the item was not found",
+"Sharing backend %s must implement the interface OCP\\Share_Backend" => "Sharing backend %s must implement the interface OCP\\Share_Backend",
+"Sharing backend %s not found" => "Sharing backend %s not found",
+"Sharing backend for %s not found" => "Sharing backend for %s not found",
+"Sharing %s failed, because the user %s is the original sharer" => "Sharing %s failed, because the user %s is the original sharer",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "Sharing %s failed, because the permissions exceed permissions granted to %s",
+"Sharing %s failed, because resharing is not allowed" => "Sharing %s failed, because resharing is not allowed",
+"Sharing %s failed, because the sharing backend for %s could not find its source" => "Sharing %s failed, because the sharing backend for %s could not find its source",
+"Sharing %s failed, because the file could not be found in the file cache" => "Sharing %s failed, because the file could not be found in the file cache",
 "Could not find category \"%s\"" => "Could not find category \"%s\"",
 "seconds ago" => "seconds ago",
 "_%n minute ago_::_%n minutes ago_" => array("%n minute ago","%n minutes ago"),
@@ -66,6 +87,10 @@ $TRANSLATIONS = array(
 "last month" => "last month",
 "_%n month ago_::_%n months ago_" => array("%n month ago","%n months ago"),
 "last year" => "last year",
-"years ago" => "years ago"
+"years ago" => "years ago",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
+"A valid username must be provided" => "A valid username must be provided",
+"A valid password must be provided" => "A valid password must be provided",
+"The username is already being used" => "The username is already being used"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

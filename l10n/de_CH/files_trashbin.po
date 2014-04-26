@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-15 02:13-0400\n"
-"PO-Revision-Date: 2014-03-15 05:40+0000\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -30,38 +30,38 @@ msgstr "Konnte %s nicht dauerhaft löschen"
 msgid "Couldn't restore %s"
 msgstr "Konnte %s nicht wiederherstellen"
 
-#: js/filelist.js:23
+#: js/filelist.js:3
 msgid "Deleted files"
 msgstr "Gelöschte Dateien"
 
-#: js/trash.js:16 js/trash.js:103 js/trash.js:152
+#: js/trash.js:33 js/trash.js:124 js/trash.js:173
 msgid "Error"
 msgstr "Fehler"
 
-#: lib/trashbin.php:853 lib/trashbin.php:855
+#: js/trash.js:264
+msgid "Deleted Files"
+msgstr "Gelöschte Dateien"
+
+#: lib/trashbin.php:859 lib/trashbin.php:861
 msgid "restored"
 msgstr "Wiederhergestellt"
 
-#: templates/index.php:7
+#: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Nichts zu löschen, Ihr Papierkorb ist leer!"
 
-#: templates/index.php:20
+#: templates/index.php:19
 msgid "Name"
 msgstr "Name"
 
-#: templates/index.php:23 templates/index.php:25
+#: templates/index.php:22 templates/index.php:24
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: templates/index.php:31
+#: templates/index.php:30
 msgid "Deleted"
 msgstr "Gelöscht"
 
-#: templates/index.php:34 templates/index.php:35
+#: templates/index.php:33 templates/index.php:34
 msgid "Delete"
 msgstr "Löschen"
-
-#: templates/part.breadcrumb.php:8
-msgid "Deleted Files"
-msgstr "Gelöschte Dateien"

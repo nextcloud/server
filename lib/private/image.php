@@ -49,7 +49,7 @@ class OC_Image {
 
 	/**
 	 * @brief Constructor.
-	 * @param resource|string $imageref The path to a local file, a base64 encoded string or a resource created by
+	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
 	 * @return \OC_Image False on error
 	 */
@@ -79,7 +79,7 @@ class OC_Image {
 
 	/**
 	* @brief Returns the MIME type of the image or an empty string if no image is loaded.
-	* @return int
+	* @return string
 	*/
 	public function mimeType() {
 		return $this->valid() ? $this->mimeType : '';
@@ -397,7 +397,7 @@ class OC_Image {
 
 	/**
 	 * @brief Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
-	 * @param resource|string $imageref The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
+	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
 	 * @return resource|false An image resource or false on error
 	 */
 	public function load($imageRef) {

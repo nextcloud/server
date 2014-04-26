@@ -254,7 +254,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$backend2 = $this->getMock('\OC_Group_Database');
 		$backend2->expects($this->once())
 			->method('getGroups')
-			->with('1', 1, 0)
+			->with('1', 2, 1)
 			->will($this->returnValue(array('group12')));
 		$backend2->expects($this->any())
 			->method('groupExists')

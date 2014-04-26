@@ -5,6 +5,8 @@
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
+# svetlemodry <jaroslav@lichtblau.cz>, 2014
+# xmorave2 <josef.moravec@gmail.com>, 2014
 # m23 <black23@gmail.com>, 2014
 # pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -12,15 +14,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 20:00+0000\n"
+"Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr "Kontaktujte prosím vašeho správce systému."
 
 #: private/app.php:236
 #, php-format
@@ -53,7 +63,7 @@ msgstr "Uživatelé"
 msgid "Admin"
 msgstr "Administrace"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -78,7 +88,7 @@ msgstr "Stahování v ZIPu je vypnuto."
 msgid "Files need to be downloaded one by one."
 msgstr "Soubory musí být stahovány jednotlivě."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Zpět k souborům"
 
@@ -152,15 +162,15 @@ msgstr "Nelze vytvořit složku aplikace. Opravte práva souborů. %s"
 msgid "Application is not enabled"
 msgstr "Aplikace není povolena"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Chyba ověření"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token vypršel. Obnovte prosím stránku."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Neznámý uživatel"
 
@@ -289,77 +299,180 @@ msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 msgid "%s shared »%s« with you"
 msgstr "%s s vámi sdílí »%s«"
 
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr "Sdílení %s selhalo, protože soubor neexistuje"
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s je jejím vlastníkem"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s neexistuje"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s není členem žádné skupiny společné s uživatelem %s"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Sdílení položky %s selhalo, protože položka již je s uživatelem %s sdílená"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Sdílení položky %s selhalo, protože skupina %s neexistuje"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Sdílení položky %s selhalo, protože sdílení pomocí linků není povoleno"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
 #: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Nelze nalézt kategorii \"%s\""
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "před pár sekundami"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "dnes"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "včera"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "minulý rok"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "před lety"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Musíte zadat platné uživatelské jméno"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Musíte zadat platné heslo"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "Uživatelské jméno je již využíváno"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 07:10+0000\n"
-"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Zadaná neplatná hodnota pre %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -30,16 +30,16 @@ msgstr "Uložené"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "nastavenia testovacieho emailu"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Ak ste dostali tento email, nastavenie je správne."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Vyskytol sa problém pri odosielaní emailu. Prosím, znovu skontrolujte svoje nastavenia."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -47,17 +47,17 @@ msgstr "Email odoslaný"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Musíte nastaviť svoj po​​užívateľský email, než budete môcť odoslať testovací email."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Mód odosielania"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Šifrovanie"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Autentifikačná metóda"
 
@@ -85,6 +85,20 @@ msgstr "Skupina už existuje"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nie je možné pridať skupinu"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr "Súbory sú úspešne dešifrované"
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoj owncloud.log alebo požiadajte o pomoc správcu"
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoje heslo a skúste to znova"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -320,7 +334,7 @@ msgstr "Prihlásenie"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Neformátovaný"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
@@ -442,7 +456,7 @@ msgstr ""
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron sa ešte nespustil!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
@@ -508,94 +522,114 @@ msgid "Allow mail notification"
 msgstr "Povoliť odosielať upozornenia emailom"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Povoliť používateľom odosielať upozornenia emailom pre svoje zdieľané súbory"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Povoliť používateľom zasielať emailom oznámenie o zdieľaní súborov"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr "Platnosť"
+
+#: templates/admin.php:266
+msgid "days"
+msgstr "dni"
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Zabezpečenie"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Vynútiť HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vynúti pripájanie klientov k %s šifrovaným pripojením."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Pripojte sa k %s cez HTTPS pre povolenie alebo zakázanie vynútenia SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Email server"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Používa sa na odosielanie upozornení."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Z adresy"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
-msgstr ""
+msgstr "Vyžaduje sa overenie"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Adresa servera"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Prihlasovanie údaje"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "SMTP používateľské meno"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "SMTP heslo"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "Nastavenia testovacieho emailu"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Odoslať email"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Záznam"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Úroveň záznamu"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Viac"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Menej"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Verzia"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

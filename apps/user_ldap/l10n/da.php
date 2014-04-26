@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Backup (Replika) Port",
 "Disable Main Server" => "Deaktiver Hovedserver",
 "Only connect to the replica server." => "Forbind kun til replika serveren.",
-"Case insensitve LDAP server (Windows)" => "Ikke versalfølsom LDAP server (Windows)",
 "Turn off SSL certificate validation." => "Deaktiver SSL certifikat validering",
 "Cache Time-To-Live" => "Cache Time-To-Live",
 "User Display Name Field" => "User Display Name Field",

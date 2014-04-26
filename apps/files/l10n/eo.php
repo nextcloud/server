@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Size" => "Grando",
 "Modified" => "Modifita",
 "%s could not be renamed" => "%s ne povis alinomiĝi",
-"Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
 "max. possible: " => "maks. ebla: ",

@@ -32,6 +32,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return array|bool|int|null|string
 	 */
 	function parsePHP($string) {
 		$string = $this->stripPHPTags($string);
@@ -41,6 +42,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return string
 	 */
 	function stripPHPTags($string) {
 		$string = trim($string);
@@ -55,6 +57,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return string
 	 */
 	function stripAssignAndReturn($string) {
 		$string = trim($string);
@@ -67,6 +70,10 @@ class ArrayParser {
 		return $string;
 	}
 
+	/**
+	 * @param string $string
+	 * @return array|bool|int|null|string
+	 */
 	function parse($string) {
 		$string = trim($string);
 		$string = trim($string, ';');
@@ -85,6 +92,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return int
 	 */
 	function getType($string) {
 		$string = strtolower($string);
@@ -104,6 +112,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return string
 	 */
 	function parseString($string) {
 		return substr($string, 1, -1);
@@ -111,6 +120,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return int
 	 */
 	function parseNum($string) {
 		return intval($string);
@@ -118,6 +128,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return bool
 	 */
 	function parseBool($string) {
 		$string = strtolower($string);
@@ -126,6 +137,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $string
+	 * @return array
 	 */
 	function parseArray($string) {
 		$body = substr($string, 5);
@@ -157,6 +169,7 @@ class ArrayParser {
 
 	/**
 	 * @param string $body
+	 * @return array
 	 */
 	function splitArray($body) {
 		$inSingleQuote = false;//keep track if we are inside quotes

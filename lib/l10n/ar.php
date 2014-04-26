@@ -56,6 +56,8 @@ $TRANSLATIONS = array(
 "last month" => "الشهر الماضي",
 "_%n month ago_::_%n months ago_" => array("","","","","",""),
 "last year" => "السنةالماضية",
-"years ago" => "سنة مضت"
+"years ago" => "سنة مضت",
+"A valid username must be provided" => "يجب ادخال اسم مستخدم صحيح",
+"A valid password must be provided" => "يجب ادخال كلمة مرور صحيحة"
 );
 $PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

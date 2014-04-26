@@ -87,7 +87,9 @@ class OC_Util {
 	}
 
 	/**
+	 * Get the quota of a user
 	 * @param string $user
+	 * @return int Quota bytes
 	 */
 	public static function getUserQuota($user){
 		$config = \OC::$server->getConfig();
@@ -300,8 +302,6 @@ class OC_Util {
 		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
 			return $errors;
 		}
-
-		$defaults = new \OC_Defaults();
 
 		$webServerRestart = false;
 		//check for database drivers
@@ -598,11 +598,11 @@ class OC_Util {
 	}
 
 	/**
-	 * @return void
+	 * @param array $errors
 	 */
 	public static function displayLoginPage($errors = array()) {
 		$parameters = array();
-		foreach( $errors as $key => $value ) {
+		foreach( $errors as $value ) {
 			$parameters[$value] = true;
 		}
 		if (!empty($_POST['user'])) {
@@ -805,7 +805,7 @@ class OC_Util {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
 			//Specify encoding for PHP<5.4
-			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -827,12 +827,13 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the htaccess file is working
+	 * @brief Check if the .htaccess file is working
+	 * @throws OC\HintException If the testfile can't get written.
 	 * @return bool
-	 * @description Check if the htaccess file is working by creating a test
+	 * @description Check if the .htaccess file is working by creating a test
 	 * file in the data directory and trying to access via http
 	 */
-	public static function isHtAccessWorking() {
+	public static function isHtaccessWorking() {
 		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
 			return true;
 		}
@@ -902,6 +903,8 @@ class OC_Util {
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
+		// also don't care if the host can't be verified
+		$client->setVerifyHost(0);
 
 		$return = true;
 		try {

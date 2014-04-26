@@ -10,6 +10,11 @@
 class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 
 	/**
+	 * @var \OC\Files\View
+	 */
+	private $view;
+
+	/**
 	 * Reference to main server object
 	 *
 	 * @var Sabre_DAV_Server
@@ -17,11 +22,11 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	private $server;
 
 	/**
-	 * is kept public to allow overwrite for unit testing
-	 *
-	 * @var \OC\Files\View
+	 * @param \OC\Files\View $view
 	 */
-	public $fileView;
+	public function __construct($view) {
+		$this->view = $view;
+	}
 
 	/**
 	 * This initializes the plugin.
@@ -45,22 +50,23 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	/**
 	 * This method is called before any HTTP method and validates there is enough free space to store the file
 	 *
-	 * @throws Sabre_DAV_Exception
 	 * @param string $uri
+	 * @param null $data
+	 * @throws Sabre_DAV_Exception_InsufficientStorage
 	 * @return bool
 	 */
 	public function checkQuota($uri, $data = null) {
 		$length = $this->getLength();
 		if ($length) {
-			if (substr($uri, 0, 1)!=='/') {
-				$uri='/'.$uri;
+			if (substr($uri, 0, 1) !== '/') {
+				$uri = '/' . $uri;
 			}
 			list($parentUri, $newName) = Sabre_DAV_URLUtil::splitPath($uri);
 			$req = $this->server->httpRequest;
 			if ($req->getHeader('OC-Chunked')) {
 				$info = OC_FileChunking::decodeName($newName);
 				$chunkHandler = new OC_FileChunking($info);
-				// substract the already uploaded size to see whether
+				// subtract the already uploaded size to see whether
 				// there is still enough space for the remaining chunks
 				$length -= $chunkHandler->getCurrentSize();
 			}
@@ -75,8 +81,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		return true;
 	}
 
-	public function getLength()
-	{
+	public function getLength() {
 		$req = $this->server->httpRequest;
 		$length = $req->getHeader('X-Expected-Entity-Length');
 		if (!$length) {
@@ -95,14 +100,8 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	 * @param $parentUri
 	 * @return mixed
 	 */
-	public function getFreeSpace($parentUri)
-	{
-		if (is_null($this->fileView)) {
-			// initialize fileView
-			$this->fileView = \OC\Files\Filesystem::getView();
-		}
-
-		$freeSpace = $this->fileView->free_space($parentUri);
+	public function getFreeSpace($parentUri) {
+		$freeSpace = $this->view->free_space($parentUri);
 		return $freeSpace;
 	}
 }

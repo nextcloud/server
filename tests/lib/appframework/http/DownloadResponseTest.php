@@ -22,7 +22,7 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace OCP\AppFramework\Http;
 
 
 //require_once(__DIR__ . "/../classloader.php");

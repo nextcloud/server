@@ -84,7 +84,15 @@ class RouteConfig {
 
 			// register the route
 			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-			$this->router->create($this->appName.'.'.$controller.'.'.$action, $url)->method($verb)->action($handler);
+			$router = $this->router->create($this->appName.'.'.$controller.'.'.$action, $url)
+							->method($verb)
+							->action($handler);
+
+			// optionally register requirements for route. This is used to 
+			// tell the route parser how url parameters should be matched
+			if(array_key_exists('requirements', $simpleRoute)) {
+				$router->requirements($simpleRoute['requirements']);
+			}
 		}
 	}
 

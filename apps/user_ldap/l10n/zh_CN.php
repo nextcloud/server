@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "备份 (镜像) 端口",
 "Disable Main Server" => "禁用主服务器",
 "Only connect to the replica server." => "只能连接到复制服务器",
-"Case insensitve LDAP server (Windows)" => "大小写敏感LDAP服务器(Windows)",
 "Turn off SSL certificate validation." => "关闭SSL证书验证",
 "Cache Time-To-Live" => "缓存存活时间",
 "in seconds. A change empties the cache." => "以秒计。修改将清空缓存。",

@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 	function removeCallback(result) {
 		if (result.status !== 'success') {
-			OC.dialogs.alert(result.data.message, t('core', 'Error'));
+			OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
 		}
 
 		var files = result.data.success;
@@ -59,7 +59,7 @@ $(document).ready(function() {
 				},
 			    removeCallback
 			);
-		});
+		}, t('files_trashbin', 'Restore'));
 	};
 
 	FileActions.register('all', 'Delete', OC.PERMISSION_READ, function() {
@@ -121,7 +121,7 @@ $(document).ready(function() {
 			function(result) {
 				if (allFiles) {
 					if (result.status !== 'success') {
-						OC.dialogs.alert(result.data.message, t('core', 'Error'));
+						OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
 					}
 					FileList.hideMask();
 					// simply remove all files
@@ -170,7 +170,7 @@ $(document).ready(function() {
 				function(result) {
 					if (allFiles) {
 						if (result.status !== 'success') {
-							OC.dialogs.alert(result.data.message, t('core', 'Error'));
+							OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
 						}
 						FileList.hideMask();
 						// simply remove all files

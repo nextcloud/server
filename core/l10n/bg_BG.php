@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "last month" => "последният месец",
 "_%n month ago_::_%n months ago_" => array("",""),
-"months ago" => "Преди месеци",
 "last year" => "последната година",
 "years ago" => "последните години",
 "Choose" => "Избери",

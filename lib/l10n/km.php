@@ -39,6 +39,8 @@ $TRANSLATIONS = array(
 "last month" => "ខែមុន",
 "_%n month ago_::_%n months ago_" => array("%n ខែ​មុន"),
 "last year" => "ឆ្នាំ​មុន",
-"years ago" => "ឆ្នាំ​មុន"
+"years ago" => "ឆ្នាំ​មុន",
+"A valid username must be provided" => "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
+"A valid password must be provided" => "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

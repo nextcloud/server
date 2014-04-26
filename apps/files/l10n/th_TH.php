@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "Name" => "ชื่อ",
 "Size" => "ขนาด",
 "Modified" => "แก้ไขแล้ว",
-"Upload" => "อัพโหลด",
 "File handling" => "การจัดกาไฟล์",
 "Maximum upload size" => "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
 "max. possible: " => "จำนวนสูงสุดที่สามารถทำได้: ",

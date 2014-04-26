@@ -66,6 +66,10 @@ $TRANSLATIONS = array(
 "last month" => "el mes passat",
 "_%n month ago_::_%n months ago_" => array("fa %n mes","fa %n mesos"),
 "last year" => "l'any passat",
-"years ago" => "anys enrere"
+"years ago" => "anys enrere",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Només els caràcters següents estan permesos en el nom d'usuari: \"a-z\", \"A-Z\", \"0-9\" i \"_.@-\"",
+"A valid username must be provided" => "Heu de facilitar un nom d'usuari vàlid",
+"A valid password must be provided" => "Heu de facilitar una contrasenya vàlida",
+"The username is already being used" => "El nom d'usuari ja està en ús"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

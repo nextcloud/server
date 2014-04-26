@@ -5,6 +5,7 @@
 # Translators:
 # AsavarTzeth <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
+# enoch85 <enoch85@gmail.com>, 2014
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # medialabs, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 18:10+0000\n"
-"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 13:01+0000\n"
+"Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,135 +143,131 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:479
+#: js/js.js:483
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:564
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Sparar..."
 
-#: js/js.js:1124
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:1125
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut sedan"
 msgstr[1] "%n minuter sedan"
 
-#: js/js.js:1126
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n timme sedan"
 msgstr[1] "%n timmar sedan"
 
-#: js/js.js:1127
+#: js/js.js:1243
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:1128
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1129
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sedan"
 msgstr[1] "%n dagar sedan"
 
-#: js/js.js:1130
+#: js/js.js:1246
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:1131
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sedan"
 msgstr[1] "%n månader sedan"
 
-#: js/js.js:1132
-msgid "months ago"
-msgstr "månader sedan"
-
-#: js/js.js:1133
+#: js/js.js:1248
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:1134
+#: js/js.js:1249
 msgid "years ago"
 msgstr "år sedan"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Välj"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Fel uppstod för filväljarmall: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Nej"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Fel uppstod under inläsningen av meddelandemallen: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} filkonflikt"
 msgstr[1] "{count} filkonflikter"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "En filkonflikt"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr "Nya filer"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr "Filer som redan existerar"
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Vilken fil vill du behålla?"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Om du väljer båda versionerna kommer de kopierade filerna ha nummer tillagda i filnamnet."
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(Alla valda)"
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} valda)"
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Fel uppstod filmall existerar"
 
@@ -302,12 +299,12 @@ msgstr "Delad"
 msgid "Share"
 msgstr "Dela"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fel"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
@@ -371,71 +368,71 @@ msgstr "Dela via e-post:"
 msgid "No people found"
 msgstr "Hittar inga användare"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "Grupp"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Delad i {item} med {user}"
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr "informera via e-post"
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "kan redigera"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "åtkomstkontroll"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "skapa"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "uppdatera"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Skickar ..."
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "E-post skickat"
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
 msgstr "Varning"
 
@@ -463,7 +460,7 @@ msgstr "Editera taggar"
 msgid "Error loading dialog template: {error}"
 msgstr "Fel under laddning utav dialog mall: {fel}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Inga taggar valda för borttagning."
 
@@ -625,7 +622,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Hej där,⏎\n⏎\nville bara meddela dig att %s delade %s med dig.⏎\nTitta på den: %s⏎\n⏎\n"
+msgstr "Hej där!,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -634,7 +631,7 @@ msgstr "Utdelningen kommer att upphöra %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "Vi höres!"
+msgstr "Ha de fint!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39

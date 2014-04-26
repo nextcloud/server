@@ -206,6 +206,12 @@ class OC_Mount_Config {
 	*/
 	public static function getPersonalBackends() {
 
+		// Check whether the user has permissions to add personal storage backends
+		// return an empty array if this is not the case
+		if(OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') !== 'yes') {
+			return array();
+		}
+
 		$backEnds = self::getBackends();
 
 		// Remove local storage and other disabled storages
@@ -367,8 +373,8 @@ class OC_Mount_Config {
 										 $isPersonal = false) {
 		$backends = self::getBackends();
 		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
-		if ($mountPoint === '' || $mountPoint === '/' || $mountPoint == '/Shared') {
-			// can't mount at root or "Shared" folder
+		if ($mountPoint === '' || $mountPoint === '/') {
+			// can't mount at root folder
 			return false;
 		}
 

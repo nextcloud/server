@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Host" => "پشتیبان گیری (بدل) میزبان",
 "Backup (Replica) Port" => "پشتیبان گیری (بدل) پورت",
 "Disable Main Server" => "غیر فعال کردن سرور اصلی",
-"Case insensitve LDAP server (Windows)" => "غیر حساس به بزرگی و کوچکی حروف LDAP سرور (ویندوز)",
 "Turn off SSL certificate validation." => "غیرفعال کردن اعتبار گواهی نامه SSL .",
 "Directory Settings" => "تنظیمات پوشه",
 "User Display Name Field" => "فیلد نام کاربر",

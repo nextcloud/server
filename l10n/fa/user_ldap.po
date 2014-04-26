@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr[0] ""
 msgid "Invalid Host"
 msgstr ""
 
-#: lib/wizard.php:963
+#: lib/wizard.php:983
 msgid "Could not find the desired feature"
 msgstr ""
 
@@ -334,8 +334,8 @@ msgid "Only connect to the replica server."
 msgstr ""
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "غیر حساس به بزرگی و کوچکی حروف LDAP سرور (ویندوز)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

@@ -14,7 +14,7 @@ class File {
 
 	/**
 	 * Returns the cache storage for the logged in user
-	 * @return cache storage
+	 * @return \OC\Files\View cache storage
 	 */
 	protected function getStorage() {
 		if (isset($this->storage)) {

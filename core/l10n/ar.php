@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("","","","","",""),
 "last month" => "الشهر الماضي",
 "_%n month ago_::_%n months ago_" => array("","","","","",""),
-"months ago" => "شهر مضى",
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
 "Choose" => "اختيار",

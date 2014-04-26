@@ -122,7 +122,7 @@ class Controller {
 		// Protect data directory here, so we can test if the protection is working
 		\OC_Setup::protectDataDirectory();
 		try {
-			$htaccessWorking = \OC_Util::isHtAccessWorking();
+			$htaccessWorking = \OC_Util::isHtaccessWorking();
 		} catch (\OC\HintException $e) {
 			$errors[] = array(
 				'error' => $e->getMessage(),

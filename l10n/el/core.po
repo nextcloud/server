@@ -13,12 +13,13 @@
 # Wasilis <inactive+Wasilis@transifex.com>, 2013
 # Wasilis <inactive+Wasilis@transifex.com>, 2013
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
+# Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 06:10+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -144,135 +145,131 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1124
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1125
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1126
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1127
+#: js/js.js:1249
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1128
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1129
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1130
+#: js/js.js:1252
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1131
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1132
-msgid "months ago"
-msgstr "μήνες πριν"
-
-#: js/js.js:1133
+#: js/js.js:1254
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1134
+#: js/js.js:1255
 msgid "years ago"
 msgstr "χρόνια πριν"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Επιλέξτε"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Σφάλμα κατά την φόρτωση προτύπου επιλογέα αρχείων: {σφάλμα}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Ναι"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Όχι"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Οκ"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Σφάλμα φόρτωσης προτύπου μηνυμάτων: {σφάλμα}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} αρχείο διαφέρει"
 msgstr[1] "{count} αρχεία διαφέρουν"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Ένα αρχείο διαφέρει"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr "Νέα Αρχεία"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Ποια αρχεία θέλετε να κρατήσετε;"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Εάν επιλέξετε και τις δυο εκδοχές, ένας αριθμός θα προστεθεί στο αντιγραφόμενο αρχείο."
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(όλα τα επιλεγμένα)"
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} επιλέχθησαν)"
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Σφάλμα κατά την φόρτωση του προτύπου ύπαρξης αρχείου"
 
@@ -304,12 +301,12 @@ msgstr "Κοινόχρηστα"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
@@ -347,7 +344,7 @@ msgstr "Συνθηματικό"
 
 #: js/share.js:230
 msgid "Allow Public Upload"
-msgstr "Να επιτρέπεται η Δημόσια Αποστολή"
+msgstr "Επιτρέπεται η Δημόσια Αποστολή"
 
 #: js/share.js:234
 msgid "Email link to person"
@@ -373,71 +370,71 @@ msgstr "Διαμοιρασμός μέσω email:"
 msgid "No people found"
 msgstr "Δεν βρέθηκε άνθρωπος"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "ομάδα"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Διαμοιρασμός του {item} με τον {user}"
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
-msgstr "Σταμάτημα διαμοιρασμού"
+msgstr "Διακοπή διαμοιρασμού"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr "ειδοποίηση με email"
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "δυνατότητα αλλαγής"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "έλεγχος πρόσβασης"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "δημιουργία"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "ενημέρωση"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "διαγραφή"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
@@ -465,7 +462,7 @@ msgstr "Επεξεργασία ετικετών"
 msgid "Error loading dialog template: {error}"
 msgstr "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφάλμα}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή."
 
@@ -577,7 +574,7 @@ msgstr "Εφαρμογές"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Διαχειριστής"
+msgstr "Διαχείριση"
 
 #: strings.php:9
 msgid "Help"

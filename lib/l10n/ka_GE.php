@@ -40,6 +40,8 @@ $TRANSLATIONS = array(
 "last month" => "გასულ თვეში",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "ბოლო წელს",
-"years ago" => "წლის წინ"
+"years ago" => "წლის წინ",
+"A valid username must be provided" => "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
+"A valid password must be provided" => "უნდა მიუთითოთ არსებული პაროლი"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

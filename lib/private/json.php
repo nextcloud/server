@@ -43,8 +43,7 @@ class OC_JSON{
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid.
-	 * @return json Error msg if not valid.
+	 * Check an ajax get/post call if the request token is valid, send json error msg if not.
 	 */
 	public static function callCheck() {
 		if( !OC_Util::isCallRegistered()) {
@@ -55,7 +54,7 @@ class OC_JSON{
 	}
 
 	/**
-	* Check if the user is a admin, send json error msg if not
+	* Check if the user is a admin, send json error msg if not.
 	*/
 	public static function checkAdminUser() {
 		if( !OC_User::isAdminUser(OC_User::getUser())) {
@@ -119,8 +118,6 @@ class OC_JSON{
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data, $setContentType=true) {
-		// Disable mimesniffing, don't move this to setContentTypeHeader!
-		header( 'X-Content-Type-Options: nosniff' );
 		if($setContentType) {
 			self::setContentTypeHeader();
 		}

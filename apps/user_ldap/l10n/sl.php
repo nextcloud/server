@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Vrata varnostne kopije (replike)",
 "Disable Main Server" => "Onemogoči glavni strežnik",
 "Only connect to the replica server." => "Poveži le s podvojenim strežnikom.",
-"Case insensitve LDAP server (Windows)" => "Strežnik LDAP ne upošteva velikosti črk (Windows)",
 "Turn off SSL certificate validation." => "Onemogoči določanje veljavnosti potrdila SSL.",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Možnosti ni priporočljivo uporabiti; namenjena je zgolj preizkušanju! Če deluje povezava le s to možnostjo, je treba uvoziti potrdilo SSL strežnika LDAP na strežnik %s.",
 "Cache Time-To-Live" => "Predpomni podatke TTL",

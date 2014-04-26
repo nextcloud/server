@@ -60,6 +60,8 @@ $TRANSLATIONS = array(
 "last month" => "上個月",
 "_%n month ago_::_%n months ago_" => array("%n 個月前"),
 "last year" => "去年",
-"years ago" => "幾年前"
+"years ago" => "幾年前",
+"A valid username must be provided" => "必須提供一個有效的用戶名",
+"A valid password must be provided" => "一定要提供一個有效的密碼"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

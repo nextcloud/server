@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 06:10+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -137,135 +137,131 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Mentés..."
 
-#: js/js.js:1124
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:1125
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n perccel ezelőtt"
 msgstr[1] "%n perccel ezelőtt"
 
-#: js/js.js:1126
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: js/js.js:1127
+#: js/js.js:1249
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:1128
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:1129
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: js/js.js:1130
+#: js/js.js:1252
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:1131
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: js/js.js:1132
-msgid "months ago"
-msgstr "több hónapja"
-
-#: js/js.js:1133
+#: js/js.js:1254
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:1134
+#: js/js.js:1255
 msgid "years ago"
 msgstr "több éve"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Válasszon"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Nem sikerült betölteni a fájlkiválasztó sablont: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Igen"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Nem"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Nem sikerült betölteni az üzenet sablont: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} fájl ütközik"
 msgstr[1] "{count} fájl ütközik"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Egy file ütközik"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr "Új fájlok"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Melyik file-okat akarod megtartani?"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Ha kiválasztod mindazokaz a verziókat, a másolt fileok neve sorszámozva lesz."
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Folytatás"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(all selected)"
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} kiválasztva)"
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Hiba a létező sablon betöltésekor"
 
@@ -297,12 +293,12 @@ msgstr "Megosztott"
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Hiba"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Nem sikerült létrehozni a megosztást"
 
@@ -366,71 +362,71 @@ msgstr "Megosztás emaillel:"
 msgid "No people found"
 msgstr "Nincs találat"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "csoport"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Ezt az állományt csak a tulajdonosa oszthatja meg másokkal"
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Megosztva {item}-ben {user}-rel"
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
 msgstr "A megosztás visszavonása"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr "email értesítés"
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "módosíthat"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "jogosultság"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "létrehoz"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "szerkeszt"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "töröl"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "megoszt"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Jelszóval van védve"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Nem sikerült a lejárati időt törölni"
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Nem sikerült a lejárati időt beállítani"
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Küldés ..."
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Az emailt elküldtük"
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
@@ -458,7 +454,7 @@ msgstr "Címkék szerkesztése"
 msgid "Error loading dialog template: {error}"
 msgstr "Hiba a párbeszédpanel-sablon betöltésekor: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Nincs törlésre kijelölt címke."
 

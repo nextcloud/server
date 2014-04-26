@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Francesco Apruzzese <cescoap@gmail.com>, 2013
-# idetao <marcxosm@gmail.com>, 2013
+# idetao <marcxosm@gmail.com>, 2013-2014
 # Paolo Velati <paolo.velati@gmail.com>, 2013-2014
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-04 01:55-0400\n"
-"PO-Revision-Date: 2014-04-03 20:20+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "Email inviata"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Modalità di invio"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Cifratura"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Metodo di autenticazione"
 
@@ -87,6 +87,20 @@ msgstr "Il gruppo esiste già"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Impossibile aggiungere il gruppo"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr "File decifrato correttamente"
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr "Impossibile decifrare i tuoi file, controlla il file owncloud.log o chiedi al tuo amministratore"
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr "Impossibile decifrare i tuoi file, controlla la password e prova ancora"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -215,31 +229,31 @@ msgstr "Aggiorna"
 msgid "Updated"
 msgstr "Aggiornato"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Seleziona un'immagine del profilo"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr "Password molto debole"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr "Password debole"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr "Password così-così"
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr "Password buona"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr "Password forte"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decifratura dei file in corso... Attendi, potrebbe richiedere del tempo."
 
@@ -510,94 +524,114 @@ msgid "Allow mail notification"
 msgstr "Consenti le notifiche tramite posta elettronica"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Consenti all'utente di inviare notifiche tramite posta elettronica per i file condivisi"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Consenti agli utenti di inviare email di notifica per i file condivisi"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr "Scadenza dopo"
+
+#: templates/admin.php:266
+msgid "days"
+msgstr "giorni"
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr "Le condivisioni scadono in modo predefinito dopo N giorni"
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Protezione"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Forza HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forza i client a connettersi a %s tramite una connessione cifrata."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Connettiti al tuo %s tramite HTTPS per abilitare o disabilitare l'applicazione di SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Server di posta"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr "Viene utilizzato per inviare le notifiche."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Indirizzo mittente"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Indirizzo del server"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Porta"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Credenziali"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "Nome utente SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "Password SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr "Prova impostazioni email"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Invia email"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Livello di log"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Altro"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Meno"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versione"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

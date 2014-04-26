@@ -61,6 +61,8 @@ $TRANSLATIONS = array(
 "last month" => "ultímo mês",
 "_%n month ago_::_%n months ago_" => array("","%n meses atrás"),
 "last year" => "ano passado",
-"years ago" => "anos atrás"
+"years ago" => "anos atrás",
+"A valid username must be provided" => "Um nome de utilizador válido deve ser fornecido",
+"A valid password must be provided" => "Uma password válida deve ser fornecida"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

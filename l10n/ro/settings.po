@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mozguletz <__sashok@mail.ru>, 2014
 # corneliu.e <corneliueva@yahoo.com>, 2013
 # sergiu_sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -30,11 +31,11 @@ msgstr "Salvat"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "verifică setările de e-mail"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Dacă ai primit acest e-mail atunci setările par a fi corecte."
 
 #: admin/controller.php:94
 msgid ""
@@ -49,34 +50,34 @@ msgstr "Mesajul a fost expediat"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
-msgstr ""
+msgstr "Modul de expediere"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Încriptare"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
-msgstr ""
+msgstr "Modul de autentificare"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Imposibil de actualizat lista din  App Store."
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Eroare la autentificare"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Numele tău complet a fost schimbat."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Nu s-a puput schimba numele complet"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -85,6 +86,20 @@ msgstr "Grupul există deja"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nu s-a putut adăuga grupul"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr "Fișierele au fost decriptate cu succes"
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr "Nu s-a puput decripta fișierele tale, verifică owncloud.log sau întreabă administratorul"
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr "Nu s-a puput decripta fișierele tale, verifică parola și  încearcă din nou"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -128,38 +143,38 @@ msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
 msgid "Couldn't update app."
 msgstr "Aplicaţia nu s-a putut actualiza."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Parolă greșită"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
-msgstr ""
+msgstr "Nici un utilizator furnizat"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr ""
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr ""
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Imposibil de schimbat parola"
 
 #: js/admin.js:73
 msgid "Sending..."
-msgstr ""
+msgstr "Se expediază..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -187,11 +202,11 @@ msgstr "Aşteptaţi vă rog...."
 
 #: js/apps.js:103 js/apps.js:104 js/apps.js:125
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Eroare în timpul dezactivării aplicației"
 
 #: js/apps.js:124 js/apps.js:138 js/apps.js:139
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Eroare în timpul activării applicației"
 
 #: js/apps.js:149
 msgid "Updating...."
@@ -205,7 +220,7 @@ msgstr "Eroare în timpul actualizării aplicaţiei"
 msgid "Error"
 msgstr "Eroare"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Actualizare"
 
@@ -213,33 +228,33 @@ msgstr "Actualizare"
 msgid "Updated"
 msgstr "Actualizat"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Selectează o imagine de profil"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Parolă foarte slabă"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Parolă slabă"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Decriptare fișiere... Te rog așteaptă, poate dura ceva timp."
 
 #: js/users.js:47
 msgid "deleted"
@@ -284,9 +299,9 @@ msgstr "Trebuie să furnizaţi o parolă validă"
 
 #: js/users.js:516
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Avertizare: Dosarul Acasă pentru utilizatorul \"{user}\" deja există"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "_language_name_"
 
@@ -328,11 +343,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -367,7 +382,7 @@ msgstr "Serverul de web nu este încă setat corespunzător pentru a permite sin
 #: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Vă rugăm să verificați <a href=\"%s\">ghiduri de instalare</ a>."
 
 #: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
@@ -381,7 +396,7 @@ msgstr "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest mod
 
 #: templates/admin.php:104
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Versiunea PHP folosită este învechită"
 
 #: templates/admin.php:107
 msgid ""
@@ -485,7 +500,7 @@ msgstr "Permite încărcări publice"
 #: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
+msgstr "Permite utilizatorilor sa activeze opțiunea de încărcare a fișierelor în dosarele lor publice de către alte persoane"
 
 #: templates/admin.php:235
 msgid "Allow resharing"
@@ -505,97 +520,117 @@ msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același gr
 
 #: templates/admin.php:253
 msgid "Allow mail notification"
-msgstr ""
+msgstr "Permite notificări prin e-mail"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune"
+
+#: templates/admin.php:262
+msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Securitate"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Forțează clienții să se conecteze la %s folosind o conexiune sigură"
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Adresa server-ului"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Portul"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
-msgstr ""
+msgstr "Nume utilizator SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
-msgstr ""
+msgstr "Parolă SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "Verifică setările de e-mail"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
-msgstr ""
+msgstr "Expediază mesajul"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Jurnal de activitate"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Nivel jurnal"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Mai mult"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Mai puțin"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versiunea"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -613,23 +648,23 @@ msgstr "Adaugă aplicația ta"
 msgid "More Apps"
 msgstr "Mai multe aplicații"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Selectează o aplicație"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr ""
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Vizualizează pagina applicației pe apps.owncloud.com"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>"
 
@@ -666,110 +701,110 @@ msgstr ""
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Ați utilizat <strong>%s</strong> din <strong>%s</strong> disponibile"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Parolă"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Parola a fost modificată"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Imposibil de-ați schimbat parola"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Parola curentă"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Noua parolă"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Schimbă parola"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
-msgstr ""
+msgstr "Nume complet"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Adresa ta de email"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Imagine de profil"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
-msgstr ""
+msgstr "Încarcă una nouă"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
-msgstr ""
+msgstr "Selectează una din Fișiere"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Înlătură imagine"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Doar png sau jpg de formă pătrată. "
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Anulare"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Alege drept imagine de profil"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Limba"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Ajută la traducere"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Folosește această adresă <a href=\"%s\" target=\"_blank\">pentru acces la fișierele tale folosind WebDAV</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
-msgstr ""
+msgstr "Parolă"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Decriptează toate fișierele"
 
 #: templates/users.php:19
 msgid "Login Name"
@@ -781,13 +816,13 @@ msgstr "Crează"
 
 #: templates/users.php:34
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Parolă de recuperare a Administratorului"
 
 #: templates/users.php:35 templates/users.php:36
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Introdu parola de recuperare pentru a recupera fișierele utilizatorilor în timpul schimbării parolei"
 
 #: templates/users.php:40
 msgid "Default Storage"
@@ -815,7 +850,7 @@ msgstr "Stocare"
 
 #: templates/users.php:106
 msgid "change full name"
-msgstr ""
+msgstr "schimbă numele complet"
 
 #: templates/users.php:110
 msgid "set new password"

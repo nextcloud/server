@@ -60,6 +60,8 @@ $TRANSLATIONS = array(
 "last month" => "в прошлом месяце",
 "_%n month ago_::_%n months ago_" => array("%n месяц назад","%n месяца назад","%n месяцев назад"),
 "last year" => "в прошлом году",
-"years ago" => "несколько лет назад"
+"years ago" => "несколько лет назад",
+"A valid username must be provided" => "Укажите правильное имя пользователя",
+"A valid password must be provided" => "Укажите валидный пароль"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

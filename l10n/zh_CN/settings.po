@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -54,15 +54,15 @@ msgstr "邮件已发送"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr ""
 
@@ -71,7 +71,7 @@ msgid "Unable to load list from App Store"
 msgstr "无法从应用商店载入列表"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "认证出错"
 
@@ -90,6 +90,20 @@ msgstr "已存在该组"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "无法添加组"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -133,32 +147,32 @@ msgstr "无法从组%s中移除用户"
 msgid "Couldn't update app."
 msgstr "无法更新 app。"
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "错误密码"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "没有满足的用户"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr ""
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr ""
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "不能更改密码"
 
@@ -210,7 +224,7 @@ msgstr "更新 app 时出错"
 msgid "Error"
 msgstr "错误"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "更新"
 
@@ -218,31 +232,31 @@ msgstr "更新"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "正在解密文件... 请稍等，可能需要一些时间。"
 
@@ -291,7 +305,7 @@ msgstr "必须提供合法的密码"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：用户 \"{user}\" 的家目录已存在"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "简体中文"
 
@@ -513,94 +527,114 @@ msgid "Allow mail notification"
 msgstr "允许邮件通知"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "允许用户为共享的文件发送邮件通知"
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "安全"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "强制使用 HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "强制客户端通过加密连接连接到%s。"
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "请经由HTTPS连接到这个%s 实例来启用或禁用强制SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "服务器地址"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "端口"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "凭证"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "日志级别"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -618,23 +652,23 @@ msgstr "添加应用"
 msgid "More Apps"
 msgstr "更多应用"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "选择一个应用"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr ""
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "查看在 app.owncloud.com 的应用程序页面"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
@@ -671,108 +705,108 @@ msgstr "再次显示首次运行向导"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "密码"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "密码已修改"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "无法修改密码"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "当前密码"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "新密码"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "全名"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "您的电子邮件"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "联系人图片"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "上传新的"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "从文件中选择一个新的"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "移除图片"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "您的头像由您的原始账户所提供。"
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "取消"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "使用这个地址 <a href=\"%s\" target=\"_blank\">通过 WebDAV 访问您的文件</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "登录密码"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "解密所有文件"
 

@@ -205,6 +205,34 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				OC_JSON::success(array('data' => array('reshare' => $reshare, 'shares' => $shares)));
 			}
 			break;
+		case 'getShareWithEmail':
+			$result = array();
+			if (isset($_GET['search'])) {
+				$cm = OC::$server->getContactsManager();
+				if (!is_null($cm) && $cm->isEnabled()) {
+					$contacts = $cm->search($_GET['search'], array('FN', 'EMAIL'));
+					foreach ($contacts as $contact) {
+						if (!isset($contact['EMAIL'])) {
+							continue;
+						}
+
+						$emails = $contact['EMAIL'];
+						if (!is_array($emails)) {
+							$emails = array($emails);
+						}
+
+						foreach($emails as $email) {
+							$result[] = array(
+								'id' => $contact['id'],
+								'email' => $email,
+								'displayname' => $contact['FN'],
+							);
+						}
+					}
+				}
+			}
+			OC_JSON::success(array('data' => $result));
+			break;
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
 				$sharePolicy = OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');

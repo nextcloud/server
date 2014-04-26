@@ -3,7 +3,7 @@
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$l=OC_L10N::get('core');
+$l=OC_L10N::get('settings');
 
 // Get data
 if( isset( $_POST['email'] ) && OC_Mail::validateAddress($_POST['email']) ) {

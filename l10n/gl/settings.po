@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-29 01:55-0400\n"
-"PO-Revision-Date: 2014-03-28 19:40+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,15 +49,15 @@ msgstr "Correo enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "É necesario configurar o correo do usuario antes de poder enviar mensaxes de correo de proba."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Modo de envío"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Método de autenticación"
 
@@ -85,6 +85,20 @@ msgstr "O grupo xa existe"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Non é posíbel engadir o grupo"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr "Ficheiros descifrados satisfactoriamente"
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr "Non foi posíbel descifrar os seus ficheiros. revise o ficheiro de rexistro owncloud.log, ou pregúntelle ao administrador"
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr "Non foi posíbel descifrar os seus ficheiros. revise o seu contrasinal e ténteo de novo"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -205,7 +219,7 @@ msgstr "Produciuse un erro mentres actualizaba o aplicativo"
 msgid "Error"
 msgstr "Erro"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Actualizar"
 
@@ -213,31 +227,31 @@ msgstr "Actualizar"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Seleccione unha imaxe para o perfil"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr "Contrasinal moi feble"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr "Contrasinal feble"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr "Contrasinal non moi aló"
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr "Bo contrasinal"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr "Contrasinal forte"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Descifrando ficheiros... isto pode levar un anaco."
 
@@ -508,94 +522,114 @@ msgid "Allow mail notification"
 msgstr "Permitir o envío de notificacións por correo"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Permitir que os usuarios envíen notificacións por correo dos ficheiros compartidos"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permitirlle aos usuarios enviar notificacións por correo para os ficheiros compartidos"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr "Caduca após"
+
+#: templates/admin.php:266
+msgid "days"
+msgstr "días"
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr "As comparticións, de xeito predeterminado, caducan aos N días"
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Seguranza"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Forzar HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forzar que os clientes se conecten a %s empregando unha conexión cifrada."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Conéctese a %s empregando HTTPS para activar ou desactivar o forzado de SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Servidor de correo"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr "Isto utilizase para o envío de notificacións."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Desde o enderezo"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr "Requírese autenticación"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Enderezo do servidor"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Porto"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Credenciais"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "Nome de usuario SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "Contrasinal SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr "Correo de proba dos axustes"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Enviar o correo"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Rexistro"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Nivel de rexistro"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Máis"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -613,23 +647,23 @@ msgstr "Engada o seu aplicativo"
 msgid "More Apps"
 msgstr "Máis aplicativos"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Escolla un aplicativo"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr "Documentación:"
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Consulte a páxina do aplicativo en apps.owncloud.com"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr "Vexa o sitio web do aplicativo"
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por<span class=\"author\"></span>"
 
@@ -666,108 +700,108 @@ msgstr "Amosar o axudante da primeira execución outra vez"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Ten en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Contrasinal"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "O seu contrasinal foi cambiado"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Non é posíbel cambiar o seu contrasinal"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Contrasinal actual"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Novo contrasinal"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Cambiar o contrasinal"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Nome completo"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "Correo"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "O seu enderezo de correo"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Escriba un enderezo de correo para permitir a recuperación de contrasinais e recibir notificacións"
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Imaxe do perfil"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Novo envío"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Seleccione unha nova de ficheiros"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Retirar a imaxe"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Calquera png ou jpg. É preferíbel que sexa cadrada, mais poderá recortala."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "O seu avatar é fornecido pola súa conta orixinal."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Escolla unha imaxe para o perfil"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Axude na tradución"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "Empregue esta ligazón  <a href=\"%s\" target=\"_blank\">para acceder aos sus ficheiros mediante WebDAV</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "O aplicativo de cifrado non está activado, descifre todos os ficheiros"
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Contrasinal de acceso"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Descifrar todos os ficheiros"
 

@@ -88,6 +88,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $isInGroup;
 	}
 
+	/**
+	 * @param string $dnGroup
+	 * @param array|null &$seen
+	 */
 	private function _groupMembers($dnGroup, &$seen = null) {
 		if ($seen === null) {
 			$seen = array();
@@ -163,6 +167,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $groups;
 	}
 
+	/**
+	 * @param string $dn
+	 * @param array|null &$seen
+	 */
 	private function getGroupsByMember($dn, &$seen = null) {
 		if ($seen === null) {
 			$seen = array();
@@ -277,6 +285,84 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
+	 * @brief returns the number of users in a group, who match the search term
+	 * @param string the internal group name
+	 * @param string optional, a search string
+	 * @returns int | bool
+	 */
+	public function countUsersInGroup($gid, $search = '') {
+		$cachekey = 'countUsersInGroup-'.$gid.'-'.$search;
+		if(!$this->enabled || !$this->groupExists($gid)) {
+			return false;
+		}
+		$groupUsers = $this->access->connection->getFromCache($cachekey);
+		if(!is_null($groupUsers)) {
+			return $groupUsers;
+		}
+
+		$groupDN = $this->access->groupname2dn($gid);
+		if(!$groupDN) {
+			// group couldn't be found, return empty resultset
+			$this->access->connection->writeToCache($cachekey, false);
+			return false;
+		}
+
+		$members = array_keys($this->_groupMembers($groupDN));
+		if(!$members) {
+			//in case users could not be retrieved, return empty resultset
+			$this->access->connection->writeToCache($cachekey, false);
+			return false;
+		}
+
+		if(empty($search)) {
+			$groupUsers = count($members);
+			$this->access->connection->writeToCache($cachekey, $groupUsers);
+			return $groupUsers;
+		}
+		$isMemberUid =
+			(strtolower($this->access->connection->ldapGroupMemberAssocAttr)
+			=== 'memberuid');
+
+		//we need to apply the search filter
+		//alternatives that need to be checked:
+		//a) get all users by search filter and array_intersect them
+		//b) a, but only when less than 1k 10k ?k users like it is
+		//c) put all DNs|uids in a LDAP filter, combine with the search string
+		//   and let it count.
+		//For now this is not important, because the only use of this method
+		//does not supply a search string
+		$groupUsers = array();
+		foreach($members as $member) {
+			if($isMemberUid) {
+				//we got uids, need to get their DNs to 'tranlsate' them to usernames
+				$filter = $this->access->combineFilterWithAnd(array(
+					\OCP\Util::mb_str_replace('%uid', $member,
+						$this->access->connection->ldapLoginFilter, 'UTF-8'),
+					$this->access->getFilterPartForUserSearch($search)
+				));
+				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
+				if(count($ldap_users) < 1) {
+					continue;
+				}
+				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
+			} else {
+				//we need to apply the search filter now
+				if(!$this->access->readAttribute($member,
+					$this->access->connection->ldapUserDisplayName,
+					$this->access->getFilterPartForUserSearch($search))) {
+					continue;
+				}
+				// dn2username will also check if the users belong to the allowed base
+				if($ocname = $this->access->dn2username($member)) {
+					$groupUsers[] = $ocname;
+				}
+			}
+		}
+
+		return count($groupUsers);
+	}
+
+	/**
 	 * @brief get a list of all display names in a group
 	 * @returns array with display names (value) and user ids(key)
 	 */
@@ -376,6 +462,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $allGroups;
 	}
 
+	/**
+	 * @param string $group
+	 */
 	public function groupMatchesFilter($group) {
 		return (strripos($group, $this->groupSearch) !== false);
 	}
@@ -418,6 +507,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(OC_GROUP_BACKEND_GET_DISPLAYNAME	& $actions);
+		return (bool)((
+			OC_GROUP_BACKEND_GET_DISPLAYNAME
+			| OC_GROUP_BACKEND_COUNT_USERS
+			) & $actions);
 	}
 }

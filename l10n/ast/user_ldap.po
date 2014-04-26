@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 22:40+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-22 01:54-0400\n"
+"PO-Revision-Date: 2014-04-21 17:44+0000\n"
+"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,24 +40,24 @@ msgstr ""
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "La configuración nun ye válida. Por favor, écha-y un güeyu a los rexistros pa más detalles."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Nun s'especificó l'aición"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Nun s'especificó la configuración"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Nun s'especificaron los datos"
 
 #: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Nun pudo afitase la configuración %s"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -68,11 +69,11 @@ msgstr ""
 
 #: js/settings.js:84
 msgid "Keep settings?"
-msgstr ""
+msgstr "¿Caltener los axustes?"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Nun pue amestase la configuración del sirvidor"
 
 #: js/settings.js:127
 msgid "mappings cleared"
@@ -80,11 +81,11 @@ msgstr ""
 
 #: js/settings.js:128
 msgid "Success"
-msgstr ""
+msgstr "Con ésitu"
 
 #: js/settings.js:133
 msgid "Error"
-msgstr ""
+msgstr "Fallu"
 
 #: js/settings.js:838
 msgid "Configuration OK"
@@ -92,15 +93,15 @@ msgstr ""
 
 #: js/settings.js:847
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Configuración incorreuta"
 
 #: js/settings.js:856
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Configuración incompleta"
 
 #: js/settings.js:873 js/settings.js:882
 msgid "Select groups"
-msgstr ""
+msgstr "Esbillar grupos"
 
 #: js/settings.js:876 js/settings.js:885
 msgid "Select object classes"
@@ -108,7 +109,7 @@ msgstr ""
 
 #: js/settings.js:879
 msgid "Select attributes"
-msgstr ""
+msgstr "Esbillar atributos"
 
 #: js/settings.js:906
 msgid "Connection test succeeded"
@@ -130,23 +131,23 @@ msgstr ""
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s grupu alcontráu"
+msgstr[1] "%s grupos alcontraos"
 
 #: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s usuariu alcontráu"
+msgstr[1] "%s usuarios alcontraos"
 
 #: lib/wizard.php:784 lib/wizard.php:796
 msgid "Invalid Host"
 msgstr ""
 
-#: lib/wizard.php:963
+#: lib/wizard.php:983
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Nun pudo alcontrase la carauterística deseyada"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -195,15 +196,15 @@ msgstr ""
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "grupos alcontraos"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Aniciu de sesión d'usuarios con esti atributu:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "Nome d'usuariu LDAP"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
@@ -211,7 +212,7 @@ msgstr ""
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Otros atributos:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
@@ -222,11 +223,11 @@ msgstr ""
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Amestar configuración del sirvidor"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
-msgstr ""
+msgstr "Equipu"
 
 #: templates/part.wizard-server.php:31
 msgid ""
@@ -235,7 +236,7 @@ msgstr ""
 
 #: templates/part.wizard-server.php:36
 msgid "Port"
-msgstr ""
+msgstr "Puertu"
 
 #: templates/part.wizard-server.php:44
 msgid "User DN"
@@ -254,7 +255,7 @@ msgstr "Contraseña"
 
 #: templates/part.wizard-server.php:53
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Pa un accesu anónimu, dexar el DN y la contraseña baleros."
 
 #: templates/part.wizard-server.php:60
 msgid "One Base DN per line"
@@ -277,7 +278,7 @@ msgstr ""
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "usuarios alcontraos"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -302,15 +303,15 @@ msgstr ""
 
 #: templates/settings.php:20
 msgid "Connection Settings"
-msgstr ""
+msgstr "Axustes de conexón"
 
 #: templates/settings.php:22
 msgid "Configuration Active"
-msgstr ""
+msgstr "Configuración activa"
 
 #: templates/settings.php:22
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Cuando nun tea conseñáu, saltaráse esta configuración."
 
 #: templates/settings.php:23
 msgid "Backup (Replica) Host"
@@ -328,19 +329,19 @@ msgstr ""
 
 #: templates/settings.php:25
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deshabilitar sirvidor principal"
 
 #: templates/settings.php:25
 msgid "Only connect to the replica server."
 msgstr ""
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
 msgstr ""
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Apagar la validación del certificáu SSL."
 
 #: templates/settings.php:27
 #, php-format
@@ -359,7 +360,7 @@ msgstr ""
 
 #: templates/settings.php:30
 msgid "Directory Settings"
-msgstr ""
+msgstr "Axustes del direutoriu"
 
 #: templates/settings.php:32
 msgid "User Display Name Field"
@@ -444,7 +445,7 @@ msgstr ""
 
 #: templates/settings.php:45
 msgid "in bytes"
-msgstr ""
+msgstr "en bytes"
 
 #: templates/settings.php:46
 msgid "Email Field"
@@ -462,7 +463,7 @@ msgstr ""
 
 #: templates/settings.php:53
 msgid "Internal Username"
-msgstr ""
+msgstr "Nome d'usuariu internu"
 
 #: templates/settings.php:54
 msgid ""

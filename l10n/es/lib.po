@@ -5,6 +5,7 @@
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2014
 # Dharth <emilpg@gmail.com>, 2013
+# inye <j.contrerasferrada@gmail.com>, 2014
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
 # Rubén del Campo <yo@rubendelcampo.es>, 2013
@@ -14,15 +15,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 18:00+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr "Está accediendo al servidor desde un dominio inseguro."
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr "Contacte a su administrador"
 
 #: private/app.php:236
 #, php-format
@@ -55,7 +64,7 @@ msgstr "Usuarios"
 msgid "Admin"
 msgstr "Administración"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Falló la actualización \"%s\"."
@@ -80,7 +89,7 @@ msgstr "La descarga en ZIP está desactivada."
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados uno por uno."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Volver a Archivos"
 
@@ -154,15 +163,15 @@ msgstr "No se puede crear la carpeta de la aplicación. Corrija los permisos. %s
 msgid "Application is not enabled"
 msgstr "La aplicación no está habilitada"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Error de autenticación"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token expirado. Por favor, recarga la página."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Usuario desconocido"
 
@@ -291,73 +300,176 @@ msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a
 msgid "%s shared »%s« with you"
 msgstr "%s ha compatido  »%s« contigo"
 
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr "No se pudo compartir %s porque el archivo no existe"
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Compartiendo %s ha fallado, ya que el usuario %s es el dueño del elemento"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Compartiendo %s ha fallado, ya que el usuario %s no existe"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Compartiendo %s ha fallado, ya que el usuario %s no es miembro de algún grupo que %s es miembro"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Compartiendo %s ha fallado, ya que este elemento ya está compartido con %s"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Compartiendo %s ha fallado, ya que el grupo %s no existe"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Compartiendo %s ha fallado, ya que %s no es miembro del grupo %s"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Compartiendo %s ha fallado, ya que compartir con enlaces no está permitido"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr "Compartir tipo %s no es válido para %s"
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr "Configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s"
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "Configuración de permisos para %s ha fallado, ya que el elemento no fue encontrado"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr "Compartiendo %s ha fallado, ya que el usuario %s es el compartidor original"
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr "Compartiendo %s ha fallado, ya que los permisos superan los permisos otorgados a %s"
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr "Compartiendo %s ha fallado, ya que volver a compartir no está permitido"
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr "Compartiendo %s ha fallado, ya que el archivo no pudo ser encontrado en el cache de archivo"
+
 #: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "No puede encontrar la categoria \"%s\""
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Hace %n minuto"
 msgstr[1] "Hace %n minutos"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Hace %n hora"
 msgstr[1] "Hace %n horas"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "hoy"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "ayer"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "Hace %n día"
 msgstr[1] "Hace %n días"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "mes pasado"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Hace %n mes"
 msgstr[1] "Hace %n meses"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "año pasado"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "hace años"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Se debe proporcionar un nombre de usuario válido"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Se debe proporcionar una contraseña válida"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "El nombre de usuario ya está en uso"

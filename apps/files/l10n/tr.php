@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "%s taşınamadı - Bu isimde dosya zaten var",
+"Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten mevcut",
 "Could not move %s" => "%s taşınamadı",
 "File name cannot be empty." => "Dosya adı boş olamaz.",
 "\"%s\" is an invalid file name." => "'%s' geçersiz bir dosya adı.",
@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "Could not get result from server." => "Sunucudan sonuç alınamadı.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",
 "URL cannot be empty" => "URL boş olamaz",
-"In the home folder 'Shared' is a reserved filename" => "Ev klasöründeki 'Paylaşılan', ayrılmış bir dosya adıdır",
 "{new_name} already exists" => "{new_name} zaten mevcut",
 "Could not create file" => "Dosya oluşturulamadı",
 "Could not create folder" => "Klasör oluşturulamadı",
@@ -62,9 +61,8 @@ $TRANSLATIONS = array(
 "Name" => "İsim",
 "Size" => "Boyut",
 "Modified" => "Değiştirilme",
-"Invalid folder name. Usage of 'Shared' is reserved." => "Geçersiz klasör adı. 'Shared' ismi ayrılmıştır.",
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
-"Upload" => "Yükle",
+"Upload (max. %s)" => "Yükle (azami: %s)",
 "File handling" => "Dosya işlemleri",
 "Maximum upload size" => "Maksimum yükleme boyutu",
 "max. possible: " => "mümkün olan en fazla: ",

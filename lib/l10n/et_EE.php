@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Sa kasutad serverit usalduseta asukohast",
+"Please contact your administrator" => "Palun kontakteeru oma süsteemihalduriga",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Rakendit \"%s\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga.",
 "No app name specified" => "Ühegi rakendi nime pole määratletud",
 "Help" => "Abiinfo",
@@ -56,6 +58,25 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv.",
 "Please double check the <a href='%s'>installation guides</a>." => "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
+"Sharing %s failed, because the file does not exist" => "%s jagamine ebaõnnestus, kuna faili pole olemas",
+"Sharing %s failed, because the user %s is the item owner" => "%s jagamine ebaõnnestus, kuna kuna kasutaja %s on üksuse omanik",
+"Sharing %s failed, because the user %s does not exist" => "%s jagamine ebaõnnestus, kuna kasutajat %s pole olemas",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "%s jagamine ebaõnnestus, kuna kasutaja %s pole ühegi grupi liige, millede liige on %s",
+"Sharing %s failed, because this item is already shared with %s" => "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
+"Sharing %s failed, because the group %s does not exist" => "%s jagamine ebaõnnestus, kuna gruppi %s pole olemas",
+"Sharing %s failed, because %s is not a member of the group %s" => "%s jagamine ebaõnnestus, kuna %s pole grupi %s liige",
+"Sharing %s failed, because sharing with links is not allowed" => "%s jagamine ebaõnnestus, kuna linkidega jagamine pole lubatud",
+"Share type %s is not valid for %s" => "Jagamise tüüp %s ei ole õige %s jaoks",
+"Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Lubade seadistus %s jaoks ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi",
+"Setting permissions for %s failed, because the item was not found" => "Lubade seadistus %s jaoks ebaõnnestus, kuna üksust ei leitud",
+"Sharing backend %s must implement the interface OCP\\Share_Backend" => "Jagamise tagarakend %s peab kasutusele võtma OCP\\Share_Backend liidese",
+"Sharing backend %s not found" => "Jagamise tagarakendit %s ei leitud",
+"Sharing backend for %s not found" => "Jagamise tagarakendit %s jaoks ei leitud",
+"Sharing %s failed, because the user %s is the original sharer" => "%s jagamine ebaõnnestus, kuna kasutaja %s on algne jagaja",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "%s jagamine ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi",
+"Sharing %s failed, because resharing is not allowed" => "%s jagamine ebaõnnestus, kuna edasijagamine pole lubatud",
+"Sharing %s failed, because the sharing backend for %s could not find its source" => "%s jagamine ebaõnnestus, kuna jagamise tagarakend ei suutnud leida %s jaoks lähteallikat",
+"Sharing %s failed, because the file could not be found in the file cache" => "%s jagamine ebaõnnestus, kuna faili ei suudetud leida failide puhvrist",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\"",
 "seconds ago" => "sekundit tagasi",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutit tagasi"),
@@ -66,6 +87,10 @@ $TRANSLATIONS = array(
 "last month" => "viimasel kuul",
 "_%n month ago_::_%n months ago_" => array("","%n kuud tagasi"),
 "last year" => "viimasel aastal",
-"years ago" => "aastat tagasi"
+"years ago" => "aastat tagasi",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Kasutajanimes on lubatud ainult järgnevad tähemärgid: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\"",
+"A valid username must be provided" => "Sisesta nõuetele vastav kasutajatunnus",
+"A valid password must be provided" => "Sisesta nõuetele vastav parool",
+"The username is already being used" => "Kasutajanimi on juba kasutuses"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

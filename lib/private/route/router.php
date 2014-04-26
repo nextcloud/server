@@ -81,6 +81,9 @@ class Router implements IRouter {
 		return $this->routingFiles;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getCacheKey() {
 		if (!isset($this->cacheKey)) {
 			$files = $this->getRoutingFiles();
@@ -94,6 +97,7 @@ class Router implements IRouter {
 
 	/**
 	 * loads the api routes
+	 * @return void
 	 */
 	public function loadRoutes($app = null) {
 		if ($this->loaded) {
@@ -117,7 +121,7 @@ class Router implements IRouter {
 			if (!isset($this->loadedApps[$app])) {
 				$this->loadedApps[$app] = true;
 				$this->useCollection($app);
-				require_once $file;
+				$this->requireRouteFile($file);
 				$collection = $this->getCollection($app);
 				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
@@ -152,6 +156,7 @@ class Router implements IRouter {
 	 * Sets the collection to use for adding routes
 	 *
 	 * @param string $name Name of the collection to use.
+	 * @return void
 	 */
 	public function useCollection($name) {
 		$this->collection = $this->getCollection($name);
@@ -177,13 +182,14 @@ class Router implements IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
+	 * @return void
 	 */
 	public function match($url) {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 5) === '/ocs/' or substr($url, 0, 10) === '/settings/') {
+		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('core');
 		} else {
 			$this->loadRoutes();
@@ -207,6 +213,7 @@ class Router implements IRouter {
 
 	/**
 	 * Get the url generator
+	 * @return \Symfony\Component\Routing\Generator\UrlGenerator
 	 *
 	 */
 	public function getGenerator() {
@@ -228,6 +235,14 @@ class Router implements IRouter {
 	public function generate($name, $parameters = array(), $absolute = false) {
 		$this->loadRoutes();
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
+	}
+
+	/**
+	 * To isolate the variable scope used inside the $file it is required in it's own method
+	 * @param $file
+	 */
+	private function requireRouteFile($file) {
+		require_once $file;
 	}
 
 }

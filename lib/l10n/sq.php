@@ -41,6 +41,8 @@ $TRANSLATIONS = array(
 "last month" => "muajin e shkuar",
 "_%n month ago_::_%n months ago_" => array("","%n muaj më parë"),
 "last year" => "vitin e shkuar",
-"years ago" => "vite më parë"
+"years ago" => "vite më parë",
+"A valid username must be provided" => "Duhet të jepni një emër të vlefshëm përdoruesi",
+"A valid password must be provided" => "Duhet të jepni një fjalëkalim te vlefshëm"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

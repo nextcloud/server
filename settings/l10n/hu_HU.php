@@ -89,7 +89,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "A felhasználók bárkivel megoszthatják állományaikat",
 "Allow users to only share with users in their groups" => "A felhasználók csak olyanokkal oszthatják meg állományaikat, akikkel közös csoportban vannak",
 "Allow mail notification" => "E-mail értesítések engedélyezése",
-"Allow user to send mail notification for shared files" => "Engedélyezi, hogy a felhasználók e-mail értesítést küldhessenek a megosztott fájlokról.",
 "Security" => "Biztonság",
 "Enforce HTTPS" => "Kötelező HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Kötelezővé teszi, hogy a böngészőprogramok titkosított csatornán kapcsolódjanak a %s szolgáltatáshoz.",

@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Δημιουργία αντιγράφων ασφαλείας (Replica) Υποδοχη",
 "Disable Main Server" => "Απενεργοποιηση του κεντρικου διακομιστη",
 "Only connect to the replica server." => "Σύνδεση μόνο με το διακομιστή-αντίγραφο.",
-"Case insensitve LDAP server (Windows)" => "LDAP server (Windows) με διάκριση πεζών-ΚΕΦΑΛΑΙΩΝ",
 "Turn off SSL certificate validation." => "Απενεργοποίηση επικύρωσης πιστοποιητικού SSL.",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Δεν προτείνεται, χρησιμοποιείστε το μόνο για δοκιμές! Εάν η σύνδεση λειτουργεί μόνο με αυτή την επιλογή, εισάγετε το πιστοποιητικό SSL του διακομιστή LDAP στο %s διακομιστή σας.",
 "Cache Time-To-Live" => "Cache Time-To-Live",

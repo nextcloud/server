@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "Eposta bidalia"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Enkriptazioa"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgid "Unable to load list from App Store"
 msgstr "Ezin izan da App Dendatik zerrenda kargatu"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Autentifikazio errorea"
 
@@ -86,6 +86,20 @@ msgstr "Taldea dagoeneko existitzenda"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Ezin izan da taldea gehitu"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -129,32 +143,32 @@ msgstr "Ezin izan da erabiltzailea %s taldetik ezabatu"
 msgid "Couldn't update app."
 msgstr "Ezin izan da aplikazioa eguneratu."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Pasahitz okerra"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Ez da erabiltzailerik zehaztu"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Mesedez eman berreskuratzeko administrazio  pasahitza, bestela erabiltzaile datu guztiak galduko dira"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Berreskuratze administradore pasahitz ez egokia. Medesez egiaztatu pasahitza eta saiatu berriz."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Ezin izan da pasahitza aldatu"
 
@@ -206,7 +220,7 @@ msgstr "Errorea aplikazioa eguneratzen zen bitartean"
 msgid "Error"
 msgstr "Errorea"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Eguneratu"
 
@@ -214,31 +228,31 @@ msgstr "Eguneratu"
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Profil argazkia aukeratu"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
@@ -287,7 +301,7 @@ msgstr "Baliozko pasahitza eman behar da"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Abisua: \"{user}\" erabiltzailearen Home karpeta dagoeneko exisititzen da"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "Euskera"
 
@@ -509,94 +523,114 @@ msgid "Allow mail notification"
 msgstr "Baimendu posta bidezko jakinarazpenak"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Baimendu erabiltzailea posta bidezko jakinarazpenak bidaltzen partekatutako fitxategietarako"
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Behartu HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Bezeroak %s-ra konexio enkriptatu baten bidez konektatzera behartzen ditu."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Mesedez konektatu zure %s-ra HTTPS bidez SSL zehaztapenak aldatzeko."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Zerbitzariaren helbidea"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Portua"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Kredentzialak"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Egunkaria"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Gutxiago"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -614,23 +648,23 @@ msgstr "Gehitu zure aplikazioa"
 msgid "More Apps"
 msgstr "App gehiago"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Aukeratu programa bat"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr ""
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Ikusi programen orria apps.owncloud.com en"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>"
 
@@ -667,108 +701,108 @@ msgstr "Erakutsi berriz Lehenengo Aldiko Morroia"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Pasahitza"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Zere pasahitza aldatu da"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Ezin izan da zure pasahitza aldatu"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Uneko pasahitza"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Pasahitz berria"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Aldatu pasahitza"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Izena"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "E-posta"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Zure e-posta"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Profilaren irudia"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Igo berria"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Hautatu berria Fitxategietatik"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Irudia ezabatu"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "png edo jpg. Hobe karratua baina mozteko aukera izango duzu."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Ezeztatu"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Profil irudi bezala aukeratu"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Hizkuntza"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Lagundu itzultzen"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "<a href=\"%s\" target=\"_blank\">helbidea erabili zure fitxategiak WebDAV bidez eskuratzeko</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Enkriptazio aplikazioa ez dago jada gaiturik, mesedez desenkriptatu zure fitxategi guztiak."
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Saioa hasteko pasahitza"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Desenkripattu fitxategi guztiak"
 

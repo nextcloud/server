@@ -185,7 +185,6 @@ class OC {
 		if (file_exists(self::$configDir . "/config.php")
 			and !is_writable(self::$configDir . "/config.php")
 		) {
-			$defaults = new OC_Defaults();
 			if (self::$CLI) {
 				echo "Can't write into config directory!\n";
 				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
@@ -211,6 +210,34 @@ class OC {
 			}
 			exit();
 		}
+	}
+
+	/*
+	* This function adds some security related headers to all requests served via base.php
+	* The implementation of this function has to happen here to ensure that all third-party 
+	* components (e.g. SabreDAV) also benefit from this headers.
+	*/
+	public static function addSecurityHeaders() {
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// iFrame Restriction Policy
+		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
+		if($xFramePolicy) {
+			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		}
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			.'script-src \'self\' \'unsafe-eval\'; '
+			.'style-src \'self\' \'unsafe-inline\'; '
+			.'frame-src *; '
+			.'img-src *; '
+			.'font-src \'self\' data:; '
+			.'media-src *');
+		header('Content-Security-Policy:'.$policy);
 	}
 
 	public static function checkSSL() {
@@ -277,6 +304,11 @@ class OC {
 		}
 	}
 
+	/**
+	 * Checks if the version requires an update and shows
+	 * @param bool $showTemplate Whether an update screen should get shown
+	 * @return bool|void
+	 */
 	public static function checkUpgrade($showTemplate = true) {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
@@ -512,6 +544,7 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
+		self::addSecurityHeaders();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -665,6 +698,7 @@ class OC {
 	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
+		$l = \OC_L10N::get('lib');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -686,8 +720,8 @@ class OC {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 			OC_Template::printErrorPage(
-				'You are accessing the server from an untrusted domain.',
-				'Please contact your administrator'
+				$l->t('You are accessing the server from an untrusted domain.'),
+				$l->t('Please contact your administrator')
 			);
 			return;
 		}
@@ -770,6 +804,11 @@ class OC {
 		self::handleLogin();
 	}
 
+	/**
+	 * Load a PHP file belonging to the specified application
+	 * @param array $param The application and file to load
+	 * @return bool Whether the file has been found (will return 404 and false if not)
+	 */
 	public static function loadAppScriptFile($param) {
 		OC_App::loadApps();
 		$app = $param['app'];
@@ -812,6 +851,10 @@ class OC {
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
+	/**
+	 * Remove outdated and therefore invalid tokens for a user
+	 * @param string $user
+	 */
 	protected static function cleanupLoginTokens($user) {
 		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$tokens = OC_Preferences::getKeys($user, 'login_token');
@@ -823,6 +866,10 @@ class OC {
 		}
 	}
 
+	/**
+	 * Try to login a user via HTTP authentication
+	 * @return bool|void
+	 */
 	protected static function tryApacheAuth() {
 		$return = OC_User::handleApacheAuth();
 
@@ -837,6 +884,10 @@ class OC {
 		return is_null($return) ? false : true;
 	}
 
+	/**
+	 * Try to login a user using the remember me cookie.
+	 * @return bool Whether the provided cookie was valid
+	 */
 	protected static function tryRememberLogin() {
 		if (!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
@@ -878,6 +929,10 @@ class OC {
 		return true;
 	}
 
+	/**
+	 * Tries to login a user using the formbased authentication
+	 * @return bool|void
+	 */
 	protected static function tryFormLogin() {
 		if (!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
@@ -912,6 +967,10 @@ class OC {
 		return true;
 	}
 
+	/**
+	 * Try to login a user using HTTP authentication.
+	 * @return bool
+	 */
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 			|| !isset($_SERVER["PHP_AUTH_PW"])
@@ -930,6 +989,10 @@ class OC {
 }
 
 if (!function_exists('get_temp_dir')) {
+	/**
+	 * Get the temporary dir to store uploaded data
+	 * @return null|string Path to the temporary directory or null
+	 */
 	function get_temp_dir() {
 		if ($temp = ini_get('upload_tmp_dir')) return $temp;
 		if ($temp = getenv('TMP')) return $temp;

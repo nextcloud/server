@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr[0] "사용자 %s명 찾음"
 msgid "Invalid Host"
 msgstr "잘못된 호스트"
 
-#: lib/wizard.php:963
+#: lib/wizard.php:983
 msgid "Could not find the desired feature"
 msgstr "필요한 기능을 찾을 수 없음"
 
@@ -336,8 +336,8 @@ msgid "Only connect to the replica server."
 msgstr "복제 서버에만 연결합니다."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "서버에서 대소문자를 구분하지 않음 (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

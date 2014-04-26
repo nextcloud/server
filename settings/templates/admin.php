@@ -251,9 +251,26 @@ if (!$_['internetconnectionworking']) {
 				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
 					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowMailNotification"><?php p($l->t('Allow mail notification'));?></label><br/>
-				<em><?php p($l->t('Allow user to send mail notification for shared files')); ?></em>
+				<em><?php p($l->t('Allow users to send mail notification for shared files')); ?></em>
 			</td>
 		</tr>
+
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
+				<input type="checkbox" name="shareapi_default_expire_date" id="shareapi_default_expire_date"
+				       value="1" <?php if ($_['shareDefaultExpireDateSet'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="shareapi_default_expire_date"><?php p($l->t('Set default expiration date'));?></label><br/>
+				<?php p($l->t( 'Expire after ' )); ?>
+				<input type="text" name='shareapi_expire_after_n_days' id="shareapi_expire_after_n_days" placeholder="<?php p('7')?>"
+					   value='<?php p($_['shareExpireAfterNDays']) ?>' />
+				<?php p($l->t( 'days' )); ?>
+				<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapi_enforce_expire_date"
+				       value="1" <?php if ($_['shareEnforceExpireDate'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="shareapi_enforce_expire_date"><?php p($l->t('Enforce expiration date'));?></label><br/>
+				<em><?php p($l->t('Expire shares by default after N days')); ?></em>
+			</td>
+		</tr>
+
 	</table>
 </div>
 
@@ -296,7 +313,7 @@ if (!$_['internetconnectionworking']) {
 	<p><?php p($l->t('This is used for sending out notifications.')); ?></p>
 
 	<p>
-		<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label> 
+		<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label>
 		<select name='mail_smtpmode' id='mail_smtpmode'>
 			<?php foreach ($mail_smtpmode as $smtpmode):
 				$selected = '';

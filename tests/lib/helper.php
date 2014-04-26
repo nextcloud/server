@@ -71,6 +71,18 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
+	function testGetSecureMimeType() {
+		$dir=OC::$SERVERROOT.'/tests/data';
+
+		$result = OC_Helper::getSecureMimeType('image/svg+xml');
+		$expected = 'text/plain';
+		$this->assertEquals($result, $expected);
+
+		$result = OC_Helper::getSecureMimeType('image/png');
+		$expected = 'image/png';
+		$this->assertEquals($result, $expected);
+	}
+
 	function testGetFileNameMimeType() {
 		$this->assertEquals('text/plain', OC_Helper::getFileNameMimeType('foo.txt'));
 		$this->assertEquals('image/png', OC_Helper::getFileNameMimeType('foo.png'));

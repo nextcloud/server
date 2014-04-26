@@ -87,11 +87,9 @@ var Files = {
 	 * Throws a string exception with an error message if
 	 * the file name is not valid
 	 */
-	isFileNameValid: function (name, root) {
+	isFileNameValid: function (name) {
 		var trimmedName = name.trim();
-		if (trimmedName === '.'
-				|| trimmedName === '..'
-				|| (root === '/' &&  trimmedName.toLowerCase() === 'shared'))
+		if (trimmedName === '.'	|| trimmedName === '..')
 		{
 			throw t('files', '"{name}" is an invalid file name.', {name: name});
 		} else if (trimmedName.length === 0) {
@@ -131,15 +129,15 @@ var Files = {
 		var encryptedFiles = $('#encryptedFiles').val();
 		var initStatus = $('#encryptionInitStatus').val();
 		if (initStatus === '0') { // enc not initialized, but should be
-			OC.Notification.show(t('files_encryption', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
+			OC.Notification.show(t('files', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
 			return;
 		}
 		if (initStatus === '1') { // encryption tried to init but failed
-			OC.Notification.showHtml(t('files_encryption', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
+			OC.Notification.show(t('files', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
 			return;
 		}
 		if (encryptedFiles === '1') {
-			OC.Notification.show(t('files_encryption', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
+			OC.Notification.show(t('files', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
 			return;
 		}
 	},

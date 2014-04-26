@@ -1,7 +1,7 @@
 /**
  * Disable console output unless DEBUG mode is enabled.
  * Add
- *	 define('DEBUG', true);
+ *	define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
@@ -27,9 +27,10 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 	if (!window.console) {
 		window.console = {};
 	}
+	var noOp = function() { };
 	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert', 'time', 'timeEnd'];
 	for (var i = 0; i < methods.length; i++) {
-		console[methods[i]] = function () { };
+		console[methods[i]] = noOp;
 	}
 }
 
@@ -50,9 +51,9 @@ function initL10N(app) {
 			t.cache[app] = [];
 		}
 	}
-	if (typeof t.plural_function[app] == 'undefined') {
+	if (typeof t.plural_function[app] === 'undefined') {
 		t.plural_function[app] = function (n) {
-			var p = (n != 1) ? 1 : 0;
+			var p = (n !== 1) ? 1 : 0;
 			return { 'nplural' : 2, 'plural' : p };
 		};
 
@@ -61,14 +62,16 @@ function initL10N(app) {
 		 * https://developer.berlios.de/projects/jsgettext/
 		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
 		 */
-		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\(\)])+)', 'm');
+		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\\(\\)])+)', 'm');
 		if (pf_re.test(t.plural_form)) {
 			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 			//pf = "nplurals=2; plural=(n != 1);";
 			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
 			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
 			var pf = t.plural_form;
-			if (! /;\s*$/.test(pf)) pf = pf.concat(';');
+			if (! /;\s*$/.test(pf)) {
+				pf = pf.concat(';');
+			}
 			/* We used to use eval, but it seems IE has issues with it.
 			 * We now use "new Function", though it carries a slightly
 			 * bigger performance hit.
@@ -84,11 +87,11 @@ function initL10N(app) {
 }
 /**
  * translate a string
- * @param app the id of the app for which to translate the string
- * @param text the string to translate
- * @param vars (optional) FIXME
- * @param count (optional) number to replace %n with
- * @return string
+ * @param {string} app the id of the app for which to translate the string
+ * @param {string} text the string to translate
+ * @param [vars] FIXME
+ * @param {number} [count] number to replace %n with
+ * @return {string}
  */
 function t(app, text, vars, count){
 	initL10N(app);
@@ -119,12 +122,12 @@ t.plural_function = {};
 
 /**
  * translate a string
- * @param app the id of the app for which to translate the string
- * @param text_singular the string to translate for exactly one object
- * @param text_plural the string to translate for n objects
- * @param count number to determine whether to use singular or plural
- * @param vars (optional) FIXME
- * @return string
+ * @param {string} app the id of the app for which to translate the string
+ * @param {string} text_singular the string to translate for exactly one object
+ * @param {string} text_plural the string to translate for n objects
+ * @param {number} count number to determine whether to use singular or plural
+ * @param [vars] FIXME
+ * @return {string} Translated string
  */
 function n(app, text_singular, text_plural, count, vars) {
 	initL10N(app);
@@ -146,9 +149,9 @@ function n(app, text_singular, text_plural, count, vars) {
 }
 
 /**
-* Sanitizes a HTML string
-* @param s string
-* @return Sanitized string
+* Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
+* @param {string} s String to sanitize
+* @return {string} Sanitized string
 */
 function escapeHTML(s) {
 	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
@@ -156,9 +159,9 @@ function escapeHTML(s) {
 
 /**
 * Get the path to download a file
-* @param file The filename
-* @param dir The directory the file is in - e.g. $('#dir').val()
-* @return string
+* @param {string} file The filename
+* @param {string} dir The directory the file is in - e.g. $('#dir').val()
+* @return {string} Path to download the file
 * @deprecated use Files.getDownloadURL() instead
 */
 function fileDownloadPath(dir, file) {
@@ -176,32 +179,40 @@ var OC={
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
+	
 	/**
-	 * get an absolute url to a file in an appen
-	 * @param app the id of the app the file belongs to
-	 * @param file the file path relative to the app folder
-	 * @return string
+	 * Get an absolute url to a file in an app
+	 * @param {string} app the id of the app the file belongs to
+	 * @param {string} file the file path relative to the app folder
+	 * @return {string} Absolute URL to a file
 	 */
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
 	},
+	
 	/**
-	 * Creates an url for remote use
-	 * @param string $service id
-	 * @return string the url
-	 *
-	 * Returns a url to the given service.
+	 * Creates a relative url for remote use
+	 * @param {string} service id
+	 * @return {string} the url
 	 */
 	linkToRemoteBase:function(service) {
 		return OC.webroot + '/remote.php/' + service;
 	},
 
 	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param {string} service id
+	 * @return {string} the url
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
+	},
+	
+	/**
 	 * Generates the absolute url for the given relative url, which can contain parameters.
-	 *
-	 * @returns {string}
 	 * @param {string} url
 	 * @param params
+	 * @return {string} Absolute URL for the given relative URL
 	 */
 	generateUrl: function(url, params) {
 		var _build = function (text, vars) {
@@ -220,22 +231,11 @@ var OC={
 	},
 
 	/**
-	 * @brief Creates an absolute url for remote use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	linkToRemote:function(service) {
-		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
-	},
-	/**
-	 * get the absolute url for a file in an app
-	 * @param app the id of the app
-	 * @param type the type of the file to link to (e.g. css,img,ajax.template)
-	 * @param file the filename
-	 * @return string
+	 * Get the absolute url for a file in an app
+	 * @param {string} app the id of the app
+	 * @param {string} type the type of the file to link to (e.g. css,img,ajax.template)
+	 * @param {string} file the filename
+	 * @return {string} Absolute URL for a file in an app
 	 */
 	filePath:function(app,type,file){
 		var isCore=OC.coreApps.indexOf(app)!==-1,
@@ -279,19 +279,22 @@ var OC={
 		}
 		return link;
 	},
+	
 	/**
 	 * Redirect to the target URL, can also be used for downloads.
+	 * @param {string} targetURL URL to redirect to
 	 */
-	redirect: function(targetUrl) {
-		window.location = targetUrl;
+	redirect: function(targetURL) {
+		window.location = targetURL;
 	},
+	
 	/**
 	 * get the absolute path to an image file
-	 * @param app the app id to which the image belongs
-	 * @param file the name of the image file
-	 * @return string
-	 *
-	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
+	 * if no extension is given for the image, it will automatically decide 
+	 * between .png and .svg based on what the browser supports
+	 * @param {string} app the app id to which the image belongs
+	 * @param {string} file the name of the image file
+	 * @return {string}
 	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
@@ -299,13 +302,13 @@ var OC={
 		}
 		return OC.filePath(app,'img',file);
 	},
+	
 	/**
-	 * load a script for the server and load it
-	 * @param app the app id to which the script belongs
-	 * @param script the filename of the script
-	 * @param ready event handeler to be called when the script is loaded
-	 *
-	 * if the script is already loaded, the event handeler will be called directly
+	 * Load a script for the server and load it. If the script is already loaded, 
+	 * the event handler will be called directly
+	 * @param {string} app the app id to which the script belongs
+	 * @param {string} script the filename of the script
+	 * @param ready event handler to be called when the script is loaded
 	 */
 	addScript:function(app,script,ready){
 		var deferred, path=OC.filePath(app,'js',script+'.js');
@@ -324,9 +327,9 @@ var OC={
 		return OC.addScript.loaded[path];
 	},
 	/**
-	 * load a css file and load it
-	 * @param app the app id to which the css style belongs
-	 * @param style the filename of the css file
+	 * Loads a CSS file
+	 * @param {string} app the app id to which the css style belongs
+	 * @param {string} style the filename of the css file
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
@@ -340,15 +343,24 @@ var OC={
 			}
 		}
 	},
+	
+	/**
+	 * @todo Write the documentation
+	 */
 	basename: function(path) {
 		return path.replace(/\\/g,'/').replace( /.*\//, '' );
 	},
+	
+	/**
+	 *  @todo Write the documentation
+	 */
 	dirname: function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
+	
 	/**
-	 * do a search query and display the results
-	 * @param query the search query
+	 * Do a search query and display the results
+	 * @param {string} query the search query
 	 */
 	search:function(query){
 		if(query){
@@ -365,9 +377,10 @@ var OC={
 		var date = new Date(1000*mtime);
 		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
+	
 	/**
 	 * Parses a URL query string into a JS map
-	 * @param queryString query string in the format param1=1234&param2=abcde&param3=xyz
+	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
 	 * @return map containing key/values matching the URL parameters
 	 */
 	parseQueryString:function(queryString){
@@ -387,13 +400,13 @@ var OC={
 		parts = queryString.replace(/\+/g, '%20').split('&');
 		for (var i = 0; i < parts.length; i++){
 			// split on first equal sign
-			var part = parts[i]
+			var part = parts[i];
 			pos = part.indexOf('=');
 			if (pos >= 0) {
 				components = [
 					part.substr(0, pos),
 					part.substr(pos + 1)
-				]
+				];
 			}
 			else {
 				// key only
@@ -421,37 +434,28 @@ var OC={
 	/**
 	 * Builds a URL query from a JS map.
 	 * @param params parameter map
-	 * @return string containing a URL query (without question) mark
+	 * @return {string} String containing a URL query (without question) mark
 	 */
 	buildQueryString: function(params) {
-		var s = '';
-		var first = true;
 		if (!params) {
-			return s;
+			return '';
 		}
-		for (var key in params) {
-			var value = params[key];
-			if (first) {
-				first = false;
-			}
-			else {
-				s += '&';
-			}
-			s += encodeURIComponent(key);
+		return $.map(params, function(value, key) {
+			var s = encodeURIComponent(key);
 			if (value !== null && typeof(value) !== 'undefined') {
 				s += '=' + encodeURIComponent(value);
 			}
-		}
-		return s;
+			return s;
+		}).join('&');
 	},
 
 	/**
 	 * Opens a popup with the setting for an app.
-	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
-	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
+	 * @param {string} appid The ID of the app e.g. 'calendar', 'contacts' or 'files'.
+	 * @param {boolean|string} loadJS If true 'js/settings.js' is loaded. If it's a string
 	 * it will attempt to load a script by that name in the 'js' directory.
-	 * @param cache boolean. If true the javascript file won't be forced refreshed. Defaults to true.
-	 * @param scriptName String. The name of the PHP file to load. Defaults to 'settings.php' in
+	 * @param {boolean} [cache] If true the javascript file won't be forced refreshed. Defaults to true.
+	 * @param {string} [scriptName] The name of the PHP file to load. Defaults to 'settings.php' in
 	 * the root of the app directory hierarchy.
 	 */
 	appSettings:function(args) {
@@ -461,11 +465,11 @@ var OC={
 		var props = {scriptName:'settings.php', cache:true};
 		$.extend(props, args);
 		var settings = $('#appsettings');
-		if(settings.length == 0) {
+		if(settings.length === 0) {
 			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
 		}
 		var popup = $('#appsettings_popup');
-		if(popup.length == 0) {
+		if(popup.length === 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
 			popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
@@ -505,7 +509,10 @@ var OC={
 		}
 	},
 
-	// for menu toggling
+	/**
+	 * For menu toggling
+	 * @todo Write documentation
+	 */
 	registerMenu: function($toggle, $menuEl) {
 		$menuEl.addClass('menu');
 		$toggle.addClass('menutoggle');
@@ -524,10 +531,13 @@ var OC={
 			$menuEl.show();
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
-			return false
+			return false;
 		});
 	},
 
+	/**
+	 *  @todo Write documentation
+	 */
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
@@ -544,6 +554,7 @@ var OC={
 	 *
 	 * This is makes it possible for unit tests to
 	 * stub matchMedia (which doesn't work in PhantomJS)
+	 * @todo Write documentation
 	 */
 	_matchMedia: function(media) {
 		if (window.matchMedia) {
@@ -552,6 +563,7 @@ var OC={
 		return false;
 	}
 };
+
 OC.search.customResults={};
 OC.search.currentResult=-1;
 OC.search.lastQuery='';
@@ -559,13 +571,32 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+/**
+ * @todo Write documentation
+ */
 OC.msg={
+	/**
+	 * @param selector
+	 * @todo Write documentation
+	 */
 	startSaving:function(selector){
 		OC.msg.startAction(selector, t('core', 'Saving...'));
 	},
+	
+	/**
+	 * @param selector
+	 * @param data
+	 * @todo Write documentation
+	 */
 	finishedSaving:function(selector, data){
 		OC.msg.finishedAction(selector, data);
 	},
+	
+	/**
+	 * @param selector
+	 * @param {string} message Message to display
+	 * @todo WRite documentation
+	 */
 	startAction:function(selector, message){
 		$(selector)
 			.html( message )
@@ -574,6 +605,12 @@ OC.msg={
 			.stop(true, true)
 			.show();
 	},
+	
+	/**
+	 * @param selector
+	 * @param data
+	 * @todo Write documentation
+	 */
 	finishedAction:function(selector, data){
 		if( data.status === "success" ){
 			$(selector).html( data.data.message )
@@ -587,12 +624,26 @@ OC.msg={
 	}
 };
 
+/**
+ * @todo Write documentation
+ */
 OC.Notification={
 	queuedNotifications: [],
 	getDefaultNotificationFunction: null,
+	
+	/**
+	 * @param callback
+	 * @todo Write documentation
+	 */
 	setDefault: function(callback) {
 		OC.Notification.getDefaultNotificationFunction = callback;
 	},
+	
+	/**
+	 * Hides a notification
+	 * @param callback
+	 * @todo Write documentation
+	 */
 	hide: function(callback) {
 		$('#notification').fadeOut('400', function(){
 			if (OC.Notification.isHidden()) {
@@ -610,34 +661,62 @@ OC.Notification={
 			}
 		});
 	},
+	
+	/**
+	 * Shows a notification as HTML without being sanitized before.
+	 * If you pass unsanitized user input this may lead to a XSS vulnerability.
+	 * Consider using show() instead of showHTML()
+	 * @param {string} html Message to display
+	 */
 	showHtml: function(html) {
-		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').html(html);
-			$('#notification').fadeIn().css("display","inline");
+		var notification = $('#notification');
+		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			notification.html(html);
+			notification.fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push(html);
 		}
 	},
+	
+	/**
+	 * Shows a sanitized notification
+	 * @param {string} text Message to display
+	 */
 	show: function(text) {
-		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').text(text);
-			$('#notification').fadeIn().css("display","inline");
+		var notification = $('#notification');
+		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			notification.text(text);
+			notification.fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
 	},
+	
+	/**
+	 * Returns whether a notification is hidden. 
+	 * @return {boolean}
+	 */
 	isHidden: function() {
 		return ($("#notification").text() === '');
 	}
 };
 
+/**
+ * @todo Write documentation
+ */
 OC.Breadcrumb={
 	container:null,
-	show:function(dir, leafname, leaflink){
+	/**
+	 * @todo Write documentation
+	 * @param dir
+	 * @param leafName
+	 * @param leafLink
+	 */
+	show:function(dir, leafName, leafLink){
 		if(!this.container){//default
 			this.container=$('#controls');
 		}
-		this._show(this.container, dir, leafname, leaflink);
+		this._show(this.container, dir, leafName, leafLink);
 	},
 	_show:function(container, dir, leafname, leaflink){
 		var self = this;
@@ -678,6 +757,12 @@ OC.Breadcrumb={
 			this._push(container, leafname, leaflink);
 		}
 	},
+	
+	/**
+	 * @todo Write documentation
+	 * @param {string} name
+	 * @param {string} link
+	 */
 	push:function(name, link){
 		if(!this.container){//default
 			this.container=$('#controls');
@@ -702,6 +787,10 @@ OC.Breadcrumb={
 		}
 		return crumb;
 	},
+	
+	/**
+	 * @todo Write documentation
+	 */
 	pop:function(){
 		if(!this.container){//default
 			this.container=$('#controls');
@@ -709,6 +798,10 @@ OC.Breadcrumb={
 		this.container.find('div.crumb').last().remove();
 		this.container.find('div.crumb').last().addClass('last');
 	},
+	
+	/**
+	 * @todo Write documentation
+	 */
 	clear:function(){
 		if(!this.container){//default
 			this.container=$('#controls');
@@ -721,21 +814,47 @@ OC.Breadcrumb={
 };
 
 if(typeof localStorage !=='undefined' && localStorage !== null){
-	//user and instance aware localstorage
+	/**
+	 * User and instance aware localstorage
+	 */
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
+		
+		/**
+		 * Whether the storage contains items
+		 * @param {string} name
+		 * @return {boolean}
+		 */
 		hasItem:function(name){
 			return OC.localStorage.getItem(name)!==null;
 		},
+		
+		/**
+		 * Add an item to the storage
+		 * @param {string} name
+		 * @param {string} item
+		 */
 		setItem:function(name,item){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
+		
+		/**
+		 * Removes an item from the storage
+		 * @param {string} name
+		 * @param {string} item
+		 */
 		removeItem:function(name,item){
 			return localStorage.removeItem(OC.localStorage.namespace+name);
 		},
+		
+		/**
+		 * Get an item from the storage
+		 * @param {string} name
+		 * @return {null|string}
+		 */
 		getItem:function(name){
 			var item = localStorage.getItem(OC.localStorage.namespace+name);
-			if(item===null) {
+			if(item === null) {
 				return null;
 			} else if (typeof JSON === 'undefined') {
 				//fallback to jquery for IE6/7/8
@@ -762,6 +881,7 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 
 /**
  * check if the browser support svg images
+ * @return {boolean}
  */
 function SVGSupport() {
 	return SVGSupport.checkMimeType.correct && !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
@@ -793,15 +913,18 @@ SVGSupport.checkMimeType=function(){
 };
 SVGSupport.checkMimeType.correct=true;
 
-// replace all svg images with png for browser compatibility
-// @deprecated use OC.Util.replaceSVG instead
+/**
+ * Replace all svg images with png for browser compatibility
+ * @param $el
+ * @deprecated use OC.Util.replaceSVG instead
+ */
 function replaceSVG($el){
 	return OC.Util.replaceSVG($el);
 }
 
 /**
- * prototypal inharitence functions
- *
+ * prototypical inheritance functions
+ * @todo Write documentation
  * usage:
  * MySubObject=object(MyObject)
  */
@@ -813,6 +936,7 @@ function object(o) {
 
 /**
  * Fills height of window. (more precise than height: 100%;)
+ * @param selector
  */
 function fillHeight(selector) {
 	if (selector.length === 0) {
@@ -828,6 +952,7 @@ function fillHeight(selector) {
 
 /**
  * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
+ * @param selector
  */
 function fillWindow(selector) {
 	if (selector.length === 0) {
@@ -959,7 +1084,7 @@ function initCore() {
 	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {
-			$('#expand').click()
+			$('#expand').click();
 		}
 	});
 	$('#settings #expand').click(function(event) {
@@ -1055,6 +1180,11 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
+/**
+ * Returns a human readable file size
+ * @param {number} size Size in bytes
+ * @return {string}
+ */
 function humanFileSize(size) {
 	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
@@ -1072,6 +1202,11 @@ function humanFileSize(size) {
 	return relativeSize + ' ' + readableFormat;
 }
 
+/**
+ * Format an UNIX timestamp to a human understandable format
+ * @param {number} date UNIX timestamp
+ * @return {string} Human readable format
+ */
 function formatDate(date){
 	if(typeof date=='number'){
 		date=new Date(date);
@@ -1079,7 +1214,13 @@ function formatDate(date){
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
 }
 
-// taken from http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
+// 
+/**
+ * Get the value of a URL parameter
+ * @link http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
+ * @param {string} name URL parameter
+ * @return {string}
+ */
 function getURLParameter(name) {
 	return decodeURI(
 			(RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]
@@ -1087,33 +1228,34 @@ function getURLParameter(name) {
 }
 
 /**
- * takes an absolute timestamp and return a string with a human-friendly relative date
- * @param int a Unix timestamp
+ * Takes an absolute timestamp and return a string with a human-friendly relative date
+ * @param {number} timestamp A Unix timestamp
  */
 function relative_modified_date(timestamp) {
-	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
-	var diffminutes = Math.round(timediff/60);
-	var diffhours = Math.round(diffminutes/60);
-	var diffdays = Math.round(diffhours/24);
-	var diffmonths = Math.round(diffdays/31);
-	if(timediff < 60) { return t('core','seconds ago'); }
-	else if(timediff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffminutes); }
-	else if(timediff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffhours); }
-	else if(timediff < 86400) { return t('core','today'); }
-	else if(timediff < 172800) { return t('core','yesterday'); }
-	else if(timediff < 2678400) { return n('core', '%n day ago', '%n days ago', diffdays); }
-	else if(timediff < 5184000) { return t('core','last month'); }
-	else if(timediff < 31556926) { return n('core', '%n month ago', '%n months ago', diffmonths); }
-	//else if(timediff < 31556926) { return t('core','months ago'); }
-	else if(timediff < 63113852) { return t('core','last year'); }
+	var timeDiff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffMinutes = Math.round(timeDiff/60);
+	var diffHours = Math.round(diffMinutes/60);
+	var diffDays = Math.round(diffHours/24);
+	var diffMonths = Math.round(diffDays/31);
+	if(timeDiff < 60) { return t('core','seconds ago'); }
+	else if(timeDiff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffMinutes); }
+	else if(timeDiff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffHours); }
+	else if(timeDiff < 86400) { return t('core','today'); }
+	else if(timeDiff < 172800) { return t('core','yesterday'); }
+	else if(timeDiff < 2678400) { return n('core', '%n day ago', '%n days ago', diffDays); }
+	else if(timeDiff < 5184000) { return t('core','last month'); }
+	else if(timeDiff < 31556926) { return n('core', '%n month ago', '%n months ago', diffMonths); }
+	else if(timeDiff < 63113852) { return t('core','last year'); }
 	else { return t('core','years ago'); }
 }
 
+/**
+ *  @todo Write documentation
+ */
 OC.Util = {
 	/**
 	 * Returns whether the browser supports SVG
-	 *
-	 * @return true if the browser supports SVG, false otherwise
+	 * @return {boolean} true if the browser supports SVG, false otherwise
 	 */
 	// TODO: replace with original function
 	hasSVGSupport: SVGSupport,
@@ -1121,10 +1263,8 @@ OC.Util = {
 	 * If SVG is not supported, replaces the given icon's extension
 	 * from ".svg" to ".png".
 	 * If SVG is supported, return the image path as is.
-	 *
-	 * @param file image path with svg extension
-	 * @return fixed image path with png extension if SVG is not
-	 * supported
+	 * @param {string} file image path with svg extension
+	 * @return {string} fixed image path with png extension if SVG is not supported
 	 */
 	replaceSVGIcon: function(file) {
 		if (!OC.Util.hasSVGSupport()) {
@@ -1176,8 +1316,9 @@ OC.Util = {
 };
 
 /**
- * get a variable by name
- * @param string name
+ * Get a variable by name
+ * @param {string} name
+ * @return {*}
  */
 OC.get=function(name) {
 	var namespaces = name.split(".");
@@ -1194,9 +1335,9 @@ OC.get=function(name) {
 };
 
 /**
- * set a variable by name
- * @param string name
- * @param mixed value
+ * Set a variable by name
+ * @param {string} name
+ * @param {*} value
  */
 OC.set=function(name, value) {
 	var namespaces = name.split(".");
@@ -1252,4 +1393,3 @@ jQuery.fn.selectRange = function(start, end) {
 jQuery.fn.exists = function(){
 	return this.length > 0;
 };
-

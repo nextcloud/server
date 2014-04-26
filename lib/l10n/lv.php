@@ -43,6 +43,9 @@ $TRANSLATIONS = array(
 "last month" => "pagājušajā mēnesī",
 "_%n month ago_::_%n months ago_" => array("","","Pirms %n mēnešiem"),
 "last year" => "gājušajā gadā",
-"years ago" => "gadus atpakaļ"
+"years ago" => "gadus atpakaļ",
+"A valid username must be provided" => "Jānorāda derīgs lietotājvārds",
+"A valid password must be provided" => "Jānorāda derīga parole",
+"The username is already being used" => "Šāds lietotājvārds jau tiek izmantots"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

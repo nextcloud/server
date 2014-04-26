@@ -24,6 +24,13 @@ class Manager {
 	}
 
 	/**
+	 * @param string $mountPoint
+	 */
+	public function removeMount($mountPoint) {
+		unset($this->mounts[$mountPoint]);
+	}
+
+	/**
 	 * Find the mount for $path
 	 *
 	 * @param $path

@@ -13,6 +13,8 @@
  */
 namespace OC;
 
+use OC\Preview\Provider;
+
 require_once 'preview/image.php';
 require_once 'preview/movies.php';
 require_once 'preview/mp3.php';
@@ -39,15 +41,16 @@ class Preview {
 	private $file;
 	private $maxX;
 	private $maxY;
-	private $scalingup;
-	private $mimetype;
+	private $scalingUp;
+	private $mimeType;
 
 	//filemapper used for deleting previews
 	// index is path, value is fileinfo
 	static public $deleteFileMapper = array();
 
-	//preview images object
 	/**
+	 * preview images object
+	 *
 	 * @var \OC_Image
 	 */
 	private $preview;
@@ -69,6 +72,7 @@ class Preview {
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param bool $scalingUp Disable/Enable upscaling of previews
+	 * @throws \Exception
 	 * @return mixed (bool / string)
 	 *                    false if thumbnail does not exist
 	 *                    path to thumbnail if thumbnail exists
@@ -109,7 +113,7 @@ class Preview {
 	 * @brief returns the path of the file you want a thumbnail from
 	 * @return string
 	 */
-	public function    getFile() {
+	public function getFile() {
 		return $this->file;
 	}
 
@@ -134,7 +138,7 @@ class Preview {
 	 * @return bool
 	 */
 	public function getScalingUp() {
-		return $this->scalingup;
+		return $this->scalingUp;
 	}
 
 	/**
@@ -169,6 +173,9 @@ class Preview {
 		return $this->configMaxY;
 	}
 
+	/**
+	 * @return false|Files\FileInfo|\OCP\Files\FileInfo
+	 */
 	protected function getFileInfo() {
 		$absPath = $this->fileView->getAbsolutePath($this->file);
 		$absPath = Files\Filesystem::normalizePath($absPath);
@@ -191,23 +198,24 @@ class Preview {
 		if ($file !== '') {
 			$this->getFileInfo();
 			if($this->info !== null && $this->info !== false) {
-				$this->mimetype = $this->info->getMimetype();
+				$this->mimeType = $this->info->getMimetype();
 			}
 		}
 		return $this;
 	}
 
 	/**
-	 * @brief set mimetype explicitely
-	 * @param string $mimetype
+	 * @brief set mime type explicitly
+	 * @param string $mimeType
 	 */
-	public function setMimetype($mimetype) {
-		$this->mimetype = $mimetype;
+	public function setMimetype($mimeType) {
+		$this->mimeType = $mimeType;
 	}
 
 	/**
 	 * @brief set the the max width of the preview
 	 * @param int $maxX
+	 * @throws \Exception
 	 * @return $this
 	 */
 	public function setMaxX($maxX = 1) {
@@ -228,6 +236,7 @@ class Preview {
 	/**
 	 * @brief set the the max height of the preview
 	 * @param int $maxY
+	 * @throws \Exception
 	 * @return $this
 	 */
 	public function setMaxY($maxY = 1) {
@@ -254,7 +263,7 @@ class Preview {
 		if ($this->getMaxScaleFactor() === 1) {
 			$scalingUp = false;
 		}
-		$this->scalingup = $scalingUp;
+		$this->scalingUp = $scalingUp;
 		return $this;
 	}
 
@@ -314,81 +323,42 @@ class Preview {
 
 	/**
 	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
-	 * @return mixed (bool / string)
-	 *                false if thumbnail does not exist
-	 *                path to thumbnail if thumbnail exists
+	 * @param int $fileId fileId of the original image
+	 * @return string|false path to thumbnail if it exists or false
 	 */
-	private function isCached() {
-		$file = $this->getFile();
-		$maxX = $this->getMaxX();
-		$maxY = $this->getMaxY();
-		$scalingUp = $this->getScalingUp();
-		$maxScaleFactor = $this->getMaxScaleFactor();
-
-		$fileInfo = $this->getFileInfo($file);
-		$fileId = $fileInfo->getId();
-
+	public function isCached($fileId) {
 		if (is_null($fileId)) {
 			return false;
 		}
+		
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
 
 		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-		if (!$this->userView->is_dir($previewPath)) {
-			return false;
-		}
 
 		//does a preview with the wanted height and width already exist?
 		if ($this->userView->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
 			return $previewPath . $maxX . '-' . $maxY . '.png';
 		}
 
-		$wantedAspectRatio = (float)($maxX / $maxY);
+		return $this->isCachedBigger($fileId);
+	}
 
-		//array for usable cached thumbnails
-		$possibleThumbnails = array();
+	/**
+	 * @brief check if a bigger version of thumbnail of file is cached
+	 * @param int $fileId fileId of the original image
+	 * @return string|false path to bigger thumbnail if it exists or false
+	*/
+	private function isCachedBigger($fileId) {
 
-		$allThumbnails = $this->userView->getDirectoryContent($previewPath);
-		foreach ($allThumbnails as $thumbnail) {
-			$name = rtrim($thumbnail['name'], '.png');
-			$size = explode('-', $name);
-			$x = (int)$size[0];
-			$y = (int)$size[1];
-
-			$aspectRatio = (float)($x / $y);
-			if ($aspectRatio !== $wantedAspectRatio) {
-				continue;
-			}
-
-			if ($x < $maxX || $y < $maxY) {
-				if ($scalingUp) {
-					$scalefactor = $maxX / $x;
-					if ($scalefactor > $maxScaleFactor) {
-						continue;
-					}
-				} else {
-					continue;
-				}
-			}
-			$possibleThumbnails[$x] = $thumbnail['path'];
-		}
-
-		if (count($possibleThumbnails) === 0) {
+		if (is_null($fileId)) {
 			return false;
 		}
 
-		if (count($possibleThumbnails) === 1) {
-			return current($possibleThumbnails);
-		}
+		$maxX = $this->getMaxX();
 
-		ksort($possibleThumbnails);
-
-		if (key(reset($possibleThumbnails)) > $maxX) {
-			return current(reset($possibleThumbnails));
-		}
-
-		if (key(end($possibleThumbnails)) < $maxX) {
-			return current(end($possibleThumbnails));
-		}
+		//array for usable cached thumbnails
+		$possibleThumbnails = $this->getPossibleThumbnails($fileId);
 
 		foreach ($possibleThumbnails as $width => $path) {
 			if ($width < $maxX) {
@@ -397,6 +367,81 @@ class Preview {
 				return $path;
 			}
 		}
+
+		return false;
+	}
+
+	/**
+	 * @brief get possible bigger thumbnails of the given image
+	 * @param int $fileId fileId of the original image
+	 * @return array of paths to bigger thumbnails
+	*/
+	private function getPossibleThumbnails($fileId) {
+
+		if (is_null($fileId)) {
+			return array();
+		}
+
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+
+		$wantedAspectRatio = (float) ($this->getMaxX() / $this->getMaxY());
+
+		//array for usable cached thumbnails
+		$possibleThumbnails = array();
+
+		$allThumbnails = $this->userView->getDirectoryContent($previewPath);
+		foreach ($allThumbnails as $thumbnail) {
+			$name = rtrim($thumbnail['name'], '.png');
+			list($x, $y, $aspectRatio) = $this->getDimensionsFromFilename($name);
+
+			if (abs($aspectRatio - $wantedAspectRatio) >= 0.000001
+				|| $this->unscalable($x, $y)
+			) {
+				continue;
+			}
+			$possibleThumbnails[$x] = $thumbnail['path'];
+		}
+
+		ksort($possibleThumbnails);
+
+		return $possibleThumbnails;
+	}
+
+	/**
+	 * @param string $name
+	 * @return array
+	 */
+	private function getDimensionsFromFilename($name) {
+			$size = explode('-', $name);
+			$x = (int) $size[0];
+			$y = (int) $size[1];
+			$aspectRatio = (float) ($x / $y);
+			return array($x, $y, $aspectRatio);
+	}
+
+	/**
+	 * @param int $x
+	 * @param int $y
+	 * @return bool
+	 */
+	private function unscalable($x, $y) {
+		
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
+		$scalingUp = $this->getScalingUp();
+		$maxScaleFactor = $this->getMaxScaleFactor();
+		
+		if ($x < $maxX || $y < $maxY) {
+			if ($scalingUp) {
+				$scalefactor = $maxX / $x;
+				if ($scalefactor > $maxScaleFactor) {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -420,7 +465,7 @@ class Preview {
 		}
 		$fileId = $fileInfo->getId();
 
-		$cached = $this->isCached();
+		$cached = $this->isCached($fileId);
 
 		if ($cached) {
 			$stream = $this->userView->fopen($cached, 'r');
@@ -434,13 +479,14 @@ class Preview {
 		if (is_null($this->preview)) {
 			$preview = null;
 
-			foreach (self::$providers as $supportedMimetype => $provider) {
-				if (!preg_match($supportedMimetype, $this->mimetype)) {
+			foreach (self::$providers as $supportedMimeType => $provider) {
+				if (!preg_match($supportedMimeType, $this->mimeType)) {
 					continue;
 				}
 
 				\OC_Log::write('core', 'Generating preview for "' . $file . '" with "' . get_class($provider) . '"', \OC_Log::DEBUG);
 
+				/** @var $provider Provider */
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingUp, $this->fileView);
 
 				if (!($preview instanceof \OC_Image)) {
@@ -484,7 +530,6 @@ class Preview {
 			$this->getPreview();
 		}
 		$this->preview->show('image/png');
-		return;
 	}
 
 	/**
@@ -493,7 +538,6 @@ class Preview {
 	 */
 	public function show() {
 		$this->showPreview();
-		return;
 	}
 
 	/**
@@ -505,7 +549,7 @@ class Preview {
 		$x = $this->getMaxX();
 		$y = $this->getMaxY();
 		$scalingUp = $this->getScalingUp();
-		$maxscalefactor = $this->getMaxScaleFactor();
+		$maxScaleFactor = $this->getMaxScaleFactor();
 
 		if (!($image instanceof \OC_Image)) {
 			\OC_Log::write('core', '$this->preview is not an instance of OC_Image', \OC_Log::DEBUG);
@@ -514,16 +558,16 @@ class Preview {
 
 		$image->fixOrientation();
 
-		$realx = (int)$image->width();
-		$realy = (int)$image->height();
+		$realX = (int)$image->width();
+		$realY = (int)$image->height();
 
-		if ($x === $realx && $y === $realy) {
+		if ($x === $realX && $y === $realY) {
 			$this->preview = $image;
 			return;
 		}
 
-		$factorX = $x / $realx;
-		$factorY = $y / $realy;
+		$factorX = $x / $realX;
+		$factorY = $y / $realY;
 
 		if ($factorX >= $factorY) {
 			$factor = $factorX;
@@ -537,25 +581,25 @@ class Preview {
 			}
 		}
 
-		if (!is_null($maxscalefactor)) {
-			if ($factor > $maxscalefactor) {
-				\OC_Log::write('core', 'scalefactor reduced from ' . $factor . ' to ' . $maxscalefactor, \OC_Log::DEBUG);
-				$factor = $maxscalefactor;
+		if (!is_null($maxScaleFactor)) {
+			if ($factor > $maxScaleFactor) {
+				\OC_Log::write('core', 'scale factor reduced from ' . $factor . ' to ' . $maxScaleFactor, \OC_Log::DEBUG);
+				$factor = $maxScaleFactor;
 			}
 		}
 
-		$newXsize = (int)($realx * $factor);
-		$newYsize = (int)($realy * $factor);
+		$newXSize = (int)($realX * $factor);
+		$newYSize = (int)($realY * $factor);
 
-		$image->preciseResize($newXsize, $newYsize);
+		$image->preciseResize($newXSize, $newYSize);
 
-		if ($newXsize === $x && $newYsize === $y) {
+		if ($newXSize === $x && $newYSize === $y) {
 			$this->preview = $image;
 			return;
 		}
 
-		if ($newXsize >= $x && $newYsize >= $y) {
-			$cropX = floor(abs($x - $newXsize) * 0.5);
+		if ($newXSize >= $x && $newYSize >= $y) {
+			$cropX = floor(abs($x - $newXSize) * 0.5);
 			//don't crop previews on the Y axis, this sucks if it's a document.
 			//$cropY = floor(abs($y - $newYsize) * 0.5);
 			$cropY = 0;
@@ -566,36 +610,36 @@ class Preview {
 			return;
 		}
 
-		if ($newXsize < $x || $newYsize < $y) {
-			if ($newXsize > $x) {
-				$cropX = floor(($newXsize - $x) * 0.5);
-				$image->crop($cropX, 0, $x, $newYsize);
+		if ($newXSize < $x || $newYSize < $y) {
+			if ($newXSize > $x) {
+				$cropX = floor(($newXSize - $x) * 0.5);
+				$image->crop($cropX, 0, $x, $newYSize);
 			}
 
-			if ($newYsize > $y) {
-				$cropY = floor(($newYsize - $y) * 0.5);
-				$image->crop(0, $cropY, $newXsize, $y);
+			if ($newYSize > $y) {
+				$cropY = floor(($newYSize - $y) * 0.5);
+				$image->crop(0, $cropY, $newXSize, $y);
 			}
 
-			$newXsize = (int)$image->width();
-			$newYsize = (int)$image->height();
+			$newXSize = (int)$image->width();
+			$newYSize = (int)$image->height();
 
 			//create transparent background layer
-			$backgroundlayer = imagecreatetruecolor($x, $y);
-			$white = imagecolorallocate($backgroundlayer, 255, 255, 255);
-			imagefill($backgroundlayer, 0, 0, $white);
+			$backgroundLayer = imagecreatetruecolor($x, $y);
+			$white = imagecolorallocate($backgroundLayer, 255, 255, 255);
+			imagefill($backgroundLayer, 0, 0, $white);
 
 			$image = $image->resource();
 
-			$mergeX = floor(abs($x - $newXsize) * 0.5);
-			$mergeY = floor(abs($y - $newYsize) * 0.5);
+			$mergeX = floor(abs($x - $newXSize) * 0.5);
+			$mergeY = floor(abs($y - $newYSize) * 0.5);
 
-			imagecopy($backgroundlayer, $image, $mergeX, $mergeY, 0, 0, $newXsize, $newYsize);
+			imagecopy($backgroundLayer, $image, $mergeX, $mergeY, 0, 0, $newXSize, $newYSize);
 
 			//$black = imagecolorallocate(0,0,0);
 			//imagecolortransparent($transparentlayer, $black);
 
-			$image = new \OC_Image($backgroundlayer);
+			$image = new \OC_Image($backgroundLayer);
 
 			$this->preview = $image;
 			return;
@@ -630,6 +674,7 @@ class Preview {
 			$class = $provider['class'];
 			$options = $provider['options'];
 
+			/** @var $object Provider */
 			$object = new $class($options);
 
 			self::$providers[$object->getMimeType()] = $object;
@@ -640,7 +685,7 @@ class Preview {
 	}
 
 	public static function post_write($args) {
-		self::post_delete($args);
+		self::post_delete($args, 'files/');
 	}
 
 	public static function prepare_delete_files($args) {
@@ -676,9 +721,10 @@ class Preview {
 	}
 
 	/**
-	 * @param string $mimetype
+	 * @param string $mimeType
+	 * @return bool
 	 */
-	public static function isMimeSupported($mimetype) {
+	public static function isMimeSupported($mimeType) {
 		if (!\OC_Config::getValue('enable_previews', true)) {
 			return false;
 		}
@@ -690,8 +736,8 @@ class Preview {
 
 		//remove last element because it has the mimetype *
 		$providers = array_slice(self::$providers, 0, -1);
-		foreach ($providers as $supportedMimetype => $provider) {
-			if (preg_match($supportedMimetype, $mimetype)) {
+		foreach ($providers as $supportedMimeType => $provider) {
+			if (preg_match($supportedMimeType, $mimeType)) {
 				return true;
 			}
 		}

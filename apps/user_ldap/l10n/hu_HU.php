@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "A másodkiszolgáló (replika) portszáma",
 "Disable Main Server" => "A fő szerver kihagyása",
 "Only connect to the replica server." => "Csak a másodlagos (másolati) kiszolgálóhoz kapcsolódjunk.",
-"Case insensitve LDAP server (Windows)" => "Az LDAP-kiszolgáló nem tesz különbséget a kis- és nagybetűk között (Windows)",
 "Turn off SSL certificate validation." => "Ne ellenőrizzük az SSL-tanúsítvány érvényességét",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Használata nem javasolt (kivéve tesztelési céllal). Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát a(z) %s kiszolgálóra!",
 "Cache Time-To-Live" => "A gyorsítótár tárolási időtartama",

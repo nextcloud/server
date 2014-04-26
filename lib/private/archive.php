@@ -10,7 +10,7 @@ abstract class OC_Archive{
 	/**
 	 * open any of the supported archive types
 	 * @param string $path
-	 * @return OC_Archive
+	 * @return OC_Archive|void
 	 */
 	public static function open($path) {
 		$ext=substr($path, strrpos($path, '.'));
@@ -29,6 +29,9 @@ abstract class OC_Archive{
 		}
 	}
 
+	/**
+	 * @param $source
+	 */
 	abstract function __construct($source);
 	/**
 	 * add an empty folder to the archive
@@ -39,7 +42,7 @@ abstract class OC_Archive{
 	/**
 	 * add a file to the archive
 	 * @param string $path
-	 * @param string source either a local file or string data
+	 * @param string $source either a local file or string data
 	 * @return bool
 	 */
 	abstract function addFile($path, $source='');

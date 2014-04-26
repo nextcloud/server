@@ -60,6 +60,8 @@ $TRANSLATIONS = array(
 "last month" => "praeitą mėnesį",
 "_%n month ago_::_%n months ago_" => array("Prieš %n mėnesį","Prieš %n mėnesius","Prieš %n mėnesių"),
 "last year" => "praeitais metais",
-"years ago" => "prieš metus"
+"years ago" => "prieš metus",
+"A valid username must be provided" => "Vartotojo vardas turi būti tinkamas",
+"A valid password must be provided" => "Slaptažodis turi būti tinkamas"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

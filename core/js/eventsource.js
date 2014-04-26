@@ -20,16 +20,16 @@
  */
 
 /**
- * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
+ * Wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * use server side events with causion, to many open requests can hang the server
+ * Use server side events with caution, too many open requests can hang the server
  */
 
 /**
- * create a new event source
- * @param string src
- * @param object data to be send as GET
+ * Create a new event source
+ * @param {string} src
+ * @param {object} [data] to be send as GET
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
@@ -74,12 +74,12 @@ OC.EventSource=function(src,data){
 			this.close();
 		}
 	}.bind(this));
-}
+};
 OC.EventSource.fallBackSources=[];
 OC.EventSource.iframeCount=0;//number of fallback iframes
 OC.EventSource.fallBackCallBack=function(id,type,data){
 	OC.EventSource.fallBackSources[id].fallBackCallBack(type,data);
-}
+};
 OC.EventSource.prototype={
 	typelessListeners:[],
 	iframe:null,
@@ -127,4 +127,4 @@ OC.EventSource.prototype={
 			this.source.close();
 		}
 	}
-}
+};

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-26 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 05:55+0000\n"
+"POT-Creation-Date: 2014-04-12 01:54-0400\n"
+"PO-Revision-Date: 2014-04-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Afrikaans (http://www.transifex.com/projects/p/owncloud/language/af/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
 msgid "Encryption"
 msgstr ""
 
@@ -64,7 +64,7 @@ msgid "Unable to load list from App Store"
 msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr ""
 
@@ -82,6 +82,20 @@ msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
+msgstr ""
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
 #: ajax/lostpassword.php:12
@@ -126,32 +140,32 @@ msgstr ""
 msgid "Couldn't update app."
 msgstr ""
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr ""
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr ""
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr ""
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr ""
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr ""
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr ""
 
@@ -203,7 +217,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr ""
 
@@ -211,31 +225,31 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
@@ -284,7 +298,7 @@ msgstr ""
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr ""
 
@@ -589,11 +603,11 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:416 templates/personal.php:171
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:420 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -611,23 +625,23 @@ msgstr ""
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr ""
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr ""
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
@@ -664,108 +678,108 @@ msgstr ""
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr ""
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr ""
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr ""
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr ""
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr ""
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr ""
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr ""
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr ""
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr ""
 

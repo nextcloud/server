@@ -48,41 +48,6 @@ describe('Files tests', function() {
 				expect(error).toEqual(false);
 			}
 		});
-		it('Validates correct file names do not create Shared folder in root', function() {
-			// create shared file in subfolder
-			var error = false;
-			try {
-				expect(Files.isFileNameValid('shared', '/foo')).toEqual(true);
-				expect(Files.isFileNameValid('Shared', '/foo')).toEqual(true);
-			}
-			catch (e) {
-				error = e;
-			}
-			expect(error).toEqual(false);
-
-			// create shared file in root
-			var threwException = false;
-			try {
-				Files.isFileNameValid('Shared', '/');
-				console.error('Invalid file name not detected');
-			}
-			catch (e) {
-				threwException = true;
-			}
-			expect(threwException).toEqual(true);
-
-			// create shared file in root
-			var threwException = false;
-			try {
-				Files.isFileNameValid('shared', '/');
-				console.error('Invalid file name not detected');
-			}
-			catch (e) {
-				threwException = true;
-			}
-			expect(threwException).toEqual(true);
-
-		});
 		it('Detects invalid file names', function() {
 			var fileNames = [
 				'',

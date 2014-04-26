@@ -267,43 +267,18 @@ class OC_L10N implements \OCP\IL10N {
 		$identifier = "_${text_singular}_::_${text_plural}_";
 		if( array_key_exists($identifier, $this->translations)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
-		}
-		else{
+		}else{
 			if($count === 1) {
 				return new OC_L10N_String($this, $text_singular, $parameters, $count);
-			}
-			else{
+			}else{
 				return new OC_L10N_String($this, $text_plural, $parameters, $count);
 			}
 		}
 	}
 
 	/**
-	 * @brief Translating
-	 * @param $textArray The text array we need a translation for
-	 * @returns Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $textArray will be
-	 * returned.
-	 *
-	 *
-	 * @deprecated deprecated since ownCloud version 5.0
-	 * This method will probably be removed with ownCloud 6.0
-	 *
-	 *
-	 */
-	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
-		$result = array();
-		foreach($textArray as $key => $text) {
-			$result[$key] = (string)$this->t($text);
-		}
-		return $result;
-	}
-
-	/**
 	 * @brief getTranslations
-	 * @returns Fetch all translations
+	 * @returns array Fetch all translations
 	 *
 	 * Returns an associative array with all translations
 	 */
@@ -339,7 +314,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief get localizations
-	 * @returns Fetch all localizations
+	 * @returns array Fetch all localizations
 	 *
 	 * Returns an associative array with all localizations
 	 */
@@ -416,6 +391,14 @@ class OC_L10N implements \OCP\IL10N {
 	public static function selectLanguage($text) {
 		$lang = self::findLanguage(array_keys($text));
 		return $text[$lang];
+	}
+
+	/**
+	 * The given language is forced to be used while executing the current request
+	 * @param string $lang
+	 */
+	public static function forceLanguage($lang) {
+		self::$language = $lang;
 	}
 
 	/**

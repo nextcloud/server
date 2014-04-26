@@ -9,14 +9,14 @@ Git master: [![Build Status](https://ci.owncloud.org/job/server-master-linux/bad
 Quality: [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
 
 ### Installation instructions
-http://doc.owncloud.org/server/6.0/developer_manual/app/index.html
+http://doc.owncloud.org/server/7.0/developer_manual/app/index.html
 
 ### Contribution Guidelines
-http://owncloud.org/dev/contribute/
+http://owncloud.org/contribute/
 
 ### Get in touch
 * [Forum](http://forum.owncloud.org)
-* [Mailing list](https://mail.kde.org/mailman/listinfo/owncloud)
+* [Mailing list](http://mailman.owncloud.org/mailman/listinfo)
 * [IRC channel](https://webchat.freenode.net/?channels=owncloud)
 * [Twitter](https://twitter.com/ownClouders)
 
@@ -25,4 +25,4 @@ Please submit translations via Transifex:
 https://www.transifex.com/projects/p/owncloud/
 
 For more detailed information about translations:
-http://owncloud.org/dev/translation/
+http://doc.owncloud.org/server/7.0/developer_manual/core/translation.html

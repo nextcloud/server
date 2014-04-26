@@ -4,12 +4,12 @@ $TRANSLATIONS = array(
 "Couldn't restore %s" => "Kunne ikke gendanne %s",
 "Deleted files" => "Slettede filer",
 "Error" => "Fejl",
+"Deleted Files" => "Slettede filer",
 "restored" => "Gendannet",
 "Nothing in here. Your trash bin is empty!" => "Intet at se her. Din papirkurv er tom!",
 "Name" => "Navn",
 "Restore" => "Gendan",
 "Deleted" => "Slettet",
-"Delete" => "Slet",
-"Deleted Files" => "Slettede filer"
+"Delete" => "Slet"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

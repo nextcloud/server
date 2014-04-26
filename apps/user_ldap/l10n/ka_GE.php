@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "მიუთითეთ რაიმე ბექაფ ჰოსტი. ის უნდა იყოს ძირითადი LDAP/AD სერვერის რეპლიკა.",
 "Backup (Replica) Port" => "ბექაფ (რეპლიკა) პორტი",
 "Disable Main Server" => "გამორთეთ ძირითადი სერვერი",
-"Case insensitve LDAP server (Windows)" => "LDAP server (Windows)",
 "Turn off SSL certificate validation." => "გამორთეთ SSL სერთიფიკატის ვალიდაცია.",
 "Cache Time-To-Live" => "ქეშის სიცოცხლის ხანგრძლივობა",
 "in seconds. A change empties the cache." => "წამებში. ცვლილება ასუფთავებს ქეშს.",

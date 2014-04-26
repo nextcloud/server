@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Save" => "Salveguardar",
 "Help" => "Adjuta",
 "Password" => "Contrasigno",
-"Back" => "Retro"
+"Back" => "Retro",
+"Continue" => "Continuar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

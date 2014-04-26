@@ -824,13 +824,15 @@ class Trashbin {
 			$matches = glob($escapedVersionsName . '*');
 		}
 
-		foreach ($matches as $ma) {
-			if ($timestamp) {
-				$parts = explode('.v', substr($ma, 0, $offset));
-				$versions[] = (end($parts));
-			} else {
-				$parts = explode('.v', $ma);
-				$versions[] = (end($parts));
+		if (is_array($matches)) {
+			foreach ($matches as $ma) {
+				if ($timestamp) {
+					$parts = explode('.v', substr($ma, 0, $offset));
+					$versions[] = (end($parts));
+				} else {
+					$parts = explode('.v', $ma);
+					$versions[] = (end($parts));
+				}
 			}
 		}
 		return $versions;
@@ -921,13 +923,11 @@ class Trashbin {
 	public static function isEmpty($user) {
 
 		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
-		$dh = $view->opendir('/files');
-		if (!$dh) {
-			return false;
-		}
-		while ($file = readdir($dh)) {
-			if ($file !== '.' and $file !== '..') {
-				return false;
+		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
+			while ($file = readdir($dh)) {
+				if ($file !== '.' and $file !== '..') {
+					return false;
+				}
 			}
 		}
 		return true;

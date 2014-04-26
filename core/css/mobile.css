@@ -7,6 +7,11 @@
 	background-position: right 26px;
 	padding-right: 16px !important;
 }
+/* do not show menu toggle on public share links as there is no menu */
+#body-public #owncloud.menutoggle {
+	background-image: none;
+	padding-right: 0 !important;
+}
 
 /* compress search box on mobile, expand when focused */
 .searchbox input[type="search"] {
@@ -19,6 +24,7 @@
 .searchbox input[type="search"]:focus,
 .searchbox input[type="search"]:active {
 	width: 155px;
+	max-width: 50%;
 }
 
 /* do not show display name on mobile when profile picture is present */
@@ -101,5 +107,13 @@
 	width: 80% !important;
 }
 
+
+/* fix error display on smaller screens */
+.error-wide {
+	width: 100%;
+	margin-left: 0 !important;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
 }

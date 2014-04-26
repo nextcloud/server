@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# សុវិចិត្រ Sovichet ទេព Tep <sovichet.tep@gmail.com>, 2014
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-08 01:56-0400\n"
-"PO-Revision-Date: 2014-04-08 05:56+0000\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -135,130 +135,126 @@ msgstr "ខែវិច្ឆិកា"
 msgid "December"
 msgstr "ខែធ្នូ"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "ការកំណត់"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "កំពុង​រក្សាទុក"
 
-#: js/js.js:1124
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "វិនាទី​មុន"
 
-#: js/js.js:1125
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n នាទី​មុន"
 
-#: js/js.js:1126
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ម៉ោង​មុន"
 
-#: js/js.js:1127
+#: js/js.js:1249
 msgid "today"
 msgstr "ថ្ងៃនេះ"
 
-#: js/js.js:1128
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "ម្សិលមិញ"
 
-#: js/js.js:1129
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ថ្ងៃ​មុន"
 
-#: js/js.js:1130
+#: js/js.js:1252
 msgid "last month"
 msgstr "ខែមុន"
 
-#: js/js.js:1131
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n ខែ​មុន"
 
-#: js/js.js:1132
-msgid "months ago"
-msgstr "ខែ​មុន"
-
-#: js/js.js:1133
+#: js/js.js:1254
 msgid "last year"
 msgstr "ឆ្នាំ​មុន"
 
-#: js/js.js:1134
+#: js/js.js:1255
 msgid "years ago"
 msgstr "ឆ្នាំ​មុន"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "ជ្រើស"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "ព្រម"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "ទេ"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "ព្រម"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr ""
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "លើកលែង"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr ""
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr ""
 
@@ -290,12 +286,12 @@ msgstr "បាន​ចែក​រំលែក"
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "កំហុស"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "កំហុស​ពេល​ចែក​រំលែក"
 
@@ -359,71 +355,71 @@ msgstr "ចែក​រំលែក​តាម​អ៊ីមែល៖"
 msgid "No people found"
 msgstr "រក​មិន​ឃើញ​មនុស្ស​ណា​ម្នាក់"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "ក្រុម"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "មិន​អនុញ្ញាត​ឲ្យ​មាន​ការ​ចែក​រំលែក​ឡើង​វិញ"
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "បាន​ចែក​រំលែក​ក្នុង {item} ជាមួយ {user}"
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
 msgstr "លែង​ចែក​រំលែក"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "អាច​កែប្រែ"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "សិទ្ធិ​បញ្ជា"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "បង្កើត"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "ធ្វើ​បច្ចុប្បន្នភាព"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "លុប"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "ចែក​រំលែក"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "បាន​ការ​ពារ​ដោយ​ពាក្យ​សម្ងាត់"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "កំពុង​ផ្ញើ ..."
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "បាន​ផ្ញើ​អ៊ីមែល"
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
 msgstr "បម្រាម"
 
@@ -451,7 +447,7 @@ msgstr ""
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr ""
 

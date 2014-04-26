@@ -36,7 +36,7 @@ class OC_Migration_Content{
 	* @brief sets up the
 	* @param ZipArchive $zip ZipArchive object
 	* @param $db a database object (required for exporttype user)
-	* @return boolean|null
+	* @return bool|null
 	*/
 	public function __construct( $zip, $db=null ) {
 

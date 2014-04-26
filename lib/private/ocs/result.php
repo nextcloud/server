@@ -96,7 +96,7 @@ class OC_OCS_Result{
 	 * @return bool
 	 */
 	public function succeeded() {
-		return (substr($this->statusCode, 0, 1) === '1');
+		return ($this->statusCode == 100);
 	}
 
 

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-27 01:55-0400\n"
-"PO-Revision-Date: 2014-03-26 10:42+0000\n"
-"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,15 +50,15 @@ msgstr "E-mail wysłany"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Musisz najpierw ustawić użytkownika e-mail, aby móc wysyłać wiadomości testowe."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Tryb wysyłki"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:159
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Szyfrowanie"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Metoda autentykacji"
 
@@ -67,7 +67,7 @@ msgid "Unable to load list from App Store"
 msgstr "Nie można wczytać listy aplikacji"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Błąd uwierzytelniania"
 
@@ -86,6 +86,20 @@ msgstr "Grupa już istnieje"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nie można dodać grupy"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr "Pliki zostały poprawnie zdeszyfrowane"
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr "Nie można zdeszyfrować Twoich plików, proszę sprawdzić owncloud.log lub zapytać administratora"
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr "Nie można zdeszyfrować Twoich plików, sprawdź swoje hasło i spróbuj ponownie"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -129,32 +143,32 @@ msgstr "Nie można usunąć użytkownika z grupy %s"
 msgid "Couldn't update app."
 msgstr "Nie można uaktualnić aplikacji."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Złe hasło"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Niedostarczony użytkownik"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Podaj hasło odzyskiwania administratora, w przeciwnym razie wszystkie dane użytkownika zostaną utracone"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Błędne hasło odzyskiwania. Sprawdź hasło i spróbuj ponownie."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownika został pomyślnie zaktualizowany."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Nie można zmienić hasła"
 
@@ -206,7 +220,7 @@ msgstr "Błąd podczas aktualizacji aplikacji"
 msgid "Error"
 msgstr "Błąd"
 
-#: js/apps.js:153 templates/apps.php:54
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Aktualizuj"
 
@@ -214,31 +228,31 @@ msgstr "Aktualizuj"
 msgid "Updated"
 msgstr "Zaktualizowano"
 
-#: js/personal.js:246
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Wybierz zdjęcie profilu"
 
-#: js/personal.js:277
+#: js/personal.js:274
 msgid "Very weak password"
 msgstr "Bardzo słabe hasło"
 
-#: js/personal.js:278
+#: js/personal.js:275
 msgid "Weak password"
 msgstr "Słabe hasło"
 
-#: js/personal.js:279
+#: js/personal.js:276
 msgid "So-so password"
 msgstr "Mało skomplikowane hasło"
 
-#: js/personal.js:280
+#: js/personal.js:277
 msgid "Good password"
 msgstr "Dobre hasło"
 
-#: js/personal.js:281
+#: js/personal.js:278
 msgid "Strong password"
 msgstr "Mocne hasło"
 
-#: js/personal.js:316
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Odszyfrowuje pliki... Proszę czekać, to może zająć jakiś czas."
 
@@ -287,7 +301,7 @@ msgstr "Należy podać prawidłowe hasło"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Ostrzeżenie: Katalog domowy dla użytkownika \"{user}\" już istnieje"
 
-#: personal.php:49 personal.php:50
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "polski"
 
@@ -509,94 +523,114 @@ msgid "Allow mail notification"
 msgstr "Pozwól na mailowe powiadomienia"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Pozwól użytkownikom wysyłać maile powiadamiające o udostępnionych plikach"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Zezwól użytkownikom na wysyłanie powiadomień email dla udostępnionych plików"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Wymuś HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Proszę połącz się do twojego %s za pośrednictwem protokołu HTTPS, aby włączyć lub wyłączyć stosowanie protokołu SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Serwer pocztowy"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr "To jest używane do wysyłania powiadomień"
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Z adresu"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr "Wymagana autoryzacja"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Adres Serwera"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Poświadczenia"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "Użytkownik SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "Hasło SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr "Ustawienia testowej wiadomości"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Wyślij email"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Poziom logów"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Więcej"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Mniej"
 
-#: templates/admin.php:416 templates/personal.php:181
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Wersja"
 
-#: templates/admin.php:420 templates/personal.php:184
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -614,23 +648,23 @@ msgstr "Dodaj swoją aplikację"
 msgid "More Apps"
 msgstr "Więcej aplikacji"
 
-#: templates/apps.php:37
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Zaznacz aplikację"
 
-#: templates/apps.php:42
+#: templates/apps.php:43
 msgid "Documentation:"
 msgstr "Dokumentacja:"
 
-#: templates/apps.php:48
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Zobacz stronę aplikacji na apps.owncloud.com"
 
-#: templates/apps.php:50
+#: templates/apps.php:51
 msgid "See application website"
 msgstr "Zobacz na stronie aplikacji"
 
-#: templates/apps.php:52
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencjonowane przez <span class=\"author\"></span>"
 
@@ -667,108 +701,108 @@ msgstr "Uruchom ponownie kreatora pierwszego uruchomienia"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Wykorzystujesz <strong>%s</strong> z dostępnych <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Hasło"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Twoje hasło zostało zmienione"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Nie można zmienić hasła"
 
-#: templates/personal.php:43
+#: templates/personal.php:42
 msgid "Current password"
 msgstr "Bieżące hasło"
 
-#: templates/personal.php:46
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Nowe hasło"
 
-#: templates/personal.php:50
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: templates/personal.php:64 templates/users.php:86
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
 msgstr "Pełna nazwa"
 
-#: templates/personal.php:81
+#: templates/personal.php:76
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:83
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Twój adres e-mail"
 
-#: templates/personal.php:86
+#: templates/personal.php:81
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Wypełnij adres email aby włączyć odzyskiwanie hasła oraz otrzymywać powiadomienia"
 
-#: templates/personal.php:96
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Zdjęcie profilu"
 
-#: templates/personal.php:101
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Wczytaj nowe"
 
-#: templates/personal.php:103
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Wybierz nowe z plików"
 
-#: templates/personal.php:104
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Usuń zdjęcie"
 
-#: templates/personal.php:105
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Png lub jpg. Idealnie kwadratowy, ale będzie można je przyciąć."
 
-#: templates/personal.php:107
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr "Twój awatar jest ustawiony jako domyślny."
 
-#: templates/personal.php:111
+#: templates/personal.php:104
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: templates/personal.php:112
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Wybierz zdjęcie profilu"
 
-#: templates/personal.php:120 templates/personal.php:121
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Język"
 
-#: templates/personal.php:140
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Pomóż w tłumaczeniu"
 
-#: templates/personal.php:147
+#: templates/personal.php:137
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:149
+#: templates/personal.php:139
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
 msgstr "Użyj tego adresu do <a href=\"%s\" target=\"_blank\">dostępu do twoich plików przez WebDAV</a>"
 
-#: templates/personal.php:161
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Aplikacja szyfrowanie nie jest włączona, odszyfruj wszystkie plik"
 
-#: templates/personal.php:167
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Hasło logowania"
 
-#: templates/personal.php:172
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Odszyfruj wszystkie pliki"
 

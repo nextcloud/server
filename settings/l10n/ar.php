@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "Allow users to share with anyone" => "السماح للمستعملين بإعادة المشاركة مع أي أحد  ",
 "Allow users to only share with users in their groups" => "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم",
 "Allow mail notification" => "السماح بتنبيهات البريد الالكتروني.",
-"Allow user to send mail notification for shared files" => "السماح للمستخدم الى ارسال تنبيه البريد الالكتروني للملفات المشتركة ",
 "Security" => "حماية",
 "Enforce HTTPS" => "فرض HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "اجبار العميل للاتصال بـ %s عن طريق اتصال مشفر",

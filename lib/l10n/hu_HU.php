@@ -60,6 +60,9 @@ $TRANSLATIONS = array(
 "last month" => "múlt hónapban",
 "_%n month ago_::_%n months ago_" => array("%n hónappal ezelőtt","%n hónappal ezelőtt"),
 "last year" => "tavaly",
-"years ago" => "több éve"
+"years ago" => "több éve",
+"A valid username must be provided" => "Érvényes felhasználónevet kell megadnia",
+"A valid password must be provided" => "Érvényes jelszót kell megadnia",
+"The username is already being used" => "Ez a bejelentkezési név már foglalt"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

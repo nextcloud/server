@@ -6,7 +6,7 @@ $TRANSLATIONS = array(
 "Personal" => "Προσωπικά",
 "Settings" => "Ρυθμίσεις",
 "Users" => "Χρήστες",
-"Admin" => "Διαχειριστής",
+"Admin" => "Διαχείριση",
 "Failed to upgrade \"%s\"." => "Αποτυχία αναβάθμισης του \"%s\".",
 "Unknown filetype" => "Άγνωστος τύπος αρχείου",
 "Invalid image" => "Μη έγκυρη εικόνα",
@@ -66,6 +66,8 @@ $TRANSLATIONS = array(
 "last month" => "τελευταίο μήνα",
 "_%n month ago_::_%n months ago_" => array("","%n μήνες πριν"),
 "last year" => "τελευταίο χρόνο",
-"years ago" => "χρόνια πριν"
+"years ago" => "χρόνια πριν",
+"A valid username must be provided" => "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
+"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

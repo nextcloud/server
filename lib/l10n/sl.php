@@ -56,6 +56,16 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena.",
 "Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
 "%s shared »%s« with you" => "%s je omogočil souporabo »%s«",
+"Sharing %s failed, because the user %s is the item owner" => "Nastavljanje souporabe %s je spodletelo, ker je uporabnik %s lastnik predmeta.",
+"Sharing %s failed, because the user %s does not exist" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ne obstaja.",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član nobene skupine, v kateri je tudi uporabnik %s.",
+"Sharing %s failed, because this item is already shared with %s" => "Nastavljanje souporabe %s je spodletela, ker je ima uporabnik %s predmet že v souporabi.",
+"Sharing %s failed, because the group %s does not exist" => "Nastavljanje souporabe %s je spodletelo, ker je skupina %s ne obstaja.",
+"Sharing %s failed, because %s is not a member of the group %s" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član skupine %s.",
+"Sharing %s failed, because sharing with links is not allowed" => "Nastavljanje souporabe %s je spodletelo, ker souporaba preko povezave ni dovoljena.",
+"Share type %s is not valid for %s" => "Vrsta souporabe %s za %s ni veljavna.",
+"Sharing backend %s not found" => "Ozadnjega programa %s za souporabo ni mogoče najti",
+"Sharing backend for %s not found" => "Ozadnjega programa za souporabo za %s ni mogoče najti",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti.",
 "seconds ago" => "pred nekaj sekundami",
 "_%n minute ago_::_%n minutes ago_" => array("pred %n minuto","pred %n minutama","pred %n minutami","pred %n minutami"),
@@ -66,6 +76,10 @@ $TRANSLATIONS = array(
 "last month" => "zadnji mesec",
 "_%n month ago_::_%n months ago_" => array("pred %n mesecem","pred %n mesecema","pred %n meseci","pred %n meseci"),
 "last year" => "lansko leto",
-"years ago" => "let nazaj"
+"years ago" => "let nazaj",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "V uporabniškem imenu je dovoljeno uporabiti le znake: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
+"A valid username must be provided" => "Navedeno mora biti veljavno uporabniško ime",
+"A valid password must be provided" => "Navedeno mora biti veljavno geslo",
+"The username is already being used" => "Vpisano uporabniško ime je že v uporabi"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";
