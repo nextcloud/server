@@ -27,7 +27,7 @@
 											  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
 				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
-						<select id="selectBackend" data-configurations='<?php print_unescaped(json_encode($_['backends'])); ?>'>
+						<select id="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
 							<option value="" disabled selected
 									style="display:none;"><?php p($l->t('Add storage')); ?></option>
 							<?php foreach ($_['backends'] as $class => $backend): ?>
