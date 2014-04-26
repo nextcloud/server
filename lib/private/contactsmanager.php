@@ -40,7 +40,7 @@ namespace OC {
 				$r = $addressBook->search($pattern, $searchProperties, $options);
 				$contacts = array();
 				foreach($r as $c){
-					$c['addressbook-key'] = $address_book->getKey();
+					$c['addressbook-key'] = $addressBook->getKey();
 					$contacts[] = $c;
 				}
 				$result = array_merge($result, $contacts);
