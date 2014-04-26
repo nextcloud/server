@@ -721,7 +721,7 @@ class OC {
 			header('Status: 400 Bad Request');
 			OC_Template::printErrorPage(
 				'You are accessing the server from an untrusted domain.',
-				'Please contact your administrator'
+				'Please contact your administrator. If you are an administrator of this instance, configure the "trusted_domain" setting in config/config.php. An example configuration is provided in config/config.sample.php.'
 			);
 			return;
 		}
