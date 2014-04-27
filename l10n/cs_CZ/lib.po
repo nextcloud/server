@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 20:00+0000\n"
+"POT-Creation-Date: 2014-04-27 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 20:30+0000\n"
 "Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: base.php:723
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Přistupujete na server z nedůvěryhodné domény."
 
 #: base.php:724
 msgid "Please contact your administrator"
