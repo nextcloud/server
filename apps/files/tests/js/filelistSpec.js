@@ -24,6 +24,33 @@ describe('FileList tests', function() {
 	var testFiles, alertStub, notificationStub,
 		pushStateStub;
 
+	/**
+	 * Generate test file data
+	 */
+	function generateFiles(startIndex, endIndex) {
+		var files = [];
+		var name;
+		for (var i = startIndex; i <= endIndex; i++) {
+			name = 'File with index ';
+			if (i < 10) {
+				// do not rely on localeCompare here
+				// and make the sorting predictable
+				// cross-browser
+				name += '0';
+			}
+			name += i + '.txt';
+			files.push({
+				id: i,
+				type: 'file',
+				name: name,
+				mimetype: 'text/plain',
+				size: i * 2,
+				etag: 'abc'
+			});
+		}
+		return files;
+	}
+
 	beforeEach(function() {
 		// init horrible parameters
 		var $body = $('body');
@@ -48,9 +75,17 @@ describe('FileList tests', function() {
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
 			// dummy table
+			// TODO: at some point this will be rendered by the FileList class itself!
 			'<table id="filestable">' +
-			'<thead><tr><th class="hidden">Name</th></tr></thead>' +
+			'<thead><tr><th id="headerName" class="hidden">' +
+			'<input type="checkbox" id="select_all">' +
+			'<span class="name">Name</span>' +
+			'<span class="selectedActions hidden">' +
+			'<a href class="download">Download</a>' +
+			'<a href class="delete-selected">Delete</a></span>' +
+			'</th></tr></thead>' +
 		   	'<tbody id="fileList"></tbody>' +
+			'<tfoot></tfoot>' +
 			'</table>' +
 			'<div id="emptycontent">Empty content message</div>'
 		);
@@ -60,25 +95,29 @@ describe('FileList tests', function() {
 			type: 'file',
 			name: 'One.txt',
 			mimetype: 'text/plain',
-			size: 12
+			size: 12,
+			etag: 'abc'
 		}, {
 			id: 2,
 			type: 'file',
 			name: 'Two.jpg',
 			mimetype: 'image/jpeg',
-			size: 12049
+			size: 12049,
+			etag: 'def',
 		}, {
 			id: 3,
 			type: 'file',
 			name: 'Three.pdf',
 			mimetype: 'application/pdf',
-			size: 58009
+			size: 58009,
+			etag: '123',
 		}, {
 			id: 4,
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
-			size: 250
+			size: 250,
+			etag: '456'
 		}];
 
 		FileList.initialize();
@@ -220,25 +259,65 @@ describe('FileList tests', function() {
 			var $tr = FileList.add(fileData);
 			expect($tr.find('.filesize').text()).toEqual('0 B');
 		});
-		it('adds new file to the end of the list before the summary', function() {
+		it('adds new file to the end of the list', function() {
+			var $tr;
 			var fileData = {
 				type: 'file',
-				name: 'P comes after O.txt'
+				name: 'ZZZ.txt'
 			};
 			FileList.setFiles(testFiles);
 			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(4);
-			expect($tr.next().hasClass('summary')).toEqual(true);
 		});
-		it('adds new file at correct position in insert mode', function() {
+		it('inserts files in a sorted manner when insert option is enabled', function() {
+			var $tr;
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i]);
+			}
+			expect(FileList.files[0].name).toEqual('somedir');
+			expect(FileList.files[1].name).toEqual('One.txt');
+			expect(FileList.files[2].name).toEqual('Three.pdf');
+			expect(FileList.files[3].name).toEqual('Two.jpg');
+		});
+		it('inserts new file at correct position', function() {
+			var $tr;
 			var fileData = {
 				type: 'file',
 				name: 'P comes after O.txt'
 			};
-			FileList.setFiles(testFiles);
-			$tr = FileList.add(fileData, {insert: true});
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i]);
+			}
+			$tr = FileList.add(fileData);
 			// after "One.txt"
+			expect($tr.index()).toEqual(2);
+			expect(FileList.files[2]).toEqual(fileData);
+		});
+		it('inserts new folder at correct position in insert mode', function() {
+			var $tr;
+			var fileData = {
+				type: 'dir',
+				name: 'somedir2 comes after somedir'
+			};
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i]);
+			}
+			$tr = FileList.add(fileData);
 			expect($tr.index()).toEqual(1);
+			expect(FileList.files[1]).toEqual(fileData);
+		});
+		it('inserts new file at the end correctly', function() {
+			var $tr;
+			var fileData = {
+				type: 'file',
+				name: 'zzz.txt'
+			};
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i]);
+			}
+			$tr = FileList.add(fileData);
+			expect($tr.index()).toEqual(4);
+			expect(FileList.files[4]).toEqual(fileData);
 		});
 		it('removes empty content message and shows summary when adding first file', function() {
 			var fileData = {
@@ -249,8 +328,8 @@ describe('FileList tests', function() {
 			FileList.setFiles([]);
 			expect(FileList.isEmpty).toEqual(true);
 			FileList.add(fileData);
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			// yes, ugly...
 			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
@@ -268,11 +347,12 @@ describe('FileList tests', function() {
 			$removedEl = FileList.remove('One.txt');
 			expect($removedEl).toBeDefined();
 			expect($removedEl.attr('data-file')).toEqual('One.txt');
-			expect($('#fileList tr:not(.summary)').length).toEqual(3);
+			expect($('#fileList tr').length).toEqual(3);
+			expect(FileList.files.length).toEqual(3);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
@@ -282,11 +362,12 @@ describe('FileList tests', function() {
 		it('Shows empty content when removing last file', function() {
 			FileList.setFiles([testFiles[0]]);
 			FileList.remove('One.txt');
-			expect($('#fileList tr:not(.summary)').length).toEqual(0);
+			expect($('#fileList tr').length).toEqual(0);
+			expect(FileList.files.length).toEqual(0);
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(0);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(true);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
 			expect(FileList.isEmpty).toEqual(true);
@@ -318,10 +399,10 @@ describe('FileList tests', function() {
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
 			expect(FileList.findFileEl('Two.jpg').length).toEqual(0);
 			expect(FileList.findFileEl('Three.pdf').length).toEqual(1);
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(2);
+			expect(FileList.$fileList.find('tr').length).toEqual(2);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
@@ -342,11 +423,12 @@ describe('FileList tests', function() {
 				JSON.stringify({status: 'success'})
 			);
 
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(0);
+			expect(FileList.$fileList.find('tr').length).toEqual(0);
 
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(0);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(true);
 			expect(FileList.isEmpty).toEqual(true);
+			expect(FileList.files.length).toEqual(0);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
 		});
@@ -363,7 +445,7 @@ describe('FileList tests', function() {
 			// files are still in the list
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
 			expect(FileList.findFileEl('Two.jpg').length).toEqual(1);
-			expect(FileList.$fileList.find('tr:not(.summary)').length).toEqual(4);
+			expect(FileList.$fileList.find('tr').length).toEqual(4);
 
 			expect(notificationStub.calledOnce).toEqual(true);
 		});
@@ -372,37 +454,41 @@ describe('FileList tests', function() {
 		function doRename() {
 			var $input, request;
 
-			FileList.setFiles(testFiles);
+			for (var i = 0; i < testFiles.length; i++) {
+				FileList.add(testFiles[i]);
+			}
 
 			// trigger rename prompt
 			FileList.rename('One.txt');
 			$input = FileList.$fileList.find('input.filename');
-			$input.val('One_renamed.txt').blur();
+			$input.val('Tu_after_three.txt').blur();
 
 			expect(fakeServer.requests.length).toEqual(1);
-			var request = fakeServer.requests[0];
+			request = fakeServer.requests[0];
 			expect(request.url.substr(0, request.url.indexOf('?'))).toEqual(OC.webroot + '/index.php/apps/files/ajax/rename.php');
-			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'One_renamed.txt', file: 'One.txt'});
+			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'Tu_after_three.txt', file: 'One.txt'});
 
 			// element is renamed before the request finishes
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(1);
 			// input is gone
 			expect(FileList.$fileList.find('input.filename').length).toEqual(0);
 		}
-		it('Keeps renamed file entry if rename ajax call suceeded', function() {
+		it('Inserts renamed file entry at correct position if rename ajax call suceeded', function() {
 			doRename();
 
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt',
+					type: 'file'
 				}
 			}));
 
 			// element stays renamed
 			expect(FileList.findFileEl('One.txt').length).toEqual(0);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(1);
+			expect(FileList.findFileEl('Tu_after_three.txt').index()).toEqual(2); // after Two.txt
 
 			expect(alertStub.notCalled).toEqual(true);
 		});
@@ -418,7 +504,8 @@ describe('FileList tests', function() {
 
 			// element was reverted
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
-			expect(FileList.findFileEl('One_renamed.txt').length).toEqual(0);
+			expect(FileList.findFileEl('One.txt').index()).toEqual(1); // after somedir
+			expect(FileList.findFileEl('Tu_after_three.txt').length).toEqual(0);
 
 			expect(alertStub.calledOnce).toEqual(true);
 		});
@@ -429,12 +516,12 @@ describe('FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt'
 				}
 			}));
 
-			$tr = FileList.findFileEl('One_renamed.txt');
-			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One_renamed.txt');
+			$tr = FileList.findFileEl('Tu_after_three.txt');
+			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=Tu_after_three.txt');
 		});
 		// FIXME: fix this in the source code!
 		xit('Correctly updates file link after rename when path has same name', function() {
@@ -446,27 +533,122 @@ describe('FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
-					name: 'One_renamed.txt'
+					name: 'Tu_after_three.txt'
 				}
 			}));
 
-			$tr = FileList.findFileEl('One_renamed.txt');
+			$tr = FileList.findFileEl('Tu_after_three.txt');
 			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One.txt');
+		});
+	});
+	describe('Moving files', function() {
+		beforeEach(function() {
+			FileList.setFiles(testFiles);
+		});
+		it('Moves single file to target folder', function() {
+			var request;
+			FileList.move('One.txt', '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'One.txt',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			expect(notificationStub.notCalled).toEqual(true);
+		});
+		it('Moves list of files to target folder', function() {
+			var request;
+			FileList.move(['One.txt', 'Two.jpg'], '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(2);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			request = fakeServer.requests[1];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'Two.jpg', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'One.txt',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(262);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('262 B');
+
+			fakeServer.requests[1].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'Two.jpg',
+					type: 'file'
+				}
+			}));
+
+			expect(FileList.findFileEl('Two.jpg').length).toEqual(0);
+
+			// folder size has increased
+			expect(FileList.findFileEl('somedir').data('size')).toEqual(12311);
+			expect(FileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 kB');
+
+			expect(notificationStub.notCalled).toEqual(true);
+		});
+		it('Shows notification if a file could not be moved', function() {
+			var request;
+			FileList.move('One.txt', '/somedir');
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/move.php');
+			expect(OC.parseQueryString(request.requestBody)).toEqual({dir: '/subdir', file: 'One.txt', target: '/somedir'});
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'error',
+				data: {
+					message: 'Error while moving file',
+				}
+			}));
+
+			expect(FileList.findFileEl('One.txt').length).toEqual(1);
+
+			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationStub.getCall(0).args[0]).toEqual('Error while moving file');
 		});
 	});
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
-			var addSpy = sinon.spy(FileList, 'add');
+			expect(FileList.files.length).toEqual(0);
+			expect(FileList.files).toEqual([]);
 			FileList.setFiles(testFiles);
-			expect(addSpy.callCount).toEqual(4);
-			expect($('#fileList tr:not(.summary)').length).toEqual(4);
-			addSpy.restore();
+			expect($('#fileList tr').length).toEqual(4);
+			expect(FileList.files.length).toEqual(4);
+			expect(FileList.files).toEqual(testFiles);
 		});
 		it('updates summary using the file sizes', function() {
 			var $summary;
 			FileList.setFiles(testFiles);
-			$summary = $('#fileList .summary');
-			expect($summary.length).toEqual(1);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
 			expect($summary.find('.filesize').text()).toEqual('69 kB');
 		});
@@ -474,20 +656,20 @@ describe('FileList tests', function() {
 			FileList.setFiles(testFiles);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(false);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
-			expect(FileList.$fileList.find('.summary').length).toEqual(1);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(false);
 		});
 		it('hides headers, summary and show empty content message after setting empty file list', function(){
 			FileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(false);
-			expect(FileList.$fileList.find('.summary').length).toEqual(0);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('hides headers, empty content message, and summary when list is empty and user has no creation permission', function(){
 			$('#permissions').val(0);
 			FileList.setFiles([]);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(true);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
-			expect(FileList.$fileList.find('.summary').length).toEqual(0);
+			expect(FileList.$el.find('.summary').hasClass('hidden')).toEqual(true);
 		});
 		it('calling findFileEl() can find existing file element', function() {
 			FileList.setFiles(testFiles);
@@ -518,6 +700,110 @@ describe('FileList tests', function() {
 			FileList.$fileList.on('updated', handler);
 			FileList.setFiles(testFiles);
 			expect(handler.calledOnce).toEqual(true);
+		});
+		it('does not update summary when removing non-existing files', function() {
+			// single file
+			FileList.setFiles([testFiles[0]]);
+			$summary = $('#filestable .summary');
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+			FileList.remove('unexist.txt');
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+		});
+	});
+	describe('Rendering next page on scroll', function() {
+		beforeEach(function() {
+			FileList.setFiles(generateFiles(0, 64));
+		});
+		it('renders only the first page', function() {
+			expect(FileList.files.length).toEqual(65);
+			expect($('#fileList tr').length).toEqual(20);
+		});
+		it('renders the second page when scrolling down (trigger nextPage)', function() {
+			// TODO: can't simulate scrolling here, so calling nextPage directly
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(65);
+			FileList._nextPage(true);
+			// stays at 65
+			expect($('#fileList tr').length).toEqual(65);
+		});
+		it('inserts into the DOM if insertion point is in the visible page ', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 15b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(21);
+			expect(FileList.findFileEl('File with index 15b.txt').index()).toEqual(16);
+		});
+		it('does not inserts into the DOM if insertion point is not the visible page ', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 28b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(20);
+			expect(FileList.findFileEl('File with index 28b.txt').length).toEqual(0);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			expect(FileList.findFileEl('File with index 28b.txt').index()).toEqual(29);
+		});
+		it('appends into the DOM when inserting a file after the last visible element', function() {
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 19b.txt'
+			});
+			expect($('#fileList tr').length).toEqual(21);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(41);
+		});
+		it('appends into the DOM when inserting a file on the last page when visible', function() {
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(65);
+			FileList._nextPage(true);
+			FileList.add({
+				id: 2000,
+				type: 'file',
+				name: 'File with index 88.txt'
+			});
+			expect($('#fileList tr').length).toEqual(66);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(66);
+		});
+		it('shows additional page when appending a page of files and scrolling down', function() {
+			var newFiles = generateFiles(66, 81);
+			for (var i = 0; i < newFiles.length; i++) {
+				FileList.add(newFiles[i]);
+			}
+			expect($('#fileList tr').length).toEqual(20);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(40);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(60);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(80);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(81);
+			FileList._nextPage(true);
+			expect($('#fileList tr').length).toEqual(81);
+		});
+		it('automatically renders next page when there are not enough elements visible', function() {
+			// delete the 15 first elements
+			for (var i = 0; i < 15; i++) {
+				FileList.remove(FileList.files[0].name);
+			}
+			// still makes sure that there are 20 elements visible, if any
+			expect($('#fileList tr').length).toEqual(25);
 		});
 	});
 	describe('file previews', function() {
@@ -642,7 +928,7 @@ describe('FileList tests', function() {
 			var query = url.substr(url.indexOf('?') + 1);
 			expect(OC.parseQueryString(query)).toEqual({'dir': '/subdir'});
 			fakeServer.respond();
-			expect($('#fileList tr:not(.summary)').length).toEqual(4);
+			expect($('#fileList tr').length).toEqual(4);
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
 		});
 		it('switches dir and fetches file list when calling changeDirectory()', function() {
@@ -740,14 +1026,12 @@ describe('FileList tests', function() {
 				}
 			};
 			// returns a list of tr that were dragged
-			// FIXME: why are their attributes different than the
-			// regular file trs ?
 			ui.helper.find.returns([
-				$('<tr data-filename="One.txt" data-dir="' + testDir + '"></tr>'),
-				$('<tr data-filename="Two.jpg" data-dir="' + testDir + '"></tr>')
+				$('<tr data-file="One.txt" data-dir="' + testDir + '"></tr>'),
+				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			FileList._onDropOnBreadCrumb.call($crumb, new $.Event('drop'), ui);
+			FileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui);
 
 			// will trigger two calls to move.php (first one was previous list.php)
 			expect(fakeServer.requests.length).toEqual(3);
@@ -784,14 +1068,12 @@ describe('FileList tests', function() {
 				}
 			};
 			// returns a list of tr that were dragged
-			// FIXME: why are their attributes different than the
-			// regular file trs ?
 			ui.helper.find.returns([
-				$('<tr data-filename="One.txt" data-dir="' + testDir + '"></tr>'),
-				$('<tr data-filename="Two.jpg" data-dir="' + testDir + '"></tr>')
+				$('<tr data-file="One.txt" data-dir="' + testDir + '"></tr>'),
+				$('<tr data-file="Two.jpg" data-dir="' + testDir + '"></tr>')
 			]);
 			// simulate drop event
-			FileList._onDropOnBreadCrumb.call($crumb, new $.Event('drop'), ui);
+			FileList._onDropOnBreadCrumb(new $.Event('drop', {target: $crumb}), ui);
 
 			// no extra server request
 			expect(fakeServer.requests.length).toEqual(1);
@@ -809,6 +1091,331 @@ describe('FileList tests', function() {
 		});
 		it('returns the correct ajax URL', function() {
 			expect(Files.getAjaxUrl('test', {a:1, b:'x y'})).toEqual(OC.webroot + '/index.php/apps/files/ajax/test.php?a=1&b=x%20y');
+		});
+	});
+	describe('File selection', function() {
+		beforeEach(function() {
+			FileList.setFiles(testFiles);
+		});
+		it('Selects a file when clicking its checkbox', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
+			$tr.find('td.filename input:checkbox').click();
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+		});
+		it('Selects/deselect a file when clicking on the name while holding Ctrl', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+
+			// click on second entry, does not clear the selection
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual(['One.txt', 'Three.pdf']);
+
+			// deselect now
+			e = new $.Event('click');
+			e.ctrlKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual(['One.txt']);
+		});
+		it('Selects a range when clicking on one file then Shift clicking on another one', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			$tr.find('td.filename input:checkbox').click();
+			e = new $.Event('click');
+			e.shiftKey = true;
+			$tr2.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+			expect(FileList.findFileEl('Two.jpg').find('input:checkbox').prop('checked')).toEqual(true);
+			var selection = _.pluck(FileList.getSelectedFiles(), 'name');
+			expect(selection.length).toEqual(3);
+			expect(selection).toContain('One.txt');
+			expect(selection).toContain('Two.jpg');
+			expect(selection).toContain('Three.pdf');
+		});
+		it('Selects a range when clicking on one file then Shift clicking on another one that is above the first one', function() {
+			var $tr = FileList.findFileEl('One.txt');
+			var $tr2 = FileList.findFileEl('Three.pdf');
+			var e;
+			$tr2.find('td.filename input:checkbox').click();
+			e = new $.Event('click');
+			e.shiftKey = true;
+			$tr.find('td.filename .name').trigger(e);
+
+			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
+			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
+			expect(FileList.findFileEl('Two.jpg').find('input:checkbox').prop('checked')).toEqual(true);
+			var selection = _.pluck(FileList.getSelectedFiles(), 'name');
+			expect(selection.length).toEqual(3);
+			expect(selection).toContain('One.txt');
+			expect(selection).toContain('Two.jpg');
+			expect(selection).toContain('Three.pdf');
+		});
+		it('Selecting all files will automatically check "select all" checkbox', function() {
+			expect($('#select_all').prop('checked')).toEqual(false);
+			$('#fileList tr td.filename input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+		});
+		it('Selecting all files on the first visible page will not automatically check "select all" checkbox', function() {
+			FileList.setFiles(generateFiles(0, 41));
+			expect($('#select_all').prop('checked')).toEqual(false);
+			$('#fileList tr td.filename input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+		});
+		it('Clicking "select all" will select/deselect all files', function() {
+			FileList.setFiles(generateFiles(0, 41));
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			$('#fileList tr input:checkbox').each(function() {
+				expect($(this).prop('checked')).toEqual(true);
+			});
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(42);
+
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+
+			$('#fileList tr input:checkbox').each(function() {
+				expect($(this).prop('checked')).toEqual(false);
+			});
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(0);
+		});
+		it('Clicking "select all" then deselecting a file will uncheck "select all"', function() {
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+
+			var $tr = FileList.findFileEl('One.txt');
+			$tr.find('input:checkbox').click();
+
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+		});
+		it('Updates the selection summary when doing a few manipulations with "Select all"', function() {
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+
+			var $tr = FileList.findFileEl('One.txt');
+			// unselect one
+			$tr.find('input:checkbox').click();
+
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+
+			// select all
+			$('#select_all').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(4);
+
+			// unselect one
+			$tr.find('input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(3);
+
+			// re-select it
+			$tr.find('input:checkbox').click();
+			expect($('#select_all').prop('checked')).toEqual(true);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(4);
+		});
+		it('Auto-selects files on next page when "select all" is checked', function() {
+			FileList.setFiles(generateFiles(0, 41));
+			$('#select_all').click();
+
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(20);
+			FileList._nextPage(true);
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(40);
+			FileList._nextPage(true);
+			expect(FileList.$fileList.find('tr input:checkbox:checked').length).toEqual(42);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(42);
+		});
+		it('Selecting files updates selection summary', function() {
+			var $summary = $('#headerName span.name');
+			expect($summary.text()).toEqual('Name');
+			FileList.findFileEl('One.txt').find('input:checkbox').click();
+			FileList.findFileEl('Three.pdf').find('input:checkbox').click();
+			FileList.findFileEl('somedir').find('input:checkbox').click();
+			expect($summary.text()).toEqual('1 folder & 2 files');
+		});
+		it('Unselecting files hides selection summary', function() {
+			var $summary = $('#headerName span.name');
+			FileList.findFileEl('One.txt').find('input:checkbox').click().click();
+			expect($summary.text()).toEqual('Name');
+		});
+		it('Select/deselect files shows/hides file actions', function() {
+			var $actions = $('#headerName .selectedActions');
+			var $checkbox = FileList.findFileEl('One.txt').find('input:checkbox');
+			expect($actions.hasClass('hidden')).toEqual(true);
+			$checkbox.click();
+			expect($actions.hasClass('hidden')).toEqual(false);
+			$checkbox.click();
+			expect($actions.hasClass('hidden')).toEqual(true);
+		});
+		it('Selection is cleared when switching dirs', function() {
+			$('#select_all').click();
+			var data = {
+				status: 'success',
+				data: {
+					files: testFiles,
+					permissions: 31
+				}
+			};
+			fakeServer.respondWith(/\/index\.php\/apps\/files\/ajax\/list.php/, [
+					200, {
+						"Content-Type": "application/json"
+					},
+					JSON.stringify(data)
+			]);
+			FileList.changeDirectory('/');
+			fakeServer.respond();
+			expect($('#select_all').prop('checked')).toEqual(false);
+			expect(_.pluck(FileList.getSelectedFiles(), 'name')).toEqual([]);
+		});
+		it('getSelectedFiles returns the selected files even when they are on the next page', function() {
+			var selectedFiles;
+			FileList.setFiles(generateFiles(0, 41));
+			$('#select_all').click();
+			// unselect one to not have the "allFiles" case
+			FileList.$fileList.find('tr input:checkbox:first').click();
+
+			// only 20 files visible, must still return all the selected ones
+			selectedFiles = _.pluck(FileList.getSelectedFiles(), 'name');
+
+			expect(selectedFiles.length).toEqual(41);
+		});
+		describe('Actions', function() {
+			beforeEach(function() {
+				FileList.findFileEl('One.txt').find('input:checkbox').click();
+				FileList.findFileEl('Three.pdf').find('input:checkbox').click();
+				FileList.findFileEl('somedir').find('input:checkbox').click();
+			});
+			it('getSelectedFiles returns the selected file data', function() {
+				var files = FileList.getSelectedFiles();
+				expect(files.length).toEqual(3);
+				expect(files[0]).toEqual({
+					id: 1,
+					name: 'One.txt',
+					mimetype: 'text/plain',
+					type: 'file',
+					size: 12,
+					etag: 'abc'
+				});
+				expect(files[1]).toEqual({
+					id: 3,
+					type: 'file',
+					name: 'Three.pdf',
+					mimetype: 'application/pdf',
+					size: 58009,
+					etag: '123'
+				});
+				expect(files[2]).toEqual({
+					id: 4,
+					type: 'dir',
+					name: 'somedir',
+					mimetype: 'httpd/unix-directory',
+					size: 250,
+					etag: '456'
+				});
+			});
+			it('Removing a file removes it from the selection', function() {
+				FileList.remove('Three.pdf');
+				var files = FileList.getSelectedFiles();
+				expect(files.length).toEqual(2);
+				expect(files[0]).toEqual({
+					id: 1,
+					name: 'One.txt',
+					mimetype: 'text/plain',
+					type: 'file',
+					size: 12,
+					etag: 'abc'
+				});
+				expect(files[1]).toEqual({
+					id: 4,
+					type: 'dir',
+					name: 'somedir',
+					mimetype: 'httpd/unix-directory',
+					size: 250,
+					etag: '456'
+				});
+			});
+			describe('Download', function() {
+				it('Opens download URL when clicking "Download"', function() {
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=%5B%22One.txt%22%2C%22Three.pdf%22%2C%22somedir%22%5D');
+					redirectStub.restore();
+				});
+				it('Downloads root folder when all selected in root folder', function() {
+					$('#dir').val('/');
+					$('#select_all').click();
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=');
+					redirectStub.restore();
+				});
+				it('Downloads parent folder when all selected in subfolder', function() {
+					$('#select_all').click();
+					var redirectStub = sinon.stub(OC, 'redirect');
+					$('.selectedActions .download').click();
+					expect(redirectStub.calledOnce).toEqual(true);
+					expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2F&files=subdir');
+					redirectStub.restore();
+				});
+			});
+			describe('Delete', function() {
+				it('Deletes selected files when "Delete" clicked', function() {
+					var request;
+					$('.selectedActions .delete-selected').click();
+					expect(fakeServer.requests.length).toEqual(1);
+					request = fakeServer.requests[0];
+					expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/delete.php');
+					expect(OC.parseQueryString(request.requestBody))
+						.toEqual({'dir': '/subdir', files: '["One.txt","Three.pdf","somedir"]'});
+					fakeServer.requests[0].respond(
+						200,
+						{ 'Content-Type': 'application/json' },
+						JSON.stringify({status: 'success'})
+					);
+					expect(FileList.findFileEl('One.txt').length).toEqual(0);
+					expect(FileList.findFileEl('Three.pdf').length).toEqual(0);
+					expect(FileList.findFileEl('somedir').length).toEqual(0);
+					expect(FileList.findFileEl('Two.jpg').length).toEqual(1);
+				});
+				it('Deletes all files when all selected when "Delete" clicked', function() {
+					var request;
+					$('#select_all').click();
+					$('.selectedActions .delete-selected').click();
+					expect(fakeServer.requests.length).toEqual(1);
+					request = fakeServer.requests[0];
+					expect(request.url).toEqual(OC.webroot + '/index.php/apps/files/ajax/delete.php');
+					expect(OC.parseQueryString(request.requestBody))
+						.toEqual({'dir': '/subdir', allfiles: 'true'});
+					fakeServer.requests[0].respond(
+						200,
+						{ 'Content-Type': 'application/json' },
+						JSON.stringify({status: 'success'})
+					);
+					expect(FileList.isEmpty).toEqual(true);
+				});
+			});
 		});
 	});
 });

@@ -91,6 +91,8 @@
 	</thead>
 	<tbody id="fileList">
 	</tbody>
+	<tfoot>
+	</tfoot>
 </table>
 <div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">

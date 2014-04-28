@@ -310,7 +310,6 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
 .selectedActions {
-	display: none;
 	position: absolute;
 	top: -1px;
 	right: 0;

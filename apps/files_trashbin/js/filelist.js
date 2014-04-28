@@ -49,8 +49,8 @@
 		}
 	};
 
-	var oldAdd = FileList.add;
-	FileList.add = function(fileData, options) {
+	var oldRenderRow = FileList._renderRow;
+	FileList._renderRow = function(fileData, options) {
 		options = options || {};
 		var dir = FileList.getCurrentDirectory();
 		var dirListing = dir !== '' && dir !== '/';
@@ -62,7 +62,7 @@
 			fileData.displayName = fileData.name;
 			fileData.name = fileData.name + '.d' + Math.floor(fileData.mtime / 1000);
 		}
-		return oldAdd.call(this, fileData, options);
+		return oldRenderRow.call(this, fileData, options);
 	};
 
 	FileList.linkTo = function(dir){
@@ -75,4 +75,130 @@
 		$('#emptycontent').toggleClass('hidden', exists);
 		$('#filestable th').toggleClass('hidden', !exists);
 	};
+
+	var oldInit = FileList.initialize;
+	FileList.initialize = function() {
+		var result = oldInit.apply(this, arguments);
+		$('.undelete').click('click', FileList._onClickRestoreSelected);
+		return result;
+	};
+
+	FileList._removeCallback = function(result) {
+		if (result.status !== 'success') {
+			OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
+		}
+
+		var files = result.data.success;
+		var $el;
+		for (var i = 0; i < files.length; i++) {
+			$el = FileList.remove(OC.basename(files[i].filename), {updateSummary: false});
+			FileList.fileSummary.remove({type: $el.attr('data-type'), size: $el.attr('data-size')});
+		}
+		FileList.fileSummary.update();
+		FileList.updateEmptyContent();
+		enableActions();
+	}
+
+	FileList._onClickRestoreSelected = function(event) {
+		event.preventDefault();
+		var allFiles = $('#select_all').is(':checked');
+		var files = [];
+		var params = {};
+		disableActions();
+		if (allFiles) {
+			FileList.showMask();
+			params = {
+				allfiles: true,
+				dir: FileList.getCurrentDirectory()
+			};
+		}
+		else {
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
+			for (var i = 0; i < files.length; i++) {
+				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
+				deleteAction.removeClass('delete-icon').addClass('progress-icon');
+			}
+			params = {
+				files: JSON.stringify(files),
+				dir: FileList.getCurrentDirectory()
+			};
+		}
+
+		$.post(OC.filePath('files_trashbin', 'ajax', 'undelete.php'),
+			params,
+			function(result) {
+				if (allFiles) {
+					if (result.status !== 'success') {
+						OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
+					}
+					FileList.hideMask();
+					// simply remove all files
+					FileList.setFiles([]);
+					enableActions();
+				}
+				else {
+					FileList._removeCallback(result);
+				}
+			}
+		);
+	};
+
+	FileList._onClickDeleteSelected = function(event) {
+		event.preventDefault();
+		var allFiles = $('#select_all').is(':checked');
+		var files = [];
+		var params = {};
+		if (allFiles) {
+			params = {
+				allfiles: true,
+				dir: FileList.getCurrentDirectory()
+			};
+		}
+		else {
+			files = _.pluck(FileList.getSelectedFiles(), 'name');
+			params = {
+				files: JSON.stringify(files),
+				dir: FileList.getCurrentDirectory()
+			};
+		}
+
+		disableActions();
+		if (allFiles) {
+			FileList.showMask();
+		}
+		else {
+			for (var i = 0; i < files.length; i++) {
+				var deleteAction = FileList.findFileEl(files[i]).children("td.date").children(".action.delete");
+				deleteAction.removeClass('delete-icon').addClass('progress-icon');
+			}
+		}
+
+		$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'),
+				params,
+				function(result) {
+					if (allFiles) {
+						if (result.status !== 'success') {
+							OC.dialogs.alert(result.data.message, t('files_trashbin', 'Error'));
+						}
+						FileList.hideMask();
+						// simply remove all files
+						FileList.setFiles([]);
+						enableActions();
+					}
+					else {
+						FileList._removeCallback(result);
+					}
+				}
+		);
+	};
+
+	var oldClickFile = FileList._onClickFile;
+	FileList._onClickFile = function(event) {
+		var mime = $(this).parent().parent().data('mime');
+		if (mime !== 'httpd/unix-directory') {
+			event.preventDefault();
+		}
+		return oldClickFile.apply(this, arguments);
+	};
+
 })();
