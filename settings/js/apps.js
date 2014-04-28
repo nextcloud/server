@@ -119,7 +119,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 	},
 	enableApp:function(appid, active, element, groups) {
-		console.log('enableApp:', appid, active, element);
 		groups = groups || [];
 		var appitem=$('#app-navigation ul li[data-id="'+appid+'"]');
 		element.val(t('settings','Please wait....'));
@@ -185,7 +184,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 	},
 	updateApp:function(appid, element) {
-		console.log('updateApp:', appid, element);
 		element.val(t('settings','Updating....'));
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appid},function(result) {
 			if(!result || result.status !== 'success') {
@@ -288,7 +286,6 @@ $(document).ready(function(){
 	$('#app-navigation ul li').each(function(index,li){
 		var app = OC.get('appData_'+$(li).data('id'));
 		if (app) {
-			console.log(app);
 			app.groups= $(li).data('groups') || [];
 		}
 		$(li).data('app',app);
