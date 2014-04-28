@@ -110,9 +110,10 @@ class OC_Setup {
 			// out that this is indeed an ownCloud data directory
 			file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.ocdata', '');
 
-			//create htaccess files for apache hosts
+			// Update htaccess files for apache hosts
 			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-				self::createHtaccess();
+				self::updateHtaccess();
+				self::protectDataDirectory();
 			}
 
 			//and we are done
@@ -123,52 +124,13 @@ class OC_Setup {
 	}
 
 	/**
-	 * create .htaccess files for apache hosts
+	 * Append the correct ErrorDocument path for Apache hosts
 	 */
-	private static function createHtaccess() {
-		$content = "<IfModule mod_fcgid.c>\n";
-		$content.= "<IfModule mod_setenvif.c>\n";
-		$content.= "<IfModule mod_headers.c>\n";
-		$content.= "SetEnvIfNoCase ^Authorization$ \"(.+)\" XAUTHORIZATION=$1\n";
-		$content.= "RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION\n";
-		$content.= "</IfModule>\n";
-		$content.= "</IfModule>\n";
-		$content.= "</IfModule>\n";
+	public static function updateHtaccess() {
+		$content = "\n";
 		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
-		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
-		$content.= "<IfModule mod_php5.c>\n";
-		$content.= "php_value upload_max_filesize 512M\n";//upload limit
-		$content.= "php_value post_max_size 512M\n";
-		$content.= "php_value memory_limit 512M\n";
-		$content.= "php_value mbstring.func_overload 0\n";
-		$content.= "<IfModule env_module>\n";
-		$content.= "  SetEnv htaccessWorking true\n";
-		$content.= "</IfModule>\n";
-		$content.= "</IfModule>\n";
-		$content.= "<IfModule mod_rewrite.c>\n";
-		$content.= "RewriteEngine on\n";
-		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
-		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
-		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
-		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
-		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
-		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
-		$content.= "</IfModule>\n";
-		$content.= "<IfModule mod_mime.c>\n";
-		$content.= "AddType image/svg+xml svg svgz\n";
-		$content.= "AddEncoding gzip svgz\n";
-		$content.= "</IfModule>\n";
-		$content.= "<IfModule dir_module>\n";
-		$content.= "DirectoryIndex index.php index.html\n";
-		$content.= "</IfModule>\n";
-		$content.= "AddDefaultCharset utf-8\n";
-		$content.= "Options -Indexes\n";
-		$content.= "<IfModule pagespeed_module>\n";
-		$content.= "ModPagespeed Off\n";
-		$content.= "</IfModule>\n";
-		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
-
-		self::protectDataDirectory();
+		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
+		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
 	}
 
 	public static function protectDataDirectory() {
