@@ -18,12 +18,6 @@ if (extension_loaded('imagick')) {
 		//let's see if there is libreoffice or openoffice on this machine
 		if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {
 			require_once('office-cl.php');
-		}else{
-			//in case there isn't, use our fallback
-			require_once('office-fallback.php');
 		}
-	} else {
-		//in case there isn't, use our fallback
-		require_once('office-fallback.php');
 	}
 }
