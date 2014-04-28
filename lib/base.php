@@ -572,17 +572,6 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		$basic_auth = OC_Config::getValue('basic_auth', true);
-		if ($basic_auth && isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('loginname')
-			&& $_SERVER['PHP_AUTH_USER'] !== self::$session->get('loginname')) {
-			$sessionUser = self::$session->get('loginname');
-			$serverUser = $_SERVER['PHP_AUTH_USER'];
-			OC_Log::write('core',
-				"Session loginname ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
-				OC_Log::WARN);
-			OC_User::logout();
-		}
-
 		// Load minimum set of apps - which is filesystem, authentication and logging
 		if (!self::checkUpgrade(false)) {
 			OC_App::loadApps(array('authentication'));
@@ -732,8 +721,10 @@ class OC {
 			self::checkUpgrade();
 		}
 
-		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		OC::tryBasicAuthLogin();
+		if (!OC_User::isLoggedIn()) {
+			// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+			OC::tryBasicAuthLogin();
+		}
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
@@ -783,6 +774,15 @@ class OC {
 			if (isset($_GET["logout"]) and ($_GET["logout"])) {
 				if (isset($_COOKIE['oc_token'])) {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
+				}
+				if (isset($_SERVER['PHP_AUTH_USER'])) {
+					if (isset($_COOKIE['oc_ignore_php_auth_user'])) {
+						// Ignore HTTP Authentication for 5 more mintues.
+						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], time() + 300, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+					} elseif ($_SERVER['PHP_AUTH_USER'] === self::$session->get('loginname')) {
+						// Ignore HTTP Authentication to allow a different user to log in.
+						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], 0, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+					}
 				}
 				OC_User::logout();
 				// redirect to webroot and add slash if webroot is empty
@@ -974,6 +974,7 @@ class OC {
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 			|| !isset($_SERVER["PHP_AUTH_PW"])
+			|| (isset($_COOKIE['oc_ignore_php_auth_user']) && $_COOKIE['oc_ignore_php_auth_user'] === $_SERVER['PHP_AUTH_USER'])
 		) {
 			return false;
 		}

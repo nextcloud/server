@@ -181,9 +181,6 @@ $CONFIG = array(
 /* Whether ownCloud should log the last successfull cron exec */
 "cron_log" => true,
 
-/* Whether http-basic username must equal username to login */
-"basic_auth" => true,
-
 /*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
  * This rotates the current owncloud logfile to a new name, this way the total log usage
