@@ -44,6 +44,11 @@ if (\OC_Util::runningOnWindows()) {
 					new \RecursiveDirectoryIterator($this->datadir . $path),
 					\RecursiveIteratorIterator::CHILD_FIRST
 				);
+				/**
+				 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+				 * This bug is fixed in PHP 5.5.9 or before
+				 * See #8376
+				 */
 				$it->rewind();
 				while ($it->valid()) {
 					/**
