@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-27 08:20+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -235,23 +235,23 @@ msgstr "Válassz profil képet"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Nagyon gyenge jelszó"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Gyenge jelszó"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Nem túl jó jelszó"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Jó jelszó"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Erős jelszó"
 
 #: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."

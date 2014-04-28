@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Sa kasutad serverit usalduseta asukohast",
-"Please contact your administrator" => "Palun kontakteeru oma süsteemihalduriga",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Rakendit \"%s\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga.",
 "No app name specified" => "Ühegi rakendi nime pole määratletud",
 "Help" => "Abiinfo",

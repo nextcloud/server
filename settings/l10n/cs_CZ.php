@@ -119,6 +119,7 @@ $TRANSLATIONS = array(
 "Expire after " => "Vyprší po",
 "days" => "dnech",
 "Enforce expiration date" => "Vynutit datum vypršení",
+"Expire shares by default after N days" => "Výchozí lhůta vypršení sdílení po N dnech",
 "Security" => "Zabezpečení",
 "Enforce HTTPS" => "Vynutit HTTPS",
 "Forces the clients to connect to %s via an encrypted connection." => "Vynutí připojování klientů k %s šifrovaným spojením.",

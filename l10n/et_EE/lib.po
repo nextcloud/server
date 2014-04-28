@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 06:20+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +24,11 @@ msgid "You are accessing the server from an untrusted domain."
 msgstr "Sa kasutad serverit usalduseta asukohast"
 
 #: base.php:724
-msgid "Please contact your administrator"
-msgstr "Palun kontakteeru oma süsteemihalduriga"
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
 
 #: private/app.php:236
 #, php-format

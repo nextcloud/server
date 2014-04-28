@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,10 @@ msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
 #: base.php:724
-msgid "Please contact your administrator"
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
 msgstr ""
 
 #: private/app.php:236
@@ -158,7 +161,7 @@ msgstr "L'aplicación nun ta habilitada"
 
 #: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
-msgstr ""
+msgstr "Fallu d'autenticación"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
@@ -280,7 +283,7 @@ msgstr "Afitar contraseña p'almin"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "El sirvidor web entá nun ta configurado pa permitir la sincronización de ficheros yá que la interface WebDAV paez nun tar funcionando."
 
 #: private/setup.php:203
 #, php-format
@@ -457,11 +460,11 @@ msgstr ""
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Tien d'apurrise un nome d'usuariu válidu"
 
 #: private/user/manager.php:241
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Tien d'apurrise una contraseña válida"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-27 11:40+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,59 +135,59 @@ msgstr "Payares"
 msgid "December"
 msgstr "Avientu"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "fai años"
 
@@ -265,23 +265,23 @@ msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Contraseña mui feble"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Contraseña feble"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Contraseña pasable"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Contraseña bona"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Contraseña mui bona"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -532,7 +532,7 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Contraseña nueva"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -628,7 +628,7 @@ msgstr "¡Salú!"
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "Avisu de seguridá"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"

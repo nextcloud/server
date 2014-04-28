@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-27 19:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -239,7 +239,7 @@ msgstr ""
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "So-so wagwoord"
 
 #: js/personal.js:277
 msgid "Good password"

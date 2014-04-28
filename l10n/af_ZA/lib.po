@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,10 @@ msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
 #: base.php:724
-msgid "Please contact your administrator"
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
 msgstr ""
 
 #: private/app.php:236
@@ -414,7 +417,7 @@ msgstr[1] ""
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n ure gelede"
 
 #: private/template/functions.php:137
 msgid "today"
@@ -428,7 +431,7 @@ msgstr ""
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n dae gelede"
 
 #: private/template/functions.php:142
 msgid "last month"
@@ -438,7 +441,7 @@ msgstr ""
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%n maande gelede"
 
 #: private/template/functions.php:145
 msgid "last year"

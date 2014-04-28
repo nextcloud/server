@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"So-so password" => "So-so wagwoord",
 "Security Warning" => "Sekuriteits waarskuwing",
 "Password" => "Wagwoord",
 "New password" => "Nuwe wagwoord",

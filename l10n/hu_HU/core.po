@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sherlock79 <david@interpont.hu>, 2013
+# sherlock79 <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
+# aries1980 <feher.janos@mindworks.hu>, 2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-27 08:20+0000\n"
+"Last-Translator: aries1980 <feher.janos@mindworks.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Múltbéli lejárati idő."
 
 #: ajax/share.php:119 ajax/share.php:161
 #, php-format
@@ -137,59 +138,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Mentés..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n perccel ezelőtt"
 msgstr[1] "%n perccel ezelőtt"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "több éve"
 
@@ -233,7 +234,7 @@ msgstr "Új fájlok"
 
 #: js/oc-dialogs.js:373
 msgid "Already existing files"
-msgstr ""
+msgstr "A fájlok már láteznek"
 
 #: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
@@ -255,11 +256,11 @@ msgstr "Folytatás"
 
 #: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
-msgstr "(all selected)"
+msgstr "(az összes ki lett választva)"
 
 #: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
-msgstr "({count} kiválasztva)"
+msgstr "({count} lett kiválasztva)"
 
 #: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
@@ -267,23 +268,23 @@ msgstr "Hiba a létező sablon betöltésekor"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Nagyon gyenge jelszó"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Gyenge jelszó"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Nem túl jó jelszó"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Jó jelszó"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Erős jelszó"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -482,7 +483,7 @@ msgstr "%s jelszó visszaállítás"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Hiba történt e-mail küldése közben. Érdemes az adminisztrátort értesíteni."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -545,12 +546,12 @@ msgstr "Jelszó-visszaállítás"
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "A Mac OS X nem támogatott és %s nem lesz teljesen működőképes. Felhasználás csak saját felelősségre!"
 
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "A legjobb eredmény érdekében érdemes GNU/Linux-alapú kiszolgálót használni."
 
 #: strings.php:5
 msgid "Personal"
@@ -672,7 +673,7 @@ msgstr "<strong>Rendszergazdai belépés</strong> létrehozása"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Tárolás & adatbázis"
 
 #: templates/installation.php:77
 msgid "Data folder"

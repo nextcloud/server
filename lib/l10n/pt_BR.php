@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Você está acessando o servidor a partir de um domínio não confiável.",
-"Please contact your administrator" => "Por favor, contate o administrador.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "O aplicativo \"%s\" não pode ser instalado porque não é compatível com esta versão do ownCloud.",
 "No app name specified" => "O nome do aplicativo não foi especificado.",
 "Help" => "Ajuda",

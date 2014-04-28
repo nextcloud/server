@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Guardáu",
 "Folder name" => "Nome de la carpeta",
 "Configuration" => "Configuración",
 "Options" => "Opciones",
