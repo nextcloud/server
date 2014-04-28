@@ -41,7 +41,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 			);
 			/**
 			 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
-             * This bug is fixed in PHP 5.5.9 or before
+			 * This bug is fixed in PHP 5.5.9 or before
 			 * See #8376
 			 */
 			$it->rewind();
