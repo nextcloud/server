@@ -8,8 +8,8 @@
  *
  */
 
-/* global OC, t, n, FileList, FileActions */
-/* global getURLParameter, isPublic */
+/* global OC, t, FileList */
+/* global getURLParameter */
 var Files = {
 	// file space size sync
 	_updateStorageStatistics: function() {
@@ -96,10 +96,10 @@ var Files = {
 			throw t('files', 'File name cannot be empty.');
 		}
 		// check for invalid characters
-		var invalid_characters =
+		var invalidCharacters =
 			['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
-		for (var i = 0; i < invalid_characters.length; i++) {
-			if (trimmedName.indexOf(invalid_characters[i]) !== -1) {
+		for (var i = 0; i < invalidCharacters.length; i++) {
+			if (trimmedName.indexOf(invalidCharacters[i]) !== -1) {
 				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
 			}
 		}
@@ -116,7 +116,8 @@ var Files = {
 			return;
 		}
 		if (usedSpacePercent > 90) {
-			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
+			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
+				{usedSpacePercent: usedSpacePercent}));
 		}
 	},
 
@@ -222,7 +223,7 @@ $(document).ready(function() {
 	// TODO use OC.dialogs
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
-	});
+		});
 
 	//do a background scan if needed
 	scanFiles();
@@ -299,16 +300,6 @@ function scanFiles(force, dir, users) {
 }
 scanFiles.scanning=false;
 
-function boolOperationFinished(data, callback) {
-	result = jQuery.parseJSON(data.responseText);
-	Files.updateMaxUploadFilesize(result);
-	if (result.status === 'success') {
-		callback.call();
-	} else {
-		alert(result.data.message);
-	}
-}
-
 // TODO: move to FileList
 var createDragShadow = function(event) {
 	//select dragged file
@@ -362,25 +353,25 @@ var dragOptions={
 	revert: 'invalid', revertDuration: 300,
 	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow, cursor: 'move',
-		start: function(event, ui){
-			var $selectedFiles = $('td.filename input:checkbox:checked');
-			if($selectedFiles.length > 1){
-				$selectedFiles.parents('tr').fadeTo(250, 0.2);
-			}
-			else{
-				$(this).fadeTo(250, 0.2);
-			}
-		},
-		stop: function(event, ui) {
-			var $selectedFiles = $('td.filename input:checkbox:checked');
-			if($selectedFiles.length > 1){
-				$selectedFiles.parents('tr').fadeTo(250, 1);
-			}
-			else{
-				$(this).fadeTo(250, 1);
-			}
-			$('#fileList tr td.filename').addClass('ui-draggable');
+	start: function(event, ui){
+		var $selectedFiles = $('td.filename input:checkbox:checked');
+		if($selectedFiles.length > 1){
+			$selectedFiles.parents('tr').fadeTo(250, 0.2);
 		}
+		else{
+			$(this).fadeTo(250, 0.2);
+		}
+	},
+	stop: function(event, ui) {
+		var $selectedFiles = $('td.filename input:checkbox:checked');
+		if($selectedFiles.length > 1){
+			$selectedFiles.parents('tr').fadeTo(250, 1);
+		}
+		else{
+			$(this).fadeTo(250, 1);
+		}
+		$('#fileList tr td.filename').addClass('ui-draggable');
+	}
 };
 // sane browsers support using the distance option
 if ( $('html.ie').length === 0) {
@@ -446,7 +437,7 @@ Files.generatePreviewUrl = function(urlSpec) {
 	urlSpec.x *= window.devicePixelRatio;
 	urlSpec.forceIcon = 0;
 	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-}
+};
 
 Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
 	// get mime icon url

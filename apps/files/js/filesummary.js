@@ -167,7 +167,6 @@
 			var summary = this.summary;
 			var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 			var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
-			var fileSize;
 
 			var infoVars = {
 				dirs: '<span class="dirinfo">'+directoryInfo+'</span><span class="connector">',

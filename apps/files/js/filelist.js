@@ -323,7 +323,7 @@ window.FileList = {
 			mimetype: $el.attr('data-mime'),
 			type: $el.attr('data-type'),
 			size: parseInt($el.attr('data-size'), 10),
-			etag: $el.attr('data-etag'),
+			etag: $el.attr('data-etag')
 		};
 	},
 
@@ -371,7 +371,7 @@ window.FileList = {
 
 	/**
 	 * Sets the files to be displayed in the list.
-	 * This operation will rerender the list and update the summary.
+	 * This operation will re-render the list and update the summary.
 	 * @param filesArray array of file data (map)
 	 */
 	setFiles: function(filesArray) {
@@ -673,7 +673,6 @@ window.FileList = {
 	 */
 	changeDirectory: function(targetDir, changeUrl, force) {
 		var $dir = $('#dir'),
-			url,
 			currentDir = $dir.val() || '/';
 		targetDir = targetDir || '/';
 		if (!force && currentDir === targetDir) {
@@ -971,19 +970,16 @@ window.FileList = {
 			event.stopPropagation();
 			event.preventDefault();
 			try {
-				var newname = input.val();
-				var directory = FileList.getCurrentDirectory();
-				if (newname !== oldname) {
+				var newName = input.val();
+				if (newName !== oldname) {
 					checkInput();
-					// save background image, because it's replaced by a spinner while async request
-					var oldBackgroundImage = td.css('background-image');
 					// mark as loading
 					td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
 					$.ajax({
 						url: OC.filePath('files','ajax','rename.php'),
 						data: {
 							dir : $('#dir').val(),
-							newname: newname,
+							newname: newName,
 							file: oldname
 						},
 						success: function(result) {
@@ -1004,20 +1000,20 @@ window.FileList = {
 				}
 				input.tipsy('hide');
 				tr.data('renaming',false);
-				tr.attr('data-file', newname);
+				tr.attr('data-file', newName);
 				var path = td.children('a.name').attr('href');
 				// FIXME this will fail if the path contains the filename.
-				td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newname)));
-				var basename = newname;
-				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-					basename = newname.substr(0, newname.lastIndexOf('.'));
+				td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newName)));
+				var basename = newName;
+				if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+					basename = newName.substr(0, newName.lastIndexOf('.'));
 				}
 				td.find('a.name span.nametext').text(basename);
-				if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+				if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 					if ( ! td.find('a.name span.extension').exists() ) {
 						td.find('a.name span.nametext').append('<span class="extension"></span>');
 					}
-					td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
+					td.find('a.name span.extension').text(newName.substr(newName.lastIndexOf('.')));
 				}
 				form.remove();
 				FileActions.display( tr.find('td.filename'), true);
