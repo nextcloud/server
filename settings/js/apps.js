@@ -89,26 +89,33 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find(".warning").hide();
 		}
 
-		$('#group_select > option').each(function (i, el) {
-			if (app.groups.length === 0 || app.groups.indexOf(el.value) >= 0) {
-				$(el).attr('selected', 'selected');
-			} else {
-				$(el).attr('selected', null);
-			}
-		});
 		page.find("div.multiselect").parent().remove();
-		if (app.active) {
-			if (app.groups.length) {
-				$('#group_select').multiSelect();
-				page.find("#groups_enable").attr('checked','checked');
-			} else {
-				page.find("#groups_enable").attr('checked', null);
-			}
-			page.find("#groups_enable").show();
-			page.find("label[for='groups_enable']").show();
-		} else {
+		if(OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
+			OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
 			page.find("#groups_enable").hide();
 			page.find("label[for='groups_enable']").hide();
+			page.find("#groups_enable").attr('checked', null);
+		} else {
+			$('#group_select > option').each(function (i, el) {
+				if (app.groups.length === 0 || app.groups.indexOf(el.value) >= 0) {
+					$(el).attr('selected', 'selected');
+				} else {
+					$(el).attr('selected', null);
+				}
+			});
+			if (app.active) {
+				if (app.groups.length) {
+					$('#group_select').multiSelect();
+					page.find("#groups_enable").attr('checked','checked');
+				} else {
+					page.find("#groups_enable").attr('checked', null);
+				}
+				page.find("#groups_enable").show();
+				page.find("label[for='groups_enable']").show();
+			} else {
+				page.find("#groups_enable").hide();
+				page.find("label[for='groups_enable']").hide();
+			}
 		}
 	},
 	enableApp:function(appid, active, element, groups) {
@@ -271,6 +278,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	showErrorMessage: function(message) {
 		$('.appinfo .warning').show();
 		$('.appinfo .warning').text(message);
+	},
+	isType: function(app, type){
+		return app.types && app.types.indexOf(type) !== -1;
 	}
 };
 
@@ -278,6 +288,7 @@ $(document).ready(function(){
 	$('#app-navigation ul li').each(function(index,li){
 		var app = OC.get('appData_'+$(li).data('id'));
 		if (app) {
+			console.log(app);
 			app.groups= $(li).data('groups') || [];
 		}
 		$(li).data('app',app);
