@@ -1,3 +1,4 @@
+<?php /** @var $l OC_L10N */ ?>
 <div id="controls">
 	<div id="file_action_panel"></div>
 </div>
@@ -5,8 +6,8 @@
 
 <div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 
-<input type="hidden" id="permissions" value="0"></input>
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>"></input>
+<input type="hidden" id="permissions" value="0">
+<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 
 <table id="filestable">
