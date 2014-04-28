@@ -354,7 +354,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
 		 */
 		$backend = $this->getMock('\OC_Group_Database');
-		$backend->expects($this->exactly(2))
+		$backend->expects($this->exactly(1))
 			->method('groupExists')
 			->with('testgroup')
 			->will($this->returnValue(true));
