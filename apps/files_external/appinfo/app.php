@@ -19,7 +19,6 @@ OC::$CLASSPATH['OC\Files\Storage\SMB_OC'] = 'files_external/lib/smb_oc.php';
 OC::$CLASSPATH['OC\Files\Storage\AmazonS3'] = 'files_external/lib/amazons3.php';
 OC::$CLASSPATH['OC\Files\Storage\Dropbox'] = 'files_external/lib/dropbox.php';
 OC::$CLASSPATH['OC\Files\Storage\SFTP'] = 'files_external/lib/sftp.php';
-OC::$CLASSPATH['OC\Files\Storage\iRODS'] = 'files_external/lib/irods.php';
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
 
 OCP\App::registerAdmin('files_external', 'settings');
@@ -29,7 +28,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
-OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login');
 OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\SMB_OC', 'login');
 
 OC_Mount_Config::registerBackend('\OC\Files\Storage\Local', array(
@@ -154,14 +152,3 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Root'))));
-
-OC_Mount_Config::registerBackend('\OC\Files\Storage\iRODS', array(
-	'backend' => 'iRODS',
-	'configuration' => array(
-		'host' => (string)$l->t('Host'),
-		'port' => (string)$l->t('Port'),
-		'use_logon_credentials' => '!'.$l->t('Use ownCloud login'),
-		'user' => (string)$l->t('Username'),
-		'password' => '*'.$l->t('Password'),
-		'auth_mode' => (string)$l->t('Authentication Mode'),
-		'zone' => (string)$l->t('Zone'))));
