@@ -1,3 +1,4 @@
+<?php /** @var $l OC_L10N */ ?>
 <div id="controls">
 		<div class="actions creatable hidden">
 			<?php if(!isset($_['dirToken'])):?>

@@ -976,7 +976,7 @@ window.FileList = {
 						OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 					}
 					$td.css('background-image', oldBackgroundImage);
-			});
+				});
 		});
 
 	},

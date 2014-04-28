@@ -18,12 +18,12 @@ class Helper
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
 
 		$l = new \OC_L10N('files');
-		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
-		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload (max. %s)', array($maxHumanFilesize));
+		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
+		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
+		$maxHumanFileSize = $l->t('Upload (max. %s)', array($maxHumanFileSize));
 
-		return array('uploadMaxFilesize' => $maxUploadFilesize,
-					 'maxHumanFilesize'  => $maxHumanFilesize,
+		return array('uploadMaxFilesize' => $maxUploadFileSize,
+					 'maxHumanFilesize'  => $maxHumanFileSize,
 					 'freeSpace' => $storageInfo['free'],
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
@@ -36,7 +36,6 @@ class Helper
 	 */
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
-			$dir = $file['directory'];
 			$icon = \OC_Helper::mimetypeIcon('dir');
 			$absPath = $file->getPath();
 			$mount = \OC\Files\Filesystem::getMountManager()->find($absPath);
