@@ -20,11 +20,6 @@
  *
  */
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
 if(!\OC_App::isEnabled('files_sharing')){
 	exit;
 }
