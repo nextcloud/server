@@ -134,12 +134,6 @@ class Manager extends PublicEmitter {
 		$groups = array();
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
-			if (!is_null($limit)) {
-				$limit -= count($groupIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($groupIds);
-			}
 			foreach ($groupIds as $groupId) {
 				$groups[$groupId] = $this->getGroupObject($groupId);
 			}

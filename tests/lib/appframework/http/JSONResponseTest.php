@@ -79,13 +79,6 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-
-	public function testShouldHaveXContentHeaderByDefault() {
-		$headers = $this->json->getHeaders();
-		$this->assertEquals('nosniff', $headers['X-Content-Type-Options']);
-	}
-
-
 	public function testConstructorAllowsToSetData() {
 		$data = array('hi');
 		$code = 300;

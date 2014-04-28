@@ -9,8 +9,8 @@
 // Check if admin user
 OC_Util::checkAdminUser();
 
-// Set the content type to JSON
-header('Content-type: application/json');
+// Set the content type to JS
+header('Content-type: application/javascript');
 
 // Disallow caching
 header("Cache-Control: no-cache, must-revalidate"); 

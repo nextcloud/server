@@ -31,7 +31,7 @@ class OC_Request {
 	 * of trusted domains. If no trusted domains have been configured, returns
 	 * true.
 	 * This is used to prevent Host Header Poisoning.
-	 * @param string $host
+	 * @param string $domain
 	 * @return bool true if the given domain is trusted or if no trusted domains
 	 * have been configured
 	 */
@@ -76,7 +76,7 @@ class OC_Request {
 	/**
 	 * Returns the overwritehost setting from the config if set and
 	 * if the overwrite condition is met
-	 * @return overwritehost value or null if not defined or the defined condition
+	 * @return string|null overwritehost value or null if not defined or the defined condition
 	 * isn't met
 	 */
 	public static function getOverwriteHost() {
@@ -201,6 +201,7 @@ class OC_Request {
 
 	/**
 	 * @brief get Path info from request, not urldecoded
+	 * @throws Exception
 	 * @return string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {

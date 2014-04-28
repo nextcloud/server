@@ -2,6 +2,9 @@
 
 namespace OCA\Files_Sharing;
 
+use OC_Config;
+use PasswordHash;
+
 class Helper {
 
 	/**
@@ -26,9 +29,6 @@ class Helper {
 			exit;
 		}
 
-		$type = $linkItem['item_type'];
-		$fileSource = $linkItem['file_source'];
-		$shareOwner = $linkItem['uid_owner'];
 		$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
 		$path = null;
 		if (isset($rootLinkItem['uid_owner'])) {
@@ -61,7 +61,6 @@ class Helper {
 		}
 
 		$basePath = $path;
-		$rootName = basename($path);
 
 		if ($relativePath !== null && \OC\Files\Filesystem::isReadable($basePath . $relativePath)) {
 			$path .= \OC\Files\Filesystem::normalizePath($relativePath);
@@ -110,5 +109,71 @@ class Helper {
 			}
 		}
 		return true;
+	}
+
+	public static function getSharesFromItem($target) {
+		$result = array();
+		$owner = \OC\Files\Filesystem::getOwner($target);
+		\OC\Files\Filesystem::initMountPoints($owner);
+		$info = \OC\Files\Filesystem::getFileInfo($target);
+		$ownerView = new \OC\Files\View('/'.$owner.'/files');
+		if ( $owner != \OCP\User::getUser() ) {
+			$path = $ownerView->getPath($info['fileid']);
+		} else {
+			$path = $target;
+		}
+
+
+		$ids = array();
+		while ($path !== '' && $path !== '.' && $path !== '/') {
+			$info = $ownerView->getFileInfo($path);
+			$ids[] = $info['fileid'];
+			$path = dirname($path);
+		}
+
+		if (!empty($ids)) {
+
+			$idList = array_chunk($ids, 99, true);
+
+			foreach ($idList as $subList) {
+				$statement = "SELECT `share_with`, `share_type`, `file_target` FROM `*PREFIX*share` WHERE `file_source` IN (" . implode(',', $subList) . ") AND `share_type` IN (0, 1, 2)";
+				$query = \OCP\DB::prepare($statement);
+				$r = $query->execute();
+				$result = array_merge($result, $r->fetchAll());
+			}
+		}
+
+		return $result;
+	}
+
+	public static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, $filename);
+	}
+
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @param string $path the absolute path
+	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
+	 */
+	public static function stripUserFilesPath($path) {
+		$trimmed = ltrim($path, '/');
+		$split = explode('/', $trimmed);
+
+		// it is not a file relative to data/user/files
+		if (count($split) < 3 || $split[1] !== 'files') {
+			return false;
+		}
+
+		$sliced = array_slice($split, 2);
+		$relPath = implode('/', $sliced);
+
+		return $relPath;
 	}
 }

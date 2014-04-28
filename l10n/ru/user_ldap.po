@@ -6,6 +6,7 @@
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # Fenuks <fenuksuh@ya.ru>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
+# Denis Plastinin <denispal@gmail.com>, 2014
 # jekader <jekader@gmail.com>, 2013
 # Евгений Белоусов <kvantor12@gmail.com>, 2013
 # mogarych <mogarych@mail.ru>, 2014
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 08:10+0000\n"
+"Last-Translator: Denis Plastinin <denispal@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,43 +97,43 @@ msgstr "Успешно"
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Конфигурация в порядке"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Конфигурация неправильна"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Конфигурация не завершена"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Выберите группы"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Выберите объектные классы"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Выберите атрибуты"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Проверка соединения удалась"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Проверка соединения не удалась"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Вы действительно хотите удалить существующую конфигурацию сервера?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Подтверждение удаления"
 
@@ -156,7 +157,7 @@ msgstr[2] "%s пользователей найдено"
 msgid "Invalid Host"
 msgstr "Неверный сервер"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
 msgstr "Не могу найти требуемой функциональности"
 
@@ -279,7 +280,7 @@ msgstr "Вы можете задать Base DN для пользователей
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Ограничить доступ к %s пользователям, удовлетворяющим этому критерию:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -348,7 +349,7 @@ msgstr "Подключаться только к серверу-реплике."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Нечувствительный к регистру сервер LDAP (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

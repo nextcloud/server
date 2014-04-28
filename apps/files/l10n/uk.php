@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Size" => "Розмір",
 "Modified" => "Змінено",
 "%s could not be renamed" => "%s не може бути перейменований",
-"Upload" => "Вивантажити",
 "File handling" => "Робота з файлами",
 "Maximum upload size" => "Максимальний розмір відвантажень",
 "max. possible: " => "макс.можливе:",

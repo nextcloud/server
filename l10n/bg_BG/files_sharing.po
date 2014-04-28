@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 12:53+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/share.js:13
+#: js/share.js:33
 msgid "Shared by {owner}"
 msgstr ""
 
@@ -60,7 +60,7 @@ msgstr ""
 #: templates/public.php:17
 #, php-format
 msgid "shared by %s"
-msgstr ""
+msgstr "споделено от %s"
 
 #: templates/public.php:44
 #, php-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-15 01:54-0400\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: app.php:875
+#: app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:234 files.php:262
+#: files.php:234 files.php:261
 msgid "Back to Files"
 msgstr ""
 
@@ -148,15 +148,15 @@ msgstr ""
 msgid "Application is not enabled"
 msgstr ""
 
-#: json.php:40 json.php:63 json.php:88
+#: json.php:40 json.php:62 json.php:87
 msgid "Authentication error"
 msgstr ""
 
-#: json.php:52
+#: json.php:51
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: json.php:75
+#: json.php:74
 msgid "Unknown user"
 msgstr ""
 
@@ -277,6 +277,109 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr ""
 
+#: share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s "
+"is a member of"
+msgstr ""
+
+#: share/share.php:551 share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
 #: tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
@@ -330,20 +433,20 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: user/manager.php:246
+#: user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr ""
 
-#: user/manager.php:251
+#: user/manager.php:237
 msgid "A valid username must be provided"
 msgstr ""
 
-#: user/manager.php:255
+#: user/manager.php:241
 msgid "A valid password must be provided"
 msgstr ""
 
-#: user/manager.php:260
+#: user/manager.php:246
 msgid "The username is already being used"
 msgstr ""

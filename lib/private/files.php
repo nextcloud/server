@@ -231,7 +231,7 @@ class OC_Files {
 			OC_Template::printErrorPage(
 					$l->t('ZIP download is turned off.'),
 					$l->t('Files need to be downloaded one by one.')
-						. '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>'
+						. '<br/><a href="'.OCP\Util::linkTo('files', 'index.php', array('dir' => $dir)).'">' . $l->t('Back to Files') . '</a>'
 			);
 			exit;
 		}
@@ -258,8 +258,7 @@ class OC_Files {
 				OC_Template::printErrorPage(
 						$l->t('Selected files too large to generate zip file.'),
 						$l->t('Please download the files separately in smaller chunks or kindly ask your administrator.')
-						.'<br/><a href="javascript:history.back()">'
-						. $l->t('Back to Files') . '</a>'
+						. '<br/><a href="'.OCP\Util::linkTo('files', 'index.php', array('dir' => $dir)).'">' . $l->t('Back to Files') . '</a>'
 				);
 				exit;
 			}

@@ -287,7 +287,7 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue(array('user2')));
 		$backend2->expects($this->once())
 			->method('usersInGroup')
-			->with('group1', 'user', 1, 0)
+			->with('group1', 'user', 2, 1)
 			->will($this->returnValue(array('user1')));
 
 		$users = $group->searchUsers('user', 2, 1);

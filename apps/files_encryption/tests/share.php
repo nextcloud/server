@@ -175,7 +175,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
@@ -213,14 +213,14 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	function testReShareFile($withTeardown = true) {
 		$this->testShareFile(false);
 
-		// login as user1
+		// login as user2
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
 		// get the file info
 		$fileInfo = $this->view->getFileInfo(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
 
-		// share the file with user2
+		// share the file with user3
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, OCP\PERMISSION_ALL);
 
 		// login as admin
@@ -236,7 +236,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/' . $this->filename);
 
 		// check if data is the same as previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
@@ -333,7 +333,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared' . $this->folder1
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1
 			. $this->subfolder . $this->subsubfolder . '/' . $this->filename);
 
 		// check if data is the same
@@ -376,7 +376,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	function testReShareFolder($withTeardown = true) {
 		$fileInfoFolder1 = $this->testShareFolder(false);
 
-		// login as user1
+		// login as user2
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
 		// disable encryption proxy to prevent recursive calls
@@ -385,7 +385,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get the file info from previous created folder
 		$fileInfoSubFolder = $this->view->getFileInfo(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared' . $this->folder1
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1
 			. $this->subfolder);
 
 		// check if we have a valid file info
@@ -394,24 +394,24 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		// share the file with user2
+		// share the file with user3
 		\OCP\Share::shareItem('folder', $fileInfoSubFolder['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, OCP\PERMISSION_ALL);
 
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		// check if share key for user2 exists
+		// check if share key for user3 exists
 		$this->assertTrue($this->view->file_exists(
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/share-keys' . $this->folder1
 			. $this->subfolder . $this->subsubfolder . '/'
 			. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.shareKey'));
 
-		// login as user2
+		// login as user3
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3);
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/Shared' . $this->subfolder
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/' . $this->subfolder
 			. $this->subsubfolder . '/' . $this->filename);
 
 		// check if data is the same
@@ -419,7 +419,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get the file info
 		$fileInfo = $this->view->getFileInfo(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/Shared' . $this->subfolder
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/' . $this->subfolder
 			. $this->subsubfolder . '/' . $this->filename);
 
 		// check if we have fileInfos
@@ -442,7 +442,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4 . '/files/' . $this->filename);
 
 		// check if data is the same
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
@@ -624,7 +624,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '/files/' . $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
@@ -676,6 +676,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// enable recovery for admin
 		$this->assertTrue($util->setRecoveryForUser(1));
+		$util->addRecoveryKeys();
 
 		// create folder structure
 		$this->view->mkdir('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files' . $this->folder1);
@@ -981,7 +982,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// share the file
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
 
-		// check if share key for user2exists
+		// check if share key for user2 exists
 		$this->assertTrue($this->view->file_exists(
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/share-keys/'
 			. $this->filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
@@ -990,31 +991,29 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// login as user2
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
-		$this->assertTrue($this->view->file_exists('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared/' . $this->filename));
+		$this->assertTrue($this->view->file_exists('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename));
 
 		// get file contents
 		$retrievedCryptedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
-		// move the file out of the shared folder
-		$this->view->rename('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/Shared/' . $this->filename,
-				'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
+		// move the file to a subfolder
+		$this->view->rename('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename,
+				'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 . $this->filename);
 
 		// check if we can read the moved file
 		$retrievedRenamedFile = $this->view->file_get_contents(
-			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
+			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 .  $this->filename);
 
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedRenamedFile);
 
-		// the owners file should be deleted
-		$this->assertFalse($this->view->file_exists('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename));
-
 		// cleanup
-		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
+		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 	}
 
 }

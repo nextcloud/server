@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Size" => "Izmērs",
 "Modified" => "Mainīts",
 "%s could not be renamed" => "%s nevar tikt pārsaukts",
-"Upload" => "Augšupielādēt",
 "File handling" => "Datņu pārvaldība",
 "Maximum upload size" => "Maksimālais datņu augšupielādes apjoms",
 "max. possible: " => "maksimālais iespējamais:",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 12:31+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,43 +88,43 @@ msgstr "Korras"
 msgid "Error"
 msgstr "Viga"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Seadistus on korras"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Seadistus on vigane"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Seadistus on puudulik"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Vali grupid"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Vali objekti klassid"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Vali atribuudid"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Ühenduse testimine õnnestus"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Ühenduse testimine ebaõnnestus"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Oled kindel, et tahad kustutada praegust serveri seadistust?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Kinnita kustutamine"
 
@@ -146,7 +146,7 @@ msgstr[1] "%s kasutajat leitud"
 msgid "Invalid Host"
 msgstr "Vigane server"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
 msgstr "Ei suuda leida soovitud funktsioonaalsust"
 
@@ -338,7 +338,7 @@ msgstr "Ühendu ainult replitseeriva serveriga."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Tõusutundetu LDAP server (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

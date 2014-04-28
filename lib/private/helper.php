@@ -36,7 +36,7 @@ class OC_Helper {
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns the url
+	 * @returns string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -428,6 +428,16 @@ class OC_Helper {
 	 */
 	static function getMimeType($path) {
 		return self::getMimetypeDetector()->detect($path);
+	}
+
+	/**
+	 * Get a secure mimetype that won't expose potential XSS.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+	static function getSecureMimeType($mimeType) {
+		return self::getMimetypeDetector()->getSecureMimeType($mimeType);
 	}
 
 	/**

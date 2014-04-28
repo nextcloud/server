@@ -33,6 +33,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Webdav
+ *
  * @brief this class provide basic webdav tests for PUT,GET and DELETE
  */
 class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
@@ -47,6 +48,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	public $view;
 	public $dataShort;
 	public $stateFilesTrashbin;
+
+	private static $storage;
 
 	public static function setUpBeforeClass() {
 		// reset backend
@@ -65,6 +68,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
 		// create test user
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
+
+		self::$storage = new \OC\Files\Storage\Temporary(array());
 	}
 
 	function setUp() {
@@ -96,8 +101,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
-		}
-		else {
+		} else {
 			OC_App::disable('files_trashbin');
 		}
 	}
@@ -153,7 +157,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(Encryption\Crypt::isCatfileContent($encryptedContent));
 
 		// get decrypted file contents
-		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files'. $filename);
+		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files' . $filename);
 
 		// check if file content match with the written content
 		$this->assertEquals($this->dataShort, $decrypt);
@@ -225,7 +229,12 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$requestBackend = new OC_Connector_Sabre_Request();
 
 		// Create ownCloud Dir
-		$publicDir = new OC_Connector_Sabre_Directory('');
+		$root = '/' . $this->userId . '/files';
+		\OC\Files\Filesystem::mount(self::$storage, array(), $root);
+		$view = new \OC\Files\View($root);
+		$publicDir = new OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
+		$objectTree = new \OC\Connector\Sabre\ObjectTree();
+		$objectTree->init($publicDir, $view);
 
 		// Fire up server
 		$server = new Sabre_DAV_Server($publicDir);
@@ -236,8 +245,9 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
 		$server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
 		$server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
-		$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin());
+		$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
 		$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
+		$server->debugExceptions = true;
 
 		// And off we go!
 		if ($body) {

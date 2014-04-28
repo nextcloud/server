@@ -8,15 +8,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-10 01:54-0400\n"
-"PO-Revision-Date: 2014-04-09 12:20+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr ""
 
 #: private/app.php:236
 #, php-format
@@ -49,7 +57,7 @@ msgstr "Käyttäjät"
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Kohteen \"%s\" päivitys epäonnistui."
@@ -74,7 +82,7 @@ msgstr "ZIP-lataus on poistettu käytöstä."
 msgid "Files need to be downloaded one by one."
 msgstr "Tiedostot on ladattava yksittäin."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Takaisin tiedostoihin"
 
@@ -133,7 +141,7 @@ msgstr ""
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Sovellusta ei voi asentaa, koska info.xml/version ilmoittaa versioksi eri arvon kuin sovelluskauppa"
 
 #: private/installer.php:170
 msgid "App directory already exists"
@@ -148,15 +156,15 @@ msgstr "Sovelluskansion luominen ei onnistu. Korjaa käyttöoikeudet. %s"
 msgid "Application is not enabled"
 msgstr "Sovellusta ei ole otettu käyttöön"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Tunnistautumisvirhe"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Valtuutus vanheni. Lataa sivu uudelleen."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Tuntematon käyttäjä"
 
@@ -223,7 +231,7 @@ msgstr "Tietokantavirhe: \"%s\""
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Loukkaava komento oli: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
@@ -254,7 +262,7 @@ msgstr "Oraclen käyttäjätunnus ja/tai salasana on väärin"
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Loukkaava komento oli: \"%s\", nimi: %s, salasana: %s"
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
@@ -272,7 +280,7 @@ msgstr "Aseta ylläpitäjän salasana."
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web-palvelimen asetukset eivät ole kelvolliset tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki."
 
 #: private/setup.php:203
 #, php-format
@@ -285,73 +293,176 @@ msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 msgid "%s shared »%s« with you"
 msgstr "%s jakoi kohteen »%s« kanssasi"
 
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on kohteen omistaja"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjää %s ei ole olemassa"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Kohteen %s jakaminen epäonnistui, koska ryhmää %s ei ole olemassa"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %s jäsen"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Kohteen %s jakaminen epäonnistui, koska jakaminen linkkejä käyttäen ei ole sallittu"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "Kohteen %s oikeuksien asettaminen epäonnistui, koska kohdetta ei löytynyt"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on alkuperäinen jakaja"
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr "Kohteen %s jakaminen epäonnistui, koska jakaminen uudelleen ei ole sallittu"
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr "Kohteen %s jakaminen epäonnistui, koska tiedostoa ei löytynyt tiedostovälimuistista"
+
 #: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Luokkaa \"%s\" ei löytynyt"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuutti sitten"
 msgstr[1] "%n minuuttia sitten"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tunti sitten"
 msgstr[1] "%n tuntia sitten"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "tänään"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "eilen"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n päivä sitten"
 msgstr[1] "%n päivää sitten"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "viime kuussa"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuukausi sitten"
 msgstr[1] "%n kuukautta sitten"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "viime vuonna"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\""
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
 msgstr "Anna kelvollinen käyttäjätunnus"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
 msgstr "Anna kelvollinen salasana"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
 msgstr "Käyttäjätunnus on jo käytössä"

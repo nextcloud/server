@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n päivä sitten","%n päivää sitten"),
 "last month" => "viime kuussa",
 "_%n month ago_::_%n months ago_" => array("%n kuukausi sitten","%n kuukautta sitten"),
-"months ago" => "kuukautta sitten",
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
 "Choose" => "Valitse",

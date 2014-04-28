@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-12 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 05:54+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "E-kiri on saadetud"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Pead seadistama oma e-postienne kui on võimalik saata test-kirju."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Saatmise viis"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Autentimise meetod"
 
@@ -88,17 +88,17 @@ msgstr "Keela grupi lisamine"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Failide krüpteerimine õnnestus"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Ei suutnud faile dekrüpteerida, palun kontrolli oma owncloud.log-i või küsi nõu administraatorilt"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Ei suutnud failde dekrüpteerida, kontrolli parooli ja proovi uuesti"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -522,94 +522,114 @@ msgid "Allow mail notification"
 msgstr "Luba teavitused e-postiga"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Luba kasutajatel saata jagatud failide kohta e-postiga teavitusi"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Luba kasutajatel saata e-posti teavitusi jagatud failide kohta"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr "Aegu pärast"
+
+#: templates/admin.php:266
+msgid "days"
+msgstr "päeva"
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr "Peata jagamine N päeva möödudes"
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Turvalisus"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Sunni peale HTTPS-i kasutamine"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Sunnib kliente %s ühenduma krüpteeritult."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Postiserver"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr "Seda kasutatakse teadete välja saatmiseks."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Saatja aadress"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr "Autentimine on vajalik"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Serveri aadress"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Kasutajatunnused"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "SMTP kasutajatunnus"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "SMTP parool"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr "Testi e-posti seadeid"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Saada kiri"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Logi tase"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

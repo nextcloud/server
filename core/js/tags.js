@@ -59,7 +59,8 @@ OC.Tags= {
 		});
 	},
 	/**
-	 * @param string type
+	 * @param {string} type
+	 * @param {string} tag
 	 * @return jQuery.Promise which resolves with an array of ids
 	 */
 	getIdsForTag:function(type, tag) {
@@ -80,8 +81,8 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param string type
-	 * @return jQuery.Promise which resolves with an array of ids
+	 * @param {string} type
+	 * @return {*} jQuery.Promise which resolves with an array of ids
 	 */
 	getFavorites:function(type) {
 		if(!type && !this.type) {
@@ -101,8 +102,8 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param string type
-	 * @return jQuery.Promise which resolves with an array of id/name objects
+	 * @param {string} type
+	 * @return {*} jQuery.Promise which resolves with an array of id/name objects
 	 */
 	getTags:function(type) {
 		if(!type && !this.type) {
@@ -122,9 +123,10 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param int id
-	 * @param string type
-	 * @return jQuery.Promise
+	 * @param {number} id
+	 * @param {string} tag
+	 * @param {string} type
+	 * @return {*} jQuery.Promise
 	 */
 	tagAs:function(id, tag, type) {
 		if(!type && !this.type) {
@@ -146,9 +148,10 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param int id
-	 * @param string type
-	 * @return jQuery.Promise
+	 * @param {number} id
+	 * @param {string} tag
+	 * @param {string} type
+	 * @return {*} jQuery.Promise
 	 */
 	unTag:function(id, tag, type) {
 		if(!type && !this.type) {
@@ -170,9 +173,9 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param int id
-	 * @param string type
-	 * @return jQuery.Promise
+	 * @param {number} id
+	 * @param {string} type
+	 * @return {*} jQuery.Promise
 	 */
 	addToFavorites:function(id, type) {
 		if(!type && !this.type) {
@@ -194,9 +197,9 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param int id
-	 * @param string type
-	 * @return jQuery.Promise
+	 * @param {number} id
+	 * @param {string} type
+	 * @return {*} jQuery.Promise
 	 */
 	removeFromFavorites:function(id, type) {
 		if(!type && !this.type) {
@@ -218,9 +221,9 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param string tag
-	 * @param string type
-	 * @return jQuery.Promise which resolves with an object with the name and the new id
+	 * @param {string} tag
+	 * @param {string} type
+	 * @return {*} jQuery.Promise which resolves with an object with the name and the new id
 	 */
 	addTag:function(tag, type) {
 		if(!type && !this.type) {
@@ -245,9 +248,9 @@ OC.Tags= {
 		return defer.promise();
 	},
 	/**
-	 * @param array tags
-	 * @param string type
-	 * @return jQuery.Promise
+	 * @param {array} tags
+	 * @param {string} type
+	 * @return {*} jQuery.Promise
 	 */
 	deleteTags:function(tags, type) {
 		if(!type && !this.type) {

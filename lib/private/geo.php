@@ -6,15 +6,11 @@
  * See the COPYING-README file.
  */
 class OC_Geo{
-	/*
-	 * @brief returns the closest timezone to coordinates
-	 * @param (string) $latitude - Latitude
-	 * @param (string) $longitude - Longitude
-	 * @return (string) $timezone - closest timezone
-	 */
 	/**
-	 * @param integer $latitude
-	 * @param integer $longitude
+	 * @brief returns the closest timezone to coordinates
+	 * @param $latitude
+	 * @param $longitude
+	 * @return mixed Closest timezone
 	 */
 	public static function timezone($latitude, $longitude) {
 		$alltimezones = DateTimeZone::listIdentifiers();

@@ -70,7 +70,7 @@ class OC_FileChunking {
 	 *
 	 * @param string $f target path
 	 *
-	 * @return assembled file size
+	 * @return integer assembled file size
 	 *
 	 * @throws \OC\InsufficientStorageException when file could not be fully
 	 * assembled due to lack of free space
@@ -91,7 +91,7 @@ class OC_FileChunking {
 
 	/**
 	 * Returns the size of the chunks already present
-	 * @return size in bytes
+	 * @return integer size in bytes
 	 */
 	public function getCurrentSize() {
 		$cache = $this->getCache();
@@ -159,7 +159,7 @@ class OC_FileChunking {
 	 *
 	 * @param string $path target path
 	 *
-	 * @return assembled file size or false if file could not be created
+	 * @return boolean assembled file size or false if file could not be created
 	 *
 	 * @throws \OC\InsufficientStorageException when file could not be fully
 	 * assembled due to lack of free space
@@ -216,5 +216,6 @@ class OC_FileChunking {
 				return false;
 			}
 		}
+		return false;
 	}
 }

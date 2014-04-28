@@ -6,7 +6,7 @@ td.status > span {
 }
 
 td.mountPoint, td.backend { width:160px; }
-td.remove>img { visibility:hidden; padding-top:13px; }
+td.remove>img { visibility:hidden; padding-top:7px; }
 tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #addMountPoint>td { border:none; }
 #addMountPoint>td.applicable { visibility:hidden; }
@@ -14,4 +14,9 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 
 #externalStorage label > input[type="checkbox"] {
 	margin-right: 3px;
+}
+
+#externalStorage td.applicable div.chzn-container {
+	position: relative;
+	top: 3px;
 }

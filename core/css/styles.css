@@ -12,13 +12,30 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
-body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
+
+
+body {
+	background: #fefefe;
+	font: normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+	color: #000;
+	height: auto;
+}
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header {
-	position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em;
-	background:#1d2d44 url('../img/noise.png') repeat;
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 45px;
+	line-height: 2.5em;
+	background: #1d2d44 url('../img/noise.png') repeat;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #body-login {
@@ -33,9 +50,34 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
 
-#owncloud { position:absolute; top:0; left:0; padding:6px; padding-bottom:0; }
-.header-right { float:right; vertical-align:middle; padding:0.5em; }
-.header-right > * { vertical-align:middle; }
+#owncloud {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 6px;
+	padding-bottom: 0;
+}
+
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding-right: 10px;
+	color: #fff;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
+.header-right #details {
+	display: inline-block;
+	margin-top: 6px;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 
 /* Profile picture in header */
 #header .avatardiv {
@@ -406,14 +448,29 @@ input[type="submit"].enabled {
 }
 
 /* Icons for username and password fields to better recognize them */
-#adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
-#adminlogin+label+img, #adminpass-icon, #user+label+img, #password-icon {
-	position:absolute; left:1.25em; top:1.65em;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
+#adminlogin,
+#adminpass,
+input[name='adminpass-clone'],
+#user,
+#password,
+input[name='password-clone'] {
+	width: 223px !important;
+	padding-left: 36px !important;
 }
-#adminpass-icon, #password-icon { top:1.1em; }
-input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
-input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
+#adminlogin+label+img,
+#adminpass-icon,
+#user+label+img,
+#password-icon {
+	position: absolute;
+	left: 1.25em;
+	top: 1.65em;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+}
+#adminpass-icon, #password-icon {
+	top: 1.1em;
+}
 
 /* General new input field look */
 #body-login input[type="text"],
@@ -452,15 +509,22 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login form label.infield { /* labels are ellipsized when too long, keep them short */
-	position:absolute; width:90%; padding-left:1.4em;
-	font-size:19px; color:#aaa;
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	position: absolute;
+	width: 82%;
+	margin-left: 26px;
+	font-size: 19px;
+	color: #aaa;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-#body-login #databaseField .infield { padding-left:0; }
+#body-login #databaseField .infield {
+	margin-left: 0;
+}
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
-	font-size: 1em;
+	font-size: 13px;
 	padding: 14px;
 	padding-left: 28px;
 	margin-left: -28px;
@@ -586,8 +650,8 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 .error-wide {
-	width: 800px;
-	margin-left: -250px;
+	width: 700px;
+	margin-left: -200px !important;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
@@ -614,11 +678,13 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 /* Log in and install button */
 #body-login input {
-	font-size: 1.5em;
+	font-size: 20px;
+	margin: 5px;
+	padding: 12px 10px 8px;
 }
 #body-login input[type="text"],
 #body-login input[type="password"] {
-	width: 13em;
+	width: 249px;
 }
 #body-login input.login {
 	width: auto;
@@ -628,7 +694,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	padding: 10px 20px; /* larger log in and installation buttons */
 }
 #remember_login {
-	margin: 18px 5px 0 18px;
+	margin: 24px 5px 0 16px !important;
 	vertical-align: text-bottom;
 }
 

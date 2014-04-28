@@ -235,18 +235,26 @@ OC.Upload = {
 					var file = data.files[0];
 					try {
 						// FIXME: not so elegant... need to refactor that method to return a value
-						Files.isFileNameValid(file.name, FileList.getCurrentDirectory());
+						Files.isFileNameValid(file.name);
 					}
 					catch (errorMessage) {
 						data.textStatus = 'invalidcharacters';
 						data.errorThrown = errorMessage;
 					}
 
-					if (file.type === '' && file.size === 4096) {
-						data.textStatus = 'dirorzero';
-						data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
-							{filename: file.name}
-						);
+					// in case folder drag and drop is not supported file will point to a directory
+					// http://stackoverflow.com/a/20448357
+					if (!file.type && file.size%4096 === 0 && file.size <= 102400) {
+						try {
+							reader = new FileReader();
+							reader.readAsBinaryString(f);
+						} catch (NS_ERROR_FILE_ACCESS_DENIED) {
+							//file is a directory
+							data.textStatus = 'dirorzero';
+							data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
+								{filename: file.name}
+							);
+						}
 					}
 
 					// add size
@@ -326,10 +334,15 @@ OC.Upload = {
 				submit: function(e, data) {
 					OC.Upload.rememberUpload(data);
 					if ( ! data.formData ) {
+						var fileDirectory = '';
+						if(typeof data.files[0].relativePath !== 'undefined') {
+							fileDirectory = data.files[0].relativePath;
+						}
 						// noone set update parameters, we set the minimum
 						data.formData = {
 							requesttoken: oc_requesttoken,
-									 dir: $('#dir').val()
+							dir: $('#dir').val(),
+							file_directory: fileDirectory
 						};
 					}
 				},
@@ -542,8 +555,6 @@ OC.Upload = {
 					throw t('files', 'URL cannot be empty');
 				} else if (type !== 'web' && !Files.isFileNameValid(filename)) {
 					// Files.isFileNameValid(filename) throws an exception itself
-				} else if (FileList.getCurrentDirectory() === '/' && filename.toLowerCase() === 'shared') {
-					throw t('files', 'In the home folder \'Shared\' is a reserved filename');
 				} else if (FileList.inList(filename)) {
 					throw t('files', '{new_name} already exists', {new_name: filename});
 				} else {
@@ -682,4 +693,5 @@ OC.Upload = {
 $(document).ready(function() {
 	OC.Upload.init();
 });
+
 

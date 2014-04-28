@@ -88,6 +88,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $isInGroup;
 	}
 
+	/**
+	 * @param string $dnGroup
+	 * @param array|null &$seen
+	 */
 	private function _groupMembers($dnGroup, &$seen = null) {
 		if ($seen === null) {
 			$seen = array();
@@ -163,6 +167,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $groups;
 	}
 
+	/**
+	 * @param string $dn
+	 * @param array|null &$seen
+	 */
 	private function getGroupsByMember($dn, &$seen = null) {
 		if ($seen === null) {
 			$seen = array();
@@ -454,6 +462,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		return $allGroups;
 	}
 
+	/**
+	 * @param string $group
+	 */
 	public function groupMatchesFilter($group) {
 		return (strripos($group, $this->groupSearch) !== false);
 	}

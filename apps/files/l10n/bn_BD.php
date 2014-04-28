@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "Name" => "রাম",
 "Size" => "আকার",
 "Modified" => "পরিবর্তিত",
-"Upload" => "আপলোড",
 "File handling" => "ফাইল হ্যার্ডলিং",
 "Maximum upload size" => "আপলোডের সর্বোচ্চ আকার",
 "max. possible: " => "অনুমোদিত  সর্বোচ্চ  আকার",

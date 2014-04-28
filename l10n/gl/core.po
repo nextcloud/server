@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-08 11:00+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,135 +136,131 @@ msgstr "novembro"
 msgid "December"
 msgstr "decembro"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
 msgstr "Gardando..."
 
-#: js/js.js:1124
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1125
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "hai %n minuto"
 msgstr[1] "hai %n minutos"
 
-#: js/js.js:1126
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "hai %n hora"
 msgstr[1] "hai %n horas"
 
-#: js/js.js:1127
+#: js/js.js:1249
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:1128
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:1129
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
-msgstr[1] "hai %n días"
+msgstr[1] "vai %n días"
 
-#: js/js.js:1130
+#: js/js.js:1252
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:1131
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "hai %n mes"
 msgstr[1] "hai %n meses"
 
-#: js/js.js:1132
-msgid "months ago"
-msgstr "meses atrás"
-
-#: js/js.js:1133
+#: js/js.js:1254
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1134
+#: js/js.js:1255
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Escoller"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Produciuse un erro ao cargar o modelo do selector: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Si"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Aceptar"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Produciuse un erro ao cargar o modelo da mensaxe: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflito de ficheiro"
 msgstr[1] "{count} conflitos de ficheiros"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Un conflito de ficheiro"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
 msgid "New Files"
 msgstr "Ficheiros novos"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:373
 msgid "Already existing files"
 msgstr "Ficheiros xa existentes"
 
-#: js/oc-dialogs.js:370
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Que ficheiros quere conservar?"
 
-#: js/oc-dialogs.js:371
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se selecciona ambas versións, o ficheiro copiado terá un número engadido ao nome."
 
-#: js/oc-dialogs.js:379
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:389
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(todo o seleccionado)"
 
-#: js/oc-dialogs.js:439 js/oc-dialogs.js:452
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} seleccionados)"
 
-#: js/oc-dialogs.js:460
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Produciuse un erro ao cargar o modelo de ficheiro existente"
 
@@ -296,12 +292,12 @@ msgstr "Compartir"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
@@ -365,71 +361,71 @@ msgstr "Compartir por correo:"
 msgid "No people found"
 msgstr "Non se atopou xente"
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupo"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Non se permite volver a compartir"
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Deixar de compartir"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notificar por correo"
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Correo enviado"
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
 msgstr "Aviso"
 
@@ -457,7 +453,7 @@ msgstr "Editar etiquetas"
 msgid "Error loading dialog template: {error}"
 msgstr "Produciuse un erro ao cargar o modelo do dialogo: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Non se seleccionaron etiquetas para borrado."
 

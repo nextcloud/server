@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-15 01:54-0400\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,11 +35,15 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
+#: js/trash.js:62 templates/index.php:22 templates/index.php:24
+msgid "Restore"
+msgstr ""
+
 #: js/trash.js:264
 msgid "Deleted Files"
 msgstr ""
 
-#: lib/trashbin.php:859 lib/trashbin.php:861
+#: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
 msgstr ""
 
@@ -49,10 +53,6 @@ msgstr ""
 
 #: templates/index.php:19
 msgid "Name"
-msgstr ""
-
-#: templates/index.php:22 templates/index.php:24
-msgid "Restore"
 msgstr ""
 
 #: templates/index.php:30

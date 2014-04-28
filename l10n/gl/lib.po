@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-10 01:54-0400\n"
-"PO-Revision-Date: 2014-04-09 07:30+0000\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-25 12:20+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr "Esta accedendo desde un dominio non fiábel."
+
+#: base.php:724
+msgid "Please contact your administrator"
+msgstr "Contacte co administrador"
 
 #: private/app.php:236
 #, php-format
@@ -50,7 +58,7 @@ msgstr "Usuarios"
 msgid "Admin"
 msgstr "Administración"
 
-#: private/app.php:875
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Non foi posíbel anovar «%s»."
@@ -75,7 +83,7 @@ msgstr "As descargas ZIP están desactivadas."
 msgid "Files need to be downloaded one by one."
 msgstr "Os ficheiros necesitan seren descargados dun en un."
 
-#: private/files.php:234 private/files.php:262
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Volver aos ficheiros"
 
@@ -149,15 +157,15 @@ msgstr "Non é posíbel crear o cartafol de aplicativos. Corrixa os permisos. %s
 msgid "Application is not enabled"
 msgstr "O aplicativo non está activado"
 
-#: private/json.php:40 private/json.php:63 private/json.php:88
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Produciuse un erro de autenticación"
 
-#: private/json.php:52
+#: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Testemuña caducada. Recargue a páxina."
 
-#: private/json.php:75
+#: private/json.php:74
 msgid "Unknown user"
 msgstr "Usuario descoñecido"
 
@@ -286,73 +294,176 @@ msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"
 msgid "%s shared »%s« with you"
 msgstr "%s compartiu «%s» con vostede"
 
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr "Fallou a compartición de %s, o ficheiro non existe"
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Fallou a compartición de %s, o propietario do elemento é o usuario %s"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Fallou a compartición de %s, o usuario %s non existe"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Fallou a compartición de %s, o usuario %s non é membro de ningún grupo que sexa membro de %s"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Fallou a compartición de %s, este elemento xa está compartido con %s"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Fallou a compartición de %s, o grupo %s non existe"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Fallou a compartición de %s, %s non é membro do grupo %s"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Fallou a compartición de %s, non está permitido compartir con ligazóns"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr "Non se admite a compartición do tipo %s para %s"
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s"
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "Non é posíbel estabelecer permisos para %s, non se atopa o elemento"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr "A infraestrutura de compartición %s ten que implementar a interface OCP\\Share_Backend"
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr "Non se atopou a infraestrutura de compartición %s"
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr "Non se atopou a infraestrutura de compartición para %s"
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr "Fallou a compartición de %s, compartición orixinal é do usuario %s"
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr "Fallou a compartición de %s, os permisos superan os permisos concedidos a %s"
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr "Fallou a compartición de %s, non está permitido repetir a compartción"
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr "Fallou a compartición de %s, a infraestrutura de compartición para %s non foi quen de atopar a orixe"
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr "Fallou a compartición de %s, non foi posíbel atopar o ficheiro na caché de ficheiros"
+
 #: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Non foi posíbel atopar a categoría «%s»"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "hai %n minuto"
 msgstr[1] "hai %n minutos"
 
-#: private/template/functions.php:135
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "hai %n hora"
 msgstr[1] "hai %n horas"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:137
 msgid "today"
 msgstr "hoxe"
 
-#: private/template/functions.php:137
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "onte"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
-msgstr[1] "hai %n días"
+msgstr[1] "vai %n días"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "último mes"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "hai %n mes"
 msgstr[1] "hai %n meses"
 
-#: private/template/functions.php:144
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "último ano"
 
-#: private/template/functions.php:145
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "anos atrás"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:232
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Só se permiten os seguintes caracteres no nome de usuario: «a-z», «A-Z», «0-9», e «_.@-»"
 
-#: private/user/manager.php:251
+#: private/user/manager.php:237
 msgid "A valid username must be provided"
 msgstr "Debe fornecer un nome de usuario"
 
-#: private/user/manager.php:255
+#: private/user/manager.php:241
 msgid "A valid password must be provided"
 msgstr "Debe fornecer un contrasinal"
 
-#: private/user/manager.php:260
+#: private/user/manager.php:246
 msgid "The username is already being used"
 msgstr "Este nome de usuario xa está a ser usado"

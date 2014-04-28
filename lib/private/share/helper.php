@@ -199,4 +199,53 @@ class Helper extends \OC\Share\Constants {
 			$query->execute();
 		}
 	}
+
+	/**
+	 * @brief get default expire settings defined by the admin
+	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
+	 */
+	public static function getDefaultExpireSetting() {
+
+		$defaultExpireSettings = array('defaultExpireDateSet' => false);
+
+		// get default expire settings
+		$defaultExpireDate = \OC_Appconfig::getValue('core', 'shareapi_default_expire_date', 'no');
+		if ($defaultExpireDate === 'yes') {
+			$enforceExpireDate = \OC_Appconfig::getValue('core', 'shareapi_enforce_expire_date', 'no');
+			$defaultExpireSettings['defaultExpireDateSet'] = true;
+			$defaultExpireSettings['expireAfterDays'] = (int)\OC_Appconfig::getValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireSettings['enforceExpireDate'] = $enforceExpireDate === 'yes' ? true : false;
+		}
+
+		return $defaultExpireSettings;
+	}
+
+	/**
+	 * @brief calculate expire date
+	 * @param array $defaultExpireSettings contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
+	 * @param int $creationTime timestamp when the share was created
+	 * @param int $userExpireDate expire timestamp set by the user
+	 * @return mixed integer timestamp or False
+	 */
+	public static function calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate = null) {
+
+		$expires = false;
+
+		if (isset($defaultExpireSettings['defaultExpireDateSet']) && $defaultExpireSettings['defaultExpireDateSet']) {
+			$expires = $creationTime + $defaultExpireSettings['expireAfterDays'] * 86400;
+		}
+
+
+		if (isset($userExpireDate)) {
+			// if the admin decided to enforce the default expire date then we only take
+			// the user defined expire date of it is before the default expire date
+			if ($expires && isset($defaultExpireSettings['enforceExpireDate']) && $defaultExpireSettings['enforceExpireDate']) {
+				$expires = ($userExpireDate < $expires) ? $userExpireDate : $expires;
+			} else {
+				$expires = $userExpireDate;
+			}
+		}
+
+		return $expires;
+	}
 }

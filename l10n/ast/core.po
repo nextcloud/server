@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-10 01:54-0400\n"
-"PO-Revision-Date: 2014-04-09 21:20+0000\n"
-"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,63 +135,59 @@ msgstr "Payares"
 msgid "December"
 msgstr "Avientu"
 
-#: js/js.js:479
+#: js/js.js:489
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:564
+#: js/js.js:589
 msgid "Saving..."
-msgstr ""
+msgstr "Guardando..."
 
-#: js/js.js:1099
+#: js/js.js:1246
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1100
+#: js/js.js:1247
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1101
+#: js/js.js:1248
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1102
+#: js/js.js:1249
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1103
+#: js/js.js:1250
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1104
+#: js/js.js:1251
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1105
+#: js/js.js:1252
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1106
+#: js/js.js:1253
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1107
-msgid "months ago"
-msgstr "fai meses"
-
-#: js/js.js:1108
+#: js/js.js:1254
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1109
+#: js/js.js:1255
 msgid "years ago"
 msgstr "fai años"
 
@@ -259,11 +255,11 @@ msgstr "Continuar"
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:457
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:465
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr ""
 
@@ -295,12 +291,12 @@ msgstr "Compartíu"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:711
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:160 js/share.js:767
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr ""
 
@@ -364,73 +360,73 @@ msgstr ""
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:324 js/share.js:363
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:335
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:379
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:401
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:409
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:412
+#: js/share.js:434
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:414
+#: js/share.js:436
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:417
+#: js/share.js:439
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:420
+#: js/share.js:442
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:423
+#: js/share.js:445
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:426
+#: js/share.js:448
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:698
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:711
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:729
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:754
+#: js/share.js:777
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:765
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:789
+#: js/share.js:812
 msgid "Warning"
-msgstr ""
+msgstr "Avisu"
 
 #: js/tags.js:4
 msgid "The object type is not specified."
@@ -456,7 +452,7 @@ msgstr "Editar etiquetes"
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr ""
 

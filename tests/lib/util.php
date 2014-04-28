@@ -43,15 +43,32 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 	}
 
 	function testSanitizeHTML() {
+		$badArray = array(
+			'While it is unusual to pass an array',
+			'this function actually <blink>supports</blink> it.',
+			'And therefore there needs to be a <script>alert("Unit"+\'test\')</script> for it!'
+		);
+		$goodArray = array(
+			'While it is unusual to pass an array',
+			'this function actually &lt;blink&gt;supports&lt;/blink&gt; it.',
+			'And therefore there needs to be a &lt;script&gt;alert(&quot;Unit&quot;+&#039;test&#039;)&lt;/script&gt; for it!'
+		);
+		$result = OC_Util::sanitizeHTML($badArray);
+		$this->assertEquals($goodArray, $result);
+
+		$badString = '<img onload="alert(1)" />';
+		$result = OC_Util::sanitizeHTML($badString);
+		$this->assertEquals('&lt;img onload=&quot;alert(1)&quot; /&gt;', $result);
+
 		$badString = "<script>alert('Hacked!');</script>";
 		$result = OC_Util::sanitizeHTML($badString);
-		$this->assertEquals("&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;", $result);
+		$this->assertEquals('&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;', $result);
 
-		$goodString = "This is an harmless string.";
+		$goodString = 'This is a good string without HTML.';
 		$result = OC_Util::sanitizeHTML($goodString);
-		$this->assertEquals("This is an harmless string.", $result);
+		$this->assertEquals('This is a good string without HTML.', $result);
 	}
-	
+
 	function testEncodePath(){
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);

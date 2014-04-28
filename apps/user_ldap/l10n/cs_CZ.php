@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Backup (Replica) Port" => "Záložní (kopie) port",
 "Disable Main Server" => "Zakázat hlavní server",
 "Only connect to the replica server." => "Připojit jen k záložnímu serveru.",
+"Case insensitive LDAP server (Windows)" => "LDAP server nerozlišující velikost znaků (Windows)",
 "Turn off SSL certificate validation." => "Vypnout ověřování SSL certifikátu.",
 "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." => "Nedoporučuje se, určeno pouze k testovacímu použití. Pokud spojení funguje jen s touto volbou, importujte SSL certifikát vašeho LDAP serveru na server %s.",
 "Cache Time-To-Live" => "TTL vyrovnávací paměti",

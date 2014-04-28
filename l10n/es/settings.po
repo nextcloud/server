@@ -10,6 +10,7 @@
 # japaol <japaol@gmail.com>, 2013
 # Jose Luis Tirado <joseluis.tirado@gmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013-2014
+# plaguna <laguna.sanchez@gmail.com>, 2014
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
 # qdneren <renanqd@yahoo.com.mx>, 2013
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-13 01:54-0400\n"
-"PO-Revision-Date: 2014-04-12 17:10+0000\n"
-"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
+"POT-Creation-Date: 2014-04-26 01:54-0400\n"
+"PO-Revision-Date: 2014-04-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,15 +62,15 @@ msgstr "Correo electrónico enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Tiene que configurar su dirección de correo electrónico antes de poder enviar mensajes de prueba."
 
-#: admin/controller.php:116 templates/admin.php:299
+#: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
 msgstr "Modo de envío"
 
-#: admin/controller.php:118 templates/admin.php:312 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: admin/controller.php:120 templates/admin.php:336
+#: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
 msgstr "Método de autenticación"
 
@@ -534,94 +535,114 @@ msgid "Allow mail notification"
 msgstr "Permitir notificaciones por correo electrónico"
 
 #: templates/admin.php:254
-msgid "Allow user to send mail notification for shared files"
-msgstr "Permitir al usuario enviar notificaciones por correo electrónico de archivos compartidos"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permitir a los usuarios enviar mensajes de notificación para ficheros compartidos"
 
-#: templates/admin.php:261
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr "Caduca luego de"
+
+#: templates/admin.php:266
+msgid "days"
+msgstr "días"
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr "Archivos compartidos caducan luego de N días"
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Seguridad"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Forzar HTTPS"
 
-#: templates/admin.php:276
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forzar a los clientes a conectarse a %s por medio de una conexión cifrada."
 
-#: templates/admin.php:282
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor, conéctese a su %s a través de HTTPS para habilitar o deshabilitar la aplicación de SSL."
 
-#: templates/admin.php:294
+#: templates/admin.php:311
 msgid "Email Server"
 msgstr "Servidor de correo electrónico"
 
-#: templates/admin.php:296
+#: templates/admin.php:313
 msgid "This is used for sending out notifications."
 msgstr "Esto se usa para enviar notificaciones."
 
-#: templates/admin.php:327
+#: templates/admin.php:344
 msgid "From address"
 msgstr "Desde la dirección"
 
-#: templates/admin.php:349
+#: templates/admin.php:366
 msgid "Authentication required"
 msgstr "Se necesita autenticación"
 
-#: templates/admin.php:353
+#: templates/admin.php:370
 msgid "Server address"
 msgstr "Dirección del servidor"
 
-#: templates/admin.php:357
+#: templates/admin.php:374
 msgid "Port"
 msgstr "Puerto"
 
-#: templates/admin.php:362
+#: templates/admin.php:379
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: templates/admin.php:363
+#: templates/admin.php:380
 msgid "SMTP Username"
 msgstr "Nombre de usuario SMTP"
 
-#: templates/admin.php:366
+#: templates/admin.php:383
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: templates/admin.php:370
+#: templates/admin.php:387
 msgid "Test email settings"
 msgstr "Probar configuración de correo electrónico"
 
-#: templates/admin.php:371
+#: templates/admin.php:388
 msgid "Send email"
 msgstr "Enviar mensaje"
 
-#: templates/admin.php:376
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:377
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Nivel de registro"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:410
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:416 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:420 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("","",""),
 "last month" => "prošli mjesec",
 "_%n month ago_::_%n months ago_" => array("","",""),
-"months ago" => "mjeseci",
 "last year" => "prošlu godinu",
 "years ago" => "godina",
 "Choose" => "Izaberi",

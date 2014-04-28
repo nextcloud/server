@@ -32,7 +32,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("antaŭ %n tago","antaŭ %n tagoj"),
 "last month" => "lastamonate",
 "_%n month ago_::_%n months ago_" => array("antaŭ %n monato","antaŭ %n monatoj"),
-"months ago" => "monatoj antaŭe",
 "last year" => "lastajare",
 "years ago" => "jaroj antaŭe",
 "Choose" => "Elekti",

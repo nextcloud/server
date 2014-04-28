@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-09 01:55-0400\n"
-"PO-Revision-Date: 2014-04-09 05:55+0000\n"
+"POT-Creation-Date: 2014-04-25 01:54-0400\n"
+"PO-Revision-Date: 2014-04-24 20:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -40,31 +40,31 @@ msgstr "Error al configurar el almacenamiento de Google Drive"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Guardado"
 
-#: lib/config.php:592
+#: lib/config.php:598
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:602
+#: lib/config.php:608
 msgid " and "
 msgstr ""
 
-#: lib/config.php:624
+#: lib/config.php:630
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:626
+#: lib/config.php:632
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:628
+#: lib/config.php:634
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

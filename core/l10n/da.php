@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("%n dag siden","%n dage siden"),
 "last month" => "sidste måned",
 "_%n month ago_::_%n months ago_" => array("%n måned siden","%n måneder siden"),
-"months ago" => "måneder siden",
 "last year" => "sidste år",
 "years ago" => "år siden",
 "Choose" => "Vælg",

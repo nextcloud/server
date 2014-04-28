@@ -1,8 +1,6 @@
 <?php
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
-use Assetic\AssetManager;
 use Assetic\AssetWriter;
 use Assetic\Filter\CssRewriteFilter;
 
@@ -66,7 +64,7 @@ class OC_TemplateLayout extends OC_Template {
 		}
 
 		$versionParameter = '?v=' . md5(implode(OC_Util::getVersion()));
-		$useAssetPipeline = OC_Config::getValue('asset-pipeline.enabled', false);
+		$useAssetPipeline = $this->isAssetPipelineEnabled();
 		if ($useAssetPipeline) {
 
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config') . $versionParameter);
@@ -99,6 +97,10 @@ class OC_TemplateLayout extends OC_Template {
 		}
 	}
 
+	/**
+	 * @param $styles
+	 * @return array
+	 */
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
@@ -113,6 +115,10 @@ class OC_TemplateLayout extends OC_Template {
 		return $locator->getResources();
 	}
 
+	/**
+	 * @param $scripts
+	 * @return array
+	 */
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
@@ -168,6 +174,10 @@ class OC_TemplateLayout extends OC_Template {
 		$this->append('cssfiles', OC_Helper::linkTo('assets', "$cssHash.css"));
 	}
 
+	/**
+	 * @param $files
+	 * @return string
+	 */
 	private static function hashScriptNames($files)
 	{
 		$files = array_map(function ($item) {
@@ -178,5 +188,34 @@ class OC_TemplateLayout extends OC_Template {
 
 		sort($files);
 		return hash('md5', implode('', $files));
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function isAssetPipelineEnabled() {
+		// asset management enabled?
+		$useAssetPipeline = OC_Config::getValue('asset-pipeline.enabled', false);
+		if (!$useAssetPipeline) {
+			return false;
+		}
+
+		// assets folder exists?
+		$assetDir = \OC::$SERVERROOT . '/assets';
+		if (!is_dir($assetDir)) {
+			if (!mkdir($assetDir)) {
+				\OCP\Util::writeLog('assets',
+					"Folder <$assetDir> does not exist and/or could not be generated.", \OCP\Util::ERROR);
+				return false;
+			}
+		}
+
+		// assets folder can be accessed?
+		if (!touch($assetDir."/.oc")) {
+			\OCP\Util::writeLog('assets',
+				"Folder <$assetDir> could not be accessed.", \OCP\Util::ERROR);
+			return false;
+		}
+		return $useAssetPipeline;
 	}
 }

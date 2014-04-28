@@ -210,7 +210,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$backend2 = $this->getMock('\OC_User_Dummy');
 		$backend2->expects($this->once())
 			->method('getUsers')
-			->with($this->equalTo('fo'), $this->equalTo(1), $this->equalTo(0))
+			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->will($this->returnValue(array('foo3')));
 
 		$manager = new \OC\User\Manager();
