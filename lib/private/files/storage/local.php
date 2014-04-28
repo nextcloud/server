@@ -44,6 +44,7 @@ if (\OC_Util::runningOnWindows()) {
 					new \RecursiveDirectoryIterator($this->datadir . $path),
 					\RecursiveIteratorIterator::CHILD_FIRST
 				);
+				$it->rewind();
 				while ($it->valid()) {
 					/**
 					 * @var \SplFileInfo $file
