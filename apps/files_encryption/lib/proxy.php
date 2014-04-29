@@ -53,10 +53,11 @@ class Proxy extends \OC_FileProxy {
 	private static function shouldEncrypt($path, $mode = 'w') {
 
 		$userId = Helper::getUser($path);
+		$session = new Session(new \OC\Files\View());
 
 		// don't call the crypt stream wrapper, if...
 		if (
-				\OCP\App::isEnabled('files_encryption') === false // encryption is disabled
+				$session->getInitialized() !== Session::INIT_SUCCESSFUL // encryption successful initialized
 				|| Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
 				|| strpos($path, '/' . $userId . '/files') !== 0 // path is not in files/
 				|| substr($path, 0, 8) === 'crypt://' // we are already in crypt mode
