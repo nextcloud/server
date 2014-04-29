@@ -92,8 +92,8 @@ window.FileList = {
 			FileList.breadcrumb.resize(width, false);
 		});
 
-		this.$fileList.on('click','td.filename a', _.bind(this._onClickFile, this));
-		this.$fileList.on('change', 'td.filename input:checkbox', _.bind(this._onClickFileCheckbox, this));
+		this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
+		this.$fileList.on('change', 'td.filename>input:checkbox', _.bind(this._onClickFileCheckbox, this));
 		this.$el.find('#select_all').click(_.bind(this._onClickSelectAll, this));
 		this.$el.find('.download').click(_.bind(this._onClickDownloadSelected, this));
 		this.$el.find('.delete-selected').click(_.bind(this._onClickDeleteSelected, this));
@@ -107,7 +107,7 @@ window.FileList = {
 	 * @param state true to select, false to deselect
 	 */
 	_selectFileEl: function($tr, state) {
-		var $checkbox = $tr.find('input:checkbox');
+		var $checkbox = $tr.find('td.filename>input:checkbox');
 		var oldData = !!this._selectedFiles[$tr.data('id')];
 		var data;
 		$checkbox.prop('checked', state);
@@ -156,7 +156,7 @@ window.FileList = {
 			else {
 				this._lastChecked = $tr;
 			}
-			var $checkbox = $tr.find('input:checkbox');
+			var $checkbox = $tr.find('td.filename>input:checkbox');
 			this._selectFileEl($tr, !$checkbox.prop('checked'));
 			this.updateSelectionSummary();
 		} else {
@@ -191,7 +191,7 @@ window.FileList = {
 	 */
 	_onClickSelectAll: function(e) {
 		var checked = $(e.target).prop('checked');
-		this.$fileList.find('td.filename input:checkbox').prop('checked', checked)
+		this.$fileList.find('td.filename>input:checkbox').prop('checked', checked)
 			.closest('tr').toggleClass('selected', checked);
 		this._selectedFiles = {};
 		this._selectionSummary.clear();
