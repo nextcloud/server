@@ -1228,7 +1228,7 @@ class Share extends \OC\Share\Constants {
 				} else {
 					if (!isset($mounts[$row['storage']])) {
 						$mountPoints = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
-						if (is_array($mountPoints)) {
+						if (is_array($mountPoints) && !empty($mountPoints)) {
 							$mounts[$row['storage']] = current($mountPoints);
 						}
 					}
