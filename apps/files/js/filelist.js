@@ -1087,6 +1087,8 @@ window.FileList = {
 		else {
 			// no files passed, delete all in current dir
 			params.allfiles = true;
+			// show spinner for all files
+			this.$fileList.find('tr>td.date .action.delete').removeClass('delete-icon').addClass('progress-icon');
 		}
 
 		$.post(OC.filePath('files', 'ajax', 'delete.php'),
@@ -1106,6 +1108,7 @@ window.FileList = {
 								FileList.fileSummary.remove({type: fileEl.attr('data-type'), size: fileEl.attr('data-size')});
 							});
 						}
+						// TODO: this info should be returned by the ajax call!
 						checkTrashStatus();
 						FileList.updateEmptyContent();
 						FileList.fileSummary.update();
