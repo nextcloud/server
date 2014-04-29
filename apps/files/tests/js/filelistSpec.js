@@ -1421,6 +1421,12 @@ describe('FileList tests', function() {
 				});
 			});
 		});
+		it('resets the file selection on reload', function() {
+			FileList.$el.find('#select_all').click();
+			FileList.reload();
+			expect(FileList.$el.find('#select_all').prop('checked')).toEqual(false);
+			expect(FileList.getSelectedFiles()).toEqual([]);
+		});
 	});
 	describe('Sorting files', function() {
 		it('Sorts by name by default', function() {

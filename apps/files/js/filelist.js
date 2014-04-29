@@ -714,8 +714,6 @@ window.FileList = {
 				previousDir: currentDir
 			}
 		));
-		this._selectedFiles = {};
-		this._selectionSummary.clear();
 		this.reload();
 	},
 	linkTo: function(dir) {
@@ -776,6 +774,9 @@ window.FileList = {
 	 * @brief Reloads the file list using ajax call
 	 */
 	reload: function() {
+		this._selectedFiles = {};
+		this._selectionSummary.clear();
+		this.$el.find('#select_all').prop('checked', false);
 		FileList.showMask();
 		if (FileList._reloadCall) {
 			FileList._reloadCall.abort();
