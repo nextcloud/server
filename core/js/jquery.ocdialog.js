@@ -67,8 +67,8 @@
 				self.parent = self.$dialog.parent().length > 0 ? self.$dialog.parent() : $('body');
 				var pos = self.parent.position();
 				self.$dialog.css({
-					left: pos.left + (self.parent.width() - self.$dialog.outerWidth())/2,
-					top: pos.top + (self.parent.height() - self.$dialog.outerHeight())/2
+					left: pos.left + (window.innerWidth - self.$dialog.outerWidth())/2,
+					top: pos.top + (window.innerHeight - self.$dialog.outerHeight())/2
 				});
 			});
 
