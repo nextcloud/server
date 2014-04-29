@@ -393,8 +393,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		$rootView->file_put_contents('/foo.txt', 'asd');
 		$this->assertNull($this->hookPath);
 
-		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
-
 		$subView->file_put_contents('/foo.txt', 'asd');
 		$this->assertEquals('/substorage/foo.txt', $this->hookPath);
 	}
