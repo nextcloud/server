@@ -1,3 +1,4 @@
+<?php /** @var $l OC_L10N */ ?>
 <div id="notification-container">
 	<div id="notification" style="display: none;"></div>
 </div>
@@ -14,7 +15,10 @@
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
-			<span id="details"><?php p($l->t('shared by %s', array($_['displayName']))) ?></span>
+			<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
+				<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
+				<?php p($l->t('Download %s', array($_['filename'])))?>
+			</a>
 		</div>
 </div></header>
 <div id="content">
@@ -24,7 +28,7 @@
 		<?php else: ?>
 			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'image'): ?>
 				<div id="imgframe">
-					<img src="<?php p($_['downloadURL']); ?>" />
+					<img src="<?php p($_['downloadURL']); ?>" alt="" />
 				</div>
 			<?php elseif (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 				<div id="imgframe">
@@ -35,7 +39,10 @@
 			<?php else: ?>
 				<div id="imgframe">
 					<?php $size = \OC\Preview::isMimeSupported($_['mimetype']) ? 500 : 128 ?>
-					<img src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $size, 'y' => $size, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" class="publicpreview"/>
+					<img
+						src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $size, 'y' => $size, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>"
+						class="publicpreview"
+						alt="" />
 				</div>
 			<?php endif; ?>
 			<div class="directDownload">
