@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -173,7 +173,7 @@ msgstr "Отпремање датотеке је у току. Ако сада н
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "{new_name} већ постоји"
 
@@ -201,45 +201,63 @@ msgstr "Обриши за стално"
 msgid "Rename"
 msgstr "Преименуј"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr ""
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Припремам преузимање. Ово може да потраје ако су датотеке велике."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "Грешка"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:502 js/filelist.js:1419
 msgid "Pending"
 msgstr "На чекању"
 
-#: js/filelist.js:624
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "Грешка"
+
+#: js/filelist.js:988
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:787
+#: js/filelist.js:1119
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr "Име"
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr "Величина"
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr "Измењено"
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr ""
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1327 js/filelist.js:1366
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -258,42 +276,28 @@ msgstr "Ваше складиште је пуно. Датотеке више н�
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Ваше складиште је скоро па пуно ({usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr ""
 
-#: js/files.js:136
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:140
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "Припремам преузимање. Ово може да потраје ако су датотеке велике."
-
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "Име"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "Величина"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "Измењено"
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr ""
 
 #: lib/app.php:86
 #, php-format
@@ -385,20 +389,20 @@ msgstr "Преузми"
 msgid "Delete"
 msgstr "Обриши"
 
-#: templates/index.php:96
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Датотека је превелика"
 
-#: templates/index.php:98
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Датотеке које желите да отпремите прелазе ограничење у величини."
 
-#: templates/index.php:103
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Скенирам датотеке…"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Тренутно скенирање"

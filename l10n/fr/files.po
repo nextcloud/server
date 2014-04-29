@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera 
 msgid "URL cannot be empty"
 msgstr "L'URL ne peut pas être vide"
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "{new_name} existe déjà"
 
@@ -206,43 +206,61 @@ msgstr "Supprimer de façon définitive"
 msgid "Rename"
 msgstr "Renommer"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr "Erreur lors du déplacement du fichier"
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Votre téléchargement est cours de préparation. Ceci peut nécessiter un certain temps si les fichiers sont volumineux."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "Erreur"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:502 js/filelist.js:1419
 msgid "Pending"
 msgstr "En attente"
 
-#: js/filelist.js:624
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr "Erreur lors du déplacement du fichier"
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "Erreur"
+
+#: js/filelist.js:988
 msgid "Could not rename file"
 msgstr "Impossible de renommer le fichier"
 
-#: js/filelist.js:787
+#: js/filelist.js:1119
 msgid "Error deleting file."
 msgstr "Erreur pendant la suppression du fichier."
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr "Nom"
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr "Taille"
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr "Modifié"
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n dossier"
 msgstr[1] "%n dossiers"
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fichier"
 msgstr[1] "%n fichiers"
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr "{dirs} et {files}"
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1327 js/filelist.js:1366
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Téléversement de %n fichier"
@@ -260,42 +278,28 @@ msgstr "Votre espage de stockage est plein, les fichiers ne peuvent plus être t
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Votre espace de stockage est presque plein ({usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "L'application de chiffrement est activée mais vos clés ne sont pas initialisées, veuillez vous déconnecter et ensuite vous reconnecter."
 
-#: js/files.js:136
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Votre clef privée pour l'application de chiffrement est invalide ! Veuillez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés."
 
-#: js/files.js:140
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Le chiffrement était désactivé mais vos fichiers sont toujours chiffrés. Veuillez vous rendre sur vos Paramètres personnels pour déchiffrer vos fichiers."
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "Votre téléchargement est cours de préparation. Ceci peut nécessiter un certain temps si les fichiers sont volumineux."
-
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "Nom"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "Taille"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "Modifié"
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} et {files}"
 
 #: lib/app.php:86
 #, php-format
@@ -387,20 +391,20 @@ msgstr "Télécharger"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/index.php:96
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Téléversement trop volumineux"
 
-#: templates/index.php:98
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur."
 
-#: templates/index.php:103
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Analyse en cours"

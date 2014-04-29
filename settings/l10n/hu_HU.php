@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Elmentve",
+"test email settings" => "Teszt email beállítások",
+"If you received this email, the settings seem to be correct." => "Amennyiben megérkezett ez az email akkor a beállítások megfelelők",
 "Email sent" => "Az emailt elküldtük",
 "Encryption" => "Titkosítás",
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",

@@ -5,15 +5,15 @@
 # Translators:
 # Adam Toth <adazlord@gmail.com>, 2013
 # sherlock79 <inactive+sherlock79@transifex.com>, 2013
-# ebela <bela@dandre.hu>, 2013
+# ebela <bela@dandre.hu>, 2013-2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-27 08:20+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 11:20+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,15 +28,15 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Elmentve"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "Teszt email beállítások"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Amennyiben megérkezett ez az email akkor a beállítások megfelelők"
 
 #: admin/controller.php:94
 msgid ""

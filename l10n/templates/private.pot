@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,13 +261,13 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:202
+#: setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:203
+#: setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

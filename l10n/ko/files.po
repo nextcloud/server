@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,7 @@ msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 �
 msgid "URL cannot be empty"
 msgstr "URL이 비어있을 수 없음"
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
@@ -207,41 +207,59 @@ msgstr "영구히 삭제"
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr "파일 이동 오류"
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "오류"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:502 js/filelist.js:1419
 msgid "Pending"
 msgstr "대기 중"
 
-#: js/filelist.js:624
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr "파일 이동 오류"
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "오류"
+
+#: js/filelist.js:988
 msgid "Could not rename file"
 msgstr "이름을 변경할 수 없음"
 
-#: js/filelist.js:787
+#: js/filelist.js:1119
 msgid "Error deleting file."
 msgstr "파일 삭제 오류."
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr "이름"
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr "크기"
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr "수정됨"
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "폴더 %n개"
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "파일 %n개"
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr "{dirs} 그리고 {files}"
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1327 js/filelist.js:1366
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "파일 %n개 업로드 중"
@@ -258,42 +276,28 @@ msgstr "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 �
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오"
 
-#: js/files.js:136
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다."
 
-#: js/files.js:140
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "암호화는 해제되어 있지만, 파일은 아직 암호화되어 있습니다. 개인 설정에서 파일을 복호화하십시오."
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다."
-
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "이름"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "크기"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "수정됨"
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} 그리고 {files}"
 
 #: lib/app.php:86
 #, php-format
@@ -385,20 +389,20 @@ msgstr "다운로드"
 msgid "Delete"
 msgstr "삭제"
 
-#: templates/index.php:96
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:98
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:103
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "현재 검색"

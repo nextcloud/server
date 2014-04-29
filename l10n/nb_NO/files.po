@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen."
 msgid "URL cannot be empty"
 msgstr "URL kan ikke være tom"
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "{new_name} finnes allerede"
 
@@ -205,43 +205,61 @@ msgstr "Slett permanent"
 msgid "Rename"
 msgstr "Gi nytt navn"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr "Feil ved flytting av fil"
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Nedlastingen din klargjøres. Hvis filene er store kan dette ta litt tid."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "Feil"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:502 js/filelist.js:1419
 msgid "Pending"
 msgstr "Ventende"
 
-#: js/filelist.js:624
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr "Feil ved flytting av fil"
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "Feil"
+
+#: js/filelist.js:988
 msgid "Could not rename file"
 msgstr "Klarte ikke å gi nytt navn til fil"
 
-#: js/filelist.js:787
+#: js/filelist.js:1119
 msgid "Error deleting file."
 msgstr "Feil ved sletting av fil."
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr "Navn"
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr "Størrelse"
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr "Endret"
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
 msgstr[1] "%n filer"
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr "{dirs} og {files}"
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1327 js/filelist.js:1366
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Laster opp %n fil"
@@ -259,42 +277,28 @@ msgstr "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkro
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Lagringsplass er nesten brukt opp ([usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "App for kryptering er aktivert men nøklene dine er ikke satt opp. Logg ut og logg inn igjen."
 
-#: js/files.js:136
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Ugyldig privat nøkkel for Krypterings-app. Oppdater passordet for din private nøkkel i dine personlige innstillinger for å gjenopprette tilgang til de krypterte filene dine."
 
-#: js/files.js:140
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Kryptering ble slått av men filene dine er fremdeles kryptert. Gå til dine personlige innstillinger for å dekryptere filene dine."
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "Nedlastingen din klargjøres. Hvis filene er store kan dette ta litt tid."
-
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "Navn"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "Størrelse"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "Endret"
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} og {files}"
 
 #: lib/app.php:86
 #, php-format
@@ -386,20 +390,20 @@ msgstr "Last ned"
 msgid "Delete"
 msgstr "Slett"
 
-#: templates/index.php:96
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Filen er for stor"
 
-#: templates/index.php:98
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filene du prøver å laste opp er for store for å laste opp til denne serveren."
 
-#: templates/index.php:103
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Skanner filer, vennligst vent."
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Pågående skanning"

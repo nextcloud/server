@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Dostajesz się do serwera z niezaufanej domeny.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Proszę skontaktuj się z administratorem. Jeśli jesteś administratorem tej instancji, skonfiguruj parametr \"trusted_domain\" w pliku config/config.php. Przykładowa konfiguracja jest dostępna w pliku config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Aplikacja \"%s\" nie może zostać zainstalowana, ponieważ nie jest zgodna z tą wersją ownCloud.",
 "No app name specified" => "Nie określono nazwy aplikacji",
 "Help" => "Pomoc",
@@ -56,6 +58,7 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony.",
 "Please double check the <a href='%s'>installation guides</a>." => "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>.",
 "%s shared »%s« with you" => "%s Współdzielone »%s« z tobą",
+"Sharing %s failed, because the file does not exist" => "Wspóldzielenie %s nie powiodło się. ponieważ plik nie istnieje",
 "Sharing %s failed, because the user %s is the item owner" => "Współdzielenie %s nie powiodło się, ponieważ użytkownik %s jest właścicielem elementu",
 "Sharing %s failed, because the user %s does not exist" => "Współdzielenie %s nie powiodło się, ponieważ użytkownik %s nie istnieje",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Współdzielenie %s nie powiodło się, ponieważ użytkownik %s nie jest członkiem żadnej grupy której członkiem jest %s",

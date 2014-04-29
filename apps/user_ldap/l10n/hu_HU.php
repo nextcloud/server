@@ -84,6 +84,7 @@ $TRANSLATIONS = array(
 "One Group Base DN per line" => "Soronként egy csoportfa gyökerét adhatjuk meg",
 "Group Search Attributes" => "A csoportok lekérdezett attribútumai",
 "Group-Member association" => "A csoporttagság attribútuma",
+"Nested Groups" => "Egymásba ágyazott csoportok",
 "Special Attributes" => "Különleges attribútumok",
 "Quota Field" => "Kvóta mező",
 "Quota Default" => "Alapértelmezett kvóta",

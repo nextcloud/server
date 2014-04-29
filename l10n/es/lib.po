@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 16:20+0000\n"
+"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,16 +25,16 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:723
+#: base.php:712
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Está accediendo al servidor desde un dominio inseguro."
 
-#: base.php:724
+#: base.php:713
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Contacte a su administrador. Si usted es el administrador, configure \"trusted_domain\" en config/config.php. En config/config.sample.php se encuentra un ejemplo para la configuración."
 
 #: private/app.php:236
 #, php-format
@@ -286,13 +286,13 @@ msgstr "Configurar un nombre de usuario del administrador"
 msgid "Set an admin password."
 msgstr "Configurar la contraseña del administrador."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Su servidor web aún no está configurado adecuadamente para permitir sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>."

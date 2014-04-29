@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "عملية رفع الملفات قيد التنفيذ. اغلاق ال�
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "{new_name} موجود مسبقا"
 
@@ -203,27 +203,49 @@ msgstr "حذف بشكل دائم"
 msgid "Rename"
 msgstr "إعادة تسميه"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr "حدث خطأ أثناء نقل الملف"
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "خطأ"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:502 js/filelist.js:1419
 msgid "Pending"
 msgstr "قيد الانتظار"
 
-#: js/filelist.js:624
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr "حدث خطأ أثناء نقل الملف"
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "خطأ"
+
+#: js/filelist.js:988
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:787
+#: js/filelist.js:1119
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr "اسم"
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr "حجم"
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr "معدل"
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "لا يوجد مجلدات %n"
@@ -233,7 +255,7 @@ msgstr[3] "عدد قليل من مجلدات %n"
 msgstr[4] "عدد كبير من مجلدات %n"
 msgstr[5] "مجلدات %n"
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "لا يوجد ملفات %n"
@@ -243,11 +265,7 @@ msgstr[3] "قليل من ملفات %n"
 msgstr[4] "الكثير من ملفات %n"
 msgstr[5] " ملفات %n"
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr "{dirs} و {files}"
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1327 js/filelist.js:1366
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "لا يوجد ملفات %n لتحميلها"
@@ -269,42 +287,28 @@ msgstr "مساحتك التخزينية ممتلئة, لا يمكم تحديث �
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "مساحتك التخزينية امتلأت تقريبا "
 
-#: js/files.js:132
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "تم تمكين تشفير البرامج لكن لم يتم تهيئة المفاتيح لذا يرجى تسجيل الخروج ثم تسجيل الدخول مرة آخرى."
 
-#: js/files.js:136
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "المفتاح الخاص بتشفير التطبيقات غير صالح. يرجى تحديث كلمة السر الخاصة بالمفتاح الخاص من الإعدادت الشخصية حتى تتمكن من الوصول للملفات المشفرة."
 
-#: js/files.js:140
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "تم تعطيل التشفير لكن ملفاتك لا تزال مشفرة. فضلا اذهب إلى الإعدادات الشخصية لإزالة التشفير عن ملفاتك."
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير."
-
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "اسم"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "حجم"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "معدل"
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} و {files}"
 
 #: lib/app.php:86
 #, php-format
@@ -396,20 +400,20 @@ msgstr "تحميل"
 msgid "Delete"
 msgstr "إلغاء"
 
-#: templates/index.php:96
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "حجم الترفيع أعلى من المسموح"
 
-#: templates/index.php:98
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم."
 
-#: templates/index.php:103
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "يرجى الانتظار , جاري فحص الملفات ."
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "الفحص الحالي"

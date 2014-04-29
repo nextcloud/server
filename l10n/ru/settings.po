@@ -8,6 +8,7 @@
 # alfsoft <alfsoft@gmail.com>, 2013
 # lord93 <lordakryl@gmail.com>, 2013
 # Denis Plastinin <denispal@gmail.com>, 2014
+# Denis Plastinin <denispal@gmail.com>, 2014
 # Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
@@ -23,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 08:20+0000\n"
+"Last-Translator: Denis Plastinin <denispal@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +37,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Неверное значение для %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -44,16 +45,16 @@ msgstr "Сохранено"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "тест настроек почты"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Если вы получили это письмо, настройки верны."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Произошла ошибка при отправке сообщения электронной почты, пожалуйста, пожалуйста проверьте настройки."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -61,11 +62,11 @@ msgstr "Письмо отправлено"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Вы должны настроить свой e-mail пользователя прежде чем отправлять тестовые сообщения."
 
 #: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
-msgstr ""
+msgstr "Отправить сообщение"
 
 #: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
 msgid "Encryption"
@@ -73,7 +74,7 @@ msgstr "Шифрование"
 
 #: admin/controller.php:120 templates/admin.php:353
 msgid "Authentication method"
-msgstr ""
+msgstr "Метод проверки подлинности"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -581,19 +582,19 @@ msgstr "Пожалуйста, подключитесь к %s используя 
 
 #: templates/admin.php:311
 msgid "Email Server"
-msgstr ""
+msgstr "Сервер почты"
 
 #: templates/admin.php:313
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Используется для отправки уведомлений."
 
 #: templates/admin.php:344
 msgid "From address"
-msgstr ""
+msgstr "Адрес отправителя"
 
 #: templates/admin.php:366
 msgid "Authentication required"
-msgstr ""
+msgstr "Требуется аутентификация "
 
 #: templates/admin.php:370
 msgid "Server address"
@@ -617,7 +618,7 @@ msgstr "Пароль"
 
 #: templates/admin.php:387
 msgid "Test email settings"
-msgstr ""
+msgstr "Тест настроек"
 
 #: templates/admin.php:388
 msgid "Send email"
@@ -675,7 +676,7 @@ msgstr "Смотрите дополнения на apps.owncloud.com"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "См. сайт приложений"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"

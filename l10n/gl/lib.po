@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 06:40+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:723
+#: base.php:712
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Esta accedendo desde un dominio non fiábel."
 
-#: base.php:724
+#: base.php:713
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Póñase en contacto co administrador. Se vostede é administrador desta instancia, configure o parámetro «trusted_domain» en config/config.php. Dispón dun exemplo de configuración en config/config.sample.php."
 
 #: private/app.php:236
 #, php-format
@@ -280,13 +280,13 @@ msgstr "Estabeleza un nome de usuario administrador"
 msgid "Set an admin password."
 msgstr "Estabeleza un contrasinal de administrador"
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"
