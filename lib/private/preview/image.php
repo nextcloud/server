@@ -31,6 +31,7 @@ class Image extends Provider {
 
 		return $image->valid() ? $image : false;
 	}
+
 }
 
 \OC\Preview::registerProvider('OC\Preview\Image');
