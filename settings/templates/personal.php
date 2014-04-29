@@ -144,10 +144,15 @@ if($_['passwordChangeSupported']) {
 };?>
 
 <?php if($_['enableDecryptAll']): ?>
-<div class="section" id="decryptAll">
+<div class="section">
+
 	<h2>
 		<?php p( $l->t( 'Encryption' ) ); ?>
 	</h2>
+
+	<?php if($_['filesStillEncrypted']): ?>
+
+	<div id="decryptAll">
 	<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
 	<p>
 		<input
@@ -164,8 +169,34 @@ if($_['passwordChangeSupported']) {
 		<span class="msg"></span>
 	</p>
 	<br />
+	</div>
+
+	<?php endif; ?>
+
+
+
+	<div id="restoreBackupKeys" <?php $_['backupKeysExists'] ? '' : print_unescaped("class='hidden'") ?>>
+
+	<?php p($l->t( "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly." )); ?>
+	<p>
+		<button
+			type="button"
+			name="submitRestoreKeys"><?php p($l->t( "Restore Encryption Keys" )); ?>
+		</button>
+		<button
+			type="button"
+			name="submitDeleteKeys"><?php p($l->t( "Delete Encryption Keys" )); ?>
+		</button>
+		<span class="msg"></span>
+
+	</p>
+	<br />
+
+	</div>
+
+
 </div>
-<?php endif; ?>
+	<?php endif; ?>
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>

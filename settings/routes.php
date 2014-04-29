@@ -54,6 +54,10 @@ $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
 	->actionInclude('settings/ajax/setlanguage.php');
 $this->create('settings_ajax_decryptall', '/settings/ajax/decryptall.php')
 	->actionInclude('settings/ajax/decryptall.php');
+$this->create('settings_ajax_restorekeys', '/settings/ajax/restorekeys.php')
+	->actionInclude('settings/ajax/restorekeys.php');
+$this->create('settings_ajax_deletekeys', '/settings/ajax/deletekeys.php')
+	->actionInclude('settings/ajax/deletekeys.php');
 // apps
 $this->create('settings_ajax_apps_ocs', '/settings/ajax/apps/ocs.php')
 	->actionInclude('settings/ajax/apps/ocs.php');

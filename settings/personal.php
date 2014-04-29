@@ -33,7 +33,9 @@ $userLang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N:
 $languageCodes=OC_L10N::findAvailableLanguages();
 
 //check if encryption was enabled in the past
-$enableDecryptAll = OC_Util::encryptedFiles();
+$filesStillEncrypted = OC_Util::encryptedFiles();
+$backupKeysExists = OC_Util::backupKeysExists();
+$enableDecryptAll = $filesStillEncrypted || $backupKeysExists;
 
 // array of common languages
 $commonlangcodes = array(
@@ -92,6 +94,8 @@ $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User:
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableDecryptAll' , $enableDecryptAll);
+$tmpl->assign('backupKeysExists' , $backupKeysExists);
+$tmpl->assign('filesStillEncrypted' , $filesStillEncrypted);
 $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 

@@ -788,8 +788,8 @@ class Util {
 			}
 
 			if ($successful) {
-				$this->view->deleteAll($this->keyfilesPath);
-				$this->view->deleteAll($this->shareKeysPath);
+				$this->view->rename($this->keyfilesPath, $this->keyfilesPath . '.backup');
+				$this->view->rename($this->shareKeysPath, $this->shareKeysPath . '.backup');
 			}
 
 			\OC_FileProxy::$enabled = true;
