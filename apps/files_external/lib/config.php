@@ -163,7 +163,7 @@ class OC_Mount_Config {
 
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-					|| ($mountPoints[$mountPoint]['priority_type'] != 'global') ) {
+					|| ($mountPoints[$mountPoint]['priority_type'] !== 'global') ) {
 					$options['priority_type'] = 'global';
 					$mountPoints[$mountPoint] = $options;
 				}
@@ -184,7 +184,7 @@ class OC_Mount_Config {
 
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] != 'group') ) {
+							|| ($mountPoints[$mountPoint]['priority_type'] !== 'group') ) {
 							$options['priority_type'] = 'group';
 							$mountPoints[$mountPoint] = $options;
 						}
@@ -207,7 +207,7 @@ class OC_Mount_Config {
 
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] != 'user') ) {
+							|| ($mountPoints[$mountPoint]['priority_type'] !== 'user') ) {
 							$options['priority_type'] = 'user';
 							$mountPoints[$mountPoint] = $options;
 						}
@@ -223,7 +223,7 @@ class OC_Mount_Config {
 				$options['options'] = self::decryptPasswords($options['options']);
 
 				if ( (!isset($mountPoints[$mountPoint]))
-					|| ($mountPoints[$mountPoint]['priority_type'] != 'personal') ) {
+					|| ($mountPoints[$mountPoint]['priority_type'] !== 'personal') ) {
 					$options['priority_type'] = 'personal';
 					$mountPoints[$mountPoint] = $options;
 				}
