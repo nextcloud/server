@@ -117,7 +117,7 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 
 		$isShareMountPoint = false;
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath( '/' . \OCP\User::getUser() . '/files/' . $sourcePath);
-		if ($storage instanceof \OC\Files\Storage\Shared && !$internalPath) {
+		if ($storage instanceof \OCA\Files_Sharing\ISharedStorage && !$internalPath) {
 			$isShareMountPoint = true;
 		}
 

@@ -11,6 +11,15 @@ OC::$CLASSPATH['OC\Files\Cache\Shared_Watcher'] = 'files_sharing/lib/watcher.php
 OC::$CLASSPATH['OCA\Files\Share\Api'] = 'files_sharing/lib/api.php';
 OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
 OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
+
+$externalManager = new \OCA\Files_Sharing\External\Manager(
+	\OC::$server->getDatabaseConnection(),
+	\OC\Files\Filesystem::getMountManager(),
+	\OC\Files\Filesystem::getLoader(),
+	\OC::$server->getUserSession()
+);
+$externalManager->setup();
+
 OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');

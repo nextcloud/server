@@ -22,20 +22,20 @@ class Cache {
 	/**
 	 * @var array partial data for the cache
 	 */
-	private $partial = array();
+	protected $partial = array();
 
 	/**
 	 * @var string
 	 */
-	private $storageId;
+	protected $storageId;
 
 	/**
 	 * @var Storage $storageCache
 	 */
-	private $storageCache;
+	protected $storageCache;
 
-	private static $mimetypeIds = array();
-	private static $mimetypes = array();
+	protected static $mimetypeIds = array();
+	protected static $mimetypes = array();
 
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage

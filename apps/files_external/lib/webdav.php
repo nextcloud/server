@@ -9,13 +9,13 @@
 namespace OC\Files\Storage;
 
 class DAV extends \OC\Files\Storage\Common {
-	private $password;
-	private $user;
-	private $host;
-	private $secure;
-	private $root;
-	private $certPath;
-	private $ready;
+	protected $password;
+	protected $user;
+	protected $host;
+	protected $secure;
+	protected $root;
+	protected $certPath;
+	protected $ready;
 	/**
 	 * @var \Sabre\DAV\Client
 	 */
