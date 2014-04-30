@@ -413,6 +413,20 @@ describe('FileList tests', function() {
 
 			expect(notificationStub.notCalled).toEqual(true);
 		});
+		it('shows spinner on files to be deleted', function() {
+			FileList.setFiles(testFiles);
+			doDelete();
+
+			expect(FileList.findFileEl('One.txt').find('.progress-icon:not(.delete-icon)').length).toEqual(1);
+			expect(FileList.findFileEl('Three.pdf').find('.delete-icon:not(.progress-icon)').length).toEqual(1);
+		});
+		it('shows spinner on all files when deleting all', function() {
+			FileList.setFiles(testFiles);
+
+			FileList.do_delete();
+
+			expect(FileList.$fileList.find('tr .progress-icon:not(.delete-icon)').length).toEqual(4);
+		});
 		it('updates summary when deleting last file', function() {
 			FileList.setFiles([testFiles[0], testFiles[1]]);
 			doDelete();
