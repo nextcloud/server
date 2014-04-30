@@ -340,26 +340,24 @@ class Proxy extends \OC_FileProxy {
 				$fileInfo['unencrypted_size'] = $fixSize;
 				// put file info if not .part file
 				if (!Helper::isPartialFilePath($relativePath)) {
-					$view->putFileInfo($path, $fileInfo);
+					$view->putFileInfo($path, array('unencrypted_size' => $fixSize));
 				}
 			}
 			$size = $fileInfo['unencrypted_size'];
 		} else {
-			// self healing if file was removed from file cache
-			if (!$fileInfo) {
-				$fileInfo = array();
-			}
+
+			$fileInfoUpdates = array();
 
 			$fixSize = $util->getFileSize($path);
 			if ($fixSize > 0) {
 				$size = $fixSize;
 
-				$fileInfo['encrypted'] = true;
-				$fileInfo['unencrypted_size'] = $size;
+				$fileInfoUpdates['encrypted'] = true;
+				$fileInfoUpdates['unencrypted_size'] = $size;
 
 				// put file info if not .part file
 				if (!Helper::isPartialFilePath($relativePath)) {
-					$view->putFileInfo($path, $fileInfo);
+					$view->putFileInfo($path, $fileInfoUpdates);
 				}
 			}
 
