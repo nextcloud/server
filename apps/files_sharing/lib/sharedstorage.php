@@ -305,27 +305,12 @@ class Shared extends \OC\Files\Storage\Common {
 
 		$relTargetPath = $this->stripUserFilesPath($targetPath);
 
-		// if the user renames a mount point from a group share we need to create a new db entry
-		// for the unique name
-		if ($this->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->uniqueNameSet() === false) {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
-			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
-			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-			$arguments = array($this->share['item_type'], $this->share['item_source'], $this->share['item_target'],
-				2, \OCP\User::getUser(), $this->share['uid_owner'], $this->share['permissions'], $this->share['stime'], $this->share['file_source'],
-				$relTargetPath, $this->share['token'], $this->share['id']);
-
-		} else {
-			// rename mount point
-			$query = \OC_DB::prepare(
-					'Update `*PREFIX*share`
-						SET `file_target` = ?
-						WHERE `id` = ?'
-					);
-			$arguments = array($relTargetPath, $this->getShareId());
+		if ($relTargetPath === false) {
+			\OCP\Util::writeLog('file sharing', 'Wrong target path given: ' . $targetPath, \OCP\Util::ERROR);
+			return false;
 		}
 
-		$result = $query->execute($arguments);
+		$result = self::updateFileTarget($relTargetPath, $this->share);
 
 		if ($result) {
 			// update the mount manager with the new paths
@@ -343,9 +328,39 @@ class Shared extends \OC\Files\Storage\Common {
 					\OCP\Util::ERROR);
 		}
 
-		return $result;
+		return (bool)$result;
 	}
 
+	/**
+	 * @update fileTarget in the database if the mount point changed
+	 * @param string $newPath
+	 * @param array $share reference to the share which should be modified
+	 * @return type
+	 */
+	private static function updateFileTarget($newPath, &$share) {
+		// if the user renames a mount point from a group share we need to create a new db entry
+		// for the unique name
+		if ($share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP &&
+				(isset($share['unique_name']) && $share['unique_name'])) {
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
+			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+			$arguments = array($share['item_type'], $share['item_source'], $share['item_target'],
+				2, \OCP\User::getUser(), $share['uid_owner'], $share['permissions'], $share['stime'], $share['file_source'],
+				$newPath, $share['token'], $share['id']);
+
+		} else {
+			// rename mount point
+			$query = \OC_DB::prepare(
+					'Update `*PREFIX*share`
+						SET `file_target` = ?
+						WHERE `id` = ?'
+					);
+			$arguments = array($newPath, $share['id']);
+		}
+
+		return $query->execute($arguments);
+	}
 
 	public function rename($path1, $path2) {
 
@@ -471,6 +486,7 @@ class Shared extends \OC\Files\Storage\Common {
 			|| $shares
 		) {
 			foreach ($shares as $share) {
+				self::verifyMountPoint($share);
 				\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',
 						array(
 							'share' => $share,
@@ -481,19 +497,39 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * check if the parent folder exists otherwise move the mount point up
+	 *
+	 * @param array $share reference to the share we want to check
+	 */
+	private static function verifyMountPoint(&$share) {
+		$mountPoint = basename($share['file_target']);
+		$parent = dirname($share['file_target']);
+
+		while (!\OC\Files\Filesystem::is_dir($parent)) {
+			$parent = dirname($parent);
+		}
+
+		$newMountPoint = \OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint);
+
+		if($newMountPoint !== $share['file_target']) {
+			$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
+					$newMountPoint,
+					array(),
+					new \OC\Files\View('/' . \OCP\User::getUser() . '/files')
+					);
+			self::updateFileTarget($newMountPoint, $share);
+			$share['file_target'] = $newMountPoint;
+
+		}
+	}
+
+	/**
 	 * return mount point of share, relative to data/user/files
+	 *
 	 * @return string
 	 */
 	public function getMountPoint() {
 		return $this->share['file_target'];
-	}
-
-	/**
-	 * get share type
-	 * @return integer can be single user share (0) group share (1), unique group share name (2)
-	 */
-	private function getShareType() {
-		return $this->share['share_type'];
 	}
 
 	private function setMountPoint($path) {
@@ -501,30 +537,17 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * does the group share already has a user specific unique name
-	 * @return bool
-	 */
-	private function uniqueNameSet() {
-		return (isset($this->share['unique_name']) && $this->share['unique_name']);
-	}
-
-	/**
 	 * the share now uses a unique name of this user
+	 *
+	 * @brief the share now uses a unique name of this user
 	 */
 	private function setUniqueName() {
 		$this->share['unique_name'] = true;
 	}
 
 	/**
-	 * get share ID
-	 * @return integer unique share ID
-	 */
-	private function getShareId() {
-		return $this->share['id'];
-	}
-
-	/**
-	 * get the user who shared the file
+	 * @brief get the user who shared the file
+	 *
 	 * @return string
 	 */
 	public function getSharedFrom() {

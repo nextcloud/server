@@ -75,16 +75,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$excludeList = array_merge($excludeList, $exclude);
 		}
 
-		$pathinfo = pathinfo($target);
-		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
-		$name = $pathinfo['filename'];
-		$i = 2;
-		while ($view->file_exists($target) || in_array($target, $excludeList)) {
-			$target = '/' . $name . ' ('.$i.')' . $ext;
-			$i++;
-		}
-
-		return $target;
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
