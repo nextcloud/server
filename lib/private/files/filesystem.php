@@ -119,6 +119,22 @@ class Filesystem {
 	const signal_post_write = 'post_write';
 
 	/**
+	 * signal emitted before file/dir update
+	 *
+	 * @param string $path
+	 * @param bool $run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_update = 'update';
+
+	/**
+	 * signal emitted after file/dir update
+	 *
+	 * @param string $path
+	 * @param bool $run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_post_update = 'post_update';
+
+	/**
 	 * signal emits when reading file/dir
 	 *
 	 * @param string $path

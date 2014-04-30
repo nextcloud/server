@@ -271,6 +271,39 @@ class View {
 		return $this->basicOperation('file_get_contents', $path, array('read'));
 	}
 
+	protected function emit_file_hooks_pre($exists, $path, &$run) {
+		if (!$exists) {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+				Filesystem::signal_param_run => &$run,
+			));
+		} else {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+				Filesystem::signal_param_run => &$run,
+			));
+		}
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, array(
+			Filesystem::signal_param_path => $this->getHookPath($path),
+			Filesystem::signal_param_run => &$run,
+		));
+	}
+
+	protected function emit_file_hooks_post($exists, $path) {
+		if (!$exists) {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+			));
+		} else {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+			));
+		}
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, array(
+			Filesystem::signal_param_path => $this->getHookPath($path),
+		));
+	}
+
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
@@ -282,24 +315,7 @@ class View {
 				$exists = $this->file_exists($path);
 				$run = true;
 				if ($this->shouldEmitHooks($path)) {
-					if (!$exists) {
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_create,
-							array(
-								Filesystem::signal_param_path => $this->getHookPath($path),
-								Filesystem::signal_param_run => &$run
-							)
-						);
-					}
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path),
-							Filesystem::signal_param_run => &$run
-						)
-					);
+					$this->emit_file_hooks_pre($exists, $path, $run);
 				}
 				if (!$run) {
 					return false;
@@ -313,18 +329,7 @@ class View {
 						Updater::writeHook(array(
 							'path' => $this->getHookPath($path)
 						));
-						if (!$exists) {
-							\OC_Hook::emit(
-								Filesystem::CLASSNAME,
-								Filesystem::signal_post_create,
-								array(Filesystem::signal_param_path => $this->getHookPath($path))
-							);
-						}
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_post_write,
-							array(Filesystem::signal_param_path => $this->getHookPath($path))
-						);
+						$this->emit_file_hooks_post($exists, $path);
 					}
 					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 					return $result;
@@ -335,7 +340,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -378,6 +383,7 @@ class View {
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
+			$exists = $this->file_exists($path2);
 
 			if ($path1 == null or $path2 == null) {
 				return false;
@@ -385,13 +391,7 @@ class View {
 			$run = true;
 			if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
 				// if it was a rename from a part file to a regular file it was a write and not a rename operation
-				\OC_Hook::emit(
-					Filesystem::CLASSNAME, Filesystem::signal_write,
-					array(
-						Filesystem::signal_param_path => $this->getHookPath($path2),
-						Filesystem::signal_param_run => &$run
-					)
-				);
+				$this->emit_file_hooks_pre($exists, $path2, $run);
 			} elseif ($this->shouldEmitHooks()) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
@@ -448,13 +448,7 @@ class View {
 				if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					Updater::writeHook(array('path' => $this->getHookPath($path2)));
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_post_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-						)
-					);
+					$this->emit_file_hooks_post($exists, $path2);
 				} elseif ($this->shouldEmitHooks() && $result !== false) {
 					Updater::renameHook(array(
 						'oldpath' => $this->getHookPath($path1),
@@ -507,26 +501,7 @@ class View {
 						Filesystem::signal_param_run => &$run
 					)
 				);
-				if ($run and !$exists) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_create,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-							Filesystem::signal_param_run => &$run
-						)
-					);
-				}
-				if ($run) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-							Filesystem::signal_param_run => &$run
-						)
-					);
-				}
+				$this->emit_file_hooks_pre($exists, $path2, $run);
 			}
 			if ($run) {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
@@ -566,18 +541,7 @@ class View {
 							Filesystem::signal_param_newpath => $this->getHookPath($path2)
 						)
 					);
-					if (!$exists) {
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_post_create,
-							array(Filesystem::signal_param_path => $this->getHookPath($path2))
-						);
-					}
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_post_write,
-						array(Filesystem::signal_param_path => $this->getHookPath($path2))
-					);
+					$this->emit_file_hooks_post($exists, $path2);
 				}
 				return $result;
 			} else {
