@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Kokapena",
+"URL" => "URL",
+"Username" => "Erabiltzaile izena",
+"Password" => "Pasahitza",
+"Share" => "Partekatu",
 "Access granted" => "Sarrera baimendua",
 "Error configuring Dropbox storage" => "Errore bat egon da Dropbox biltegiratzea konfiguratzean",
 "Grant access" => "Baimendu sarrera",

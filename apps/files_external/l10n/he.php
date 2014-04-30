@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "מיקום",
+"URL" => "כתובת",
+"Username" => "שם משתמש",
+"Password" => "סיסמא",
+"Share" => "שיתוף",
 "Access granted" => "הוענקה גישה",
 "Error configuring Dropbox storage" => "אירעה שגיאה בעת הגדרת אחסון ב־Dropbox",
 "Grant access" => "הענקת גישה",

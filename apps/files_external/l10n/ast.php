@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Llocal",
+"Location" => "Llocalización",
+"URL" => "URL",
+"Username" => "Nome d'usuariu",
+"Password" => "Contraseña",
+"Share" => "Compartir",
 "Saved" => "Guardáu",
 "Folder name" => "Nome de la carpeta",
 "Configuration" => "Configuración",

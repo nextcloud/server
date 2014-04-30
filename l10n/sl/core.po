@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -136,19 +136,19 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -156,7 +156,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -164,15 +164,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -180,11 +180,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -192,11 +192,11 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "let nazaj"
 

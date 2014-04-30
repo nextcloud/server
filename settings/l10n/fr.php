@@ -115,6 +115,7 @@ $TRANSLATIONS = array(
 "Allow users to only share with users in their groups" => "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement",
 "Allow mail notification" => "Autoriser les notifications par couriel",
 "Allow users to send mail notification for shared files" => "Autoriser les utilisateurs à envoyer une notification par courriel concernant les fichiers partagés",
+"Set default expiration date" => "Spécifier la date d'expiration par défaut",
 "Expire after " => "Expire après",
 "days" => "jours",
 "Expire shares by default after N days" => "Par défaut, les partages expireront après N jours",

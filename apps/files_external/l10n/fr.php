@@ -1,5 +1,14 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Local",
+"Location" => "Emplacement",
+"Amazon S3" => "Amazon S3",
+"Key" => "Clé",
+"Access Key" => "Clé d'accès",
+"URL" => "URL",
+"Username" => "Nom d'utilisateur",
+"Password" => "Mot de passe",
+"Share" => "Partager",
 "Access granted" => "Accès autorisé",
 "Error configuring Dropbox storage" => "Erreur lors de la configuration du support de stockage Dropbox",
 "Grant access" => "Autoriser l'accès",

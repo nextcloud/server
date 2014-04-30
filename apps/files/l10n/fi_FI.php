@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Rename" => "Nimeä uudelleen",
 "Your download is being prepared. This might take some time if the files are big." => "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan.",
 "Pending" => "Odottaa",
+"Error moving file." => "Virhe tiedostoa siirrettäessä.",
 "Error moving file" => "Virhe tiedostoa siirrettäessä",
 "Error" => "Virhe",
 "Could not rename file" => "Tiedoston nimeäminen uudelleen epäonnistui",

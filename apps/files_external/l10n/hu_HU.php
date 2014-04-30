@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Hely",
+"URL" => "URL",
+"Username" => "Felhasználónév",
+"Password" => "Jelszó",
+"Share" => "Megosztás",
 "Access granted" => "Érvényes hozzáférés",
 "Error configuring Dropbox storage" => "A Dropbox tárolót nem sikerült beállítani",
 "Grant access" => "Megadom a hozzáférést",

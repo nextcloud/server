@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-29 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 17:20+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,159 +20,159 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Yerel"
 
 #: appinfo/app.php:36
 msgid "Location"
-msgstr ""
+msgstr "Konum"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Anahtar"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Parola"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
-msgstr ""
+msgstr "Bucket"
 
 #: appinfo/app.php:47
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 ve uyumlu olanlar"
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "Erişim Anahtarı"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Gizli Anahtar"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Makine Adı (isteğe bağlı)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Bağl. Nok. (isteğe bağlı)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "Bölge (isteğe bağlı)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "SSL'yi Etkinleştir"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Yol Biçemini Etkinleştir"
 
 #: appinfo/app.php:63
 msgid "App key"
-msgstr ""
+msgstr "Uyg. anahtarı"
 
 #: appinfo/app.php:64
 msgid "App secret"
-msgstr ""
+msgstr "Uyg. parolası"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
 msgid "Username"
-msgstr ""
+msgstr "Kullanıcı Adı:"
 
 #: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
 #: appinfo/app.php:143 appinfo/app.php:153
 msgid "Password"
-msgstr ""
+msgstr "Parola:"
 
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Kök"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Güvenli ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "İstemci Kimliğ"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "İstemci parolası"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "OpenStack Nesne Depolama"
 
 #: appinfo/app.php:94
 msgid "Username (required)"
-msgstr ""
+msgstr "Kullanıcı adı (gerekli)"
 
 #: appinfo/app.php:95
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Bucket (gerekli)"
 
 #: appinfo/app.php:96
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Bölge (OpenStack Nesne Depolaması için isteğe bağlı)"
 
 #: appinfo/app.php:97
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API Anahtarı (Rackspace Bulut Dosyaları için gerekli)"
 
 #: appinfo/app.php:98
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Kiracı Adı (OpenStack Nesne Depolaması için gerekli)"
 
 #: appinfo/app.php:99
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Parola (OpenStack Nesne Depolaması için gerekli)"
 
 #: appinfo/app.php:100
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Hizmet Adı (OpenStack Nesne Depolaması için gerekli)"
 
 #: appinfo/app.php:101
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Kimlik uç nokta adresi (OpenStack Nesne Depolaması için gerekli)"
 
 #: appinfo/app.php:102
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Saniye cinsinden HTTP istek zaman aşımı (isteğe bağlı)"
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
-msgstr ""
+msgstr "Paylaş"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "OC oturumu kullanarak SMB / CIFS"
 
 #: appinfo/app.php:122
 msgid "Username as share"
-msgstr ""
+msgstr "Paylaşım olarak kullanıcı adı"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Güvenli https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Uzak alt klasör"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"

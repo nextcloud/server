@@ -1,5 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Paikallinen",
+"Location" => "Sijainti",
+"Amazon S3" => "Amazon S3",
+"Port (optional)" => "Portti (valinnainen)",
+"Region (optional)" => "Alue (valinnainen)",
+"Enable SSL" => "Käytä SSL:ää",
+"URL" => "Verkko-osoite",
+"Username" => "Käyttäjätunnus",
+"Password" => "Salasana",
+"Username (required)" => "Käyttäjätunnus (vaaditaan)",
+"Share" => "Jaa",
 "Access granted" => "Pääsy sallittu",
 "Error configuring Dropbox storage" => "Virhe Dropbox levyn asetuksia tehtäessä",
 "Grant access" => "Salli pääsy",

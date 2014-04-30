@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-29 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 05:55+0000\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: appinfo/app.php:36
 msgid "Location"
-msgstr ""
+msgstr "Lokasi"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
@@ -84,17 +84,17 @@ msgstr ""
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
 msgid "Username"
-msgstr ""
+msgstr "Nama pengguna"
 
 #: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
 #: appinfo/app.php:143 appinfo/app.php:153
 msgid "Password"
-msgstr ""
+msgstr "Kata laluan"
 
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
@@ -155,7 +155,7 @@ msgstr ""
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
-msgstr ""
+msgstr "Kongsi"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"

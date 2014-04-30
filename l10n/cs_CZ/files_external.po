@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-29 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 05:43+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Místní"
 
 #: appinfo/app.php:36
 msgid "Location"
-msgstr ""
+msgstr "Umístění"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
@@ -87,17 +87,17 @@ msgstr ""
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
 #: appinfo/app.php:143 appinfo/app.php:153
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
@@ -158,7 +158,7 @@ msgstr ""
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
-msgstr ""
+msgstr "Sdílet"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"

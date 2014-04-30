@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Placering",
+"URL" => "URL",
+"Username" => "Brugernavn",
+"Password" => "Kodeord",
+"Share" => "Del",
 "Access granted" => "Adgang godkendt",
 "Error configuring Dropbox storage" => "Fejl ved konfiguration af Dropbox plads",
 "Grant access" => "Godkend adgang",

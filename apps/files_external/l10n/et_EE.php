@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Kohalik",
+"Location" => "Asukoht",
+"URL" => "URL",
+"Username" => "Kasutajanimi",
+"Password" => "Parool",
+"Share" => "Jaga",
 "Access granted" => "Ligipääs on antud",
 "Error configuring Dropbox storage" => "Viga Dropboxi salvestusruumi seadistamisel",
 "Grant access" => "Anna ligipääs",

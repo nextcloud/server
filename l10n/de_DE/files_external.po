@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-29 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 11:00+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,159 +23,159 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 #: appinfo/app.php:36
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Schlüssel"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Geheime Zeichenkette"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
-msgstr ""
+msgstr "Bucket"
 
 #: appinfo/app.php:47
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 und Kompatible"
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "Zugriffsschlüssel"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Sicherheitsschlüssel"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Host-Name (Optional)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Port (Optional)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "Region (Optional)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "SSL aktivieren"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Pfad-Stil aktivieren"
 
 #: appinfo/app.php:63
 msgid "App key"
-msgstr ""
+msgstr "App-Schlüssel"
 
 #: appinfo/app.php:64
 msgid "App secret"
-msgstr ""
+msgstr "Geheime Zeichenkette der App"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
 #: appinfo/app.php:143 appinfo/app.php:153
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Sicherer FTPS://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "Client-ID"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "Geheime Zeichenkette des Client"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "Openstack-Objektspeicher"
 
 #: appinfo/app.php:94
 msgid "Username (required)"
-msgstr ""
+msgstr "Benutzername (Erforderlich)"
 
 #: appinfo/app.php:95
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Bucket (Erforderlich)"
 
 #: appinfo/app.php:96
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Region (Optional für Openstack-Objektspeicher)"
 
 #: appinfo/app.php:97
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API-Schlüssel (Erforderlich für Rackspace Cloud-Dateien)"
 
 #: appinfo/app.php:98
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Mietername (Erforderlich für Openstack-Objektspeicher)"
 
 #: appinfo/app.php:99
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Passwort (Erforderlich für Openstack-Objektspeicher)"
 
 #: appinfo/app.php:100
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Name der Dienstleistung (Erforderlich für Openstack-Objektspeicher)"
 
 #: appinfo/app.php:101
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "URL des Identitätsendpunktes (Erforderlich für Openstack-Objektspeicher)"
 
 #: appinfo/app.php:102
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Zeitüberschreitung von HTTP-Anfragen in Sekunden (Optional)"
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
-msgstr ""
+msgstr "Teilen"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "Zeitüberschreitung von HTTP-Anfragen in Sekunden (Optional)"
 
 #: appinfo/app.php:122
 msgid "Username as share"
-msgstr ""
+msgstr "Benutzername als Freigabe"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Sicherer HTTPS://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Remote-Unterordner:"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"

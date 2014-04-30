@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Updated database" => "قاعدة بيانات المرفوعات",
 "Unknown filetype" => "نوع الملف غير معروف",
 "Invalid image" => "الصورة غير صالحة",
 "Sunday" => "الأحد",
@@ -54,6 +55,7 @@ $TRANSLATIONS = array(
 "Share link" => "شارك الرابط",
 "Password protect" => "حماية كلمة السر",
 "Password" => "كلمة المرور",
+"Allow Public Upload" => "اسمح بالرفع للعامة",
 "Email link to person" => "ارسل الرابط بالبريد الى صديق",
 "Send" => "أرسل",
 "Set expiration date" => "تعيين تاريخ إنتهاء الصلاحية",

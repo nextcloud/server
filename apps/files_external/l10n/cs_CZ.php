@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Místní",
+"Location" => "Umístění",
+"URL" => "URL",
+"Username" => "Uživatelské jméno",
+"Password" => "Heslo",
+"Share" => "Sdílet",
 "Access granted" => "Přístup povolen",
 "Error configuring Dropbox storage" => "Chyba při nastavení úložiště Dropbox",
 "Grant access" => "Povolit přístup",

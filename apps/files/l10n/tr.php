@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Rename" => "Yeniden adlandır",
 "Your download is being prepared. This might take some time if the files are big." => "İndirmeniz hazırlanıyor. Dosya büyük ise biraz zaman alabilir.",
 "Pending" => "Bekliyor",
+"Error moving file." => "Dosya taşıma hatası.",
 "Error moving file" => "Dosya taşıma hatası",
 "Error" => "Hata",
 "Could not rename file" => "Dosya adlandırılamadı",

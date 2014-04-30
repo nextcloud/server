@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -140,55 +140,55 @@ msgstr "11月"
 msgid "December"
 msgstr "12月"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 時間前"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n日前"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "1ヶ月前"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%nヶ月前"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "1年前"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "数年前"
 

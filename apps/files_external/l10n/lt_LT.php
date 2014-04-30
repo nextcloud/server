@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Vieta",
+"URL" => "URL",
+"Username" => "Prisijungimo vardas",
+"Password" => "Slaptažodis",
+"Share" => "Dalintis",
 "Access granted" => "Priėjimas suteiktas",
 "Error configuring Dropbox storage" => "Klaida nustatinėjant Dropbox talpyklą",
 "Grant access" => "Suteikti priėjimą",
