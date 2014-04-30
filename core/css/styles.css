@@ -338,21 +338,6 @@ input[type="submit"].enabled {
 	position:absolute; height:100%; width:100%; padding-left:80px; padding-top: 45px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
-#leftcontent, .leftcontent {
-	position:relative; overflow:auto; width:256px; height:100%;
-	background:#f8f8f8; border-right:1px solid #ddd;
-	-moz-box-sizing:border-box; box-sizing:border-box;
-}
-#leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
-#leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
-#leftcontent li.active, .leftcontent li.active { font-weight:bold; }
-#leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
-#leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
-#rightcontent, .rightcontent { position:fixed; top:89px; left: 336px; overflow:auto }
-
-#controls + .leftcontent{
-	top: 44px;
-}
 
 #emptycontent {
 	font-size: 1.5em;
