@@ -515,6 +515,7 @@
 				type = fileData.type || 'file',
 				mtime = parseInt(fileData.mtime, 10) || new Date().getTime(),
 				mime = fileData.mimetype,
+				path = fileData.path || this.getCurrentDirectory(),
 				linkUrl;
 			options = options || {};
 
@@ -550,10 +551,10 @@
 
 			// linkUrl
 			if (type === 'dir') {
-				linkUrl = this.linkTo(this.getCurrentDirectory() + '/' + name);
+				linkUrl = this.linkTo(path + '/' + name);
 			}
 			else {
-				linkUrl = this.getDownloadUrl(name, this.getCurrentDirectory());
+				linkUrl = this.getDownloadUrl(name, path);
 			}
 			td.append('<input id="select-' + this.id + '-' + fileData.id +
 				'" type="checkbox" /><label for="select-' + this.id + '-' + fileData.id + '"></label>');
@@ -693,6 +694,7 @@
 			options = options || {};
 			var type = fileData.type || 'file',
 				mime = fileData.mimetype,
+				path = fileData.path || this.getCurrentDirectory(),
 				permissions = parseInt(fileData.permissions, 10) || 0;
 
 			if (fileData.isShareMountPoint) {
@@ -729,7 +731,7 @@
 				// lazy load / newly inserted td ?
 				if (!fileData.icon) {
 					this.lazyLoadPreview({
-						path: this.getCurrentDirectory() + '/' + fileData.name,
+						path: path + '/' + fileData.name,
 						mime: mime,
 						etag: fileData.etag,
 						callback: function(url) {
@@ -740,7 +742,7 @@
 				else {
 					// set the preview URL directly
 					var urlSpec = {
-							file: this.getCurrentDirectory() + '/' + fileData.name,
+							file: path + '/' + fileData.name,
 							c: fileData.etag
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
