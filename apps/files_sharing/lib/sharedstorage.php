@@ -379,7 +379,15 @@ class Shared extends \OC\Files\Storage\Common {
 				// otherwise DELETE and CREATE permissions required
 				($this->isDeletable($path1) && $this->isCreatable(dirname($path2)))) {
 
-			list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
+			$pathinfo = pathinfo($relPath1);
+			// for part files we need to ask for the owner and path from the parent directory because
+			// the file cache doesn't return any results for part files
+			if ($pathinfo['extension'] === 'part') {
+				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
+				$path1 = $path1 . '/' . $pathinfo['basename'];
+			} else {
+				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($relPath1);
+			}
 			$targetFilename = basename($relPath2);
 			list($user2, $path2) = \OCA\Files_Sharing\Helper::getUidAndFilename(dirname($relPath2));
 			$rootView = new \OC\Files\View('');
