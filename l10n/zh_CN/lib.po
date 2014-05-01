@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 22:51+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:723
+#: base.php:712
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:724
+#: base.php:713
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -283,13 +283,13 @@ msgstr "请设置一个管理员用户名。"
 msgid "Set an admin password."
 msgstr "请设置一个管理员密码。"
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."

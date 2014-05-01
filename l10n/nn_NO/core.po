@@ -4,15 +4,16 @@
 # 
 # Translators:
 # unhammer <unhammer+dill@mm.st>, 2013
+# brekkjen <leif.brekke@oppstryn.no>, 2014
 # unhammer <unhammer+dill@mm.st>, 2013
 # unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 14:20+0000\n"
+"Last-Translator: brekkjen <leif.brekke@oppstryn.no>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr ""
 #: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Kunne ikkje snede e-post til følgande brukarar: %s "
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"

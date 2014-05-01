@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "あなたはサーバに、信用が付与されていないドメインからアクセスしています。",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => " \"%s\" アプリは、このバージョンのownCloudと互換性がないためインストールできません。",
 "No app name specified" => "アプリ名が未指定",
 "Help" => "ヘルプ",
@@ -56,6 +57,12 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "WebDAVインターフェースに問題があると思われるため、WEBサーバーはまだファイルの同期を許可するよう適切に設定されていません。",
 "Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>インストールガイド</a>をよく確認してください。",
 "%s shared »%s« with you" => "%sが あなたと »%s«を共有しました",
+"Sharing %s failed, because the file does not exist" => "%s の共有に失敗しました。そのようなファイルは存在しないからです。",
+"Sharing backend %s not found" => "共有バックエンド %s が見つかりません",
+"Sharing backend for %s not found" => "%s のための共有バックエンドが見つかりません",
+"Sharing %s failed, because the user %s is the original sharer" => "%s の共有に失敗しました。ユーザ %s が元々の共有者であるからです。",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "%s の共有に失敗しました。%s に付与されている許可を超えているからです。",
+"Sharing %s failed, because resharing is not allowed" => "%s の共有に失敗しました。再共有が許されていないからです。",
 "Could not find category \"%s\"" => "カテゴリ \"%s\" が見つかりませんでした",
 "seconds ago" => "数秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分前"),

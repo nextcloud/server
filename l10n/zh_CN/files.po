@@ -5,15 +5,16 @@
 # Translators:
 # Martin Liu <liuzh66@gmail.com>, 2014
 # Mengz You <mengz.you@gmail.com>, 2013
+# Xuetian Weng <wengxt@gmail.com>, 2014
 # min zhang <zm1990s@gmail.com>, 2013
 # min zhang <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 20:40+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr "文件名不能为空。"
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "“%s” 是一个无效的文件名。"
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
@@ -49,7 +50,7 @@ msgstr "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被�
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
 #: lib/app.php:60
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "目标文件夹已经被移动或删除。"
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
 #, php-format
@@ -153,12 +154,12 @@ msgstr "不能上传文件 {filename} ，由于它是一个目录或者为0字�
 
 #: js/file-upload.js:266
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "总文件大小 {size1} 超过上传限制 {size2}"
 
 #: js/file-upload.js:276
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "没有足够的可用空间，您正在上传 {size1} 的文件但是只有 {size2} 可用。"
 
 #: js/file-upload.js:353
 msgid "Upload cancelled."
@@ -211,13 +212,13 @@ msgid ""
 "big."
 msgstr "下载正在准备中。如果文件较大可能会花费一些时间。"
 
-#: js/filelist.js:502 js/filelist.js:1419
+#: js/filelist.js:502 js/filelist.js:1422
 msgid "Pending"
 msgstr "等待"
 
 #: js/filelist.js:916
 msgid "Error moving file."
-msgstr ""
+msgstr "移动文件出错。"
 
 #: js/filelist.js:924
 msgid "Error moving file"
@@ -231,40 +232,40 @@ msgstr "错误"
 msgid "Could not rename file"
 msgstr "不能重命名文件"
 
-#: js/filelist.js:1119
+#: js/filelist.js:1122
 msgid "Error deleting file."
 msgstr "删除文件出错。"
 
-#: js/filelist.js:1221 templates/index.php:67
+#: js/filelist.js:1224 templates/index.php:67
 msgid "Name"
 msgstr "名称"
 
-#: js/filelist.js:1222 templates/index.php:79
+#: js/filelist.js:1225 templates/index.php:79
 msgid "Size"
 msgstr "大小"
 
-#: js/filelist.js:1223 templates/index.php:81
+#: js/filelist.js:1226 templates/index.php:81
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1235 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 文件夹"
 
-#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1241 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n个文件"
 
-#: js/filelist.js:1327 js/filelist.js:1366
+#: js/filelist.js:1330 js/filelist.js:1369
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "上传 %n 个文件"
 
 #: js/files.js:94
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "“{name}”是一个无效的文件名。"
 
 #: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -305,7 +306,7 @@ msgstr "%s 不能被重命名"
 #: lib/helper.php:14 templates/index.php:22
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "上传 (最大 %s)"
 
 #: templates/admin.php:4
 msgid "File handling"

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "ローカル",
 "Location" => "位置",
 "URL" => "URL",
 "Username" => "ユーザー名",

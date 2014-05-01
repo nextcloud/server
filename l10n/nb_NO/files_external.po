@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Hans Nesse <>, 2013
+# dizzi90 <dizzi90@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 11:40+0000\n"
+"Last-Translator: dizzi90 <dizzi90@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "Sted"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
@@ -200,25 +201,25 @@ msgstr "Lagret"
 
 #: lib/config.php:598
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Notat:</b> "
 
 #: lib/config.php:608
 msgid " and "
-msgstr ""
+msgstr "og"
 
 #: lib/config.php:630
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Merk:</b> Støtte for cURL i PHP er ikke aktivert eller installert. Montering av %s er ikke mulig. Be systemadministratoren om å installere det."
 
 #: lib/config.php:632
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Merk:</b> FTP støtte i PHP er ikke slått på eller innstallert. Kan ikke montere %s. Ta kontakt med din systemadministrator for å installere det."
 
 #: lib/config.php:634
 #, php-format
@@ -249,7 +250,7 @@ msgstr "Innstillinger"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Tilgjengelig for"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -257,7 +258,7 @@ msgstr "Legg til lagringsplass"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Ingen bruker eller gruppe"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -282,7 +283,7 @@ msgstr "Aktiver ekstern lagring for bruker"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Tillat brukere å montere følgende eksterne lagring"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

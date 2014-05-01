@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Username" => "Brukarnamn",
 "Password" => "Passord",
 "Share" => "Del",
+"Folder name" => "Mappenamn",
 "Configuration" => "Innstillingar",
 "Groups" => "Grupper",
 "Users" => "Brukarar",

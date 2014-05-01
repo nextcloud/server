@@ -118,6 +118,7 @@ $TRANSLATIONS = array(
 "Set default expiration date" => "Spécifier la date d'expiration par défaut",
 "Expire after " => "Expire après",
 "days" => "jours",
+"Enforce expiration date" => "Impose la date d'expiration",
 "Expire shares by default after N days" => "Par défaut, les partages expireront après N jours",
 "Security" => "Sécurité",
 "Enforce HTTPS" => "Forcer HTTPS",

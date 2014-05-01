@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Rename" => "Renomear",
 "Your download is being prepared. This might take some time if the files are big." => "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes.",
 "Pending" => "Pendente",
+"Error moving file." => "Erro movendo o arquivo.",
 "Error moving file" => "Erro movendo o arquivo",
 "Error" => "Erro",
 "Could not rename file" => "Não foi possível renomear o arquivo",

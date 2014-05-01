@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} ファイルが競合"),
 "One file conflict" => "1ファイルが競合",
 "New Files" => "新しいファイル",
+"Already existing files" => "ファイルがすでに存在します",
 "Which files do you want to keep?" => "どちらのファイルを保持したいですか？",
 "If you select both versions, the copied file will have a number added to its name." => "両方のバージョンを選択した場合は、ファイル名の後ろに数字を追加したファイルのコピーを作成します。",
 "Cancel" => "キャンセル",

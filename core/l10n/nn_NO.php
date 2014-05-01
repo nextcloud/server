@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Couldn't send mail to following users: %s " => "Kunne ikkje snede e-post til følgande brukarar: %s ",
 "Turned on maintenance mode" => "Skrudde på vedlikehaldsmodus",
 "Turned off maintenance mode" => "Skrudde av vedlikehaldsmodus",
 "Updated database" => "Database oppdatert",

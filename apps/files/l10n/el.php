@@ -62,6 +62,7 @@ $TRANSLATIONS = array(
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Η κρυπτογράφηση απενεργοποιήθηκε, αλλά τα αρχεία σας είναι ακόμα κρυπτογραφημένα. Παρακαλούμε απενεργοποιήσετε την κρυπτογράφηση αρχείων από τις προσωπικές σας ρυθμίσεις",
 "{dirs} and {files}" => "{Κατάλογοι αρχείων} και {αρχεία}",
 "%s could not be renamed" => "Αδυναμία μετονομασίας του %s",
+"Upload (max. %s)" => "Διαμοιρασμός (max. %s)",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",
 "max. possible: " => "μέγιστο δυνατό:",
