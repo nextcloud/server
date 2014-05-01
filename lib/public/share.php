@@ -341,15 +341,12 @@ class Share extends \OC\Share\Constants {
 interface Share_Backend {
 
 	/**
-	 * Get the source of the item to be stored in the database
+	 * Check if this $itemSource exist for the user
 	 * @param string $itemSource
 	 * @param string $uidOwner Owner of the item
 	 * @return boolean|null Source
 	 *
-	 * Return an array if the item is file dependent, the array needs two keys: 'item' and 'file'
 	 * Return false if the item does not exist for the user
-	 *
-	 * The formatItems() function will translate the source returned back into the item
 	 */
 	public function isValidSource($itemSource, $uidOwner);
 
