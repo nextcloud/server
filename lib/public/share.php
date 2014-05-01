@@ -397,7 +397,7 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 	 * Get the file path of the item
 	 * @param string $itemSource
 	 * @param string $uidOwner User that is the owner of shared item
-	 * @return boolean
+	 * @return string|false
 	 */
 	public function getFilePath($itemSource, $uidOwner);
 
