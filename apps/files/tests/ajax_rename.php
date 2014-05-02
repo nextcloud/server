@@ -24,6 +24,16 @@
 class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 	private static $user;
 
+	/**
+	 * @var PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $viewMock;
+
+	/**
+	 * @var \OCA\Files\App
+	 */
+	private $files;
+
 	function setUp() {
 		// mock OC_L10n
 		if (!self::$user) {
@@ -72,7 +82,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 			->method('getFileInfo')
 			->will($this->returnValue(new \OC\Files\FileInfo(
 				'/',
-				null,
+				new \OC\Files\Storage\Local(array('datadir' => '/')),
 				'/',
 				array(
 				'fileid' => 123,
