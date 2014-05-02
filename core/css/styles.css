@@ -71,13 +71,6 @@ body {
 	max-width: 40%;
 	white-space: nowrap;
 }
-.header-right #details {
-	display: inline-block;
-	margin-top: 6px;
-	width: 100%;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
 
 /* Profile picture in header */
 #header .avatardiv {
