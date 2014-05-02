@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-01 01:55-0400\n"
-"PO-Revision-Date: 2014-05-01 05:55+0000\n"
+"POT-Creation-Date: 2014-05-02 01:55-0400\n"
+"PO-Revision-Date: 2014-05-01 06:10+0000\n"
 "Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -58,15 +58,15 @@ msgstr "Tajný klíč"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr "Hostname (dobrovolný)"
+msgstr "Hostname (nepovinný)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr "Port (dobrovolný)"
+msgstr "Port (nepovinný)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr "Region (dobrovolný)"
+msgstr "Region (nepovinný)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
@@ -102,11 +102,11 @@ msgstr "Heslo"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Zabezpečené ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
@@ -130,7 +130,7 @@ msgstr ""
 
 #: appinfo/app.php:96
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Region (nepovinný pro OpenStack Object Storage)"
 
 #: appinfo/app.php:97
 msgid "API Key (required for Rackspace Cloud Files)"
@@ -142,7 +142,7 @@ msgstr ""
 
 #: appinfo/app.php:99
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Heslo (vyžadováno pro OpenStack Object Storage)"
 
 #: appinfo/app.php:100
 msgid "Service Name (required for OpenStack Object Storage)"
@@ -154,7 +154,7 @@ msgstr ""
 
 #: appinfo/app.php:102
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Vypršení HTTP požadavků v sekundách (nepovinné)"
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
@@ -162,19 +162,19 @@ msgstr "Sdílet"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS za použití OC loginu"
 
 #: appinfo/app.php:122
 msgid "Username as share"
-msgstr ""
+msgstr "Uživatelské jméno jako sdílený adresář"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Zabezpečené https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Vzdálený podadresář"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
