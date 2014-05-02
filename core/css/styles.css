@@ -37,6 +37,21 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding-right: 10px;
+	color: #fff;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
+
+/* Profile picture in header */
 #header .avatardiv {
 	float: left;
 	display: inline-block;
