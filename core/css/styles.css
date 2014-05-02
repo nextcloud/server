@@ -41,11 +41,8 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right {
 	position: absolute;
 	right: 0;
-	padding-right: 10px;
+	padding: 7px 5px;
 	color: #fff;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
 	height: 100%;
 	max-width: 40%;
 	white-space: nowrap;
@@ -124,6 +121,12 @@ input[type="time"] {
 	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
+
+/* correctly align images inside of buttons */
+input img, button img, .button img {
+	vertical-align: text-bottom;
+}
+
 #quota {
 	cursor: default;
 	margin: 30px;
