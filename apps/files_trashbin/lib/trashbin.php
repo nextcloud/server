@@ -883,11 +883,19 @@ class Trashbin {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
 		$size = 0;
 
-		foreach ($iterator as $path) {
+                /**
+		 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+		 * This bug is fixed in PHP 5.5.9 or before
+		 * See #8376
+		 */
+		$iterator->rewind();
+		while ($iterator->valid()) {
+			$path = $iterator->current();
 			$relpath = substr($path, strlen($root) - 1);
 			if (!$view->is_dir($relpath)) {
 				$size += $view->filesize($relpath);
 			}
+			$iterator->next();
 		}
 		return $size;
 	}
