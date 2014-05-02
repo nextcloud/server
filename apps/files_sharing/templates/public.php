@@ -15,10 +15,12 @@
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
+			<?php if ($_['showDownloadButton']): ?>
 			<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
 				<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
 				<?php p($l->t('Download'))?>
 			</a>
+			<?php endif ?>
 		</div>
 </div></header>
 <div id="content">

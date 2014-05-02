@@ -244,9 +244,11 @@ if (isset($path)) {
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
 						&& ( $maxInputFileSize === 0 || $totalSize <= $maxInputFileSize);
 			$tmpl->assign('allowZipDownload', intval($allowZip));
+			$tmpl->assign('showDownloadButton', intval($allowZip));
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
+			$tmpl->assign('showDownloadButton', true);
 			$tmpl->assign('dir', $dir);
 
 			// Show file preview if viewer is available
