@@ -279,9 +279,7 @@ class OC_Files {
 				return false;
 			$size -= 1;
 		} else {
-			$size = OC_Helper::humanFileSize($size);
-			$size = substr($size, 0, -1); //strip the B
-			$size = str_replace(' ', '', $size); //remove the space between the size and the postfix
+			$size = OC_Helper::phpFileSize($size);
 		}
 
 		//don't allow user to break his config -- broken or malicious size input
