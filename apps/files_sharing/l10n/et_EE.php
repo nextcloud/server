@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "the link expired" => "link on aegunud",
 "sharing is disabled" => "jagamine on peatatud",
 "For more info, please ask the person who sent this link." => "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
-"shared by %s" => "jagas %s",
 "Download %s" => "Laadi alla %s",
 "Direct link" => "Otsene link"
 );

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "the link expired" => "povezava je pretekla,",
 "sharing is disabled" => "souporaba je onemogočena.",
 "For more info, please ask the person who sent this link." => "Za več podrobnosti stopite v stik s pošiljateljem te povezave.",
-"shared by %s" => "souporabp omogoča %s",
 "Download %s" => "Prejmi %s",
 "Direct link" => "Neposredna povezava"
 );

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"POT-Creation-Date: 2014-05-03 01:55-0400\n"
+"PO-Revision-Date: 2014-05-02 17:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -271,23 +271,23 @@ msgstr "Erro ao carregar o modelo de existências do ficheiro"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Password muito fraca"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Password fraca"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Password aceitável"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Password Forte"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Password muito forte"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"

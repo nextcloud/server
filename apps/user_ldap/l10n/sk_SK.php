@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Group Search Attributes" => "Atribúty vyhľadávania skupín",
 "Group-Member association" => "Priradenie člena skupiny",
 "Nested Groups" => "Vnorené skupiny",
+"When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" => "Ak je zapnuté, tak je možné používať skupiny, ktoré obsahujú iné skupiny. (Funguje, len ak atribút člena skupiny obsahuje DN.)",
 "Special Attributes" => "Špeciálne atribúty",
 "Quota Field" => "Pole kvóty",
 "Quota Default" => "Predvolená kvóta",

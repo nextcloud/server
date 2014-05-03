@@ -6,13 +6,14 @@
 # Mouxy <daniel@mouxy.net>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2014
 # jmruas <jmruas@gmail.com>, 2014
+# Drew Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-03 01:55-0400\n"
+"PO-Revision-Date: 2014-05-02 17:10+0000\n"
+"Last-Translator: Drew Melim <nokostya.translation@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 #: appinfo/app.php:36
 msgid "Location"
@@ -30,15 +31,15 @@ msgstr "Local"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Chave"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Secreto"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
@@ -50,11 +51,11 @@ msgstr ""
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "Chave de acesso"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Chave Secreta"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
@@ -62,15 +63,15 @@ msgstr ""
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Porta (opcional)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "Região (opcional)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Activar SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
@@ -78,11 +79,11 @@ msgstr ""
 
 #: appinfo/app.php:63
 msgid "App key"
-msgstr ""
+msgstr "Chave da aplicação"
 
 #: appinfo/app.php:64
 msgid "App secret"
-msgstr ""
+msgstr "Chave secreta da aplicação"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
@@ -102,7 +103,7 @@ msgstr "Palavra-passe"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Raiz"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
@@ -110,11 +111,11 @@ msgstr ""
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "ID Cliente"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "Segredo do cliente"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
@@ -122,7 +123,7 @@ msgstr ""
 
 #: appinfo/app.php:94
 msgid "Username (required)"
-msgstr ""
+msgstr "Utilizador (requerido)"
 
 #: appinfo/app.php:95
 msgid "Bucket (required)"
@@ -174,7 +175,7 @@ msgstr ""
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Sub-pasta remota "
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -202,32 +203,32 @@ msgstr "Guardado"
 
 #: lib/config.php:598
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Aviso:</b> "
 
 #: lib/config.php:608
 msgid " and "
-msgstr ""
+msgstr "e"
 
 #: lib/config.php:630
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Aviso:</b> O suporte cURL no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar."
 
 #: lib/config.php:632
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Aviso:</b> O suporte FTP no PHP não está activo ou instalado. Não é possível montar %s. Peça ao seu administrador para instalar."
 
 #: lib/config.php:634
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Aviso:</b> O cliente\"%s\" não está instalado. Não é possível montar \"%s\" . Peça ao seu administrador para instalar."
 
 #: templates/settings.php:2
 msgid "External Storage"
@@ -251,7 +252,7 @@ msgstr "Opções"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Disponível para "
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -259,7 +260,7 @@ msgstr "Adicionar armazenamento"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Sem utilizador nem grupo"
 
 #: templates/settings.php:95
 msgid "All Users"
