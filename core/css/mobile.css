@@ -1,5 +1,26 @@
 @media only screen and (max-width: 768px) {
 
+#body-login #header {
+	padding-top: 10px;
+}
+
+#body-login .wrapper {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: center;
+	-webkit-box-align: center;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: center;
+	-moz-box-align: center;
+
+	display: box;
+	box-orient: horizontal;
+	box-pack: center;
+	box-align: center;
+}
+
 /* show caret indicator next to logo to make clear it is tappable */
 #owncloud.menutoggle {
 	background-image: url('../img/actions/caret.svg');

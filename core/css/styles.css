@@ -327,7 +327,7 @@ input[type="submit"].enabled {
 
 /* Some whitespace to the top */
 #body-login #header {
-	padding-top: 10px;
+	padding-top: 100px;
 }
 /* Fix background gradient */
 #body-login {
@@ -637,21 +637,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	min-height: 100%;
 	margin: 0 auto -70px;
 	width: 300px;
-	
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-pack: center;
-	-webkit-box-align: center;
-
-	display: -moz-box;
-	-moz-box-orient: horizontal;
-	-moz-box-pack: center;
-	-moz-box-align: center;
-
-	display: box;
-	box-orient: horizontal;
-	box-pack: center;
-	box-align: center;
 }
 #body-login footer, #body-login .push {
 	height: 70px;
