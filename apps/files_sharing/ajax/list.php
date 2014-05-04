@@ -20,17 +20,10 @@
  *
  */
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
-if(!\OC_App::isEnabled('files_sharing')){
-	exit;
-}
+OCP\JSON::checkAppEnabled('files_sharing');
 
 if(!isset($_GET['t'])){
-	\OC_Response::setStatus(400); //400 Bad Request
+	\OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
 	\OC_Log::write('core-preview', 'No token parameter was passed', \OC_Log::DEBUG);
 	exit;
 }
@@ -55,13 +48,12 @@ $dir = $data['realPath'];
 
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
-	\OC_Response::setStatus(404);
+	\OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	\OCP\JSON::error(array('success' => false));
 	exit();
 }
 
 $data = array();
-$baseUrl = OCP\Util::linkTo('files_sharing', 'index.php') . '?t=' . urlencode($token) . '&dir=';
 
 // make filelist
 $files = \OCA\Files\Helper::getFiles($dir);
