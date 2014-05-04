@@ -299,7 +299,7 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
+		if(\OC::$session->exists('checkServer_succeeded') && \OC::$session->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
@@ -491,7 +491,7 @@ class OC_Util {
 		$errors = array_merge($errors, self::checkDatabaseVersion());
 
 		// Cache the result of this function
-		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
+		\OC::$session->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
