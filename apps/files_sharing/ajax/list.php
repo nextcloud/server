@@ -48,7 +48,7 @@ $dir = $data['realPath'];
 
 $dir = \OC\Files\Filesystem::normalizePath($dir);
 if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
-	\OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
+	\OC_Response::setStatus(\OC_Response::STATUS_NOT_FOUND);
 	\OCP\JSON::error(array('success' => false));
 	exit();
 }
