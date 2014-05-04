@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sappe, 2014
 # Amplificator, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 19:21+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 #: appinfo/app.php:36
 msgid "Location"
@@ -28,15 +29,15 @@ msgstr "Placering"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Nøgle"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Hemmelighed"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
@@ -52,7 +53,7 @@ msgstr ""
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Hemmelig Nøgle "
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
@@ -100,23 +101,23 @@ msgstr "Kodeord"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Sikker ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "Klient ID"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "Klient hemmelighed"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "OpenStack Object Storage"
 
 #: appinfo/app.php:94
 msgid "Username (required)"
@@ -168,7 +169,7 @@ msgstr ""
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Sikker https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
@@ -200,11 +201,11 @@ msgstr "Gemt"
 
 #: lib/config.php:598
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Note:</b> "
 
 #: lib/config.php:608
 msgid " and "
-msgstr ""
+msgstr "og"
 
 #: lib/config.php:630
 #, php-format
@@ -249,7 +250,7 @@ msgstr "Valgmuligheder"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Tilgængelig for"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -257,7 +258,7 @@ msgstr "Tilføj lager"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Ingen bruger eller gruppe"
 
 #: templates/settings.php:95
 msgid "All Users"

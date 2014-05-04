@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -211,7 +211,7 @@ msgid ""
 "big."
 msgstr "Tu descarga se está preparando. Esto puede demorar si los archivos son muy grandes."
 
-#: js/filelist.js:502 js/filelist.js:1419
+#: js/filelist.js:502 js/filelist.js:1422
 msgid "Pending"
 msgstr "Pendientes"
 
@@ -231,35 +231,35 @@ msgstr "Error"
 msgid "Could not rename file"
 msgstr "No se pudo renombrar el archivo"
 
-#: js/filelist.js:1119
+#: js/filelist.js:1122
 msgid "Error deleting file."
 msgstr "Error al borrar el archivo."
 
-#: js/filelist.js:1221 templates/index.php:67
+#: js/filelist.js:1224 templates/index.php:67
 msgid "Name"
 msgstr "Nombre"
 
-#: js/filelist.js:1222 templates/index.php:79
+#: js/filelist.js:1225 templates/index.php:79
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/filelist.js:1223 templates/index.php:81
+#: js/filelist.js:1226 templates/index.php:81
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1235 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n carpeta"
 msgstr[1] "%n carpetas"
 
-#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1241 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n archivo"
 msgstr[1] "%n archivos"
 
-#: js/filelist.js:1327 js/filelist.js:1366
+#: js/filelist.js:1330 js/filelist.js:1369
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Subiendo %n archivo"

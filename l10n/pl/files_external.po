@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-04 05:50+0000\n"
+"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,59 +29,59 @@ msgstr "Lokalizacja"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Klucz"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Hasło"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
-msgstr ""
+msgstr "Kosz"
 
 #: appinfo/app.php:47
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 i zgodne"
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "Klucz dostępu"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Klucz hasła"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Nazwa hosta (opcjonalnie)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Port (opcjonalnie)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "Region (opcjonalnie)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Włącz SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Włącz styl ścieżki"
 
 #: appinfo/app.php:63
 msgid "App key"
-msgstr ""
+msgstr "Klucz aplikacji"
 
 #: appinfo/app.php:64
 msgid "App secret"
-msgstr ""
+msgstr "Hasło aplikacji"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
@@ -101,59 +101,59 @@ msgstr "Hasło"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Bezpieczny ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "ID klienta"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "Hasło klienta"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "Magazyn obiektów OpenStack"
 
 #: appinfo/app.php:94
 msgid "Username (required)"
-msgstr ""
+msgstr "Użytkownik (wymagany)"
 
 #: appinfo/app.php:95
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Kosz (wymagany)"
 
 #: appinfo/app.php:96
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Region (opcjonalny dla magazynu obiektów OpenStack)"
 
 #: appinfo/app.php:97
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "Klucz API (wymagany dla plików Rackspace Cloud)"
 
 #: appinfo/app.php:98
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Nazwa najemcy (wymagana dla magazynu obiektów OpenStack)"
 
 #: appinfo/app.php:99
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Hasło (wymagane dla magazynu obiektów OpenStack)"
 
 #: appinfo/app.php:100
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Nazwa usługi (wymagana dla magazynu obiektów OpenStack)"
 
 #: appinfo/app.php:101
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "URL lub zakończenie jednostki (wymagane dla magazynu obiektów OpenStack)"
 
 #: appinfo/app.php:102
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Czas wygaśnięcia żądań HTTP w sekundach (opcjonalne)"
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
@@ -161,19 +161,19 @@ msgstr "Udostępnij"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS przy użyciu loginu OC"
 
 #: appinfo/app.php:122
 msgid "Username as share"
-msgstr ""
+msgstr "Użytkownik jako zasób"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Bezpieczny https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Zdalny podfolder"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"

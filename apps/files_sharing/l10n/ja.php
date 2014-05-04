@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "リンクの期限が切れています",
 "sharing is disabled" => "共有が無効になっています",
 "For more info, please ask the person who sent this link." => "不明な点は、こちらのリンクの提供者に確認をお願いします。",
+"Download" => "ダウンロード",
 "Download %s" => "%s をダウンロード",
 "Direct link" => "リンク"
 );

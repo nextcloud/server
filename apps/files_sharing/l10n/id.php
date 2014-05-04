@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "tautan telah kadaluarsa",
 "sharing is disabled" => "berbagi dinonaktifkan",
 "For more info, please ask the person who sent this link." => "Untuk info lebih lanjut, silakan tanyakan orang yang mengirim tautan ini.",
+"Download" => "Unduh",
 "Direct link" => "Tautan langsung"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

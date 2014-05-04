@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "the link expired",
 "sharing is disabled" => "sharing is disabled",
 "For more info, please ask the person who sent this link." => "For more info, please ask the person who sent this link.",
+"Download" => "Download",
 "Download %s" => "Download %s",
 "Direct link" => "Direct link"
 );

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Dimon Pockemon <>, 2013
+# lauraberindei <lauraagavriloae@yahoo.com>, 2014
 # laurentiucristescu <laur.cristescu@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-27 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 05:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 17:34+0000\n"
+"Last-Translator: lauraberindei <lauraagavriloae@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +20,15 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: templates/settings.php:3
+#: templates/settings.php:2
 msgid "WebDAV Authentication"
 msgstr "Autentificare WebDAV"
 
-#: templates/settings.php:4
+#: templates/settings.php:3
 msgid "Address: "
-msgstr ""
+msgstr "Adresa :"
 
-#: templates/settings.php:7
+#: templates/settings.php:6
 msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

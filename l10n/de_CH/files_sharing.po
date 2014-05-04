@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-03 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 05:55+0000\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen L
 
 #: templates/public.php:21
 msgid "Download"
-msgstr ""
+msgstr "Herunterladen"
 
 #: templates/public.php:53
 #, php-format

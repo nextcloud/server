@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -213,7 +213,7 @@ msgid ""
 "big."
 msgstr "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/filelist.js:502 js/filelist.js:1419
+#: js/filelist.js:502 js/filelist.js:1422
 msgid "Pending"
 msgstr "대기 중"
 
@@ -233,33 +233,33 @@ msgstr "오류"
 msgid "Could not rename file"
 msgstr "이름을 변경할 수 없음"
 
-#: js/filelist.js:1119
+#: js/filelist.js:1122
 msgid "Error deleting file."
 msgstr "파일 삭제 오류."
 
-#: js/filelist.js:1221 templates/index.php:67
+#: js/filelist.js:1224 templates/index.php:67
 msgid "Name"
 msgstr "이름"
 
-#: js/filelist.js:1222 templates/index.php:79
+#: js/filelist.js:1225 templates/index.php:79
 msgid "Size"
 msgstr "크기"
 
-#: js/filelist.js:1223 templates/index.php:81
+#: js/filelist.js:1226 templates/index.php:81
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1235 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "폴더 %n개"
 
-#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1241 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "파일 %n개"
 
-#: js/filelist.js:1327 js/filelist.js:1366
+#: js/filelist.js:1330 js/filelist.js:1369
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "파일 %n개 업로드 중"

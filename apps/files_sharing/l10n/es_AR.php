@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "el enlace expiró",
 "sharing is disabled" => "compartir está desactivado",
 "For more info, please ask the person who sent this link." => "Para mayor información, contactá a la persona que te mandó el enlace.",
+"Download" => "Descargar",
 "Direct link" => "Vínculo directo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

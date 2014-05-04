@@ -9,15 +9,16 @@
 # corneliu.e <corneliueva@yahoo.com>, 2013
 # dimaursu16 <dima@ceata.org>, 2013
 # inaina <ina.c.ina@gmail.com>, 2013
+# lauraberindei <lauraagavriloae@yahoo.com>, 2014
 # ripkid666 <ripkid666@gmail.com>, 2013
 # sergiu_sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-02 01:55-0400\n"
-"PO-Revision-Date: 2014-05-01 16:00+0000\n"
-"Last-Translator: mozguletz <__sashok@mail.ru>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 15:29+0000\n"
+"Last-Translator: lauraberindei <lauraagavriloae@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +70,7 @@ msgstr "Sursă nevalidă"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "Serverului nu ii este permis sa deschida URL-ul , verificati setarile serverului"
 
 #: ajax/newfile.php:118
 #, php-format
@@ -288,7 +289,7 @@ msgstr "Spațiul de stocare este aproape plin ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va"
 
 #: js/files.js:137
 msgid ""

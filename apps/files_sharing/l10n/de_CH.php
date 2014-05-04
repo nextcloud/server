@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "the item was removed" => "Das Element wurde entfernt",
 "the link expired" => "Der Link ist abgelaufen",
 "sharing is disabled" => "Teilen ist deaktiviert",
-"For more info, please ask the person who sent this link." => "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat."
+"For more info, please ask the person who sent this link." => "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat.",
+"Download" => "Herunterladen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
