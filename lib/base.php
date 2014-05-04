@@ -773,6 +773,7 @@ class OC {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			if (isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_JSON::callCheck();
 				if (isset($_COOKIE['oc_token'])) {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
@@ -939,6 +940,7 @@ class OC {
 			return false;
 		}
 
+		OC_JSON::callCheck();
 		OC_App::loadApps();
 
 		//setup extra user backends
