@@ -22,8 +22,6 @@
 
 require_once __DIR__ . '/../../../lib/base.php';
 
-require __DIR__ . '/../lib/config.php';
-
 class Test_Mount_Config_Dummy_Storage {
 	public function test() {
 		return true;
