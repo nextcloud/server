@@ -36,7 +36,7 @@ $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 //groups will be filtered out later
 $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), true, $groupManager);
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
-list($adminGroup, $groups) = $groupsInfo->get($pattern);
+list($adminGroups, $groups) = $groupsInfo->get($pattern);
 
 $accessibleGroups = $groupManager->search($pattern);
 if(!$isAdmin) {
