@@ -18,7 +18,7 @@ function enableApp($app) {
 
 enableApp('files_sharing');
 enableApp('files_encryption');
-//enableApp('files_external');
+enableApp('files_external');
 enableApp('user_ldap');
 enableApp('files_versions');
 
