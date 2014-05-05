@@ -615,7 +615,7 @@ class Preview {
 			return;
 		}
 
-		if ($newXSize < $x || $newYSize < $y) {
+		if (($newXSize < $x || $newYSize < $y) && $scalingUp) {
 			if ($newXSize > $x) {
 				$cropX = floor(($newXSize - $x) * 0.5);
 				$image->crop($cropX, 0, $x, $newYSize);
