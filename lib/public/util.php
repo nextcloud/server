@@ -86,21 +86,22 @@ class Util {
 	 * if DEBUG mode is enabled
 	 * @param string $app app name
 	 * @param \Exception $ex exception to log
+	 * @param string $level log level, defaults to \OCP\Util::FATAL
 	 */
-	public static function logException( $app, \Exception $ex ) {
+	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
 		$class = get_class($ex);
 		$message = $class . ': ' . $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
-		\OCP\Util::writeLog($app, $message, \OCP\Util::FATAL);
+		\OCP\Util::writeLog($app, $message, $level);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
 			$stack = explode("\n", $ex->getTraceAsString());
 			// first element is empty
 			array_shift($stack);
 			foreach ($stack as $s) {
-				\OCP\Util::writeLog($app, 'Exception: ' . $s, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $s, $level);
 			}
 
 			// include cause
@@ -110,7 +111,7 @@ class Util {
 				if ($ex->getCode()) {
 					$message .= '[' . $ex->getCode() . '] ';
 				}
-				\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $message, $level);
 			}
 		}
 	}
