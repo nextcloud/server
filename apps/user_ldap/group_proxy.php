@@ -156,22 +156,6 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all display names in a group
-	 * @returns array with display names (value) and user ids(key)
-	 */
-	public function displayNamesInGroup($gid, $search, $limit, $offset) {
-		$displayNames = array();
-
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->displayNamesInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$displayNames = array_merge($displayNames, $backendUsers);
-			}
-		}
-		return $displayNames;
-	}
-
-	/**
 	 * @brief get a list of all groups
 	 * @returns array with group names
 	 *

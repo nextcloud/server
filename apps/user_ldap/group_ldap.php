@@ -363,25 +363,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all display names in a group
-	 * @returns array with display names (value) and user ids(key)
-	 */
-	public function displayNamesInGroup($gid, $search, $limit, $offset) {
-		if(!$this->enabled) {
-			return array();
-		}
-		if(!$this->groupExists($gid)) {
-			return array();
-		}
-		$users = $this->usersInGroup($gid, $search, $limit, $offset);
-		$displayNames = array();
-		foreach($users as $user) {
-			$displayNames[$user] = \OC_User::getDisplayName($user);
-		}
-		return $displayNames;
-	}
-
-	/**
 	 * @brief get a list of all groups
 	 * @returns array with group names
 	 *
@@ -507,9 +488,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((
-			OC_GROUP_BACKEND_GET_DISPLAYNAME
-			| OC_GROUP_BACKEND_COUNT_USERS
-			) & $actions);
+		return (bool)(OC_GROUP_BACKEND_COUNT_USERS & $actions);
 	}
 }

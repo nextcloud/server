@@ -274,17 +274,7 @@ class OC_Group {
 	 * @returns array with display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$group = self::getManager()->get($gid);
-		if ($group) {
-			$users = $group->searchDisplayName($search, $limit, $offset);
-			$displayNames = array();
-			foreach ($users as $user) {
-				$displayNames[$user->getUID()] = $user->getDisplayName();
-			}
-			return $displayNames;
-		} else {
-			return array();
-		}
+		return self::getManager()->displayNamesInGroup($gid, $search, $limit, $offset);
 	}
 
 	/**
