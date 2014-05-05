@@ -43,6 +43,7 @@ class Preview {
 	private $maxY;
 	private $scalingUp;
 	private $mimeType;
+	private $keepAspect = false;
 
 	//filemapper used for deleting previews
 	// index is path, value is fileinfo
@@ -267,6 +268,11 @@ class Preview {
 		return $this;
 	}
 
+	public function setKeepAspect($keepAspect) {
+		$this->keepAspect = $keepAspect;
+		return $this;
+	}
+
 	/**
 	 * @brief check if all parameters are valid
 	 * @return bool
@@ -297,7 +303,7 @@ class Preview {
 		if($fileInfo !== null && $fileInfo !== false) {
 			$fileId = $fileInfo->getId();
 
-			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+			$previewPath = $this->buildCachePath($fileId);
 			return $this->userView->unlink($previewPath);
 		}
 		return false;
@@ -330,15 +336,12 @@ class Preview {
 		if (is_null($fileId)) {
 			return false;
 		}
-		
-		$maxX = $this->getMaxX();
-		$maxY = $this->getMaxY();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		$preview = $this->buildCachePath($fileId);
 
 		//does a preview with the wanted height and width already exist?
-		if ($this->userView->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
-			return $previewPath . $maxX . '-' . $maxY . '.png';
+		if ($this->userView->file_exists($preview)) {
+			return $preview;
 		}
 
 		return $this->isCachedBigger($fileId);
@@ -352,6 +355,11 @@ class Preview {
 	private function isCachedBigger($fileId) {
 
 		if (is_null($fileId)) {
+			return false;
+		}
+
+		// in order to not loose quality we better generate aspect preserving previews from the original file
+		if ($this->keepAspect) {
 			return false;
 		}
 
@@ -466,12 +474,12 @@ class Preview {
 		$fileId = $fileInfo->getId();
 
 		$cached = $this->isCached($fileId);
-
 		if ($cached) {
 			$stream = $this->userView->fopen($cached, 'r');
 			$image = new \OC_Image();
 			$image->loadFromFileHandle($stream);
 			$this->preview = $image->valid() ? $image : null;
+
 			$this->resizeAndCrop();
 			fclose($stream);
 		}
@@ -497,7 +505,7 @@ class Preview {
 				$this->resizeAndCrop();
 
 				$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-				$cachePath = $previewPath . $maxX . '-' . $maxY . '.png';
+				$cachePath = $this->buildCachePath($fileId);
 
 				if ($this->userView->is_dir($this->getThumbnailsFolder() . '/') === false) {
 					$this->userView->mkdir($this->getThumbnailsFolder() . '/');
@@ -524,20 +532,12 @@ class Preview {
 	 * @brief show preview
 	 * @return void
 	 */
-	public function showPreview() {
+	public function showPreview($mimeType = null) {
 		\OCP\Response::enableCaching(3600 * 24); // 24 hours
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
-		$this->preview->show('image/png');
-	}
-
-	/**
-	 * @brief show preview
-	 * @return void
-	 */
-	public function show() {
-		$this->showPreview();
+		$this->preview->show($mimeType);
 	}
 
 	/**
@@ -560,6 +560,11 @@ class Preview {
 
 		$realX = (int)$image->width();
 		$realY = (int)$image->height();
+
+		// compute $maxY using the aspect of the generated preview
+		if ($this->keepAspect) {
+			$y = $x / ($realX / $realY);
+		}
 
 		if ($x === $realX && $y === $realY) {
 			$this->preview = $image;
@@ -742,5 +747,22 @@ class Preview {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param $fileId
+	 * @return string
+	 */
+	private function buildCachePath($fileId) {
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
+
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		$preview = $previewPath . $maxX . '-' . $maxY . '.png';
+		if ($this->keepAspect) {
+			$preview = $previewPath . $maxX . '-with-aspect.png';
+			return $preview;
+		}
+		return $preview;
 	}
 }

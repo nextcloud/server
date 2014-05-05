@@ -40,6 +40,7 @@ if (extension_loaded('imagick')) {
 				//check if image object is valid
 				return $image->valid() ? $image : false;
 			}
+
 		}
 
 		\OC\Preview::registerProvider('OC\Preview\PDF');
