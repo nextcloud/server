@@ -326,7 +326,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief Localization
 	 * @param string $type Type of localization
-	 * @param array $data parameters for this localization
+	 * @param array|int|string $data parameters for this localization
 	 * @returns String or false
 	 *
 	 * Returns the localized data.

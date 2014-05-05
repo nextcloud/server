@@ -299,7 +299,7 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
+		if(\OC::$session->exists('checkServer_succeeded') && \OC::$session->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
@@ -491,7 +491,7 @@ class OC_Util {
 		$errors = array_merge($errors, self::checkDatabaseVersion());
 
 		// Cache the result of this function
-		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
+		\OC::$session->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
@@ -748,7 +748,7 @@ class OC_Util {
 	/**
 	 * @brief Register an get/post call. Important to prevent CSRF attacks.
 	 * @todo Write howto: CSRF protection guide
-	 * @return $token Generated token.
+	 * @return string Generated token.
 	 * @description
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
@@ -781,7 +781,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid. exit if not.
+	 * @brief Check an ajax get/post call if the request token is valid. Exit if not.
 	 * @todo Write howto
 	 * @return void
 	 */
@@ -1100,7 +1100,7 @@ class OC_Util {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
 				$mr = $max_redirects;
 				if ($mr > 0) { 
-					$newurl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+					$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
 					
 					$rcurl = curl_copy_handle($curl);
 					curl_setopt($rcurl, CURLOPT_HEADER, true);
@@ -1108,7 +1108,7 @@ class OC_Util {
 					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
 					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
 					do {
-						curl_setopt($rcurl, CURLOPT_URL, $newurl);
+						curl_setopt($rcurl, CURLOPT_URL, $newURL);
 						$header = curl_exec($rcurl);
 						if (curl_errno($rcurl)) {
 							$code = 0;
@@ -1116,7 +1116,7 @@ class OC_Util {
 							$code = curl_getinfo($rcurl, CURLINFO_HTTP_CODE);
 							if ($code == 301 || $code == 302) {
 								preg_match('/Location:(.*?)\n/', $header, $matches);
-								$newurl = trim(array_pop($matches));
+								$newURL = trim(array_pop($matches));
 							} else {
 								$code = 0;
 							}
@@ -1124,7 +1124,7 @@ class OC_Util {
 					} while ($code && --$mr);
 					curl_close($rcurl);
 					if ($mr > 0) {
-						curl_setopt($curl, CURLOPT_URL, $newurl);
+						curl_setopt($curl, CURLOPT_URL, $newURL);
 					} 
 				}
 				
