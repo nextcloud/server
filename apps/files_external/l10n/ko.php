@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "장소",
+"Amazon S3" => "Amazon S3",
 "URL" => "URL",
 "Username" => "사용자 이름",
 "Password" => "암호",
@@ -10,6 +11,7 @@ $TRANSLATIONS = array(
 "Grant access" => "접근 권한 부여",
 "Please provide a valid Dropbox app key and secret." => "올바른 Dropbox 앱 키와 암호를 입력하십시오.",
 "Error configuring Google Drive storage" => "Google 드라이브 저장소 설정 오류",
+"Saved" => "저장됨",
 "External Storage" => "외부 저장소",
 "Folder name" => "폴더 이름",
 "External storage" => "외부 저장소",

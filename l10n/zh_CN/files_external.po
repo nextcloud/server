@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Xuetian Weng <wengxt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-05 01:55-0400\n"
+"PO-Revision-Date: 2014-05-04 19:56+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "本地"
 
 #: appinfo/app.php:36
 msgid "Location"
@@ -27,7 +28,7 @@ msgstr "地点"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
@@ -47,7 +48,7 @@ msgstr ""
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "访问密钥"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
@@ -55,19 +56,19 @@ msgstr ""
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "域名 (可选)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "端口 (可选)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "区域 (optional)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "启用 SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
@@ -99,11 +100,11 @@ msgstr "密码"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "根路径"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "安全 ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
@@ -159,7 +160,7 @@ msgstr "共享"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS 使用 OC 登录信息"
 
 #: appinfo/app.php:122
 msgid "Username as share"
@@ -167,7 +168,7 @@ msgstr ""
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "安全 https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
@@ -195,15 +196,15 @@ msgstr "配置Google Drive存储时出错"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "已保存"
 
 #: lib/config.php:598
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>注意：</b>"
 
 #: lib/config.php:608
 msgid " and "
-msgstr ""
+msgstr "和"
 
 #: lib/config.php:630
 #, php-format
@@ -248,7 +249,7 @@ msgstr "选项"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "可用于"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -256,7 +257,7 @@ msgstr "添加存储"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "无用户或组"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -281,7 +282,7 @@ msgstr "启用用户外部存储"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "允许用户挂载以下外部存储"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

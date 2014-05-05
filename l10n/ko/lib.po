@@ -7,14 +7,14 @@
 # chohy <chohy@yahoo.com>, 2013
 # chohy <chohy@yahoo.com>, 2013
 # Park Shinjo <peremen@gmail.com>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# 책읽는달팽 <bjh13579@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-05 01:55-0400\n"
+"PO-Revision-Date: 2014-05-05 05:43+0000\n"
+"Last-Translator: 책읽는달팽 <bjh13579@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:723
+#: base.php:713
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:724
+#: base.php:714
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -173,7 +173,7 @@ msgstr "토큰이 만료되었습니다. 페이지를 새로 고치십시오."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "알려지지 않은 사용자"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -215,7 +215,7 @@ msgstr "기존 계정이나 administrator(관리자)를 입력해야 합니다."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB 사용자 명 혹은 비밀번호가 일치하지 않습니다"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -243,20 +243,20 @@ msgstr "잘못된 명령: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB '%s'@'localhost' 사용자가 이미 존재합니다"
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "MySQL/MariaDB에서 이 사용자 제거하기"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB '%s'@'%%' 사용자가 이미 존재합니다"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "MySQL/MariaDB에서 이 사용자 제거하기"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -283,13 +283,13 @@ msgstr "관리자의 사용자 이름을 설정합니다."
 msgid "Set an admin password."
 msgstr "관리자의 암호를 설정합니다."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
@@ -456,7 +456,7 @@ msgstr "년 전"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "사용자 명에는 다음과 같은 문자만 사용이 가능합니다: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"
@@ -468,4 +468,4 @@ msgstr "올바른 암호를 입력해야 함"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "이 사용자명은 현재 사용중입니다"

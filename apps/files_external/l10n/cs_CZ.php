@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Password" => "Heslo",
 "Root" => "Root",
 "Secure ftps://" => "Zabezpečené ftps://",
+"Username (required)" => "Uživatelské jméno (nutné)",
 "Region (optional for OpenStack Object Storage)" => "Region (nepovinný pro OpenStack Object Storage)",
 "Password (required for OpenStack Object Storage)" => "Heslo (vyžadováno pro OpenStack Object Storage)",
 "Timeout of HTTP requests in seconds (optional)" => "Vypršení HTTP požadavků v sekundách (nepovinné)",

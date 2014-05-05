@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Rename" => "Preimenuj",
 "Your download is being prepared. This might take some time if the files are big." => "Postopek priprave datoteke za prejem je lahko dolgotrajen, kadar je datoteka zelo velika.",
 "Pending" => "V čakanju ...",
+"Error moving file." => "Napaka premikanja datoteke.",
 "Error moving file" => "Napaka premikanja datoteke",
 "Error" => "Napaka",
 "Could not rename file" => "Ni mogoče preimenovati datoteke",

@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Local" => "Krajevno",
 "Location" => "Mesto",
+"Amazon S3" => "Amazon S3",
+"Key" => "Ključ",
 "URL" => "Naslov URL",
 "Username" => "Uporabniško ime",
 "Password" => "Geslo",
