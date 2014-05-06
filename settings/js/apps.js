@@ -144,6 +144,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Enable'));
 					element.parent().find("#groups_enable").hide();
 					element.parent().find("label[for='groups_enable']").hide();
+					var app = OC.get('appData_' + appid);
+					app.active = false;
 				}
 			},'json');
 		} else {
@@ -164,12 +166,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.data('active',true);
 					appitem.addClass('active');
 					element.val(t('settings','Disable'));
-					element.parent().find("#groups_enable").show();
-					element.parent().find("label[for='groups_enable']").show();
-					if (groups) {
-						appitem.data('groups', JSON.stringify(groups));
+					var app = OC.get('appData_' + appid);
+					app.active = true;
+					if (OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
+						OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
+						element.parent().find("#groups_enable").hide();
+						element.parent().find("label[for='groups_enable']").hide();
 					} else {
-						appitem.data('groups', '');
+						element.parent().find("#groups_enable").show();
+						element.parent().find("label[for='groups_enable']").show();
+						if (groups) {
+							appitem.data('groups', JSON.stringify(groups));
+						} else {
+							appitem.data('groups', '');
+						}
 					}
 				}
 			},'json')
