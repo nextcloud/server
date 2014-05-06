@@ -904,12 +904,12 @@ class Trashbin {
 	 * get current size of trash bin from a given user
 	 *
 	 * @param string $user user who owns the trash bin
-	 * @return mixed trash bin size or false if no trash bin size is stored
+	 * @return integer trash bin size
 	 */
 	private static function getTrashbinSize($user) {
 		$view = new \OC\Files\View('/' . $user);
 		$fileInfo = $view->getFileInfo('/files_trashbin');
-		return $fileInfo['size'];
+		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
 	}
 
 	/**
