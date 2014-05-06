@@ -53,6 +53,11 @@ class SecurityMiddleware extends Middleware {
 	private $request;
 
 	/**
+	 * @var OC\AppFramework\Utility\ControllerMethodReflector
+	 */
+	private $reflector;
+
+	/**
 	 * @param IAppContainer $app
 	 * @param IRequest $request
 	 * @param ControllerMethodReflector $reflector
