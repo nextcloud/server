@@ -432,7 +432,7 @@ class View {
 					if ($this->is_dir($path1)) {
 						$result = $this->copy($path1, $path2);
 						if ($result === true) {
-							$result = $storage1->unlink($internalPath1);
+							$result = $storage1->rmdir($internalPath1);
 						}
 					} else {
 						$source = $this->fopen($path1 . $postFix1, 'r');
