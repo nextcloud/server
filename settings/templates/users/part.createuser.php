@@ -30,5 +30,6 @@
 	<?php endif; ?>
 	<form autocomplete="off" id="usersearchform">
 		<input type="text" class="input userFilter" placeholder="<?php p($l->t('Search Users and Groups')); ?>" />
+		<span class="svg icon-delete userFilterReset"></span>
 	</form>
 </div>
