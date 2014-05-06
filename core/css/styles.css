@@ -578,7 +578,7 @@ label.infield {
 }
 #show + label, #dbpassword + label, #personal-show + label {
 	position: absolute !important;
-	height: 14px;
+	height: 20px;
 	width: 24px;
 	background-image: url("../img/actions/toggle.png");
 	background-repeat: no-repeat;
