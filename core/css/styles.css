@@ -592,8 +592,9 @@ label.infield {
 	width: 8em;
 }
 #personal-show + label {
-	margin-top: 1em;
-	margin-left: -3em;
+	height: 14px;
+	margin-top: 14px;
+	margin-left: -36px;
 }
 #passwordbutton {
 	margin-left: .5em;
