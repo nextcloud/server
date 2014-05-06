@@ -101,7 +101,7 @@ var UserList = {
 		}
 
 		$quotaSelect.on('change', function () {
-			var uid = $(this).closest('tr').data('uid');
+			var uid = UserList.getUID(this);
 			var quota = $(this).val();
 			setQuota(uid, quota, function(returnedQuota){
 				if (quota !== returnedQuota) {
@@ -222,16 +222,27 @@ var UserList = {
 		UserList.checkUsersToLoad();
 	},
 	hide: function(uid) {
-		$('tr:data(' + uid + ')').hide();
+		UserList.getRow(uid).hide();
 	},
 	show: function(uid) {
-		$('tr:data(' + uid + ')').show();
+		UserList.getRow(uid).show();
 	},
 	remove: function(uid) {
-		$('tr:data(' + uid + ')').remove();
+		UserList.getRow(uid).remove();
 	},
 	has: function(uid) {
-		return $('tr:data(' + uid + ')').length > 0;
+		return UserList.getRow(uid).length > 0;
+	},
+	getRow: function(uid) {
+		return $userListBody.find('tr').filter(function(){
+			return UserList.getUID(this) === uid;
+		});
+	},
+	getUID: function(element) {
+		return ($(element).closest('tr').data('uid') || '').toString();
+	},
+	getDisplayName: function(element) {
+		return ($(element).closest('tr').data('displayname') || '').toString();
 	},
 	initDeleteHandling: function() {
 		//set up handler
@@ -248,7 +259,7 @@ var UserList = {
 		//when to mark user for delete
 		$userListBody.on('click', '.delete', function () {
 			// Call function for handling delete/undo
-			var uid = $(this).closest('tr').data('uid');
+			var uid = UserList.getUID(this);
 			UserDeleteHandler.mark(uid);
 		});
 
@@ -280,7 +291,7 @@ var UserList = {
 					//because it is backend-dependent. For correct retrieval,
 					//always the limit(requested amount of users) needs to be added.
 					$.each(result.data, function (index, user) {
-						if($('tr:data(' + user.name + ')').length > 0) {
+						if(UserList.has(user.name)) {
 							return true;
 						}
 						var $tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false);
@@ -311,38 +322,41 @@ var UserList = {
 	applyGroupSelect: function (element) {
 		var checked = [];
 		var $element = $(element);
-		var user = $element.data('username');
+		var user = UserList.getUID($element);
 
 		if ($element.data('user-groups')) {
 			checked = $element.data('user-groups');
 		}
-		var checkHandler = function (group) {
-			if (user === OC.currentUser && group === 'admin') {
-				return false;
-			}
-			if (!oc_isadmin && checked.length === 1 && checked[0] === group) {
-				return false;
-			}
-			$.post(
-				OC.filePath('settings', 'ajax', 'togglegroups.php'),
-				{
-					username: user,
-					group: group
-				},
-				function (response) {
-					if (response.status === 'success') {
-						GroupList.update();
-						if (UserList.availableGroups.indexOf(response.data.groupname) === -1 &&
-							response.data.action === 'add'
-						) {
-							UserList.availableGroups.push(response.data.groupname);
+		var checkHandler = null;
+		if(user) { // Only if in a user row, and not the #newusergroups select
+			checkHandler = function (group) {
+				if (user === OC.currentUser && group === 'admin') {
+					return false;
+				}
+				if (!oc_isadmin && checked.length === 1 && checked[0] === group) {
+					return false;
+				}
+				$.post(
+					OC.filePath('settings', 'ajax', 'togglegroups.php'),
+					{
+						username: user,
+						group: group
+					},
+					function (response) {
+						if (response.status === 'success') {
+							GroupList.update();
+							if (UserList.availableGroups.indexOf(response.data.groupname) === -1 &&
+								response.data.action === 'add'
+							) {
+								UserList.availableGroups.push(response.data.groupname);
+							}
+						}
+						if (response.data.message) {
+							OC.Notification.show(response.data.message);
 						}
 					}
-					if (response.data.message) {
-						OC.Notification.show(response.data.message);
-					}
-				}
-			);
+				);
+			}
 		};
 		var addGroup = function (select, group) {
 			$('select[multiple]').each(function (index, element) {
@@ -374,7 +388,7 @@ var UserList = {
 	applySubadminSelect: function (element) {
 		var checked = [];
 		var $element = $(element);
-		var user = $element.data('username');
+		var user = UserList.getUID($element);
 
 		if ($element.data('subadmin')) {
 			checked = $element.data('subadmin');
@@ -411,7 +425,7 @@ var UserList = {
 		});
 	},
 
-	_onScroll: function(e) {
+	_onScroll: function() {
 		if (!!UserList.noMoreEntries) {
 			return;
 		}
@@ -436,12 +450,6 @@ function setQuota (uid, quota, ready) {
 $(document).ready(function () {
 	$userList = $('#userlist');
 	$userListBody = $userList.find('tbody');
-
-	// This adds a custom :data(value) jQuery selector, to select elements having data-uid="value":
-	jQuery.expr[':'].uid = function(elem, index, match) {
-		// if the requested value's set, compare it, otherwise return whether the element has the uid data element
-		return match[3] ? jQuery(elem).data('uid') === match[3] : !!jQuery(elem).data('uid');
-	};
 
 	UserList.initDeleteHandling();
 
@@ -470,8 +478,7 @@ $(document).ready(function () {
 		event.stopPropagation();
 
 		var $td = $(this).closest('td');
-		var $tr = $td.closest('tr');
-		var uid = $tr.data('uid');
+		var uid = UserList.getUID($td);
 		var $input = $('<input type="password">');
 		$td.find('img').hide();
 		$td.children('span').replaceWith($input);
@@ -509,8 +516,8 @@ $(document).ready(function () {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $td.closest('tr');
-		var uid = $tr.data('uid');
-		var displayName = escapeHTML($tr.data('displayname'));
+		var uid = UserList.getUID($td);
+		var displayName = escapeHTML(UserList.getDisplayName($td));
 		var $input = $('<input type="text" value="' + displayName + '">');
 		$td.find('img').hide();
 		$td.children('span').replaceWith($input);
@@ -545,8 +552,8 @@ $(document).ready(function () {
 
 	$('#default_quota, .quota-user').singleSelect().on('change', function () {
 		var $select = $(this);
-		var uid = $select.closest('tr').data('uid');
-		var quota = $(this).val();
+		var uid = UserList.getUID($select);
+		var quota = $select.val();
 		setQuota(uid, quota, function(returnedQuota){
 			if (quota !== returnedQuota) {
 				$select.find(':selected').text(returnedQuota);
