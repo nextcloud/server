@@ -4,8 +4,8 @@
  *
  * @author Robin Appelman
  * @author Bernhard Posselt
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Robin Appelman <icewind@owncloud.com>
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
