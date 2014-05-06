@@ -194,22 +194,6 @@ class Util {
 			}
 		}
 
-		// If there's no record for this user's encryption preferences
-		if (false === $this->recoveryEnabledForUser()) {
-
-			// create database configuration
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
-			$args = array(
-				$this->userId,
-				'server-side',
-				0,
-				self::MIGRATION_OPEN
-			);
-			$query = \OCP\DB::prepare($sql);
-			$query->execute($args);
-
-		}
-
 		return true;
 
 	}
@@ -230,36 +214,9 @@ class Util {
 	 */
 	public function recoveryEnabledForUser() {
 
-		$sql = 'SELECT `recovery_enabled` FROM `*PREFIX*encryption` WHERE `uid` = ?';
+		$recoveryMode = \OC_Preferences::getValue($this->userId, 'files_encryption', 'recovery_enabled', '0');
 
-		$args = array($this->userId);
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute($args);
-
-		$recoveryEnabled = array();
-
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-			if ($row && isset($row['recovery_enabled'])) {
-				$recoveryEnabled[] = $row['recovery_enabled'];
-			}
-		}
-
-		// If no record is found
-		if (empty($recoveryEnabled)) {
-
-			return false;
-
-			// If a record is found
-		} else {
-
-			return $recoveryEnabled[0];
-
-		}
+		return ($recoveryMode === '1') ? true : false;
 
 	}
 
@@ -270,32 +227,8 @@ class Util {
 	 */
 	public function setRecoveryForUser($enabled) {
 
-		$recoveryStatus = $this->recoveryEnabledForUser();
-
-		// If a record for this user already exists, update it
-		if (false === $recoveryStatus) {
-
-			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`) VALUES (?,?,?)';
-
-			$args = array(
-				$this->userId,
-				'server-side',
-				$enabled
-			);
-
-			// Create a new record instead
-		} else {
-
-			$sql = 'UPDATE `*PREFIX*encryption` SET `recovery_enabled` = ? WHERE `uid` = ?';
-
-			$args = array(
-				$enabled ? '1' : '0',
-				$this->userId
-			);
-
-		}
-
-		return is_numeric(\OC_DB::executeAudited($sql, $args));
+		$value = $enabled ? '1' : '0';
+		return \OC_Preferences::setValue($this->userId, 'files_encryption', 'recovery_enabled', $value);
 
 	}
 
@@ -1133,24 +1066,16 @@ class Util {
 	/**
 	 * set migration status
 	 * @param int $status
+	 * @param int $preCondition only update migration status if the previous value equals $preCondition
 	 * @return boolean
 	 */
-	private function setMigrationStatus($status) {
+	private function setMigrationStatus($status, $preCondition = null) {
 
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
-		$args = array($status, $this->userId);
-		$query = \OCP\DB::prepare($sql);
-		$manipulatedRows = $query->execute($args);
+		// convert to string if preCondition is set
+		$preCondition = ($preCondition === null) ? null : (string)$preCondition;
 
-		if ($manipulatedRows === 1) {
-			$result = true;
-			\OCP\Util::writeLog('Encryption library', "Migration status set to " . self::MIGRATION_OPEN, \OCP\Util::INFO);
-		} else {
-			$result = false;
-			\OCP\Util::writeLog('Encryption library', "Could not set migration status to " . self::MIGRATION_OPEN, \OCP\Util::WARN);
-		}
+		return \OC_Preferences::setValue($this->userId, 'files_encryption', 'migration_status', (string)$status, $preCondition);
 
-		return $result;
 	}
 
 	/**
@@ -1159,7 +1084,7 @@ class Util {
 	 */
 	public function beginMigration() {
 
-		$result = $this->setMigrationStatus(self::MIGRATION_IN_PROGRESS);
+		$result = $this->setMigrationStatus(self::MIGRATION_IN_PROGRESS, self::MIGRATION_OPEN);
 
 		if ($result) {
 			\OCP\Util::writeLog('Encryption library', "Start migration to encryption mode for " . $this->userId, \OCP\Util::INFO);
@@ -1199,46 +1124,16 @@ class Util {
 	 */
 	public function getMigrationStatus() {
 
-		$sql = 'SELECT `migration_status` FROM `*PREFIX*encryption` WHERE `uid` = ?';
-
-		$args = array($this->userId);
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute($args);
-
-		$migrationStatus = array();
-
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-			if ($row && isset($row['migration_status'])) {
-				$migrationStatus[] = $row['migration_status'];
+		$migrationStatus = false;
+		if (\OCP\User::userExists($this->userId)) {
+			$migrationStatus = \OC_Preferences::getValue($this->userId, 'files_encryption', 'migration_status');
+			if ($migrationStatus === null) {
+				\OC_Preferences::setValue($this->userId, 'files_encryption', 'migration_status', (string)self::MIGRATION_OPEN);
+				$migrationStatus = self::MIGRATION_OPEN;
 			}
 		}
 
-		// If no record is found
-		if (empty($migrationStatus)) {
-			\OCP\Util::writeLog('Encryption library', "Could not get migration status for " . $this->userId . ", no record found", \OCP\Util::ERROR);
-			// insert missing entry in DB with status open if the user exists
-			if (\OCP\User::userExists($this->userId)) {
-				$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery_enabled`,`migration_status`) VALUES (?,?,?,?)';
-				$args = array(
-					$this->userId,
-					'server-side',
-					0,
-					self::MIGRATION_OPEN
-				);
-				$query = \OCP\DB::prepare($sql);
-				$query->execute($args);
-
-				return self::MIGRATION_OPEN;
-			} else {
-				return false;
-			}
-		} else { // If a record is found
-			return (int)$migrationStatus[0];
-		}
+		return (int)$migrationStatus;
 
 	}
 

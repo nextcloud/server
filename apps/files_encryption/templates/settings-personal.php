@@ -46,7 +46,7 @@
 			type='radio'
 			name='userEnableRecovery'
 			value='1'
-			<?php echo ( $_["recoveryEnabledForUser"] == 1 ? 'checked="checked"' : '' ); ?> />
+			<?php echo ( $_["recoveryEnabledForUser"] ? 'checked="checked"' : '' ); ?> />
 			<?php p( $l->t( "Enabled" ) ); ?>
 			<br />
 
@@ -54,7 +54,7 @@
 			type='radio'
 			name='userEnableRecovery'
 			value='0'
-			<?php echo ( $_["recoveryEnabledForUser"] == 0 ? 'checked="checked"' : '' ); ?> />
+			<?php echo ( $_["recoveryEnabledForUser"] === false ? 'checked="checked"' : '' ); ?> />
 			<?php p( $l->t( "Disabled" ) ); ?>
 			<div id="recoveryEnabledSuccess"><?php p( $l->t( 'File recovery settings updated' ) ); ?></div>
 			<div id="recoveryEnabledError"><?php p( $l->t( 'Could not update file recovery' ) ); ?></div>

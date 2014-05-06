@@ -43,6 +43,7 @@ class Crypt {
 	 * return encryption mode client or server side encryption
 	 * @param string $user name (use system wide setting if name=null)
 	 * @return string 'client' or 'server'
+	 * @note at the moment we only support server side encryption
 	 */
 	public static function mode($user = null) {
 
