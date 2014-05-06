@@ -165,44 +165,56 @@ class Preferences {
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
+	 * @param string $preCondition only set value if the key had a specific value before
+	 * @return bool true if value was set, otherwise false
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
-	public function setValue($user, $app, $key, $value) {
+	public function setValue($user, $app, $key, $value, $preCondition = null) {
 		// Check if the key does exist
 		$query = 'SELECT COUNT(*) FROM `*PREFIX*preferences`'
 			. ' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
 		$count = $this->conn->fetchColumn($query, array($user, $app, $key));
 		$exists = $count > 0;
 
-		if (!$exists) {
+		$affectedRows = 0;
+
+		if (!$exists && $preCondition === null) {
 			$data = array(
 				'userid' => $user,
 				'appid' => $app,
 				'configkey' => $key,
 				'configvalue' => $value,
 			);
-			$this->conn->insert('*PREFIX*preferences', $data);
-		} else {
-			$data = array(
-				'configvalue' => $value,
-			);
-			$where = array(
-				'userid' => $user,
-				'appid' => $app,
-				'configkey' => $key,
-			);
-			$this->conn->update('*PREFIX*preferences', $data, $where);
+			$affectedRows = $this->conn->insert('*PREFIX*preferences', $data);
+		} elseif ($exists) {
+			$data = array($value, $user, $app, $key);
+			$sql  = "UPDATE `*PREFIX*preferences` SET `configvalue` = ?"
+					. " WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?";
+
+			if ($preCondition !== null) {
+				if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+					//oracle hack: need to explicitly cast CLOB to CHAR for comparison
+					$sql .= " AND to_char(`configvalue`) = ?";
+				} else {
+					$sql .= " AND `configvalue` = ?";
+				}
+				$data[] = $preCondition;
+			}
+			$affectedRows = $this->conn->executeUpdate($sql, $data);
 		}
 
 		// only add to the cache if we already loaded data for the user
-		if (isset($this->cache[$user])) {
+		if ($affectedRows > 0 && isset($this->cache[$user])) {
 			if (!isset($this->cache[$user][$app])) {
 				$this->cache[$user][$app] = array();
 			}
 			$this->cache[$user][$app][$key] = $value;
 		}
+
+		return ($affectedRows > 0) ? true : false;
+
 	}
 
 	/**

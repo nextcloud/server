@@ -84,14 +84,14 @@ class OC_Preferences{
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
+	 * @param string $preCondition only set value if the key had a specific value before
+	 * @return bool true if value was set, otherwise false
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
-	public static function setValue( $user, $app, $key, $value ) {
-		self::$object->setValue( $user, $app, $key, $value );
-		return true;
+	public static function setValue( $user, $app, $key, $value, $preCondition = null ) {
+		return self::$object->setValue( $user, $app, $key, $value, $preCondition );
 	}
 
 	/**
