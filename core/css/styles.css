@@ -519,8 +519,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 #body-login #showAdvanced > img {
-	height: 16px;
-	width: 16px;
 	padding: 4px;
 	box-sizing: border-box;
 }
