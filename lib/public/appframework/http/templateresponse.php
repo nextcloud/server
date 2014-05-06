@@ -61,12 +61,16 @@ class TemplateResponse extends Response {
 	 * constructor of TemplateResponse
 	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
+	 * @param array $params an array of parameters which should be passed to the
+	 * template
+	 * @param string $renderAs how the page should be rendered, defaults to user
 	 */
-	public function __construct($appName, $templateName) {
+	public function __construct($appName, $templateName, array $params=array(),
+	                            $renderAs='user') {
 		$this->templateName = $templateName;
 		$this->appName = $appName;
-		$this->params = array();
-		$this->renderAs = 'user';
+		$this->params = $params;
+		$this->renderAs = $renderAs;
 	}
 
 

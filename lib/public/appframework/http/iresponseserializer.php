@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -21,35 +20,8 @@
  *
  */
 
+namespace OCP\AppFramework\Http;
 
-namespace OC\AppFramework\Utility;
-
-
-class MethodAnnotationReaderTest extends \PHPUnit_Framework_TestCase {
-
-
-	/**
-	 * @Annotation
-	 */
-	public function testReadAnnotation(){
-		$reader = new MethodAnnotationReader('\OC\AppFramework\Utility\MethodAnnotationReaderTest',
-				'testReadAnnotation');
-
-		$this->assertTrue($reader->hasAnnotation('Annotation'));
-	}
-
-
-	/**
-	 * @Annotation
-	 * @param test
-	 */
-	public function testReadAnnotationNoLowercase(){
-		$reader = new MethodAnnotationReader('\OC\AppFramework\Utility\MethodAnnotationReaderTest',
-				'testReadAnnotationNoLowercase');
-
-		$this->assertTrue($reader->hasAnnotation('Annotation'));
-		$this->assertFalse($reader->hasAnnotation('param'));
-	}
-
-
+interface IResponseSerializer {
+    function serialize($response);
 }

@@ -26,7 +26,11 @@ namespace OC\AppFramework\Http;
 
 use \OC\AppFramework\Middleware\MiddlewareDispatcher;
 use \OC\AppFramework\Http;
+use \OC\AppFramework\Utility\ControllerMethodReflector;
+
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Response;
+use OCP\IRequest;
 
 
 /**
@@ -36,17 +40,25 @@ class Dispatcher {
 
 	private $middlewareDispatcher;
 	private $protocol;
-
+	private $reflector;
+	private $request;
 
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
 	 * runs the middleware
+	 * @param ControllerMethodReflector the reflector that is used to inject
+	 * the arguments for the controller
+	 * @param IRequest $request the incoming request
 	 */
 	public function __construct(Http $protocol,
-	                            MiddlewareDispatcher $middlewareDispatcher) {
+	                            MiddlewareDispatcher $middlewareDispatcher,
+	                            ControllerMethodReflector $reflector,
+	                            IRequest $request) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
+		$this->reflector = $reflector;
+		$this->request = $request;
 	}
 
 
@@ -63,10 +75,13 @@ class Dispatcher {
 		$out = array(null, array(), null);
 
 		try {
+			// prefill reflector with everything thats needed for the 
+			// middlewares
+			$this->reflector->reflect($controller, $methodName);
 
 			$this->middlewareDispatcher->beforeController($controller,
 				$methodName);
-			$response = $controller->$methodName();
+			$response = $this->executeController($controller, $methodName);
 
 			// if an exception appears, the middleware checks if it can handle the
 			// exception and creates a response. If no response is created, it is
@@ -97,5 +112,72 @@ class Dispatcher {
 		return $out;
 	}
 
+
+	/**
+	 * Uses the reflected parameters, types and request parameters to execute
+	 * the controller
+	 * @return Response
+	 */
+	private function executeController($controller, $methodName) {
+		$arguments = array();
+
+		// valid types that will be casted
+		$types = array('int', 'integer', 'bool', 'boolean', 'float');
+
+		foreach($this->reflector->getParameters() as $param) {
+
+			// try to get the parameter from the request object and cast
+			// it to the type annotated in the @param annotation
+			$value = $this->request->getParam($param);
+			$type = $this->reflector->getType($param);
+			
+			// if this is submitted using GET or a POST form, 'false' should be 
+			// converted to false
+			if(($type === 'bool' || $type === 'boolean') &&
+				$value === 'false' && 
+				(
+					$this->request->method === 'GET' ||
+					(
+						$this->request->method === 'POST' &&
+						strpos($this->request->getHeader('Content-Type'), 
+								'application/x-www-form-urlencoded') !== false
+					)
+				)
+			) {
+				$value = false;
+
+			} elseif(in_array($type, $types)) {
+				settype($value, $type);
+			}
+			
+			$arguments[] = $value;
+		}
+
+		$response = call_user_func_array(array($controller, $methodName), $arguments);
+
+		// format response if not of type response
+		if(!($response instanceof Response)) {
+			
+			// get format from the url format or request format parameter
+			$format = $this->request->getParam('format');
+			
+			// if none is given try the first Accept header
+			if($format === null) {
+				$header = $this->request->getHeader('Accept');
+				$formats = explode(',', $header);
+
+				if($header !== null && count($formats) > 0) {
+					$accept = strtolower(trim($formats[0]));
+					$format = str_replace('application/', '', $accept);
+				} else {
+					$format = 'json';
+				}
+			}
+
+			$response = $controller->formatResponse($response, $format);
+		}
+
+		return $response;
+	}
 
 }

@@ -28,6 +28,8 @@
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\IResponseSerializer;
 use OCP\IRequest;
 
 
@@ -48,6 +50,8 @@ abstract class Controller {
 	 */
 	protected $request;
 
+	private $serializer;
+	private $formatters;
 
 	/**
 	 * constructor of the controller
@@ -66,11 +70,66 @@ abstract class Controller {
 	                            IRequest $request){
 		$this->appName = $appName;
 		$this->request = $request;
+
+		// default formatters
+		$this->formatters = array(
+			'json' => function ($response) {
+				return new JSONResponse($response);
+			}
+		);
+	}
+
+
+	/** 
+	 * Registers a serializer that is executed before a formatter is being 
+	 * called, useful for turning any data into PHP arrays that can be used
+	 * by a JSONResponse for instance
+	 * @param IResponseSerializer $serializer 
+	 */
+	protected function registerSerializer(IResponseSerializer $serializer) {
+		$this->serializer = $serializer;
+	}
+
+
+	/**
+	 * Registers a formatter for a type
+	 * @param string $format
+	 * @param \Closure $closure
+	 */
+	protected function registerFormatter($format, \Closure $formatter) {
+		$this->formatters[$format] = $formatter;
+	}
+
+
+	/**
+	 * Serializes and formats a response
+	 * @param mixed response the value that was returned from a controller and
+	 * is not a Response instance
+	 * @param string $format the format for which a formatter has been registered
+	 * @throws \DomainException if format does not match a registered formatter
+	 * @return Response
+	 */
+	public function formatResponse($response, $format='json') {
+		if(array_key_exists($format, $this->formatters)) {
+
+			if ($this->serializer) {
+				$response = $this->serializer->serialize($response);
+			}
+
+			$formatter = $this->formatters[$format];
+			
+			return $formatter($response);
+
+		} else {
+			throw new \DomainException('No formatter registered for format ' . 
+				$format . '!');
+		}
 	}
 
 
 	/**
 	 * Lets you access post and get parameters by the index
+	 * @deprecated write your parameters as method arguments instead
 	 * @param string $key the key which you want to access in the URL Parameter
 	 *                     placeholder, $_POST or $_GET array.
 	 *                     The priority how they're returned is the following:
@@ -88,6 +147,7 @@ abstract class Controller {
 	/**
 	 * Returns all params that were received, be it from the request
 	 * (as GET or POST) or throuh the URL by the route
+	 * @deprecated use $this->request instead
 	 * @return array the array with all parameters
 	 */
 	public function getParams() {
@@ -97,6 +157,7 @@ abstract class Controller {
 
 	/**
 	 * Returns the method of the request
+	 * @deprecated use $this->request instead
 	 * @return string the method of the request (POST, GET, etc)
 	 */
 	public function method() {
@@ -106,6 +167,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for accessing an uploaded file through the $_FILES array
+	 * @deprecated use $this->request instead
 	 * @param string $key the key that will be taken from the $_FILES array
 	 * @return array the file in the $_FILES element
 	 */
@@ -116,6 +178,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for getting env variables
+	 * @deprecated use $this->request instead
 	 * @param string $key the key that will be taken from the $_ENV array
 	 * @return array the value in the $_ENV element
 	 */
@@ -126,6 +189,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for getting cookie variables
+	 * @deprecated use $this->request instead
 	 * @param string $key the key that will be taken from the $_COOKIE array
 	 * @return array the value in the $_COOKIE element
 	 */
@@ -136,6 +200,7 @@ abstract class Controller {
 
 	/**
 	 * Shortcut for rendering a template
+	 * @deprecated return a template response instead
 	 * @param string $templateName the name of the template
 	 * @param array $params the template parameters in key => value structure
 	 * @param string $renderAs user renders a full page, blank only your template
