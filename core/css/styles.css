@@ -464,19 +464,19 @@ input[name='password-clone'] {
 	width: 223px !important;
 	padding-left: 36px !important;
 }
-#adminlogin+label+img,
+#adminlogin~img,
 #adminpass-icon,
-#user+label+img,
+#user~img,
 #password-icon {
 	position: absolute;
-	left: 1.25em;
-	top: 1.65em;
+	left: 16px;
+	top: 24px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #adminpass-icon, #password-icon {
-	top: 1.1em;
+	top: 18px;
 }
 
 /* General new input field look */
@@ -489,6 +489,11 @@ input[name='password-clone'] {
 }
 
 /* Nicely grouping input field sets */
+.grouptop,
+.groupmiddle,
+.groupbottom {
+	position: relative;
+}
 #body-login .grouptop input {
 	margin-bottom: 0;
 	border-bottom: 0;
@@ -511,23 +516,11 @@ input[name='password-clone'] {
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
 
-/* In field labels. No, HTML placeholder does not work as well. */
-#body-login .groupmiddle label, #body-login .groupbottom label { top:.65em; }
-p.infield { position:relative; }
-label.infield { cursor:text !important; top:1.05em; left:.85em; }
-#body-login form label.infield { /* labels are ellipsized when too long, keep them short */
-	position: absolute;
-	width: 82%;
-	margin-left: 26px;
-	font-size: 19px;
-	color: #aaa;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield {
+	display: none;
 }
-#body-login #databaseField .infield {
-	margin-left: 0;
-}
+
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
