@@ -42,10 +42,6 @@ select {
 	border-bottom: 1px solid lightgrey;
 	background-color: white; /* don't change background on hover */
 }
-.lte9 #body-login form label.infield {
-	background-color: white; /* don't change background on hover */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Chroma(color='white')";
-}
 
 /* disable opacity of info text on gradient
    since we cannot set a good backround color to use the filter&background hack as with the input labels */
