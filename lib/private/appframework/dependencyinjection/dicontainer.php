@@ -85,7 +85,8 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			return new Dispatcher(
 				$c['Protocol'], 
 				$c['MiddlewareDispatcher'], 
-				$c['ControllerMethodReflector']
+				$c['ControllerMethodReflector'],
+				$c['Request']
 			);
 		});
 
