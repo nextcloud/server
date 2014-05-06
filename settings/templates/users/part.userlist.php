@@ -1,4 +1,4 @@
-<table class="hascontrols grid" data-groups="<?php p($_['allGroups']);?>">
+<table id="userlist" class="hascontrols grid" data-groups="<?php p($_['allGroups']);?>">
 	<thead>
 		<tr>
 			<?php if ($_['enableAvatars']): ?>
@@ -20,7 +20,7 @@
 	<tbody>
 		<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php p($user["name"]) ?>"
-			data-displayName="<?php p($user["displayName"]) ?>">
+			data-displayname="<?php p($user["displayName"]) ?>">
 			<?php if ($_['enableAvatars']): ?>
 			<td class="avatar"><div class="avatardiv"></div></td>
 			<?php endif; ?>
