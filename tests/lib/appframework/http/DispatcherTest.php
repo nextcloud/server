@@ -319,7 +319,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 				'HTTP_ACCEPT' => 'application/text, test',
 				'HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded'
 			),
-			'method' => 'POST'
+			'method' => 'PUT'
 		));
 		$this->dispatcher = new Dispatcher(
 			$this->http, $this->middlewareDispatcher, $this->reflector,

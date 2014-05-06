@@ -75,7 +75,7 @@ class ControllerMethodReflectorTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @Annotation
-	 * @param double $test
+	 * @param double $test something special
 	 */
 	public function testReadTypeDoubleAnnotations(){
 		$reader = new ControllerMethodReflector();
