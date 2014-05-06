@@ -9,6 +9,9 @@ $allGroups=array();
 foreach($_["groups"] as $group) {
 	$allGroups[] = $group['name'];
 }
+foreach($_["adminGroup"] as $group) {
+	$allGroups[] = $group['name'];
+}
 $userlistParams['subadmingroups'] = $allGroups;
 $userlistParams['allGroups'] = json_encode($allGroups);
 $items = array_flip($userlistParams['subadmingroups']);
