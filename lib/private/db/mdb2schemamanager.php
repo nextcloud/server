@@ -8,7 +8,9 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 class MDB2SchemaManager {
@@ -62,8 +64,10 @@ class MDB2SchemaManager {
 			return new SQLiteMigrator($this->conn);
 		} else if ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->conn);
-		} else {
+		} else if ($platform instanceof MySqlPlatform or $platform instanceof PostgreSqlPlatform) {
 			return new Migrator($this->conn);
+		} else {
+			return new NoCheckMigrator($this->conn);
 		}
 	}
 

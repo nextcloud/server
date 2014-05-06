@@ -10,15 +10,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Schema;
 
-class OracleMigrator extends Migrator {
-	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
-	 * @throws \OC\DB\MigrationException
-	 *
-	 * Migration testing is skipped for oracle
-	 */
-	public function checkMigrate(Schema $targetSchema) {}
-
+class OracleMigrator extends NoCheckMigrator {
 	/**
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
