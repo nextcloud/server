@@ -1006,7 +1006,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string uidOwner User that is the owner of shared items (optional)
 	 * @param int $format Format to convert items to with formatItems() (optional)
 	 * @param mixed $parameters to pass to formatItems() (optional)
-	 * @param int $limit Number of items to retur/n, -1 to return all matches (optional)
+	 * @param int $limit Number of items to return, -1 to return all matches (optional)
 	 * @param bool $includeCollections Include collection item types (optional)
 	 * @param bool $itemShareWithBySource (optional)
 	 * @param bool $checkExpireDate
