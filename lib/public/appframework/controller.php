@@ -51,7 +51,7 @@ abstract class Controller {
 	protected $request;
 
 	private $serializer;
-	private $formatters;
+	private $responders;
 
 	/**
 	 * constructor of the controller
@@ -71,8 +71,8 @@ abstract class Controller {
 		$this->appName = $appName;
 		$this->request = $request;
 
-		// default formatters
-		$this->formatters = array(
+		// default responders
+		$this->responders = array(
 			'json' => function ($response) {
 				return new JSONResponse($response);
 			}
@@ -94,34 +94,34 @@ abstract class Controller {
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
-	 * @param \Closure $closure
+	 * @param \Closure $responder
 	 */
-	protected function registerFormatter($format, \Closure $formatter) {
-		$this->formatters[$format] = $formatter;
+	protected function registerResponder($format, \Closure $responder) {
+		$this->responders[$format] = $responder;
 	}
 
 
 	/**
 	 * Serializes and formats a response
-	 * @param mixed response the value that was returned from a controller and
+	 * @param mixed $response the value that was returned from a controller and
 	 * is not a Response instance
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws \DomainException if format does not match a registered formatter
 	 * @return Response
 	 */
-	public function formatResponse($response, $format='json') {
-		if(array_key_exists($format, $this->formatters)) {
+	public function buildResponse($response, $format='json') {
+		if(array_key_exists($format, $this->responders)) {
 
 			if ($this->serializer) {
 				$response = $this->serializer->serialize($response);
 			}
 
-			$formatter = $this->formatters[$format];
+			$responder = $this->responders[$format];
 			
-			return $formatter($response);
+			return $responder($response);
 
 		} else {
-			throw new \DomainException('No formatter registered for format ' . 
+			throw new \DomainException('No responder registered for format ' . 
 				$format . '!');
 		}
 	}

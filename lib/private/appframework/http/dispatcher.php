@@ -171,7 +171,7 @@ class Dispatcher {
 				}
 			}
 
-			$response = $controller->formatResponse($response, $format);
+			$response = $controller->buildResponse($response, $format);
 		}
 
 		return $response;

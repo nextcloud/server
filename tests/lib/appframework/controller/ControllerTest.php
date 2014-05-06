@@ -38,7 +38,7 @@ class ToUpperCaseSerializer implements IResponseSerializer {
 
 class ChildController extends Controller {
 	public function custom($in) {
-		$this->registerFormatter('json', function ($response) {
+		$this->registerResponder('json', function ($response) {
 			return new JSONResponse(array(strlen($response)));
 		});
 
@@ -155,12 +155,12 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedException \DomainException
 	 */
 	public function testFormatResonseInvalidFormat() {
-		$this->controller->formatResponse(null, 'test');
+		$this->controller->buildResponse(null, 'test');
 	}
 
 
 	public function testFormat() {
-		$response = $this->controller->formatResponse(array('hi'), 'json');
+		$response = $this->controller->buildResponse(array('hi'), 'json');
 
 		$this->assertEquals(array('hi'), $response->getData());
 	}
@@ -168,7 +168,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCustomFormatter() {
 		$response = $this->controller->custom('hi');
-		$response = $this->controller->formatResponse($response, 'json');
+		$response = $this->controller->buildResponse($response, 'json');
 
 		$this->assertEquals(array(2), $response->getData());		
 	}
@@ -176,7 +176,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCustomSerializer() {
 		$response = $this->controller->serializer('hi');
-		$response = $this->controller->formatResponse($response, 'json');
+		$response = $this->controller->buildResponse($response, 'json');
 
 		$this->assertEquals(array('HI'), $response->getData());	
 	}

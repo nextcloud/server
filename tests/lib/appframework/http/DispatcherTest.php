@@ -41,7 +41,7 @@ class TestController extends Controller {
 	 * @param bool $bool
 	 */
 	public function exec($int, $bool) {
-		$this->registerFormatter('text', function($in) {
+		$this->registerResponder('text', function($in) {
 			return new JSONResponse(array('text' => $in));
 		});
 		return array($int, $bool);
