@@ -55,6 +55,12 @@ class Shared_Updater {
 	* @param string $target
 	*/
 	static public function correctFolders($target) {
+
+		// ignore part files
+		if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
+			return false;
+		}
+
 		// Correct Shared folders of other users shared with
 		$shares = \OCA\Files_Sharing\Helper::getSharesFromItem($target);
 
