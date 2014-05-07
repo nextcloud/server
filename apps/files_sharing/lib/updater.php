@@ -44,8 +44,7 @@ class Shared_Updater {
 				$path = dirname($path);
 			}
 		} else {
-			error_log("error!" . 'can not update etags on ' . $path . ' for user ' . $user);
-			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user . '. Path does not exists', \OCP\Util::DEBUG);
 		}
 	}
 
