@@ -31,10 +31,12 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	private $path;
 
 	public function isValidSource($itemSource, $uidOwner) {
-		$query = \OC_DB::prepare('SELECT `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$result = $query->execute(array($itemSource));
-		if ($row = $result->fetchRow()) {
-			$this->path = $row['name'];
+		$path = \OC\Files\Filesystem::getPath($itemSource);
+		if ($path) {
+			// FIXME: attributes should not be set here,
+			// keeping this pattern for now to avoid unexpected
+			// regressions
+			$this->path = basename($path);
 			return true;
 		}
 		return false;
