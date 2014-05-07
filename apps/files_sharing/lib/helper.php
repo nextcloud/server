@@ -127,7 +127,11 @@ class Helper {
 		$ids = array();
 		while ($path !== '' && $path !== '.' && $path !== '/') {
 			$info = $ownerView->getFileInfo($path);
-			$ids[] = $info['fileid'];
+			if ($info instanceof \OC\Files\FileInfo) {
+				$ids[] = $info['fileid'];
+			} else {
+				\OCP\Util::writeLog('sharing', 'No fileinfo available for: ' . $path, \OCP\Util::WARN);
+			}
 			$path = dirname($path);
 		}
 
