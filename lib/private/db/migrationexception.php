@@ -16,4 +16,11 @@ class MigrationException extends \Exception {
 		$this->$table = $table;
 		parent::__construct($message);
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getTable() {
+		return $this->table;
+	}
 }
