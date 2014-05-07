@@ -38,7 +38,7 @@ class Shared_Updater {
 		\OC\Files\Filesystem::initMountPoints($user);
 		$view = new \OC\Files\View('/' . $user);
 		if ($view->file_exists($path)) {
-			while ($path !== '/') {
+			while ($path !== dirname($path)) {
 				$etag = $view->getETag($path);
 				$view->putFileInfo($path, array('etag' => $etag));
 				$path = dirname($path);
