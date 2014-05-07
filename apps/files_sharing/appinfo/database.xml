@@ -19,49 +19,57 @@
 				<name>remote</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>128</length>
+				<length>512</length>
+				<comments>Url of the remove owncloud instance</comments>
 			</field>
 			<field>
-				<name>token</name>
+				<name>share_token</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>Public share token</comments>
 			</field>
 			<field>
 				<name>password</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>Optional password for the public share</comments>
 			</field>
 			<field>
 				<name>name</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>Original name on the remote server</comments>
 			</field>
 			<field>
 				<name>owner</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>User that owns the public share on the remote server</comments>
 			</field>
 			<field>
 				<name>user</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>Local user which added the external share</comments>
 			</field>
 			<field>
 				<name>mountpoint</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>512</length>
+				<comments>Full path where the share is mounted</comments>
 			</field>
 			<field>
 				<name>mountpoint_hash</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>32</length>
+				<comments>md5 hash of the mountpoint</comments>
 			</field>
 			<index>
 				<name>sh_external_user</name>

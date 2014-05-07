@@ -50,7 +50,7 @@ class Manager {
 	public function addShare($remote, $token, $password, $name, $owner) {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$query = $this->connection->prepare('INSERT INTO *PREFIX*share_external(`remote`, `token`, `password`,
+			$query = $this->connection->prepare('INSERT INTO *PREFIX*share_external(`remote`, `share_token`, `password`,
 				`name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
 			$mountPoint = '/' . $user->getUID() . '/files/' . $name;
 			$hash = md5($mountPoint);
@@ -71,12 +71,13 @@ class Manager {
 	public function setup() {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$query = $this->connection->prepare('SELECT `remote`, `token`, `password`, `mountpoint`, `owner`
+			$query = $this->connection->prepare('SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
 			FROM *PREFIX*share_external WHERE `user` = ?');
 			$query->execute(array($user->getUID()));
 
 			while ($row = $query->fetch()) {
 				$row['manager'] = $this;
+				$row['token'] = $row['share_token'];
 				$mount = new Mount(self::STORAGE, $row['mountpoint'], $row, $this->storageLoader);
 				$this->mountManager->addMount($mount);
 			}
@@ -109,7 +110,7 @@ class Manager {
 		$this->mountManager->removeMount($source . '/');
 	}
 
-	public function remoteShare($mountPoint) {
+	public function removeShare($mountPoint) {
 		$hash = md5($mountPoint);
 		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ?');
 		$query->execute(array($hash));
