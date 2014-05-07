@@ -51,13 +51,13 @@ var UserList = {
 			subadminsEl.append(subadminSelect);
 		}
 		if (tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
-			var rm_img = $('<img class="svg action">').attr({
+			var deleteImage = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
 			});
-			var rm_link = $('<a class="action delete">')
+			var deleteLink = $('<a class="action delete">')
 				.attr({ href: '#', 'original-title': t('settings', 'Delete')})
-				.append(rm_img);
-			tr.find('td.remove').append(rm_link);
+				.append(deleteImage);
+			tr.find('td.remove').append(deleteLink);
 		} else if (OC.currentUser === username) {
 			tr.find('td.remove a').remove();
 		}
@@ -120,12 +120,12 @@ var UserList = {
 			var tz = [], x = 0, y = -1, n = 0, i, j;
 
 			while (i = (j = t.charAt(x++)).charCodeAt(0)) {
-			var m = (i === 46 || (i >=48 && i <= 57));
-			if (m !== n) {
-				tz[++y] = "";
-				n = m;
-			}
-			tz[y] += j;
+				var m = (i === 46 || (i >=48 && i <= 57));
+				if (m !== n) {
+					tz[++y] = "";
+					n = m;
+				}
+				tz[y] += j;
 			}
 			return tz;
 		}
@@ -133,14 +133,14 @@ var UserList = {
 		var aa = chunkify(a.toLowerCase());
 		var bb = chunkify(b.toLowerCase());
 
-		for (x = 0; aa[x] && bb[x]; x++) {
+		for (var x = 0; aa[x] && bb[x]; x++) {
 			if (aa[x] !== bb[x]) {
-			var c = Number(aa[x]), d = Number(bb[x]);
-			if (c === aa[x] && d === bb[x]) {
-				return c - d;
-			} else {
-				return (aa[x] > bb[x]) ? 1 : -1;
-			}
+				var c = Number(aa[x]), d = Number(bb[x]);
+				if (c === aa[x] && d === bb[x]) {
+					return c - d;
+				} else {
+					return (aa[x] > bb[x]) ? 1 : -1;
+				}
 			}
 		}
 		return aa.length - bb.length;
@@ -207,7 +207,7 @@ var UserList = {
 	empty: function() {
 		//one row needs to be kept, because it is cloned to add new rows
 		$('tbody tr:not(:first)').remove();
-		tr = $('tbody tr').first();
+		var tr = $('tbody tr').first();
 		tr.hide();
 		//on an update a user may be missing when the username matches with that
 		//of the hidden row. So change this to a random string.
@@ -228,19 +228,19 @@ var UserList = {
 	initDeleteHandling: function() {
 		//set up handler
 		UserDeleteHandler = new DeleteHandler('removeuser.php', 'username',
-											  UserList.hide, UserList.remove);
+											UserList.hide, UserList.remove);
 
 		//configure undo
 		OC.Notification.hide();
-		msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
-			  t('settings', 'undo') + '</span>';
+		var msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
+			t('settings', 'undo') + '</span>';
 		UserDeleteHandler.setNotification(OC.Notification, 'deleteuser', msg,
-										  UserList.show);
+										UserList.show);
 
 		//when to mark user for delete
 		$('table').on('click', 'td.remove>a', function (event) {
 			// Call function for handling delete/undo
-			uid = $(this).parent().parent().attr('data-uid');
+			var uid = $(this).parent().parent().attr('data-uid');
 			UserDeleteHandler.mark(uid);
 		});
 
