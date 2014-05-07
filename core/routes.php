@@ -7,7 +7,8 @@
  */
 
 // Post installation check
-/** @var $this OC_Router */
+
+/** @var $this OCP\Route\IRouter */
 $this->create('post_setup_check', '/post-setup-check')
 	->action('OC_Setup', 'postSetupCheck');
 
@@ -65,8 +66,8 @@ $this->create('core_tags_delete', '/tags/{type}/delete')
 $this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');
 // Routing
-$this->create('core_ajax_routes', '/core/routes.json')
-	->action('OC_Router', 'JSRoutes');
+$this->create('core_ajax_preview', '/core/preview')
+	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->actionInclude('core/ajax/preview.php');
 $this->create('core_lostpassword_index', '/lostpassword/')

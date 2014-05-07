@@ -21,8 +21,6 @@
 *
 */
 
-$RUNTIME_NOAPPS = true; //no apps, yet
-
 try {
 
 	require_once 'lib/base.php';
@@ -36,7 +34,7 @@ try {
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
-		echo(json_encode($values));
+		echo json_encode($values);
 	}
 
 } catch (Exception $ex) {

@@ -21,13 +21,8 @@ $TRANSLATIONS = array(
 "%s you may not use dots in the database name" => "%s شما نباید از نقطه در نام پایگاه داده استفاده نمایید.",
 "MS SQL username and/or password not valid: %s" => "نام کاربری و / یا رمزعبور MS SQL معتبر نیست:  %s",
 "You need to enter either an existing account or the administrator." => "شما نیاز به وارد کردن یک حساب کاربری موجود یا حساب مدیریتی دارید.",
-"MySQL username and/or password not valid" => "نام کاربری و / یا رمزعبور MySQL  معتبر نیست.",
 "DB Error: \"%s\"" => "خطای پایگاه داده: \"%s\"",
 "Offending command was: \"%s\"" => "دستور متخلف عبارت است از: \"%s\"",
-"MySQL user '%s'@'localhost' exists already." => "کاربرMySQL '%s'@'localhost' درحال حاضر موجود است.",
-"Drop this user from MySQL" => "این کاربر را از MySQL حذف نمایید.",
-"MySQL user '%s'@'%%' already exists" => "کاربر'%s'@'%%'  MySQL  در حال حاضر موجود است.",
-"Drop this user from MySQL." => "این کاربر را از MySQL حذف نمایید.",
 "Oracle connection could not be established" => "ارتباط اراکل نمیتواند برقرار باشد.",
 "Oracle username and/or password not valid" => "نام کاربری و / یا رمزعبور اراکل معتبر نیست.",
 "Offending command was: \"%s\", name: %s, password: %s" => "دستور متخلف عبارت است از: \"%s\"، نام: \"%s\"، رمزعبور:\"%s\"",
@@ -36,6 +31,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "یک رمزعبور برای مدیر تنظیم نمایید.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است.",
 "Please double check the <a href='%s'>installation guides</a>." => "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید.",
+"%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
 "Could not find category \"%s\"" => "دسته بندی %s یافت نشد",
 "seconds ago" => "ثانیه‌ها پیش",
 "_%n minute ago_::_%n minutes ago_" => array(""),
@@ -46,6 +42,8 @@ $TRANSLATIONS = array(
 "last month" => "ماه قبل",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "سال قبل",
-"years ago" => "سال‌های قبل"
+"years ago" => "سال‌های قبل",
+"A valid username must be provided" => "نام کاربری صحیح باید وارد شود",
+"A valid password must be provided" => "رمز عبور صحیح باید وارد شود"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

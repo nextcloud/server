@@ -122,7 +122,7 @@ interface IServerContainer {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string appid
+	 * @param string $app appid
 	 * @return \OCP\IL10N
 	 */
 	function getL10N($app);
@@ -190,4 +190,10 @@ interface IServerContainer {
 	 */
 	function getJobList();
 
+	/**
+	 * Returns a router for generating and matching urls
+	 *
+	 * @return \OCP\Route\IRouter
+	 */
+	function getRouter();
 }

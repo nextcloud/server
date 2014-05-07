@@ -49,7 +49,6 @@ class JSONResponse extends Response {
 	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
 		$this->data = $data;
 		$this->setStatus($statusCode);
-		$this->addHeader('X-Content-Type-Options', 'nosniff');
 		$this->addHeader('Content-type', 'application/json; charset=utf-8');
 	}
 
@@ -66,9 +65,12 @@ class JSONResponse extends Response {
 	 * Sets values in the data json array
 	 * @param array|object $data an array or object which will be transformed
 	 *                             to JSON
+	 * @return JSONResponse Reference to this object
 	 */
 	public function setData($data){
 		$this->data = $data;
+
+		return $this;
 	}
 
 

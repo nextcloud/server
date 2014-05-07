@@ -464,7 +464,7 @@ class OC_Installer{
 		// is the code checker enabled?
 		if(OC_Config::getValue('appcodechecker', true)) {
 			// check if grep is installed
-			$grep = exec('which grep');
+			$grep = exec('command -v grep');
 			if($grep=='') {
 				OC_Log::write('core',
 					'grep not installed. So checking the code of the app "'.$appname.'" was not possible',

@@ -7,16 +7,18 @@
 # dibalaj <dibalaj@dibalaj.cz>, 2013
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
+# svetlemodry <jaroslav@lichtblau.cz>, 2014
 # Martin <fireball@atlas.cz>, 2013
-# pstast <petr@stastny.eu>, 2013
+# m23 <black23@gmail.com>, 2014
+# pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: liska_\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: pstast <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,40 +26,26 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s s vámi sdílí »%s«"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr "Datum expirace je v minulosti."
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Zapnut režim údržby"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Vypnut režim údržby"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Zaktualizována databáze"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Aktualizuji souborovou mezipaměť, toto může trvat opravdu dlouho..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Aktualizována souborová mezipaměť"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% dokončeno ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -79,206 +67,234 @@ msgstr "Dočasný profilový obrázek není k dispozici, zkuste to znovu"
 msgid "No crop data provided"
 msgstr "Nebyla poskytnuta data pro oříznutí obrázku"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "Neděle"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "Pondělí"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "Středa"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "Pátek"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "Sobota"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Leden"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Únor"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Březen"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "Duben"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Květen"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Červen"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Červenec"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Srpen"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "Září"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Říjen"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "Listopad"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Prosinec"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Ukládám..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "před měsíci"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "před lety"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Vybrat"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Chyba při nahrávání šablony výběru souborů: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Ano"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Chyba při nahrávání šablony zprávy: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} souborový konflikt"
 msgstr[1] "{count} souborové konflikty"
 msgstr[2] "{count} souborových konfliktů"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Jeden konflikt souboru"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "Nové soubory"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "Již existující soubory"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Které soubory chcete ponechat?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Pokud zvolíte obě verze, zkopírovaný soubor bude mít název doplněný o číslo."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(vybráno vše)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "(vybráno {count})"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Chyba při nahrávání šablony existence souboru"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "Velmi slabé heslo"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "Slabé heslo"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "Středně silné heslo"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "Dobré heslo"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "Silné heslo"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -288,12 +304,12 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -305,123 +321,123 @@ msgstr "Chyba při rušení sdílení"
 msgid "Error while changing permissions"
 msgstr "Chyba při změně oprávnění"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "S Vámi a skupinou {group} sdílí {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "S Vámi sdílí {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr "Sdílet s uživatelem nebo skupinou"
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr "Sdílet odkaz"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Heslo"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Povolit veřejné nahrávání"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Odeslat osobě odkaz e-mailem"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Odeslat"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Nastavit datum vypršení platnosti"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Datum vypršení platnosti"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Sdílet e-mailem:"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Žádní lidé nenalezeni"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Sdíleno v {item} s {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr "upozornit e-mailem"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Varování"
 
@@ -449,7 +465,7 @@ msgstr "Editovat štítky"
 msgid "Error loading dialog template: {error}"
 msgstr "Chyba při načítání šablony dialogu: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Žádné štítky nebyly vybrány ke smazání."
 
@@ -468,10 +484,16 @@ msgstr "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a hre
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizace byla úspěšná. Přesměrovávám na ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "reset hesla %s"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "Při odesílání e-mailu nastala chyba, kontaktujte prosím svého administrátora."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -492,8 +514,8 @@ msgstr "Požadavek selhal!<br>Ujistili jste se, že vaše uživatelské jméno a
 msgid "You will receive a link to reset your password via Email."
 msgstr "E-mailem Vám bude zaslán odkaz pro obnovu hesla."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -529,6 +551,18 @@ msgstr "Nové heslo"
 msgid "Reset password"
 msgstr "Obnovit heslo"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Mac OS X není podporován a %s nebude na této platformě správně fungovat. Používejte pouze na vlastní nebezpečí!"
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "Místo toho zvažte pro nejlepší funkčnost použití GNU/Linux serveru."
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Osobní"
@@ -537,7 +571,7 @@ msgstr "Osobní"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Aplikace"
 
@@ -647,49 +681,47 @@ msgstr "Pro informace, jak správně nastavit váš server, se podívejte do <a 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Pokročilé"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "Úložiště & databáze"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Složka s daty"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Nastavit databázi"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Heslo databáze"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Tabulkový prostor databáze"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr "Dokončuji..."
 
@@ -698,14 +730,14 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr "Tato aplikace potřebuje pro svou správnou funkčnost mít povolený javascript. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povolte JavaScript</a> a znovu načtěte toto rozhraní."
+msgstr "Tato aplikace vyžaduje pro svou správnou funkčnost povolený JavaScript. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povolte JavaScript</a> a znovu načtěte toto rozhraní."
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získejte více informací k postupu aktualizace."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásit se"
 
@@ -731,28 +763,28 @@ msgstr "Autentizace na serveru selhala!"
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vašeho správce."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr "Hej ty tam,<br><br>jen ti chci dát vědět, že %s sdílel »%s« s tebou.<br><a href=\"%s\">Zobrazit!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr "Hej ty,<br><br>jen ti dávám vědět, že %s sdílí <strong>%s</strong> s tebou.<br><a href=\"%s\">Zobrazit!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Deleted files" => "Обрисане датотеке",
 "Error" => "Грешка",
 "Nothing in here. Your trash bin is empty!" => "Овде нема ништа. Корпа за отпатке је празна.",
 "Name" => "Име",

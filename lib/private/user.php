@@ -37,6 +37,10 @@
  *   logout()
  */
 class OC_User {
+
+	/**
+	 * @return \OC\User\Session
+	 */
 	public static function getUserSession() {
 		return OC::$server->getUserSession();
 	}
@@ -220,8 +224,8 @@ class OC_User {
 
 	/**
 	 * @brief Try to login a user
-	 * @param $uid The username of the user to log in
-	 * @param $password The password of the user
+	 * @param string $uid The username of the user to log in
+	 * @param string $password The password of the user
 	 * @return boolean|null
 	 *
 	 * Log in a user and regenerate a new session - if the password is ok
@@ -291,6 +295,8 @@ class OC_User {
 	/**
 	 * @brief Sets user display name for session
 	 * @param string $uid
+	 * @param null $displayName
+	 * @return bool Whether the display name could get set
 	 */
 	public static function setDisplayName($uid, $displayName = null) {
 		if (is_null($displayName)) {
@@ -321,8 +327,6 @@ class OC_User {
 	 */
 	public static function isLoggedIn() {
 		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
-			OC_App::loadApps(array('authentication'));
-			self::setupBackends();
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;
@@ -516,6 +520,7 @@ class OC_User {
 	 * @returns array with all uids
 	 *
 	 * Get a list of all users.
+	 * @param string $search
 	 * @param integer $limit
 	 * @param integer $offset
 	 */

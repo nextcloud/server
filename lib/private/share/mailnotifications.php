@@ -30,7 +30,6 @@ class MailNotifications {
 
 	/**
 	 *
-	 * @param string $recipient user id
 	 * @param string $sender user id (if nothing is set we use the currently logged-in user)
 	 */
 	public function __construct($sender = null) {
@@ -97,7 +96,7 @@ class MailNotifications {
 			try {
 				\OCP\Util::sendMail($to, $recipientDisplayName, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail);
 			} catch (\Exception $e) {
-				\OCP\Util::writeLog('sharing', "Can't send mail to inform the user abaut an internal share: " . $e->getMessage() , \OCP\Util::ERROR);
+				\OCP\Util::writeLog('sharing', "Can't send mail to inform the user about an internal share: " . $e->getMessage() , \OCP\Util::ERROR);
 				$noMail[] = $recipientDisplayName;
 			}
 		}
@@ -109,23 +108,26 @@ class MailNotifications {
 	/**
 	 * @brief inform recipient about public link share
 	 *
-	 * @param string recipient recipient email address
+	 * @param string $recipient recipient email address
 	 * @param string $filename the shared file
 	 * @param string $link the public link
 	 * @param int $expiration expiration date (timestamp)
-	 * @return mixed $result true or error message
+	 * @return array $result of failed recipients
 	 */
 	public function sendLinkShareMail($recipient, $filename, $link, $expiration) {
 		$subject = (string)$this->l->t('%s shared »%s« with you', array($this->senderDisplayName, $filename));
 		list($htmlMail, $alttextMail) = $this->createMailBody($filename, $link, $expiration);
-		try {
-			\OCP\Util::sendMail($recipient, $recipient, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail);
-		} catch (\Exception $e) {
-			\OCP\Util::writeLog('sharing', "Can't send mail with public link: " . $e->getMessage(), \OCP\Util::ERROR);
-			return $e->getMessage();
+		$rs = explode(' ', $recipient);
+		$failed = array();
+		foreach ($rs as $r) {
+			try {
+				\OCP\Util::sendMail($r, $r, $subject, $htmlMail, $this->from, $this->senderDisplayName, 1, $alttextMail);
+			} catch (\Exception $e) {
+				\OCP\Util::writeLog('sharing', "Can't send mail with public link to $r: " . $e->getMessage(), \OCP\Util::ERROR);
+				$failed[] = $r;
+			}
 		}
-
-		return true;
+		return $failed;
 	}
 
 	/**

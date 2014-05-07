@@ -7,40 +7,47 @@
  */
 namespace OC\Preview;
 
-if (extension_loaded('imagick') && count(@\Imagick::queryFormats("SVG")) === 1) {
+use Imagick;
 
-	class SVG extends Provider {
+if (extension_loaded('imagick')) {
 
-		public function getMimeType() {
-			return '/image\/svg\+xml/';
-		}
+	$checkImagick = new Imagick();
 
-		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
-			try{
-				$svg = new \Imagick();
-				$svg->setBackgroundColor(new \ImagickPixel('transparent'));
+	if(count($checkImagick->queryFormats('SVG')) === 1) {
 
-				$content = stream_get_contents($fileview->fopen($path, 'r'));
-				if(substr($content, 0, 5) !== '<?xml') {
-					$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
-				}
+		class SVG extends Provider {
 
-				$svg->readImageBlob($content);
-				$svg->setImageFormat('png32');
-			} catch (\Exception $e) {
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				return false;
+			public function getMimeType() {
+				return '/image\/svg\+xml/';
 			}
 
+			public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
+				try{
+					$svg = new Imagick();
+					$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 
-			//new image object
-			$image = new \OC_Image();
-			$image->loadFromData($svg);
-			//check if image object is valid
-			return $image->valid() ? $image : false;
+					$content = stream_get_contents($fileview->fopen($path, 'r'));
+					if(substr($content, 0, 5) !== '<?xml') {
+						$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
+					}
+
+					$svg->readImageBlob($content);
+					$svg->setImageFormat('png32');
+				} catch (\Exception $e) {
+					\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+					return false;
+				}
+
+
+				//new image object
+				$image = new \OC_Image();
+				$image->loadFromData($svg);
+				//check if image object is valid
+				return $image->valid() ? $image : false;
+			}
+
 		}
+
+		\OC\Preview::registerProvider('OC\Preview\SVG');
 	}
-
-	\OC\Preview::registerProvider('OC\Preview\SVG');
-
 }

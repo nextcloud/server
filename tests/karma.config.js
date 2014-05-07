@@ -121,6 +121,9 @@ module.exports = function(config) {
 		files.push('apps/' + appsToTest[i] + '/tests/js/*.js');
 	}
 
+	// serve images to avoid warnings
+	files.push({pattern: 'core/img/**/*', watched: false, included: false, served: true});
+
 	config.set({
 
 		// base path, that will be used to resolve files and exclude
@@ -136,6 +139,11 @@ module.exports = function(config) {
 		exclude: [
 
 		],
+
+		proxies: {
+			// prevent warnings for images
+			'/context.html//core/img/': 'http://localhost:9876/base/core/img/'
+		},
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
@@ -167,7 +175,7 @@ module.exports = function(config) {
 		logLevel: config.LOG_INFO,
 
 		// enable / disable watching file and executing tests whenever any file changes
-		autoWatch: false,
+		autoWatch: true,
 
 		// Start these browsers, currently available:
 		// - Chrome

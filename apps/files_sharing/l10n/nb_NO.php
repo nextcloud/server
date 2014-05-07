@@ -1,12 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Delt av {owner}",
+"This share is password-protected" => "Denne delingen er passordbeskyttet",
 "The password is wrong. Try again." => "Passordet er feil. Prøv på nytt.",
 "Password" => "Passord",
-"%s shared the folder %s with you" => "%s delte mappen %s med deg",
-"%s shared the file %s with you" => "%s delte filen %s med deg",
+"Sorry, this link doesn’t seem to work anymore." => "Beklager, denne lenken ser ikke ut til å virke lenger.",
+"Reasons might be:" => "Mulige årsaker:",
+"the item was removed" => "elementet er fjernet",
+"the link expired" => "lenken er utløpt",
+"sharing is disabled" => "deling er deaktivert",
+"For more info, please ask the person who sent this link." => "For mer informasjon, spør personen som sendte lenken.",
 "Download" => "Last ned",
-"Upload" => "Last opp",
-"Cancel upload" => "Avbryt opplasting",
-"No preview available for" => "Forhåndsvisning ikke tilgjengelig for"
+"Direct link" => "Direkte lenke"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

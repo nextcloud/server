@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  * Base Class for all Crypt_* cipher classes
@@ -44,14 +43,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category   Crypt
- * @package    Crypt_Base
- * @author     Jim Wigginton <terrafrost@php.net>
- * @author     Hans-Juergen Petrich <petrich@tronic-media.com>
- * @copyright  MMVII Jim Wigginton
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version    1.0.1
- * @link       http://phpseclib.sourceforge.net
+ * @category  Crypt
+ * @package   Crypt_Base
+ * @author    Jim Wigginton <terrafrost@php.net>
+ * @author    Hans-Juergen Petrich <petrich@tronic-media.com>
+ * @copyright MMVII Jim Wigginton
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version   1.0.1
+ * @link      http://phpseclib.sourceforge.net
  */
 
 /**#@+
@@ -115,13 +114,14 @@ define('CRYPT_MODE_MCRYPT', 2);
 /**
  * Base Class for all Crypt_* cipher classes
  *
+ * @package Crypt_Base
  * @author  Jim Wigginton <terrafrost@php.net>
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
  * @version 1.0.0
  * @access  public
- * @package Crypt_Base
  */
-class Crypt_Base {
+class Crypt_Base
+{
     /**
      * The Encryption Mode
      *
@@ -582,7 +582,7 @@ class Crypt_Base {
                     case !function_exists('hash_algos'):
                     case !in_array($hash, hash_algos()):
                         if (!class_exists('Crypt_Hash')) {
-                            require_once('Crypt/Hash.php');
+                            include_once 'Crypt/Hash.php';
                         }
                         $i = 1;
                         while (strlen($key) < $dkLen) {
@@ -1984,6 +1984,3 @@ class Crypt_Base {
         return $functions;
     }
 }
-
-// vim: ts=4:sw=4:et:
-// vim6: fdl=1:

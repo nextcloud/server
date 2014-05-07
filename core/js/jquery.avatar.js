@@ -75,31 +75,32 @@
 
 		var $div = this;
 
-		OC.Router.registerLoadedCallback(function() {
-			var url = OC.Router.generate('core_avatar_get', {user: user, size: size})+'?requesttoken='+oc_requesttoken;
-			$.get(url, function(result) {
-				if (typeof(result) === 'object') {
-					if (!hidedefault) {
-						if (result.data && result.data.displayname) {
-							$div.imageplaceholder(user, result.data.displayname);
-						} else {
-							$div.imageplaceholder(user);
-						}
+		var url = OC.generateUrl(
+			'/avatar/{user}/{size}?requesttoken={requesttoken}',
+			{user: user, size: size * window.devicePixelRatio, requesttoken: oc_requesttoken});
+
+		$.get(url, function(result) {
+			if (typeof(result) === 'object') {
+				if (!hidedefault) {
+					if (result.data && result.data.displayname) {
+						$div.imageplaceholder(user, result.data.displayname);
 					} else {
-						$div.hide();
+						$div.imageplaceholder(user);
 					}
 				} else {
-					$div.show();
-					if (ie8fix === true) {
-						$div.html('<img src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
-					} else {
-						$div.html('<img src="'+url+'">');
-					}
+					$div.hide();
 				}
-				if(typeof callback === 'function') {
-					callback();
+			} else {
+				$div.show();
+				if (ie8fix === true) {
+					$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
+				} else {
+					$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'">');
 				}
-			});
+			}
+			if(typeof callback === 'function') {
+				callback();
+			}
 		});
 	};
 }(jQuery));

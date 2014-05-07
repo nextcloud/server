@@ -367,9 +367,14 @@ class Helper {
 		$post = 0;
 		if(count($_POST) > 0) {
 			$post = 1;
-			}
-			header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
-			exit();
+		}
+
+		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN) {
+			throw new \Exception("Encryption error: $errorCode");
+		}
+
+		header('Location: ' . $location . '?p=' . $post . '&errorCode=' . $errorCode);
+		exit();
 	}
 
 	/**

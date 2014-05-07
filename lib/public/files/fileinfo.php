@@ -9,7 +9,7 @@ namespace OCP\Files;
 
 interface FileInfo {
 	const TYPE_FILE = 'file';
-	const TYPE_FOLDER = 'folder';
+	const TYPE_FOLDER = 'dir';
 
 	/**
 	 * Get the Etag of the file or folder

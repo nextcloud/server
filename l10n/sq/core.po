@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,40 +19,26 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s ndau »%s« me ju"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr ""
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Mënyra e mirëmbajtjes u aktivizua"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Mënyra e mirëmbajtjes u çaktivizua"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Database-i u azhurnua"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Po azhurnoj memorjen e skedarëve, mund të zgjasi pak..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Memorja e skedarëve u azhornua"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% u krye ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -74,200 +60,228 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "E djelë"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "E hënë"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "E martë"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "E mërkurë"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "E enjte"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "E premte"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "E shtunë"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Janar"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Shkurt"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Mars"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "Prill"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Maj"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Qershor"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Korrik"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Gusht"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "Shtator"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Tetor"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "Nëntor"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Dhjetor"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Parametra"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Duke ruajtur..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut më parë"
 msgstr[1] "%n minuta më parë"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n orë më parë"
 msgstr[1] "%n orë më parë"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "sot"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "dje"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ditë më parë"
 msgstr[1] "%n ditë më parë"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n muaj më parë"
 msgstr[1] "%n muaj më parë"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "muaj më parë"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "vite më parë"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Zgjidh"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Po"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Jo"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Në rregull"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr ""
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Anulo"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr ""
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
+msgstr ""
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr ""
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr ""
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr ""
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr ""
+
+#: js/setup.js:88
+msgid "Strong password"
 msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
@@ -278,12 +292,12 @@ msgstr "Ndarë"
 msgid "Share"
 msgstr "Nda"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Veprim i gabuar"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Veprim i gabuar gjatë ndarjes"
 
@@ -295,123 +309,123 @@ msgstr "Veprim i gabuar gjatë heqjes së ndarjes"
 msgid "Error while changing permissions"
 msgstr "Veprim i gabuar gjatë ndryshimit të lejeve"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Ndarë me ju dhe me grupin {group} nga {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "Ndarë me ju nga {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Mbro me kod"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Kodi"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Lejo Ngarkimin Publik"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Dërgo email me lidhjen"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Dërgo"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Cakto datën e përfundimit"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Data e përfundimit"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Nda me email:"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Nuk u gjet asnjë person"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupi"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Rindarja nuk lejohet"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Ndarë në {item} me {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Hiq ndarjen"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "mund të ndryshosh"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "kontrollimi i hyrjeve"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "krijo"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "azhurno"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "elimino"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "nda"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Mbrojtur me kod"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Duke dërguar..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Email-i u dërgua"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr ""
 
@@ -439,7 +453,7 @@ msgstr ""
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr ""
 
@@ -458,10 +472,16 @@ msgstr "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"htt
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "Kodi i %s -it u rivendos"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -482,8 +502,8 @@ msgstr "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i 
 msgid "You will receive a link to reset your password via Email."
 msgstr "Do t'iu vijë një email që përmban një lidhje për ta rivendosur kodin."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Përdoruesi"
 
@@ -519,6 +539,18 @@ msgstr "Kodi i ri"
 msgid "Reset password"
 msgstr "Rivendos kodin"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr ""
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr ""
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Personale"
@@ -527,7 +559,7 @@ msgstr "Personale"
 msgid "Users"
 msgstr "Përdoruesit"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "App"
 
@@ -637,49 +669,47 @@ msgstr "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Krijo një <strong>llogari administruesi</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Të përparuara"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Emri i dosjes"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Konfiguro database-in"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "do të përdoret"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Përdoruesi i database-it"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Kodi i database-it"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Emri i database-it"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Tablespace-i i database-it"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Pozicioni (host) i database-it"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Mbaro setup-in"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr ""
 
@@ -695,7 +725,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr "%s është i disponueshëm. Merrni më shumë informacione mbi azhurnimin."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Dalje"
 
@@ -721,27 +751,27 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Ke humbur kodin?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "kujto"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Hyrje"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Hyrje alternative"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
 #: templates/singleuser.user.php:3

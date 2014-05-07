@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# plazmism <gomidori@live.jp>, 2014
+# tt yn <tetuyano+transi@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:12+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr "{owner} と共有中"
+
+#: templates/authenticate.php:4
+msgid "This share is password-protected"
+msgstr "この共有はパスワードで保護されています"
+
+#: templates/authenticate.php:7
+msgid "The password is wrong. Try again."
+msgstr "パスワードが間違っています。再試行してください。"
+
+#: templates/authenticate.php:10
+msgid "Password"
+msgstr "パスワード"
+
+#: templates/part.404.php:3
+msgid "Sorry, this link doesn’t seem to work anymore."
+msgstr "申し訳ございません。このリンクはもう利用できません。"
+
+#: templates/part.404.php:4
+msgid "Reasons might be:"
+msgstr "理由は以下の通りと考えられます："
+
+#: templates/part.404.php:6
+msgid "the item was removed"
+msgstr "アイテムが削除されました"
+
+#: templates/part.404.php:7
+msgid "the link expired"
+msgstr "リンクの期限が切れています"
+
+#: templates/part.404.php:8
+msgid "sharing is disabled"
+msgstr "共有が無効になっています"
+
+#: templates/part.404.php:10
+msgid "For more info, please ask the person who sent this link."
+msgstr "不明な点は、こちらのリンクの提供者に確認をお願いします。"
+
+#: templates/public.php:21
+msgid "Download"
+msgstr "ダウンロード"
+
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
+msgstr "%s をダウンロード"
+
+#: templates/public.php:57
+msgid "Direct link"
+msgstr "リンク"

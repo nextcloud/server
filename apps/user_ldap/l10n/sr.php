@@ -14,7 +14,6 @@ $TRANSLATIONS = array(
 "Password" => "Лозинка",
 "For anonymous access, leave DN and Password empty." => "За анониман приступ, оставите поља DN и лозинка празним.",
 "Back" => "Назад",
-"Case insensitve LDAP server (Windows)" => "LDAP сервер осетљив на велика и мала слова (Windows)",
 "Turn off SSL certificate validation." => "Искључите потврду SSL сертификата.",
 "in seconds. A change empties the cache." => "у секундама. Промена испражњава кеш меморију.",
 "User Display Name Field" => "Име приказа корисника",

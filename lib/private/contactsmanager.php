@@ -37,7 +37,12 @@ namespace OC {
 			$result = array();
 			foreach($this->address_books as $address_book) {
 				$r = $address_book->search($pattern, $searchProperties, $options);
-				$result = array_merge($result, $r);
+				$contacts = array();
+				foreach($r as $c){
+					$c['addressbook-key'] = $address_book->getKey();
+					$contacts[] = $c;
+				}
+				$result = array_merge($result, $contacts);
 			}
 
 			return $result;
@@ -47,7 +52,7 @@ namespace OC {
 		 * This function can be used to delete the contact identified by the given id
 		 *
 		 * @param object $id the unique identifier to a contact
-		 * @param $address_book_key
+		 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
 		 * @return bool successful or not
 		 */
 		public function delete($id, $address_book_key) {
@@ -66,7 +71,7 @@ namespace OC {
 		 * Otherwise the contact will be updated by replacing the entire data set.
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
-		 * @param $address_book_key string to identify the address book in which the contact shall be created or updated
+		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
 		 * @return array representing the contact just created or updated
 		 */
 		public function createOrUpdate($properties, $address_book_key) {

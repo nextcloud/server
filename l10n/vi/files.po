@@ -3,14 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nguyễn Tài <mattheu.9x@gmail.com>, 2014
+# namphongbody <tunglam062000@gmail.com>, 2014
+# Sơn Nguyễn <sonnghit@gmail.com>, 2014
 # xtdv <truong.tx8@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,394 +21,386 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/move.php:17
+#: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
 msgstr "Không thể di chuyển %s - Đã có tên tập tin này trên hệ thống"
 
-#: ajax/move.php:27 ajax/move.php:30
+#: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
 msgstr "Không thể di chuyển %s"
 
-#: ajax/newfile.php:56 js/files.js:74
+#: ajax/newfile.php:58 js/files.js:96
 msgid "File name cannot be empty."
 msgstr "Tên file không được rỗng"
 
-#: ajax/newfile.php:62
-msgid "File name must not contain \"/\". Please choose a different name."
-msgstr ""
-
-#: ajax/newfile.php:72 ajax/newfolder.php:37 lib/app.php:67
+#: ajax/newfile.php:63
 #, php-format
-msgid ""
-"The name %s is already used in the folder %s. Please choose a different "
-"name."
+msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:81
-msgid "Not a valid source"
-msgstr ""
-
-#: ajax/newfile.php:86
-msgid ""
-"Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
-
-#: ajax/newfile.php:103
-#, php-format
-msgid "Error while downloading %s to %s"
-msgstr ""
-
-#: ajax/newfile.php:140
-msgid "Error when creating the file"
-msgstr ""
-
-#: ajax/newfolder.php:21
-msgid "Folder name cannot be empty."
-msgstr ""
-
-#: ajax/newfolder.php:27
-msgid "Folder name must not contain \"/\". Please choose a different name."
-msgstr ""
-
-#: ajax/newfolder.php:56
-msgid "Error when creating the folder"
-msgstr ""
-
-#: ajax/upload.php:18 ajax/upload.php:50
-msgid "Unable to set upload directory."
-msgstr ""
-
-#: ajax/upload.php:27
-msgid "Invalid Token"
-msgstr ""
-
-#: ajax/upload.php:64
-msgid "No file was uploaded. Unknown error"
-msgstr "Không có tập tin nào được tải lên. Lỗi không xác định"
-
-#: ajax/upload.php:71
-msgid "There is no error, the file uploaded with success"
-msgstr "Không có lỗi, các tập tin đã được tải lên thành công"
-
-#: ajax/upload.php:72
-msgid ""
-"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-
-#: ajax/upload.php:74
-msgid ""
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
-"the HTML form"
-msgstr "Tập tin được tải lên vượt quá MAX_FILE_SIZE được quy định trong mẫu HTML"
-
-#: ajax/upload.php:75
-msgid "The uploaded file was only partially uploaded"
-msgstr "Các tập tin được tải lên chỉ tải lên được một phần"
-
-#: ajax/upload.php:76
-msgid "No file was uploaded"
-msgstr "Chưa có file nào được tải lên"
-
-#: ajax/upload.php:77
-msgid "Missing a temporary folder"
-msgstr "Không tìm thấy thư mục tạm"
-
-#: ajax/upload.php:78
-msgid "Failed to write to disk"
-msgstr "Không thể ghi "
-
-#: ajax/upload.php:96
-msgid "Not enough storage available"
-msgstr "Không đủ không gian lưu trữ"
-
-#: ajax/upload.php:127 ajax/upload.php:154
-msgid "Upload failed. Could not get file info."
-msgstr ""
-
-#: ajax/upload.php:144
-msgid "Upload failed. Could not find uploaded file"
-msgstr ""
-
-#: ajax/upload.php:172
-msgid "Invalid directory."
-msgstr "Thư mục không hợp lệ"
-
-#: appinfo/app.php:11
-msgid "Files"
-msgstr "Tập tin"
-
-#: js/file-upload.js:228
-msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
-
-#: js/file-upload.js:239
-msgid "Not enough space available"
-msgstr "Không đủ chỗ trống cần thiết"
-
-#: js/file-upload.js:306
-msgid "Upload cancelled."
-msgstr "Hủy tải lên"
-
-#: js/file-upload.js:344
-msgid "Could not get result from server."
-msgstr ""
-
-#: js/file-upload.js:436
-msgid ""
-"File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
-
-#: js/file-upload.js:523
-msgid "URL cannot be empty"
-msgstr ""
-
-#: js/file-upload.js:527 js/filelist.js:377
-msgid "In the home folder 'Shared' is a reserved filename"
-msgstr ""
-
-#: js/file-upload.js:529 js/filelist.js:379
-msgid "{new_name} already exists"
-msgstr "{new_name} đã tồn tại"
-
-#: js/file-upload.js:595
-msgid "Could not create file"
-msgstr ""
-
-#: js/file-upload.js:611
-msgid "Could not create folder"
-msgstr ""
-
-#: js/file-upload.js:661
-msgid "Error fetching URL"
-msgstr ""
-
-#: js/fileactions.js:125
-msgid "Share"
-msgstr "Chia sẻ"
-
-#: js/fileactions.js:137
-msgid "Delete permanently"
-msgstr "Xóa vĩnh vễn"
-
-#: js/fileactions.js:194
-msgid "Rename"
-msgstr "Sửa tên"
-
-#: js/filelist.js:69 js/filelist.js:72 js/filelist.js:889
-msgid "Pending"
-msgstr "Đang chờ"
-
-#: js/filelist.js:405
-msgid "Could not rename file"
-msgstr ""
-
-#: js/filelist.js:539
-msgid "replaced {new_name} with {old_name}"
-msgstr "đã thay thế {new_name} bằng {old_name}"
-
-#: js/filelist.js:539
-msgid "undo"
-msgstr "lùi lại"
-
-#: js/filelist.js:591
-msgid "Error deleting file."
-msgstr ""
-
-#: js/filelist.js:609 js/filelist.js:683 js/files.js:631
-msgid "%n folder"
-msgid_plural "%n folders"
-msgstr[0] ""
-
-#: js/filelist.js:610 js/filelist.js:684 js/files.js:637
-msgid "%n file"
-msgid_plural "%n files"
-msgstr[0] ""
-
-#: js/filelist.js:617
-msgid "{dirs} and {files}"
-msgstr ""
-
-#: js/filelist.js:828 js/filelist.js:866
-msgid "Uploading %n file"
-msgid_plural "Uploading %n files"
-msgstr[0] ""
-
-#: js/files.js:72
-msgid "'.' is an invalid file name."
-msgstr "'.' là một tên file không hợp lệ"
-
-#: js/files.js:81
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng."
 
-#: js/files.js:93
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: lib/app.php:60
+msgid "The target folder has been moved or deleted."
+msgstr ""
+
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#, php-format
+msgid ""
+"The name %s is already used in the folder %s. Please choose a different "
+"name."
+msgstr "Tên %s đã được sử dụng trong thư mục %s. Hãy chọn tên khác."
+
+#: ajax/newfile.php:97
+msgid "Not a valid source"
+msgstr "Nguồn không hợp lệ"
+
+#: ajax/newfile.php:102
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr "Server cấm mở URLs, vui lòng kiểm tra lại cấu hình server"
+
+#: ajax/newfile.php:118
+#, php-format
+msgid "Error while downloading %s to %s"
+msgstr "Lỗi trong trong quá trình tải %s từ %s"
+
+#: ajax/newfile.php:146
+msgid "Error when creating the file"
+msgstr "Lỗi khi tạo file"
+
+#: ajax/newfolder.php:22
+msgid "Folder name cannot be empty."
+msgstr "Tên thư mục không thể để trống"
+
+#: ajax/newfolder.php:66
+msgid "Error when creating the folder"
+msgstr "Lỗi khi tạo thư mục"
+
+#: ajax/upload.php:19 ajax/upload.php:57
+msgid "Unable to set upload directory."
+msgstr "Không thể thiết lập thư mục tải lên."
+
+#: ajax/upload.php:33
+msgid "Invalid Token"
+msgstr "Xác thực không hợp lệ"
+
+#: ajax/upload.php:75
+msgid "No file was uploaded. Unknown error"
+msgstr "Không có tập tin nào được tải lên. Lỗi không xác định"
+
+#: ajax/upload.php:82
+msgid "There is no error, the file uploaded with success"
+msgstr "Không có lỗi, các tập tin đã được tải lên thành công"
+
+#: ajax/upload.php:83
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+
+#: ajax/upload.php:85
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "Tập tin được tải lên vượt quá MAX_FILE_SIZE được quy định trong mẫu HTML"
+
+#: ajax/upload.php:86
+msgid "The uploaded file was only partially uploaded"
+msgstr "Các tập tin được tải lên chỉ tải lên được một phần"
+
+#: ajax/upload.php:87
+msgid "No file was uploaded"
+msgstr "Chưa có file nào được tải lên"
+
+#: ajax/upload.php:88
+msgid "Missing a temporary folder"
+msgstr "Không tìm thấy thư mục tạm"
+
+#: ajax/upload.php:89
+msgid "Failed to write to disk"
+msgstr "Không thể ghi "
+
+#: ajax/upload.php:107
+msgid "Not enough storage available"
+msgstr "Không đủ không gian lưu trữ"
+
+#: ajax/upload.php:169
+msgid "Upload failed. Could not find uploaded file"
+msgstr "Tải lên thất bại. Không thể tìm thấy tập tin được tải lên"
+
+#: ajax/upload.php:179
+msgid "Upload failed. Could not get file info."
+msgstr "Tải lên thất bại. Không thể có được thông tin tập tin."
+
+#: ajax/upload.php:194
+msgid "Invalid directory."
+msgstr "Thư mục không hợp lệ"
+
+#: appinfo/app.php:11 js/filelist.js:14
+msgid "Files"
+msgstr "Tập tin"
+
+#: js/file-upload.js:254
+msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
+msgstr "không thể tải {filename} lên do nó là một thư mục hoặc có kích thước bằng 0 byte"
+
+#: js/file-upload.js:266
+msgid "Total file size {size1} exceeds upload limit {size2}"
+msgstr ""
+
+#: js/file-upload.js:276
+msgid ""
+"Not enough free space, you are uploading {size1} but only {size2} is left"
+msgstr ""
+
+#: js/file-upload.js:353
+msgid "Upload cancelled."
+msgstr "Hủy tải lên"
+
+#: js/file-upload.js:398
+msgid "Could not get result from server."
+msgstr "Không thể nhận được kết quả từ máy chủ."
+
+#: js/file-upload.js:490
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
+
+#: js/file-upload.js:555
+msgid "URL cannot be empty"
+msgstr "URL không thể để trống"
+
+#: js/file-upload.js:559 js/filelist.js:963
+msgid "{new_name} already exists"
+msgstr "{new_name} đã tồn tại"
+
+#: js/file-upload.js:611
+msgid "Could not create file"
+msgstr "Không thể tạo file"
+
+#: js/file-upload.js:624
+msgid "Could not create folder"
+msgstr "Không thể tạo thư mục"
+
+#: js/file-upload.js:664
+msgid "Error fetching URL"
+msgstr ""
+
+#: js/fileactions.js:160
+msgid "Share"
+msgstr "Chia sẻ"
+
+#: js/fileactions.js:173
+msgid "Delete permanently"
+msgstr "Xóa vĩnh vễn"
+
+#: js/fileactions.js:234
+msgid "Rename"
+msgstr "Sửa tên"
+
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Your download is being prepared. This might take some time if the files are big."
+
+#: js/filelist.js:502 js/filelist.js:1422
+msgid "Pending"
+msgstr "Đang chờ"
+
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr "Lỗi di chuyển tập tin"
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr "Lỗi"
+
+#: js/filelist.js:988
+msgid "Could not rename file"
+msgstr "Không thể đổi tên file"
+
+#: js/filelist.js:1122
+msgid "Error deleting file."
+msgstr "Lỗi xóa file,"
+
+#: js/filelist.js:1224 templates/index.php:67
+msgid "Name"
+msgstr "Tên"
+
+#: js/filelist.js:1225 templates/index.php:79
+msgid "Size"
+msgstr "Kích cỡ"
+
+#: js/filelist.js:1226 templates/index.php:81
+msgid "Modified"
+msgstr "Thay đổi"
+
+#: js/filelist.js:1235 js/filesummary.js:141 js/filesummary.js:168
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] "%n thư mục"
+
+#: js/filelist.js:1241 js/filesummary.js:142 js/filesummary.js:169
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n tập tin"
+
+#: js/filelist.js:1330 js/filelist.js:1369
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] "Đang tải lên %n tập tin"
+
+#: js/files.js:94
+msgid "\"{name}\" is an invalid file name."
+msgstr ""
+
+#: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Your storage is full, files can not be updated or synced anymore!"
 
-#: js/files.js:97
+#: js/files.js:119
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Your storage is almost full ({usedSpacePercent}%)"
 
-#: js/files.js:110
+#: js/files.js:133
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "Ứng dụng mã hóa đã được kích hoạt nhưng bạn chưa khởi tạo khóa. Vui lòng đăng xuất ra và đăng nhập lại"
 
-#: js/files.js:114
+#: js/files.js:137
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:118
+#: js/files.js:141
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Mã hóa đã bị vô hiệu nhưng những tập tin của bạn vẫn được mã hóa. Vui lòng vào phần thiết lập cá nhân để giải mã chúng."
 
-#: js/files.js:349
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "Your download is being prepared. This might take some time if the files are big."
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} và {files}"
 
-#: js/files.js:558 js/files.js:596
-msgid "Error moving file"
-msgstr ""
-
-#: js/files.js:558 js/files.js:596
-msgid "Error"
-msgstr "Lỗi"
-
-#: js/files.js:613 templates/index.php:56
-msgid "Name"
-msgstr "Tên"
-
-#: js/files.js:614 templates/index.php:68
-msgid "Size"
-msgstr "Kích cỡ"
-
-#: js/files.js:615 templates/index.php:70
-msgid "Modified"
-msgstr "Thay đổi"
-
-#: lib/app.php:60
-msgid "Invalid folder name. Usage of 'Shared' is reserved."
-msgstr ""
-
-#: lib/app.php:101
+#: lib/app.php:86
 #, php-format
 msgid "%s could not be renamed"
+msgstr "%s không thể đổi tên"
+
+#: lib/helper.php:14 templates/index.php:22
+#, php-format
+msgid "Upload (max. %s)"
 msgstr ""
 
-#: lib/helper.php:11 templates/index.php:16
-msgid "Upload"
-msgstr "Tải lên"
-
-#: templates/admin.php:5
+#: templates/admin.php:4
 msgid "File handling"
 msgstr "Xử lý tập tin"
 
-#: templates/admin.php:7
+#: templates/admin.php:6
 msgid "Maximum upload size"
 msgstr "Kích thước tối đa "
 
-#: templates/admin.php:10
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "tối đa cho phép:"
 
-#: templates/admin.php:15
+#: templates/admin.php:14
 msgid "Needed for multi-file and folder downloads."
 msgstr "Cần thiết cho tải nhiều tập tin và thư mục."
 
-#: templates/admin.php:17
+#: templates/admin.php:16
 msgid "Enable ZIP-download"
 msgstr "Cho phép ZIP-download"
 
-#: templates/admin.php:20
+#: templates/admin.php:19
 msgid "0 is unlimited"
 msgstr "0 là không giới hạn"
 
-#: templates/admin.php:22
+#: templates/admin.php:21
 msgid "Maximum input size for ZIP files"
 msgstr "Kích thước tối đa cho các tập tin ZIP"
 
-#: templates/admin.php:26
+#: templates/admin.php:25
 msgid "Save"
 msgstr "Lưu"
 
 #: templates/index.php:5
 msgid "New"
-msgstr "Mới"
+msgstr "Tạo mới"
 
 #: templates/index.php:8
 msgid "New text file"
-msgstr ""
+msgstr "File text mới"
 
-#: templates/index.php:8
+#: templates/index.php:9
 msgid "Text file"
 msgstr "Tập tin văn bản"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "New folder"
 msgstr "Tạo thư mục"
 
-#: templates/index.php:10
+#: templates/index.php:13
 msgid "Folder"
 msgstr "Thư mục"
 
-#: templates/index.php:12
+#: templates/index.php:16
 msgid "From link"
 msgstr "Từ liên kết"
 
-#: templates/index.php:29
+#: templates/index.php:40
 msgid "Deleted files"
 msgstr "File đã bị xóa"
 
-#: templates/index.php:34
+#: templates/index.php:45
 msgid "Cancel upload"
 msgstr "Hủy upload"
 
-#: templates/index.php:40
+#: templates/index.php:51
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Bạn không có quyền upload hoặc tạo files ở đây"
 
-#: templates/index.php:45
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "Không có gì ở đây .Hãy tải lên một cái gì đó !"
 
-#: templates/index.php:62
+#: templates/index.php:73
 msgid "Download"
 msgstr "Tải về"
 
-#: templates/index.php:73 templates/index.php:74
+#: templates/index.php:84 templates/index.php:85
 msgid "Delete"
 msgstr "Xóa"
 
-#: templates/index.php:86
+#: templates/index.php:98
 msgid "Upload too large"
 msgstr "Tập tin tải lên quá lớn"
 
-#: templates/index.php:88
+#: templates/index.php:100
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ ."
 
-#: templates/index.php:93
+#: templates/index.php:105
 msgid "Files are being scanned, please wait."
 msgstr "Tập tin đang được quét ,vui lòng chờ."
 
-#: templates/index.php:96
+#: templates/index.php:108
 msgid "Current scanning"
 msgstr "Hiện tại đang quét"
-
-#: templates/upgrade.php:2
-msgid "Upgrading filesystem cache..."
-msgstr "Đang nâng cấp bộ nhớ đệm cho tập tin hệ thống..."

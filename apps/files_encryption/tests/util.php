@@ -344,15 +344,17 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
-		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+		$this->assertSame($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
 
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
-
 	function testDecryptAll() {
 
 		$filename = "/decryptAll" . uniqid() . ".txt";
+		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
+		$userdir = $datadir . '/' . $this->userId . '/files/';
+
 		$util = new Encryption\Util($this->view, $this->userId);
 
 		$this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
@@ -362,24 +364,61 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($fileInfoEncrypted instanceof \OC\Files\FileInfo);
 		$this->assertEquals($fileInfoEncrypted['encrypted'], 1);
 
-		// decrypt all encrypted files
-		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+		$encContent = file_get_contents($userdir . $filename);
 
-		$this->assertTrue($result);
+		\OC_App::disable('files_encryption');
+
+		$user = \OCP\User::getUser();
+		$this->logoutHelper();
+		$this->loginHelper($user, false, false, false);
+
+		$content = file_get_contents($userdir . $filename);
+
+		//content should be encrypted
+		$this->assertSame($encContent, $content);
+
+		// now we load the encryption app again
+		OC_App::loadApp('files_encryption');
+
+		// init encryption app
+		$params = array('uid' => \OCP\User::getUser(),
+			'password' => \OCP\User::getUser());
+
+		$view = new OC_FilesystemView('/');
+		$util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
+
+		$result = $util->initEncryption($params);
+
+		$this->assertTrue($result instanceof \OCA\Encryption\Session);
+
+		$successful = $util->decryptAll();
+
+		$this->assertTrue($successful);
+
+		$this->logoutHelper();
+		$this->loginHelper($user, false, false, false);
+
+		// file should be unencrypted and fileInfo should contain the correct values
+		$content = file_get_contents($userdir . $filename);
+
+		// now we should get the plain data
+		$this->assertSame($this->dataShort, $content);
 
 		$fileInfoUnencrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
-
 		$this->assertTrue($fileInfoUnencrypted instanceof \OC\Files\FileInfo);
 
 		// check if mtime and etags unchanged
 		$this->assertEquals($fileInfoEncrypted['mtime'], $fileInfoUnencrypted['mtime']);
-		$this->assertEquals($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
+		$this->assertSame($fileInfoEncrypted['etag'], $fileInfoUnencrypted['etag']);
 		// file should no longer be encrypted
 		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
+		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
+		OC_App::enable('files_encryption');
 
 	}
+
 
 	function testDescryptAllWithBrokenFiles() {
 
@@ -508,9 +547,13 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 * @param bool $create
 	 * @param bool $password
 	 */
-	public static function loginHelper($user, $create = false, $password = false) {
+	public static function loginHelper($user, $create = false, $password = false, $loadEncryption = true) {
 		if ($create) {
-			\OC_User::createUser($user, $user);
+			try {
+				\OC_User::createUser($user, $user);
+			} catch(\Exception $e) { // catch username is already being used from previous aborted runs
+
+			}
 		}
 
 		if ($password === false) {
@@ -520,12 +563,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS($user);
 		\OC_User::setUserId($user);
+		\OC_Util::setupFS($user);
 
-		$params['uid'] = $user;
-		$params['password'] = $password;
-		OCA\Encryption\Hooks::login($params);
+		if ($loadEncryption) {
+			$params['uid'] = $user;
+			$params['password'] = $password;
+			OCA\Encryption\Hooks::login($params);
+		}
 	}
 
 	public static function logoutHelper() {

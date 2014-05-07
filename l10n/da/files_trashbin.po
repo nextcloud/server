@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,44 +19,48 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/delete.php:42
+#: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Kunne ikke slette %s permanent"
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Kunne ikke gendanne %s"
 
-#: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
+#: js/filelist.js:3
+msgid "Deleted files"
+msgstr "Slettede filer"
+
+#: js/trash.js:33 js/trash.js:124 js/trash.js:173
 msgid "Error"
 msgstr "Fejl"
 
-#: lib/trashbin.php:815 lib/trashbin.php:817
+#: js/trash.js:264
+msgid "Deleted Files"
+msgstr "Slettede filer"
+
+#: lib/trashbin.php:859 lib/trashbin.php:861
 msgid "restored"
 msgstr "Gendannet"
 
-#: templates/index.php:8
+#: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Intet at se her. Din papirkurv er tom!"
 
-#: templates/index.php:22
+#: templates/index.php:19
 msgid "Name"
 msgstr "Navn"
 
-#: templates/index.php:25 templates/index.php:27
+#: templates/index.php:22 templates/index.php:24
 msgid "Restore"
 msgstr "Gendan"
 
-#: templates/index.php:33
+#: templates/index.php:30
 msgid "Deleted"
 msgstr "Slettet"
 
-#: templates/index.php:36 templates/index.php:37
+#: templates/index.php:33 templates/index.php:34
 msgid "Delete"
 msgstr "Slet"
-
-#: templates/part.breadcrumb.php:9
-msgid "Deleted Files"
-msgstr "Slettede filer"

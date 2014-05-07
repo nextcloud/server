@@ -25,8 +25,8 @@
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
-use OC\AppFramework\Http\RedirectResponse;
 use OC\AppFramework\Utility\MethodAnnotationReader;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;

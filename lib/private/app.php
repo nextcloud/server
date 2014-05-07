@@ -219,6 +219,8 @@ class OC_App{
 				$appdata=OC_OCSClient::getApplication($app);
 				$download=OC_OCSClient::getApplicationDownload($app, 1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
+					// Replace spaces in download link without encoding entire URL
+					$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 					$info = array('source'=>'http', 'href'=>$download['downloadlink'], 'appdata'=>$appdata);
 					$app=OC_Installer::installApp($info);
 				}
@@ -457,9 +459,11 @@ class OC_App{
 		return false;
 	}
 	/**
-	* Get the directory for the given app.
-	* If the app is defined in multiple directories, the first one is taken. (false if not found)
-	*/
+	 * Get the directory for the given app.
+	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
+	 * @param string $appid
+	 * @return string|false
+	 */
 	public static function getAppPath($appid) {
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
 			return $dir['path'].'/'.$appid;
@@ -468,9 +472,11 @@ class OC_App{
 	}
 
 	/**
-	* Get the path for the given app on the access
-	* If the app is defined in multiple directories, the first one is taken. (false if not found)
-	*/
+	 * Get the path for the given app on the access
+	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
+	 * @param string $appid
+	 * @return string|false
+	 */
 	public static function getAppWebPath($appid) {
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
 			return OC::$WEBROOT.$dir['url'].'/'.$appid;
@@ -480,6 +486,7 @@ class OC_App{
 
 	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
+	 * @param string $appid
 	 * @return string
 	 */
 	public static function getAppVersion($appid) {
@@ -561,7 +568,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the navigation
-	 * @return string
+	 * @return array
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys

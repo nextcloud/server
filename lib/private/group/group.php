@@ -172,18 +172,33 @@ class Group {
 		$users = array();
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			if (!is_null($limit)) {
-				$limit -= count($userIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($userIds);
-			}
 			$users += $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
 			}
 		}
 		return array_values($users);
+	}
+
+	/**
+	 * returns the number of users matching the search string
+	 *
+	 * @param string $search
+	 * @return int | bool
+	 */
+	public function count($search) {
+		$users = false;
+		foreach ($this->backends as $backend) {
+			if($backend->implementsActions(OC_GROUP_BACKEND_COUNT_USERS)) {
+				if($users === false) {
+					//we could directly add to a bool variable, but this would
+					//be ugly
+					$users = 0;
+				}
+				$users += $backend->countUsersInGroup($this->gid, $search);
+			}
+		}
+		return $users;
 	}
 
 	/**
@@ -197,17 +212,7 @@ class Group {
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
-				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
-			} else {
-				$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			}
-			if (!is_null($limit)) {
-				$limit -= count($userIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($userIds);
-			}
+			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users = $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);

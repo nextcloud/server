@@ -2,13 +2,14 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Impossibile eliminare %s definitivamente",
 "Couldn't restore %s" => "Impossibile ripristinare %s",
+"Deleted files" => "File eliminati",
 "Error" => "Errore",
+"Deleted Files" => "File eliminati",
 "restored" => "ripristinati",
 "Nothing in here. Your trash bin is empty!" => "Qui non c'è niente. Il tuo cestino è vuoto.",
 "Name" => "Nome",
 "Restore" => "Ripristina",
 "Deleted" => "Eliminati",
-"Delete" => "Elimina",
-"Deleted Files" => "File eliminati"
+"Delete" => "Elimina"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

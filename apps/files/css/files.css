@@ -51,7 +51,7 @@
 	margin: 5px;
 	padding-left: 42px;
 	padding-bottom: 2px;
-	background-position: initial;
+	background-position: left center;
 	cursor: pointer;
 }
 #new > ul > li > p {
@@ -77,10 +77,10 @@
 }
 /* make sure there's enough room for the file actions */
 #body-user #filestable {
-	min-width: 750px;
+	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 #body-user #controls {
-	min-width: 600px;
+	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
@@ -310,7 +310,6 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
 .selectedActions {
-	display: none;
 	position: absolute;
 	top: -1px;
 	right: 0;

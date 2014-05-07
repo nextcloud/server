@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mnestis <transifex@mnestis.net>, 2013
+# mnestis <transifex@mnestis.net>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-02 17:27-0500\n"
-"PO-Revision-Date: 2013-11-29 19:30+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 12:10+0000\n"
 "Last-Translator: mnestis <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -81,18 +81,18 @@ msgid ""
 "administrator"
 msgstr "Unknown error. Please check your system settings or contact your administrator"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Missing requirements."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Following users are not set up for encryption:"
 
@@ -100,9 +100,9 @@ msgstr "Following users are not set up for encryption:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Initial encryption started... This can take some time. Please wait."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Saving..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "Initial encryption running... Please try again later."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

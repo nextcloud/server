@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-17 06:45-0500\n"
-"PO-Revision-Date: 2013-12-17 11:45+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (Canada) (http://www.transifex.com/projects/p/owncloud/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,38 +17,49 @@ msgstr ""
 "Language: fr_CA\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: private/app.php:243
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr ""
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr ""
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr ""
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr ""
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr ""
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -61,103 +72,102 @@ msgstr ""
 msgid "Invalid image"
 msgstr ""
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr ""
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr ""
-
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr ""
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr ""
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr ""
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr ""
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr ""
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr ""
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
+msgstr ""
+
+#: private/json.php:74
+msgid "Unknown user"
 msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
@@ -193,13 +203,13 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
+msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
@@ -207,9 +217,9 @@ msgstr ""
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
@@ -218,29 +228,29 @@ msgstr ""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
 msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
+msgid "Drop this user from MySQL/MariaDB"
 msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
 msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
+msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
 #: private/setup/oci.php:34
@@ -256,7 +266,7 @@ msgstr ""
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
@@ -268,66 +278,193 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: private/setup.php:195
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: private/setup.php:196
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr ""
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr ""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr ""
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr ""
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr ""
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr ""
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr ""
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
+msgstr ""
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr ""
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr ""
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
 msgstr ""

@@ -23,6 +23,9 @@ require_once __DIR__ . '/base.php';
 
 class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 
+	private $sharedStorageRestrictedShare;
+	private $sharedCacheRestrictedShare;
+
 	function setUp() {
 		parent::setUp();
 
@@ -55,8 +58,10 @@ class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 
 		// retrieve the shared storage
 		$this->secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $this->secondView->resolvePath('files/Shared/shareddir');
+		list($this->sharedStorage, $internalPath) = $this->secondView->resolvePath('files/shareddir');
+		list($this->sharedStorageRestrictedShare, $internalPath) = $this->secondView->resolvePath('files/shareddirrestricted');
 		$this->sharedCache = $this->sharedStorage->getCache();
+		$this->sharedCacheRestrictedShare = $this->sharedStorageRestrictedShare->getCache();
 	}
 
 	function tearDown() {
@@ -86,9 +91,9 @@ class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 		$this->assertEquals(31, $sharedDirPerms);
 		$sharedDirPerms = $this->sharedStorage->getPermissions('shareddir/textfile.txt');
 		$this->assertEquals(31, $sharedDirPerms);
-		$sharedDirRestrictedPerms = $this->sharedStorage->getPermissions('shareddirrestricted');
+		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('shareddirrestricted');
 		$this->assertEquals(7, $sharedDirRestrictedPerms);
-		$sharedDirRestrictedPerms = $this->sharedStorage->getPermissions('shareddirrestricted/textfile.txt');
+		$sharedDirRestrictedPerms = $this->sharedStorageRestrictedShare->getPermissions('shareddirrestricted/textfile.txt');
 		$this->assertEquals(7, $sharedDirRestrictedPerms);
 	}
 
@@ -96,12 +101,12 @@ class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 	 * Test that the permissions of shared directory are returned correctly
 	 */
 	function testGetDirectoryPermissions() {
-		$contents = $this->secondView->getDirectoryContent('files/Shared/shareddir');
+		$contents = $this->secondView->getDirectoryContent('files/shareddir');
 		$this->assertEquals('subdir', $contents[0]['name']);
 		$this->assertEquals(31, $contents[0]['permissions']);
 		$this->assertEquals('textfile.txt', $contents[1]['name']);
 		$this->assertEquals(31, $contents[1]['permissions']);
-		$contents = $this->secondView->getDirectoryContent('files/Shared/shareddirrestricted');
+		$contents = $this->secondView->getDirectoryContent('files/shareddirrestricted');
 		$this->assertEquals('subdir', $contents[0]['name']);
 		$this->assertEquals(7, $contents[0]['permissions']);
 		$this->assertEquals('textfile1.txt', $contents[1]['name']);

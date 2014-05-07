@@ -21,13 +21,8 @@ $TRANSLATIONS = array(
 "%s you may not use dots in the database name" => "%s არ მიუთითოთ წერტილი ბაზის სახელში",
 "MS SQL username and/or password not valid: %s" => "MS SQL მომხმარებელი და/ან პაროლი არ არის მართებული: %s",
 "You need to enter either an existing account or the administrator." => "თქვენ უნდა შეიყვანოთ არსებული მომხმარებელის სახელი ან ადმინისტრატორი.",
-"MySQL username and/or password not valid" => "MySQL იუზერნეიმი და/ან პაროლი არ არის სწორი",
 "DB Error: \"%s\"" => "DB შეცდომა: \"%s\"",
 "Offending command was: \"%s\"" => "Offending ბრძანება იყო: \"%s\"",
-"MySQL user '%s'@'localhost' exists already." => "MySQL მომხმარებელი '%s'@'localhost' უკვე არსებობს.",
-"Drop this user from MySQL" => "წაშალე ეს მომხამრებელი MySQL–იდან",
-"MySQL user '%s'@'%%' already exists" => "MySQL მომხმარებელი '%s'@'%%' უკვე არსებობს",
-"Drop this user from MySQL." => "წაშალე ეს მომხამრებელი MySQL–იდან",
 "Oracle username and/or password not valid" => "Oracle იუზერნეიმი და/ან პაროლი არ არის სწორი",
 "Offending command was: \"%s\", name: %s, password: %s" => "Offending ბრძანება იყო: \"%s\", სახელი: %s, პაროლი: %s",
 "PostgreSQL username and/or password not valid" => "PostgreSQL იუზერნეიმი და/ან პაროლი არ არის სწორი",
@@ -45,6 +40,8 @@ $TRANSLATIONS = array(
 "last month" => "გასულ თვეში",
 "_%n month ago_::_%n months ago_" => array(""),
 "last year" => "ბოლო წელს",
-"years ago" => "წლის წინ"
+"years ago" => "წლის წინ",
+"A valid username must be provided" => "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
+"A valid password must be provided" => "უნდა მიუთითოთ არსებული პაროლი"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

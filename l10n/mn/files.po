@@ -1,0 +1,405 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-04-29 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 05:55+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Mongolian (http://www.transifex.com/projects/p/owncloud/language/mn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: mn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:15
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:25 ajax/move.php:28
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/newfile.php:58 js/files.js:96
+msgid "File name cannot be empty."
+msgstr ""
+
+#: ajax/newfile.php:63
+#, php-format
+msgid "\"%s\" is an invalid file name."
+msgstr ""
+
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: lib/app.php:60
+msgid "The target folder has been moved or deleted."
+msgstr ""
+
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#, php-format
+msgid ""
+"The name %s is already used in the folder %s. Please choose a different "
+"name."
+msgstr ""
+
+#: ajax/newfile.php:97
+msgid "Not a valid source"
+msgstr ""
+
+#: ajax/newfile.php:102
+msgid ""
+"Server is not allowed to open URLs, please check the server configuration"
+msgstr ""
+
+#: ajax/newfile.php:118
+#, php-format
+msgid "Error while downloading %s to %s"
+msgstr ""
+
+#: ajax/newfile.php:146
+msgid "Error when creating the file"
+msgstr ""
+
+#: ajax/newfolder.php:22
+msgid "Folder name cannot be empty."
+msgstr ""
+
+#: ajax/newfolder.php:66
+msgid "Error when creating the folder"
+msgstr ""
+
+#: ajax/upload.php:19 ajax/upload.php:57
+msgid "Unable to set upload directory."
+msgstr ""
+
+#: ajax/upload.php:33
+msgid "Invalid Token"
+msgstr ""
+
+#: ajax/upload.php:75
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: ajax/upload.php:82
+msgid "There is no error, the file uploaded with success"
+msgstr ""
+
+#: ajax/upload.php:83
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
+
+#: ajax/upload.php:85
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/upload.php:86
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: ajax/upload.php:87
+msgid "No file was uploaded"
+msgstr ""
+
+#: ajax/upload.php:88
+msgid "Missing a temporary folder"
+msgstr ""
+
+#: ajax/upload.php:89
+msgid "Failed to write to disk"
+msgstr ""
+
+#: ajax/upload.php:107
+msgid "Not enough storage available"
+msgstr ""
+
+#: ajax/upload.php:169
+msgid "Upload failed. Could not find uploaded file"
+msgstr ""
+
+#: ajax/upload.php:179
+msgid "Upload failed. Could not get file info."
+msgstr ""
+
+#: ajax/upload.php:194
+msgid "Invalid directory."
+msgstr ""
+
+#: appinfo/app.php:11 js/filelist.js:14
+msgid "Files"
+msgstr ""
+
+#: js/file-upload.js:254
+msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/file-upload.js:266
+msgid "Total file size {size1} exceeds upload limit {size2}"
+msgstr ""
+
+#: js/file-upload.js:276
+msgid ""
+"Not enough free space, you are uploading {size1} but only {size2} is left"
+msgstr ""
+
+#: js/file-upload.js:353
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/file-upload.js:398
+msgid "Could not get result from server."
+msgstr ""
+
+#: js/file-upload.js:490
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/file-upload.js:555
+msgid "URL cannot be empty"
+msgstr ""
+
+#: js/file-upload.js:559 js/filelist.js:963
+msgid "{new_name} already exists"
+msgstr ""
+
+#: js/file-upload.js:611
+msgid "Could not create file"
+msgstr ""
+
+#: js/file-upload.js:624
+msgid "Could not create folder"
+msgstr ""
+
+#: js/file-upload.js:664
+msgid "Error fetching URL"
+msgstr ""
+
+#: js/fileactions.js:160
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:173
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:234
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:221
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr ""
+
+#: js/filelist.js:502 js/filelist.js:1419
+msgid "Pending"
+msgstr ""
+
+#: js/filelist.js:916
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error moving file"
+msgstr ""
+
+#: js/filelist.js:924
+msgid "Error"
+msgstr ""
+
+#: js/filelist.js:988
+msgid "Could not rename file"
+msgstr ""
+
+#: js/filelist.js:1119
+msgid "Error deleting file."
+msgstr ""
+
+#: js/filelist.js:1221 templates/index.php:67
+msgid "Name"
+msgstr ""
+
+#: js/filelist.js:1222 templates/index.php:79
+msgid "Size"
+msgstr ""
+
+#: js/filelist.js:1223 templates/index.php:81
+msgid "Modified"
+msgstr ""
+
+#: js/filelist.js:1232 js/filesummary.js:141 js/filesummary.js:168
+msgid "%n folder"
+msgid_plural "%n folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/filelist.js:1238 js/filesummary.js:142 js/filesummary.js:169
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/filelist.js:1327 js/filelist.js:1366
+msgid "Uploading %n file"
+msgid_plural "Uploading %n files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/files.js:94
+msgid "\"{name}\" is an invalid file name."
+msgstr ""
+
+#: js/files.js:115
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr ""
+
+#: js/files.js:119
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
+
+#: js/files.js:133
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: js/files.js:137
+msgid ""
+"Invalid private key for Encryption App. Please update your private key "
+"password in your personal settings to recover access to your encrypted "
+"files."
+msgstr ""
+
+#: js/files.js:141
+msgid ""
+"Encryption was disabled but your files are still encrypted. Please go to "
+"your personal settings to decrypt your files."
+msgstr ""
+
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr ""
+
+#: lib/app.php:86
+#, php-format
+msgid "%s could not be renamed"
+msgstr ""
+
+#: lib/helper.php:14 templates/index.php:22
+#, php-format
+msgid "Upload (max. %s)"
+msgstr ""
+
+#: templates/admin.php:4
+msgid "File handling"
+msgstr ""
+
+#: templates/admin.php:6
+msgid "Maximum upload size"
+msgstr ""
+
+#: templates/admin.php:9
+msgid "max. possible: "
+msgstr ""
+
+#: templates/admin.php:14
+msgid "Needed for multi-file and folder downloads."
+msgstr ""
+
+#: templates/admin.php:16
+msgid "Enable ZIP-download"
+msgstr ""
+
+#: templates/admin.php:19
+msgid "0 is unlimited"
+msgstr ""
+
+#: templates/admin.php:21
+msgid "Maximum input size for ZIP files"
+msgstr ""
+
+#: templates/admin.php:25
+msgid "Save"
+msgstr ""
+
+#: templates/index.php:5
+msgid "New"
+msgstr ""
+
+#: templates/index.php:8
+msgid "New text file"
+msgstr ""
+
+#: templates/index.php:9
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:12
+msgid "New folder"
+msgstr ""
+
+#: templates/index.php:13
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:16
+msgid "From link"
+msgstr ""
+
+#: templates/index.php:40
+msgid "Deleted files"
+msgstr ""
+
+#: templates/index.php:45
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/index.php:51
+msgid "You don’t have permission to upload or create files here"
+msgstr ""
+
+#: templates/index.php:56
+msgid "Nothing in here. Upload something!"
+msgstr ""
+
+#: templates/index.php:73
+msgid "Download"
+msgstr ""
+
+#: templates/index.php:84 templates/index.php:85
+msgid "Delete"
+msgstr ""
+
+#: templates/index.php:98
+msgid "Upload too large"
+msgstr ""
+
+#: templates/index.php:100
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: templates/index.php:105
+msgid "Files are being scanned, please wait."
+msgstr ""
+
+#: templates/index.php:108
+msgid "Current scanning"
+msgstr ""

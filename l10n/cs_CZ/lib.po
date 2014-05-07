@@ -5,15 +5,18 @@
 # Translators:
 # Honza K. <honza889@gmail.com>, 2013
 # liska_, 2013
-# pstast <petr@stastny.eu>, 2013
+# svetlemodry <jaroslav@lichtblau.cz>, 2014
+# xmorave2 <josef.moravec@gmail.com>, 2014
+# m23 <black23@gmail.com>, 2014
+# pstast <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,38 +24,49 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: private/app.php:243
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr "Přistupujete na server z nedůvěryhodné domény."
+
+#: base.php:724
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Nebyl zadan název aplikace"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Nápověda"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Osobní"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Nastavení"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Uživatelé"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Administrace"
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -65,104 +79,103 @@ msgstr "Neznámý typ souboru"
 msgid "Invalid image"
 msgstr "Chybný obrázek"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "nelze otevřít \"%s\""
-
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "Stahování v ZIPu je vypnuto."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Soubory musí být stahovány jednotlivě."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Zpět k souborům"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Vybrané soubory jsou příliš velké pro vytvoření ZIP souboru."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr "Prosím stáhněte soubory odděleně po menších množstvích nebo požádejte vašeho správce."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Nebyl zadán zdroj při instalaci aplikace"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Nebyl zadán odkaz pro instalaci aplikace z HTTP"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Nebyla zadána cesta pro instalaci aplikace z místního souboru"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Archivy typu %s nejsou podporovány"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Chyba při otevírání archivu během instalace aplikace"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Aplikace neposkytuje soubor info.xml"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikace nemůže být nainstalována, protože obsahuje nepovolený kód"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikace nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikace nemůže být nainstalována, protože obsahuje značku\n<shipped>\n\ntrue\n</shipped>\n\ncož není povoleno pro nedodávané aplikace"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Aplikace nemůže být nainstalována, protože verze uvedená v info.xml/version nesouhlasí s verzí oznámenou z úložiště aplikací."
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Adresář aplikace již existuje"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nelze vytvořit složku aplikace. Opravte práva souborů. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Aplikace není povolena"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Chyba ověření"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token vypršel. Obnovte prosím stránku."
+
+#: private/json.php:74
+msgid "Unknown user"
+msgstr "Neznámý uživatel"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -197,23 +210,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Uživatelské jméno či heslo MSSQL není platné: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Musíte zadat existující účet či správce."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "Uživatelské jméno či heslo MySQL není platné"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr "MySQL/MariaDB uživatelské jméno a/nebo heslo je neplatné"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Chyba databáze: \"%s\""
@@ -222,30 +235,30 @@ msgstr "Chyba databáze: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Příslušný příkaz byl: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Uživatel '%s'@'localhost' již v MySQL existuje."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr "MySQL/MariaDB uživatel '%s'@'localhost' již existuje."
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Zrušte tohoto uživatele z MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr "Smazat tohoto uživatele z MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Uživatel '%s'@'%%' již v MySQL existuje"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr "MySQL/MariaDB uživatel '%s'@'%%' již existuje"
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Zrušte tohoto uživatele z MySQL"
+msgid "Drop this user from MySQL/MariaDB."
+msgstr "Smazat tohoto uživatele z MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -260,7 +273,7 @@ msgstr "Uživatelské jméno či heslo Oracle není platné"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Příslušný příkaz byl: \"%s\", jméno: %s, heslo: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Uživatelské jméno či heslo PostgreSQL není platné"
 
@@ -272,70 +285,197 @@ msgstr "Zadejte uživatelské jméno správce."
 msgid "Set an admin password."
 msgstr "Zadejte heslo správce."
 
-#: private/setup.php:195
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité."
 
-#: private/setup.php:196
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s s vámi sdílí »%s«"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr "Sdílení %s selhalo, protože soubor neexistuje"
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s je jejím vlastníkem"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s neexistuje"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s není členem žádné skupiny společné s uživatelem %s"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Sdílení položky %s selhalo, protože položka již je s uživatelem %s sdílena"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Sdílení položky %s selhalo, protože skupina %s neexistuje"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Sdílení položky %s selhalo, protože sdílení pomocí linků není povoleno"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "Nastavení práv pro %s selhalo, protože položka nebyla nalezena"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Nelze nalézt kategorii \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "před pár sekundami"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr "dnes"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "včera"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "minulý rok"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "před lety"
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\" a \"_.@-\""
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr "Musíte zadat platné uživatelské jméno"
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr "Musíte zadat platné heslo"
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
+msgstr "Uživatelské jméno je již využíváno"

@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-04-23 01:54-0400\n"
+"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Basque (Spain) (http://www.transifex.com/projects/p/owncloud/language/eu_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,227 +17,508 @@ msgstr ""
 "Language: eu_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/vcategories/add.php:29
-msgid "No category to add?"
+#: ajax/share.php:119 ajax/share.php:161
+#, php-format
+msgid "Couldn't send mail to following users: %s "
 msgstr ""
 
-#: ajax/vcategories/add.php:36
-msgid "This category already exists: "
+#: ajax/update.php:10
+msgid "Turned on maintenance mode"
 msgstr ""
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
+#: ajax/update.php:13
+msgid "Turned off maintenance mode"
 msgstr ""
 
-#: js/js.js:670
+#: ajax/update.php:16
+msgid "Updated database"
+msgstr ""
+
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr ""
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr ""
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr ""
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr ""
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr ""
+
+#: js/config.php:36
+msgid "Sunday"
+msgstr ""
+
+#: js/config.php:37
+msgid "Monday"
+msgstr ""
+
+#: js/config.php:38
+msgid "Tuesday"
+msgstr ""
+
+#: js/config.php:39
+msgid "Wednesday"
+msgstr ""
+
+#: js/config.php:40
+msgid "Thursday"
+msgstr ""
+
+#: js/config.php:41
+msgid "Friday"
+msgstr ""
+
+#: js/config.php:42
+msgid "Saturday"
+msgstr ""
+
+#: js/config.php:47
 msgid "January"
 msgstr ""
 
-#: js/js.js:670
+#: js/config.php:48
 msgid "February"
 msgstr ""
 
-#: js/js.js:670
+#: js/config.php:49
 msgid "March"
 msgstr ""
 
-#: js/js.js:670
+#: js/config.php:50
 msgid "April"
 msgstr ""
 
-#: js/js.js:670
+#: js/config.php:51
 msgid "May"
 msgstr ""
 
-#: js/js.js:670
+#: js/config.php:52
 msgid "June"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:53
 msgid "July"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:54
 msgid "August"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:55
 msgid "September"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:56
 msgid "October"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:57
 msgid "November"
 msgstr ""
 
-#: js/js.js:671
+#: js/config.php:58
 msgid "December"
 msgstr ""
 
-#: js/oc-dialogs.js:123
+#: js/js.js:489
+msgid "Settings"
+msgstr ""
+
+#: js/js.js:589
+msgid "Saving..."
+msgstr ""
+
+#: js/js.js:1246
+msgid "seconds ago"
+msgstr ""
+
+#: js/js.js:1247
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/js.js:1248
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/js.js:1249
+msgid "today"
+msgstr ""
+
+#: js/js.js:1250
+msgid "yesterday"
+msgstr ""
+
+#: js/js.js:1251
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/js.js:1252
+msgid "last month"
+msgstr ""
+
+#: js/js.js:1253
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/js.js:1254
+msgid "last year"
+msgstr ""
+
+#: js/js.js:1255
+msgid "years ago"
+msgstr ""
+
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr ""
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr ""
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
+#: js/oc-dialogs.js:151
+msgid "Error loading file picker template: {error}"
 msgstr ""
 
 #: js/oc-dialogs.js:177
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:187
+msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr ""
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
+#: js/oc-dialogs.js:224
+msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-dialogs.js:352
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/oc-dialogs.js:366
+msgid "One file conflict"
+msgstr ""
+
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:375
+msgid "Which files do you want to keep?"
+msgstr ""
+
+#: js/oc-dialogs.js:376
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr ""
+
+#: js/oc-dialogs.js:384
+msgid "Cancel"
+msgstr "Ezeztatu"
+
+#: js/oc-dialogs.js:394
+msgid "Continue"
+msgstr ""
+
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+msgid "(all selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+msgid "({count} selected)"
+msgstr ""
+
+#: js/oc-dialogs.js:466
+msgid "Error loading file exists template"
+msgstr ""
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr ""
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr ""
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr ""
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr ""
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr ""
+
+#: js/share.js:51 js/share.js:66 js/share.js:106
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:109
+msgid "Share"
+msgstr ""
+
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:103
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:114
+#: js/share.js:171
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:121
+#: js/share.js:178
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:130
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:132
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:137
-msgid "Share with"
+#: js/share.js:214
+msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:142
-msgid "Share with link"
+#: js/share.js:220
+msgid "Share link"
 msgstr ""
 
-#: js/share.js:143
+#: js/share.js:223
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr ""
 
-#: js/share.js:152
+#: js/share.js:230
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:234
+msgid "Email link to person"
+msgstr ""
+
+#: js/share.js:235
+msgid "Send"
+msgstr ""
+
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:153
+#: js/share.js:241
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:185
+#: js/share.js:277
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:187
+#: js/share.js:280
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:214
+#: js/share.js:324 js/share.js:385
+msgid "group"
+msgstr ""
+
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:250
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:271
+#: js/share.js:423
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:283
+#: js/share.js:431
+msgid "notify by email"
+msgstr ""
+
+#: js/share.js:434
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:285
+#: js/share.js:436
 msgid "access control"
 msgstr ""
 
-#: js/share.js:288
+#: js/share.js:439
 msgid "create"
 msgstr ""
 
-#: js/share.js:291
+#: js/share.js:442
 msgid "update"
 msgstr ""
 
-#: js/share.js:294
+#: js/share.js:445
 msgid "delete"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:448
 msgid "share"
 msgstr ""
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:721
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:497
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:509
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr ""
 
-#: lostpassword/index.php:26
-msgid "ownCloud password reset"
+#: js/share.js:777
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:788
+msgid "Email sent"
+msgstr ""
+
+#: js/share.js:812
+msgid "Warning"
+msgstr ""
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr ""
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "Ezabatu"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr ""
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr ""
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr ""
+
+#: js/tags.js:264
+msgid "No tags selected for deletion."
+msgstr ""
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr ""
+
+#: js/update.js:17
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:21
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
+#: lostpassword/controller.php:70
+#, php-format
+msgid "%s password reset"
+msgstr ""
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
 msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:7
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:14
-msgid "Request reset"
+#: lostpassword/templates/lostpassword.php:25
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:27
+msgid "Yes, I really want to reset my password now"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
 msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
@@ -256,15 +537,27 @@ msgstr ""
 msgid "Reset password"
 msgstr ""
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr ""
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr ""
+
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Pertsonala"
 
 #: strings.php:6
 msgid "Users"
 msgstr ""
 
-#: strings.php:7
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr ""
 
@@ -276,148 +569,237 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr ""
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr ""
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr ""
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr ""
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr ""
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr ""
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr ""
+
 #: templates/403.php:12
 msgid "Access forbidden"
 msgstr ""
 
-#: templates/404.php:12
+#: templates/404.php:15
 msgid "Cloud not found"
 msgstr ""
 
-#: templates/edit_categories_dialog.php:4
-msgid "Edit categories"
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
 msgstr ""
 
-#: templates/edit_categories_dialog.php:14
-msgid "Add"
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
 msgstr ""
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr ""
+
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
 msgid "Security Warning"
 msgstr ""
 
-#: templates/installation.php:24
+#: templates/installation.php:26
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:27
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr ""
+
+#: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:26
+#: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:36
-msgid "Create an <strong>admin account</strong>"
+#: templates/installation.php:42
+#, php-format
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"%s\" target=\"_blank\">documentation</a>."
 msgstr ""
 
 #: templates/installation.php:48
-msgid "Advanced"
+msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:50
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr ""
+
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:57
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:94
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:105
+#: templates/installation.php:109
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:118
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:113
+#: templates/installation.php:123
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:121
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:127
+#: templates/installation.php:140
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:132
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
+#: templates/installation.php:150
+msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr ""
+
+#: templates/layout.user.php:44
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr ""
 
-#: templates/login.php:8
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:9
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:15
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr ""
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr ""
+
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:27
+#: templates/login.php:51
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:28
+#: templates/login.php:54
 msgid "Log in"
 msgstr ""
 
-#: templates/logout.php:1
-msgid "You are logged out."
+#: templates/login.php:60
+msgid "Alternative Logins"
 msgstr ""
 
-#: templates/part.pagenavi.php:3
-msgid "prev"
-msgstr ""
-
-#: templates/part.pagenavi.php:20
-msgid "next"
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
+#: templates/mail.php:15
+#, php-format
 msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
-#: templates/verify.php:16
-msgid "Verify"
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr ""
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr ""
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr ""
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr ""
+
+#: templates/update.admin.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr ""
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
 msgstr ""

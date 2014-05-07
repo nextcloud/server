@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Text" => "Tekst",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Tenaren din er ikkje enno rett innstilt til å tilby filsynkronisering sidan WebDAV-grensesnittet ser ut til å vera øydelagt.",
 "Please double check the <a href='%s'>installation guides</a>." => "Ver venleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>.",
+"%s shared »%s« with you" => "%s delte «%s» med deg",
 "seconds ago" => "sekund sidan",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutt sidan"),
 "_%n hour ago_::_%n hours ago_" => array("","%n timar sidan"),
@@ -22,6 +23,8 @@ $TRANSLATIONS = array(
 "last month" => "førre månad",
 "_%n month ago_::_%n months ago_" => array("","%n månadar sidan"),
 "last year" => "i fjor",
-"years ago" => "år sidan"
+"years ago" => "år sidan",
+"A valid username must be provided" => "Du må oppgje eit gyldig brukarnamn",
+"A valid password must be provided" => "Du må oppgje eit gyldig passord"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

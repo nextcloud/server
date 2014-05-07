@@ -36,6 +36,7 @@ $(document).ready(function() {
 
 	$('#showAdvanced').click(function() {
 		$('#datadirContent').slideToggle(250);
+		$('#databaseBackend').slideToggle(250);
 		$('#databaseField').slideToggle(250);
 	});
 	$("form").submit(function(){
@@ -73,6 +74,7 @@ $(document).ready(function() {
 
 	if (currentDbType === 'sqlite' || (dbtypes.sqlite && currentDbType === undefined)){
 		$('#datadirContent').hide(250);
+		$('#databaseBackend').hide(250);
 		$('#databaseField').hide(250);
 	}
 

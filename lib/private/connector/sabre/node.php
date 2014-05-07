@@ -20,7 +20,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
@@ -29,15 +28,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * Allow configuring the method used to generate Etags
 	 *
 	 * @var array(class_name, function_name)
-	*/
+	 */
 	public static $ETagFunction = null;
 
 	/**
-	 * is kept public to allow overwrite for unit testing
-	 *
 	 * @var \OC\Files\View
 	 */
-	public $fileView;
+	protected $fileView;
 
 	/**
 	 * The path to the current node
@@ -47,52 +44,54 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	protected $path;
 
 	/**
-	 * node fileinfo cache
-	 * @var array
-	 */
-	protected $fileinfo_cache;
-	/**
 	 * node properties cache
+	 *
 	 * @var array
 	 */
 	protected $property_cache = null;
 
 	/**
-	 * @brief Sets up the node, expects a full path name
-	 * @param string $path
-	 * @return void
+	 * @var \OCP\Files\FileInfo
 	 */
-	public function __construct($path) {
-		$this->path = $path;
+	protected $info;
+
+	/**
+	 * @brief Sets up the node, expects a full path name
+	 * @param \OC\Files\View $view
+	 * @param \OCP\Files\FileInfo $info
+	 */
+	public function __construct($view, $info) {
+		$this->fileView = $view;
+		$this->path = $this->fileView->getRelativePath($info->getPath());
+		$this->info = $info;
 	}
 
-
+	protected function refreshInfo() {
+		$this->info = $this->fileView->getFileInfo($this->path);
+	}
 
 	/**
 	 * @brief  Returns the name of the node
 	 * @return string
 	 */
 	public function getName() {
-
-		list(, $name)  = Sabre_DAV_URLUtil::splitPath($this->path);
-		return $name;
-
+		return $this->info->getName();
 	}
 
 	/**
 	 * @brief Renames the node
 	 * @param string $name The new name
-	 * @return void
+	 * @throws Sabre_DAV_Exception_BadRequest
+	 * @throws Sabre_DAV_Exception_Forbidden
 	 */
 	public function setName($name) {
-		$fs = $this->getFS();
 
 		// rename is only allowed if the update privilege is granted
-		if (!$fs->isUpdatable($this->path)) {
+		if (!$this->info->isUpdateable()) {
 			throw new \Sabre_DAV_Exception_Forbidden();
 		}
 
-		list($parentPath, ) = Sabre_DAV_URLUtil::splitPath($this->path);
+		list($parentPath,) = Sabre_DAV_URLUtil::splitPath($this->path);
 		list(, $newName) = Sabre_DAV_URLUtil::splitPath($name);
 
 		if (!\OCP\Util::isValidFileName($newName)) {
@@ -102,49 +101,30 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		$fs->rename($this->path, $newPath);
+		$this->fileView->rename($this->path, $newPath);
 
 		$this->path = $newPath;
 
-		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ?'
-			.' WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( $newPath, OC_User::getUser(), $oldPath ));
-
+		$query = OC_DB::prepare('UPDATE `*PREFIX*properties` SET `propertypath` = ?'
+			. ' WHERE `userid` = ? AND `propertypath` = ?');
+		$query->execute(array($newPath, OC_User::getUser(), $oldPath));
+		$this->refreshInfo();
 	}
 
-	public function setFileinfoCache($fileinfo_cache)
-	{
-		$this->fileinfo_cache = $fileinfo_cache;
-	}
-
-	/**
-	 * @brief Ensure that the fileinfo cache is filled
-	 * @note Uses OC_FileCache or a direct stat
-	 */
-	protected function getFileinfoCache() {
-		if (!isset($this->fileinfo_cache)) {
-			if ($fileinfo_cache = \OC\Files\Filesystem::getFileInfo($this->path)) {
-			} else {
-				$fileinfo_cache = \OC\Files\Filesystem::stat($this->path);
-			}
-
-			$this->fileinfo_cache = $fileinfo_cache;
-		}
-	}
-
-	public function setPropertyCache($property_cache)
-	{
+	public function setPropertyCache($property_cache) {
 		$this->property_cache = $property_cache;
 	}
 
 	/**
 	 * @brief Returns the last modification time, as a unix timestamp
-	 * @return int
+	 * @return int timestamp as integer
 	 */
 	public function getLastModified() {
-		$this->getFileinfoCache();
-		return $this->fileinfo_cache['mtime'];
-
+		$timestamp = $this->info->getMtime();
+		if (!empty($timestamp)) {
+			return (int)$timestamp;
+		}
+		return $timestamp;
 	}
 
 	/**
@@ -153,39 +133,40 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
 	public function touch($mtime) {
-		\OC\Files\Filesystem::touch($this->path, $mtime);
+		$this->fileView->touch($this->path, $mtime);
+		$this->refreshInfo();
 	}
 
 	/**
 	 * @brief Updates properties on this node,
 	 * @see Sabre_DAV_IProperties::updateProperties
+	 * @param array $properties
 	 * @return boolean
 	 */
 	public function updateProperties($properties) {
 		$existing = $this->getProperties(array());
-		foreach($properties as $propertyName => $propertyValue) {
+		foreach ($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
-				if(array_key_exists( $propertyName, $existing )) {
-					$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
-						.' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-					$query->execute( array( OC_User::getUser(), $this->path, $propertyName ));
+				if (array_key_exists($propertyName, $existing)) {
+					$query = OC_DB::prepare('DELETE FROM `*PREFIX*properties`'
+						. ' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?');
+					$query->execute(array(OC_User::getUser(), $this->path, $propertyName));
 				}
-			}
-			else {
-				if( strcmp( $propertyName, self::GETETAG_PROPERTYNAME) === 0 ) {
-					\OC\Files\Filesystem::putFileInfo($this->path, array('etag'=> $propertyValue));
-				} elseif( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0 ) {
+			} else {
+				if (strcmp($propertyName, self::GETETAG_PROPERTYNAME) === 0) {
+					\OC\Files\Filesystem::putFileInfo($this->path, array('etag' => $propertyValue));
+				} elseif (strcmp($propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0) {
 					$this->touch($propertyValue);
 				} else {
-					if(!array_key_exists( $propertyName, $existing )) {
-						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties`'
-							.' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
+					if (!array_key_exists($propertyName, $existing)) {
+						$query = OC_DB::prepare('INSERT INTO `*PREFIX*properties`'
+							. ' (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)');
+						$query->execute(array(OC_User::getUser(), $this->path, $propertyName, $propertyValue));
 					} else {
-						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ?'
-							.' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
+						$query = OC_DB::prepare('UPDATE `*PREFIX*properties` SET `propertyvalue` = ?'
+							. ' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?');
+						$query->execute(array($propertyValue, OC_User::getUser(), $this->path, $propertyName));
 					}
 				}
 			}
@@ -199,9 +180,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * removes all properties for this node and user
 	 */
 	public function removeProperties() {
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
-		.' WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( OC_User::getUser(), $this->path));
+		$query = OC_DB::prepare('DELETE FROM `*PREFIX*properties`'
+			. ' WHERE `userid` = ? AND `propertypath` = ?');
+		$query->execute(array(OC_User::getUser(), $this->path));
 
 		$this->setPropertyCache(null);
 	}
@@ -219,29 +200,23 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 		if (is_null($this->property_cache)) {
 			$sql = 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?';
-			$result = OC_DB::executeAudited( $sql, array( OC_User::getUser(), $this->path ) );
+			$result = OC_DB::executeAudited($sql, array(OC_User::getUser(), $this->path));
 
 			$this->property_cache = array();
-			while( $row = $result->fetchRow()) {
+			while ($row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
 
-			// Don't call the static getETagPropertyForPath, its result is not cached
-			$this->getFileinfoCache();
-			if ($this->fileinfo_cache['etag']) {
-				$this->property_cache[self::GETETAG_PROPERTYNAME] = '"'.$this->fileinfo_cache['etag'].'"';
-			} else {
-				$this->property_cache[self::GETETAG_PROPERTYNAME] = null;
-			}
+			$this->property_cache[self::GETETAG_PROPERTYNAME] = '"' . $this->info->getEtag() . '"';
 		}
 
 		// if the array was empty, we need to return everything
-		if(count($properties) == 0) {
+		if (count($properties) == 0) {
 			return $this->property_cache;
 		}
 
 		$props = array();
-		foreach($properties as $property) {
+		foreach ($properties as $property) {
 			if (isset($this->property_cache[$property])) {
 				$props[$property] = $this->property_cache[$property];
 			}
@@ -251,35 +226,12 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Returns the ETag surrounded by double-quotes for this path.
-	 * @param string $path Path of the file
-	 * @return string|null Returns null if the ETag can not effectively be determined
-	 */
-	protected function getETagPropertyForPath($path) {
-		$data = $this->getFS()->getFileInfo($path);
-		if (isset($data['etag'])) {
-			return '"'.$data['etag'].'"';
-		}
-		return null;
-	}
-
-	protected function getFS() {
-		if (is_null($this->fileView)) {
-			$this->fileView = \OC\Files\Filesystem::getView();
-		}
-		return $this->fileView;
-	}
-
-	/**
 	 * @return string|null
 	 */
-	public function getFileId()
-	{
-		$this->getFileinfoCache();
-
-		if (isset($this->fileinfo_cache['fileid'])) {
+	public function getFileId() {
+		if ($this->info->getId()) {
 			$instanceId = OC_Util::getInstanceId();
-			$id = sprintf('%08d', $this->fileinfo_cache['fileid']);
+			$id = sprintf('%08d', $this->info->getId());
 			return $id . $instanceId;
 		}
 

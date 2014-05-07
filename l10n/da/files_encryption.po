@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sappe, 2013
+# Sappe, 2013-2014
 # claus_chr <claus_chr@webspeed.dk>, 2013
 # lodahl <leiflodahl@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-22 01:55-0500\n"
-"PO-Revision-Date: 2013-12-21 18:40+0000\n"
-"Last-Translator: lodahl <leiflodahl@gmail.com>\n"
+"POT-Creation-Date: 2014-03-13 01:55-0400\n"
+"PO-Revision-Date: 2014-03-12 12:00+0000\n"
+"Last-Translator: Sappe\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,18 +83,18 @@ msgid ""
 "administrator"
 msgstr "Ukendt fejl. Kontroller venligst dit system eller kontakt din administrator"
 
-#: hooks/hooks.php:62
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Manglende betingelser."
 
-#: hooks/hooks.php:63
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Sørg for at PHP 5.3.3 eller nyere er installeret og at OpenSSL sammen med PHP-udvidelsen er aktiveret og korrekt konfigureret. Indtil videre er krypteringsprogrammet deaktiveret."
 
-#: hooks/hooks.php:281
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Følgende brugere er ikke sat op til kryptering:"
 
@@ -102,9 +102,9 @@ msgstr "Følgende brugere er ikke sat op til kryptering:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Førstegangskryptering er påbegyndt... Dette kan tage nogen tid. Vent venligst."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Gemmer..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "Kryptering foretages... Prøv venligst igen senere."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

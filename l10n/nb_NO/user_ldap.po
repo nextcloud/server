@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# vidaren <news@vidartysse.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-22 01:55-0500\n"
-"PO-Revision-Date: 2013-12-21 07:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Klarte ikke å nullstille tilknytningene."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -39,24 +40,24 @@ msgstr "Konfigurasjonen er i orden, men Bind mislyktes. Vennligst sjekk tjener-k
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "Konfigurasjonen er ikke gyldig. Sjekk loggene for flere detaljer."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Ingen handling spesifisert"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Ingen konfigurasjon spesifisert"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Ingen data spesifisert"
 
 #: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Klarte ikke å sette konfigurasjon %s"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -76,7 +77,7 @@ msgstr "Kan ikke legge til tjener-konfigurasjon"
 
 #: js/settings.js:127
 msgid "mappings cleared"
-msgstr ""
+msgstr "tilknytninger nullstilt"
 
 #: js/settings.js:128
 msgid "Success"
@@ -86,43 +87,43 @@ msgstr "Suksess"
 msgid "Error"
 msgstr "Feil"
 
-#: js/settings.js:837
+#: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfigurasjon OK"
 
-#: js/settings.js:846
+#: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfigurasjon feil"
 
-#: js/settings.js:855
+#: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfigurasjon ufullstendig"
 
-#: js/settings.js:872 js/settings.js:881
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Velg grupper"
 
-#: js/settings.js:875 js/settings.js:884
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
-msgstr ""
+msgstr "Velg objektklasser"
 
-#: js/settings.js:878
+#: js/settings.js:821
 msgid "Select attributes"
-msgstr ""
+msgstr "Velg attributter"
 
-#: js/settings.js:905
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Tilkoblingstest lyktes"
 
-#: js/settings.js:912
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Tilkoblingstest mislyktes"
 
-#: js/settings.js:921
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Er du sikker på at du vil slette aktiv tjener-konfigurasjon?"
 
-#: js/settings.js:922
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Bekreft sletting"
 
@@ -130,23 +131,23 @@ msgstr "Bekreft sletting"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s gruppe funnet"
+msgstr[1] "%s grupper funnet"
 
 #: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s bruker funnet"
+msgstr[1] "%s brukere funnet"
 
-#: lib/wizard.php:778 lib/wizard.php:790
+#: lib/wizard.php:784 lib/wizard.php:796
 msgid "Invalid Host"
-msgstr ""
+msgstr "Ugyldig tjener"
 
-#: lib/wizard.php:951
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Fant ikke den ønskede funksjonaliteten"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -154,7 +155,7 @@ msgstr "Lagre"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
-msgstr ""
+msgstr "Test konfigurasjonen"
 
 #: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
@@ -162,63 +163,63 @@ msgstr "Hjelp"
 
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
-msgid "Limit the access to %s to groups meeting this criteria:"
+msgid "Groups meeting these criteria are available in %s:"
 msgstr ""
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "kun de objektklassene:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "kun fra de gruppene:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Rediger ubearbeidet filter i stedet"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Ubearbeidet LDAP-filter"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Filteret spesifiserer hvilke LDAP-grupper som skal ha tilgang til %s-instansen."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "grupper funnet"
 
 #: templates/part.wizard-loginfilter.php:4
-msgid "What attribute shall be used as login name:"
+msgid "Users login with this attribute:"
 msgstr ""
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP-brukernavn:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP-epostadresse:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Andre attributter:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Definerer filteret som skal brukes når innlogging forsøkes. %%uid erstatter brukernavnet i innloggingshandlingen. Eksempel: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -266,18 +267,18 @@ msgstr "Du kan spesifisere Base DN for brukere og grupper under Avansert fanen"
 
 #: templates/part.wizard-userfilter.php:4
 #, php-format
-msgid "Limit the access to %s to users meeting this criteria:"
+msgid "Limit %s access to users meeting these criteria:"
 msgstr ""
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Filteret spesifiserer hvilke LDAP-brukere som skal ha tilgang til %s-instansen."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "brukere funnet"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -292,7 +293,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Advarsel:</b> Appene user_ldap og user_webdavauth er ikke kompatible med hverandre. Uventet oppførsel kan forekomme. Be systemadministratoren om å deaktivere en av dem."
 
 #: templates/settings.php:14
 msgid ""
@@ -302,7 +303,7 @@ msgstr "<b>Warning:</b> PHP LDAP modulen er ikke installert, hjelperen vil ikke 
 
 #: templates/settings.php:20
 msgid "Connection Settings"
-msgstr ""
+msgstr "Innstillinger for tilkobling"
 
 #: templates/settings.php:22
 msgid "Configuration Active"
@@ -320,23 +321,23 @@ msgstr "Sikkerhetskopierings (Replica) vert"
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Oppgi en valgfri reservetjener. Den må være en replika av hovedtjeneren for LDAP/AD."
 
 #: templates/settings.php:24
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Reserve (Replika) Port"
 
 #: templates/settings.php:25
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deaktiver hovedtjeneren"
 
 #: templates/settings.php:25
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Koble til bare replika-tjeneren."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "Case-insensitiv LDAP tjener (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -347,11 +348,11 @@ msgstr "Slå av SSL-sertifikat validering"
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Ikke anbefalt, bruk kun for testing! Hvis tilkobling bare virker med dette valget, importer LDAP-tjenerens SSL-sertifikat i %s-serveren din."
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Levetid i mellomlager"
 
 #: templates/settings.php:28
 msgid "in seconds. A change empties the cache."
@@ -359,7 +360,7 @@ msgstr "i sekunder. En endring tømmer bufferen."
 
 #: templates/settings.php:30
 msgid "Directory Settings"
-msgstr ""
+msgstr "Innstillinger for Katalog"
 
 #: templates/settings.php:32
 msgid "User Display Name Field"
@@ -367,7 +368,7 @@ msgstr "Vis brukerens navnfelt"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "LDAP-attributten som skal brukes til å generere brukerens visningsnavn."
 
 #: templates/settings.php:33
 msgid "Base User Tree"
@@ -379,11 +380,11 @@ msgstr "En Bruker Base DN pr. linje"
 
 #: templates/settings.php:34
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Attributter for brukersøk"
 
 #: templates/settings.php:34 templates/settings.php:37
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Valgfritt, en attributt pr. linje"
 
 #: templates/settings.php:35
 msgid "Group Display Name Field"
@@ -391,7 +392,7 @@ msgstr "Vis gruppens navnfelt"
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "LDAP-attributten som skal brukes til å generere gruppens visningsnavn."
 
 #: templates/settings.php:36
 msgid "Base Group Tree"
@@ -403,47 +404,68 @@ msgstr "En gruppe hoved-DN pr. linje"
 
 #: templates/settings.php:37
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Attributter for gruppesøk"
 
 #: templates/settings.php:38
 msgid "Group-Member association"
 msgstr "gruppe-medlem assosiasjon"
 
+#: templates/settings.php:39
+msgid "Nested Groups"
+msgstr ""
+
+#: templates/settings.php:39
+msgid ""
+"When switched on, groups that contain groups are supported. (Only works if "
+"the group member attribute contains DNs.)"
+msgstr ""
+
 #: templates/settings.php:40
-msgid "Special Attributes"
+msgid "Paging chunksize"
+msgstr ""
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
 msgstr ""
 
 #: templates/settings.php:42
+msgid "Special Attributes"
+msgstr "Spesielle attributter"
+
+#: templates/settings.php:44
 msgid "Quota Field"
-msgstr ""
+msgstr "Felt med lagringskvote"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "Quota Default"
-msgstr ""
+msgstr "Standard lagringskvote"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "i bytes"
 
-#: templates/settings.php:44
+#: templates/settings.php:46
 msgid "Email Field"
-msgstr ""
+msgstr "Felt med e-postadresse"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Navneregel for brukers hjemmemappe"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "La stå tom for brukernavn (standard). Ellers, spesifiser en LDAP/AD attributt."
 
-#: templates/settings.php:51
+#: templates/settings.php:53
 msgid "Internal Username"
-msgstr ""
+msgstr "Internt brukernavn"
 
-#: templates/settings.php:52
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -457,17 +479,17 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
-
-#: templates/settings.php:53
-msgid "Internal Username Attribute:"
-msgstr ""
-
-#: templates/settings.php:54
-msgid "Override UUID detection"
-msgstr ""
+msgstr "Som standard vil det interne brukernavnet bli laget utifra UUID-attributten. Dette sikrer at brukernavnet er unikt og at det ikke er nødvendig å konvertere tegn. Det interne brukernavnet har den begrensningen at bare disse tegnene er tillatt: [ a-zA-Z0-9_.@- ]. Andre tegn erstattes av tilsvarende ASCII-tegn eller blir ganske enkelt utelatt. Ved kollisjon blir et nummer lagt til / øket. Det interne brukernavnet brukes til å identifisere en bruker internt. Det er også standardnavnet på brukerens hjemmemappe. Det er også med i fjern-URL-er, for eksempel for alle *DAV-tjenester. Med denne innstillingen kan standard oppførsel overstyres. For å få en oppførsel som likner oppførselen før ownCloud 5, legg inn attributten for brukerens visningsnavn i dette feltet. La feltet stå tomt for standard oppførsel. Endringer vil kun påvirke nylig tilknyttede (opprettede) LDAP-brukere."
 
 #: templates/settings.php:55
+msgid "Internal Username Attribute:"
+msgstr "Attributt for internt brukernavn:"
+
+#: templates/settings.php:56
+msgid "Override UUID detection"
+msgstr "Overstyr UUID-oppdaging"
+
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -476,21 +498,21 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
-
-#: templates/settings.php:56
-msgid "UUID Attribute for Users:"
-msgstr ""
-
-#: templates/settings.php:57
-msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "Som standard blir UUID-attributten oppdaget automatisk. UUID-attributten brukes til å identifisere LDAP-brukere og -grupper uten tvil. Det interne brukernavnet vil også bli laget basert på UUID, hvis ikke annet er spesifisert ovenfor. Du kan overstyre innstillingen og oppgi den attributten du ønsker. Du må forsikre det om at din valgte attributt kan hentes ut både for brukere og for grupper og at den er unik. La stå tomt for standard oppførsel. Endringer vil kun påvirke nylig tilknyttede (opprettede) LDAP-brukere og -grupper."
 
 #: templates/settings.php:58
-msgid "Username-LDAP User Mapping"
-msgstr ""
+msgid "UUID Attribute for Users:"
+msgstr "UUID-attributt for brukere:"
 
 #: templates/settings.php:59
+msgid "UUID Attribute for Groups:"
+msgstr "UUID-attributt for grupper:"
+
+#: templates/settings.php:60
+msgid "Username-LDAP User Mapping"
+msgstr "Tilknytning av brukernavn til LDAP-bruker"
+
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -502,12 +524,12 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Brukernavn brukes til å lagre og tilordne (meta)data. For at brukere skal identifiseres og gjenkjennes presist, vil hver LDAP-bruker ha et internt brukernavn. Dette krever en tilknytning fra brukernavn til LDAP-bruker. Brukernavn som opprettes blir knyttet til LDAP-brukerens UUID. I tillegg mellomlagres DN for å redusere LDAP-kommunikasjon, men det brukes ikke til identifisering. Hvis DN endres vil endringene bli oppdaget. Det interne brukernavnet brukes alle steder. Nullstilling av tilknytningene vil etterlate seg rester overalt. Nullstilling av tilknytningene skjer ikke pr. konfigurasjon, det påvirker alle LDAP-konfigurasjoner! Nullstill aldri tilknytningene i et produksjonsmiljø, kun ved testing eller eksperimentering."
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Nullstill tilknytning av brukernavn til LDAP-bruker"
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Nullstill tilknytning av gruppenavn til LDAP-gruppe"

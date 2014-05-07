@@ -34,7 +34,7 @@ try{
 	if ($view->is_dir($file)) {
 		$mimetype = 'httpd/unix-directory';
 	} else {
-		$pathInfo = pathinfo($file);
+		$pathInfo = pathinfo(ltrim($file, '/'));
 		$fileName = $pathInfo['basename'];
 		// if in root dir
 		if ($pathInfo['dirname'] === '.') {

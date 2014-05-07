@@ -10,15 +10,32 @@ table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
 caption, th, td { text-align:left; font-weight:normal; }
 table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
-a, a *, input, input *, select, .button span, li, label { cursor:pointer; }
+a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
-body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
+
+
+body {
+	background: #fefefe;
+	font: normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+	color: #000;
+	height: auto;
+}
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header {
-	position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em;
-	background:#1d2d44 url('../img/noise.png') repeat;
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 45px;
+	line-height: 2.5em;
+	background: #1d2d44 url('../img/noise.png') repeat;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 #body-login {
@@ -33,9 +50,24 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
 
-#owncloud { position:absolute; top:0; left:0; padding:6px; padding-bottom:0; }
-.header-right { float:right; vertical-align:middle; padding:0.5em; }
-.header-right > * { vertical-align:middle; }
+#owncloud {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 6px;
+	padding-bottom: 0;
+}
+
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding: 7px 5px;
+	color: #fff;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
 
 /* Profile picture in header */
 #header .avatardiv {
@@ -77,6 +109,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo {
 	background-image: url(../img/logo.svg);
+	background-repeat: no-repeat;
 	width: 250px;
 	height: 118px;
 	margin: 0 auto;
@@ -84,6 +117,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 
 #header .logo-wide {
 	background-image: url(../img/logo-wide.svg);
+	background-repeat: no-repeat;
 	width: 147px;
 	height: 32px;
 }
@@ -99,11 +133,18 @@ input[type="time"],
 textarea,
 select,
 button, .button,
+input[type="submit"],
+input[type="button"],
 #quota,
 .pager li a {
-	width:10em; margin:.3em; padding:.6em .5em .4em;
-	font-size:1em;
-	background:#fff; color:#333; border:1px solid #ddd; outline:none;
+	width: 130px;
+	margin: 3px 3px 3px 0;
+	padding: 7px 6px 5px;
+	font-size: 13px;
+	background-color: #fff;
+	color: #333;
+	border: 1px solid #ddd;
+	outline: none;
 	border-radius: 3px;
 }
 input[type="hidden"] {
@@ -151,6 +192,12 @@ input[type="time"] {
 	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
+
+/* correctly align images inside of buttons */
+input img, button img, .button img {
+	vertical-align: text-bottom;
+}
+
 #quota {
 	cursor: default;
 	margin: 30px;
@@ -168,13 +215,12 @@ input[type="submit"], input[type="button"],
 button, .button,
 #quota, select, .pager li a {
 	width: auto;
-	padding: .4em;
+	padding: 5px;
 	background-color: rgba(240,240,240,.9);
 	font-weight: bold;
 	color: #555;
 	border: 1px solid rgba(190,190,190,.9);
 	cursor: pointer;
-	border-radius: 3px;
 }
 input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
@@ -204,18 +250,18 @@ textarea:disabled {
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border: 1px solid #1d2d44;
-	background: #35537a;
+	background-color: #35537a;
 	color: #ddd;
 }
 	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
 	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
 		border: 1px solid #1d2d44;
-		background: #304d76;
+		background-color: #304d76;
 		color: #fff;
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
 		border: 1px solid #1d2d44;
-		background: #1d2d44;
+		background-color: #1d2d44;
 		color: #bbb;
 	}
 
@@ -233,7 +279,7 @@ textarea:disabled {
 }
 
 input[type="submit"].enabled {
-	background: #66f866;
+	background-color: #66f866;
 	border: 1px solid #5e5;
 }
 
@@ -245,6 +291,7 @@ input[type="submit"].enabled {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
+	top:45px;
 	right: 0;
 	left: 0;
 	height: 44px;
@@ -274,6 +321,10 @@ input[type="submit"].enabled {
 	padding: 7px 10px
 }
 
+#controls .button.hidden {
+	display: none;
+}
+
 #content { position:relative; height:100%; width:100%; }
 #content .hascontrols {
 	position: relative;
@@ -282,21 +333,6 @@ input[type="submit"].enabled {
 #content-wrapper {
 	position:absolute; height:100%; width:100%; padding-left:80px; padding-top: 45px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
-}
-#leftcontent, .leftcontent {
-	position:relative; overflow:auto; width:256px; height:100%;
-	background:#f8f8f8; border-right:1px solid #ddd;
-	-moz-box-sizing:border-box; box-sizing:border-box;
-}
-#leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
-#leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
-#leftcontent li.active, .leftcontent li.active { font-weight:bold; }
-#leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
-#leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
-#rightcontent, .rightcontent { position:fixed; top:89px; left: 336px; overflow:auto }
-
-#controls + .leftcontent{
-	top: 44px;
 }
 
 #emptycontent {
@@ -393,23 +429,36 @@ input[type="submit"].enabled {
 }
 
 /* Icons for username and password fields to better recognize them */
-#adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
-#adminlogin+label+img, #adminpass-icon, #user+label+img, #password-icon {
-	position:absolute; left:1.25em; top:1.65em;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
+#adminlogin,
+#adminpass,
+input[name='adminpass-clone'],
+#user,
+#password,
+input[name='password-clone'] {
+	width: 223px !important;
+	padding-left: 36px !important;
 }
-#adminpass-icon, #password-icon { top:1.1em; }
-input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
-input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
+#adminlogin+label+img,
+#adminpass-icon,
+#user+label+img,
+#password-icon {
+	position: absolute;
+	left: 1.25em;
+	top: 1.65em;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+}
+#adminpass-icon, #password-icon {
+	top: 1.1em;
+}
 
 /* General new input field look */
 #body-login input[type="text"],
 #body-login input[type="password"],
-#body-login input[type="email"] {
-	border: 1px solid #323233;
-	border-radius: 5px;
-}
-#body-login input[type='submit'] {
+#body-login input[type="email"],
+#body-login input[type="submit"] {
+	border: none;
 	border-radius: 5px;
 }
 
@@ -441,15 +490,22 @@ input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #body-login form label.infield { /* labels are ellipsized when too long, keep them short */
-	position:absolute; width:90%; padding-left:1.4em;
-	font-size:19px; color:#aaa;
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+	position: absolute;
+	width: 82%;
+	margin-left: 26px;
+	font-size: 19px;
+	color: #aaa;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-#body-login #databaseField .infield { padding-left:0; }
+#body-login #databaseField .infield {
+	margin-left: 0;
+}
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
-	font-size: 1em;
+	font-size: 13px;
 	padding: 14px;
 	padding-left: 28px;
 	margin-left: -28px;
@@ -463,8 +519,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 #body-login #showAdvanced > img {
-	height: 16px;
-	width: 16px;
 	padding: 4px;
 	box-sizing: border-box;
 }
@@ -575,8 +629,8 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 .error-wide {
-	width: 800px;
-	margin-left: -250px;
+	width: 700px;
+	margin-left: -200px !important;
 }
 
 /* Fixes for log in page, TODO should be removed some time */
@@ -603,11 +657,13 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 
 /* Log in and install button */
 #body-login input {
-	font-size: 1.5em;
+	font-size: 20px;
+	margin: 5px;
+	padding: 12px 10px 8px;
 }
 #body-login input[type="text"],
 #body-login input[type="password"] {
-	width: 13em;
+	width: 249px;
 }
 #body-login input.login {
 	width: auto;
@@ -617,7 +673,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	padding: 10px 20px; /* larger log in and installation buttons */
 }
 #remember_login {
-	margin: 18px 5px 0 18px;
+	margin: 24px 5px 0 16px !important;
 	vertical-align: text-bottom;
 }
 
@@ -791,20 +847,12 @@ tr .action { width:16px; height:16px; }
 tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
-#body-settings h2 {
-	font-size: 20px;
-	font-weight: normal;
-	margin-bottom: 7px;
-}
-#body-settings .personalblock, #body-settings .helpblock {
-	padding: 30px;
-	color: #555;
-	border-top: 1px solid #ddd;
-}
-#body-settings .personalblock#quota { position:relative; padding:0; }
-#body-settings #controls+.helpblock { position:relative; margin-top:3em; }
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
+#quota {
+	position: relative;
+	padding: 0;
+}
 #quota div {
 	padding: 0;
 	background-color: rgb(220,220,220);
@@ -922,6 +970,9 @@ div.crumb {
 	display: block;
 	background: url('../img/breadcrumb.svg') no-repeat right center;
 	height: 44px;
+}
+div.crumb.hidden {
+	display: none;
 }
 div.crumb a,
 div.crumb span {

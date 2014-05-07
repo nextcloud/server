@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-13 14:43-0500\n"
-"PO-Revision-Date: 2013-12-13 19:00+0000\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-05 15:09+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr "{owner} tarafından paylaşılmış"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -32,7 +36,7 @@ msgstr "Parola"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr "Üzgünüz, bu bağlantı artık çalışıyor gibi görünmüyor"
+msgstr "Üzgünüz, bu bağlantı artık çalışıyor gibi görünmüyor."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
@@ -54,32 +58,15 @@ msgstr "paylaşım devre dışı"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin."
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s, %s klasörünü sizinle paylaştı"
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s, %s dosyasını sizinle paylaştı"
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "İndir"
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Yükle"
+#: templates/public.php:52
+#, php-format
+msgid "Download %s"
+msgstr "İndir: %s"
 
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Yüklemeyi iptal et"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Kullanılabilir önizleme yok"
-
-#: templates/public.php:99
+#: templates/public.php:56
 msgid "Direct link"
 msgstr "Doğrudan bağlantı"

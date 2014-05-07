@@ -1,8 +1,5 @@
 <?php
 
-// only need filesystem apps
-$RUNTIME_APPTYPES = array('filesystem');
-
 $dir = '/';
 
 if (isset($_GET['dir'])) {
@@ -10,6 +7,7 @@ if (isset($_GET['dir'])) {
 }
 
 OCP\JSON::checkLoggedIn();
+\OC::$session->close();
 
 // send back json
 OCP\JSON::success(array('data' => \OCA\Files\Helper::buildFileStorageStatistics($dir)));

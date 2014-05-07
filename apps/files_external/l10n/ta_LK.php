@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "இடம்",
+"URL" => "URL",
+"Username" => "பயனாளர் பெயர்",
+"Password" => "கடவுச்சொல்",
+"Share" => "பகிர்வு",
 "Access granted" => "அனுமதி வழங்கப்பட்டது",
 "Error configuring Dropbox storage" => "Dropbox சேமிப்பை தகவமைப்பதில் வழு",
 "Grant access" => "அனுமதியை வழங்கல்",
@@ -9,14 +14,11 @@ $TRANSLATIONS = array(
 "Folder name" => "கோப்புறை பெயர்",
 "Configuration" => "தகவமைப்பு",
 "Options" => "தெரிவுகள்",
-"Applicable" => "பயன்படத்தக்க",
-"None set" => "தொகுப்பில்லா",
 "All Users" => "பயனாளர்கள் எல்லாம்",
 "Groups" => "குழுக்கள்",
 "Users" => "பயனாளர்",
 "Delete" => "நீக்குக",
 "Enable User External Storage" => "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக",
-"Allow users to mount their own external storage" => "பயனாளர் அவர்களுடைய சொந்த வெளியக சேமிப்பை ஏற்ற அனுமதிக்க",
 "SSL root certificates" => "SSL வேர் சான்றிதழ்கள்",
 "Import Root Certificate" => "வேர் சான்றிதழை இறக்குமதி செய்க"
 );

@@ -43,6 +43,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	 */
 	public $view;
 	public $folder;
+	public $subfolder;
 
 	public static function setUpBeforeClass() {
 		// reset backend
@@ -101,22 +102,20 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-		if ($create) {
-			\OC_User::createUser($user, $user);
-		}
 
 		if ($password === false) {
 			$password = $user;
 		}
 
+		if ($create) {
+			\OC_User::createUser($user, $password);
+		}
+
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS($user);
 		\OC_User::setUserId($user);
-
-		$params['uid'] = $user;
-		$params['password'] = $password;
+		\OC_Util::setupFS($user);
 	}
 
 	/**

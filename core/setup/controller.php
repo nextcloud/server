@@ -20,7 +20,7 @@ class Controller {
 			$errors = array('errors' => $e);
 
 			if(count($e) > 0) {
-				$options = array_merge($post, $opts, $errors);
+				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			}
 			else {
@@ -28,7 +28,8 @@ class Controller {
 			}
 		}
 		else {
-			$this->display($opts);
+			$options = array_merge($opts, $post);
+			$this->display($options);
 		}
 	}
 
@@ -41,6 +42,7 @@ class Controller {
 			'dbname' => '',
 			'dbtablespace' => '',
 			'dbhost' => '',
+			'dbtype' => '',
 		);
 		$parameters = array_merge($defaults, $post);
 
@@ -80,6 +82,13 @@ class Controller {
 		return $post;
 	}
 
+	/**
+	 * Gathers system information like database type and does
+	 * a few system checks.
+	 *
+	 * @return array of system info, including an "errors" value
+	 * in case of errors/warnings
+	 */
 	public function getSystemInfo() {
 		$hasSQLite = class_exists('SQLite3');
 		$hasMySQL = is_callable('mysql_connect');
@@ -113,13 +122,27 @@ class Controller {
 		// Protect data directory here, so we can test if the protection is working
 		\OC_Setup::protectDataDirectory();
 		try {
-			$htaccessWorking = \OC_Util::isHtAccessWorking();
+			$htaccessWorking = \OC_Util::isHtaccessWorking();
 		} catch (\OC\HintException $e) {
 			$errors[] = array(
 				'error' => $e->getMessage(),
 				'hint' => $e->getHint()
 			);
 			$htaccessWorking = false;
+		}
+
+		if (\OC_Util::runningOnMac()) {
+			$l10n = \OC_L10N::get('core');
+			$themeName = \OC_Util::getTheme();
+			$theme = new \OC_Defaults();
+			$errors[] = array(
+				'error' => $l10n->t(
+					'Mac OS X is not supported and %s will not work properly on this platform. ' .
+					'Use it at your own risk! ',
+					$theme->getName()
+				),
+				'hint' => $l10n->t('For the best results, please consider using a GNU/Linux server instead.')
+			);
 		}
 
 		return array(

@@ -54,13 +54,8 @@ class App {
 			'data'		=> NULL
 		);
 
-		// rename to "/Shared" is denied
-		if( $dir === '/' and $newname === 'Shared' ) {
-			$result['data'] = array(
-				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved.")
-			);
 		// rename to non-existing folder is denied
-		} else if (!$this->view->file_exists($dir)) {
+		if (!$this->view->file_exists($dir)) {
 			$result['data'] = array('message' => (string)$this->l10n->t(
 					'The target folder has been moved or deleted.',
 					array($dir)),
@@ -68,7 +63,7 @@ class App {
 				);
 		// rename to existing file is denied
 		} else if ($this->view->file_exists($dir . '/' . $newname)) {
-			
+
 			$result['data'] = array(
 				'message'	=> $this->l10n->t(
 						"The name %s is already used in the folder %s. Please choose a different name.",
@@ -77,32 +72,12 @@ class App {
 		} else if (
 			// rename to "." is denied
 			$newname !== '.' and
-			// rename of  "/Shared" is denied
-			!($dir === '/' and $oldname === 'Shared') and
 			// THEN try to rename
 			$this->view->rename($dir . '/' . $oldname, $dir . '/' . $newname)
 		) {
 			// successful rename
 			$meta = $this->view->getFileInfo($dir . '/' . $newname);
-			if ($meta['mimetype'] === 'httpd/unix-directory') {
-				$meta['type'] = 'dir';
-			}
-			else {
-				$meta['type'] = 'file';
-			}
-			// these need to be set for determineIcon()
-			$meta['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($meta['mimetype']);
-			$meta['directory'] = $dir;
-			$fileinfo = array(
-				'id' => $meta['fileid'],
-				'mime' => $meta['mimetype'],
-				'size' => $meta['size'],
-				'etag' => $meta['etag'],
-				'directory' => $meta['directory'],
-				'name' => $newname,
-				'isPreviewAvailable' => $meta['isPreviewAvailable'],
-				'icon' => \OCA\Files\Helper::determineIcon($meta)
-			);
+			$fileinfo = \OCA\Files\Helper::formatFileInfo($meta);
 			$result['success'] = true;
 			$result['data'] = $fileinfo;
 		} else {

@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sherlock79 <david@interpont.hu>, 2013
+# sherlock79 <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,38 +20,49 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "A(z) \"%s\" alkalmazást nem lehet telepíteni, mert nem kompatibilis az ownCloud telepített verziójával."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Nincs az alkalmazás név megadva."
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Súgó"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Személyes"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Beállítások"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Felhasználók"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Adminsztráció"
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Sikertelen Frissítés \"%s\"."
@@ -64,104 +75,103 @@ msgstr "Ismeretlen file tipús"
 msgid "Invalid image"
 msgstr "Hibás kép"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webszolgáltatások saját kézben"
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "nem sikerült megnyitni \"%s\""
-
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "A ZIP-letöltés nincs engedélyezve."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "A fájlokat egyenként kell letölteni."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Vissza a Fájlokhoz"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr "A file-t kisebb részekben töltsd le vagy beszélj az adminisztrátorral a megoldás érdekében."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Az alkalmazás telepítéséhez nincs forrás megadva"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Az alkalmazás http-n keresztül történő telepítéséhez nincs href hivetkozás megadva"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Az alkalmazás helyi telepítéséhez nincs útvonal (mappa) megadva"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "A(z) %s típusú tömörített állomány nem támogatott"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Nem sikerült megnyitni a tömörített állományt a telepítés során"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Az alkalmazás nem szolgáltatott info.xml file-t"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Az alkalmazást nem lehet telepíteni, mert abban nem engedélyezett programkód szerepel"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel a verziójával."
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Az alkalmazást nem lehet telepíteni, mert tartalmazza a \n<shipped>\ntrue\n</shipped>\ncímkét, ami a nem szállított alkalmazások esetén nem engedélyezett"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Az alkalmazást nem lehet telepíteni, mert az info.xml/version-ben megadott verzió nem egyezik az alkalmazás-áruházban feltüntetett verzióval."
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Az alkalmazás mappája már létezik"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nem lehetett létrehozni az alkalmzás mappáját. Kérlek ellenőrizd a jogosultásgokat. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Az alkalmazás nincs engedélyezve"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Azonosítási hiba"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "A token lejárt. Frissítse az oldalt."
+
+#: private/json.php:74
+msgid "Unknown user"
+msgstr ""
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -196,23 +206,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Az MS SQL felhasználónév és/vagy jelszó érvénytelen: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Vagy egy létező felhasználó vagy az adminisztrátor bejelentkezési nevét kell megadnia"
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "A MySQL felhasználói név és/vagy jelszó érvénytelen"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr ""
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Adatbázis hiba: \"%s\""
@@ -221,30 +231,30 @@ msgstr "Adatbázis hiba: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "A hibát ez a parancs okozta: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "A '%s'@'localhost' MySQL felhasználó már létezik."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr ""
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Törölje ezt a felhasználót a MySQL-ből"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr ""
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "A '%s'@'%%' MySQL felhasználó már létezik"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr ""
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Törölje ezt a felhasználót a MySQL-ből."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -259,7 +269,7 @@ msgstr "Az Oracle felhasználói név és/vagy jelszó érvénytelen"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "A hibát okozó parancs ez volt: \"%s\", login név: %s, jelszó: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "A PostgreSQL felhasználói név és/vagy jelszó érvénytelen"
 
@@ -271,66 +281,193 @@ msgstr "Állítson be egy felhasználói nevet az adminisztrációhoz."
 msgid "Set an admin password."
 msgstr "Állítson be egy jelszót az adminisztrációhoz."
 
-#: private/setup.php:195
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik."
 
-#: private/setup.php:196
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s megosztotta Önnel ezt:  »%s«"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Ez a kategória nem található: \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] "%n perccel ezelőtt"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr "ma"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "tegnap"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "tavaly"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "több éve"
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr "Érvényes felhasználónevet kell megadnia"
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr "Érvényes jelszót kell megadnia"
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
+msgstr "Ez a bejelentkezési név már foglalt"

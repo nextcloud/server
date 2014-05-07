@@ -13,6 +13,8 @@ class OC_Request {
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 
+	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
+
 	/**
 	 * @brief Check overwrite condition
 	 * @param string $type
@@ -25,7 +27,68 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Returns the server host
+	 * @brief Checks whether a domain is considered as trusted from the list
+	 * of trusted domains. If no trusted domains have been configured, returns
+	 * true.
+	 * This is used to prevent Host Header Poisoning.
+	 * @param string $domain
+	 * @return bool true if the given domain is trusted or if no trusted domains
+	 * have been configured
+	 */
+	public static function isTrustedDomain($domain) {
+		$trustedList = \OC_Config::getValue('trusted_domains', array());
+		if (empty($trustedList)) {
+			return true;
+		}
+		if (preg_match(self::REGEX_LOCALHOST, $domain) === 1) {
+			return true;
+		}
+		return in_array($domain, $trustedList);
+	}
+
+	/**
+	 * @brief Returns the unverified server host from the headers without checking
+	 * whether it is a trusted domain
+	 * @returns string the server host
+	 *
+	 * Returns the server host, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function insecureServerHost() {
+		$host = null;
+		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
+				$parts = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
+				$host = trim(current($parts));
+			} else {
+				$host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+			}
+		} else {
+			if (isset($_SERVER['HTTP_HOST'])) {
+				$host = $_SERVER['HTTP_HOST'];
+			} else if (isset($_SERVER['SERVER_NAME'])) {
+				$host = $_SERVER['SERVER_NAME'];
+			}
+		}
+		return $host;
+	}
+
+	/**
+	 * Returns the overwritehost setting from the config if set and
+	 * if the overwrite condition is met
+	 * @return string|null overwritehost value or null if not defined or the defined condition
+	 * isn't met
+	 */
+	public static function getOverwriteHost() {
+		if(OC_Config::getValue('overwritehost', '') !== '' and self::isOverwriteCondition()) {
+			return OC_Config::getValue('overwritehost');
+		}
+		return null;
+	}
+
+	/**
+	 * @brief Returns the server host from the headers, or the first configured
+	 * trusted domain if the host isn't in the trusted list
 	 * @returns string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
@@ -35,29 +98,26 @@ class OC_Request {
 		if(OC::$CLI) {
 			return 'localhost';
 		}
-		if(OC_Config::getValue('overwritehost', '') !== '' and self::isOverwriteCondition()) {
-			return OC_Config::getValue('overwritehost');
-		}
-		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
-				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
-			}
-			else{
-				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
-			}
-		}
-		else{
-			if (isset($_SERVER['HTTP_HOST'])) {
-				return $_SERVER['HTTP_HOST'];
-			}
-			if (isset($_SERVER['SERVER_NAME'])) {
-				return $_SERVER['SERVER_NAME'];
-			}
-			return 'localhost';
-		}
-		return $host;
-	}
 
+		// overwritehost is always trusted
+		$host = self::getOverwriteHost();
+		if ($host !== null) {
+			return $host;
+		}
+
+		// get the host from the headers
+		$host = self::insecureServerHost();
+
+		// Verify that the host is a trusted domain if the trusted domains
+		// are defined
+		// If no trusted domain is provided the first trusted domain is returned
+		if (self::isTrustedDomain($host)) {
+			return $host;
+		} else {
+			$trustedList = \OC_Config::getValue('trusted_domains', array(''));
+			return $trustedList[0];
+		}
+	}
 
 	/**
 	* @brief Returns the server protocol
@@ -71,14 +131,14 @@ class OC_Request {
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
-		}else{
-			if(isset($_SERVER['HTTPS']) and !empty($_SERVER['HTTPS']) and ($_SERVER['HTTPS']!='off')) {
-				$proto = 'https';
-			}else{
-				$proto = 'http';
-			}
+			// Verify that the protocol is always HTTP or HTTPS
+			// default to http if an invalid value is provided
+			return $proto === 'https' ? 'https' : 'http';
 		}
-		return $proto;
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+			return 'https';
+		}
+		return 'http';
 	}
 
 	/**
@@ -106,10 +166,11 @@ class OC_Request {
 	 */
 	public static function scriptName() {
 		$name = $_SERVER['SCRIPT_NAME'];
-		if (OC_Config::getValue('overwritewebroot', '') !== '' and self::isOverwriteCondition()) {
+		$overwriteWebRoot = OC_Config::getValue('overwritewebroot', '');
+		if ($overwriteWebRoot !== '' and self::isOverwriteCondition()) {
 			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -strlen('lib/private/')));
 			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
-			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
+			$name = '/' . ltrim($overwriteWebRoot . $suburi, '/');
 		}
 		return $name;
 	}
@@ -140,6 +201,7 @@ class OC_Request {
 
 	/**
 	 * @brief get Path info from request, not urldecoded
+	 * @throws Exception
 	 * @return string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {

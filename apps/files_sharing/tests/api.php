@@ -33,13 +33,18 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		parent::setUp();
 
 		$this->folder = '/folder_share_api_test';
+		$this->subfolder  = '/subfolder_share_api_test';
+		$this->subsubfolder = '/subsubfolder_share_api_test';
 
-		$this->filename = 'share-api-test.txt';
+		$this->filename = '/share-api-test.txt';
 
 		// save file with content
 		$this->view->file_put_contents($this->filename, $this->data);
 		$this->view->mkdir($this->folder);
-		$this->view->file_put_contents($this->folder.'/'.$this->filename, $this->data);
+		$this->view->mkdir($this->folder . $this->subfolder);
+		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
+		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
+		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
 	function tearDown() {
@@ -287,6 +292,343 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
+	 * @brief share a folder, than reshare a file within the shared folder and check if we construct the correct path
+	 * @medium
+	 */
+	function testGetShareFromFolderReshares() {
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
+		$fileInfo3 = $this->view->getFileInfo($this->folder.'/' . $this->subfolder . '/' .$this->filename);
+
+		// share root folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user2
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// share file in root folder
+		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		// share file in subfolder
+		$result = \OCP\Share::shareItem('file', $fileInfo3['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		$testValues=array(
+			array('query' => $this->folder,
+				'expectedResult' => $this->folder . $this->filename),
+			array('query' => $this->folder . $this->subfolder,
+				'expectedResult' => $this->folder . $this->subfolder . $this->filename),
+		);
+		foreach ($testValues as $value) {
+
+			$_GET['path'] = $value['query'];
+			$_GET['subfiles'] = 'true';
+
+			$result = Share\Api::getAllShares(array());
+
+			$this->assertTrue($result->succeeded());
+
+			// test should return one share within $this->folder
+			$data = $result->getData();
+
+			$this->assertEquals($value['expectedResult'], $data[0]['path']);
+		}
+
+		// cleanup
+
+		\OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		\OCP\Share::unshare('file', $fileInfo3['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+	}
+
+	/**
+	 * @brief reshare a sub folder and check if we get the correct path
+	 * @medium
+	 */
+	function testGetShareFromSubFolderReShares() {
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo = $this->view->getFileInfo($this->folder . $this->subfolder);
+
+		// share sub-folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user2
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// reshare subfolder
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		$_GET['path'] = '/';
+		$_GET['subfiles'] = 'true';
+
+		$result = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result->succeeded());
+
+		// test should return one share within $this->folder
+		$data = $result->getData();
+
+		// we should get exactly one result
+		$this->assertEquals(1, count($data));
+
+		$expectedPath = $this->subfolder;
+		$this->assertEquals($expectedPath, $data[0]['path']);
+
+		// cleanup
+		$result = \OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+
+	}
+
+	/**
+	 * @brief test re-re-share of folder if the path gets constructed correctly
+	 * @medium
+	 */
+	function testGetShareFromFolderReReShares() {
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder . $this->subfolder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder);
+
+		// share sub-folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user2
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// reshare subsubfolder
+		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user3
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+
+		$_GET['path'] = '/';
+		$_GET['subfiles'] = 'true';
+
+		$result = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result->succeeded());
+
+		// test should return one share within $this->folder
+		$data = $result->getData();
+
+		// we should get exactly one result
+		$this->assertEquals(1, count($data));
+
+		$expectedPath = $this->subsubfolder;
+		$this->assertEquals($expectedPath, $data[0]['path']);
+
+
+		// cleanup
+		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+
+	}
+
+	/**
+	 * @brief test multiple shared folder if the path gets constructed correctly
+	 * @medium
+	 */
+	function testGetShareMultipleSharedFolder() {
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder . $this->subfolder);
+
+
+		// share sub-folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		// share folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+
+		// login as user2
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+
+		// ask for subfolder
+		$expectedPath1 = $this->subfolder;
+		$_GET['path'] = $expectedPath1;
+
+		$result1 = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result1->succeeded());
+
+		// test should return one share within $this->folder
+		$data1 = $result1->getData();
+		$share1 = reset($data1);
+
+		// ask for folder/subfolder
+		$expectedPath2 = $this->folder . $this->subfolder;
+		$_GET['path'] = $expectedPath2;
+
+		$result2 = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result2->succeeded());
+
+		// test should return one share within $this->folder
+		$data2 = $result2->getData();
+		$share2 = reset($data2);
+
+
+		// validate results
+		// we should get exactly one result each time
+		$this->assertEquals(1, count($data1));
+		$this->assertEquals(1, count($data2));
+
+		$this->assertEquals($expectedPath1, $share1['path']);
+		$this->assertEquals($expectedPath2, $share2['path']);
+
+
+		// cleanup
+		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+
+	}
+
+	/**
+	 * @brief test re-re-share of folder if the path gets constructed correctly
+	 * @medium
+	 */
+	function testGetShareFromFileReReShares() {
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder . $this->subfolder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder. $this->subfolder . $this->filename);
+
+		// share sub-folder to user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user2
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// reshare subsubfolder
+		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+		// share was successful?
+		$this->assertTrue($result);
+
+		// login as user3
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+
+		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+
+		$_GET['path'] = '/';
+		$_GET['subfiles'] = 'true';
+
+		$result = Share\Api::getAllShares(array());
+
+		$this->assertTrue($result->succeeded());
+
+		// test should return one share within $this->folder
+		$data = $result->getData();
+
+		// we should get exactly one result
+		$this->assertEquals(1, count($data));
+
+		$expectedPath = $this->filename;
+		$this->assertEquals($expectedPath, $data[0]['path']);
+
+
+		// cleanup
+		$result = \OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$result = \OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+
+	}
+
+	/**
 	 * @medium
 	 */
 	function testGetShareFromUnknownId() {
@@ -491,4 +833,122 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(empty($itemsAfterDelete));
 
 	}
+
+	/**
+	 * @brief test unshare of a reshared file
+	 */
+	function testDeleteReshare() {
+
+		// user 1 shares a folder with user2
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo1 = $this->view->getFileInfo($this->folder);
+		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
+
+		$result1 = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result1);
+
+		// user2 shares a file from the folder as link
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$result2 = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
+
+		$this->assertTrue(is_string($result2));
+
+		// test if we can unshare the link again
+		$items = \OCP\Share::getItemShared('file', null);
+		$this->assertEquals(1, count($items));
+
+		$item = reset($items);
+		$result3 = Share\Api::deleteShare(array('id' => $item['id']));
+
+		$this->assertTrue($result3->succeeded());
+
+		// cleanup
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue($result);
+
+
+
+	}
+
+	/**
+	 * @brief share a folder which contains a share mount point, should be forbidden
+	 */
+	public function testShareFolderWithAMountPoint() {
+		// user 1 shares a folder with user2
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		// user2 shares a file from the folder as link
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view->mkdir("localDir");
+
+		// move mount point to the folder "localDir"
+		$result = $view->rename($this->folder, 'localDir/'.$this->folder);
+		$this->assertTrue($result !== false);
+
+		// try to share "localDir"
+		$fileInfo2 = $view->getFileInfo('localDir');
+
+		$this->assertTrue($fileInfo2 instanceof \OC\Files\FileInfo);
+
+		try {
+			$result2 = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
+					\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+		} catch (\Exception $e) {
+			$result2 = false;
+		}
+
+		$this->assertFalse($result2);
+
+		//cleanup
+
+		$result = $view->rename('localDir/' . $this->folder, $this->folder);
+		$this->assertTrue($result !== false);
+		$view->unlink('localDir');
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testShareNonExisting() {
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$id = PHP_INT_MAX - 1;
+		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 */
+	public function testShareNotOwner() {
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
+		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+	}
+
 }

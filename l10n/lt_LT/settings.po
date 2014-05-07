@@ -5,16 +5,16 @@
 # Translators:
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
 # fizikiukas <fizikiukas@gmail.com>, 2013
-# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
 # Liudas <liudas@aksioma.lt>, 2013
 # fizikiukas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-04 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,12 +22,54 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: admin/controller.php:66
+#, php-format
+msgid "Invalid value supplied for %s"
+msgstr ""
+
+#: admin/controller.php:73
+msgid "Saved"
+msgstr ""
+
+#: admin/controller.php:90
+msgid "test email settings"
+msgstr ""
+
+#: admin/controller.php:91
+msgid "If you received this email, the settings seem to be correct."
+msgstr ""
+
+#: admin/controller.php:94
+msgid ""
+"A problem occurred while sending the e-mail. Please revisit your settings."
+msgstr ""
+
+#: admin/controller.php:99
+msgid "Email sent"
+msgstr "Laiškas išsiųstas"
+
+#: admin/controller.php:101
+msgid "You need to set your user email before being able to send test emails."
+msgstr ""
+
+#: admin/controller.php:116 templates/admin.php:316
+msgid "Send mode"
+msgstr ""
+
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+msgid "Encryption"
+msgstr "Šifravimas"
+
+#: admin/controller.php:120 templates/admin.php:353
+msgid "Authentication method"
+msgstr ""
+
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Neįmanoma įkelti sąrašo iš Programų Katalogo"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
-#: ajax/togglegroups.php:20 changepassword/controller.php:55
+#: ajax/togglegroups.php:20 changepassword/controller.php:49
 msgid "Authentication error"
 msgstr "Autentikacijos klaida"
 
@@ -46,6 +88,20 @@ msgstr "Grupė jau egzistuoja"
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nepavyko pridėti grupės"
+
+#: ajax/decryptall.php:31
+msgid "Files decrypted successfully"
+msgstr ""
+
+#: ajax/decryptall.php:33
+msgid ""
+"Couldn't decrypt your files, please check your owncloud.log or ask your "
+"administrator"
+msgstr ""
+
+#: ajax/decryptall.php:36
+msgid "Couldn't decrypt your files, check your password and try again"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -89,90 +145,118 @@ msgstr "Nepavyko ištrinti vartotojo iš grupės %s"
 msgid "Couldn't update app."
 msgstr "Nepavyko atnaujinti programos."
 
-#: changepassword/controller.php:20
+#: changepassword/controller.php:17
 msgid "Wrong password"
 msgstr "Neteisingas slaptažodis"
 
-#: changepassword/controller.php:42
+#: changepassword/controller.php:36
 msgid "No user supplied"
 msgstr "Nepateiktas naudotojas"
 
-#: changepassword/controller.php:74
+#: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
 msgstr "Prašome įvesti administratoriaus atkūrimo slaptažodį, kitaip visi naudotojo suomenys bus prarasti"
 
-#: changepassword/controller.php:79
+#: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
 msgstr "Netinkamas administratoriau atkūrimo slaptažodis. Prašome pasitikrinti ir bandyti vėl."
 
-#: changepassword/controller.php:87
+#: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
 msgstr "Sistema nepalaiko slaptažodžio keitimo, bet naudotojo šifravimo raktas buvo sėkmingai atnaujintas."
 
-#: changepassword/controller.php:92 changepassword/controller.php:103
+#: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
 msgstr "Nepavyksta pakeisti slaptažodžio"
 
-#: js/apps.js:43
+#: js/admin.js:73
+msgid "Sending..."
+msgstr ""
+
+#: js/apps.js:45 templates/help.php:4
+msgid "User Documentation"
+msgstr "Naudotojo dokumentacija"
+
+#: js/apps.js:50
+msgid "Admin Documentation"
+msgstr ""
+
+#: js/apps.js:67
 msgid "Update to {appversion}"
 msgstr "Atnaujinti iki {appversion}"
 
-#: js/apps.js:49 js/apps.js:82 js/apps.js:110
+#: js/apps.js:73 js/apps.js:106 js/apps.js:134
 msgid "Disable"
 msgstr "Išjungti"
 
-#: js/apps.js:49 js/apps.js:90 js/apps.js:103 js/apps.js:119
+#: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
 msgid "Enable"
 msgstr "Įjungti"
 
-#: js/apps.js:71
+#: js/apps.js:95
 msgid "Please wait...."
 msgstr "Prašome palaukti..."
 
-#: js/apps.js:79 js/apps.js:80 js/apps.js:101
+#: js/apps.js:103 js/apps.js:104 js/apps.js:125
 msgid "Error while disabling app"
 msgstr "Klaida išjungiant programą"
 
-#: js/apps.js:100 js/apps.js:114 js/apps.js:115
+#: js/apps.js:124 js/apps.js:138 js/apps.js:139
 msgid "Error while enabling app"
 msgstr "Klaida įjungiant programą"
 
-#: js/apps.js:125
+#: js/apps.js:149
 msgid "Updating...."
 msgstr "Atnaujinama..."
 
-#: js/apps.js:128
+#: js/apps.js:152
 msgid "Error while updating app"
 msgstr "Įvyko klaida atnaujinant programą"
 
-#: js/apps.js:128
+#: js/apps.js:152
 msgid "Error"
 msgstr "Klaida"
 
-#: js/apps.js:129 templates/apps.php:43
+#: js/apps.js:153 templates/apps.php:55
 msgid "Update"
 msgstr "Atnaujinti"
 
-#: js/apps.js:132
+#: js/apps.js:156
 msgid "Updated"
 msgstr "Atnaujinta"
 
-#: js/personal.js:220
+#: js/personal.js:243
 msgid "Select a profile picture"
 msgstr "Pažymėkite profilio paveikslėlį"
 
-#: js/personal.js:266
+#: js/personal.js:274
+msgid "Very weak password"
+msgstr ""
+
+#: js/personal.js:275
+msgid "Weak password"
+msgstr ""
+
+#: js/personal.js:276
+msgid "So-so password"
+msgstr ""
+
+#: js/personal.js:277
+msgid "Good password"
+msgstr ""
+
+#: js/personal.js:278
+msgid "Strong password"
+msgstr ""
+
+#: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Iššifruojami failai... Prašome palaukti, tai gali užtrukti."
-
-#: js/personal.js:287
-msgid "Saving..."
-msgstr "Saugoma..."
 
 #: js/users.js:47
 msgid "deleted"
@@ -186,40 +270,40 @@ msgstr "anuliuoti"
 msgid "Unable to remove user"
 msgstr "Nepavyko ištrinti vartotojo"
 
-#: js/users.js:95 templates/users.php:26 templates/users.php:90
-#: templates/users.php:118
+#: js/users.js:101 templates/users.php:24 templates/users.php:88
+#: templates/users.php:116
 msgid "Groups"
 msgstr "Grupės"
 
-#: js/users.js:100 templates/users.php:92 templates/users.php:130
+#: js/users.js:105 templates/users.php:90 templates/users.php:128
 msgid "Group Admin"
 msgstr "Grupės administratorius"
 
-#: js/users.js:123 templates/users.php:170
+#: js/users.js:127 templates/users.php:168
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: js/users.js:284
+#: js/users.js:310
 msgid "add group"
 msgstr "pridėti grupę"
 
-#: js/users.js:451
+#: js/users.js:486
 msgid "A valid username must be provided"
 msgstr "Vartotojo vardas turi būti tinkamas"
 
-#: js/users.js:452 js/users.js:458 js/users.js:473
+#: js/users.js:487 js/users.js:493 js/users.js:508
 msgid "Error creating user"
 msgstr "Klaida kuriant vartotoją"
 
-#: js/users.js:457
+#: js/users.js:492
 msgid "A valid password must be provided"
 msgstr "Slaptažodis turi būti tinkamas"
 
-#: js/users.js:481
+#: js/users.js:516
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Įspėjimas: Vartotojo \"{user}\" namų aplankas jau egzistuoja"
 
-#: personal.php:45 personal.php:46
+#: personal.php:48 personal.php:49
 msgid "__language_name__"
 msgstr "Kalba"
 
@@ -241,20 +325,44 @@ msgstr ""
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
+msgstr "Tik kritinės problemos"
+
+#: templates/admin.php:16 templates/admin.php:23
+msgid "None"
+msgstr "Nieko"
+
+#: templates/admin.php:17
+msgid "Login"
+msgstr "Prisijungti"
+
+#: templates/admin.php:18
+msgid "Plain"
 msgstr ""
 
-#: templates/admin.php:22 templates/admin.php:36
+#: templates/admin.php:19
+msgid "NT LAN Manager"
+msgstr ""
+
+#: templates/admin.php:24
+msgid "SSL"
+msgstr ""
+
+#: templates/admin.php:25
+msgid "TLS"
+msgstr ""
+
+#: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
 msgstr "Saugumo pranešimas"
 
-#: templates/admin.php:25
+#: templates/admin.php:50
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr ""
 
-#: templates/admin.php:39
+#: templates/admin.php:64
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -263,68 +371,68 @@ msgid ""
 "root."
 msgstr "Jūsų duomenų katalogas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess neveikia. Mes labai rekomenduojame sukonfigūruoti serverį taip, kad katalogas nebūtų daugiau pasiekiamas, arba iškelkite duomenis kitur iš webserverio šakninio aplanko."
 
-#: templates/admin.php:50
+#: templates/admin.php:75
 msgid "Setup Warning"
 msgstr "Nustatyti perspėjimą"
 
-#: templates/admin.php:53
+#: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta."
 
-#: templates/admin.php:54
+#: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Prašome pažiūrėkite dar kartą <a href=\"%s\">diegimo instrukcijas</a>."
 
-#: templates/admin.php:65
+#: templates/admin.php:90
 msgid "Module 'fileinfo' missing"
 msgstr "Trūksta 'fileinfo' modulio"
 
-#: templates/admin.php:68
+#: templates/admin.php:93
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą."
 
-#: templates/admin.php:79
+#: templates/admin.php:104
 msgid "Your PHP version is outdated"
 msgstr ""
 
-#: templates/admin.php:82
+#: templates/admin.php:107
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr ""
 
-#: templates/admin.php:93
+#: templates/admin.php:118
 msgid "Locale not working"
 msgstr "Lokalė neveikia"
 
-#: templates/admin.php:98
+#: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:102
+#: templates/admin.php:127
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr ""
 
-#: templates/admin.php:106
+#: templates/admin.php:131
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:118
+#: templates/admin.php:143
 msgid "Internet connection not working"
 msgstr "Nėra interneto ryšio"
 
-#: templates/admin.php:121
+#: templates/admin.php:146
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -333,118 +441,198 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Šis serveris neturi veikiančio ryšio. Tai reiškia, kas kai kurios funkcijos kaip išorinės saugyklos prijungimas, perspėjimai apie atnaujinimus ar trečių šalių programų įdiegimas neveikia. Failų pasiekimas iš kitur ir pranešimų siuntimas el. paštu gali taip pat neveikti. Rekomenduojame įjungti interneto ryšį šiame serveryje, jei norite naudoti visas funkcijas."
 
-#: templates/admin.php:135
+#: templates/admin.php:160
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:142
+#: templates/admin.php:167
+#, php-format
+msgid "Last cron was executed at %s."
+msgstr ""
+
+#: templates/admin.php:170
+#, php-format
+msgid ""
+"Last cron was executed at %s. This is more than an hour ago, something seems"
+" wrong."
+msgstr ""
+
+#: templates/admin.php:174
+msgid "Cron was not executed yet!"
+msgstr ""
+
+#: templates/admin.php:184
 msgid "Execute one task with each page loaded"
 msgstr "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu"
 
-#: templates/admin.php:150
+#: templates/admin.php:192
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http."
 
-#: templates/admin.php:158
+#: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Naudoti sistemos planuotų užduočių paslaugą, kad iškvieti cron.php kas 15 minučių."
 
-#: templates/admin.php:163
+#: templates/admin.php:205
 msgid "Sharing"
 msgstr "Dalijimasis"
 
-#: templates/admin.php:169
+#: templates/admin.php:211
 msgid "Enable Share API"
 msgstr "Įjungti Share API"
 
-#: templates/admin.php:170
+#: templates/admin.php:212
 msgid "Allow apps to use the Share API"
 msgstr "Leidžia programoms naudoti Share API"
 
-#: templates/admin.php:177
+#: templates/admin.php:219
 msgid "Allow links"
 msgstr "Lesti nuorodas"
 
-#: templates/admin.php:178
+#: templates/admin.php:220
 msgid "Allow users to share items to the public with links"
 msgstr "Leisti naudotojams viešai dalintis elementais su nuorodomis"
 
-#: templates/admin.php:186
+#: templates/admin.php:227
 msgid "Allow public uploads"
 msgstr "Leisti viešus įkėlimus"
 
-#: templates/admin.php:187
+#: templates/admin.php:228
 msgid ""
 "Allow users to enable others to upload into their publicly shared folders"
 msgstr "Leisti naudotojams įgalinti kitus įkelti į savo viešai dalinamus aplankus"
 
-#: templates/admin.php:195
+#: templates/admin.php:235
 msgid "Allow resharing"
 msgstr "Leisti dalintis"
 
-#: templates/admin.php:196
+#: templates/admin.php:236
 msgid "Allow users to share items shared with them again"
 msgstr "Leisti naudotojams toliau dalintis elementais pasidalintais su jais"
 
-#: templates/admin.php:203
+#: templates/admin.php:243
 msgid "Allow users to share with anyone"
 msgstr "Leisti naudotojams dalintis su bet kuo"
 
-#: templates/admin.php:206
+#: templates/admin.php:246
 msgid "Allow users to only share with users in their groups"
 msgstr "Leisti naudotojams dalintis tik su naudotojais savo grupėje"
 
-#: templates/admin.php:213
+#: templates/admin.php:253
 msgid "Allow mail notification"
 msgstr "Leisti el. pašto perspėjimą"
 
-#: templates/admin.php:214
-msgid "Allow user to send mail notification for shared files"
-msgstr "Leisti naudotojui siųsti perspėjimą el. laišku dėl bendrinamų failų"
+#: templates/admin.php:254
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
 
-#: templates/admin.php:221
+#: templates/admin.php:262
+msgid "Set default expiration date"
+msgstr ""
+
+#: templates/admin.php:263
+msgid "Expire after "
+msgstr ""
+
+#: templates/admin.php:266
+msgid "days"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Enforce expiration date"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Expire shares by default after N days"
+msgstr ""
+
+#: templates/admin.php:278
 msgid "Security"
 msgstr "Saugumas"
 
-#: templates/admin.php:234
+#: templates/admin.php:291
 msgid "Enforce HTTPS"
 msgstr "Reikalauti HTTPS"
 
-#: templates/admin.php:236
+#: templates/admin.php:293
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Verčia klientus jungtis prie %s per šifruotą ryšį."
 
-#: templates/admin.php:242
+#: templates/admin.php:299
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Prašome prisijungti prie savo %s per HTTPS, kad įjungti ar išjungti SSL reikalavimą."
 
-#: templates/admin.php:254
+#: templates/admin.php:311
+msgid "Email Server"
+msgstr ""
+
+#: templates/admin.php:313
+msgid "This is used for sending out notifications."
+msgstr ""
+
+#: templates/admin.php:344
+msgid "From address"
+msgstr ""
+
+#: templates/admin.php:366
+msgid "Authentication required"
+msgstr ""
+
+#: templates/admin.php:370
+msgid "Server address"
+msgstr "Serverio adresas"
+
+#: templates/admin.php:374
+msgid "Port"
+msgstr "Prievadas"
+
+#: templates/admin.php:379
+msgid "Credentials"
+msgstr ""
+
+#: templates/admin.php:380
+msgid "SMTP Username"
+msgstr ""
+
+#: templates/admin.php:383
+msgid "SMTP Password"
+msgstr ""
+
+#: templates/admin.php:387
+msgid "Test email settings"
+msgstr ""
+
+#: templates/admin.php:388
+msgid "Send email"
+msgstr ""
+
+#: templates/admin.php:393
 msgid "Log"
 msgstr "Žurnalas"
 
-#: templates/admin.php:255
+#: templates/admin.php:394
 msgid "Log level"
 msgstr "Žurnalo išsamumas"
 
-#: templates/admin.php:287
+#: templates/admin.php:426
 msgid "More"
 msgstr "Daugiau"
 
-#: templates/admin.php:288
+#: templates/admin.php:427
 msgid "Less"
 msgstr "Mažiau"
 
-#: templates/admin.php:294 templates/personal.php:173
+#: templates/admin.php:433 templates/personal.php:171
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:298 templates/personal.php:176
+#: templates/admin.php:437 templates/personal.php:174
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -454,29 +642,33 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Sukurta <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud bendruomenės</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">pirminis kodas</a> platinamas pagal <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/apps.php:13
+#: templates/apps.php:14
 msgid "Add your App"
 msgstr "Pridėti programėlę"
 
-#: templates/apps.php:28
+#: templates/apps.php:31
 msgid "More Apps"
 msgstr "Daugiau aplikacijų"
 
-#: templates/apps.php:33
+#: templates/apps.php:38
 msgid "Select an App"
 msgstr "Pasirinkite programą"
 
-#: templates/apps.php:39
+#: templates/apps.php:43
+msgid "Documentation:"
+msgstr ""
+
+#: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
 msgstr "Žiūrėti programos puslapį svetainėje apps.owncloud.com"
 
-#: templates/apps.php:41
+#: templates/apps.php:51
+msgid "See application website"
+msgstr ""
+
+#: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>- autorius<span class=\"author\"></span>"
-
-#: templates/help.php:4
-msgid "User Documentation"
-msgstr "Naudotojo dokumentacija"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
@@ -511,15 +703,15 @@ msgstr "Rodyti pirmo karto vedlį dar kartą"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Jūs naudojate <strong>%s</strong> iš galimų <strong>%s</strong>"
 
-#: templates/personal.php:39 templates/users.php:23 templates/users.php:89
+#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
 msgid "Password"
 msgstr "Slaptažodis"
 
-#: templates/personal.php:40
+#: templates/personal.php:39
 msgid "Your password was changed"
 msgstr "Jūsų slaptažodis buvo pakeistas"
 
-#: templates/personal.php:41
+#: templates/personal.php:40
 msgid "Unable to change your password"
 msgstr "Neįmanoma pakeisti slaptažodžio"
 
@@ -527,67 +719,69 @@ msgstr "Neįmanoma pakeisti slaptažodžio"
 msgid "Current password"
 msgstr "Dabartinis slaptažodis"
 
-#: templates/personal.php:44
+#: templates/personal.php:45
 msgid "New password"
 msgstr "Naujas slaptažodis"
 
-#: templates/personal.php:46
+#: templates/personal.php:49
 msgid "Change password"
 msgstr "Pakeisti slaptažodį"
 
-#: templates/personal.php:58 templates/users.php:88
+#: templates/personal.php:61 templates/users.php:86
 msgid "Full Name"
-msgstr ""
+msgstr "Pilnas vardas"
 
-#: templates/personal.php:73
+#: templates/personal.php:76
 msgid "Email"
 msgstr "El. Paštas"
 
-#: templates/personal.php:75
+#: templates/personal.php:78
 msgid "Your email address"
 msgstr "Jūsų el. pašto adresas"
 
-#: templates/personal.php:76
-msgid "Fill in an email address to enable password recovery"
-msgstr "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą"
+#: templates/personal.php:81
+msgid ""
+"Fill in an email address to enable password recovery and receive "
+"notifications"
+msgstr ""
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Profile picture"
 msgstr "Profilio paveikslėlis"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "Upload new"
 msgstr "Įkelti naują"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Select new from Files"
 msgstr "Pasirinkti naują iš failų"
 
-#: templates/personal.php:94
+#: templates/personal.php:97
 msgid "Remove image"
 msgstr "Pašalinti paveikslėlį"
 
-#: templates/personal.php:95
+#: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Arba png arba jpg. Geriausia kvadratinį, bet galėsite jį apkarpyti."
 
-#: templates/personal.php:97
+#: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:101
-msgid "Abort"
+#: templates/personal.php:104
+msgid "Cancel"
 msgstr "Atšaukti"
 
-#: templates/personal.php:102
+#: templates/personal.php:105
 msgid "Choose as profile image"
 msgstr "Pasirinkite profilio paveiksliuką"
 
-#: templates/personal.php:110 templates/personal.php:111
+#: templates/personal.php:111 templates/personal.php:112
 msgid "Language"
 msgstr "Kalba"
 
-#: templates/personal.php:130
+#: templates/personal.php:131
 msgid "Help translate"
 msgstr "Padėkite išversti"
 
@@ -602,72 +796,68 @@ msgid ""
 "WebDAV</a>"
 msgstr "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>"
 
-#: templates/personal.php:150
-msgid "Encryption"
-msgstr "Šifravimas"
-
-#: templates/personal.php:152
+#: templates/personal.php:151
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:158
+#: templates/personal.php:157
 msgid "Log-in password"
 msgstr "Prisijungimo slaptažodis"
 
-#: templates/personal.php:163
+#: templates/personal.php:162
 msgid "Decrypt all Files"
 msgstr "Iššifruoti visus failus"
 
-#: templates/users.php:21
+#: templates/users.php:19
 msgid "Login Name"
 msgstr "Vartotojo vardas"
 
-#: templates/users.php:30
+#: templates/users.php:28
 msgid "Create"
 msgstr "Sukurti"
 
-#: templates/users.php:36
+#: templates/users.php:34
 msgid "Admin Recovery Password"
 msgstr "Administracinis atkūrimo slaptažodis"
 
-#: templates/users.php:37 templates/users.php:38
+#: templates/users.php:35 templates/users.php:36
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
 msgstr "Įveskite atkūrimo slaptažodį, kad atkurti naudotojo failus keičiant slaptažodį"
 
-#: templates/users.php:42
+#: templates/users.php:40
 msgid "Default Storage"
 msgstr "Numatytas saugojimas"
 
-#: templates/users.php:44 templates/users.php:139
+#: templates/users.php:42 templates/users.php:137
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr ""
 
-#: templates/users.php:48 templates/users.php:148
+#: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
 msgstr "Neribota"
 
-#: templates/users.php:66 templates/users.php:163
+#: templates/users.php:64 templates/users.php:161
 msgid "Other"
 msgstr "Kita"
 
-#: templates/users.php:87
+#: templates/users.php:85
 msgid "Username"
 msgstr "Prisijungimo vardas"
 
-#: templates/users.php:94
+#: templates/users.php:92
 msgid "Storage"
 msgstr "Saugojimas"
 
-#: templates/users.php:108
+#: templates/users.php:106
 msgid "change full name"
-msgstr ""
+msgstr "keisti pilną vardą"
 
-#: templates/users.php:112
+#: templates/users.php:110
 msgid "set new password"
 msgstr "nustatyti naują slaptažodį"
 
-#: templates/users.php:143
+#: templates/users.php:141
 msgid "Default"
 msgstr "Numatytasis"

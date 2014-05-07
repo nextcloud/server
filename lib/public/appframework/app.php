@@ -67,7 +67,7 @@ class App {
 	 * $a = new TasksApp();
 	 * $a->registerRoutes($this, $routes);
 	 *
-	 * @param \OC_Router $router
+	 * @param \OCP\Route\IRouter $router
 	 * @param array $routes
 	 */
 	public function registerRoutes($router, $routes) {

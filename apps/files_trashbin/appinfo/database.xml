@@ -49,7 +49,7 @@
     <name>type</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>4</length>
    </field>
 
@@ -57,7 +57,7 @@
     <name>mime</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>255</length>
    </field>
 

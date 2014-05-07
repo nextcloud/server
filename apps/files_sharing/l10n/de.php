@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Shared by {owner}" => "Geteilt von {owner}",
 "This share is password-protected" => "Diese Freigabe ist durch ein Passwort geschützt",
 "The password is wrong. Try again." => "Bitte überprüfe Dein Passwort und versuche es erneut.",
 "Password" => "Passwort",
@@ -9,12 +10,8 @@ $TRANSLATIONS = array(
 "the link expired" => "Der Link ist abgelaufen",
 "sharing is disabled" => "Teilen ist deaktiviert",
 "For more info, please ask the person who sent this link." => "Für mehr Informationen, frage bitte die Person, die Dir diesen Link geschickt hat.",
-"%s shared the folder %s with you" => "%s hat den Ordner %s mit Dir geteilt",
-"%s shared the file %s with you" => "%s hat die Datei %s mit Dir geteilt",
-"Download" => "Download",
-"Upload" => "Upload",
-"Cancel upload" => "Upload abbrechen",
-"No preview available for" => "Es ist keine Vorschau verfügbar für",
+"Download" => "Herunterladen",
+"Download %s" => "Download %s",
 "Direct link" => "Direkter Link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

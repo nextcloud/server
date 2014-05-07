@@ -77,7 +77,7 @@ class Config {
 	/**
 	 * @brief Gets a value from config.php
 	 * @param string $key key
-	 * @param string|null $default = null default value
+	 * @param array|bool|string|null $default = null default value
 	 * @return string the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
@@ -172,7 +172,7 @@ class Config {
 		$result = @file_put_contents($this->configFilename, $content);
 		if (!$result) {
 			$defaults = new \OC_Defaults;
-			$url = \OC_Helper::linkToDocs('admin-dir-permissions');
+			$url = \OC_Helper::linkToDocs('admin-dir_permissions');
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by '

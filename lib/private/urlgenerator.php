@@ -32,14 +32,13 @@ class URLGenerator implements IURLGenerator {
 	 * @brief Creates an url using a defined route
 	 * @param $route
 	 * @param array $parameters
-	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns string the url
+	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
 	public function linkToRoute($route, $parameters = array()) {
-		$urlLinkTo = \OC::getRouter()->generate($route, $parameters);
+		$urlLinkTo = \OC::$server->getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
 	}
 
@@ -60,7 +59,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = \OC_App::getAppPath($app);
 			// Check if the app is in the app folder
 			if ($app_path && file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) == 'php' || substr($file, -3) == 'css') {
+				if (substr($file, -3) == 'php') {
 
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $app;
 					if ($frontControllerActive) {
@@ -96,6 +95,7 @@ class URLGenerator implements IURLGenerator {
 	 * @brief Creates path to an image
 	 * @param string $app app
 	 * @param string $image image name
+	 * @throws \RuntimeException If the image does not exist
 	 * @return string the url
 	 *
 	 * Returns the path to the image.
@@ -148,6 +148,12 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getAbsoluteURL($url) {
 		$separator = $url[0] === '/' ? '' : '/';
-		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . $separator . $url;
+
+		// The ownCloud web root can already be prepended.
+		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
+			? ''
+			: \OC::$WEBROOT;
+
+		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost(). $webRoot . $separator . $url;
 	}
 }

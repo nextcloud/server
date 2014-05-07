@@ -282,7 +282,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user2);
 		$this->assertEquals(array(OCP\PERMISSION_READ), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS));
 		OC_User::setUserId($this->user3);
-		$this->assertFalse(OCP\Share::getItemSharedWith('test', 'test.txt'));
+		$this->assertSame(array(), OCP\Share::getItemSharedWith('test', 'test.txt'));
 
 		// Reshare again, and then have owner unshare
 		OC_User::setUserId($this->user1);
@@ -292,9 +292,9 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2));
 		OC_User::setUserId($this->user2);
-		$this->assertFalse(OCP\Share::getItemSharedWith('test', 'test.txt'));
+		$this->assertSame(array(), OCP\Share::getItemSharedWith('test', 'test.txt'));
 		OC_User::setUserId($this->user3);
-		$this->assertFalse(OCP\Share::getItemSharedWith('test', 'test.txt'));
+		$this->assertSame(array(), OCP\Share::getItemSharedWith('test', 'test.txt'));
 
 		// Attempt target conflict
 		OC_User::setUserId($this->user1);
@@ -325,7 +325,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 
 		OC_User::setUserId($this->user2);
-		$this->assertFalse(
+		$this->assertSame(array(),
 			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
 		);
@@ -526,13 +526,13 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 
 		OC_User::setUserId($this->user2);
-		$this->assertFalse(
+		$this->assertSame(array(),
 			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
 		);
 
 		OC_User::setUserId($this->user3);
-		$this->assertFalse(
+		$this->assertSame(array(),
 			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
 			'Failed asserting that user 3 no longer has access to test.txt after expiration.'
 		);

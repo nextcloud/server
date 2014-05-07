@@ -62,11 +62,13 @@ class Trashbin {
 
 
 	/**
+	 * @brief copy file to owners trash
+	 * @param string $sourcePath
 	 * @param string $owner
+	 * @param string $ownerPath
 	 * @param integer $timestamp
-	 * @param string $type
 	 */
-	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp, $type, $mime) {
+	private static function copyFilesToOwner($sourcePath, $owner, $ownerPath, $timestamp) {
 		self::setUpTrash($owner);
 
 		$ownerFilename = basename($ownerPath);
@@ -76,18 +78,16 @@ class Trashbin {
 
 		$view = new \OC\Files\View('/');
 
-		$source = \OCP\User::getUser().'/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
-		$target = $owner.'/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp;
+		$source = \OCP\User::getUser() . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
+		$target = $owner . '/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp;
 		self::copy_recursive($source, $target, $view);
 
 
 		if ($view->file_exists($target)) {
-			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
-			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $type, $mime, $owner));
-			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll($owner.'/files_trashbin/files/' . $ownerFilename . '.d' . $timestamp);
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
+			$result = $query->execute(array($ownerFilename, $timestamp, $ownerLocation, $owner));
+			if (!$result) {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated for the files owner', \OC_log::ERROR);
-				return;
 			}
 		}
 	}
@@ -110,34 +110,22 @@ class Trashbin {
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
 		$timestamp = time();
-		$mime = $view->getMimeType('files' . $file_path);
-
-		if ($view->is_dir('files' . $file_path)) {
-			$type = 'dir';
-		} else {
-			$type = 'file';
-		}
 
 		$userTrashSize = self::getTrashbinSize($user);
-		if ($userTrashSize === false || $userTrashSize < 0) {
-			$userTrashSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
-		}
 
 		// disable proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
-		$sizeOfAddedFiles = self::copy_recursive('/files/'.$file_path, $trashPath, $view);
+		$sizeOfAddedFiles = self::copy_recursive('/files/' . $file_path, $trashPath, $view);
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		if ($view->file_exists('files_trashbin/files/' . $filename . '.d' . $timestamp)) {
 			$size = $sizeOfAddedFiles;
-			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
-			$result = $query->execute(array($filename, $timestamp, $location, $type, $mime, $user));
-			if (!$result) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll('files_trashbin/files/' . $filename . '.d' . $timestamp);
+			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
+			$result = $query->execute(array($filename, $timestamp, $location, $user));
+			if (!$result) {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
-				return;
 			}
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($filename . '.d' . $timestamp)));
@@ -147,7 +135,7 @@ class Trashbin {
 
 			// if owner !== user we need to also add a copy to the owners trash
 			if ($user !== $owner) {
-				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp, $type, $mime);
+				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp);
 			}
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
@@ -155,17 +143,12 @@ class Trashbin {
 
 		$userTrashSize += $size;
 		$userTrashSize -= self::expire($userTrashSize, $user);
-		self::setTrashbinSize($user, $userTrashSize);
 
 		// if owner !== user we also need to update the owners trash size
-		if($owner !== $user) {
+		if ($owner !== $user) {
 			$ownerTrashSize = self::getTrashbinSize($owner);
-			if ($ownerTrashSize === false || $ownerTrashSize < 0) {
-				$ownerTrashSize = self::calculateSize(new \OC\Files\View('/' . $owner . '/files_trashbin'));
-			}
 			$ownerTrashSize += $size;
 			$ownerTrashSize -= self::expire($ownerTrashSize, $owner);
-			self::setTrashbinSize($owner, $ownerTrashSize);
 		}
 	}
 
@@ -315,6 +298,7 @@ class Trashbin {
 
 	/**
 	 * restore files from trash bin
+	 *
 	 * @param $file path to the deleted file
 	 * @param $filename name of the file
 	 * @param $timestamp time when the file was deleted
@@ -326,33 +310,23 @@ class Trashbin {
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/' . $user);
 
-		$trashbinSize = self::getTrashbinSize($user);
-		if ($trashbinSize === false || $trashbinSize < 0) {
-			$trashbinSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
-		}
+		$location = '';
 		if ($timestamp) {
-			$query = \OC_DB::prepare('SELECT `location`,`type` FROM `*PREFIX*files_trash`'
-					. ' WHERE `user`=? AND `id`=? AND `timestamp`=?');
+			$query = \OC_DB::prepare('SELECT `location` FROM `*PREFIX*files_trash`'
+				. ' WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$result = $query->execute(array($user, $filename, $timestamp))->fetchAll();
 			if (count($result) !== 1) {
 				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
-				return false;
+			} else {
+				$location = $result[0]['location'];
+				// if location no longer exists, restore file in the root directory
+				if ($location !== '/' &&
+					(!$view->is_dir('files' . $location) ||
+						!$view->isUpdatable('files' . $location))
+				) {
+					$location = '';
+				}
 			}
-
-			// if location no longer exists, restore file in the root directory
-			$location = $result[0]['location'];
-			if ($result[0]['location'] !== '/' &&
-				(!$view->is_dir('files' . $result[0]['location']) ||
-				!$view->isUpdatable('files' . $result[0]['location']))) {
-				$location = '';
-			}
-		} else {
-			$path_parts = pathinfo($file);
-			$result[] = array(
-				'location' => $path_parts['dirname'],
-				'type' => $view->is_dir('/files_trashbin/files/' . $file) ? 'dir' : 'files',
-			);
-			$location = '';
 		}
 
 		// we need a  extension in case a file/dir with the same name already exists
@@ -377,21 +351,14 @@ class Trashbin {
 			$view->chroot($fakeRoot);
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', array('filePath' => \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename),
 				'trashPath' => \OC\Files\Filesystem::normalizePath($file)));
-			if ($view->is_dir($target)) {
-				$trashbinSize -= self::calculateSize(new \OC\Files\View('/' . $user . '/' . $target));
-			} else {
-				$trashbinSize -= $view->filesize($target);
-			}
 
-			$trashbinSize -= self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
-			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp);
+			self::restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp);
+			self::restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp);
 
 			if ($timestamp) {
 				$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
 				$query->execute(array($user, $filename, $timestamp));
 			}
-
-			self::setTrashbinSize($user, $trashbinSize);
 
 			// enable proxy
 			\OC_FileProxy::$enabled = $proxyStatus;
@@ -415,10 +382,8 @@ class Trashbin {
 	 * @param $location location if file
 	 * @param $timestamp deleteion time
 	 *
-	 * @return size of restored versions
 	 */
 	private static function restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
-		$size = 0;
 
 		if (\OCP\App::isEnabled('files_versions')) {
 			// disable proxy to prevent recursive calls
@@ -439,15 +404,12 @@ class Trashbin {
 			}
 
 			if ($view->is_dir('/files_trashbin/versions/' . $file)) {
-				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . 'files_trashbin/versions/' . $file));
 				$rootView->rename(\OC\Files\Filesystem::normalizePath($user . '/files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath($owner . '/files_versions/' . $ownerPath));
 			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
 				foreach ($versions as $v) {
 					if ($timestamp) {
-						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
 						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
 					} else {
-						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
 						$rootView->rename($user . '/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner . '/files_versions/' . $ownerPath . '.v' . $v);
 					}
 				}
@@ -456,7 +418,6 @@ class Trashbin {
 			// enable proxy
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
-		return $size;
 	}
 
 	/**
@@ -469,11 +430,9 @@ class Trashbin {
 	 * @param $location location of file
 	 * @param $timestamp deleteion time
 	 *
-	 * @return size of restored encrypted file
 	 */
 	private static function restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
-		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$user = \OCP\User::getUser();
 			$rootView = new \OC\Files\View('/');
@@ -518,18 +477,15 @@ class Trashbin {
 				if ($rootView->is_dir($keyfile)) {
 
 					// handle keyfiles
-					$size += self::calculateSize(new \OC\Files\View($keyfile));
 					$rootView->rename($keyfile, $baseDir . '/keyfiles/' . $ownerPath);
 
 					// handle share-keys
 					if ($timestamp) {
 						$sharekey .= '.d' . $timestamp;
 					}
-					$size += self::calculateSize(new \OC\Files\View($sharekey));
 					$rootView->rename($sharekey, $baseDir . '/share-keys/' . $ownerPath);
 				} else {
 					// handle keyfiles
-					$size += $rootView->filesize($keyfile);
 					$rootView->rename($keyfile, $baseDir . '/keyfiles/' . $ownerPath . '.key');
 
 					// handle share-keys
@@ -537,8 +493,6 @@ class Trashbin {
 					if ($timestamp) {
 						$ownerShareKey .= '.d' . $timestamp;
 					}
-
-					$size += $rootView->filesize($ownerShareKey);
 
 					// move only owners key
 					$rootView->rename($ownerShareKey, $baseDir . '/share-keys/' . $ownerPath . '.' . $user . '.shareKey');
@@ -566,7 +520,6 @@ class Trashbin {
 			// enable proxy
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
-		return $size;
 	}
 
 	/**
@@ -576,7 +529,6 @@ class Trashbin {
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/' . $user);
 		$view->deleteAll('files_trashbin');
-		self::setTrashbinSize($user, 0);
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
 		$query->execute(array($user));
 
@@ -597,11 +549,6 @@ class Trashbin {
 		$view = new \OC\Files\View('/' . $user);
 		$size = 0;
 
-		$trashbinSize = self::getTrashbinSize($user);
-		if ($trashbinSize === false || $trashbinSize < 0) {
-			$trashbinSize = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
-		}
-
 		if ($timestamp) {
 			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$query->execute(array($user, $filename, $timestamp));
@@ -618,10 +565,9 @@ class Trashbin {
 		} else {
 			$size += $view->filesize('/files_trashbin/files/' . $file);
 		}
+		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', array('path' => '/files_trashbin/files/' . $file));
 		$view->unlink('/files_trashbin/files/' . $file);
 		\OC_Hook::emit('\OCP\Trashbin', 'delete', array('path' => '/files_trashbin/files/' . $file));
-		$trashbinSize -= $size;
-		self::setTrashbinSize($user, $trashbinSize);
 
 		return $size;
 	}
@@ -687,6 +633,7 @@ class Trashbin {
 
 	/**
 	 * check to see whether a file exists in trashbin
+	 *
 	 * @param $filename path to the file
 	 * @param $timestamp of deletion time
 	 * @return true if file exists, otherwise false
@@ -767,22 +714,16 @@ class Trashbin {
 
 		$size = self::getTrashbinSize($user);
 
-		if ($size === false || $size < 0) {
-			$size = self::calculateSize(new \OC\Files\View('/' . $user . '/files_trashbin'));
-		}
-
 		$freeSpace = self::calculateFreeSpace($size);
 
 		if ($freeSpace < 0) {
-			$newSize = $size - self::expire($size, $user);
-			if ($newSize !== $size) {
-				self::setTrashbinSize($user, $newSize);
-			}
+			self::expire($size, $user);
 		}
 	}
 
 	/**
 	 * clean up the trash bin
+	 *
 	 * @param int $trashbinSize current size of the trash bin
 	 * @param string $user
 	 * @return int size of expired files
@@ -818,7 +759,7 @@ class Trashbin {
 		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
 			$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash`'
-					. ' WHERE `user`=? ORDER BY `timestamp` ASC');
+				. ' WHERE `user`=? ORDER BY `timestamp` ASC');
 			$result = $query->execute(array($user))->fetchAll();
 			$length = count($result);
 			$i = 0;
@@ -866,6 +807,7 @@ class Trashbin {
 
 	/**
 	 * find all versions which belong to the file we want to restore
+	 *
 	 * @param $filename name of the file which should be restored
 	 * @param $timestamp timestamp when the file was deleted
 	 */
@@ -882,13 +824,15 @@ class Trashbin {
 			$matches = glob($escapedVersionsName . '*');
 		}
 
-		foreach ($matches as $ma) {
-			if ($timestamp) {
-				$parts = explode('.v', substr($ma, 0, $offset));
-				$versions[] = ( end($parts) );
-			} else {
-				$parts = explode('.v', $ma);
-				$versions[] = ( end($parts) );
+		if (is_array($matches)) {
+			foreach ($matches as $ma) {
+				if ($timestamp) {
+					$parts = explode('.v', substr($ma, 0, $offset));
+					$versions[] = (end($parts));
+				} else {
+					$parts = explode('.v', $ma);
+					$versions[] = (end($parts));
+				}
 			}
 		}
 		return $versions;
@@ -896,6 +840,7 @@ class Trashbin {
 
 	/**
 	 * find unique extension for restored file if a file with the same name already exists
+	 *
 	 * @param $location where the file should be restored
 	 * @param $filename name of the file
 	 * @param \OC\Files\View $view filesystem view relative to users root directory
@@ -913,9 +858,9 @@ class Trashbin {
 
 		if ($view->file_exists('files' . $location . '/' . $filename)) {
 			$i = 2;
-			$uniqueName = $name . " (".$l->t("restored").")". $ext;
+			$uniqueName = $name . " (" . $l->t("restored") . ")" . $ext;
 			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
-				$uniqueName = $name . " (".$l->t("restored") . " " . $i . ")" . $ext;
+				$uniqueName = $name . " (" . $l->t("restored") . " " . $i . ")" . $ext;
 				$i++;
 			}
 
@@ -938,11 +883,19 @@ class Trashbin {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
 		$size = 0;
 
-		foreach ($iterator as $path) {
+                /**
+		 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+		 * This bug is fixed in PHP 5.5.9 or before
+		 * See #8376
+		 */
+		$iterator->rewind();
+		while ($iterator->valid()) {
+			$path = $iterator->current();
 			$relpath = substr($path, strlen($root) - 1);
 			if (!$view->is_dir($relpath)) {
 				$size += $view->filesize($relpath);
 			}
+			$iterator->next();
 		}
 		return $size;
 	}
@@ -954,28 +907,9 @@ class Trashbin {
 	 * @return mixed trash bin size or false if no trash bin size is stored
 	 */
 	private static function getTrashbinSize($user) {
-		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_trashsize` WHERE `user`=?');
-		$result = $query->execute(array($user))->fetchAll();
-
-		if ($result) {
-			return (int)$result[0]['size'];
-		}
-		return false;
-	}
-
-	/**
-	 * write to the database how much space is in use for the trash bin
-	 *
-	 * @param $user owner of the trash bin
-	 * @param $size size of the trash bin
-	 */
-	private static function setTrashbinSize($user, $size) {
-		if (self::getTrashbinSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*files_trashsize` (`size`, `user`) VALUES (?, ?)');
-		} else {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*files_trashsize` SET `size`=? WHERE `user`=?');
-		}
-		$query->execute(array($size, $user));
+		$view = new \OC\Files\View('/' . $user);
+		$fileInfo = $view->getFileInfo('/files_trashbin');
+		return $fileInfo['size'];
 	}
 
 	/**
@@ -997,16 +931,17 @@ class Trashbin {
 	public static function isEmpty($user) {
 
 		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
-		$content = $view->getDirectoryContent('/files');
-
-		if ($content) {
-			return false;
+		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
+			while ($file = readdir($dh)) {
+				if ($file !== '.' and $file !== '..') {
+					return false;
+				}
+			}
 		}
-
 		return true;
 	}
 
 	public static function preview_icon($path) {
-		return \OC_Helper::linkToRoute( 'core_ajax_trashbin_preview', array('x' => 36, 'y' => 36, 'file' => $path ));
+		return \OC_Helper::linkToRoute('core_ajax_trashbin_preview', array('x' => 36, 'y' => 36, 'file' => $path));
 	}
 }

@@ -1,4 +1,4 @@
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
 
 /* make header scroll up for single shares, more view of content on small screens */
 #header.share-file {
@@ -43,6 +43,14 @@ table td.filename .nametext {
 /* hide text of the actions on mobile */
 #fileList a.action span {
 	display: none;
+}
+
+/* ellipsis on file names */
+.nametext {
+	width: 60%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 

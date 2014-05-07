@@ -145,19 +145,14 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all display names in a group
-	 * @returns array with display names (value) and user ids(key)
+	 * @brief returns the number of users in a group, who match the search term
+	 * @param string the internal group name
+	 * @param string optional, a search string
+	 * @returns int | bool
 	 */
-	public function displayNamesInGroup($gid, $search, $limit, $offset) {
-		$displayNames = array();
-
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->displayNamesInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$displayNames = array_merge($displayNames, $backendUsers);
-			}
-		}
-		return $displayNames;
+	public function countUsersInGroup($gid, $search = '') {
+		return $this->handleRequest(
+			$gid, 'countUsersInGroup', array($gid, $search));
 	}
 
 	/**

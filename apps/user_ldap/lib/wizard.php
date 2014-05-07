@@ -485,7 +485,7 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief sets the found value for the configuration key in the WizardResult
 	 * as well as in the Configuration instance
-	 * @param $key the configuration key
+	 * @param string $key the configuration key
 	 * @param $value the (detected) value
 	 * @return null
 	 *
@@ -799,6 +799,7 @@ class Wizard extends LDAPUtility {
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
 		//set LDAP options
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($tls) {
 			$isTlsWorking = @$this->ldap->startTls($cr);
@@ -869,12 +870,14 @@ class Wizard extends LDAPUtility {
 	 * @param string $attr the attribute of which a list of values shall be returned
 	 * @param $lfw bool, whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
+	 * @param int $dnReadLimit the amount of how many DNs should be analyzed.
+	 * The lower, the faster
 	 * @param string $maxF string. if not null, this variable will have the filter that
 	 * yields most result entries
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
 	 */
-	private function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, &$maxF = null) {
+	public function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, $dnReadLimit = 3, &$maxF = null) {
 		$dnRead = array();
 		$foundItems = array();
 		$maxEntries = 0;
@@ -884,11 +887,16 @@ class Wizard extends LDAPUtility {
 		}
 		$base = $this->configuration->ldapBase[0];
 		$cr = $this->getConnection();
-		if(!is_resource($cr)) {
+		if(!$this->ldap->isResource($cr)) {
 			return false;
 		}
+		$lastFilter = null;
+		if(isset($filters[count($filters)-1])) {
+			$lastFilter = $filters[count($filters)-1];
+		}
 		foreach($filters as $filter) {
-			if($lfw && count($foundItems) > 0) {
+			if($lfw && $lastFilter === $filter && count($foundItems) > 0) {
+				//skip when the filter is a wildcard and results were found
 				continue;
 			}
 			$rr = $this->ldap->search($cr, $base, $filter, array($attr));
@@ -902,8 +910,10 @@ class Wizard extends LDAPUtility {
 					$maxEntries = $entries;
 					$maxF = $filter;
 				}
+				$dnReadCount = 0;
 				do {
 					$entry = $this->ldap->$getEntryFunc($cr, $rr);
+					$getEntryFunc = 'nextEntry';
 					if(!$this->ldap->isResource($entry)) {
 						continue 2;
 					}
@@ -916,13 +926,14 @@ class Wizard extends LDAPUtility {
 					$state = $this->getAttributeValuesFromEntry($attributes,
 																$attr,
 																$newItems);
+					$dnReadCount++;
 					$foundItems = array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
-					$getEntryFunc = 'nextEntry';
 					$rr = $entry; //will be expected by nextEntry next round
-				} while($state === self::LRESULT_PROCESSED_SKIP
-						|| $this->ldap->isResource($entry));
+				} while(($state === self::LRESULT_PROCESSED_SKIP
+						|| $this->ldap->isResource($entry))
+						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
 			}
 		}
 
@@ -950,9 +961,19 @@ class Wizard extends LDAPUtility {
 			$objectclasses[$key] = $p.$value;
 		}
 		$maxEntryObjC = '';
+
+		//how deep to dig?
+		//When looking for objectclasses, testing few entries is sufficient,
+		//when looking for group we need to get all names, though.
+		if(strtolower($attr) === 'objectclass') {
+			$dig = 3;
+		} else {
+			$dig = 0;
+		}
+
 		$availableFeatures =
 			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   true, $maxEntryObjC);
+											   true, $dig, $maxEntryObjC);
 		if(is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
 			natcasesort($availableFeatures);
@@ -980,7 +1001,7 @@ class Wizard extends LDAPUtility {
 	/**
 	 * @brief appends a list of values fr
 	 * @param $result resource, the return value from ldap_get_attributes
-	 * @param $attribute string, the attribute values to look for
+	 * @param string $attribute the attribute values to look for
 	 * @param &$known array, new values will be appended here
 	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
 	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP

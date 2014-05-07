@@ -38,8 +38,8 @@ class Updater {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$scanner = $storage->getScanner($internalPath);
-			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
-			$cache->correctFolderSize($internalPath);
+			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
+			$cache->correctFolderSize($internalPath, $data);
 			self::correctFolder($path, $storage->filemtime($internalPath));
 			self::correctParentStorageMtime($storage, $internalPath);
 		}
@@ -119,6 +119,9 @@ class Updater {
 
 		if ($uid != \OCP\User::getUser()) {
 			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			if (!$info) {
+				return array($uid, '/files/' . $filename);
+			}
 			$ownerView = new \OC\Files\View('/' . $uid . '/files');
 			$filename = $ownerView->getPath($info['fileid']);
 		}
@@ -150,7 +153,7 @@ class Updater {
 				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
 				if ($realPath !== '') {
 					$realPath = dirname($realPath);
-					if($realPath === DIRECTORY_SEPARATOR ) {
+					if ($realPath === DIRECTORY_SEPARATOR) {
 						$realPath = "";
 					}
 					// check storage for parent in case we change the storage in this step

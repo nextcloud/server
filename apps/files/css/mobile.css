@@ -1,0 +1,68 @@
+@media only screen and (max-width: 768px) {
+
+/* don’t require a minimum width for files table */
+#body-user #filestable {
+	min-width: initial !important;
+}
+
+/* do not show Deleted Files on mobile, not optimized yet and button too long */
+#controls #trash {
+	display: none;
+}
+
+/* hide size and date columns */
+table th#headerSize,
+table td.filesize,
+table th#headerDate,
+table td.date {
+	display: none;
+}
+
+/* remove shift for multiselect bar to account for missing navigation */
+table.multiselect thead {
+	padding-left: 0;
+}
+
+/* restrict length of displayed filename to prevent overflow */
+table td.filename .nametext {
+	max-width: 75% !important;
+}
+
+/* always show actions on mobile, not only on hover */
+#fileList a.action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" !important;
+	filter: alpha(opacity=20) !important;
+	opacity: .2 !important;
+	display: inline !important;
+}
+/* do not show Rename or Versions on mobile */
+#fileList .action.action-rename,
+#fileList .action.action-versions {
+	display: none !important;
+}
+/* some padding for better clickability */
+#fileList a.action img {
+	padding: 0 6px 0 12px;
+}
+/* hide text of the actions on mobile */
+#fileList a.action span {
+	display: none;
+}
+
+/* ellipsis on file names */
+.nametext {
+	width: 60%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* proper notification area for multi line messages */
+#notification-container {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+}

@@ -135,7 +135,6 @@ class Util {
 		// Set directories to check / create
 		$setUpDirs = array(
 			$this->userDir,
-			$this->userFilesDir,
 			$this->publicKeyDir,
 			$this->encryptionDir,
 			$this->keyfilesPath,
@@ -433,25 +432,28 @@ class Util {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		// we only need 24 byte from the last chunk
 		$data = '';
-		$handle = $this->view->fopen($path, 'r');
-		if (is_resource($handle)) {
-			// suppress fseek warining, we handle the case that fseek doesn't
-			// work in the else branch
-			if (@fseek($handle, -24, SEEK_END) === 0) {
-				$data = fgets($handle);
-			} else {
-				// if fseek failed on the storage we create a local copy from the file
-				// and read this one
-				fclose($handle);
-				$localFile = $this->view->getLocalFile($path);
-				$handle = fopen($localFile, 'r');
-				if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+
+		// we only need 24 byte from the last chunk
+		if ($this->view->file_exists($path)) {
+			$handle = $this->view->fopen($path, 'r');
+			if (is_resource($handle)) {
+				// suppress fseek warining, we handle the case that fseek doesn't
+				// work in the else branch
+				if (@fseek($handle, -24, SEEK_END) === 0) {
 					$data = fgets($handle);
+				} else {
+					// if fseek failed on the storage we create a local copy from the file
+					// and read this one
+					fclose($handle);
+					$localFile = $this->view->getLocalFile($path);
+					$handle = fopen($localFile, 'r');
+					if (is_resource($handle) && fseek($handle, -24, SEEK_END) === 0) {
+						$data = fgets($handle);
+					}
 				}
+				fclose($handle);
 			}
-			fclose($handle);
 		}
 
 		// re-enable proxy
@@ -968,33 +970,6 @@ class Util {
 	}
 
 	/**
-	 * @brief get path of a file.
-	 * @param int $fileId id of the file
-	 * @return string path of the file
-	 */
-	public static function fileIdToPath($fileId) {
-
-		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($fileId));
-
-		$path = false;
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-			if ($row) {
-				$path = substr($row['path'], strlen('files'));
-			}
-		}
-
-		return $path;
-
-	}
-
-	/**
 	 * @brief Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
 	 * @return array as multi-dimensional array. keys: ready, unready
@@ -1125,8 +1100,9 @@ class Util {
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
 	 * @param boolean $sharingEnabled
+	 * @param string $filePath path relativ to current users files folder
 	 */
-	public function getSharingUsersArray($sharingEnabled, $filePath, $currentUserId = false) {
+	public function getSharingUsersArray($sharingEnabled, $filePath) {
 
 		$appConfig = \OC::$server->getAppConfig();
 
@@ -1145,12 +1121,14 @@ class Util {
 
 		$ownerPath = \OCA\Encryption\Helper::stripPartialFileExtension($ownerPath);
 
-		$userIds = array();
+		// always add owner to the list of users with access to the file
+		$userIds = array($owner);
+
 		if ($sharingEnabled) {
 
 			// Find out who, if anyone, is sharing the file
-			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, true);
-			$userIds = $result['users'];
+			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
+			$userIds = \array_merge($userIds, $result['users']);
 			if ($result['public']) {
 				$userIds[] = $this->publicShareKeyId;
 			}
@@ -1164,11 +1142,6 @@ class Util {
 			$recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
 			// Add recoveryAdmin to list of users sharing
 			$userIds[] = $recoveryKeyId;
-		}
-
-		// add current user if given
-		if ($currentUserId !== false) {
-			$userIds[] = $currentUserId;
 		}
 
 		// check if it is a group mount
@@ -1398,7 +1371,7 @@ class Util {
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
-	public function getAllFiles($dir) {
+	public function getAllFiles($dir, $mountPoint = '') {
 		$result = array();
 		$dirList = array($dir);
 
@@ -1408,65 +1381,19 @@ class Util {
 					$this->userFilesDir . '/' . $dir));
 
 			foreach ($content as $c) {
-				$usersPath = isset($c['usersPath']) ? $c['usersPath'] : $c['path'];
+				// getDirectoryContent() returns the paths relative to the mount points, so we need
+				// to re-construct the complete path
+				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c['path'] : $c['path'];
 				if ($c['type'] === 'dir') {
-					$dirList[] = substr($usersPath, strlen("files"));
+					$dirList[] = substr($path, strlen("files"));
 				} else {
-					$result[] = substr($usersPath, strlen("files"));
+					$result[] = substr($path, strlen("files"));
 				}
 			}
 
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @brief get shares parent.
-	 * @param int $id of the current share
-	 * @return array of the parent
-	 */
-	public static function getShareParent($id) {
-
-		$sql = 'SELECT `file_target`, `item_type` FROM `*PREFIX*share` WHERE `id` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($id));
-
-		$row = array();
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-		}
-
-		return $row;
-
-	}
-
-	/**
-	 * @brief get shares parent.
-	 * @param int $id of the current share
-	 * @return array of the parent
-	 */
-	public static function getParentFromShare($id) {
-
-		$sql = 'SELECT `parent` FROM `*PREFIX*share` WHERE `id` = ?';
-
-		$query = \OCP\DB::prepare($sql);
-
-		$result = $query->execute(array($id));
-
-		$row = array();
-		if (\OCP\DB::isError($result)) {
-			\OCP\Util::writeLog('Encryption library', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-		} else {
-			$row = $result->fetchRow();
-		}
-
-		return $row;
-
 	}
 
 	/**
@@ -1711,23 +1638,6 @@ class Util {
 	}
 
 	/**
-	 * Get the path including the storage mount point
-	 * @param int $id
-	 * @return string the path including the mount point like AmazonS3/folder/file.txt
-	 */
-	public function getPathWithMountPoint($id) {
-		list($storage, $internalPath) = \OC\Files\Cache\Cache::getById($id);
-		$mount = \OC\Files\Filesystem::getMountByStorageId($storage);
-		$mountPoint = $mount[0]->getMountPoint();
-		$path = \OC\Files\Filesystem::normalizePath($mountPoint . '/' . $internalPath);
-
-		// reformat the path to be relative e.g. /user/files/folder becomes /folder/
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-
-		return $relativePath;
-	}
-
-	/**
 	 * @brief check if the file is stored on a system wide mount point
 	 * @param $path relative to /data/user with leading '/'
 	 * @return boolean
@@ -1770,6 +1680,14 @@ class Util {
 		$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 
 		return $session;
+	}
+
+	/*
+	 * @brief remove encryption related keys from the session
+	 */
+	public function closeEncryptionSession() {
+		$session = new \OCA\Encryption\Session($this->view);
+		$session->closeSession();
 	}
 
 }

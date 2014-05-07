@@ -39,6 +39,7 @@ class OC_OCS {
 	* @return string Data or if the key is not found and no default is set it will exit with a 400 Bad request
 	*/
 	public static function readData($method, $key, $type = 'raw', $default = null) {
+		$data = false;
 		if ($method == 'get') {
 			if (isset($_GET[$key])) {
 				$data = $_GET[$key];
@@ -107,19 +108,19 @@ class OC_OCS {
 
 
 	/**
-	* generates the xml or json response for the API call from an multidimenional data array.
-	* @param string $format
-	* @param string $status
-	* @param string $statuscode
-	* @param string $message
-	* @param array $data
-	* @param string $tag
-	* @param string $tagattribute
-	* @param int $dimension
-	* @param int $itemscount
-	* @param int $itemsperpage
-	* @return string xml/json
-	*/
+	 * generates the xml or json response for the API call from an multidimenional data array.
+	 * @param string $format
+	 * @param string $status
+	 * @param string $statuscode
+	 * @param string $message
+	 * @param array $data
+	 * @param string $tag
+	 * @param string $tagattribute
+	 * @param int $dimension
+	 * @param int|string $itemscount
+	 * @param int|string $itemsperpage
+	 * @return string xml/json
+	 */
 	private static function generateXml($format, $status, $statuscode,
 		$message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
 		if($format=='json') {
@@ -212,6 +213,8 @@ class OC_OCS {
 	}
 
 	/**
+	 * @param $writer
+	 * @param $data
 	 * @param string $node
 	 */
 	public static function toXml($writer, $data, $node) {

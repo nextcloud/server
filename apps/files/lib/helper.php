@@ -11,7 +11,7 @@ class Helper
 		$l = new \OC_L10N('files');
 		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload') . ' max. ' . $maxHumanFilesize;
+		$maxHumanFilesize = $l->t('Upload (max. %s)', array($maxHumanFilesize));
 
 		return array('uploadMaxFilesize' => $maxUploadFilesize,
 					 'maxHumanFilesize'  => $maxHumanFilesize,
@@ -19,97 +19,113 @@ class Helper
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
 
+	/**
+	 * Determine icon for a given file
+	 *
+	 * @param \OC\Files\FileInfo $file file info
+	 * @return string icon URL
+	 */
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
 			$dir = $file['directory'];
-			$absPath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir.'/'.$file['name']);
+			$icon = \OC_Helper::mimetypeIcon('dir');
+			$absPath = $file->getPath();
 			$mount = \OC\Files\Filesystem::getMountManager()->find($absPath);
 			if (!is_null($mount)) {
 				$sid = $mount->getStorageId();
 				if (!is_null($sid)) {
 					$sid = explode(':', $sid);
 					if ($sid[0] === 'shared') {
-						return \OC_Helper::mimetypeIcon('dir-shared');
-					}
-					if ($sid[0] !== 'local' and $sid[0] !== 'home') {
-						return \OC_Helper::mimetypeIcon('dir-external');
+						$icon = \OC_Helper::mimetypeIcon('dir-shared');
+					} elseif ($sid[0] !== 'local' and $sid[0] !== 'home') {
+						$icon = \OC_Helper::mimetypeIcon('dir-external');
 					}
 				}
 			}
-			return \OC_Helper::mimetypeIcon('dir');
+		}else{
+			$icon = \OC_Helper::mimetypeIcon($file->getMimetype());
 		}
 
-		if($file['isPreviewAvailable']) {
-			$pathForPreview = $file['directory'] . '/' . $file['name'];
-			return \OC_Helper::previewIcon($pathForPreview) . '&c=' . $file['etag'];
-		}
-		return \OC_Helper::mimetypeIcon($file['mimetype']);
+		return substr($icon, 0, -3) . 'svg';
 	}
 
 	/**
 	 * Comparator function to sort files alphabetically and have
 	 * the directories appear first
-	 * @param array $a file
-	 * @param array $b file
-	 * @return -1 if $a must come before $b, 1 otherwise
+	 *
+	 * @param \OCP\Files\FileInfo $a file
+	 * @param \OCP\Files\FileInfo $b file
+	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
 	public static function fileCmp($a, $b) {
-		if ($a['type'] === 'dir' and $b['type'] !== 'dir') {
+		$aType = $a->getType();
+		$bType = $b->getType();
+		if ($aType === 'dir' and $bType !== 'dir') {
 			return -1;
-		} elseif ($a['type'] !== 'dir' and $b['type'] === 'dir') {
+		} elseif ($aType !== 'dir' and $bType === 'dir') {
 			return 1;
 		} else {
-			return strnatcasecmp($a['name'], $b['name']);
+			return strnatcasecmp($a->getName(), $b->getName());
 		}
 	}
 
 	/**
-	 * Retrieves the contents of the given directory and
-	 * returns it as a sorted array.
-	 * @param string $dir path to the directory
-	 * @return array of files
+	 * Formats the file info to be returned as JSON to the client.
+	 *
+	 * @param \OCP\Files\FileInfo $i
+	 * @return array formatted file info
 	 */
-	public static function getFiles($dir) {
-		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
-		$files = array();
+	public static function formatFileInfo($i) {
+		$entry = array();
 
-		foreach ($content as $i) {
-			$i['date'] = \OCP\Util::formatDate($i['mtime']);
-			if ($i['type'] === 'file') {
-				$fileinfo = pathinfo($i['name']);
-				$i['basename'] = $fileinfo['filename'];
-				if (!empty($fileinfo['extension'])) {
-					$i['extension'] = '.' . $fileinfo['extension'];
-				} else {
-					$i['extension'] = '';
-				}
-			}
-			$i['directory'] = $dir;
-			$i['isPreviewAvailable'] = \OC::$server->getPreviewManager()->isMimeSupported($i['mimetype']);
-			$i['icon'] = \OCA\Files\Helper::determineIcon($i);
-			$files[] = $i;
+		$entry['id'] = $i['fileid'];
+		$entry['parentId'] = $i['parent'];
+		$entry['date'] = \OCP\Util::formatDate($i['mtime']);
+		$entry['mtime'] = $i['mtime'] * 1000;
+		// only pick out the needed attributes
+		$entry['icon'] = \OCA\Files\Helper::determineIcon($i);
+		if (\OC::$server->getPreviewManager()->isMimeSupported($i['mimetype'])) {
+			$entry['isPreviewAvailable'] = true;
 		}
+		$entry['name'] = $i['name'];
+		$entry['permissions'] = $i['permissions'];
+		$entry['mimetype'] = $i['mimetype'];
+		$entry['size'] = $i['size'];
+		$entry['type'] = $i['type'];
+		$entry['etag'] = $i['etag'];
+		if (isset($i['displayname_owner'])) {
+			$entry['shareOwner'] = $i['displayname_owner'];
+		}
+		if (isset($i['is_share_mount_point'])) {
+			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
+		}
+		return $entry;
+	}
 
-		usort($files, array('\OCA\Files\Helper', 'fileCmp'));
+	/**
+	 * Format file info for JSON
+	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
+	 */
+	public static function formatFileInfos($fileInfos) {
+		$files = array();
+		foreach ($fileInfos as $i) {
+			$files[] = self::formatFileInfo($i);
+		}
 
 		return $files;
 	}
 
 	/**
-	 * Splits the given path into a breadcrumb structure.
-	 * @param string $dir path to process
-	 * @return array where each entry is a hash of the absolute
-	 * directory path and its name
+	 * Retrieves the contents of the given directory and
+	 * returns it as a sorted array of FileInfo.
+	 *
+	 * @param string $dir path to the directory
+	 * @return \OCP\Files\FileInfo[] files
 	 */
-	public static function makeBreadcrumb($dir){
-		$breadcrumb = array();
-		$pathtohere = '';
-		foreach (explode('/', $dir) as $i) {
-			if ($i !== '') {
-				$pathtohere .= '/' . $i;
-				$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
-			}
-		}
-		return $breadcrumb;
+	public static function getFiles($dir) {
+		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+
+		usort($content, array('\OCA\Files\Helper', 'fileCmp'));
+		return $content;
 	}
 }

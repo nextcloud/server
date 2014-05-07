@@ -9,7 +9,7 @@
 namespace OC\Preview;
 
 function findBinaryPath($program) {
-	exec('which ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
 	if ($returnCode === 0 && count($output) > 0) {
 		return escapeshellcmd($output[0]);
 	}
@@ -42,7 +42,6 @@ if (!\OC_Util::runningOnWindows()) {
 			public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 				// TODO: use proc_open() and stream the source file ?
 				$absPath = \OC_Helper::tmpFile();
-				$tmpPath = \OC_Helper::tmpFile();
 
 				$handle = $fileview->fopen($path, 'rb');
 
@@ -51,14 +50,39 @@ if (!\OC_Util::runningOnWindows()) {
 				$firstmb = stream_get_contents($handle, 5242880);
 				file_put_contents($absPath, $firstmb);
 
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+				if ($result === false) {
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+					if ($result === false) {
+						$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+					}
+				}
+
+				unlink($absPath);
+
+
+				return $result;
+			}
+
+			/**
+			 * @param int $maxX
+			 * @param int $maxY
+			 * @param string $absPath
+			 * @param string $tmpPath
+			 * @param int $second
+			 * @return bool|\OC_Image
+			 */
+			private function generateThumbNail($maxX, $maxY, $absPath, $second)
+			{
+				$tmpPath = \OC_Helper::tmpFile();
+
 				if (self::$avconvBinary) {
-					$cmd = self::$avconvBinary . ' -an -y -ss 5'.
+					$cmd = self::$avconvBinary . ' -an -y -ss ' . escapeshellarg($second) .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 						' > /dev/null 2>&1';
-				}
-				else {
-					$cmd = self::$ffmpegBinary . ' -y -ss 5' .
+				} else {
+					$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .
 						' -i ' . escapeshellarg($absPath) .
 						' -f mjpeg -vframes 1' .
 						' -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) .
@@ -68,14 +92,13 @@ if (!\OC_Util::runningOnWindows()) {
 
 				exec($cmd, $output, $returnCode);
 
-				unlink($absPath);
-
 				if ($returnCode === 0) {
 					$image = new \OC_Image();
 					$image->loadFromFile($tmpPath);
 					unlink($tmpPath);
 					return $image->valid() ? $image : false;
 				}
+				unlink($tmpPath);
 				return false;
 			}
 		}

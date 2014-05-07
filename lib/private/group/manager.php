@@ -153,12 +153,6 @@ class Manager extends PublicEmitter {
 		$groups = array();
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getGroups($search, $limit, $offset);
-			if (!is_null($limit)) {
-				$limit -= count($groupIds);
-			}
-			if (!is_null($offset)) {
-				$offset -= count($groupIds);
-			}
 			foreach ($groupIds as $groupId) {
 				$groups[$groupId] = $this->get($groupId);
 			}
@@ -187,5 +181,39 @@ class Manager extends PublicEmitter {
 		}
 		$this->cachedUserGroups[$uid] = array_values($groups);
 		return $this->cachedUserGroups[$uid];
+	}
+
+	/**
+	 * @brief get a list of all display names in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with display names (value) and user ids (key)
+	 */
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$group = $this->get($gid);
+		if(is_null($group)) {
+			return array();
+		}
+		// only user backends have the capability to do a complex search for users
+		$groupUsers  = $group->searchUsers('', $limit, $offset);
+		$search = trim($search);
+		if(!empty($search)) {
+			//TODO: for OC 7 earliest: user backend should get a method to check selected users against a pattern
+			$filteredUsers = $this->userManager->search($search);
+			$testUsers = true;
+		} else {
+			$filteredUsers = array();
+			$testUsers = false;
+		}
+
+		$matchingUsers = array();
+		foreach($groupUsers as $user) {
+			if(!$testUsers || isset($filteredUsers[$user->getUID()])) {
+				$matchingUsers[$user->getUID()] = $user->getDisplayName();
+			}
+		}
+		return $matchingUsers;
 	}
 }

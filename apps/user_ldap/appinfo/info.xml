@@ -2,8 +2,8 @@
 <info>
 	<id>user_ldap</id>
 	<name>LDAP user and group backend</name>
-	<description>Authenticate users and groups by LDAP respectively Active
-		Directory.
+	<description>Authenticate users and groups through LDAP, such as OpenLDAP
+	    or Active Directory.
 
 		This app is not compatible with the WebDAV user backend.
 	</description>

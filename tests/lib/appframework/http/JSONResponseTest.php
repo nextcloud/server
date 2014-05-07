@@ -28,6 +28,7 @@ namespace OC\AppFramework\Http;
 
 
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http;
 
 //require_once(__DIR__ . "/../classloader.php");
 
@@ -78,13 +79,6 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-
-	public function testShouldHaveXContentHeaderByDefault() {
-		$headers = $this->json->getHeaders();
-		$this->assertEquals('nosniff', $headers['X-Content-Type-Options']);
-	}
-
-
 	public function testConstructorAllowsToSetData() {
 		$data = array('hi');
 		$code = 300;
@@ -93,6 +87,15 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 		$expected = '["hi"]';
 		$this->assertEquals($expected, $response->render());
 		$this->assertEquals($code, $response->getStatus());
+	}
+
+	public function testChainability() {
+		$params = array('hi', 'yo');
+		$this->json->setData($params)
+			->setStatus(Http::STATUS_NOT_FOUND);
+
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->json->getStatus());
+		$this->assertEquals(array('hi', 'yo'), $this->json->getData());
 	}
 
 }

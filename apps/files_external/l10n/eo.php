@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Loko",
+"URL" => "URL",
+"Username" => "Uzantonomo",
+"Password" => "Pasvorto",
+"Share" => "Kunhavigi",
 "Access granted" => "Alirpermeso donita",
 "Error configuring Dropbox storage" => "Eraro dum agordado de la memorservo Dropbox",
 "Grant access" => "Doni alirpermeson",
@@ -9,14 +14,11 @@ $TRANSLATIONS = array(
 "Folder name" => "Dosierujnomo",
 "Configuration" => "Agordo",
 "Options" => "Malneproj",
-"Applicable" => "Aplikebla",
-"None set" => "Nenio agordita",
 "All Users" => "Ĉiuj uzantoj",
 "Groups" => "Grupoj",
 "Users" => "Uzantoj",
 "Delete" => "Forigi",
 "Enable User External Storage" => "Kapabligi malenan memorilon de uzanto",
-"Allow users to mount their own external storage" => "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn",
 "SSL root certificates" => "Radikaj SSL-atestoj",
 "Import Root Certificate" => "Enporti radikan ateston"
 );

@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "ئوغلاق",
 "December" => "كۆنەك",
 "Settings" => "تەڭشەكلەر",
+"Saving..." => "ساقلاۋاتىدۇ…",
 "_%n minute ago_::_%n minutes ago_" => array(""),
 "_%n hour ago_::_%n hours ago_" => array(""),
 "today" => "بۈگۈن",
@@ -49,7 +50,6 @@ $TRANSLATIONS = array(
 "Apps" => "ئەپلەر",
 "Help" => "ياردەم",
 "Security Warning" => "بىخەتەرلىك ئاگاھلاندۇرۇش",
-"Advanced" => "ئالىي",
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"
 );

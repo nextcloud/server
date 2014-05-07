@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Berikan pilihan host cadangan. Harus merupakan replika dari server LDAP/AD utama.",
 "Backup (Replica) Port" => "Port Cadangan (Replika)",
 "Disable Main Server" => "Nonaktifkan Server Utama",
-"Case insensitve LDAP server (Windows)" => "Server LDAP dengan kapitalisasi tidak sensitif (Windows)",
 "Turn off SSL certificate validation." => "matikan validasi sertivikat SSL",
 "Cache Time-To-Live" => "Gunakan Tembolok untuk Time-To-Live",
 "in seconds. A change empties the cache." => "dalam detik. perubahan mengosongkan cache",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Deleted files" => "Sterge fisierele",
 "Error" => "Eroare",
 "Name" => "Nume",
 "Delete" => "Șterge"

@@ -90,7 +90,6 @@ class HomeCache extends \PHPUnit_Framework_TestCase {
 
 		// check that files and root size ignored the unknown sizes
 		$this->assertEquals(1000, $this->cache->calculateFolderSize('files'));
-		$this->assertEquals(1000, $this->cache->calculateFolderSize(''));
 
 		// clean up
 		$this->cache->remove('');

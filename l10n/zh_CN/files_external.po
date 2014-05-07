@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Xuetian Weng <wengxt@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-05 18:46+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,107 +18,276 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:8 js/google.js:39
+#: appinfo/app.php:34
+msgid "Local"
+msgstr "本地"
+
+#: appinfo/app.php:36
+msgid "Location"
+msgstr "地点"
+
+#: appinfo/app.php:39
+msgid "Amazon S3"
+msgstr "Amazon S3"
+
+#: appinfo/app.php:41
+msgid "Key"
+msgstr ""
+
+#: appinfo/app.php:42
+msgid "Secret"
+msgstr ""
+
+#: appinfo/app.php:43 appinfo/app.php:51
+msgid "Bucket"
+msgstr ""
+
+#: appinfo/app.php:47
+msgid "Amazon S3 and compliant"
+msgstr ""
+
+#: appinfo/app.php:49
+msgid "Access Key"
+msgstr "访问密钥"
+
+#: appinfo/app.php:50
+msgid "Secret Key"
+msgstr ""
+
+#: appinfo/app.php:52
+msgid "Hostname (optional)"
+msgstr "域名 (可选)"
+
+#: appinfo/app.php:53
+msgid "Port (optional)"
+msgstr "端口 (可选)"
+
+#: appinfo/app.php:54
+msgid "Region (optional)"
+msgstr "区域 (optional)"
+
+#: appinfo/app.php:55
+msgid "Enable SSL"
+msgstr "启用 SSL"
+
+#: appinfo/app.php:56
+msgid "Enable Path Style"
+msgstr ""
+
+#: appinfo/app.php:63
+msgid "App key"
+msgstr ""
+
+#: appinfo/app.php:64
+msgid "App secret"
+msgstr ""
+
+#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
+#: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
+msgid "URL"
+msgstr "URL"
+
+#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
+#: appinfo/app.php:142 appinfo/app.php:152
+msgid "Username"
+msgstr "用户名"
+
+#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
+#: appinfo/app.php:143 appinfo/app.php:153
+msgid "Password"
+msgstr "密码"
+
+#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
+#: appinfo/app.php:134 appinfo/app.php:154
+msgid "Root"
+msgstr "根路径"
+
+#: appinfo/app.php:77
+msgid "Secure ftps://"
+msgstr "安全 ftps://"
+
+#: appinfo/app.php:84
+msgid "Client ID"
+msgstr ""
+
+#: appinfo/app.php:85
+msgid "Client secret"
+msgstr ""
+
+#: appinfo/app.php:92
+msgid "OpenStack Object Storage"
+msgstr ""
+
+#: appinfo/app.php:94
+msgid "Username (required)"
+msgstr ""
+
+#: appinfo/app.php:95
+msgid "Bucket (required)"
+msgstr ""
+
+#: appinfo/app.php:96
+msgid "Region (optional for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:97
+msgid "API Key (required for Rackspace Cloud Files)"
+msgstr ""
+
+#: appinfo/app.php:98
+msgid "Tenantname (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:99
+msgid "Password (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:100
+msgid "Service Name (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:101
+msgid "URL of identity endpoint (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:102
+msgid "Timeout of HTTP requests in seconds (optional)"
+msgstr ""
+
+#: appinfo/app.php:114 appinfo/app.php:123
+msgid "Share"
+msgstr "共享"
+
+#: appinfo/app.php:119
+msgid "SMB / CIFS using OC login"
+msgstr "SMB / CIFS 使用 OC 登录信息"
+
+#: appinfo/app.php:122
+msgid "Username as share"
+msgstr ""
+
+#: appinfo/app.php:135 appinfo/app.php:145
+msgid "Secure https://"
+msgstr "安全 https://"
+
+#: appinfo/app.php:144
+msgid "Remote subfolder"
+msgstr "远程子文件夹"
+
+#: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
 msgstr "权限已授予。"
 
-#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
+#: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
 msgstr "配置Dropbox存储时出错"
 
-#: js/dropbox.js:65 js/google.js:86
+#: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "授权"
 
-#: js/dropbox.js:101
+#: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "请提供有效的Dropbox应用key和secret"
 
-#: js/google.js:42 js/google.js:121
+#: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "配置Google Drive存储时出错"
 
-#: lib/config.php:461
-msgid ""
-"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
-"is not possible. Please ask your system administrator to install it."
-msgstr "<b>警告：</b>“smbclient” 尚未安装。CIFS/SMB 分享挂载无法实现。请咨询系统管理员进行安装。"
+#: js/settings.js:318 js/settings.js:325
+msgid "Saved"
+msgstr "已保存"
 
-#: lib/config.php:465
-msgid ""
-"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
-" of FTP shares is not possible. Please ask your system administrator to "
-"install it."
-msgstr "<b>警告：</b>PHP中尚未启用或安装FTP。FTP 分享挂载无法实现。请咨询系统管理员进行安装。"
+#: lib/config.php:598
+msgid "<b>Note:</b> "
+msgstr "<b>注意：</b>"
 
-#: lib/config.php:468
-msgid ""
-"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
-"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
-"your system administrator to install it."
-msgstr "<b>警告：</b> PHP中未启用或未安装Curl支持。ownCloud / WebDAV 或 GoogleDrive 不能挂载。请请求您的系统管理员安装该它。"
+#: lib/config.php:608
+msgid " and "
+msgstr "和"
 
-#: templates/settings.php:3
+#: lib/config.php:630
+#, php-format
+msgid ""
+"<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
+"of %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:632
+#, php-format
+msgid ""
+"<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
+" %s is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:634
+#, php-format
+msgid ""
+"<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
+" ask your system administrator to install it."
+msgstr ""
+
+#: templates/settings.php:2
 msgid "External Storage"
 msgstr "外部存储"
 
-#: templates/settings.php:9 templates/settings.php:28
+#: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
 msgstr "目录名称"
 
-#: templates/settings.php:10
+#: templates/settings.php:9
 msgid "External storage"
 msgstr "外部存储"
 
-#: templates/settings.php:11
+#: templates/settings.php:10
 msgid "Configuration"
 msgstr "配置"
 
-#: templates/settings.php:12
+#: templates/settings.php:11
 msgid "Options"
 msgstr "选项"
 
-#: templates/settings.php:13
-msgid "Applicable"
-msgstr "适用的"
+#: templates/settings.php:12
+msgid "Available for"
+msgstr "可用于"
 
-#: templates/settings.php:33
+#: templates/settings.php:32
 msgid "Add storage"
 msgstr "添加存储"
 
-#: templates/settings.php:90
-msgid "None set"
-msgstr "未设置"
+#: templates/settings.php:92
+msgid "No user or group"
+msgstr "无用户或组"
 
-#: templates/settings.php:91
+#: templates/settings.php:95
 msgid "All Users"
 msgstr "所有用户"
 
-#: templates/settings.php:92
+#: templates/settings.php:97
 msgid "Groups"
 msgstr "组"
 
-#: templates/settings.php:100
+#: templates/settings.php:105
 msgid "Users"
 msgstr "用户"
 
-#: templates/settings.php:113 templates/settings.php:114
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:118 templates/settings.php:119
+#: templates/settings.php:158 templates/settings.php:159
 msgid "Delete"
 msgstr "删除"
 
-#: templates/settings.php:129
+#: templates/settings.php:132
 msgid "Enable User External Storage"
 msgstr "启用用户外部存储"
 
-#: templates/settings.php:130
-msgid "Allow users to mount their own external storage"
-msgstr "允许用户挂载自有外部存储"
+#: templates/settings.php:135
+msgid "Allow users to mount the following external storage"
+msgstr "允许用户挂载以下外部存储"
 
-#: templates/settings.php:141
+#: templates/settings.php:150
 msgid "SSL root certificates"
 msgstr "SSL根证书"
 
-#: templates/settings.php:159
+#: templates/settings.php:168
 msgid "Import Root Certificate"
 msgstr "导入根证书"

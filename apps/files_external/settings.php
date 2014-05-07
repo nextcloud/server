@@ -26,10 +26,26 @@ OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addscript('3rdparty', 'chosen/chosen.jquery.min');
 OCP\Util::addStyle('files_external', 'settings');
 OCP\Util::addStyle('3rdparty', 'chosen/chosen');
+
+$backends = OC_Mount_Config::getBackends();
+$personal_backends = array();
+$enabled_backends = explode(',', OCP\Config::getAppValue('files_external', 'user_mounting_backends', ''));
+foreach ($backends as $class => $backend)
+{
+	if ($class != '\OC\Files\Storage\Local')
+	{
+		$personal_backends[$class] = array(
+			'backend'	=> $backend['backend'],
+			'enabled'	=> in_array($class, $enabled_backends),
+		);
+	}
+}
+
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', true);
 $tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
-$tmpl->assign('backends', OC_Mount_Config::getBackends());
+$tmpl->assign('backends', $backends);
+$tmpl->assign('personal_backends', $personal_backends);
 $tmpl->assign('groups', OC_Group::getGroups());
 $tmpl->assign('users', OCP\User::getUsers());
 $tmpl->assign('userDisplayNames', OC_User::getDisplayNames());

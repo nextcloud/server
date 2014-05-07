@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Username" => "వాడుకరి పేరు",
+"Password" => "సంకేతపదం",
 "Folder name" => "సంచయం పేరు",
 "Users" => "వాడుకరులు",
 "Delete" => "తొలగించు"

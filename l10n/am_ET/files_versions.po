@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-03-26 01:55-0400\n"
+"PO-Revision-Date: 2014-03-25 09:38+0000\n"
+"Last-Translator: I Robot\n"
+"Language-Team: Amharic (Ethiopia) (http://www.transifex.com/projects/p/owncloud/language/am_ET/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: am_ET\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/rollbackVersion.php:13
+#, php-format
+msgid "Could not revert: %s"
+msgstr ""
+
+#: js/versions.js:14
+msgid "Versions"
+msgstr ""
+
+#: js/versions.js:60
+msgid "Failed to revert {file} to revision {timestamp}."
+msgstr ""
+
+#: js/versions.js:87
+msgid "More versions..."
+msgstr ""
+
+#: js/versions.js:125
+msgid "No other versions available"
+msgstr ""
+
+#: js/versions.js:155
+msgid "Restore"
+msgstr ""

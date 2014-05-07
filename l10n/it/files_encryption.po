@@ -4,14 +4,14 @@
 # 
 # Translators:
 # idetao <marcxosm@gmail.com>, 2013
-# polxmod <paolo.velati@gmail.com>, 2013
-# Vincenzo Reale <vinx.reale@gmail.com>, 2013
+# Paolo Velati <paolo.velati@gmail.com>, 2013-2014
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-04 18:12-0500\n"
-"PO-Revision-Date: 2013-12-03 06:40+0000\n"
+"POT-Creation-Date: 2014-03-12 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 22:50+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -83,18 +83,18 @@ msgid ""
 "administrator"
 msgstr "Errore sconosciuto, controlla le impostazioni di sistema o contatta il tuo amministratore"
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Requisiti mancanti."
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Assicurati che sia installato PHP 5.3.3 o versioni successive e che l'estensione OpenSSL di PHP sia abilitata e configurata correttamente. Per ora, l'applicazione di cifratura è disabilitata."
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "I seguenti utenti non sono configurati per la cifratura:"
 
@@ -102,9 +102,9 @@ msgstr "I seguenti utenti non sono configurati per la cifratura:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Cifratura iniziale avviata... Potrebbe richiedere del tempo. Attendi."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Salvataggio in corso..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "Cifratura iniziale in esecuzione... Riprova più tardi."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

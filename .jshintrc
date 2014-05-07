@@ -1,5 +1,5 @@
 {
-	"camelCase": true,
+	"camelcase": true,
 	"eqeqeq": true,
 	"immed": true,
 	"latedef": false,
@@ -11,18 +11,22 @@
 	"maxparams": 5,
 	"curly": true,
 	"jquery": true,
-	"maxlen": 80,
+	"maxlen": 120,
 	"indent": 4,
 	"browser": true,
 	"globals": {
 		"console": true,
 		"it": true,
-		"itx": true,
+		"xit": true,
 		"expect": true,
 		"describe": true,
 		"beforeEach": true,
 		"afterEach": true,
 		"sinon": true,
-		"fakeServer": true
+		"fakeServer": true,
+		"_": true,
+		"OC": true,
+		"t": true,
+		"n": true
 	}
 }

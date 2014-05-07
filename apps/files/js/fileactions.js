@@ -8,28 +8,40 @@
  *
  */
 
-/* global OC, FileList	*/
+/* global OC, FileList, Files */
 /* global trashBinApp */
 var FileActions = {
 	actions: {},
 	defaults: {},
 	icons: {},
 	currentFile: null,
-	register: function (mime, name, permissions, icon, action) {
+	register: function (mime, name, permissions, icon, action, displayName) {
 		if (!FileActions.actions[mime]) {
 			FileActions.actions[mime] = {};
 		}
 		if (!FileActions.actions[mime][name]) {
 			FileActions.actions[mime][name] = {};
 		}
+		if (!displayName) {
+			displayName = t('files', name);
+		}
 		FileActions.actions[mime][name]['action'] = action;
 		FileActions.actions[mime][name]['permissions'] = permissions;
+		FileActions.actions[mime][name]['displayName'] = displayName;
 		FileActions.icons[name] = icon;
 	},
 	setDefault: function (mime, name) {
 		FileActions.defaults[mime] = name;
 	},
 	get: function (mime, type, permissions) {
+		var actions = this.getActions(mime, type, permissions);
+		var filteredActions = {};
+		$.each(actions, function (name, action) {
+			filteredActions[name] = action.action;
+		});
+		return filteredActions;
+	},
+	getActions: function (mime, type, permissions) {
 		var actions = {};
 		if (FileActions.actions.all) {
 			actions = $.extend(actions, FileActions.actions.all);
@@ -51,7 +63,7 @@ var FileActions = {
 		var filteredActions = {};
 		$.each(actions, function (name, action) {
 			if (action.permissions & permissions) {
-				filteredActions[name] = action.action;
+				filteredActions[name] = action;
 			}
 		});
 		return filteredActions;
@@ -82,7 +94,7 @@ var FileActions = {
 	 */
 	display: function (parent, triggerEvent) {
 		FileActions.currentFile = parent;
-		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
+		var actions = FileActions.getActions(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
 		var nameLinks;
 		if (FileList.findFileEl(file).data('renaming')) {
@@ -105,15 +117,12 @@ var FileActions = {
 			event.data.actionFunc(file);
 		};
 
-		var addAction = function (name, action) {
-			// NOTE: Temporary fix to prevent rename action in root of Shared directory
-			if (name === 'Rename' && $('#dir').val() === '/Shared') {
-				return true;
-			}
+		var addAction = function (name, action, displayName) {
 
 			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
+
 				var img = FileActions.icons[name],
-					actionText = t('files', name),
+					actionText = displayName,
 					actionContainer = 'a.name>span.fileactions';
 
 				if (name === 'Rename') {
@@ -125,7 +134,7 @@ var FileActions = {
 				if (img.call) {
 					img = img(file);
 				}
-				var html = '<a href="#" class="action" data-action="' + name + '">';
+				var html = '<a href="#" class="action action-' + name.toLowerCase() + '" data-action="' + name + '">';
 				if (img) {
 					html += '<img class ="svg" src="' + img + '" />';
 				}
@@ -133,8 +142,7 @@ var FileActions = {
 
 				var element = $(html);
 				element.data('action', name);
-				//alert(element);
-				element.on('click', {a: null, elem: parent, actionFunc: actions[name]}, actionHandler);
+				element.on('click', {a: null, elem: parent, actionFunc: actions[name].action}, actionHandler);
 				parent.find(actionContainer).append(element);
 			}
 
@@ -142,12 +150,15 @@ var FileActions = {
 
 		$.each(actions, function (name, action) {
 			if (name !== 'Share') {
-				addAction(name, action);
+				displayName = action.displayName;
+				ah = action.action;
+
+				addAction(name, ah, displayName);
 			}
 		});
-		if(actions.Share && !($('#dir').val() === '/' && file === 'Shared')){
-			// t('files', 'Share')
-			addAction('Share', actions.Share);
+		if(actions.Share){
+			displayName = t('files', 'Share');
+			addAction('Share', actions.Share, displayName);
 		}
 
 		// remove the existing delete action
@@ -165,7 +176,7 @@ var FileActions = {
 			}
 			var element = $(html);
 			element.data('action', actions['Delete']);
-			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
+			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete'].action}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
 
@@ -199,7 +210,7 @@ $(document).ready(function () {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
-			var url = FileList.getDownloadUrl(filename);
+			var url = Files.getDownloadUrl(filename);
 			if (url) {
 				OC.redirect(url);
 			}
@@ -208,7 +219,7 @@ $(document).ready(function () {
 	$('#fileList tr').each(function () {
 		FileActions.display($(this).children('td.filename'));
 	});
-	
+
 	$('#fileList').trigger(jQuery.Event("fileActionsReady"));
 
 });

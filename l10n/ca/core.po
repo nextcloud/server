@@ -5,13 +5,14 @@
 # Translators:
 # rogerc, 2013-2014
 # rogerc, 2013
+# aseques <sacoo2@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-05 01:55-0500\n"
-"PO-Revision-Date: 2014-01-04 10:20+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,40 +20,26 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s ha compartit »%s« amb tu"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr "La data de venciment és en el passat."
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "No s'ha pogut enviar correu als usuaris següents: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Activat el mode de manteniment"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Desactivat el mode de manteniment"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Actualitzada la base de dades"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Actualitzant la memòria de cau del fitxers, això pot trigar molt..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Actualitzada la memòria de cau dels fitxers"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% fet ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -74,201 +61,229 @@ msgstr "No hi ha imatge temporal de perfil disponible, torneu a intentar-ho"
 msgid "No crop data provided"
 msgstr "No heu proporcionat dades del retall"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "Diumenge"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "Dilluns"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "Dimarts"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "Dimecres"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "Dijous"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "Divendres"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "Dissabte"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Gener"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Febrer"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Març"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "Abril"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Maig"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Juny"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Juliol"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Agost"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "Setembre"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Octubre"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "Novembre"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Desembre"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Configuració"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Desant..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fa %n minut"
 msgstr[1] "fa %n minuts"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fa %n hora"
 msgstr[1] "fa %n hores"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fa %n dies"
 msgstr[1] "fa %n dies"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fa %n mes"
 msgstr[1] "fa %n mesos"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "mesos enrere"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "anys enrere"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Escull"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Error en carregar la plantilla de càrrega de fitxers: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "D'acord"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Error en carregar la plantilla de missatge: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflicte de fitxer"
 msgstr[1] "{count} conflictes de fitxer"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Un fitxer en conflicte"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "Fitxers nous"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "Fitxers que ja existeixen"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Quin fitxer voleu conservar?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Si seleccioneu les dues versions, el fitxer copiat tindrà un número afegit al seu nom."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Continua"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(selecciona-ho tot)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} seleccionats)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Error en carregar la plantilla de fitxer existent"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "Contrasenya massa feble"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "Contrasenya feble"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "Contrasenya passable"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "Contrasenya bona"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "Contrasenya forta"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -278,12 +293,12 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -295,123 +310,123 @@ msgstr "Error en deixar de compartir"
 msgid "Error while changing permissions"
 msgstr "Error en canviar els permisos"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartit amb vos i amb el grup {group} per {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "Compartit amb vos per {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr "Comparteix amb usuari o grup..."
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr "Enllaç de compartició"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Contrasenya"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Permet pujada pública"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Enllaç per correu electrónic amb la persona"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Envia"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Estableix la data de venciment"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Data de venciment"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notifica per correu electrònic"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Avís"
 
@@ -439,7 +454,7 @@ msgstr "Edita etiquetes"
 msgid "Error loading dialog template: {error}"
 msgstr "Error en carregar la plantilla de diàleg: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "No heu seleccionat les etiquetes a eliminar."
 
@@ -458,10 +473,16 @@ msgstr "L'actualització ha estat incorrecte. Comuniqueu aquest error a <a href=
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "L'actualització ha estat correcte. Ara us redirigim a ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "restableix la contrasenya %s"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "Hi ha hagut un problema enviant el correu, parleu amb el vostre administrador."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -482,8 +503,8 @@ msgstr "La petició ha fallat!<br>Esteu segur que el correu/nom d'usuari és cor
 msgid "You will receive a link to reset your password via Email."
 msgstr "Rebreu un enllaç al correu electrònic per reiniciar la contrasenya."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Nom d'usuari"
 
@@ -519,6 +540,18 @@ msgstr "Contrasenya nova"
 msgid "Reset password"
 msgstr "Reinicialitza la contrasenya"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Mac OS X no té suport i %s no funcionarà correctament en aquesta plataforma. Useu-ho al vostre risc!"
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "Per millors resultats, millor considereu utilitzar un servidor GNU/Linux."
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Personal"
@@ -527,7 +560,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usuaris"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Aplicacions"
 
@@ -637,49 +670,47 @@ msgstr "Per informació de com configurar el servidor, comproveu la <a href=\"%s
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>compte d'administrador</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Avançat"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "Emmagatzematge i base de dades"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Carpeta de dades"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Configura la base de dades"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "s'usarà"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Usuari de la base de dades"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Contrasenya de la base de dades"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Nom de la base de dades"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Espai de taula de la base de dades"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Ordinador central de la base de dades"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr "Acabant..."
 
@@ -695,19 +726,19 @@ msgstr "Aquesta aplicació necessita tenir JavaScript activat per funcionar corr
 msgid "%s is available. Get more information on how to update."
 msgstr "%s està disponible. Obtingueu més informació de com actualitzar."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Surt"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "L'ha rebutjat l'acceditació automàtica!"
+msgstr "Inici de sessió automàtic rebutjat!"
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!"
+msgstr "Si no heu canviat la contrasenya recentment el vostre compte pot estar compromès!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
@@ -721,28 +752,28 @@ msgstr "L'autenticació del servidor ha fallat!"
 msgid "Please contact your administrator."
 msgstr "Contacteu amb l'administrador."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Heu perdut la contrasenya?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "recorda'm"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Inici de sessió"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Acreditacions alternatives"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr "Ei,<br><br>només fer-te saber que %s ha compartit »%s« amb tu.<br><a href=\"%s\">Mira-ho!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr "Ei, <br><br>només fer-vos saber que %s us ha comparti <strong>%s</strong>. <br><a href=\"%s\">Mireu-ho!</a>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

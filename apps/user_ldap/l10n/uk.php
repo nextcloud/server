@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Вкажіть додатковий резервний сервер. Він повинен бути копією головного LDAP/AD сервера.",
 "Backup (Replica) Port" => "Порт сервера для резервних копій",
 "Disable Main Server" => "Вимкнути Головний Сервер",
-"Case insensitve LDAP server (Windows)" => "Нечутливий до регістру LDAP сервер (Windows)",
 "Turn off SSL certificate validation." => "Вимкнути перевірку SSL сертифіката.",
 "Cache Time-To-Live" => "Час актуальності Кеша",
 "in seconds. A change empties the cache." => "в секундах. Зміна очищує кеш.",

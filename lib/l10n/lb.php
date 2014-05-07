@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Authentication error" => "Authentifikatioun's Fehler",
 "Files" => "Dateien",
 "Text" => "SMS",
+"%s shared »%s« with you" => "Den/D' %s huet »%s« mat dir gedeelt",
 "seconds ago" => "Sekonnen hir",
 "_%n minute ago_::_%n minutes ago_" => array("","%n Minutten hir"),
 "_%n hour ago_::_%n hours ago_" => array("",""),

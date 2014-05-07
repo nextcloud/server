@@ -58,7 +58,6 @@ class Scan extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('all')) {
-			\OC_App::loadApps('authentication');
 			$users = $this->userManager->search('');
 		} else {
 			$users = $input->getArgument('user_id');

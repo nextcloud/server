@@ -42,7 +42,9 @@ class OC_User_Database extends OC_User_Backend {
 	/**
 	 * @var PasswordHash
 	 */
-	static private $hasher = null;
+	private static $hasher = null;
+
+	private $cache = array();
 
 	private function getHasher() {
 		if (!self::$hasher) {
@@ -51,7 +53,6 @@ class OC_User_Database extends OC_User_Backend {
 			self::$hasher = new PasswordHash(8, $forcePortable);
 		}
 		return self::$hasher;
-
 	}
 
 	/**
@@ -64,9 +65,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * itself, not in its subclasses.
 	 */
 	public function createUser($uid, $password) {
-		if ($this->userExists($uid)) {
-			return false;
-		} else {
+		if (!$this->userExists($uid)) {
 			$hasher = $this->getHasher();
 			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
@@ -74,6 +73,8 @@ class OC_User_Database extends OC_User_Backend {
 
 			return $result ? true : false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -86,8 +87,13 @@ class OC_User_Database extends OC_User_Backend {
 	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*users` WHERE `uid` = ?');
-		$query->execute(array($uid));
-		return true;
+		$result = $query->execute(array($uid));
+
+		if (isset($this->cache[$uid])) {
+			unset($this->cache[$uid]);
+		}
+
+		return $result ? true : false;
 	}
 
 	/**
@@ -103,12 +109,12 @@ class OC_User_Database extends OC_User_Backend {
 			$hasher = $this->getHasher();
 			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$query->execute(array($hash, $uid));
+			$result = $query->execute(array($hash, $uid));
 
-			return true;
-		} else {
-			return false;
+			return $result ? true : false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -121,12 +127,14 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function setDisplayName($uid, $displayName) {
 		if ($this->userExists($uid)) {
-			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = ?');
+			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `displayname` = ? WHERE LOWER(`uid`) = LOWER(?)');
 			$query->execute(array($displayName, $uid));
+			$this->cache[$uid]['displayname'] = $displayName;
+
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -135,14 +143,8 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
-		$query = OC_DB::prepare('SELECT `displayname` FROM `*PREFIX*users` WHERE `uid` = ?');
-		$result = $query->execute(array($uid))->fetchAll();
-		$displayName = trim($result[0]['displayname'], ' ');
-		if (!empty($displayName)) {
-			return $displayName;
-		} else {
-			return $uid;
-		}
+		$this->loadUser($uid);
+		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
 	}
 
 	/**
@@ -185,21 +187,41 @@ class OC_User_Database extends OC_User_Backend {
 				$hasher = $this->getHasher();
 				if ($hasher->CheckPassword($password . OC_Config::getValue('passwordsalt', ''), $storedHash)) {
 					return $row['uid'];
-				} else {
-					return false;
 				}
-			} else { //old sha1 based hashing
-				if (sha1($password) == $storedHash) {
-					//upgrade to new hashing
-					$this->setPassword($row['uid'], $password);
-					return $row['uid'];
-				} else {
-					return false;
-				}
+
+			//old sha1 based hashing
+			} elseif (sha1($password) == $storedHash) {
+				//upgrade to new hashing
+				$this->setPassword($row['uid'], $password);
+				return $row['uid'];
 			}
-		} else {
-			return false;
 		}
+
+		return false;
+	}
+
+	/**
+	 * @brief Load an user in the cache
+	 * @param string $uid the username
+	 * @returns boolean
+	 */
+	private function loadUser($uid) {
+		if (empty($this->cache[$uid])) {
+			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
+			$result = $query->execute(array($uid));
+
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
+
+			while ($row = $result->fetchRow()) {
+				$this->cache[$uid]['uid'] = $row['uid'];
+				$this->cache[$uid]['displayname'] = $row['displayname'];
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -224,13 +246,8 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid) {
-		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
-		$result = $query->execute(array($uid));
-		if (OC_DB::isError($result)) {
-			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
-			return false;
-		}
-		return $result->fetchOne() > 0;
+		$this->loadUser($uid);
+		return !empty($this->cache[$uid]);
 	}
 
 	/**
@@ -241,9 +258,9 @@ class OC_User_Database extends OC_User_Backend {
 	public function getHome($uid) {
 		if ($this->userExists($uid)) {
 			return OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data") . '/' . $uid;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -256,7 +273,7 @@ class OC_User_Database extends OC_User_Backend {
 	/**
 	 * counts the users in the database
 	 *
-	 * @return false|string | bool
+	 * @return int | bool
 	 */
 	public function countUsers() {
 		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');

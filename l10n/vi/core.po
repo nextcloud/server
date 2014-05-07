@@ -3,14 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nguyễn Tài <mattheu.9x@gmail.com>, 2014
+# namphongbody <tunglam062000@gmail.com>, 2014
+# Sơn Nguyễn <sonnghit@gmail.com>, 2014
 # xtdv <truong.tx8@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,250 +21,264 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Không thể gửi thư cho người dùng: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Bật chế độ bảo trì"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Tắt chế độ bảo trì"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr ""
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr ""
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr ""
+msgstr "Cơ sở dữ liệu đã được cập nhật"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Không có hình ảnh hoặc tập tin được cung cấp"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Không biết kiểu tập tin"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "Hình ảnh không hợp lệ"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Ảnh cá nhân tạm thời không có giá trị, hãy thử lại"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Không có dữ liệu nguồn được cung cấp"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "Chủ nhật"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "Thứ 2"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "Thứ 3"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "Thứ 4"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "Thứ 5"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "Thứ "
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "Thứ 7"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Tháng 1"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Tháng 2"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Tháng 3"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "Tháng 4"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Tháng 5"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Tháng 6"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Tháng 7"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Tháng 8"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "Tháng 9"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Tháng 10"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "Tháng 11"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Tháng 12"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Đang lưu..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n phút trước"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n giờ trước"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n ngày trước"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n tháng trước"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "tháng trước"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "năm trước"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Chọn"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Lỗi khi tải mẫu tập tin picker: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Có"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Không"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Đồng ý"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Lỗi khi tải mẫu thông điệp: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
+msgstr[0] "{count} tập tin xung đột"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
+msgstr "Một tập tin xung đột"
+
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "File mới"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Bạn muốn tiếp tục với những tập tin nào?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Nếu bạn chọn cả hai phiên bản, tập tin được sao chép sẽ được đánh thêm số vào tên của nó."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Hủy"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
-msgstr ""
+msgstr "Tiếp tục"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
-msgstr ""
+msgstr "(Tất cả các lựa chọn)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
+msgstr "({count} được chọn)"
+
+#: js/oc-dialogs.js:466
+msgid "Error loading file exists template"
+msgstr "Lỗi khi tải tập tin mẫu đã tồn tại"
+
+#: js/setup.js:84
+msgid "Very weak password"
 msgstr ""
 
-#: js/oc-dialogs.js:457
-msgid "Error loading file exists template"
+#: js/setup.js:85
+msgid "Weak password"
+msgstr ""
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr ""
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr ""
+
+#: js/setup.js:88
+msgid "Strong password"
 msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
@@ -272,12 +289,12 @@ msgstr "Được chia sẻ"
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Lỗi"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Lỗi trong quá trình chia sẻ"
 
@@ -289,123 +306,123 @@ msgstr "Lỗi trong quá trình gỡ chia sẻ"
 msgid "Error while changing permissions"
 msgstr "Lỗi trong quá trình phân quyền"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "Đã được chia sẽ bởi {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Chia sẻ với người dùng hoặc nhóm"
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
-msgstr ""
+msgstr "Chia sẻ liên kết"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Cho phép công khai tập tin tải lên"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Liên kết email tới cá nhân"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Gởi"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Đặt ngày kết thúc"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Ngày kết thúc"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Chia sẻ thông qua email"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Không tìm thấy người nào"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "nhóm"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Chia sẻ lại không được cho phép"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Đã được chia sẽ trong {item} với {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Bỏ chia sẻ"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
-msgstr ""
+msgstr "Thông báo qua email"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "có thể chỉnh sửa"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "quản lý truy cập"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "tạo"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "cập nhật"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "xóa"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "chia sẻ"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Lỗi không thiết lập ngày kết thúc"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Lỗi cấu hình ngày kết thúc"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Đang gởi ..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Email đã được gửi"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Cảnh báo"
 
@@ -415,7 +432,7 @@ msgstr "Loại đối tượng không được chỉ định."
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "Nhập mới"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -427,19 +444,19 @@ msgstr "Thêm"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "Sửa thẻ"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Lỗi khi tải mẫu hội thoại: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Không có thẻ nào được chọn để xóa"
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Vui lòng tải lại trang."
 
 #: js/update.js:17
 msgid ""
@@ -452,9 +469,15 @@ msgstr "Cập nhật không thành công . Vui lòng thông báo đến <a href=
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
+msgstr "%s thiết lập lại mật khẩu"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
 msgstr ""
 
 #: lostpassword/templates/email.php:2
@@ -476,8 +499,8 @@ msgstr "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhậ
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Tên đăng nhập"
 
@@ -487,15 +510,15 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Tập tin của bạn được mã hóa. Nếu bạn chưa kích hoạt khoá phục hồi, sẽ không có cách nào để lấy lại được dữ liệu sau khi thiết lập lại mật khẩu. Nếu bạn không biết phải làm gì, xin vui lòng liên hệ với quản trị viên trước khi tiếp tục. Bạn có muốn tiếp tục?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Vâng, tôi muốn thiết lập lại mật khẩu ngay."
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Khởi động lại"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -513,6 +536,18 @@ msgstr "Mật khẩu mới"
 msgid "Reset password"
 msgstr "Khôi phục mật khẩu"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr ""
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr ""
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Cá nhân"
@@ -521,7 +556,7 @@ msgstr "Cá nhân"
 msgid "Users"
 msgstr "Người dùng"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Ứng dụng"
 
@@ -535,23 +570,23 @@ msgstr "Giúp đỡ"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Lỗi khi tải thẻ"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Thẻ đã tồn tại"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Lỗi khi xóa (nhiều)thẻ"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Lỗi gắn thẻ"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Lỗi không gắn thẻ"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
@@ -577,16 +612,16 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Xin chào,\n\nbáo cho bạn biết rằng %s đã chia sẽ %s với bạn.\nXem nó: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Chia sẻ này sẽ hết hiệu lực vào %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "Chúc mừng!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -600,7 +635,7 @@ msgstr "Phiên bản PHP của bạn có lỗ hổng NULL Byte attack (CVE-2006-
 #: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Vui lòng cập nhật bản cài đặt PHP để sử dụng %s một cách an toàn."
 
 #: templates/installation.php:33
 msgid ""
@@ -625,71 +660,69 @@ msgstr "Thư mục và file dữ liệu của bạn có thể được truy cậ
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Để biết thêm thông tin và cách cấu hình đúng vui lòng xem thêm <a href=\"%s\" target=\"_blank\">tài l</a>."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Nâng cao"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Thư mục dữ liệu"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Cấu hình cơ sở dữ liệu"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "được sử dụng"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Người dùng cơ sở dữ liệu"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Mật khẩu cơ sở dữ liệu"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Tên cơ sở dữ liệu"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Cơ sở dữ liệu tablespace"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
-msgstr ""
+msgstr "Đang hoàn thành ..."
 
 #: templates/layout.user.php:40
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Ứng dụng này yêu cầu JavaScript để hoạt động. Vui lòng <a href=\"http://enable-javascript.com/\" target=\"_blank\">kích hoạt JavaScript</a> và tải lại giao diện này."
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s còn trống. Xem thêm thông tin cách cập nhật."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Đăng xuất"
 
@@ -709,52 +742,52 @@ msgstr "Vui lòng thay đổi mật khẩu của bạn để đảm bảo tài k
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Xác thực phía máy chủ không thành công!"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Vui lòng liên hệ với quản trị viên."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Bạn quên mật khẩu ?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "ghi nhớ"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Đăng nhập"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Đăng nhập khác"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
 msgstr ""
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "OwnCloud trong trường hợp này đang ở chế độ người dùng duy nhất."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Cảm ơn sự kiên nhẫn của bạn."
 
 #: templates/update.admin.php:3
 #, php-format
@@ -764,8 +797,8 @@ msgstr "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời 
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Phiên bản ownCloud này hiện đang được cập nhật, có thể sẽ mất một ít thời gian."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Xin vui lòng tải lại trang này để tiếp tục sử dụng ownCloud."

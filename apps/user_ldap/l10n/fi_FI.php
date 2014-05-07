@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "Continue" => "Jatka",
 "Connection Settings" => "Yhteysasetukset",
 "Disable Main Server" => "Poista pääpalvelin käytöstä",
-"Case insensitve LDAP server (Windows)" => "Kirjainkoosta piittamaton LDAP-palvelin (Windows)",
 "Turn off SSL certificate validation." => "Poista käytöstä SSL-varmenteen vahvistus",
 "in seconds. A change empties the cache." => "sekunneissa. Muutos tyhjentää välimuistin.",
 "Directory Settings" => "Hakemistoasetukset",

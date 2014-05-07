@@ -12,6 +12,7 @@ class OC_Response {
 	const STATUS_TEMPORARY_REDIRECT = 307;
 	const STATUS_NOT_FOUND = 404;
 	const STATUS_INTERNAL_SERVER_ERROR = 500;
+	const STATUS_SERVICE_UNAVAILABLE = 503;
 
 	/**
 	* @brief Enable response caching by sending correct HTTP headers
@@ -49,7 +50,7 @@ class OC_Response {
 
 	/**
 	* @brief Set response status
-	* @param $status a HTTP status code, see also the STATUS constants
+	* @param int $status a HTTP status code, see also the STATUS constants
 	*/
 	static public function setStatus($status) {
 		$protocol = $_SERVER['SERVER_PROTOCOL'];
@@ -73,6 +74,9 @@ class OC_Response {
 				break;
 			case self::STATUS_INTERNAL_SERVER_ERROR;
 				$status = $status . ' Internal Server Error';
+				break;
+			case self::STATUS_SERVICE_UNAVAILABLE;
+				$status = $status . ' Service Unavailable';
 				break;
 		}
 		header($protocol.' '.$status);

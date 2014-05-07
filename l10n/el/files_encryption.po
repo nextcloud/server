@@ -5,6 +5,7 @@
 # Translators:
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # Marios Bekatoros <>, 2013
+# pe_ppe <peppe@cs.uoi.gr>, 2014
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # Teogramm <theodorewii121@hotmail.com>, 2013
 # vkehayas <vkehayas@gmail.com>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-28 01:55-0500\n"
-"PO-Revision-Date: 2013-12-27 15:42+0000\n"
-"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
+"POT-Creation-Date: 2014-04-01 01:55-0400\n"
+"PO-Revision-Date: 2014-03-31 16:30+0000\n"
+"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,18 +86,18 @@ msgid ""
 "administrator"
 msgstr "Άγνωστο σφάλμα, παρακαλώ ελέγξτε τις ρυθμίσεις συστήματος ή επικοινωνήστε με τον διαχειριστή σας "
 
-#: hooks/hooks.php:62
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "Προαπαιτούμενα που απουσιάζουν."
 
-#: hooks/hooks.php:63
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Παρακαλώ επιβεβαιώστε ότι η PHP 5.3.3  ή νεότερη είναι εγκατεστημένη  και ότι το  OpenSSL μαζί με το PHP extension είναι ενεργοποιήμένο και έχει ρυθμιστεί σωστά. Προς το παρόν, η εφαρμογή κρυπτογράφησης είναι απενεργοποιημένη."
 
-#: hooks/hooks.php:281
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "Οι κάτωθι χρήστες δεν έχουν ρυθμιστεί για κρυπογράφηση:"
 
@@ -104,9 +105,9 @@ msgstr "Οι κάτωθι χρήστες δεν έχουν ρυθμιστεί γ
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "Η αρχική κρυπτογράφηση άρχισε... Αυτό μπορεί να πάρει κάποια ώρα. Παρακαλώ περιμένετε."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Γίνεται αποθήκευση..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr "Εκτέλεση αρχικής κρυπτογράφησης... Παρακαλώ προσπαθήστε αργότερα."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

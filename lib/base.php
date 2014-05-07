@@ -74,11 +74,6 @@ class OC {
 	public static $CLI = false;
 
 	/**
-	 * @var OC_Router
-	 */
-	protected static $router = null;
-
-	/**
 	 * @var \OC\Session\Session
 	 */
 	public static $session = null;
@@ -103,7 +98,9 @@ class OC {
 			get_include_path()
 		);
 
-		if(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		if(defined('PHPUNIT_CONFIG_DIR')) {
+			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
+		} elseif(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
@@ -188,7 +185,6 @@ class OC {
 		if (file_exists(self::$configDir . "/config.php")
 			and !is_writable(self::$configDir . "/config.php")
 		) {
-			$defaults = new OC_Defaults();
 			if (self::$CLI) {
 				echo "Can't write into config directory!\n";
 				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
@@ -214,6 +210,34 @@ class OC {
 			}
 			exit();
 		}
+	}
+
+	/*
+	* This function adds some security related headers to all requests served via base.php
+	* The implementation of this function has to happen here to ensure that all third-party 
+	* components (e.g. SabreDAV) also benefit from this headers.
+	*/
+	public static function addSecurityHeaders() {
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// iFrame Restriction Policy
+		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
+		if($xFramePolicy) {
+			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		}
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			.'script-src \'self\' \'unsafe-eval\'; '
+			.'style-src \'self\' \'unsafe-inline\'; '
+			.'frame-src *; '
+			.'img-src *; '
+			.'font-src \'self\' data:; '
+			.'media-src *');
+		header('Content-Security-Policy:'.$policy);
 	}
 
 	public static function checkSSL() {
@@ -280,6 +304,11 @@ class OC {
 		}
 	}
 
+	/**
+	 * Checks if the version requires an update and shows
+	 * @param bool $showTemplate Whether an update screen should get shown
+	 * @return bool|void
+	 */
 	public static function checkUpgrade($showTemplate = true) {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
@@ -308,6 +337,7 @@ class OC {
 		OC_Util::addScript("jquery.placeholder");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
+		OC_Util::addScript("underscore");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("js");
@@ -316,7 +346,6 @@ class OC {
 		OC_Util::addScript("config");
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
-		OC_Util::addScript('router');
 		OC_Util::addScript("oc-requesttoken");
 
 		// avatars
@@ -388,19 +417,6 @@ class OC {
 		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);
 	}
 
-	/**
-	 * @return OC_Router
-	 */
-	public static function getRouter() {
-		if (!isset(OC::$router)) {
-			OC::$router = new OC_Router();
-			OC::$router->loadRoutes();
-		}
-
-		return OC::$router;
-	}
-
-
 	public static function loadAppClassPaths() {
 		foreach (OC_APP::getEnabledApps() as $app) {
 			$file = OC_App::getAppPath($app) . '/appinfo/classpath.php';
@@ -420,6 +436,7 @@ class OC {
 		self::$loader->registerPrefix('Symfony\\Component\\Routing', 'symfony/routing');
 		self::$loader->registerPrefix('Symfony\\Component\\Console', 'symfony/console');
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
+		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
 
 		// set some stuff
@@ -528,6 +545,7 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
+		self::addSecurityHeaders();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -537,6 +555,7 @@ class OC {
 					echo $error['hint'] . "\n\n";
 				}
 			} else {
+				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 				OC_Template::printGuestPage('', 'error', array('errors' => $errors));
 			}
 			exit;
@@ -554,26 +573,10 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		if (isset($_SERVER['PHP_AUTH_USER']) && self::$session->exists('loginname')
-			&& $_SERVER['PHP_AUTH_USER'] !== self::$session->get('loginname')) {
-			$sessionUser = self::$session->get('loginname');
-			$serverUser = $_SERVER['PHP_AUTH_USER'];
-			OC_Log::write('core',
-				"Session loginname ($sessionUser) doesn't match SERVER[PHP_AUTH_USER] ($serverUser).",
-				OC_Log::WARN);
-			OC_User::logout();
-		}
-
-		// Load Apps
-		// This includes plugins for users and filesystems as well
-		global $RUNTIME_NOAPPS;
-		global $RUNTIME_APPTYPES;
-		if (!$RUNTIME_NOAPPS && !self::checkUpgrade(false)) {
-			if ($RUNTIME_APPTYPES) {
-				OC_App::loadApps($RUNTIME_APPTYPES);
-			} else {
-				OC_App::loadApps();
-			}
+		// Load minimum set of apps - which is filesystem, authentication and logging
+		if (!self::checkUpgrade(false)) {
+			OC_App::loadApps(array('authentication'));
+			OC_App::loadApps(array('filesystem', 'logging'));
 		}
 
 		//setup extra user backends
@@ -661,7 +664,10 @@ class OC {
 	 */
 	public static function registerPreviewHooks() {
 		OC_Hook::connect('OC_Filesystem', 'post_write', 'OC\Preview', 'post_write');
-		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'post_delete');
+		OC_Hook::connect('OC_Filesystem', 'preDelete', 'OC\Preview', 'prepare_delete_files');
+		OC_Hook::connect('\OCP\Versions', 'preDelete', 'OC\Preview', 'prepare_delete');
+		OC_Hook::connect('\OCP\Trashbin', 'preDelete', 'OC\Preview', 'prepare_delete');
+		OC_Hook::connect('OC_Filesystem', 'delete', 'OC\Preview', 'post_delete_files');
 		OC_Hook::connect('\OCP\Versions', 'delete', 'OC\Preview', 'post_delete');
 		OC_Hook::connect('\OCP\Trashbin', 'delete', 'OC\Preview', 'post_delete');
 	}
@@ -671,10 +677,10 @@ class OC {
 	 */
 	public static function registerShareHooks() {
 		if (\OC_Config::getValue('installed')) {
-			OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
-			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
-			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+			OC_Hook::connect('OC_User', 'post_deleteUser', 'OC\Share\Hooks', 'post_deleteUser');
+			OC_Hook::connect('OC_User', 'post_addToGroup', 'OC\Share\Hooks', 'post_addToGroup');
+			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC\Share\Hooks', 'post_removeFromGroup');
+			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC\Share\Hooks', 'post_deleteGroup');
 		}
 	}
 
@@ -682,6 +688,7 @@ class OC {
 	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
+		$l = \OC_L10N::get('lib');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -693,14 +700,32 @@ class OC {
 			exit();
 		}
 
+		$host = OC_Request::insecureServerHost();
+		// if the host passed in headers isn't trusted
+		if (!OC::$CLI
+			// overwritehost is always trusted
+			&& OC_Request::getOverwriteHost() === null
+			&& !OC_Request::isTrustedDomain($host)) {
+
+			header('HTTP/1.1 400 Bad Request');
+			header('Status: 400 Bad Request');
+			OC_Template::printErrorPage(
+				$l->t('You are accessing the server from an untrusted domain.'),
+				$l->t('Please contact your administrator. If you are an administrator of this instance, configure the "trusted_domain" setting in config/config.php. An example configuration is provided in config/config.sample.php.')
+			);
+			return;
+		}
+
 		$request = OC_Request::getPathInfo();
 		if (substr($request, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
 		}
 
-		// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-		OC::tryBasicAuthLogin();
+		if (!OC_User::isLoggedIn()) {
+			// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+			OC::tryBasicAuthLogin();
+		}
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
@@ -708,7 +733,7 @@ class OC {
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
-				OC::getRouter()->match(OC_Request::getRawPathInfo());
+				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
@@ -751,8 +776,18 @@ class OC {
 				if (isset($_COOKIE['oc_token'])) {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
+				if (isset($_SERVER['PHP_AUTH_USER'])) {
+					if (isset($_COOKIE['oc_ignore_php_auth_user'])) {
+						// Ignore HTTP Authentication for 5 more mintues.
+						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], time() + 300, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+					} elseif ($_SERVER['PHP_AUTH_USER'] === self::$session->get('loginname')) {
+						// Ignore HTTP Authentication to allow a different user to log in.
+						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], 0, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+					}
+				}
 				OC_User::logout();
-				header("Location: " . OC::$WEBROOT . '/');
+				// redirect to webroot and add slash if webroot is empty
+				header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
 			} else {
 				if (is_null($file)) {
 					$param['file'] = 'index.php';
@@ -770,6 +805,11 @@ class OC {
 		self::handleLogin();
 	}
 
+	/**
+	 * Load a PHP file belonging to the specified application
+	 * @param array $param The application and file to load
+	 * @return bool Whether the file has been found (will return 404 and false if not)
+	 */
 	public static function loadAppScriptFile($param) {
 		OC_App::loadApps();
 		$app = $param['app'];
@@ -812,6 +852,10 @@ class OC {
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
+	/**
+	 * Remove outdated and therefore invalid tokens for a user
+	 * @param string $user
+	 */
 	protected static function cleanupLoginTokens($user) {
 		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$tokens = OC_Preferences::getKeys($user, 'login_token');
@@ -823,6 +867,10 @@ class OC {
 		}
 	}
 
+	/**
+	 * Try to login a user via HTTP authentication
+	 * @return bool|void
+	 */
 	protected static function tryApacheAuth() {
 		$return = OC_User::handleApacheAuth();
 
@@ -837,6 +885,10 @@ class OC {
 		return is_null($return) ? false : true;
 	}
 
+	/**
+	 * Try to login a user using the remember me cookie.
+	 * @return bool Whether the provided cookie was valid
+	 */
 	protected static function tryRememberLogin() {
 		if (!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
@@ -846,7 +898,7 @@ class OC {
 		) {
 			return false;
 		}
-		OC_App::loadApps(array('authentication'));
+
 		if (defined("DEBUG") && DEBUG) {
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
@@ -878,6 +930,10 @@ class OC {
 		return true;
 	}
 
+	/**
+	 * Tries to login a user using the formbased authentication
+	 * @return bool|void
+	 */
 	protected static function tryFormLogin() {
 		if (!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
@@ -912,13 +968,18 @@ class OC {
 		return true;
 	}
 
+	/**
+	 * Try to login a user using HTTP authentication.
+	 * @return bool
+	 */
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 			|| !isset($_SERVER["PHP_AUTH_PW"])
+			|| (isset($_COOKIE['oc_ignore_php_auth_user']) && $_COOKIE['oc_ignore_php_auth_user'] === $_SERVER['PHP_AUTH_USER'])
 		) {
 			return false;
 		}
-		OC_App::loadApps(array('authentication'));
+
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
@@ -929,12 +990,11 @@ class OC {
 
 }
 
-// define runtime variables - unless this already has been done
-if (!isset($RUNTIME_NOAPPS)) {
-	$RUNTIME_NOAPPS = false;
-}
-
 if (!function_exists('get_temp_dir')) {
+	/**
+	 * Get the temporary dir to store uploaded data
+	 * @return null|string Path to the temporary directory or null
+	 */
 	function get_temp_dir() {
 		if ($temp = ini_get('upload_tmp_dir')) return $temp;
 		if ($temp = getenv('TMP')) return $temp;
@@ -952,4 +1012,3 @@ if (!function_exists('get_temp_dir')) {
 }
 
 OC::init();
-

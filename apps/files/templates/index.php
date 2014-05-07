@@ -1,26 +1,25 @@
 <div id="controls">
-	<?php print_unescaped($_['breadcrumb']); ?>
-		<div class="actions creatable <?php if (!$_['isCreatable']):?>hidden<?php endif; ?>">
+		<div class="actions creatable hidden">
 			<?php if(!isset($_['dirToken'])):?>
 			<div id="new" class="button">
 				<a><?php p($l->t('New'));?></a>
 				<ul>
-					<li class="icon icon-filetype-text"
+					<li class="icon-filetype-text svg"
 						data-type="file" data-newname="<?php p($l->t('New text file')) ?>.txt">
 						<p><?php p($l->t('Text file'));?></p>
 					</li>
-					<li class="icon icon-filetype-folder"
+					<li class="icon-filetype-folder svg"
 						data-type="folder" data-newname="<?php p($l->t('New folder')) ?>">
 						<p><?php p($l->t('Folder'));?></p>
 					</li>
-					<li class="icon icon-link" data-type="web">
+					<li class="icon-link svg" data-type="web">
 						<p><?php p($l->t('From link'));?></p>
 					</li>
 				</ul>
 			</div>
 			<?php endif;?>
 			<div id="upload" class="button"
-				 title="<?php p($l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize']) ?>">
+				 title="<?php p($l->t('Upload (max. %s)', array($_['uploadMaxHumanFilesize']))) ?>">
 					<?php if($_['uploadMaxFilesize'] >= 0):?>
 					<input type="hidden" id="max_upload" name="MAX_FILE_SIZE" value="<?php p($_['uploadMaxFilesize']) ?>">
 					<?php endif;?>
@@ -35,7 +34,7 @@
 					<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg icon icon-upload"></a>
+					<a href="#" class="svg icon-upload"></a>
 			</div>
 			<?php if ($_['trash']): ?>
 			<input id="trash" type="button" value="<?php p($l->t('Deleted files'));?>" class="button" <?php $_['trashEmpty'] ? p('disabled') : '' ?> />
@@ -48,25 +47,25 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-		<div class="notCreatable notPublic <?php if ($_['isCreatable'] or $_['isPublic'] ):?>hidden<?php endif; ?>">
+		<div class="notCreatable notPublic hidden">
 			<?php p($l->t('You don’t have permission to upload or create files here'))?>
 		</div>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
 </div>
 
-<div id="emptycontent" <?php if (!$_['emptyContent']):?>class="hidden"<?php endif; ?>><?php p($l->t('Nothing in here. Upload something!'))?></div>
+<div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 
 <input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>" />
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
-			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id='headerName'>
+			<th class="hidden" id='headerName'>
 				<div id="headerName-container">
 					<input type="checkbox" id="select_all" />
 					<label for="select_all"></label>
 					<span class="name"><?php p($l->t( 'Name' )); ?></span>
-					<span class="selectedActions">
+					<span id="selectedActionsList" class="selectedActions">
 						<?php if($_['allowZipDownload']) : ?>
 							<a href="" class="download">
 								<img class="svg" alt="Download"
@@ -77,8 +76,8 @@
 					</span>
 				</div>
 			</th>
-			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id="headerSize"><?php p($l->t('Size')); ?></th>
-			<th <?php if (!$_['fileHeader']):?>class="hidden"<?php endif; ?> id="headerDate">
+			<th class="hidden" id="headerSize"><?php p($l->t('Size')); ?></th>
+			<th class="hidden" id="headerDate">
 				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 					<span class="selectedActions"><a href="" class="delete-selected">
@@ -91,8 +90,9 @@
 		</tr>
 	</thead>
 	<tbody id="fileList">
-		<?php print_unescaped($_['fileList']); ?>
 	</tbody>
+	<tfoot>
+	</tfoot>
 </table>
 <div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
@@ -111,7 +111,6 @@
 
 <!-- config hints for javascript -->
 <input type="hidden" name="filesApp" id="filesApp" value="1" />
-<input type="hidden" name="ajaxLoad" id="ajaxLoad" value="<?php p($_['ajaxLoad']); ?>" />
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php p($_['usedSpacePercent']); ?>" />
 <?php if (!$_['isPublic']) :?>

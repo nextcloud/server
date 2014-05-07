@@ -4,14 +4,14 @@
 # 
 # Translators:
 # barbarak <barbarak@arnes.si>, 2013
-# mateju <>, 2013
+# mateju <>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,40 +19,26 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s je omogočil souporabo »%s«"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr "Datum preteka je v preteklosti."
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Ni mogoče poslati sporočila za: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Vzdrževalni način je omogočen"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Vzdrževalni način je onemogočen"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Posodobljena podatkovna zbirka"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Poteka posodabljanje predpomnilnika datotek. Opravilo je lahko dolgotrajno ..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Predpomnilnik datotek je posodobljen"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% končano ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -74,91 +60,95 @@ msgstr "Na voljo ni nobene začasne slike za profil. Poskusite znova."
 msgid "No crop data provided"
 msgstr "Ni podanih podatkov obreza"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "nedelja"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "ponedeljek"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "torek"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "sreda"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "četrtek"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "petek"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "sobota"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "januar"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "februar"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "marec"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "april"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "maj"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "junij"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "julij"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "avgust"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "september"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "oktober"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "november"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "december"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Poteka shranjevanje ..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -166,7 +156,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -174,15 +164,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -190,11 +180,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -202,43 +192,39 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "mesecev nazaj"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "let nazaj"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Izbor"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Napaka nalaganja predloge izbirnika datotek: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Da"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "V redu"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Napaka nalaganja predloge sporočil: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} spor datotek"
@@ -246,39 +232,67 @@ msgstr[1] "{count} spora datotek"
 msgstr[2] "{count} spori datotek"
 msgstr[3] "{count} sporov datotek"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "En spor datotek"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "Nove datoteke"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "Obstoječe datoteke"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Katare datoteke želite ohraniti?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Če izberete obe različici, bo kopirani datoteki k imenu dodana številka."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(vse izbrano)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} izbranih)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Napaka nalaganja predloge obstoječih datotek"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "Zelo šibko geslo"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "Šibko geslo"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "Slabo geslo"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "Dobro geslo"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "Odlično geslo"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -288,12 +302,12 @@ msgstr "V souporabi"
 msgid "Share"
 msgstr "Souporaba"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Napaka"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Napaka med souporabo"
 
@@ -305,123 +319,123 @@ msgstr "Napaka med odstranjevanjem souporabe"
 msgid "Error while changing permissions"
 msgstr "Napaka med spreminjanjem dovoljenj"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "V souporabi z vami in skupino {group}. Lastnik je {owner}."
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "V souporabi z vami. Lastnik je {owner}."
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr "Souporaba z uporabnikom ali skupino ..."
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr "Povezava za prejem"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Zaščiti z geslom"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Geslo"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Dovoli javno pošiljanje na strežnik"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Posreduj povezavo po elektronski pošti"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Pošlji"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Nastavi datum preteka"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Datum preteka"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Pošlji povezavo do dokumenta preko elektronske pošte:"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Ni najdenih uporabnikov"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Nadaljnja souporaba ni dovoljena"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "V souporabi v {item} z uporabnikom {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Prekliči souporabo"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr "obvesti po elektronski pošti"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "lahko ureja"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "nadzor dostopa"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "ustvari"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "posodobi"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "izbriše"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "določi souporabo"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Zaščiteno z geslom"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Napaka brisanja datuma preteka"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Napaka nastavljanja datuma preteka"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Pošiljanje ..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Elektronska pošta je poslana"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Opozorilo"
 
@@ -449,7 +463,7 @@ msgstr "Uredi oznake"
 msgid "Error loading dialog template: {error}"
 msgstr "Napaka nalaganja predloge pogovornega okna: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Ni izbranih oznak za izbris."
 
@@ -468,10 +482,16 @@ msgstr "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "Ponastavitev gesla %s"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "Prišlo je do napake med pošiljanjem elektronskega sporočila. Stopite v stik s skrbnikom sistema."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -492,8 +512,8 @@ msgstr "Zahteva je spodletela!<br>Ali sta elektronski naslov oziroma uporabnišk
 msgid "You will receive a link to reset your password via Email."
 msgstr "Na elektronski naslov boste prejeli povezavo za ponovno nastavitev gesla."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Uporabniško ime"
 
@@ -529,6 +549,18 @@ msgstr "Novo geslo"
 msgid "Reset password"
 msgstr "Ponastavi geslo"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Sistem Mac OS X ni podprt, zato %s ne bo deloval zanesljivo v tem okolju. Program uporabljate na lastno odgovornost! "
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "Za najbolj še rezultate je priporočljivo uporabljati strežnik GNU/Linux."
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Osebno"
@@ -537,7 +569,7 @@ msgstr "Osebno"
 msgid "Users"
 msgstr "Uporabniki"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Programi"
 
@@ -647,49 +679,47 @@ msgstr "Za več informacij o pravilnem nastavljanju strežnika, kliknite na pove
 msgid "Create an <strong>admin account</strong>"
 msgstr "Ustvari <strong>skrbniški račun</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Napredne možnosti"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "Shramba in podatkovna zbirka"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Podatkovna mapa"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Nastavi podatkovno zbirko"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "bo uporabljen"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Uporabnik podatkovne zbirke"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Geslo podatkovne zbirke"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Ime podatkovne zbirke"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Razpredelnica podatkovne zbirke"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Gostitelj podatkovne zbirke"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Končaj nastavitev"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr "Poteka zaključevanje opravila ..."
 
@@ -705,7 +735,7 @@ msgstr "Program zahteva omogočeno skriptno podporo. Za pravilno delovanje je tr
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odjava"
 
@@ -731,28 +761,28 @@ msgstr "Overitev s strežnika je spodletela!"
 msgid "Please contact your administrator."
 msgstr "Stopite v stik s skrbnikom sistema."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Ali ste pozabili geslo?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "zapomni si"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Prijava"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Druge prijavne možnosti"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr "Pozdravljeni,<br><br>oseba %s vam je omogočila souporabo %s.<br>Vir si lahko ogledate na <a href=\"%s\">tem naslovu</a>.<br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr "Pozdravljeni,<br><br>uporabnik %s vam je omogočil souporabo <strong>%s</strong>.<br><a href=\"%s\">Oglejte si vsebino!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

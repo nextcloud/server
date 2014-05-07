@@ -4,16 +4,17 @@
 # 
 # Translators:
 # hanfeng <appweb.cn@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2013
-# zhangmin <zm1990s@gmail.com>, 2013
-# zhangmin <zm1990s@gmail.com>, 2013
+# smartree <smartree@gmail.com>, 2014
+# Xuetian Weng <wengxt@gmail.com>, 2013-2014
+# min zhang <zm1990s@gmail.com>, 2013
+# min zhang <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 20:40+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,44 +22,30 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s 向您分享了 »%s«"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr "过期日期已过。"
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "发送失败，用户如下: %s "
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "启用维护模式"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "关闭维护模式"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "数据库已更新"
 
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "正在更新文件缓存，这可能需要较长时间..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "文件缓存已更新"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "...已完成 %d%% ..."
-
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "没有提供图片或文件"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -70,202 +57,230 @@ msgstr "无效的图像"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "没有临时概览页图片可用，请重试"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "没有提供相应数据"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "星期日"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "星期一"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "星期二"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "星期三"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "星期四"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "星期五"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "星期六"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "一月"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "二月"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "三月"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "四月"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "五月"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "六月"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "七月"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "八月"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "九月"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "十月"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "十一月"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "保存中"
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分钟前"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小时前"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 月前"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "月前"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "年前"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "选择(&C)..."
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "加载文件分拣模板出错: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "是"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "否"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "好"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "加载消息模板出错: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
+msgstr[0] "{count} 个文件冲突"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
-msgstr ""
+msgstr "1个文件冲突"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "新文件"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "已经存在的文件"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "想要保留哪一个文件呢？"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "如果同时选择了连个版本，复制的文件名将会添加上一个数字。"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "取消"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
-msgstr ""
+msgstr "继续"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
-msgstr ""
+msgstr "(选中全部)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
-msgstr ""
+msgstr "(选择了{count}个)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "加载文件存在性模板失败"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "非常弱的密码"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "弱密码"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "一般强度的密码"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "较强的密码"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "强密码"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -275,12 +290,12 @@ msgstr "已共享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "错误"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "共享时出错"
 
@@ -292,123 +307,123 @@ msgstr "取消共享时出错"
 msgid "Error while changing permissions"
 msgstr "修改权限时出错"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 共享给您及 {group} 组"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "{owner} 与您共享"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
-msgstr ""
+msgstr "分享给其他用户或组 ..."
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
-msgstr ""
+msgstr "分享链接"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "允许公开上传"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "发送链接到个人"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "发送"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "设置过期日期"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "过期日期"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "通过Email共享"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "组"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "在 {item} 与 {user} 共享。"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
-msgstr ""
+msgstr "以邮件通知"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "邮件已发送"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "警告"
 
@@ -418,7 +433,7 @@ msgstr "未指定对象类型。"
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "输入新..."
 
 #: js/tags.js:27
 msgid "Delete"
@@ -430,19 +445,19 @@ msgstr "增加"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "编辑标签"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "加载对话框模板出错: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "请选择要删除的标签。"
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "请重新加载页面。"
 
 #: js/update.js:17
 msgid ""
@@ -455,10 +470,16 @@ msgstr "更新不成功。请汇报将此问题汇报给  <a href=\"https://gith
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "更新成功。正在重定向至 ownCloud。"
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "重置 %s 的密码"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "发送电子邮件时发生问题，请和管理员联系。"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -479,8 +500,8 @@ msgstr "请求失败<br>您确定您的邮箱/用户名是正确的？"
 msgid "You will receive a link to reset your password via Email."
 msgstr "您将会收到包含可以重置密码链接的邮件。"
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "用户名"
 
@@ -516,6 +537,18 @@ msgstr "新密码"
 msgid "Reset password"
 msgstr "重置密码"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Mac OS X 不被支持并且 %s 在这个平台上无法正常工作。请自行承担风险！"
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "为了达到最好的效果，请考虑使用 GNU/Linux 服务器。"
+
 #: strings.php:5
 msgid "Personal"
 msgstr "个人"
@@ -524,7 +557,7 @@ msgstr "个人"
 msgid "Users"
 msgstr "用户"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "应用"
 
@@ -538,31 +571,31 @@ msgstr "帮助"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "加载标签出错"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "标签已存在"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "删除标签(s)时出错"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "添加标签时出错"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "移除标签时出错"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "收藏时出错"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "删除收藏时出错"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -580,16 +613,16 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "此分享将在 %s 过期。"
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "干杯！"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -634,65 +667,63 @@ msgstr "关于如何配置服务器，请参见 <a href=\"%s\" target=\"_blank\"
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "高级"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "存储 & 数据库"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
-msgstr ""
+msgstr "正在结束 ..."
 
 #: templates/layout.user.php:40
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "此程序需要启用JavaScript才能正常运行。请<a href=\"http://enable-javascript.com/\" target=\"_blank\">启用JavaScript</a> 并重新加载此接口。"
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "注销"
 
@@ -712,52 +743,52 @@ msgstr "请修改您的密码，以保护您的账户安全。"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "服务端验证失败！"
 
 #: templates/login.php:18
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "请联系你的管理员。"
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr ""
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr "嗨、你好,<br><br>只想让你知道 %s 分享了 <strong>%s</strong> 给你。<br><a href=\"%s\">现在查看！</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "当前ownCloud实例运行在单用户模式下。"
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "这意味着只有管理员才能在实例上操作。"
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "如果这个消息一直存在或不停出现，请联系你的系统管理员。"
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "感谢让你久等了。"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -767,8 +798,8 @@ msgstr "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "当前ownCloud实例正在更新，可能需要一段时间。"
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "请稍后重新加载这个页面，以继续使用ownCloud。"

@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Jepni një pritës rezervë. Duhet të jetë replikimi i serverit AD/LDAP kryesor.",
 "Backup (Replica) Port" => "Porta rezervë (Replika)",
 "Disable Main Server" => "Ç'aktivizoni serverin kryesor",
-"Case insensitve LDAP server (Windows)" => " Server LDAP i pavëmëndshëm ndaj gërmëzimit të madh apo jo (Windows)",
 "Turn off SSL certificate validation." => "Ç'aktivizoni kontrollin e certifikatës SSL.",
 "Cache Time-To-Live" => "Cache Time-To-Live",
 "in seconds. A change empties the cache." => "në sekonda Ndryshimi boshatis 'cache'-n.",

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,18 +80,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr ""
 
@@ -99,9 +99,9 @@ msgstr ""
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr ""
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Simpan..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

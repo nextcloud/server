@@ -1,5 +1,6 @@
 [main]
-host = https://www.transifex.net
+host = https://www.transifex.com
+lang_map = ja_JP: ja
 
 [owncloud.core]
 file_filter = <lang>/core.po

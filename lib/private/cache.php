@@ -97,7 +97,7 @@ class Cache {
 
 	/**
 	 * creates cache key based on the files given
-	 * @param $files
+	 * @param string[] $files
 	 * @return string
 	 */
 	static public function generateCacheKeyFromFiles($files) {

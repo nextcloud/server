@@ -32,11 +32,11 @@
 			?>
 		<?php endforeach; ?>
 	</head>
-
+	<?php flush(); ?>
 	<body id="body-login">
 		<div class="wrapper"><!-- for sticky footer -->
 			<header><div id="header">
-				<div class='logo'></div>
+				<div class="logo svg"></div>
 				<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			</div></header>
 

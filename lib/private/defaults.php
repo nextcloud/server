@@ -21,6 +21,7 @@ class OC_Defaults {
 	private $defaultDocBaseUrl;
 	private $defaultSlogan;
 	private $defaultLogoClaim;
+	private $defaultMailHeaderColor;
 
 	function __construct() {
 		$this->l = OC_L10N::get('core');
@@ -28,11 +29,12 @@ class OC_Defaults {
 		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
 		$this->defaultTitle = "ownCloud"; /* can be a longer name, for titles */
-		$this->defaultBaseUrl = "http://owncloud.org";
-		$this->defaultSyncClientUrl = " http://owncloud.org/sync-clients/";
+		$this->defaultBaseUrl = "https://owncloud.org";
+		$this->defaultSyncClientUrl = "https://owncloud.org/sync-clients/";
 		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
 		$this->defaultSlogan = $this->l->t("web services under your control");
 		$this->defaultLogoClaim = "";
+		$this->defaultMailHeaderColor = "#1d2d44"; /* header color of mail notifications */
 
 		if (class_exists("OC_Theme")) {
 			$this->theme = new OC_Theme();
@@ -172,6 +174,25 @@ class OC_Defaults {
 		}
 
 		return $footer;
+	}
+
+	public function buildDocLinkToKey($key) {
+		if ($this->themeExist('buildDocLinkToKey')) {
+			return $this->theme->buildDocLinkToKey($key);
+		}
+		return $this->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+	}
+
+	/**
+	 * Returns mail header color
+	 * @return mail header color
+	 */
+	public function getMailHeaderColor() {
+		if ($this->themeExist('getMailHeaderColor')) {
+			return $this->theme->getMailHeaderColor();
+		} else {
+			return $this->defaultMailHeaderColor;
+		}
 	}
 
 }

@@ -225,7 +225,8 @@ var UserList = {
 		}
 		$('table+.loading').css('visibility', 'visible');
 		UserList.updating = true;
-		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset, limit: UserList.usersToLoad }), function (result) {
+		var query = $.param({ offset: UserList.offset, limit: UserList.usersToLoad });
+		$.get(OC.generateUrl('/settings/ajax/userlist') + '?' + query, function (result) {
 			var loadedUsers = 0;
 			var trs = [];
 			if (result.status === 'success') {
@@ -371,9 +372,7 @@ $(document).ready(function () {
 
 	UserList.doSort();
 	UserList.availableGroups = $('#content table').data('groups');
-	OC.Router.registerLoadedCallback(function() {
-		$(window).scroll(function(e) {UserList._onScroll(e);});
-	});
+	$(window).scroll(function(e) {UserList._onScroll(e);});
 	$('table').after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
 	$('select[multiple]').each(function (index, element) {
@@ -401,7 +400,7 @@ $(document).ready(function () {
 				if ($(this).val().length > 0) {
 					var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
 					$.post(
-						OC.Router.generate('settings_users_changepassword'),
+						OC.generateUrl('/settings/users/changepassword'),
 						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
 							if (result.status != 'success') {

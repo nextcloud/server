@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# rogerc, 2013
+# rogerc, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,38 +18,49 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: private/app.php:243
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "L'aplicació \"%s\" no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "No heu especificat cap nom d'aplicació"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Personal"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Configuració"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Usuaris"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Administració"
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ha fallat l'actualització \"%s\"."
@@ -62,104 +73,103 @@ msgstr "Tipus de fitxer desconegut"
 msgid "Invalid image"
 msgstr "Imatge no vàlida"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "no es pot obrir \"%s\""
-
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "La baixada en ZIP està desactivada."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Els fitxers s'han de baixar d'un en un."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Torna a Fitxers"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Els fitxers seleccionats son massa grans per generar un fitxer zip."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr "Baixeu els fitxers separadament en petits trossos o pregunteu a l'administrador."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "No heu especificat la font en instal·lar l'aplicació"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "No heu especificat href en instal·lar l'aplicació des de http"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "No heu seleccionat el camí en instal·lar una aplicació des d'un fitxer local"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Els fitxers del tipus %s no són compatibles"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Ha fallat l'obertura del fitxer en instal·lar l'aplicació"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "L'aplicació no proporciona un fitxer info.xml"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "L'aplicació no es pot instal·lar perquè hi ha codi no autoritzat en l'aplicació"
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "L'aplicació no es pot instal·lar perquè conté l'etiqueta <shipped>vertader</shipped> que no es permet per aplicacions no enviades"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "L'aplicació no es pot instal·lar perquè la versió a info.xml/version no és la mateixa que la versió indicada des de la botiga d'aplicacions"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "La carpeta de l'aplicació ja existeix"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "No es pot crear la carpeta de l'aplicació. Arregleu els permisos. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "L'aplicació no està habilitada"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Error d'autenticació"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "El testimoni ha expirat. Torneu a carregar la pàgina."
+
+#: private/json.php:74
+msgid "Unknown user"
+msgstr "Usuari desconegut"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -194,23 +204,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Nom d'usuari i/o contrasenya MS SQL no vàlids: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Heu d'escriure un compte existent o el d'administrador."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "Nom d'usuari i/o contrasenya MySQL no vàlids"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr "El nom d'usuari i/o la contrasenya de MySQL/MariaDB no són vàlids"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Error DB: \"%s\""
@@ -219,30 +229,30 @@ msgstr "Error DB: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "L'ordre en conflicte és: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "L'usuari MySQL '%s'@'localhost' ja existeix."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr "L'usuari MySQL/MariaDB '%s'@'localhost' ja existeix."
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Elimina aquest usuari de MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr "Esborreu aquest usuari de MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "L'usuari MySQL '%s'@'%%' ja existeix"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr "L'usuari MySQL/MariaDB '%s'@'%%' ja existeix"
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Elimina aquest usuari de MySQL."
+msgid "Drop this user from MySQL/MariaDB."
+msgstr "Esborreu aquest usuari de MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -257,7 +267,7 @@ msgstr "Nom d'usuari i/o contrasenya Oracle no vàlids"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "L'ordre en conflicte és: \"%s\", nom: %s, contrasenya: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Nom d'usuari i/o contrasenya PostgreSQL no vàlids"
 
@@ -269,66 +279,193 @@ msgstr "Establiu un nom d'usuari per l'administrador."
 msgid "Set an admin password."
 msgstr "Establiu una contrasenya per l'administrador."
 
-#: private/setup.php:195
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament."
 
-#: private/setup.php:196
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s ha compartit »%s« amb tu"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr ""
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "No s'ha trobat la categoria \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fa %n minut"
 msgstr[1] "fa %n minuts"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fa %n hora"
 msgstr[1] "fa %n hores"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr "avui"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "ahir"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "fa %n dia"
 msgstr[1] "fa %n dies"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "el mes passat"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fa %n mes"
 msgstr[1] "fa %n mesos"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "l'any passat"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "anys enrere"
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "Només els caràcters següents estan permesos en el nom d'usuari: \"a-z\", \"A-Z\", \"0-9\" i \"_.@-\""
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr "Heu de facilitar un nom d'usuari vàlid"
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr "Heu de facilitar una contrasenya vàlida"
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
+msgstr "El nom d'usuari ja està en ús"

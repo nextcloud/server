@@ -16,28 +16,31 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		$this->verbosity = $verbosity;
 	}
 
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    }
+	public function addError(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	}
 
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
-    }
+	public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time) {
+	}
 
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    }
+	public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	}
 
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
-    }
+	public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	}
 
-    public function startTest(PHPUnit_Framework_Test $test) {
-    }
+	public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time) {
+	}
 
-    public function endTest(PHPUnit_Framework_Test $test, $time) {
-    }
+	public function startTest(PHPUnit_Framework_Test $test) {
+	}
 
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
-    }
+	public function endTest(PHPUnit_Framework_Test $test, $time) {
+	}
 
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
+	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
+	}
+
+	public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
 		if ($this->cleanStrayDataFiles() && $this->isShowSuiteWarning()) {
 			printf("TestSuite '%s': Did not clean up data dir\n", $suite->getName());
 		}
@@ -47,7 +50,7 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		if ($this->cleanProxies() && $this->isShowSuiteWarning()) {
 			printf("TestSuite '%s': Did not clean up proxies\n", $suite->getName());
 		}
-    }
+	}
 
 	private function isShowSuiteWarning() {
 		return $this->verbosity === 'suite' || $this->verbosity === 'detail';
@@ -83,6 +86,7 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		$knownEntries = array(
 			'owncloud.log' => true,
 			'owncloud.db' => true,
+			'.ocdata' => true,
 			'..' => true,
 			'.' => true
 		);
@@ -139,4 +143,3 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 		return count($proxies) > 0;
 	}
 }
-?>

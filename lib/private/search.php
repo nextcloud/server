@@ -45,7 +45,7 @@ class OC_Search{
 
 	/**
 	 * search all provider for $query
-	 * @param string query
+	 * @param string $query
 	 * @return array An array of OC_Search_Result's
 	 */
 	public static function search($query) {

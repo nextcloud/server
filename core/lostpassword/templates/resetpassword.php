@@ -1,14 +1,14 @@
-<form action="<?php echo OC_Helper::linkToRoute('core_lostpassword_reset', $_['args']) ?>" method="post">
+<form action="<?php print_unescaped(OC_Helper::linkToRoute('core_lostpassword_reset', $_['args'])) ?>" method="post">
 	<fieldset>
 		<?php if($_['success']): ?>
-			<h1><?php echo $l->t('Your password was reset'); ?></h1>
-			<p><a href="<?php echo OC_Helper::linkTo('', 'index.php') ?>/"><?php echo $l->t('To login page'); ?></a></p>
+			<h1><?php p($l->t('Your password was reset')); ?></h1>
+			<p><a href="<?php print_unescaped(OC_Helper::linkTo('', 'index.php')) ?>/"><?php p($l->t('To login page')); ?></a></p>
 		<?php else: ?>
 			<p class="infield">
-				<label for="password" class="infield"><?php echo $l->t( 'New password' ); ?></label>
+				<label for="password" class="infield"><?php p($l->t('New password')); ?></label>
 				<input type="password" name="password" id="password" value="" required />
 			</p>
-			<input type="submit" id="submit" value="<?php echo $l->t('Reset password'); ?>" />
+			<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
 		<?php endif; ?>
 	</fieldset>
 </form>

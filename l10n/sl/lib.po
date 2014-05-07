@@ -4,14 +4,14 @@
 # 
 # Translators:
 # barbarak <barbarak@arnes.si>, 2013
-# mateju <>, 2013
+# mateju <>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-28 01:55-0400\n"
+"PO-Revision-Date: 2014-04-28 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,38 +19,49 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: private/app.php:243
+#: base.php:723
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: base.php:724
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Programa \"%s\" ni mogoče namestiti, ker ni skladen s trenutno nameščeno različico oblaka ownCloud."
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
 msgstr "Ni podanega imena programa"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "Pomoč"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "Osebno"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "Uporabniki"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "Skrbništvo"
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Posodabljanje \"%s\" je spodletelo."
@@ -63,104 +74,103 @@ msgstr "Neznana vrsta datoteke"
 msgid "Invalid image"
 msgstr "Neveljavna slika"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "spletne storitve pod vašim nadzorom"
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr "ni mogoče odpreti \"%s\""
-
-#: private/files.php:231
+#: private/files.php:232
 msgid "ZIP download is turned off."
 msgstr "Prejemanje datotek v paketu ZIP je onemogočeno."
 
-#: private/files.php:232
+#: private/files.php:233
 msgid "Files need to be downloaded one by one."
 msgstr "Datoteke je mogoče prejeti le posamično."
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:234 private/files.php:261
 msgid "Back to Files"
 msgstr "Nazaj na datoteke"
 
-#: private/files.php:258
+#: private/files.php:259
 msgid "Selected files too large to generate zip file."
 msgstr "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip."
 
-#: private/files.php:259
+#: private/files.php:260
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr "Datoteke je treba prejeti ločeno v manjših paketih, ali pa je treba za pomoč prositi skrbnika."
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
 msgstr "Ni podanega vira med nameščenjem programa"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
 msgstr "Ni podanega podatka naslova HREF med nameščenjem programa preko protokola HTTP."
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr "Ni podane poti med nameščenjem programa iz krajevne datoteke"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arhivi vrste %s niso podprti"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr "Odpiranje arhiva je med nameščanjem spodletelo"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "Program je brez datoteke info.xml"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Programa ni mogoče namestiti zaradi nedovoljene programske kode."
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Programa ni mogoče namestiti, ker ni skladen z trenutno nameščeno različico oblaka ownCloud."
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Programa ni mogoče namestiti, ker vsebuje oznako <shipped>potrditve</shipped>, ki pa ni dovoljena za javne programe."
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Program ni mogoče namestiti zaradi neustrezne različice datoteke info.xml. Ta ni enaka različici programa."
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
 msgstr "Programska mapa že obstaja"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "Program ni omogočen"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "Napaka overjanja"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Žeton je potekel. Stran je treba ponovno naložiti."
+
+#: private/json.php:74
+msgid "Unknown user"
+msgstr "Neznan uporabnik"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -195,23 +205,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Uporabniško ime ali geslo MS SQL ni veljavno: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Prijaviti se je treba v obstoječi ali pa skrbniški račun."
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "Uporabniško ime ali geslo MySQL ni veljavno"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr "Uporabniško ime ali geslo za MySQL/MariaDB ni veljavno"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Napaka podatkovne zbirke: \"%s\""
@@ -220,30 +230,30 @@ msgstr "Napaka podatkovne zbirke: \"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Napačni ukaz je: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Uporabnik MySQL '%s'@'localhost' že obstaja."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr "Uporabnik podatkovne zbirke MySQL/MariaDB '%s'@'localhost' že obstaja."
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Uporabnik MySQL '%s'@'%%' že obstaja."
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr "Uporabnik podatkovne zbirke MySQL/MariaDB '%s'@'%%' že obstaja."
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL"
+msgid "Drop this user from MySQL/MariaDB."
+msgstr "Odstrani uporabnika iz podatkovne zbirke MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -258,7 +268,7 @@ msgstr "Uporabniško ime ali geslo Oracle ni veljavno"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Napačni ukaz je: \"%s\", ime: %s, geslo: %s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Uporabniško ime ali geslo PostgreSQL ni veljavno"
 
@@ -270,27 +280,136 @@ msgstr "Nastavi uporabniško ime skrbnika."
 msgid "Set an admin password."
 msgstr "Nastavi geslo skrbnika."
 
-#: private/setup.php:195
+#: private/setup.php:202
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena."
 
-#: private/setup.php:196
+#: private/setup.php:203
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Preverite <a href='%s'>navodila namestitve</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s je omogočil souporabo »%s«"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker je uporabnik %s lastnik predmeta."
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ne obstaja."
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član nobene skupine, v kateri je tudi uporabnik %s."
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "Nastavljanje souporabe %s je spodletela, ker je ima uporabnik %s predmet že v souporabi."
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker je skupina %s ne obstaja."
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član skupine %s."
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "Nastavljanje souporabe %s je spodletelo, ker souporaba preko povezave ni dovoljena."
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr "Vrsta souporabe %s za %s ni veljavna."
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr "Ozadnjega programa %s za souporabo ni mogoče najti"
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr "Ozadnjega programa za souporabo za %s ni mogoče najti"
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Kategorije \"%s\" ni mogoče najti."
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -298,7 +417,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -306,15 +425,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr "danes"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "včeraj"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -322,11 +441,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -334,10 +453,28 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "lansko leto"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "let nazaj"
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "V uporabniškem imenu je dovoljeno uporabiti le znake: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr "Navedeno mora biti veljavno uporabniško ime"
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr "Navedeno mora biti veljavno geslo"
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
+msgstr "Vpisano uporabniško ime je že v uporabi"

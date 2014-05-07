@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
-# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013
+# Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
 # mambuta <vspyshkin@gmail.com>, 2013
 # Roman Deniobe <rms200x@gmail.com>, 2013
 # fizikiukas <fizikiukas@gmail.com>, 2013
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,40 +22,26 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s pasidalino »%s« su tavimi"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr ""
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nepavyko nusiųsti el. pašto šiems naudotojams: %s "
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Įjungta priežiūros veiksena"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Išjungta priežiūros veiksena"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Atnaujinta duomenų bazė"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Atnaujinama failų talpykla, tai gali užtrukti labai ilgai..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Atnaujinta failų talpykla"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% atlikta ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -77,206 +63,234 @@ msgstr "Nėra laikino profilio paveikslėlio, bandykite dar kartą"
 msgid "No crop data provided"
 msgstr "Nenurodyti apkirpimo duomenys"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "Sekmadienis"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "Pirmadienis"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "Antradienis"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "Trečiadienis"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "Ketvirtadienis"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "Penktadienis"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "Šeštadienis"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Sausis"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Vasaris"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Kovas"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "Balandis"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Gegužė"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Birželis"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Liepa"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Rugpjūtis"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "Rugsėjis"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Spalis"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "Lapkritis"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Gruodis"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:869
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Saugoma..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:870
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " prieš %n minutę"
 msgstr[1] " prieš %n minučių"
 msgstr[2] " prieš %n minučių"
 
-#: js/js.js:871
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "prieš %n valandą"
 msgstr[1] "prieš %n valandų"
 msgstr[2] "prieš %n valandų"
 
-#: js/js.js:872
+#: js/js.js:1243
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:873
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:874
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "prieš %n dieną"
 msgstr[1] "prieš %n dienas"
 msgstr[2] "prieš %n dienų"
 
-#: js/js.js:875
+#: js/js.js:1246
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:876
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "prieš %n mėnesį"
 msgstr[1] "prieš %n mėnesius"
 msgstr[2] "prieš %n mėnesių"
 
-#: js/js.js:877
-msgid "months ago"
-msgstr "prieš mėnesį"
-
-#: js/js.js:878
+#: js/js.js:1248
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:879
+#: js/js.js:1249
 msgid "years ago"
 msgstr "prieš metus"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Pasirinkite"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Klaida įkeliant failo parinkimo ruošinį: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Taip"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Gerai"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Klaida įkeliant žinutės ruošinį: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} failas konfliktuoja"
 msgstr[1] "{count} failai konfliktuoja"
 msgstr[2] "{count} failų konfliktų"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Vienas failo konfliktas"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr ""
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr ""
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Kuriuos failus norite laikyti?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jei pasirenkate abi versijas, nukopijuotas failas turės pridėtą numerį pavadinime."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Tęsti"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(visi pažymėti)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} pažymėtų)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Klaida įkeliant esančių failų ruošinį"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr ""
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr ""
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr ""
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr ""
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -286,12 +300,12 @@ msgstr "Dalinamasi"
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Klaida"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
@@ -303,123 +317,123 @@ msgstr "Klaida, kai atšaukiamas dalijimasis"
 msgid "Error while changing permissions"
 msgstr "Klaida, keičiant privilegijas"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Pasidalino su Jumis ir {group} grupe {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "Pasidalino su Jumis {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr "Dalintis su vartotoju arba grupe..."
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr "Dalintis nuoroda"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Apsaugotas slaptažodžiu"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Slaptažodis"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Leisti viešą įkėlimą"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Nusiųsti nuorodą paštu"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Siųsti"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Nustatykite galiojimo laiką"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Galiojimo laikas"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Dalintis per el. paštą:"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Žmonių nerasta"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grupė"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Dalijinasis išnaujo negalimas"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Pasidalino {item} su {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Nebesidalinti"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr "pranešti el. paštu"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "gali redaguoti"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "priėjimo kontrolė"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "sukurti"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "atnaujinti"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "ištrinti"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Siunčiama..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Laiškas išsiųstas"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Įspėjimas"
 
@@ -447,13 +461,13 @@ msgstr "Redaguoti žymes"
 msgid "Error loading dialog template: {error}"
 msgstr "Klaida įkeliant dialogo ruošinį: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Trynimui nepasirinkta jokia žymė."
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "Prašome perkrauti puslapį."
 
 #: js/update.js:17
 msgid ""
@@ -466,10 +480,16 @@ msgstr "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "%s slaptažodžio atnaujinimas"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -490,8 +510,8 @@ msgstr "Klaida!<br>Ar tikrai jūsų el paštas/vartotojo vardas buvo teisingi?"
 msgid "You will receive a link to reset your password via Email."
 msgstr "Elektroniniu paštu gausite nuorodą, su kuria galėsite iš naujo nustatyti slaptažodį."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Prisijungimo vardas"
 
@@ -509,7 +529,7 @@ msgstr "Taip, aš tikrai noriu atnaujinti slaptažodį"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "Atstatyti"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -527,6 +547,18 @@ msgstr "Naujas slaptažodis"
 msgid "Reset password"
 msgstr "Atkurti slaptažodį"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr ""
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr ""
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Asmeniniai"
@@ -535,7 +567,7 @@ msgstr "Asmeniniai"
 msgid "Users"
 msgstr "Vartotojai"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Programos"
 
@@ -569,11 +601,11 @@ msgstr "Klaida šalinant žymę"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Klaida įtraukiant į mėgstamus."
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Klaida pašalinant iš mėgstamų."
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -596,7 +628,7 @@ msgstr "Labas,\n\nInformuojame, kad %s pasidalino su Jumis %s.\nPažiūrėti tai
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Bendrinimo laikas baigsis %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -645,49 +677,47 @@ msgstr "Kad gauti informaciją apie tai kaip tinkamai sukonfigūruoti savo serve
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sukurti <strong>administratoriaus paskyrą</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Išplėstiniai"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Duomenų katalogas"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Nustatyti duomenų bazę"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "bus naudojama"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Duomenų bazės vartotojas"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Duomenų bazės slaptažodis"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Duomenų bazės pavadinimas"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Duomenų bazės loginis saugojimas"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Duomenų bazės serveris"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Baigti diegimą"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr "Baigiama ..."
 
@@ -696,14 +726,14 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Šiai programai reikia įjungti  JavaScript, kad ji veiktų tvarkingai.  Prašome <a href=\"http://enable-javascript.com/\" target=\"_blank\">įjungti JavaScript</a> ir perkrauti šią sąsają."
 
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Atsijungti"
 
@@ -729,36 +759,36 @@ msgstr "Autentikacija serveryje nepavyko!"
 msgid "Please contact your administrator."
 msgstr "Kreipkitės į savo sistemos administratorių."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Pamiršote slaptažodį?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "prisiminti"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Prisijungti"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Alternatyvūs prisijungimai"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr "Labas,<br><br>tik informuojame, kad %s pasidalino su Jumis »%s«.<br><a href=\"%s\">Peržiūrėk!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr ""
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "Ši ownCloud sistema yra vieno naudotojo veiksenoje."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Tai reiškia, kad tik administratorius gali naudotis sistema."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

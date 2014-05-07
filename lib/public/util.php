@@ -57,7 +57,7 @@ class Util {
 	 * @param string $mailtext
 	 * @param string $fromaddress
 	 * @param string $fromname
-	 * @param bool $html
+	 * @param int $html
 	 * @param string $altbody
 	 * @param string $ccaddress
 	 * @param string $ccname
@@ -85,25 +85,23 @@ class Util {
 	 * write exception into the log. Include the stack trace
 	 * if DEBUG mode is enabled
 	 * @param string $app app name
-	 * @param Exception $ex exception to log
+	 * @param \Exception $ex exception to log
+	 * @param string $level log level, defaults to \OCP\Util::FATAL
 	 */
-	public static function logException( $app, \Exception $ex ) {
+	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
 		$class = get_class($ex);
-		if ($class !== 'Exception') {
-			$message = $class . ': ';
-		}
-		$message .= $ex->getMessage();
+		$message = $class . ': ' . $ex->getMessage();
 		if ($ex->getCode()) {
 			$message .= ' [' . $ex->getCode() . ']';
 		}
-		\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+		\OCP\Util::writeLog($app, $message, $level);
 		if (defined('DEBUG') and DEBUG) {
 			// also log stack trace
 			$stack = explode("\n", $ex->getTraceAsString());
 			// first element is empty
 			array_shift($stack);
 			foreach ($stack as $s) {
-				\OCP\Util::writeLog($app, 'Exception: ' . $s, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $s, $level);
 			}
 
 			// include cause
@@ -113,7 +111,7 @@ class Util {
 				if ($ex->getCode()) {
 					$message .= '[' . $ex->getCode() . '] ';
 				}
-				\OCP\Util::writeLog($app, 'Exception: ' . $message, \OCP\Util::FATAL);
+				\OCP\Util::writeLog($app, 'Exception: ' . $message, $level);
 			}
 		}
 	}
@@ -159,6 +157,7 @@ class Util {
 	 * formats a timestamp in the "right" way
 	 * @param int $timestamp $timestamp
 	 * @param bool $dateOnly option to omit time from the result
+	 * @return string timestamp
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
 		return(\OC_Util::formatDate( $timestamp, $dateOnly ));
@@ -206,9 +205,8 @@ class Util {
 	 * Creates an url using a defined route
 	 * @param $route
 	 * @param array $parameters
-	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @return the url
+	 * @return string the url
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
 		return \OC_Helper::linkToRoute($route, $parameters);
@@ -269,7 +267,7 @@ class Util {
 		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
+		if (\OC_Mail::validateAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
@@ -287,8 +285,7 @@ class Util {
 
 	/**
 	 * Returns the request uri, even if the website uses one or more reverse proxies
-	 *
-	 * @return the request uri
+	 * @return string the request uri
 	 */
 	public static function getRequestUri() {
 		return(\OC_Request::requestUri());
@@ -296,8 +293,7 @@ class Util {
 
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
-	 *
-	 * @return the script name
+	 * @returns string the script name
 	 */
 	public static function getScriptName() {
 		return(\OC_Request::scriptName());
@@ -353,7 +349,7 @@ class Util {
 	 * Emits a signal. To get data from the slot use references!
 	 * @param string $signalclass class name of emitter
 	 * @param string $signalname name of signal
-	 * @param string $params defautl: array() array with additional data
+	 * @param array $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
 	 *
 	 * TODO: write example
@@ -470,9 +466,8 @@ class Util {
 
 	/**
 	 * Calculate free space left within user quota
-	 * 
-	 * @param $dir the current folder where the user currently operates
-	 * @return number of bytes representing
+	 * @param string $dir the current folder where the user currently operates
+	 * @return int number of bytes representing
 	 */
 	public static function freeSpace($dir) {
 		return \OC_Helper::freeSpace($dir);
@@ -494,5 +489,14 @@ class Util {
 	 */
 	public static function isValidFileName($file) {
 		return \OC_Util::isValidFileName($file);
+	}
+
+	/**
+	 * @brief Generates a cryptographic secure pseudo-random string
+	 * @param Int $length of the random string
+	 * @return String
+	 */
+	public static function generateRandomBytes($length = 30) {
+		return \OC_Util::generateRandomBytes($length);
 	}
 }

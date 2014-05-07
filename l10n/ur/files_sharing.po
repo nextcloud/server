@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-07 01:55-0500\n"
-"PO-Revision-Date: 2014-01-06 23:45+0000\n"
+"POT-Creation-Date: 2014-05-03 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (http://www.transifex.com/projects/p/owncloud/language/ur/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ur\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -53,32 +57,15 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr ""
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr ""
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr ""
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr ""
-
-#: templates/public.php:99
+#: templates/public.php:57
 msgid "Direct link"
 msgstr ""

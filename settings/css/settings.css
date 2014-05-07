@@ -12,11 +12,6 @@ input#openid, input#webdav { width:20em; }
 	display: block;
 }
 
-.personalblock input[type="checkbox"] {
-	position: relative;
-	top: 2px;
-}
-
 /* Sync clients */
 .clientsbox { margin:12px; }
 .clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
@@ -61,9 +56,8 @@ td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
-li.selected { background-color:#ddd; }
+
 table.grid { width:100%; }
-#rightcontent { padding-left: 10px; }
 div.quota {
 	float: right;
 	display: block;
@@ -100,31 +94,21 @@ select.quota.active { background: #fff; }
 
 /* APPS */
 .appinfo { margin: 1em 40px; }
-h3 { font-size: 1.4em; font-weight: bold; }
-ul.applist a {
-	height: 2.2em;
-	padding: 0.2em 0.2em 0.2em 0.8em !important;
+#app-navigation {
+	padding-bottom: 0px;
 }
-ul.applist .app-external {
-	width: 100%;
-}
-li { color:#888; }
-li.active { color:#000; }
-#leftcontent .appwarning {
+#app-navigation .appwarning {
 	background: #fcc;
 }
-#leftcontent .appwarning:hover {
+#app-navigation.appwarning:hover {
 	background: #fbb;
 }
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
-small.externalapp.list { float: right; }
 small.recommendedapp { color:#FFF; background-color:#888; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
-small.recommendedapp.list { float: right; }
+small.externalapp.list, small.recommendedapp.list { position: absolute; right: 10px; top: 12px; }
 span.version { margin-left:1em; margin-right:1em; color:#555; }
 
-.app { position: relative; display: inline-block; padding: 0.2em 0 0.2em 0 !important; text-overflow: hidden; overflow: hidden; white-space: nowrap; /*transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear;*/ }
-.app.externalapp { max-width: 12.5em; }
-.app.recommendedapp { max-width: 12.5em; }
+
 /* Transition to complete width! */
 .app:hover, .app:active { max-width: inherit; }
 
@@ -147,8 +131,40 @@ table.grid td.date{
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
-input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }
+table.shareAPI input#shareapi_expire_after_n_days {width: 25px;}
+
+#mail_settings p label:first-child {
+	display: inline-block;
+	width: 300px;
+	text-align: right;
+}
+#mail_settings p select:nth-child(2) {
+	width: 143px;
+}
+#mail_smtpport {
+	width: 40px;
+}
+
+.cronlog {
+	margin-left: 10px;
+}
+
+.cronstatus {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	vertical-align: text-bottom;
+}
+
+span.success {
+        background: #37ce02;
+        border-radius: 8px;
+}
+
+span.error {
+        background: #ce3702;
+}
 
 /* HELP */
 .pressed {background-color:#DDD;}

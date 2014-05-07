@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Missing requirements." => "Fehlende Voraussetzungen",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert und das OpenSSL zusammen mit der PHP-Erweiterung aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert.",
 "Following users are not set up for encryption:" => "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:",
-"Saving..." => "Speichern...",
 "personal settings" => "Persönliche Einstellungen",
 "Encryption" => "Verschlüsselung",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Aktivieren Sie den Wiederherstellungsschlüssel (erlaubt die Wiederherstellung des Zugangs zu den Benutzerdateien, wenn das Passwort verloren geht).",

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # ismail yenigül <ismail.yenigul@surgate.com>, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 # KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:03+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -89,43 +89,43 @@ msgstr "Başarılı"
 msgid "Error"
 msgstr "Hata"
 
-#: js/settings.js:837
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Yapılandırma tamam"
 
-#: js/settings.js:846
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Yapılandırma geçersiz"
 
-#: js/settings.js:855
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Yapılandırma tamamlanmamış"
 
-#: js/settings.js:872 js/settings.js:881
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Grupları seç"
 
-#: js/settings.js:875 js/settings.js:884
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Nesne sınıflarını seç"
 
-#: js/settings.js:878
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Nitelikleri seç"
 
-#: js/settings.js:905
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Bağlantı testi başarılı oldu"
 
-#: js/settings.js:912
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Bağlantı testi başarısız oldu"
 
-#: js/settings.js:921
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Şu anki sunucu yapılandırmasını silmek istediğinizden emin misiniz?"
 
-#: js/settings.js:922
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Silmeyi onayla"
 
@@ -143,11 +143,11 @@ msgid_plural "%s users found"
 msgstr[0] "%s kullanıcı bulundu"
 msgstr[1] "%s kullanıcı bulundu"
 
-#: lib/wizard.php:778 lib/wizard.php:790
+#: lib/wizard.php:784 lib/wizard.php:796
 msgid "Invalid Host"
 msgstr "Geçersiz Makine"
 
-#: lib/wizard.php:951
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
 msgstr "İstenen özellik bulunamadı"
 
@@ -165,8 +165,8 @@ msgstr "Yardım"
 
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
-msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr "%s erişimini, şu kriterle eşleşen gruplara sınırla:"
+msgid "Groups meeting these criteria are available in %s:"
+msgstr "Bu kriterle eşleşen gruplar %s içinde mevcut:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -201,8 +201,8 @@ msgid "groups found"
 msgstr "grup bulundu"
 
 #: templates/part.wizard-loginfilter.php:4
-msgid "What attribute shall be used as login name:"
-msgstr "Oturum ismi olarak hangi nitelik kullanılmalı:"
+msgid "Users login with this attribute:"
+msgstr "Bu nitelikle oturum açan kullanıcılar:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -225,7 +225,7 @@ msgstr "Oturum açma girişimi olduğunda uygulanacak filtreyi tanımlar. %%uid,
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
-msgstr "Sunucu Uyunlama birlemek "
+msgstr "Sunucu Yapılandırması Ekle"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -234,7 +234,7 @@ msgstr "Sunucu"
 #: templates/part.wizard-server.php:31
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Protokol atlamak edesin, sadece SSL istiyorsaniz. O zaman, idapsile baslamak. "
+msgstr "SSL gerektirmediğiniz takdirde protokol belirtmeyebilirsiniz. Ardından ldaps:// ile başlayın"
 
 #: templates/part.wizard-server.php:36
 msgid "Port"
@@ -249,7 +249,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "DN musterinin, kimle baglamaya yapacagiz,meselâ uid=agent.dc mesela, dc=com Gecinme adisiz ici, DN  ve Parola bos birakmak. "
+msgstr "İstemci kullanıcısının yapılacağı atamanın DN'i örn. uid=agent,dc=örnek,dc=com. Anonim erişim için DN ve Parolayı boş bırakın."
 
 #: templates/part.wizard-server.php:52
 msgid "Password"
@@ -261,15 +261,15 @@ msgstr "Anonim erişim için DN ve Parola alanlarını boş bırakın."
 
 #: templates/part.wizard-server.php:60
 msgid "One Base DN per line"
-msgstr "Bir Tabani DN herbir dizi. "
+msgstr "Her satırda tek bir Base DN"
 
 #: templates/part.wizard-server.php:61
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Base DN kullanicileri  ve kaynaklari icin tablosu Advanced tayin etmek ederiz. "
+msgstr "Gelişmiş sekmesinde kullanıcılar ve gruplar için Base DN belirtebilirsiniz."
 
 #: templates/part.wizard-userfilter.php:4
 #, php-format
-msgid "Limit the access to %s to users meeting this criteria:"
+msgid "Limit %s access to users meeting these criteria:"
 msgstr "%s erişimini, şu kriterle eşleşen kullanıcılara sınırla:"
 
 #: templates/part.wizard-userfilter.php:31
@@ -301,7 +301,7 @@ msgstr "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil.
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Ihbar <b> Modulu PHP LDAP yuklemdi degil, backend calismacak. Lutfen sistem yonetici sormak  yuklemek icin."
+msgstr "<b>Uyarı:</b> PHP LDAP modülü kurulu değil, arka uç çalışmayacak. Lütfen kurulumu için sistem yöneticinizle iletişime geçin."
 
 #: templates/settings.php:20
 msgid "Connection Settings"
@@ -313,21 +313,21 @@ msgstr "Yapılandırma Etkin"
 
 #: templates/settings.php:22
 msgid "When unchecked, this configuration will be skipped."
-msgstr "Ne zaman iptal, bu uynnlama isletici "
+msgstr "İşaretli değilse, bu yapılandırma atlanacaktır."
 
 #: templates/settings.php:23
 msgid "Backup (Replica) Host"
-msgstr "Sigorta Kopya Cephe "
+msgstr "Yedek (Replica) Sunucu"
 
 #: templates/settings.php:23
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr "Bir kopya cevre vermek, kopya sunucu onemli olmali. "
+msgstr "İsteğe bağlı bir yedek sunucusu belirtin. Ana LDAP/AD sunucusunun bir kopyası olmalıdır."
 
 #: templates/settings.php:24
 msgid "Backup (Replica) Port"
-msgstr "Kopya Port "
+msgstr "Yedek (Replica) Bağlantı Noktası"
 
 #: templates/settings.php:25
 msgid "Disable Main Server"
@@ -338,8 +338,8 @@ msgid "Only connect to the replica server."
 msgstr "Sadece kopya sunucuya bağlan."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "Dusme sunucu LDAP zor degil. (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr "Büyük küçük harf duyarsız LDAP sunucusu (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -354,7 +354,7 @@ msgstr "Önerilmez, sadece test için kullanın! Eğer bağlantı sadece bu seç
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
-msgstr "Cache Time-To-Live "
+msgstr "Önbellek Time-To-Live Değeri"
 
 #: templates/settings.php:28
 msgid "in seconds. A change empties the cache."
@@ -362,11 +362,11 @@ msgstr "saniye cinsinden. Bir değişiklik önbelleği temizleyecektir."
 
 #: templates/settings.php:30
 msgid "Directory Settings"
-msgstr "Parametrar Listesin Adresinin "
+msgstr "Dizin Ayarları"
 
 #: templates/settings.php:32
 msgid "User Display Name Field"
-msgstr "Ekran Adi Kullanici, (Alan Adi Kullanici Ekrane)"
+msgstr "Kullanıcı Görünen Ad Alanı"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
@@ -378,11 +378,11 @@ msgstr "Temel Kullanıcı Ağacı"
 
 #: templates/settings.php:33
 msgid "One User Base DN per line"
-msgstr "Bir Temel Kullanici DN her dizgi "
+msgstr "Her satırda Tek Kullanıcı Base DN'i"
 
 #: templates/settings.php:34
 msgid "User Search Attributes"
-msgstr "Kategorii Arama Kullanici "
+msgstr "Kullanıcı Arama Nitelikleri"
 
 #: templates/settings.php:34 templates/settings.php:37
 msgid "Optional; one attribute per line"
@@ -390,7 +390,7 @@ msgstr "Tercihe bağlı; her bir satırda bir öznitelik"
 
 #: templates/settings.php:35
 msgid "Group Display Name Field"
-msgstr "Grub Ekrane Alani Adi"
+msgstr "Grup Görünen Ad Alanı"
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
@@ -402,51 +402,72 @@ msgstr "Temel Grup Ağacı"
 
 #: templates/settings.php:36
 msgid "One Group Base DN per line"
-msgstr "Bir Grubu Tabani DN her dizgi. "
+msgstr "Her satırda Tek Grup Base DN'i"
 
 #: templates/settings.php:37
 msgid "Group Search Attributes"
-msgstr "Kategorii Arama Grubu"
+msgstr "Grup Arama Nitelikleri"
 
 #: templates/settings.php:38
 msgid "Group-Member association"
 msgstr "Grup-Üye işbirliği"
 
+#: templates/settings.php:39
+msgid "Nested Groups"
+msgstr "İç içe Gruplar"
+
+#: templates/settings.php:39
+msgid ""
+"When switched on, groups that contain groups are supported. (Only works if "
+"the group member attribute contains DNs.)"
+msgstr "Etkinleştirildiğinde, grup içeren gruplar desteklenir (Sadece grup üyesi DN niteliği içeriyorsa çalışır)."
+
 #: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr "Sayfalama yığın boyutu"
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr "Yığın boyutu, kullanıcı veya grup numaralandırması benzeri hantal sonuçlar döndürebilen sayfalandırılmış LDAP aramaları için kullanılır. (0 yapmak bu durumlarda sayfalandırılmış LDAP aramalarını devre dışı bırakır.)"
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Özel Öznitelikler"
 
-#: templates/settings.php:42
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Kota Alanı"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Öntanımlı Kota"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "byte cinsinden"
 
-#: templates/settings.php:44
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "E-posta Alanı"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Kullanıcı Ana Dizini İsimlendirme Kuralı"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Kullanıcı adı bölümünü boş bırakın (varsayılan). "
 
-#: templates/settings.php:51
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Dahili Kullanıcı Adı"
 
-#: templates/settings.php:52
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -462,15 +483,15 @@ msgid ""
 "effect only on newly mapped (added) LDAP users."
 msgstr "Öntanımlı olarak UUID niteliğinden dahili bir kullanıcı adı oluşturulacak. Bu, kullanıcı adının benzersiz ve karakterlerinin dönüştürme gereksinimini ortadan kaldırır. Dahili kullanıcı adı, sadece bu karakterlerin izin verildiği kısıtlamaya sahip: [ a-zA-Z0-9_.@- ]. Diğer karakterler ise ASCII karşılıkları ile yer değiştirilir veya basitçe yoksayılır. Çakışmalar olduğunda ise bir numara eklenir veya arttırılır. Dahili kullanıcı adı, bir kullanıcıyı dahili olarak tanımlamak için kullanılır. Ayrıca kullanıcı ev klasörü için öntanımlı bir isimdir. Bu ayrıca uzak adreslerin (örneğin tüm *DAV hizmetleri) bir parçasıdır. Bu yar ise, öntanımlı davranışın üzerine yazılabilir. ownCloud 5'ten önce benzer davranışı yapabilmek için aşağıdaki alana bir kullanıcı görünen adı niteliği girin. Öntanımlı davranış için boş bırakın. Değişiklikler, sadece yeni eşleştirilen (eklenen) LDAP kullanıcılarında etkili olacaktır."
 
-#: templates/settings.php:53
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Dahili Kullanıcı Adı Özniteliği:"
 
-#: templates/settings.php:54
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "UUID tespitinin üzerine yaz"
 
-#: templates/settings.php:55
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -481,19 +502,19 @@ msgid ""
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
 msgstr "Öntanımlı olarak, UUID niteliği otomatik olarak tespit edilmez. UUID niteliği LDAP kullanıcılarını ve gruplarını şüphesiz biçimde tanımlamak için kullanılır. Ayrıca yukarıda belirtilmemişse, bu UUID'ye bağlı olarak dahili bir kullanıcı adı oluşturulacaktır. Bu ayarın üzerine yazabilir ve istediğiniz bir nitelik belirtebilirsiniz. Ancak istediğiniz niteliğin benzersiz olduğundan ve hem kullanıcı hem de gruplar tarafından getirilebileceğinden emin olmalısınız. Öntanımlı davranış için boş bırakın. Değişiklikler sadece yeni eşleştirilen (eklenen) LDAP kullanıcı ve gruplarında etkili olacaktır."
 
-#: templates/settings.php:56
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "Kullanıcılar için UUID Özniteliği:"
 
-#: templates/settings.php:57
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "Gruplar için UUID Özniteliği:"
 
-#: templates/settings.php:58
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirme"
 
-#: templates/settings.php:59
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -507,10 +528,10 @@ msgid ""
 "experimental stage."
 msgstr "Kullanıcı adları, (üst) veri depolaması ve ataması için kullanılır. Kullanıcıları kesin olarak tanımlamak ve algılamak için, her LDAP kullanıcısı bir dahili kullanıcı adına sahip olacak. Bu kullanıcı adı ile LDAP kullanıcısı arasında bir eşleşme gerektirir. Oluşturulan kullanıcı adı LDAP kullanıcısının UUID'si ile eşleştirilir. Ek olarak LDAP etkileşimini azaltmak için DN de önbelleğe alınır ancak bu kimlik tanıma için kullanılmaz. Eğer DN değişirse, değişiklikler tespit edilir. Dahili kullanıcı her yerde kullanılır. Eşleştirmeleri temizlemek, her yerde kalıntılar bırakacaktır. Eşleştirmeleri temizlemek yapılandırmaya hassas bir şekilde bağlı değildir, tüm LDAP yapılandırmalarını etkiler! Üretim ortamında eşleştirmeleri asla temizlemeyin, sadece sınama veya deneysel aşamada kullanın."
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Kullanıcı Adı-LDAP Kullanıcısı Eşleştirmesini Temizle"
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Grup Adı-LDAP Grubu Eşleştirme"

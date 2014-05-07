@@ -30,9 +30,7 @@ class OC_Util {
 		}
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		if(!isset($RUNTIME_NOAPPS) || !$RUNTIME_NOAPPS) {
-			OC_App::loadApps(array('filesystem'));
-		}
+		OC_App::loadApps(array('filesystem'));
 
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
@@ -89,7 +87,9 @@ class OC_Util {
 	}
 
 	/**
+	 * Get the quota of a user
 	 * @param string $user
+	 * @return int Quota bytes
 	 */
 	public static function getUserQuota($user){
 		$config = \OC::$server->getConfig();
@@ -290,14 +290,18 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if(\OC::$session->exists('checkServer_suceeded') && \OC::$session->get('checkServer_suceeded')) {
-			return array();
+		$errors = array();
+		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
+
+		if (!\OC::needUpgrade() && OC_Config::getValue('installed', false)) {
+			// this check needs to be done every time
+			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
 
-		$errors = array();
-
-		$defaults = new \OC_Defaults();
+		// Assume that if checkServer() succeeded before in this session, then all is fine.
+		if(\OC::$session->exists('checkServer_succeeded') && \OC::$session->get('checkServer_succeeded')) {
+			return $errors;
+		}
 
 		$webServerRestart = false;
 		//check for database drivers
@@ -341,7 +345,6 @@ class OC_Util {
 					);
 			}
 		}
-		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
@@ -485,11 +488,46 @@ class OC_Util {
 			);
 		}
 
+		$errors = array_merge($errors, self::checkDatabaseVersion());
+
 		// Cache the result of this function
-		\OC::$session->set('checkServer_suceeded', count($errors) == 0);
+		\OC::$session->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
+
+	/**
+	 * Check the database version
+	 * @return array errors array
+	 */
+	public static function checkDatabaseVersion() {
+		$errors = array();
+		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		if ($dbType === 'pgsql') {
+			// check PostgreSQL version
+			try {
+				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
+				$data = $result->fetchRow();
+				if (isset($data['server_version'])) {
+					$version = $data['server_version'];
+					if (version_compare($version, '9.0.0', '<')) {
+						$errors[] = array(
+							'error' => 'PostgreSQL >= 9 required',
+							'hint' => 'Please upgrade your database version'
+						);
+					}
+				}
+			} catch (\Doctrine\DBAL\DBALException $e) {
+				\OCP\Util::logException('core', $e);
+				$errors[] = array(
+					'error' => 'Error occurred while checking PostgreSQL version',
+					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
+				);
+			}
+		}
+		return $errors;
+	}
+
 
 	/**
 	 * @brief check if there are still some encrypted files stored
@@ -526,7 +564,7 @@ class OC_Util {
 				.' cannot be listed by other users.';
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if (substr($perms, -1) != '0') {
-				OC_Helper::chmodr($dataDirectory, 0770);
+				chmod($dataDirectory, 0770);
 				clearstatcache();
 				$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($perms, 2, 1) != '0') {
@@ -541,11 +579,30 @@ class OC_Util {
 	}
 
 	/**
-	 * @return void
+	 * Check that the data directory exists and is valid by
+	 * checking the existence of the ".ocdata" file.
+	 *
+	 * @param string $dataDirectory data directory path
+	 * @return bool true if the data directory is valid, false otherwise
+	 */
+	public static function checkDataDirectoryValidity($dataDirectory) {
+		$errors = array();
+		if (!file_exists($dataDirectory.'/.ocdata')) {
+			$errors[] = array(
+				'error' => 'Data directory (' . $dataDirectory . ') is invalid',
+				'hint' => 'Please check that the data directory contains a file' .
+					' ".ocdata" in its root.'
+			);
+		}
+		return $errors;
+	}
+
+	/**
+	 * @param array $errors
 	 */
 	public static function displayLoginPage($errors = array()) {
 		$parameters = array();
-		foreach( $errors as $key => $value ) {
+		foreach( $errors as $value ) {
 			$parameters[$value] = true;
 		}
 		if (!empty($_POST['user'])) {
@@ -644,17 +701,18 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function redirectToDefaultPage() {
+		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			$location = urldecode($_REQUEST['redirect_url']);
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
+			$location = $urlGenerator->getAbsoluteURL('/index.php/apps/'.OC::$REQUESTEDAPP.'/index.php');
 		} else {
 			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultPage) {
-				$location = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/'.$defaultPage);
+				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
+				$location = $urlGenerator->getAbsoluteURL('/index.php/files/index.php');
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
@@ -690,7 +748,7 @@ class OC_Util {
 	/**
 	 * @brief Register an get/post call. Important to prevent CSRF attacks.
 	 * @todo Write howto: CSRF protection guide
-	 * @return $token Generated token.
+	 * @return string Generated token.
 	 * @description
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
@@ -723,7 +781,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid. exit if not.
+	 * @brief Check an ajax get/post call if the request token is valid. Exit if not.
 	 * @todo Write howto
 	 * @return void
 	 */
@@ -747,7 +805,7 @@ class OC_Util {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
 			//Specify encoding for PHP<5.4
-			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -769,12 +827,13 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the htaccess file is working
+	 * @brief Check if the .htaccess file is working
+	 * @throws OC\HintException If the testfile can't get written.
 	 * @return bool
-	 * @description Check if the htaccess file is working by creating a test
+	 * @description Check if the .htaccess file is working by creating a test
 	 * file in the data directory and trying to access via http
 	 */
-	public static function isHtAccessWorking() {
+	public static function isHtaccessWorking() {
 		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
 			return true;
 		}
@@ -844,6 +903,8 @@ class OC_Util {
 
 		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
 		$client->setVerifyPeer(false);
+		// also don't care if the host can't be verified
+		$client->setVerifyHost(0);
 
 		$return = true;
 		try {
@@ -1015,13 +1076,13 @@ class OC_Util {
 	public static function getUrlContent($url) {
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
+			$max_redirects = 10;
 
 			curl_setopt($curl, CURLOPT_HEADER, 0);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+			
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy', '') != '') {
@@ -1030,9 +1091,50 @@ class OC_Util {
 			if(OC_Config::getValue('proxyuserpwd', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
-			$data = curl_exec($curl);
+			
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) { 
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
+				$data = curl_exec($curl);
+			} else {
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+				$mr = $max_redirects;
+				if ($mr > 0) { 
+					$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+					
+					$rcurl = curl_copy_handle($curl);
+					curl_setopt($rcurl, CURLOPT_HEADER, true);
+					curl_setopt($rcurl, CURLOPT_NOBODY, true);
+					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
+					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
+					do {
+						curl_setopt($rcurl, CURLOPT_URL, $newURL);
+						$header = curl_exec($rcurl);
+						if (curl_errno($rcurl)) {
+							$code = 0;
+						} else {
+							$code = curl_getinfo($rcurl, CURLINFO_HTTP_CODE);
+							if ($code == 301 || $code == 302) {
+								preg_match('/Location:(.*?)\n/', $header, $matches);
+								$newURL = trim(array_pop($matches));
+							} else {
+								$code = 0;
+							}
+						}
+					} while ($code && --$mr);
+					curl_close($rcurl);
+					if ($mr > 0) {
+						curl_setopt($curl, CURLOPT_URL, $newURL);
+					} 
+				}
+				
+				if($mr == 0 && $max_redirects > 0) {
+					$data = false;
+				} else {
+					$data = curl_exec($curl);
+				}
+			}
 			curl_close($curl);
-
 		} else {
 			$contextArray = null;
 
@@ -1061,10 +1163,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @return bool - well are we running on windows or not
+	 * Checks whether the server is running on Windows
+	 * @return bool true if running on Windows, false otherwise
 	 */
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
+	}
+
+	/**
+	 * Checks whether the server is running on Mac OS X
+	 * @return bool true if running on Mac OS X, false otherwise
+	 */
+	public static function runningOnMac() {
+		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
 	}
 
 	/**

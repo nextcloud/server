@@ -30,8 +30,8 @@
 			?>
 		<?php endforeach; ?>
 	</head>
-
-	<body>
+	<?php flush(); ?>
+	<body id="body-public">
 		<?php print_unescaped($_['content']); ?>
 	</body>
 </html>

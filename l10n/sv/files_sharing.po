@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AsavarTzeth <asavartzeth@gmail.com>, 2014
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # Stefan Gagner <stefan@mei-ya.se>, 2013
@@ -10,15 +11,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: Gustav Smedberg <shadow.elf@hotmail.com>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr "Delad av {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -56,32 +61,15 @@ msgstr "delning är inaktiverat"
 msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s delade mappen %s med dig"
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s delade filen %s med dig"
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Ladda upp"
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
+msgstr "Ladda ner %s"
 
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Avbryt uppladdning"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Ingen förhandsgranskning tillgänglig för"
-
-#: templates/public.php:99
+#: templates/public.php:57
 msgid "Direct link"
 msgstr "Direkt länk"

@@ -200,6 +200,9 @@ class OC_Group {
 
 	/**
 	 * @brief get a list of all groups
+	 * @param string $search
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @returns array with group names
 	 *
 	 * Returns a list with all groups
@@ -225,6 +228,10 @@ class OC_Group {
 
 	/**
 	 * @brief get a list of all users in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
 	 * @returns array with user ids
 	 */
 	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
@@ -260,20 +267,14 @@ class OC_Group {
 
 	/**
 	 * @brief get a list of all display names in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
 	 * @returns array with display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$group = self::getManager()->get($gid);
-		if ($group) {
-			$users = $group->searchDisplayName($search, $limit, $offset);
-			$displayNames = array();
-			foreach ($users as $user) {
-				$displayNames[$user->getUID()] = $user->getDisplayName();
-			}
-			return $displayNames;
-		} else {
-			return array();
-		}
+		return self::getManager()->displayNamesInGroup($gid, $search, $limit, $offset);
 	}
 
 	/**

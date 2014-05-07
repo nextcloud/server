@@ -46,7 +46,6 @@ class Report extends Command {
 	}
 
 	private function countUsers() {
-		\OC_App::loadApps(array('authentication'));
 		$userManager = \OC::$server->getUserManager();
 		return $userManager->countUsers();
 	}

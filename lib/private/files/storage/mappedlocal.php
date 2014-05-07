@@ -31,7 +31,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 'local::'.$this->datadir;
 	}
 	public function mkdir($path) {
-		return @mkdir($this->buildPath($path));
+		return @mkdir($this->buildPath($path), 0777, true);
 	}
 	public function rmdir($path) {
 		try {
@@ -39,17 +39,26 @@ class MappedLocal extends \OC\Files\Storage\Common{
 				new \RecursiveDirectoryIterator($this->buildPath($path)),
 				\RecursiveIteratorIterator::CHILD_FIRST
 			);
-			foreach ($it as $file) {
+			/**
+			 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+			 * This bug is fixed in PHP 5.5.9 or before
+			 * See #8376
+			 */
+			$it->rewind();
+			while ($it->valid()) {
 				/**
 				 * @var \SplFileInfo $file
 				 */
+				$file = $it->current();
 				if (in_array($file->getBasename(), array('.', '..'))) {
+					$it->next();
 					continue;
 				} elseif ($file->isDir()) {
 					rmdir($file->getPathname());
 				} elseif ($file->isFile() || $file->isLink()) {
 					unlink($file->getPathname());
 				}
+				$it->next();
 			}
 			if ($result = @rmdir($this->buildPath($path))) {
 				$this->cleanMapper($path);
@@ -276,7 +285,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return 0;
 	}
 
-	public function hash($path, $type, $raw=false) {
+	public function hash($type, $path, $raw=false) {
 		return hash_file($type, $this->buildPath($path), $raw);
 	}
 
@@ -360,6 +369,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		$this->mapper->copy($fullPath1, $fullPath2);
 	}
 
+	/**
+	 * @param string $path
+	 */
 	private function stripLeading($path) {
 		if(strpos($path, '/') === 0) {
 			$path = substr($path, 1);

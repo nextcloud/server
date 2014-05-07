@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Password" => "কূটশব্দ",
 "For anonymous access, leave DN and Password empty." => "অজ্ঞাতকুলশীল অধিগমনের জন্য DN এবং কূটশব্দটি ফাঁকা রাখুন।",
 "You can specify Base DN for users and groups in the Advanced tab" => "সুচারু ট্যঅবে গিয়ে আপনি ব্যবহারকারি এবং গোষ্ঠীসমূহের জন্য ভিত্তি DN নির্ধারণ করতে পারেন।",
-"Case insensitve LDAP server (Windows)" => "বর্ণ অসংবেদী LDAP  সার্ভার (উইন্ডোজ)",
 "Turn off SSL certificate validation." => "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।",
 "in seconds. A change empties the cache." => "সেকেন্ডে। কোন পরিবর্তন ক্যাসে খালি করবে।",
 "User Display Name Field" => "ব্যবহারকারীর প্রদর্শিতব্য নামের ক্ষেত্র",

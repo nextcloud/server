@@ -1,5 +1,4 @@
 <?php
-$RUNTIME_NOAPPS = true;
 
 try {
 

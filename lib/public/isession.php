@@ -75,4 +75,9 @@ interface ISession {
 	 */
 	public function clear();
 
+	/**
+	 * Close the session and release the lock
+	 */
+	public function close();
+
 }

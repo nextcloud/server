@@ -18,6 +18,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			stream_wrapper_unregister('fakeinput');
 		}
 		stream_wrapper_register('fakeinput', 'RequestStream');
+		$this->stream = 'fakeinput://data';
 	}
 
 	public function tearDown() {
@@ -30,7 +31,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 
 		// Countable
 		$this->assertEquals(2, count($request));
@@ -54,9 +55,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
 			'post' => array('name' => 'Jane Doe', 'nickname' => 'Janey'),
 			'urlParams' => array('user' => 'jw', 'name' => 'Johnny Weissmüller'),
+			'method' => 'GET'
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 
 		$this->assertEquals(3, count($request));
 		$this->assertEquals('Janey', $request->{'nickname'});
@@ -70,9 +72,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	public function testImmutableArrayAccess() {
 		$vars = array(
 			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+			'method' => 'GET'
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$request['nickname'] = 'Janey';
 	}
 
@@ -82,9 +85,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 	public function testImmutableMagicAccess() {
 		$vars = array(
 			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+			'method' => 'GET'
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$request->{'nickname'} = 'Janey';
 	}
 
@@ -97,7 +101,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$result = $request->post;
 	}
 
@@ -107,7 +111,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'method' => 'GET',
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$this->assertEquals('GET', $request->method);
 		$result = $request->get;
 		$this->assertEquals('John Q. Public', $result['name']);
@@ -119,10 +123,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
 		$vars = array(
 			'method' => 'POST',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
+			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$this->assertEquals('POST', $request->method);
 		$result = $request->post;
 		$this->assertEquals('John Q. Public', $result['name']);
@@ -140,7 +144,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/x-www-form-urlencoded'),
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 
 		$this->assertEquals('PATCH', $request->method);
 		$result = $request->patch;
@@ -159,7 +163,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 
 		$this->assertEquals('PUT', $request->method);
 		$result = $request->put;
@@ -174,7 +178,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 
 		$this->assertEquals('PATCH', $request->method);
 		$result = $request->patch;
@@ -193,7 +197,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 			'server' => array('CONTENT_TYPE' => 'image/png'),
 		);
 
-		$request = new Request($vars);
+		$request = new Request($vars, $this->stream);
 		$this->assertEquals('PUT', $request->method);
 		$resource = $request->put;
 		$contents = stream_get_contents($resource);

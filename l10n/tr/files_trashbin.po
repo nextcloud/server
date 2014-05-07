@@ -4,13 +4,13 @@
 # 
 # Translators:
 # tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -19,44 +19,48 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/delete.php:42
+#: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "%s alıcı olarak silinemedi"
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "%s eri yüklenemedi"
+msgstr "%s geri yüklenemedi"
 
-#: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
+#: js/filelist.js:3
+msgid "Deleted files"
+msgstr "Silinmiş dosyalar"
+
+#: js/trash.js:33 js/trash.js:124 js/trash.js:173
 msgid "Error"
 msgstr "Hata"
 
-#: lib/trashbin.php:815 lib/trashbin.php:817
+#: js/trash.js:264
+msgid "Deleted Files"
+msgstr "Silinen Dosyalar"
+
+#: lib/trashbin.php:859 lib/trashbin.php:861
 msgid "restored"
 msgstr "geri yüklendi"
 
-#: templates/index.php:8
+#: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!"
 
-#: templates/index.php:22
+#: templates/index.php:19
 msgid "Name"
 msgstr "İsim"
 
-#: templates/index.php:25 templates/index.php:27
+#: templates/index.php:22 templates/index.php:24
 msgid "Restore"
 msgstr "Geri yükle"
 
-#: templates/index.php:33
+#: templates/index.php:30
 msgid "Deleted"
 msgstr "Silindi"
 
-#: templates/index.php:36 templates/index.php:37
+#: templates/index.php:33 templates/index.php:34
 msgid "Delete"
 msgstr "Sil"
-
-#: templates/part.breadcrumb.php:9
-msgid "Deleted Files"
-msgstr "Silinen Dosyalar"

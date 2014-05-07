@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Password" => "Contrasigno",
-"Download" => "Discargar",
-"Upload" => "Incargar"
+"Download" => "Discargar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

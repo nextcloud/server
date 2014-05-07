@@ -73,9 +73,9 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string
-	 * @param $lang string|null
-	 * @return OC_L10N
+	 * @param string $app
+	 * @param string|null $lang
+	 * @return \OC_L10N
 	 */
 	public static function get($app, $lang=null) {
 		if (is_null($lang)) {
@@ -87,9 +87,8 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief The constructor
-	 * @param $app string app requesting l10n
-	 * @param $lang string default: null Language
-	 * @returns OC_L10N-Object
+	 * @param string $app app requesting l10n
+	 * @param string $lang default: null Language
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
@@ -237,7 +236,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief Translating
-	 * @param $text String The text we need a translation for
+	 * @param string $text The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String Translation or the same text
 	 *
@@ -250,9 +249,9 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief Translating
-	 * @param $text_singular String the string to translate for exactly one object
-	 * @param $text_plural String the string to translate for n objects
-	 * @param $count Integer Number of objects
+	 * @param string $text_singular the string to translate for exactly one object
+	 * @param string $text_plural the string to translate for n objects
+	 * @param integer $count Number of objects
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String Translation or the same text
 	 *
@@ -268,43 +267,18 @@ class OC_L10N implements \OCP\IL10N {
 		$identifier = "_${text_singular}_::_${text_plural}_";
 		if( array_key_exists($identifier, $this->translations)) {
 			return new OC_L10N_String( $this, $identifier, $parameters, $count );
-		}
-		else{
+		}else{
 			if($count === 1) {
 				return new OC_L10N_String($this, $text_singular, $parameters, $count);
-			}
-			else{
+			}else{
 				return new OC_L10N_String($this, $text_plural, $parameters, $count);
 			}
 		}
 	}
 
 	/**
-	 * @brief Translating
-	 * @param $textArray The text array we need a translation for
-	 * @returns Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $textArray will be
-	 * returned.
-	 *
-	 *
-	 * @deprecated deprecated since ownCloud version 5.0
-	 * This method will probably be removed with ownCloud 6.0
-	 *
-	 *
-	 */
-	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
-		$result = array();
-		foreach($textArray as $key => $text) {
-			$result[$key] = (string)$this->t($text);
-		}
-		return $result;
-	}
-
-	/**
 	 * @brief getTranslations
-	 * @returns Fetch all translations
+	 * @returns array Fetch all translations
 	 *
 	 * Returns an associative array with all translations
 	 */
@@ -340,7 +314,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief get localizations
-	 * @returns Fetch all localizations
+	 * @returns array Fetch all localizations
 	 *
 	 * Returns an associative array with all localizations
 	 */
@@ -351,8 +325,8 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief Localization
-	 * @param $type Type of localization
-	 * @param $params parameters for this localization
+	 * @param string $type Type of localization
+	 * @param array|int|string $data parameters for this localization
 	 * @returns String or false
 	 *
 	 * Returns the localized data.
@@ -406,7 +380,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief Choose a language
-	 * @param $texts Associative Array with possible strings
+	 * @param array $text Associative Array with possible strings
 	 * @returns String
 	 *
 	 * $text is an array 'de' => 'hallo welt', 'en' => 'hello world', ...
@@ -420,8 +394,16 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
+	 * The given language is forced to be used while executing the current request
+	 * @param string $lang
+	 */
+	public static function forceLanguage($lang) {
+		self::$language = $lang;
+	}
+
+	/**
 	 * @brief find the best language
-	 * @param $app Array or string, details below
+	 * @param array|string $app details below
 	 * @returns string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
@@ -494,7 +476,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief find the l10n directory
-	 * @param $app App that needs to be translated
+	 * @param string $app App that needs to be translated
 	 * @returns directory
 	 */
 	protected static function findI18nDir($app) {
@@ -514,7 +496,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief find all available languages for an app
-	 * @param $app App that needs to be translated
+	 * @param string $app App that needs to be translated
 	 * @returns array an array of available languages
 	 */
 	public static function findAvailableLanguages($app=null) {
@@ -533,7 +515,9 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
+	 * @param string $app
 	 * @param string $lang
+	 * @returns bool
 	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available

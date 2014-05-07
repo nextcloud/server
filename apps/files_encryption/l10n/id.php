@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Missing requirements." => "Persyaratan yang hilang.",
 "Following users are not set up for encryption:" => "Pengguna berikut belum diatur untuk enkripsi:",
 "Initial encryption started... This can take some time. Please wait." => "Inisial enskripsi dijalankan... Ini dapat memakan waktu. Silakan tunggu.",
-"Saving..." => "Menyimpan...",
 "Go directly to your " => "Langsung ke anda",
 "personal settings" => "pengaturan pribadi",
 "Encryption" => "Enkripsi",

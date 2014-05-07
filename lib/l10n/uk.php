@@ -23,13 +23,8 @@ $TRANSLATIONS = array(
 "%s you may not use dots in the database name" => "%s не можна використовувати крапки в назві бази даних",
 "MS SQL username and/or password not valid: %s" => "MS SQL ім'я користувача та/або пароль не дійсні: %s",
 "You need to enter either an existing account or the administrator." => "Вам потрібно ввести або існуючий обліковий запис або administrator.",
-"MySQL username and/or password not valid" => "MySQL ім'я користувача та/або пароль не дійсні",
 "DB Error: \"%s\"" => "Помилка БД: \"%s\"",
 "Offending command was: \"%s\"" => "Команда, що викликала проблему: \"%s\"",
-"MySQL user '%s'@'localhost' exists already." => "Користувач MySQL '%s'@'localhost' вже існує.",
-"Drop this user from MySQL" => "Видалити цього користувача з MySQL",
-"MySQL user '%s'@'%%' already exists" => "Користувач MySQL '%s'@'%%' вже існує",
-"Drop this user from MySQL." => "Видалити цього користувача з MySQL.",
 "Oracle username and/or password not valid" => "Oracle ім'я користувача та/або пароль не дійсні",
 "Offending command was: \"%s\", name: %s, password: %s" => "Команда, що викликала проблему: \"%s\", ім'я: %s, пароль: %s",
 "PostgreSQL username and/or password not valid" => "PostgreSQL ім'я користувача та/або пароль не дійсні",
@@ -37,6 +32,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Встановіть пароль адміністратора.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш Web-сервер ще не налаштований належним чином для того, щоб дозволити синхронізацію файлів, через те що інтерфейс WebDAV, здається, зламаний.",
 "Please double check the <a href='%s'>installation guides</a>." => "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>.",
+"%s shared »%s« with you" => "%s розподілено »%s« з тобою",
 "Could not find category \"%s\"" => "Не вдалося знайти категорію \"%s\"",
 "seconds ago" => "секунди тому",
 "_%n minute ago_::_%n minutes ago_" => array("","","%n хвилин тому"),
@@ -47,6 +43,8 @@ $TRANSLATIONS = array(
 "last month" => "минулого місяця",
 "_%n month ago_::_%n months ago_" => array("","","%n місяців тому"),
 "last year" => "минулого року",
-"years ago" => "роки тому"
+"years ago" => "роки тому",
+"A valid username must be provided" => "Потрібно задати вірне ім'я користувача",
+"A valid password must be provided" => "Потрібно задати вірний пароль"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -11,7 +11,7 @@ $(document).ready(function(){
 		// Add versions button to 'files/index.php'
 		FileActions.register(
 			'file'
-			, t('files_versions', 'Versions')
+			, 'Versions'
 			, OC.PERMISSION_UPDATE
 			, function() {
 				// Specify icon for hitory button
@@ -36,6 +36,7 @@ $(document).ready(function(){
 					createVersionsDropdown(filename, file);
 				}
 			}
+			, t('files_versions', 'Versions')
 		);
 	}
 

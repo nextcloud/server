@@ -8,48 +8,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-08 01:55-0500\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:245
+#: app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version "
 "of ownCloud."
 msgstr ""
 
-#: app.php:257
+#: app.php:248
 msgid "No app name specified"
 msgstr ""
 
-#: app.php:362
+#: app.php:353
 msgid "Help"
 msgstr ""
 
-#: app.php:375
+#: app.php:366
 msgid "Personal"
 msgstr ""
 
-#: app.php:386
+#: app.php:377
 msgid "Settings"
 msgstr ""
 
-#: app.php:398
+#: app.php:389
 msgid "Users"
 msgstr ""
 
-#: app.php:411
+#: app.php:402
 msgid "Admin"
 msgstr ""
 
-#: app.php:875
+#: app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -62,103 +62,102 @@ msgstr ""
 msgid "Invalid image"
 msgstr ""
 
-#: defaults.php:34
+#: defaults.php:35
 msgid "web services under your control"
 msgstr ""
 
-#: files.php:66 files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr ""
-
-#: files.php:226
+#: files.php:235
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: files.php:227
+#: files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:228 files.php:256
+#: files.php:237 files.php:264
 msgid "Back to Files"
 msgstr ""
 
-#: files.php:253
+#: files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
-#: files.php:254
+#: files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
 msgstr ""
 
-#: installer.php:63
+#: installer.php:64
 msgid "No source specified when installing app"
 msgstr ""
 
-#: installer.php:70
+#: installer.php:71
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: installer.php:75
+#: installer.php:76
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: installer.php:89
+#: installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: installer.php:103
+#: installer.php:104
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: installer.php:125
+#: installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: installer.php:131
+#: installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: installer.php:140
+#: installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: installer.php:146
+#: installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: installer.php:159
+#: installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: installer.php:169
+#: installer.php:170
 msgid "App directory already exists"
 msgstr ""
 
-#: installer.php:182
+#: installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: json.php:28
+#: json.php:29
 msgid "Application is not enabled"
 msgstr ""
 
-#: json.php:39 json.php:62 json.php:73
+#: json.php:40 json.php:62 json.php:87
 msgid "Authentication error"
 msgstr ""
 
 #: json.php:51
 msgid "Token expired. Please reload page."
+msgstr ""
+
+#: json.php:74
+msgid "Unknown user"
 msgstr ""
 
 #: search/provider/file.php:18 search/provider/file.php:36
@@ -194,47 +193,47 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
-#: setup/postgresql.php:24 setup/postgresql.php:70
+#: setup/postgresql.php:31 setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
 
 #: setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
+msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
 #: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:144
 #: setup/oci.php:151 setup/oci.php:162 setup/oci.php:169 setup/oci.php:178
 #: setup/oci.php:186 setup/oci.php:195 setup/oci.php:201
-#: setup/postgresql.php:89 setup/postgresql.php:98 setup/postgresql.php:115
-#: setup/postgresql.php:125 setup/postgresql.php:134
+#: setup/postgresql.php:103 setup/postgresql.php:112 setup/postgresql.php:129
+#: setup/postgresql.php:139 setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
 #: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:145
 #: setup/oci.php:152 setup/oci.php:163 setup/oci.php:179 setup/oci.php:187
-#: setup/oci.php:196 setup/postgresql.php:90 setup/postgresql.php:99
-#: setup/postgresql.php:116 setup/postgresql.php:126 setup/postgresql.php:135
+#: setup/oci.php:196 setup/postgresql.php:104 setup/postgresql.php:113
+#: setup/postgresql.php:130 setup/postgresql.php:140 setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
 
 #: setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
 msgstr ""
 
 #: setup/mysql.php:86
-msgid "Drop this user from MySQL"
+msgid "Drop this user from MySQL/MariaDB"
 msgstr ""
 
 #: setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
 msgstr ""
 
 #: setup/mysql.php:92
-msgid "Drop this user from MySQL."
+msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
 #: setup/oci.php:34
@@ -250,7 +249,7 @@ msgstr ""
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: setup/postgresql.php:23 setup/postgresql.php:69
+#: setup/postgresql.php:30 setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
@@ -262,66 +261,192 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:195
+#: setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:196
+#: setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: tags.php:194
+#: share/mailnotifications.php:72 share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr ""
+
+#: share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr ""
+
+#: share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr ""
+
+#: share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr ""
+
+#: share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s "
+"is a member of"
+msgstr ""
+
+#: share/share.php:551 share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr ""
+
+#: share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr ""
+
+#: share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr ""
+
+#: share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr ""
+
+#: share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr ""
+
+#: share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr ""
+
+#: share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr ""
+
+#: share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr ""
+
+#: share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr ""
+
+#: share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr ""
+
+#: share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr ""
+
+#: share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr ""
+
+#: share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr ""
+
+#: share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr ""
+
+#: share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr ""
+
+#: tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr ""
 
-#: template/functions.php:130
+#: template/functions.php:134
 msgid "seconds ago"
 msgstr ""
 
-#: template/functions.php:131
+#: template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:132
+#: template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:133
+#: template/functions.php:137
 msgid "today"
 msgstr ""
 
-#: template/functions.php:134
+#: template/functions.php:138
 msgid "yesterday"
 msgstr ""
 
-#: template/functions.php:136
+#: template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:138
+#: template/functions.php:142
 msgid "last month"
 msgstr ""
 
-#: template/functions.php:139
+#: template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:141
+#: template/functions.php:145
 msgid "last year"
 msgstr ""
 
-#: template/functions.php:142
+#: template/functions.php:146
 msgid "years ago"
+msgstr ""
+
+#: user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr ""
+
+#: user/manager.php:237
+msgid "A valid username must be provided"
+msgstr ""
+
+#: user/manager.php:241
+msgid "A valid password must be provided"
+msgstr ""
+
+#: user/manager.php:246
+msgid "The username is already being used"
 msgstr ""

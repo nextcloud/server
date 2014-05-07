@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-29 01:55-0500\n"
-"PO-Revision-Date: 2013-12-28 13:54+0000\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,18 +84,18 @@ msgid ""
 "administrator"
 msgstr "알 수 없는 오류. 시스템 설정을 확인하거나 관리자에게 문의하십시오."
 
-#: hooks/hooks.php:62
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr "요구 사항이 부족합니다."
 
-#: hooks/hooks.php:63
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "PHP 5.3.3 이상 설치 여부, PHP의 OpenSSL 확장 기능 활성화 및 설정 여부를 확인하십시오. 암호화 앱이 비활성화 되었습니다."
 
-#: hooks/hooks.php:281
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr "다음 사용자는 암호화를 사용할 수 없습니다:"
 
@@ -103,9 +103,9 @@ msgstr "다음 사용자는 암호화를 사용할 수 없습니다:"
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr "초기 암호화가 시작되었습니다... 시간이 걸릴 수도 있으니 기다려 주십시오."
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "저장 중..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

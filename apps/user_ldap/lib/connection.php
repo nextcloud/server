@@ -78,6 +78,8 @@ class Connection extends LDAPUtility {
 		//a cloned instance inherits the connection resource. It may use it,
 		//but it may not disconnect it
 		$this->dontDestruct = true;
+		$this->configuration = new Configuration($this->configPrefix,
+												 !is_null($this->configID));
 	}
 
 	public function __get($name) {
@@ -132,6 +134,9 @@ class Connection extends LDAPUtility {
 		return $this->ldapConnectionRes;
 	}
 
+	/**
+	 * @param string|null $key
+	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-'.$this->configID.'-'.$this->configPrefix.'-';
 		if(is_null($key)) {

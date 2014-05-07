@@ -1,10 +1,38 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global OC, t, FileList, FileActions */
 $(document).ready(function() {
 
 	var disableSharing = $('#disableSharing').data('status'),
 		sharesLoaded = false;
 
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
+		var oldCreateRow = FileList._createRow;
+		FileList._createRow = function(fileData) {
+			var tr = oldCreateRow.apply(this, arguments);
+			if (fileData.shareOwner) {
+				tr.attr('data-share-owner', fileData.shareOwner);
+			}
+			return tr;
+		};
+
 		$('#fileList').on('fileActionsReady',function(){
+
+			var allShared = $('#fileList').find('[data-share-owner] [data-Action="Share"]');
+			allShared.addClass('permanent');
+			allShared.find('span').text(function(){
+				var $owner = $(this).closest('tr').attr('data-share-owner');
+				return ' ' + t('files_sharing', 'Shared by {owner}', {owner: $owner});
+			});
+
 			if (!sharesLoaded){
 				OC.Share.loadIcons('file');
 				// assume that we got all shares, so switching directories
@@ -17,16 +45,10 @@ $(document).ready(function() {
 		});
 
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
-			if ($('#dir').val() == '/') {
-				var item = $('#dir').val() + filename;
-			} else {
-				var item = $('#dir').val() + '/' + filename;
-			}
 			var tr = FileList.findFileEl(filename);
+			var itemType = 'file';
 			if ($(tr).data('type') == 'dir') {
-				var itemType = 'folder';
-			} else {
-				var itemType = 'file';
+				itemType = 'folder';
 			}
 			var possiblePermissions = $(tr).data('permissions');
 			var appendTo = $(tr).find('td.filename');

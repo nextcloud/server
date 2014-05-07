@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "可以選擇性設定備用主機，必須是 LDAP/AD 中央伺服器的複本。",
 "Backup (Replica) Port" => "備用（複本）連接埠",
 "Disable Main Server" => "停用主伺服器",
-"Case insensitve LDAP server (Windows)" => "不區分大小寫的 LDAP 伺服器 (Windows)",
 "Turn off SSL certificate validation." => "關閉 SSL 憑證檢查",
 "Cache Time-To-Live" => "快取的存活時間",
 "in seconds. A change empties the cache." => "以秒為單位。變更後會清空快取。",

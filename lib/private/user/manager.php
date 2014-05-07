@@ -174,19 +174,12 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = $this->getUserObject($uid, $backend);
-					if (!is_null($limit)) {
-						$limit--;
-					}
-					if (!is_null($offset) and $offset > 0) {
-						$offset--;
-					}
-
+					$users[$uid] = $this->getUserObject($uid, $backend);
 				}
 			}
 		}
 
-		usort($users, function ($a, $b) {
+		uasort($users, function ($a, $b) {
 			/**
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
@@ -211,13 +204,6 @@ class Manager extends PublicEmitter {
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
 					$users[] = $this->getUserObject($uid, $backend);
-					if (!is_null($limit)) {
-						$limit--;
-					}
-					if (!is_null($offset) and $offset > 0) {
-						$offset--;
-					}
-
 				}
 			}
 		}
@@ -239,24 +225,25 @@ class Manager extends PublicEmitter {
 	 * @return bool | \OC\User\User the created user of false
 	 */
 	public function createUser($uid, $password) {
+		$l = \OC_L10N::get('lib');
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {
-			throw new \Exception('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-"');
+			throw new \Exception($l->t('Only the following characters are allowed in a username:'
+				. ' "a-z", "A-Z", "0-9", and "_.@-"'));
 		}
 		// No empty username
 		if (trim($uid) == '') {
-			throw new \Exception('A valid username must be provided');
+			throw new \Exception($l->t('A valid username must be provided'));
 		}
 		// No empty password
 		if (trim($password) == '') {
-			throw new \Exception('A valid password must be provided');
+			throw new \Exception($l->t('A valid password must be provided'));
 		}
 
 		// Check if user already exists
 		if ($this->userExists($uid)) {
-			throw new \Exception('The username is already being used');
+			throw new \Exception($l->t('The username is already being used'));
 		}
 
 		$this->emit('\OC\User', 'preCreateUser', array($uid, $password));

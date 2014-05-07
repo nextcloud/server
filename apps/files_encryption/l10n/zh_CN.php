@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "不能修改密码。旧密码可能不正确。",
 "Private key password successfully updated." => "私钥密码成功更新。",
 "Could not update the private key password. Maybe the old password was not correct." => "无法更新私钥密码。可能旧密码不正确。",
-"Saving..." => "保存中",
 "personal settings" => "个人设置",
 "Encryption" => "加密",
 "Enable recovery key (allow to recover users files in case of password loss):" => "启用恢复密钥（允许你在密码丢失后恢复文件）：",

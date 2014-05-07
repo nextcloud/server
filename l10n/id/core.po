@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# arifpedia <arifpedia@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-08 01:55-0500\n"
-"PO-Revision-Date: 2014-01-07 07:10+0000\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-07 03:50+0000\n"
 "Last-Translator: arifpedia <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -17,40 +18,26 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:119 ajax/share.php:198
-#, php-format
-msgid "%s shared »%s« with you"
-msgstr "%s membagikan »%s« dengan anda"
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr ""
 
-#: ajax/share.php:169
+#: ajax/share.php:119 ajax/share.php:161
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Tidak dapat mengirim Email ke pengguna berikut: %s"
 
-#: ajax/update.php:11
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Hidupkan mode perawatan"
 
-#: ajax/update.php:14
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Matikan mode perawatan"
 
-#: ajax/update.php:17
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Basis data terbaru"
-
-#: ajax/update.php:20
-msgid "Updating filecache, this may take really long..."
-msgstr "Memperbarui filecache, mungkin memerlukan waktu sangat lama..."
-
-#: ajax/update.php:23
-msgid "Updated filecache"
-msgstr "Filecache terbaru"
-
-#: ajax/update.php:26
-#, php-format
-msgid "... %d%% done ..."
-msgstr "... %d%% selesai ..."
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -72,196 +59,224 @@ msgstr "Tidak ada gambar profil sementara yang tersedia, coba lagi"
 msgid "No crop data provided"
 msgstr "Tidak ada data krop tersedia"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Sunday"
 msgstr "Minggu"
 
-#: js/config.php:33
+#: js/config.php:37
 msgid "Monday"
 msgstr "Senin"
 
-#: js/config.php:34
+#: js/config.php:38
 msgid "Tuesday"
 msgstr "Selasa"
 
-#: js/config.php:35
+#: js/config.php:39
 msgid "Wednesday"
 msgstr "Rabu"
 
-#: js/config.php:36
+#: js/config.php:40
 msgid "Thursday"
 msgstr "Kamis"
 
-#: js/config.php:37
+#: js/config.php:41
 msgid "Friday"
 msgstr "Jumat"
 
-#: js/config.php:38
+#: js/config.php:42
 msgid "Saturday"
 msgstr "Sabtu"
 
-#: js/config.php:43
+#: js/config.php:47
 msgid "January"
 msgstr "Januari"
 
-#: js/config.php:44
+#: js/config.php:48
 msgid "February"
 msgstr "Februari"
 
-#: js/config.php:45
+#: js/config.php:49
 msgid "March"
 msgstr "Maret"
 
-#: js/config.php:46
+#: js/config.php:50
 msgid "April"
 msgstr "April"
 
-#: js/config.php:47
+#: js/config.php:51
 msgid "May"
 msgstr "Mei"
 
-#: js/config.php:48
+#: js/config.php:52
 msgid "June"
 msgstr "Juni"
 
-#: js/config.php:49
+#: js/config.php:53
 msgid "July"
 msgstr "Juli"
 
-#: js/config.php:50
+#: js/config.php:54
 msgid "August"
 msgstr "Agustus"
 
-#: js/config.php:51
+#: js/config.php:55
 msgid "September"
 msgstr "September"
 
-#: js/config.php:52
+#: js/config.php:56
 msgid "October"
 msgstr "Oktober"
 
-#: js/config.php:53
+#: js/config.php:57
 msgid "November"
 msgstr "November"
 
-#: js/config.php:54
+#: js/config.php:58
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:398
+#: js/js.js:483
 msgid "Settings"
 msgstr "Pengaturan"
 
-#: js/js.js:872
+#: js/js.js:583
+msgid "Saving..."
+msgstr "Menyimpan..."
+
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: js/js.js:873
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n menit yang lalu"
 
-#: js/js.js:874
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n jam yang lalu"
 
-#: js/js.js:875
+#: js/js.js:1243
 msgid "today"
 msgstr "hari ini"
 
-#: js/js.js:876
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "kemarin"
 
-#: js/js.js:877
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n hari yang lalu"
 
-#: js/js.js:878
+#: js/js.js:1246
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: js/js.js:879
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n bulan yang lalu"
 
-#: js/js.js:880
-msgid "months ago"
-msgstr "beberapa bulan lalu"
-
-#: js/js.js:881
+#: js/js.js:1248
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: js/js.js:882
+#: js/js.js:1249
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:125
 msgid "Choose"
 msgstr "Pilih"
 
-#: js/oc-dialogs.js:146
+#: js/oc-dialogs.js:151
 msgid "Error loading file picker template: {error}"
 msgstr "Galat memuat templat berkas pemilih: {error}"
 
-#: js/oc-dialogs.js:172
+#: js/oc-dialogs.js:177
 msgid "Yes"
 msgstr "Ya"
 
-#: js/oc-dialogs.js:182
+#: js/oc-dialogs.js:187
 msgid "No"
 msgstr "Tidak"
 
-#: js/oc-dialogs.js:199
+#: js/oc-dialogs.js:204
 msgid "Ok"
 msgstr "Oke"
 
-#: js/oc-dialogs.js:219
+#: js/oc-dialogs.js:224
 msgid "Error loading message template: {error}"
 msgstr "Galat memuat templat pesan: {error}"
 
-#: js/oc-dialogs.js:347
+#: js/oc-dialogs.js:352
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} berkas konflik"
 
-#: js/oc-dialogs.js:361
+#: js/oc-dialogs.js:366
 msgid "One file conflict"
 msgstr "Satu berkas konflik"
 
-#: js/oc-dialogs.js:367
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "Berkas Baru"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "Berkas sudah ada"
+
+#: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
 msgstr "Berkas mana yang ingin anda pertahankan?"
 
-#: js/oc-dialogs.js:368
+#: js/oc-dialogs.js:376
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jika anda memilih kedua versi, berkas yang disalin akan memiliki nomor yang ditambahkan sesuai namanya."
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:384
 msgid "Cancel"
 msgstr "Batal"
 
-#: js/oc-dialogs.js:386
+#: js/oc-dialogs.js:394
 msgid "Continue"
 msgstr "Lanjutkan"
 
-#: js/oc-dialogs.js:433 js/oc-dialogs.js:446
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
 msgid "(all selected)"
 msgstr "(semua terpilih)"
 
-#: js/oc-dialogs.js:436 js/oc-dialogs.js:449
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
 msgid "({count} selected)"
 msgstr "({count} terpilih)"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:466
 msgid "Error loading file exists template"
 msgstr "Galat memuat templat berkas yang sudah ada"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "Sandi sangat lemah"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "Sandi lemah"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "Sandi lumayan"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "Sandi baik"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "Sandi kuat"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -271,12 +286,12 @@ msgstr "Dibagikan"
 msgid "Share"
 msgstr "Bagikan"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:707
-#: js/share.js:719 templates/installation.php:10
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
 msgid "Error"
 msgstr "Galat"
 
-#: js/share.js:160 js/share.js:747
+#: js/share.js:160 js/share.js:790
 msgid "Error while sharing"
 msgstr "Galat ketika membagikan"
 
@@ -288,123 +303,123 @@ msgstr "Galat ketika membatalkan pembagian"
 msgid "Error while changing permissions"
 msgstr "Galat ketika mengubah izin"
 
-#: js/share.js:187
+#: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Dibagikan dengan anda dan grup {group} oleh {owner}"
 
-#: js/share.js:189
+#: js/share.js:190
 msgid "Shared with you by {owner}"
 msgstr "Dibagikan dengan anda oleh {owner}"
 
-#: js/share.js:213
+#: js/share.js:214
 msgid "Share with user or group …"
 msgstr "Bagikan dengan pengguna atau grup ..."
 
-#: js/share.js:219
+#: js/share.js:220
 msgid "Share link"
 msgstr "Bagikan tautan"
 
-#: js/share.js:222
+#: js/share.js:223
 msgid "Password protect"
 msgstr "Lindungi dengan sandi"
 
-#: js/share.js:224 templates/installation.php:58 templates/login.php:38
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Sandi"
 
-#: js/share.js:229
+#: js/share.js:230
 msgid "Allow Public Upload"
 msgstr "Izinkan Unggahan Publik"
 
-#: js/share.js:233
+#: js/share.js:234
 msgid "Email link to person"
 msgstr "Emailkan tautan ini ke orang"
 
-#: js/share.js:234
+#: js/share.js:235
 msgid "Send"
 msgstr "Kirim"
 
-#: js/share.js:239
+#: js/share.js:240
 msgid "Set expiration date"
 msgstr "Atur tanggal kedaluwarsa"
 
-#: js/share.js:240
+#: js/share.js:241
 msgid "Expiration date"
 msgstr "Tanggal kedaluwarsa"
 
-#: js/share.js:275
+#: js/share.js:277
 msgid "Share via email:"
 msgstr "Bagian lewat email:"
 
-#: js/share.js:278
+#: js/share.js:280
 msgid "No people found"
 msgstr "Tidak ada orang ditemukan"
 
-#: js/share.js:322 js/share.js:359
+#: js/share.js:324 js/share.js:385
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:333
+#: js/share.js:357
 msgid "Resharing is not allowed"
 msgstr "Berbagi ulang tidak diizinkan"
 
-#: js/share.js:375
+#: js/share.js:401
 msgid "Shared in {item} with {user}"
 msgstr "Dibagikan dalam {item} dengan {user}"
 
-#: js/share.js:397
+#: js/share.js:423
 msgid "Unshare"
 msgstr "Batalkan berbagi"
 
-#: js/share.js:405
+#: js/share.js:431
 msgid "notify by email"
 msgstr "notifikasi via email"
 
-#: js/share.js:408
+#: js/share.js:434
 msgid "can edit"
 msgstr "dapat sunting"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "access control"
 msgstr "kontrol akses"
 
-#: js/share.js:413
+#: js/share.js:439
 msgid "create"
 msgstr "buat"
 
-#: js/share.js:416
+#: js/share.js:442
 msgid "update"
 msgstr "perbarui"
 
-#: js/share.js:419
+#: js/share.js:445
 msgid "delete"
 msgstr "hapus"
 
-#: js/share.js:422
+#: js/share.js:448
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:694
+#: js/share.js:721
 msgid "Password protected"
 msgstr "Sandi dilindungi"
 
-#: js/share.js:707
+#: js/share.js:734
 msgid "Error unsetting expiration date"
 msgstr "Galat ketika menghapus tanggal kedaluwarsa"
 
-#: js/share.js:719
+#: js/share.js:752
 msgid "Error setting expiration date"
 msgstr "Galat ketika mengatur tanggal kedaluwarsa"
 
-#: js/share.js:734
+#: js/share.js:777
 msgid "Sending ..."
 msgstr "Mengirim ..."
 
-#: js/share.js:745
+#: js/share.js:788
 msgid "Email sent"
 msgstr "Email terkirim"
 
-#: js/share.js:769
+#: js/share.js:812
 msgid "Warning"
 msgstr "Peringatan"
 
@@ -432,7 +447,7 @@ msgstr "Sunting tag"
 msgid "Error loading dialog template: {error}"
 msgstr "Galat memuat templat dialog: {error}"
 
-#: js/tags.js:261
+#: js/tags.js:264
 msgid "No tags selected for deletion."
 msgstr "Tidak ada tag yang terpilih untuk dihapus."
 
@@ -451,10 +466,16 @@ msgstr "Pembaruan gagal. Silakan laporkan masalah ini ke <a href=\"https://githu
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud."
 
-#: lostpassword/controller.php:62
+#: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
 msgstr "%s sandi diatur ulang"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "Terjadi masalah saat mengirim email, silakan hubungi administrator Anda."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -475,8 +496,8 @@ msgstr "Permintaan gagal!<br>Apakah anda yakin email/nama pengguna anda benar?"
 msgid "You will receive a link to reset your password via Email."
 msgstr "Anda akan menerima tautan penyetelan ulang sandi lewat Email."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:52
-#: templates/login.php:31
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
 msgid "Username"
 msgstr "Nama pengguna"
 
@@ -512,6 +533,18 @@ msgstr "Sandi baru"
 msgid "Reset password"
 msgstr "Atur ulang sandi"
 
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Mac OS X tidak didukung dan %s tidak akan bekerja dengan baik pada platform ini. Gunakan dengan resiko Anda sendiri!"
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "Untuk hasil terbaik, pertimbangkan untuk menggunakan server GNU/Linux sebagai gantinya. "
+
 #: strings.php:5
 msgid "Personal"
 msgstr "Pribadi"
@@ -520,7 +553,7 @@ msgstr "Pribadi"
 msgid "Users"
 msgstr "Pengguna"
 
-#: strings.php:7 templates/layout.user.php:111
+#: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
 msgstr "Aplikasi"
 
@@ -630,49 +663,47 @@ msgstr "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan l
 msgid "Create an <strong>admin account</strong>"
 msgstr "Buat sebuah <strong>akun admin</strong>"
 
-#: templates/installation.php:67
-msgid "Advanced"
-msgstr "Lanjutan"
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "Penyimpanan & Basis data"
 
-#: templates/installation.php:74
+#: templates/installation.php:77
 msgid "Data folder"
 msgstr "Folder data"
 
-#: templates/installation.php:86
+#: templates/installation.php:90
 msgid "Configure the database"
 msgstr "Konfigurasikan basis data"
 
-#: templates/installation.php:91 templates/installation.php:103
-#: templates/installation.php:114 templates/installation.php:125
-#: templates/installation.php:137
+#: templates/installation.php:94
 msgid "will be used"
 msgstr "akan digunakan"
 
-#: templates/installation.php:149
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Pengguna basis data"
 
-#: templates/installation.php:156
+#: templates/installation.php:118
 msgid "Database password"
 msgstr "Sandi basis data"
 
-#: templates/installation.php:161
+#: templates/installation.php:123
 msgid "Database name"
 msgstr "Nama basis data"
 
-#: templates/installation.php:169
+#: templates/installation.php:132
 msgid "Database tablespace"
 msgstr "Tablespace basis data"
 
-#: templates/installation.php:176
+#: templates/installation.php:140
 msgid "Database host"
 msgstr "Host basis data"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
-#: templates/installation.php:185
+#: templates/installation.php:150
 msgid "Finishing …"
 msgstr "Menyelesaikan ..."
 
@@ -688,7 +719,7 @@ msgstr "Aplikasi ini memerlukan JavaScript yang diaktifkan untuk beroperasi deng
 msgid "%s is available. Get more information on how to update."
 msgstr "%s tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui."
 
-#: templates/layout.user.php:72 templates/singleuser.user.php:8
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Keluar"
 
@@ -714,28 +745,28 @@ msgstr "Otentikasi dari sisi server gagal!"
 msgid "Please contact your administrator."
 msgstr "Silahkan hubungi administrator anda."
 
-#: templates/login.php:44
+#: templates/login.php:46
 msgid "Lost your password?"
 msgstr "Lupa sandi?"
 
-#: templates/login.php:49
+#: templates/login.php:51
 msgid "remember"
 msgstr "selalu masuk"
 
-#: templates/login.php:52
+#: templates/login.php:54
 msgid "Log in"
 msgstr "Masuk"
 
-#: templates/login.php:58
+#: templates/login.php:60
 msgid "Alternative Logins"
 msgstr "Cara Alternatif untuk Masuk"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
-"Hey there,<br><br>just letting you know that %s shared »%s« with you.<br><a "
-"href=\"%s\">View it!</a><br><br>"
-msgstr "Hai,<br><br>hanya supaya anda tahu bahwa %s membagikan »%s« dengan anda.<br><a href=\"%s\">Lihat!</a><br><br>"
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr ""
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

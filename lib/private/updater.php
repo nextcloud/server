@@ -16,9 +16,6 @@ use OC\Hooks\BasicEmitter;
  *  - maintenanceStart()
  *  - maintenanceEnd()
  *  - dbUpgrade()
- *  - filecacheStart()
- *  - filecacheProgress(int $percentage)
- *  - filecacheDone()
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
@@ -76,7 +73,9 @@ class Updater extends BasicEmitter {
 		if ($xml == false) {
 			return array();
 		}
+		$loadEntities = libxml_disable_entity_loader(true);
 		$data = @simplexml_load_string($xml);
+		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = array();
 		$tmp['version'] = $data->version;
@@ -92,6 +91,7 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
+	 * except the main .htaccess file
 	 */
 	public function upgrade() {
 		\OC_DB::enableCaching(false);
@@ -102,13 +102,34 @@ class Updater extends BasicEmitter {
 			$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
+
+		// Update htaccess files for apache hosts
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+			\OC_Setup::updateHtaccess();
+		}
+
+		// create empty file in data dir, so we can later find
+		// out that this is indeed an ownCloud data directory
+		// (in case it didn't exist before)
+		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
+
+		/*
+		 * START CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+		if (!\OC::$CLI && version_compare($installedVersion, '6.90.1', '<')) {
+			// Add the trusted_domains config if it is not existant
+			// This is added to prevent host header poisoning
+			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
+		}
+		/*
+		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
+		 */
+
+
 		try {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 			$this->emit('\OC\Updater', 'dbUpgrade');
 
-			// do a file cache upgrade for users with files
-			// this can take loooooooooooooooooooooooong
-			$this->upgradeFileCache();
 		} catch (\Exception $exception) {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
@@ -120,45 +141,11 @@ class Updater extends BasicEmitter {
 		$repair = new Repair();
 		$repair->run();
 
+		//Invalidate update feed
+		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
 	}
 
-	private function upgradeFileCache() {
-		try {
-			$query = \OC_DB::prepare('
-				SELECT DISTINCT `user`
-				FROM `*PREFIX*fscache`
-			');
-			$result = $query->execute();
-		} catch (\Exception $e) {
-			return;
-		}
-		$users = $result->fetchAll();
-		if (count($users) == 0) {
-			return;
-		}
-		$step = 100 / count($users);
-		$percentCompleted = 0;
-		$lastPercentCompletedOutput = 0;
-		$startInfoShown = false;
-		foreach ($users as $userRow) {
-			$user = $userRow['user'];
-			\OC\Files\Filesystem::initMountPoints($user);
-			\OC\Files\Cache\Upgrade::doSilentUpgrade($user);
-			if (!$startInfoShown) {
-				//We show it only now, because otherwise Info about upgraded apps
-				//will appear between this and progress info
-				$this->emit('\OC\Updater', 'filecacheStart');
-				$startInfoShown = true;
-			}
-			$percentCompleted += $step;
-			$out = floor($percentCompleted);
-			if ($out != $lastPercentCompletedOutput) {
-				$this->emit('\OC\Updater', 'filecacheProgress', array($out));
-				$lastPercentCompletedOutput = $out;
-			}
-		}
-		$this->emit('\OC\Updater', 'filecacheDone');
-	}
 }
+

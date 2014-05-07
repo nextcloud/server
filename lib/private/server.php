@@ -35,6 +35,13 @@ class Server extends SimpleContainer implements IServerContainer {
 				$requesttoken = false;
 			}
 
+			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
+			&& in_array('fakeinput', stream_get_wrappers())) {
+				$stream = 'fakeinput://data';
+			} else {
+				$stream = 'php://input';
+			}
+
 			return new Request(
 				array(
 					'get' => $_GET,
@@ -48,7 +55,7 @@ class Server extends SimpleContainer implements IServerContainer {
 						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requesttoken,
-				)
+				), $stream
 			);
 		});
 		$this->registerService('PreviewManager', function($c) {
@@ -158,6 +165,18 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->getConfig();
 			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
 		});
+		$this->registerService('Router', function ($c){
+			/**
+			 * @var Server $c
+			 */
+			$cacheFactory = $c->getMemCacheFactory();
+			if ($cacheFactory->isAvailable()) {
+				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'));
+			} else {
+				$router = new \OC\Route\Router();
+			}
+			return $router;
+		});
 	}
 
 	/**
@@ -221,15 +240,23 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\Files\Folder
 	 */
 	function getUserFolder() {
-
-		$dir = '/files';
+		$dir = '/' . \OCP\User::getUser();
 		$root = $this->getRootFolder();
 		$folder = null;
+
 		if(!$root->nodeExists($dir)) {
 			$folder = $root->newFolder($dir);
 		} else {
 			$folder = $root->get($dir);
 		}
+
+		$dir = '/files';
+		if(!$folder->nodeExists($dir)) {
+			$folder = $folder->newFolder($dir);
+		} else {
+			$folder = $folder->get($dir);
+		}
+
 		return $folder;
 	}
 
@@ -290,7 +317,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string appid
+	 * @param string $app appid
 	 * @return \OC_L10N
 	 */
 	function getL10N($app) {
@@ -323,7 +350,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Returns an \OCP\CacheFactory instance
 	 *
-	 * @return \OCP\CacheFactory
+	 * @return \OCP\ICacheFactory
 	 */
 	function getMemCacheFactory() {
 		return $this->query('MemCacheFactory');
@@ -363,5 +390,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getJobList(){
 		return $this->query('JobList');
+	}
+
+	/**
+	 * Returns a router for generating and matching urls
+	 *
+	 * @return \OCP\Route\IRouter
+	 */
+	function getRouter(){
+		return $this->query('Router');
 	}
 }

@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "מיקום",
+"URL" => "כתובת",
+"Username" => "שם משתמש",
+"Password" => "סיסמא",
+"Share" => "שיתוף",
 "Access granted" => "הוענקה גישה",
 "Error configuring Dropbox storage" => "אירעה שגיאה בעת הגדרת אחסון ב־Dropbox",
 "Grant access" => "הענקת גישה",
@@ -9,14 +14,11 @@ $TRANSLATIONS = array(
 "Folder name" => "שם התיקייה",
 "Configuration" => "הגדרות",
 "Options" => "אפשרויות",
-"Applicable" => "ניתן ליישום",
-"None set" => "לא הוגדרה",
 "All Users" => "כל המשתמשים",
 "Groups" => "קבוצות",
 "Users" => "משתמשים",
 "Delete" => "מחיקה",
 "Enable User External Storage" => "הפעלת אחסון חיצוני למשתמשים",
-"Allow users to mount their own external storage" => "יאפשר למשתמשים לעגן את האחסון החיצוני שלהם",
 "SSL root certificates" => "שורש אישורי אבטחת SSL ",
 "Import Root Certificate" => "ייבוא אישור אבטחת שורש"
 );

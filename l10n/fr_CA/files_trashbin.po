@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-27 12:08-0500\n"
-"PO-Revision-Date: 2013-11-26 21:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (Canada) (http://www.transifex.com/projects/p/owncloud/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,16 +22,20 @@ msgstr ""
 msgid "Couldn't delete %s permanently"
 msgstr ""
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/trash.js:18 js/trash.js:45 js/trash.js:123 js/trash.js:176
+#: js/filelist.js:23
+msgid "Deleted files"
+msgstr ""
+
+#: js/trash.js:16 js/trash.js:103 js/trash.js:152
 msgid "Error"
 msgstr ""
 
-#: lib/trashbin.php:815 lib/trashbin.php:817
+#: lib/trashbin.php:852 lib/trashbin.php:854
 msgid "restored"
 msgstr ""
 
@@ -55,6 +59,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/part.breadcrumb.php:9
+#: templates/part.breadcrumb.php:8
 msgid "Deleted Files"
 msgstr ""

@@ -63,7 +63,6 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		//all or nothing! otherwise we get in trouble with.
-		$this->initPagedSearch($filter, array($dn), $attr, 99999, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
@@ -434,10 +433,25 @@ class Access extends LDAPUtility {
 			$ocname = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
 			if($ocname) {
 				$ownCloudNames[] = $ocname;
+				if($isUsers) {
+					//cache the user names so it does not need to be retrieved
+					//again later (e.g. sharing dialogue).
+					$this->cacheUserDisplayName($ocname, $nameByLDAP);
+				}
 			}
 			continue;
 		}
 		return $ownCloudNames;
+	}
+
+	/**
+	 * @brief caches the user display name
+	 * @param string the internal owncloud username
+	 * @param string the display name
+	 */
+	public function cacheUserDisplayName($ocname, $displayName) {
+		$cacheKeyTrunk = 'getDisplayName';
+		$this->connection->writeToCache($cacheKeyTrunk.$ocname, $displayName);
 	}
 
 	/**
@@ -659,7 +673,7 @@ class Access extends LDAPUtility {
 	 * @param string $filter
 	 */
 	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		return $this->count($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 	}
 
 	/**
@@ -707,6 +721,9 @@ class Access extends LDAPUtility {
 		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
+		if ($pagedSearchOK) {
+			$this->ldap->controlPagedResult($cr, 999999, false, "");
+		}
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
 				'Error when searching: '.$this->ldap->error($cr).
@@ -775,22 +792,47 @@ class Access extends LDAPUtility {
 	 */
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
-		$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
-		if($search === false) {
-			return false;
-		}
-		list($sr, $pagedSearchOK) = $search;
-		$cr = $this->connection->getConnectionResource();
-		$counter = 0;
-		foreach($sr as $key => $res) {
-			$count = $this->ldap->countEntries($cr, $res);
-		    if($count !== false) {
-				$counter += $count;
-			}
+
+		if(is_null($limit)) {
+			$limit = $this->connection->ldapPagingSize;
 		}
 
-		$this->processPagedSearchStatus($sr, $filter, $base, $counter, $limit,
+		$counter = 0;
+		$count = null;
+		$cr = $this->connection->getConnectionResource();
+
+		do {
+			$continue = false;
+			$search = $this->executeSearch($filter, $base, $attr,
+										   $limit, $offset);
+			if($search === false) {
+				return $counter > 0 ? $counter : false;
+			}
+			list($sr, $pagedSearchOK) = $search;
+
+			$count = $this->countEntriesInSearchResults($sr, $limit, $continue);
+			$counter += $count;
+
+			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limit,
 										$offset, $pagedSearchOK, $skipHandling);
+			$offset += $limit;
+		} while($continue);
+
+		return $counter;
+	}
+
+	private function countEntriesInSearchResults($searchResults, $limit,
+																&$hasHitLimit) {
+		$cr = $this->connection->getConnectionResource();
+		$count = 0;
+
+		foreach($searchResults as $res) {
+			$count = intval($this->ldap->countEntries($cr, $res));
+			$counter += $count;
+			if($count === $limit) {
+				$hasHitLimit = true;
+			}
+		}
 
 		return $counter;
 	}
@@ -891,7 +933,7 @@ class Access extends LDAPUtility {
 		//we slice the findings, when
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
-		if((!$this->pagedSearchedSuccessful
+		if((!$this->getPagedSearchResultState()
 			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
@@ -923,8 +965,8 @@ class Access extends LDAPUtility {
 
 	/**
 	* @brief escapes (user provided) parts for LDAP filter
-	* @param String $input, the provided value
-	* @returns the escaped string
+	* @param string $input, the provided value
+	* @return the escaped string
 	*/
 	public function escapeFilterPart($input) {
 		$search  = array('*', '\\', '(', ')');
@@ -1064,8 +1106,8 @@ class Access extends LDAPUtility {
 			return true;
 		}
 
-		//for now, supported attributes are entryUUID, nsuniqueid, objectGUID
-		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid');
+		//for now, supported attributes are entryUUID, nsuniqueid, objectGUID, ipaUniqueID
+		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid');
 
 		foreach($testAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
@@ -1184,7 +1226,7 @@ class Access extends LDAPUtility {
 		}
 		$offset -= $limit;
 		//we work with cache here
-		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
+		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . intval($limit) . '-' . intval($offset);
 		$cookie = '';
 		if(isset($this->cookies[$cachekey])) {
 			$cookie = $this->cookies[$cachekey];
@@ -1206,7 +1248,7 @@ class Access extends LDAPUtility {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
-			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
+			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
 			$this->cookies[$cachekey] = $cookie;
 		}
 	}
@@ -1236,9 +1278,9 @@ class Access extends LDAPUtility {
 		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
 			$offset = intval($offset); //can be null
 			\OCP\Util::writeLog('user_ldap',
-				'initializing paged search for  Filter'.$filter.' base '.print_r($bases, true)
+				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
 				.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset,
-				\OCP\Util::INFO);
+				\OCP\Util::DEBUG);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach($bases as $base) {
 
@@ -1260,7 +1302,7 @@ class Access extends LDAPUtility {
 				}
 				if(!is_null($cookie)) {
 					if($offset > 0) {
-						\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
+						\OCP\Util::writeLog('user_ldap', 'Cookie '.CRC32($cookie), \OCP\Util::INFO);
 					}
 					$pagedSearchOK = $this->ldap->controlPagedResult(
 						$this->connection->getConnectionResource(), $limit,

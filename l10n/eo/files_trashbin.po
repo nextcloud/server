@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,44 +18,48 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/delete.php:42
+#: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Ne povis foriĝi %s por ĉiam"
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Ne povis restaŭriĝi %s"
 
-#: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
+#: js/filelist.js:3
+msgid "Deleted files"
+msgstr "Forigitaj dosieroj"
+
+#: js/trash.js:33 js/trash.js:124 js/trash.js:173
 msgid "Error"
 msgstr "Eraro"
 
-#: lib/trashbin.php:815 lib/trashbin.php:817
+#: js/trash.js:264
+msgid "Deleted Files"
+msgstr "Forigitaj dosieroj"
+
+#: lib/trashbin.php:859 lib/trashbin.php:861
 msgid "restored"
 msgstr "restaŭrita"
 
-#: templates/index.php:8
+#: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Nenio estas ĉi tie. Via rubujo malplenas!"
 
-#: templates/index.php:22
+#: templates/index.php:19
 msgid "Name"
 msgstr "Nomo"
 
-#: templates/index.php:25 templates/index.php:27
+#: templates/index.php:22 templates/index.php:24
 msgid "Restore"
 msgstr "Restaŭri"
 
-#: templates/index.php:33
+#: templates/index.php:30
 msgid "Deleted"
 msgstr "Forigita"
 
-#: templates/index.php:36 templates/index.php:37
+#: templates/index.php:33 templates/index.php:34
 msgid "Delete"
 msgstr "Forigi"
-
-#: templates/part.breadcrumb.php:9
-msgid "Deleted Files"
-msgstr "Forigitaj dosieroj"

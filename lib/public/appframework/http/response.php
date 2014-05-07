@@ -80,6 +80,7 @@ class Response {
 			$this->addHeader('Cache-Control', 'no-cache, must-revalidate');
 		}
 
+		return $this;
 	}
 
 
@@ -88,6 +89,7 @@ class Response {
 	 * function
 	 * @param string $name The name of the HTTP header
 	 * @param string $value The value, null will delete it
+	 * @return Response Reference to this object
 	 */
 	public function addHeader($name, $value) {
 		if(is_null($value)) {
@@ -95,6 +97,8 @@ class Response {
 		} else {
 			$this->headers[$name] = $value;
 		}
+
+		return $this;
 	}
 
 
@@ -130,9 +134,12 @@ class Response {
 	/**
 	* Set response status
 	* @param int $status a HTTP status code, see also the STATUS constants
+	* @return Response Reference to this object
 	*/
 	public function setStatus($status) {
 		$this->status = $status;
+
+		return $this;
 	}
 
 
@@ -165,18 +172,24 @@ class Response {
 	/**
 	 * Set the ETag
 	 * @param string $ETag
+	 * @return Response Reference to this object
 	 */
 	public function setETag($ETag) {
 		$this->ETag = $ETag;
+
+		return $this;
 	}
 
 
 	/**
 	 * Set "last modified" date
 	 * @param \DateTime $lastModified
+	 * @return Response Reference to this object
 	 */
 	public function setLastModified($lastModified) {
 		$this->lastModified = $lastModified;
+
+		return $this;
 	}
 
 

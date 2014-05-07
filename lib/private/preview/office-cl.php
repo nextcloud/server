@@ -64,12 +64,12 @@ if (!\OC_Util::runningOnWindows()) {
 				$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
 			}
 
-			$whichLibreOffice = shell_exec('which libreoffice');
+			$whichLibreOffice = shell_exec('command -v libreoffice');
 			if($cmd === '' && !empty($whichLibreOffice)) {
 				$cmd = 'libreoffice';
 			}
 
-			$whichOpenOffice = shell_exec('which openoffice');
+			$whichOpenOffice = shell_exec('command -v openoffice');
 			if($cmd === '' && !empty($whichOpenOffice)) {
 				$cmd = 'openoffice';
 			}

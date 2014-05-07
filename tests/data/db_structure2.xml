@@ -119,4 +119,19 @@
   </declaration>
  </table>
 
+	<table>
+		<name>*dbprefix*migratekeyword</name>
+
+		<declaration>
+
+			<field>
+				<name>select</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+		</declaration>
+	</table>
+
 </database>

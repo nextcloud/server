@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkLoggedIn();
-OC_App::loadApps();
 
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'settings' );

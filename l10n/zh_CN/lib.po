@@ -4,15 +4,17 @@
 # 
 # Translators:
 # Charlie Mak <makchamhim72@gmail.com>, 2013
+# peishi fang <fangpeishi@gmail.com>, 2014
+# Martin Liu <liuzh66@gmail.com>, 2014
 # modokwang <modokwang@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2013
+# Xuetian Weng <wengxt@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-05 15:09+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,41 +22,52 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: private/app.php:243
+#: base.php:713
+msgid "You are accessing the server from an untrusted domain."
+msgstr "您正在访问来自不信任域名的服务器。"
+
+#: base.php:714
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: private/app.php:236
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "App “%s” 无法安装，因为它和当前 ownCloud 版本不兼容。"
 
-#: private/app.php:255
+#: private/app.php:248
 msgid "No app name specified"
-msgstr ""
+msgstr "没有指定的 App 名称"
 
-#: private/app.php:360
+#: private/app.php:353
 msgid "Help"
 msgstr "帮助"
 
-#: private/app.php:373
+#: private/app.php:366
 msgid "Personal"
 msgstr "个人"
 
-#: private/app.php:384
+#: private/app.php:377
 msgid "Settings"
 msgstr "设置"
 
-#: private/app.php:396
+#: private/app.php:389
 msgid "Users"
 msgstr "用户"
 
-#: private/app.php:409
+#: private/app.php:402
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:873
+#: private/app.php:880
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "\"%s\" 升级失败。"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -64,104 +77,103 @@ msgstr "未知的文件类型"
 msgid "Invalid image"
 msgstr "无效的图像"
 
-#: private/defaults.php:34
+#: private/defaults.php:35
 msgid "web services under your control"
 msgstr "您控制的web服务"
 
-#: private/files.php:66 private/files.php:98
-#, php-format
-msgid "cannot open \"%s\""
-msgstr ""
-
-#: private/files.php:231
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP 下载已经关闭"
 
-#: private/files.php:232
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "需要逐一下载文件"
 
-#: private/files.php:233 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "回到文件"
 
-#: private/files.php:258
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "选择的文件太大，无法生成 zip 文件。"
 
-#: private/files.php:259
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "请用较小的分块下载文件或者友好地询问您的管理员。"
 
-#: private/installer.php:63
+#: private/installer.php:64
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "安装 App 时未指定来源"
 
-#: private/installer.php:70
+#: private/installer.php:71
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "从 http 安装 App 时未指定链接"
 
-#: private/installer.php:75
+#: private/installer.php:76
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "从本地文件安装 App 时未指定路径"
 
-#: private/installer.php:89
+#: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "不支持 %s 的压缩格式"
 
-#: private/installer.php:103
+#: private/installer.php:104
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "安装 App 是打开归档失败"
 
-#: private/installer.php:125
+#: private/installer.php:126
 msgid "App does not provide an info.xml file"
 msgstr "应用未提供 info.xml 文件"
 
-#: private/installer.php:131
+#: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "App 无法安装，因为 App 中有非法代码 "
 
-#: private/installer.php:140
+#: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "App 无法安装，因为和当前 ownCloud 版本不兼容"
 
-#: private/installer.php:146
+#: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "App 无法安装，因为 App 包含不允许在非内置 App 中使用的 <shipped>true</shipped> 标签"
 
-#: private/installer.php:159
+#: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "App 无法安装因为 info.xml/version 中的版本和 App 商店版本不同"
 
-#: private/installer.php:169
+#: private/installer.php:170
 msgid "App directory already exists"
-msgstr ""
+msgstr "应用程序目录已存在"
 
-#: private/installer.php:182
+#: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "无法创建应用程序文件夹。请修正权限。%s"
 
-#: private/json.php:28
+#: private/json.php:29
 msgid "Application is not enabled"
 msgstr "应用程序未启用"
 
-#: private/json.php:39 private/json.php:62 private/json.php:73
+#: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
 msgstr "认证出错"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token 过期，请刷新页面。"
+
+#: private/json.php:74
+msgid "Unknown user"
+msgstr "未知用户"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -196,23 +208,23 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL 用户名和/或密码无效：%s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:24
-#: private/setup/postgresql.php:70
+#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "你需要输入一个数据库中已有的账户或管理员账户。"
 
 #: private/setup/mysql.php:12
-msgid "MySQL username and/or password not valid"
-msgstr "MySQL 数据库用户名和/或密码无效"
+msgid "MySQL/MariaDB username and/or password not valid"
+msgstr "MySQL/MariaDB 数据库用户名和/或密码无效"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
 #: private/setup/oci.php:151 private/setup/oci.php:162
 #: private/setup/oci.php:169 private/setup/oci.php:178
 #: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:89
-#: private/setup/postgresql.php:98 private/setup/postgresql.php:115
-#: private/setup/postgresql.php:125 private/setup/postgresql.php:134
+#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/postgresql.php:112 private/setup/postgresql.php:129
+#: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "数据库错误：\"%s\""
@@ -221,30 +233,30 @@ msgstr "数据库错误：\"%s\""
 #: private/setup/oci.php:122 private/setup/oci.php:145
 #: private/setup/oci.php:152 private/setup/oci.php:163
 #: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:90
-#: private/setup/postgresql.php:99 private/setup/postgresql.php:116
-#: private/setup/postgresql.php:126 private/setup/postgresql.php:135
+#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/postgresql.php:113 private/setup/postgresql.php:130
+#: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "冲突命令为：\"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "MySQL 用户 '%s'@'localhost' 已存在。"
+msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
+msgstr "MySQL/MariaDB 用户 '%s'@'localhost' 已存在。"
 
 #: private/setup/mysql.php:86
-msgid "Drop this user from MySQL"
-msgstr "建议从 MySQL 数据库中丢弃 Drop 此用户"
+msgid "Drop this user from MySQL/MariaDB"
+msgstr "建议从 MySQL/MariaDB 数据库中删除此用户"
 
 #: private/setup/mysql.php:91
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "MySQL 用户 '%s'@'%%' 已存在"
+msgid "MySQL/MariaDB user '%s'@'%%' already exists"
+msgstr "MySQL/MariaDB 用户 '%s'@'%%' 已存在"
 
 #: private/setup/mysql.php:92
-msgid "Drop this user from MySQL."
-msgstr "建议从 MySQL 数据库中丢弃 Drop 此用户。"
+msgid "Drop this user from MySQL/MariaDB."
+msgstr "建议从 MySQL/MariaDB 数据库中删除此用户。"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -259,7 +271,7 @@ msgstr "Oracle 数据库用户名和/或密码无效"
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "冲突命令为：\"%s\"，名称：%s，密码：%s"
 
-#: private/setup/postgresql.php:23 private/setup/postgresql.php:69
+#: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL 数据库用户名和/或密码无效"
 
@@ -271,62 +283,189 @@ msgstr "请设置一个管理员用户名。"
 msgid "Set an admin password."
 msgstr "请设置一个管理员密码。"
 
-#: private/setup.php:195
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏."
 
-#: private/setup.php:196
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: private/tags.php:194
+#: private/share/mailnotifications.php:72
+#: private/share/mailnotifications.php:118
+#, php-format
+msgid "%s shared »%s« with you"
+msgstr "%s 向您分享了 »%s«"
+
+#: private/share/share.php:498
+#, php-format
+msgid "Sharing %s failed, because the file does not exist"
+msgstr "共享 %s 失败，因为文件不存在。"
+
+#: private/share/share.php:523
+#, php-format
+msgid "Sharing %s failed, because the user %s is the item owner"
+msgstr "共享 %s 失败，因为用户 %s 是对象的拥有者"
+
+#: private/share/share.php:529
+#, php-format
+msgid "Sharing %s failed, because the user %s does not exist"
+msgstr "共享 %s 失败，因为用户 %s 不存在"
+
+#: private/share/share.php:538
+#, php-format
+msgid ""
+"Sharing %s failed, because the user %s is not a member of any groups that %s"
+" is a member of"
+msgstr "共享 %s 失败，因为用户 %s 不是 %s 所属的任何组的用户"
+
+#: private/share/share.php:551 private/share/share.php:579
+#, php-format
+msgid "Sharing %s failed, because this item is already shared with %s"
+msgstr "共享 %s 失败，因为它已经共享给 %s"
+
+#: private/share/share.php:559
+#, php-format
+msgid "Sharing %s failed, because the group %s does not exist"
+msgstr "共享 %s 失败，因为 %s 组不存在"
+
+#: private/share/share.php:566
+#, php-format
+msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "共享 %s 失败，因为 %s 不是 %s 组的成员"
+
+#: private/share/share.php:629
+#, php-format
+msgid "Sharing %s failed, because sharing with links is not allowed"
+msgstr "共享 %s 失败，因为不允许用链接共享"
+
+#: private/share/share.php:636
+#, php-format
+msgid "Share type %s is not valid for %s"
+msgstr "%s 不是 %s 的合法共享类型"
+
+#: private/share/share.php:773
+#, php-format
+msgid ""
+"Setting permissions for %s failed, because the permissions exceed "
+"permissions granted to %s"
+msgstr "设置 %s 权限失败，因为权限超出了 %s 已有权限。"
+
+#: private/share/share.php:834
+#, php-format
+msgid "Setting permissions for %s failed, because the item was not found"
+msgstr "设置 %s 的权限失败，因为未找到到对应项"
+
+#: private/share/share.php:940
+#, php-format
+msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
+msgstr "共享后端 %s 必须实现 OCP\\Share_Backend 接口"
+
+#: private/share/share.php:947
+#, php-format
+msgid "Sharing backend %s not found"
+msgstr "未找到共享后端 %s"
+
+#: private/share/share.php:953
+#, php-format
+msgid "Sharing backend for %s not found"
+msgstr "%s 的共享后端未找到"
+
+#: private/share/share.php:1367
+#, php-format
+msgid "Sharing %s failed, because the user %s is the original sharer"
+msgstr "共享 %s 失败，因为用户 %s 不是原始共享者"
+
+#: private/share/share.php:1376
+#, php-format
+msgid ""
+"Sharing %s failed, because the permissions exceed permissions granted to %s"
+msgstr "共享 %s 失败，因为权限超过了 %s 已有权限"
+
+#: private/share/share.php:1391
+#, php-format
+msgid "Sharing %s failed, because resharing is not allowed"
+msgstr "共享 %s 失败，因为不允许二次共享"
+
+#: private/share/share.php:1403
+#, php-format
+msgid ""
+"Sharing %s failed, because the sharing backend for %s could not find its "
+"source"
+msgstr "共享 %s 失败，因为 %s 使用的共享后端未找到它的来源"
+
+#: private/share/share.php:1417
+#, php-format
+msgid ""
+"Sharing %s failed, because the file could not be found in the file cache"
+msgstr "共享 %s 失败，因为未在文件缓存中找到文件。"
+
+#: private/tags.php:193
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "无法找到分类 \"%s\""
 
-#: private/template/functions.php:130
+#: private/template/functions.php:134
 msgid "seconds ago"
 msgstr "秒前"
 
-#: private/template/functions.php:131
+#: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分钟前"
 
-#: private/template/functions.php:132
+#: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小时前"
 
-#: private/template/functions.php:133
+#: private/template/functions.php:137
 msgid "today"
 msgstr "今天"
 
-#: private/template/functions.php:134
+#: private/template/functions.php:138
 msgid "yesterday"
 msgstr "昨天"
 
-#: private/template/functions.php:136
+#: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: private/template/functions.php:138
+#: private/template/functions.php:142
 msgid "last month"
 msgstr "上月"
 
-#: private/template/functions.php:139
+#: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 月前"
 
-#: private/template/functions.php:141
+#: private/template/functions.php:145
 msgid "last year"
 msgstr "去年"
 
-#: private/template/functions.php:142
+#: private/template/functions.php:146
 msgid "years ago"
 msgstr "年前"
+
+#: private/user/manager.php:232
+msgid ""
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
+"\"0-9\", and \"_.@-\""
+msgstr "用户名只允许使用以下字符：“a-z”，“A-Z”，“0-9”，和“_.@-”"
+
+#: private/user/manager.php:237
+msgid "A valid username must be provided"
+msgstr "必须提供合法的用户名"
+
+#: private/user/manager.php:241
+msgid "A valid password must be provided"
+msgstr "必须提供合法的密码"
+
+#: private/user/manager.php:246
+msgid "The username is already being used"
+msgstr "用户名已被使用"

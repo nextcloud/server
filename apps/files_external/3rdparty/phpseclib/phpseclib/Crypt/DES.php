@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  * Pure-PHP implementation of DES.
@@ -51,12 +50,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category   Crypt
- * @package    Crypt_DES
- * @author     Jim Wigginton <terrafrost@php.net>
- * @copyright  MMVII Jim Wigginton
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
- * @link       http://phpseclib.sourceforge.net
+ * @category  Crypt
+ * @package   Crypt_DES
+ * @author    Jim Wigginton <terrafrost@php.net>
+ * @copyright MMVII Jim Wigginton
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link      http://phpseclib.sourceforge.net
  */
 
 /**
@@ -65,7 +64,7 @@
  * Base cipher class
  */
 if (!class_exists('Crypt_Base')) {
-    require_once('Base.php');
+    include_once 'Base.php';
 }
 
 /**#@+
@@ -139,12 +138,13 @@ define('CRYPT_DES_MODE_MCRYPT', CRYPT_MODE_MCRYPT);
 /**
  * Pure-PHP implementation of DES.
  *
+ * @package Crypt_DES
  * @author  Jim Wigginton <terrafrost@php.net>
  * @version 0.1.0
  * @access  public
- * @package Crypt_DES
  */
-class Crypt_DES extends Crypt_Base {
+class Crypt_DES extends Crypt_Base
+{
     /**
      * Block Length of the cipher
      *
@@ -1336,12 +1336,14 @@ class Crypt_DES extends Crypt_Base {
                       $pc2mapd3[($d >>  8) & 0xFF] | $pc2mapd4[ $d        & 0xFF];
 
                 // Reorder: odd bytes/even bytes. Push the result in key schedule.
-                $keys[$des_round][CRYPT_DES_ENCRYPT][       ] =
-                $keys[$des_round][CRYPT_DES_DECRYPT][$ki - 1] = ( $cp        & 0xFF000000) | (($cp <<  8) & 0x00FF0000) |
-                                                                (($dp >> 16) & 0x0000FF00) | (($dp >>  8) & 0x000000FF);
-                $keys[$des_round][CRYPT_DES_ENCRYPT][       ] =
-                $keys[$des_round][CRYPT_DES_DECRYPT][$ki    ] = (($cp <<  8) & 0xFF000000) | (($cp << 16) & 0x00FF0000) |
-                                                                (($dp >>  8) & 0x0000FF00) | ( $dp        & 0x000000FF);
+                $val1 = ( $cp        & 0xFF000000) | (($cp <<  8) & 0x00FF0000) |
+                        (($dp >> 16) & 0x0000FF00) | (($dp >>  8) & 0x000000FF);
+                $val2 = (($cp <<  8) & 0xFF000000) | (($cp << 16) & 0x00FF0000) |
+                        (($dp >>  8) & 0x0000FF00) | ( $dp        & 0x000000FF);
+                $keys[$des_round][CRYPT_DES_ENCRYPT][       ] = $val1;
+                $keys[$des_round][CRYPT_DES_DECRYPT][$ki - 1] = $val1;
+                $keys[$des_round][CRYPT_DES_ENCRYPT][       ] = $val2;
+                $keys[$des_round][CRYPT_DES_DECRYPT][$ki    ] = $val2;
             }
         }
 
@@ -1531,6 +1533,3 @@ class Crypt_DES extends Crypt_Base {
         $this->inline_crypt = $lambda_functions[$code_hash];
     }
 }
-
-// vim: ts=4:sw=4:et:
-// vim6: fdl=1:

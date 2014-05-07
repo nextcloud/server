@@ -36,7 +36,7 @@ class OC_Helper {
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns the url
+	 * @returns string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -64,7 +64,7 @@ class OC_Helper {
 	 */
 	public static function linkToDocs($key) {
 		$theme = new OC_Defaults();
-		return $theme->getDocBaseUrl() . '/server/6.0/go.php?to=' . $key;
+		return $theme->buildDocLinkToKey($key);
 	}
 
 	/**
@@ -78,8 +78,9 @@ class OC_Helper {
 	 * Returns a absolute url to the given app and file.
 	 */
 	public static function linkToAbsolute($app, $file, $args = array()) {
-		$urlLinkTo = self::linkTo($app, $file, $args);
-		return self::makeURLAbsolute($urlLinkTo);
+		return OC::$server->getURLGenerator()->getAbsoluteURL(
+			self::linkTo($app, $file, $args)
+		);
 	}
 
 	/**
@@ -113,8 +114,10 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote($service, $add_slash = true) {
-		return self::makeURLAbsolute(self::linkToRemoteBase($service))
-		. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
+		return OC::$server->getURLGenerator()->getAbsoluteURL(
+			self::linkToRemoteBase($service)
+				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '')
+		);
 	}
 
 	/**
@@ -126,8 +129,12 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToPublic($service, $add_slash = false) {
-		return self::linkToAbsolute('', 'public.php') . '?service=' . $service
-		. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
+		return OC::$server->getURLGenerator()->getAbsoluteURL(
+			self::linkTo(
+				'', 'public.php') . '?service=' . $service
+				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : ''
+			)
+		);
 	}
 
 	/**
@@ -307,8 +314,34 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Make a php file size
+	 * @param int $bytes file size in bytes
+	 * @return string a php parseable file size
+	 *
+	 * Makes 2048 to 2k and 2^41 to 2048G
+	 */
+	public static function phpFileSize($bytes) {
+		if ($bytes < 0) {
+			return "?";
+		}
+		if ($bytes < 1024) {
+			return $bytes . "B";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return $bytes . "K";
+		}
+		$bytes = round($bytes / 1024, 1);
+		if ($bytes < 1024) {
+			return $bytes . "M";
+		}
+		$bytes = round($bytes / 1024, 1);
+		return $bytes . "G";
+	}
+
+	/**
 	 * @brief Make a computer file size
-	 * @param string $str file size in a fancy format
+	 * @param string $str file size in human readable format
 	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
@@ -338,38 +371,9 @@ class OC_Helper {
 			$bytes *= $bytes_array[$matches[1]];
 		}
 
-		$bytes = round($bytes, 2);
+		$bytes = round($bytes);
 
 		return $bytes;
-	}
-
-	/**
-	 * @brief Recursive editing of file permissions
-	 * @param string $path path to file or folder
-	 * @param int $filemode unix style file permissions
-	 * @return bool
-	 */
-	static function chmodr($path, $filemode) {
-		if (!is_dir($path))
-			return chmod($path, $filemode);
-		$dh = opendir($path);
-		if(is_resource($dh)) {
-			while (($file = readdir($dh)) !== false) {
-				if ($file != '.' && $file != '..') {
-					$fullpath = $path . '/' . $file;
-					if (is_link($fullpath))
-						return false;
-					elseif (!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return false; elseif (!self::chmodr($fullpath, $filemode))
-						return false;
-				}
-			}
-			closedir($dh);
-		}
-		if (@chmod($path, $filemode))
-			return true;
-		else
-			return false;
 	}
 
 	/**
@@ -458,6 +462,16 @@ class OC_Helper {
 	 */
 	static function getMimeType($path) {
 		return self::getMimetypeDetector()->detect($path);
+	}
+
+	/**
+	 * Get a secure mimetype that won't expose potential XSS.
+	 *
+	 * @param string $mimeType
+	 * @return string
+	 */
+	static function getSecureMimeType($mimeType) {
+		return self::getMimetypeDetector()->getSecureMimeType($mimeType);
 	}
 
 	/**
@@ -839,7 +853,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace)){
+		if (is_null($freeSpace) || $freeSpace < 0){
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());
@@ -905,22 +919,34 @@ class OC_Helper {
 	 * Calculate the disc space for the given path
 	 *
 	 * @param string $path
+	 * @param \OCP\Files\FileInfo $rootInfo (optional)
 	 * @return array
 	 */
-	public static function getStorageInfo($path) {
+	public static function getStorageInfo($path, $rootInfo = null) {
 		// return storage info without adding mount points
-		$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
-		$used = $rootInfo['size'];
+		if (is_null($rootInfo)) {
+			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
+		}
+		$used = $rootInfo->getSize();
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = \OC\Files\Filesystem::free_space($path);
+		$quota = 0;
+		// TODO: need a better way to get total space from storage
+		$storage = $rootInfo->getStorage();
+		if ($storage instanceof \OC\Files\Storage\Wrapper\Quota) {
+			$quota = $storage->getQuota();
+		}
+		$free = $storage->free_space('');
 		if ($free >= 0) {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
 		}
 		if ($total > 0) {
+			if ($quota > 0 && $total > $quota) {
+				$total = $quota;
+			}
 			// prevent division by zero or error codes (negative values)
 			$relative = round(($used / $total) * 10000) / 100;
 		} else {

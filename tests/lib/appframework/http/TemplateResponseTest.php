@@ -25,6 +25,7 @@
 namespace OC\AppFramework\Http;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http;
 
 
 class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
@@ -96,6 +97,15 @@ class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
 		$render = 'myrender';
 		$this->tpl->renderAs($render);
 		$this->assertEquals($render, $this->tpl->getRenderAs());
+	}
+
+	public function testChainability() {
+		$params = array('hi' => 'yo');
+		$this->tpl->setParams($params)
+			->setStatus(Http::STATUS_NOT_FOUND);
+
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->tpl->getStatus());
+		$this->assertEquals(array('hi' => 'yo'), $this->tpl->getParams());
 	}
 
 }

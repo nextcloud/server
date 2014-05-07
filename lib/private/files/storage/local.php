@@ -35,7 +35,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function mkdir($path) {
-			return @mkdir($this->datadir . $path);
+			return @mkdir($this->datadir . $path, 0777, true);
 		}
 
 		public function rmdir($path) {
@@ -44,17 +44,26 @@ if (\OC_Util::runningOnWindows()) {
 					new \RecursiveDirectoryIterator($this->datadir . $path),
 					\RecursiveIteratorIterator::CHILD_FIRST
 				);
-				foreach ($it as $file) {
+				/**
+				 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+				 * This bug is fixed in PHP 5.5.9 or before
+				 * See #8376
+				 */
+				$it->rewind();
+				while ($it->valid()) {
 					/**
 					 * @var \SplFileInfo $file
 					 */
+					$file = $it->current();
 					if (in_array($file->getBasename(), array('.', '..'))) {
+						$it->next();
 						continue;
 					} elseif ($file->isDir()) {
 						rmdir($file->getPathname());
 					} elseif ($file->isFile() || $file->isLink()) {
 						unlink($file->getPathname());
 					}
+					$it->next();
 				}
 				return rmdir($this->datadir . $path);
 			} catch (\UnexpectedValueException $e) {
@@ -256,7 +265,7 @@ if (\OC_Util::runningOnWindows()) {
 			return 0;
 		}
 
-		public function hash($path, $type, $raw = false) {
+		public function hash($type, $path, $raw = false) {
 			return hash_file($type, $this->datadir . $path, $raw);
 		}
 
@@ -305,7 +314,11 @@ if (\OC_Util::runningOnWindows()) {
 		 * @return bool
 		 */
 		public function hasUpdated($path, $time) {
-			return $this->filemtime($path) > $time;
+			if ($this->file_exists($path)) {
+				return $this->filemtime($path) > $time;
+			} else {
+				return true;
+			}
 		}
 
 		/**

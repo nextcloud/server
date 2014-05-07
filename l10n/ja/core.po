@@ -1,0 +1,807 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
+# plazmism <gomidori@live.jp>, 2013-2014
+# iLikeIT <dj_dark_junglist@yahoo.com>, 2013
+# Koichi MATSUMOTO <mzch@me.com>, 2013
+# kuromabo <md81bird@hitaki.net>, 2014
+# mikako, 2014
+# tt yn <tetuyano+transi@gmail.com>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-05-01 01:55-0400\n"
+"PO-Revision-Date: 2014-04-30 18:30+0000\n"
+"Last-Translator: mikako\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/share.php:87
+msgid "Expiration date is in the past."
+msgstr "有効期限が切れています。"
+
+#: ajax/share.php:119 ajax/share.php:161
+#, php-format
+msgid "Couldn't send mail to following users: %s "
+msgstr "次のユーザーにメールを送信できませんでした: %s"
+
+#: ajax/update.php:10
+msgid "Turned on maintenance mode"
+msgstr "メンテナンスモードがオンになりました"
+
+#: ajax/update.php:13
+msgid "Turned off maintenance mode"
+msgstr "メンテナンスモードがオフになりました"
+
+#: ajax/update.php:16
+msgid "Updated database"
+msgstr "データベース更新完了"
+
+#: avatar/controller.php:62
+msgid "No image or file provided"
+msgstr "画像もしくはファイルが提供されていません"
+
+#: avatar/controller.php:81
+msgid "Unknown filetype"
+msgstr "不明なファイルタイプ"
+
+#: avatar/controller.php:85
+msgid "Invalid image"
+msgstr "無効な画像"
+
+#: avatar/controller.php:115 avatar/controller.php:142
+msgid "No temporary profile picture available, try again"
+msgstr "一時的なプロファイル用画像が利用できません。もう一度試してください"
+
+#: avatar/controller.php:135
+msgid "No crop data provided"
+msgstr "クロップデータは提供されません"
+
+#: js/config.php:36
+msgid "Sunday"
+msgstr "日"
+
+#: js/config.php:37
+msgid "Monday"
+msgstr "月"
+
+#: js/config.php:38
+msgid "Tuesday"
+msgstr "火"
+
+#: js/config.php:39
+msgid "Wednesday"
+msgstr "水"
+
+#: js/config.php:40
+msgid "Thursday"
+msgstr "木"
+
+#: js/config.php:41
+msgid "Friday"
+msgstr "金"
+
+#: js/config.php:42
+msgid "Saturday"
+msgstr "土"
+
+#: js/config.php:47
+msgid "January"
+msgstr "1月"
+
+#: js/config.php:48
+msgid "February"
+msgstr "2月"
+
+#: js/config.php:49
+msgid "March"
+msgstr "3月"
+
+#: js/config.php:50
+msgid "April"
+msgstr "4月"
+
+#: js/config.php:51
+msgid "May"
+msgstr "5月"
+
+#: js/config.php:52
+msgid "June"
+msgstr "6月"
+
+#: js/config.php:53
+msgid "July"
+msgstr "7月"
+
+#: js/config.php:54
+msgid "August"
+msgstr "8月"
+
+#: js/config.php:55
+msgid "September"
+msgstr "9月"
+
+#: js/config.php:56
+msgid "October"
+msgstr "10月"
+
+#: js/config.php:57
+msgid "November"
+msgstr "11月"
+
+#: js/config.php:58
+msgid "December"
+msgstr "12月"
+
+#: js/js.js:483
+msgid "Settings"
+msgstr "設定"
+
+#: js/js.js:583
+msgid "Saving..."
+msgstr "保存中..."
+
+#: js/js.js:1240
+msgid "seconds ago"
+msgstr "数秒前"
+
+#: js/js.js:1241
+msgid "%n minute ago"
+msgid_plural "%n minutes ago"
+msgstr[0] "%n 分前"
+
+#: js/js.js:1242
+msgid "%n hour ago"
+msgid_plural "%n hours ago"
+msgstr[0] "%n 時間前"
+
+#: js/js.js:1243
+msgid "today"
+msgstr "今日"
+
+#: js/js.js:1244
+msgid "yesterday"
+msgstr "昨日"
+
+#: js/js.js:1245
+msgid "%n day ago"
+msgid_plural "%n days ago"
+msgstr[0] "%n日前"
+
+#: js/js.js:1246
+msgid "last month"
+msgstr "1ヶ月前"
+
+#: js/js.js:1247
+msgid "%n month ago"
+msgid_plural "%n months ago"
+msgstr[0] "%nヶ月前"
+
+#: js/js.js:1248
+msgid "last year"
+msgstr "1年前"
+
+#: js/js.js:1249
+msgid "years ago"
+msgstr "数年前"
+
+#: js/oc-dialogs.js:125
+msgid "Choose"
+msgstr "選択"
+
+#: js/oc-dialogs.js:151
+msgid "Error loading file picker template: {error}"
+msgstr "ファイル選択テンプレートの読み込みエラー: {error}"
+
+#: js/oc-dialogs.js:177
+msgid "Yes"
+msgstr "はい"
+
+#: js/oc-dialogs.js:187
+msgid "No"
+msgstr "いいえ"
+
+#: js/oc-dialogs.js:204
+msgid "Ok"
+msgstr "OK"
+
+#: js/oc-dialogs.js:224
+msgid "Error loading message template: {error}"
+msgstr "メッセージテンプレートの読み込みエラー: {error}"
+
+#: js/oc-dialogs.js:352
+msgid "{count} file conflict"
+msgid_plural "{count} file conflicts"
+msgstr[0] "{count} ファイルが競合"
+
+#: js/oc-dialogs.js:366
+msgid "One file conflict"
+msgstr "1ファイルが競合"
+
+#: js/oc-dialogs.js:372
+msgid "New Files"
+msgstr "新しいファイル"
+
+#: js/oc-dialogs.js:373
+msgid "Already existing files"
+msgstr "ファイルがすでに存在します"
+
+#: js/oc-dialogs.js:375
+msgid "Which files do you want to keep?"
+msgstr "どちらのファイルを保持したいですか？"
+
+#: js/oc-dialogs.js:376
+msgid ""
+"If you select both versions, the copied file will have a number added to its"
+" name."
+msgstr "両方のバージョンを選択した場合は、ファイル名の後ろに数字を追加したファイルのコピーを作成します。"
+
+#: js/oc-dialogs.js:384
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: js/oc-dialogs.js:394
+msgid "Continue"
+msgstr "続ける"
+
+#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+msgid "(all selected)"
+msgstr "(全て選択)"
+
+#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+msgid "({count} selected)"
+msgstr "({count} 選択)"
+
+#: js/oc-dialogs.js:466
+msgid "Error loading file exists template"
+msgstr "既存ファイルのテンプレートの読み込みエラー"
+
+#: js/setup.js:84
+msgid "Very weak password"
+msgstr "非常に弱いパスワード"
+
+#: js/setup.js:85
+msgid "Weak password"
+msgstr "弱いパスワード"
+
+#: js/setup.js:86
+msgid "So-so password"
+msgstr "まずまずのパスワード"
+
+#: js/setup.js:87
+msgid "Good password"
+msgstr "良好なパスワード"
+
+#: js/setup.js:88
+msgid "Strong password"
+msgstr "強いパスワード"
+
+#: js/share.js:51 js/share.js:66 js/share.js:106
+msgid "Shared"
+msgstr "共有中"
+
+#: js/share.js:109
+msgid "Share"
+msgstr "共有"
+
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: templates/installation.php:10
+msgid "Error"
+msgstr "エラー"
+
+#: js/share.js:160 js/share.js:790
+msgid "Error while sharing"
+msgstr "共有でエラー発生"
+
+#: js/share.js:171
+msgid "Error while unsharing"
+msgstr "共有解除でエラー発生"
+
+#: js/share.js:178
+msgid "Error while changing permissions"
+msgstr "権限変更でエラー発生"
+
+#: js/share.js:188
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "あなたと {owner} のグループ {group} で共有中"
+
+#: js/share.js:190
+msgid "Shared with you by {owner}"
+msgstr "{owner} と共有中"
+
+#: js/share.js:214
+msgid "Share with user or group …"
+msgstr "ユーザーもしくはグループと共有 ..."
+
+#: js/share.js:220
+msgid "Share link"
+msgstr "URLで共有"
+
+#: js/share.js:223
+msgid "Password protect"
+msgstr "パスワード保護"
+
+#: js/share.js:225 templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "パスワード"
+
+#: js/share.js:230
+msgid "Allow Public Upload"
+msgstr "アップロードを許可"
+
+#: js/share.js:234
+msgid "Email link to person"
+msgstr "メールリンク"
+
+#: js/share.js:235
+msgid "Send"
+msgstr "送信"
+
+#: js/share.js:240
+msgid "Set expiration date"
+msgstr "有効期限を設定"
+
+#: js/share.js:241
+msgid "Expiration date"
+msgstr "有効期限"
+
+#: js/share.js:277
+msgid "Share via email:"
+msgstr "メール経由で共有:"
+
+#: js/share.js:280
+msgid "No people found"
+msgstr "ユーザーが見つかりません"
+
+#: js/share.js:324 js/share.js:385
+msgid "group"
+msgstr "グループ"
+
+#: js/share.js:357
+msgid "Resharing is not allowed"
+msgstr "再共有は許可されていません"
+
+#: js/share.js:401
+msgid "Shared in {item} with {user}"
+msgstr "{item} 内で {user} と共有中"
+
+#: js/share.js:423
+msgid "Unshare"
+msgstr "共有解除"
+
+#: js/share.js:431
+msgid "notify by email"
+msgstr "メールで通知"
+
+#: js/share.js:434
+msgid "can edit"
+msgstr "編集を許可"
+
+#: js/share.js:436
+msgid "access control"
+msgstr "アクセス権限"
+
+#: js/share.js:439
+msgid "create"
+msgstr "作成"
+
+#: js/share.js:442
+msgid "update"
+msgstr "アップデート"
+
+#: js/share.js:445
+msgid "delete"
+msgstr "削除"
+
+#: js/share.js:448
+msgid "share"
+msgstr "共有"
+
+#: js/share.js:721
+msgid "Password protected"
+msgstr "パスワード保護"
+
+#: js/share.js:734
+msgid "Error unsetting expiration date"
+msgstr "有効期限の未設定エラー"
+
+#: js/share.js:752
+msgid "Error setting expiration date"
+msgstr "有効期限の設定でエラー発生"
+
+#: js/share.js:777
+msgid "Sending ..."
+msgstr "送信中..."
+
+#: js/share.js:788
+msgid "Email sent"
+msgstr "メールを送信しました"
+
+#: js/share.js:812
+msgid "Warning"
+msgstr "警告"
+
+#: js/tags.js:4
+msgid "The object type is not specified."
+msgstr "オブジェクトタイプが指定されていません。"
+
+#: js/tags.js:13
+msgid "Enter new"
+msgstr "新規に入力"
+
+#: js/tags.js:27
+msgid "Delete"
+msgstr "削除"
+
+#: js/tags.js:31
+msgid "Add"
+msgstr "追加"
+
+#: js/tags.js:39
+msgid "Edit tags"
+msgstr "タグを編集"
+
+#: js/tags.js:57
+msgid "Error loading dialog template: {error}"
+msgstr "メッセージテンプレートの読み込みエラー: {error}"
+
+#: js/tags.js:264
+msgid "No tags selected for deletion."
+msgstr "削除するタグが選択されていません。"
+
+#: js/update.js:8
+msgid "Please reload the page."
+msgstr "ページをリロードしてください。"
+
+#: js/update.js:17
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "アップデートに失敗しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。"
+
+#: js/update.js:21
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "アップデートに成功しました。今すぐownCloudにリダイレクトします。"
+
+#: lostpassword/controller.php:70
+#, php-format
+msgid "%s password reset"
+msgstr "%s パスワードリセット"
+
+#: lostpassword/controller.php:72
+msgid ""
+"A problem has occurred whilst sending the email, please contact your "
+"administrator."
+msgstr "メールの送信中に問題が発生しました。管理者に問い合わせください。"
+
+#: lostpassword/templates/email.php:2
+msgid "Use the following link to reset your password: {link}"
+msgstr "パスワードをリセットするには次のリンクをクリックしてください: {link}"
+
+#: lostpassword/templates/lostpassword.php:7
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "パスワードリセットのリンクをあなたのメールアドレスに送信しました。<br>しばらくたっても受信できない場合は、スパム／迷惑メールフォルダーを確認してください。<br>もしそこにもない場合は、管理者に問い合わせてください。"
+
+#: lostpassword/templates/lostpassword.php:15
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "リクエストに失敗しました！<br>あなたのメール／ユーザー名が正しいことを確認しましたか？"
+
+#: lostpassword/templates/lostpassword.php:18
+msgid "You will receive a link to reset your password via Email."
+msgstr "メールでパスワードをリセットするリンクが届きます。"
+
+#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
+#: templates/login.php:32
+msgid "Username"
+msgstr "ユーザー名"
+
+#: lostpassword/templates/lostpassword.php:25
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset. If you "
+"are not sure what to do, please contact your administrator before you "
+"continue. Do you really want to continue?"
+msgstr "ファイルが暗号化されています。リカバリキーを有効にしていなかった場合、パスワードをリセットしてからデータを復旧する方法はありません。何をすべきかよくわからないなら、続ける前にまず管理者に連絡しましょう。本当に続けますか？"
+
+#: lostpassword/templates/lostpassword.php:27
+msgid "Yes, I really want to reset my password now"
+msgstr "はい、今すぐパスワードをリセットします。"
+
+#: lostpassword/templates/lostpassword.php:30
+msgid "Reset"
+msgstr "リセット"
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "あなたのパスワードはリセットされました。"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "ログインページへ戻る"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "新しいパスワードを入力"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr "パスワードをリセット"
+
+#: setup/controller.php:140
+#, php-format
+msgid ""
+"Mac OS X is not supported and %s will not work properly on this platform. "
+"Use it at your own risk! "
+msgstr "Mac OS X では、サポートされていません。このOSでは、%sは正常に動作しないかもしれません。ご自身の責任においてご利用ください。"
+
+#: setup/controller.php:144
+msgid ""
+"For the best results, please consider using a GNU/Linux server instead."
+msgstr "最も良い方法としては、代わりにGNU/Linuxサーバーを利用することをご検討ください。"
+
+#: strings.php:5
+msgid "Personal"
+msgstr "個人"
+
+#: strings.php:6
+msgid "Users"
+msgstr "ユーザー"
+
+#: strings.php:7 templates/layout.user.php:116
+msgid "Apps"
+msgstr "アプリ"
+
+#: strings.php:8
+msgid "Admin"
+msgstr "管理"
+
+#: strings.php:9
+msgid "Help"
+msgstr "ヘルプ"
+
+#: tags/controller.php:22
+msgid "Error loading tags"
+msgstr "タグの読み込みエラー"
+
+#: tags/controller.php:48
+msgid "Tag already exists"
+msgstr "タグはすでに存在します"
+
+#: tags/controller.php:64
+msgid "Error deleting tag(s)"
+msgstr "タグの削除エラー"
+
+#: tags/controller.php:75
+msgid "Error tagging"
+msgstr "タグの付与エラー"
+
+#: tags/controller.php:86
+msgid "Error untagging"
+msgstr "タグの解除エラー"
+
+#: tags/controller.php:97
+msgid "Error favoriting"
+msgstr "お気に入りに追加エラー"
+
+#: tags/controller.php:108
+msgid "Error unfavoriting"
+msgstr "お気に入りから削除エラー"
+
+#: templates/403.php:12
+msgid "Access forbidden"
+msgstr "アクセスが禁止されています"
+
+#: templates/404.php:15
+msgid "Cloud not found"
+msgstr "見つかりません"
+
+#: templates/altmail.php:2
+#, php-format
+msgid ""
+"Hey there,\n"
+"\n"
+"just letting you know that %s shared %s with you.\n"
+"View it: %s\n"
+"\n"
+msgstr "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n"
+
+#: templates/altmail.php:4 templates/mail.php:17
+#, php-format
+msgid "The share will expire on %s."
+msgstr "共有は %s で有効期限が切れます。"
+
+#: templates/altmail.php:7 templates/mail.php:20
+msgid "Cheers!"
+msgstr "それでは！"
+
+#: templates/installation.php:25 templates/installation.php:32
+#: templates/installation.php:39
+msgid "Security Warning"
+msgstr "セキュリティ警告"
+
+#: templates/installation.php:26
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。"
+
+#: templates/installation.php:27
+#, php-format
+msgid "Please update your PHP installation to use %s securely."
+msgstr "%s を安全に利用するため、インストールされているPHPをアップデートしてください。"
+
+#: templates/installation.php:33
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にしてください。"
+
+#: templates/installation.php:34
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "セキュアな乱数生成器が無い場合、攻撃者がパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。"
+
+#: templates/installation.php:40
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。"
+
+#: templates/installation.php:42
+#, php-format
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"%s\" target=\"_blank\">documentation</a>."
+msgstr "サーバーを適正に設定する情報は、こちらの<a href=\"%s\" target=\"_blank\">ドキュメント</a>を参照してください。"
+
+#: templates/installation.php:48
+msgid "Create an <strong>admin account</strong>"
+msgstr "<strong>管理者アカウント</strong>を作成してください"
+
+#: templates/installation.php:70
+msgid "Storage & database"
+msgstr "ストレージとデータベース"
+
+#: templates/installation.php:77
+msgid "Data folder"
+msgstr "データフォルダー"
+
+#: templates/installation.php:90
+msgid "Configure the database"
+msgstr "データベースを設定してください"
+
+#: templates/installation.php:94
+msgid "will be used"
+msgstr "が使用されます"
+
+#: templates/installation.php:109
+msgid "Database user"
+msgstr "データベースのユーザー名"
+
+#: templates/installation.php:118
+msgid "Database password"
+msgstr "データベースのパスワード"
+
+#: templates/installation.php:123
+msgid "Database name"
+msgstr "データベース名"
+
+#: templates/installation.php:132
+msgid "Database tablespace"
+msgstr "データベースの表領域"
+
+#: templates/installation.php:140
+msgid "Database host"
+msgstr "データベースのホスト名"
+
+#: templates/installation.php:150
+msgid "Finish setup"
+msgstr "セットアップを完了します"
+
+#: templates/installation.php:150
+msgid "Finishing …"
+msgstr "作業を完了しています ..."
+
+#: templates/layout.user.php:40
+msgid ""
+"This application requires JavaScript to be enabled for correct operation.  "
+"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
+"JavaScript</a> and re-load this interface."
+msgstr "このアプリケーションを使用するにはJavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 "
+
+#: templates/layout.user.php:44
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s が利用可能です。アップデート方法について詳細情報を確認してください。"
+
+#: templates/layout.user.php:74 templates/singleuser.user.php:8
+msgid "Log out"
+msgstr "ログアウト"
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr "自動ログインは拒否されました！"
+
+#: templates/login.php:10
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "最近パスワードを変更していない場合、あなたのアカウントが危険にさらされている可能性があります!"
+
+#: templates/login.php:12
+msgid "Please change your password to secure your account again."
+msgstr "アカウント保護のため、パスワードを再度変更してください。"
+
+#: templates/login.php:17
+msgid "Server side authentication failed!"
+msgstr "サーバーサイドの認証に失敗しました！"
+
+#: templates/login.php:18
+msgid "Please contact your administrator."
+msgstr "管理者に問い合わせてください。"
+
+#: templates/login.php:46
+msgid "Lost your password?"
+msgstr "パスワードを忘れましたか？"
+
+#: templates/login.php:51
+msgid "remember"
+msgstr "パスワードを保存"
+
+#: templates/login.php:54
+msgid "Log in"
+msgstr "ログイン"
+
+#: templates/login.php:60
+msgid "Alternative Logins"
+msgstr "代替ログイン"
+
+#: templates/mail.php:15
+#, php-format
+msgid ""
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
+"with you.<br><a href=\"%s\">View it!</a><br><br>"
+msgstr "こんにちは、<br><br>%sがあなたと »%s« を共有したことをお知らせします。<br><a href=\"%s\">それを表示</a><br><br>"
+
+#: templates/singleuser.user.php:3
+msgid "This ownCloud instance is currently in single user mode."
+msgstr "このownCloudインスタンスは、現在シングルユーザーモードです。"
+
+#: templates/singleuser.user.php:4
+msgid "This means only administrators can use the instance."
+msgstr "これは、管理者のみがインスタンスを利用できることを意味しています。"
+
+#: templates/singleuser.user.php:5 templates/update.user.php:5
+msgid ""
+"Contact your system administrator if this message persists or appeared "
+"unexpectedly."
+msgstr "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に連絡してください。"
+
+#: templates/singleuser.user.php:7 templates/update.user.php:6
+msgid "Thank you for your patience."
+msgstr "しばらくお待ちください。"
+
+#: templates/update.admin.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "ownCloud をバージョン %s に更新しています、しばらくお待ちください。"
+
+#: templates/update.user.php:3
+msgid ""
+"This ownCloud instance is currently being updated, which may take a while."
+msgstr "この ownCloud インスタンスは現在アップデート中のため、しばらく時間がかかります。"
+
+#: templates/update.user.php:4
+msgid "Please reload this page after a short time to continue using ownCloud."
+msgstr "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"

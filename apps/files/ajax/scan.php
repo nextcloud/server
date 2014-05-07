@@ -1,6 +1,6 @@
 <?php
 set_time_limit(0); //scanning can take ages
-session_write_close();
+\OC::$session->close();
 
 $force = (isset($_GET['force']) and ($_GET['force'] === 'true'));
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';

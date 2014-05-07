@@ -8,7 +8,6 @@
 
 use Symfony\Component\Console\Application;
 
-$RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 
 // Don't do anything if ownCloud has not been installed yet
@@ -21,6 +20,9 @@ if (!OC::$CLI) {
 	echo "This script can be run from the command line only" . PHP_EOL;
 	exit(0);
 }
+
+// load all apps to get all api routes properly setup
+OC_App::loadApps();
 
 $defaults = new OC_Defaults;
 $application = new Application($defaults->getName(), \OC_Util::getVersionString());

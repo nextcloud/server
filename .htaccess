@@ -6,8 +6,6 @@ RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION
 </IfModule>
 </IfModule>
 </IfModule>
-ErrorDocument 403 /core/templates/403.php
-ErrorDocument 404 /core/templates/404.php
 <IfModule mod_php5.c>
 php_value upload_max_filesize 513M
 php_value post_max_size 513M
@@ -20,12 +18,12 @@ php_value mbstring.func_overload 0
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]
-RewriteRule ^.well-known/host-meta.json /public.php?service=host-meta-json [QSA,L]
-RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]
-RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]	
-RewriteRule ^apps/calendar/caldav.php remote.php/caldav/ [QSA,L]
-RewriteRule ^apps/contacts/carddav.php remote.php/carddav/ [QSA,L]
+RewriteRule ^\.well-known/host-meta /public.php?service=host-meta [QSA,L]
+RewriteRule ^\.well-known/host-meta\.json /public.php?service=host-meta-json [QSA,L]
+RewriteRule ^\.well-known/carddav /remote.php/carddav/ [R]
+RewriteRule ^\.well-known/caldav /remote.php/caldav/ [R]
+RewriteRule ^apps/calendar/caldav\.php remote.php/caldav/ [QSA,L]
+RewriteRule ^apps/contacts/carddav\.php remote.php/carddav/ [QSA,L]
 RewriteRule ^apps/([^/]*)/(.*\.(php))$ index.php?app=$1&getfile=$2 [QSA,L]
 RewriteRule ^remote/(.*) remote.php [QSA,L]
 </IfModule>

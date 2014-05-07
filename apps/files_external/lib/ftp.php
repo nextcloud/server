@@ -119,4 +119,16 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			unlink($tmpFile);
 		}
 	}
+
+	/**
+	 * check if php-ftp is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('ftp_login')) {
+			return(true);
+		} else {
+			return array('ftp');
+		}
+	}
+
 }

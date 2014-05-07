@@ -64,17 +64,17 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider directoryProvider
 	 */
 	public function testDirectories($directory) {
-		$this->assertFalse($this->instance->file_exists('/'.$directory));
+		$this->assertFalse($this->instance->file_exists('/' . $directory));
 
-		$this->assertTrue($this->instance->mkdir('/'.$directory));
+		$this->assertTrue($this->instance->mkdir('/' . $directory));
 
-		$this->assertTrue($this->instance->file_exists('/'.$directory));
-		$this->assertTrue($this->instance->is_dir('/'.$directory));
-		$this->assertFalse($this->instance->is_file('/'.$directory));
-		$this->assertEquals('dir', $this->instance->filetype('/'.$directory));
-		$this->assertEquals(0, $this->instance->filesize('/'.$directory));
-		$this->assertTrue($this->instance->isReadable('/'.$directory));
-		$this->assertTrue($this->instance->isUpdatable('/'.$directory));
+		$this->assertTrue($this->instance->file_exists('/' . $directory));
+		$this->assertTrue($this->instance->is_dir('/' . $directory));
+		$this->assertFalse($this->instance->is_file('/' . $directory));
+		$this->assertEquals('dir', $this->instance->filetype('/' . $directory));
+		$this->assertEquals(0, $this->instance->filesize('/' . $directory));
+		$this->assertTrue($this->instance->isReadable('/' . $directory));
+		$this->assertTrue($this->instance->isUpdatable('/' . $directory));
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -85,13 +85,13 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		}
 		$this->assertEquals(array($directory), $content);
 
-		$this->assertFalse($this->instance->mkdir('/'.$directory)); //cant create existing folders
-		$this->assertTrue($this->instance->rmdir('/'.$directory));
+		$this->assertFalse($this->instance->mkdir('/' . $directory)); //cant create existing folders
+		$this->assertTrue($this->instance->rmdir('/' . $directory));
 
 		$this->wait();
-		$this->assertFalse($this->instance->file_exists('/'.$directory));
+		$this->assertFalse($this->instance->file_exists('/' . $directory));
 
-		$this->assertFalse($this->instance->rmdir('/'.$directory)); //cant remove non existing folders
+		$this->assertFalse($this->instance->rmdir('/' . $directory)); //cant remove non existing folders
 
 		$dh = $this->instance->opendir('/');
 		$content = array();
@@ -103,8 +103,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $content);
 	}
 
-	public function directoryProvider()
-	{
+	public function directoryProvider() {
 		return array(
 			array('folder'),
 			array(' folder'),
@@ -113,11 +112,23 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 			array('spéciäl földer'),
 		);
 	}
+
+	function loremFileProvider() {
+		$root = \OC::$SERVERROOT . '/tests/data/';
+		return array(
+			// small file
+			array($root . 'lorem.txt'),
+			// bigger file (> 8 KB which is the standard PHP block size)
+			array($root . 'lorem-big.txt')
+		);
+	}
+
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
+	 *
+	 * @dataProvider loremFileProvider
 	 */
-	public function testGetPutContents() {
-		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+	public function testGetPutContents($sourceFile) {
 		$sourceText = file_get_contents($sourceFile);
 
 		//fill a file with string data
@@ -297,5 +308,41 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->instance->file_exists('folder/bar/foo.txt'));
 		$this->assertFalse($this->instance->file_exists('folder/bar'));
 		$this->assertFalse($this->instance->file_exists('folder'));
+	}
+
+	public function hashProvider() {
+		return array(
+			array('Foobar', 'md5'),
+			array('Foobar', 'sha1'),
+			array('Foobar', 'sha256'),
+		);
+	}
+
+	/**
+	 * @dataProvider hashProvider
+	 */
+	public function testHash($data, $type) {
+		$this->instance->file_put_contents('hash.txt', $data);
+		$this->assertEquals(hash($type, $data), $this->instance->hash($type, 'hash.txt'));
+		$this->assertEquals(hash($type, $data, true), $this->instance->hash($type, 'hash.txt', true));
+	}
+
+	public function testHashInFileName() {
+		$this->instance->file_put_contents('#test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#test.txt'));
+
+		$this->instance->mkdir('#foo');
+		$this->instance->file_put_contents('#foo/test.txt', 'data');
+		$this->assertEquals('data', $this->instance->file_get_contents('#foo/test.txt'));
+
+		$dh = $this->instance->opendir('#foo');
+		$content = array();
+		while ($file = readdir($dh)) {
+			if ($file != '.' and $file != '..') {
+				$content[] = $file;
+			}
+		}
+
+		$this->assertEquals(array('test.txt'), $content);
 	}
 }

@@ -86,6 +86,11 @@ nbproject
 # Node Modules
 /build/node_modules/
 
+# nodejs
+/build/lib/
+/npm-debug.log
+
+
 # Tests - auto-generated files
 /data-autotest
 /tests/coverage*

@@ -61,17 +61,29 @@ class OC_OCS_Cloud {
 	 *                           the user from whom the information will be returned
 	 */
 	public static function getUser($parameters) {
+		$return  = array();
 		// Check if they are viewing information on themselves
 		if($parameters['userid'] === OC_User::getUser()) {
 			// Self lookup
 			$storage = OC_Helper::getStorageInfo('/');
-			$quota = array(
+			$return['quota'] = array(
 				'free' =>  $storage['free'],
 				'used' =>  $storage['used'],
 				'total' =>  $storage['total'],
 				'relative' => $storage['relative'],
 				);
-			return new OC_OCS_Result(array('quota' => $quota));
+		}
+		if(OC_User::isAdminUser(OC_User::getUser()) 
+			|| OC_Subadmin::isUserAccessible(OC_User::getUser(), $parameters['userid'])) {
+			if(OC_User::userExists($parameters['userid'])) {
+				// Is an admin/subadmin so can see display name
+				$return['displayname'] = OC_User::getDisplayName($parameters['userid']);
+			} else {
+				return new OC_OCS_Result(null, 101);
+			}
+		}
+		if(count($return)) {
+			return new OC_OCS_Result($return);
 		} else {
 			// No permission to view this user data
 			return new OC_OCS_Result(null, 997);
@@ -86,32 +98,5 @@ class OC_OCS_Cloud {
 			'email' => $email,
 		);
 		return new OC_OCS_Result($data);
-	}
-
-	public static function getUserPublickey($parameters) {
-
-		if(OC_User::userExists($parameters['user'])) {
-			// calculate the disc space
-			// TODO
-			return new OC_OCS_Result(array());
-		} else {
-			return new OC_OCS_Result(null, 300);
-		}
-	}
-
-	public static function getUserPrivatekey($parameters) {
-		$user = OC_User::getUser();
-		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
-
-			if(OC_User::userExists($user)) {
-				// calculate the disc space
-				$txt = 'this is the private key of '.$parameters['user'];
-				echo($txt);
-			} else {
-				return new OC_OCS_Result(null, 300, 'User does not exist');
-			}
-		} else {
-			return new OC_OCS_Result('null', 300, 'You don´t have permission to access this ressource.');
-		}
 	}
 }

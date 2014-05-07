@@ -166,6 +166,16 @@ class Cache {
 	 */
 	public function getFolderContents($folder) {
 		$fileId = $this->getId($folder);
+		return $this->getFolderContentsById($fileId);
+	}
+
+	/**
+	 * get the metadata of all files stored in $folder
+	 *
+	 * @param int $fileId the file id of the folder
+	 * @return array
+	 */
+	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
 						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
@@ -488,9 +498,10 @@ class Cache {
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
+	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path) {
-		$this->calculateFolderSize($path);
+	public function correctFolderSize($path, $data = null) {
+		$this->calculateFolderSize($path, $data);
 		if ($path !== '') {
 			$parent = dirname($path);
 			if ($parent === '.' or $parent === '/') {
@@ -504,11 +515,14 @@ class Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
+	 * @param array $entry (optional) meta data of the folder
 	 * @return int
 	 */
-	public function calculateFolderSize($path) {
+	public function calculateFolderSize($path, $entry = null) {
 		$totalSize = 0;
-		$entry = $this->get($path);
+		if (is_null($entry) or !isset($entry['fileid'])) {
+			$entry = $this->get($path);
+		}
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
 			$sql = 'SELECT SUM(`size`) AS f1, MIN(`size`) AS f2, ' .
@@ -530,7 +544,7 @@ class Cache {
 				if ($entry['size'] !== $totalSize) {
 					$update['size'] = $totalSize;
 				}
-				if ($entry['unencrypted_size'] !== $unencryptedSum) {
+				if (!isset($entry['unencrypted_size']) or $entry['unencrypted_size'] !== $unencryptedSum) {
 					$update['unencrypted_size'] = $unencryptedSum;
 				}
 				if (count($update) > 0) {
@@ -580,7 +594,25 @@ class Cache {
 	}
 
 	/**
+	 * get the path of a file on this storage by it's id
+	 *
+	 * @param int $id
+	 * @return string | null
+	 */
+	public function getPathById($id) {
+		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ? AND `storage` = ?';
+		$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
+		if ($row = $result->fetchRow()) {
+			return $row['path'];
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * get the storage id of the storage for a file and the internal path of the file
+	 * unlike getPathById this does not limit the search to files on this storage and
+	 * instead does a global search in the cache table
 	 *
 	 * @param int $id
 	 * @return array, first element holding the storage id, second the path

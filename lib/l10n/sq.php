@@ -21,13 +21,8 @@ $TRANSLATIONS = array(
 "%s you may not use dots in the database name" => "%s nuk mund të përdorni pikat tek emri i database-it",
 "MS SQL username and/or password not valid: %s" => "Përdoruesi dhe/apo kodi i MS SQL i pavlefshëm: %s",
 "You need to enter either an existing account or the administrator." => "Duhet të përdorni një llogari ekzistuese ose llogarinë e administratorit.",
-"MySQL username and/or password not valid" => "Përdoruesi dhe/apo kodi i MySQL-it i pavlefshëm.",
 "DB Error: \"%s\"" => "Veprim i gabuar i DB-it: \"%s\"",
 "Offending command was: \"%s\"" => "Komanda e gabuar ishte: \"%s\"",
-"MySQL user '%s'@'localhost' exists already." => "Përdoruesi MySQL '%s'@'localhost' ekziston.",
-"Drop this user from MySQL" => "Eliminoni këtë përdorues nga MySQL",
-"MySQL user '%s'@'%%' already exists" => "Përdoruesi MySQL '%s'@'%%' ekziston",
-"Drop this user from MySQL." => "Eliminoni këtë përdorues nga MySQL.",
 "Oracle username and/or password not valid" => "Përdoruesi dhe/apo kodi i Oracle-it i pavlefshëm",
 "Offending command was: \"%s\", name: %s, password: %s" => "Komanda e gabuar ishte: \"%s\", përdoruesi: %s, kodi: %s",
 "PostgreSQL username and/or password not valid" => "Përdoruesi dhe/apo kodi i PostgreSQL i pavlefshëm",
@@ -35,6 +30,7 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Cakto kodin e administratorit.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkronizimin e skedarëve sepse ndërfaqja WebDAV mund të jetë e dëmtuar.",
 "Please double check the <a href='%s'>installation guides</a>." => "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>.",
+"%s shared »%s« with you" => "%s ndau »%s« me ju",
 "Could not find category \"%s\"" => "Kategoria \"%s\" nuk u gjet",
 "seconds ago" => "sekonda më parë",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minuta më parë"),
@@ -45,6 +41,8 @@ $TRANSLATIONS = array(
 "last month" => "muajin e shkuar",
 "_%n month ago_::_%n months ago_" => array("","%n muaj më parë"),
 "last year" => "vitin e shkuar",
-"years ago" => "vite më parë"
+"years ago" => "vite më parë",
+"A valid username must be provided" => "Duhet të jepni një emër të vlefshëm përdoruesi",
+"A valid password must be provided" => "Duhet të jepni një fjalëkalim te vlefshëm"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

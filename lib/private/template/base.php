@@ -61,7 +61,7 @@ class Base {
 	/**
 	 * @brief Assign variables
 	 * @param string $key key
-	 * @param string $value value
+	 * @param array|bool|integer|string $value value
 	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -77,7 +77,7 @@ class Base {
 	/**
 	 * @brief Appends a variable
 	 * @param string $key key
-	 * @param string $value value
+	 * @param mixed $value value
 	 * @return boolean|null
 	 *
 	 * This function assigns a variable in an array context. If the key already

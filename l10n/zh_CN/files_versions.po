@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hawy <hawy.hust@gmail.com>, 2014
+# Martin Liu <liuzh66@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 06:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-02-26 09:42+0000\n"
+"Last-Translator: Hawy <hawy.hust@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,22 +24,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "无法恢复: %s"
 
-#: js/versions.js:7
+#: js/versions.js:14
 msgid "Versions"
 msgstr "版本"
 
-#: js/versions.js:53
+#: js/versions.js:60
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "无法恢复 {file} 到 {timestamp} 的版本。"
 
-#: js/versions.js:79
+#: js/versions.js:87
 msgid "More versions..."
-msgstr ""
+msgstr "更多版本..."
 
-#: js/versions.js:116
+#: js/versions.js:125
 msgid "No other versions available"
-msgstr ""
+msgstr "无其他版本可用"
 
-#: js/versions.js:149
+#: js/versions.js:155
 msgid "Restore"
 msgstr "恢复"

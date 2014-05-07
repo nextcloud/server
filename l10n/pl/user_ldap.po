@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
+# hoek <hoek@hoek.pl>, 2014
 # orcio6 <orcio6@o2.pl>, 2013
+# maxxx <maxxxrally@gmail.com>, 2014
+# bobie <maciej.przybecki@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-12-20 01:55-0500\n"
-"PO-Revision-Date: 2013-12-20 06:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-04-30 01:55-0400\n"
+"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,24 +44,24 @@ msgstr "Konfiguracja jest prawidłowa, ale Bind nie. Sprawdź ustawienia serwera
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "Konfiguracja jest nieprawidłowa. Proszę rzucić okiem na dzienniki dalszych szczegółów."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Nie określono akcji"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Nie określono konfiguracji"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Nie określono danych"
 
 #: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Nie można ustawić konfiguracji %s"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -88,43 +91,43 @@ msgstr "Sukces"
 msgid "Error"
 msgstr "Błąd"
 
-#: js/settings.js:837
+#: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfiguracja poprawna"
 
-#: js/settings.js:846
+#: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfiguracja niepoprawna"
 
-#: js/settings.js:855
+#: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfiguracja niekompletna"
 
-#: js/settings.js:872 js/settings.js:881
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Wybierz grupy"
 
-#: js/settings.js:875 js/settings.js:884
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
-msgstr ""
+msgstr "Wybierz obiekty klas"
 
-#: js/settings.js:878
+#: js/settings.js:821
 msgid "Select attributes"
-msgstr ""
+msgstr "Wybierz atrybuty"
 
-#: js/settings.js:905
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Test połączenia udany"
 
-#: js/settings.js:912
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Test połączenia nie udany"
 
-#: js/settings.js:921
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Czy chcesz usunąć bieżącą konfigurację serwera?"
 
-#: js/settings.js:922
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Potwierdź usunięcie"
 
@@ -132,25 +135,25 @@ msgstr "Potwierdź usunięcie"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s znaleziona grupa"
+msgstr[1] "%s znalezionych grup"
+msgstr[2] "%s znalezionych grup"
 
 #: lib/wizard.php:122
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s znaleziony użytkownik"
+msgstr[1] "%s znalezionych użytkowników"
+msgstr[2] "%s znalezionych użytkowników"
 
-#: lib/wizard.php:778 lib/wizard.php:790
+#: lib/wizard.php:784 lib/wizard.php:796
 msgid "Invalid Host"
-msgstr ""
+msgstr "Niepoprawny Host"
 
-#: lib/wizard.php:951
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Nie można znaleźć żądanej funkcji"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -166,63 +169,63 @@ msgstr "Pomoc"
 
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
-msgid "Limit the access to %s to groups meeting this criteria:"
-msgstr ""
+msgid "Groups meeting these criteria are available in %s:"
+msgstr "Przyłączenie do grupy z tymi ustawieniami dostępne jest w %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "tylko te klasy obiektów:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "tylko z tych grup:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
 #: templates/part.wizard-userfilter.php:25
 msgid "Edit raw filter instead"
-msgstr ""
+msgstr "Edytuj zamiast tego czysty filtr"
 
 #: templates/part.wizard-groupfilter.php:30
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Czysty filtr LDAP"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
-msgstr ""
+msgstr "Filtr określa, które grupy LDAP powinny mieć dostęp do instancji %s."
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "grup znaleziono"
 
 #: templates/part.wizard-loginfilter.php:4
-msgid "What attribute shall be used as login name:"
-msgstr ""
+msgid "Users login with this attribute:"
+msgstr "Użytkownicy zalogowani z tymi ustawieniami:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "Nazwa użytkownika LDAP:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP Adres Email:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Inne atrybuty:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Określa jakiego filtru użyć podczas próby zalogowania. %%uid zastępuje nazwę użytkownika w procesie logowania. Przykład: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -270,18 +273,18 @@ msgstr "Bazę DN można określić dla użytkowników i grup w karcie Zaawansowa
 
 #: templates/part.wizard-userfilter.php:4
 #, php-format
-msgid "Limit the access to %s to users meeting this criteria:"
-msgstr ""
+msgid "Limit %s access to users meeting these criteria:"
+msgstr "Limit %s dostępu do podłączania użytkowników z tymi ustawieniami:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Filtr określa, którzy użytkownicy LDAP powinni mieć dostęp do instancji %s."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "użytkownicy znalezieni"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -296,7 +299,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Ostrzeżenie:</b> Aplikacje user_ldap i user_webdavauth nie są  kompatybilne. Mogą powodować nieoczekiwane zachowanie. Poproś administratora o wyłączenie jednej z nich."
 
 #: templates/settings.php:14
 msgid ""
@@ -339,8 +342,8 @@ msgid "Only connect to the replica server."
 msgstr "Połącz tylko do repliki serwera."
 
 #: templates/settings.php:26
-msgid "Case insensitve LDAP server (Windows)"
-msgstr "Wielkość liter serwera LDAP (Windows)"
+msgid "Case insensitive LDAP server (Windows)"
+msgstr "Serwer LDAP nie rozróżniający wielkości liter (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -351,7 +354,7 @@ msgstr "Wyłączyć sprawdzanie poprawności certyfikatu SSL."
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Nie polecane, używać tylko w celu testowania! Jeśli połączenie działa tylko z tą opcją, zaimportuj certyfikat SSL serwera LDAP na swój %s."
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
@@ -371,7 +374,7 @@ msgstr "Pole wyświetlanej nazwy użytkownika"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Atrybut LDAP służący do generowania wyświetlanej nazwy użytkownika ownCloud."
 
 #: templates/settings.php:33
 msgid "Base User Tree"
@@ -395,7 +398,7 @@ msgstr "Pole wyświetlanej nazwy grupy"
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Atrybut LDAP służący do generowania wyświetlanej nazwy grupy ownCloud."
 
 #: templates/settings.php:36
 msgid "Base Group Tree"
@@ -413,41 +416,62 @@ msgstr "Grupa atrybutów wyszukaj"
 msgid "Group-Member association"
 msgstr "Członek grupy stowarzyszenia"
 
+#: templates/settings.php:39
+msgid "Nested Groups"
+msgstr "Grupy zagnieżdżone"
+
+#: templates/settings.php:39
+msgid ""
+"When switched on, groups that contain groups are supported. (Only works if "
+"the group member attribute contains DNs.)"
+msgstr "Kiedy włączone, grupy, które zawierają grupy, są wspierane. (Działa tylko, jeśli członek grupy ma ustawienie DNs)"
+
 #: templates/settings.php:40
+msgid "Paging chunksize"
+msgstr "Wielkość stronicowania"
+
+#: templates/settings.php:40
+msgid ""
+"Chunksize used for paged LDAP searches that may return bulky results like "
+"user or group enumeration. (Setting it 0 disables paged LDAP searches in "
+"those situations.)"
+msgstr "Długość łańcucha jest używana do stronicowanych wyszukiwań LDAP, które mogą zwracać duże zbiory jak lista grup, czy użytkowników. (Ustawienie na 0 wyłącza stronicowane wyszukiwania w takich sytuacjach.)"
+
+#: templates/settings.php:42
 msgid "Special Attributes"
 msgstr "Specjalne atrybuty"
 
-#: templates/settings.php:42
+#: templates/settings.php:44
 msgid "Quota Field"
 msgstr "Pole przydziału"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "Quota Default"
 msgstr "Przydział domyślny"
 
-#: templates/settings.php:43
+#: templates/settings.php:45
 msgid "in bytes"
 msgstr "w bajtach"
 
-#: templates/settings.php:44
+#: templates/settings.php:46
 msgid "Email Field"
 msgstr "Pole email"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
 msgstr "Reguły nazewnictwa folderu domowego użytkownika"
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Pozostaw puste dla user name (domyślnie). W przeciwnym razie podaj atrybut LDAP/AD."
 
-#: templates/settings.php:51
+#: templates/settings.php:53
 msgid "Internal Username"
 msgstr "Wewnętrzna nazwa użytkownika"
 
-#: templates/settings.php:52
+#: templates/settings.php:54
 msgid ""
 "By default the internal username will be created from the UUID attribute. It"
 " makes sure that the username is unique and characters do not need to be "
@@ -461,17 +485,17 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Domyślnie, wewnętrzna nazwa użytkownika zostanie utworzona z atrybutu UUID, ang. Universally unique identifier - Unikalny identyfikator użytkownika. To daje pewność, że nazwa użytkownika jest niepowtarzalna, a znaki nie muszą być konwertowane. Wewnętrzna nazwa użytkownika dopuszcza jedynie znaki: [ a-zA-Z0-9_.@- ]. Pozostałe znaki zamieniane są na ich odpowiedniki ASCII lub po prostu pomijane. W przypadku, gdy nazwa się powtarza na końcu jest dodawana / zwiększana cyfra. Wewnętrzna nazwa użytkownika służy do wewnętrznej identyfikacji użytkownika. Jest to również domyślna nazwa folderu domowego użytkownika. Jest to również część zdalnego adresu URL, na przykład dla wszystkich usług *DAV. Dzięki temu ustawieniu można nadpisywać domyślne zachowanie aplikacji. Aby osiągnąć podobny efekt jak przed ownCloud 5 wpisz atrybut nazwy użytkownika w poniższym polu. Pozostaw puste dla domyślnego zachowania. Zmiany będą miały wpływ tylko na nowo przypisanych (dodanych) użytkowników LDAP."
 
-#: templates/settings.php:53
+#: templates/settings.php:55
 msgid "Internal Username Attribute:"
 msgstr "Wewnętrzny atrybut nazwy uzżytkownika:"
 
-#: templates/settings.php:54
+#: templates/settings.php:56
 msgid "Override UUID detection"
 msgstr "Zastąp wykrywanie UUID"
 
-#: templates/settings.php:55
+#: templates/settings.php:57
 msgid ""
 "By default, the UUID attribute is automatically detected. The UUID attribute"
 " is used to doubtlessly identify LDAP users and groups. Also, the internal "
@@ -480,21 +504,21 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Domyślnie, atrybut UUID jest wykrywany automatycznie. Atrybut UUID jest używany do niepodważalnej identyfikacji użytkowników i grup LDAP. Również wewnętrzna nazwa użytkownika zostanie stworzona na bazie UUID, jeśli nie zostanie podana powyżej. Możesz nadpisać to ustawienie i użyć atrybutu wedle uznania. Musisz się jednak upewnić, że atrybut ten może zostać pobrany zarówno dla użytkowników, jak i grup i jest unikalny. Pozostaw puste dla domyślnego zachowania. Zmiany będą miały wpływ tylko na nowo przypisanych (dodanych) użytkowników i grupy LDAP."
 
-#: templates/settings.php:56
+#: templates/settings.php:58
 msgid "UUID Attribute for Users:"
 msgstr "Atrybuty UUID dla użytkowników:"
 
-#: templates/settings.php:57
+#: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
 msgstr "Atrybuty UUID dla grup:"
 
-#: templates/settings.php:58
+#: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
 msgstr "Mapowanie użytkownika LDAP"
 
-#: templates/settings.php:59
+#: templates/settings.php:61
 msgid ""
 "Usernames are used to store and assign (meta) data. In order to precisely "
 "identify and recognize users, each LDAP user will have a internal username. "
@@ -506,12 +530,12 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Nazwy użytkowników są używane w celu przechowywania i przypisywania (meta) danych. Aby dokładnie zidentyfikować i rozpoznać użytkowników, każdy użytkownik LDAP będzie miał wewnętrzną nazwę. To wymaga utworzenia przypisania nazwy użytkownika do użytkownika LDAP. Utworzona nazwa użytkownika jet przypisywana do UUID użytkownika LDAP. Dodatkowo DN jest również buforowany aby zmniejszyć interakcję z LDAP, ale nie jest używany do identyfikacji. Jeśli DN się zmieni, zmiany zostaną odnalezione. Wewnętrzny użytkownik jest używany we wszystkich przypadkach. Wyczyszczenie mapowań spowoduje pozostawienie wszędzie resztek informacji. Wyczyszczenie mapowań nie jest wrażliwe na konfigurację, wpływa ono na wszystkie konfiguracje LDAP! Nigdy nie czyść mapowań w środowisku produkcyjnym, tylko podczas testów lub w fazie eksperymentalnej. "
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
 msgstr "Czyść Mapowanie użytkownika LDAP"
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
 msgstr "Czyść Mapowanie nazwy grupy LDAP"

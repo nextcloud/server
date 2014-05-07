@@ -7,7 +7,8 @@ if(!OC_User::isLoggedIn()) {
 	exit;
 }
 
-session_write_close();
+\OC::$session->close();
+
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
@@ -111,9 +112,8 @@ if($source) {
 	}
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
-		$mime=$meta['mimetype'];
-		$id = $meta['fileid'];
-		$eventSource->send('success', array('mime' => $mime, 'size' => \OC\Files\Filesystem::filesize($target), 'id' => $id, 'etag' => $meta['etag']));
+		$data = \OCA\Files\Helper::formatFileInfo($meta);
+		$eventSource->send('success', $data);
 	} else {
 		$eventSource->send('error', array('message' => $l10n->t('Error while downloading %s to %s', array($source, $target))));
 	}
@@ -138,16 +138,7 @@ if($source) {
 
 	if($success) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
-		$id = $meta['fileid'];
-		$mime = $meta['mimetype'];
-		$size = $meta['size'];
-		OCP\JSON::success(array('data' => array(
-			'id' => $id,
-			'mime' => $mime,
-			'size' => $size,
-			'content' => $content,
-			'etag' => $meta['etag'],
-		)));
+		OCP\JSON::success(array('data' => \OCA\Files\Helper::formatFileInfo($meta)));
 		exit();
 	}
 }

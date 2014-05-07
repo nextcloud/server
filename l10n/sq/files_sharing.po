@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ard1t <ardit.dani@gmail.com>, 2014
 # Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,9 +19,13 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr ""
+
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Kjo pjesë është e mbrojtur me fjalëkalim"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
@@ -54,32 +59,15 @@ msgstr "ndarja është çaktivizuar"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Për më shumë informacione, ju lutem pyesni personin që iu dërgoi këtë lidhje."
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s ndau me ju dosjen %s"
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s ndau me ju skedarin %s"
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Shkarko"
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Ngarko"
-
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Anulo ngarkimin"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Shikimi paraprak nuk është i mundur për"
-
-#: templates/public.php:99
-msgid "Direct link"
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
 msgstr ""
+
+#: templates/public.php:57
+msgid "Direct link"
+msgstr "Lidhje direkte"

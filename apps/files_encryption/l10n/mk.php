@@ -3,7 +3,6 @@ $TRANSLATIONS = array(
 "Password successfully changed." => "Лозинката е успешно променета.",
 "Could not change the password. Maybe the old password was not correct." => "Лозинката не можеше да се промени. Можеби старата лозинка не беше исправна.",
 "Missing requirements." => "Барања кои недостасуваат.",
-"Saving..." => "Снимам...",
 "Go directly to your " => "Одете директно на вашиот",
 "personal settings" => "лични подесувања",
 "Encryption" => "Енкрипција",

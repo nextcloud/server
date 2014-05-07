@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# DaniR <dani@chance.ro>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-29 14:08-0500\n"
-"PO-Revision-Date: 2013-11-29 19:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2014-03-11 01:54-0400\n"
+"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,39 +20,39 @@ msgstr ""
 
 #: ajax/adminrecovery.php:29
 msgid "Recovery key successfully enabled"
-msgstr ""
+msgstr "Cheia de recupeare a fost activata cu succes"
 
 #: ajax/adminrecovery.php:34
 msgid ""
 "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Nu s-a putut activa cheia de recuperare. Verifica parola de recuperare!"
 
 #: ajax/adminrecovery.php:48
 msgid "Recovery key successfully disabled"
-msgstr ""
+msgstr "Cheia de recuperare dezactivata cu succes"
 
 #: ajax/adminrecovery.php:53
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
-msgstr ""
+msgstr "Nu am putut dezactiva cheia de recuperare. Verifica parola de recuperare!"
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Parola a fost modificată cu succes."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Parola nu a putut fi schimbata. Poate ca parola veche este incorecta."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Cheia privata a fost actualizata cu succes"
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr ""
+msgstr "Nu am putut actualiza parola pentru cheia privata. Poate ca parola veche este incorecta."
 
 #: files/error.php:12
 msgid ""
@@ -80,18 +81,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:59
+#: hooks/hooks.php:64
 msgid "Missing requirements."
 msgstr ""
 
-#: hooks/hooks.php:60
+#: hooks/hooks.php:65
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:273
+#: hooks/hooks.php:295
 msgid "Following users are not set up for encryption:"
 msgstr ""
 
@@ -99,9 +100,9 @@ msgstr ""
 msgid "Initial encryption started... This can take some time. Please wait."
 msgstr ""
 
-#: js/settings-admin.js:13
-msgid "Saving..."
-msgstr "Se salvează..."
+#: js/detect-migration.js:25
+msgid "Initial encryption running... Please try again later."
+msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
@@ -109,7 +110,7 @@ msgstr ""
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
-msgstr ""
+msgstr "setari personale"
 
 #: templates/settings-admin.php:4 templates/settings-personal.php:3
 msgid "Encryption"
@@ -130,11 +131,11 @@ msgstr ""
 
 #: templates/settings-admin.php:21 templates/settings-personal.php:51
 msgid "Enabled"
-msgstr ""
+msgstr "Activat"
 
 #: templates/settings-admin.php:29 templates/settings-personal.php:59
 msgid "Disabled"
-msgstr ""
+msgstr "Dezactivat"
 
 #: templates/settings-admin.php:34
 msgid "Change recovery key password:"
@@ -154,11 +155,11 @@ msgstr ""
 
 #: templates/settings-admin.php:58
 msgid "Change Password"
-msgstr ""
+msgstr "Schimbă parola"
 
 #: templates/settings-personal.php:9
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Parola cheii private nu se mai potriveste cu parola ta de logare:"
 
 #: templates/settings-personal.php:12
 msgid "Set your old private key password to your current log-in password."
@@ -194,8 +195,8 @@ msgstr ""
 
 #: templates/settings-personal.php:60
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Setarile pentru recuperarea fisierelor au fost actualizate"
 
 #: templates/settings-personal.php:61
 msgid "Could not update file recovery"
-msgstr ""
+msgstr "Nu am putut actualiza recuperarea de fisiere"

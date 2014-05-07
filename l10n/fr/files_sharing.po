@@ -5,21 +5,25 @@
 # Translators:
 # square <benben390-390@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013
-# etiess <etiess@gmail.com>, 2013
+# etiess <etiess@gmail.com>, 2013-2014
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-01-07 01:55-0500\n"
-"PO-Revision-Date: 2014-01-06 14:30+0000\n"
-"Last-Translator: etiess <etiess@gmail.com>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr "Partagé par {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -57,32 +61,15 @@ msgstr "le partage est désactivé"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Pour plus d'informations, veuillez contacter la personne qui a envoyé ce lien."
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s a partagé le répertoire %s avec vous"
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s a partagé le fichier %s avec vous"
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Envoyer"
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
+msgstr "Télécharger %s"
 
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Annuler l'envoi"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Pas d'aperçu disponible pour"
-
-#: templates/public.php:99
+#: templates/public.php:57
 msgid "Direct link"
 msgstr "Lien direct"

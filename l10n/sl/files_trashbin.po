@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-21 10:01-0500\n"
-"PO-Revision-Date: 2013-11-16 07:44+0000\n"
+"POT-Creation-Date: 2014-04-16 01:55-0400\n"
+"PO-Revision-Date: 2014-04-16 05:41+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,44 +18,48 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/delete.php:42
+#: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Datoteke %s ni mogoče trajno izbrisati."
 
-#: ajax/undelete.php:42
+#: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Ni mogoče obnoviti %s"
 
-#: js/trash.js:18 js/trash.js:44 js/trash.js:121 js/trash.js:149
+#: js/filelist.js:3
+msgid "Deleted files"
+msgstr "Izbrisane datoteke"
+
+#: js/trash.js:33 js/trash.js:124 js/trash.js:173
 msgid "Error"
 msgstr "Napaka"
 
-#: lib/trashbin.php:815 lib/trashbin.php:817
+#: js/trash.js:264
+msgid "Deleted Files"
+msgstr "Izbrisane datoteke"
+
+#: lib/trashbin.php:859 lib/trashbin.php:861
 msgid "restored"
 msgstr "obnovljeno"
 
-#: templates/index.php:8
+#: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "Mapa smeti je prazna."
 
-#: templates/index.php:22
+#: templates/index.php:19
 msgid "Name"
 msgstr "Ime"
 
-#: templates/index.php:25 templates/index.php:27
+#: templates/index.php:22 templates/index.php:24
 msgid "Restore"
 msgstr "Obnovi"
 
-#: templates/index.php:33
+#: templates/index.php:30
 msgid "Deleted"
 msgstr "Izbrisano"
 
-#: templates/index.php:36 templates/index.php:37
+#: templates/index.php:33 templates/index.php:34
 msgid "Delete"
 msgstr "Izbriši"
-
-#: templates/part.breadcrumb.php:9
-msgid "Deleted Files"
-msgstr "Izbrisane datoteke"

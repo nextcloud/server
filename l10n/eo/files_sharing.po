@@ -8,15 +8,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-11-15 22:54-0500\n"
-"PO-Revision-Date: 2013-11-13 16:11+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2014-05-04 01:55-0400\n"
+"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/share.js:33
+msgid "Shared by {owner}"
+msgstr "Kunhavigita de {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -54,32 +58,15 @@ msgstr "kunhavigo malkapablas"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon."
 
-#: templates/public.php:18
-#, php-format
-msgid "%s shared the folder %s with you"
-msgstr "%s kunhavigis la dosierujon %s kun vi"
-
 #: templates/public.php:21
-#, php-format
-msgid "%s shared the file %s with you"
-msgstr "%s kunhavigis la dosieron %s kun vi"
-
-#: templates/public.php:29 templates/public.php:95
 msgid "Download"
 msgstr "Elŝuti"
 
-#: templates/public.php:46 templates/public.php:49
-msgid "Upload"
-msgstr "Alŝuti"
+#: templates/public.php:53
+#, php-format
+msgid "Download %s"
+msgstr ""
 
-#: templates/public.php:59
-msgid "Cancel upload"
-msgstr "Nuligi alŝuton"
-
-#: templates/public.php:92
-msgid "No preview available for"
-msgstr "Ne haveblas antaŭvido por"
-
-#: templates/public.php:99
+#: templates/public.php:57
 msgid "Direct link"
 msgstr "Direkta ligilo"

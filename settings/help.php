@@ -6,7 +6,6 @@
  */
 
 OC_Util::checkLoggedIn();
-OC_App::loadApps();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );

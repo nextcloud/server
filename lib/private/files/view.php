@@ -25,6 +25,8 @@
 
 namespace OC\Files;
 
+use OC\Files\Cache\Updater;
+
 class View {
 	private $fakeRoot = '';
 	private $internal_path_cache = array();
@@ -269,6 +271,39 @@ class View {
 		return $this->basicOperation('file_get_contents', $path, array('read'));
 	}
 
+	protected function emit_file_hooks_pre($exists, $path, &$run) {
+		if (!$exists) {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+				Filesystem::signal_param_run => &$run,
+			));
+		} else {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_update, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+				Filesystem::signal_param_run => &$run,
+			));
+		}
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_write, array(
+			Filesystem::signal_param_path => $this->getHookPath($path),
+			Filesystem::signal_param_run => &$run,
+		));
+	}
+
+	protected function emit_file_hooks_post($exists, $path) {
+		if (!$exists) {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_create, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+			));
+		} else {
+			\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_update, array(
+				Filesystem::signal_param_path => $this->getHookPath($path),
+			));
+		}
+		\OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_post_write, array(
+			Filesystem::signal_param_path => $this->getHookPath($path),
+		));
+	}
+
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
@@ -280,24 +315,7 @@ class View {
 				$exists = $this->file_exists($path);
 				$run = true;
 				if ($this->shouldEmitHooks($path)) {
-					if (!$exists) {
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_create,
-							array(
-								Filesystem::signal_param_path => $this->getHookPath($path),
-								Filesystem::signal_param_run => &$run
-							)
-						);
-					}
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path),
-							Filesystem::signal_param_run => &$run
-						)
-					);
+					$this->emit_file_hooks_pre($exists, $path, $run);
 				}
 				if (!$run) {
 					return false;
@@ -308,18 +326,10 @@ class View {
 					fclose($target);
 					fclose($data);
 					if ($this->shouldEmitHooks($path) && $result !== false) {
-						if (!$exists) {
-							\OC_Hook::emit(
-								Filesystem::CLASSNAME,
-								Filesystem::signal_post_create,
-								array(Filesystem::signal_param_path => $this->getHookPath($path))
-							);
-						}
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_post_write,
-							array(Filesystem::signal_param_path => $this->getHookPath($path))
-						);
+						Updater::writeHook(array(
+							'path' => $this->getHookPath($path)
+						));
+						$this->emit_file_hooks_post($exists, $path);
 					}
 					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 					return $result;
@@ -330,7 +340,7 @@ class View {
 				return false;
 			}
 		} else {
-			$hooks = ($this->file_exists($path)) ? array('write') : array('create', 'write');
+			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
 			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
@@ -343,7 +353,8 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
-		if (!$internalPath || $internalPath === '' || $internalPath === '/') {
+		if (!($storage instanceof \OC\Files\Storage\Shared) &&
+				(!$internalPath || $internalPath === '' || $internalPath === '/')) {
 			// do not allow deleting the storage's root / the mount point
 			// because for some storages it might delete the whole contents
 			// but isn't supposed to work that way
@@ -372,6 +383,7 @@ class View {
 		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
+			$exists = $this->file_exists($path2);
 
 			if ($path1 == null or $path2 == null) {
 				return false;
@@ -379,13 +391,7 @@ class View {
 			$run = true;
 			if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2))) {
 				// if it was a rename from a part file to a regular file it was a write and not a rename operation
-				\OC_Hook::emit(
-					Filesystem::CLASSNAME, Filesystem::signal_write,
-					array(
-						Filesystem::signal_param_path => $this->getHookPath($path2),
-						Filesystem::signal_param_run => &$run
-					)
-				);
+				$this->emit_file_hooks_pre($exists, $path2, $run);
 			} elseif ($this->shouldEmitHooks()) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
@@ -399,11 +405,21 @@ class View {
 			if ($run) {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
-				if ($mp1 == $mp2) {
-					list($storage, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
-					if ($storage) {
-						$result = $storage->rename($internalPath1, $internalPath2);
+				list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
+				list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
+				// if source and target are on the same storage we can call the rename operation from the
+				// storage. If it is a "Shared" file/folder we call always the rename operation of the
+				// shared storage to handle mount point renaming, etc correctly
+				if ($storage1 instanceof \OC\Files\Storage\Shared) {
+					if ($storage1) {
+						$result = $storage1->rename($absolutePath1, $absolutePath2);
+						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
+					} else {
+						$result = false;
+					}
+				} elseif ($mp1 == $mp2) {
+					if ($storage1) {
+						$result = $storage1->rename($internalPath1, $internalPath2);
 						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 					} else {
 						$result = false;
@@ -412,8 +428,7 @@ class View {
 					if ($this->is_dir($path1)) {
 						$result = $this->copy($path1, $path2);
 						if ($result === true) {
-							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-							$result = $storage1->deleteAll($internalPath1);
+							$result = $storage1->unlink($internalPath1);
 						}
 					} else {
 						$source = $this->fopen($path1 . $postFix1, 'r');
@@ -426,21 +441,19 @@ class View {
 						fclose($target);
 
 						if ($result !== false) {
-							list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 							$storage1->unlink($internalPath1);
 						}
 					}
 				}
 				if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_post_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-						)
-					);
+					Updater::writeHook(array('path' => $this->getHookPath($path2)));
+					$this->emit_file_hooks_post($exists, $path2);
 				} elseif ($this->shouldEmitHooks() && $result !== false) {
+					Updater::renameHook(array(
+						'oldpath' => $this->getHookPath($path1),
+						'newpath' => $this->getHookPath($path2)
+					));
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -488,26 +501,7 @@ class View {
 						Filesystem::signal_param_run => &$run
 					)
 				);
-				if ($run and !$exists) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_create,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-							Filesystem::signal_param_run => &$run
-						)
-					);
-				}
-				if ($run) {
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_write,
-						array(
-							Filesystem::signal_param_path => $this->getHookPath($path2),
-							Filesystem::signal_param_run => &$run
-						)
-					);
-				}
+				$this->emit_file_hooks_pre($exists, $path2, $run);
 			}
 			if ($run) {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
@@ -534,6 +528,8 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						fclose($source);
+						fclose($target);
 					}
 				}
 				if ($this->shouldEmitHooks() && $result !== false) {
@@ -545,18 +541,7 @@ class View {
 							Filesystem::signal_param_newpath => $this->getHookPath($path2)
 						)
 					);
-					if (!$exists) {
-						\OC_Hook::emit(
-							Filesystem::CLASSNAME,
-							Filesystem::signal_post_create,
-							array(Filesystem::signal_param_path => $this->getHookPath($path2))
-						);
-					}
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_post_write,
-						array(Filesystem::signal_param_path => $this->getHookPath($path2))
-					);
+					$this->emit_file_hooks_post($exists, $path2);
 				}
 				return $result;
 			} else {
@@ -617,10 +602,21 @@ class View {
 	}
 
 	public function fromTmpFile($tmpFile, $path) {
+
 		if (Filesystem::isValidPath($path)) {
+
+			// Get directory that the file is going into
+			$filePath = dirname($path);
+
+			// Create the directories if any
+			if (!$this->file_exists($filePath)) {
+				$this->mkdir($filePath);
+			}
+
 			if (!$tmpFile) {
 				debug_print_backtrace();
 			}
+
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
@@ -739,7 +735,10 @@ class View {
 	}
 
 	/**
+	 * @param string[] $hooks
 	 * @param string $path
+	 * @param bool $post
+	 * @return bool
 	 */
 	private function runHooks($hooks, $path, $post = false) {
 		$path = $this->getHookPath($path);
@@ -747,6 +746,16 @@ class View {
 		$run = true;
 		if ($this->shouldEmitHooks($path)) {
 			foreach ($hooks as $hook) {
+				// manually triger updater hooks to ensure they are called first
+				if ($post) {
+					if ($hook == 'write') {
+						Updater::writeHook(array('path' => $path));
+					} elseif ($hook == 'touch') {
+						Updater::touchHook(array('path' => $path));
+					} else if ($hook == 'delete') {
+						Updater::deleteHook(array('path' => $path));
+					}
+				}
 				if ($hook != 'read') {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -807,6 +816,9 @@ class View {
 			$user = \OC_User::getUser();
 
 			if (!$cache->inCache($internalPath)) {
+				if (!$storage->file_exists($internalPath)) {
+					return false;
+				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
@@ -818,7 +830,7 @@ class View {
 				$data = $cache->get($internalPath);
 			}
 
-			if ($data and $data['fileid']) {
+			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
 					$mountPoints = Filesystem::getMountPoints($path);
@@ -880,12 +892,13 @@ class View {
 				$watcher->checkUpdate($internalPath);
 			}
 
+			$folderId = $cache->getId($internalPath);
 			$files = array();
-			$contents = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
+			$contents = $cache->getFolderContents($internalPath, $folderId); //TODO: mimetype_filter
 			foreach ($contents as $content) {
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
-			$permissions = $permissionsCache->getDirectoryPermissions($cache->getId($internalPath), $user);
+			$permissions = $permissionsCache->getDirectoryPermissions($folderId, $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {
@@ -932,8 +945,13 @@ class View {
 								$permissions = $subStorage->getPermissions($rootEntry['path']);
 								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 							}
-							// do not allow renaming/deleting the mount point
-							$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+							// do not allow renaming/deleting the mount point if they are not shared files/folders
+							// for shared files/folders we use the permissions given by the owner
+							if ($subStorage instanceof \OC\Files\Storage\Shared) {
+								$rootEntry['permissions'] = $permissions;
+							} else {
+								$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+							}
 
 							//remove any existing entry with the same name
 							foreach ($files as $i => $file) {
@@ -942,6 +960,7 @@ class View {
 									break;
 								}
 							}
+							$rootEntry['path'] = substr($path . '/' . $rootEntry['name'], strlen($user) + 2); // full path without /$user/
 							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry);
 						}
 					}
@@ -1055,8 +1074,9 @@ class View {
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];
-							$result['path'] = $relativeMountPoint . $result['path'];
-							$files[] = new FileInfo($mountPoint . $result['path'], $storage, $internalPath, $result);
+							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
+							$path = rtrim($mountPoint . $internalPath, '/');
+							$files[] = new FileInfo($path, $storage, $internalPath, $result);
 						}
 					}
 				}
@@ -1103,15 +1123,23 @@ class View {
 	 * @return string
 	 */
 	public function getPath($id) {
-		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mounts = Filesystem::getMountByStorageId($storage);
+		$manager = Filesystem::getMountManager();
+		$mounts = $manager->findIn($this->fakeRoot);
+		$mounts[] = $manager->find($this->fakeRoot);
+		// reverse the array so we start with the storage this view is in
+		// which is the most likely to contain the file we're looking for
+		$mounts = array_reverse($mounts);
 		foreach ($mounts as $mount) {
 			/**
-			 * @var \OC\Files\Mount $mount
+			 * @var \OC\Files\Mount\Mount $mount
 			 */
-			$fullPath = $mount->getMountPoint() . $internalPath;
-			if (!is_null($path = $this->getRelativePath($fullPath))) {
-				return $path;
+			$cache = $mount->getStorage()->getCache();
+			$internalPath = $cache->getPathById($id);
+			if (is_string($internalPath)) {
+				$fullPath = $mount->getMountPoint() . $internalPath;
+				if (!is_null($path = $this->getRelativePath($fullPath))) {
+					return $path;
+				}
 			}
 		}
 		return null;

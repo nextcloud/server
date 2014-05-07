@@ -76,6 +76,8 @@ class Configuration {
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
 		'lastJpegPhotoLookup' => null,
+		'ldapNestedGroups' => false,
+		'ldapPagingSize' => null,
 	);
 
 	/**
@@ -118,9 +120,9 @@ class Configuration {
 
 		$cta = $this->getConfigTranslationArray();
 		foreach($config as $inputkey => $val) {
-			if(strpos($inputkey, '_') !== false && isset($cta[$inputkey])) {
+			if(strpos($inputkey, '_') !== false && array_key_exists($inputkey, $cta)) {
 				$key = $cta[$inputkey];
-			} elseif(isset($this->config[$inputkey])) {
+			} elseif(array_key_exists($inputkey, $this->config)) {
 				$key = $inputkey;
 			} else {
 				continue;
@@ -342,6 +344,8 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> '',
 			'has_memberof_filter_support'		=> 0,
 			'last_jpegPhoto_lookup'				=> 0,
+			'ldap_nested_groups'		        => 0,
+			'ldap_paging_size'					=> 500,
 		);
 	}
 
@@ -393,6 +397,8 @@ class Configuration {
 			'ldap_expert_uuid_group_attr'		=> 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support'		=> 'hasMemberOfFilterSupport',
 			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
+			'ldap_nested_groups'                => 'ldapNestedGroups',
+			'ldap_paging_size'                  => 'ldapPagingSize',
 		);
 		return $array;
 	}

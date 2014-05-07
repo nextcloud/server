@@ -23,6 +23,7 @@
 namespace OC\AppFramework\routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\Route\IRouter;
 
 /**
  * Class RouteConfig
@@ -36,10 +37,10 @@ class RouteConfig {
 
 	/**
 	 * @param \OC\AppFramework\DependencyInjection\DIContainer $container
-	 * @param \OC_Router $router
+	 * @param \OCP\Route\IRouter $router
 	 * @internal param $appName
 	 */
-	public function __construct(DIContainer $container, \OC_Router $router, $routes) {
+	public function __construct(DIContainer $container, IRouter $router, $routes) {
 		$this->routes = $routes;
 		$this->container = $container;
 		$this->router = $router;
@@ -47,7 +48,7 @@ class RouteConfig {
 	}
 
 	/**
-	 * The routes and resource will be registered to the \OC_Router
+	 * The routes and resource will be registered to the \OCP\Route\IRouter
 	 */
 	public function register() {
 
@@ -83,7 +84,15 @@ class RouteConfig {
 
 			// register the route
 			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-			$this->router->create($this->appName.'.'.$controller.'.'.$action, $url)->method($verb)->action($handler);
+			$router = $this->router->create($this->appName.'.'.$controller.'.'.$action, $url)
+							->method($verb)
+							->action($handler);
+
+			// optionally register requirements for route. This is used to 
+			// tell the route parser how url parameters should be matched
+			if(array_key_exists('requirements', $simpleRoute)) {
+				$router->requirements($simpleRoute['requirements']);
+			}
 		}
 	}
 
