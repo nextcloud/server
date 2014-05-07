@@ -76,6 +76,12 @@ span.utils .delete, .rename { display: none; }
 #usersearchform { position: absolute; top: 4px; right: 10px; }
 #usersearchform label { font-weight: 700; }
 form { display:inline; }
+
+/* display table at full width */
+table.grid {
+	width: 100%;
+}
+
 table.grid th { height:2em; color:#999; }
 table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
