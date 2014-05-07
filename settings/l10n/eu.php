@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Gordeta",
 "Email sent" => "Eposta bidalia",
 "Encryption" => "Enkriptazioa",
 "Unable to load list from App Store" => "Ezin izan da App Dendatik zerrenda kargatu",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Disimpan",
 "Email sent" => "Email terkirim",
 "Encryption" => "Enkripsi",
 "Unable to load list from App Store" => "Tidak dapat memuat daftar dari App Store",
@@ -36,6 +37,11 @@ $TRANSLATIONS = array(
 "Update" => "Perbarui",
 "Updated" => "Diperbarui",
 "Select a profile picture" => "Pilih foto profil",
+"Very weak password" => "Sandi sangat lemah",
+"Weak password" => "Sandi lemah",
+"So-so password" => "Sandi lumayan",
+"Good password" => "Sandi baik",
+"Strong password" => "Sandi kuat",
 "Decrypting files... Please wait, this can take some time." => "Mendeskripsi berkas... Modon tunggu, ini memerlukan beberapa saat.",
 "deleted" => "dihapus",
 "undo" => "urungkan",

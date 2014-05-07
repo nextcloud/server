@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-07 03:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Disimpan"
 
 #: admin/controller.php:90
 msgid "test email settings"
@@ -231,23 +231,23 @@ msgstr "Pilih foto profil"
 
 #: js/personal.js:274
 msgid "Very weak password"
-msgstr ""
+msgstr "Sandi sangat lemah"
 
 #: js/personal.js:275
 msgid "Weak password"
-msgstr ""
+msgstr "Sandi lemah"
 
 #: js/personal.js:276
 msgid "So-so password"
-msgstr ""
+msgstr "Sandi lumayan"
 
 #: js/personal.js:277
 msgid "Good password"
-msgstr ""
+msgstr "Sandi baik"
 
 #: js/personal.js:278
 msgid "Strong password"
-msgstr ""
+msgstr "Sandi kuat"
 
 #: js/personal.js:313
 msgid "Decrypting files... Please wait, this can take some time."

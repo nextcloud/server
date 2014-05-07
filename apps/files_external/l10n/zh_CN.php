@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Share" => "共享",
 "SMB / CIFS using OC login" => "SMB / CIFS 使用 OC 登录信息",
 "Secure https://" => "安全 https://",
+"Remote subfolder" => "远程子文件夹",
 "Access granted" => "权限已授予。",
 "Error configuring Dropbox storage" => "配置Dropbox存储时出错",
 "Grant access" => "授权",

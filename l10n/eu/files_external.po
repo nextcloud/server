@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asieriko <asieriko@gmail.com>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-06 20:41+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Bertakoa"
 
 #: appinfo/app.php:36
 msgid "Location"
@@ -28,7 +29,7 @@ msgstr "Kokapena"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
@@ -60,7 +61,7 @@ msgstr ""
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Portua (hautazkoa)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
@@ -68,7 +69,7 @@ msgstr ""
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Gaitu SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
@@ -196,15 +197,15 @@ msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Gordeta"
 
 #: lib/config.php:598
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Oharra:</b>"
 
 #: lib/config.php:608
 msgid " and "
-msgstr ""
+msgstr "eta"
 
 #: lib/config.php:630
 #, php-format
@@ -257,7 +258,7 @@ msgstr "Gehitu biltegiratzea"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Talde edo erabiltzailerik ez"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -282,7 +283,7 @@ msgstr "Gaitu erabiltzaileentzako Kanpo Biltegiratzea"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

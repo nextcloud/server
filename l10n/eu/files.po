@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-07 01:55-0400\n"
+"PO-Revision-Date: 2014-05-06 20:30+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Fitxategi izena ezin da hutsa izan."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" ez da fitxategi izen baliogarria."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
@@ -47,7 +47,7 @@ msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daud
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
 #: lib/app.php:60
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Jatorrizko karpeta mugitu edo ezabatu da."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
 #, php-format
@@ -151,12 +151,12 @@ msgstr "Ezin da {filename} igo karpeta bat delako edo 0 byte dituelako"
 
 #: js/file-upload.js:266
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Fitxategiaren tamainak {size1} igotzeko muga {size2} gainditzen du"
 
 #: js/file-upload.js:276
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Ez dago leku nahikorik, zu {size1} igotzen ari zara baina bakarrik {size2} libre dago"
 
 #: js/file-upload.js:353
 msgid "Upload cancelled."
@@ -215,7 +215,7 @@ msgstr "Zain"
 
 #: js/filelist.js:916
 msgid "Error moving file."
-msgstr ""
+msgstr "Errorea fitxategia mugitzean."
 
 #: js/filelist.js:924
 msgid "Error moving file"
@@ -265,7 +265,7 @@ msgstr[1] "%n fitxategi igotzen"
 
 #: js/files.js:94
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" ez da fitxategi izen baliogarria."
 
 #: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -306,7 +306,7 @@ msgstr "%s ezin da berrizendatu"
 #: lib/helper.php:14 templates/index.php:22
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Igo (max. %s)"
 
 #: templates/admin.php:4
 msgid "File handling"
