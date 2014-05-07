@@ -68,11 +68,15 @@ class ControllerMethodReflector {
 	 * Inspects the PHPDoc parameters for types
 	 * @param strint $parameter the parameter whose type comments should be 
 	 * parsed
-	 * @return string type in the type parameters (@param int $something) would
-	 * return int
+	 * @return string|null type in the type parameters (@param int $something) 
+	 * would return int or null if not existing
 	 */
 	public function getType($parameter) {
-		return $this->types[$parameter];
+		if(array_key_exists($parameter, $this->types)) {
+			return $this->types[$parameter];
+		} else {
+			return null;
+		}
 	}
 
 
