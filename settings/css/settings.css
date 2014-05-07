@@ -109,10 +109,6 @@ div.quota>span {
 select.quota.active { background: #fff; }
 
 input.userFilter {width: 200px;}
-span.userFilterReset {
-	width: 16px; height: 16px; position: absolute;
-	padding-top: 20px; margin-left: -20px;
-}
 
 /* positioning fixes */
 #newuser .multiselect {
