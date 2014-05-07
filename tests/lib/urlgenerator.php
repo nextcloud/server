@@ -8,6 +8,49 @@
 
 class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
+	/**
+	 * @small
+	 * @brief test linkTo URL construction
+	 * @dataProvider provideDocRootAppUrlParts
+	 */
+	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '';
+		$config = $this->getMock('\OCP\IConfig');
+		$urlGenerator = new \OC\URLGenerator($config);
+		$result = $urlGenerator->linkTo($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkTo URL construction in sub directory
+	 * @dataProvider provideSubDirAppUrlParts
+	 */
+	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '/owncloud';
+		$config = $this->getMock('\OCP\IConfig');
+		$urlGenerator = new \OC\URLGenerator($config);
+		$result = $urlGenerator->linkTo($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function provideDocRootAppUrlParts() {
+		return array(
+			array('files', 'index.php', array(), '/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
+		);
+	}
+
+	public function provideSubDirAppUrlParts() {
+		return array(
+			array('files', 'index.php', array(), '/owncloud/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
+		);
+	}
 
 	/**
 	 * @small

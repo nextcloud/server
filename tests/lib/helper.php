@@ -279,4 +279,179 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			array(3670, true, \OC::$SERVERROOT . '/tests/data/testimage.png', \OC::$SERVERROOT . '/tests/data/testimage-copy.png'),
 		);
 	}
+
+	// Url generator methods
+
+	/**
+	 * @small
+	 * @brief test absolute URL construction
+	 * @dataProvider provideDocRootURLs
+	 */
+	function testMakeAbsoluteURLDocRoot($url, $expectedResult) {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::makeURLAbsolute($url);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test absolute URL construction
+	 * @dataProvider provideSubDirURLs
+	 */
+	function testMakeAbsoluteURLSubDir($url, $expectedResult) {
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::makeURLAbsolute($url);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function provideDocRootURLs() {
+		return array(
+			array('index.php', 'http://localhost/index.php'),
+			array('/index.php', 'http://localhost/index.php'),
+			array('/apps/index.php', 'http://localhost/apps/index.php'),
+			array('apps/index.php', 'http://localhost/apps/index.php'),
+		);
+	}
+
+	public function provideSubDirURLs() {
+		return array(
+			array('index.php', 'http://localhost/owncloud/index.php'),
+			array('/index.php', 'http://localhost/owncloud/index.php'),
+			array('/apps/index.php', 'http://localhost/owncloud/apps/index.php'),
+			array('apps/index.php', 'http://localhost/owncloud/apps/index.php'),
+		);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkTo URL construction
+	 * @dataProvider provideDocRootAppUrlParts
+	 */
+	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::linkTo($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkTo URL construction in sub directory
+	 * @dataProvider provideSubDirAppUrlParts
+	 */
+	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::linkTo($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function provideDocRootAppUrlParts() {
+		return array(
+			array('files', 'index.php', array(), '/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
+		);
+	}
+
+	public function provideSubDirAppUrlParts() {
+		return array(
+			array('files', 'index.php', array(), '/owncloud/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
+		);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkToAbsolute URL construction
+	 * @dataProvider provideDocRootAppAbsoluteUrlParts
+	 */
+	public function testLinkToAbsoluteDocRoot($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::linkToAbsolute($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkToAbsolute URL construction in sub directory
+	 * @dataProvider provideSubDirAppAbsoluteUrlParts
+	 */
+	public function testLinkToAbsoluteSubDir($app, $file, $args, $expectedResult) {
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::linkToAbsolute($app, $file, $args);
+
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function provideDocRootAppAbsoluteUrlParts() {
+		return array(
+			array('files', 'index.php', array(), 'http://localhost/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php?trut=trat&dut=dat'),
+		);
+	}
+
+	public function provideSubDirAppAbsoluteUrlParts() {
+		return array(
+			array('files', 'index.php', array(), 'http://localhost/owncloud/index.php/apps/files'),
+			array('files', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php/apps/files?trut=trat&dut=dat'),
+			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php?trut=trat&dut=dat'),
+		);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkToRemoteBase URL construction
+	 */
+	public function testLinkToRemoteBase() {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::linkToRemoteBase('webdav');
+		$this->assertEquals('/remote.php/webdav', $result);
+
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::linkToRemoteBase('webdav');
+		$this->assertEquals('/owncloud/remote.php/webdav', $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkToRemote URL construction
+	 */
+	public function testLinkToRemote() {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::linkToRemote('webdav');
+		$this->assertEquals('http://localhost/remote.php/webdav/', $result);
+		$result = \OC_Helper::linkToRemote('webdav', false);
+		$this->assertEquals('http://localhost/remote.php/webdav', $result);
+
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::linkToRemote('webdav');
+		$this->assertEquals('http://localhost/owncloud/remote.php/webdav/', $result);
+		$result = \OC_Helper::linkToRemote('webdav', false);
+		$this->assertEquals('http://localhost/owncloud/remote.php/webdav', $result);
+	}
+
+	/**
+	 * @small
+	 * @brief test linkToPublic URL construction
+	 */
+	public function testLinkToPublic() {
+		\OC::$WEBROOT = '';
+		$result = \OC_Helper::linkToPublic('files');
+		$this->assertEquals('http://localhost/public.php?service=files', $result);
+		$result = \OC_Helper::linkToPublic('files', false);
+		$this->assertEquals('http://localhost/public.php?service=files', $result);
+
+		\OC::$WEBROOT = '/owncloud';
+		$result = \OC_Helper::linkToPublic('files');
+		$this->assertEquals('http://localhost/owncloud/public.php?service=files', $result);
+		$result = \OC_Helper::linkToPublic('files', false);
+		$this->assertEquals('http://localhost/owncloud/public.php?service=files', $result);
+	}
+
 }
