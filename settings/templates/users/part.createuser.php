@@ -1,10 +1,12 @@
 <div id="user-controls">
 	<form id="newuser" autocomplete="off">
-		<input id="newusername" type="text" placeholder="<?php p($l->t('Login Name'))?>" />
+		<input id="newusername" type="text"
+			placeholder="<?php p($l->t('Login Name'))?>"
+			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<input
 			type="password" id="newuserpassword"
 			placeholder="<?php p($l->t('Password'))?>"
-		/>
+			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<select
 			class="groupsselect" id="newusergroups" data-placeholder="groups"
 			title="<?php p($l->t('Groups'))?>" multiple="multiple">
