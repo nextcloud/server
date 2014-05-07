@@ -125,7 +125,7 @@ class Helper {
 
 
 		$ids = array();
-		while ($path !== '' && $path !== '.' && $path !== '/') {
+		while ($path !== dirname($path)) {
 			$info = $ownerView->getFileInfo($path);
 			if ($info instanceof \OC\Files\FileInfo) {
 				$ids[] = $info['fileid'];

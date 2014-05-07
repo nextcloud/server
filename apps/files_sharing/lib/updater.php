@@ -38,14 +38,13 @@ class Shared_Updater {
 		\OC\Files\Filesystem::initMountPoints($user);
 		$view = new \OC\Files\View('/' . $user);
 		if ($view->file_exists($path)) {
-			while ($path !== '/') {
+			while ($path !== dirname($path)) {
 				$etag = $view->getETag($path);
 				$view->putFileInfo($path, array('etag' => $etag));
 				$path = dirname($path);
 			}
 		} else {
-			error_log("error!" . 'can not update etags on ' . $path . ' for user ' . $user);
-			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user . '. Path does not exists', \OCP\Util::DEBUG);
 		}
 	}
 
