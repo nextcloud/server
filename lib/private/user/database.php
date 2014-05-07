@@ -183,14 +183,14 @@ class OC_User_Database extends OC_User_Backend {
 		$row = $result->fetchRow();
 		if ($row) {
 			$storedHash = $row['password'];
-			if ($storedHash[0] == '$') { //the new phpass based hashing
+			if ($storedHash[0] === '$') { //the new phpass based hashing
 				$hasher = $this->getHasher();
 				if ($hasher->CheckPassword($password . OC_Config::getValue('passwordsalt', ''), $storedHash)) {
 					return $row['uid'];
 				}
 
 			//old sha1 based hashing
-			} elseif (sha1($password) == $storedHash) {
+			} elseif (sha1($password) === $storedHash) {
 				//upgrade to new hashing
 				$this->setPassword($row['uid'], $password);
 				return $row['uid'];
