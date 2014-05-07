@@ -102,14 +102,15 @@ class Shared extends \OC\Files\Storage\Common {
 	/**
 	 * @brief Get the permissions granted for a shared file
 	 * @param string Shared target file path
-	 * @return int CRUDS permissions granted or false if not found
+	 * @return int CRUDS permissions granted
 	 */
 	public function getPermissions($target) {
-		$source = $this->getFile($target);
-		if ($source) {
-			return $source['permissions'];
+		$permissions = $this->share['permissions'];
+		// part file are always have delete permissions
+		if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
+			$permissions |= \OCP\PERMISSION_DELETE;
 		}
-		return false;
+		return $permissions;
 	}
 
 	public function mkdir($path) {
@@ -183,9 +184,6 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function isCreatable($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
 	}
 
@@ -194,23 +192,14 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function isUpdatable($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		return ($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
 	}
 
@@ -454,9 +443,6 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
-		if ($path == '') {
-			$path = $this->getMountPoint();
-		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
