@@ -5,84 +5,82 @@
  * See the COPYING-README file.
  */
 
- var GroupList = {
+var $userGroupList;
+
+var GroupList;
+GroupList = {
 	activeGID: '',
 
-	addGroup: function(gid, usercount) {
-		var li = $('li[data-gid]').last().clone();
-		var ul = $('li[data-gid]').first().parent();
-		li.attr('data-gid', gid);
-		li.find('a span').first().text(gid);
-		GroupList.setUserCount(li, usercount);
+	addGroup: function (gid, usercount) {
+		var $li = $userGroupList.find('.isgroup:last-child').clone();
+		$li
+			.data('gid', gid)
+			.find('.groupname').text(gid);
+		GroupList.setUserCount($li, usercount);
 
-		$(li).appendTo(ul);
+		$li.appendTo($userGroupList);
 
-		GroupList.sortGroups(0);
+		GroupList.sortGroups();
 
-		return li;
+		return $li;
 	},
 
-	setUserCount: function(groupLiElement, usercount) {
-		if(usercount === undefined || usercount === 0) {
+	setUserCount: function (groupLiElement, usercount) {
+		var $groupLiElement = $(groupLiElement);
+		if (usercount === undefined || usercount === 0) {
 			usercount = '';
 		}
-		groupLiElement.attr('data-usercount', usercount);
-		groupLiElement.find('span[class=usercount]').first().text(usercount);
+		$groupLiElement.data('usercount', usercount);
+		$groupLiElement.find('.usercount').text(usercount);
 	},
 
-	getCurrentGID: function() {
+	getCurrentGID: function () {
 		return GroupList.activeGID;
 	},
 
-	sortGroups: function(usercount) {
-		var lis = $('li[data-gid]').filterAttr('data-usercount', usercount.toString()).get();
-		var ul = $(lis).first().parent();
+	sortGroups: function () {
+		var lis = $('.isgroup').get();
 
-		lis.sort(function(a, b) {
-			return UserList.alphanum($(a).find('a span').text(), $(b).find('a span').text());
+		lis.sort(function (a, b) {
+			return UserList.alphanum(
+				$(a).find('a span').text(),
+				$(b).find('a span').text()
+			);
 		});
 
 		var items = [];
-		$.each(lis, function(index, li) {
+		$.each(lis, function (index, li) {
 			items.push(li);
-			if(items.length === 100) {
-				$(ul).append(items);
+			if (items.length === 100) {
+				$userGroupList.append(items);
 				items = [];
 			}
 		});
-		if(items.length > 0) {
-			$(ul).append(items);
+		if (items.length > 0) {
+			$userGroupList.append(items);
 		}
 	},
 
-	createGroup: function(groupname) {
+	createGroup: function (groupname) {
 		$.post(
 			OC.filePath('settings', 'ajax', 'creategroup.php'),
 			{
-				groupname : groupname
+				groupname: groupname
 			},
 			function (result) {
 				if (result.status !== 'success') {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating group'));
-				} else {
+				}
+				else {
 					if (result.data.groupname) {
-						var addedGroups = result.data.groupname;
-						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+						var addedGroup = result.data.groupname;
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
 						GroupList.addGroup(result.data.groupname);
 
-						$('#newusergroups').children().first().attr('value', result.data.groupname);
-						$('#newusergroups').children().first().text(result.data.groupname);
-
-						$('.groupsselect').each( function (index, element) {
-							$(element).children().first().attr('value', result.data.groupname);
-							$(element).children().first().text(result.data.groupname);
-						});
-
-						$('.subadminsselect').each( function (index, element) {
-							$(element).children().first().attr('value', result.data.groupname);
-							$(element).children().first().text(result.data.groupname);
-						});
+						$('.groupsselect, .subadminsselect')
+							.append($('<option>', { value: result.data.groupname })
+								.text(result.data.groupname));
 					}
 					GroupList.toggleAddGroup();
 				}
@@ -90,85 +88,87 @@
 		);
 	},
 
-	update: function() {
+	update: function () {
 		if (GroupList.updating) {
 			return;
 		}
 		GroupList.updating = true;
-		var pattern = filter.getPattern();
-		var query = $.param({ pattern: pattern });
-		$.get(OC.generateUrl('/settings/ajax/grouplist') + '?' + query, function (result) {
-			var lis = [];
-			if (result.status === 'success') {
-				$.each(result.data, function (i, subset) {
-					$.each(subset, function (index, group) {
-						if($('li[data-gid="' + group.name + '"]').length > 0) {
-							var li = $('li[data-gid="' + group.name + '"]');
-							GroupList.setUserCount(li, group.usercount);
-							return true;
-						}
-						var li = GroupList.addGroup(group.name, group.usercount);
-						li.addClass('appear transparent');
-						lis.push(li);
+		$.get(
+			OC.generateUrl('/settings/ajax/grouplist'),
+			{pattern: filter.getPattern()},
+			function (result) {
+
+				var lis = [];
+				if (result.status === 'success') {
+					$.each(result.data, function (i, subset) {
+						$.each(subset, function (index, group) {
+							if (GroupList.getGroupLI(group.name).length > 0) {
+								GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
+							}
+							else {
+								var $li = GroupList.addGroup(group.name, group.usercount);
+								$li.addClass('appear transparent');
+								lis.push($li);
+							}
+						});
 					});
-				});
-				if (result.data.length > 0) {
-					GroupList.doSort();
-				} else {
-					GroupList.noMoreEntries = true;
-				}
-				setTimeout(function() {
-					for (var i = 0; i < lis.length; i++) {
-						lis[i].removeClass('transparent');
+					if (result.data.length > 0) {
+						GroupList.doSort();
 					}
-				}, 0);
+					else {
+						GroupList.noMoreEntries = true;
+					}
+					setTimeout(function () {
+						$(lis).removeClass('transparent');
+					}, 0);
+				}
+				GroupList.updating = false;
+
 			}
-			GroupList.updating = false;
-		});
+		);
 	},
 
-	elementBelongsToAddGroup: function(el) {
+	elementBelongsToAddGroup: function (el) {
 		return !(el !== $('#newgroup-form').get(0) &&
-				$('#newgroup-form').find($(el)).length === 0);
+		$('#newgroup-form').find($(el)).length === 0);
 	},
 
-	hasAddGroupNameText: function() {
+	hasAddGroupNameText: function () {
 		var name = $('#newgroupname').val();
-		if($.trim(name) === '') {
-			return false;
-		}
-		return true;
+		return $.trim(name) !== '';
+
 	},
 
 	showGroup: function (gid) {
 		GroupList.activeGID = gid;
 		UserList.empty();
 		UserList.update(gid);
-		$('#app-navigation li').removeClass('active');
-		if(gid !== undefined) {
+		$userGroupList.find('li').removeClass('active');
+		if (gid !== undefined) {
 			//TODO: treat Everyone properly
-			$('#app-navigation li').filterAttr('data-gid', gid).addClass('active');
+			GroupList.getGroupLI(gid).addClass('active');
 		}
 	},
 
-	isAddGroupButtonVisible: function() {
+	isAddGroupButtonVisible: function () {
 		return $('#newgroup-init').is(":visible");
 	},
 
-	toggleAddGroup: function(event) {
-		if(GroupList.isAddGroupButtonVisible()) {
+	toggleAddGroup: function (event) {
+		if (GroupList.isAddGroupButtonVisible()) {
 			event.stopPropagation();
 			$('#newgroup-form').show();
 			$('#newgroup-init').hide();
 			$('#newgroupname').focus();
-		} else {
+		}
+		else {
 			$('#newgroup-form').hide();
 			$('#newgroup-init').show();
 			$('#newgroupname').val('');
 		}
 	},
 
-	isGroupNameValid: function(groupname) {
+	isGroupNameValid: function (groupname) {
 		if ($.trim(groupname) === '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid group name must be provided'),
@@ -178,35 +178,36 @@
 		return true;
 	},
 
-	hide: function(gid) {
-		$('li[data-gid="' + gid + '"]').hide();
+	hide: function (gid) {
+		GroupList.getGroupLI(gid).hide();
 	},
-	show: function(gid) {
-		$('li[data-gid="' + gid + '"]').show();
+	show: function (gid) {
+		GroupList.getGroupLI(gid).show();
 	},
-	remove: function(gid) {
-		$('li').filterAttr('data-gid', gid).remove();
+	remove: function (gid) {
+		GroupList.getGroupLI(gid).remove();
 	},
-	empty: function() {
-		$('li:not([data-gid=""])').remove();
+	empty: function () {
+		$userGroupList.filter(function(item){
+			return item.data('gid') !== '';
+		}).remove();
 	},
-	initDeleteHandling: function() {
+	initDeleteHandling: function () {
 		//set up handler
 		GroupDeleteHandler = new DeleteHandler('removegroup.php', 'groupname',
-											GroupList.hide, GroupList.remove);
+			GroupList.hide, GroupList.remove);
 
 		//configure undo
 		OC.Notification.hide();
 		var msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
 			t('settings', 'undo') + '</span>';
 		GroupDeleteHandler.setNotification(OC.Notification, 'deletegroup', msg,
-										GroupList.show);
+			GroupList.show);
 
 		//when to mark user for delete
-		$('ul').on('click', 'span.utils>a', function () {
+		$userGroupList.on('click', '.delete', function () {
 			// Call function for handling delete/undo
-			var gid = $(this).parent().parent().attr('data-gid');
-			GroupDeleteHandler.mark(gid);
+			GroupDeleteHandler.mark(GroupList.getElementGID(this));
 		});
 
 		console.log('init del groups');
@@ -214,10 +215,21 @@
 		$(window).on('beforeunload', function () {
 			GroupDeleteHandler.delete();
 		});
+	},
+
+	getGroupLI: function (gid) {
+		return $userGroupList.find('li.isgroup').filter(function () {
+			return GroupList.getElementGID(this) === gid;
+		});
+	},
+
+	getElementGID: function (element) {
+		return ($(element).closest('li').data('gid') || '').toString();
 	}
 };
 
 $(document).ready( function () {
+	$userGroupList = $('#usergrouplist');
 	GroupList.initDeleteHandling();
 
 	// Display or hide of Create Group List Element
@@ -248,64 +260,59 @@ $(document).ready( function () {
 	});
 
 	// click on group name
-	// FIXME: also triggered when clicking on "remove"
-	$('ul').on('click', 'li[data-gid]', function () {
-		var li = $(this);
-		var gid = $(li).attr('data-gid');
-		GroupList.showGroup(gid);
+	$userGroupList.on('click', '.isgroup', function () {
+		GroupList.showGroup(GroupList.getElementGID(this));
 	});
 
 	// Implements Groupname editing.
-	$('#app-navigation').on('click', 'img.rename', function (event) {
+	$('#app-navigation').on('click', '.isgroup .rename', function (event) {
 		event.stopPropagation();
-		var img = $(this);
-		var gid = img.parent().parent().attr('data-gid');
-		var groupname = escapeHTML(img.parent().parent().attr('data-gid'));
-		var input = $('<input type="text" value="' + groupname + '">');
-		img.css('display', 'none');
-		img.parent().children('span').replaceWith(input);
-		input.focus();
-		input.keypress(function (event) {
+		var $li = $(this).closest('li');
+		var gid = GroupList.getElementGID(this);
+		var groupname = escapeHTML(gid);
+		var $input = $('<input type="text" value="' + groupname + '">');
+		$li.find('.dorename img').hide();
+		$li.find('.dorename span').replaceWith($input);
+		$input.focus();
+		$input.keypress(function (event) {
 			if (event.keyCode === 13) {
-				if ($(this).val().length > 0) {
+				if ($input.val().length > 0) {
 					$.post(
 						OC.filePath('settings', 'ajax', 'changegroupname.php'),
-						{	groupname: gid,
-							groupname: $(this).val()
-						}
+						{ groupname: $input.val() }
 					);
-					input.blur();
+					$input.blur();
 				} else {
-					input.blur();
+					$input.blur();
 				}
 			}
 		});
-		input.blur(function () {
-			var input = $(this), groupname = input.val();
-			input.closest('li').attr('data-gid', groupname);
-			input.replaceWith('<span>' + escapeHTML(groupname) + '</span>');
-			img.css('display', '');
+		$input.blur(function () {
+			var $input = $(this), groupname = $input.val();
+			$input.closest('li').data('gid', groupname);
+			$input.replaceWith('<span>' + escapeHTML(groupname) + '</span>');
+			$li.find('img').show();
 		});
 	});
 
 	// Implements Quota Settings Toggle.
+	var $appSettings = $('#app-settings');
 	$('#app-settings-header').on('click keydown',function(event) {
 		if(wrongKey(event)) {
 			return;
 		}
-		var bodyListener = function(e) {
-			if($('#app-settings').find($(e.target)).length === 0) {
-				$('#app-settings').switchClass('open', '');
-			}
-		};
-		if($('#app-settings').hasClass('open')) {
-			$('#app-settings').switchClass('open', '');
-			$('body').unbind('click', bodyListener);
+		if($appSettings.hasClass('open')) {
+			$appSettings.switchClass('open', '');
 		} else {
-			$('#app-settings').switchClass('', 'open');
-			$('body').bind('click', bodyListener);
+			$appSettings.switchClass('', 'open');
 		}
 	});
+	$('body').on('click', function(event){
+		if($appSettings.find(event.target).length === 0) {
+			$appSettings.switchClass('open', '');
+		}
+	});
+
 });
 
 var wrongKey = function(event) {

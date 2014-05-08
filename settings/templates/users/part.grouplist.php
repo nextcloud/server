@@ -1,4 +1,4 @@
-<ul>
+<ul id="usergrouplist">
 	<!-- Add new group -->
 	<li id="newgroup-init">
 		<a href="#">
@@ -12,7 +12,7 @@
 		</form>
 	</li>
 	<!-- Everyone -->
-	<li data-gid="">
+	<li data-gid="" class="isgroup">
 		<a href="#">
 			<span>
 				<?php p($l->t('Everyone')); ?>
@@ -25,8 +25,8 @@
 
 	<!-- The Admin Group -->
 	<?php foreach($_["adminGroup"] as $adminGroup): ?>
-		<li data-gid="admin">
-			<a href="#"><?php p($l->t('Admins')); ?></a>
+		<li data-gid="admin" class="isgroup">
+			<a href="#"><span class="groupname"><?php p($l->t('Admins')); ?></span></a>
 			<span class="utils">
 				<span class="usercount"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></span>
 			</span>
@@ -35,9 +35,9 @@
 
 	<!--List of Groups-->
 	<?php foreach($_["groups"] as $group): ?>
-		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>">
-			<a href="#">
-				<span><?php p($group['name']); ?></span>
+		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
+			<a href="#" class="dorename">
+				<span class="groupname"><?php p($group['name']); ?></span>
 				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				original-title="<?php p($l->t('Edit'))?>" alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
 			</a>
