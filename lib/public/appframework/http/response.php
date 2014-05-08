@@ -92,6 +92,10 @@ class Response {
 	 * @return Response Reference to this object
 	 */
 	public function addHeader($name, $value) {
+		$name = trim($name);  // always remove leading and trailing whitespace
+		                      // to be able to reliably check for security 
+		                      // headers
+
 		if(is_null($value)) {
 			unset($this->headers[$name]);
 		} else {

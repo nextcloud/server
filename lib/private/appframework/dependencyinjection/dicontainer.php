@@ -30,6 +30,7 @@ use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
+use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\IApi;
@@ -92,10 +93,15 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			return new SecurityMiddleware($app, $c['Request']);
 		});
 
+		$this['CORSMiddleware'] = $this->share(function($c) {
+			return new CORSMiddleware($c['Request']);
+		});
+
 		$middleWares = &$this->middleWares;
 		$this['MiddlewareDispatcher'] = $this->share(function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
+			$dispatcher->registerMiddleware($c['CORSMiddleware']);
 
 			foreach($middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c[$middleWare]);
