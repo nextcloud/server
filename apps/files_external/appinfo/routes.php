@@ -37,6 +37,9 @@ $this->create('files_external_dropbox', 'ajax/dropbox.php')
 $this->create('files_external_google', 'ajax/google.php')
 	->actionInclude('files_external/ajax/google.php');
 
+$this->create('files_external_list_applicable', '/applicable')
+	->actionInclude('files_external/ajax/applicable.php');
+
 OC_API::register('get',
 		'/apps/files_external/api/v1/mounts',
 		array('\OCA\Files\External\Api', 'getUserMounts'),

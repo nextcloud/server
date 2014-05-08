@@ -42,3 +42,19 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #userMountingBackends {
 	padding-left: 25px;
 }
+
+#body-settings .select2-results .select2-result-label {
+	height: 32px;
+	padding: 3px;
+}
+.select2-results .select2-result-label .avatardiv {
+	display:inline-block;
+}
+.select2-results .select2-result-label .avatardiv + span {
+	margin-left: 10px;
+}
+.select2-results .select2-result-label .avatardiv[data-type="group"] + span {
+	vertical-align: top;
+	top: 6px;
+	position: relative;
+}
