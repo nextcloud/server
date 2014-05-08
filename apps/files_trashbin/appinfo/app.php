@@ -1,7 +1,14 @@
 <?php
-
-//OC::$CLASSPATH['OCA\Files_Trashbin\Hooks'] = 'files_trashbin/lib/hooks.php';
-//OC::$CLASSPATH['OCA\Files_Trashbin\Trashbin'] = 'files_trashbin/lib/trash.php';
+$l = OC_L10N::get('files_trashbin');
 
 // register hooks
 \OCA\Files_Trashbin\Trashbin::registerHooks();
+
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"appname" => 'files_trashbin',
+		"script" => 'index.php',
+		"order" => 1,
+		"name" => $l->t('Deleted files')
+	)
+);

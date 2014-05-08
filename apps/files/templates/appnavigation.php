@@ -1,10 +1,10 @@
 <div id="app-navigation">
 	<ul>
-		<li class="allfiles"><a href="<?php p(OC_Helper::linkTo('files', '')) ?>"><?php p($l->t('All Files'));?></a></li>
+		<li class="nav-allfiles"><a href="<?php p(OC_Helper::linkTo('files', '')) ?>"><?php p($l->t('All Files'));?></a></li>
 		<li class="sep"></li>
-		<?php if ($_['trash'] ): ?>
-		<li class="trash"><a href="<?php p(OC_Helper::linkTo('files_trashbin', 'index.php')) ?>"><?php p($l->t('Deleted files'));?></a></li>
-		<?php endif; ?>
+		<?php foreach ($_['navigationItems'] as $item) { ?>
+		<li class="nav-<?php p($item['appname']) ?>"><a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"><?php p($item['name']);?></a></li>
+		<?php } ?>
 	</ul>
 	<div id="app-settings">
 		<div id="app-settings-header">

@@ -83,16 +83,37 @@ if (OC_App::isEnabled('files_encryption')) {
     $encryptionInitStatus = $session->getInitialized();
 }
 
-$trashEnabled = \OCP\App::isEnabled('files_trashbin');
-$trashEmpty = true;
-if ($trashEnabled) {
-    $trashEmpty = \OCA\Files_Trashbin\Trashbin::isEmpty($user);
-}
-
 $nav = new OCP\Template('files', 'appnavigation', '');
 
-$nav->assign('trash', $trashEnabled);
-$nav->assign('trashEmpty', $trashEmpty);
+$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+$nav->assign('navigationItems', $navItems);
+
+$contentItems = array();
+
+function renderScript($appName, $scriptName) {
+	$content = '';
+	$appPath = OC_App::getAppPath($appName);
+	$scriptPath = $appPath . '/' . $scriptName;
+	if (file_exists($scriptPath)) {
+		// TODO: sanitize path / script name ?
+		ob_start();
+		include $scriptPath;
+		$content = ob_get_contents();
+		@ob_end_clean();
+	}
+	return $content;
+}
+
+foreach ($navItems as $item) {
+	$content = '';
+	if (isset($item['script'])) {
+		$content = renderScript($item['appname'], $item['script']);
+	}
+	$contentItem = array();
+	$contentItem['appname'] = $item['appname'];
+	$contentItem['content'] = $content;
+	$contentItems[] = $contentItem;
+}
 
 OCP\Util::addscript('files', 'fileactions');
 OCP\Util::addscript('files', 'files');
@@ -100,8 +121,6 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 $tmpl = new OCP\Template('files', 'index', 'user');
 $tmpl->assign('dir', $dir);
 $tmpl->assign('permissions', $permissions);
-$tmpl->assign('trash', $trashEnabled);
-$tmpl->assign('trashEmpty', $trashEmpty);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize); // minimium of freeSpace and uploadLimit
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('freeSpace', $freeSpace);
@@ -116,5 +135,6 @@ $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('disableSharing', false);
 $tmpl->assign('appNavigation', $nav);
+$tmpl->assign('appContents', $contentItems);
 
 $tmpl->printPage();

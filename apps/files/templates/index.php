@@ -1,6 +1,7 @@
 <?php /** @var $l OC_L10N */ ?>
 <?php $_['appNavigation']->printPage(); ?>
 <div id="app-content">
+<div id="app-content-files">
 <div id="controls">
 		<div class="actions creatable hidden">
 			<?php if(!isset($_['dirToken'])):?>
@@ -110,7 +111,12 @@
 		<?php p($l->t('Current scanning'));?> <span id='scan-current'></span>
 	</p>
 </div>
-
+</div><!-- closing app-content-files -->
+	<?php foreach ($_['appContents'] as $content) { ?>
+	<div id="app-content-<?php p($content['appname']) ?>" class="hidden">
+	<?php print_unescaped($content['content']) ?>
+	</div>
+	<?php } ?>
 </div><!-- closing app-content -->
 
 <!-- config hints for javascript -->
