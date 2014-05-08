@@ -341,7 +341,7 @@ $(document).ready(function(){
 		var appid = element.data('appid');
 		if (appid) {
 			OC.Settings.Apps.enableApp(appid, false, element, groups);
-			var li = $('[data-id="'+appid+'"');
+			var li = $('[data-id="'+appid+'"]');
 			var app = OC.get('appData_' + $(li).data('id'));
 			app.groups = groups;
 			li.data('groups', groups);
