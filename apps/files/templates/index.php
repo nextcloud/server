@@ -113,7 +113,7 @@
 </div>
 </div><!-- closing app-content-files -->
 	<?php foreach ($_['appContents'] as $content) { ?>
-	<div id="app-content-<?php p($content['appname']) ?>" class="hidden">
+	<div id="app-content-<?php p($content['id']) ?>" class="hidden">
 	<?php print_unescaped($content['content']) ?>
 	</div>
 	<?php } ?>

@@ -28,6 +28,7 @@ OCP\User::checkLoggedIn();
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('files', 'upload');
 OCP\Util::addStyle('files', 'mobile');
+OCP\Util::addscript('files', 'app');
 OCP\Util::addscript('files', 'file-upload');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
@@ -110,13 +111,14 @@ foreach ($navItems as $item) {
 		$content = renderScript($item['appname'], $item['script']);
 	}
 	$contentItem = array();
-	$contentItem['appname'] = $item['appname'];
+	$contentItem['id'] = $item['id'];
 	$contentItem['content'] = $content;
 	$contentItems[] = $contentItem;
 }
 
 OCP\Util::addscript('files', 'fileactions');
 OCP\Util::addscript('files', 'files');
+OCP\Util::addscript('files', 'navigation');
 OCP\Util::addscript('files', 'keyboardshortcuts');
 $tmpl = new OCP\Template('files', 'index', 'user');
 $tmpl->assign('dir', $dir);

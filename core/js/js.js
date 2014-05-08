@@ -1368,6 +1368,11 @@ OC.set=function(name, value) {
 })();
 
 /**
+ * Namespace for apps
+ */
+window.OCA = {};
+
+/**
  * select a range in an input field
  * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
  * @param {type} start

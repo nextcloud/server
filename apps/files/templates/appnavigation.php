@@ -1,9 +1,9 @@
 <div id="app-navigation">
 	<ul>
-		<li class="nav-allfiles"><a href="<?php p(OC_Helper::linkTo('files', '')) ?>"><?php p($l->t('All Files'));?></a></li>
+		<li data-id="files" class="nav-allfiles"><a href="#"><?php p($l->t('All Files'));?></a></li>
 		<li class="sep"></li>
 		<?php foreach ($_['navigationItems'] as $item) { ?>
-		<li class="nav-<?php p($item['appname']) ?>"><a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"><?php p($item['name']);?></a></li>
+		<li data-id="<?php p($item['id']) ?>" class="nav-<?php p($item['id']) ?>"><a href="<?php p(isset($item['href']) ? $item['href'] : '#') ?>"><?php p($item['name']);?></a></li>
 		<?php } ?>
 	</ul>
 	<div id="app-settings">
