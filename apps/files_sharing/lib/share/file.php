@@ -181,8 +181,13 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return $source;
 	}
 
+	/**
+	 * @param string $target
+	 * @param string $mountPoint
+	 * @param string $itemType
+	 * @return array|false source item
+	 */
 	public static function getSource($target, $mountPoint, $itemType) {
-
 		if ($itemType === 'folder') {
 			$source = \OCP\Share::getItemSharedWith('folder', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 			if ($source && $target !== '') {

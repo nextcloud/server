@@ -442,6 +442,9 @@ class Shared_Cache extends Cache {
 		}
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getShareById($id) {
 		$item = \OCP\Share::getItemSharedWithBySource('file', $id);
 		if ($item) {
@@ -454,6 +457,9 @@ class Shared_Cache extends Cache {
 		return null;
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getParentInfo($id) {
 		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		$query = \OC_DB::prepare($sql);
