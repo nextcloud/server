@@ -20,6 +20,7 @@ class View extends \PHPUnit_Framework_TestCase {
 	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
+	private $user;
 
 	public function setUp() {
 		\OC_User::clearBackends();
@@ -569,6 +570,47 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	public function testLongPath() {
+
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+
+		$longPath = '';
+		// 4000 is the maximum path length in file_cache.path
+		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
+		$depth = (4000/57);
+		foreach (range(0, $depth-1) as $i) {
+			$longPath .= '/'.$folderName;
+			$result = $rootView->mkdir($longPath);
+			$this->assertTrue($result, "mkdir failed on $i - path length: " . strlen($longPath));
+
+			$result = $rootView->file_put_contents($longPath . '/test.txt', 'lorem');
+			$this->assertEquals(5, $result, "file_put_contents failed on $i");
+
+			$this->assertTrue($rootView->file_exists($longPath));
+			$this->assertTrue($rootView->file_exists($longPath . '/test.txt'));
+		}
+
+		$cache = $storage->getCache();
+		$scanner = $storage->getScanner();
+		$scanner->scan('');
+
+		$longPath = $folderName;
+		foreach (range(0, $depth-1) as $i) {
+			$cachedFolder = $cache->get($longPath);
+			$this->assertTrue(is_array($cachedFolder), "No cache entry for folder at $i");
+			$this->assertEquals($folderName, $cachedFolder['name'], "Wrong cache entry for folder at $i");
+
+			$cachedFile = $cache->get($longPath . '/test.txt');
+			$this->assertTrue(is_array($cachedFile), "No cache entry for file at $i");
+			$this->assertEquals('test.txt', $cachedFile['name'], "Wrong cache entry for file at $i");
+
+			$longPath .= '/' . $folderName;
+		}
+	}
+
 	public function testTouchNotSupported() {
 		$storage = new TemporaryNoTouch(array());
 		$scanner = $storage->getScanner();
@@ -603,6 +645,85 @@ class View extends \PHPUnit_Framework_TestCase {
 			array('/files/', '/'),
 			array('/files/test', 'test'),
 			array('/files/test', '/test'),
+		);
+	}
+
+	/**
+	 * @dataProvider tooLongPathDataProvider
+	 * @expectedException \OCP\Files\InvalidPathException
+	 */
+	public function testTooLongPath($operation, $param0 = NULL) {
+
+		$longPath = '';
+		// 4000 is the maximum path length in file_cache.path
+		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
+		$depth = (4000/57);
+		foreach (range(0, $depth+1) as $i) {
+			$longPath .= '/'.$folderName;
+		}
+
+		$storage = new \OC\Files\Storage\Temporary(array());
+		\OC\Files\Filesystem::mount($storage, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+
+
+		if ($param0 === '@0') {
+			$param0 = $longPath;
+		}
+
+		if ($operation === 'hash') {
+			$param0 = $longPath;
+			$longPath = 'md5';
+		}
+
+		call_user_func(array($rootView, $operation), $longPath, $param0);
+
+	}
+
+	public function tooLongPathDataProvider() {
+		return array(
+			array('getAbsolutePath'),
+			array('getRelativePath'),
+			array('getMountPoint'),
+			array('resolvePath'),
+			array('getLocalFile'),
+			array('getLocalFolder'),
+			array('mkdir'),
+			array('rmdir'),
+			array('opendir'),
+			array('is_dir'),
+			array('is_file'),
+			array('stat'),
+			array('filetype'),
+			array('filesize'),
+			array('readfile'),
+			array('isCreatable'),
+			array('isReadable'),
+			array('isUpdatable'),
+			array('isDeletable'),
+			array('isSharable'),
+			array('file_exists'),
+			array('filemtime'),
+			array('touch'),
+			array('file_get_contents'),
+			array('unlink'),
+			array('deleteAll'),
+			array('toTmpFile'),
+			array('getMimeType'),
+			array('free_space'),
+			array('getFileInfo'),
+			array('getDirectoryContent'),
+			array('getOwner'),
+			array('getETag'),
+			array('file_put_contents', 'ipsum'),
+			array('rename', '@0'),
+			array('copy', '@0'),
+			array('fopen', 'r'),
+			array('fromTmpFile', '@0'),
+			array('hash'),
+			array('hasUpdated', 0),
+			array('putFileInfo', array()),
 		);
 	}
 }

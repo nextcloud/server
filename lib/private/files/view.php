@@ -29,14 +29,13 @@ use OC\Files\Cache\Updater;
 
 class View {
 	private $fakeRoot = '';
-	private $internal_path_cache = array();
-	private $storage_cache = array();
 
 	public function __construct($root = '') {
 		$this->fakeRoot = $root;
 	}
 
 	public function getAbsolutePath($path = '/') {
+		$this->assertPathLength($path);
 		if ($path === '') {
 			$path = '/';
 		}
@@ -77,6 +76,7 @@ class View {
 	 * @return string
 	 */
 	public function getRelativePath($path) {
+		$this->assertPathLength($path);
 		if ($this->fakeRoot == '') {
 			return $path;
 		}
@@ -208,6 +208,7 @@ class View {
 	}
 
 	public function readfile($path) {
+		$this->assertPathLength($path);
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
@@ -595,6 +596,7 @@ class View {
 	}
 
 	public function toTmpFile($path) {
+		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
 			$source = $this->fopen($path, 'r');
 			if ($source) {
@@ -611,7 +613,7 @@ class View {
 	}
 
 	public function fromTmpFile($tmpFile, $path) {
-
+		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
 
 			// Get directory that the file is going into
@@ -640,6 +642,7 @@ class View {
 	}
 
 	public function getMimeType($path) {
+		$this->assertPathLength($path);
 		return $this->basicOperation('getMimeType', $path);
 	}
 
@@ -669,6 +672,7 @@ class View {
 	}
 
 	public function free_space($path = '/') {
+		$this->assertPathLength($path);
 		return $this->basicOperation('free_space', $path);
 	}
 
@@ -808,6 +812,7 @@ class View {
 	 * @return \OC\Files\FileInfo|false
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
+		$this->assertPathLength($path);
 		$data = array();
 		if (!Filesystem::isValidPath($path)) {
 			return $data;
@@ -878,6 +883,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
+		$this->assertPathLength($directory);
 		$result = array();
 		if (!Filesystem::isValidPath($directory)) {
 			return $result;
@@ -1006,6 +1012,7 @@ class View {
 	 * returns the fileid of the updated file
 	 */
 	public function putFileInfo($path, $data) {
+		$this->assertPathLength($path);
 		if ($data instanceof FileInfo) {
 			$data = $data->getData();
 		}
@@ -1152,5 +1159,13 @@ class View {
 			}
 		}
 		return null;
+	}
+
+	private function assertPathLength($path) {
+		$maxLen = min(PHP_MAXPATHLEN, 4000);
+		$pathLen = strlen($path);
+		if ($pathLen > $maxLen) {
+			throw new \OCP\Files\InvalidPathException("Path length($pathLen) exceeds max path length($maxLen): $path");
+		}
 	}
 }
