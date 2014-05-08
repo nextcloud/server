@@ -603,6 +603,10 @@ class Cache {
 		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ? AND `storage` = ?';
 		$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 		if ($row = $result->fetchRow()) {
+			// Oracle stores empty strings as null...
+			if ($row['path'] === null) {
+				return '';
+			}
 			return $row['path'];
 		} else {
 			return null;
