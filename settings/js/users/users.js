@@ -455,7 +455,6 @@ $(document).ready(function () {
 
 	// Implements User Search
 	filter = new UserManagementFilter($('#usersearchform input'), UserList, GroupList);
-	filter.addResetButton($('.userFilterReset').first());
 
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');
