@@ -236,6 +236,6 @@
 		}
 	};
 
-	window.BreadCrumb = BreadCrumb;
+	OCA.Files.BreadCrumb = BreadCrumb;
 })();
 

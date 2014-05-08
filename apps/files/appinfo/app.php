@@ -19,3 +19,13 @@ $templateManager->registerTemplate('text/html', 'core/templates/filetemplates/te
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
+
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"id" => 'files',
+		"appname" => 'files',
+		"script" => 'list.php',
+		"order" => 0,
+		"name" => $l->t('All files')
+	)
+);

@@ -8,265 +8,314 @@
  *
  */
 
-/* global OC, t, FileList */
 /* global getURLParameter */
-var Files = {
-	// file space size sync
-	_updateStorageStatistics: function() {
-		Files._updateStorageStatisticsTimeout = null;
-		var currentDir = FileList.getCurrentDirectory(),
-			state = Files.updateStorageStatistics;
-		if (state.dir){
-			if (state.dir === currentDir) {
+/**
+ * Utility class for file related operations
+ */
+(function() {
+	var Files = {
+		// file space size sync
+		_updateStorageStatistics: function() {
+			// FIXME
+			console.warn('FIXME: storage statistics!');
+			return;
+			Files._updateStorageStatisticsTimeout = null;
+			var currentDir = OCA.Files.FileList.getCurrentDirectory(),
+				state = Files.updateStorageStatistics;
+			if (state.dir){
+				if (state.dir === currentDir) {
+					return;
+				}
+				// cancel previous call, as it was for another dir
+				state.call.abort();
+			}
+			state.dir = currentDir;
+			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
+				state.dir = null;
+				state.call = null;
+				Files.updateMaxUploadFilesize(response);
+			});
+		},
+		updateStorageStatistics: function(force) {
+			if (!OC.currentUser) {
 				return;
 			}
-			// cancel previous call, as it was for another dir
-			state.call.abort();
-		}
-		state.dir = currentDir;
-		state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
-			state.dir = null;
-			state.call = null;
-			Files.updateMaxUploadFilesize(response);
-		});
-	},
-	updateStorageStatistics: function(force) {
-		if (!OC.currentUser) {
-			return;
-		}
 
-		// debounce to prevent calling too often
-		if (Files._updateStorageStatisticsTimeout) {
-			clearTimeout(Files._updateStorageStatisticsTimeout);
-		}
-		if (force) {
-			Files._updateStorageStatistics();
-		}
-		else {
-			Files._updateStorageStatisticsTimeout = setTimeout(Files._updateStorageStatistics, 250);
-		}
-	},
-
-	updateMaxUploadFilesize:function(response) {
-		if (response === undefined) {
-			return;
-		}
-		if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
-			$('#max_upload').val(response.data.uploadMaxFilesize);
-			$('#free_space').val(response.data.freeSpace);
-			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
-			$('#usedSpacePercent').val(response.data.usedSpacePercent);
-			Files.displayStorageWarnings();
-		}
-		if (response[0] === undefined) {
-			return;
-		}
-		if (response[0].uploadMaxFilesize !== undefined) {
-			$('#max_upload').val(response[0].uploadMaxFilesize);
-			$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
-			$('#usedSpacePercent').val(response[0].usedSpacePercent);
-			Files.displayStorageWarnings();
-		}
-
-	},
-
-	/**
-	 * Fix path name by removing double slash at the beginning, if any
-	 */
-	fixPath: function(fileName) {
-		if (fileName.substr(0, 2) == '//') {
-			return fileName.substr(1);
-		}
-		return fileName;
-	},
-
-	/**
-	 * Checks whether the given file name is valid.
-	 * @param name file name to check
-	 * @return true if the file name is valid.
-	 * Throws a string exception with an error message if
-	 * the file name is not valid
-	 */
-	isFileNameValid: function (name) {
-		var trimmedName = name.trim();
-		if (trimmedName === '.'	|| trimmedName === '..')
-		{
-			throw t('files', '"{name}" is an invalid file name.', {name: name});
-		} else if (trimmedName.length === 0) {
-			throw t('files', 'File name cannot be empty.');
-		}
-		// check for invalid characters
-		var invalidCharacters =
-			['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
-		for (var i = 0; i < invalidCharacters.length; i++) {
-			if (trimmedName.indexOf(invalidCharacters[i]) !== -1) {
-				throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
+			// debounce to prevent calling too often
+			if (Files._updateStorageStatisticsTimeout) {
+				clearTimeout(Files._updateStorageStatisticsTimeout);
 			}
-		}
-		return true;
-	},
-	displayStorageWarnings: function() {
-		if (!OC.Notification.isHidden()) {
-			return;
-		}
-
-		var usedSpacePercent = $('#usedSpacePercent').val();
-		if (usedSpacePercent > 98) {
-			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
-			return;
-		}
-		if (usedSpacePercent > 90) {
-			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
-				{usedSpacePercent: usedSpacePercent}));
-		}
-	},
-
-	displayEncryptionWarning: function() {
-
-		if (!OC.Notification.isHidden()) {
-			return;
-		}
-
-		var encryptedFiles = $('#encryptedFiles').val();
-		var initStatus = $('#encryptionInitStatus').val();
-		if (initStatus === '0') { // enc not initialized, but should be
-			OC.Notification.show(t('files', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
-			return;
-		}
-		if (initStatus === '1') { // encryption tried to init but failed
-			OC.Notification.show(t('files', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
-			return;
-		}
-		if (encryptedFiles === '1') {
-			OC.Notification.show(t('files', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
-			return;
-		}
-	},
-
-	// TODO: move to FileList class
-	setupDragAndDrop: function() {
-		var $fileList = $('#fileList');
-
-		//drag/drop of files
-		$fileList.find('tr td.filename').each(function(i,e) {
-			if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
-				$(e).draggable(dragOptions);
+			if (force) {
+				Files._updateStorageStatistics();
 			}
-		});
-
-		$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e) {
-			if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE) {
-				$(e).droppable(folderDropOptions);
+			else {
+				Files._updateStorageStatisticsTimeout = setTimeout(Files._updateStorageStatistics, 250);
 			}
-		});
-	},
+		},
 
-	/**
-	 * Returns the download URL of the given file(s)
-	 * @param filename string or array of file names to download
-	 * @param dir optional directory in which the file name is, defaults to the current directory
-	 */
-	getDownloadUrl: function(filename, dir) {
-		if ($.isArray(filename)) {
-			filename = JSON.stringify(filename);
-		}
-		var params = {
-			dir: dir || FileList.getCurrentDirectory(),
-			files: filename
-		};
-		return this.getAjaxUrl('download', params);
-	},
+		updateMaxUploadFilesize:function(response) {
+			if (response === undefined) {
+				return;
+			}
+			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
+				$('#max_upload').val(response.data.uploadMaxFilesize);
+				$('#free_space').val(response.data.freeSpace);
+				$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
+				$('#usedSpacePercent').val(response.data.usedSpacePercent);
+				Files.displayStorageWarnings();
+			}
+			if (response[0] === undefined) {
+				return;
+			}
+			if (response[0].uploadMaxFilesize !== undefined) {
+				$('#max_upload').val(response[0].uploadMaxFilesize);
+				$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
+				$('#usedSpacePercent').val(response[0].usedSpacePercent);
+				Files.displayStorageWarnings();
+			}
 
-	/**
-	 * Returns the ajax URL for a given action
-	 * @param action action string
-	 * @param params optional params map
-	 */
-	getAjaxUrl: function(action, params) {
-		var q = '';
-		if (params) {
-			q = '?' + OC.buildQueryString(params);
-		}
-		return OC.filePath('files', 'ajax', action + '.php') + q;
-	}
-};
-$(document).ready(function() {
-	// FIXME: workaround for trashbin app
-	if (window.trashBinApp) {
-		return;
-	}
-	Files.displayEncryptionWarning();
-	Files.bindKeyboardShortcuts(document, jQuery);
+		},
 
-	Files.setupDragAndDrop();
+		/**
+		 * Fix path name by removing double slash at the beginning, if any
+		 */
+		fixPath: function(fileName) {
+			if (fileName.substr(0, 2) == '//') {
+				return fileName.substr(1);
+			}
+			return fileName;
+		},
 
-	$('#file_action_panel').attr('activeAction', false);
+		/**
+		 * Checks whether the given file name is valid.
+		 * @param name file name to check
+		 * @return true if the file name is valid.
+		 * Throws a string exception with an error message if
+		 * the file name is not valid
+		 */
+		isFileNameValid: function (name) {
+			var trimmedName = name.trim();
+			if (trimmedName === '.'	|| trimmedName === '..')
+			{
+				throw t('files', '"{name}" is an invalid file name.', {name: name});
+			} else if (trimmedName.length === 0) {
+				throw t('files', 'File name cannot be empty.');
+			}
+			// check for invalid characters
+			var invalidCharacters =
+				['\\', '/', '<', '>', ':', '"', '|', '?', '*', '\n'];
+			for (var i = 0; i < invalidCharacters.length; i++) {
+				if (trimmedName.indexOf(invalidCharacters[i]) !== -1) {
+					throw t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed.");
+				}
+			}
+			return true;
+		},
+		displayStorageWarnings: function() {
+			if (!OC.Notification.isHidden()) {
+				return;
+			}
 
-	// Triggers invisible file input
-	$('#upload a').on('click', function() {
-		$(this).parent().children('#file_upload_start').trigger('click');
-		return false;
-	});
+			var usedSpacePercent = $('#usedSpacePercent').val();
+			if (usedSpacePercent > 98) {
+				OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
+				return;
+			}
+			if (usedSpacePercent > 90) {
+				OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)',
+					{usedSpacePercent: usedSpacePercent}));
+			}
+		},
 
-	// Trigger cancelling of file upload
-	$('#uploadprogresswrapper .stop').on('click', function() {
-		OC.Upload.cancelUploads();
-		FileList.updateSelectionSummary();
-	});
+		displayEncryptionWarning: function() {
 
-	// Show trash bin
-	$('#trash').on('click', function() {
-		window.location=OC.filePath('files_trashbin', '', 'index.php');
-	});
+			if (!OC.Notification.isHidden()) {
+				return;
+			}
 
-	// drag&drop support using jquery.fileupload
-	// TODO use OC.dialogs
-	$(document).bind('drop dragover', function (e) {
-			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
-		});
+			var encryptedFiles = $('#encryptedFiles').val();
+			var initStatus = $('#encryptionInitStatus').val();
+			if (initStatus === '0') { // enc not initialized, but should be
+				OC.Notification.show(t('files', 'Encryption App is enabled but your keys are not initialized, please log-out and log-in again'));
+				return;
+			}
+			if (initStatus === '1') { // encryption tried to init but failed
+				OC.Notification.show(t('files', 'Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.'));
+				return;
+			}
+			if (encryptedFiles === '1') {
+				OC.Notification.show(t('files', 'Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.'));
+				return;
+			}
+		},
 
-	//do a background scan if needed
-	scanFiles();
+		// TODO: move to FileList class
+		setupDragAndDrop: function() {
+			var $fileList = $('#fileList');
 
-	// display storage warnings
-	setTimeout(Files.displayStorageWarnings, 100);
-	OC.Notification.setDefault(Files.displayStorageWarnings);
-
-	// only possible at the moment if user is logged in
-	if (OC.currentUser) {
-		// start on load - we ask the server every 5 minutes
-		var updateStorageStatisticsInterval = 5*60*1000;
-		var updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
-
-		// Use jquery-visibility to de-/re-activate file stats sync
-		if ($.support.pageVisibility) {
-			$(document).on({
-				'show.visibility': function() {
-					if (!updateStorageStatisticsIntervalId) {
-						updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
-					}
-				},
-				'hide.visibility': function() {
-					clearInterval(updateStorageStatisticsIntervalId);
-					updateStorageStatisticsIntervalId = 0;
+			//drag/drop of files
+			$fileList.find('tr td.filename').each(function(i,e) {
+				if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+					$(e).draggable(dragOptions);
 				}
 			});
+
+			$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e) {
+				if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE) {
+					$(e).droppable(folderDropOptions);
+				}
+			});
+		},
+
+		/**
+		 * Returns the download URL of the given file(s)
+		 * @param filename string or array of file names to download
+		 * @param dir optional directory in which the file name is, defaults to the current directory
+		 */
+		getDownloadUrl: function(filename, dir) {
+			if ($.isArray(filename)) {
+				filename = JSON.stringify(filename);
+			}
+			var params = {
+				dir: dir,
+				files: filename
+			};
+			return this.getAjaxUrl('download', params);
+		},
+
+		/**
+		 * Returns the ajax URL for a given action
+		 * @param action action string
+		 * @param params optional params map
+		 */
+		getAjaxUrl: function(action, params) {
+			var q = '';
+			if (params) {
+				q = '?' + OC.buildQueryString(params);
+			}
+			return OC.filePath('files', 'ajax', action + '.php') + q;
+		},
+
+		getMimeIcon: function(mime, ready) {
+			if (Files.getMimeIcon.cache[mime]) {
+				ready(Files.getMimeIcon.cache[mime]);
+			} else {
+				$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
+					if(OC.Util.hasSVGSupport()){
+						path = path.substr(0, path.length-4) + '.svg';
+					}
+					Files.getMimeIcon.cache[mime]=path;
+					ready(Files.getMimeIcon.cache[mime]);
+				});
+			}
+		},
+
+		/**
+		 * Generates a preview URL based on the URL space.
+		 * @param urlSpec map with {x: width, y: height, file: file path}
+		 * @return preview URL
+		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
+		 */
+		generatePreviewUrl: function(urlSpec) {
+			console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
+			return OCA.Files.App.fileList.generatePreviewUrl(urlSpec);
+		},
+
+		/**
+		 * Lazy load preview
+		 * @deprecated used OCA.Files.FileList.lazyLoadPreview instead
+		 */
+		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
+			console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
+			return OCA.Files.App.fileList.lazyLoadPreview({
+				path: path,
+				mime: mime,
+				callback: ready,
+				width: width,
+				height: height,
+				etag: etag
+			});
+		},
+
+		/**
+		 * Initialize the files view
+		 */
+		initialize: function() {
+			Files.getMimeIcon.cache = {};
+			Files.displayEncryptionWarning();
+			Files.bindKeyboardShortcuts(document, jQuery);
+
+			Files.setupDragAndDrop();
+
+			// TODO: move file list related code (upload) to OCA.Files.FileList
+			$('#file_action_panel').attr('activeAction', false);
+
+			// Triggers invisible file input
+			$('#upload a').on('click', function() {
+				$(this).parent().children('#file_upload_start').trigger('click');
+				return false;
+			});
+
+			// Trigger cancelling of file upload
+			$('#uploadprogresswrapper .stop').on('click', function() {
+				OC.Upload.cancelUploads();
+				OCA.Files.FileList.updateSelectionSummary();
+			});
+
+			// drag&drop support using jquery.fileupload
+			// TODO use OC.dialogs
+			$(document).bind('drop dragover', function (e) {
+					e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
+				});
+
+			//do a background scan if needed
+			scanFiles();
+
+			// display storage warnings
+			setTimeout(Files.displayStorageWarnings, 100);
+			OC.Notification.setDefault(Files.displayStorageWarnings);
+
+			// only possible at the moment if user is logged in
+			if (OC.currentUser) {
+				// start on load - we ask the server every 5 minutes
+				var updateStorageStatisticsInterval = 5*60*1000;
+				var updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
+
+				// Use jquery-visibility to de-/re-activate file stats sync
+				if ($.support.pageVisibility) {
+					$(document).on({
+						'show.visibility': function() {
+							if (!updateStorageStatisticsIntervalId) {
+								updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
+							}
+						},
+						'hide.visibility': function() {
+							clearInterval(updateStorageStatisticsIntervalId);
+							updateStorageStatisticsIntervalId = 0;
+						}
+					});
+				}
+			}
+
+			$('#app-settings-header').on('click', function() {
+				var $settings = $('#app-settings');
+				$settings.toggleClass('opened');
+				if ($settings.hasClass('opened')) {
+					$settings.find('input').focus();
+				}
+			});
+
+			//scroll to and highlight preselected file
+			/*
+			if (getURLParameter('scrollto')) {
+				FileList.scrollTo(getURLParameter('scrollto'));
+			}
+			*/
 		}
 	}
 
-	$('#app-settings-header').on('click', function() {
-		var $settings = $('#app-settings');
-		$settings.toggleClass('opened');
-		if ($settings.hasClass('opened')) {
-			$settings.find('input').focus();
-		}
-	});
-
-	//scroll to and highlight preselected file
-	if (getURLParameter('scrollto')) {
-		FileList.scrollTo(getURLParameter('scrollto'));
-	}
-});
+	OCA.Files.Files = Files;
+})();
 
 function scanFiles(force, dir, users) {
 	if (!OC.currentUser) {
@@ -300,7 +349,7 @@ function scanFiles(force, dir, users) {
 	scannerEventSource.listen('done',function(count) {
 		scanFiles.scanning=false;
 		console.log('done after ' + count + ' files');
-		Files.updateStorageStatistics();
+		OCA.Files.Files.updateStorageStatistics();
 	});
 	scannerEventSource.listen('user',function(user) {
 		console.log('scanning files for ' + user);
@@ -311,6 +360,7 @@ scanFiles.scanning=false;
 // TODO: move to FileList
 var createDragShadow = function(event) {
 	//select dragged file
+	var FileList = OCA.Files.FileList;
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
 	if (!isDragSelected) {
 		//select dragged file
@@ -331,7 +381,7 @@ var createDragShadow = function(event) {
 	var tbody = $('<tbody></tbody>');
 	dragshadow.append(tbody);
 
-	var dir=$('#dir').val();
+	var dir = FileList.getCurrentDirectory();
 
 	$(selectedFiles).each(function(i,elem) {
 		var newtr = $('<tr/>')
@@ -344,8 +394,8 @@ var createDragShadow = function(event) {
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
-			var path = getPathForPreview(elem.name);
-			Files.lazyLoadPreview(path, elem.mime, function(previewpath) {
+			var path = dir + '/' + elem.name;
+			OCA.Files.App.fileList.lazyLoadPreview(path, elem.mime, function(previewpath) {
 				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			}, null, null, elem.etag);
 		}
@@ -358,9 +408,14 @@ var createDragShadow = function(event) {
 //start&stop handlers needs some cleaning up
 // TODO: move to FileList class
 var dragOptions={
-	revert: 'invalid', revertDuration: 300,
-	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: 24, top: 18 },
-	helper: createDragShadow, cursor: 'move',
+	revert: 'invalid',
+	revertDuration: 300,
+	opacity: 0.7,
+	zIndex: 100,
+	appendTo: 'body',
+	cursorAt: { left: 24, top: 18 },
+	helper: createDragShadow,
+	cursor: 'move',
 	start: function(event, ui){
 		var $selectedFiles = $('td.filename input:checkbox:checked');
 		if($selectedFiles.length > 1){
@@ -391,6 +446,7 @@ var folderDropOptions = {
 	hoverClass: "canDrop",
 	drop: function( event, ui ) {
 		// don't allow moving a file into a selected folder
+		var FileList = OCA.Files.FileList;
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
@@ -408,115 +464,11 @@ var folderDropOptions = {
 	tolerance: 'pointer'
 };
 
-Files.getMimeIcon = function(mime, ready) {
-	if (Files.getMimeIcon.cache[mime]) {
-		ready(Files.getMimeIcon.cache[mime]);
-	} else {
-		$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path) {
-			if(OC.Util.hasSVGSupport()){
-				path = path.substr(0, path.length-4) + '.svg';
-			}
-			Files.getMimeIcon.cache[mime]=path;
-			ready(Files.getMimeIcon.cache[mime]);
-		});
-	}
-}
-Files.getMimeIcon.cache={};
-
-function getPathForPreview(name) {
-	var path = $('#dir').val() + '/' + name;
-	return path;
-}
-
-/**
- * Generates a preview URL based on the URL space.
- * @param urlSpec map with {x: width, y: height, file: file path}
- * @return preview URL
- */
-Files.generatePreviewUrl = function(urlSpec) {
-	urlSpec = urlSpec || {};
-	if (!urlSpec.x) {
-		urlSpec.x = $('#filestable').data('preview-x');
-	}
-	if (!urlSpec.y) {
-		urlSpec.y = $('#filestable').data('preview-y');
-	}
-	urlSpec.y *= window.devicePixelRatio;
-	urlSpec.x *= window.devicePixelRatio;
-	urlSpec.forceIcon = 0;
-	return OC.generateUrl('/core/preview.png?') + $.param(urlSpec);
-};
-
-Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
-	// get mime icon url
-	Files.getMimeIcon(mime, function(iconURL) {
-		var previewURL,
-			urlSpec = {};
-		ready(iconURL); // set mimeicon URL
-
-		urlSpec.file = Files.fixPath(path);
-
-		if (etag){
-			// use etag as cache buster
-			urlSpec.c = etag;
-		}
-		else {
-			console.warn('Files.lazyLoadPreview(): missing etag argument');
-		}
-
-		previewURL = Files.generatePreviewUrl(urlSpec);
-		previewURL = previewURL.replace('(', '%28');
-		previewURL = previewURL.replace(')', '%29');
-
-		// preload image to prevent delay
-		// this will make the browser cache the image
-		var img = new Image();
-		img.onload = function(){
-			// if loading the preview image failed (no preview for the mimetype) then img.width will < 5
-			if (img.width > 5) {
-				ready(previewURL);
-			}
-		};
-		img.src = previewURL;
-	});
-};
-
-function getUniqueName(name) {
-	if (FileList.findFileEl(name).exists()) {
-		var numMatch;
-		var parts=name.split('.');
-		var extension = "";
-		if (parts.length > 1) {
-			extension=parts.pop();
-		}
-		var base=parts.join('.');
-		numMatch=base.match(/\((\d+)\)/);
-		var num=2;
-		if (numMatch && numMatch.length>0) {
-			num=parseInt(numMatch[numMatch.length-1])+1;
-			base=base.split('(');
-			base.pop();
-			base=$.trim(base.join('('));
-		}
-		name=base+' ('+num+')';
-		if (extension) {
-			name = name+'.'+extension;
-		}
-		return getUniqueName(name);
-	}
-	return name;
-}
-
-function checkTrashStatus() {
-	$.post(OC.filePath('files_trashbin', 'ajax', 'isEmpty.php'), function(result) {
-		if (result.data.isEmpty === false) {
-			$("input[type=button][id=trash]").removeAttr("disabled");
-		}
-	});
-}
-
 // override core's fileDownloadPath (legacy)
 function fileDownloadPath(dir, file) {
-	return Files.getDownloadUrl(file, dir);
+	return OCA.Files.Files.getDownloadUrl(file, dir);
 }
+
+// for backward compatibility
+window.Files = OCA.Files.Files;
 

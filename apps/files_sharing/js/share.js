@@ -11,10 +11,9 @@
 /* global OC, t, FileList, FileActions */
 $(document).ready(function() {
 
-	var disableSharing = $('#disableSharing').data('status'),
-		sharesLoaded = false;
+	var sharesLoaded = false;
 
-	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
+	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined') {
 		var oldCreateRow = FileList._createRow;
 		FileList._createRow = function(fileData) {
 			var tr = oldCreateRow.apply(this, arguments);

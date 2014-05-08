@@ -5,11 +5,11 @@ $l = OC_L10N::get('files_trashbin');
 \OCA\Files_Trashbin\Trashbin::registerHooks();
 
 \OCA\Files\App::getNavigationManager()->add(
-	array(
-		"id" => 'trashbin',
-		"appname" => 'files_trashbin',
-		"script" => 'index.php',
-		"order" => 1,
-		"name" => $l->t('Deleted files')
-	)
+array(
+	"id" => 'trashbin',
+	"appname" => 'files_trashbin',
+	"script" => 'index.php',
+	"order" => 1,
+	"name" => $l->t('Deleted files')
+)
 );

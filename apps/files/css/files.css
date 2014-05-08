@@ -70,9 +70,8 @@
 
 /* FILE TABLE */
 
-#filestable {
+.app-files #filestable {
 	position: relative;
-	top: 44px;
 	width: 100%;
 }
 /* make sure there's enough room for the file actions */
@@ -84,9 +83,29 @@
 }
 
 #filestable tbody tr { background-color:#fff; height:51px; }
+/**
+ * Override global #controls styles
+ * to be more flexible / relative
+ */
 .app-files #controls {
-	left: 300px;
+	position: static;
+	left: auto;
+	top: auto;
 }
+
+.app-files #app-navigation {
+	width: 150px;
+}
+
+.app-files #app-settings {
+	width: 149px; /* DUH */
+}
+
+.app-files #app-settings input {
+	width: 90%;
+}
+
+#filestable tbody tr { background-color:#fff; height:40px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -433,8 +452,4 @@ table.dragshadow td.size {
 }
 .mask.transparent{
 	opacity: 0;
-}
-
-.app-files #app-settings input {
-	width: 90%;
 }

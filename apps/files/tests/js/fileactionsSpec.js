@@ -19,20 +19,23 @@
 *
 */
 
-/* global OC, FileActions, FileList */
-describe('FileActions tests', function() {
-	var $filesTable;
+describe('OCA.Files.FileActions tests', function() {
+	var $filesTable, fileList;
+	var FileActions = OCA.Files.FileActions;
 
 	beforeEach(function() {
 		// init horrible parameters
-		var $body = $('body');
+		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
 		// dummy files table
 		$filesTable = $body.append('<table id="filestable"></table>');
-		FileList.files = [];
+		fileList = new OCA.Files.FileList($('#testArea'));
+		FileActions.registerDefaultActions(fileList);
 	});
 	afterEach(function() {
+		FileActions.clear();
+		fileList = undefined;
 		$('#dir, #permissions, #filestable').remove();
 	});
 	it('calling display() sets file actions', function() {
@@ -47,7 +50,7 @@ describe('FileActions tests', function() {
 		};
 
 		// note: FileActions.display() is called implicitly
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 
 		// actions defined after call
 		expect($tr.find('.action.action-download').length).toEqual(1);
@@ -66,7 +69,7 @@ describe('FileActions tests', function() {
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 
 		FileActions.display($tr.find('td.filename'), true);
 		FileActions.display($tr.find('td.filename'), true);
@@ -87,7 +90,7 @@ describe('FileActions tests', function() {
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 		FileActions.display($tr.find('td.filename'), true);
 
 		$tr.find('.action-download').click();
@@ -97,7 +100,7 @@ describe('FileActions tests', function() {
 		redirectStub.restore();
 	});
 	it('deletes file when clicking delete', function() {
-		var deleteStub = sinon.stub(FileList, 'do_delete');
+		var deleteStub = sinon.stub(fileList, 'do_delete');
 		var fileData = {
 			id: 18,
 			type: 'file',
@@ -107,7 +110,7 @@ describe('FileActions tests', function() {
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 		FileActions.display($tr.find('td.filename'), true);
 
 		$tr.find('.action.delete').click();

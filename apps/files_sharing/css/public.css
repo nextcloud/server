@@ -2,6 +2,10 @@
 	left: 0;
 }
 
+#filestable {
+	margin-top: 90px;
+}
+
 #preview {
 	background: #fff;
 	text-align: center;
