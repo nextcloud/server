@@ -109,7 +109,7 @@ class MetaData {
 
 	/**
 	 * @brief sets the sort mode, currently 0 (none) and 1 (user entries,
-	 * descalating) are supported
+	 * descending) are supported
 	 * @param int the sortMode (SORT_NONE, SORT_USERCOUNT)
 	 */
 	public function setSorting($sortMode) {
