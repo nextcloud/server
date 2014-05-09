@@ -38,8 +38,11 @@
 		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
 			<a href="#" class="dorename">
 				<span class="groupname"><?php p($group['name']); ?></span>
-				<img class="svg action rename" src="<?php p(image_path('core', 'actions/rename.svg'))?>"
-				original-title="<?php p($l->t('Edit'))?>" alt="<?php p($l->t("change group name"))?>" title="<?php p($l->t("change group name"))?>" />
+				<!-- TODO: backend does not support renaming groups yet
+				<img class="svg action rename"
+					src="<?php p(image_path('core', 'actions/rename.svg'))?>"
+					original-title="<?php p($l->t('Edit'))?>" alt="" />
+				-->
 			</a>
 			<span class="utils">
 				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
