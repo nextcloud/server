@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# dixebra <davidlopezcastanon@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-09 01:55-0400\n"
+"PO-Revision-Date: 2014-05-08 18:11+0000\n"
+"Last-Translator: dixebra <davidlopezcastanon@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +24,11 @@ msgstr "Compartíu por {owner}"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Esta compartición tien contraseña protexida"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "La contraseña ye incorreuta. Inténtalo otra vegada."
 
 #: templates/authenticate.php:10
 msgid "Password"
@@ -35,37 +36,37 @@ msgstr "Contraseña"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Sentímoslo, esti enllaz paez que ya nun furrula."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Les razones pueden ser: "
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "esti elementu ta desaniciáu"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "l'enllaz finó"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "compartir ta desactiváu"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "Para más información, entruga-y a la persona qu'unvió esti enllaz"
 
 #: templates/public.php:21
 msgid "Download"
 msgstr "Baxar"
 
-#: templates/public.php:53
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Descargar %s"
 
-#: templates/public.php:57
+#: templates/public.php:56
 msgid "Direct link"
-msgstr ""
+msgstr "Enllaz direutu"

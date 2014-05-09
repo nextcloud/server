@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-09 01:55-0400\n"
+"PO-Revision-Date: 2014-05-08 19:30+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: base.php:723
+#: base.php:713
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:724
+#: base.php:714
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -78,23 +78,23 @@ msgstr "Neveljavna slika"
 msgid "web services under your control"
 msgstr "spletne storitve pod vašim nadzorom"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "Prejemanje datotek v paketu ZIP je onemogočeno."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Datoteke je mogoče prejeti le posamično."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Nazaj na datoteke"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -280,13 +280,13 @@ msgstr "Nastavi uporabniško ime skrbnika."
 msgid "Set an admin password."
 msgstr "Nastavi geslo skrbnika."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Preverite <a href='%s'>navodila namestitve</a>."
@@ -300,7 +300,7 @@ msgstr "%s je omogočil souporabo »%s«"
 #: private/share/share.php:498
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Souporaba %s je spodletela, ker ta datoteka ne obstaja"
 
 #: private/share/share.php:523
 #, php-format
@@ -344,57 +344,57 @@ msgstr "Nastavljanje souporabe %s je spodletelo, ker souporaba preko povezave ni
 msgid "Share type %s is not valid for %s"
 msgstr "Vrsta souporabe %s za %s ni veljavna."
 
-#: private/share/share.php:773
+#: private/share/share.php:774
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:834
+#: private/share/share.php:835
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:940
+#: private/share/share.php:941
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:947
+#: private/share/share.php:948
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Ozadnjega programa %s za souporabo ni mogoče najti"
 
-#: private/share/share.php:953
+#: private/share/share.php:954
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Ozadnjega programa za souporabo za %s ni mogoče najti"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1368
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1376
+#: private/share/share.php:1377
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1391
+#: private/share/share.php:1392
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1403
+#: private/share/share.php:1404
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1417
+#: private/share/share.php:1418
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

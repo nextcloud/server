@@ -7,7 +7,7 @@
 # Fenuks <fenuksuh@ya.ru>, 2013
 # alfsoft <alfsoft@gmail.com>, 2013
 # Denis Plastinin <denispal@gmail.com>, 2014
-# jekader <jekader@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013-2014
 # Евгений Белоусов <kvantor12@gmail.com>, 2013
 # mogarych <mogarych@mail.ru>, 2014
 # unixoid <victor.ashirov@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: Denis Plastinin <denispal@gmail.com>\n"
+"POT-Creation-Date: 2014-05-09 01:55-0400\n"
+"PO-Revision-Date: 2014-05-08 19:30+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,7 +176,7 @@ msgstr "Помощь"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Группы, отвечающие этим критериям доступны в  %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -212,7 +212,7 @@ msgstr "групп найдено"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Пользователи пользуются этим атрибутом для входа:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -424,24 +424,24 @@ msgstr "Ассоциация Группа-Участник"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Вложенные группы"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "При включении, активируется поддержка групп, содержащих другие группы. (Работает только если атрибут член группы содержит DN.)"
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Постраничный chunksize"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "ChunkSize используется в страничных поисках LDAP которые могут возвращать громоздкие результаты, как например списки пользователей или групп. (Настройка его  в \"0\" отключает страничный поиск LDAP для таких ситуаций.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena.",
 "Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
 "%s shared »%s« with you" => "%s je omogočil souporabo »%s«",
+"Sharing %s failed, because the file does not exist" => "Souporaba %s je spodletela, ker ta datoteka ne obstaja",
 "Sharing %s failed, because the user %s is the item owner" => "Nastavljanje souporabe %s je spodletelo, ker je uporabnik %s lastnik predmeta.",
 "Sharing %s failed, because the user %s does not exist" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ne obstaja.",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član nobene skupine, v kateri je tudi uporabnik %s.",
