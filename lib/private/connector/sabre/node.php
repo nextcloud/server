@@ -252,14 +252,17 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		if ($this->info->isMounted()) {
 			$p .= 'M';
 		}
+		if ($this->info->isDeletable()) {
+			$p .= 'D';
+		}
+		if ($this->info->isDeletable()) {
+			$p .= 'N';
+		}
 		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
 			if ($this->info->isUpdateable()) {
 				$p .= 'W';
 			}
 		} else {
-			if ($this->info->isDeletable()) {
-				$p .= 'D';
-			}
 			if ($this->info->isUpdateable()) {
 				$p .= 'CK';
 			}
