@@ -93,8 +93,8 @@ class ConvertType extends Command {
 	}
 
 	protected function validateInput(InputInterface $input, OutputInterface $output) {
-		$type = $input->getArgument('type');
-		if ($this->connectionFactory->normalizeType($type) === 'sqlite3') {
+		$type = $this->connectionFactory->normalizeType($input->getArgument('type'));
+		if ($type === 'sqlite3') {
 			throw new \InvalidArgumentException(
 				'Converting to SQLite (sqlite3) is currently not supported.'
 			);
