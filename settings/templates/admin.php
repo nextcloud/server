@@ -86,7 +86,7 @@ if (!$_['isWebDavWorking']) {
 // Are doc blocks accessible?
 if (!$_['isAnnotationsWorking']) {
 	?>
-<fieldset class="personalblock">
+<div class="section">
 	<h2><?php p($l->t('Setup Warning'));?></h2>
 
 	<span class="securitywarning">
@@ -94,7 +94,7 @@ if (!$_['isAnnotationsWorking']) {
 		<?php p($l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')); ?>
 	</span>
 
-</fieldset>
+</div>
 <?php
 }
 
