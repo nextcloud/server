@@ -219,7 +219,18 @@ OC.Share={
 				html += '<div id="link">';
 				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share link')+'</label>';
 				html += '<br />';
+
+				var defaultExpireMessage = '';
+				if ((itemType === 'folder' || itemType === 'file') && oc_appconfig.core.defaultExpireDateEnabled === 'yes') {
+					if (oc_appconfig.core.defaultExpireDateEnforced === 'yes') {
+						defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
+					} else {
+						defaultExpireMessage = t('core', 'By default the public link will expire after {days} days', {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
+					}
+				}
+				html += '<div id="defaultExpireMessage">'+defaultExpireMessage+'</div>';
 				html += '<input id="linkText" type="text" readonly="readonly" />';
+
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
@@ -490,19 +501,20 @@ OC.Share={
 			$('#linkPassText').attr('placeholder', '**********');
 		}
 		$('#expiration').show();
+		$('#defaultExpireMessage').show();
 		$('#emailPrivateLink #email').show();
 		$('#emailPrivateLink #emailButton').show();
 		$('#allowPublicUploadWrapper').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
+		$('#defaultExpireMessage').hide();
 		$('#showPassword').hide();
 		$('#showPassword+label').hide();
 		$('#linkPass').hide();
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
 		$('#allowPublicUploadWrapper').hide();
-		$('#expirationDate').hide();
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
