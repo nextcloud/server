@@ -65,6 +65,7 @@ class Manager {
 			);
 			$mount = new Mount(self::STORAGE, $mountPoint, $options, $this->storageLoader);
 			$this->mountManager->addMount($mount);
+			return $mount;
 		}
 	}
 
