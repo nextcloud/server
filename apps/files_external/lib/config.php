@@ -35,6 +35,7 @@ class OC_Mount_Config {
 	const MOUNT_TYPE_GLOBAL = 'global';
 	const MOUNT_TYPE_GROUP = 'group';
 	const MOUNT_TYPE_USER = 'user';
+	const MOUNT_TYPE_PERSONAL = 'personal';
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
@@ -135,6 +136,8 @@ class OC_Mount_Config {
 
 		// Load system mount points
 		$mountConfig = self::readData();
+
+		// Global mount points (is this redundant?)
 		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
 				$options['options'] = self::decryptPasswords($options['options']);
@@ -144,11 +147,12 @@ class OC_Mount_Config {
 
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
-					$options['priority_type'] = 'global';
+					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
 					$mountPoints[$mountPoint] = $options;
 				}
 			}
 		}
+		// All user mount points
 		if (isset($mountConfig[self::MOUNT_TYPE_USER]) && isset($mountConfig[self::MOUNT_TYPE_USER]['all'])) {
 			$mounts = $mountConfig[self::MOUNT_TYPE_USER]['all'];
 			foreach ($mounts as $mountPoint => $options) {
@@ -162,13 +166,13 @@ class OC_Mount_Config {
 				}
 
 				if ( (!isset($mountPoints[$mountPoint]))
-					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-					|| ($mountPoints[$mountPoint]['priority_type'] !== 'global') ) {
-					$options['priority_type'] = 'global';
+					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
+					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
 					$mountPoints[$mountPoint] = $options;
 				}
 			}
 		}
+		// Group mount points
 		if (isset($mountConfig[self::MOUNT_TYPE_GROUP])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				if (\OC_Group::inGroup($user, $group)) {
@@ -184,14 +188,15 @@ class OC_Mount_Config {
 
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] !== 'group') ) {
-							$options['priority_type'] = 'group';
+							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_GROUP) ) {
+							$options['priority_type'] = self::MOUNT_TYPE_GROUP;
 							$mountPoints[$mountPoint] = $options;
 						}
 					}
 				}
 			}
 		}
+		// User mount points
 		if (isset($mountConfig[self::MOUNT_TYPE_USER])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER] as $mountUser => $mounts) {
 				if (strtolower($mountUser) === strtolower($user)) {
@@ -207,8 +212,8 @@ class OC_Mount_Config {
 
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
-							|| ($mountPoints[$mountPoint]['priority_type'] !== 'user') ) {
-							$options['priority_type'] = 'user';
+							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_USER) ) {
+							$options['priority_type'] = self::MOUNT_TYPE_USER;
 							$mountPoints[$mountPoint] = $options;
 						}
 					}
@@ -222,11 +227,9 @@ class OC_Mount_Config {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
 				$options['options'] = self::decryptPasswords($options['options']);
 
-				if ( (!isset($mountPoints[$mountPoint]))
-					|| ($mountPoints[$mountPoint]['priority_type'] !== 'personal') ) {
-					$options['priority_type'] = 'personal';
-					$mountPoints[$mountPoint] = $options;
-				}
+				// Always override previous config
+				$options['priority_type'] = self::MOUNT_TYPE_PERSONAL;
+				$mountPoints[$mountPoint] = $options;
 			}
 		}
 
