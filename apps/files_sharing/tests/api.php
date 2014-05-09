@@ -29,10 +29,14 @@ use OCA\Files\Share;
  */
 class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
+	const TEST_FOLDER_NAME = '/folder_share_api_test';
+
+	private static $tempStorage;
+
 	function setUp() {
 		parent::setUp();
 
-		$this->folder = '/folder_share_api_test';
+		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';
 		$this->subsubfolder = '/subsubfolder_share_api_test';
 
@@ -50,6 +54,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	function tearDown() {
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
+
+		self::$tempStorage = null;
 
 		parent::tearDown();
 	}
@@ -876,6 +882,55 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$shareApiDummy = new TestShareApi();
 
 		$this->assertSame($expectedResult, $shareApiDummy->correctPathTest($path, $folder));
+	}
+
+	/**
+	 * Post init mount points hook for mounting simulated ext storage
+	 */
+	public static function initTestMountPointsHook($data) {
+		if ($data['user'] === \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1) {
+			\OC\Files\Filesystem::mount(self::$tempStorage, array(), '/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
+		}
+	}
+
+	/**
+	 * Tests mounting a folder that is an external storage mount point.
+	 */
+	public function testShareStorageMountPoint() {
+		self::$tempStorage = new \OC\Files\Storage\Temporary(array());
+		self::$tempStorage->file_put_contents('test.txt', 'abcdef');
+		self::$tempStorage->getScanner()->scan('');
+
+		// needed because the sharing code sometimes switches the user internally and mounts the user's
+		// storages. In our case the temp storage isn't mounted automatically, so doing it in the post hook
+		// (similar to how ext storage works)
+		OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\Test_Files_Sharing_Api', 'initTestMountPointsHook');
+
+		// logging in will auto-mount the temp storage for user1 as well
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		$fileInfo = $this->view->getFileInfo($this->folder);
+
+		// user 1 shares the mount point folder with user2
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		// user2: check that mount point name appears correctly
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files/Shared');
+
+		$this->assertTrue($view->file_exists($this->folder));
+		$this->assertTrue($view->file_exists($this->folder . '/test.txt'));
+
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+
+		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints', '\Test_Files_Sharing_Api', 'initTestMountPointsHook');
 	}
 
 }
