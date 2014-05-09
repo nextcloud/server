@@ -118,9 +118,9 @@ GroupList = {
 					else {
 						GroupList.noMoreEntries = true;
 					}
-					setTimeout(function () {
+					_.defer(function () {
 						$(lis).removeClass('transparent');
-					}, 0);
+					});
 				}
 				GroupList.updating = false;
 
@@ -188,8 +188,8 @@ GroupList = {
 		GroupList.getGroupLI(gid).remove();
 	},
 	empty: function () {
-		$userGroupList.filter(function(item){
-			return item.data('gid') !== '';
+		$userGroupList.find('.isgroup').filter(function(index, item){
+			return $(item).data('gid') !== '';
 		}).remove();
 	},
 	initDeleteHandling: function () {
