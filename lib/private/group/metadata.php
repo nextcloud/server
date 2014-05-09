@@ -164,7 +164,7 @@ class MetaData {
 	/**
 	 * @brief returns the available groups
 	 * @param string a search string
-	 * @return string[]
+	 * @return \OC\Group\Group[]
 	 */
 	private function getGroups($search = '') {
 		if(count($this->groups) === 0) {
