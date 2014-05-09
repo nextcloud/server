@@ -54,7 +54,7 @@ DeleteHandler.prototype.setNotification = function(notifier, dataID, message, un
 	$('#notification').on('click', '.undo', function () {
 		if ($('#notification').data(dh.notificationDataID)) {
 			var oid = dh.oidToDelete;
-			UserDeleteHandler.cancel();
+			dh.cancel();
 			if(typeof dh.undoCallback !== 'undefined') {
 				dh.undoCallback(oid);
 			}
