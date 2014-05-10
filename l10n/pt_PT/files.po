@@ -6,14 +6,14 @@
 # bmgmatias <bmgmatias@gmail.com>, 2013
 # Carlos <crolidge@gmail.com>, 2014
 # FernandoMASilva, 2013
-# Helder Meneses <helder.meneses@gmail.com>, 2013
+# Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-10 01:55-0400\n"
+"PO-Revision-Date: 2014-05-09 17:01+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "O nome do ficheiro não pode estar vazio."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" é um nome de ficheiro inválido."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
 msgid ""
@@ -49,7 +49,7 @@ msgstr "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
 #: lib/app.php:60
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "A pasta de destino foi movida ou eliminada."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
 #, php-format
@@ -158,7 +158,7 @@ msgstr ""
 #: js/file-upload.js:276
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível"
 
 #: js/file-upload.js:353
 msgid "Upload cancelled."
@@ -217,7 +217,7 @@ msgstr "Pendente"
 
 #: js/filelist.js:916
 msgid "Error moving file."
-msgstr ""
+msgstr "Erro a mover o ficheiro."
 
 #: js/filelist.js:924
 msgid "Error moving file"
@@ -267,7 +267,7 @@ msgstr[1] "A carregar %n ficheiros"
 
 #: js/files.js:94
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" é um nome de ficheiro inválido."
 
 #: js/files.js:115
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -308,7 +308,7 @@ msgstr "%s não pode ser renomeada"
 #: lib/helper.php:14 templates/index.php:22
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Enviar (max. %s)"
 
 #: templates/admin.php:4
 msgid "File handling"

@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Rename" => "Reanomena",
 "Your download is being prepared. This might take some time if the files are big." => "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans.",
 "Pending" => "Pendent",
+"Error moving file." => "Error en moure el fitxer.",
 "Error moving file" => "Error en moure el fitxer",
 "Error" => "Error",
 "Could not rename file" => "No es pot canviar el nom de fitxer",

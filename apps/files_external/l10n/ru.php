@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Local" => "Локально",
 "Location" => "Местоположение",
 "URL" => "Ссылка",
 "Username" => "Имя пользователя",

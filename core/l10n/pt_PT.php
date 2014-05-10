@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "A data de expiração é no passado.",
 "Couldn't send mail to following users: %s " => "Não conseguiu enviar correio aos seguintes utilizadores: %s",
 "Turned on maintenance mode" => "Activado o modo de manutenção",
 "Turned off maintenance mode" => "Desactivado o modo de manutenção",
@@ -172,6 +173,7 @@ $TRANSLATIONS = array(
 "remember" => "lembrar",
 "Log in" => "Entrar",
 "Alternative Logins" => "Contas de acesso alternativas",
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Olá,<br><br>apenas para informar que %s partilhou <strong>%s</strong> consigo.<br><a href=\"%s\">Consulte aqui!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Esta instância do ownCloud está actualmente configurada no modo de utilizador único.",
 "This means only administrators can use the instance." => "Isto significa que apenas os administradores podem usar a instância.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador de sistema se esta mensagem continuar a aparecer ou apareceu inesperadamente.",
