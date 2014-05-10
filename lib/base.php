@@ -60,14 +60,11 @@ class OC {
 
 	public static $configDir;
 
-	/*
+	/**
 	 * requested app
 	 */
 	public static $REQUESTEDAPP = '';
-	/*
-	 * requested file of app
-	 */
-	public static $REQUESTEDFILE = '';
+
 	/**
 	 * check if owncloud runs in cli mode
 	 */
@@ -574,12 +571,6 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		// Load minimum set of apps - which is filesystem, authentication and logging
-		if (!self::checkUpgrade(false)) {
-			OC_App::loadApps(array('authentication'));
-			OC_App::loadApps(array('filesystem', 'logging'));
-		}
-
 		//setup extra user backends
 		OC_User::setupBackends();
 
@@ -591,35 +582,6 @@ class OC {
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
-
-		//parse the given parameters
-		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app']) ? OC_App::cleanAppId(strip_tags($_GET['app'])) : OC_Config::getValue('defaultapp', 'files'));
-		if (substr_count(self::$REQUESTEDAPP, '?') != 0) {
-			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
-			$param = substr($_GET['app'], strpos($_GET['app'], '?') + 1);
-			parse_str($param, $get);
-			$_GET = array_merge($_GET, $get);
-			self::$REQUESTEDAPP = $app;
-			$_GET['app'] = $app;
-		}
-		self::$REQUESTEDFILE = (isset($_GET['getfile']) ? $_GET['getfile'] : null);
-		if (substr_count(self::$REQUESTEDFILE, '?') != 0) {
-			$file = substr(self::$REQUESTEDFILE, 0, strpos(self::$REQUESTEDFILE, '?'));
-			$param = substr(self::$REQUESTEDFILE, strpos(self::$REQUESTEDFILE, '?') + 1);
-			parse_str($param, $get);
-			$_GET = array_merge($_GET, $get);
-			self::$REQUESTEDFILE = $file;
-			$_GET['getfile'] = $file;
-		}
-		if (!is_null(self::$REQUESTEDFILE)) {
-			$subdir = OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . self::$REQUESTEDFILE;
-			$parent = OC_App::getAppPath(OC::$REQUESTEDAPP);
-			if (!OC_Helper::isSubDirectory($subdir, $parent)) {
-				self::$REQUESTEDFILE = null;
-				header('HTTP/1.0 404 Not Found');
-				exit;
-			}
-		}
 
 		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
@@ -729,6 +691,7 @@ class OC {
 			OC::tryBasicAuthLogin();
 		}
 
+
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!OC_Config::getValue('maintenance', false) && !self::needUpgrade()) {
@@ -745,9 +708,16 @@ class OC {
 			}
 		}
 
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
-		$param = array('app' => $app, 'file' => $file);
+		// Load minimum set of apps
+		if (!self::checkUpgrade(false)) {
+			// For logged-in users: Load everything
+			if(OC_User::isLoggedIn()) {
+				OC_App::loadApps();
+			} else {
+				// For guests: Load only authentication, filesystem and logging
+				OC_App::loadApps(array('authentication', 'filesystem', 'logging'));
+			}
+		}
 
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
@@ -778,7 +748,7 @@ class OC {
 			return;
 		}
 
-		// Someone is logged in :
+		// Someone is logged in
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
 			OC_User::setupBackends();
@@ -800,20 +770,13 @@ class OC {
 				// redirect to webroot and add slash if webroot is empty
 				header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
 			} else {
-				if (is_null($file)) {
-					$param['file'] = 'index.php';
-				}
-				$file_ext = substr($param['file'], -3);
-				if ($file_ext != 'php'
-					|| !self::loadAppScriptFile($param)
-				) {
-					header('HTTP/1.0 404 Not Found');
-				}
+				// Redirect to default application
+				OC_Util::redirectToDefaultPage();
 			}
-			return;
+		} else {
+			// Not handled and not logged in
+			self::handleLogin();
 		}
-		// Not handled and not logged in
-		self::handleLogin();
 	}
 
 	/**
