@@ -69,7 +69,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	/**
 	* @brief Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
-	* @return boolean
+	* @return bool
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_GROUP_BACKEND_CREATE_GROUP etc.

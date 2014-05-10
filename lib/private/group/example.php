@@ -31,7 +31,7 @@ abstract class OC_Group_Example {
 	 * @param string $gid The name of the group to create
 	 * @return bool
 	 *
-	 * Trys to create a new group. If the group name already exists, false will
+	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
 	abstract public static function createGroup($gid);
@@ -87,14 +87,15 @@ abstract class OC_Group_Example {
 
 	/**
 	 * @brief get a list of all groups
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
 	 * @return array an array of group names
-	 *
-	 * Returns a list with all groups
 	 */
 	abstract public static function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
-	 * check if a group exists
+	 * @brief Check if a group exists
 	 * @param string $gid
 	 * @return bool
 	 */
@@ -102,8 +103,11 @@ abstract class OC_Group_Example {
 
 	/**
 	 * @brief get a list of all users in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
 	 * @return array an array of user ids
 	 */
 	abstract public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
-
 }

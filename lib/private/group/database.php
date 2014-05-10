@@ -215,9 +215,8 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @brief get the number of all users matching the search string in a group
 	 * @param string $gid
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
 	 * @return int|false
+	 * @throws DatabaseException
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');
