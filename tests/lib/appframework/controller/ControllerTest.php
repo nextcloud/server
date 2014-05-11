@@ -22,10 +22,9 @@
  */
 
 
-namespace Test\AppFramework\Controller;
+namespace OCP\AppFramework;
 
 use OC\AppFramework\Http\Request;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 
 
@@ -128,5 +127,6 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	public function testGetEnvVariable(){
 		$this->assertEquals('daheim', $this->controller->env('PATH'));
 	}
+
 
 }
