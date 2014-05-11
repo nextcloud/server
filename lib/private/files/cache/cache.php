@@ -109,7 +109,7 @@ class Cache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string/int $file
-	 * @return array | false
+	 * @return array|false
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
@@ -597,7 +597,7 @@ class Cache {
 	 * get the path of a file on this storage by it's id
 	 *
 	 * @param int $id
-	 * @return string | null
+	 * @return string|null
 	 */
 	public function getPathById($id) {
 		$sql = 'SELECT `path` FROM `*PREFIX*filecache` WHERE `fileid` = ? AND `storage` = ?';

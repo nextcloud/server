@@ -222,7 +222,7 @@ class Manager extends PublicEmitter {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \Exception
-	 * @return bool | \OC\User\User the created user of false
+	 * @return bool|\OC\User\User the created user of false
 	 */
 	public function createUser($uid, $password) {
 		$l = \OC_L10N::get('lib');

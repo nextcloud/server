@@ -362,7 +362,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
-	 * @return array | boolean false will be returned in case the token is unknown or unauthorized
+	 * @return array|boolean false will be returned in case the token is unknown or unauthorized
 	 */
 	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);

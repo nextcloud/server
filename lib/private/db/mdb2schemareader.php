@@ -303,7 +303,7 @@ class MDB2SchemaReader {
 	}
 
 	/**
-	 * @param \SimpleXMLElement | string $xml
+	 * @param \SimpleXMLElement|string $xml
 	 * @return bool
 	 */
 	private function asBool($xml) {

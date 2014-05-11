@@ -28,7 +28,7 @@ use OC\Hooks\PublicEmitter;
  */
 class Manager extends PublicEmitter {
 	/**
-	 * @var \OC_Group_Backend[] | \OC_Group_Database[] $backends
+	 * @var \OC_Group_Backend[]|\OC_Group_Database[] $backends
 	 */
 	private $backends = array();
 

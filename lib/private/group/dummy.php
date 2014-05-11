@@ -159,7 +159,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 
 	/**
 	 * @brief get the number of all users in a group
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {

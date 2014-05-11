@@ -796,7 +796,7 @@ class View {
 	 * @param string $path
 	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return \OC\Files\FileInfo | false
+	 * @return \OC\Files\FileInfo|false
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$data = array();
@@ -991,7 +991,7 @@ class View {
 	 * change file metadata
 	 *
 	 * @param string $path
-	 * @param array | \OCP\Files\FileInfo $data
+	 * @param array|\OCP\Files\FileInfo $data
 	 * @return int
 	 *
 	 * returns the fileid of the updated file

@@ -160,7 +160,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
-	 * @return array | bool false will be returned in case the token is unknown or unauthorized
+	 * @return array|bool false will be returned in case the token is unknown or unauthorized
 	 */
 	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		return \OC\Share\Share::getShareByToken($token, $checkPasswordProtection);

@@ -33,7 +33,7 @@ class User {
 	private $enabled;
 
 	/**
-	 * @var Emitter | Manager $emitter
+	 * @var Emitter|Manager $emitter
 	 */
 	private $emitter;
 
