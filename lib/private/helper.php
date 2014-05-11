@@ -732,7 +732,7 @@ class OC_Helper {
 	 * @param string $parent
 	 * @return bool
 	 */
-	public static function issubdirectory($sub, $parent) {
+	public static function isSubDirectory($sub, $parent) {
 		$realpathSub = realpath($sub);
 		$realpathParent = realpath($parent);
 

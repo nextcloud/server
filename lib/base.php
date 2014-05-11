@@ -613,7 +613,7 @@ class OC {
 		if (!is_null(self::$REQUESTEDFILE)) {
 			$subdir = OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . self::$REQUESTEDFILE;
 			$parent = OC_App::getAppPath(OC::$REQUESTEDAPP);
-			if (!OC_Helper::issubdirectory($subdir, $parent)) {
+			if (!OC_Helper::isSubDirectory($subdir, $parent)) {
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');
 				exit;

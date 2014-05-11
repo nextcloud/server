@@ -120,15 +120,15 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	function testIssubdirectory() {
-		$result = OC_Helper::issubdirectory("./data/", "/anotherDirectory/");
+	function testIsSubDirectory() {
+		$result = OC_Helper::isSubDirectory("./data/", "/anotherDirectory/");
 		$this->assertFalse($result);
 
-		$result = OC_Helper::issubdirectory("./data/", "./data/");
+		$result = OC_Helper::isSubDirectory("./data/", "./data/");
 		$this->assertTrue($result);
 
 		mkdir("data/TestSubdirectory", 0777);
-		$result = OC_Helper::issubdirectory("data/TestSubdirectory/", "data");
+		$result = OC_Helper::isSubDirectory("data/TestSubdirectory/", "data");
 		rmdir("data/TestSubdirectory");
 		$this->assertTrue($result);
 	}
