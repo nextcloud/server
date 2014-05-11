@@ -768,6 +768,14 @@ class OC {
 			return;
 		}
 
+		// Redirect to index if the logout link is accessed without valid session
+		// this is needed to prevent "Token expired" messages while login if a session is expired
+		// @see https://github.com/owncloud/core/pull/8443#issuecomment-42425583
+		if(isset($_GET['logout']) && !OC_User::isLoggedIn()) {
+			header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
