@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Incapaz de enviar {filename}, dado que é uma pasta, ou tem 0 bytes",
+"Total file size {size1} exceeds upload limit {size2}" => "O tamanho total do ficheiro {size1} excede o limite de carregamento {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível",
 "Upload cancelled." => "Envio cancelado.",
 "Could not get result from server." => "Não foi possível obter o resultado do servidor.",

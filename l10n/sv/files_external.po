@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -201,29 +201,29 @@ msgstr "Fel vid konfigurering av Google Drive"
 msgid "Saved"
 msgstr "Sparad"
 
-#: lib/config.php:598
+#: lib/config.php:597
 msgid "<b>Note:</b> "
 msgstr "<b> OBS: </ b>"
 
-#: lib/config.php:608
+#: lib/config.php:607
 msgid " and "
 msgstr "och"
 
-#: lib/config.php:630
+#: lib/config.php:629
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b> OBS: </ b> cURL stöd i PHP inte är aktiverat eller installeras. Montering av %s är inte möjlig. Be din systemadministratör att installera det."
 
-#: lib/config.php:632
+#: lib/config.php:631
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b> OBS: </ b> Den FTP-stöd i PHP inte är aktiverat eller installeras. Montering av %s är inte möjlig. Be din systemadministratör att installera det."
 
-#: lib/config.php:634
+#: lib/config.php:633
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

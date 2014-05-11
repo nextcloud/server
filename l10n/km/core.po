@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:55+0000\n"
+"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,11 +222,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:372
 msgid "New Files"
-msgstr ""
+msgstr "ឯកសារ​ថ្មី"
 
 #: js/oc-dialogs.js:373
 msgid "Already existing files"
-msgstr ""
+msgstr "មាន​ឯកសារ​នេះ​រួច​ហើយ"
 
 #: js/oc-dialogs.js:375
 msgid "Which files do you want to keep?"
@@ -329,7 +329,7 @@ msgstr "ពាក្យសម្ងាត់"
 
 #: js/share.js:230
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "អនុញ្ញាត​ការ​ផ្ទុកឡើង​ជា​សាធារណៈ"
 
 #: js/share.js:234
 msgid "Email link to person"
@@ -661,7 +661,7 @@ msgstr ""
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "បង្កើត​<strong>គណនី​អភិបាល</strong>"
 
 #: templates/installation.php:70
 msgid "Storage & database"
@@ -669,27 +669,27 @@ msgstr ""
 
 #: templates/installation.php:77
 msgid "Data folder"
-msgstr ""
+msgstr "ថត​ទិន្នន័យ"
 
 #: templates/installation.php:90
 msgid "Configure the database"
-msgstr ""
+msgstr "កំណត់​សណ្ឋាន​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: templates/installation.php:94
 msgid "will be used"
-msgstr ""
+msgstr "នឹង​ត្រូវ​បាន​ប្រើ"
 
 #: templates/installation.php:109
 msgid "Database user"
-msgstr ""
+msgstr "អ្នក​ប្រើ​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: templates/installation.php:118
 msgid "Database password"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: templates/installation.php:123
 msgid "Database name"
-msgstr ""
+msgstr "ឈ្មោះ​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: templates/installation.php:132
 msgid "Database tablespace"
@@ -697,11 +697,11 @@ msgstr ""
 
 #: templates/installation.php:140
 msgid "Database host"
-msgstr ""
+msgstr "ម៉ាស៊ីន​មូលដ្ឋាន​ទិន្នន័យ"
 
 #: templates/installation.php:150
 msgid "Finish setup"
-msgstr ""
+msgstr "បញ្ចប់​ការ​ដំឡើង"
 
 #: templates/installation.php:150
 msgid "Finishing …"
@@ -721,11 +721,11 @@ msgstr ""
 
 #: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
-msgstr ""
+msgstr "ចាក​ចេញ"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "បាន​បដិសេធ​ការ​ចូល​ដោយ​ស្វ័យ​ប្រវត្តិ!"
 
 #: templates/login.php:10
 msgid ""
@@ -735,7 +735,7 @@ msgstr ""
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "សូម​ប្ដូរ​ពាក្យ​សម្ងាត់​របស់​អ្នក ដើម្បី​ការពារ​គណនី​របស់​អ្នក។"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
@@ -747,19 +747,19 @@ msgstr ""
 
 #: templates/login.php:46
 msgid "Lost your password?"
-msgstr ""
+msgstr "បាត់​ពាក្យ​សម្ងាត់​របស់​អ្នក?"
 
 #: templates/login.php:51
 msgid "remember"
-msgstr ""
+msgstr "ចងចាំ"
 
 #: templates/login.php:54
 msgid "Log in"
-msgstr ""
+msgstr "ចូល"
 
 #: templates/login.php:60
 msgid "Alternative Logins"
-msgstr ""
+msgstr "ការ​ចូល​ជំនួស"
 
 #: templates/mail.php:15
 #, php-format
@@ -789,7 +789,7 @@ msgstr ""
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "ការ​ធ្វើ​បច្ចុប្បន្នភាព ownCloud ទៅ​កំណែ %s អាច​ចំណាយ​ពេល​មួយ​សំទុះ។"
 
 #: templates/update.user.php:3
 msgid ""

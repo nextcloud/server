@@ -4,11 +4,11 @@ $TRANSLATIONS = array(
 "Couldn't restore %s" => "%s geri yüklenemedi",
 "Deleted files" => "Silinmiş dosyalar",
 "Error" => "Hata",
+"Restore" => "Geri yükle",
 "Deleted Files" => "Silinen Dosyalar",
 "restored" => "geri yüklendi",
 "Nothing in here. Your trash bin is empty!" => "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!",
 "Name" => "İsim",
-"Restore" => "Geri yükle",
 "Deleted" => "Silindi",
 "Delete" => "Sil"
 );

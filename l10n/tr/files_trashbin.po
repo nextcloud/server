@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-10 15:11+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,15 +33,19 @@ msgstr "%s geri yüklenemedi"
 msgid "Deleted files"
 msgstr "Silinmiş dosyalar"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
+#: js/filelist.js:88 js/filelist.js:132 js/filelist.js:181
 msgid "Error"
 msgstr "Hata"
 
-#: js/trash.js:264
+#: js/trash.js:48 templates/index.php:22 templates/index.php:24
+msgid "Restore"
+msgstr "Geri yükle"
+
+#: js/trash.js:107
 msgid "Deleted Files"
 msgstr "Silinen Dosyalar"
 
-#: lib/trashbin.php:859 lib/trashbin.php:861
+#: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
 msgstr "geri yüklendi"
 
@@ -52,10 +56,6 @@ msgstr "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!"
 #: templates/index.php:19
 msgid "Name"
 msgstr "İsim"
-
-#: templates/index.php:22 templates/index.php:24
-msgid "Restore"
-msgstr "Geri yükle"
 
 #: templates/index.php:30
 msgid "Deleted"

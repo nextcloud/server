@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Expiration date is in the past." => "Udløbsdatoen er overskredet.",
 "Couldn't send mail to following users: %s " => "Kunne ikke sende mail til følgende brugere: %s",
 "Turned on maintenance mode" => "Startede vedligeholdelsestilstand",
 "Turned off maintenance mode" => "standsede vedligeholdelsestilstand",
@@ -49,6 +50,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} filkonflikt","{count} filkonflikter"),
 "One file conflict" => "En filkonflikt",
 "New Files" => "Nye filer",
+"Already existing files" => "Allerede eksisterende filer",
 "Which files do you want to keep?" => "Hvilke filer ønsker du at beholde?",
 "If you select both versions, the copied file will have a number added to its name." => "Hvis du vælger begge versioner, vil den kopierede fil få tilføjet et nummer til sit navn.",
 "Cancel" => "Annuller",
@@ -121,6 +123,8 @@ $TRANSLATIONS = array(
 "To login page" => "Til login-side",
 "New password" => "Nyt kodeord",
 "Reset password" => "Nulstil kodeord",
+"Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Mac OS X understøttes ikke og %s vil ikke virke optimalt på denne platform. Anvend på eget ansvar!",
+"For the best results, please consider using a GNU/Linux server instead." => "For de bedste resultater, overvej venligst at bruge en GNU/Linux-server i stedet.",
 "Personal" => "Personligt",
 "Users" => "Brugere",
 "Apps" => "Apps",
@@ -169,6 +173,7 @@ $TRANSLATIONS = array(
 "remember" => "husk",
 "Log in" => "Log ind",
 "Alternative Logins" => "Alternative logins",
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hej med dig,<br><br>Dette er blot for at informere dig om, at %s har delt <strong>%s</strong> med dig.<br><a href=\"%s\">Se det her!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Denne ownCloud instans er lige nu i enkeltbruger tilstand.",
 "This means only administrators can use the instance." => "Det betyder at det kun er administrator, som kan benytte ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",

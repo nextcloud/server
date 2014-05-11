@@ -7,13 +7,14 @@
 # Carlos <crolidge@gmail.com>, 2014
 # FernandoMASilva, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Drew Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-10 01:55-0400\n"
-"PO-Revision-Date: 2014-05-09 17:01+0000\n"
-"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-10 14:40+0000\n"
+"Last-Translator: Drew Melim <nokostya.translation@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,49 +148,49 @@ msgstr "Directório Inválido"
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/file-upload.js:254
+#: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Incapaz de enviar {filename}, dado que é uma pasta, ou tem 0 bytes"
 
-#: js/file-upload.js:266
+#: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "O tamanho total do ficheiro {size1} excede o limite de carregamento {size2}"
 
-#: js/file-upload.js:276
+#: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível"
 
-#: js/file-upload.js:353
+#: js/file-upload.js:358
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:398
+#: js/file-upload.js:404
 msgid "Could not get result from server."
 msgstr "Não foi possível obter o resultado do servidor."
 
-#: js/file-upload.js:490
+#: js/file-upload.js:493
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Envio de ficheiro em progresso. Irá cancelar o envio se sair da página agora."
 
-#: js/file-upload.js:555
+#: js/file-upload.js:558
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazio"
 
-#: js/file-upload.js:559 js/filelist.js:963
+#: js/file-upload.js:562 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr "O nome {new_name} já existe"
 
-#: js/file-upload.js:611
+#: js/file-upload.js:617
 msgid "Could not create file"
 msgstr "Não pôde criar ficheiro"
 
-#: js/file-upload.js:624
+#: js/file-upload.js:633
 msgid "Could not create folder"
 msgstr "Não pôde criar pasta"
 
-#: js/file-upload.js:664
+#: js/file-upload.js:680
 msgid "Error fetching URL"
 msgstr "Erro ao obter URL"
 
