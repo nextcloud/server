@@ -480,7 +480,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief tries to determine a base dn from User DN or LDAP Host
-	 * @return mixed WizardResult on success, false otherwise
+	 * @return WizardResult|false WizardResult on success, false otherwise
 	 */
 	public function guessBaseDN() {
 		if(!$this->checkRequirements(array('ldapHost',
