@@ -434,7 +434,7 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * @brief Validates the user specified configuration
-	 * @returns true if configuration seems OK, false otherwise
+	 * @return true if configuration seems OK, false otherwise
 	 */
 	private function validateConfiguration() {
 

@@ -765,7 +765,7 @@ class Access extends LDAPUtility {
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
-	 * @returns array|false array with the search result as first value and pagedSearchOK as
+	 * @return array|false array with the search result as first value and pagedSearchOK as
 	 * second | false if not successful
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
@@ -805,7 +805,7 @@ class Access extends LDAPUtility {
 	 * @param int $offset optional, a starting point
 	 * @param bool $skipHandling indicates whether the pages search operation is
 	 * completed
-	 * @returns int|false Integer or false if the search could not be initialized
+	 * @return int|false Integer or false if the search could not be initialized
 	 *
 	 */
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
@@ -1111,7 +1111,7 @@ class Access extends LDAPUtility {
 	 * @param string $dn a known DN used to check against
 	 * @param bool $isUser
 	 * @param bool $force the detection should be run, even if it is not set to auto
-	 * @returns true on success, false otherwise
+	 * @return bool true on success, false otherwise
 	 */
 	private function detectUuidAttribute($dn, $isUser = true, $force = false) {
 		if($isUser) {
@@ -1245,7 +1245,7 @@ class Access extends LDAPUtility {
 	 * @param string $filter the search filter to identify the correct search
 	 * @param int $limit the limit (or 'pageSize'), to identify the correct search well
 	 * @param int $offset the offset for the new search to identify the correct search really good
-	 * @returns string containing the key or empty if none is cached
+	 * @return string containing the key or empty if none is cached
 	 */
 	private function getPagedResultCookie($base, $filter, $limit, $offset) {
 		if($offset === 0) {
