@@ -103,7 +103,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 
 	/**
 	* @brief Get a list of all users
-	* @returns array with all uids
+	* @return array with all uids
 	*
 	* Get a list of all users.
 	*/
@@ -140,7 +140,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 * @return array with  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */

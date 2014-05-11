@@ -293,7 +293,7 @@ class Util {
 
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
-	 * @returns string the script name
+	 * @return string the script name
 	 */
 	public static function getScriptName() {
 		return(\OC_Request::scriptName());

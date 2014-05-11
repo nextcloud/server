@@ -221,7 +221,7 @@ class OC_Installer{
 	/**
 	 * @brief checks whether or not an app is installed
 	 * @param string $app app
-	 * @returns true/false
+	 * @return true/false
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */

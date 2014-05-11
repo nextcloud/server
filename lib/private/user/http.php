@@ -57,7 +57,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
-	 * @returns string
+	 * @return string
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false

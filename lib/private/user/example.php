@@ -30,7 +30,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* @brief Create a new user
 		* @param $uid The username of the user to create
 		* @param $password The password of the new user
-		* @returns true/false
+		* @return true/false
 		*
 		* Creates a new user. Basic checking of username is done in OC_User
 		* itself, not in its subclasses.
@@ -41,7 +41,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* @brief Set password
 		* @param $uid The username
 		* @param $password The new password
-		* @returns true/false
+		* @return true/false
 		*
 		* Change the password of a user
 		*/
@@ -51,7 +51,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* @brief Check if the password is correct
 		* @param $uid The username
 		* @param $password The password
-		* @returns string
+		* @return string
 		*
 		* Check if the password is correct without logging in the user
 		* returns the user id or false
@@ -61,7 +61,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 	/**
 		* @brief get the user's home directory
 		* @param $uid The username
-		* @returns string
+		* @return string
 		*
 		* get the user's home directory
 		* returns the path or false

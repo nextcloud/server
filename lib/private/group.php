@@ -203,7 +203,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @returns array with group names
+	 * @return array with group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -232,7 +232,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @returns array with user ids
+	 * @return array with user ids
 	 */
 	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = self::getManager()->get($gid);
@@ -271,7 +271,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @returns array with display names (value) and user ids(key)
+	 * @return array with display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return self::getManager()->displayNamesInGroup($gid, $search, $limit, $offset);

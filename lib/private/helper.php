@@ -36,7 +36,7 @@ class OC_Helper {
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns string the url
+	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */

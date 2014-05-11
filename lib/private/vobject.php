@@ -28,7 +28,7 @@ class OC_VObject{
 	protected $vobject;
 
 	/**
-	 * @returns Sabre\VObject\Component
+	 * @return Sabre\VObject\Component
 	 */
 	public function getVObject() {
 		return $this->vobject;
@@ -37,7 +37,7 @@ class OC_VObject{
 	/**
 	 * @brief Parses the VObject
 	 * @param string $data VObject as string
-	 * @returns Sabre\VObject\Reader|null
+	 * @return Sabre\VObject\Reader|null
 	 */
 	public static function parse($data) {
 		try {
@@ -116,7 +116,7 @@ class OC_VObject{
 	 * @param object $name of property
 	 * @param object $value of property
 	 * @param array|object $parameters of property
-	 * @returns Sabre\VObject\Property newly created
+	 * @return Sabre\VObject\Property newly created
 	 */
 	public function addProperty($name, $value, $parameters=array()) {
 		if(is_array($value)) {

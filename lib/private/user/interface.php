@@ -26,7 +26,7 @@ interface OC_User_Interface {
 	/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
@@ -37,7 +37,7 @@ interface OC_User_Interface {
 	/**
 	* @brief delete a user
 	* @param $uid The username of the user to delete
-	* @returns true/false
+	* @return true/false
 	*
 	* Deletes a user
 	* @return boolean
@@ -46,7 +46,7 @@ interface OC_User_Interface {
 
 	/**
 	* @brief Get a list of all users
-	* @returns array with all uids
+	* @return array with all uids
 	*
 	* Get a list of all users.
 	*/
@@ -68,7 +68,7 @@ interface OC_User_Interface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 * @return array with  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */

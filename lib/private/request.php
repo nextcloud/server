@@ -18,7 +18,7 @@ class OC_Request {
 	/**
 	 * @brief Check overwrite condition
 	 * @param string $type
-	 * @returns bool
+	 * @return bool
 	 */
 	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
@@ -49,7 +49,7 @@ class OC_Request {
 	/**
 	 * @brief Returns the unverified server host from the headers without checking
 	 * whether it is a trusted domain
-	 * @returns string the server host
+	 * @return string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -89,7 +89,7 @@ class OC_Request {
 	/**
 	 * @brief Returns the server host from the headers, or the first configured
 	 * trusted domain if the host isn't in the trusted list
-	 * @returns string the server host
+	 * @return string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -121,7 +121,7 @@ class OC_Request {
 
 	/**
 	* @brief Returns the server protocol
-	* @returns string the server protocol
+	* @return string the server protocol
 	*
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
@@ -143,7 +143,7 @@ class OC_Request {
 
 	/**
 	 * @brief Returns the request uri
-	 * @returns string the request uri
+	 * @return string the request uri
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
