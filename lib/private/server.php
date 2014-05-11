@@ -3,6 +3,7 @@
 namespace OC;
 
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
 use OC\DB\ConnectionWrapper;
@@ -176,6 +177,9 @@ class Server extends SimpleContainer implements IServerContainer {
 				$router = new \OC\Route\Router();
 			}
 			return $router;
+		});
+		$this['Db'] = $this->share(function($c){
+			return new Db();
 		});
 	}
 
@@ -399,5 +403,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getRouter(){
 		return $this->query('Router');
+	}
+
+
+	/**
+	 * Returns an instance of the db facade
+	 * @return \OCP\IDb
+	 */
+	function getDb() {
+		return $this->query('Db');
 	}
 }
