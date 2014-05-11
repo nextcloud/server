@@ -732,10 +732,22 @@ class OC_Helper {
 	 * @param string $parent
 	 * @return bool
 	 */
-	public static function issubdirectory($sub, $parent) {
-		if (strpos(realpath($sub), realpath($parent)) === 0) {
+	public static function isSubDirectory($sub, $parent) {
+		$realpathSub = realpath($sub);
+		$realpathParent = realpath($parent);
+
+		// realpath() may return false in case the directory does not exist
+		// since we can not be sure how different PHP versions may behave here
+		// we do an additional check whether realpath returned false
+		if($realpathSub === false ||  $realpathParent === false) {
+			return false;
+		}
+
+		// Check whether $sub is a subdirectory of $parent
+		if (strpos($realpathSub, $realpathParent) === 0) {
 			return true;
 		}
+
 		return false;
 	}
 
