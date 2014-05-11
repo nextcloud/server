@@ -104,7 +104,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		});
 
 		$this['CORSMiddleware'] = $this->share(function($c) {
-			return new CORSMiddleware($c['Request']);
+			return new CORSMiddleware(
+				$c['Request'],
+				$c['ControllerMethodReflector']
+			);
 		});
 
 		$middleWares = &$this->middleWares;
