@@ -116,6 +116,8 @@ class Dispatcher {
 	/**
 	 * Uses the reflected parameters, types and request parameters to execute
 	 * the controller
+	 * @param Controller $controller the controller to be executed
+	 * @param string $methodName the method on the controller that should be executed
 	 * @return Response
 	 */
 	private function executeController($controller, $methodName) {
