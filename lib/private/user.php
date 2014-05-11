@@ -77,7 +77,7 @@ class OC_User {
 	/**
 	 * @brief gets available backends
 	 * @deprecated
-	 * @return array of backends
+	 * @return array an array of backends
 	 *
 	 * Returns the names of all backends.
 	 */
@@ -88,7 +88,7 @@ class OC_User {
 	/**
 	 * @brief gets used backends
 	 * @deprecated
-	 * @return array of backends
+	 * @return array an array of backends
 	 *
 	 * Returns the names of all used backends.
 	 */
@@ -517,7 +517,7 @@ class OC_User {
 
 	/**
 	 * @brief Get a list of all users
-	 * @return array with all uids
+	 * @return array an array of all uids
 	 *
 	 * Get a list of all users.
 	 * @param string $search

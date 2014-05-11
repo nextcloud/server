@@ -109,7 +109,7 @@ class View {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array consisting of the storage and the internal path
+	 * @return array an array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
 		$a = $this->getAbsolutePath($path);

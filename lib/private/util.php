@@ -819,7 +819,7 @@ class OC_Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|array of strings
-	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @return array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
 		if (is_array($value)) {

@@ -69,7 +69,7 @@ class Preferences {
 
 	/**
 	 * @brief Get all users using the preferences
-	 * @return array with user ids
+	 * @return array an array of user ids
 	 *
 	 * This function returns a list of all users that have at least one entry
 	 * in the preferences table.
@@ -125,7 +125,7 @@ class Preferences {
 	 * @brief Get the available keys for an app
 	 * @param string $user user
 	 * @param string $app the app we are looking for
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.

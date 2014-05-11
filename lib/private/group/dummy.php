@@ -119,7 +119,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	/**
 	 * @brief Get all groups a user belongs to
 	 * @param $uid Name of the user
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -137,7 +137,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 
 	/**
 	 * @brief get a list of all groups
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -147,7 +147,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 
 	/**
 	 * @brief get a list of all users in a group
-	 * @return array with user ids
+	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {

@@ -450,7 +450,7 @@ class Cache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern
-	 * @return array of file data
+	 * @return array an array of file data
 	 */
 	public function search($pattern) {
 

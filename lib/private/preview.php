@@ -382,7 +382,7 @@ class Preview {
 	/**
 	 * @brief get possible bigger thumbnails of the given image
 	 * @param int $fileId fileId of the original image
-	 * @return array of paths to bigger thumbnails
+	 * @return array an array of paths to bigger thumbnails
 	*/
 	private function getPossibleThumbnails($fileId) {
 

@@ -261,7 +261,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * returns how many users per backend exist (if supported by backend)
 	 *
-	 * @return array with backend class as key and count number as value
+	 * @return array an array of backend class as key and count number as value
 	 */
 	public function countUsers() {
 		$userCountStatistics = array();

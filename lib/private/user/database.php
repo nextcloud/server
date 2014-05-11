@@ -149,7 +149,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @return array with  all displayNames (value) and the correspondig uids (key)
+	 * @return array an array of  all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -226,7 +226,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Get a list of all users
-	 * @return array with all uids
+	 * @return array an array of all uids
 	 *
 	 * Get a list of all users.
 	 */

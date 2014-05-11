@@ -65,7 +65,7 @@ class Config {
 
 	/**
 	 * @brief Lists all available config keys
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.

@@ -538,7 +538,7 @@ class OC_Migrate{
 	* @param string $db string path to migration.db
 	* @param $info object of migration info
 	* @param string|null|int $uid uid to use
-	* @return array of apps with import statuses, or false on failure.
+	* @return array an array of apps with import statuses, or false on failure.
 	*/
 	public static function importAppData( $db, $info, $uid=null ) {
 		// Check if the db exists

@@ -59,7 +59,7 @@ class OC_OCSClient{
 
 	/**
 	 * @brief Get all the categories from the OCS server
-	 * @return array with category ids
+	 * @return array an array of category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
@@ -92,7 +92,7 @@ class OC_OCSClient{
 
 	/**
 	 * @brief Get all the applications from the OCS server
-	 * @return array with application data
+	 * @return array an array of application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
 	 * @param $categories
@@ -150,7 +150,7 @@ class OC_OCSClient{
 	/**
 	 * @brief Get an the applications from the OCS server
 	 * @param string $id
-	 * @return array with application data
+	 * @return array an array of application data
 	 *
 	 * This function returns an  applications from the OCS server
 	 */
@@ -192,7 +192,7 @@ class OC_OCSClient{
 
 	/**
 	 * @brief Get the download url for an application from the OCS server
-	 * @return array with application data
+	 * @return array an array of application data
 	 *
 	 * This function returns an download url for an applications from the OCS server
 	 * @param string $id

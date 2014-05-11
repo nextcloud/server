@@ -125,7 +125,7 @@ class BackgroundJob {
 	/**
 	 * @deprecated
 	 * Gets all queued tasks
-	 * @return array with associative arrays
+	 * @return array an array of associative arrays
 	 */
 	public static function allQueuedTasks() {
 		$jobList = \OC::$server->getJobList();
@@ -145,7 +145,7 @@ class BackgroundJob {
 	 * @deprecated
 	 * Gets all queued tasks of a specific app
 	 * @param string $app app name
-	 * @return array with associative arrays
+	 * @return array an array of associative arrays
 	 */
 	public static function queuedTaskWhereAppIs($app) {
 		$jobList = \OC::$server->getJobList();

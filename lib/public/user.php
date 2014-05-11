@@ -48,7 +48,7 @@ class User {
 	 * @param string search pattern
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return array with all uids
+	 * @return array an array of all uids
 	 */
 	public static function getUsers( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getUsers( $search, $limit, $offset );
@@ -68,7 +68,7 @@ class User {
 	 * @param string search pattern
 	 * @param int limit
 	 * @param int offset
-	 * @return array with all display names (value) and the correspondig uids (key)
+	 * @return array an array of all display names (value) and the correspondig uids (key)
 	 */
 	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getDisplayNames( $search, $limit, $offset );
