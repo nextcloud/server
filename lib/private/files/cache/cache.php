@@ -640,7 +640,7 @@ class Cache {
 
 	/**
 	 * normalize the given path
-	 * @param $path
+	 * @param string $path
 	 * @return string
 	 */
 	public function normalize($path) {

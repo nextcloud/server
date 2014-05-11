@@ -66,7 +66,7 @@ class MDB2SchemaReader {
 	}
 
 	/**
-	 * @param\Doctrine\DBAL\Schema\Schema $schema
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
 	 * @param \SimpleXMLElement $xml
 	 * @throws \DomainException
 	 */

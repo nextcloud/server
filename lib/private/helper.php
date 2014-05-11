@@ -32,7 +32,7 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an url using a defined route
-	 * @param $route
+	 * @param string $route
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
@@ -495,7 +495,7 @@ class OC_Helper {
 	/**
 	 * detect if a given program is found in the search PATH
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @param bool $path
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
@@ -670,8 +670,8 @@ class OC_Helper {
 	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
-	 * @param $path
-	 * @param $filename
+	 * @param string $path
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileName($path, $filename) {
@@ -682,8 +682,8 @@ class OC_Helper {
 	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
-	 * @param $path
-	 * @param $filename
+	 * @param string $path
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileNameForView($path, $filename, \OC\Files\View $view) {
@@ -775,7 +775,7 @@ class OC_Helper {
 	/**
 	 * @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
 	 *
-	 * @param $string
+	 * @param string $string
 	 * @param string $replacement The replacement string.
 	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
 	 * @param int $length Length of the part to be replaced

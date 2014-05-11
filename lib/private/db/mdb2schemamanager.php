@@ -126,7 +126,7 @@ class MDB2SchemaManager {
 
 	/**
 	 * @brief replaces the ownCloud tables with a new set
-	 * @param $file string path to the MDB2 xml db export file
+	 * @param string $file path to the MDB2 xml db export file
 	 */
 	public function replaceDB( $file ) {
 		$apps = \OC_App::getAllApps();

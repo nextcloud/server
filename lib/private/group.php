@@ -58,7 +58,7 @@ class OC_Group {
 
 	/**
 	 * @brief set the group backend
-	 * @param  \OC_Group_Backend $backend  The backend to use for user managment
+	 * @param \OC_Group_Backend $backend  The backend to use for user managment
 	 * @return bool
 	 */
 	public static function useBackend($backend) {

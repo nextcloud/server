@@ -183,7 +183,7 @@ class OC_L10N implements \OCP\IL10N {
 	 *
 	 * Parts of the code is copied from Habari:
 	 * https://github.com/habari/system/blob/master/classes/locale.php
-	 * @param $string string
+	 * @param string $string
 	 * @return string
 	 */
 	protected function createPluralFormFunction($string){

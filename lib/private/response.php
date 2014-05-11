@@ -93,7 +93,7 @@ class OC_Response {
 
 	/**
 	* @brief Set reponse expire time
-	* @param $expires date-time when the response expires
+	* @param string|DateTime $expires date-time when the response expires
 	*  string for DateInterval from now
 	*  DateTime object when to expire response
 	*/
@@ -113,7 +113,7 @@ class OC_Response {
 	/**
 	* Checks and set ETag header, when the request matches sends a
 	* 'not modified' response
-	* @param $etag token to use for modification check
+	* @param string $etag token to use for modification check
 	*/
 	static public function setETagHeader($etag) {
 		if (empty($etag)) {
@@ -131,7 +131,7 @@ class OC_Response {
 	/**
 	* Checks and set Last-Modified header, when the request matches sends a
 	* 'not modified' response
-	* @param $lastModified time when the reponse was last modified
+	* @param int|DateTime|string $lastModified time when the reponse was last modified
 	*/
 	static public function setLastModifiedHeader($lastModified) {
 		if (empty($lastModified)) {

@@ -254,12 +254,12 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the items of item type shared with a user
-	 * @param string Item type
-	 * @param sting user id for which user we want the shares
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param int Number of items to return (optional) Returns all by default
-	 * @param boolean include collections (optional)
+	 * @param string $itemType
+	 * @param string $user id for which user we want the shares
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters (optional)
+	 * @param int $limit Number of items to return (optional) Returns all by default
+	 * @param boolean $includeCollections (optional)
 	 * @return Return depends on format
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
@@ -388,8 +388,8 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * resolves reshares down to the last real share
-	 * @param $linkItem
-	 * @return $fileOwner
+	 * @param array $linkItem
+	 * @return array file owner
 	 */
 	public static function resolveReShare($linkItem)
 	{
@@ -446,7 +446,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $uidOwner
 	 * @param boolean $includeCollections
 	 * @param boolean $checkExpireDate
-	 * @return Return array of users
+	 * @return array Return array of users
 	 */
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
 
@@ -1000,10 +1000,10 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Get shared items from the database
 	 * @param string $itemType
-	 * @param string Item source or target (optional)
+	 * @param string $item Item source or target (optional)
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
 	 * @param string $shareWith User or group the item is being shared with
-	 * @param string uidOwner User that is the owner of shared items (optional)
+	 * @param string $uidOwner User that is the owner of shared items (optional)
 	 * @param int $format Format to convert items to with formatItems() (optional)
 	 * @param mixed $parameters to pass to formatItems() (optional)
 	 * @param int $limit Number of items to return, -1 to return all matches (optional)

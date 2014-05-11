@@ -50,8 +50,8 @@ class MailNotifications {
 	 * @brief inform users if a file was shared with them
 	 *
 	 * @param array $recipientList list of recipients
-	 * @param type $itemSource shared item source
-	 * @param type $itemType shared item type
+	 * @param string $itemSource shared item source
+	 * @param string $itemType shared item type
 	 * @return array list of user to whom the mail send operation failed
 	 */
 	public function sendInternalShareMail($recipientList, $itemSource, $itemType) {

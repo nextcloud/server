@@ -333,7 +333,7 @@ class OC_Migrate{
 
 	/**
 	* @brief tries to extract the import zip
-	* @param $path string path to the zip
+	* @param string $path path to the zip
 	* @return string path to extract location (with a trailing slash) or false on failure
 	*/
 	static private function extractZip( $path ) {
@@ -536,7 +536,7 @@ class OC_Migrate{
 	/**
 	* @brief imports a new user
 	* @param string $db string path to migration.db
-	* @param $info object of migration info
+	* @param object $info object of migration info
 	* @param string|null|int $uid uid to use
 	* @return array an array of apps with import statuses, or false on failure.
 	*/

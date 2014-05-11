@@ -92,13 +92,13 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the items of item type shared with a user
-	 * @param string Item type
-	 * @param sting user id for which user we want the shares
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param int Number of items to return (optional) Returns all by default
-	 * @param bool include collections (optional)
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param string $user for which user we want the shares
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters (optional)
+	 * @param int $limit Number of items to return (optional) Returns all by default
+	 * @param bool $includeCollections (optional)
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
 		$parameters = null, $limit = -1, $includeCollections = false) {
@@ -111,8 +111,8 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param bool include collections (optional)
+	 * @param mixed $parameters (optional)
+	 * @param bool $includeCollections (optional)
 	 * @return mixed Return depends on format
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
@@ -168,8 +168,8 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * resolves reshares down to the last real share
-	 * @param $linkItem
-	 * @return $fileOwner
+	 * @param array $linkItem
+	 * @return array file owner
 	 */
 	public static function resolveReShare($linkItem) {
 		return \OC\Share\Share::resolveReShare($linkItem);
@@ -213,7 +213,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $uidOwner
 	 * @param bool $includeCollections
 	 * @param bool $checkExpireDate
-	 * @return Return array of users
+	 * @return array Return array of users
 	 */
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
 		return \OC\Share\Share::getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections, $checkExpireDate);

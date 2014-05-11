@@ -98,7 +98,7 @@ namespace OCP {
 		 * This function can be used to delete the contact identified by the given id
 		 *
 		 * @param object $id the unique identifier to a contact
-		 * @param $address_book_key
+		 * @param string $address_book_key
 		 * @return bool successful or not
 		 */
 		public static function delete($id, $address_book_key) {
@@ -111,7 +111,7 @@ namespace OCP {
 		 * Otherwise the contact will be updated by replacing the entire data set.
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
-		 * @param $address_book_key string to identify the address book in which the contact shall be created or updated
+		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
 		 * @return array an array representing the contact just created or updated
 		 */
 		public static function createOrUpdate($properties, $address_book_key) {

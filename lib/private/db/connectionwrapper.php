@@ -41,8 +41,8 @@ class ConnectionWrapper implements \OCP\IDBConnection {
 
 	/**
 	 * Insert a row if a matching row doesn't exists.
-	 * @param string The table name (will replace *PREFIX*) to perform the replace on.
-	 * @param array
+	 * @param string $table The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param array $input
 	 *
 	 * The input array if in the form:
 	 *

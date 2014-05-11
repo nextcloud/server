@@ -89,7 +89,7 @@ class OC_VObject{
 
 	/**
 	 * Constructor
-	 * @param Sabre\VObject\Component or string
+	 * @param Sabre\VObject\Component|string $vobject_or_name
 	 */
 	public function __construct($vobject_or_name) {
 		if (is_object($vobject_or_name)) {
@@ -101,7 +101,7 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param $item
+	 * @param \OC_VObject|\Sabre\VObject\Component $item
 	 * @param null $itemValue
 	 */
 	public function add($item, $itemValue = null) {
@@ -138,7 +138,7 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param mixed  $name
+	 * @param mixed $name
 	 * @param string $string
 	 */
 	public function setString($name, $string) {
@@ -175,7 +175,7 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param $name
+	 * @param string $name
 	 * @return string
 	 */
 	public function getAsString($name) {
@@ -186,7 +186,7 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param $name
+	 * @param string $name
 	 * @return array
 	 */
 	public function getAsArray($name) {
@@ -200,7 +200,7 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param $name
+	 * @param string $name
 	 * @return array|OC_VObject|\Sabre\VObject\Property
 	 */
 	public function &__get($name) {
@@ -242,8 +242,8 @@ class OC_VObject{
 
 	/**
 	 * @todo Write documentation
-	 * @param $function
-	 * @param $arguments
+	 * @param callable $function
+	 * @param array $arguments
 	 * @return mixed
 	 */
 	public function __call($function, $arguments) {

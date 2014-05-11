@@ -95,7 +95,7 @@ class OC_OCSClient{
 	 * @return array an array of application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
-	 * @param $categories
+	 * @param array|string $categories
 	 * @param int $page
 	 * @param string $filter
 	 */

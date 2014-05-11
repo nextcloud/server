@@ -154,7 +154,7 @@ class OC_Archive_TAR extends OC_Archive{
 	}
 	/**
 	 * get the last modified time of a file in the archive
-	 * @param string path
+	 * @param string $path
 	 * @return int
 	 */
 	function mtime($path) {

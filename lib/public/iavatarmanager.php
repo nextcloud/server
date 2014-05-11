@@ -16,7 +16,7 @@ interface IAvatarManager {
 	/**
 	 * @brief return a user specific instance of \OCP\IAvatar
 	 * @see \OCP\IAvatar
-	 * @param $user string the ownCloud user id
+	 * @param string $user the ownCloud user id
 	 * @return \OCP\IAvatar
 	 */
 	function getAvatar($user);

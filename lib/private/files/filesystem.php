@@ -245,7 +245,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByStorageId($id) {
@@ -256,7 +256,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByNumericId($id) {

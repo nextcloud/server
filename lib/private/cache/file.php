@@ -48,7 +48,7 @@ class File {
 	/**
 	 * Returns the size of the stored/cached data
 	 *
-	 * @param $key
+	 * @param string $key
 	 * @return int
 	 */
 	public function size($key) {

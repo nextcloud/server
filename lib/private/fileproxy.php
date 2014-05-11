@@ -47,7 +47,7 @@ class OC_FileProxy{
 	/**
 	 * fallback function when a proxy operation is not implemented
 	 * @param string $function the name of the proxy operation
-	 * @param mixed
+	 * @param mixed $arguments
 	 *
 	 * this implements a dummy proxy for all operations
 	 */

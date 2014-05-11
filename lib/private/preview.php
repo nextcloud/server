@@ -191,7 +191,7 @@ class Preview {
 	/**
 	 * @brief set the path of the file you want a thumbnail from
 	 * @param string $file
-	 * @return $this
+	 * @return object $this
 	 */
 	public function setFile($file) {
 		$this->file = $file;
@@ -217,7 +217,7 @@ class Preview {
 	 * @brief set the the max width of the preview
 	 * @param int $maxX
 	 * @throws \Exception
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setMaxX($maxX = 1) {
 		if ($maxX <= 0) {
@@ -238,7 +238,7 @@ class Preview {
 	 * @brief set the the max height of the preview
 	 * @param int $maxY
 	 * @throws \Exception
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setMaxY($maxY = 1) {
 		if ($maxY <= 0) {
@@ -258,7 +258,7 @@ class Preview {
 	/**
 	 * @brief set whether or not scalingup is enabled
 	 * @param bool $scalingUp
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setScalingup($scalingUp) {
 		if ($this->getMaxScaleFactor() === 1) {
@@ -750,7 +750,7 @@ class Preview {
 	}
 
 	/**
-	 * @param $fileId
+	 * @param int $fileId
 	 * @return string
 	 */
 	private function buildCachePath($fileId) {

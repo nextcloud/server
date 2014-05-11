@@ -273,7 +273,7 @@ class Scanner extends BasicEmitter {
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
 	 *       prevents unfinished put requests to be scanned
-	 * @param String $file
+	 * @param string $file
 	 * @return boolean
 	 */
 	public static function isPartialFile($file) {
