@@ -27,8 +27,7 @@ class CORSMiddleware extends Middleware {
 	private $request;
 
 	/**
-	 * @param string $request the name of the method that will be called on
-	 *                           the controller
+	 * @param IRequest $request
 	 */
 	public function __construct(IRequest $request) {
 		$this->request = $request;
