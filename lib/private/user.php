@@ -98,7 +98,7 @@ class OC_User {
 
 	/**
 	 * @brief Adds the backend to the list of used backends
-	 * @param string|OC_User_Backend $backend default: database The backend to use for user management
+	 * @param string|OC_User_Interface $backend default: database The backend to use for user management
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
