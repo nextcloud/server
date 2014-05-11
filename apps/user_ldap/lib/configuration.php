@@ -81,25 +81,37 @@ class Configuration {
 	);
 
 	/**
-	 * @param string $configPrefix
+	 * @param $configPrefix
+	 * @param bool $autoRead
 	 */
-	public function __construct($configPrefix, $autoread = true) {
+	public function __construct($configPrefix, $autoRead = true) {
 		$this->configPrefix = $configPrefix;
-		if($autoread) {
+		if($autoRead) {
 			$this->readConfiguration();
 		}
 	}
 
+	/**
+	 * @param $name
+	 * @return mixed|void
+	 */
 	public function __get($name) {
 		if(isset($this->config[$name])) {
 			return $this->config[$name];
 		}
 	}
 
+	/**
+	 * @param $name
+	 * @param $value
+	 */
 	public function __set($name, $value) {
 		$this->setConfiguration(array($name => $value));
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getConfiguration() {
 		return $this->config;
 	}
@@ -110,7 +122,7 @@ class Configuration {
 	 * must call saveConfiguration afterwards.
 	 * @param $config array that holds the config parameters in an associated
 	 * array
-	 * @param &$applied optional; array where the set fields will be given to
+	 * @param array &$applied optional; array where the set fields will be given to
 	 * @return false|null
 	 */
 	public function setConfiguration($config, &$applied = null) {
@@ -119,11 +131,11 @@ class Configuration {
 		}
 
 		$cta = $this->getConfigTranslationArray();
-		foreach($config as $inputkey => $val) {
-			if(strpos($inputkey, '_') !== false && array_key_exists($inputkey, $cta)) {
-				$key = $cta[$inputkey];
-			} elseif(array_key_exists($inputkey, $this->config)) {
-				$key = $inputkey;
+		foreach($config as $inputKey => $val) {
+			if(strpos($inputKey, '_') !== false && array_key_exists($inputKey, $cta)) {
+				$key = $cta[$inputKey];
+			} elseif(array_key_exists($inputKey, $this->config)) {
+				$key = $inputKey;
 			} else {
 				continue;
 			}
@@ -150,7 +162,7 @@ class Configuration {
 			}
 			$this->$setMethod($key, $val);
 			if(is_array($applied)) {
-				$applied[] = $inputkey;
+				$applied[] = $inputKey;
 			}
 		}
 
@@ -164,7 +176,7 @@ class Configuration {
 					//some are determined
 					continue;
 				}
-				$dbkey = $cta[$key];
+				$dbKey = $cta[$key];
 				switch($key) {
 					case 'ldapBase':
 					case 'ldapBaseUsers':
@@ -180,7 +192,7 @@ class Configuration {
 						break;
 					case 'ldapIgnoreNamingRules':
 						$readMethod = 'getSystemValue';
-						$dbkey = $key;
+						$dbKey = $key;
 						break;
 					case 'ldapAgentPassword':
 						$readMethod = 'getPwd';
@@ -193,7 +205,7 @@ class Configuration {
 						$readMethod = 'getValue';
 						break;
 				}
-				$this->config[$key] = $this->$readMethod($dbkey);
+				$this->config[$key] = $this->$readMethod($dbKey);
 			}
 			$this->configRead = true;
 		}
@@ -237,8 +249,12 @@ class Configuration {
 		}
 	}
 
-	protected function getMultiLine($varname) {
-		$value = $this->getValue($varname);
+	/**
+	 * @param $varName
+	 * @return array|string
+	 */
+	protected function getMultiLine($varName) {
+		$value = $this->getValue($varName);
 		if(empty($value)) {
 			$value = '';
 		} else {
@@ -248,7 +264,11 @@ class Configuration {
 		return $value;
 	}
 
-	protected function setMultiLine($varname, $value) {
+	/**
+	 * @param $varName
+	 * @param $value
+	 */
+	protected function setMultiLine($varName, $value) {
 		if(empty($value)) {
 			$value = '';
 		} else if (!is_array($value)) {
@@ -258,44 +278,69 @@ class Configuration {
 			}
 		}
 
-		$this->setValue($varname, $value);
+		$this->setValue($varName, $value);
 	}
 
-	protected function getPwd($varname) {
-		return base64_decode($this->getValue($varname));
+	/**
+	 * @param $varName
+	 * @return string
+	 */
+	protected function getPwd($varName) {
+		return base64_decode($this->getValue($varName));
 	}
 
-	protected function getLcValue($varname) {
-		return mb_strtolower($this->getValue($varname), 'UTF-8');
+	/**
+	 * @param $varName
+	 * @return string
+	 */
+	protected function getLcValue($varName) {
+		return mb_strtolower($this->getValue($varName), 'UTF-8');
 	}
 
-	protected function getSystemValue($varname) {
+	/**
+	 * @param $varName
+	 * @return string
+	 */
+	protected function getSystemValue($varName) {
 		//FIXME: if another system value is added, softcode the default value
-		return \OCP\Config::getSystemValue($varname, false);
+		return \OCP\Config::getSystemValue($varName, false);
 	}
 
-	protected function getValue($varname) {
+	/**
+	 * @param $varName
+	 * @return string
+	 */
+	protected function getValue($varName) {
 		static $defaults;
 		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
 		return \OCP\Config::getAppValue('user_ldap',
-										$this->configPrefix.$varname,
-										$defaults[$varname]);
+										$this->configPrefix.$varName,
+										$defaults[$varName]);
 	}
 
-	protected function setValue($varname, $value) {
-		$this->config[$varname] = $value;
+	/**
+	 * @param $varName
+	 * @param $value
+	 */
+	protected function setValue($varName, $value) {
+		$this->config[$varName] = $value;
 	}
 
-	protected function saveValue($varname, $value) {
+	/**
+	 * @param $varName
+	 * @param $value
+	 * @return bool
+	 */
+	protected function saveValue($varName, $value) {
 		return \OCP\Config::setAppValue('user_ldap',
-										$this->configPrefix.$varname,
+										$this->configPrefix.$varName,
 										$value);
 	}
 
 	/**
-	 * @returns an associative array with the default values. Keys are correspond
+	 * @return array an associative array with the default values. Keys are correspond
 	 * to config-value entries in the database table
 	 */
 	public function getDefaults() {
@@ -350,7 +395,7 @@ class Configuration {
 	}
 
 	/**
-	 * @return returns an array that maps internal variable names to database fields
+	 * @return array that maps internal variable names to database fields
 	 */
 	public function getConfigTranslationArray() {
 		//TODO: merge them into one representation

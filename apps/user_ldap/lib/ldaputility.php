@@ -28,7 +28,7 @@ abstract class LDAPUtility {
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!
-	 * @param $ldapWrapper an instance of an ILDAPWrapper
+	 * @param ILDAPWrapper $ldapWrapper an instance of an ILDAPWrapper
 	 */
 	public function __construct(ILDAPWrapper $ldapWrapper) {
 		$this->ldap = $ldapWrapper;
