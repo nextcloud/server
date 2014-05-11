@@ -19,7 +19,7 @@
  *
  */
 
-/* global OC, t, alert */
+/* global OC, t, alert, $ */
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -69,7 +69,7 @@ var OCdialogs = {
 	 *        (true or false would be passed to callback respectively)
 	 * @param modal make the dialog modal
 	 * @param name name of the input field
-	 * @param password wether the input should be a password input
+	 * @param password whether the input should be a password input
 	 */
 	prompt: function (text, title, callback, modal, name, password) {
 		$.when(this._getMessageTemplate()).then(function ($tmpl) {
