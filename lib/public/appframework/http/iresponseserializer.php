@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud - App Framework
  *
@@ -21,31 +20,8 @@
  *
  */
 
-
 namespace OCP\AppFramework\Http;
 
-
-//require_once(__DIR__ . "/../classloader.php");
-
-
-class ChildDownloadResponse extends DownloadResponse {};
-
-
-class DownloadResponseTest extends \PHPUnit_Framework_TestCase {
-
-	protected $response;
-
-	protected function setUp(){
-		$this->response = new ChildDownloadResponse('file', 'content');
-	}
-
-
-	public function testHeaders() {
-		$headers = $this->response->getHeaders();
-
-		$this->assertContains('attachment; filename="file"', $headers['Content-Disposition']);
-		$this->assertContains('content', $headers['Content-Type']);
-	}
-
-
+interface IResponseSerializer {
+    function serialize($response);
 }

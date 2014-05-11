@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -51,6 +51,22 @@ class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testSetParamsConstructor(){
+		$params = array('hi' => 'yo');
+		$this->tpl = new TemplateResponse($this->api, 'home', $params);
+
+		$this->assertEquals(array('hi' => 'yo'), $this->tpl->getParams());
+	}
+
+
+	public function testSetRenderAsConstructor(){
+		$renderAs = 'myrender';
+		$this->tpl = new TemplateResponse($this->api, 'home', array(), $renderAs);
+
+		$this->assertEquals($renderAs, $this->tpl->getRenderAs());
+	}
+
+
 	public function testSetParams(){
 		$params = array('hi' => 'yo');
 		$this->tpl->setParams($params);
@@ -62,36 +78,6 @@ class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
 	public function testGetTemplateName(){
 		$this->assertEquals('home', $this->tpl->getTemplateName());
 	}
-
-
-//	public function testRender(){
-//		$ocTpl = $this->getMock('Template', array('fetchPage'));
-//		$ocTpl->expects($this->once())
-//				->method('fetchPage');
-//
-//		$tpl = new TemplateResponse('core', 'error');
-//
-//		$tpl->render();
-//	}
-//
-//
-//	public function testRenderAssignsParams(){
-//		$params = array('john' => 'doe');
-//
-//		$tpl = new TemplateResponse('app', 'home');
-//		$tpl->setParams($params);
-//
-//		$tpl->render();
-//	}
-//
-//
-//	public function testRenderDifferentApp(){
-//
-//		$tpl = new TemplateResponse('app', 'home', 'app2');
-//
-//		$tpl->render();
-//	}
-
 
 	public function testGetRenderAs(){
 		$render = 'myrender';

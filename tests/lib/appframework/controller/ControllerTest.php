@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,9 +26,31 @@ namespace OCP\AppFramework;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\IResponseSerializer;
 
 
-class ChildController extends Controller {};
+class ToUpperCaseSerializer implements IResponseSerializer {
+	public function serialize($response) {
+		return array(strtoupper($response));
+	}
+}
+
+class ChildController extends Controller {
+	public function custom($in) {
+		$this->registerResponder('json', function ($response) {
+			return new JSONResponse(array(strlen($response)));
+		});
+
+		return $in;
+	}
+
+	public function serializer($in) {
+		$this->registerSerializer(new ToUpperCaseSerializer());
+
+		return $in;
+	}
+};
 
 class ControllerTest extends \PHPUnit_Framework_TestCase {
 
@@ -126,6 +148,37 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetEnvVariable(){
 		$this->assertEquals('daheim', $this->controller->env('PATH'));
+	}
+
+
+	/**
+	 * @expectedException \DomainException
+	 */
+	public function testFormatResonseInvalidFormat() {
+		$this->controller->buildResponse(null, 'test');
+	}
+
+
+	public function testFormat() {
+		$response = $this->controller->buildResponse(array('hi'), 'json');
+
+		$this->assertEquals(array('hi'), $response->getData());
+	}
+
+
+	public function testCustomFormatter() {
+		$response = $this->controller->custom('hi');
+		$response = $this->controller->buildResponse($response, 'json');
+
+		$this->assertEquals(array(2), $response->getData());		
+	}
+
+
+	public function testCustomSerializer() {
+		$response = $this->controller->serializer('hi');
+		$response = $this->controller->buildResponse($response, 'json');
+
+		$this->assertEquals(array('HI'), $response->getData());	
 	}
 
 

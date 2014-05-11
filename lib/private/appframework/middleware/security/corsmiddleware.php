@@ -11,7 +11,7 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Utility\MethodAnnotationReader;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\IRequest;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
@@ -25,12 +25,16 @@ use OCP\AppFramework\Middleware;
 class CORSMiddleware extends Middleware {
 
 	private $request;
+	private $reflector;
 
 	/**
 	 * @param IRequest $request
+	 * @param ControllerMethodReflector $reflector
 	 */
-	public function __construct(IRequest $request) {
+	public function __construct(IRequest $request, 
+	                            ControllerMethodReflector $reflector) {
 		$this->request = $request;
+		$this->reflector = $reflector;
 	}
 
 
@@ -46,10 +50,9 @@ class CORSMiddleware extends Middleware {
 	 */
 	public function afterController($controller, $methodName, Response $response){
 		// only react if its a CORS request and if the request sends origin and
-		$reflector = new MethodAnnotationReader($controller, $methodName);
 
 		if(isset($this->request->server['HTTP_ORIGIN']) &&
-			$reflector->hasAnnotation('CORS')) {
+			$this->reflector->hasAnnotation('CORS')) {
 
 			// allow credentials headers must not be true or CSRF is possible 
 			// otherwise
@@ -57,7 +60,7 @@ class CORSMiddleware extends Middleware {
 				if(strtolower($header) === 'access-control-allow-credentials' &&
 				   strtolower(trim($value)) === 'true') {
 					$msg = 'Access-Control-Allow-Credentials must not be '.
-					       'set to true in order to prevent CSRF';
+						   'set to true in order to prevent CSRF';
 					throw new SecurityException($msg);
 				}
 			}

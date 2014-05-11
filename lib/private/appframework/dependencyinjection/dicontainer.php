@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -33,6 +33,7 @@ use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
@@ -81,7 +82,12 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		});
 
 		$this['Dispatcher'] = $this->share(function($c) {
-			return new Dispatcher($c['Protocol'], $c['MiddlewareDispatcher']);
+			return new Dispatcher(
+				$c['Protocol'], 
+				$c['MiddlewareDispatcher'], 
+				$c['ControllerMethodReflector'],
+				$c['Request']
+			);
 		});
 
 
@@ -90,11 +96,18 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		 */
 		$app = $this;
 		$this['SecurityMiddleware'] = $this->share(function($c) use ($app){
-			return new SecurityMiddleware($app, $c['Request']);
+			return new SecurityMiddleware(
+				$app, 
+				$c['Request'], 
+				$c['ControllerMethodReflector']
+			);
 		});
 
 		$this['CORSMiddleware'] = $this->share(function($c) {
-			return new CORSMiddleware($c['Request']);
+			return new CORSMiddleware(
+				$c['Request'],
+				$c['ControllerMethodReflector']
+			);
 		});
 
 		$middleWares = &$this->middleWares;
@@ -118,6 +131,9 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			return new TimeFactory();
 		});
 
+		$this['ControllerMethodReflector'] = $this->share(function($c) {
+			return new ControllerMethodReflector();
+		});
 
 	}
 
