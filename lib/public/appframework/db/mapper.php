@@ -37,7 +37,7 @@ abstract class Mapper {
 
 	protected $tableName;
 	protected $entityClass;
-	private $db;
+	protected $db;
 
 	/**
 	 * @param IDb $db Instance of the Db abstraction layer
