@@ -230,11 +230,11 @@ OC.Share={
 				}
 
 				html += '<input id="linkText" type="text" readonly="readonly" />';
-
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
 				html += '<div id="linkPass">';
-				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
+				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Choose a password for the public link')+'" />';
 				html += '</div>';
+
 				if (itemType === 'folder' && (possiblePermissions & OC.PERMISSION_CREATE) && publicUploadEnabled === 'yes') {
 					html += '<div id="allowPublicUploadWrapper" style="display:none;">';
 					html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
@@ -494,8 +494,10 @@ OC.Share={
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#linkText').css('display','block');
-		$('#showPassword').show();
-		$('#showPassword+label').show();
+		if (oc_appconfig.core.enforcePasswordForPublicLink === false || password === null) {
+			$('#showPassword').show();
+			$('#showPassword+label').show();
+		}
 		if (password != null) {
 			$('#linkPass').show('blind');
 			$('#showPassword').attr('checked', true);
@@ -512,7 +514,7 @@ OC.Share={
 		$('#defaultExpireMessage').hide();
 		$('#showPassword').hide();
 		$('#showPassword+label').hide();
-		$('#linkPass').hide();
+		$('#linkPass').hide('blind');
 		$('#emailPrivateLink #email').hide();
 		$('#emailPrivateLink #emailButton').hide();
 		$('#allowPublicUploadWrapper').hide();
@@ -643,20 +645,27 @@ $(document).ready(function() {
 		var itemSourceName = $('#dropdown').data('item-source-name');
 		if (this.checked) {
 			// Create a link
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, function(data) {
-				OC.Share.showLink(data.token, null, itemSource);
-				OC.Share.updateIcon(itemType, itemSource);
-			});
+			if (oc_appconfig.core.enforcePasswordForPublicLink === false) {
+				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, function(data) {
+					OC.Share.showLink(data.token, null, itemSource);
+					OC.Share.updateIcon(itemType, itemSource);
+				});
+			} else {
+				$('#linkPass').toggle('blind');
+				$('#linkPassText').focus();
+			}
 		} else {
 			// Delete private link
-			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
-				OC.Share.hideLink();
-				OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
-				OC.Share.updateIcon(itemType, itemSource);
-				if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-					$('#expiration').hide('blind');
-				}
-			});
+			OC.Share.hideLink();
+			if ($('#linkText').val() !== '') {
+				OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
+					OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
+					OC.Share.updateIcon(itemType, itemSource);
+					if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+						$('#expiration').hide('blind');
+					}
+				});
+			}
 		}
 	});
 
@@ -728,11 +737,16 @@ $(document).ready(function() {
 				permissions = OC.PERMISSION_READ;
 			}
 
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, function() {
-				console.log("password set to: '" + linkPassText.val() +"' by event: " + event.type);
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $('#linkPassText').val(), permissions, itemSourceName, function(data) {
 				linkPassText.val('');
 				linkPassText.attr('placeholder', t('core', 'Password protected'));
+
+				if (oc_appconfig.core.enforcePasswordForPublicLink) {
+					OC.Share.showLink(data.token, "password set", itemSource);
+					OC.Share.updateIcon(itemType, itemSource);
+				}
 			});
+
 		}
 	});
 

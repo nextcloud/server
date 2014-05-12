@@ -87,6 +87,16 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief check if a password is required for each public link
+	 * @return boolean
+	 */
+	public static function isPublicLinkPasswordRequired() {
+		$appConfig = \OC::$server->getAppConfig();
+		$enforcePassword = $appConfig->getValue('core', 'shareapi_enforce_links_password', 'no');
+		return ($enforcePassword === 'yes') ? true : false;
+	}
+
+	/**
 	 * Get the quota of a user
 	 * @param string $user
 	 * @return int Quota bytes
