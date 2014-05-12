@@ -168,6 +168,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return resource
+	 */
 	public function opendir($path) {
 		return $this->basicOperation('opendir', $path, array('read'));
 	}
