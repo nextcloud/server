@@ -26,7 +26,7 @@ use OC\Hooks\PublicEmitter;
  */
 class Manager extends PublicEmitter {
 	/**
-	 * @var \OC_User_Backend[] $backends
+	 * @var \OC_User_Interface[] $backends
 	 */
 	private $backends = array();
 
@@ -57,7 +57,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * register a user backend
 	 *
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 */
 	public function registerBackend($backend) {
 		$this->backends[] = $backend;
@@ -66,7 +66,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 */
 	public function removeBackend($backend) {
 		$this->cachedUsers = array();
@@ -105,7 +105,7 @@ class Manager extends PublicEmitter {
 	 * get or construct the user object
 	 *
 	 * @param string $uid
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 * @return \OC\User\User
 	 */
 	protected function getUserObject($uid, $backend) {
