@@ -423,7 +423,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $ldapObjects
+	 * @param array $ldapObjects
 	 * @param bool $isUsers
 	 * @return array
 	 */
