@@ -9,7 +9,7 @@
 namespace OC\DB;
 
 /**
-* Takes care of creating and configurating Doctrine connections.
+* Takes care of creating and configuring Doctrine connections.
 */
 class ConnectionFactory {
 	/**
@@ -91,6 +91,7 @@ class ConnectionFactory {
 			case 'sqlite3':
 				// Sqlite doesn't handle query caching and schema changes
 				// TODO: find a better way to handle this
+				/** @var $connection \OC\DB\Connection */
 				$connection->disableQueryStatementCaching();
 				break;
 		}
@@ -107,7 +108,7 @@ class ConnectionFactory {
 	}
 
 	/**
-	* @brief Checks whether the specififed DBMS type is valid.
+	* @brief Checks whether the specified DBMS type is valid.
 	* @return bool
 	*/
 	public function isValidType($type) {
