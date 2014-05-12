@@ -27,7 +27,7 @@ class Helper {
 
 	/**
 	 * @brief returns prefixes for each saved LDAP/AD server configuration.
-	 * @param bool optional, whether only active configuration shall be
+	 * @param bool $activeConfigurations optional, whether only active configuration shall be
 	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
 	 *
@@ -80,7 +80,7 @@ class Helper {
 	/**
 	 *
 	 * @brief determines the host for every configured connection
-	 * @return an array with configprefix as keys
+	 * @return array an array with configprefix as keys
 	 *
 	 */
 	static public function getServerConfigurationHosts() {
@@ -107,7 +107,7 @@ class Helper {
 
 	/**
 	 * @brief deletes a given saved LDAP/AD server configuration.
-	 * @param string the configuration prefix of the config to delete
+	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
 	static public function deleteServerConfiguration($prefix) {
@@ -148,7 +148,7 @@ class Helper {
 	 * Truncate's the given mapping table
 	 *
 	 * @param string $mapping either 'user' or 'group'
-	 * @return boolean true on success, false otherwise
+	 * @return bool true on success, false otherwise
 	 */
 	static public function clearMapping($mapping) {
 		if($mapping === 'user') {
@@ -177,8 +177,8 @@ class Helper {
 
 	/**
 	 * @brief extractsthe domain from a given URL
-	 * @param $url the URL
-	 * @return mixed, domain as string on success, false otherwise
+	 * @param string $url the URL
+	 * @return string|false domain as string on success, false otherwise
 	 */
 	static public function getDomainFromURL($url) {
 		$uinfo = parse_url($url);

@@ -71,7 +71,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 						case 'ladyofshadows':
 							return 'dnOfLadyOfShadows';
 							break;
-						defautl:
+						default:
 							return false;
 					}
 			   }));

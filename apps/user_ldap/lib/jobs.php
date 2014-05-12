@@ -33,6 +33,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		$this->interval = self::getRefreshInterval();
 	}
 
+	/**
+	 * @param $argument
+	 */
 	public function run($argument){
 		Jobs::updateGroups();
 	}
@@ -57,11 +60,17 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Finished.', \OCP\Util::DEBUG);
 	}
 
+	/**
+	 * @return int
+	 */
 	static private function getRefreshInterval() {
 		//defaults to every hour
 		return \OCP\Config::getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
 	}
 
+	/**
+	 * @param $groups
+	 */
 	static private function handleKnownGroups($groups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
@@ -97,6 +106,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			\OCP\Util::DEBUG);
 	}
 
+	/**
+	 * @param $createdGroups
+	 */
 	static private function handleCreatedGroups($createdGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
@@ -116,6 +128,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			\OCP\Util::DEBUG);
 	}
 
+	/**
+	 * @param $removedGroups
+	 */
 	static private function handleRemovedGroups($removedGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
@@ -134,6 +149,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			\OCP\Util::DEBUG);
 	}
 
+	/**
+	 * @return \OCA\user_ldap\GROUP_LDAP|\OCA\user_ldap\Group_Proxy
+	 */
 	static private function getGroupBE() {
 		if(!is_null(self::$groupBE)) {
 			return self::$groupBE;
@@ -152,6 +170,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		return self::$groupBE;
 	}
 
+	/**
+	 * @return array
+	 */
 	static private function getKnownGroups() {
 		if(is_array(self::$groupsFromDB)) {
 			return self::$groupsFromDB;
