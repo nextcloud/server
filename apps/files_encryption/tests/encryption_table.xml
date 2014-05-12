@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+	<table>
+		<name>*dbprefix*encryption_test</name>
+		<declaration>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>mode</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+				<comments>What client-side / server-side configuration is used</comments>
+			</field>
+			<field>
+				<name>recovery_enabled</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<comments>Whether encryption key recovery is enabled</comments>
+			</field>
+			<field>
+				<name>migration_status</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<comments>Whether encryption migration has been performed</comments>
+			</field>
+		</declaration>
+	</table>
+</database>
