@@ -400,19 +400,11 @@ class OC_Mount_Config {
 				'options' => self::encryptPasswords($classOptions))
 			)
 		);
+
 		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : NULL);
-		// Merge the new mount point into the current mount points
-		if (isset($mountPoints[$mountType])) {
-			if (isset($mountPoints[$mountType][$applicable])) {
-				$mountPoints[$mountType][$applicable]
-					= array_merge($mountPoints[$mountType][$applicable], $mount[$applicable]);
-			} else {
-				$mountPoints[$mountType] = array_merge($mountPoints[$mountType], $mount);
-			}
-		} else {
-			$mountPoints[$mountType] = $mount;
-		}
+		$mountPoints = self::mergeMountPoints($mountPoints, $mount, $mountType);
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
+
 		return self::getBackendStatus($class, $classOptions, $isPersonal);
 	}
 
@@ -687,6 +679,28 @@ class OC_Mount_Config {
 		$cipher->setIV($iv);
 		$binaryPassword = substr($binaryPassword, 16);
 		return $cipher->decrypt($binaryPassword);
+	}
+
+	/**
+	 * Merges mount points
+	 * @param array $data Existing mount points
+	 * @param array $mountPoint New mount point
+	 * @param string $mountType
+	 * @return array
+	 */
+	private static function mergeMountPoints($data, $mountPoint, $mountType) {
+		$applicable = key($mountPoint);
+		if (isset($data[$mountType])) {
+			if (isset($data[$mountType][$applicable])) {
+				$data[$mountType][$applicable]
+					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
+			} else {
+				$data[$mountType] = array_merge($data[$mountType], $mountPoint);
+			}
+		} else {
+			$data[$mountType] = $mountPoint;
+		}
+		return $data;
 	}
 
 	/**
