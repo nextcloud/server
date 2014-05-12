@@ -116,7 +116,7 @@ namespace OCP {
 		 */
 		public static function createOrUpdate($properties, $address_book_key) {
 			$cm = \OC::$server->getContactsManager();
-			return $cm->search($properties, $address_book_key);
+			return $cm->createOrUpdate($properties, $address_book_key);
 		}
 
 		/**

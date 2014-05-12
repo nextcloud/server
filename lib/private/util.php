@@ -1113,7 +1113,7 @@ class OC_Util {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
 
-			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) {
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode') === 'Off') {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
 				$data = curl_exec($curl);
