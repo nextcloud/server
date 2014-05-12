@@ -405,7 +405,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\ILogger
 	 */
-	function getLogger(){
+	function getLogger() {
 		return $this->query('Logger');
 	}
 

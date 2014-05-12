@@ -21,7 +21,7 @@ use \OCP\ILogger;
  */
 
 class Log implements ILogger {
-	
+
 	private $logger;
 
 	/**
@@ -153,7 +153,7 @@ class Log implements ILogger {
 		// interpolate replacement values into the message and return
 		$message = strtr($message, $replace);
 
-		$logger=$this->logger;
+		$logger = $this->logger;
 		$logger::write($app, $message, $level);
 	}
 }
