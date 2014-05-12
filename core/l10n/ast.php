@@ -72,6 +72,7 @@ $TRANSLATIONS = array(
 "For the best results, please consider using a GNU/Linux server instead." => "Pa los meyores resultaos, por favor considera l'usu d'un sirvidor GNU/Linux nel so llugar.",
 "Personal" => "Personal",
 "Users" => "Usuarios",
+"Help" => "Ayuda",
 "Cheers!" => "¡Salú!",
 "Security Warning" => "Avisu de seguridá",
 "will be used" => "usaráse",

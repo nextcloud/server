@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-12 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 14:00+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,7 @@ msgstr ""
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "បាន​រក្សាទុក"
 
 #: lib/config.php:597
 msgid "<b>Note:</b> "

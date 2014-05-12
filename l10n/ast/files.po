@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"POT-Creation-Date: 2014-05-12 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 16:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -143,49 +143,49 @@ msgstr ""
 msgid "Files"
 msgstr "Ficheros"
 
-#: js/file-upload.js:254
+#: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:266
+#: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:276
+#: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:353
+#: js/file-upload.js:358
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/file-upload.js:398
+#: js/file-upload.js:404
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:490
+#: js/file-upload.js:493
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:555
+#: js/file-upload.js:558
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:963
+#: js/file-upload.js:562 js/filelist.js:963
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:611
+#: js/file-upload.js:617
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:624
+#: js/file-upload.js:633
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:664
+#: js/file-upload.js:680
 msgid "Error fetching URL"
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "Ficheros desaniciaos"
 
 #: templates/index.php:45
 msgid "Cancel upload"

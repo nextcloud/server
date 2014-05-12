@@ -1,8 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Deleted files" => "បាន​លុប​ឯកសារ",
 "Error" => "កំហុស",
-"Name" => "ឈ្មោះ",
 "Restore" => "ស្ដារ​មក​វិញ",
+"Name" => "ឈ្មោះ",
 "Delete" => "លុប"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

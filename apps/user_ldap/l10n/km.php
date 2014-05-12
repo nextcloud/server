@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Help" => "ជំនួយ",
 "Add Server Configuration" => "បន្ថែម​ការ​កំណត់​រចនាសម្ព័ន្ធ​ម៉ាស៊ីន​បម្រើ",
 "Host" => "ម៉ាស៊ីន​ផ្ទុក",
-"Password" => "ពាក្យសម្ងាត់"
+"Password" => "ពាក្យសម្ងាត់",
+"Continue" => "បន្ត"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

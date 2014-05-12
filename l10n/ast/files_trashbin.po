@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 16:38+0000\n"
+"POT-Creation-Date: 2014-05-12 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 16:10+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -30,19 +30,23 @@ msgstr "Nun pudo restaurase %s"
 
 #: js/filelist.js:3
 msgid "Deleted files"
-msgstr ""
+msgstr "Ficheros desaniciaos"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
+#: js/filelist.js:88 js/filelist.js:132 js/filelist.js:181
 msgid "Error"
 msgstr "Fallu"
 
-#: js/trash.js:264
+#: js/trash.js:48 templates/index.php:22 templates/index.php:24
+msgid "Restore"
+msgstr "Restaurar"
+
+#: js/trash.js:107
 msgid "Deleted Files"
 msgstr "Ficheros desaniciaos"
 
 #: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
-msgstr ""
+msgstr "recuperóse"
 
 #: templates/index.php:6
 msgid "Nothing in here. Your trash bin is empty!"
@@ -51,10 +55,6 @@ msgstr "Nun hai un res equí. La papelera ta balera!"
 #: templates/index.php:19
 msgid "Name"
 msgstr "Nome"
-
-#: templates/index.php:22 templates/index.php:24
-msgid "Restore"
-msgstr "Restaurar"
 
 #: templates/index.php:30
 msgid "Deleted"

@@ -4,15 +4,15 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013-2014
-# kwillems <kwillems@zonnet.nl>, 2013
+# kwillems <kwillems@zonnet.nl>, 2013-2014
 # Jorcee <mail@jordyc.nl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-12 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 19:10+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -412,7 +412,7 @@ msgstr "Wachtwoord beveiligd"
 
 #: js/share.js:734
 msgid "Error unsetting expiration date"
-msgstr "Fout tijdens het verwijderen van de verval datum"
+msgstr "Fout tijdens het verwijderen van de vervaldatum"
 
 #: js/share.js:752
 msgid "Error setting expiration date"
@@ -467,11 +467,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "De update is niet geslaagd. Meld dit probleem aan bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
+msgstr "De update is niet geslaagd. Meld dit probleem bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "De update is geslaagd. Je wordt teruggeleid naar je eigen ownCloud."
+msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
 
 #: lostpassword/controller.php:70
 #, php-format
@@ -486,22 +486,22 @@ msgstr "Er ontstond een probleem bij het versturen van het e-mailbericht, neem c
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Gebruik de volgende link om je wachtwoord te resetten: {link}"
+msgstr "Gebruik de volgende link om uw wachtwoord te resetten: {link}"
 
 #: lostpassword/templates/lostpassword.php:7
 msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "De link voor het resetten van je wachtwoord is verzonden naar je e-mailadres.<br>Als je dat bericht niet snel ontvangen hebt, controleer dan uw spambakje.<br>Als het daar ook niet is, vraag dan je beheerder om te helpen."
+msgstr "De link voor het resetten van uw wachtwoord is verzonden naar uw e-mailadres.<br>Als u dat bericht niet snel ontvangen hebt, controleer dan uw spammap.<br>Als het daar ook niet is, vraag dan uw beheerder om hulp."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Aanvraag mislukt!<br>Weet je zeker dat je gebruikersnaam en/of wachtwoord goed waren?"
+msgstr "Aanvraag mislukt!<br>Weet u zeker dat uw gebruikersnaam en/of wachtwoord goed waren?"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
-msgstr "Je ontvangt een link om je wachtwoord opnieuw in te stellen via e-mail."
+msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
 #: templates/login.php:32
@@ -514,7 +514,7 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "Je bestanden zijn versleuteld. Als je geen recoverykey hebt ingeschakeld is er geen manier om je data terug te krijgen indien je je wachtwoord reset!\nAls je niet weet wat te doen, neem dan alsjeblieft contact op met je administrator eer je doorgaat.\nWil je echt doorgaan?"
+msgstr "Uw bestanden zijn versleuteld. Als u geen recoverykey hebt ingeschakeld is er geen manier om uw data terug te krijgen na het resetten van uw wachtwoord.\nAls u niet weet wat u moet doen, neem dan alstublieft contact op met uw systeembeheerder voordat u doorgaat.\nWil u echt doorgaan?"
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
@@ -526,7 +526,7 @@ msgstr "Reset"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Je wachtwoord is gewijzigd"
+msgstr "Uw wachtwoord is gewijzigd"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -616,7 +616,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Hallo daar,\n\neven een berichtje dat %s %s met u deelde.\nBekijk het: %s\n\n"
+msgstr "Hallo,\n\n%s deelt %s met u.\nBekijk het: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -634,7 +634,7 @@ msgstr "Beveiligingswaarschuwing"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr "Je PHP-versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)"
+msgstr "Uw PHP-versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)"
 
 #: templates/installation.php:27
 #, php-format
@@ -657,7 +657,7 @@ msgstr "Zonder random nummer generator is het mogelijk voor een aanvaller om de 
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Je gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess-bestand niet werkt."
+msgstr "Uw gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess-bestand niet functioneert."
 
 #: templates/installation.php:42
 #, php-format
@@ -719,7 +719,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr "Deze applicatie heeft een werkend JavaScript nodig.  <a href=\"http://enable-javascript.com/\" target=\"_blank\">activeer JavaScript</a> en herlaad deze interface."
+msgstr "Deze applicatie heeft JavaScript nodig om correct te functioneren.  <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeer JavaScript</a> en herlaad deze interface."
 
 #: templates/layout.user.php:44
 #, php-format
@@ -738,11 +738,11 @@ msgstr "Automatische aanmelding geweigerd!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Als je je wachtwoord niet onlangs heeft aangepast, kan je account overgenomen zijn!"
+msgstr "Als u uw wachtwoord niet onlangs heeft aangepast, kan uw account overgenomen zijn!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Wijzig je wachtwoord zodat je account weer beveiligd is."
+msgstr "Wijzig uw wachtwoord zodat uw account weer beveiligd is."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
@@ -762,7 +762,7 @@ msgstr "onthoud gegevens"
 
 #: templates/login.php:54
 msgid "Log in"
-msgstr "Meld je aan"
+msgstr "Meld u aan"
 
 #: templates/login.php:60
 msgid "Alternative Logins"
@@ -773,7 +773,7 @@ msgstr "Alternatieve inlogs"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr "Hallo daar,<br><br>we willen even laten weten dat %s <strong>%s</strong> met u heeft gedeeld.<br><a href=\"%s\">Bekijk het!</a><br><br>"
+msgstr "Hallo,<br><br>%s deelt <strong>%s</strong> met u.<br><a href=\"%s\">Bekijk het!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

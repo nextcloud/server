@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-12 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 14:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -29,17 +29,21 @@ msgstr ""
 
 #: js/filelist.js:3
 msgid "Deleted files"
-msgstr ""
+msgstr "បាន​លុប​ឯកសារ"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
+#: js/filelist.js:88 js/filelist.js:132 js/filelist.js:181
 msgid "Error"
 msgstr "កំហុស"
 
-#: js/trash.js:264
+#: js/trash.js:48 templates/index.php:22 templates/index.php:24
+msgid "Restore"
+msgstr "ស្ដារ​មក​វិញ"
+
+#: js/trash.js:107
 msgid "Deleted Files"
 msgstr ""
 
-#: lib/trashbin.php:859 lib/trashbin.php:861
+#: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
 msgstr ""
 
@@ -50,10 +54,6 @@ msgstr ""
 #: templates/index.php:19
 msgid "Name"
 msgstr "ឈ្មោះ"
-
-#: templates/index.php:22 templates/index.php:24
-msgid "Restore"
-msgstr "ស្ដារ​មក​វិញ"
 
 #: templates/index.php:30
 msgid "Deleted"

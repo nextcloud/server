@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "_%s user found_::_%s users found_" => array("%s usuariu alcontráu","%s usuarios alcontraos"),
 "Could not find the desired feature" => "Nun pudo alcontrase la carauterística deseyada",
 "Save" => "Guardar",
+"Help" => "Ayuda",
 "groups found" => "grupos alcontraos",
 "Users login with this attribute:" => "Aniciu de sesión d'usuarios con esti atributu:",
 "LDAP Username:" => "Nome d'usuariu LDAP",
