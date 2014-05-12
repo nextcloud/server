@@ -31,7 +31,7 @@ abstract class Proxy {
 
 	public function __construct(ILDAPWrapper $ldap) {
 		$this->ldap = $ldap;
-		$this->cache = \OC_Cache::getGlobalCache();
+		$this->cache = \OC\Cache::getGlobalCache();
 	}
 
 	private function addAccess($configPrefix) {
