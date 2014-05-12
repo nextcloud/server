@@ -579,7 +579,7 @@ class Storage {
 	 * @param \OC\Files\View $view view on data/user/
 	 */
 	private static function createMissingDirectories($filename, $view) {
-		$dirname = \OC_Filesystem::normalizePath(dirname($filename));
+		$dirname = \OC\Files\Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
 		$dir = "/files_versions";
 		foreach ($dirParts as $part) {

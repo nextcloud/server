@@ -332,7 +332,7 @@ class Helper {
 	 * @param \OC\Files\View $view
 	 */
 	public static function mkdirr($path, $view) {
-		$dirname = \OC_Filesystem::normalizePath(dirname($path));
+		$dirname = \OC\Files\Filesystem::normalizePath(dirname($path));
 		$dirParts = explode('/', $dirname);
 		$dir = "";
 		foreach ($dirParts as $part) {
