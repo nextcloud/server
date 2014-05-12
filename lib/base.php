@@ -378,9 +378,17 @@ class OC {
 		//set the session object to a dummy session so code relying on the session existing still works
 		self::$session = new \OC\Session\Memory('');
 
+		// Let the session name be changed in the initSession Hook
+		$sessionName = OC_Util::getInstanceId();
+
 		try {
-			// set the session name to the instance id - which is unique
-			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
+			// Allow session apps to create a custom session object
+			$useCustomSession = false;
+			OC_Hook::emit('OC', 'initSession', array('session' => &self::$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession));
+			if(!$useCustomSession) {
+				// set the session name to the instance id - which is unique
+				self::$session = new \OC\Session\Internal($sessionName);
+			}
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
 			//show the user a detailed error page
@@ -537,6 +545,7 @@ class OC {
 		self::$server = new \OC\Server();
 
 		self::initTemplateEngine();
+		OC_App::loadApps(array('session'));
 		if (!self::$CLI) {
 			self::initSession();
 		} else {
