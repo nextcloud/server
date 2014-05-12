@@ -186,4 +186,36 @@ class OC_Response {
 			self::setStatus(self::STATUS_NOT_FOUND);
 		}
 	}
+
+	/*
+	 * This function adds some security related headers to all requests served via base.php
+	 * The implementation of this function has to happen here to ensure that all third-party
+	 * components (e.g. SabreDAV) also benefit from this headers.
+	 */
+	public static function addSecurityHeaders() {
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// iFrame Restriction Policy
+		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
+		if ($xFramePolicy) {
+			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		}
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			. 'script-src \'self\' \'unsafe-eval\'; '
+			. 'style-src \'self\' \'unsafe-inline\'; '
+			. 'frame-src *; '
+			. 'img-src *; '
+			. 'font-src \'self\' data:; '
+			. 'media-src *');
+		header('Content-Security-Policy:' . $policy);
+
+		// https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+		header('X-Robots-Tag: none');
+	}
+
 }
