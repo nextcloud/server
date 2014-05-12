@@ -95,19 +95,6 @@ class MDB2SchemaManager {
 	}
 
 	/**
-	 * drop a table
-	 * @param string $tableName the table to drop
-	 */
-	public function dropTable($tableName) {
-		$sm = $this->conn->getSchemaManager();
-		$fromSchema = $sm->createSchema();
-		$toSchema = clone $fromSchema;
-		$toSchema->dropTable($tableName);
-		$sql = $fromSchema->getMigrateToSql($toSchema, $this->conn->getDatabasePlatform());
-		$this->conn->executeQuery($sql);
-	}
-
-	/**
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
 	 */
@@ -122,27 +109,6 @@ class MDB2SchemaManager {
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 		$this->executeSchemaChange($schemaDiff);
-	}
-
-	/**
-	 * replaces the ownCloud tables with a new set
-	 * @param string $file path to the MDB2 xml db export file
-	 */
-	public function replaceDB( $file ) {
-		$apps = \OC_App::getAllApps();
-		$this->conn->beginTransaction();
-		// Delete the old tables
-		$this->removeDBStructure( \OC::$SERVERROOT . '/db_structure.xml' );
-
-		foreach($apps as $app) {
-			$path = \OC_App::getAppPath($app).'/appinfo/database.xml';
-			if(file_exists($path)) {
-				$this->removeDBStructure( $path );
-			}
-		}
-
-		// Create new tables
-		$this->conn->commit();
 	}
 
 	/**

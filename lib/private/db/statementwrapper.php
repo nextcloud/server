@@ -13,6 +13,7 @@
  * @method string errorCode();
  * @method array errorInfo();
  * @method integer rowCount();
+ * @method array fetchAll(integer $fetchMode = null);
  */
 class OC_DB_StatementWrapper {
 	/**
