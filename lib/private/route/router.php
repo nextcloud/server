@@ -90,7 +90,7 @@ class Router implements IRouter {
 			$files[] = 'settings/routes.php';
 			$files[] = 'core/routes.php';
 			$files[] = 'ocs/routes.php';
-			$this->cacheKey = \OC_Cache::generateCacheKeyFromFiles($files);
+			$this->cacheKey = \OC\Cache::generateCacheKeyFromFiles($files);
 		}
 		return $this->cacheKey;
 	}

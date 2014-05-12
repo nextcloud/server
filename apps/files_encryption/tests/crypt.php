@@ -34,7 +34,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	public $dataUrl;
 	public $dataShort;
 	/**
-	 * @var OC_FilesystemView
+	 * @var OC\Files\View
 	 */
 	public $view;
 	public $legacyEncryptedData;
@@ -79,7 +79,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
@@ -157,7 +157,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$filename = 'tmp-' . uniqid() . '.test';
 
-		$util = new Encryption\Util(new \OC_FilesystemView(), $this->userId);
+		$util = new Encryption\Util(new \OC\Files\View(), $this->userId);
 
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/'. $filename, $this->dataShort);
 
@@ -216,7 +216,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		// Generate a a random filename
 		$filename = 'tmp-' . uniqid() . '.test';
 
-		$util = new Encryption\Util(new \OC_FilesystemView(), $this->userId);
+		$util = new Encryption\Util(new \OC\Files\View(), $this->userId);
 
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);

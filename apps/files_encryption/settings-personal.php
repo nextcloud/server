@@ -12,7 +12,7 @@
 $tmpl = new OCP\Template('files_encryption', 'settings-personal');
 
 $user = \OCP\USER::getUser();
-$view = new \OC_FilesystemView('/');
+$view = new \OC\Files\View('/');
 $util = new \OCA\Encryption\Util($view, $user);
 $session = new \OCA\Encryption\Session($view);
 

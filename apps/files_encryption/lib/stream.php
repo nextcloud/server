@@ -91,7 +91,7 @@ class Stream {
 		$this->newFile = false;
 
 		if (!isset($this->rootView)) {
-			$this->rootView = new \OC_FilesystemView('/');
+			$this->rootView = new \OC\Files\View('/');
 		}
 
 		$this->session = new \OCA\Encryption\Session($this->rootView);

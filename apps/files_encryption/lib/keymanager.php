@@ -32,12 +32,12 @@ class Keymanager {
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
 	 *
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param string $user
 	 * @return string private key or false (hopefully)
 	 * @note the key returned by this method must be decrypted before use
 	 */
-	public static function getPrivateKey(\OC_FilesystemView $view, $user) {
+	public static function getPrivateKey(\OC\Files\View $view, $user) {
 
 		$path = '/' . $user . '/' . 'files_encryption' . '/' . $user . '.private.key';
 		$key = false;
@@ -56,11 +56,11 @@ class Keymanager {
 
 	/**
 	 * @brief retrieve public key for a specified user
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param $userId
 	 * @return string public key or false
 	 */
-	public static function getPublicKey(\OC_FilesystemView $view, $userId) {
+	public static function getPublicKey(\OC\Files\View $view, $userId) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -75,11 +75,11 @@ class Keymanager {
 
 	/**
 	 * @brief Retrieve a user's public and private key
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param $userId
 	 * @return array keys: privateKey, publicKey
 	 */
-	public static function getUserKeys(\OC_FilesystemView $view, $userId) {
+	public static function getUserKeys(\OC\Files\View $view, $userId) {
 
 		return array(
 			'publicKey' => self::getPublicKey($view, $userId),
@@ -90,11 +90,11 @@ class Keymanager {
 
 	/**
 	 * @brief Retrieve public keys for given users
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param array $userIds
 	 * @return array of public keys for the specified users
 	 */
-	public static function getPublicKeys(\OC_FilesystemView $view, array $userIds) {
+	public static function getPublicKeys(\OC\Files\View $view, array $userIds) {
 
 		$keys = array();
 
@@ -111,7 +111,7 @@ class Keymanager {
 	/**
 	 * @brief store file encryption key
 	 *
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $path relative path of the file, including filename
 	 * @param string $catfile keyfile content
@@ -119,7 +119,7 @@ class Keymanager {
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setFileKey(\OC_FilesystemView $view, $util, $path, $catfile) {
+	public static function setFileKey(\OC\Files\View $view, $util, $path, $catfile) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -168,7 +168,7 @@ class Keymanager {
 
 	/**
 	 * @brief retrieve keyfile for an encrypted file
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string|false $filePath
 	 * @internal param \OCA\Encryption\file $string name
@@ -212,7 +212,7 @@ class Keymanager {
 	/**
 	 * @brief Delete a keyfile
 	 *
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param string $path path of the file the key belongs to
 	 * @param string $userId the user to whom the file belongs
 	 * @return bool Outcome of unlink operation
@@ -276,7 +276,7 @@ class Keymanager {
 
 		$user = \OCP\User::getUser();
 
-		$view = new \OC_FilesystemView('/' . $user . '/files_encryption');
+		$view = new \OC\Files\View('/' . $user . '/files_encryption');
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -295,14 +295,14 @@ class Keymanager {
 	/**
 	 * @brief store share key
 	 *
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param string $path where the share key is stored
 	 * @param $shareKey
 	 * @return bool true/false
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	private static function setShareKey(\OC_FilesystemView $view, $path, $shareKey) {
+	private static function setShareKey(\OC\Files\View $view, $path, $shareKey) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -320,13 +320,13 @@ class Keymanager {
 
 	/**
 	 * @brief store multiple share keys for a single file
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $path
 	 * @param array $shareKeys
 	 * @return bool
 	 */
-	public static function setShareKeys(\OC_FilesystemView $view, $util, $path, array $shareKeys) {
+	public static function setShareKeys(\OC\Files\View $view, $util, $path, array $shareKeys) {
 
 		// $shareKeys must be  an array with the following format:
 		// [userId] => [encrypted key]
@@ -366,7 +366,7 @@ class Keymanager {
 
 	/**
 	 * @brief retrieve shareKey for an encrypted file
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param string $userId
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $filePath
@@ -374,7 +374,7 @@ class Keymanager {
 	 * @note The sharekey returned is encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getShareKey(\OC_FilesystemView $view, $userId, $util, $filePath) {
+	public static function getShareKey(\OC\Files\View $view, $userId, $util, $filePath) {
 
 		// try reusing key file if part file
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -407,7 +407,7 @@ class Keymanager {
 
 	/**
 	 * @brief delete all share keys of a given file
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param string $userId owner of the file
 	 * @param string $filePath path to the file, relative to the owners file dir
 	 */
@@ -447,7 +447,7 @@ class Keymanager {
 	/**
 	 * @brief Delete a single user's shareKey for a single file
 	 */
-	public static function delShareKey(\OC_FilesystemView $view, $userIds, $filePath) {
+	public static function delShareKey(\OC\Files\View $view, $userIds, $filePath) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
@@ -516,7 +516,7 @@ class Keymanager {
 	 * @param string|boolean $path
 	 * @param string $basePath
 	 */
-	public static function keySetPreparation(\OC_FilesystemView $view, $path, $basePath, $userId) {
+	public static function keySetPreparation(\OC\Files\View $view, $path, $basePath, $userId) {
 
 		$targetPath = ltrim($path, '/');
 

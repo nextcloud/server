@@ -39,7 +39,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	public $filename;
 	public $data;
 	/**
-	 * @var OC_FilesystemView
+	 * @var OC\Files\View
 	 */
 	public $view;
 	public $folder;
@@ -68,7 +68,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->data = 'foobar';
-		$this->view = new \OC_FilesystemView('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		// remember files_encryption state
 		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
 

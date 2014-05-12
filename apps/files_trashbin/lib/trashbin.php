@@ -216,7 +216,7 @@ class Trashbin {
 
 			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
 
-			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $user);
+			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), $user);
 
 			// disable proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -441,7 +441,7 @@ class Trashbin {
 
 			list($owner, $ownerPath) = self::getUidAndFilename($target);
 
-			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $user);
+			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), $user);
 
 			if ($util->isSystemWideMountPoint($ownerPath)) {
 				$baseDir = '/files_encryption/';
@@ -498,7 +498,7 @@ class Trashbin {
 					$rootView->rename($ownerShareKey, $baseDir . '/share-keys/' . $ownerPath . '.' . $user . '.shareKey');
 
 					// try to re-share if file is shared
-					$filesystemView = new \OC_FilesystemView('/');
+					$filesystemView = new \OC\Files\View('/');
 					$session = new \OCA\Encryption\Session($filesystemView);
 					$util = new \OCA\Encryption\Util($filesystemView, $user);
 

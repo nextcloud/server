@@ -25,7 +25,7 @@ require_once __DIR__ . '/base.php';
 class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 
 	/**
-	 * @var OC_FilesystemView
+	 * @var OC\Files\View
 	 */
 	public $user2View;
 

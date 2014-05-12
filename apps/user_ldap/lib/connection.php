@@ -57,7 +57,7 @@ class Connection extends LDAPUtility {
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		} else {
-			$this->cache = \OC_Cache::getGlobalCache();
+			$this->cache = \OC\Cache::getGlobalCache();
 		}
 		$this->hasPagedResultSupport =
 			$this->ldap->hasPagedResultSupport();
