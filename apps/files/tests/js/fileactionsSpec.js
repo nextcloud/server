@@ -38,12 +38,19 @@ describe('OCA.Files.FileActions tests', function() {
 		fileList = undefined;
 		$('#dir, #permissions, #filestable').remove();
 	});
+	it('calling clear() clears file actions', function() {
+		FileActions.clear();
+		expect(FileActions.actions).toEqual({});
+		expect(FileActions.defaults).toEqual({});
+		expect(FileActions.icons).toEqual({});
+		expect(FileActions.currentFile).toBe(null);
+	});
 	it('calling display() sets file actions', function() {
 		var fileData = {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
@@ -64,7 +71,7 @@ describe('OCA.Files.FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
@@ -85,7 +92,7 @@ describe('OCA.Files.FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
@@ -105,7 +112,7 @@ describe('OCA.Files.FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'

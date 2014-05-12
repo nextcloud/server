@@ -51,19 +51,13 @@ describe('OCA.Files.FileList tests', function() {
 	}
 
 	beforeEach(function() {
-		// init horrible parameters
-		var $body = $('body');
-		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
-		$body.append('<input type="hidden" id="permissions" value="31"></input>');
-		// dummy files table
-		$body.append('<table id="filestable"></table>');
-
 		alertStub = sinon.stub(OC.dialogs, 'alert');
 		notificationStub = sinon.stub(OC.Notification, 'show');
 
 		// init parameters and test table elements
 		$('#testArea').append(
 			'<div id="app-content-files">' +
+			// init horrible parameters
 			'<input type="hidden" id="dir" value="/subdir"></input>' +
 			'<input type="hidden" id="permissions" value="31"></input>' +
 			// dummy controls
@@ -76,7 +70,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<table id="filestable">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
-			'<input type="checkbox" id="select_all">' +
+			'<input type="checkbox" id="select_all_files" class="select-all">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span class="selectedActions hidden">' +
 			'<a href class="download">Download</a>' +
@@ -85,7 +79,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
 			'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
 			'</tr></thead>' +
-		   	'<tbody id="fileList"></tbody>' +
+			'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
 			'<div id="emptycontent">Empty content message</div>' +
@@ -123,6 +117,7 @@ describe('OCA.Files.FileList tests', function() {
 		}];
 
 		fileList = new OCA.Files.FileList($('#app-content-files'));
+		FileActions.clear();
 		FileActions.registerDefaultActions(fileList);
 		fileList.setFileActions(FileActions);
 	});
@@ -131,7 +126,6 @@ describe('OCA.Files.FileList tests', function() {
 		fileList = undefined;
 
 		FileActions.clear();
-		$('#dir, #permissions, #filestable').remove();
 		notificationStub.restore();
 		alertStub.restore();
 	});
@@ -160,7 +154,7 @@ describe('OCA.Files.FileList tests', function() {
 				id: 18,
 				type: 'file',
 				name: 'testName.txt',
-				mimetype: 'plain/text',
+				mimetype: 'text/plain',
 				size: '1234',
 				etag: 'a01234c',
 				mtime: '123456'
@@ -175,9 +169,11 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-size')).toEqual('1234');
 			expect($tr.attr('data-etag')).toEqual('a01234c');
 			expect($tr.attr('data-permissions')).toEqual('31');
-			expect($tr.attr('data-mime')).toEqual('plain/text');
+			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('123456');
-			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt');
+			expect($tr.find('a.name').attr('href'))
+				.toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt');
+			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
 
 			expect($tr.find('.filesize').text()).toEqual('1 kB');
 			expect(fileList.findFileEl('testName.txt')[0]).toEqual($tr[0]);
@@ -482,7 +478,9 @@ describe('OCA.Files.FileList tests', function() {
 			// trigger rename prompt
 			fileList.rename('One.txt');
 			$input = fileList.$fileList.find('input.filename');
-			$input.val('Tu_after_three.txt').blur();
+			$input.val('Tu_after_three.txt');
+			// trigger submit because triggering blur doesn't work in all browsers
+			$input.closest('form').trigger('submit');
 
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
@@ -926,6 +924,18 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('.actions').hasClass('hidden')).toEqual(true);
 			expect($('.notCreatable').hasClass('hidden')).toEqual(false);
 		});
+		it('toggling viewer mode triggers event', function() {
+			var handler = sinon.stub();
+			fileList.$el.on('changeViewerMode', handler);
+			fileList.setViewerMode(true);
+			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].viewerModeEnabled).toEqual(true);
+
+			handler.reset();
+			fileList.setViewerMode(false);
+			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].viewerModeEnabled).toEqual(false);
+		});
 	});
 	describe('loading file list', function() {
 		beforeEach(function() {
@@ -1198,27 +1208,27 @@ describe('OCA.Files.FileList tests', function() {
 			expect(selection).toContain('Three.pdf');
 		});
 		it('Selecting all files will automatically check "select all" checkbox', function() {
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			$('#fileList tr td.filename input:checkbox').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			expect($('.select-all').prop('checked')).toEqual(true);
 		});
 		it('Selecting all files on the first visible page will not automatically check "select all" checkbox', function() {
 			fileList.setFiles(generateFiles(0, 41));
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			$('#fileList tr td.filename input:checkbox').click();
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 		});
 		it('Clicking "select all" will select/deselect all files', function() {
 			fileList.setFiles(generateFiles(0, 41));
-			$('#select_all').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			$('.select-all').click();
+			expect($('.select-all').prop('checked')).toEqual(true);
 			$('#fileList tr input:checkbox').each(function() {
 				expect($(this).prop('checked')).toEqual(true);
 			});
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(42);
 
-			$('#select_all').click();
-			expect($('#select_all').prop('checked')).toEqual(false);
+			$('.select-all').click();
+			expect($('.select-all').prop('checked')).toEqual(false);
 
 			$('#fileList tr input:checkbox').each(function() {
 				expect($(this).prop('checked')).toEqual(false);
@@ -1226,44 +1236,44 @@ describe('OCA.Files.FileList tests', function() {
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(0);
 		});
 		it('Clicking "select all" then deselecting a file will uncheck "select all"', function() {
-			$('#select_all').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			$('.select-all').click();
+			expect($('.select-all').prop('checked')).toEqual(true);
 
 			var $tr = fileList.findFileEl('One.txt');
 			$tr.find('input:checkbox').click();
 
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(3);
 		});
 		it('Updates the selection summary when doing a few manipulations with "Select all"', function() {
-			$('#select_all').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			$('.select-all').click();
+			expect($('.select-all').prop('checked')).toEqual(true);
 
 			var $tr = fileList.findFileEl('One.txt');
 			// unselect one
 			$tr.find('input:checkbox').click();
 
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(3);
 
 			// select all
-			$('#select_all').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			$('.select-all').click();
+			expect($('.select-all').prop('checked')).toEqual(true);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(4);
 
 			// unselect one
 			$tr.find('input:checkbox').click();
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(3);
 
 			// re-select it
 			$tr.find('input:checkbox').click();
-			expect($('#select_all').prop('checked')).toEqual(true);
+			expect($('.select-all').prop('checked')).toEqual(true);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name').length).toEqual(4);
 		});
 		it('Auto-selects files on next page when "select all" is checked', function() {
 			fileList.setFiles(generateFiles(0, 41));
-			$('#select_all').click();
+			$('.select-all').click();
 
 			expect(fileList.$fileList.find('tr input:checkbox:checked').length).toEqual(20);
 			fileList._nextPage(true);
@@ -1295,7 +1305,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($actions.hasClass('hidden')).toEqual(true);
 		});
 		it('Selection is cleared when switching dirs', function() {
-			$('#select_all').click();
+			$('.select-all').click();
 			var data = {
 				status: 'success',
 				data: {
@@ -1311,13 +1321,13 @@ describe('OCA.Files.FileList tests', function() {
 			]);
 			fileList.changeDirectory('/');
 			fakeServer.respond();
-			expect($('#select_all').prop('checked')).toEqual(false);
+			expect($('.select-all').prop('checked')).toEqual(false);
 			expect(_.pluck(fileList.getSelectedFiles(), 'name')).toEqual([]);
 		});
 		it('getSelectedFiles returns the selected files even when they are on the next page', function() {
 			var selectedFiles;
 			fileList.setFiles(generateFiles(0, 41));
-			$('#select_all').click();
+			$('.select-all').click();
 			// unselect one to not have the "allFiles" case
 			fileList.$fileList.find('tr input:checkbox:first').click();
 
@@ -1325,6 +1335,18 @@ describe('OCA.Files.FileList tests', function() {
 			selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
 
 			expect(selectedFiles.length).toEqual(41);
+		});
+		describe('Selection overlay', function() {
+			it('show delete action according to directory permissions', function() {
+				fileList.setFiles(testFiles);
+				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
+				$('.select-all').click();
+				$('#permissions').val(OC.PERMISSION_READ);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
+			});
 		});
 		describe('Actions', function() {
 			beforeEach(function() {
@@ -1391,7 +1413,7 @@ describe('OCA.Files.FileList tests', function() {
 				});
 				it('Downloads root folder when all selected in root folder', function() {
 					$('#dir').val('/');
-					$('#select_all').click();
+					$('.select-all').click();
 					var redirectStub = sinon.stub(OC, 'redirect');
 					$('.selectedActions .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
@@ -1399,7 +1421,7 @@ describe('OCA.Files.FileList tests', function() {
 					redirectStub.restore();
 				});
 				it('Downloads parent folder when all selected in subfolder', function() {
-					$('#select_all').click();
+					$('.select-all').click();
 					var redirectStub = sinon.stub(OC, 'redirect');
 					$('.selectedActions .download').click();
 					expect(redirectStub.calledOnce).toEqual(true);
@@ -1428,7 +1450,7 @@ describe('OCA.Files.FileList tests', function() {
 				});
 				it('Deletes all files when all selected when "Delete" clicked', function() {
 					var request;
-					$('#select_all').click();
+					$('.select-all').click();
 					$('.selectedActions .delete-selected').click();
 					expect(fakeServer.requests.length).toEqual(1);
 					request = fakeServer.requests[0];
@@ -1445,9 +1467,9 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		});
 		it('resets the file selection on reload', function() {
-			fileList.$el.find('#select_all').click();
+			fileList.$el.find('.select-all').click();
 			fileList.reload();
-			expect(fileList.$el.find('#select_all').prop('checked')).toEqual(false);
+			expect(fileList.$el.find('.select-all').prop('checked')).toEqual(false);
 			expect(fileList.getSelectedFiles()).toEqual([]);
 		});
 	});

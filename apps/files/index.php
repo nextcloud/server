@@ -62,6 +62,9 @@ $user = OC_User::getUser();
 
 $config = \OC::$server->getConfig();
 
+// mostly for the home storage's free space
+$dirInfo = \OC\Files\Filesystem::getFileInfo('/', false);
+$storageInfo=OC_Helper::getStorageInfo('/', $dirInfo);
 // if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
 $encryptionInitStatus = 2;
 if (OC_App::isEnabled('files_encryption')) {
@@ -107,6 +110,7 @@ OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'navigation');
 OCP\Util::addscript('files', 'keyboardshortcuts');
 $tmpl = new OCP\Template('files', 'index', 'user');
+$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 $tmpl->assign('isPublic', false);
 $tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
 $tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_mail_notification', 'yes'));
@@ -114,5 +118,6 @@ $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('appNavigation', $nav);
 $tmpl->assign('appContents', $contentItems);
+$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 
 $tmpl->printPage();

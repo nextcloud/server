@@ -8,7 +8,7 @@ $l = OC_L10N::get('files_trashbin');
 array(
 	"id" => 'trashbin',
 	"appname" => 'files_trashbin',
-	"script" => 'index.php',
+	"script" => 'list.php',
 	"order" => 1,
 	"name" => $l->t('Deleted files')
 )

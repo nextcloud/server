@@ -21,29 +21,17 @@
  *
  */
 
-
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
-// dummy, will be refreshed with an ajax call
-$dir = '/';
-
-// information about storage capacities
-// FIXME: storage info
-/*
-$storageInfo=OC_Helper::getStorageInfo($dir, $dirInfo);
+$config = \OC::$server->getConfig();
+// TODO: move this to the generated config.js
 $publicUploadEnabled = $config->getAppValue('core', 'shareapi_allow_public_upload', 'yes');
 $uploadLimit=OCP\Util::uploadLimit();
-$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir, $freeSpace);
-$freeSpace=$storageInfo['free'];
-*/
 
+// renders the controls and table headers template
 $tmpl = new OCP\Template('files', 'list', '');
-$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
-$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize); // minimium of freeSpace and uploadLimit
-$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
-$tmpl->assign('freeSpace', $freeSpace);
 $tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 $tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 $tmpl->printPage();

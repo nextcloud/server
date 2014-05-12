@@ -13,8 +13,8 @@
 		<tr>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<input type="checkbox" id="select_all" />
-					<label for="select_all"></label>
+					<input type="checkbox" id="select_all_trash" class="select-all"/>
+					<label for="select_all_trash"></label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class='selectedActions'>
 						<a href="" class="undelete">

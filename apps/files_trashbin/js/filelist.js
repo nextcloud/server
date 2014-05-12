@@ -30,6 +30,7 @@
 		this.initialize($el);
 	};
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
+		id: 'trashbin',
 		appName: t('files_trashbin', 'Deleted files'),
 
 		initialize: function() {
@@ -37,11 +38,6 @@
 			this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this));
 
 			this.setSort('mtime', 'desc');
-
-			// override crumb URL maker
-			this.breadcrumb.getCrumbUrl = function(part, index) {
-				return OC.linkTo('files_trashbin', 'index.php')+"?view=trashbin&dir=" + encodeURIComponent(part.dir);
-			};
 			/**
 			 * Override crumb making to add "Deleted Files" entry
 			 * and convert files with ".d" extensions to a more
@@ -56,6 +52,13 @@
 			};
 
 			return result;
+		},
+
+		/**
+		 * Override to only return read permissions
+		 */
+		getDirectoryPermissions: function() {
+			return OC.PERMISSION_READ | OC.PERMISSION_DELETE;
 		},
 
 		_setCurrentDir: function(targetDir) {
@@ -97,8 +100,12 @@
 			return OC.filePath('files_trashbin', 'ajax', action + '.php') + q;
 		},
 
+		setupUploadEvents: function() {
+			// override and do nothing
+		},
+
 		linkTo: function(dir){
-			return OC.linkTo('files_trashbin', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
+			return OC.linkTo('files', 'index.php')+"?view=trashbin&dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 		},
 
 		updateEmptyContent: function(){
@@ -126,7 +133,7 @@
 		_onClickRestoreSelected: function(event) {
 			event.preventDefault();
 			var self = this;
-			var allFiles = this.$el.find('#select_all').is(':checked');
+			var allFiles = this.$el.find('.select-all').is(':checked');
 			var files = [];
 			var params = {};
 			this.disableActions();
@@ -171,7 +178,7 @@
 		_onClickDeleteSelected: function(event) {
 			event.preventDefault();
 			var self = this;
-			var allFiles = this.$el.find('#select_all').is(':checked');
+			var allFiles = this.$el.find('.select-all').is(':checked');
 			var files = [];
 			var params = {};
 			if (allFiles) {
@@ -230,7 +237,7 @@
 			return OC.generateUrl('/apps/files_trashbin/ajax/preview.php?') + $.param(urlSpec);
 		},
 
-		getDownloadUrl: function(action, params) {
+		getDownloadUrl: function() {
 			// no downloads
 			return '#';
 		},
@@ -243,6 +250,11 @@
 		disableActions: function() {
 			this.$el.find('.action').css('display', 'none');
 			this.$el.find(':input:checkbox').css('display', 'none');
+		},
+
+		updateStorageStatistics: function() {
+			// no op because the trashbin doesn't have
+			// storage info like free space / used space
 		}
 
 	});

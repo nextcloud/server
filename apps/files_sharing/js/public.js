@@ -8,7 +8,8 @@
  *
  */
 
-/* global OC, FileActions, FileList, Files */
+/* global FileActions, Files */
+/* global dragOptions, folderDropOptions */
 OCA.Sharing = {};
 if (!OCA.Files) {
 	OCA.Files = {};
@@ -23,7 +24,16 @@ OCA.Sharing.PublicApp = {
 		this._initialized = true;
 		// file list mode ?
 		if ($el.find('#filestable')) {
-			this.fileList = new OCA.Files.FileList($el);
+			this.fileList = new OCA.Files.FileList(
+				$el,
+				{
+					scrollContainer: $(window),
+					dragOptions: dragOptions,
+					folderDropOptions: folderDropOptions
+				}
+			);
+			this.files = OCA.Files.Files;
+			this.files.initialize();
 		}
 
 		var mimetype = $('#mimetype').val();
@@ -145,5 +155,17 @@ OCA.Sharing.PublicApp = {
 $(document).ready(function() {
 	var App = OCA.Sharing.PublicApp;
 	App.initialize($('#preview'));
+
+	// HACK: for oc-dialogs previews that depends on Files:
+	Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
+		return App.fileList.lazyLoadPreview({
+			path: path,
+			mime: mime,
+			callback: ready,
+			width: width,
+			height: height,
+			etag: etag
+		});
+	};
 });
 

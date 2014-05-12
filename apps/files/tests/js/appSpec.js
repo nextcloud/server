@@ -26,6 +26,7 @@ describe('OCA.Files.App tests', function() {
 
 	beforeEach(function() {
 		$('#testArea').append(
+			'<div id="content" class="app-files">' +
 			'<div id="app-navigation">' +
 			'<ul><li data-id="files"><a>Files</a></li>' +
 			'<li data-id="other"><a>Other</a></li>' +
@@ -34,6 +35,7 @@ describe('OCA.Files.App tests', function() {
 			'<div id="app-content-files" class="hidden">' +
 			'</div>' +
 			'<div id="app-content-other" class="hidden">' +
+			'</div>' +
 			'</div>' +
 			'</div>' +
 			'</div>'
@@ -89,30 +91,43 @@ describe('OCA.Files.App tests', function() {
 				expect(handler.getCall(0).args[0].dir).toEqual('/somedir');
 			});
 			it('sends "show" event to current app and sets navigation', function() {
-				var handlerFiles = sinon.stub();
-				var handlerOther = sinon.stub();
-				$('#app-content-files').on('show', handlerFiles);
-				$('#app-content-other').on('show', handlerOther);
+				var showHandlerFiles = sinon.stub();
+				var showHandlerOther = sinon.stub();
+				var hideHandlerFiles = sinon.stub();
+				var hideHandlerOther = sinon.stub();
+				$('#app-content-files').on('show', showHandlerFiles);
+				$('#app-content-files').on('hide', hideHandlerFiles);
+				$('#app-content-other').on('show', showHandlerOther);
+				$('#app-content-other').on('hide', hideHandlerOther);
 				App._onPopState({view: 'other', dir: '/somedir'});
-				expect(handlerFiles.notCalled).toEqual(true);
-				expect(handlerOther.calledOnce).toEqual(true);
+				expect(showHandlerFiles.notCalled).toEqual(true);
+				expect(hideHandlerFiles.calledOnce).toEqual(true);
+				expect(showHandlerOther.calledOnce).toEqual(true);
+				expect(hideHandlerOther.notCalled).toEqual(true);
 
-				handlerFiles.reset();
-				handlerOther.reset();
+				showHandlerFiles.reset();
+				showHandlerOther.reset();
+				hideHandlerFiles.reset();
+				hideHandlerOther.reset();
 
 				App._onPopState({view: 'files', dir: '/somedir'});
-				expect(handlerFiles.calledOnce).toEqual(true);
-				expect(handlerOther.notCalled).toEqual(true);
+				expect(showHandlerFiles.calledOnce).toEqual(true);
+				expect(hideHandlerFiles.notCalled).toEqual(true);
+				expect(showHandlerOther.notCalled).toEqual(true);
+				expect(hideHandlerOther.calledOnce).toEqual(true);
 
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
 			});
-			it('does not send "show" event to current app when already visible', function() {
-				var handler = sinon.stub();
-				$('#app-content-files').on('show', handler);
+			it('does not send "show" or "hide" event to current app when already visible', function() {
+				var showHandler = sinon.stub();
+				var hideHandler = sinon.stub();
+				$('#app-content-files').on('show', showHandler);
+				$('#app-content-files').on('hide', hideHandler);
 				App._onPopState({view: 'files', dir: '/somedir'});
-				expect(handler.notCalled).toEqual(true);
+				expect(showHandler.notCalled).toEqual(true);
+				expect(hideHandler.notCalled).toEqual(true);
 			});
 			it('state defaults to files app with root dir', function() {
 				var handler = sinon.stub();
@@ -122,6 +137,12 @@ describe('OCA.Files.App tests', function() {
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('files');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');
+			});
+			it('activates files app if invalid view is passed', function() {
+				App._onPopState({view: 'invalid', dir: '/somedir'});
+
+				expect(App.navigation.getActiveItem()).toEqual('files');
+				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 			});
 		});
 		describe('navigation', function() {
@@ -156,13 +177,43 @@ describe('OCA.Files.App tests', function() {
 				expect($('li[data-id=files]').hasClass('selected')).toEqual(true);
 				expect($('li[data-id=other]').hasClass('selected')).toEqual(false);
 			});
-			it('clicking on navigation sends "urlChanged" event', function() {
+			it('clicking on navigation sends "show" and "urlChanged" event', function() {
 				var handler = sinon.stub();
+				var showHandler = sinon.stub();
 				$('#app-content-other').on('urlChanged', handler);
+				$('#app-content-other').on('show', showHandler);
 				$('li[data-id=other]>a').click();
 				expect(handler.calledOnce).toEqual(true);
 				expect(handler.getCall(0).args[0].view).toEqual('other');
 				expect(handler.getCall(0).args[0].dir).toEqual('/');
+				expect(showHandler.calledOnce).toEqual(true);
+			});
+			it('clicking on activate navigation only sends "urlChanged" event', function() {
+				var handler = sinon.stub();
+				var showHandler = sinon.stub();
+				$('#app-content-files').on('urlChanged', handler);
+				$('#app-content-files').on('show', showHandler);
+				$('li[data-id=files]>a').click();
+				expect(handler.calledOnce).toEqual(true);
+				expect(handler.getCall(0).args[0].view).toEqual('files');
+				expect(handler.getCall(0).args[0].dir).toEqual('/');
+				expect(showHandler.notCalled).toEqual(true);
+			});
+		});
+		describe('viewer mode', function() {
+			it('toggles the sidebar when viewer mode is enabled', function() {
+				$('#app-content-files').trigger(
+					new $.Event('changeViewerMode', {viewerModeEnabled: true}
+				));
+				expect($('#app-navigation').hasClass('hidden')).toEqual(true);
+				expect($('.app-files').hasClass('viewer-mode no-sidebar')).toEqual(true);
+
+				$('#app-content-files').trigger(
+					new $.Event('changeViewerMode', {viewerModeEnabled: false}
+				));
+
+				expect($('#app-navigation').hasClass('hidden')).toEqual(false);
+				expect($('.app-files').hasClass('viewer-mode no-sidebar')).toEqual(false);
 			});
 		});
 	});

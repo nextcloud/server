@@ -3,10 +3,11 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:5px; height:32px; width: 100%; }
+.actions { padding:5px; height:32px; display: inline-block; float: left; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
+.actions.hidden { display: none; }
 
 #new {
 	z-index: 1010;
@@ -70,10 +71,12 @@
 
 /* FILE TABLE */
 
-.app-files #filestable {
+#filestable {
 	position: relative;
+	top: 44px;
 	width: 100%;
 }
+
 /* make sure there's enough room for the file actions */
 #body-user #filestable {
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
@@ -83,22 +86,33 @@
 }
 
 #filestable tbody tr { background-color:#fff; height:51px; }
+
+.app-files #app-content {
+	position: relative;
+}
+
 /**
  * Override global #controls styles
  * to be more flexible / relative
  */
-.app-files #controls {
-	position: static;
-	left: auto;
-	top: auto;
+#body-user .app-files #controls {
+	left: 310px; /* main nav bar + sidebar */
+	position: fixed;
+	padding-left: 0px;
+}
+
+/* this is mostly for file viewer apps, text editor, etc */
+#body-user .app-files.no-sidebar #controls {
+	left: 0px;
+	padding-left: 80px; /* main nav bar */
 }
 
 .app-files #app-navigation {
-	width: 150px;
+	width: 230px;
 }
 
 .app-files #app-settings {
-	width: 149px; /* DUH */
+	width: 229px; /* DUH */
 }
 
 .app-files #app-settings input {
@@ -205,9 +219,7 @@ table.multiselect thead {
 	z-index: 10;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	left: 0;
-	padding-left: 80px;
-	width: 100%;
+	left: 310px; /* main nav bar + sidebar */
 }
 
 table.multiselect thead th {
@@ -294,7 +306,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.filename>input[type="checkbox"] + label,
-#select_all + label {
+.select-all + label {
 	height: 50px;
 	position: absolute;
 	width: 50px;
@@ -308,10 +320,10 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
 }
-#select_all + label {
+.select-all + label {
 	top: 0;
 }
-#select_all {
+.select-all {
 	position: absolute;
 	top: 18px;
 	left: 18px;
@@ -358,6 +370,9 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions a {
 	display: inline;
 	padding: 17px 5px;
+}
+.selectedActions a.hidden {
+	display: none;
 }
 .selectedActions a img {
 	position:relative;
@@ -434,7 +449,7 @@ table.dragshadow td.size {
 }
 .mask {
 	z-index: 50;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;

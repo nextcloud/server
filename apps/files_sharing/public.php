@@ -153,7 +153,7 @@ if (isset($path)) {
 			$folder->assign('dir', $getPath);
 			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
-			$folder->assign('isPublic',true);
+			$folder->assign('isPublic', true);
 			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);

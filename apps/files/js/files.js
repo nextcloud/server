@@ -15,13 +15,8 @@
 (function() {
 	var Files = {
 		// file space size sync
-		_updateStorageStatistics: function() {
-			// FIXME
-			console.warn('FIXME: storage statistics!');
-			return;
-			Files._updateStorageStatisticsTimeout = null;
-			var currentDir = OCA.Files.FileList.getCurrentDirectory(),
-				state = Files.updateStorageStatistics;
+		_updateStorageStatistics: function(currentDir) {
+			var state = Files.updateStorageStatistics;
 			if (state.dir){
 				if (state.dir === currentDir) {
 					return;
@@ -36,20 +31,26 @@
 				Files.updateMaxUploadFilesize(response);
 			});
 		},
-		updateStorageStatistics: function(force) {
+		/**
+		 * Update storage statistics such as free space, max upload,
+		 * etc based on the given directory.
+		 *
+		 * Note this function is debounced to avoid making too
+		 * many ajax calls in a row.
+		 *
+		 * @param dir directory
+		 * @param force whether to force retrieving
+		 */
+		updateStorageStatistics: function(dir, force) {
 			if (!OC.currentUser) {
 				return;
 			}
 
-			// debounce to prevent calling too often
-			if (Files._updateStorageStatisticsTimeout) {
-				clearTimeout(Files._updateStorageStatisticsTimeout);
-			}
 			if (force) {
-				Files._updateStorageStatistics();
+				Files._updateStorageStatistics(dir);
 			}
 			else {
-				Files._updateStorageStatisticsTimeout = setTimeout(Files._updateStorageStatistics, 250);
+				Files._updateStorageStatisticsDebounced(dir);
 			}
 		},
 
@@ -149,24 +150,6 @@
 			}
 		},
 
-		// TODO: move to FileList class
-		setupDragAndDrop: function() {
-			var $fileList = $('#fileList');
-
-			//drag/drop of files
-			$fileList.find('tr td.filename').each(function(i,e) {
-				if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
-					$(e).draggable(dragOptions);
-				}
-			});
-
-			$fileList.find('tr[data-type="dir"] td.filename').each(function(i,e) {
-				if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE) {
-					$(e).droppable(folderDropOptions);
-				}
-			});
-		},
-
 		/**
 		 * Returns the download URL of the given file(s)
 		 * @param filename string or array of file names to download
@@ -243,9 +226,7 @@
 		initialize: function() {
 			Files.getMimeIcon.cache = {};
 			Files.displayEncryptionWarning();
-			Files.bindKeyboardShortcuts(document, jQuery);
-
-			Files.setupDragAndDrop();
+			Files.bindKeyboardShortcuts(document, $);
 
 			// TODO: move file list related code (upload) to OCA.Files.FileList
 			$('#file_action_panel').attr('activeAction', false);
@@ -259,7 +240,6 @@
 			// Trigger cancelling of file upload
 			$('#uploadprogresswrapper .stop').on('click', function() {
 				OC.Upload.cancelUploads();
-				OCA.Files.FileList.updateSelectionSummary();
 			});
 
 			// drag&drop support using jquery.fileupload
@@ -275,18 +255,19 @@
 			setTimeout(Files.displayStorageWarnings, 100);
 			OC.Notification.setDefault(Files.displayStorageWarnings);
 
-			// only possible at the moment if user is logged in
-			if (OC.currentUser) {
+			// only possible at the moment if user is logged in or the files app is loaded
+			if (OC.currentUser && OCA.Files.App) {
 				// start on load - we ask the server every 5 minutes
 				var updateStorageStatisticsInterval = 5*60*1000;
-				var updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
+				var updateStorageStatisticsIntervalId = setInterval(OCA.Files.App.fileList.updateStorageStatistics, updateStorageStatisticsInterval);
 
+				// TODO: this should also stop when switching to another view
 				// Use jquery-visibility to de-/re-activate file stats sync
 				if ($.support.pageVisibility) {
 					$(document).on({
 						'show.visibility': function() {
 							if (!updateStorageStatisticsIntervalId) {
-								updateStorageStatisticsIntervalId = setInterval(Files.updateStorageStatistics, updateStorageStatisticsInterval);
+								updateStorageStatisticsIntervalId = setInterval(OCA.Files.App.fileList.updateStorageStatistics, updateStorageStatisticsInterval);
 							}
 						},
 						'hide.visibility': function() {
@@ -314,6 +295,7 @@
 		}
 	}
 
+	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
 	OCA.Files.Files = Files;
 })();
 
@@ -349,7 +331,9 @@ function scanFiles(force, dir, users) {
 	scannerEventSource.listen('done',function(count) {
 		scanFiles.scanning=false;
 		console.log('done after ' + count + ' files');
-		OCA.Files.Files.updateStorageStatistics();
+		if (OCA.Files.App) {
+			OCA.Files.App.fileList.updateStorageStatistics(true);
+		}
 	});
 	scannerEventSource.listen('user',function(user) {
 		console.log('scanning files for ' + user);
@@ -360,7 +344,7 @@ scanFiles.scanning=false;
 // TODO: move to FileList
 var createDragShadow = function(event) {
 	//select dragged file
-	var FileList = OCA.Files.FileList;
+	var FileList = OCA.Files.App.fileList;
 	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
 	if (!isDragSelected) {
 		//select dragged file
@@ -395,7 +379,7 @@ var createDragShadow = function(event) {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
 		} else {
 			var path = dir + '/' + elem.name;
-			OCA.Files.App.fileList.lazyLoadPreview(path, elem.mime, function(previewpath) {
+			OCA.Files.App.files.lazyLoadPreview(path, elem.mime, function(previewpath) {
 				newtr.find('td.filename').attr('style','background-image:url('+previewpath+')');
 			}, null, null, elem.etag);
 		}
@@ -446,7 +430,7 @@ var folderDropOptions = {
 	hoverClass: "canDrop",
 	drop: function( event, ui ) {
 		// don't allow moving a file into a selected folder
-		var FileList = OCA.Files.FileList;
+		var FileList = OCA.Files.App.fileList;
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}

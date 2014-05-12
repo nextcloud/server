@@ -209,6 +209,8 @@
 		 * Register the actions that are used by default for the files app.
 		 */
 		registerDefaultActions: function(fileList) {
+			// TODO: try to find a way to not make it depend on fileList,
+			// maybe get a handler or listener to trigger events on
 			this.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 				return OC.imagePath('core', 'actions/delete');
 			}, function (filename) {
