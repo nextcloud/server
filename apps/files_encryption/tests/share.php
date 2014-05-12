@@ -48,7 +48,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	public $filename;
 	public $dataShort;
 	/**
-	 * @var OC_FilesystemView
+	 * @var OC\Files\View
 	 */
 	public $view;
 	public $folder1;
@@ -92,7 +92,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 		$this->dataShort = 'hats';
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		$this->folder1 = '/folder1';
 		$this->subfolder = '/subfolder1';
@@ -669,7 +669,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// login as admin
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
+		$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// check if recovery password match
 		$this->assertTrue($util->checkRecoveryPassword('test123'));
@@ -777,7 +777,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// login as user2
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
-		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
+		$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
 		// enable recovery for admin
 		$this->assertTrue($util->setRecoveryForUser(1));

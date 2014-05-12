@@ -11,7 +11,7 @@
  * working with files within that view (e.g. read, write, delete, etc.). Each
  * view is restricted to a set of directories via a virtual root. The default view
  * uses the currently logged in user's data directory as root (parts of
- * OC_Filesystem are merely a wrapper for OC_FilesystemView).
+ * OC_Filesystem are merely a wrapper for OC\Files\View).
  *
  * Apps that need to access files outside of the user data folders (to modify files
  * belonging to a user other than the one currently logged in, for example) should

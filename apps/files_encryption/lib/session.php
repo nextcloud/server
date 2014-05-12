@@ -37,7 +37,7 @@ class Session {
 
 	/**
 	 * @brief if session is started, check if ownCloud key pair is set up, if not create it
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 *
 	 * @note The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */

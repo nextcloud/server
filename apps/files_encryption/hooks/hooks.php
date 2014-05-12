@@ -48,7 +48,7 @@ class Hooks {
 
 		$l = new \OC_L10N('files_encryption');
 
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 
 		// ensure filesystem is loaded
 		if(!\OC\Files\Filesystem::$loaded) {
@@ -93,7 +93,7 @@ class Hooks {
 		// If migration not yet done
 		if ($ready) {
 
-			$userView = new \OC_FilesystemView('/' . $params['uid']);
+			$userView = new \OC\Files\View('/' . $params['uid']);
 
 			// Set legacy encryption key if it exists, to support
 			// depreciated encryption system
@@ -142,7 +142,7 @@ class Hooks {
 	public static function postCreateUser($params) {
 
 		if (\OCP\App::isEnabled('files_encryption')) {
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			$util = new Util($view, $params['uid']);
 			Helper::setupUser($util, $params['password']);
 		}
@@ -155,7 +155,7 @@ class Hooks {
 	public static function postDeleteUser($params) {
 
 		if (\OCP\App::isEnabled('files_encryption')) {
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 
 			// cleanup public key
 			$publicKey = '/public-keys/' . $params['uid'] . '.public.key';
@@ -196,7 +196,7 @@ class Hooks {
 		// the necessary keys)
 		if (Crypt::mode() === 'server') {
 
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 
 			if ($params['uid'] === \OCP\User::getUser()) {
 
@@ -308,7 +308,7 @@ class Hooks {
 
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			$session = new \OCA\Encryption\Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
@@ -350,7 +350,7 @@ class Hooks {
 
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
 			$path = \OC\Files\Filesystem::getPath($params['fileSource']);
@@ -403,7 +403,7 @@ class Hooks {
 	 */
 	public static function preRename($params) {
 		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 		$util = new Util($view, $user);
 		list($ownerOld, $pathOld) = $util->getUidAndFilename($params['oldpath']);
 
@@ -437,7 +437,7 @@ class Hooks {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 		$session = new \OCA\Encryption\Session($view);
 		$userId = \OCP\User::getUser();
 		$util = new Util($view, $userId);
@@ -610,7 +610,7 @@ class Hooks {
 			return true;
 		}
 
-		$util = new Util(new \OC_FilesystemView('/'), \OCP\USER::getUser());
+		$util = new Util(new \OC\Files\View('/'), \OCP\USER::getUser());
 		list($owner, $ownerPath) = $util->getUidAndFilename($path);
 
 		self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]] = array(

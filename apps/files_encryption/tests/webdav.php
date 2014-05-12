@@ -43,7 +43,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	public $userId;
 	public $pass;
 	/**
-	 * @var \OC_FilesystemView
+	 * @var \OC\Files\View
 	 */
 	public $view;
 	public $dataShort;
@@ -82,7 +82,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		// init short data
 		$this->dataShort = 'hats';

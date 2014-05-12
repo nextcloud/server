@@ -153,7 +153,7 @@ class Helper {
 			$return = true;
 
 		} else { // get recovery key and check the password
-			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
 			$return = $util->checkRecoveryPassword($recoveryPassword);
 			if ($return) {
 				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
@@ -214,7 +214,7 @@ class Helper {
 	 * @return bool
 	 */
 	public static function adminDisableRecovery($recoveryPassword) {
-		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		$util = new Util(new \OC\Files\View('/'), \OCP\User::getUser());
 		$return = $util->checkRecoveryPassword($recoveryPassword);
 
 		if ($return) {

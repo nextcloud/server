@@ -26,7 +26,7 @@ namespace OCA\Encryption;
 
 /**
  * @brief Class for utilities relating to encrypted file storage system
- * @param \OC_FilesystemView $view expected to have OC '/' as root path
+ * @param \OC\Files\View $view expected to have OC '/' as root path
  * @param string $userId ID of the logged in user
  * @param int $client indicating status of client side encryption. Currently
  * unused, likely to become obsolete shortly
@@ -38,7 +38,7 @@ class Util {
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
 	const MIGRATION_OPEN = 0;         // user still needs to be migrated
 
-	private $view; // OC_FilesystemView object for filesystem operations
+	private $view; // OC\Files\View object for filesystem operations
 	private $userId; // ID of the user we use to encrypt/decrypt files
 	private $keyId; // ID of the key we want to manipulate
 	private $client; // Client side encryption mode flag
@@ -53,7 +53,7 @@ class Util {
 	private $isPublic;
 
 	/**
-	 * @param \OC_FilesystemView $view
+	 * @param \OC\Files\View $view
 	 * @param $userId
 	 * @param bool $client
 	 */
@@ -1522,7 +1522,7 @@ class Util {
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$session = new \OCA\Encryption\Session(new \OC_FilesystemView('/'));
+				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
 				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
 				$file = substr($filePath, 0, -4);

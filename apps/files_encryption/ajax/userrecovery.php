@@ -19,7 +19,7 @@ if (
 ) {
 
 	$userId = \OCP\USER::getUser();
-	$view = new \OC_FilesystemView('/');
+	$view = new \OC\Files\View('/');
 	$util = new \OCA\Encryption\Util($view, $userId);
 
 	// Save recovery preference to DB

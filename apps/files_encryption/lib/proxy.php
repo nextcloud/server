@@ -65,7 +65,7 @@ class Proxy extends \OC_FileProxy {
 			return false;
 		}
 
-		$view = new \OC_FilesystemView('');
+		$view = new \OC\Files\View('');
 		$util = new Util($view, $userId);
 
 		// for write operation we always encrypt the files, for read operations
@@ -90,7 +90,7 @@ class Proxy extends \OC_FileProxy {
 			if (!is_resource($data)) {
 
 				// get root view
-				$view = new \OC_FilesystemView('/');
+				$view = new \OC\Files\View('/');
 
 				// get relative path
 				$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
@@ -152,7 +152,7 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_put_contents($path, $result) {
 		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
 		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			$view->putFileInfo($normalizedPath,
 					array('encrypted' => true, 'unencrypted_size' => self::$unencryptedSizes[$normalizedPath]));
 			unset(self::$unencryptedSizes[$normalizedPath]);
@@ -168,7 +168,7 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents($path, $data) {
 
 		$plainData = null;
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 
 		// init session
 		$session = new \OCA\Encryption\Session($view);
@@ -291,7 +291,7 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function postFileSize($path, $size) {
 
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 
 		$userId = Helper::getUser($path);
 		$util = new Util($view, $userId);
