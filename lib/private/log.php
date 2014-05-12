@@ -144,6 +144,15 @@ class Log implements ILogger {
 		} else {
 			$app = 'no app in context';
 		}
+		// interpolate $message as defined in PSR-3
+		$replace = array();
+		foreach ($context as $key => $val) {
+			$replace['{' . $key . '}'] = $val;
+		}
+
+		// interpolate replacement values into the message and return
+		$message = strtr($message, $replace);
+
 		$logger=$this->logger;
 		$logger::write($app, $message, $level);
 	}
