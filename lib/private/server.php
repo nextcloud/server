@@ -31,9 +31,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 
 			if (\OC::$session->exists('requesttoken')) {
-				$requesttoken = \OC::$session->get('requesttoken');
+				$requestToken = \OC::$session->get('requesttoken');
 			} else {
-				$requesttoken = false;
+				$requestToken = false;
 			}
 
 			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
@@ -55,7 +55,7 @@ class Server extends SimpleContainer implements IServerContainer {
 						? $_SERVER['REQUEST_METHOD']
 						: null,
 					'urlParams' => $urlParams,
-					'requesttoken' => $requesttoken,
+					'requesttoken' => $requestToken,
 				), $stream
 			);
 		});
@@ -158,6 +158,14 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('AvatarManager', function($c) {
 			return new AvatarManager();
+		});
+		$this->registerService('Logger', function($c) {
+			/** @var $c SimpleContainer */
+			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');
+			$logger = 'OC_Log_' . ucfirst($logClass);
+			call_user_func(array($logger, 'init'));
+
+			return new Log($logger);
 		});
 		$this->registerService('JobList', function ($c) {
 			/**
@@ -329,14 +337,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * @return \OC\URLGenerator
+	 * @return \OCP\IURLGenerator
 	 */
 	function getURLGenerator() {
 		return $this->query('URLGenerator');
 	}
 
 	/**
-	 * @return \OC\Helper
+	 * @return \OCP\IHelper
 	 */
 	function getHelper() {
 		return $this->query('AppHelper');
@@ -394,6 +402,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getJobList(){
 		return $this->query('JobList');
+	}
+
+	/**
+	 * Returns a logger instance
+	 *
+	 * @return \OCP\ILogger
+	 */
+	function getLogger() {
+		return $this->query('Logger');
 	}
 
 	/**
