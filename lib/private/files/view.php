@@ -552,6 +552,11 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $mode
+	 * @return resource
+	 */
 	public function fopen($path, $mode) {
 		$hooks = array();
 		switch ($mode) {
