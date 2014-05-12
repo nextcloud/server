@@ -878,16 +878,20 @@ class Share extends \OC\Share\Constants {
 	 */
 	protected static function expireItem(array $item) {
 
-		// get default expire settings
-		$defaultSettings = Helper::getDefaultExpireSetting();
 		// calculate expire date
 		if (!empty($item['expiration'])) {
 			$userDefinedExpire = new \DateTime($item['expiration']);
-			$userDefinedExpireTimestamp = $userDefinedExpire->getTimestamp();
+			$expires = $userDefinedExpire->getTimestamp();
 		} else {
-			$userDefinedExpireTimestamp = null;
+			$expires = null;
 		}
-		$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $userDefinedExpireTimestamp);
+
+		// only use default expire date for link shares
+		if((int)$item['share_type'] === self::SHARE_TYPE_LINK) {
+			// get default expire settings
+			$defaultSettings = Helper::getDefaultExpireSetting();
+			$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $expires);
+		}
 
 		if (is_int($expires)) {
 			$now = time();
