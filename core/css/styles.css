@@ -352,9 +352,9 @@ input[type="submit"].enabled {
 #body-login #header {
 	padding-top: 100px;
 }
-/* Fix background gradient */
 #body-login {
-	background-attachment: fixed;
+	background-attachment: fixed; /* fix background gradient */
+	height: 100%; /* fix sticky footer */
 }
 
 /* Dark subtle label text */
