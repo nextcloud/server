@@ -1,7 +1,16 @@
 <?php
+/**
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 
 namespace OCA\Files;
 
+/**
+ * Helper class for manipulating file information
+ */
 class Helper
 {
 	public static function buildFileStorageStatistics($dir) {
@@ -9,12 +18,12 @@ class Helper
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
 
 		$l = new \OC_L10N('files');
-		$maxUploadFilesize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
-		$maxHumanFilesize = \OCP\Util::humanFileSize($maxUploadFilesize);
-		$maxHumanFilesize = $l->t('Upload (max. %s)', array($maxHumanFilesize));
+		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
+		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
+		$maxHumanFileSize = $l->t('Upload (max. %s)', array($maxHumanFileSize));
 
-		return array('uploadMaxFilesize' => $maxUploadFilesize,
-					 'maxHumanFilesize'  => $maxHumanFilesize,
+		return array('uploadMaxFilesize' => $maxUploadFileSize,
+					 'maxHumanFilesize'  => $maxHumanFileSize,
 					 'freeSpace' => $storageInfo['free'],
 					 'usedSpacePercent'  => (int)$storageInfo['relative']);
 	}
@@ -27,7 +36,6 @@ class Helper
 	 */
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
-			$dir = $file['directory'];
 			$icon = \OC_Helper::mimetypeIcon('dir');
 			$absPath = $file->getPath();
 			$mount = \OC\Files\Filesystem::getMountManager()->find($absPath);
@@ -57,7 +65,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function fileCmp($a, $b) {
+	public static function compareFileNames($a, $b) {
 		$aType = $a->getType();
 		$bType = $b->getType();
 		if ($aType === 'dir' and $bType !== 'dir') {
@@ -67,6 +75,32 @@ class Helper
 		} else {
 			return strnatcasecmp($a->getName(), $b->getName());
 		}
+	}
+
+	/**
+	 * Comparator function to sort files by date
+	 *
+	 * @param \OCP\Files\FileInfo $a file
+	 * @param \OCP\Files\FileInfo $b file
+	 * @return int -1 if $a must come before $b, 1 otherwise
+	 */
+	public static function compareTimestamp($a, $b) {
+		$aTime = $a->getMTime();
+		$bTime = $b->getMTime();
+		return $aTime - $bTime;
+	}
+
+	/**
+	 * Comparator function to sort files by size
+	 *
+	 * @param \OCP\Files\FileInfo $a file
+	 * @param \OCP\Files\FileInfo $b file
+	 * @return int -1 if $a must come before $b, 1 otherwise
+	 */
+	public static function compareSize($a, $b) {
+		$aSize = $a->getSize();
+		$bSize = $b->getSize();
+		return $aSize - $bSize;
 	}
 
 	/**
@@ -120,12 +154,35 @@ class Helper
 	 * returns it as a sorted array of FileInfo.
 	 *
 	 * @param string $dir path to the directory
+	 * @param string $sortAttribute attribute to sort on
+	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @return \OCP\Files\FileInfo[] files
 	 */
-	public static function getFiles($dir) {
+	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false) {
 		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
 
-		usort($content, array('\OCA\Files\Helper', 'fileCmp'));
-		return $content;
+		return self::sortFiles($content, $sortAttribute, $sortDescending);
+	}
+
+	/**
+	 * Sort the given file info array
+	 *
+	 * @param \OCP\Files\FileInfo[] files to sort
+	 * @param string $sortAttribute attribute to sort on
+	 * @param bool $sortDescending true for descending sort, false otherwise
+	 * @return \OCP\Files\FileInfo[] sorted files
+	 */
+	public static function sortFiles($files, $sortAttribute = 'name', $sortDescending = false) {
+		$sortFunc = 'compareFileNames';
+		if ($sortAttribute === 'mtime') {
+			$sortFunc = 'compareTimestamp';
+		} else if ($sortAttribute === 'size') {
+			$sortFunc = 'compareSize';
+		}
+		usort($files, array('\OCA\Files\Helper', $sortFunc));
+		if ($sortDescending) {
+			$files = array_reverse($files);
+		}
+		return $files;
 	}
 }

@@ -77,13 +77,17 @@ describe('FileList tests', function() {
 			// dummy table
 			// TODO: at some point this will be rendered by the FileList class itself!
 			'<table id="filestable">' +
-			'<thead><tr><th id="headerName" class="hidden">' +
+			'<thead><tr>' +
+			'<th id="headerName" class="hidden column-name">' +
 			'<input type="checkbox" id="select_all">' +
-			'<span class="name">Name</span>' +
+			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span class="selectedActions hidden">' +
 			'<a href class="download">Download</a>' +
 			'<a href class="delete-selected">Delete</a></span>' +
-			'</th></tr></thead>' +
+			'</th>' +
+			'<th class="hidden column-size"><a class="columntitle" data-sort="size"><span class="sort-indicator"></span></a></th>' +
+			'<th class="hidden column-mtime"><a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a></th>' +
+			'</tr></thead>' +
 		   	'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
 			'</table>' +
@@ -940,7 +944,7 @@ describe('FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			var url = fakeServer.requests[0].url;
 			var query = url.substr(url.indexOf('?') + 1);
-			expect(OC.parseQueryString(query)).toEqual({'dir': '/subdir'});
+			expect(OC.parseQueryString(query)).toEqual({'dir': '/subdir', sort: 'name', sortdirection: 'asc'});
 			fakeServer.respond();
 			expect($('#fileList tr').length).toEqual(4);
 			expect(FileList.findFileEl('One.txt').length).toEqual(1);
@@ -951,7 +955,7 @@ describe('FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			var url = fakeServer.requests[0].url;
 			var query = url.substr(url.indexOf('?') + 1);
-			expect(OC.parseQueryString(query)).toEqual({'dir': '/anothersubdir'});
+			expect(OC.parseQueryString(query)).toEqual({'dir': '/anothersubdir', sort: 'name', sortdirection: 'asc'});
 			fakeServer.respond();
 		});
 		it('switches to root dir when current directory does not exist', function() {
@@ -1260,7 +1264,7 @@ describe('FileList tests', function() {
 			expect(_.pluck(FileList.getSelectedFiles(), 'name').length).toEqual(42);
 		});
 		it('Selecting files updates selection summary', function() {
-			var $summary = $('#headerName span.name');
+			var $summary = $('#headerName a.name>span:first');
 			expect($summary.text()).toEqual('Name');
 			FileList.findFileEl('One.txt').find('input:checkbox').click();
 			FileList.findFileEl('Three.pdf').find('input:checkbox').click();
@@ -1268,7 +1272,7 @@ describe('FileList tests', function() {
 			expect($summary.text()).toEqual('1 folder & 2 files');
 		});
 		it('Unselecting files hides selection summary', function() {
-			var $summary = $('#headerName span.name');
+			var $summary = $('#headerName a.name>span:first');
 			FileList.findFileEl('One.txt').find('input:checkbox').click().click();
 			expect($summary.text()).toEqual('Name');
 		});
@@ -1430,6 +1434,151 @@ describe('FileList tests', function() {
 					expect(FileList.isEmpty).toEqual(true);
 				});
 			});
+		});
+		it('resets the file selection on reload', function() {
+			FileList.$el.find('#select_all').click();
+			FileList.reload();
+			expect(FileList.$el.find('#select_all').prop('checked')).toEqual(false);
+			expect(FileList.getSelectedFiles()).toEqual([]);
+		});
+	});
+	describe('Sorting files', function() {
+		it('Sorts by name by default', function() {
+			FileList.reload();
+			expect(fakeServer.requests.length).toEqual(1);
+			var url = fakeServer.requests[0].url;
+			var query = OC.parseQueryString(url.substr(url.indexOf('?') + 1));
+			expect(query.sort).toEqual('name');
+			expect(query.sortdirection).toEqual('asc');
+		});
+		it('Reloads file list with a different sort when clicking on column header of unsorted column', function() {
+			FileList.$el.find('.column-size .columntitle').click();
+			expect(fakeServer.requests.length).toEqual(1);
+			var url = fakeServer.requests[0].url;
+			var query = OC.parseQueryString(url.substr(url.indexOf('?') + 1));
+			expect(query.sort).toEqual('size');
+			expect(query.sortdirection).toEqual('asc');
+		});
+		it('Toggles sort direction when clicking on already sorted column', function() {
+			FileList.$el.find('.column-name .columntitle').click();
+			expect(fakeServer.requests.length).toEqual(1);
+			var url = fakeServer.requests[0].url;
+			var query = OC.parseQueryString(url.substr(url.indexOf('?') + 1));
+			expect(query.sort).toEqual('name');
+			expect(query.sortdirection).toEqual('desc');
+		});
+		it('Toggles the sort indicator when clicking on a column header', function() {
+			var ASC_CLASS = FileList.SORT_INDICATOR_ASC_CLASS;
+			var DESC_CLASS = FileList.SORT_INDICATOR_DESC_CLASS;
+			FileList.$el.find('.column-size .columntitle').click();
+			// moves triangle to size column
+			expect(
+				FileList.$el.find('.column-name .sort-indicator').hasClass(ASC_CLASS + ' ' + DESC_CLASS)
+			).toEqual(false);
+			expect(
+				FileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS)
+			).toEqual(true);
+
+			// click again on size column, reverses direction
+			FileList.$el.find('.column-size .columntitle').click();
+			expect(
+				FileList.$el.find('.column-size .sort-indicator').hasClass(DESC_CLASS)
+			).toEqual(true);
+
+			// click again on size column, reverses direction
+			FileList.$el.find('.column-size .columntitle').click();
+			expect(
+				FileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS)
+			).toEqual(true);
+
+			// click on mtime column, moves indicator there
+			FileList.$el.find('.column-mtime .columntitle').click();
+			expect(
+				FileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS + ' ' + DESC_CLASS)
+			).toEqual(false);
+			expect(
+				FileList.$el.find('.column-mtime .sort-indicator').hasClass(ASC_CLASS)
+			).toEqual(true);
+		});
+		it('Uses correct sort comparator when inserting files', function() {
+			testFiles.sort(FileList.Comparators.size);
+			// this will make it reload the testFiles with the correct sorting
+			FileList.$el.find('.column-size .columntitle').click();
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'success',
+					data: {
+						files: testFiles,
+						permissions: 31
+					}
+				})
+			);
+			var newFileData = {
+				id: 999,
+				type: 'file',
+				name: 'new file.txt',
+				mimetype: 'text/plain',
+				size: 40001,
+				etag: '999'
+			};
+			FileList.add(newFileData);
+			expect(FileList.files.length).toEqual(5);
+			expect(FileList.$fileList.find('tr').length).toEqual(5);
+			expect(FileList.findFileEl('One.txt').index()).toEqual(0);
+			expect(FileList.findFileEl('somedir').index()).toEqual(1);
+			expect(FileList.findFileEl('Two.jpg').index()).toEqual(2);
+			expect(FileList.findFileEl('new file.txt').index()).toEqual(3);
+			expect(FileList.findFileEl('Three.pdf').index()).toEqual(4);
+		});
+		it('Uses correct reversed sort comparator when inserting files', function() {
+			testFiles.sort(FileList.Comparators.size);
+			testFiles.reverse();
+			// this will make it reload the testFiles with the correct sorting
+			FileList.$el.find('.column-size .columntitle').click();
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'success',
+					data: {
+						files: testFiles,
+						permissions: 31
+					}
+				})
+			);
+			// reverse sort
+			FileList.$el.find('.column-size .columntitle').click();
+			fakeServer.requests[1].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'success',
+					data: {
+						files: testFiles,
+						permissions: 31
+					}
+				})
+			);
+			var newFileData = {
+				id: 999,
+				type: 'file',
+				name: 'new file.txt',
+				mimetype: 'text/plain',
+				size: 40001,
+				etag: '999'
+			};
+			FileList.add(newFileData);
+			expect(FileList.files.length).toEqual(5);
+			expect(FileList.$fileList.find('tr').length).toEqual(5);
+			expect(FileList.findFileEl('One.txt').index()).toEqual(4);
+			expect(FileList.findFileEl('somedir').index()).toEqual(3);
+			expect(FileList.findFileEl('Two.jpg').index()).toEqual(2);
+			expect(FileList.findFileEl('new file.txt').index()).toEqual(1);
+			expect(FileList.findFileEl('Three.pdf').index()).toEqual(0);
 		});
 	});
 });

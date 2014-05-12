@@ -11,6 +11,9 @@
 /* global OC, t, n, FileList, FileActions, Files, FileSummary, BreadCrumb */
 /* global dragOptions, folderDropOptions */
 window.FileList = {
+	SORT_INDICATOR_ASC_CLASS: 'icon-triangle-s',
+	SORT_INDICATOR_DESC_CLASS: 'icon-triangle-n',
+
 	appName: t('files', 'Files'),
 	isEmpty: true,
 	useUndo:true,
@@ -45,18 +48,19 @@ window.FileList = {
 	_selectionSummary: null,
 
 	/**
-	 * Compare two file info objects, sorting by
-	 * folders first, then by name.
+	 * Sort attribute
 	 */
-	_fileInfoCompare: function(fileInfo1, fileInfo2) {
-		if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
-			return -1;
-		}
-		if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
-			return 1;
-		}
-		return fileInfo1.name.localeCompare(fileInfo2.name);
-	},
+	_sort: 'name',
+
+	/**
+	 * Sort direction: 'asc' or 'desc'
+	 */
+	_sortDirection: 'asc',
+
+	/**
+	 * Sort comparator function for the current sort
+	 */
+	_sortComparator: null,
 
 	/**
 	 * Initialize the file list and its components
@@ -76,6 +80,8 @@ window.FileList = {
 
 		this.fileSummary = this._createSummary();
 
+		this.setSort('name', 'asc');
+
 		this.breadcrumb = new BreadCrumb({
 			onClick: this._onClickBreadCrumb,
 			onDrop: _.bind(this._onDropOnBreadCrumb, this),
@@ -85,6 +91,8 @@ window.FileList = {
 		});
 
 		$('#controls').prepend(this.breadcrumb.$el);
+
+		this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
 		$(window).resize(function() {
 			// TODO: debounce this ?
@@ -234,6 +242,27 @@ window.FileList = {
 		this.do_delete(files);
 		event.preventDefault();
 		return false;
+	},
+
+	/**
+	 * Event handler when clicking on a table header
+	 */
+	_onClickHeader: function(e) {
+		var $target = $(e.target);
+		var sort;
+		if (!$target.is('a')) {
+			$target = $target.closest('a');
+		}
+		sort = $target.attr('data-sort');
+		if (sort) {
+			if (this._sort === sort) {
+				this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc');
+			}
+			else {
+				this.setSort(sort, 'asc');
+			}
+			this.reload();
+		}
 	},
 
 	/**
@@ -685,8 +714,6 @@ window.FileList = {
 				previousDir: currentDir
 			}
 		));
-		this._selectedFiles = {};
-		this._selectionSummary.clear();
 		this.reload();
 	},
 	linkTo: function(dir) {
@@ -723,9 +750,33 @@ window.FileList = {
 		this.breadcrumb.setDirectory(this.getCurrentDirectory());
 	},
 	/**
+	 * Sets the current sorting and refreshes the list
+	 *
+	 * @param sort sort attribute name
+	 * @param direction sort direction, one of "asc" or "desc"
+	 */
+	setSort: function(sort, direction) {
+		var comparator = this.Comparators[sort] || this.Comparators.name;
+		this._sort = sort;
+		this._sortDirection = (direction === 'desc')?'desc':'asc';
+		this._sortComparator = comparator;
+		if (direction === 'desc') {
+			this._sortComparator = function(fileInfo1, fileInfo2) {
+				return -comparator(fileInfo1, fileInfo2);
+			};
+		}
+		this.$el.find('thead th .sort-indicator')
+			.removeClass(this.SORT_INDICATOR_ASC_CLASS + ' ' + this.SORT_INDICATOR_DESC_CLASS);
+		this.$el.find('thead th.column-' + sort + ' .sort-indicator')
+			.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
+	},
+	/**
 	 * @brief Reloads the file list using ajax call
 	 */
 	reload: function() {
+		this._selectedFiles = {};
+		this._selectionSummary.clear();
+		this.$el.find('#select_all').prop('checked', false);
 		FileList.showMask();
 		if (FileList._reloadCall) {
 			FileList._reloadCall.abort();
@@ -733,7 +784,9 @@ window.FileList = {
 		FileList._reloadCall = $.ajax({
 			url: Files.getAjaxUrl('list'),
 			data: {
-				dir : $('#dir').val()
+				dir: $('#dir').val(),
+				sort: FileList._sort,
+				sortdirection: FileList._sortDirection
 			},
 			error: function(result) {
 				FileList.reloadCallback(result);
@@ -859,7 +912,7 @@ window.FileList = {
 	 */
 	_findInsertionIndex: function(fileData) {
 		var index = 0;
-		while (index < this.files.length && this._fileInfoCompare(fileData, this.files[index]) > 0) {
+		while (index < this.files.length && this._sortComparator(fileData, this.files[index]) > 0) {
 			index++;
 		}
 		return index;
@@ -924,7 +977,7 @@ window.FileList = {
 						OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 					}
 					$td.css('background-image', oldBackgroundImage);
-			});
+				});
 		});
 
 	},
@@ -1221,15 +1274,15 @@ window.FileList = {
 	updateSelectionSummary: function() {
 		var summary = this._selectionSummary.summary;
 		if (summary.totalFiles === 0 && summary.totalDirs === 0) {
-			$('#headerName span.name').text(t('files','Name'));
-			$('#headerSize').text(t('files','Size'));
-			$('#modified').text(t('files','Modified'));
+			$('#headerName a.name>span:first').text(t('files','Name'));
+			$('#headerSize a>span:first').text(t('files','Size'));
+			$('#modified a>span:first').text(t('files','Modified'));
 			$('table').removeClass('multiselect');
 			$('.selectedActions').addClass('hidden');
 		}
 		else {
 			$('.selectedActions').removeClass('hidden');
-			$('#headerSize').text(OC.Util.humanFileSize(summary.totalSize));
+			$('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
 			var selection = '';
 			if (summary.totalDirs > 0) {
 				selection += n('files', '%n folder', '%n folders', summary.totalDirs);
@@ -1240,8 +1293,8 @@ window.FileList = {
 			if (summary.totalFiles > 0) {
 				selection += n('files', '%n file', '%n files', summary.totalFiles);
 			}
-			$('#headerName span.name').text(selection);
-			$('#modified').text('');
+			$('#headerName a.name>span:first').text(selection);
+			$('#modified a>span:first').text('');
 			$('table').addClass('multiselect');
 		}
 	},
@@ -1544,4 +1597,50 @@ $(document).ready(function() {
 		FileList.changeDirectory(dir, false, true);
 	}, 0);
 });
+
+/**
+ * Sort comparators.
+ */
+FileList.Comparators = {
+	/**
+	 * Compares two file infos by name, making directories appear
+	 * first.
+	 *
+	 * @param fileInfo1 file info
+	 * @param fileInfo2 file info
+	 * @return -1 if the first file must appear before the second one,
+	 * 0 if they are identify, 1 otherwise.
+	 */
+	name: function(fileInfo1, fileInfo2) {
+		if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
+			return -1;
+		}
+		if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
+			return 1;
+		}
+		return fileInfo1.name.localeCompare(fileInfo2.name);
+	},
+	/**
+	 * Compares two file infos by size.
+	 *
+	 * @param fileInfo1 file info
+	 * @param fileInfo2 file info
+	 * @return -1 if the first file must appear before the second one,
+	 * 0 if they are identify, 1 otherwise.
+	 */
+	size: function(fileInfo1, fileInfo2) {
+		return fileInfo1.size - fileInfo2.size;
+	},
+	/**
+	 * Compares two file infos by timestamp.
+	 *
+	 * @param fileInfo1 file info
+	 * @param fileInfo2 file info
+	 * @return -1 if the first file must appear before the second one,
+	 * 0 if they are identify, 1 otherwise.
+	 */
+	mtime: function(fileInfo1, fileInfo2) {
+		return fileInfo1.mtime - fileInfo2.mtime;
+	}
+};
 

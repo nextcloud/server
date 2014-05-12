@@ -1,3 +1,4 @@
+<?php /** @var $l OC_L10N */ ?>
 <div id="controls">
 		<div class="actions creatable hidden">
 			<?php if(!isset($_['dirToken'])):?>
@@ -60,11 +61,11 @@
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>
-			<th class="hidden" id='headerName'>
+			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<input type="checkbox" id="select_all" />
 					<label for="select_all"></label>
-					<span class="name"><?php p($l->t( 'Name' )); ?></span>
+					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<?php if($_['allowZipDownload']) : ?>
 							<a href="" class="download">
@@ -76,9 +77,11 @@
 					</span>
 				</div>
 			</th>
-			<th class="hidden" id="headerSize"><?php p($l->t('Size')); ?></th>
-			<th class="hidden" id="headerDate">
-				<span id="modified"><?php p($l->t( 'Modified' )); ?></span>
+			<th id="headerSize" class="hidden column-size">
+				<a class="size sort columntitle" data-sort="size"><span><?php p($l->t('Size')); ?></span><span class="sort-indicator"></span></a>
+			</th>
+			<th id="headerDate" class="hidden column-mtime">
+				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 					<span class="selectedActions"><a href="" class="delete-selected">
 						<?php p($l->t('Delete'))?>
