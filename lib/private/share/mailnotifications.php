@@ -21,11 +21,30 @@
 
 namespace OC\Share;
 
+use DateTime;
+
 class MailNotifications {
 
-	private $senderId;    // sender userId
-	private $from;        // sender email address
+	/**
+	 * sender userId
+	 * @var null|string
+	 */
+	private $senderId;
+
+	/**
+	 * sender email address
+	 * @var string
+	 */
+	private $from;
+
+	/**
+	 * @var string
+	 */
 	private $senderDisplayName;
+
+	/**
+	 * @var \OC_L10N
+	 */
 	private $l;
 
 	/**
