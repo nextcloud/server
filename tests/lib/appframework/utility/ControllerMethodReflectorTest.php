@@ -88,7 +88,7 @@ class ControllerMethodReflectorTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
-	public function arguments($arg, $arg2) {}
+	public function arguments($arg, $arg2='hi') {}
 	public function testReflectParameters() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
@@ -96,7 +96,7 @@ class ControllerMethodReflectorTest extends \PHPUnit_Framework_TestCase {
 			'arguments'
 		);
 
-		$this->assertEquals(array('arg', 'arg2'), $reader->getParameters());	
+		$this->assertEquals(array('arg' => null, 'arg2' => 'hi'), $reader->getParameters());	
 	}
 
 
@@ -108,7 +108,7 @@ class ControllerMethodReflectorTest extends \PHPUnit_Framework_TestCase {
 			'arguments2'
 		);
 
-		$this->assertEquals(array('arg',), $reader->getParameters());	
+		$this->assertEquals(array('arg' => null), $reader->getParameters());	
 	}
 
 
