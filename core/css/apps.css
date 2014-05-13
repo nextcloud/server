@@ -10,7 +10,7 @@
 
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 300px;
+	width: 230px;
 	height: 100%;
 	float: left;
 	-moz-box-sizing: border-box; box-sizing: border-box;
@@ -175,7 +175,7 @@
 /* settings area */
 #app-settings {
 	position: fixed;
-	width: 299px;
+	width: 229px;
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }
