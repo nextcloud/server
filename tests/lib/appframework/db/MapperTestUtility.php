@@ -51,7 +51,7 @@ abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
 			->getMock();
 
 		$this->query = $this->getMock('Query', array('execute', 'bindValue'));
-		$this->pdoResult = $this->getMock('Result', array('fetchRow'));
+		$this->pdoResult = $this->getMock('Result', array('fetch'));
 		$this->queryAt = 0;
 		$this->prepareAt = 0;
 		$this->iterators = array();
@@ -65,7 +65,7 @@ abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
 	 * @param array $arguments the expected arguments for the prepare query
 	 * method
 	 * @param array $returnRows the rows that should be returned for the result
-	 * of the database query. If not provided, it wont be assumed that fetchRow
+	 * of the database query. If not provided, it wont be assumed that fetch
 	 * will be called on the result
 	 */
 	protected function setMapperResult($sql, $arguments=array(), $returnRows=array(),
@@ -77,7 +77,7 @@ abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
 		$fetchAt = $this->fetchAt;
 
 		$this->pdoResult->expects($this->any())
-			->method('fetchRow')
+			->method('fetch')
 			->will($this->returnCallback(
 				function() use ($iterators, $fetchAt){
 					$iterator = $iterators[$fetchAt];
