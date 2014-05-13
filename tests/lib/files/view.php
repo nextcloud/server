@@ -578,4 +578,22 @@ class View extends \PHPUnit_Framework_TestCase {
 		$info2 = $view->getFileInfo('/test/test');
 		$this->assertEquals($info['etag'], $info2['etag']);
 	}
+
+	/**
+	 * @dataProvider absolutePathProvider
+	 */
+	public function testGetAbsolutePath($expectedPath, $relativePath) {
+		$view = new \OC\Files\View('/files');
+		$this->assertEquals($expectedPath, $view->getAbsolutePath($relativePath));
+	}
+
+	function absolutePathProvider() {
+		return array(
+			array('/files/', ''),
+			array('/files/0', '0'),
+			array('/files/', '/'),
+			array('/files/test', 'test'),
+			array('/files/test', '/test'),
+		);
+	}
 }
