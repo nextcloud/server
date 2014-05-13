@@ -145,7 +145,7 @@ class Session {
 
 	/**
 	 * @brief Gets status if we already tried to initialize the encryption app
-	 * @returns init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
+	 * @return init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
 	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
@@ -159,7 +159,7 @@ class Session {
 
 	/**
 	 * @brief Gets user or public share private key from session
-	 * @returns string $privateKey The user's plaintext private key
+	 * @return string $privateKey The user's plaintext private key
 	 *
 	 */
 	public function getPrivateKey() {
@@ -190,7 +190,7 @@ class Session {
 
 	/**
 	 * @brief Gets public share private key from session
-	 * @returns string $privateKey
+	 * @return string $privateKey
 	 *
 	 */
 	public function getPublicSharePrivateKey() {
@@ -217,7 +217,7 @@ class Session {
 
 	/**
 	 * @brief Gets user legacy key from session
-	 * @returns string $legacyKey The user's plaintext legacy key
+	 * @return string $legacyKey The user's plaintext legacy key
 	 *
 	 */
 	public function getLegacyKey() {
