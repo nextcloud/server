@@ -5,6 +5,7 @@
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # jekader <jekader@gmail.com>, 2013
+# tukos <kalyuzhniy@gmail.com>, 2014
 # eurekafag <rkfg@rkfg.me>, 2013
 # sk.avenger <sk.avenger@adygnet.ru>, 2013
 # unixoid <victor.ashirov@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-28 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-13 01:55-0400\n"
+"PO-Revision-Date: 2014-05-13 04:27+0000\n"
+"Last-Translator: tukos <kalyuzhniy@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +25,11 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:723
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:724
+#: base.php:686
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -83,23 +84,23 @@ msgstr "Изображение повреждено"
 msgid "web services under your control"
 msgstr "веб-сервисы под вашим управлением"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP-скачивание отключено."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены по одному."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Назад к файлам"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -175,7 +176,7 @@ msgstr "Токен просрочен. Перезагрузите страниц
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Неизвестный пользователь"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -217,7 +218,7 @@ msgstr "Вы должны войти или в существующий акка
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr " Имя пользователя и/или пароль MySQL/MariaDB не действительны."
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -249,7 +250,7 @@ msgstr ""
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Удалить данного участника из MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
@@ -258,7 +259,7 @@ msgstr ""
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Удалить данного участника из MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -285,13 +286,13 @@ msgstr "Установить имя пользователя для admin."
 msgid "Set an admin password."
 msgstr "становит пароль для admin."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
@@ -349,63 +350,63 @@ msgstr ""
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:773
+#: private/share/share.php:774
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:834
+#: private/share/share.php:835
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:940
+#: private/share/share.php:941
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:947
+#: private/share/share.php:948
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:953
+#: private/share/share.php:954
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1367
+#: private/share/share.php:1368
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1376
+#: private/share/share.php:1377
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1391
+#: private/share/share.php:1392
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1403
+#: private/share/share.php:1404
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1417
+#: private/share/share.php:1418
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr ""
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Категория \"%s\"  не найдена"
@@ -478,4 +479,4 @@ msgstr "Укажите валидный пароль"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "Имя пользователя уже используется"
