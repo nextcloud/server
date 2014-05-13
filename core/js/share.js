@@ -746,6 +746,9 @@ $(document).ready(function() {
 					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
 				$('#expirationDate').hide('blind');
+				if (oc_appconfig.core.defaultExpireDateEnforced === 'no') {
+					$('#defaultExpireMessage'). show('blind');
+				}
 			});
 		}
 	});
@@ -768,6 +771,10 @@ $(document).ready(function() {
 				expirationDateField.tipsy({gravity: 'n', fade: true});
 				expirationDateField.tipsy('show');
 				expirationDateField.addClass('error');
+			} else {
+				if (oc_appconfig.core.defaultExpireDateEnforced === 'no') {
+					$('#defaultExpireMessage'). hide('blind');
+				}
 			}
 		});
 	});
