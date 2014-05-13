@@ -264,7 +264,6 @@ var UserList = {
 		});
 
 		//delete a marked user when leaving the page
-		console.log('init del users');
 		$(window).on('beforeunload', function () {
 			UserDeleteHandler.delete();
 		});

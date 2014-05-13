@@ -74,7 +74,6 @@ DeleteHandler.prototype.showNotification = function() {
 		$('#notification').data(this.notificationDataID, true);
 		var msg = this.notificationMessage.replace(this.notificationPlaceholder,
 											this.oidToDelete);
-		console.log('NOTISHOW ' + msg);
 		this.notifier.showHtml(msg);
 	}
 };
@@ -123,10 +122,8 @@ DeleteHandler.prototype.delete = function() {
 	}
 
 	var dh = this;
-	console.log($('#notification').data(this.notificationDataID));
 	if($('#notification').data(this.notificationDataID) === true) {
 		dh.hideNotification();
-		console.log('HIDDEN NOTI');
 	}
 
 	var payload = {};
@@ -143,7 +140,6 @@ DeleteHandler.prototype.delete = function() {
 				//TODO: following line
 				dh.removeCallback(dh.oidToDelete);
 				dh.canceled = true;
-				console.log(dh.ajaxEndpoint);
 			} else {
 				OC.dialogs.alert(result.data.message, t('settings', 'Unable to delete ' + escapeHTML(dh.oidToDelete)));
 				dh.undoCallback(dh.oidToDelete);

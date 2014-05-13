@@ -210,7 +210,6 @@ GroupList = {
 			GroupDeleteHandler.mark(GroupList.getElementGID(this));
 		});
 
-		console.log('init del groups');
 		//delete a marked user when leaving the page
 		$(window).on('beforeunload', function () {
 			GroupDeleteHandler.delete();
