@@ -228,7 +228,7 @@ OC.Share={
 						defaultExpireMessage = t('core', 'By default the public link will expire after {days} days', {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
 					}
 				}
-				html += '<div id="defaultExpireMessage">'+defaultExpireMessage+'</div>';
+
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
@@ -250,6 +250,7 @@ OC.Share={
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
 			html += '<input id="expirationDate" type="text" placeholder="'+t('core', 'Expiration date')+'" style="display:none; width:90%;" />';
+			html += '<div id="defaultExpireMessage">'+defaultExpireMessage+'</div>';
 			html += '</div>';
 			dropDownEl = $(html);
 			dropDownEl = dropDownEl.appendTo(appendTo);
