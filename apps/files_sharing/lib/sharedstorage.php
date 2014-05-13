@@ -36,7 +36,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @breif get id of the mount point
+	 * @brief get id of the mount point
 	 * @return string
 	 */
 	public function getId() {
@@ -44,7 +44,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @breif get file cache of the shared item source
+	 * @brief get file cache of the shared item source
 	 * @return string
 	 */
 	public function getSourceId() {
