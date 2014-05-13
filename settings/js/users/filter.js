@@ -41,14 +41,9 @@ UserManagementFilter.prototype.init = function() {
 		//besides the keys, the value must have been changed compared to last
 		//time
 		if(valid && umf.oldVal !== umf.getPattern()) {
-			clearTimeout(umf.thread);
-			umf.thread = setTimeout(
-				function() {
-					umf.run();
-				},
-				300
-			);
+			umf.run();
 		}
+
 		umf.oldVal = umf.getPattern();
 	});
 };
@@ -57,12 +52,15 @@ UserManagementFilter.prototype.init = function() {
  * @brief the filter action needs to be done, here the accurate steps are being
  * taken care of
  */
-UserManagementFilter.prototype.run = function() {
-	this.userList.empty();
-	this.userList.update(GroupList.getCurrentGID());
-	this.groupList.empty();
-	this.groupList.update();
-};
+UserManagementFilter.prototype.run = _.debounce(function() {
+		console.log(this);
+		this.userList.empty();
+		this.userList.update(GroupList.getCurrentGID());
+		this.groupList.empty();
+		this.groupList.update();
+	},
+	300
+);
 
 /**
  * @brief returns the filter String
