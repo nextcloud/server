@@ -191,7 +191,7 @@ class Preview {
 	/**
 	 * @brief set the path of the file you want a thumbnail from
 	 * @param string $file
-	 * @return object $this
+	 * @return \OC\Preview $this
 	 */
 	public function setFile($file) {
 		$this->file = $file;
