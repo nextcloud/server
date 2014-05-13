@@ -24,11 +24,12 @@
 }
 .oc-dialog-buttonrow {
 	background: white;
-	position: absolute;
-	bottom: 15px;
-	right: 15px;
+	float: right;
+	position: relative;
+	bottom: 0;
 	display: block;
 	margin-top: 10px;
+	width: 100%;
 }
 
 .oc-dialog-close {
