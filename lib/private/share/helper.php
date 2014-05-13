@@ -32,6 +32,7 @@ class Helper extends \OC\Share\Constants {
 	 * @param string $uidOwner User that is the owner of shared item
 	 * @param string $suggestedTarget The suggested target originating from a reshare (optional)
 	 * @param int $groupParent The id of the parent group share (optional)
+	 * @throws \Exception
 	 * @return string Item target
 	 */
 	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -144,7 +145,7 @@ class Helper extends \OC\Share\Constants {
 	 * Delete all reshares of an item
 	 * @param int $parent Id of item to delete
 	 * @param bool $excludeParent If true, exclude the parent from the delete (optional)
-	 * @param string $uidOwner The user that the parent was shared with (optinal)
+	 * @param string $uidOwner The user that the parent was shared with (optional)
 	 */
 	public static function delete($parent, $excludeParent = false, $uidOwner = null) {
 		$ids = array($parent);
