@@ -59,7 +59,12 @@ class ControllerMethodReflector {
 
 		// get method parameters
 		foreach ($reflection->getParameters() as $param) {
-			$this->parameters[] = $param->name;
+			if($param->isOptional()) {
+				$default = $param->getDefaultValue();
+			} else {
+				$default = null;
+			}
+			$this->parameters[$param->name] = $default;
 		}
 	}
 
@@ -81,7 +86,7 @@ class ControllerMethodReflector {
 
 
 	/**
-	 * @return array the arguments of the method
+	 * @return array the arguments of the method with key => default value
 	 */
 	public function getParameters() {
 		return $this->parameters;
