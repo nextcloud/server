@@ -186,7 +186,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			return $router;
 		});
-		$this['Db'] = $this->share(function($c){
+		$this->registerService('Db', function($c){
 			return new Db();
 		});
 	}
