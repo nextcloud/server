@@ -263,37 +263,6 @@ $(document).ready( function () {
 		GroupList.showGroup(GroupList.getElementGID(this));
 	});
 
-	// Implements Groupname editing.
-	$('#app-navigation').on('click', '.isgroup .rename', function (event) {
-		event.stopPropagation();
-		var $li = $(this).closest('li');
-		var gid = GroupList.getElementGID(this);
-		var groupname = escapeHTML(gid);
-		var $input = $('<input type="text" value="' + groupname + '">');
-		$li.find('.dorename img').hide();
-		$li.find('.dorename span').replaceWith($input);
-		$input.focus();
-		$input.keypress(function (event) {
-			if (event.keyCode === 13) {
-				if ($input.val().length > 0) {
-					$.post(
-						OC.filePath('settings', 'ajax', 'changegroupname.php'),
-						{ groupname: $input.val() }
-					);
-					$input.blur();
-				} else {
-					$input.blur();
-				}
-			}
-		});
-		$input.blur(function () {
-			var $input = $(this), groupname = $input.val();
-			$input.closest('li').data('gid', groupname);
-			$input.replaceWith('<span>' + escapeHTML(groupname) + '</span>');
-			$li.find('img').show();
-		});
-	});
-
 	// Implements Quota Settings Toggle.
 	var $appSettings = $('#app-settings');
 	$('#app-settings-header').on('click keydown',function(event) {
