@@ -551,6 +551,27 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief check if a backup from the encryption keys exists
+	 * @return boolean
+	 */
+	public static function backupKeysExists() {
+		//check if encryption was enabled in the past
+		$backupExists = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			$backupPath = '/files_encryption/keyfiles.backup';
+			if ($view->is_dir($backupPath)) {
+				$dircontent = $view->getDirectoryContent($backupPath);
+				if (!empty($dircontent)) {
+					$backupExists = true;
+				}
+			}
+		}
+
+		return $backupExists;
+	}
+
+	/**
 	 * @brief Check for correct file permissions of data directory
 	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
@@ -837,7 +858,7 @@ class OC_Util {
 		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
 			return true;
 		}
-		
+
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
@@ -1082,7 +1103,7 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
-			
+
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy', '') != '') {
@@ -1091,17 +1112,16 @@ class OC_Util {
 			if(OC_Config::getValue('proxyuserpwd', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
-			
-			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) { 
+
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
 				$data = curl_exec($curl);
 			} else {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
 				$mr = $max_redirects;
-				if ($mr > 0) { 
+				if ($mr > 0) {
 					$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-					
 					$rcurl = curl_copy_handle($curl);
 					curl_setopt($rcurl, CURLOPT_HEADER, true);
 					curl_setopt($rcurl, CURLOPT_NOBODY, true);
@@ -1125,9 +1145,9 @@ class OC_Util {
 					curl_close($rcurl);
 					if ($mr > 0) {
 						curl_setopt($curl, CURLOPT_URL, $newURL);
-					} 
+					}
 				}
-				
+
 				if($mr == 0 && $max_redirects > 0) {
 					$data = false;
 				} else {

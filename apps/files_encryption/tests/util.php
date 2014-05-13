@@ -413,8 +413,16 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		// file should no longer be encrypted
 		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
+		// check if the keys where moved to the backup location
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles.backup'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keyfiles.backup/' . $filename . '.key'));
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys.backup'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/share-keys.backup/' . $filename . '.' . $user . '.shareKey'));
+
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
+		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
+		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
 		OC_App::enable('files_encryption');
 
 	}
@@ -485,8 +493,11 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
 		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
 
+		//cleanup
 		$this->view->unlink($this->userId . '/files/' . $file1);
 		$this->view->unlink($this->userId . '/files/' . $file2);
+		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
+		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
 
 	}
 
