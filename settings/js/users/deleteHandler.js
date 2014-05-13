@@ -4,18 +4,18 @@
  * See the COPYING-README file.
  */
 
-
 /**
- * @brief takes care of deleting things represented by an ID
- * @param String endpoint: the corresponding ajax PHP script. Currently limited
+ * takes care of deleting things represented by an ID
+ *
+ * @class
+ * @param {string} endpoint the corresponding ajax PHP script. Currently limited
  * to settings - ajax path.
- * @param String paramID: the by the script expected parameter name holding the
+ * @param {string} paramID the by the script expected parameter name holding the
  * ID of the object to delete
- * @param Function markCallback: the function to be called after successfully
+ * @param {markCallback} markCallback function to be called after successfully
  * marking the object for deletion.
- * @param Function removeCallback: the function to be called after successful
- * delete. The id of the object will be passed as argument. Unsuccessful
- * operations will display an error using OC.dialogs, no callback is fired.
+ * @param {removeCallback} removeCallback the function to be called after
+ * successful delete.
  */
 function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
 	this.oidToDelete = false;
@@ -35,13 +35,34 @@ function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
 }
 
 /**
- * @brief enabled the notification system. Required for undo UI.
- * @param Object notifier: Usually OC.Notification
- * @param String dataID: an identifier for the notifier, e.g. 'deleteuser'
- * @param String message: the message that should be shown upon delete. %oid
+ * The function to be called after successfully marking the object for deletion
+ * @callback markCallback
+ * @param {string} oid the ID of the specific user or group
+ */
+
+/**
+ * The function to be called after successful delete. The id of the object will
+ * be passed as argument. Unsuccessful operations will display an error using
+ * OC.dialogs, no callback is fired.
+ * @callback removeCallback
+ * @param {string} oid the ID of the specific user or group
+ */
+
+/**
+ * This callback is fired after "undo" was clicked so the consumer can update
+ * the web interface
+ * @callback undoCallback
+ * @param {string} oid the ID of the specific user or group
+ */
+
+/**
+ * enabled the notification system. Required for undo UI.
+ *
+ * @param {object} notifier Usually OC.Notification
+ * @param {string} dataID an identifier for the notifier, e.g. 'deleteuser'
+ * @param {string} message the message that should be shown upon delete. %oid
  * will be replaced with the affected id of the item to be deleted
- * @param Function undoCb: called after "undo" was clicked so the consumer can
- * update the web interface
+ * @param {undoCallback} undoCallback called after "undo" was clicked
  */
 DeleteHandler.prototype.setNotification = function(notifier, dataID, message, undoCallback) {
 	this.notifier = notifier;
@@ -64,7 +85,7 @@ DeleteHandler.prototype.setNotification = function(notifier, dataID, message, un
 };
 
 /**
- * @brief shows the Undo Notification (if configured)
+ * shows the Undo Notification (if configured)
  */
 DeleteHandler.prototype.showNotification = function() {
 	if(this.notifier !== false) {
@@ -79,7 +100,7 @@ DeleteHandler.prototype.showNotification = function() {
 };
 
 /**
- * @brief hides the Undo Notification
+ * hides the Undo Notification
  */
 DeleteHandler.prototype.hideNotification = function() {
 	if(this.notifier !== false) {
@@ -89,8 +110,9 @@ DeleteHandler.prototype.hideNotification = function() {
 };
 
 /**
- * @brief initializes the delete operation for a given object id
- * @param String oid: the object id
+ * initializes the delete operation for a given object id
+ *
+ * @param {string} oid the object id
  */
 DeleteHandler.prototype.mark = function(oid) {
 	if(this.oidToDelete !== false) {
@@ -103,7 +125,7 @@ DeleteHandler.prototype.mark = function(oid) {
 };
 
 /**
- * @brief cancels a delete operation
+ * cancels a delete operation
  */
 DeleteHandler.prototype.cancel = function() {
 	this.canceled = true;
@@ -111,7 +133,7 @@ DeleteHandler.prototype.cancel = function() {
 };
 
 /**
- * @brief executes a delete operation. Requires that the operation has been
+ * executes a delete operation. Requires that the operation has been
  * initialized by mark(). On error, it will show a message via
  * OC.dialogs.alert. On success, a callback is fired so that the client can
  * update the web interface accordingly.
