@@ -31,7 +31,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Constructor
-	 * @param $serverConfigPrefixes array containing the config Prefixes
+	 * @param array $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
@@ -46,10 +46,10 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Tries the backends one after the other until a positive result is returned from the specified method
-	 * @param $uid string, the uid connected to the request
-	 * @param $method string, the method of the user backend that shall be called
-	 * @param $parameters an array of parameters to be passed
-	 * @return mixed, the result of the method or false
+	 * @param string $uid the uid connected to the request
+	 * @param string $method the method of the user backend that shall be called
+	 * @param array $parameters an array of parameters to be passed
+	 * @return mixed the result of the method or false
 	 */
 	protected  function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
@@ -69,11 +69,11 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Asks the backend connected to the server that supposely takes care of the uid from the request.
-	 * @param $uid string, the uid connected to the request
-	 * @param $method string, the method of the user backend that shall be called
-	 * @param $parameters an array of parameters to be passed
-	 * @param $passOnWhen the result matches this variable
-	 * @return mixed, the result of the method or false
+	 * @param string $uid the uid connected to the request
+	 * @param string $method the method of the user backend that shall be called
+	 * @param array $parameters an array of parameters to be passed
+	 * @param mixed $passOnWhen the result matches this variable
+	 * @return mixed the result of the method or false
 	 */
 	protected  function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getUserCacheKey($uid);
@@ -106,8 +106,8 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Check if backend implements actions
-	 * @param $actions bitwise-or'ed actions
-	 * @returns boolean
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
 	 * compared with OC_USER_BACKEND_CREATE_USER etc.
@@ -119,7 +119,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all users
-	 * @returns array with all uids
+	 * @return array with all uids
 	 *
 	 * Get a list of all users.
 	 */
@@ -146,9 +146,9 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
-	 * @returns true/false
+	 * @param string $uid The username
+	 * @param string $password The password
+	 * @return bool
 	 *
 	 * Check if the password is correct without logging in the user
 	 */
@@ -167,8 +167,8 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
 		return $this->handleRequest($uid, 'getDisplayName', array($uid));
@@ -176,7 +176,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief checks whether the user is allowed to change his avatar in ownCloud
-	 * @param $uid string the ownCloud user name
+	 * @param string $uid the ownCloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
@@ -185,7 +185,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 * @return array with  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -203,8 +203,8 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief delete a user
-	 * @param $uid The username of the user to delete
-	 * @returns true/false
+	 * @param string $uid The username of the user to delete
+	 * @return bool
 	 *
 	 * Deletes a user
 	 */
@@ -221,7 +221,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Count the number of users
-	 * @returns int | bool
+	 * @return int|bool
 	 */
 	public function countUsers() {
 		$users = false;

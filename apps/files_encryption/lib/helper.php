@@ -102,7 +102,7 @@ class Helper {
 	/**
 	 * @brief enable recovery
 	 *
-	 * @param $recoveryKeyId
+	 * @param string $recoveryKeyId
 	 * @param string $recoveryPassword
 	 * @internal param \OCA\Encryption\Util $util
 	 * @internal param string $password

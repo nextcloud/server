@@ -84,7 +84,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return bool|mixed|void
 	 */
 	public function __get($name) {
@@ -100,8 +100,8 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
 		$this->doNotValidate = false;
@@ -142,7 +142,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $key
+	 * @param string|null $key
 	 * @return string
 	 */
 	private function getCacheKey($key) {
@@ -154,7 +154,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
@@ -174,7 +174,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return bool
 	 */
 	public function isCached($key) {
@@ -189,8 +189,8 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $key
-	 * @param $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
 		if(!$this->configured) {
@@ -224,7 +224,7 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * @brief set LDAP configuration with values delivered by an array, not read from configuration
-	 * @param $config array that holds the config parameters in an associated array
+	 * @param array $config array that holds the config parameters in an associated array
 	 * @param array &$setParameters optional; array where the set fields will be given to
 	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
@@ -523,8 +523,8 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @param $host
-	 * @param $port
+	 * @param string $host
+	 * @param string $port
 	 * @return false|void
 	 */
 	private function doConnect($host, $port) {

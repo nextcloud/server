@@ -383,7 +383,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $dn
+	 * @param string $dn
 	 * @return bool|string
 	 */
 	private function findMappedUser($dn) {
@@ -403,7 +403,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $dn
+	 * @param string $dn
 	 * @return bool|string
 	 */
 	private function findMappedGroup($dn) {
@@ -630,8 +630,8 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $filter
-	 * @param $attr
+	 * @param string $filter
+	 * @param string $attr
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
@@ -641,8 +641,8 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $filter
-	 * @param $attr
+	 * @param string $filter
+	 * @param string $attr
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
@@ -652,7 +652,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $list
+	 * @param array $list
 	 * @param bool $manyAttributes
 	 * @return array
 	 */
@@ -840,9 +840,9 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $searchResults
-	 * @param $limit
-	 * @param $hasHitLimit
+	 * @param array $searchResults
+	 * @param int $limit
+	 * @param bool $hasHitLimit
 	 * @return int
 	 */
 	private function countEntriesInSearchResults($searchResults, $limit, &$hasHitLimit) {
@@ -969,7 +969,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return bool|mixed|string
 	 */
 	public function sanitizeUsername($name) {
@@ -1003,7 +1003,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with AND
-	 * @param $filters array, the filters to connect
+	 * @param array $filters the filters to connect
 	 * @return string the combined filter
 	 */
 	public function combineFilterWithAnd($filters) {
@@ -1012,7 +1012,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with AND
-	 * @param $filters array, the filters to connect
+	 * @param array $filters the filters to connect
 	 * @return string the combined filter
 	 */
 	public function combineFilterWithOr($filters) {
@@ -1021,7 +1021,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with given operator
-	 * @param $filters array, the filters to connect
+	 * @param array $filters the filters to connect
 	 * @param string $operator either & or |
 	 * @return string the combined filter
 	 */
@@ -1062,7 +1062,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief creates a filter part for searches
 	 * @param string $search the search term
-	 * @param $searchAttributes
+	 * @param array|null $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
 	 * did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
@@ -1152,7 +1152,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param $dn
+	 * @param string $dn
 	 * @param bool $isUser
 	 * @return array|bool|false
 	 */
@@ -1220,7 +1220,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief checks if the given DN is part of the given base DN(s)
 	 * @param string $dn the DN
-	 * @param $bases array containing the allowed base DN or DNs
+	 * @param array $bases array containing the allowed base DN or DNs
 	 * @return bool
 	 */
 	private function isDNPartOfBase($dn, $bases) {

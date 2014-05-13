@@ -49,7 +49,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * @param LDAP $link
 	 * @param LDAP $result
-	 * @param $cookie
+	 * @param string $cookie
 	 * @return bool|LDAP
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie) {
@@ -65,7 +65,7 @@ class LDAP implements ILDAPWrapper {
 	 * @param LDAP $link
 	 * @param int $pageSize
 	 * @param bool $isCritical
-	 * @param array $cookie
+	 * @param string $cookie
 	 * @return mixed|true
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
@@ -248,7 +248,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param string $functionName
-	 * @param $args
+	 * @param array $args
 	 */
 	private function preFunctionCall($functionName, $args) {
 		$this->curFunc = $functionName;

@@ -554,7 +554,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @param $user
+	 * @param string $user
 	 * @param bool $create
 	 * @param bool $password
 	 */
@@ -595,7 +595,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 * to be able to test the migration path
 	 *
 	 * @param integer $status needed migration status for test
-	 * @param $user for which user the status should be set
+	 * @param string $user for which user the status should be set
 	 * @return boolean
 	 */
 	private function setMigrationStatus($status, $user) {

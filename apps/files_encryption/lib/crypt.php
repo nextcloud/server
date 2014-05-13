@@ -125,7 +125,7 @@ class Crypt {
 
 	/**
 	 * @brief Check if a file's contents contains an IV and is symmetrically encrypted
-	 * @param $content
+	 * @param string $content
 	 * @return boolean
 	 * @note see also OCA\Encryption\Util->isEncryptedPath()
 	 */
@@ -179,10 +179,9 @@ class Crypt {
 
 	/**
 	 * @brief Check if a file is encrypted via legacy system
-	 * @param $data
+	 * @param boolean $isCatFileContent
 	 * @param string $relPath The path of the file, relative to user/data;
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
-	 * @param boolean $isCatFileContent
 	 * @return boolean
 	 */
 	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
@@ -323,7 +322,7 @@ class Crypt {
 
 	/**
 	 * @brief Symmetrically decrypts keyfile content
-	 * @param $keyfileContent
+	 * @param string $keyfileContent
 	 * @param string $passphrase
 	 * @throws \Exception
 	 * @return string|false
@@ -362,7 +361,7 @@ class Crypt {
 	 * @brief Decrypt private key and check if the result is a valid keyfile
 	 * @param string $encryptedKey encrypted keyfile
 	 * @param string $passphrase to decrypt keyfile
-	 * @return encrypted private key or false
+	 * @return string|false encrypted private key or false
 	 *
 	 * This function decrypts a file
 	 */
@@ -435,9 +434,9 @@ class Crypt {
 
 	/**
 	 * @brief Asymmetrically encrypt a file using multiple public keys
-	 * @param $encryptedContent
-	 * @param $shareKey
-	 * @param $privateKey
+	 * @param string $encryptedContent
+	 * @param string $shareKey
+	 * @param mixed $privateKey
 	 * @return false|string
 	 * @internal param string $plainContent content to be encrypted
 	 * @return string $plainContent decrypted string
@@ -498,7 +497,7 @@ class Crypt {
 
 	/**
 	 * @brief Generate a pseudo random 256-bit ASCII key, used as file key
-	 * @return $key Generated key
+	 * @return string|false Generated key
 	 */
 	public static function generateKey() {
 
@@ -524,7 +523,7 @@ class Crypt {
 
 	/**
 	 * @brief Get the blowfish encryption handler for a key
-	 * @param $key string (optional)
+	 * @param string $key (optional)
 	 * @return \Crypt_Blowfish blowfish object
 	 *
 	 * if the key is left out, the default handler will be used
@@ -561,7 +560,7 @@ class Crypt {
 	}
 
 	/**
-	 * @param $data
+	 * @param string $data
 	 * @param string $key
 	 * @param int $maxLength
 	 * @return string

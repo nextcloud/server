@@ -70,8 +70,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief reads jpegPhoto and set is as avatar if available
-	 * @param $uid string ownCloud user name
-	 * @param $dn string the user's LDAP DN
+	 * @param string $uid ownCloud user name
+	 * @param string $dn the user's LDAP DN
 	 * @return void
 	 */
 	private function updateAvatar($uid, $dn) {
@@ -118,7 +118,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief checks whether the user is allowed to change his avatar in ownCloud
-	 * @param $uid string the ownCloud user name
+	 * @param string $uid the ownCloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
@@ -136,8 +136,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief reads the image from LDAP that shall be used as Avatar
-	 * @param $uid string, the ownCloud user name
-	 * @param $dn string, the user DN
+	 * @param string $uid the ownCloud user name
+	 * @param string $dn the user DN
 	 * @return string data (provided by LDAP) | false
 	 */
 	private function getAvatarImage($uid, $dn) {
@@ -200,7 +200,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all users
-	 * @returns array with all uids
+	 * @return array with all uids
 	 *
 	 * Get a list of all users.
 	 */
@@ -272,8 +272,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	* @brief delete a user
-	* @param $uid The username of the user to delete
-	* @returns true/false
+	* @param string $uid The username of the user to delete
+	* @return bool
 	*
 	* Deletes a user
 	*/
@@ -326,8 +326,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
 		if(!$this->userExists($uid)) {
@@ -353,7 +353,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 * @return array with  all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -374,8 +374,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 		/**
 	* @brief Check if backend implements actions
-	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* @param int $actions bitwise-or'ed actions
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.

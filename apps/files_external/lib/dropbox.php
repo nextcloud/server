@@ -65,8 +65,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 	/**
 	 * @brief Returns the path's metadata
 	 * @param string $path path for which to return the metadata
-	 * @param $list if true, also return the directory's contents
-	 * @return directory contents if $list is true, file metadata if $list is
+	 * @param bool $list if true, also return the directory's contents
+	 * @return mixed directory contents if $list is true, file metadata if $list is
 	 * false, null if the file doesn't exist or "false" if the operation failed
 	 */
 	private function getMetaData($path, $list = false) {

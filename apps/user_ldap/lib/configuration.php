@@ -81,7 +81,7 @@ class Configuration {
 	);
 
 	/**
-	 * @param $configPrefix
+	 * @param string $configPrefix
 	 * @param bool $autoRead
 	 */
 	public function __construct($configPrefix, $autoRead = true) {
@@ -92,7 +92,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @return mixed|void
 	 */
 	public function __get($name) {
@@ -102,8 +102,8 @@ class Configuration {
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
 		$this->setConfiguration(array($name => $value));
@@ -120,7 +120,7 @@ class Configuration {
 	 * @brief set LDAP configuration with values delivered by an array, not read
 	 * from configuration. It does not save the configuration! To do so, you
 	 * must call saveConfiguration afterwards.
-	 * @param $config array that holds the config parameters in an associated
+	 * @param array $config array that holds the config parameters in an associated
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 * @return false|null
@@ -250,7 +250,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return array|string
 	 */
 	protected function getMultiLine($varName) {
@@ -265,8 +265,8 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
-	 * @param $value
+	 * @param string $varName
+	 * @param array|string $value
 	 */
 	protected function setMultiLine($varName, $value) {
 		if(empty($value)) {
@@ -282,7 +282,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return string
 	 */
 	protected function getPwd($varName) {
@@ -290,7 +290,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return string
 	 */
 	protected function getLcValue($varName) {
@@ -298,7 +298,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return string
 	 */
 	protected function getSystemValue($varName) {
@@ -307,7 +307,7 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
+	 * @param string $varName
 	 * @return string
 	 */
 	protected function getValue($varName) {
@@ -321,16 +321,16 @@ class Configuration {
 	}
 
 	/**
-	 * @param $varName
-	 * @param $value
+	 * @param string $varName
+	 * @param mixed $value
 	 */
 	protected function setValue($varName, $value) {
 		$this->config[$varName] = $value;
 	}
 
 	/**
-	 * @param $varName
-	 * @param $value
+	 * @param string $varName
+	 * @param string $value
 	 * @return bool
 	 */
 	protected function saveValue($varName, $value) {

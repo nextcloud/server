@@ -97,7 +97,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @param $user
+	 * @param string $user
 	 * @param bool $create
 	 * @param bool $password
 	 */

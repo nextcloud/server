@@ -29,8 +29,8 @@ class WizardResult {
 	protected $markedChange = false;
 
 	/**
-	 * @param $key
-	 * @param $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	public function addChange($key, $value) {
 		$this->changes[$key] = $value;

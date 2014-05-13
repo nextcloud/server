@@ -79,8 +79,8 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $data
+	 * @param string $path
+	 * @param string $data
 	 * @return bool
 	 */
 	public function preFile_put_contents($path, &$data) {
@@ -225,7 +225,7 @@ class Proxy extends \OC_FileProxy {
 
 
 	/**
-	 * @param $path
+	 * @param string $path
 	 * @param $result
 	 * @return resource
 	 */
@@ -261,8 +261,8 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $data
+	 * @param string $path
+	 * @param array $data
 	 * @return array
 	 */
 	public function postGetFileInfo($path, $data) {
@@ -285,9 +285,9 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $size
-	 * @return bool
+	 * @param string $path
+	 * @param int $size
+	 * @return int|bool
 	 */
 	public function postFileSize($path, $size) {
 

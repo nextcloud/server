@@ -262,7 +262,7 @@ class Hooks {
 	 * @brief check if files can be encrypted to every user.
 	 */
 	/**
-	 * @param $params
+	 * @param array $params
 	 */
 	public static function preShared($params) {
 

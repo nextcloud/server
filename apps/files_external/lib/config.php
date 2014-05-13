@@ -610,9 +610,9 @@ class OC_Mount_Config {
 
 	/**
 	 * Returns a dependency missing message
-	 * @param $l OC_L10N
-	 * @param $module string
-	 * @param $backend string
+	 * @param OC_L10N $l
+	 * @param string $module
+	 * @param string $backend
 	 * @return string
 	 */
 	private static function getSingleDependencyMessage($l, $module, $backend) {
@@ -658,7 +658,7 @@ class OC_Mount_Config {
 	/**
 	 * Encrypt a single password
 	 * @param string $password plain text password
-	 * @return encrypted password
+	 * @return string encrypted password
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
@@ -670,7 +670,7 @@ class OC_Mount_Config {
 	/**
 	 * Decrypts a single password
 	 * @param string $encryptedPassword encrypted password
-	 * @return plain text password
+	 * @return string plain text password
 	 */
 	private static function decryptPassword($encryptedPassword) {
 		$cipher = self::getCipher();
