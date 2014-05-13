@@ -7,6 +7,12 @@ if($state === 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 
+$installedVersion = OCP\Config::getAppValue('files_sharing', 'installed_version');
+$enableRawMode = false;
+if (version_compare($installedVersion, '0.4.1', '<')) {
+	$enableRawMode = true;
+}
+
 $configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
 $ldap = new OCA\user_ldap\lib\LDAP();
 foreach($configPrefixes as $config) {
@@ -24,4 +30,10 @@ foreach($configPrefixes as $config) {
 							 $config.'ldap_expert_uuid_user_attr', $value);
 	\OCP\Config::setAppValue('user_ldap',
 							 $config.'ldap_expert_uuid_group_attr', $value);
+
+	if($enableRawMode) {
+		\OCP\Config::setAppValue('user_ldap', $config.'ldap_user_filter_mode', 1);
+		\OCP\Config::setAppValue('user_ldap', $config.'ldap_login_filter_mode', 1);
+		\OCP\Config::setAppValue('user_ldap', $config.'ldap_group_filter_mode', 1);
+	}
 }
