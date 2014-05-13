@@ -485,12 +485,20 @@ class Share extends \OC\Share\Constants {
 			$itemSourceName = $itemSource;
 		}
 
-		// verify that the file exists before we try to share it
+		// check if file can be shared
 		if ($itemType === 'file' or $itemType === 'folder') {
 			$path = \OC\Files\Filesystem::getPath($itemSource);
+			// verify that the file exists before we try to share it
 			if (!$path) {
 				$message = 'Sharing %s failed, because the file does not exist';
 				$message_t = $l->t('Sharing %s failed, because the file does not exist', array($itemSourceName));
+				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName), \OC_Log::ERROR);
+				throw new \Exception($message_t);
+			}
+			// verify that the user has share permission
+			if (!\OC\Files\Filesystem::isSharable($path)) {
+				$message = 'You are not allowed to share %s';
+				$message_t = $l->t('You are not allowed to share %s', array($itemSourceName));
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}

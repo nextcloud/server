@@ -117,6 +117,15 @@ class Util {
 	}
 
 	/**
+	 * check if sharing is disabled for the current user
+	 *
+	 * @return boolean
+	 */
+	public static function isSharingDisabledForUser() {
+		return \OC_Util::isSharingDisabledForUser();
+	}
+
+	/**
 	 * get l10n object
 	 * @param string $application
 	 * @return \OC_L10N

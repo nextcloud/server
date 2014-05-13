@@ -97,6 +97,29 @@ class OC_Util {
 	}
 
 	/**
+	 * check if sharing is disabled for the current user
+	 *
+	 * @return boolean
+	 */
+	public static function isSharingDisabledForUser() {
+		if (\OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+			$user = \OCP\User::getUser();
+			$groupsList = \OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
+			$excludedGroups = explode(',', $groupsList);
+			$usersGroups = \OC_Group::getUserGroups($user);
+			if (!empty($usersGroups)) {
+				$remainingGroups = array_diff($usersGroups, $excludedGroups);
+				// if the user is only in groups which are disabled for sharing then
+				// sharing is also disabled for the user
+				if (empty($remainingGroups)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get the quota of a user
 	 * @param string $user
 	 * @return int Quota bytes

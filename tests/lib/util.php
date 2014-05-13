@@ -235,4 +235,59 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 			array(' .', false),
 		);
 	}
+
+	/**
+	 * @dataProvider dataProviderForTestIsSharingDisabledForUser
+	 * @param array $groups existing groups
+	 * @param array $membership groups the user belong to
+	 * @param array $excludedGroups groups which should be excluded from sharing
+	 * @param bool $expected expected result
+	 */
+	function testIsSharingDisabledForUser($groups, $membership, $excludedGroups, $expected) {
+		$uid = "user1";
+		\OC_User::setUserId($uid);
+
+		\OC_User::createUser($uid, "passwd");
+
+		foreach($groups as $group) {
+			\OC_Group::createGroup($group);
+		}
+
+		foreach($membership as $group) {
+			\OC_Group::addToGroup($uid, $group);
+		}
+
+		$appConfig = \OC::$server->getAppConfig();
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', implode(',', $excludedGroups));
+		$appConfig->setValue('core', 'shareapi_exclude_groups', 'yes');
+
+		$result = \OCP\Util::isSharingDisabledForUser();
+
+		$this->assertSame($expected, $result);
+
+		// cleanup
+		\OC_User::deleteUser($uid);
+		\OC_User::setUserId('');
+
+		foreach($groups as $group) {
+			\OC_Group::deleteGroup($group);
+		}
+
+		$appConfig->setValue('core', 'shareapi_exclude_groups_list', '');
+		$appConfig->setValue('core', 'shareapi_exclude_groups', 'no');
+
+	}
+
+	public function dataProviderForTestIsSharingDisabledForUser()    {
+		return array(
+			// existing groups, groups the user belong to, groups excluded from sharing, expected result
+			array(array('g1', 'g2', 'g3'), array(), array('g1'), false),
+			array(array('g1', 'g2', 'g3'), array(), array(), false),
+			array(array('g1', 'g2', 'g3'), array('g2'), array('g1'), false),
+			array(array('g1', 'g2', 'g3'), array('g2'), array(), false),
+			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1'), false),
+			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2'), true),
+			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2', 'g3'), true),
+        );
+    }
 }

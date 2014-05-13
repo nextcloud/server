@@ -84,3 +84,5 @@ $this->create('settings_admin_mail_test', '/settings/admin/mailtest')
 	->action('OC\Settings\Admin\Controller', 'sendTestMail');
 $this->create('settings_ajax_setsecurity', '/settings/ajax/setsecurity.php')
 	->actionInclude('settings/ajax/setsecurity.php');
+$this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
+	->actionInclude('settings/ajax/excludegroups.php');

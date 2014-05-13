@@ -158,6 +158,15 @@ table.shareAPI .indent { padding-left: 2em; }
 	vertical-align: text-bottom;
 }
 
+#selectGroups select {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	height: 36px;
+	padding: 7px 10px
+}
+
 span.success {
         background: #37ce02;
         border-radius: 8px;

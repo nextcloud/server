@@ -80,6 +80,7 @@ $array = array(
 				'defaultExpireDate' => $defaultExpireDate,
 				'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
 				'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
+				'sharingDisabledForUser' => \OCP\Util::isSharingDisabledForUser(),
 				)
 			)
 	),
