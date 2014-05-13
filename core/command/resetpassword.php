@@ -29,24 +29,33 @@ class ResetPassword extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$username = $input->getArgument('user');
 		if ($input->isInteractive()) {
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 			$password = $dialog->askHiddenResponse(
 				$output,
 				'<question>Enter a new password: </question>',
 				false
 			);
+			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
 			$confirm = $dialog->askHiddenResponse(
 				$output,
-                                '<question>Confirm the new password: </question>',
+				'<question>Confirm the new password: </question>',
 				false
 			);
-		}
-		if ($password === $confirm) {
-			\OC_User::setPassword($username, $password);
-			$output->writeln("Successfully reset password for " . $username);
+
+			if ($password === $confirm) {
+				$success = \OC_User::setPassword($username, $password);
+				if ($success) {
+					$output->writeln("Successfully reset password for " . $username);
+				} else {
+					$output->writeln("There is no user called " . $username);
+				}
+			} else {
+				$output->writeln("Passwords did not match!");
+			}
 		} else {
-			$output->writeln("Passwords did not match!");
+			$output->writeln("Interactive input is needed for entering a new password!");
 		}
 	}
 }
