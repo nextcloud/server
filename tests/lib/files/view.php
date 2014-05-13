@@ -598,6 +598,8 @@ class View extends \PHPUnit_Framework_TestCase {
 		return array(
 			array('/files/', ''),
 			array('/files/0', '0'),
+			array('/files/false', 'false'),
+			array('/files/true', 'true'),
 			array('/files/', '/'),
 			array('/files/test', 'test'),
 			array('/files/test', '/test'),
