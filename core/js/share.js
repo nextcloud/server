@@ -347,8 +347,8 @@ OC.Share={
 					}
 				})
 				.data("ui-autocomplete")._renderItem = function( ul, item ) {
-					return $( "<li>" )
-						.append( "<a>" + item.displayname + "<br>" + item.email + "</a>" )
+					return $('<li>')
+						.append('<a>' + escapeHTML(item.displayname) + "<br>" + escapeHTML(item.email) + '</a>' )
 						.appendTo( ul );
 				};
 			}
