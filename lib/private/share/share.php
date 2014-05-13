@@ -260,7 +260,7 @@ class Share extends \OC\Share\Constants {
 	 * @param mixed $parameters (optional)
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param boolean $includeCollections (optional)
-	 * @return Return depends on format
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
 		$parameters = null, $limit = -1, $includeCollections = false) {
@@ -352,7 +352,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $uidOwner Owner of link
-	 * @return Item
+	 * @return array
 	 */
 	public static function getItemSharedWithByLink($itemType, $itemSource, $uidOwner) {
 		return self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null, $uidOwner, self::FORMAT_NONE,
@@ -926,6 +926,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Get the backend class for the specified item type
 	 * @param string $itemType
+	 * @throws \Exception
 	 * @return \OCP\Share_Backend
 	 */
 	public static function getBackend($itemType) {
@@ -1353,6 +1354,7 @@ class Share extends \OC\Share\Constants {
 	 * @param boolean|array $parentFolder Parent folder target (optional)
 	 * @param string $token (optional)
 	 * @param string $itemSourceName name of the source item (optional)
+	 * @throws \Exception
 	 * @return boolean Returns true on success or false on failure
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1641,7 +1643,7 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @breif construct select statement
+	 * @brief construct select statement
 	 * @param int $format
 	 * @param boolean $fileDependent ist it a file/folder share or a generla share
 	 * @param string $uidOwner
