@@ -17,9 +17,10 @@ class Group extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function getUserManager() {
 		$userManager = $this->getMock('\OC\User\Manager');
-		$user1 = new User('user1', null);
-		$user2 = new User('user2', null);
-		$user3 = new User('user3', null);
+		$backend = $this->getMock('\OC_User_Backend');
+		$user1 = new User('user1', $backend);
+		$user2 = new User('user2', $backend);
+		$user3 = new User('user3', $backend);
 		$userManager->expects($this->any())
 			->method('get')
 			->will($this->returnValueMap(array(
@@ -79,6 +80,7 @@ class Group extends \PHPUnit_Framework_TestCase {
 	public function testInGroupSingleBackend() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);
 
 		$backend->expects($this->once())
@@ -86,13 +88,14 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->with('user1', 'group1')
 			->will($this->returnValue(true));
 
-		$this->assertTrue($group->inGroup(new User('user1', null)));
+		$this->assertTrue($group->inGroup(new User('user1', $userBackend)));
 	}
 
 	public function testInGroupMultipleBackends() {
 		$backend1 = $this->getMock('OC_Group_Database');
 		$backend2 = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend1, $backend2), $userManager);
 
 		$backend1->expects($this->once())
@@ -105,12 +108,13 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->with('user1', 'group1')
 			->will($this->returnValue(true));
 
-		$this->assertTrue($group->inGroup(new User('user1', null)));
+		$this->assertTrue($group->inGroup(new User('user1', $userBackend)));
 	}
 
 	public function testAddUser() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);
 
 		$backend->expects($this->once())
@@ -125,12 +129,13 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->method('addToGroup')
 			->with('user1', 'group1');
 
-		$group->addUser(new User('user1', null));
+		$group->addUser(new User('user1', $userBackend));
 	}
 
 	public function testAddUserAlreadyInGroup() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);
 
 		$backend->expects($this->once())
@@ -144,12 +149,13 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$backend->expects($this->never())
 			->method('addToGroup');
 
-		$group->addUser(new User('user1', null));
+		$group->addUser(new User('user1', $userBackend));
 	}
 
 	public function testRemoveUser() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);
 
 		$backend->expects($this->once())
@@ -164,12 +170,13 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->method('removeFromGroup')
 			->with('user1', 'group1');
 
-		$group->removeUser(new User('user1', null));
+		$group->removeUser(new User('user1', $userBackend));
 	}
 
 	public function testRemoveUserNotInGroup() {
 		$backend = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend), $userManager);
 
 		$backend->expects($this->once())
@@ -183,13 +190,14 @@ class Group extends \PHPUnit_Framework_TestCase {
 		$backend->expects($this->never())
 			->method('removeFromGroup');
 
-		$group->removeUser(new User('user1', null));
+		$group->removeUser(new User('user1', $userBackend));
 	}
 
 	public function testRemoveUserMultipleBackends() {
 		$backend1 = $this->getMock('OC_Group_Database');
 		$backend2 = $this->getMock('OC_Group_Database');
 		$userManager = $this->getUserManager();
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$group = new \OC\Group\Group('group1', array($backend1, $backend2), $userManager);
 
 		$backend1->expects($this->once())
@@ -216,7 +224,7 @@ class Group extends \PHPUnit_Framework_TestCase {
 			->method('removeFromGroup')
 			->with('user1', 'group1');
 
-		$group->removeUser(new User('user1', null));
+		$group->removeUser(new User('user1', $userBackend));
 	}
 
 	public function testSearchUsers() {

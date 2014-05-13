@@ -23,7 +23,7 @@ class User {
 	private $displayName;
 
 	/**
-	 * @var \OC_User_Backend $backend
+	 * @var \OC_User_Interface $backend
 	 */
 	private $backend;
 
@@ -33,7 +33,7 @@ class User {
 	private $enabled;
 
 	/**
-	 * @var Emitter | Manager $emitter
+	 * @var Emitter|Manager $emitter
 	 */
 	private $emitter;
 
@@ -49,7 +49,7 @@ class User {
 
 	/**
 	 * @param string $uid
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param \OC\AllConfig $config
 	 */

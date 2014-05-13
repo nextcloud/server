@@ -183,7 +183,7 @@ class OC_L10N implements \OCP\IL10N {
 	 *
 	 * Parts of the code is copied from Habari:
 	 * https://github.com/habari/system/blob/master/classes/locale.php
-	 * @param $string string
+	 * @param string $string
 	 * @return string
 	 */
 	protected function createPluralFormFunction($string){
@@ -278,7 +278,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief getTranslations
-	 * @returns array Fetch all translations
+	 * @return array Fetch all translations
 	 *
 	 * Returns an associative array with all translations
 	 */
@@ -289,7 +289,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief getPluralFormString
-	 * @returns string containing the gettext "Plural-Forms"-string
+	 * @return string containing the gettext "Plural-Forms"-string
 	 *
 	 * Returns a string like "nplurals=2; plural=(n != 1);"
 	 */
@@ -300,7 +300,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief getPluralFormFunction
-	 * @returns string the plural form function
+	 * @return string the plural form function
 	 *
 	 * returned function accepts the argument $n
 	 */
@@ -314,7 +314,7 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @brief get localizations
-	 * @returns array Fetch all localizations
+	 * @return array Fetch all localizations
 	 *
 	 * Returns an associative array with all localizations
 	 */
@@ -327,7 +327,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * @brief Localization
 	 * @param string $type Type of localization
 	 * @param array|int|string $data parameters for this localization
-	 * @returns String or false
+	 * @return String or false
 	 *
 	 * Returns the localized data.
 	 *
@@ -381,7 +381,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief Choose a language
 	 * @param array $text Associative Array with possible strings
-	 * @returns String
+	 * @return String
 	 *
 	 * $text is an array 'de' => 'hallo welt', 'en' => 'hello world', ...
 	 *
@@ -404,7 +404,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief find the best language
 	 * @param array|string $app details below
-	 * @returns string language
+	 * @return string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
@@ -477,7 +477,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief find the l10n directory
 	 * @param string $app App that needs to be translated
-	 * @returns directory
+	 * @return directory
 	 */
 	protected static function findI18nDir($app) {
 		// find the i18n dir
@@ -497,7 +497,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @brief find all available languages for an app
 	 * @param string $app App that needs to be translated
-	 * @returns array an array of available languages
+	 * @return array an array of available languages
 	 */
 	public static function findAvailableLanguages($app=null) {
 		$available=array('en');//english is always available
@@ -517,7 +517,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @param string $app
 	 * @param string $lang
-	 * @returns bool
+	 * @return bool
 	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available

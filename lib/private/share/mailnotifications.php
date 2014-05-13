@@ -21,11 +21,30 @@
 
 namespace OC\Share;
 
+use DateTime;
+
 class MailNotifications {
 
-	private $senderId;    // sender userId
-	private $from;        // sender email address
+	/**
+	 * sender userId
+	 * @var null|string
+	 */
+	private $senderId;
+
+	/**
+	 * sender email address
+	 * @var string
+	 */
+	private $from;
+
+	/**
+	 * @var string
+	 */
 	private $senderDisplayName;
+
+	/**
+	 * @var \OC_L10N
+	 */
 	private $l;
 
 	/**
@@ -50,8 +69,8 @@ class MailNotifications {
 	 * @brief inform users if a file was shared with them
 	 *
 	 * @param array $recipientList list of recipients
-	 * @param type $itemSource shared item source
-	 * @param type $itemType shared item type
+	 * @param string $itemSource shared item source
+	 * @param string $itemType shared item type
 	 * @return array list of user to whom the mail send operation failed
 	 */
 	public function sendInternalShareMail($recipientList, $itemSource, $itemType) {
@@ -136,7 +155,7 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link link to the shared file
 	 * @param int $expiration expiration date (timestamp)
-	 * @return array with the html mail body and the plain text mail body
+	 * @return array an array of the html mail body and the plain text mail body
 	 */
 	private function createMailBody($filename, $link, $expiration) {
 

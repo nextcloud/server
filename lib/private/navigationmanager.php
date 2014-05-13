@@ -30,7 +30,7 @@ class NavigationManager implements \OCP\INavigationManager {
 
 	/**
 	 * @brief returns all the added Menu entries
-	 * @return array of the added entries
+	 * @return array an array of the added entries
 	 */
 	public function getAll() {
 		return $this->entries;

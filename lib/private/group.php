@@ -58,7 +58,7 @@ class OC_Group {
 
 	/**
 	 * @brief set the group backend
-	 * @param  \OC_Group_Backend $backend  The backend to use for user managment
+	 * @param \OC_Group_Backend $backend  The backend to use for user managment
 	 * @return bool
 	 */
 	public static function useBackend($backend) {
@@ -179,7 +179,7 @@ class OC_Group {
 	/**
 	 * @brief Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -203,7 +203,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @returns array with group names
+	 * @return array an array of group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -232,7 +232,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @returns array with user ids
+	 * @return array an array of user ids
 	 */
 	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = self::getManager()->get($gid);
@@ -254,7 +254,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with user ids
+	 * @return array an array of user ids
 	 */
 	public static function usersInGroups($gids, $search = '', $limit = -1, $offset = 0) {
 		$users = array();
@@ -271,7 +271,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @returns array with display names (value) and user ids(key)
+	 * @return array an array of display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return self::getManager()->displayNamesInGroup($gid, $search, $limit, $offset);
@@ -283,7 +283,7 @@ class OC_Group {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with display names (Key) user ids (value)
+	 * @return array an array of display names (Key) user ids (value)
 	 */
 	public static function displayNamesInGroups($gids, $search = '', $limit = -1, $offset = 0) {
 		$displayNames = array();

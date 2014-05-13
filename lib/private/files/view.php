@@ -109,7 +109,7 @@ class View {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array consisting of the storage and the internal path
+	 * @return array an array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
 		$a = $this->getAbsolutePath($path);
@@ -168,6 +168,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return resource
+	 */
 	public function opendir($path) {
 		return $this->basicOperation('opendir', $path, array('read'));
 	}
@@ -552,6 +556,11 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $mode
+	 * @return resource
+	 */
 	public function fopen($path, $mode) {
 		$hooks = array();
 		switch ($mode) {
@@ -796,7 +805,7 @@ class View {
 	 * @param string $path
 	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return \OC\Files\FileInfo | false
+	 * @return \OC\Files\FileInfo|false
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$data = array();
@@ -991,7 +1000,7 @@ class View {
 	 * change file metadata
 	 *
 	 * @param string $path
-	 * @param array | \OCP\Files\FileInfo $data
+	 * @param array|\OCP\Files\FileInfo $data
 	 * @return int
 	 *
 	 * returns the fileid of the updated file

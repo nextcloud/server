@@ -82,7 +82,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	/**
 	 * set the currently active user
 	 *
-	 * @param \OC\User\User $user
+	 * @param \OC\User\User|null $user
 	 */
 	public function setUser($user) {
 		if (is_null($user)) {
@@ -115,7 +115,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	/**
 	 * set the login name
 	 *
-	 * @param string $loginName for the logged in user
+	 * @param string|null $loginName for the logged in user
 	 */
 	public function setLoginName($loginName) {
 		if (is_null($loginName)) {
@@ -191,7 +191,7 @@ class Session implements Emitter, \OCP\IUserSession {
 		$expires = time() + \OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secure_cookie);
 		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secure_cookie, true);
-		setcookie("oc_remember_login", true, $expires, \OC::$WEBROOT, '', $secure_cookie);
+		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secure_cookie);
 	}
 
 	/**

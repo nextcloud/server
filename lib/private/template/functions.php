@@ -70,8 +70,8 @@ function mimetype_icon( $mimetype ) {
 /**
  * @brief make preview_icon available as a simple function
  * Returns the path to the preview of the image.
- * @param $path path of file
- * @returns link to the preview
+ * @param string $path path of file
+ * @return link to the preview
  *
  * For further information have a look at OC_Helper::previewIcon
  */

@@ -307,7 +307,7 @@ class OC_App{
 	/**
 	 * @brief Get the navigation entries for the $app
 	 * @param string $app app
-	 * @return array of the $data added with addNavigationEntry
+	 * @return array an array of the $data added with addNavigationEntry
 	 *
 	 * Warning: destroys the existing entries
 	 */
@@ -660,7 +660,7 @@ class OC_App{
 
 	/**
 	 * @brief: get a list of all apps in the apps folder
-	 * @return array or app names (string IDs)
+	 * @return array an array of app names (string IDs)
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {

@@ -123,7 +123,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	/**
 	 * Returns the data
 	 *
-	 * @return string | resource
+	 * @return string|resource
 	 */
 	public function get() {
 

@@ -55,7 +55,7 @@ class Watcher {
 	 * check $path for updates
 	 *
 	 * @param string $path
-	 * @return boolean | array true if path was updated, otherwise the cached data is returned
+	 * @return boolean|array true if path was updated, otherwise the cached data is returned
 	 */
 	public function checkUpdate($path) {
 		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and array_search($path, $this->checkedPaths) === false)) {

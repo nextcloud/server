@@ -203,7 +203,7 @@ class Util {
 
 	/**
 	 * Creates an url using a defined route
-	 * @param $route
+	 * @param string $route
 	 * @param array $parameters
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url
@@ -293,7 +293,7 @@ class Util {
 
 	/**
 	 * Returns the script name, even if the website uses one or more reverse proxies
-	 * @returns string the script name
+	 * @return string the script name
 	 */
 	public static function getScriptName() {
 		return(\OC_Request::scriptName());
@@ -380,8 +380,8 @@ class Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|array of strings
-	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
+	 * @param string|array $value
+	 * @return string|array an array of sanitized strings or a single sinitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( $value ) {
 		return(\OC_Util::sanitizeHTML($value));
@@ -458,7 +458,7 @@ class Util {
 	 *
 	 * @param string $dir the current folder where the user currently operates
 	 * @param int $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return number of bytes representing
+	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $free = null) {
 		return \OC_Helper::maxUploadFilesize($dir, $free);
@@ -476,7 +476,7 @@ class Util {
 	/**
 	 * Calculate PHP upload limit
 	 *
-	 * @return number of bytes representing
+	 * @return int number of bytes representing
 	 */
 	public static function uploadLimit() {
 		return \OC_Helper::uploadLimit();
@@ -484,7 +484,7 @@ class Util {
 
 	/**
 	 * Returns whether the given file name is valid
-	 * @param $file string file name to check
+	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
 	 */
 	public static function isValidFileName($file) {
@@ -493,8 +493,8 @@ class Util {
 
 	/**
 	 * @brief Generates a cryptographic secure pseudo-random string
-	 * @param Int $length of the random string
-	 * @return String
+	 * @param int $length of the random string
+	 * @return string
 	 */
 	public static function generateRandomBytes($length = 30) {
 		return \OC_Util::generateRandomBytes($length);

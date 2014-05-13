@@ -65,7 +65,7 @@ class Config {
 
 	/**
 	 * @brief Lists all available config keys
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.
@@ -77,8 +77,8 @@ class Config {
 	/**
 	 * @brief Gets a value from config.php
 	 * @param string $key key
-	 * @param array|bool|string|null $default = null default value
-	 * @return string the value or $default
+	 * @param mixed $default = null default value
+	 * @return mixed the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
@@ -94,7 +94,7 @@ class Config {
 	/**
 	 * @brief Sets a value
 	 * @param string $key key
-	 * @param string $value value
+	 * @param mixed $value value
 	 *
 	 * This function sets the value and writes the config.php.
 	 *

@@ -35,7 +35,7 @@ class OC_Migration_Content{
 	/**
 	* @brief sets up the
 	* @param ZipArchive $zip ZipArchive object
-	* @param $db a database object (required for exporttype user)
+	* @param object $db a database object (required for exporttype user)
 	* @return bool|null
 	*/
 	public function __construct( $zip, $db=null ) {
@@ -45,11 +45,9 @@ class OC_Migration_Content{
 
 	}
 
-	// @brief prepares the db
-	// @param $query the sql query to prepare
-
 	/**
-	 * @param string $query
+	 * @brief prepares the db
+	 * @param string $query the sql query to prepare
 	 */
 	public function prepare( $query ) {
 
@@ -88,7 +86,7 @@ class OC_Migration_Content{
 
 	/**
 	* @brief copys rows to migration.db from the main database
-	* @param $options array of options.
+	* @param array $options array of options.
 	* @return bool
 	*/
 	public function copyRows( $options ) {
@@ -131,7 +129,7 @@ class OC_Migration_Content{
 	/**
 	* @brief saves a sql data set into migration.db
 	* @param OC_DB_StatementWrapper $data a sql data set returned from self::prepare()->query()
-	* @param $options array of copyRows options
+	* @param array $options array of copyRows options
 	* @return void
 	*/
 	private function insertData( $data, $options ) {
@@ -170,8 +168,8 @@ class OC_Migration_Content{
 	/**
 	* @brief adds a directory to the zip object
 	* @param boolean|string $dir string path of the directory to add
-	* @param $recursive bool
-	* @param $internaldir string path of folder to add dir to in zip
+	* @param bool $recursive
+	* @param string $internaldir path of folder to add dir to in zip
 	* @return bool
 	*/
 	public function addDir( $dir, $recursive=true, $internaldir='' ) {

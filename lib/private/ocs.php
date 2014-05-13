@@ -213,8 +213,8 @@ class OC_OCS {
 	}
 
 	/**
-	 * @param $writer
-	 * @param $data
+	 * @param resource $writer
+	 * @param array $data
 	 * @param string $node
 	 */
 	public static function toXml($writer, $data, $node) {

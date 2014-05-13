@@ -401,7 +401,7 @@ class OC_DB {
 
 	/**
 	 * @brief replaces the ownCloud tables with a new set
-	 * @param $file string path to the MDB2 xml db export file
+	 * @param string $file path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
 		$schemaManager = self::getMDB2SchemaManager();

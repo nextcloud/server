@@ -57,9 +57,9 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Create a new user
-	 * @param $uid The username of the user to create
-	 * @param $password The password of the new user
-	 * @returns true/false
+	 * @param string $uid The username of the user to create
+	 * @param string $password The password of the new user
+	 * @return bool
 	 *
 	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
@@ -79,8 +79,8 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief delete a user
-	 * @param $uid The username of the user to delete
-	 * @returns true/false
+	 * @param string $uid The username of the user to delete
+	 * @return bool
 	 *
 	 * Deletes a user
 	 */
@@ -98,9 +98,9 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Set password
-	 * @param $uid The username
-	 * @param $password The new password
-	 * @returns true/false
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @return bool
 	 *
 	 * Change the password of a user
 	 */
@@ -119,9 +119,9 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Set display name
-	 * @param $uid The username
-	 * @param $displayName The new display name
-	 * @returns true/false
+	 * @param string $uid The username
+	 * @param string $displayName The new display name
+	 * @return bool
 	 *
 	 * Change the display name of a user
 	 */
@@ -139,7 +139,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief get display name of the user
-	 * @param $uid user ID of the user
+	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
@@ -149,7 +149,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 * @return array an array of  all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -169,9 +169,9 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
-	 * @returns string
+	 * @param string $uid The username
+	 * @param string $password The password
+	 * @return string
 	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
@@ -203,7 +203,7 @@ class OC_User_Database extends OC_User_Backend {
 	/**
 	 * @brief Load an user in the cache
 	 * @param string $uid the username
-	 * @returns boolean
+	 * @return boolean
 	 */
 	private function loadUser($uid) {
 		if (empty($this->cache[$uid])) {
@@ -226,7 +226,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	/**
 	 * @brief Get a list of all users
-	 * @returns array with all uids
+	 * @return array an array of all uids
 	 *
 	 * Get a list of all users.
 	 */
@@ -273,7 +273,7 @@ class OC_User_Database extends OC_User_Backend {
 	/**
 	 * counts the users in the database
 	 *
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsers() {
 		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');

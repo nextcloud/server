@@ -294,10 +294,11 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend);
 
-		$groups = $manager->getUserGroups(new User('user1', null));
+		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(1, count($groups));
 		$group1 = $groups[0];
 		$this->assertEquals('group1', $group1->getGID());
@@ -332,11 +333,12 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
-		$groups = $manager->getUserGroups(new User('user1', null));
+		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(2, count($groups));
 		$group1 = $groups[0];
 		$group2 = $groups[1];
@@ -345,10 +347,12 @@ class Manager extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testDisplayNamesInGroupMultipleUserBackends() {
-		$user1 = new User('user1', null);
-		$user2 = new User('user2', null);
-		$user3 = new User('user3', null);
-		$user4 = new User('user33', null);
+		$userBackend = $this->getMock('\OC_User_Backend');
+
+		$user1 = new User('user1', $userBackend);
+		$user2 = new User('user2', $userBackend);
+		$user3 = new User('user3', $userBackend);
+		$user4 = new User('user33', $userBackend);
 
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
@@ -368,6 +372,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$userManager->expects($this->once())
 			->method('search')
 			->with('user3')
@@ -375,12 +380,12 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$userManager->expects($this->any())
 			->method('get')
-			->will($this->returnCallback(function($uid) {
+			->will($this->returnCallback(function($uid) use ($userBackend) {
 				switch($uid) {
-					case 'user1' : return new User('user1', null);
-					case 'user2' : return new User('user2', null);
-					case 'user3' : return new User('user3', null);
-					case 'user33': return new User('user33', null);
+					case 'user1' : return new User('user1', $userBackend);
+					case 'user2' : return new User('user2', $userBackend);
+					case 'user3' : return new User('user3', $userBackend);
+					case 'user33': return new User('user33', $userBackend);
 					default:
 						return null;
 				}

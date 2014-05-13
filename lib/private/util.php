@@ -818,8 +818,8 @@ class OC_Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|array of strings
-	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @param string|array &$value
+	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
 		if (is_array($value)) {
@@ -1028,8 +1028,8 @@ class OC_Util {
 
 	/**
 	 * @brief Generates a cryptographic secure pseudo-random string
-	 * @param Int $length of the random string
-	 * @return String
+	 * @param int $length of the random string
+	 * @return string
 	 * Please also update secureRNGAvailable if you change something here
 	 */
 	public static function generateRandomBytes($length = 30) {
@@ -1113,7 +1113,7 @@ class OC_Util {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
 
-			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) {
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode') === 'Off') {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
 				$data = curl_exec($curl);
@@ -1287,7 +1287,7 @@ class OC_Util {
 
 	/**
 	 * Returns whether the given file name is valid
-	 * @param $file string file name to check
+	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
 	 */
 	public static function isValidFileName($file) {

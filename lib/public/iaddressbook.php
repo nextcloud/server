@@ -45,7 +45,7 @@ namespace OCP {
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options - for future use. One should always have options!
-		 * @return array of contacts which are arrays of key-value-pairs
+		 * @return array an array of contacts which are arrays of key-value-pairs
 		 */
 		public function search($pattern, $searchProperties, $options);
 		//	// dummy results
@@ -56,7 +56,7 @@ namespace OCP {
 
 		/**
 		 * @param array $properties this array if key-value-pairs defines a contact
-		 * @return array representing the contact just created or updated
+		 * @return array an array representing the contact just created or updated
 		 */
 		public function createOrUpdate($properties);
 		//	// dummy

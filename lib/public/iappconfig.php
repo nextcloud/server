@@ -45,7 +45,7 @@ interface IAppConfig {
 	/**
 	 * @brief Get the available keys for an app
 	 * @param string $app the app we are looking for
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -74,7 +74,7 @@ interface IAppConfig {
 
 	/**
 	 * @brief Get all apps using the config
-	 * @return array with app ids
+	 * @return array an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.

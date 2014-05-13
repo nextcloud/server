@@ -167,7 +167,7 @@ class OC_SubAdmin{
 
 	/**
 	 * @brief delete all SubAdmins by uid
-	 * @param $parameters
+	 * @param array $parameters
 	 * @return boolean
 	 */
 	public static function post_deleteUser($parameters) {
@@ -178,7 +178,7 @@ class OC_SubAdmin{
 
 	/**
 	 * @brief delete all SubAdmins by gid
-	 * @param $parameters
+	 * @param array $parameters
 	 * @return boolean
 	 */
 	public static function post_deleteGroup($parameters) {

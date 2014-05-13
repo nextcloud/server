@@ -424,7 +424,7 @@ class OC_Image {
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
 	* @param resource $handle
-	* @return An image resource or false on error
+	* @return resource|false An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
 		OC_Log::write('core', __METHOD__.'(): Trying', OC_Log::DEBUG);

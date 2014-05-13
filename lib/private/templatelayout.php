@@ -98,7 +98,7 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	/**
-	 * @param $styles
+	 * @param array $styles
 	 * @return array
 	 */
 	static public function findStylesheetFiles($styles) {
@@ -116,7 +116,7 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	/**
-	 * @param $scripts
+	 * @param array $scripts
 	 * @return array
 	 */
 	static public function findJavascriptFiles($scripts) {
@@ -175,7 +175,7 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	/**
-	 * @param $files
+	 * @param array $files
 	 * @return string
 	 */
 	private static function hashScriptNames($files)

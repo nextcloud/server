@@ -69,7 +69,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	/**
 	* @brief Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
-	* @return boolean
+	* @return bool
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_GROUP_BACKEND_CREATE_GROUP etc.
@@ -93,7 +93,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	/**
 	 * @brief Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -107,7 +107,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -131,7 +131,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with user ids
+	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return array();

@@ -61,7 +61,7 @@ class Scanner extends BasicEmitter {
 	 * *
 	 *
 	 * @param string $path
-	 * @return array with metadata of the file
+	 * @return array an array of metadata of the file
 	 */
 	public function getData($path) {
 		if (!$this->storage->isReadable($path)) {
@@ -88,7 +88,7 @@ class Scanner extends BasicEmitter {
 	 * @param string $file
 	 * @param int $reuseExisting
 	 * @param bool $parentExistsInCache
-	 * @return array with metadata of the scanned file
+	 * @return array an array of metadata of the scanned file
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentExistsInCache = false) {
 		if (!self::isPartialFile($file)
@@ -174,7 +174,7 @@ class Scanner extends BasicEmitter {
 	 * @param string $path
 	 * @param bool $recursive
 	 * @param int $reuse
-	 * @return array with the meta data of the scanned file or folder
+	 * @return array an array of the meta data of the scanned file or folder
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
 		if ($reuse === -1) {
@@ -273,7 +273,7 @@ class Scanner extends BasicEmitter {
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
 	 *       prevents unfinished put requests to be scanned
-	 * @param String $file
+	 * @param string $file
 	 * @return boolean
 	 */
 	public static function isPartialFile($file) {

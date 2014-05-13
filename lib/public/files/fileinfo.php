@@ -104,7 +104,7 @@ interface FileInfo {
 	/**
 	 * Check whether this is a file or a folder
 	 *
-	 * @return \OCP\Files\FileInfo::TYPE_FILE | \OCP\Files\FileInfo::TYPE_FOLDER
+	 * @return \OCP\Files\FileInfo::TYPE_FILE|\OCP\Files\FileInfo::TYPE_FOLDER
 	 */
 	public function getType();
 

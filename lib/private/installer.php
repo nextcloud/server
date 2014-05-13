@@ -221,7 +221,7 @@ class OC_Installer{
 	/**
 	 * @brief checks whether or not an app is installed
 	 * @param string $app app
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */
@@ -313,7 +313,7 @@ class OC_Installer{
 	/**
 	 * @brief Removes an app
 	 * @param string $name name of the application to remove
-	 * @param $options array with options
+	 * @param array $options options
 	 * @return boolean|null
 	 *
 	 * This function removes an app. $options is an associative array. The

@@ -73,7 +73,7 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 	}
 
 	/**
-	 * @param $filePath
+	 * @param string $filePath
 	 * @param Sabre_DAV_INode $node
 	 * @throws Sabre_DAV_Exception_BadRequest
 	 */

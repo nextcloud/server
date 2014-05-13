@@ -53,7 +53,7 @@ interface IL10N {
 	 * Localization
 	 * @param string $type Type of localization
 	 * @param array $data parameters for this localization
-	 * @return String or false
+	 * @return string|false
 	 *
 	 * Returns the localized data.
 	 *

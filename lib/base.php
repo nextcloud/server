@@ -175,7 +175,7 @@ class OC {
 			OC::$SERVERROOT . '/lib/private' . PATH_SEPARATOR .
 			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
 			OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
-			implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
+			implode(PATH_SEPARATOR, $paths) . PATH_SEPARATOR .
 			get_include_path() . PATH_SEPARATOR .
 			OC::$SERVERROOT
 		);

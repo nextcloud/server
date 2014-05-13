@@ -31,7 +31,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param \Test\BackgroundJob\TestJob $job
+	 * @param Job|string $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
@@ -48,7 +48,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param Job $job
+	 * @param Job|string $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
@@ -70,7 +70,7 @@ class JobList implements IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param $job
+	 * @param Job|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 */
@@ -126,7 +126,7 @@ class JobList implements IJobList {
 
 	/**
 	 * @param int $id
-	 * @return Job
+	 * @return Job|null
 	 */
 	public function getById($id) {
 		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` = ?');

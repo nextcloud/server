@@ -245,7 +245,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByStorageId($id) {
@@ -256,7 +256,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByNumericId($id) {
@@ -270,7 +270,7 @@ class Filesystem {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array consisting of the storage and the internal path
+	 * @return array an array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
 		if (!self::$mounts) {

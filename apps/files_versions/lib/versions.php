@@ -265,7 +265,7 @@ class Storage {
 	 * @param string $uid user id from the owner of the file
 	 * @param string $filename file to find versions of, relative to the user files dir
 	 * @param string $userFullPath
-	 * @returns array versions newest version first
+	 * @return array versions newest version first
 	 */
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();

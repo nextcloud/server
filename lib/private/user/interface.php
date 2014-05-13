@@ -26,27 +26,23 @@ interface OC_User_Interface {
 	/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
-	* @return boolean
 	*/
 	public function implementsActions($actions);
 
 	/**
 	* @brief delete a user
-	* @param $uid The username of the user to delete
-	* @returns true/false
-	*
-	* Deletes a user
-	* @return boolean
+	* @param string $uid The username of the user to delete
+	* @return bool
 	*/
 	public function deleteUser($uid);
 
 	/**
 	* @brief Get a list of all users
-	* @returns array with all uids
+	* @return array an array of all uids
 	*
 	* Get a list of all users.
 	*/
@@ -61,14 +57,14 @@ interface OC_User_Interface {
 
 	/**
 	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid);
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 * @return array an array of  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */

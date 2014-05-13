@@ -97,7 +97,7 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	}
 
 	/**
-	 * @param $parentUri
+	 * @param string $parentUri
 	 * @return mixed
 	 */
 	public function getFreeSpace($parentUri) {

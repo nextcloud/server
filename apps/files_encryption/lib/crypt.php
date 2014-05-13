@@ -254,7 +254,7 @@ class Crypt {
 	 * @brief Concatenate encrypted data with its IV and padding
 	 * @param string $content content to be concatenated
 	 * @param string $iv IV to be concatenated
-	 * @returns string concatenated content
+	 * @return string concatenated content
 	 */
 	private static function concatIv($content, $iv) {
 
@@ -267,7 +267,7 @@ class Crypt {
 	/**
 	 * @brief Split concatenated data and IV into respective parts
 	 * @param string $catFile concatenated data to be split
-	 * @returns array keys: encrypted, iv
+	 * @return array keys: encrypted, iv
 	 */
 	private static function splitIv($catFile) {
 
@@ -330,7 +330,7 @@ class Crypt {
 	 * @internal param string $source
 	 * @internal param string $target
 	 * @internal param string $key the decryption key
-	 * @returns string decrypted content
+	 * @return string decrypted content
 	 *
 	 * This function decrypts a file
 	 */
@@ -362,7 +362,7 @@ class Crypt {
 	 * @brief Decrypt private key and check if the result is a valid keyfile
 	 * @param string $encryptedKey encrypted keyfile
 	 * @param string $passphrase to decrypt keyfile
-	 * @returns encrypted private key or false
+	 * @return encrypted private key or false
 	 *
 	 * This function decrypts a file
 	 */
@@ -389,7 +389,7 @@ class Crypt {
 	 * @brief Create asymmetrically encrypted keyfile content using a generated key
 	 * @param string $plainContent content to be encrypted
 	 * @param array $publicKeys array keys must be the userId of corresponding user
-	 * @returns array keys: keys (array, key = userId), data
+	 * @return array keys: keys (array, key = userId), data
 	 * @note symmetricDecryptFileContent() can decrypt files created using this method
 	 */
 	public static function multiKeyEncrypt($plainContent, array $publicKeys) {
@@ -440,7 +440,7 @@ class Crypt {
 	 * @param $privateKey
 	 * @return false|string
 	 * @internal param string $plainContent content to be encrypted
-	 * @returns string $plainContent decrypted string
+	 * @return string $plainContent decrypted string
 	 * @note symmetricDecryptFileContent() can be used to decrypt files created using this method
 	 *
 	 * This function decrypts a file
@@ -498,7 +498,7 @@ class Crypt {
 
 	/**
 	 * @brief Generate a pseudo random 256-bit ASCII key, used as file key
-	 * @returns $key Generated key
+	 * @return $key Generated key
 	 */
 	public static function generateKey() {
 

@@ -30,7 +30,7 @@ class URLGenerator implements IURLGenerator {
 
 	/**
 	 * @brief Creates an url using a defined route
-	 * @param $route
+	 * @param string $route
 	 * @param array $parameters
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url

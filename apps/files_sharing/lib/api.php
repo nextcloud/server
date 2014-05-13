@@ -196,7 +196,7 @@ class Api {
 	}
 
 	/**
-	 * @breif create a new share
+	 * @brief create a new share
 	 * @param array $params
 	 * @return \OC_OCS_Result
 	 */

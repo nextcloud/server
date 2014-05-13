@@ -77,7 +77,7 @@ class OC_User {
 	/**
 	 * @brief gets available backends
 	 * @deprecated
-	 * @returns array of backends
+	 * @return array an array of backends
 	 *
 	 * Returns the names of all backends.
 	 */
@@ -88,7 +88,7 @@ class OC_User {
 	/**
 	 * @brief gets used backends
 	 * @deprecated
-	 * @returns array of backends
+	 * @return array an array of backends
 	 *
 	 * Returns the names of all used backends.
 	 */
@@ -98,7 +98,7 @@ class OC_User {
 
 	/**
 	 * @brief Adds the backend to the list of used backends
-	 * @param string | OC_User_Backend $backend default: database The backend to use for user management
+	 * @param string|OC_User_Interface $backend default: database The backend to use for user management
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
@@ -321,7 +321,7 @@ class OC_User {
 
 	/**
 	 * @brief Check if the user is logged in
-	 * @returns bool
+	 * @return bool
 	 *
 	 * Checks if the user is logged in
 	 */
@@ -517,7 +517,7 @@ class OC_User {
 
 	/**
 	 * @brief Get a list of all users
-	 * @returns array with all uids
+	 * @return array an array of all uids
 	 *
 	 * Get a list of all users.
 	 * @param string $search

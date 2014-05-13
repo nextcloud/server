@@ -239,7 +239,7 @@ class Router implements IRouter {
 
 	/**
 	 * To isolate the variable scope used inside the $file it is required in it's own method
-	 * @param $file
+	 * @param string $file
 	 */
 	private function requireRouteFile($file) {
 		require_once $file;

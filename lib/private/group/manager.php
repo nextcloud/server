@@ -28,7 +28,7 @@ use OC\Hooks\PublicEmitter;
  */
 class Manager extends PublicEmitter {
 	/**
-	 * @var \OC_Group_Backend[] | \OC_Group_Database[] $backends
+	 * @var \OC_Group_Backend[]|\OC_Group_Database[] $backends
 	 */
 	private $backends = array();
 
@@ -165,7 +165,7 @@ class Manager extends PublicEmitter {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with display names (value) and user ids (key)
+	 * @return array an array of display names (value) and user ids (key)
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
