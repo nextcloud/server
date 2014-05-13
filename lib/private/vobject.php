@@ -25,13 +25,13 @@
  */
 class OC_VObject{
 	/** @var Sabre\VObject\Component */
-	protected $vobject;
+	protected $vObject;
 
 	/**
 	 * @return Sabre\VObject\Component
 	 */
 	public function getVObject() {
-		return $this->vobject;
+		return $this->vObject;
 	}
 
 	/**
@@ -42,11 +42,11 @@ class OC_VObject{
 	public static function parse($data) {
 		try {
 			Sabre\VObject\Property::$classMap['LAST-MODIFIED'] = 'Sabre\VObject\Property\DateTime';
-			$vobject = Sabre\VObject\Reader::read($data);
-			if ($vobject instanceof Sabre\VObject\Component) {
-				$vobject = new OC_VObject($vobject);
+			$vObject = Sabre\VObject\Reader::read($data);
+			if ($vObject instanceof Sabre\VObject\Component) {
+				$vObject = new OC_VObject($vObject);
 			}
-			return $vobject;
+			return $vObject;
 		} catch (Exception $e) {
 			OC_Log::write('vobject', $e->getMessage(), OC_Log::ERROR);
 			return null;
@@ -93,9 +93,9 @@ class OC_VObject{
 	 */
 	public function __construct($vobject_or_name) {
 		if (is_object($vobject_or_name)) {
-			$this->vobject = $vobject_or_name;
+			$this->vObject = $vobject_or_name;
 		} else {
-			$this->vobject = new Sabre\VObject\Component($vobject_or_name);
+			$this->vObject = new Sabre\VObject\Component($vobject_or_name);
 		}
 	}
 
@@ -108,7 +108,7 @@ class OC_VObject{
 		if ($item instanceof OC_VObject) {
 			$item = $item->getVObject();
 		}
-		$this->vobject->add($item, $itemValue);
+		$this->vObject->add($item, $itemValue);
 	}
 
 	/**
@@ -127,13 +127,13 @@ class OC_VObject{
 			$property->parameters[] = new Sabre\VObject\Parameter($name, $value);
 		}
 
-		$this->vobject->add($property);
+		$this->vObject->add($property);
 		return $property;
 	}
 
 	public function setUID() {
 		$uid = substr(md5(rand().time()), 0, 10);
-		$this->vobject->add('UID', $uid);
+		$this->vObject->add('UID', $uid);
 	}
 
 	/**
@@ -144,9 +144,9 @@ class OC_VObject{
 	public function setString($name, $string) {
 		if ($string != '') {
 			$string = strtr($string, array("\r\n"=>"\n"));
-			$this->vobject->__set($name, $string);
+			$this->vObject->__set($name, $string);
 		}else{
-			$this->vobject->__unset($name);
+			$this->vObject->__unset($name);
 		}
 	}
 
@@ -167,9 +167,9 @@ class OC_VObject{
 		if ($datetime instanceof DateTime) {
 			$datetime_element = new Sabre\VObject\Property\DateTime($name);
 			$datetime_element->setDateTime($datetime, $dateType);
-			$this->vobject->__set($name, $datetime_element);
+			$this->vObject->__set($name, $datetime_element);
 		}else{
-			$this->vobject->__unset($name);
+			$this->vObject->__unset($name);
 		}
 	}
 
@@ -179,8 +179,8 @@ class OC_VObject{
 	 * @return string
 	 */
 	public function getAsString($name) {
-		return $this->vobject->__isset($name) ?
-			$this->vobject->__get($name)->value :
+		return $this->vObject->__isset($name) ?
+			$this->vObject->__get($name)->value :
 			'';
 	}
 
@@ -191,7 +191,7 @@ class OC_VObject{
 	 */
 	public function getAsArray($name) {
 		$values = array();
-		if ($this->vobject->__isset($name)) {
+		if ($this->vObject->__isset($name)) {
 			$values = explode(',', $this->getAsString($name));
 			$values = array_map('trim', $values);
 		}
@@ -205,9 +205,9 @@ class OC_VObject{
 	 */
 	public function &__get($name) {
 		if ($name == 'children') {
-			return $this->vobject->children;
+			return $this->vObject->children;
 		}
-		$return = $this->vobject->__get($name);
+		$return = $this->vObject->__get($name);
 		if ($return instanceof Sabre\VObject\Component) {
 			$return = new OC_VObject($return);
 		}
@@ -220,7 +220,7 @@ class OC_VObject{
 	 * @param string $value
 	 */
 	public function __set($name, $value) {
-		return $this->vobject->__set($name, $value);
+		return $this->vObject->__set($name, $value);
 	}
 
 	/**
@@ -228,7 +228,7 @@ class OC_VObject{
 	 * @param string $name
 	 */
 	public function __unset($name) {
-		return $this->vobject->__unset($name);
+		return $this->vObject->__unset($name);
 	}
 
 	/**
@@ -237,7 +237,7 @@ class OC_VObject{
 	 * @return bool
 	 */
 	public function __isset($name) {
-		return $this->vobject->__isset($name);
+		return $this->vObject->__isset($name);
 	}
 
 	/**
@@ -247,6 +247,6 @@ class OC_VObject{
 	 * @return mixed
 	 */
 	public function __call($function, $arguments) {
-		return call_user_func_array(array($this->vobject, $function), $arguments);
+		return call_user_func_array(array($this->vObject, $function), $arguments);
 	}
 }
