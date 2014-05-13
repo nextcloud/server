@@ -37,7 +37,7 @@ class View {
 	}
 
 	public function getAbsolutePath($path = '/') {
-		if (!$path) {
+		if ($path === '') {
 			$path = '/';
 		}
 		if ($path[0] !== '/') {
