@@ -243,7 +243,7 @@ table td.filename .nametext {
 	max-width: 800px;
 }
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
-table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
+table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; height: 50px; }
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
