@@ -83,7 +83,7 @@
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 
-#filestable tbody tr { background-color:#fff; height:40px; }
+#filestable tbody tr { background-color:#fff; height:51px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -243,7 +243,7 @@ table td.filename .nametext {
 	max-width: 800px;
 }
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
-table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; height: 50px; }
+table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
