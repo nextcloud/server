@@ -83,7 +83,7 @@
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 
-#filestable tbody tr { background-color:#fff; height:40px; }
+#filestable tbody tr { background-color:#fff; height:51px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
