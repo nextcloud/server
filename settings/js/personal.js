@@ -321,7 +321,7 @@ OC.Encryption = {
 	},
 
 	deleteKeys: function() {
-		var message = t('settings', 'Delete encryptin keys permanently.');
+		var message = t('settings', 'Delete encryption keys permanently.');
 		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
 		$.post('ajax/deletekeys.php', null, function(data) {
 			if (data.status === "error") {
@@ -335,7 +335,7 @@ OC.Encryption = {
 	},
 
 	restoreKeys: function() {
-		var message = t('settings', 'Restore encryptin keys.');
+		var message = t('settings', 'Restore encryption keys.');
 		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
 		$.post('ajax/restorekeys.php', {}, function(data) {
 			if (data.status === "error") {
