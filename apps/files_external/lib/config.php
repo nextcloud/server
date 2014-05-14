@@ -427,6 +427,7 @@ class OC_Mount_Config {
 	* @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
 	* @param string $applicable User or group to apply mount to
 	* @param bool $isPersonal Personal or system mount point i.e. is this being called from the personal or admin page
+	* @param int|null $priority Mount point priority, null for default
 	* @return boolean
 	*/
 	public static function addMountPoint($mountPoint,
@@ -434,7 +435,8 @@ class OC_Mount_Config {
 										 $classOptions,
 										 $mountType,
 										 $applicable,
-										 $isPersonal = false) {
+										 $isPersonal = false,
+										 $priority = null) {
 		$backends = self::getBackends();
 		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
 		if ($mountPoint === '' || $mountPoint === '/') {
@@ -464,12 +466,19 @@ class OC_Mount_Config {
 				'options' => self::encryptPasswords($classOptions))
 			)
 		);
-		if (! $isPersonal) {
-			$mount[$applicable][$mountPoint]['priority'] = $backends[$class]['priority'];
+		if (! $isPersonal && !is_null($priority)) {
+			$mount[$applicable][$mountPoint]['priority'] = $priority;
 		}
 
 		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : NULL);
 		$mountPoints = self::mergeMountPoints($mountPoints, $mount, $mountType);
+
+		// Set default priority if none set
+		if (!isset($mountPoints[$mountType][$applicable][$mountPoint]['priority'])) {
+			$mountPoints[$mountType][$applicable][$mountPoint]['priority']
+				= $backends[$class]['priority'];
+		}
+
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
 
 		return self::getBackendStatus($class, $classOptions, $isPersonal);
@@ -757,13 +766,9 @@ class OC_Mount_Config {
 	 */
 	private static function mergeMountPoints($data, $mountPoint, $mountType) {
 		$applicable = key($mountPoint);
+		$mountPath = key($mountPoint[$applicable]);
 		if (isset($data[$mountType])) {
 			if (isset($data[$mountType][$applicable])) {
-				if (isset($mountPoints[$mountType][$applicable][$mountPoint])
-					&& isset($mountPoints[$mountType][$applicable][$mountPoint]['priority'])) {
-					$mount[$applicable][$mountPoint]['priority']
-						= $mountPoints[$mountType][$applicable][$mountPoint]['priority'];
-				}
 				$data[$mountType][$applicable]
 					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
 			} else {
