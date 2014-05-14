@@ -239,7 +239,7 @@ table td.filename input.filename {
 	cursor: text;
 }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
-table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:14px 0; }
+table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
 
 .modified, .column-last>span:first-child {
 	position: relative;
@@ -257,7 +257,7 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 /* TODO fix usability bug (accidental file/folder selection) */
 table td.filename .nametext {
 	position: absolute;
-	top: 16px;
+	top: 15px;
 	left: 55px;
 	padding: 0;
 	overflow: hidden;
@@ -384,7 +384,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 /* File actions */
 .fileactions {
 	position: absolute;
-	top: 14px;
+	top: 15px;
 	right: 0;
 	font-size: 11px;
 }
@@ -393,7 +393,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	padding: 28px 14px 19px !important;
+	padding: 17px 14px;
 }
 
 #fileList .action.action-share-notification span, #fileList a {
@@ -401,6 +401,10 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 }
 
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
+
+.fileactions a.action > img{
+	margin-bottom: -1px;
+}
 
 /* Actions for selected files */
 .selectedActions {
@@ -424,7 +428,6 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 #fileList a.action {
 	display: inline;
-	margin: -8px 0;
 	padding: 18px 8px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
