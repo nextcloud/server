@@ -752,4 +752,52 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($mountPoints));
 		$this->assertEquals($expected, $mountPoints['/'.self::TEST_USER1.'/files/ext']['options']['id']);
 	}
+
+	/**
+	 * Test for persistence of priority when changing mount options
+	 */
+	public function testPriorityPersistence() {
+		$class = '\OC\Files\Storage\SMB';
+		$priority = 123;
+		$mountConfig = array(
+			'host' => 'somehost',
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'root' => 'someroot'
+		);
+
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				$class,
+				$mountConfig,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				self::TEST_USER1,
+				false,
+				$priority
+			)
+		);
+
+		// Check for correct priority
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+		$this->assertEquals($priority,
+			$mountPoints['/'.self::TEST_USER1.'/files/ext']['priority']);
+
+		// Simulate changed mount options (without priority set)
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				$class,
+				$mountConfig,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				self::TEST_USER1,
+				false
+			)
+		);
+
+		// Check for correct priority
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+		$this->assertEquals($priority,
+			$mountPoints['/'.self::TEST_USER1.'/files/ext']['priority']);
+	}
 }
