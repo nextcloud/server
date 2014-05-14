@@ -61,7 +61,7 @@
 				<name>mountpoint</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>512</length>
+				<length>4000</length>
 				<comments>Full path where the share is mounted</comments>
 			</field>
 			<field>
