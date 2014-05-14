@@ -140,7 +140,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable();
 		} else {
-			return $this->fileView->fopen($this->path, 'rb');
+			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
 		}
 
 	}

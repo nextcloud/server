@@ -47,8 +47,12 @@ $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $
 	$rootInfo = $view->getFileInfo('');
 
 	// Create ownCloud Dir
-	$rootDir = new OC_Connector_Sabre_Directory($view, $rootInfo);
-	$objectTree->init($rootDir, $view);
+	if ($rootInfo->getType() === 'dir') {
+		$root = new OC_Connector_Sabre_Directory($view, $rootInfo);
+	} else {
+		$root = new OC_Connector_Sabre_File($view, $rootInfo);
+	}
+	$objectTree->init($root, $view);
 
 	$server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view));
 	$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
