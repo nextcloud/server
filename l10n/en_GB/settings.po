@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "You need to set your user email before being able to send test emails."
 msgid "Send mode"
 msgstr "Send mode"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "Encryption"
 
@@ -99,6 +99,16 @@ msgstr "Couldn't decrypt your files, please check your owncloud.log or ask your 
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Couldn't decrypt your files, check your password and try again"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email saved"
@@ -114,6 +124,16 @@ msgstr "Unable to delete group"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Unable to delete user"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -226,33 +246,41 @@ msgstr "Update"
 msgid "Updated"
 msgstr "Updated"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Select a profile picture"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Very weak password"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Weak password"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "So-so password"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Good password"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Strong password"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decrypting files... Please wait, this can take some time."
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -299,7 +327,7 @@ msgstr "A valid password must be provided"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Warning: Home directory for user \"{user}\" already exists"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "English (British English)"
 
@@ -624,11 +652,11 @@ msgstr "More"
 msgid "Less"
 msgstr "Less"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -792,17 +820,32 @@ msgid ""
 "WebDAV</a>"
 msgstr "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>"
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "The encryption app is no longer enabled, please decrypt all your files"
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr "Log-in password"
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
 msgstr "Decrypt all Files"
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-13 19:11+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,59 +27,59 @@ msgstr "Llocalización"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Clave"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Secretu"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
-msgstr ""
+msgstr "Depósitu"
 
 #: appinfo/app.php:47
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 y compatibilidá"
 
 #: appinfo/app.php:49
 msgid "Access Key"
-msgstr ""
+msgstr "Clave d'accesu"
 
 #: appinfo/app.php:50
 msgid "Secret Key"
-msgstr ""
+msgstr "Clave Secreta"
 
 #: appinfo/app.php:52
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Nome d'equipu (opcional)"
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Puertu (opcional)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
-msgstr ""
+msgstr "Rexón (opcional)"
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Habilitar SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Habilitar Estilu de ruta"
 
 #: appinfo/app.php:63
 msgid "App key"
-msgstr ""
+msgstr "App principal"
 
 #: appinfo/app.php:64
 msgid "App secret"
-msgstr ""
+msgstr "App secreta"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
 #: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
@@ -99,59 +99,59 @@ msgstr "Contraseña"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Raíz"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Secure ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
-msgstr ""
+msgstr "ID de veceru"
 
 #: appinfo/app.php:85
 msgid "Client secret"
-msgstr ""
+msgstr "Veceru secretu"
 
 #: appinfo/app.php:92
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "OpenStack Object Storage"
 
 #: appinfo/app.php:94
 msgid "Username (required)"
-msgstr ""
+msgstr "Nome d'usuariu (necesariu)"
 
 #: appinfo/app.php:95
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Depósitu (necesariu)"
 
 #: appinfo/app.php:96
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Rexón (opcional pa OpenStack Object Storage)"
 
 #: appinfo/app.php:97
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "Clave API (necesaria pa Rackspace Cloud Files)"
 
 #: appinfo/app.php:98
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Nome d'inquilín (necesariu pa OpenStack Object Storage)"
 
 #: appinfo/app.php:99
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Contraseña (necesaria pa OpenStack Object Storage)"
 
 #: appinfo/app.php:100
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Nome de Serviciu (necesariu pa OpenStack Object Storage)"
 
 #: appinfo/app.php:101
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "URL d'identidá de puntu final (necesariu pa OpenStack Object Storage)"
 
 #: appinfo/app.php:102
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Tiempu d'espera de peticiones HTTP en segundos (opcional)"
 
 #: appinfo/app.php:114 appinfo/app.php:123
 msgid "Share"
@@ -159,76 +159,76 @@ msgstr "Compartir"
 
 #: appinfo/app.php:119
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS usando accesu OC"
 
 #: appinfo/app.php:122
 msgid "Username as share"
-msgstr ""
+msgstr "Nome d'usuariu como Compartición"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Secure https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Subcarpeta remota"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
-msgstr ""
+msgstr "Accesu concedíu"
 
 #: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Fallu configurando l'almacenamientu de Dropbox"
 
 #: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
-msgstr ""
+msgstr "Conceder accesu"
 
 #: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Por favor, proporciona una clave válida de l'app Dropbox y una clave secreta."
 
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "Fallu configurando l'almacenamientu de Google Drive"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
 msgstr "Guardáu"
 
-#: lib/config.php:597
+#: lib/config.php:589
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Nota:</b> "
 
-#: lib/config.php:607
+#: lib/config.php:599
 msgid " and "
-msgstr ""
+msgstr "y"
 
-#: lib/config.php:629
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> El soporte de cURL en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale."
 
-#: lib/config.php:631
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> El soporte de FTP en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale."
 
-#: lib/config.php:633
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Nota:</b> \"%s\" nun ta instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale."
 
 #: templates/settings.php:2
 msgid "External Storage"
-msgstr ""
+msgstr "Almacenamientu esternu"
 
 #: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
@@ -236,7 +236,7 @@ msgstr "Nome de la carpeta"
 
 #: templates/settings.php:9
 msgid "External storage"
-msgstr ""
+msgstr "Almacenamientu esternu"
 
 #: templates/settings.php:10
 msgid "Configuration"
@@ -248,19 +248,19 @@ msgstr "Opciones"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Disponible pa"
 
 #: templates/settings.php:32
 msgid "Add storage"
-msgstr ""
+msgstr "Amestar almacenamientu"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Nengún usuariu o grupu"
 
 #: templates/settings.php:95
 msgid "All Users"
-msgstr ""
+msgstr "Tolos usuarios"
 
 #: templates/settings.php:97
 msgid "Groups"
@@ -277,16 +277,16 @@ msgstr "Desaniciar"
 
 #: templates/settings.php:132
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Habilitar almacenamientu esterno d'usuariu"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Permitir a los usuarios montar el siguiente almacenamientu esternu"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"
-msgstr ""
+msgstr "Certificaos raíz SSL"
 
 #: templates/settings.php:168
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importar certificáu raíz"

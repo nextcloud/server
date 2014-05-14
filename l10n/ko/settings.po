@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "암호화"
 
@@ -103,6 +103,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "이메일 저장됨"
@@ -118,6 +128,16 @@ msgstr "그룹을 삭제할 수 없음"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "사용자를 삭제할 수 없음."
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -230,33 +250,41 @@ msgstr "업데이트"
 msgid "Updated"
 msgstr "업데이트됨"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "프로필 사진 선택"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "매우 약한 암호"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "약한 암호"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "그저 그런 암호"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "좋은 암호"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "강력한 암호"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "파일 복호화 중... 시간이 걸릴 수도 있으니 기다려 주십시오."
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -303,7 +331,7 @@ msgstr "올바른 암호를 입력해야 함"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "경고: 사용자 \"{user}\"의 홈 디렉터리가 이미 존재합니다"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "한국어"
 
@@ -628,11 +656,11 @@ msgstr "더 중요함"
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -796,17 +824,32 @@ msgid ""
 "WebDAV</a>"
 msgstr "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>"
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "암호화 앱이 비활성화되었습니다. 모든 파일을 복호화해야 합니다."
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr "로그인 암호"
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
 msgstr "모든 파일 복호화"
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

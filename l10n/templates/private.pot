@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-13 01:55-0400\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: share/mailnotifications.php:72 share/mailnotifications.php:118
+#: share/mailnotifications.php:91 share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""
@@ -336,45 +336,45 @@ msgstr ""
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: share/share.php:941
+#: share/share.php:942
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: share/share.php:948
+#: share/share.php:949
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: share/share.php:954
+#: share/share.php:955
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: share/share.php:1368
+#: share/share.php:1370
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: share/share.php:1377
+#: share/share.php:1379
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: share/share.php:1392
+#: share/share.php:1394
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: share/share.php:1404
+#: share/share.php:1406
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: share/share.php:1418
+#: share/share.php:1420
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

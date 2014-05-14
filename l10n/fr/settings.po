@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: ptit_boogy <ptit.boogy@gmail.com>\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "Vous devez configurer votre e-mail d'utilisateur avant de pouvoir envoye
 msgid "Send mode"
 msgstr "Mode d'envoi"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "Chiffrement"
 
@@ -110,6 +110,16 @@ msgstr "Impossible de décrypter vos fichiers, veuillez vérifier votre owncloud
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Impossible de décrypter vos fichiers, vérifiez votre mot de passe et essayez à nouveau"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-mail sauvegardé"
@@ -125,6 +135,16 @@ msgstr "Impossible de supprimer le groupe"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Impossible de supprimer l'utilisateur"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -237,33 +257,41 @@ msgstr "Mettre à jour"
 msgid "Updated"
 msgstr "Mise à jour effectuée avec succès"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Selectionner une photo de profil "
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Mot de passe de très faible sécurité"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Mot de passe de faible sécurité"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Mot de passe de sécurité tout juste acceptable"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Mot de passe de sécurité suffisante"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Mot de passe de forte sécurité"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Déchiffrement en cours... Cela peut prendre un certain temps."
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -310,7 +338,7 @@ msgstr "Un mot de passe valide doit être saisi"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Attention : Le dossier Home pour l'utilisateur \"{user}\" existe déjà"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Français"
 
@@ -635,11 +663,11 @@ msgstr "Plus"
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -803,17 +831,32 @@ msgid ""
 "WebDAV</a>"
 msgstr "Utiliser cette adresse pour <a href=\"%s\" target=\"_blank\"> accéder à vos fichiers par WebDAV</a>"
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'app de chiffrement n’est plus activée, veuillez déchiffrer tous vos fichiers"
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr "Mot de passe de connexion"
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
 msgstr "Déchiffrer tous les fichiers"
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

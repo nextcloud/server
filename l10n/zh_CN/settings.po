@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "在发送测试邮件钱您需要设置您的用户电子邮件"
 msgid "Send mode"
 msgstr "发送模式"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "加密"
 
@@ -105,6 +105,16 @@ msgstr "无法解密您的文件，请检查您的 owncloud.log 或询问管理�
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "无法解密您的文件，请检查密码并重试。"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "电子邮件已保存"
@@ -120,6 +130,16 @@ msgstr "无法删除组"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "无法删除用户"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -232,33 +252,41 @@ msgstr "更新"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "选择头像"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "非常弱的密码"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "弱密码"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "一般强度的密码"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "较强的密码"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "强密码"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "正在解密文件... 请稍等，可能需要一些时间。"
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -305,7 +333,7 @@ msgstr "必须提供合法的密码"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：用户 \"{user}\" 的家目录已存在"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "简体中文"
 
@@ -630,11 +658,11 @@ msgstr "更多"
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -798,17 +826,32 @@ msgid ""
 "WebDAV</a>"
 msgstr "使用这个地址 <a href=\"%s\" target=\"_blank\">通过 WebDAV 访问您的文件</a>"
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "加密 app 不再被启用，请解密您所有的文件"
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr "登录密码"
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
 msgstr "解密所有文件"
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

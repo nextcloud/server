@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-13 01:55-0400\n"
-"PO-Revision-Date: 2014-05-13 04:27+0000\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 04:20+0000\n"
 "Last-Translator: tukos <kalyuzhniy@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -246,7 +246,7 @@ msgstr "Вызываемая команда была: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "Пользователь MySQL '%s'@'localhost' уже существует."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
@@ -255,7 +255,7 @@ msgstr "Удалить данного участника из MySQL/MariaDB"
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Пользователь MySQL '%s'@'%%' уже существует."
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
@@ -297,8 +297,8 @@ msgstr "Ваш веб сервер до сих пор не настроен пр
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s поделился »%s« с вами"
@@ -311,12 +311,12 @@ msgstr ""
 #: private/share/share.php:523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s, пользователь %s уже  является владельцем"
 
 #: private/share/share.php:529
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s, пользователь %s не существует."
 
 #: private/share/share.php:538
 #, php-format
@@ -328,79 +328,79 @@ msgstr ""
 #: private/share/share.php:551 private/share/share.php:579
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s ,в виду того что, объект уже находиться в общем доступе с %s"
 
 #: private/share/share.php:559
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s, группа %s не существует."
 
 #: private/share/share.php:566
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s, %s не является членом группы %s"
 
 #: private/share/share.php:629
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "Не удалось установить общий доступ для %s, потому что обмен со ссылками не допускается"
 
 #: private/share/share.php:636
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "Такой втд общего доступа как %s не допустим для %s"
 
 #: private/share/share.php:774
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Настройка прав доступа для %s невозможна, поскольку права доступа превышают предоставленные права доступа %s"
 
 #: private/share/share.php:835
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Не удалось произвести настройку прав доступа для %s , элемент не был найден."
 
-#: private/share/share.php:941
+#: private/share/share.php:942
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:948
+#: private/share/share.php:949
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:954
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1368
+#: private/share/share.php:1370
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1377
+#: private/share/share.php:1379
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1392
+#: private/share/share.php:1394
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1404
+#: private/share/share.php:1406
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1418
+#: private/share/share.php:1420
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -467,7 +467,7 @@ msgstr "несколько лет назад"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Только следующие символы допускаются в имени пользователя: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-\""
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"

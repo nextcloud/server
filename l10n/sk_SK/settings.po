@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Musíte nastaviť svoj po​​užívateľský email, než budete môcť
 msgid "Send mode"
 msgstr "Mód odosielania"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "Šifrovanie"
 
@@ -100,6 +100,16 @@ msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoj owncloud.log aleb
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoje heslo a skúste to znova"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email uložený"
@@ -115,6 +125,16 @@ msgstr "Nie je možné odstrániť skupinu"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Nie je možné odstrániť používateľa"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -227,33 +247,41 @@ msgstr "Aktualizovať"
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Vybrať avatara"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Veľmi slabé heslo"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Slabé heslo"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Priemerné heslo"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Dobré heslo"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Silné heslo"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dešifrujem súbory ... Počkajte prosím, môže to chvíľu trvať."
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -300,7 +328,7 @@ msgstr "Musíte zadať platné heslo"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Upozornenie: Domovský priečinok používateľa \"{user}\" už existuje"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Slovensky"
 
@@ -625,11 +653,11 @@ msgstr "Viac"
 msgid "Less"
 msgstr "Menej"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "Verzia"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -793,17 +821,32 @@ msgid ""
 "WebDAV</a>"
 msgstr "Použite túto linku <a href=\"%s\" target=\"_blank\">pre prístup k vašim súborom cez WebDAV</a>"
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Šifrovacia aplikácia už nie je spustená, dešifrujte všetky svoje súbory."
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr "Prihlasovacie heslo"
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
 msgstr "Dešifrovať všetky súbory"
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

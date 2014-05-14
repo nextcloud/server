@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
 msgid "Encryption"
 msgstr "Mã hóa"
 
@@ -99,6 +99,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Lưu email"
@@ -114,6 +124,16 @@ msgstr "Không thể xóa nhóm"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Không thể xóa người dùng"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -226,32 +246,40 @@ msgstr "Cập nhật"
 msgid "Updated"
 msgstr "Đã cập nhật"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
+msgstr ""
+
+#: js/personal.js:324
+msgid "Delete encryptin keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryptin keys."
 msgstr ""
 
 #: js/users.js:47
@@ -299,7 +327,7 @@ msgstr ""
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
@@ -624,11 +652,11 @@ msgstr "hơn"
 msgid "Less"
 msgstr "ít"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:433 templates/personal.php:202
 msgid "Version"
 msgstr "Phiên bản"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:437 templates/personal.php:205
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -792,16 +820,31 @@ msgid ""
 "WebDAV</a>"
 msgstr ""
 
-#: templates/personal.php:151
+#: templates/personal.php:156
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:157
+#: templates/personal.php:162
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:162
+#: templates/personal.php:167
 msgid "Decrypt all Files"
+msgstr ""
+
+#: templates/personal.php:180
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:184
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:188
+msgid "Delete Encryption Keys"
 msgstr ""
 
 #: templates/users.php:19

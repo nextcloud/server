@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 12:00+0000\n"
+"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"PO-Revision-Date: 2014-05-13 20:37+0000\n"
 "Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:713
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:714
+#: base.php:686
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -293,8 +293,8 @@ msgstr "O seu servidor web não está configurado correctamente para autorizar s
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor verifique <a href='%s'>installation guides</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s partilhado »%s« consigo"
@@ -307,7 +307,7 @@ msgstr ""
 #: private/share/share.php:523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "A partilha %s falhou, porque o utilizador %s é o proprietário"
 
 #: private/share/share.php:529
 #, php-format
@@ -358,45 +358,45 @@ msgstr ""
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:941
+#: private/share/share.php:942
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:948
+#: private/share/share.php:949
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:954
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1368
+#: private/share/share.php:1370
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1377
+#: private/share/share.php:1379
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1392
+#: private/share/share.php:1394
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1404
+#: private/share/share.php:1406
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1418
+#: private/share/share.php:1420
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
