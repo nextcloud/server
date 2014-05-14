@@ -6,6 +6,7 @@ $this->create('core_ajax_public_preview', '/publicpreview')->action(
 	});
 
 $this->create('sharing_external_add', '/external')->actionInclude('files_sharing/ajax/external.php');
+$this->create('sharing_external_test_remote', '/testremote')->actionInclude('files_sharing/ajax/testremote.php');
 
 // OCS API
 

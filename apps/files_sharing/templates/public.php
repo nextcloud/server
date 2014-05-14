@@ -15,10 +15,20 @@
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
-			<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
-				<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
-				<?php p($l->t('Download'))?>
-			</a>
+			<span id="details">
+				<span id="save" data-owner="<?php p($_['displayName'])?>" data-name="<?php p($_['filename'])?>">
+					<button><?php p($l->t('Save to ownCloud')) ?></button>
+					<form class="save-form hidden" action="#">
+						<input type="text" id="remote_address" placeholder="<?php p($l->t('example.com/owncloud')) ?>"/>
+						<input type="submit" value="<?php p($l->t('Save')) ?>"/>
+					</form>
+				</span>
+				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
+					<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
+					<?php p($l->t('Download'))?>
+				</a>
+				<?php p($l->t('shared by %s', array($_['displayName']))) ?>
+			</span>
 		</div>
 </div></header>
 <div id="content">

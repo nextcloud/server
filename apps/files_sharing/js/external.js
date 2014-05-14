@@ -22,7 +22,7 @@ $(document).ready(function () {
 			password = password || '';
 			if (add) {
 				addExternalShare(remote, token, owner, name, password).then(function (result) {
-					if (result) {
+					if (result && result !== 'false') {
 						FileList.reload();
 					} else {
 						OC.dialogs.alert('Error adding ' + name, 'Error adding share');
@@ -37,7 +37,7 @@ $(document).ready(function () {
 		}
 	};
 
-	if (window.FileList) {// only run in the files app
+	if (window.FileList && window.FileList.appName === 'Files') {// only run in the files app
 		var hash = location.hash;
 		location.hash = '';
 		var remote = getParameterByName(hash, 'remote');
