@@ -7,7 +7,7 @@ if($state === 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 
-$installedVersion = OCP\Config::getAppValue('files_sharing', 'installed_version');
+$installedVersion = OCP\Config::getAppValue('user_ldap', 'installed_version');
 $enableRawMode = false;
 if (version_compare($installedVersion, '0.4.1', '<')) {
 	$enableRawMode = true;
