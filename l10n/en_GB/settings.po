@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -101,13 +101,13 @@ msgstr "Couldn't decrypt your files, check your password and try again"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Encryption keys deleted permanently"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Couldn't permanently delete your encryption keys, please check your owncloud.log or ask your administrator"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -127,13 +127,13 @@ msgstr "Unable to delete user"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Backups restored successfully"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Couldn't restore your encryption keys, please check your owncloud.log or ask your administrator"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -190,7 +190,7 @@ msgstr "Back-end doesn't support password change, but the user's encryption key 
 msgid "Unable to change password"
 msgstr "Unable to change password"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Sending..."
 
@@ -276,11 +276,11 @@ msgstr "Decrypting files... Please wait, this can take some time."
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "Delete encryption keys permanently."
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "Restore encryption keys."
 
 #: js/users.js:47
 msgid "deleted"
@@ -515,62 +515,53 @@ msgstr "Allow apps to use the Share API"
 msgid "Allow links"
 msgstr "Allow links"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Allow users to share items to the public with links"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Allow public uploads"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Allow users to enable others to upload into their publicly shared folders"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Allow resharing"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Allow users to share items shared with them again"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Allow users to share with anyone"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Allow users to only share with users in their groups"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Allow mail notification"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Allow users to send mail notification for shared files"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Set default expiry date"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Expire after "
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "days"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Enforce expiry date"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Allow users to share items to the public with links"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Allow resharing"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Allow users to share items shared with them again"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Allow users to share with anyone"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Allow users to only share with users in their groups"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Allow mail notification"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Expire shares by default after N days"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Allow users to send mail notification for shared files"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -837,15 +828,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Restore Encryption Keys"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Delete Encryption Keys"
 
 #: templates/users.php:19
 msgid "Login Name"

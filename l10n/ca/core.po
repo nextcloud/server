@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -61,79 +61,79 @@ msgstr "No hi ha imatge temporal de perfil disponible, torneu a intentar-ho"
 msgid "No crop data provided"
 msgstr "No heu proporcionat dades del retall"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Diumenge"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Dilluns"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Dimarts"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Dimecres"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Dijous"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Divendres"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Dissabte"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Gener"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Febrer"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Març"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Abril"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Maig"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Juny"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Juliol"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Agost"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Setembre"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Octubre"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Novembre"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Desembre"
 
@@ -193,75 +193,75 @@ msgstr "l'any passat"
 msgid "years ago"
 msgstr "anys enrere"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Escull"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Error en carregar la plantilla de càrrega de fitxers: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Escull"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Error en carregar la plantilla de càrrega de fitxers: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "D'acord"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Error en carregar la plantilla de missatge: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflicte de fitxer"
 msgstr[1] "{count} conflictes de fitxer"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Un fitxer en conflicte"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Fitxers nous"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Fitxers que ja existeixen"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Quin fitxer voleu conservar?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Si seleccioneu les dues versions, el fitxer copiat tindrà un número afegit al seu nom."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Continua"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(selecciona-ho tot)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} seleccionats)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Error en carregar la plantilla de fitxer existent"
 
@@ -293,12 +293,12 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:810
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -326,107 +326,116 @@ msgstr "Comparteix amb usuari o grup..."
 msgid "Share link"
 msgstr "Enllaç de compartició"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:234
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
+#: js/share.js:236 templates/installation.php:60 templates/login.php:40
 msgid "Password"
 msgstr "Contrasenya"
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Permet pujada pública"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Enllaç per correu electrónic amb la persona"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Envia"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Estableix la data de venciment"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Data de venciment"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "notifica per correu electrònic"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:721
+#: js/share.js:734
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:734
+#: js/share.js:747
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:752
+#: js/share.js:768
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:777
+#: js/share.js:797
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:788
+#: js/share.js:808
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
-#: js/share.js:812
+#: js/share.js:832
 msgid "Warning"
 msgstr "Avís"
 

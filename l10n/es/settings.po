@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -115,13 +115,13 @@ msgstr "No se pudo descifrar sus archivos. Revise su contraseña e inténtelo de
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Claves de cifrado eliminadas permanentemente"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "No se pudieron eliminar permanentemente sus claves de cifrado. Revise owncloud.log o consulte con su administrador."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -141,13 +141,13 @@ msgstr "No se pudo eliminar el usuario"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Copia de seguridad restaurada"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "No se pudieron restarurar sus claves de cifrado. Revise owncloud.log o consulte con su administrador."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -204,7 +204,7 @@ msgstr "El back-end no soporta cambios de contraseña, pero la clave de cifrado 
 msgid "Unable to change password"
 msgstr "No se ha podido cambiar la contraseña"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Enviando..."
 
@@ -290,11 +290,11 @@ msgstr "Descifrando archivos... Espere por favor, esto puede llevar algo de tiem
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "Eliminar claves de cifrado."
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "Restaurar claves de cifrado."
 
 #: js/users.js:47
 msgid "deleted"
@@ -529,62 +529,53 @@ msgstr "Permitir a las aplicaciones utilizar la API de Compartición"
 msgid "Allow links"
 msgstr "Permitir enlaces"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Permitir a los usuarios compartir elementos con el público mediante enlaces"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Permitir subidas públicas"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permitir a los usuarios habilitar a otros para subir archivos en sus carpetas compartidas públicamente"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Permitir re-compartición"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Permitir a los usuarios compartir de nuevo elementos ya compartidos"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Permitir a los usuarios compartir con cualquier persona"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Permitir a los usuarios compartir sólo con los usuarios en sus grupos"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Permitir notificaciones por correo electrónico"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Permitir a los usuarios enviar mensajes de notificación para ficheros compartidos"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Establecer fecha de caducidad predeterminada"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Caduca luego de"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "días"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Imponer fecha de caducidad"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir a los usuarios compartir elementos con el público mediante enlaces"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Permitir re-compartición"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Permitir a los usuarios compartir de nuevo elementos ya compartidos"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Permitir a los usuarios compartir con cualquier persona"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir a los usuarios compartir sólo con los usuarios en sus grupos"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Permitir notificaciones por correo electrónico"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Archivos compartidos caducan luego de N días"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permitir a los usuarios enviar mensajes de notificación para ficheros compartidos"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -855,11 +846,11 @@ msgstr ""
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Restaurar claves de cifrado"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Eliminar claves de cifrado"
 
 #: templates/users.php:19
 msgid "Login Name"

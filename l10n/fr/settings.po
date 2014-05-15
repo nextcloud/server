@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr "L'infrastructure d'arrière-plan ne supporte pas la modification de mot 
 msgid "Unable to change password"
 msgstr "Impossible de modifier le mot de passe"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Envoi en cours..."
 
@@ -526,62 +526,53 @@ msgstr "Autoriser les applications à utiliser l'API de partage"
 msgid "Allow links"
 msgstr "Autoriser les liens"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'aide de liens"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Autoriser les téléversements publics"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permet d'autoriser les autres utilisateurs à téléverser dans le dossier partagé public de l'utilisateur"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Autoriser le repartage"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Autoriser les utilisateurs à partager des éléments qui ont été partagés avec eux"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Autoriser les utilisateurs à partager avec tout le monde"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Autoriser les notifications par couriel"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Autoriser les utilisateurs à envoyer une notification par courriel concernant les fichiers partagés"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Spécifier la date d'expiration par défaut"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Expire après"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "jours"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Impose la date d'expiration"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'aide de liens"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Autoriser le repartage"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Autoriser les utilisateurs à partager des éléments qui ont été partagés avec eux"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Autoriser les utilisateurs à partager avec tout le monde"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Autoriser les notifications par couriel"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Par défaut, les partages expireront après N jours"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Autoriser les utilisateurs à envoyer une notification par courriel concernant les fichiers partagés"
 
 #: templates/admin.php:278
 msgid "Security"

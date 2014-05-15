@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-13 19:41+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,79 +61,79 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Domingu"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Llunes"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Martes"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Xueves"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Vienres"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Sábadu"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Xineru"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Febreru"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Marzu"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Abril"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mayu"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Xunu"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Xunetu"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Agostu"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Setiembre"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Ochobre"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Payares"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Avientu"
 
@@ -293,12 +293,12 @@ msgstr "Compartíu"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:810
 msgid "Error while sharing"
 msgstr "Fallu mientres la compartición"
 
@@ -326,107 +326,116 @@ msgstr ""
 msgid "Share link"
 msgstr "Compartir enllaz"
 
-#: js/share.js:223
-msgid "Password protect"
-msgstr "Protexer con contraseña"
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Contraseña"
-
-#: js/share.js:230
-msgid "Allow Public Upload"
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
 msgstr ""
 
 #: js/share.js:234
+msgid "Password protect"
+msgstr "Protexer con contraseña"
+
+#: js/share.js:236 templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Contraseña"
+
+#: js/share.js:241
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Enlláz de corréu electrónicu a la persona"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Unviar"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Afitar la data de caducidá"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Data de caducidá"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Compartir vía corréu electrónicu:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Nun s'atoparon persones"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Recompartir nun ta permitíu"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Compartíu en {item} con {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:721
+#: js/share.js:734
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:734
+#: js/share.js:747
 msgid "Error unsetting expiration date"
 msgstr "Fallu desafitando la data de caducidá"
 
-#: js/share.js:752
+#: js/share.js:768
 msgid "Error setting expiration date"
 msgstr "Fallu afitando la fecha de caducidá"
 
-#: js/share.js:777
+#: js/share.js:797
 msgid "Sending ..."
 msgstr "Unviando ..."
 
-#: js/share.js:788
+#: js/share.js:808
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:812
+#: js/share.js:832
 msgid "Warning"
 msgstr "Avisu"
 

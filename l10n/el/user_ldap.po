@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-14 11:30+0000\n"
+"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,25 +129,25 @@ msgstr "Θέλετε να διαγράψετε τις τρέχουσες ρυθ�
 msgid "Confirm Deletion"
 msgstr "Επιβεβαίωση Διαγραφής"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s ομάδα βρέθηκε"
 msgstr[1] "%s ομάδες βρέθηκαν"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s χρήστης βρέθηκε"
 msgstr[1] "%s χρήστες βρέθηκαν"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Άκυρος εξυπηρετητής"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Αδυναμία εύρεσης επιθυμητου χαρακτηριστικού"
 
@@ -339,7 +339,7 @@ msgstr "Σύνδεση μόνο με το διακομιστή-αντίγραφ�
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Διακομιστής LDAP με διάκριση πεζών-κεφαλαίων (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -424,14 +424,14 @@ msgstr ""
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Μέγεθος σελιδοποίησης"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "Μέγεθος τμήματος που χρησιμοποιείται για την σελιδοποίηση αναζητήσεων LDAP που μπορεί να επιστρέψουν πολλά δεδομένα, όπως απαρίθμηση χρηστών ή ομάδων. (Η τιμή 0 απενεργοποιεί την σελιδοποίηση των αναζητήσεων LDAP σε αυτές τις περιπτώσεις.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

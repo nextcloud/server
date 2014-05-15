@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -104,13 +104,13 @@ msgstr "Impossibile decifrare i tuoi file, controlla la password e prova ancora"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Chiavi di cifratura eliminate definitivamente"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Impossibile eliminare definitivamente le chiavi di cifratura, controlla il file owncloud.log o chiedi al tuo amministratore"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -130,13 +130,13 @@ msgstr "Impossibile eliminare l'utente"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Copie di sicurezza ripristinate correttamente"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Impossibile ripristinare le chiavi di cifratura, controlla il file owncloud.log o chiedi al tuo amministratore"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -193,7 +193,7 @@ msgstr "Il motore non supporta la modifica della password, ma la chiave di cifra
 msgid "Unable to change password"
 msgstr "Impossibile cambiare la password"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Invio in corso..."
 
@@ -279,11 +279,11 @@ msgstr "Decifratura dei file in corso... Attendi, potrebbe richiedere del tempo.
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "Elimina definitivamente le chiavi di cifratura."
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "Ripristina le chiavi di cifratura."
 
 #: js/users.js:47
 msgid "deleted"
@@ -518,62 +518,53 @@ msgstr "Consenti alle applicazioni di utilizzare le API di condivisione"
 msgid "Allow links"
 msgstr "Consenti collegamenti"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Consenti caricamenti pubblici"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Consenti agli utenti di abilitare altri al caricamento nelle loro cartelle pubbliche condivise"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Consenti la ri-condivisione"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Consenti agli utenti di condividere a loro volta elementi condivisi da altri"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Consenti agli utenti di condividere con chiunque"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Consenti agli utenti di condividere solo con utenti dei loro gruppi"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Consenti le notifiche tramite posta elettronica"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Consenti agli utenti di inviare email di notifica per i file condivisi"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Imposta data di scadenza predefinita"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Scadenza dopo"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "giorni"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Forza la data di scadenza"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Consenti la ri-condivisione"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Consenti agli utenti di condividere a loro volta elementi condivisi da altri"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Consenti agli utenti di condividere con chiunque"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Consenti agli utenti di condividere solo con utenti dei loro gruppi"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Consenti le notifiche tramite posta elettronica"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Le condivisioni scadono in modo predefinito dopo N giorni"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Consenti agli utenti di inviare email di notifica per i file condivisi"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -840,15 +831,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Le tue chiavi di cifratura sono state spostate in una posizione sicura. Se qualcosa non dovesse funzionare, potrai ripristinare le chiavi. Eliminale definitivamente solo se sei sicuro che tutti i file siano stati decifrati."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Ripristina chiavi di cifratura"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Elimina chiavi di cifratura"
 
 #: templates/users.php:19
 msgid "Login Name"

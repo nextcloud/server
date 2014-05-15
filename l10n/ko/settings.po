@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -194,7 +194,7 @@ msgstr "백엔드에서 암호 변경을 지원하지 않지만, 사용자의 �
 msgid "Unable to change password"
 msgstr "암호를 변경할 수 없음"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "보내는 중..."
 
@@ -519,61 +519,52 @@ msgstr "앱에서 공유 API를 사용할 수 있도록 허용"
 msgid "Allow links"
 msgstr "링크 허용"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "공개 업로드 허용"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "다른 사용자들이 공개된 공유 폴더에 파일 업로드 허용"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "재공유 허용"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "누구나와 공유할 수 있도록 허용"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "사용자가 속해 있는 그룹의 사용자에게만 공유할 수 있도록 허용"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "메일 알림 허용"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr ""
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "재공유 허용"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "누구나와 공유할 수 있도록 허용"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "사용자가 속해 있는 그룹의 사용자에게만 공유할 수 있도록 허용"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "메일 알림 허용"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
+msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
 #: templates/admin.php:278

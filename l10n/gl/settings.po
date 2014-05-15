@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -102,13 +102,13 @@ msgstr "Non foi posíbel descifrar os seus ficheiros. revise o seu contrasinal e
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "As chaves de cifrado foron eliminadas permanentemente"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Non foi posíbel eliminar permanentemente as chaves de cifrado. revise o ficheiro de rexistro owncloud.log, ou pregúntelle ao administrador"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -128,13 +128,13 @@ msgstr "Non é posíbel eliminar o usuario"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "As copias de seguranza foron restauradas satisfactoriamente"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Non foi posíbel restaurar as chaves de cifrado. revise o ficheiro de rexistro owncloud.log, ou pregúntelle ao administrador"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -191,7 +191,7 @@ msgstr "A infraestrutura non admite o cambio de contrasinal, mais a chave de cif
 msgid "Unable to change password"
 msgstr "Non é posíbel cambiar o contrasinal"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Enviando..."
 
@@ -277,11 +277,11 @@ msgstr "Descifrando ficheiros... isto pode levar un anaco."
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "Eliminar permanentemente as chaves de cifrado"
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "Restaurar as chaves de cifrado"
 
 #: js/users.js:47
 msgid "deleted"
@@ -516,62 +516,53 @@ msgstr "Permitir que os aplicativos empreguen o API para compartir"
 msgid "Allow links"
 msgstr "Permitir ligazóns"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Permitir que os usuarios compartan elementos ao público con ligazóns"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Permitir os envíos públicos"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permitir que os usuarios lle permitan a outros enviar aos seus cartafoles compartidos publicamente"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Permitir compartir"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Permitir que os usuarios compartan de novo os elementos compartidos con eles"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Permitir que os usuarios compartan con calquera"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Permitir que os usuarios compartan só cos usuarios dos seus grupos"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Permitir o envío de notificacións por correo"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Permitirlle aos usuarios enviar notificacións por correo para os ficheiros compartidos"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Definir a data predeterminada de caducidade"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Caduca após"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "días"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Obrigar a data de caducidade"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir que os usuarios compartan elementos ao público con ligazóns"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Permitir compartir"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Permitir que os usuarios compartan de novo os elementos compartidos con eles"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Permitir que os usuarios compartan con calquera"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir que os usuarios compartan só cos usuarios dos seus grupos"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Permitir o envío de notificacións por correo"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "As comparticións, de xeito predeterminado, caducan aos N días"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permitirlle aos usuarios enviar notificacións por correo para os ficheiros compartidos"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -838,15 +829,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "As chaves de cifrado foron movidas á copia de seguranza. Se ten algún problema pode restaurar as chaves. Elimineas permanentemente só se está seguro de que é posíbel descifrar correctamente todos os ficheiros."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Restaurar as chaves de cifrado"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Eliminar as chaves de cifrado"
 
 #: templates/users.php:19
 msgid "Login Name"

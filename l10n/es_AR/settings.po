@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgstr "El back-end no soporta cambios de contraseña, pero las claves de encrip
 msgid "Unable to change password"
 msgstr "Imposible cambiar la contraseña"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Enviando..."
 
@@ -518,62 +518,53 @@ msgstr "Permitir a las aplicaciones usar la Share API"
 msgid "Allow links"
 msgstr "Permitir enlaces"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Permitir a los usuarios compartir enlaces públicos"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Permitir subidas públicas"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permitir que los usuarios autoricen a otros a subir archivos en sus directorios públicos compartidos"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Permitir Re-Compartir"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Permite a los usuarios volver a compartir items que les fueron compartidos"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Permitir a los usuarios compartir con cualquiera."
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Permitir a los usuarios compartir sólo con los de sus mismos grupos"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Permitir notificaciones por correo"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Habilitar a los usuarios para enviar notificaciones por correo para archivos compartidos"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr ""
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir a los usuarios compartir enlaces públicos"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Permitir Re-Compartir"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Permite a los usuarios volver a compartir items que les fueron compartidos"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Permitir a los usuarios compartir con cualquiera."
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir a los usuarios compartir sólo con los de sus mismos grupos"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Permitir notificaciones por correo"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr ""
+msgid "Allow users to send mail notification for shared files"
+msgstr "Habilitar a los usuarios para enviar notificaciones por correo para archivos compartidos"
 
 #: templates/admin.php:278
 msgid "Security"

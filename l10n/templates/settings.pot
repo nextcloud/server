@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,7 +188,7 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr ""
 
@@ -513,61 +513,52 @@ msgstr ""
 msgid "Allow links"
 msgstr ""
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr ""
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr ""
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr ""
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr ""
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr ""
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr ""
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr ""
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
+msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
 #: templates/admin.php:278

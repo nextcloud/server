@@ -67,7 +67,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","%n μήνες πριν"),
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Μόνο οι παρακάτων χαρακτήρες επιτρέπονται σε ένα όνομα χρήστη: \"a-z\", \"A-Z\", \"0-9\" και \"_.@-\"",
 "A valid username must be provided" => "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
-"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό"
+"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό",
+"The username is already being used" => "Το όνομα χρήστη είναι κατειλημμένο"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

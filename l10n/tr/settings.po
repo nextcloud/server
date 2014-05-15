@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -104,13 +104,13 @@ msgstr "Dosyalarınızın şifresi kaldırılamadı, parolanızı denetleyip yen
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Şifreleme anahtarları kalıcı olarak silindi"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Şifreleme anahtarlarınız kalıcı olarak silinemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -130,13 +130,13 @@ msgstr "Kullanıcı silinemiyor"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Yedekler başarıyla geri yüklendi"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Şifreleme anahtarlarınız geri yüklenemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -193,7 +193,7 @@ msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme 
 msgid "Unable to change password"
 msgstr "Parola değiştirilemiyor"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Gönderiliyor..."
 
@@ -279,11 +279,11 @@ msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman a
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "Şifreleme anahtarlarını kalıcı olarak sil."
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "Şifreleme anahtarlarını geri yükle."
 
 #: js/users.js:47
 msgid "deleted"
@@ -518,62 +518,53 @@ msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 msgid "Allow links"
 msgstr "Bağlantılara izin ver"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Paylaşıma izin ver"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Posta bilgilendirmesine izin ver"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "Öntanımlı son kullanma tarihini ayarla"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "Şu süreden sonra süresi dolsun"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "gün"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "Son kullanma tarihini zorla"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Paylaşıma izin ver"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Posta bilgilendirmesine izin ver"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Paylaşımların süresini öntanımlı olarak N günden sonra doldur"
+msgid "Allow users to send mail notification for shared files"
+msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -719,7 +710,7 @@ msgstr "Ticari Destek"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Dosyalarınızı eşitlemek için uygulamayı indirin"
+msgstr "Dosyalarınızı eşitlemek için uygulamaları indirin"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
@@ -840,15 +831,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Şifreleme anahtarlarınız yedek bir konuma taşındı. Eğer bir şeyler yanlış gittiyse, anahtarlarınızı geri yükleyebilirsiniz. Bu anahtarları, sadece tüm dosyalarınızın düzgün bir şekilde şifrelerinin çözüldüğünden eminseniz kalıcı olarak silin."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Şifreleme Anahtarlarını Geri Yükle"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Şifreleme Anahtarlarını Sil"
 
 #: templates/users.php:19
 msgid "Login Name"

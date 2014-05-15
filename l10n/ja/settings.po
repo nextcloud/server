@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -106,13 +106,13 @@ msgstr "ファイルを復号化することができませんでした。パス
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "暗号化キーは完全に削除されます"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "暗号化キーを完全に削除できませんでした。owncloud.logを確認するか、管理者に問い合わせてください。"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -132,13 +132,13 @@ msgstr "ユーザーを削除できません"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "バックアップの復元に成功しました"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "暗号化キーを復元できませんでした。owncloud.logを確認するか、管理者に問い合わせてください。"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -195,7 +195,7 @@ msgstr "バックエンドはパスワード変更をサポートしていませ
 msgid "Unable to change password"
 msgstr "パスワードを変更できません"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "送信中…"
 
@@ -281,11 +281,11 @@ msgstr "ファイルを複合中... しばらくお待ちください、この�
 
 #: js/personal.js:324
 msgid "Delete encryptin keys permanently."
-msgstr ""
+msgstr "暗号化キーを完全に削除します。"
 
 #: js/personal.js:338
 msgid "Restore encryptin keys."
-msgstr ""
+msgstr "暗号化キーを復元します。"
 
 #: js/users.js:47
 msgid "deleted"
@@ -520,62 +520,53 @@ msgstr "アプリからの共有APIの利用を許可する"
 msgid "Allow links"
 msgstr "リンクを許可する"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "公開している共有フォルダーへのアップロードを共有しているメンバーにも許可"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "再共有を許可する"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "ユーザーが共有しているアイテムの再共有を許可する"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "ユーザーに誰とでも共有することを許可する"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "メール通知を許可"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr "有効期限の既定値を設定"
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr "無効になるまで"
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr "日"
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr "有効期限を反映させる"
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "再共有を許可する"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "ユーザーが共有しているアイテムの再共有を許可する"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "ユーザーに誰とでも共有することを許可する"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "メール通知を許可"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "既定値では N 日後に共有を無効にします"
+msgid "Allow users to send mail notification for shared files"
+msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -842,15 +833,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "暗号化キーはバックアップ場所に移動されました。何か問題があった場合は、キーを復元することができます。すべてのファイルが正しく復号化されたことが確信できる場合にのみ、キーを完全に削除してください。"
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "暗号化キーを復元する"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "暗号化キーを削除する"
 
 #: templates/users.php:19
 msgid "Login Name"

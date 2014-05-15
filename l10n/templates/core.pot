@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,79 +59,79 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr ""
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr ""
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr ""
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr ""
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr ""
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr ""
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr ""
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr ""
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr ""
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr ""
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr ""
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr ""
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr ""
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr ""
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr ""
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr ""
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr ""
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr ""
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr ""
 
@@ -291,12 +291,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
 #: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:810
 msgid "Error while sharing"
 msgstr ""
 
@@ -324,107 +324,116 @@ msgstr ""
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:223
-msgid "Password protect"
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr ""
-
-#: js/share.js:230
-msgid "Allow Public Upload"
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
 msgstr ""
 
 #: js/share.js:234
-msgid "Email link to person"
+msgid "Password protect"
 msgstr ""
 
-#: js/share.js:235
-msgid "Send"
-msgstr ""
-
-#: js/share.js:240
-msgid "Set expiration date"
+#: js/share.js:236 templates/installation.php:60 templates/login.php:40
+msgid "Password"
 msgstr ""
 
 #: js/share.js:241
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:245
+msgid "Email link to person"
+msgstr ""
+
+#: js/share.js:246
+msgid "Send"
+msgstr ""
+
+#: js/share.js:251
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:252
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr ""
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr ""
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr ""
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr ""
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr ""
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr ""
 
-#: js/share.js:721
+#: js/share.js:734
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:734
+#: js/share.js:747
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:752
+#: js/share.js:768
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:777
+#: js/share.js:797
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:788
+#: js/share.js:808
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:812
+#: js/share.js:832
 msgid "Warning"
 msgstr ""
 

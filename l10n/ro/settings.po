@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-14 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 05:54+0000\n"
+"POT-Creation-Date: 2014-05-15 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,7 @@ msgstr ""
 msgid "Unable to change password"
 msgstr "Imposibil de schimbat parola"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Se expediază..."
 
@@ -517,62 +517,53 @@ msgstr "Permite aplicațiilor să folosească API-ul de partajare"
 msgid "Allow links"
 msgstr "Pemite legături"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
-
-#: templates/admin.php:227
+#: templates/admin.php:225
 msgid "Allow public uploads"
 msgstr "Permite încărcări publice"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permite utilizatorilor sa activeze opțiunea de încărcare a fișierelor în dosarele lor publice de către alte persoane"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Permite repartajarea"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Permite utilizatorilor să partajeze cu oricine"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același grup"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Permite notificări prin e-mail"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune"
-
-#: templates/admin.php:262
+#: templates/admin.php:229
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:231
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:234
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:237
 msgid "Enforce expiration date"
 msgstr ""
 
+#: templates/admin.php:241
+msgid "Allow users to share items to the public with links"
+msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
+
+#: templates/admin.php:251
+msgid "Allow resharing"
+msgstr "Permite repartajarea"
+
+#: templates/admin.php:252
+msgid "Allow users to share items shared with them again"
+msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
+
+#: templates/admin.php:259
+msgid "Allow users to share with anyone"
+msgstr "Permite utilizatorilor să partajeze cu oricine"
+
+#: templates/admin.php:262
+msgid "Allow users to only share with users in their groups"
+msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același grup"
+
+#: templates/admin.php:269
+msgid "Allow mail notification"
+msgstr "Permite notificări prin e-mail"
+
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr ""
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune"
 
 #: templates/admin.php:278
 msgid "Security"
