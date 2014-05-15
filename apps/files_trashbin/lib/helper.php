@@ -20,7 +20,7 @@ class Helper
 		$timestamp = null;
 		$user = \OCP\User::getUser();
 
-		$view = new \OC_Filesystemview('/' . $user . '/files_trashbin/files');
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin/files');
 
 		if (ltrim($dir, '/') !== '' && !$view->is_dir($dir)) {
 			throw new \Exception('Directory does not exists');
