@@ -422,7 +422,7 @@ class Hooks {
 
 	/**
 	 * @brief after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
-	 * @param array with oldpath and newpath
+	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
 	 * of the stored versions along the actual file

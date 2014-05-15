@@ -359,10 +359,10 @@ class OC_Mount_Config {
 	* Add a mount point to the filesystem
 	* @param string $mountPoint Mount point
 	* @param string $class Backend class
-	* @param array Backend parameters for the class
+	* @param array $classOptions Backend parameters for the class
 	* @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
 	* @param string $applicable User or group to apply mount to
-	* @param bool Personal or system mount point i.e. is this being called from the personal or admin page
+	* @param bool $isPersonal Personal or system mount point i.e. is this being called from the personal or admin page
 	* @return boolean
 	*/
 	public static function addMountPoint($mountPoint,
@@ -410,10 +410,10 @@ class OC_Mount_Config {
 
 	/**
 	*
-	* @param string Mount point
-	* @param string MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
-	* @param string User or group to remove mount from
-	* @param bool Personal or system mount point
+	* @param string $mountPoint Mount point
+	* @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
+	* @param string $applicable User or group to remove mount from
+	* @param bool $isPersonal Personal or system mount point
 	* @return bool
 	*/
 	public static function removeMountPoint($mountPoint, $mountType, $applicable, $isPersonal = false) {

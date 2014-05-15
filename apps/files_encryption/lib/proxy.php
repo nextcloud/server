@@ -226,7 +226,7 @@ class Proxy extends \OC_FileProxy {
 
 	/**
 	 * @param string $path
-	 * @param $result
+	 * @param resource $result
 	 * @return resource
 	 */
 	public function postFopen($path, &$result) {

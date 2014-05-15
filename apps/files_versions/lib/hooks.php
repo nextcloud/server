@@ -30,7 +30,7 @@ class Hooks {
 
 	/**
 	 * @brief Erase versions of deleted file
-	 * @param array
+	 * @param array $params
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
 	 * cleanup the versions directory if the actual file gets deleted
@@ -58,7 +58,7 @@ class Hooks {
 
 	/**
 	 * @brief rename/move versions of renamed/moved files
-	 * @param array with oldpath and newpath
+	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
 	 * of the stored versions along the actual file
@@ -76,7 +76,7 @@ class Hooks {
 
 	/**
 	 * @brief clean up user specific settings if user gets deleted
-	 * @param array with uid
+	 * @param array $params array with uid
 	 *
 	 * This function is connected to the pre_deleteUser signal of OC_Users
 	 * to remove the used space for versions stored in the database
