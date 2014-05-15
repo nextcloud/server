@@ -225,12 +225,12 @@ abstract class Mapper {
 	 */
 	protected function findOneQuery($sql, array $params=array(), $limit=null, $offset=null){
 		$result = $this->execute($sql, $params, $limit, $offset);
-		$row = $result->fetchRow();
+		$row = $result->fetch();
 
 		if($row === false || $row === null){
 			throw new DoesNotExistException('No matching entry found');
 		}
-		$row2 = $result->fetchRow();
+		$row2 = $result->fetch();
 		//MDB2 returns null, PDO and doctrine false when no row is available
 		if( ! ($row2 === false || $row2 === null )) {
 			throw new MultipleObjectsReturnedException('More than one result');
@@ -264,7 +264,7 @@ abstract class Mapper {
 
 		$entities = array();
 		
-		while($row = $result->fetchRow()){
+		while($row = $result->fetch()){
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
