@@ -21,13 +21,6 @@
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
 		appName: 'Shares',
 
-		SHARE_TYPE_TEXT: [
-			t('files_sharing', 'User'),
-			t('files_sharing', 'Group'),
-			t('files_sharing', 'Unknown'),
-			t('files_sharing', 'Public')
-		],
-
 		/**
 		 * Whether the list shows the files shared with the user (true) or
 		 * the files that the user shared with others (false).
@@ -45,30 +38,13 @@
 			}
 		},
 
-		/**
-		 * Compare two shares
-		 * @param share1 first share
-		 * @param share2 second share
-		 * @return 1 if share2 should come before share1, -1
-		 * if share1 should come before share2, 0 if they
-		 * are identical.
-		 */
-		_shareCompare: function(share1, share2) {
-			var result = OCA.Files.FileList.Comparators.name(share1, share2);
-			if (result === 0) {
-				return share2.shareType - share1.shareType;
-			}
-			return result;
-		},
-
 		_createRow: function(fileData) {
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
 			$tr.find('.filesize').remove();
-			var $sharedWith = $('<td class="sharedWith"></td>').text(fileData.shareWithDisplayName);
-			var $shareType = $('<td class="shareType"></td>').text(this.SHARE_TYPE_TEXT[fileData.shareType] ||
-				t('files_sharing', 'Unkown'));
-			$tr.find('td.date').before($sharedWith).before($shareType);
+			var $sharedWith = $('<td class="sharedWith"></td>')
+				.text(fileData.shareColumnInfo);
+			$tr.find('td.date').before($sharedWith);
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-path', fileData.path);
 			return $tr;
@@ -125,22 +101,6 @@
 			}
 		},
 
-		render: function() {
-			// FIXME
-			/*
-			var $el = $('<thead><tr>' +
-					'<th>' + t('files', 'Name') + '</th>' +
-					'<th>' + t('files', 'Shared with') + '</th>' +
-					'<th>' + t('files', 'Type') + '</th>' +
-					'<th>' + t('files', 'Shared since') + '</th>' +
-					'</tr></thead>' +
-					'<tbody class="fileList"></tbody>' +
-					'<tfoot></tfoot>');
-			this.$el.empty().append($el);
-			this.$fileList = this.$el.find('tbody');
-			*/
-		},
-
 		/**
 		 * Converts the OCS API share response data to a file info
 		 * list
@@ -150,39 +110,78 @@
 		_makeFilesFromShares: function(data) {
 			var self = this;
 			// OCS API uses non-camelcased names
-			/* jshint camelcase: false */
-			var files = _.map(data, function(share) {
-				var file = {
-					id: share.id,
-					mtime: share.stime * 1000,
-					permissions: share.permissions
-				};
-				if (share.item_type === 'folder') {
-					file.type = 'dir';
-				}
-				else {
-					file.type = 'file';
-					// force preview retrieval as we don't have mime types,
-					// the preview endpoint will fall back to the mime type
-					// icon if no preview exists
-					file.isPreviewAvailable = true;
-					file.icon = true;
-				}
-				file.shareType = share.share_type;
-				file.shareWith = share.share_with;
-				if (self._sharedWithUser) {
-					file.shareWithDisplayName = share.displayname_owner;
-					file.name = OC.basename(share.file_target);
-					file.path = OC.dirname(share.file_target);
-				}
-				else {
-					file.shareWithDisplayName = share.share_with_displayname;
-					file.name = OC.basename(share.path);
-					file.path = OC.dirname(share.path);
-				}
-				return file;
-			});
-			return files.sort(this._shareCompare);
+			var files = _.chain(data)
+				// cOnvert share data to file data
+				.map(function(share) {
+					/* jshint camelcase: false */
+					var file = {
+						id: share.file_source,
+						mtime: share.stime * 1000,
+						permissions: share.permissions
+					};
+					if (share.item_type === 'folder') {
+						file.type = 'dir';
+					}
+					else {
+						file.type = 'file';
+						// force preview retrieval as we don't have mime types,
+						// the preview endpoint will fall back to the mime type
+						// icon if no preview exists
+						file.isPreviewAvailable = true;
+						file.icon = true;
+					}
+					file.share = {
+						id: share.id,
+						type: share.share_type,
+						target: share.share_with
+					};
+					if (self._sharedWithUser) {
+						file.share.ownerDisplayName = share.displayname_owner;
+						file.name = OC.basename(share.file_target);
+						file.path = OC.dirname(share.file_target);
+					}
+					else {
+						file.share.targetDisplayName = share.share_with_displayname;
+						file.name = OC.basename(share.path);
+						file.path = OC.dirname(share.path);
+					}
+					return file;
+				})
+				// Group all files and have a "shares" array with
+				// the share info for each file.
+				//
+				// This uses a hash memo to cumulate share information
+				// inside the same file object (by file id).
+				.reduce(function(memo, file) {
+					var data = memo[file.id];
+					if (!data) {
+						data = memo[file.id] = file;
+						data.shares = [file.share];
+					}
+					else {
+						data.shares.push(file.share);
+					}
+					// format the share column info output string
+					if (!data.shareColumnInfo) {
+						data.shareColumnInfo = '';
+					}
+					else {
+						data.shareColumnInfo += ', ';
+					}
+					// TODO. more accurate detection of name based on type
+					// TODO: maybe better formatting, like "link + 3 users" when more than 1 user
+					data.shareColumnInfo += (file.share.ownerDisplayName || file.share.targetDisplayName || 'link');
+					delete file.share;
+					return memo;
+				}, {})
+				// Retrieve only the values of the returned hash
+				.values()
+				// Sort by expected sort comparator
+				.sortBy(this._sortComparator)
+				// Finish the chain by getting the result
+				.value();
+
+			return files;
 		}
 	});
 

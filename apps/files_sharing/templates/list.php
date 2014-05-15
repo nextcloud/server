@@ -28,9 +28,6 @@
 			<th id="headerSharedWith" class="hidden column-mtime">
 				<a id="sharedwith" class="columntitle" data-sort="shareWith"><span><?php p($l->t( 'Shared with' )); ?></span><span class="sort-indicator"></span></a>
 			</th>
-			<th id="headerSharedWith" class="hidden column-mtime">
-				<a id="shareType" class="columntitle" data-sort="shareType"><span><?php p($l->t( 'Type' )); ?></span><span class="sort-indicator"></span></a>
-			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Shared since' )); ?></span><span class="sort-indicator"></span></a>
 			</th>
