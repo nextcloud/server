@@ -372,7 +372,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		return $displayNames;
 	}
 
-		/**
+	/**
 	* @brief Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
 	* @return boolean
@@ -399,7 +399,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	/**
 	 * counts the users in LDAP
 	 *
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsers() {
 		$filter = \OCP\Util::mb_str_replace(

@@ -289,7 +289,7 @@ class Connection extends LDAPUtility {
 	private function doSoftValidation() {
 		//if User or Group Base are not set, take over Base DN setting
 		foreach(array('ldapBaseUsers', 'ldapBaseGroups') as $keyBase) {
-		    $val = $this->configuration->$keyBase;
+			$val = $this->configuration->$keyBase;
 			if(empty($val)) {
 				$obj = strpos('Users', $keyBase) !== false ? 'Users' : 'Groups';
 				\OCP\Util::writeLog('user_ldap',

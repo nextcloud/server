@@ -138,7 +138,7 @@ class Access extends LDAPUtility {
 		if(is_array($dn)) {
 			$result = array();
 			foreach($dn as $singleDN) {
-			    $result[] = $this->sanitizeDN($singleDN);
+				$result[] = $this->sanitizeDN($singleDN);
 			}
 			return $result;
 		}
@@ -897,7 +897,7 @@ class Access extends LDAPUtility {
 
 		$findings = array();
 		foreach($sr as $res) {
-		    $findings = array_merge($findings, $this->ldap->getEntries($cr	, $res ));
+			$findings = array_merge($findings, $this->ldap->getEntries($cr	, $res ));
 		}
 
 		$this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
@@ -1028,10 +1028,10 @@ class Access extends LDAPUtility {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if(!empty($filter) && $filter[0] !== '(') {
+			if(!empty($filter) && $filter[0] !== '(') {
 				$filter = '('.$filter.')';
-		    }
-		    $combinedFilter.=$filter;
+			}
+			$combinedFilter.=$filter;
 		}
 		$combinedFilter.=')';
 		return $combinedFilter;

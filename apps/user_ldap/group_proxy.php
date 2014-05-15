@@ -36,7 +36,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
-		    $this->backends[$configPrefix] =
+			$this->backends[$configPrefix] =
 				new \OCA\user_ldap\GROUP_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
@@ -54,10 +54,10 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach($this->backends as $configPrefix => $backend) {
-		    if($result = call_user_func_array(array($backend, $method), $parameters)) {
+			if($result = call_user_func_array(array($backend, $method), $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
-		    }
+			}
 		}
 		return false;
 	}
@@ -118,7 +118,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$groups = array();
 
 		foreach($this->backends as $backend) {
-		    $backendGroups = $backend->getUserGroups($uid);
+			$backendGroups = $backend->getUserGroups($uid);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);
 			}
@@ -135,7 +135,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$users = array();
 
 		foreach($this->backends as $backend) {
-		    $backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
+			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = array_merge($users, $backendUsers);
 			}
@@ -148,7 +148,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	 * @brief returns the number of users in a group, who match the search term
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		return $this->handleRequest(
@@ -165,7 +165,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$groups = array();
 
 		foreach($this->backends as $backend) {
-		    $backendGroups = $backend->getGroups($search, $limit, $offset);
+			$backendGroups = $backend->getGroups($search, $limit, $offset);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);
 			}

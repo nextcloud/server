@@ -424,7 +424,7 @@ class Shared_Cache extends Cache {
 	 *
 	 * @param int $id
 	 * @param string $pathEnd (optional) used internally for recursive calls
-	 * @return string | null
+	 * @return string|null
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy

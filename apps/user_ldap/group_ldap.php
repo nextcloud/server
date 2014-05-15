@@ -177,8 +177,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$allGroups = array();
 		if (array_key_exists($dn, $seen)) {
-		    // avoid loops
-		    return array();
+			// avoid loops
+			return array();
 		}
 		$seen[$dn] = true;
 		$filter = $this->access->combineFilterWithAnd(array(

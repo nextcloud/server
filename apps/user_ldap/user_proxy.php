@@ -36,7 +36,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
-		    $this->backends[$configPrefix] =
+			$this->backends[$configPrefix] =
 				new \OCA\user_ldap\USER_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
@@ -51,7 +51,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * @param array $parameters an array of parameters to be passed
 	 * @return mixed the result of the method or false
 	 */
-	protected  function walkBackends($uid, $method, $parameters) {
+	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
 		foreach($this->backends as $configPrefix => $backend) {
 			$instance = $backend;
@@ -75,7 +75,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * @param mixed $passOnWhen the result matches this variable
 	 * @return mixed the result of the method or false
 	 */
-	protected  function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
+	protected function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
@@ -185,7 +185,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @return array with  all displayNames (value) and the corresponding uids (key)
+	 * @return array with all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */

@@ -121,7 +121,7 @@ class Session {
 
 	/**
 	 * @brief Sets status of encryption app
-	 * @param string $init  INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
+	 * @param string $init INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 * @return bool
 	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!

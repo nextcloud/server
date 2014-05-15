@@ -180,7 +180,7 @@ class Stream {
 
 	/**
 	 * @brief Returns the current position of the file pointer
-	 * @return int  position of the file pointer
+	 * @return int position of the file pointer
 	 */
 	public function stream_tell() {
 		return ftell($this->handle);

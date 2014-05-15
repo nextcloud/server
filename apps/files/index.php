@@ -68,8 +68,8 @@ $storageInfo=OC_Helper::getStorageInfo('/', $dirInfo);
 // if the encryption app is disabled, than everything is fine (INIT_SUCCESSFUL status code)
 $encryptionInitStatus = 2;
 if (OC_App::isEnabled('files_encryption')) {
-    $session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
-    $encryptionInitStatus = $session->getInitialized();
+	$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+	$encryptionInitStatus = $session->getInitialized();
 }
 
 $nav = new OCP\Template('files', 'appnavigation', '');

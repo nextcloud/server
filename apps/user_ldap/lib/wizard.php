@@ -641,7 +641,7 @@ class Wizard extends LDAPUtility {
 				//assuming only groups have their cn cached :)
 				continue;
 			}
-		    $filter = strtolower($filterPrefix . $dn . $filterSuffix);
+			$filter = strtolower($filterPrefix . $dn . $filterSuffix);
 			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
 			if(!$this->ldap->isResource($rr)) {
 				continue;
@@ -776,7 +776,7 @@ class Wizard extends LDAPUtility {
 				if(is_array($attrsToFilter) && count($attrsToFilter) > 0) {
 					$filterAttributes = '(|';
 					foreach($attrsToFilter as $attribute) {
-					    $filterAttributes .= '(' . $attribute . $loginpart . ')';
+						$filterAttributes .= '(' . $attribute . $loginpart . ')';
 					}
 					$filterAttributes .= ')';
 					$parts++;

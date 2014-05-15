@@ -187,7 +187,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$this->assertTrue($result->succeeded());
 
-        // test should return two shares created from testCreateShare()
+		// test should return two shares created from testCreateShare()
 		$this->assertTrue(count($result->getData()) === 1);
 
 		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -214,7 +214,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$this->assertTrue($result->succeeded());
 
-        // test should return one share created from testCreateShare()
+		// test should return one share created from testCreateShare()
 		$this->assertTrue(count($result->getData()) === 2);
 
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -341,7 +341,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$this->assertTrue($result->succeeded());
 
-        // test should return one share within $this->folder
+		// test should return one share within $this->folder
 		$this->assertTrue(count($result->getData()) === 1);
 
 		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -698,7 +698,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$result = Share\Api::getShare($params);
 
 		$this->assertEquals(404, $result->getStatusCode());
-        $meta = $result->getMeta();
+		$meta = $result->getMeta();
 		$this->assertEquals('share doesn\'t exist', $meta['message']);
 
 	}
@@ -755,7 +755,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		$result = Share\Api::updateShare($params);
 
-        $meta = $result->getMeta();
+		$meta = $result->getMeta();
 		$this->assertTrue($result->succeeded(), $meta['message']);
 
 		$items = \OCP\Share::getItemShared('file', $userShare['file_source']);
