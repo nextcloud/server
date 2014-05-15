@@ -119,7 +119,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all users
-	 * @return array with all uids
+	 * @return string[] with all uids
 	 *
 	 * Get a list of all users.
 	 */

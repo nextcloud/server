@@ -31,7 +31,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 
 	/**
 	 * @brief Constructor
-	 * @param array $serverConfigPrefixes array containing the config Prefixes
+	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
@@ -109,7 +109,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	/**
 	 * @brief Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array with group names
+	 * @return string[] with group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -129,7 +129,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 
 	/**
 	 * @brief get a list of all users in a group
-	 * @return array with user ids
+	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users = array();
@@ -146,8 +146,8 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 
 	/**
 	 * @brief returns the number of users in a group, who match the search term
-	 * @param string the internal group name
-	 * @param string optional, a search string
+	 * @param string $gid the internal group name
+	 * @param string $search optional, a search string
 	 * @return int | bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
@@ -157,7 +157,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 
 	/**
 	 * @brief get a list of all groups
-	 * @return array with group names
+	 * @return string[] with group names
 	 *
 	 * Returns a list with all groups
 	 */

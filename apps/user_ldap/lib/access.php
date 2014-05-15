@@ -631,7 +631,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @param string $filter
-	 * @param string $attr
+	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
@@ -642,7 +642,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @param string $filter
-	 * @param string $attr
+	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
@@ -672,7 +672,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief executes an LDAP search, optimized for Users
 	 * @param string $filter the LDAP filter for the search
-	 * @param string $attr optional, when a certain attribute shall be filtered out
+	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return array with the search result
@@ -685,7 +685,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @param string $filter
-	 * @param array $attr
+	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
 	 * @return false|int
@@ -697,7 +697,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief executes an LDAP search, optimized for Groups
 	 * @param string $filter the LDAP filter for the search
-	 * @param string $attr optional, when a certain attribute shall be filtered out
+	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return array with the search result
@@ -712,7 +712,7 @@ class Access extends LDAPUtility {
 	 * @brief prepares and executes an LDAP search operation
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param array $attr optional, array, one or more attributes that shall be
+	 * @param string|string[] $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
 	 * @param int $limit optional, maximum results to be counted
 	 * @param int $offset optional, a starting point
@@ -799,7 +799,7 @@ class Access extends LDAPUtility {
 	 * @brief executes an LDAP search, but counts the results only
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param array $attr optional, array, one or more attributes that shall be
+	 * @param string|string[] $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
 	 * @param int $limit optional, maximum results to be counted
 	 * @param int $offset optional, a starting point
@@ -864,7 +864,7 @@ class Access extends LDAPUtility {
 	 * @brief Executes an LDAP search
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param array $attr optional, array, one or more attributes that shall be
+	 * @param string|string[] $attr optional, array, one or more attributes that shall be
 	 * @param int $limit
 	 * @param int $offset
 	 * @param bool $skipHandling
@@ -1003,7 +1003,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with AND
-	 * @param array $filters the filters to connect
+	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
 	 */
 	public function combineFilterWithAnd($filters) {
@@ -1012,7 +1012,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with AND
-	 * @param array $filters the filters to connect
+	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
 	 */
 	public function combineFilterWithOr($filters) {
@@ -1021,7 +1021,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * @brief combines the input filters with given operator
-	 * @param array $filters the filters to connect
+	 * @param string[] $filters the filters to connect
 	 * @param string $operator either & or |
 	 * @return string the combined filter
 	 */
@@ -1062,7 +1062,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief creates a filter part for searches
 	 * @param string $search the search term
-	 * @param array|null $searchAttributes
+	 * @param string[]|null $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
 	 * did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
@@ -1220,7 +1220,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief checks if the given DN is part of the given base DN(s)
 	 * @param string $dn the DN
-	 * @param array $bases array containing the allowed base DN or DNs
+	 * @param string[] $bases array containing the allowed base DN or DNs
 	 * @return bool
 	 */
 	private function isDNPartOfBase($dn, $bases) {
@@ -1293,8 +1293,8 @@ class Access extends LDAPUtility {
 	/**
 	 * @brief Prepares a paged search, if possible
 	 * @param string $filter the LDAP filter for the search
-	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
-	 * @param array $attr optional, when a certain attribute shall be filtered outside
+	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
+	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
 	 * @return bool|true

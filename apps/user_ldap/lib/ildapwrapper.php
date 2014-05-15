@@ -162,7 +162,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * @brief establish Start TLS
-	 * @param resource|$link LDAP link resource
+	 * @param resource $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
 	public function startTls($link);

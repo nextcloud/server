@@ -69,7 +69,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * @param array $groups
+	 * @param string[] $groups
 	 */
 	static private function handleKnownGroups($groups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', \OCP\Util::DEBUG);
@@ -107,7 +107,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * @param array $createdGroups
+	 * @param string[] $createdGroups
 	 */
 	static private function handleCreatedGroups($createdGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', \OCP\Util::DEBUG);
@@ -129,7 +129,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * @param array $removedGroups
+	 * @param string[] $removedGroups
 	 */
 	static private function handleRemovedGroups($removedGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', \OCP\Util::DEBUG);
