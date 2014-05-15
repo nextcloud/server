@@ -353,7 +353,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @return array with  all displayNames (value) and the correspondig uids (key)
+	 * @return array with all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
