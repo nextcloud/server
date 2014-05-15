@@ -88,4 +88,22 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 			return false;
 		}
 	}
+
+	public function unlink($path) {
+		if ($path === '' || $path === false) {
+			$this->manager->removeShare($this->mountPoint);
+			return true;
+		} else {
+			return parent::unlink($path);
+		}
+	}
+
+	public function rmdir($path) {
+		if ($path === '' || $path === false) {
+			$this->manager->removeShare($this->mountPoint);
+			return true;
+		} else {
+			return parent::rmdir($path);
+		}
+	}
 }
