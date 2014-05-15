@@ -288,7 +288,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @brief returns the number of users in a group, who match the search term
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		$cachekey = 'countUsersInGroup-'.$gid.'-'.$search;
