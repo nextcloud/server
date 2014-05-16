@@ -1184,10 +1184,22 @@
 				event.preventDefault();
 				try {
 					var newName = input.val();
+					input.tipsy('hide');
+					form.remove();
+
 					if (newName !== oldname) {
 						checkInput();
-						// mark as loading
+						// mark as loading (temp element)
 						td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+						tr.attr('data-file', newName);
+						var basename = newName;
+						if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+							basename = newName.substr(0, newName.lastIndexOf('.'));
+						}
+						td.find('a.name span.nametext').text(basename);
+						td.children('a.name').show();
+						tr.find('.fileactions, .action').addClass('hidden');
+
 						$.ajax({
 							url: OC.filePath('files','ajax','rename.php'),
 							data: {
@@ -1207,30 +1219,17 @@
 								// reinsert row
 								self.files.splice(tr.index(), 1);
 								tr.remove();
-								self.add(fileInfo);
+								self.add(fileInfo, {updateSummary: false});
+								self.$fileList.trigger($.Event('fileActionsReady'));
 							}
 						});
+					} else {
+						// add back the old file info when cancelled
+						self.files.splice(tr.index(), 1);
+						tr.remove();
+						self.add(oldFileInfo, {updateSummary: false});
+						self.$fileList.trigger($.Event('fileActionsReady'));
 					}
-					input.tipsy('hide');
-					tr.data('renaming',false);
-					tr.attr('data-file', newName);
-					var path = td.children('a.name').attr('href');
-					// FIXME this will fail if the path contains the filename.
-					td.children('a.name').attr('href', path.replace(encodeURIComponent(oldname), encodeURIComponent(newName)));
-					var basename = newName;
-					if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-						basename = newName.substr(0, newName.lastIndexOf('.'));
-					}
-					td.find('a.name span.nametext').text(basename);
-					if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
-						if ( ! td.find('a.name span.extension').exists() ) {
-							td.find('a.name span.nametext').append('<span class="extension"></span>');
-						}
-						td.find('a.name span.extension').text(newName.substr(newName.lastIndexOf('.')));
-					}
-					form.remove();
-					self.fileActions.display( tr.find('td.filename'), true);
-					td.children('a.name').show();
 				} catch (error) {
 					input.attr('title', error);
 					input.tipsy({gravity: 'w', trigger: 'manual'});

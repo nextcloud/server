@@ -468,6 +468,22 @@ describe('OCA.Files.FileList tests', function() {
 		});
 	});
 	describe('Renaming files', function() {
+		function doCancelRename() {
+			var $input;
+			for (var i = 0; i < testFiles.length; i++) {
+				fileList.add(testFiles[i]);
+			}
+
+			// trigger rename prompt
+			fileList.rename('One.txt');
+			$input = fileList.$fileList.find('input.filename');
+			// keep same name
+			$input.val('One.txt');
+			// trigger submit because triggering blur doesn't work in all browsers
+			$input.closest('form').trigger('submit');
+
+			expect(fakeServer.requests.length).toEqual(0);
+		}
 		function doRename() {
 			var $input, request;
 
@@ -486,12 +502,6 @@ describe('OCA.Files.FileList tests', function() {
 			request = fakeServer.requests[0];
 			expect(request.url.substr(0, request.url.indexOf('?'))).toEqual(OC.webroot + '/index.php/apps/files/ajax/rename.php');
 			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'Tu_after_three.txt', file: 'One.txt'});
-
-			// element is renamed before the request finishes
-			expect(fileList.findFileEl('One.txt').length).toEqual(0);
-			expect(fileList.findFileEl('Tu_after_three.txt').length).toEqual(1);
-			// input is gone
-			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
 		}
 		it('Inserts renamed file entry at correct position if rename ajax call suceeded', function() {
 			doRename();
@@ -542,22 +552,51 @@ describe('OCA.Files.FileList tests', function() {
 			$tr = fileList.findFileEl('Tu_after_three.txt');
 			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=Tu_after_three.txt');
 		});
-		// FIXME: fix this in the source code!
-		xit('Correctly updates file link after rename when path has same name', function() {
-			var $tr;
-			// evil case: because of buggy code
-			$('#dir').val('/One.txt/subdir');
+		it('Triggers "fileActionsReady" event after rename', function() {
+			var handler = sinon.stub();
+			fileList.$fileList.on('fileActionsReady', handler);
 			doRename();
-
+			expect(handler.notCalled).toEqual(true);
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'success',
 				data: {
 					name: 'Tu_after_three.txt'
 				}
 			}));
+			expect(handler.calledOnce).toEqual(true);
+			expect(fileList.$fileList.find('.test').length).toEqual(0);
+		});
+		it('Leaves the summary alone when reinserting renamed element', function() {
+			var $summary = $('#filestable .summary');
+			doRename();
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'success',
+				data: {
+					name: 'Tu_after_three.txt'
+				}
+			}));
+			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
+		});
+		it('Leaves the summary alone when cancel renaming', function() {
+			var $summary = $('#filestable .summary');
+			doCancelRename();
+			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
+		});
+		it('Hides actions while rename in progress', function() {
+			var $tr;
+			doRename();
 
+			// element is renamed before the request finishes
 			$tr = fileList.findFileEl('Tu_after_three.txt');
-			expect($tr.find('a.name').attr('href')).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=One.txt');
+			expect($tr.length).toEqual(1);
+			expect(fileList.findFileEl('One.txt').length).toEqual(0);
+			// file actions are hidden
+			expect($tr.find('.action').hasClass('hidden')).toEqual(true);
+			expect($tr.find('.fileactions').hasClass('hidden')).toEqual(true);
+
+			// input and form are gone
+			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
+			expect(fileList.$fileList.find('form').length).toEqual(0);
 		});
 	});
 	describe('Moving files', function() {
