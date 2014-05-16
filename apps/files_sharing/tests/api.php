@@ -1058,4 +1058,58 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
 	}
+
+	public function testDefaultExpireDate() {
+		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+
+		// default expire date is set to 2 days
+		// the time when the share was created is set to 3 days in the past
+		// user defined expire date is set to +2 days from now on
+		// -> link should be already expired by the default expire date but the user
+		//    share should still exists.
+		$now = time();
+		$dateFormat = 'Y-m-d H:i:s';
+		$shareCreated = $now - 3 * 24 * 60 * 60;
+		$expireDate = date($dateFormat, $now + 2 * 24 * 60 * 60);
+
+		$info = OC\Files\Filesystem::getFileInfo($this->filename);
+		$this->assertTrue($info instanceof \OC\Files\FileInfo);
+
+		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\PERMISSION_READ);
+		$this->assertTrue(is_string($result));
+
+		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::setExpirationDate('file', $info->getId() , $expireDate);
+		$this->assertTrue($result);
+
+		//manipulate stime so that both shares are older then the default expire date
+		$statement = "UPDATE `*PREFIX*share` SET `stime` = ? WHERE `share_type` = ?";
+		$query = \OCP\DB::prepare($statement);
+		$result = $query->execute(array($shareCreated, \OCP\Share::SHARE_TYPE_LINK));
+		$this->assertSame(1, $result);
+		$statement = "UPDATE `*PREFIX*share` SET `stime` = ? WHERE `share_type` = ?";
+		$query = \OCP\DB::prepare($statement);
+		$result = $query->execute(array($shareCreated, \OCP\Share::SHARE_TYPE_USER));
+		$this->assertSame(1, $result);
+
+		// now the link share should expire because of enforced default expire date
+		// the user share should still exist
+		$result = \OCP\Share::getItemShared('file', $info->getId());
+		$this->assertTrue(is_array($result));
+		$this->assertSame(1, count($result));
+		$share = reset($result);
+		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share['share_type']);
+
+		//cleanup
+		$result = \OCP\Share::unshare('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'no');
+		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'no');
+
+	}
 }
