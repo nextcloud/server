@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -258,30 +258,30 @@ msgstr ""
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "رمز عبور ضعیف"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "رمز عبور متوسط"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "رمز عبور خوب"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "رمز عبور قوی"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "در حال بازگشایی رمز فایل‌ها... لطفاً صبر نمایید. این امر ممکن است مدتی زمان ببرد."
 
 #: js/personal.js:324
-msgid "Delete encryptin keys permanently."
+msgid "Delete encryption keys permanently."
 msgstr ""
 
 #: js/personal.js:338
-msgid "Restore encryptin keys."
+msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users.js:47

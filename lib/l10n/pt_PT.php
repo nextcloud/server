@@ -57,6 +57,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor verifique <a href='%s'>installation guides</a>.",
 "%s shared »%s« with you" => "%s partilhado »%s« consigo",
 "Sharing %s failed, because the user %s is the item owner" => "A partilha %s falhou, porque o utilizador %s é o proprietário",
+"Sharing %s failed, because the user %s does not exist" => "A partilha %s falhou, porque o utilizador %s nao existe",
 "Could not find category \"%s\"" => "Não foi encontrado a categoria \"%s\"",
 "seconds ago" => "Minutos atrás",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutos atrás"),

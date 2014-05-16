@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Share" => "تقسیم",
 "Error" => "ایرر",
 "_%n folder_::_%n folders_" => array("",""),
 "_%n file_::_%n files_" => array("",""),

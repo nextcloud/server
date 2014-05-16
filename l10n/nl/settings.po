@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgstr "Cryptosleutels permanent verwijderd"
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Kom uw cryptosleutels niet permanent verwijderen. Controleer uw owncloud.log, of neem contact op met uw beheerder."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -136,7 +136,7 @@ msgstr "Backup succesvol terggezet"
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Kon uw cryptosleutels niet herstellen. Controleer uw owncloud.log of neem contact op met uw beheerder"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -278,12 +278,12 @@ msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Bestanden worden gedecodeerd... Even geduld alstublieft, dit kan even duren."
 
 #: js/personal.js:324
-msgid "Delete encryptin keys permanently."
-msgstr "Verwijder cryptosleutels permanent."
+msgid "Delete encryption keys permanently."
+msgstr ""
 
 #: js/personal.js:338
-msgid "Restore encryptin keys."
-msgstr "Herstel cryptosleutels."
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -831,7 +831,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Uw cryptosleutels zijn verplaatst naar een backup locatie. Als iets iets verkeerd ging, kunt u de sleutels herstellen. Verwijder ze alleen permanent als u zeker weet dat de bestanden goed zijn versleuteld."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"

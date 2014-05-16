@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Stad",
-"URL" => "Nettstad",
 "Username" => "Brukarnamn",
 "Password" => "Passord",
 "Share" => "Del",
+"URL" => "Nettstad",
 "Folder name" => "Mappenamn",
 "Configuration" => "Innstillingar",
 "Groups" => "Grupper",

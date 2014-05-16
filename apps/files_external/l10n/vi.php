@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vị trí",
-"URL" => "URL",
 "Username" => "Tên đăng nhập",
 "Password" => "Mật khẩu",
 "Share" => "Chia sẻ",
+"URL" => "URL",
 "Access granted" => "Đã cấp quyền truy cập",
 "Error configuring Dropbox storage" => "Lỗi cấu hình lưu trữ Dropbox ",
 "Grant access" => "Cấp quyền truy cập",

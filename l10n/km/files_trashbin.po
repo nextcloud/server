@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 14:10+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 14:59+0000\n"
+"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,45 +21,45 @@ msgstr ""
 #: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "មិន​អាច​លុប %s ចោល​ជា​អចិន្ត្រៃយ៍​ទេ"
 
 #: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "មិន​អាច​ស្ដារ %s ឡើង​វិញ​បាន​ទេ"
 
 #: js/filelist.js:3
 msgid "Deleted files"
-msgstr "បាន​លុប​ឯកសារ"
+msgstr "ឯកសារ​ដែល​បាន​លុប"
 
-#: js/filelist.js:88 js/filelist.js:132 js/filelist.js:181
+#: js/filelist.js:89 js/filelist.js:133 js/filelist.js:182
 msgid "Error"
 msgstr "កំហុស"
 
-#: js/trash.js:48 templates/index.php:22 templates/index.php:24
+#: js/trash.js:48 templates/index.php:23 templates/index.php:25
 msgid "Restore"
 msgstr "ស្ដារ​មក​វិញ"
 
 #: js/trash.js:107
 msgid "Deleted Files"
-msgstr ""
+msgstr "ឯកសារ​ដែល​បាន​លុប"
 
 #: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
-msgstr ""
+msgstr "បាន​ស្ដារ​វិញ"
 
-#: templates/index.php:6
+#: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ធុង​សំរាម​របស់​អ្នក​គឺ​ទទេ!"
 
-#: templates/index.php:19
+#: templates/index.php:20
 msgid "Name"
 msgstr "ឈ្មោះ"
 
-#: templates/index.php:30
+#: templates/index.php:31
 msgid "Deleted"
-msgstr ""
+msgstr "បាន​លុប"
 
-#: templates/index.php:33 templates/index.php:34
+#: templates/index.php:34 templates/index.php:35
 msgid "Delete"
 msgstr "លុប"

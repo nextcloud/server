@@ -9,13 +9,14 @@
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # jmruas <jmruas@gmail.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2013
+# Drew Melim <nokostya.translation@gmail.com>, 2014
 # PapiMigas Migas <papimigas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +28,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Valor dado a %s éinválido"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -39,7 +40,7 @@ msgstr "testar configurações de email"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Se você recebeu este e-mail as configurações parecem estar correctas"
 
 #: admin/controller.php:94
 msgid ""
@@ -52,7 +53,7 @@ msgstr "E-mail enviado"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Você precisa de configurar o seu e-mail de usuário antes de ser capaz de enviar e-mails de teste"
 
 #: admin/controller.php:116 templates/admin.php:316
 msgid "Send mode"
@@ -99,21 +100,21 @@ msgstr "Ficheiros desencriptados com sucesso"
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Não foi possível desencriptar os seus arquivos. Verifique a sua owncloud.log ou pergunte ao seu administrador"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Não foi possível desencriptar os seus arquivos.  Verifique a sua senha e tente novamente"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "A chave de encriptação foi eliminada permanentemente"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Não foi possível excluir permanentemente a sua chave de encriptação. Verifique a sua owncloud.log ou pergunte ao seu administrador"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -133,13 +134,13 @@ msgstr "Impossível apagar utilizador"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Cópias de segurança foram restauradas com sucesso"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Nao foi possivel restaurar as suas chaves de encriptacao. Verifique a sua owncloud.log ou pergunte ao seu administrador"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -281,11 +282,11 @@ msgid "Decrypting files... Please wait, this can take some time."
 msgstr "A desencriptar os ficheiros... Por favor aguarde, esta operação pode demorar algum tempo."
 
 #: js/personal.js:324
-msgid "Delete encryptin keys permanently."
+msgid "Delete encryption keys permanently."
 msgstr ""
 
 #: js/personal.js:338
-msgid "Restore encryptin keys."
+msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users.js:47
@@ -371,7 +372,7 @@ msgstr "Plano"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "Gestor de NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
@@ -478,18 +479,18 @@ msgstr "Cron"
 #: templates/admin.php:167
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "O ultimo cron foi executado em %s."
 
 #: templates/admin.php:170
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "O ultima cron foi executado em %s a mais duma hora. Algo não está certo."
 
 #: templates/admin.php:174
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron ainda não foi executado!"
 
 #: templates/admin.php:184
 msgid "Execute one task with each page loaded"
@@ -527,7 +528,7 @@ msgstr "Permitir Envios Públicos"
 
 #: templates/admin.php:229
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Especificar a data padrão de expiração"
 
 #: templates/admin.php:231
 msgid "Expire after "
@@ -539,7 +540,7 @@ msgstr "dias"
 
 #: templates/admin.php:237
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Forçar a data de expiração"
 
 #: templates/admin.php:241
 msgid "Allow users to share items to the public with links"
@@ -567,7 +568,7 @@ msgstr "Permitir notificação por email"
 
 #: templates/admin.php:270
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Permita que o utilizador envie notificações por correio electrónico para ficheiros partilhados"
 
 #: templates/admin.php:278
 msgid "Security"
@@ -764,7 +765,7 @@ msgstr "O seu endereço de email"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Preencha com um endereço e-mail para permitir a recuperação de senha e receber notificações"
 
 #: templates/personal.php:89
 msgid "Profile picture"
@@ -834,15 +835,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "As suas chaves de encriptação foram movidas para um local de segurança. Em caso de algo correr mal você pode restaurar as chaves.  Só deve eliminar as chaves permanentemente se tiver certeza absoluta que os ficheiros são decrepitados correctamente."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Restaurar as chaves de encriptação"
 
 #: templates/personal.php:188
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Apagar as chaves de encriptação"
 
 #: templates/users.php:19
 msgid "Login Name"

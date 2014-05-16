@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -275,11 +275,11 @@ msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
 #: js/personal.js:324
-msgid "Delete encryptin keys permanently."
+msgid "Delete encryption keys permanently."
 msgstr ""
 
 #: js/personal.js:338
-msgid "Restore encryptin keys."
+msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users.js:47

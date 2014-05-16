@@ -10,6 +10,7 @@
 # japaol <japaol@gmail.com>, 2013
 # Jose Luis Tirado <joseluis.tirado@gmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013-2014
+# mario.arranz <mario.arranz@gmail.com>, 2014
 # plaguna <laguna.sanchez@gmail.com>, 2014
 # pablomillaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
@@ -22,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -289,12 +290,12 @@ msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Descifrando archivos... Espere por favor, esto puede llevar algo de tiempo."
 
 #: js/personal.js:324
-msgid "Delete encryptin keys permanently."
-msgstr "Eliminar claves de cifrado."
+msgid "Delete encryption keys permanently."
+msgstr ""
 
 #: js/personal.js:338
-msgid "Restore encryptin keys."
-msgstr "Restaurar claves de cifrado."
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -842,7 +843,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Sus claves de cifrado se archivarán en una localización segura. Así en caso de que algo fuese mal podrá recuperan sus claves. Borre sus claves de cifrado permanentemente solamente si esta seguro de que sus archivos han sido descifrados correctamente."
 
 #: templates/personal.php:184
 msgid "Restore Encryption Keys"

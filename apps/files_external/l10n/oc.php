@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Plaça",
-"URL" => "URL",
 "Username" => "Non d'usancièr",
 "Password" => "Senhal",
 "Share" => "Parteja",
+"URL" => "URL",
 "Groups" => "Grops",
 "Users" => "Usancièrs",
 "Delete" => "Escafa"

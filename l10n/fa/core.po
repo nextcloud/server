@@ -4,13 +4,14 @@
 # 
 # Translators:
 # miki_mika1362 <miki_mika1362@yahoo.com>, 2013
+# hajibaba <majid.hajibaba@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 14:16+0000\n"
+"Last-Translator: hajibaba <majid.hajibaba@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,11 +46,11 @@ msgstr ""
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "نوع فایل ناشناخته"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "عکس نامعتبر"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -150,12 +151,12 @@ msgstr "ثانیه‌ها پیش"
 #: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
+msgstr[0] "%n دقیقه قبل"
 
 #: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
+msgstr[0] "%n ساعت قبل"
 
 #: js/js.js:1243
 msgid "today"
@@ -168,7 +169,7 @@ msgstr "دیروز"
 #: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
+msgstr[0] "%n روز قبل"
 
 #: js/js.js:1246
 msgid "last month"
@@ -177,7 +178,7 @@ msgstr "ماه قبل"
 #: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
+msgstr[0] "%n ماه قبل"
 
 #: js/js.js:1248
 msgid "last year"
@@ -244,7 +245,7 @@ msgstr "منصرف شدن"
 
 #: js/oc-dialogs.js:453
 msgid "Continue"
-msgstr ""
+msgstr "ادامه"
 
 #: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
@@ -264,19 +265,19 @@ msgstr ""
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "رمز عبور ضعیف"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "رمز عبور متوسط"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "رمز عبور خوب"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "رمز عبور قوی"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -627,7 +628,7 @@ msgstr ""
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "سلامتی!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -674,7 +675,7 @@ msgstr "لطفا یک <strong> شناسه برای مدیر</strong> بسازی�
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "انبارش و پایگاه داده"
 
 #: templates/installation.php:77
 msgid "Data folder"

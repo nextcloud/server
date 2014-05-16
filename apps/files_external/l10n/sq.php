@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vendndodhja",
-"URL" => "URL-i",
 "Username" => "Përdoruesi",
 "Password" => "fjalëkalim",
 "Share" => "Ndaj",
+"URL" => "URL-i",
 "Groups" => "Grupet",
 "Users" => "Përdoruesit",
 "Delete" => "Elimino"

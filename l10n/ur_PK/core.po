@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# leostandards100 <mrshah_300@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-16 01:54-0400\n"
+"PO-Revision-Date: 2014-05-15 19:05+0000\n"
+"Last-Translator: leostandards100 <mrshah_300@yahoo.com>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,31 +61,31 @@ msgstr ""
 
 #: js/config.php:43
 msgid "Sunday"
-msgstr ""
+msgstr "اتوار"
 
 #: js/config.php:44
 msgid "Monday"
-msgstr ""
+msgstr "سوموار"
 
 #: js/config.php:45
 msgid "Tuesday"
-msgstr ""
+msgstr "منگل"
 
 #: js/config.php:46
 msgid "Wednesday"
-msgstr ""
+msgstr "بدھ"
 
 #: js/config.php:47
 msgid "Thursday"
-msgstr ""
+msgstr "جمعرات"
 
 #: js/config.php:48
 msgid "Friday"
-msgstr ""
+msgstr "جمعہ"
 
 #: js/config.php:49
 msgid "Saturday"
-msgstr ""
+msgstr "ہفتہ"
 
 #: js/config.php:54
 msgid "January"
@@ -136,7 +137,7 @@ msgstr "دسمبر"
 
 #: js/js.js:483
 msgid "Settings"
-msgstr "سیٹینگز"
+msgstr "ترتیبات"
 
 #: js/js.js:583
 msgid "Saving..."
@@ -144,7 +145,7 @@ msgstr ""
 
 #: js/js.js:1240
 msgid "seconds ago"
-msgstr ""
+msgstr "سیکنڈز پہلے"
 
 #: js/js.js:1241
 msgid "%n minute ago"
@@ -160,11 +161,11 @@ msgstr[1] ""
 
 #: js/js.js:1243
 msgid "today"
-msgstr ""
+msgstr "آج"
 
 #: js/js.js:1244
 msgid "yesterday"
-msgstr ""
+msgstr "کل"
 
 #: js/js.js:1245
 msgid "%n day ago"
@@ -174,7 +175,7 @@ msgstr[1] ""
 
 #: js/js.js:1246
 msgid "last month"
-msgstr ""
+msgstr "پچھلے مہنیے"
 
 #: js/js.js:1247
 msgid "%n month ago"
@@ -184,11 +185,11 @@ msgstr[1] ""
 
 #: js/js.js:1248
 msgid "last year"
-msgstr ""
+msgstr "پچھلے سال"
 
 #: js/js.js:1249
 msgid "years ago"
-msgstr ""
+msgstr "سالوں پہلے"
 
 #: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
@@ -284,16 +285,16 @@ msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
-msgstr ""
+msgstr "تقسیم شدہ"
 
 #: js/share.js:109
 msgid "Share"
-msgstr ""
+msgstr "تقسیم"
 
 #: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
 #: templates/installation.php:10
 msgid "Error"
-msgstr "ایرر"
+msgstr "خرابی"
 
 #: js/share.js:160 js/share.js:810
 msgid "Error while sharing"
@@ -350,7 +351,7 @@ msgstr ""
 
 #: js/share.js:246
 msgid "Send"
-msgstr ""
+msgstr "بھجیں"
 
 #: js/share.js:251
 msgid "Set expiration date"
@@ -438,7 +439,7 @@ msgstr ""
 
 #: js/tags.js:4
 msgid "The object type is not specified."
-msgstr ""
+msgstr "اس چیز کی قسم کی وضاحت نہیں"
 
 #: js/tags.js:13
 msgid "Enter new"

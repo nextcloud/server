@@ -74,6 +74,7 @@ $TRANSLATIONS = array(
 "Email Server" => "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល",
 "From address" => "ពី​អាសយដ្ឋាន",
 "Server address" => "អាសយដ្ឋាន​ម៉ាស៊ីន​បម្រើ",
+"Port" => "ច្រក",
 "Send email" => "ផ្ញើ​អ៊ីមែល",
 "Log" => "Log",
 "Log level" => "កម្រិត Log",
