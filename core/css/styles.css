@@ -59,6 +59,9 @@ body {
 	left: 0;
 	padding: 6px;
 	padding-bottom: 0;
+	height: 45px; /* header height */
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* info part on the right, used e.g. for info on who shared something */

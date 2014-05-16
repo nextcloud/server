@@ -4,6 +4,11 @@
 	padding-top: 10px;
 }
 
+/* don’t show appname next to logo on narrow screens */
+.header-appname {
+	display: none;
+}
+
 #body-login .wrapper {
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;

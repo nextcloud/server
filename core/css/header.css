@@ -1,15 +1,33 @@
+/* display logo so appname can be shown next to it */
+#header .logo-wide {
+	display: inline-block;
+}
+/* show appname next to logo */
+.header-appname {
+	display: inline-block;
+	position: relative;
+	color: #fff;
+	font-size: 26px;
+	opacity: .4;
+	margin-left: 5px;
+}
 /* show caret indicator next to logo to make clear it is tappable */
-#owncloud.menutoggle {
-	background-image: url('../img/actions/caret.svg');
-	background-repeat: no-repeat;
-	background-position: right 26px;
-	padding-right: 16px !important;
+#header .icon-caret {
+	display: inline-block;
+	width: 12px;
+	height: 14px;
+}
+.header-appname,
+#header .icon-caret {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
+	filter: alpha(opacity=45);
+	opacity: .45;
 }
 /* do not show menu toggle on public share links as there is no menu */
-#body-public #owncloud.menutoggle {
-	background-image: none;
-	padding-right: 0 !important;
+#body-public #header .icon-caret {
+	display: none;
 }
+
 
 /* toggle navigation */
 #content-wrapper {
