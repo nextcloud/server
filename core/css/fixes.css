@@ -10,6 +10,16 @@
 	background-image: url('../img/actions/delete-hover.png');
 }
 
+.lte9 .icon-triangle-e {
+	background-image: url('../img/actions/triangle-e.png');
+}
+.lte9 .icon-triangle-n {
+	background-image: url('../img/actions/triangle-n.png');
+}
+.lte9 .icon-triangle-s {
+	background-image: url('../img/actions/triangle-s.png');
+}
+
 /* IE8 needs background to be set to same color to make transparency look good. */
 .lte9 #body-login form input[type="text"] {
 	border: 1px solid lightgrey; /* use border to add 1px line between input fields */
