@@ -30,6 +30,7 @@ class OC_Template extends \OC\Template\Base {
 	private $renderas; // Create a full page?
 	private $path; // The path to the template
 	private $headers=array(); //custom headers
+	protected $app; // app id
 
 	/**
 	 * @brief Constructor
@@ -62,6 +63,7 @@ class OC_Template extends \OC\Template\Base {
 		// Set the private data
 		$this->renderas = $renderas;
 		$this->path = $path;
+		$this->app = $app;
 
 		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
 	}
@@ -172,7 +174,7 @@ class OC_Template extends \OC\Template\Base {
 		$data = parent::fetchPage();
 
 		if( $this->renderas ) {
-			$page = new OC_TemplateLayout($this->renderas);
+			$page = new OC_TemplateLayout($this->renderas, $this->app);
 
 			// Add custom headers
 			$page->assign('headers', $this->headers, false);

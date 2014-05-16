@@ -15,8 +15,9 @@ class OC_TemplateLayout extends OC_Template {
 
 	/**
 	 * @param string $renderas
+	 * @param string $appid application id
 	 */
-	public function __construct( $renderas ) {
+	public function __construct( $renderas, $appid = '' ) {
 		// Decide which page we show
 
 		if( $renderas == 'user' ) {
@@ -43,6 +44,7 @@ class OC_TemplateLayout extends OC_Template {
 
 			// Add navigation entry
 			$this->assign( 'application', '', false );
+			$this->assign( 'appid', $appid );
 			$navigation = OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation);
 			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation());

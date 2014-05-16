@@ -6,17 +6,15 @@
 
 <div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 
-<input type="hidden" id="permissions" value="0">
-<input type="hidden" id="disableSharing" data-status="<?php p($_['disableSharing']); ?>">
-<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
+<input type="hidden" name="dir" value="" id="dir">
 
 <table id="filestable">
 	<thead>
 		<tr>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<input type="checkbox" id="select_all" />
-					<label for="select_all"></label>
+					<input type="checkbox" id="select_all_trash" class="select-all"/>
+					<label for="select_all_trash"></label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class='selectedActions'>
 						<a href="" class="undelete">
