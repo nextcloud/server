@@ -140,9 +140,8 @@ table.multiselect th a {
 	color: #000;
 }
 table th .columntitle {
-	display: inline-block;
+	display: block;
 	padding: 15px;
-	width: 100%;
 	height: 50px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -150,8 +149,8 @@ table th .columntitle {
 }
 table th .columntitle.name {
 	padding-left: 5px;
+	padding-right: 80px;
 	margin-left: 50px;
-	max-width: 300px;
 }
 /* hover effect on sortable column */
 table th a.columntitle:hover {
@@ -165,6 +164,7 @@ table th .sort-indicator {
 }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
+	padding: 0 15px;
 	border-bottom: 1px solid #eee;
 	font-style: normal;
 	background-position: 8px center;
@@ -181,10 +181,6 @@ table th#headerName {
 }
 table th#headerSize, table td.filesize {
 	text-align: right;
-	padding: 0;
-}
-table table td.filesize {
-	padding: 0 16px;
 }
 table th#headerDate, table td.date,
 table th.column-last, table td.column-last {
@@ -192,7 +188,6 @@ table th.column-last, table td.column-last {
 	box-sizing: border-box;
 	position: relative;
 	/* this can not be just width, both need to be set … table styling */
-	padding: 0 8px;
 	min-width: 176px;
 	max-width: 176px;
 }
@@ -243,7 +238,6 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 
 .modified, .column-last>span:first-child {
 	position: relative;
-	padding-left: 15px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 90%;
@@ -368,7 +362,9 @@ table td.filename form { font-size:14px; margin-left:46px; height: 40px; padding
 
 
 #fileList tr td.filename {
-	position:relative; width:100%;
+	position: relative;
+	width: 100%;
+	padding-left: 0;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
@@ -398,25 +394,35 @@ table td.filename form { font-size:14px; margin-left:46px; height: 40px; padding
 	cursor: default !important;
 }
 
-a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
+a.action>img {
+	max-height:16px;
+	max-width:16px;
+	vertical-align:text-bottom;
+	margin-bottom: -1px;
+}
 
 /* Actions for selected files */
 .selectedActions {
 	position: absolute;
-	top: -1px;
+	top: 0;
 	right: 0;
-	padding: 15px 8px;
 }
 .selectedActions a {
 	display: inline;
-	padding: 17px 5px;
+	font-size: 11px;
+	line-height: 50px;
+	padding: 18px 5px;
+}
+.selectedActions a.delete-selected {
+	padding-right: 15px;
 }
 .selectedActions a.hidden {
 	display: none;
 }
 .selectedActions a img {
 	position:relative;
-	top:5px;
+	vertical-align: text-bottom;
+	margin-bottom: -1px;
 }
 
 
