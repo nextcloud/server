@@ -248,9 +248,9 @@ class Scanner extends BasicEmitter {
 			$removedChildren = \array_diff($existingChildren, $newChildren);
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
-				$addToCache = true;
-				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child, 'removeFromCache' => &$addToCache));
-				if($addToCache) {
+				$removeFromCache = true;
+				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child, 'removeFromCache' => &$removeFromCache));
+				if($removeFromCache) {
 					$this->cache->remove($child);
 				}
 			}
