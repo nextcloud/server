@@ -217,9 +217,10 @@ if (!$_['internetconnectionworking']) {
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
 					   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
-
 				<div <?php ($_['allowLinks'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?> id="publicLinkSettings">
-
+				<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword"
+						   value="1" <?php if ($_['enforceLinkPassword']) print_unescaped('checked="checked"'); ?> />
+				<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
 				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>

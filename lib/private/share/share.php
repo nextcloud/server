@@ -588,7 +588,9 @@ class Share extends \OC\Share\Constants {
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
 			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+
 				// when updating a link share
+				// FIXME Don't delete link if we update it
 				if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null,
 					$uidOwner, self::FORMAT_NONE, null, 1)) {
 					// remember old token
@@ -599,7 +601,7 @@ class Share extends \OC\Share\Constants {
 				}
 
 				// Generate hash of password - same method as user passwords
-				if (isset($shareWith)) {
+				if (!empty($shareWith)) {
 					$forcePortable = (CRYPT_BLOWFISH != 1);
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
@@ -609,6 +611,13 @@ class Share extends \OC\Share\Constants {
 					if ($checkExists && (int)$permissions !== (int)$oldPermissions) {
 						$shareWith = $checkExists['share_with'];
 					}
+				}
+
+				if (\OCP\Util::isPublicLinkPasswordRequired() && empty($shareWith)) {
+					$message = 'You need to provide a password to create a public link, only protected links are allowed';
+					$message_t = $l->t('You need to provide a password to create a public link, only protected links are allowed');
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message_t);
 				}
 
 				// Generate token

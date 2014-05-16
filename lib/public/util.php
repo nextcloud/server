@@ -499,4 +499,12 @@ class Util {
 	public static function generateRandomBytes($length = 30) {
 		return \OC_Util::generateRandomBytes($length);
 	}
+
+	/**
+	 * @brief check if a password is required for each public link
+	 * @return boolean
+	 */
+	public static function isPublicLinkPasswordRequired() {
+		return \OC_Util::isPublicLinkPasswordRequired();
+	}
 }

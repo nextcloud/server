@@ -113,10 +113,64 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$fileinfo = $this->view->getFileInfo($this->folder);
 
 		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
-
-
 	}
+
+	function testEnfoceLinkPassword() {
+
+		$appConfig = \OC::$server->getAppConfig();
+		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'yes');
+
+		// don't allow to share link without a password
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+
+
+		$result = Share\Api::createShare(array());
+		$this->assertFalse($result->succeeded());
+
+
+		// don't allow to share link without a empty password
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['password'] = '';
+
+		$result = Share\Api::createShare(array());
+		$this->assertFalse($result->succeeded());
+
+		// share with password should succeed
+		$_POST['path'] = $this->folder;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$_POST['password'] = 'foo';
+
+		$result = Share\Api::createShare(array());
+		$this->assertTrue($result->succeeded());
+
+		$data = $result->getData();
+
+		// setting new password should succeed
+		$params = array();
+		$params['id'] = $data['id'];
+		$params['_put'] = array();
+		$params['_put']['password'] = 'bar';
+
+		$result = Share\Api::updateShare($params);
+		$this->assertTrue($result->succeeded());
+
+		// removing password should fail
+		$params = array();
+		$params['id'] = $data['id'];
+		$params['_put'] = array();
+		$params['_put']['password'] = '';
+
+		$result = Share\Api::updateShare($params);
+		$this->assertFalse($result->succeeded());
+
+		// cleanup
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'no');
+	}
+
 
 	/**
 	 * @medium
