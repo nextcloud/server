@@ -19,6 +19,11 @@
 .lte9 .icon-triangle-s {
 	background-image: url('../img/actions/triangle-s.png');
 }
+.lte9 .icon-settings,
+.lte9 .settings-button {
+	background-image: url('../img/actions/settings.png');
+}
+
 
 /* IE8 needs background to be set to same color to make transparency look good. */
 .lte9 #body-login form input[type="text"] {
