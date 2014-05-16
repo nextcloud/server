@@ -1111,18 +1111,12 @@ function initCore() {
 	 * If the screen is bigger, the main menu is not a toggle any more.
 	 */
 	function setupMainMenu() {
-		// toggle the navigation on mobile
-		if (!OC._matchMedia) {
-			return;
-		}
-		var mq = OC._matchMedia('(max-width: 768px)');
-		var lastMatch = mq.matches;
+		// toggle the navigation
 		var $toggle = $('#header #owncloud');
 		var $navigation = $('#navigation');
 
 		function updateMainMenu() {
-			// mobile mode ?
-			if (lastMatch && !$toggle.hasClass('menutoggle')) {
+			if (!$toggle.hasClass('menutoggle')) {
 				// init the menu
 				OC.registerMenu($toggle, $navigation);
 				$toggle.data('oldhref', $toggle.attr('href'));
