@@ -101,7 +101,7 @@
  * to be more flexible / relative
  */
 #body-user .app-files #controls {
-	left: 310px; /* main nav bar + sidebar */
+	left: 230px; /* sidebar width */
 	position: fixed;
 	padding-left: 0px;
 }
