@@ -1115,35 +1115,14 @@ function initCore() {
 		var $toggle = $('#header #owncloud');
 		var $navigation = $('#navigation');
 
-		function updateMainMenu() {
-			if (!$toggle.hasClass('menutoggle')) {
-				// init the menu
-				OC.registerMenu($toggle, $navigation);
-				$toggle.data('oldhref', $toggle.attr('href'));
-				$toggle.attr('href', '#');
-				$navigation.hide();
-			}
-			else {
-				OC.unregisterMenu($toggle, $navigation);
-				$toggle.attr('href', $toggle.data('oldhref'));
-				$navigation.show();
-			}
-		}
-
-		updateMainMenu();
-
-		// TODO: debounce this
-		$(window).resize(function() {
-			if (lastMatch !== mq.matches) {
-				lastMatch = mq.matches;
-				updateMainMenu();
-			}
-		});
+		// init the menu
+		OC.registerMenu($toggle, $navigation);
+		$toggle.data('oldhref', $toggle.attr('href'));
+		$toggle.attr('href', '#');
+		$navigation.hide();
 	}
 
-	if (window.matchMedia) {
-		setupMainMenu();
-	}
+	setupMainMenu();
 }
 
 $(document).ready(initCore);
