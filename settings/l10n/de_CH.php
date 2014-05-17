@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Abbrechen",
 "Language" => "Sprache",
 "Help translate" => "Helfen Sie bei der Übersetzung",
-"WebDAV" => "WebDAV",
 "Log-in password" => "Login-Passwort",
 "Decrypt all Files" => "Alle Dateien entschlüsseln",
 "Login Name" => "Loginname",

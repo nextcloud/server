@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "本地",
 "Location" => "地點",
+"Host" => "主機",
 "Username" => "使用者名稱：",
 "Password" => "密碼",
 "Share" => "分享",

@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Un nou dosar",
 "Folder" => "Dosar",
 "From link" => "De la adresa",
-"Deleted files" => "Fișiere șterse",
 "Cancel upload" => "Anulează încărcarea",
 "You don’t have permission to upload or create files here" => "Nu aveti permisiunea de a incarca sau crea fisiere aici",
 "Nothing in here. Upload something!" => "Nimic aici. Încarcă ceva!",

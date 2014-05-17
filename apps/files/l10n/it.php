@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nuova cartella",
 "Folder" => "Cartella",
 "From link" => "Da collegamento",
-"Deleted files" => "File eliminati",
 "Cancel upload" => "Annulla invio",
 "You don’t have permission to upload or create files here" => "Qui non hai i permessi di caricare o creare file",
 "Nothing in here. Upload something!" => "Non c'è niente qui. Carica qualcosa!",

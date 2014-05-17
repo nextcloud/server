@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "New folder" => "Ny mapp",
 "Folder" => "Mapp",
 "From link" => "Från länk",
-"Deleted files" => "Raderade filer",
 "Cancel upload" => "Avbryt uppladdning",
 "You don’t have permission to upload or create files here" => "Du har ej tillåtelse att ladda upp eller skapa filer här",
 "Nothing in here. Upload something!" => "Ingenting här. Ladda upp något!",

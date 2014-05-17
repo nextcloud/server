@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "New folder" => "新資料夾",
 "Folder" => "資料夾",
 "From link" => "從連結",
-"Deleted files" => "回收桶",
 "Cancel upload" => "取消上傳",
 "You don’t have permission to upload or create files here" => "您沒有權限在這裡上傳或建立檔案",
 "Nothing in here. Upload something!" => "這裡還沒有東西，上傳一些吧！",

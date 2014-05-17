@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "New folder" => "Új mappa",
 "Folder" => "Mappa",
 "From link" => "Feltöltés linkről",
-"Deleted files" => "Törölt fájlok",
 "Cancel upload" => "A feltöltés megszakítása",
 "You don’t have permission to upload or create files here" => "Önnek nincs jogosultsága ahhoz, hogy ide állományokat töltsön föl, vagy itt újakat hozzon létre",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",

@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Yol Biçemini Etkinleştir",
 "App key" => "Uyg. anahtarı",
 "App secret" => "Uyg. parolası",
+"Host" => "Sunucu",
 "Username" => "Kullanıcı Adı:",
 "Password" => "Parola:",
 "Root" => "Kök",

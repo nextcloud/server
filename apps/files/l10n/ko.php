@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "New folder" => "새 폴더",
 "Folder" => "폴더",
 "From link" => "링크에서",
-"Deleted files" => "삭제된 파일",
 "Cancel upload" => "업로드 취소",
 "You don’t have permission to upload or create files here" => "여기에 파일을 업로드하거나 만들 권한이 없습니다",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",

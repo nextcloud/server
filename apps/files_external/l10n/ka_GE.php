@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "ადგილმდებარეობა",
+"Host" => "ჰოსტი",
 "Username" => "მომხმარებლის სახელი",
 "Password" => "პაროლი",
 "Share" => "გაზიარება",

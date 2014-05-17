@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nový priečinok",
 "Folder" => "Priečinok",
 "From link" => "Z odkazu",
-"Deleted files" => "Zmazané súbory",
 "Cancel upload" => "Zrušiť odosielanie",
 "You don’t have permission to upload or create files here" => "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",

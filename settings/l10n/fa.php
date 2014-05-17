@@ -123,8 +123,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "یک تصویر پروفایل انتخاب کنید",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "از این آدرس استفاده کنید تا <a href=\"%s\" target=\"_blank\">بتوانید به فایل‌های خود توسط WebDAV دسترسی پیدا کنید</a>",
 "Log-in password" => "رمز ورود",
 "Decrypt all Files" => "تمام فایلها رمزگشایی شود",
 "Login Name" => "نام کاربری",

@@ -55,7 +55,6 @@ $TRANSLATIONS = array(
 "New folder" => "Ny mappe",
 "Folder" => "Mappe",
 "From link" => "Frå lenkje",
-"Deleted files" => "Sletta filer",
 "Cancel upload" => "Avbryt opplasting",
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
 "Download" => "Last ned",

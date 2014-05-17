@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Hely",
+"Host" => "Kiszolgáló",
 "Username" => "Felhasználónév",
 "Password" => "Jelszó",
 "Share" => "Megosztás",

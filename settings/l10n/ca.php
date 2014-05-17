@@ -169,8 +169,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Selecciona com a imatge de perfil",
 "Language" => "Idioma",
 "Help translate" => "Ajudeu-nos amb la traducció",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "L'aplicació d'encriptació ja no està activada, desencripteu tots els vostres fitxers",
 "Log-in password" => "Contrasenya d'accés",
 "Decrypt all Files" => "Desencripta tots els fitxers",

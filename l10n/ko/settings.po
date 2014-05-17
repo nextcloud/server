@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -52,15 +52,15 @@ msgstr "이메일 발송됨"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "암호화"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr ""
 
@@ -519,139 +519,143 @@ msgstr "앱에서 공유 API를 사용할 수 있도록 허용"
 msgid "Allow links"
 msgstr "링크 허용"
 
-#: templates/admin.php:225
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
+
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "공개 업로드 허용"
 
-#: templates/admin.php:229
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:231
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:234
+#: templates/admin.php:235
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:237
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:241
+#: templates/admin.php:242
 msgid "Allow users to share items to the public with links"
 msgstr "사용자가 개별 항목의 링크를 공유할 수 있도록 허용"
 
-#: templates/admin.php:251
+#: templates/admin.php:252
 msgid "Allow resharing"
 msgstr "재공유 허용"
 
-#: templates/admin.php:252
+#: templates/admin.php:253
 msgid "Allow users to share items shared with them again"
 msgstr "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용"
 
-#: templates/admin.php:259
+#: templates/admin.php:260
 msgid "Allow users to share with anyone"
 msgstr "누구나와 공유할 수 있도록 허용"
 
-#: templates/admin.php:262
+#: templates/admin.php:263
 msgid "Allow users to only share with users in their groups"
 msgstr "사용자가 속해 있는 그룹의 사용자에게만 공유할 수 있도록 허용"
 
-#: templates/admin.php:269
+#: templates/admin.php:270
 msgid "Allow mail notification"
 msgstr "메일 알림 허용"
 
-#: templates/admin.php:270
+#: templates/admin.php:271
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:279
 msgid "Security"
 msgstr "보안"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "HTTPS 강제 사용"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "클라이언트가 %s에 연결할 때 암호화 연결을 강제로 사용합니다."
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL 강제 설정을 변경하려면 %s에 HTTPS로 연결해야 합니다."
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
 msgstr "전자우편 서버"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
 msgstr "보낸 이 주소"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr "인증 필요함"
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "서버 주소"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
 msgstr "포트"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr "자격 정보"
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr "SMTP 사용자명"
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr "SMTP 암호"
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr "시험용 전자우편 설정"
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
 msgstr "전자우편 보내기"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "로그"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "로그 단계"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:433 templates/personal.php:202
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:437 templates/personal.php:205
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -804,41 +808,30 @@ msgstr "언어"
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>"
-
-#: templates/personal.php:156
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "암호화 앱이 비활성화되었습니다. 모든 파일을 복호화해야 합니다."
 
-#: templates/personal.php:162
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "로그인 암호"
 
-#: templates/personal.php:167
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "모든 파일 복호화"
 
-#: templates/personal.php:180
+#: templates/personal.php:174
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:184
+#: templates/personal.php:178
 msgid "Restore Encryption Keys"
 msgstr ""
 
-#: templates/personal.php:188
+#: templates/personal.php:182
 msgid "Delete Encryption Keys"
 msgstr ""
 

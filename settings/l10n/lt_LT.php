@@ -119,8 +119,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Pasirinkite profilio paveiksliuką",
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>",
 "Log-in password" => "Prisijungimo slaptažodis",
 "Decrypt all Files" => "Iššifruoti visus failus",
 "Login Name" => "Vartotojo vardas",

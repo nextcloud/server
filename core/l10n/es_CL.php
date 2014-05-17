@@ -42,8 +42,8 @@ $TRANSLATIONS = array(
 "Error while sharing" => "Ocurrió un error mientras compartía",
 "Error while unsharing" => "Ocurrió un error mientras dejaba de compartir",
 "Error while changing permissions" => "Ocurrió un error mientras se cambiaban los permisos",
-"Password" => "Clave",
 "The object type is not specified." => "El tipo de objeto no está especificado.",
-"Username" => "Usuario"
+"Username" => "Usuario",
+"Password" => "Clave"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

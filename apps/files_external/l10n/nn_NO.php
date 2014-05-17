@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Stad",
+"Host" => "Tenar",
 "Username" => "Brukarnamn",
 "Password" => "Passord",
 "Share" => "Del",

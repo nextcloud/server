@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -48,15 +48,15 @@ msgstr "Email sent"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "You need to set your user email before being able to send test emails."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr "Send mode"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:150
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "Encryption"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr "Authentication method"
 
@@ -276,11 +276,11 @@ msgstr "Decrypting files... Please wait, this can take some time."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Delete encryption keys permanently."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Restore encryption keys."
 
 #: js/users.js:47
 msgid "deleted"
@@ -515,139 +515,143 @@ msgstr "Allow apps to use the Share API"
 msgid "Allow links"
 msgstr "Allow links"
 
-#: templates/admin.php:225
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
+
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Allow public uploads"
 
-#: templates/admin.php:229
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr "Set default expiry date"
 
-#: templates/admin.php:231
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr "Expire after "
 
-#: templates/admin.php:234
+#: templates/admin.php:235
 msgid "days"
 msgstr "days"
 
-#: templates/admin.php:237
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr "Enforce expiry date"
 
-#: templates/admin.php:241
+#: templates/admin.php:242
 msgid "Allow users to share items to the public with links"
 msgstr "Allow users to share items to the public with links"
 
-#: templates/admin.php:251
+#: templates/admin.php:252
 msgid "Allow resharing"
 msgstr "Allow resharing"
 
-#: templates/admin.php:252
+#: templates/admin.php:253
 msgid "Allow users to share items shared with them again"
 msgstr "Allow users to share items shared with them again"
 
-#: templates/admin.php:259
+#: templates/admin.php:260
 msgid "Allow users to share with anyone"
 msgstr "Allow users to share with anyone"
 
-#: templates/admin.php:262
+#: templates/admin.php:263
 msgid "Allow users to only share with users in their groups"
 msgstr "Allow users to only share with users in their groups"
 
-#: templates/admin.php:269
+#: templates/admin.php:270
 msgid "Allow mail notification"
 msgstr "Allow mail notification"
 
-#: templates/admin.php:270
+#: templates/admin.php:271
 msgid "Allow users to send mail notification for shared files"
 msgstr "Allow users to send mail notification for shared files"
 
-#: templates/admin.php:278
+#: templates/admin.php:279
 msgid "Security"
 msgstr "Security"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "Enforce HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forces the clients to connect to %s via an encrypted connection."
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
 msgstr "Email Server"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr "This is used for sending out notifications."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
 msgstr "From address"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr "Authentication required"
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "Server address"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr "Credentials"
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr "SMTP Username"
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr "SMTP Password"
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr "Test email settings"
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
 msgstr "Send email"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "Log level"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "More"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "Less"
 
-#: templates/admin.php:433 templates/personal.php:202
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:437 templates/personal.php:205
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -800,41 +804,30 @@ msgstr "Language"
 msgid "Help translate"
 msgstr "Help translate"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>"
-
-#: templates/personal.php:156
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "The encryption app is no longer enabled, please decrypt all your files"
 
-#: templates/personal.php:162
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Log-in password"
 
-#: templates/personal.php:167
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Decrypt all Files"
 
-#: templates/personal.php:180
+#: templates/personal.php:174
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly."
 
-#: templates/personal.php:184
+#: templates/personal.php:178
 msgid "Restore Encryption Keys"
 msgstr "Restore Encryption Keys"
 
-#: templates/personal.php:188
+#: templates/personal.php:182
 msgid "Delete Encryption Keys"
 msgstr "Delete Encryption Keys"
 

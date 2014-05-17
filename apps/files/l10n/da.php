@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Ny Mappe",
 "Folder" => "Mappe",
 "From link" => "Fra link",
-"Deleted files" => "Slettede filer",
 "Cancel upload" => "Fortryd upload",
 "You don’t have permission to upload or create files here" => "Du har ikke tilladelse til at uploade eller oprette filer her",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",

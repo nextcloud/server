@@ -69,7 +69,6 @@ $TRANSLATIONS = array(
 "New folder" => "Tạo thư mục",
 "Folder" => "Thư mục",
 "From link" => "Từ liên kết",
-"Deleted files" => "File đã bị xóa",
 "Cancel upload" => "Hủy upload",
 "You don’t have permission to upload or create files here" => "Bạn không có quyền upload hoặc tạo files ở đây",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",

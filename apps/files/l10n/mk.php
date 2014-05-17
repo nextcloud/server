@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Text file" => "Текстуална датотека",
 "Folder" => "Папка",
 "From link" => "Од врска",
-"Deleted files" => "Избришани датотеки",
 "Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
 "Download" => "Преземи",

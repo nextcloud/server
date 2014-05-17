@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "Kohalik",
 "Location" => "Asukoht",
+"Host" => "Host",
 "Username" => "Kasutajanimi",
 "Password" => "Parool",
 "Share" => "Jaga",

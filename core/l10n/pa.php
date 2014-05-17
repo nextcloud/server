@@ -39,11 +39,11 @@ $TRANSLATIONS = array(
 "Cancel" => "ਰੱਦ ਕਰੋ",
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
 "Error" => "ਗਲ",
-"Password" => "ਪਾਸਵਰ",
 "Send" => "ਭੇਜੋ",
 "Warning" => "ਚੇਤਾਵਨੀ",
 "Delete" => "ਹਟਾਓ",
 "Username" => "ਯੂਜ਼ਰ-ਨਾਂ",
-"Security Warning" => "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ"
+"Security Warning" => "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
+"Password" => "ਪਾਸਵਰ"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

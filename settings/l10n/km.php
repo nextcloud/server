@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "Cancel" => "លើកលែង",
 "Language" => "ភាសា",
 "Help translate" => "ជួយ​បក​ប្រែ",
-"WebDAV" => "WebDAV",
 "Log-in password" => "ពាក្យ​សម្ងាត់​ចូល​គណនី",
 "Login Name" => "ចូល",
 "Create" => "បង្កើត",

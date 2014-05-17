@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Omogoči slog poti",
 "App key" => "Programski ključ",
 "App secret" => "Skrivni programski ključ",
+"Host" => "Gostitelj",
 "Username" => "Uporabniško ime",
 "Password" => "Geslo",
 "Root" => "Koren",

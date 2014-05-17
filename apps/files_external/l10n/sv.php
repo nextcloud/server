@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "Lokal",
 "Location" => "Plats",
+"Host" => "Server",
 "Username" => "Användarnamn",
 "Password" => "Lösenord",
 "Share" => "Dela",

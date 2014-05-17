@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Staðsetning",
+"Host" => "Netþjónn",
 "Username" => "Notendanafn",
 "Password" => "Lykilorð",
 "Share" => "Deila",

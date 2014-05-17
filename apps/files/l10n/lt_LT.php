@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "New folder" => "Naujas aplankas",
 "Folder" => "Katalogas",
 "From link" => "Iš nuorodos",
-"Deleted files" => "Ištrinti failai",
 "Cancel upload" => "Atšaukti siuntimą",
 "You don’t have permission to upload or create files here" => "Jūs neturite leidimo čia įkelti arba kurti failus",
 "Nothing in here. Upload something!" => "Čia tuščia. Įkelkite ką nors!",

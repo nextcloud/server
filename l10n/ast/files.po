@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 14:59+0000\n"
-"Last-Translator: tebanpb <peruyero@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "Nun pudo movese %s - Yá existe un ficheru con esi nome."
 msgid "Could not move %s"
 msgstr "Nun pudo movese %s"
 
-#: ajax/newfile.php:58 js/files.js:96
+#: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
 msgstr "El nome de ficheru nun pue quedar baleru."
 
@@ -37,18 +37,18 @@ msgstr "El nome de ficheru nun pue quedar baleru."
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nome inválidu, los caráuteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" nun tán permitíos."
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:60
+#: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -140,9 +140,13 @@ msgstr "Falló la xubida.  Nun se pudo obtener la información del ficheru."
 msgid "Invalid directory."
 msgstr "Carpeta non válida."
 
-#: appinfo/app.php:11 js/filelist.js:17
+#: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
 msgstr "Ficheros"
+
+#: appinfo/app.php:29
+msgid "All files"
+msgstr ""
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -165,129 +169,129 @@ msgstr "Xubida encaboxada."
 msgid "Could not get result from server."
 msgstr "Nun se pudo obtener el resultáu del servidor."
 
-#: js/file-upload.js:493
+#: js/file-upload.js:490
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La xubida del ficheru ta en progresu.  Si dexes esta páxina encaboxarase la xubida."
 
-#: js/file-upload.js:558
+#: js/file-upload.js:555
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:562 js/filelist.js:1016
+#: js/file-upload.js:559 js/filelist.js:1176
 msgid "{new_name} already exists"
 msgstr "{new_name} yá existe"
 
-#: js/file-upload.js:617
+#: js/file-upload.js:614
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:633
+#: js/file-upload.js:630
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:680
+#: js/file-upload.js:677
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:160
+#: js/fileactions.js:168
 msgid "Share"
 msgstr "Compartir"
 
-#: js/fileactions.js:173
+#: js/fileactions.js:181
 msgid "Delete permanently"
 msgstr "Desaniciar dafechu"
 
-#: js/fileactions.js:234
+#: js/fileactions.js:221
 msgid "Rename"
 msgstr "Renomar"
 
-#: js/filelist.js:229
+#: js/filelist.js:299
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Ta preparándose la descarga.  Esto podría llevar dalgún tiempu si los ficheros son grandes."
 
-#: js/filelist.js:531 js/filelist.js:1475
+#: js/filelist.js:602 js/filelist.js:1672
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:969
+#: js/filelist.js:1127
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:977
+#: js/filelist.js:1135
 msgid "Error moving file"
 msgstr "Fallu moviendo'l ficheru"
 
-#: js/filelist.js:977
+#: js/filelist.js:1135
 msgid "Error"
 msgstr "Fallu"
 
-#: js/filelist.js:1041
+#: js/filelist.js:1201
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1175
+#: js/filelist.js:1335
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1277 templates/index.php:68
+#: js/filelist.js:1438 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1278 templates/index.php:81
+#: js/filelist.js:1439 templates/list.php:75
 msgid "Size"
 msgstr "Tamañu"
 
-#: js/filelist.js:1279 templates/index.php:84
+#: js/filelist.js:1440 templates/list.php:78
 msgid "Modified"
 msgstr "Modificáu"
 
-#: js/filelist.js:1288 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1294 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1383 js/filelist.js:1422
+#: js/filelist.js:1580 js/filelist.js:1619
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/files.js:94
+#: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
 msgstr ""
 
-#: js/files.js:115
+#: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "L'almacenamientu ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!"
 
-#: js/files.js:119
+#: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "L'almacenamientu ta casi completu ({usedSpacePercent}%)"
 
-#: js/files.js:133
+#: js/files.js:140
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr ""
 
-#: js/files.js:137
+#: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:141
+#: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
@@ -297,12 +301,12 @@ msgstr "Deshabilitose'l cifráu pero los tos ficheros tovía tan cifraos.  Por f
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: lib/app.php:86
+#: lib/app.php:103
 #, php-format
 msgid "%s could not be renamed"
 msgstr "Nun se puede renomar %s "
 
-#: lib/helper.php:23 templates/index.php:23
+#: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
 msgstr ""
@@ -339,68 +343,75 @@ msgstr "Tamañu máximu d'entrada pa ficheros ZIP"
 msgid "Save"
 msgstr "Guardar"
 
-#: templates/index.php:6
+#: templates/appnavigation.php:12
+msgid "WebDAV"
+msgstr ""
+
+#: templates/appnavigation.php:14
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
+
+#: templates/list.php:5
 msgid "New"
 msgstr "Nuevu"
 
-#: templates/index.php:9
+#: templates/list.php:8
 msgid "New text file"
 msgstr ""
 
-#: templates/index.php:10
+#: templates/list.php:9
 msgid "Text file"
 msgstr "Ficheru de testu"
 
-#: templates/index.php:13
+#: templates/list.php:12
 msgid "New folder"
 msgstr "Nueva carpeta"
 
-#: templates/index.php:14
+#: templates/list.php:13
 msgid "Folder"
 msgstr "Carpeta"
 
-#: templates/index.php:17
+#: templates/list.php:16
 msgid "From link"
 msgstr "Dende enllaz"
 
-#: templates/index.php:41
-msgid "Deleted files"
-msgstr "Ficheros desaniciaos"
-
-#: templates/index.php:46
+#: templates/list.php:42
 msgid "Cancel upload"
 msgstr "Encaboxar xuba"
 
-#: templates/index.php:52
+#: templates/list.php:48
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/index.php:57
+#: templates/list.php:53
 msgid "Nothing in here. Upload something!"
 msgstr "Nun hai nada equí. ¡Xubi daqué!"
 
-#: templates/index.php:74
+#: templates/list.php:68
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/list.php:80 templates/list.php:81
 msgid "Delete"
 msgstr "Desaniciar"
 
-#: templates/index.php:101
+#: templates/list.php:95
 msgid "Upload too large"
 msgstr "La xubida ye demasiao grande"
 
-#: templates/index.php:103
+#: templates/list.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Los ficheros que tas intentando xubir perpasen el tamañu máximu pa les xubíes de ficheros nesti servidor."
 
-#: templates/index.php:108
+#: templates/list.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Tan escaniándose los ficheros, espera por favor."
 
-#: templates/index.php:111
+#: templates/list.php:105
 msgid "Current scanning"
 msgstr "Escanéu actual"

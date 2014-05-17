@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -285,12 +285,12 @@ msgstr "แชร์แล้ว"
 msgid "Share"
 msgstr "แชร์"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -327,13 +327,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "รหัสผ่าน"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -407,27 +407,27 @@ msgstr "ลบ"
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "กำลังส่ง..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "ส่งอีเมล์แล้ว"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "คำเตือน"
 
@@ -670,6 +670,10 @@ msgstr ""
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "รหัสผ่าน"
 
 #: templates/installation.php:70
 msgid "Storage & database"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 14:59+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -293,12 +293,12 @@ msgstr "Jaettu"
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Virhe"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
@@ -335,13 +335,13 @@ msgstr "Julkinen linkki vanhenee {days} päivän jälkeen sen luomisesta"
 msgid "By default the public link will expire after {days} days"
 msgstr "Oletuksena julkinen linkki vanhenee {days} päivässä"
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Salasana"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -415,27 +415,27 @@ msgstr "poista"
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -678,6 +678,10 @@ msgstr "Lisätietoja palvelimen asetuksien määrittämisestä on saatavilla <a 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Salasana"
 
 #: templates/installation.php:70
 msgid "Storage & database"

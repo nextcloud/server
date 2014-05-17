@@ -170,8 +170,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "設定為大頭貼",
 "Language" => "語言",
 "Help translate" => "幫助翻譯",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存取檔案</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "加密的軟體不能長時間啟用，請解密所有您的檔案",
 "Log-in password" => "登入密碼",
 "Decrypt all Files" => "解密所有檔案",

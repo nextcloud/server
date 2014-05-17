@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Iraingitze data iraganekoa da",
+"Expiration date is in the past." => "Muga data iraganekoa da",
 "Couldn't send mail to following users: %s " => "Ezin izan da posta bidali hurrengo erabiltzaileei: %s",
 "Turned on maintenance mode" => "Mantenu modua gaitu da",
 "Turned off maintenance mode" => "Mantenu modua desgaitu da",
@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Elkarbanatu erabiltzaile edo taldearekin...",
 "Share link" => "Elkarbanatu lotura",
 "Password protect" => "Babestu pasahitzarekin",
-"Password" => "Pasahitza",
 "Allow Public Upload" => "Gaitu igotze publikoa",
 "Email link to person" => "Postaz bidali lotura ",
 "Send" => "Bidali",
@@ -149,6 +148,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_blank\">dokumentazioa</a> ikusi.",
 "Create an <strong>admin account</strong>" => "Sortu <strong>kudeatzaile kontu<strong> bat",
+"Password" => "Pasahitza",
 "Storage & database" => "Biltegia & datubasea",
 "Data folder" => "Datuen karpeta",
 "Configure the database" => "Konfiguratu datu basea",

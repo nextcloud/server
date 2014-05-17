@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "محل",
+"Host" => "میزبانی",
 "Username" => "نام کاربری",
 "Password" => "گذرواژه",
 "Share" => "اشتراک‌گذاری",

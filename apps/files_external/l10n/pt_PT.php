@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Enable SSL" => "Activar SSL",
 "App key" => "Chave da aplicação",
 "App secret" => "Chave secreta da aplicação",
+"Host" => "Endereço",
 "Username" => "Nome de utilizador",
 "Password" => "Palavra-passe",
 "Root" => "Raiz",

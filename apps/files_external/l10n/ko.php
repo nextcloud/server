@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Location" => "장소",
 "Amazon S3" => "Amazon S3",
+"Host" => "호스트",
 "Username" => "사용자 이름",
 "Password" => "암호",
 "Share" => "공유",

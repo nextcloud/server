@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -291,12 +291,12 @@ msgstr "Споделено"
 msgid "Share"
 msgstr "Споделяне"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Грешка"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Грешка при споделяне"
 
@@ -333,13 +333,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Защитено с парола"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Парола"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -413,27 +413,27 @@ msgstr "Изтриване"
 msgid "share"
 msgstr "Споделяне"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Защитено с парола"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Грешка при премахване на дата за изтичане"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Грепка при поставяне на дата за изтичане"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Изпращам ..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Пощата е изпратена"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "Внимание"
 
@@ -676,6 +676,10 @@ msgstr ""
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Създаване на <strong>админ профил</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Парола"
 
 #: templates/installation.php:70
 msgid "Storage & database"

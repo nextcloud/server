@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Text file" => "تېكىست ھۆججەت",
 "New folder" => "يېڭى قىسقۇچ",
 "Folder" => "قىسقۇچ",
-"Deleted files" => "ئۆچۈرۈلگەن ھۆججەتلەر",
 "Cancel upload" => "يۈكلەشتىن ۋاز كەچ",
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",

@@ -178,8 +178,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "プロファイル画像として選択",
 "Language" => "言語",
 "Help translate" => "翻訳に協力する",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください",
 "The encryption app is no longer enabled, please decrypt all your files" => "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください",
 "Log-in password" => "ログインパスワード",
 "Decrypt all Files" => "すべてのファイルを複合する",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vieta",
+"Host" => "Mazgas",
 "Username" => "Prisijungimo vardas",
 "Password" => "Slaptažodis",
 "Share" => "Dalintis",

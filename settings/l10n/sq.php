@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Anullo",
 "Language" => "Gjuha",
 "Help translate" => "Ndihmoni në përkthim",
-"WebDAV" => "WebDAV",
 "Login Name" => "Emri i Përdoruesit",
 "Create" => "Krijo",
 "Admin Recovery Password" => "Rigjetja e fjalëkalimit të Admin",

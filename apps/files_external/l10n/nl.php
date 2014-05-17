@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Activeren pad stijl",
 "App key" => "App key",
 "App secret" => "App secret",
+"Host" => "Host",
 "Username" => "Gebruikersnaam",
 "Password" => "Wachtwoord",
 "Root" => "Root",

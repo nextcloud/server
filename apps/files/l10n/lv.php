@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "New folder" => "Jauna mape",
 "Folder" => "Mape",
 "From link" => "No saites",
-"Deleted files" => "Dzēstās datnes",
 "Cancel upload" => "Atcelt augšupielādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
 "Download" => "Lejupielādēt",

@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Port (optional)" => "端口 (可选)",
 "Region (optional)" => "区域 (optional)",
 "Enable SSL" => "启用 SSL",
+"Host" => "主机",
 "Username" => "用户名",
 "Password" => "密码",
 "Root" => "根路径",

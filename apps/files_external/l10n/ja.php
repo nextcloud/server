@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "パス形式を有効",
 "App key" => "アプリキー",
 "App secret" => "アプリシークレット",
+"Host" => "ホスト",
 "Username" => "ユーザー名",
 "Password" => "パスワード",
 "Root" => "ルート",

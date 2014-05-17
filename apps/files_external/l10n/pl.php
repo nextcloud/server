@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Włącz styl ścieżki",
 "App key" => "Klucz aplikacji",
 "App secret" => "Hasło aplikacji",
+"Host" => "Host",
 "Username" => "Nazwa użytkownika",
 "Password" => "Hasło",
 "Root" => "Root",

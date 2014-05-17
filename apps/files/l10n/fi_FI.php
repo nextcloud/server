@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "New folder" => "Uusi kansio",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
-"Deleted files" => "Poistetut tiedostot",
 "Cancel upload" => "Peru lähetys",
 "You don’t have permission to upload or create files here" => "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",

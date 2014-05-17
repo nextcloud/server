@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nueva carpeta",
 "Folder" => "Carpeta",
 "From link" => "Dende enllaz",
-"Deleted files" => "Ficheros desaniciaos",
 "Cancel upload" => "Encaboxar xuba",
 "Nothing in here. Upload something!" => "Nun hai nada equí. ¡Xubi daqué!",
 "Download" => "Descargar",

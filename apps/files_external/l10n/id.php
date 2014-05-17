@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Port (optional)" => "Port (tambahan)",
 "Region (optional)" => "Wilayah (tambahan)",
 "Enable SSL" => "Aktifkan SSL",
+"Host" => "Host",
 "Username" => "Nama Pengguna",
 "Password" => "Sandi",
 "Root" => "Root",

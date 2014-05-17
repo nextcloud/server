@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 15:33+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -277,7 +277,7 @@ msgstr "یوزرز"
 #: templates/settings.php:118 templates/settings.php:119
 #: templates/settings.php:158 templates/settings.php:159
 msgid "Delete"
-msgstr ""
+msgstr "حذف کریں"
 
 #: templates/settings.php:132
 msgid "Enable User External Storage"

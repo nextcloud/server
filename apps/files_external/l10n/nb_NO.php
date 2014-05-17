@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Local" => "Lokal",
 "Location" => "Sted",
 "Amazon S3" => "Amazon S3",
+"Host" => "Tjener",
 "Username" => "Brukernavn",
 "Password" => "Passord",
 "Share" => "Del",

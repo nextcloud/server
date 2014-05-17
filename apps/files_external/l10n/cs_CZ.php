@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Enable SSL" => "Povolit SSL",
 "App key" => "Klíč aplikace",
 "App secret" => "Tajemství aplikace",
+"Host" => "Počítač",
 "Username" => "Uživatelské jméno",
 "Password" => "Heslo",
 "Root" => "Root",

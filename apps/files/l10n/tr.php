@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Yeni klasör",
 "Folder" => "Klasör",
 "From link" => "Bağlantıdan",
-"Deleted files" => "Silinmiş dosyalar",
 "Cancel upload" => "Yüklemeyi iptal et",
 "You don’t have permission to upload or create files here" => "Buraya dosya yükleme veya oluşturma izniniz yok",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Bir şeyler yükleyin!",

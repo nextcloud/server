@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "Локально",
 "Location" => "Местоположение",
+"Host" => "Сервер",
 "Username" => "Имя пользователя",
 "Password" => "Пароль",
 "Share" => "Открыть доступ",

@@ -3,12 +3,11 @@ $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Datoteke %s ni mogoče trajno izbrisati.",
 "Couldn't restore %s" => "Ni mogoče obnoviti %s",
 "Deleted files" => "Izbrisane datoteke",
+"Restore" => "Obnovi",
 "Error" => "Napaka",
-"Deleted Files" => "Izbrisane datoteke",
 "restored" => "obnovljeno",
 "Nothing in here. Your trash bin is empty!" => "Mapa smeti je prazna.",
 "Name" => "Ime",
-"Restore" => "Obnovi",
 "Deleted" => "Izbrisano",
 "Delete" => "Izbriši"
 );

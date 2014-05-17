@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vendndodhja",
+"Host" => "Pritësi",
 "Username" => "Përdoruesi",
 "Password" => "fjalëkalim",
 "Share" => "Ndaj",

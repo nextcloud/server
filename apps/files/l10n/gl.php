@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Novo cartafol",
 "Folder" => "Cartafol",
 "From link" => "Desde a ligazón",
-"Deleted files" => "Ficheiros eliminados",
 "Cancel upload" => "Cancelar o envío",
 "You don’t have permission to upload or create files here" => "Non ten permisos para enviar ou crear ficheiros aquí.",
 "Nothing in here. Upload something!" => "Aquí non hai nada. Envíe algo.",

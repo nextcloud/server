@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 14:59+0000\n"
-"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,21 +28,17 @@ msgstr "មិន​អាច​លុប %s ចោល​ជា​អចិន�
 msgid "Couldn't restore %s"
 msgstr "មិន​អាច​ស្ដារ %s ឡើង​វិញ​បាន​ទេ"
 
-#: js/filelist.js:3
+#: appinfo/app.php:13 js/filelist.js:34
 msgid "Deleted files"
 msgstr "ឯកសារ​ដែល​បាន​លុប"
 
-#: js/filelist.js:89 js/filelist.js:133 js/filelist.js:182
-msgid "Error"
-msgstr "កំហុស"
-
-#: js/trash.js:48 templates/index.php:23 templates/index.php:25
+#: js/app.js:53 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "ស្ដារ​មក​វិញ"
 
-#: js/trash.js:107
-msgid "Deleted Files"
-msgstr "ឯកសារ​ដែល​បាន​លុប"
+#: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
+msgid "Error"
+msgstr "កំហុស"
 
 #: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
@@ -52,14 +48,14 @@ msgstr "បាន​ស្ដារ​វិញ"
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ធុង​សំរាម​របស់​អ្នក​គឺ​ទទេ!"
 
-#: templates/index.php:20
+#: templates/index.php:18
 msgid "Name"
 msgstr "ឈ្មោះ"
 
-#: templates/index.php:31
+#: templates/index.php:29
 msgid "Deleted"
 msgstr "បាន​លុប"
 
-#: templates/index.php:34 templates/index.php:35
+#: templates/index.php:32 templates/index.php:33
 msgid "Delete"
 msgstr "លុប"

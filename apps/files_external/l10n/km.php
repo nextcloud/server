@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "ទីតាំង",
+"Host" => "ម៉ាស៊ីន​ផ្ទុក",
 "Username" => "ឈ្មោះ​អ្នកប្រើ",
 "Password" => "ពាក្យសម្ងាត់",
 "Share" => "ចែក​រំលែក",

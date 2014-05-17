@@ -63,7 +63,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nova dosierujo",
 "Folder" => "Dosierujo",
 "From link" => "El ligilo",
-"Deleted files" => "Forigitaj dosieroj",
 "Cancel upload" => "Nuligi alŝuton",
 "You don’t have permission to upload or create files here" => "Vi ne havas permeson alŝuti aŭ krei dosierojn ĉi tie",
 "Nothing in here. Upload something!" => "Nenio estas ĉi tie. Alŝutu ion!",

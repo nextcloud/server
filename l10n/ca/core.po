@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -293,12 +293,12 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -335,13 +335,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Contrasenya"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -415,27 +415,27 @@ msgstr "elimina"
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data de venciment"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Error en establir la data de venciment"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "Avís"
 
@@ -678,6 +678,10 @@ msgstr "Per informació de com configurar el servidor, comproveu la <a href=\"%s
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>compte d'administrador</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Contrasenya"
 
 #: templates/installation.php:70
 msgid "Storage & database"

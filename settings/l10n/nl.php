@@ -178,8 +178,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Kies als profielafbeelding",
 "Language" => "Taal",
 "Help translate" => "Help met vertalen",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Gebruik deze link <a href=\"%s\" target=\"_blank\">om uw bestanden via WebDAV te benaderen</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "De crypto app is niet langer geactiveerd, u moet alle bestanden decrypten.",
 "Log-in password" => "Inlog-wachtwoord",
 "Decrypt all Files" => "Decodeer alle bestanden",

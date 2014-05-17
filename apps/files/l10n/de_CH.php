@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "New folder" => "Neues Verzeichnis",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
-"Deleted files" => "Gelöschte Dateien",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Laden Sie etwas hoch!",
 "Download" => "Herunterladen",

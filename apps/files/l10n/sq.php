@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "New folder" => "Dosje e're",
 "Folder" => "Dosje",
 "From link" => "Nga lidhja",
-"Deleted files" => "Skedarë të fshirë ",
 "Cancel upload" => "Anullo ngarkimin",
 "Nothing in here. Upload something!" => "Këtu nuk ka asgje. Ngarko dicka",
 "Download" => "Shkarko",

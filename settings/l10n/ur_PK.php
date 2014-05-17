@@ -1,6 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Email sent" => "ارسال شدہ ای میل ",
 "Error" => "ایرر",
+"Delete" => "حذف کریں",
+"Security Warning" => "حفاظتی انتباہ",
 "Password" => "پاسورڈ",
 "New password" => "نیا پاسورڈ",
 "Cancel" => "منسوخ کریں",

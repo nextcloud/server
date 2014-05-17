@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "New folder" => "پوشه جدید",
 "Folder" => "پوشه",
 "From link" => "از پیوند",
-"Deleted files" => "فایل های حذف شده",
 "Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "دانلود",

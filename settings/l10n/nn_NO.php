@@ -111,7 +111,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Vel som profilbilete",
 "Language" => "Språk",
 "Help translate" => "Hjelp oss å omsetja",
-"WebDAV" => "WebDAV",
 "Log-in password" => "Innloggingspassord",
 "Decrypt all Files" => "Dekrypter alle filene",
 "Login Name" => "Innloggingsnamn",

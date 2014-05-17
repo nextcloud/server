@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "ئورنى",
+"Host" => "باش ئاپپارات",
 "Username" => "ئىشلەتكۈچى ئاتى",
 "Password" => "ئىم",
 "Share" => "ھەمبەھىر",

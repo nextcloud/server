@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Activar o estilo de ruta",
 "App key" => "Clave da API",
 "App secret" => "Secreto do aplicativo",
+"Host" => "Servidor",
 "Username" => "Nome de usuario",
 "Password" => "Contrasinal",
 "Root" => "Root (raíz)",

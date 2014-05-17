@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -304,12 +304,12 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -346,13 +346,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Heslo"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -426,27 +426,27 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "Varování"
 
@@ -689,6 +689,10 @@ msgstr "Pro informace, jak správně nastavit váš server, se podívejte do <a 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Heslo"
 
 #: templates/installation.php:70
 msgid "Storage & database"

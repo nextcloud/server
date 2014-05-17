@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Atcelt",
 "Language" => "Valoda",
 "Help translate" => "Palīdzi tulkot",
-"WebDAV" => "WebDAV",
 "Log-in password" => "Pieslēgšanās parole",
 "Decrypt all Files" => "Atšifrēt visus failus",
 "Login Name" => "Ierakstīšanās vārds",

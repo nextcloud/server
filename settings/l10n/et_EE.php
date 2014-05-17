@@ -172,8 +172,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Vali profiilipildiks",
 "Language" => "Keel",
 "Help translate" => "Aita tõlkida",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Kasuta seda aadressi <a href=\"%s\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "Küpteeringu rakend pole lubatud, dekrüpteeri kõik oma failid",
 "Log-in password" => "Sisselogimise parool",
 "Decrypt all Files" => "Dekrüpteeri kõik failid",

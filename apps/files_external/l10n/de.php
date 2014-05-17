@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Pfad-Stil aktivieren",
 "App key" => "App-Schlüssel",
 "App secret" => "Geheime Zeichenkette der App",
+"Host" => "Host",
 "Username" => "Benutzername",
 "Password" => "Passwort",
 "Root" => "Root",

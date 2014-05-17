@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "াবস্থান",
+"Host" => "হোস্ট",
 "Username" => "ব্যবহারকারী",
 "Password" => "কূটশব্দ",
 "Share" => "ভাগাভাগি কর",

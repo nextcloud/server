@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Enable Path Style" => "Enable Path Style",
 "App key" => "App key",
 "App secret" => "App secret",
+"Host" => "Host",
 "Username" => "Username",
 "Password" => "Password",
 "Root" => "Root",

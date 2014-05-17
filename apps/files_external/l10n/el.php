@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Enable SSL" => "Ενεργοποίηση SSL",
 "Enable Path Style" => "Ενεργοποίηση μορφής διαδρομής",
 "App key" => "Κλειδί εφαρμογής",
+"Host" => "Διακομιστής",
 "Username" => "Όνομα χρήστη",
 "Password" => "Κωδικός πρόσβασης",
 "Root" => "Root",

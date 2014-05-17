@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Amazon S3" => "Amazon S3",
 "Port (optional)" => "Portua (hautazkoa)",
 "Enable SSL" => "Gaitu SSL",
+"Host" => "Hostalaria",
 "Username" => "Erabiltzaile izena",
 "Password" => "Pasahitza",
 "Share" => "Partekatu",

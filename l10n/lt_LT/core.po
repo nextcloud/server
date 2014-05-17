@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -300,12 +300,12 @@ msgstr "Dalinamasi"
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Klaida"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
@@ -342,13 +342,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Apsaugotas slaptažodžiu"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Slaptažodis"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -422,27 +422,27 @@ msgstr "ištrinti"
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Siunčiama..."
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Laiškas išsiųstas"
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr "Įspėjimas"
 
@@ -685,6 +685,10 @@ msgstr "Kad gauti informaciją apie tai kaip tinkamai sukonfigūruoti savo serve
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sukurti <strong>administratoriaus paskyrą</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Slaptažodis"
 
 #: templates/installation.php:70
 msgid "Storage & database"

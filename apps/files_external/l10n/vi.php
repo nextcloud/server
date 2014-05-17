@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vị trí",
+"Host" => "Máy chủ",
 "Username" => "Tên đăng nhập",
 "Password" => "Mật khẩu",
 "Share" => "Chia sẻ",

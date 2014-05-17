@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Vieta",
+"Host" => "Resursdators",
 "Username" => "Lietotājvārds",
 "Password" => "Parole",
 "Share" => "Dalīties",

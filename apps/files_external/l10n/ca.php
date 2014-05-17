@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "Local",
 "Location" => "Ubicació",
+"Host" => "Equip remot",
 "Username" => "Nom d'usuari",
 "Password" => "Contrasenya",
 "Share" => "Comparteix",

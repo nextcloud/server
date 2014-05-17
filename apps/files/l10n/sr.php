@@ -44,7 +44,6 @@ $TRANSLATIONS = array(
 "Text file" => "текстуална датотека",
 "Folder" => "фасцикла",
 "From link" => "Са везе",
-"Deleted files" => "Обрисане датотеке",
 "Cancel upload" => "Прекини отпремање",
 "Nothing in here. Upload something!" => "Овде нема ничег. Отпремите нешто!",
 "Download" => "Преузми",

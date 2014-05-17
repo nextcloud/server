@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Local" => "Lokálny",
 "Location" => "Umiestnenie",
+"Host" => "Hostiteľ",
 "Username" => "Používateľské meno",
 "Password" => "Heslo",
 "Share" => "Zdieľať",

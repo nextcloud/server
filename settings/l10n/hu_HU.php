@@ -141,8 +141,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Válassz profil képet",
 "Language" => "Nyelv",
 "Help translate" => "Segítsen a fordításban!",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Ezt a címet használd, hogy <a href=\"%s\" target=\"_blank\">hozzáférj a fileokhoz WebDAV-on keresztül</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "A titkosító alkalmazás továbbiakban nem lesz engedélyezve, szüntesd meg a titkosítását a file-jaidnak.",
 "Log-in password" => "Bejelentkezési jelszó",
 "Decrypt all Files" => "Kititkosítja az összes file-t",

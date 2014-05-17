@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nieuwe map",
 "Folder" => "Map",
 "From link" => "Vanaf link",
-"Deleted files" => "Verwijderde bestanden",
 "Cancel upload" => "Upload afbreken",
 "You don’t have permission to upload or create files here" => "U hebt geen toestemming om hier te uploaden of bestanden te maken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",

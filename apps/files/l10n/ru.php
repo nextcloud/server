@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "New folder" => "Новый каталог",
 "Folder" => "Каталог",
 "From link" => "Объект по ссылке",
-"Deleted files" => "Удалённые файлы",
 "Cancel upload" => "Отменить загрузку",
 "You don’t have permission to upload or create files here" => "У вас нет прав для загрузки или создания файлов здесь.",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",

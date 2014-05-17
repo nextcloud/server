@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "New folder" => "Нова тека",
 "Folder" => "Тека",
 "From link" => "З посилання",
-"Deleted files" => "Видалено файлів",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",

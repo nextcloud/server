@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-15 19:05+0000\n"
-"Last-Translator: leostandards100 <mrshah_300@yahoo.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -249,7 +249,7 @@ msgstr "منسوخ کریں"
 
 #: js/oc-dialogs.js:453
 msgid "Continue"
-msgstr ""
+msgstr "جاری"
 
 #: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
@@ -285,36 +285,36 @@ msgstr ""
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
-msgstr "تقسیم شدہ"
+msgstr "اشتراک شدہ"
 
 #: js/share.js:109
 msgid "Share"
-msgstr "تقسیم"
+msgstr "اشتراک"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:747
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "خرابی"
 
-#: js/share.js:160 js/share.js:810
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
-msgstr "شئیرنگ کے دوران ایرر"
+msgstr "اشتراک کے دوران خرابی "
 
 #: js/share.js:171
 msgid "Error while unsharing"
-msgstr "شئیرنگ ختم کرنے  کے دوران ایرر"
+msgstr "اشترک ختم کرنے کے دوران خرابی"
 
 #: js/share.js:178
 msgid "Error while changing permissions"
-msgstr "اختیارات کو تبدیل کرنے کے دوران ایرر"
+msgstr "اختیارات کو تبدیل کرنے کے دوران  خرابی "
 
 #: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "آپ اور گروہ سے مشترق شدہ {گروہ } سے {مالک}"
 
 #: js/share.js:190
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "اشتراک شدہ آپ سے{مالک}"
 
 #: js/share.js:214
 msgid "Share with user or group …"
@@ -333,13 +333,13 @@ msgstr ""
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:233
 msgid "Password protect"
-msgstr "پاسورڈ سے محفوظ کریں"
+msgstr "محفوظ پاسورڈ"
 
-#: js/share.js:236 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "پاسورڈ"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
 #: js/share.js:241
 msgid "Allow Public Upload"
@@ -347,7 +347,7 @@ msgstr ""
 
 #: js/share.js:245
 msgid "Email link to person"
-msgstr ""
+msgstr "شحص کے لیے ای میل لنک"
 
 #: js/share.js:246
 msgid "Send"
@@ -363,11 +363,11 @@ msgstr "تاریخ معیاد"
 
 #: js/share.js:289
 msgid "Share via email:"
-msgstr ""
+msgstr "ای میل کے زریعے ارسال کریں"
 
 #: js/share.js:292
 msgid "No people found"
-msgstr "کوئی لوگ نہیں ملے۔"
+msgstr "کوئ شخص موجود نہیں "
 
 #: js/share.js:336 js/share.js:397
 msgid "group"
@@ -375,11 +375,11 @@ msgstr ""
 
 #: js/share.js:369
 msgid "Resharing is not allowed"
-msgstr "دوبارہ شئیر کرنے کی اجازت نہیں"
+msgstr "دوبارہ اشتراک کی اجازت نہیں"
 
 #: js/share.js:413
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "شراکت میں {آئٹم}اور {مستخدم}"
 
 #: js/share.js:435
 msgid "Unshare"
@@ -391,7 +391,7 @@ msgstr ""
 
 #: js/share.js:446
 msgid "can edit"
-msgstr "ایڈٹ کر سکے"
+msgstr "تبدیل کر سکے ھیں"
 
 #: js/share.js:448
 msgid "access control"
@@ -413,27 +413,27 @@ msgstr "ختم کریں"
 msgid "share"
 msgstr "شئیر کریں"
 
-#: js/share.js:734
+#: js/share.js:742
 msgid "Password protected"
 msgstr "پاسورڈ سے محفوظ کیا گیا ہے"
 
-#: js/share.js:747
+#: js/share.js:761
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "خرابی غیر تصحیح تاریخ معیاد"
 
-#: js/share.js:768
+#: js/share.js:782
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "خرابی  تصحیح تاریخ معیاد"
 
-#: js/share.js:797
+#: js/share.js:811
 msgid "Sending ..."
-msgstr ""
+msgstr "ارسال ہو رہا ھے"
 
-#: js/share.js:808
+#: js/share.js:822
 msgid "Email sent"
-msgstr ""
+msgstr "ارسال شدہ ای میل "
 
-#: js/share.js:832
+#: js/share.js:846
 msgid "Warning"
 msgstr ""
 
@@ -447,7 +447,7 @@ msgstr ""
 
 #: js/tags.js:27
 msgid "Delete"
-msgstr ""
+msgstr "حذف کریں"
 
 #: js/tags.js:31
 msgid "Add"
@@ -455,7 +455,7 @@ msgstr "شامل کریں"
 
 #: js/tags.js:39
 msgid "Edit tags"
-msgstr ""
+msgstr "ترمیم ٹیگز"
 
 #: js/tags.js:57
 msgid "Error loading dialog template: {error}"
@@ -474,11 +474,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "اپ ڈیٹ نا کامیاب تھی۔ براہ مہربانی اس مسلے کو رپورٹ کریں اس پے  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>. "
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "اپ ڈیٹ کامیاب تھی۔ اپ کو اون کلوڈ سے منسلک کیا جا رہا ہے"
 
 #: lostpassword/controller.php:70
 #, php-format
@@ -561,7 +561,7 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "ذاتی"
+msgstr "شخصی"
 
 #: strings.php:6
 msgid "Users"
@@ -613,7 +613,7 @@ msgstr "پہنچ کی اجازت نہیں"
 
 #: templates/404.php:15
 msgid "Cloud not found"
-msgstr "نہیں مل سکا"
+msgstr "کلوڈ موجود نہہں"
 
 #: templates/altmail.php:2
 #, php-format
@@ -632,16 +632,16 @@ msgstr ""
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "واہ!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "حفاظتی انتباہ"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "آپ کا پی ایچ پی ورین نل بائٹ کے حملے کے خطرے سے دوچار  ہے (CVE-2006-7243)"
 
 #: templates/installation.php:27
 #, php-format
@@ -652,13 +652,13 @@ msgstr ""
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "کوئ محفوظ بے ترتیب نمبر جنریٹر موجود نہیں مہربانی کر کے پی ایچ پی اوپن ایس ایس ایل ایکسٹنشن  چالو کریں."
 
 #: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "ایک محفوظ بے ترتیب نمبر جنریٹر کے بغیر ایک حملہ آور پاس ورڈ ری سیٹ ٹوکن کی پیشن گوئی کرنے کے قابل اور اپ کے حساب پر قبضہ کر سکتا ہے"
 
 #: templates/installation.php:40
 msgid ""
@@ -676,6 +676,10 @@ msgstr ""
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "پاسورڈ"
 
 #: templates/installation.php:70
 msgid "Storage & database"
@@ -739,7 +743,7 @@ msgstr "لاگ آؤٹ"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "آٹومیٹک لاگ ان مسترد"
 
 #: templates/login.php:10
 msgid ""

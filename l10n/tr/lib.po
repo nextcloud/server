@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-29 01:55-0400\n"
-"PO-Revision-Date: 2014-04-28 12:00+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: base.php:712
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sunucuya güvenilmeyen bir alan adından ulaşıyorsunuz."
 
-#: base.php:713
+#: base.php:686
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -80,23 +80,23 @@ msgstr "Geçersiz resim"
 msgid "web services under your control"
 msgstr "kontrolünüzün altındaki web hizmetleri"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP indirmeleri kapatıldı."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Dosyaların tek tek indirilmesi gerekmektedir."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Dosyalara Dön"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyük."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -293,8 +293,8 @@ msgstr "Web sunucunuz dosya eşitlemesine izin vermek üzere düzgün bir şekil
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s sizinle »%s« paylaşımında bulundu"
@@ -336,73 +336,79 @@ msgstr "%s paylaşımı, %s grubu mevcut olmadığından başarısız oldu"
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "%s paylaşımı, %s kullanıcısı %s grup üyesi olmadığından başarısız oldu"
 
-#: private/share/share.php:629
+#: private/share/share.php:618
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr ""
+
+#: private/share/share.php:638
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "%s paylaşımı, bağlantılar ile paylaşım izin verilmediğinden başarısız oldu"
 
-#: private/share/share.php:636
+#: private/share/share.php:645
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "%s paylaşım türü %s için geçerli değil"
 
-#: private/share/share.php:773
+#: private/share/share.php:783
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "%s için izinler, izinler %s için verilen izinleri aştığından dolayı ayarlanamadı"
 
-#: private/share/share.php:834
+#: private/share/share.php:844
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "%s için izinler öge bulunamadığından ayarlanamadı"
 
-#: private/share/share.php:940
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Paylaşma arka ucu %s OCP\\Share_Backend arayüzünü desteklemeli"
 
-#: private/share/share.php:947
+#: private/share/share.php:962
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Paylaşım arka ucu %s bulunamadı"
 
-#: private/share/share.php:953
+#: private/share/share.php:968
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "%s için paylaşım arka ucu bulunamadı"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1383
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s paylaşımı, %s kullanıcısı özgün paylaşan kişi olduğundan başarısız oldu"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1392
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s paylaşımı, izinler %s için verilen izinleri aştığından dolayı başarısız oldu"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1407
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s paylaşımı, tekrar paylaşımın izin verilmemesinden dolayı başarısız oldu"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1419
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s paylaşımı, %s için arka ucun kaynağını bulamamasından dolayı başarısız oldu"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1433
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "%s paylaşımı, dosyanın dosya önbelleğinde bulunamamasınndan dolayı başarısız oldu"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "\"%s\" kategorisi bulunamadı"

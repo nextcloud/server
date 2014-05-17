@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Key" => "Nøgle",
 "Secret" => "Hemmelighed",
 "Secret Key" => "Hemmelig Nøgle ",
+"Host" => "Host",
 "Username" => "Brugernavn",
 "Password" => "Kodeord",
 "Root" => "Root",

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Port (optional)" => "Port (optionnel)",
 "Enable SSL" => "Activer SSL",
 "App key" => "Clé App",
+"Host" => "Hôte",
 "Username" => "Nom d'utilisateur",
 "Password" => "Mot de passe",
 "Root" => "Root",

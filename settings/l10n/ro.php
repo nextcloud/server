@@ -129,8 +129,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Alege drept imagine de profil",
 "Language" => "Limba",
 "Help translate" => "Ajută la traducere",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Folosește această adresă <a href=\"%s\" target=\"_blank\">pentru acces la fișierele tale folosind WebDAV</a>",
 "Log-in password" => "Parolă",
 "Decrypt all Files" => "Decriptează toate fișierele",
 "Login Name" => "Autentificare",
