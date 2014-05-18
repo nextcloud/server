@@ -55,11 +55,6 @@ class User {
 	 */
 	public function __construct($uid, $backend, $emitter = null, $config = null) {
 		$this->uid = $uid;
-		if ($backend and $backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
-			$this->displayName = $backend->getDisplayName($uid);
-		} else {
-			$this->displayName = $uid;
-		}
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		$this->config = $config;
@@ -86,6 +81,13 @@ class User {
 	 * @return string
 	 */
 	public function getDisplayName() {
+		if (!isset($this->displayName)) {
+			if ($this->backend and $this->backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+				$this->displayName = $this->backend->getDisplayName($this->uid);
+			} else {
+				$this->displayName = $this->uid;
+			}
+		}
 		return $this->displayName;
 	}
 
