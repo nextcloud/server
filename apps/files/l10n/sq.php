@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "o është pa limit",
 "Maximum input size for ZIP files" => "Maksimumi hyrës i skedarëve ZIP",
 "Save" => "Ruaj",
+"WebDAV" => "WebDAV",
 "New" => "E re",
 "Text file" => "Skedar tekst",
 "New folder" => "Dosje e're",

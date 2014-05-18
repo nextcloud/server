@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 16:17+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -251,23 +251,23 @@ msgstr ""
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "بہت کمزور پاسورڈ"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "کمزور پاسورڈ"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "نص نص پاسورڈ"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "اچھا پاسورڈ"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "مضبوط پاسورڈ"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
@@ -640,11 +640,11 @@ msgstr ""
 
 #: templates/admin.php:427
 msgid "More"
-msgstr ""
+msgstr "مزید"
 
 #: templates/admin.php:428
 msgid "Less"
-msgstr ""
+msgstr "کم"
 
 #: templates/admin.php:434 templates/personal.php:196
 msgid "Version"

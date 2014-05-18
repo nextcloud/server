@@ -1,8 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "مقام",
 "Username" => "یوزر نیم",
 "Password" => "پاسورڈ",
 "Share" => "تقسیم",
+"URL" => "یو ار ایل",
 "Users" => "یوزرز",
 "Delete" => "حذف کریں"
 );

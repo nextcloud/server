@@ -71,6 +71,8 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 és sense límit",
 "Maximum input size for ZIP files" => "Mida màxima d'entrada per fitxers ZIP",
 "Save" => "Desa",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
 "New" => "Nou",
 "New text file" => "Nou fitxer de text",
 "Text file" => "Fitxer de text",

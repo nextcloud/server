@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 bedeutet unbegrenzt",
 "Maximum input size for ZIP files" => "Maximale Grösse für ZIP-Dateien",
 "Save" => "Speichern",
+"WebDAV" => "WebDAV",
 "New" => "Neu",
 "Text file" => "Textdatei",
 "New folder" => "Neues Verzeichnis",

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 14:36+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -347,14 +347,14 @@ msgstr "저장"
 
 #: templates/appnavigation.php:12
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/appnavigation.php:14
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>"
 
 #: templates/list.php:5
 msgid "New"

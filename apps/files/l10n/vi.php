@@ -63,6 +63,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 là không giới hạn",
 "Maximum input size for ZIP files" => "Kích thước tối đa cho các tập tin ZIP",
 "Save" => "Lưu",
+"WebDAV" => "WebDAV",
 "New" => "Tạo mới",
 "New text file" => "File text mới",
 "Text file" => "Tập tin văn bản",

@@ -72,6 +72,8 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 est illimité",
 "Maximum input size for ZIP files" => "Taille maximale pour les fichiers ZIP",
 "Save" => "Sauvegarder",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Utiliser cette adresse pour <a href=\"%s\" target=\"_blank\"> accéder à vos fichiers par WebDAV</a>",
 "New" => "Nouveau",
 "New text file" => "Nouveau fichier texte",
 "Text file" => "Fichier texte",

@@ -40,6 +40,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 is unlimited",
 "Maximum input size for ZIP files" => "ZIP ფაილების მაქსიმუმ დასაშვები ზომა",
 "Save" => "შენახვა",
+"WebDAV" => "WebDAV",
 "New" => "ახალი",
 "Text file" => "ტექსტური ფაილი",
 "New folder" => "ახალი ფოლდერი",

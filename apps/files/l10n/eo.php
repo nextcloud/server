@@ -58,6 +58,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 signifas senlime",
 "Maximum input size for ZIP files" => "Maksimuma enirgrando por ZIP-dosieroj",
 "Save" => "Konservi",
+"WebDAV" => "WebDAV",
 "New" => "Nova",
 "Text file" => "Tekstodosiero",
 "New folder" => "Nova dosierujo",

@@ -71,6 +71,8 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 tähendab piiramatut",
 "Maximum input size for ZIP files" => "Maksimaalne ZIP-faili sisestatava faili suurus",
 "Save" => "Salvesta",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Kasuta seda aadressi <a href=\"%s\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>",
 "New" => "Uus",
 "New text file" => "Uus tekstifail",
 "Text file" => "Tekstifail",

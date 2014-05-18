@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Enable Share API" => "Aktiviere Sharing-API",
 "Allow apps to use the Share API" => "Erlaubt Apps die Nutzung der Share-API",
 "Allow links" => "Erlaubt Links",
+"Enforce password protection" => "Passwortschutz erzwingen",
 "Allow public uploads" => "Öffentliches Hochladen erlauben",
 "Set default expiration date" => "Setze  Ablaufdatum",
 "Expire after " => "Ablauf nach dem",

@@ -65,6 +65,8 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 = korlátlan",
 "Maximum input size for ZIP files" => "ZIP-fájlok maximális kiindulási mérete",
 "Save" => "Mentés",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Ezt a címet használd, hogy <a href=\"%s\" target=\"_blank\">hozzáférj a fileokhoz WebDAV-on keresztül</a>",
 "New" => "Új",
 "New text file" => "Új szöveges file",
 "Text file" => "Szövegfájl",

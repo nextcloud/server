@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 14:36+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -354,14 +354,14 @@ msgstr "Spara"
 
 #: templates/appnavigation.php:12
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/appnavigation.php:14
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Använd denna adress till <a href=\"%s\" target=\"_blank\">nå dina Filer via WebDAV</a>"
 
 #: templates/list.php:5
 msgid "New"

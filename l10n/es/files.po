@@ -9,7 +9,7 @@
 # juanman <juanma@kde.org.ar>, 2013
 # mikelanabitarte <inactive+mikelanabitarte@transifex.com>, 2013
 # plaguna <laguna.sanchez@gmail.com>, 2014
-# Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
 # qdneren <renanqd@yahoo.com.mx>, 2013
 # Rubén del Campo <yo@rubendelcampo.es>, 2013
 # saskarip <saskarip@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 12:54+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,7 +156,7 @@ msgstr "Archivos"
 
 #: appinfo/app.php:29
 msgid "All files"
-msgstr ""
+msgstr "Todos los archivos"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -355,14 +355,14 @@ msgstr "Guardar"
 
 #: templates/appnavigation.php:12
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/appnavigation.php:14
 #, php-format
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Use esta URL <a href=\"%s\" target=\"_blank\">para acceder via WebDAV</a>"
 
 #: templates/list.php:5
 msgid "New"

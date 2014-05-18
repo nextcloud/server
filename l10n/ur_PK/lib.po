@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 16:17+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -66,11 +66,11 @@ msgstr ""
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "غیر معرروف قسم کی فائل"
 
 #: private/avatar.php:71
 msgid "Invalid image"
-msgstr ""
+msgstr "غلط تصویر"
 
 #: private/defaults.php:35
 msgid "web services under your control"

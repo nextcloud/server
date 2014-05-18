@@ -22,6 +22,7 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array(""),
 "_Uploading %n file_::_Uploading %n files_" => array(""),
 "Save" => "ساقلا",
+"WebDAV" => "WebDAV",
 "New" => "يېڭى",
 "Text file" => "تېكىست ھۆججەت",
 "New folder" => "يېڭى قىسقۇچ",

@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 er ubegrensa",
 "Maximum input size for ZIP files" => "Maksimal storleik for ZIP-filer",
 "Save" => "Lagre",
+"WebDAV" => "WebDAV",
 "New" => "Ny",
 "Text file" => "Tekst fil",
 "New folder" => "Ny mappe",

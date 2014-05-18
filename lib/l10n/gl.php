@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "Fallou a compartición de %s, este elemento xa está compartido con %s",
 "Sharing %s failed, because the group %s does not exist" => "Fallou a compartición de %s, o grupo %s non existe",
 "Sharing %s failed, because %s is not a member of the group %s" => "Fallou a compartición de %s, %s non é membro do grupo %s",
+"You need to provide a password to create a public link, only protected links are allowed" => "Ten que fornecer un contrasinal para a ligazón pública, só se permiten ligazóns protexidas",
 "Sharing %s failed, because sharing with links is not allowed" => "Fallou a compartición de %s, non está permitido compartir con ligazóns",
 "Share type %s is not valid for %s" => "Non se admite a compartición do tipo %s para %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s",

@@ -22,6 +22,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 គឺ​មិន​កំណត់",
 "Maximum input size for ZIP files" => "ទំហំ​ចូល​ជា​អតិបរមា​សម្រាប់​ឯកសារ ZIP",
 "Save" => "រក្សាទុក",
+"WebDAV" => "WebDAV",
 "New" => "ថ្មី",
 "Text file" => "ឯកសារ​អក្សរ",
 "New folder" => "ថត​ថ្មី",

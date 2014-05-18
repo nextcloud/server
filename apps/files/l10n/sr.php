@@ -40,6 +40,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 је неограничено",
 "Maximum input size for ZIP files" => "Највећа величина ZIP датотека",
 "Save" => "Сачувај",
+"WebDAV" => "WebDAV",
 "New" => "Нова",
 "Text file" => "текстуална датотека",
 "Folder" => "фасцикла",

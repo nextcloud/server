@@ -40,6 +40,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 - ללא הגבלה",
 "Maximum input size for ZIP files" => "גודל הקלט המרבי לקובצי ZIP",
 "Save" => "שמירה",
+"WebDAV" => "WebDAV",
 "New" => "חדש",
 "Text file" => "קובץ טקסט",
 "Folder" => "תיקייה",

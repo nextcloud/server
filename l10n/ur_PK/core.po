@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 18:13+0000\n"
+"Last-Translator: leostandards100 <mrshah_300@yahoo.com>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "ختم ہونے کی تاریخ ماضی میں ہے."
 
 #: ajax/share.php:119 ajax/share.php:161
 #, php-format
@@ -29,27 +29,27 @@ msgstr ""
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "بحالی موڈ چالو ہے"
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "بحالی موڈ بند ہے"
 
 #: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
+msgstr "اپ ڈیٹ ہوئ ڈیٹا بیس"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "کوئی تصویر یا فائل فراہم نہیں"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
-msgstr ""
+msgstr "غیر معرروف قسم کی فائل"
 
 #: avatar/controller.php:85
 msgid "Invalid image"
-msgstr ""
+msgstr "غلط تصویر"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
@@ -141,7 +141,7 @@ msgstr "ترتیبات"
 
 #: js/js.js:583
 msgid "Saving..."
-msgstr ""
+msgstr "محفوظ ھو رہا ہے ..."
 
 #: js/js.js:1240
 msgid "seconds ago"
@@ -227,11 +227,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:431
 msgid "New Files"
-msgstr ""
+msgstr "جدید فائلیں"
 
 #: js/oc-dialogs.js:432
 msgid "Already existing files"
-msgstr ""
+msgstr "پہلے سے موجودجدید فائلیں"
 
 #: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
@@ -253,11 +253,11 @@ msgstr "جاری"
 
 #: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
-msgstr ""
+msgstr "(سب منتخب شدہ)"
 
 #: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
-msgstr ""
+msgstr "({گنتی} منتخب شدہ)"
 
 #: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
@@ -265,23 +265,23 @@ msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "بہت کمزور پاسورڈ"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "کمزور پاسورڈ"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "نص نص پاسورڈ"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "اچھا پاسورڈ"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "مضبوط پاسورڈ"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -318,11 +318,11 @@ msgstr "اشتراک شدہ آپ سے{مالک}"
 
 #: js/share.js:214
 msgid "Share with user or group …"
-msgstr ""
+msgstr "صارف یا مجموعہ کے ساتھ اشتراک کریں ..."
 
 #: js/share.js:220
 msgid "Share link"
-msgstr ""
+msgstr "اشتراک لنک"
 
 #: js/share.js:226
 msgid ""
@@ -331,7 +331,7 @@ msgstr ""
 
 #: js/share.js:228
 msgid "By default the public link will expire after {days} days"
-msgstr ""
+msgstr "ڈیفالٹ میں عوامی لنک ختم ہو جائے گا {دن} دن"
 
 #: js/share.js:233
 msgid "Password protect"
@@ -339,11 +339,11 @@ msgstr "محفوظ پاسورڈ"
 
 #: js/share.js:235
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "عوامی لنک کے لئےپاس ورڈ منتخب کریں"
 
 #: js/share.js:241
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "پبلک اپ لوڈ کرنے کی اجازت دیں"
 
 #: js/share.js:245
 msgid "Email link to person"
@@ -371,7 +371,7 @@ msgstr "کوئ شخص موجود نہیں "
 
 #: js/share.js:336 js/share.js:397
 msgid "group"
-msgstr ""
+msgstr "مجموعہ"
 
 #: js/share.js:369
 msgid "Resharing is not allowed"
@@ -387,7 +387,7 @@ msgstr "شئیرنگ ختم کریں"
 
 #: js/share.js:443
 msgid "notify by email"
-msgstr ""
+msgstr "ای میل کے ذریعے مطلع کریں"
 
 #: js/share.js:446
 msgid "can edit"
@@ -435,7 +435,7 @@ msgstr "ارسال شدہ ای میل "
 
 #: js/share.js:846
 msgid "Warning"
-msgstr ""
+msgstr "انتباہ"
 
 #: js/tags.js:4
 msgid "The object type is not specified."
@@ -443,7 +443,7 @@ msgstr "اس چیز کی قسم کی وضاحت نہیں"
 
 #: js/tags.js:13
 msgid "Enter new"
-msgstr ""
+msgstr "جدید درج کریں"
 
 #: js/tags.js:27
 msgid "Delete"
@@ -467,7 +467,7 @@ msgstr ""
 
 #: js/update.js:8
 msgid "Please reload the page."
-msgstr ""
+msgstr "براہ مہربانی صفحہ دوبارہ لوڈ کریں."
 
 #: js/update.js:17
 msgid ""
@@ -489,7 +489,7 @@ msgstr ""
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "ای میل بھیجنے کے دوران ایک مسئلہ پیش آیا ہے , براہ مہربانی اپنےایڈمنسٹریٹر سے رابطہ کریں."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -504,7 +504,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "گذارش ناکام!<br>کيا پ نے يقينی بنايا کہ  آپ کی ای میل / صارف کا نام درست تھا؟"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
@@ -525,11 +525,11 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:27
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "جی ہاں، میں واقعی ابھی اپنا پاس ورڈ ری سیٹ کرنا چاہتا ہوں"
 
 #: lostpassword/templates/lostpassword.php:30
 msgid "Reset"
-msgstr ""
+msgstr "ری سیٹ"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -565,7 +565,7 @@ msgstr "شخصی"
 
 #: strings.php:6
 msgid "Users"
-msgstr "یوزرز"
+msgstr "صارفین"
 
 #: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
@@ -609,7 +609,7 @@ msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "پہنچ کی اجازت نہیں"
+msgstr "رسائ منقطع ہے"
 
 #: templates/404.php:15
 msgid "Cloud not found"
@@ -683,7 +683,7 @@ msgstr "پاسورڈ"
 
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "ذخیرہ اور ڈیٹا بیس"
 
 #: templates/installation.php:77
 msgid "Data folder"
@@ -723,7 +723,7 @@ msgstr "سیٹ اپ ختم کریں"
 
 #: templates/installation.php:150
 msgid "Finishing …"
-msgstr ""
+msgstr "تکمیل ..."
 
 #: templates/layout.user.php:40
 msgid ""
@@ -735,7 +735,7 @@ msgstr ""
 #: templates/layout.user.php:44
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s دستیاب ہے. اپ ڈیٹ کرنے کے  بارے میں مزید معلومات حاصل کریں."
 
 #: templates/layout.user.php:74 templates/singleuser.user.php:8
 msgid "Log out"
@@ -749,11 +749,11 @@ msgstr "آٹومیٹک لاگ ان مسترد"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "آپ نے حال ہی میں اپنا پاس ورڈ تبدیل نہیں کیا تو، آپ کے اکاؤنٹ سے سمجھوتہ ہو سکتا ہے"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "براہ مہربانی پھر سے اکاونٹ محفوظ کرنے کے لیے  اپنا پاس ورڈ تبدیل کریں."
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
@@ -777,7 +777,7 @@ msgstr "لاگ ان"
 
 #: templates/login.php:60
 msgid "Alternative Logins"
-msgstr ""
+msgstr "متبادل لاگ ان "
 
 #: templates/mail.php:15
 #, php-format
@@ -802,12 +802,12 @@ msgstr ""
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "آپ کے صبر کا شکریہ"
 
 #: templates/update.admin.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "اون کلوڈ اپ ڈیٹ ہو رہا ہے ورژن %s میں, یہ تھوڑی دیر لےگا"
 
 #: templates/update.user.php:3
 msgid ""

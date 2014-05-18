@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "The public link will expire no later than {days} days after it is created" => "Julkinen linkki vanhenee {days} päivän jälkeen sen luomisesta",
 "By default the public link will expire after {days} days" => "Oletuksena julkinen linkki vanhenee {days} päivässä",
 "Password protect" => "Suojaa salasanalla",
+"Choose a password for the public link" => "Valitse salasana julkiselle linkille",
 "Allow Public Upload" => "Salli julkinen lähetys",
 "Email link to person" => "Lähetä linkki sähköpostitse",
 "Send" => "Lähetä",

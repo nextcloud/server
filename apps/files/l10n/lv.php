@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 ir neierobežots",
 "Maximum input size for ZIP files" => "Maksimālais ievades izmērs ZIP datnēm",
 "Save" => "Saglabāt",
+"WebDAV" => "WebDAV",
 "New" => "Jauna",
 "Text file" => "Teksta datne",
 "New folder" => "Jauna mape",
