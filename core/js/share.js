@@ -669,7 +669,7 @@ $(document).ready(function() {
 		if (this.checked) {
 			// Create a link
 			if (oc_appconfig.core.enforcePasswordForPublicLink === false) {
-				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, function(data) {
+				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, expirationDate, function(data) {
 					OC.Share.showLink(data.token, null, itemSource);
 					OC.Share.updateIcon(itemType, itemSource);
 				});
