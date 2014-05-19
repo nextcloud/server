@@ -311,4 +311,46 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		$this->rootView->unlink('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder);
 	}
 
+	/**
+	 * @brief replacing encryption keys during password change should be allowed
+	 *        until the user logged in for the first time
+	 */
+	public function testSetPassphrase() {
+
+		$view = new \OC\Files\View();
+
+		// set user password for the first time
+		\OCA\Encryption\Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
+
+		$this->assertTrue($view->file_exists('public-keys/newUser.public.key'));
+		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.private.key'));
+
+		// check if we are able to decrypt the private key
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'newUserPassword');
+		$this->assertTrue(is_string($privateKey));
+
+		// change the password before the user logged-in for the first time,
+		// we can replace the encryption keys
+		\OCA\Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged'));
+
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
+		$this->assertTrue(is_string($privateKey));
+
+		// now create a files folder to simulate a already used account
+		$view->mkdir('/newUser/files');
+
+		// change the password after the user logged in, now the password should not change
+		\OCA\Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged2'));
+
+		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged2');
+		$this->assertFalse($privateKey);
+
+		$privateKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
+		$this->assertTrue(is_string($privateKey));
+
+	}
+
 }
