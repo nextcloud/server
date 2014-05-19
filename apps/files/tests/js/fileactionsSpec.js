@@ -78,8 +78,8 @@ describe('OCA.Files.FileActions tests', function() {
 		};
 		var $tr = fileList.add(fileData);
 
-		FileActions.display($tr.find('td.filename'), true);
-		FileActions.display($tr.find('td.filename'), true);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		// actions defined after cal
 		expect($tr.find('.action.action-download').length).toEqual(1);
@@ -98,7 +98,7 @@ describe('OCA.Files.FileActions tests', function() {
 			mtime: '123456'
 		};
 		var $tr = fileList.add(fileData);
-		FileActions.display($tr.find('td.filename'), true);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		$tr.find('.action-download').click();
 
@@ -118,11 +118,39 @@ describe('OCA.Files.FileActions tests', function() {
 			mtime: '123456'
 		};
 		var $tr = fileList.add(fileData);
-		FileActions.display($tr.find('td.filename'), true);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		$tr.find('.action.delete').click();
 
 		expect(deleteStub.calledOnce).toEqual(true);
 		deleteStub.restore();
+	});
+	it('passes context to action handler', function() {
+		var actionStub = sinon.stub();
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456'
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.register(
+				'all',
+				'Test',
+				OC.PERMISSION_READ,
+				OC.imagePath('core', 'actions/test'),
+				actionStub
+		);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+		$tr.find('.action-test').click();
+		expect(actionStub.calledOnce).toEqual(true);
+		expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');
+		var context = actionStub.getCall(0).args[1];
+		expect(context.$file.is($tr)).toEqual(true);
+		expect(context.fileList).toBeDefined();
+		expect(context.fileActions).toBeDefined();
 	});
 });
