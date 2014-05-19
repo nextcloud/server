@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -89,65 +89,65 @@ msgstr "Èxit"
 msgid "Error"
 msgstr "Error"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Configuració correcte"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Configuració incorrecte"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Configuració incompleta"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Selecciona els grups"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Seleccioneu les classes dels objectes"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Seleccioneu els atributs"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "La prova de connexió ha reeixit"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "La prova de connexió ha fallat"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Voleu eliminar la configuració actual del servidor?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Confirma l'eliminació"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "S'ha trobat %s grup"
 msgstr[1] "S'han trobat %s grups"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "S'ha trobat %s usuari"
 msgstr[1] "S'han trobat %s usuaris"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Ordinador central no vàlid"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "La característica desitjada no s'ha trobat"
 

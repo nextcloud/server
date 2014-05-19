@@ -44,17 +44,26 @@ if (\OC_Util::runningOnWindows()) {
 					new \RecursiveDirectoryIterator($this->datadir . $path),
 					\RecursiveIteratorIterator::CHILD_FIRST
 				);
-				foreach ($it as $file) {
+				/**
+				 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
+				 * This bug is fixed in PHP 5.5.9 or before
+				 * See #8376
+				 */
+				$it->rewind();
+				while ($it->valid()) {
 					/**
 					 * @var \SplFileInfo $file
 					 */
+					$file = $it->current();
 					if (in_array($file->getBasename(), array('.', '..'))) {
+						$it->next();
 						continue;
 					} elseif ($file->isDir()) {
 						rmdir($file->getPathname());
 					} elseif ($file->isFile() || $file->isLink()) {
 						unlink($file->getPathname());
 					}
+					$it->next();
 				}
 				return rmdir($this->datadir . $path);
 			} catch (\UnexpectedValueException $e) {

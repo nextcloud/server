@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 16:38+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Parola"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr "Üzgünüz, bu bağlantı artık çalışıyor gibi görünmüyor"
+msgstr "Üzgünüz, bu bağlantı artık çalışıyor gibi görünmüyor."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
@@ -58,16 +58,15 @@ msgstr "paylaşım devre dışı"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin."
 
-#: templates/public.php:17
-#, php-format
-msgid "shared by %s"
-msgstr "paylaşan: %s"
+#: templates/public.php:21
+msgid "Download"
+msgstr "İndir"
 
-#: templates/public.php:44
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
 msgstr "İndir: %s"
 
-#: templates/public.php:48
+#: templates/public.php:56
 msgid "Direct link"
 msgstr "Doğrudan bağlantı"

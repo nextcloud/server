@@ -8,15 +8,15 @@
  *
  */
 
-/* global OC, t, FileList, FileActions */
+/* global FileList, FileActions */
 $(document).ready(function() {
 
-	var disableSharing = $('#disableSharing').data('status'),
-		sharesLoaded = false;
+	var sharesLoaded = false;
 
-	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
-		var oldCreateRow = FileList._createRow;
-		FileList._createRow = function(fileData) {
+	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined') {
+		// TODO: make a separate class for this or a hook or jQuery event ?
+		var oldCreateRow = OCA.Files.FileList.prototype._createRow;
+		OCA.Files.FileList.prototype._createRow = function(fileData) {
 			var tr = oldCreateRow.apply(this, arguments);
 			if (fileData.shareOwner) {
 				tr.attr('data-share-owner', fileData.shareOwner);
@@ -25,14 +25,16 @@ $(document).ready(function() {
 		};
 
 		$('#fileList').on('fileActionsReady',function(){
-
-			var allShared = $('#fileList').find('[data-share-owner] [data-Action="Share"]');
+			var $fileList = $(this);
+			var allShared = $fileList.find('[data-share-owner] [data-Action="Share"]');
 			allShared.addClass('permanent');
 			allShared.find('span').text(function(){
 				var $owner = $(this).closest('tr').attr('data-share-owner');
 				return ' ' + t('files_sharing', 'Shared by {owner}', {owner: $owner});
 			});
 
+			// FIXME: these calls are also working on hard-coded
+			// list selectors...
 			if (!sharesLoaded){
 				OC.Share.loadIcons('file');
 				// assume that we got all shares, so switching directories

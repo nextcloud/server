@@ -121,21 +121,7 @@ class Tags implements \OCP\ITags {
 	* @return boolean.
 	*/
 	public function isEmpty() {
-		$sql = 'SELECT COUNT(*) FROM `' . self::TAG_TABLE . '` '
-			. 'WHERE `uid` = ? AND `type` = ?';
-		try {
-			$stmt = \OCP\DB::prepare($sql);
-			$result = $stmt->execute(array($this->user, $this->type));
-			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
-				return false;
-			}
-			return ((int)$result->fetchOne() === 0);
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
-			return false;
-		}
+		return count($this->tags) === 0;
 	}
 
 	/**
@@ -184,6 +170,10 @@ class Tags implements \OCP\ITags {
 			$tagId = $tag;
 		} elseif(is_string($tag)) {
 			$tag = trim($tag);
+			if($tag === '') {
+				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
+				return false;
+			}
 			$tagId = $this->array_searchi($tag, $this->tags);
 		}
 
@@ -234,11 +224,15 @@ class Tags implements \OCP\ITags {
 	* Add a new tag.
 	*
 	* @param string $name A string with a name of the tag
-	* @return false|string the id of the added tag or false if it already exists.
+	* @return false|string the id of the added tag or false on error.
 	*/
 	public function add($name) {
 		$name = trim($name);
 
+		if($name === '') {
+			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
+			return false;
+		}
 		if($this->hasTag($name)) {
 			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', \OCP\Util::DEBUG);
 			return false;
@@ -280,6 +274,12 @@ class Tags implements \OCP\ITags {
 	public function rename($from, $to) {
 		$from = trim($from);
 		$to = trim($to);
+
+		if($to === '' || $from === '') {
+			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', \OCP\Util::DEBUG);
+			return false;
+		}
+
 		$id = $this->array_searchi($from, $this->tags);
 		if($id === false) {
 			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', \OCP\Util::DEBUG);
@@ -318,6 +318,8 @@ class Tags implements \OCP\ITags {
 			$names = array($names);
 		}
 		$names = array_map('trim', $names);
+		array_filter($names);
+
 		$newones = array();
 		foreach($names as $name) {
 			if(($this->in_arrayi(
@@ -391,7 +393,7 @@ class Tags implements \OCP\ITags {
 	*
 	* For hooking up on post_deleteUser
 	*
-	* @param array
+	* @param array $arguments
 	*/
 	public static function post_deleteUser($arguments) {
 		// Find all objectid/tagId pairs.
@@ -492,9 +494,9 @@ class Tags implements \OCP\ITags {
 	*/
 	public function addToFavorites($objid) {
 		if(!$this->hasTag(self::TAG_FAVORITE)) {
-			$this->add(self::TAG_FAVORITE, true);
+			$this->add(self::TAG_FAVORITE);
 		}
-		return $this->tagAs($objid, self::TAG_FAVORITE, $this->type);
+		return $this->tagAs($objid, self::TAG_FAVORITE);
 	}
 
 	/**
@@ -504,7 +506,7 @@ class Tags implements \OCP\ITags {
 	* @return boolean
 	*/
 	public function removeFromFavorites($objid) {
-		return $this->unTag($objid, self::TAG_FAVORITE, $this->type);
+		return $this->unTag($objid, self::TAG_FAVORITE);
 	}
 
 	/**
@@ -512,13 +514,17 @@ class Tags implements \OCP\ITags {
 	*
 	* @param int $objid The id of the object
 	* @param string $tag The id or name of the tag
-	* @return boolean Returns false on database error.
+	* @return boolean Returns false on error.
 	*/
 	public function tagAs($objid, $tag) {
 		if(is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
+			if($tag === '') {
+				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
+				return false;
+			}
 			if(!$this->hasTag($tag)) {
-				$this->add($tag, true);
+				$this->add($tag);
 			}
 			$tagId =  $this->array_searchi($tag, $this->tags);
 		} else {
@@ -549,6 +555,10 @@ class Tags implements \OCP\ITags {
 	public function unTag($objid, $tag) {
 		if(is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
+			if($tag === '') {
+				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', \OCP\Util::DEBUG);
+				return false;
+			}
 			$tagId =  $this->array_searchi($tag, $this->tags);
 		} else {
 			$tagId = $tag;
@@ -579,6 +589,7 @@ class Tags implements \OCP\ITags {
 		}
 
 		$names = array_map('trim', $names);
+		array_filter($names);
 
 		\OCP\Util::writeLog('core', __METHOD__ . ', before: '
 			. print_r($this->tags, true), \OCP\Util::DEBUG);

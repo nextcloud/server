@@ -43,7 +43,7 @@ module.exports = function(config) {
 		return apps;
 		*/
 		// other apps tests don't run yet... needs further research / clean up
-		return ['files'];
+		return ['files', 'files_trashbin'];
 	}
 
 	// respect NOCOVERAGE env variable

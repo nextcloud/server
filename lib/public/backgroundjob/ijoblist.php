@@ -12,7 +12,7 @@ interface IJobList {
 	/**
 	 * Add a job to the list
 	 *
-	 * @param \OCP\BackgroundJob\IJob |string $job
+	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
 	 * @param string $job
 	 * @return void
@@ -22,7 +22,7 @@ interface IJobList {
 	/**
 	 * Remove a job from the list
 	 *
-	 * @param IJob $job
+	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ interface IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param $job
+	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 */

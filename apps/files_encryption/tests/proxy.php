@@ -33,7 +33,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Proxy
- * @brief this class provide basic proxy app tests
+ * this class provide basic proxy app tests
  */
 class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
@@ -42,7 +42,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	public $userId;
 	public $pass;
 	/**
-	 * @var \OC_FilesystemView
+	 * @var \OC\Files\View
 	 */
 	public $view;     // view in /data/user/files
 	public $rootView; // view on /data/user
@@ -75,8 +75,8 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files');
-		$this->rootView = new \OC_FilesystemView('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 );
+		$this->view = new \OC\Files\View('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files');
+		$this->rootView = new \OC\Files\View('/'. \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 );
 
 		// init short data
 		$this->data = 'hats';
@@ -91,7 +91,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test if postFileSize returns the unencrypted file size
+	 * test if postFileSize returns the unencrypted file size
 	 */
 	function testPostFileSize() {
 

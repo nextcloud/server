@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Vendndodhja",
+"Host" => "Pritësi",
+"Username" => "Përdoruesi",
+"Password" => "fjalëkalim",
+"Share" => "Ndaj",
+"URL" => "URL-i",
 "Groups" => "Grupet",
 "Users" => "Përdoruesit",
 "Delete" => "Elimino"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 13:11+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: js/share.js:13
+#: js/share.js:33
 msgid "Shared by {owner}"
 msgstr "Compartilhado por {owner}"
 
@@ -58,16 +58,15 @@ msgstr "compartilhamento está desativada"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Para mais informações, por favor, pergunte a pessoa que enviou este link."
 
-#: templates/public.php:17
-#, php-format
-msgid "shared by %s"
-msgstr "compartilhado por %s"
+#: templates/public.php:21
+msgid "Download"
+msgstr "Baixar"
 
-#: templates/public.php:44
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
 msgstr "Baixar %s"
 
-#: templates/public.php:48
+#: templates/public.php:56
 msgid "Direct link"
 msgstr "Link direto"

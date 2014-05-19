@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Please contact your administrator" => "Kontaktujte prosím vášho administrátora",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z touto verziou ownCloudu.",
 "No app name specified" => "Nešpecifikované meno aplikácie",
 "Help" => "Pomoc",

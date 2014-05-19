@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 06:20+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,13 +19,16 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:723
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sa kasutad serverit usalduseta asukohast"
 
-#: base.php:724
-msgid "Please contact your administrator"
-msgstr "Palun kontakteeru oma süsteemihalduriga"
+#: base.php:686
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
 
 #: private/app.php:236
 #, php-format
@@ -75,23 +78,23 @@ msgstr "Vigane pilt"
 msgid "web services under your control"
 msgstr "veebitenused sinu kontrolli all"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Failid tuleb alla laadida ükshaaval."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Tagasi failide juurde"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -277,19 +280,19 @@ msgstr "Määra admin kasutajanimi."
 msgid "Set an admin password."
 msgstr "Määra admini parool."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s jagas sinuga »%s«"
@@ -331,73 +334,79 @@ msgstr "%s jagamine ebaõnnestus, kuna gruppi %s pole olemas"
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "%s jagamine ebaõnnestus, kuna %s pole grupi %s liige"
 
-#: private/share/share.php:629
+#: private/share/share.php:618
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr ""
+
+#: private/share/share.php:638
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "%s jagamine ebaõnnestus, kuna linkidega jagamine pole lubatud"
 
-#: private/share/share.php:636
+#: private/share/share.php:645
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Jagamise tüüp %s ei ole õige %s jaoks"
 
-#: private/share/share.php:773
+#: private/share/share.php:783
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Lubade seadistus %s jaoks ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi"
 
-#: private/share/share.php:834
+#: private/share/share.php:844
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Lubade seadistus %s jaoks ebaõnnestus, kuna üksust ei leitud"
 
-#: private/share/share.php:940
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Jagamise tagarakend %s peab kasutusele võtma OCP\\Share_Backend liidese"
 
-#: private/share/share.php:947
+#: private/share/share.php:962
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Jagamise tagarakendit %s ei leitud"
 
-#: private/share/share.php:953
+#: private/share/share.php:968
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Jagamise tagarakendit %s jaoks ei leitud"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1383
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s jagamine ebaõnnestus, kuna kasutaja %s on algne jagaja"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1392
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s jagamine ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1407
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s jagamine ebaõnnestus, kuna edasijagamine pole lubatud"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1419
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s jagamine ebaõnnestus, kuna jagamise tagarakend ei suutnud leida %s jaoks lähteallikat"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1433
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "%s jagamine ebaõnnestus, kuna faili ei suudetud leida failide puhvrist"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Ei leia kategooriat \"%s\""

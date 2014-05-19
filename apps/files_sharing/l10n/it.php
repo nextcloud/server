@@ -10,7 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "il collegamento è scaduto",
 "sharing is disabled" => "la condivisione è disabilitata",
 "For more info, please ask the person who sent this link." => "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
-"shared by %s" => "condiviso da %s",
+"Download" => "Scarica",
 "Download %s" => "Scarica %s",
 "Direct link" => "Collegamento diretto"
 );

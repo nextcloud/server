@@ -50,8 +50,8 @@ class OC_Config {
 	}
 
 	/**
-	 * @brief Lists all available config keys
-	 * @return array with key names
+	 * Lists all available config keys
+	 * @return array an array of key names
 	 *
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.
@@ -61,7 +61,7 @@ class OC_Config {
 	}
 
 	/**
-	 * @brief Gets a value from config.php
+	 * Gets a value from config.php
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
@@ -74,7 +74,7 @@ class OC_Config {
 	}
 
 	/**
-	 * @brief Sets a value
+	 * Sets a value
 	 * @param string $key key
 	 * @param mixed $value value
 	 *
@@ -86,7 +86,7 @@ class OC_Config {
 	}
 
 	/**
-	 * @brief Removes a key from the config
+	 * Removes a key from the config
 	 * @param string $key key
 	 *
 	 * This function removes a key from the config.php.

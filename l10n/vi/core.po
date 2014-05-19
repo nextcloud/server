@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -62,202 +62,202 @@ msgstr "Ảnh cá nhân tạm thời không có giá trị, hãy thử lại"
 msgid "No crop data provided"
 msgstr "Không có dữ liệu nguồn được cung cấp"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Chủ nhật"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Thứ 2"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Thứ 3"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Thứ 4"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Thứ 5"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Thứ "
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Thứ 7"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Tháng 1"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Tháng 2"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Tháng 3"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Tháng 4"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Tháng 5"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Tháng 6"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Tháng 7"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Tháng 8"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Tháng 9"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Tháng 10"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Tháng 11"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Tháng 12"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Đang lưu..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n phút trước"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n giờ trước"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ngày trước"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n tháng trước"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "năm trước"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Chọn"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Lỗi khi tải mẫu tập tin picker: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Có"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Không"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Chọn"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Lỗi khi tải mẫu tập tin picker: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Đồng ý"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Lỗi khi tải mẫu thông điệp: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} tập tin xung đột"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Một tập tin xung đột"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "File mới"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Bạn muốn tiếp tục với những tập tin nào?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Nếu bạn chọn cả hai phiên bản, tập tin được sao chép sẽ được đánh thêm số vào tên của nó."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Hủy"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Tiếp tục"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(Tất cả các lựa chọn)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} được chọn)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Lỗi khi tải tập tin mẫu đã tồn tại"
 
@@ -289,12 +289,12 @@ msgstr "Được chia sẻ"
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Lỗi"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Lỗi trong quá trình chia sẻ"
 
@@ -322,107 +322,116 @@ msgstr "Chia sẻ với người dùng hoặc nhóm"
 msgid "Share link"
 msgstr "Chia sẻ liên kết"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Mật khẩu"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Cho phép công khai tập tin tải lên"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Liên kết email tới cá nhân"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Gởi"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Đặt ngày kết thúc"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Ngày kết thúc"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Chia sẻ thông qua email"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Không tìm thấy người nào"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "nhóm"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Chia sẻ lại không được cho phép"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Đã được chia sẽ trong {item} với {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Bỏ chia sẻ"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "Thông báo qua email"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "có thể chỉnh sửa"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "quản lý truy cập"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "tạo"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "cập nhật"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "xóa"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "chia sẻ"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Lỗi không thiết lập ngày kết thúc"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Lỗi cấu hình ngày kết thúc"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Đang gởi ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Email đã được gửi"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Cảnh báo"
 
@@ -665,6 +674,10 @@ msgstr "Để biết thêm thông tin và cách cấu hình đúng vui lòng xem
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Mật khẩu"
 
 #: templates/installation.php:70
 msgid "Storage & database"

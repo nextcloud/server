@@ -1,5 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Място",
+"Username" => "Потребител",
+"Password" => "Парола",
+"Share" => "Споделяне",
+"URL" => "Уеб адрес",
 "Access granted" => "Достъпът е даден",
 "Grant access" => "Даване на достъп",
 "External Storage" => "Външно хранилище",

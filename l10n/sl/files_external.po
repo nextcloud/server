@@ -8,15 +8,175 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 16:38+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#: appinfo/app.php:34
+msgid "Local"
+msgstr "Krajevno"
+
+#: appinfo/app.php:36
+msgid "Location"
+msgstr "Mesto"
+
+#: appinfo/app.php:39
+msgid "Amazon S3"
+msgstr "Amazon S3"
+
+#: appinfo/app.php:41
+msgid "Key"
+msgstr "Ključ"
+
+#: appinfo/app.php:42
+msgid "Secret"
+msgstr "Skrivni ključ"
+
+#: appinfo/app.php:43 appinfo/app.php:51
+msgid "Bucket"
+msgstr ""
+
+#: appinfo/app.php:47
+msgid "Amazon S3 and compliant"
+msgstr "Amazon S3 in podobno"
+
+#: appinfo/app.php:49
+msgid "Access Key"
+msgstr "Ključ za dostop"
+
+#: appinfo/app.php:50
+msgid "Secret Key"
+msgstr "Skrivni ključ"
+
+#: appinfo/app.php:52
+msgid "Hostname (optional)"
+msgstr "Ime gostitelja (izbirno)"
+
+#: appinfo/app.php:53
+msgid "Port (optional)"
+msgstr "Vrata (izbirno)"
+
+#: appinfo/app.php:54
+msgid "Region (optional)"
+msgstr "Območje (izbirno)"
+
+#: appinfo/app.php:55
+msgid "Enable SSL"
+msgstr "Omogoči SSL"
+
+#: appinfo/app.php:56
+msgid "Enable Path Style"
+msgstr "Omogoči slog poti"
+
+#: appinfo/app.php:63
+msgid "App key"
+msgstr "Programski ključ"
+
+#: appinfo/app.php:64
+msgid "App secret"
+msgstr "Skrivni programski ključ"
+
+#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
+#: appinfo/app.php:151
+msgid "Host"
+msgstr "Gostitelj"
+
+#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
+#: appinfo/app.php:142 appinfo/app.php:152
+msgid "Username"
+msgstr "Uporabniško ime"
+
+#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
+#: appinfo/app.php:143 appinfo/app.php:153
+msgid "Password"
+msgstr "Geslo"
+
+#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
+#: appinfo/app.php:134 appinfo/app.php:154
+msgid "Root"
+msgstr "Koren"
+
+#: appinfo/app.php:77
+msgid "Secure ftps://"
+msgstr "Varni način ftps://"
+
+#: appinfo/app.php:84
+msgid "Client ID"
+msgstr "ID odjemalca"
+
+#: appinfo/app.php:85
+msgid "Client secret"
+msgstr "Skrivni ključ odjemalca"
+
+#: appinfo/app.php:92
+msgid "OpenStack Object Storage"
+msgstr ""
+
+#: appinfo/app.php:94
+msgid "Username (required)"
+msgstr "Uporabniško ime (zahtevano)"
+
+#: appinfo/app.php:95
+msgid "Bucket (required)"
+msgstr ""
+
+#: appinfo/app.php:96
+msgid "Region (optional for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:97
+msgid "API Key (required for Rackspace Cloud Files)"
+msgstr ""
+
+#: appinfo/app.php:98
+msgid "Tenantname (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:99
+msgid "Password (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:100
+msgid "Service Name (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:101
+msgid "URL of identity endpoint (required for OpenStack Object Storage)"
+msgstr ""
+
+#: appinfo/app.php:102
+msgid "Timeout of HTTP requests in seconds (optional)"
+msgstr ""
+
+#: appinfo/app.php:114 appinfo/app.php:123
+msgid "Share"
+msgstr "Souporaba"
+
+#: appinfo/app.php:119
+msgid "SMB / CIFS using OC login"
+msgstr "SMB / CIFS z uporabo prijave OC"
+
+#: appinfo/app.php:122
+msgid "Username as share"
+msgstr "Uporabniško ime za souporabo"
+
+#: appinfo/app.php:131 appinfo/app.php:141
+msgid "URL"
+msgstr "Naslov URL"
+
+#: appinfo/app.php:135 appinfo/app.php:145
+msgid "Secure https://"
+msgstr "Varni način https://"
+
+#: appinfo/app.php:144
+msgid "Remote subfolder"
+msgstr "Oddaljena podrejena mapa"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -42,29 +202,29 @@ msgstr "Napaka nastavljanja shrambe Google Drive"
 msgid "Saved"
 msgstr "Shranjeno"
 
-#: lib/config.php:598
+#: lib/config.php:589
 msgid "<b>Note:</b> "
 msgstr "<b>Opomba:</b> "
 
-#: lib/config.php:608
+#: lib/config.php:599
 msgid " and "
 msgstr "in"
 
-#: lib/config.php:630
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Opomba:</b> Podpora za naslove cURL v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika."
 
-#: lib/config.php:632
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika."
 
-#: lib/config.php:634
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

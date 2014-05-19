@@ -62,7 +62,7 @@ interface ITags {
 	* 	['id' => 1, 'name' = 'Second tag'],
 	* ]
 	*
-	* @returns array
+	* @return array
 	*/
 	public function getTags();
 

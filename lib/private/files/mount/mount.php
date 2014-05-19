@@ -28,7 +28,7 @@ class Mount {
 	private $loader;
 
 	/**
-	 * @param string | \OC\Files\Storage\Storage $storage
+	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional)\
 	 * @param \OC\Files\Storage\Loader $loader

@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Локација",
+"Host" => "Домаќин",
+"Username" => "Корисничко име",
+"Password" => "Лозинка",
+"Share" => "Сподели",
+"URL" => "Адреса",
 "Access granted" => "Пристапот е дозволен",
 "Error configuring Dropbox storage" => "Грешка при конфигурација на Dropbox",
 "Grant access" => "Дозволи пристап",

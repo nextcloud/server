@@ -42,7 +42,7 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * @brief Get the source cache of a shared file or folder
+	 * Get the source cache of a shared file or folder
 	 * @param string $target Shared target file path
 	 * @return \OC\Files\Cache\Cache
 	 */
@@ -54,7 +54,7 @@ class Shared_Cache extends Cache {
 		if (isset($source['path']) && isset($source['fileOwner'])) {
 			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
 			$mounts = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
-			if (is_array($mounts) and count($mounts)) {
+			if (is_array($mounts) and !empty($mounts)) {
 				$fullPath = $mounts[0]->getMountPoint() . $source['path'];
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
 				if ($storage) {
@@ -80,12 +80,13 @@ class Shared_Cache extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
+	 * @param string|int $file
 	 * @return array
 	 */
 	public function get($file) {
 		if (is_string($file)) {
-			if ($cache = $this->getSourceCache($file)) {
+			$cache = $this->getSourceCache($file);
+			if ($cache) {
 				$data = $cache->get($this->files[$file]);
 				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
 				$data['path'] = $file;
@@ -96,16 +97,17 @@ class Shared_Cache extends Cache {
 				return $data;
 			}
 		} else {
+			$sourceId = $file;
 			// if we are at the root of the mount point we want to return the
 			// cache information for the source item
-			if (!is_int($file) || $file === 0) {
-				$file = $this->storage->getSourceId();
+			if (!is_int($sourceId) || $sourceId === 0) {
+				$sourceId = $this->storage->getSourceId();
 			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
 				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-			$result = $query->execute(array($file));
+			$result = $query->execute(array($sourceId));
 			$data = $result->fetchRow();
 			$data['fileid'] = (int)$data['fileid'];
 			$data['mtime'] = (int)$data['mtime'];
@@ -124,6 +126,7 @@ class Shared_Cache extends Cache {
 			}
 			if (!is_int($file) || $file === 0) {
 				$data['path'] = '';
+				$data['name'] = basename($this->storage->getMountPoint());
 				$data['is_share_mount_point'] = true;
 			}
 			return $data;
@@ -421,7 +424,7 @@ class Shared_Cache extends Cache {
 	 *
 	 * @param int $id
 	 * @param string $pathEnd (optional) used internally for recursive calls
-	 * @return string | null
+	 * @return string|null
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
@@ -439,6 +442,9 @@ class Shared_Cache extends Cache {
 		}
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getShareById($id) {
 		$item = \OCP\Share::getItemSharedWithBySource('file', $id);
 		if ($item) {
@@ -451,6 +457,9 @@ class Shared_Cache extends Cache {
 		return null;
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getParentInfo($id) {
 		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		$query = \OC_DB::prepare($sql);

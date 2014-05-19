@@ -31,7 +31,7 @@ namespace OC {
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options - for future use. One should always have options!
-		 * @return array of contacts which are arrays of key-value-pairs
+		 * @return array an array of contacts which are arrays of key-value-pairs
 		 */
 		public function search($pattern, $searchProperties = array(), $options = array()) {
 			$this->loadAddressBooks();

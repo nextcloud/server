@@ -10,7 +10,8 @@ $TRANSLATIONS = array(
 "the link expired" => "срок ссылки истёк",
 "sharing is disabled" => "общий доступ отключён",
 "For more info, please ask the person who sent this link." => "Пожалуйста, обратитесь к отправителю данной ссылки.",
-"shared by %s" => "Поделиться с %s",
+"Download" => "Скачать",
+"Download %s" => "Скачать %s",
 "Direct link" => "Прямая ссылка"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

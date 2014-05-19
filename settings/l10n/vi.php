@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Chọn hình ảnh như hồ sơ cá nhân",
 "Language" => "Ngôn ngữ",
 "Help translate" => "Hỗ trợ dịch thuật",
-"WebDAV" => "WebDAV",
 "Login Name" => "Tên đăng nhập",
 "Create" => "Tạo",
 "Default Storage" => "Bộ nhớ mặc định",

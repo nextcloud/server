@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Esta accedendo desde un dominio non fiábel.",
-"Please contact your administrator" => "Contacte co administrador",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Póñase en contacto co administrador. Se vostede é administrador desta instancia, configure o parámetro «trusted_domain» en config/config.php. Dispón dun exemplo de configuración en config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Non é posíbel instalar o aplicativo «%s» por non seren compatíbel  con esta versión do ownCloud.",
 "No app name specified" => "Non se especificou o nome do aplicativo",
 "Help" => "Axuda",
@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "Fallou a compartición de %s, este elemento xa está compartido con %s",
 "Sharing %s failed, because the group %s does not exist" => "Fallou a compartición de %s, o grupo %s non existe",
 "Sharing %s failed, because %s is not a member of the group %s" => "Fallou a compartición de %s, %s non é membro do grupo %s",
+"You need to provide a password to create a public link, only protected links are allowed" => "Ten que fornecer un contrasinal para a ligazón pública, só se permiten ligazóns protexidas",
 "Sharing %s failed, because sharing with links is not allowed" => "Fallou a compartición de %s, non está permitido compartir con ligazóns",
 "Share type %s is not valid for %s" => "Non se admite a compartición do tipo %s para %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s",

@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Vieta",
+"Host" => "Resursdators",
+"Username" => "Lietotājvārds",
+"Password" => "Parole",
+"Share" => "Dalīties",
+"URL" => "URL",
 "Access granted" => "Piešķirta pieeja",
 "Error configuring Dropbox storage" => "Kļūda, konfigurējot Dropbox krātuvi",
 "Grant access" => "Piešķirt pieeju",

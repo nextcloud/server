@@ -35,7 +35,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * Check if a new version is available
 	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
-	 * @return array | bool
+	 * @return array|bool
 	 */
 	public function check($updaterUrl) {
 
@@ -91,6 +91,7 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
+	 * except the main .htaccess file
 	 */
 	public function upgrade() {
 		\OC_DB::enableCaching(false);
@@ -102,6 +103,11 @@ class Updater extends BasicEmitter {
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
 
+		// Update htaccess files for apache hosts
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+			\OC_Setup::updateHtaccess();
+		}
+
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
@@ -111,7 +117,7 @@ class Updater extends BasicEmitter {
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
 		 */
 		if (!\OC::$CLI && version_compare($installedVersion, '6.90.1', '<')) {
-			// Add the overwriteHost config if it is not existant
+			// Add the trusted_domains config if it is not existant
 			// This is added to prevent host header poisoning
 			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
 		}

@@ -26,7 +26,7 @@ class Group {
 	private $usersLoaded;
 
 	/**
-	 * @var \OC_Group_Backend[] | \OC_Group_Database[] $backend
+	 * @var \OC_Group_Backend[]|\OC_Group_Database[] $backend
 	 */
 	private $backends;
 
@@ -184,7 +184,7 @@ class Group {
 	 * returns the number of users matching the search string
 	 *
 	 * @param string $search
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function count($search) {
 		$users = false;
@@ -212,11 +212,7 @@ class Group {
 	public function searchDisplayName($search, $limit = null, $offset = null) {
 		$users = array();
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
-				$userIds = array_keys($backend->displayNamesInGroup($this->gid, $search, $limit, $offset));
-			} else {
-				$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
-			}
+			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users = $this->getVerifiedUsers($userIds);
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($users);
@@ -248,7 +244,7 @@ class Group {
 	}
 
 	/**
-	 * @brief returns all the Users from an array that really exists
+	 * returns all the Users from an array that really exists
 	 * @param string[] $userIds an array containing user IDs
 	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
 	 */

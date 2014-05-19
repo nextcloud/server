@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Stai accedendo al server da un dominio non affidabile.",
-"Please contact your administrator" => "Contatta il tuo amministratore",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Contatta il tuo amministratore di sistema. Se sei un amministratore, configura l'impostazione \"trusted_domain\" in config/config.php. Un esempio di configurazione è disponibile in config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "L'applicazione \"%s\" non può essere installata poiché non è compatibile con questa versione di ownCloud.",
 "No app name specified" => "Il nome dell'applicazione non è specificato",
 "Help" => "Aiuto",
@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "Condivisione di %s non riuscita, poiché l'oggetto è già condiviso con %s",
 "Sharing %s failed, because the group %s does not exist" => "Condivisione di %s non riuscita, poiché il gruppo %s non esiste",
 "Sharing %s failed, because %s is not a member of the group %s" => "Condivisione di %s non riuscita, poiché %s non appartiene al gruppo %s",
+"You need to provide a password to create a public link, only protected links are allowed" => "Devi fornire una password per creare un collegamento pubblico, sono consentiti solo i collegamenti protetti",
 "Sharing %s failed, because sharing with links is not allowed" => "Condivisione di %s non riuscita, poiché i collegamenti non sono consentiti",
 "Share type %s is not valid for %s" => "Il tipo di condivisione %s non è valido per %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Impostazione permessi per %s non riuscita, poiché i permessi superano i permessi accordati a %s",

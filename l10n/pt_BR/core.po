@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-19 01:54-0400\n"
+"PO-Revision-Date: 2014-05-18 13:53+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,207 +60,207 @@ msgstr "Sem imagem no perfil temporário disponível, tente novamente"
 msgid "No crop data provided"
 msgstr "Nenhum dado para coleta foi fornecido"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Domingo"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Segunda-feira"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Terça-feira"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Quarta-feira"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Quinta-feira"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Sexta-feira"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Sábado"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "janeiro"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "fevereiro"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "março"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "abril"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "maio"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "junho"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "julho"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "agosto"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "setembro"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "outubro"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "novembro"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "dezembro"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Salvando..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " ha %n minuto"
 msgstr[1] "ha %n minutos"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "ha %n hora"
 msgstr[1] "ha %n horas"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "ha %n dia"
 msgstr[1] "ha %n dias"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "ha %n mês"
 msgstr[1] "ha %n meses"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Escolha"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Erro no seletor de carregamento modelo de arquivos: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Escolha"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Erro no seletor de carregamento modelo de arquivos: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Erro no carregamento de modelo de mensagem: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflito de arquivo"
 msgstr[1] "{count} conflitos de arquivos"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Conflito em um arquivo"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Novos Arquivos"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Arquivos já existentes"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Qual arquivo você quer manter?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se você selecionar ambas as versões, o arquivo copiado terá um número adicionado ao seu nome."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(todos os selecionados)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} selecionados)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Erro ao carregar arquivo existe modelo"
 
@@ -292,12 +292,12 @@ msgstr "Compartilhados"
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
@@ -325,107 +325,116 @@ msgstr "Compartilhar com usuário ou grupo ..."
 msgid "Share link"
 msgstr "Compartilher link"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr "O link público irá expirar não antes de {days} depois de ser criado"
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr "Por padrão o link público irá expirar após {days} dias"
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Senha"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr "Escolha uma senha para o link público"
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Permitir upload público"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Enviar link por e-mail"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Definir data de expiração"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Compartilhar via e-mail:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grupo"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Compartilhado em {item} com {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "notificar por e-mail"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Enviando ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "E-mail enviado"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Aviso"
 
@@ -668,6 +677,10 @@ msgstr "Para obter informações sobre como configurar corretamente o seu servid
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta de administrador</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Senha"
 
 #: templates/installation.php:70
 msgid "Storage & database"

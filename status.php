@@ -34,7 +34,7 @@ try {
 	if (OC::$CLI) {
 		print_r($values);
 	} else {
-		print_unescaped(json_encode($values));
+		echo json_encode($values);
 	}
 
 } catch (Exception $ex) {

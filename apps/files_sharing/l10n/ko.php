@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "링크가 만료됨",
 "sharing is disabled" => "공유가 비활성화됨",
 "For more info, please ask the person who sent this link." => "자세한 정보는 링크를 보낸 사람에게 문의하십시오.",
+"Download" => "다운로드",
 "Direct link" => "직접 링크"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

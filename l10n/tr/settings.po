@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-19 01:54-0400\n"
+"PO-Revision-Date: 2014-05-18 18:22+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-posta gönderildi"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarlamanız gerekiyor."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr "Gönderme kipi"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr "Kimlik doğrulama yöntemi"
 
@@ -102,6 +102,16 @@ msgstr "Dosyalarınızın şifresi kaldırılamadı, lütfen owncloud.log dosyas
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Dosyalarınızın şifresi kaldırılamadı, parolanızı denetleyip yeniden deneyin."
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Şifreleme anahtarları kalıcı olarak silindi"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Şifreleme anahtarlarınız kalıcı olarak silinemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-posta kaydedildi"
@@ -117,6 +127,16 @@ msgstr "Grup silinemiyor"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kullanıcı silinemiyor"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Yedekler başarıyla geri yüklendi"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Şifreleme anahtarlarınız geri yüklenemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -173,7 +193,7 @@ msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme 
 msgid "Unable to change password"
 msgstr "Parola değiştirilemiyor"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Gönderiliyor..."
 
@@ -229,33 +249,41 @@ msgstr "Güncelleme"
 msgid "Updated"
 msgstr "Güncellendi"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Bir profil fotoğrafı seçin"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Çok güçsüz parola"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Güçsüz parola"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Normal parola"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "İyi parola"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Güçlü parola"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman alabilir."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Şifreleme anahtarlarını kalıcı olarak sil."
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Şifreleme anahtarlarını geri yükle."
 
 #: js/users.js:47
 msgid "deleted"
@@ -302,7 +330,7 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Uyarı: \"{user}\" kullanıcısı için zaten bir Ev dizini mevcut"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Türkçe"
 
@@ -490,148 +518,143 @@ msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 msgid "Allow links"
 msgstr "Bağlantılara izin ver"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr "Parola korumasını zorla"
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Paylaşıma izin ver"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Posta bilgilendirmesine izin ver"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Öntanımlı son kullanma tarihini ayarla"
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr "Şu süreden sonra süresi dolsun"
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr "gün"
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Son kullanma tarihini zorla"
+
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
+
+#: templates/admin.php:252
+msgid "Allow resharing"
+msgstr "Paylaşıma izin ver"
+
+#: templates/admin.php:253
+msgid "Allow users to share items shared with them again"
+msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
+
+#: templates/admin.php:260
+msgid "Allow users to share with anyone"
+msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
+
+#: templates/admin.php:263
+msgid "Allow users to only share with users in their groups"
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
 #: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Paylaşımların süresini öntanımlı olarak N günden sonra doldur"
+msgid "Allow mail notification"
+msgstr "Posta bilgilendirmesine izin ver"
 
-#: templates/admin.php:278
+#: templates/admin.php:271
+msgid "Allow users to send mail notification for shared files"
+msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
+
+#: templates/admin.php:279
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın."
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
 msgstr "E-Posta Sunucusu"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr "Bu, bildirimler gönderilirken kullanılır."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
 msgstr "Kimden adresi"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "Sunucu adresi"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr "Kimlik Bilgileri"
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr "SMTP Kullanıcı Adı"
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr "SMTP Parolası"
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr "E-posta ayarlarını sına"
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
 msgstr "E-posta gönder"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "Günlük"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "Az"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -691,7 +714,7 @@ msgstr "Ticari Destek"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Dosyalarınızı eşitlemek için uygulamayı indirin"
+msgstr "Dosyalarınızı eşitlemek için uygulamaları indirin"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
@@ -784,28 +807,32 @@ msgstr "Dil"
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifrelemesini kaldırın"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Oturum açma parolası"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Tüm dosyaların şifresini çöz"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "Şifreleme anahtarlarınız yedek bir konuma taşındı. Eğer bir şeyler yanlış gittiyse, anahtarlarınızı geri yükleyebilirsiniz. Bu anahtarları, sadece tüm dosyalarınızın düzgün bir şekilde şifrelerinin çözüldüğünden eminseniz kalıcı olarak silin."
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Şifreleme Anahtarlarını Geri Yükle"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Şifreleme Anahtarlarını Sil"
 
 #: templates/users.php:19
 msgid "Login Name"

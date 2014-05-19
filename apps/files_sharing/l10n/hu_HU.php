@@ -10,7 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "lejárt a link érvényességi ideje",
 "sharing is disabled" => "letiltásra került a megosztás",
 "For more info, please ask the person who sent this link." => "További információért forduljon ahhoz, aki ezt a linket küldte Önnek!",
-"shared by %s" => "Megosztotta: %s",
+"Download" => "Letöltés",
 "Direct link" => "Közvetlen link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

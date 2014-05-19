@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ebela <bela@dandre.hu>, 2013
+# ebela <bela@dandre.hu>, 2013-2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,65 +88,65 @@ msgstr "Sikeres végrehajtás"
 msgid "Error"
 msgstr "Hiba"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Konfiguráció OK"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Konfiguráió hibás"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Konfiguráció nincs befejezve"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Csoportok kiválasztása"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Objektumosztályok kiválasztása"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Attribútumok kiválasztása"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "A kapcsolatellenőrzés eredménye: sikerült"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "A kapcsolatellenőrzés eredménye: nem sikerült"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Tényleg törölni szeretné a kiszolgáló beállításait?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "A törlés megerősítése"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s csoport van"
 msgstr[1] "%s csoport van"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s felhasználó van"
 msgstr[1] "%s felhasználó van"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Érvénytelen gépnév"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "A kívánt funkció nem található"
 
@@ -413,7 +413,7 @@ msgstr "A csoporttagság attribútuma"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Egymásba ágyazott csoportok"
 
 #: templates/settings.php:39
 msgid ""

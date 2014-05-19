@@ -178,6 +178,9 @@
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }
+#app-settings.opened #app-settings-content {
+	display: block;
+}
 #app-settings-header {
 	background-color: #eee;
 }
@@ -243,7 +246,6 @@ button.loading {
 	padding-right: 30px;
 }
 
-
 /* general styles for the content area */
 .section {
 	display: block;
@@ -263,4 +265,15 @@ button.loading {
 .section input[type="radio"] {
 	vertical-align: -2px;
 	margin-right: 4px;
+}
+.appear {
+	opacity: 1;
+	transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	-webkit-transition: opacity 500ms ease 0s;
+}
+.appear.transparent {
+	opacity: 0;
 }

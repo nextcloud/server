@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-12 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 06:20+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: nn_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/share.js:13
+#: js/share.js:33
 msgid "Shared by {owner}"
 msgstr "Delt av {owner}"
 
@@ -58,16 +58,15 @@ msgstr "deling er slått av"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Spør den som sende deg lenkje om du vil ha meir informasjon."
 
-#: templates/public.php:17
-#, php-format
-msgid "shared by %s"
-msgstr ""
+#: templates/public.php:21
+msgid "Download"
+msgstr "Last ned"
 
-#: templates/public.php:44
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:48
+#: templates/public.php:56
 msgid "Direct link"
 msgstr ""

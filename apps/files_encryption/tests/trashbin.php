@@ -34,7 +34,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Trashbin
- * @brief this class provide basic trashbin app tests
+ * this class provide basic trashbin app tests
  */
 class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 
@@ -43,7 +43,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 	public $userId;
 	public $pass;
 	/**
-	 * @var \OC_FilesystemView
+	 * @var \OC\Files\View
 	 */
 	public $view;
 	public $dataShort;
@@ -81,7 +81,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Trashbin::TEST_ENCRYPTION_TRASHBIN_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		// init short data
 		$this->dataShort = 'hats';
@@ -114,7 +114,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test delete file
+	 * test delete file
 	 */
 	function testDeleteFile() {
 
@@ -186,7 +186,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test restore file
+	 * test restore file
 	 *
 	 * @depends testDeleteFile
 	 */
@@ -218,7 +218,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test delete file forever
+	 * test delete file forever
 	 */
 	function testPermanentDeleteFile() {
 

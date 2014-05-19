@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -87,65 +87,65 @@ msgstr "Arrakasta"
 msgid "Error"
 msgstr "Errorea"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Konfigurazioa ongi dago"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Konfigurazioa ez dago ongi"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Konfigurazioa osatu gabe dago"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Hautatu taldeak"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Hautatu objektu klaseak"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Hautatu atributuak"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Konexio froga ongi burutu da"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Konexio frogak huts egin du"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Ziur zaude Zerbitzariaren Konfigurazioa ezabatu nahi duzula?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Baieztatu Ezabatzea"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "Talde %s aurkitu da"
 msgstr[1] "%s talde aurkitu dira"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "Erabiltzaile %s aurkitu da"
 msgstr[1] "%s erabiltzaile aurkitu dira"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Baliogabeko hostalaria"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Ezin izan da nahi zen ezaugarria aurkitu"
 

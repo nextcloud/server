@@ -2,9 +2,6 @@
 
 namespace OC\AppFramework\Utility;
 
-// register 3rdparty autoloaders
-require_once 'Pimple/Pimple.php';
-
 /**
  * Class SimpleContainer
  *

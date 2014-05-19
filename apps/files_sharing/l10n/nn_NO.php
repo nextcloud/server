@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "the item was removed" => "fila/mappa er fjerna",
 "the link expired" => "lenkja har gått ut på dato",
 "sharing is disabled" => "deling er slått av",
-"For more info, please ask the person who sent this link." => "Spør den som sende deg lenkje om du vil ha meir informasjon."
+"For more info, please ask the person who sent this link." => "Spør den som sende deg lenkje om du vil ha meir informasjon.",
+"Download" => "Last ned"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

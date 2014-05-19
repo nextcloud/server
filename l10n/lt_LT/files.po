@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 14:36+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja"
 msgid "Could not move %s"
 msgstr "Nepavyko perkelti %s"
 
-#: ajax/newfile.php:58 js/files.js:96
+#: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
 msgstr "Failo pavadinimas negali būti tuščias."
 
@@ -39,18 +39,18 @@ msgstr "Failo pavadinimas negali būti tuščias."
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Neleistinas pavadinimas, '\\', '/', '<', '>', ':', '\"', '|', '?' ir '*' yra neleidžiami."
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:60
+#: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -142,28 +142,32 @@ msgstr "Įkėlimas nepavyko. Nepavyko gauti failo informacijos."
 msgid "Invalid directory."
 msgstr "Neteisingas aplankas"
 
-#: appinfo/app.php:11 js/filelist.js:14
+#: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
 msgstr "Failai"
 
-#: js/file-upload.js:254
+#: appinfo/app.php:29
+msgid "All files"
+msgstr ""
+
+#: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Nepavyksta įkelti {filename}, nes tai katalogas arba yra 0 baitų dydžio"
 
-#: js/file-upload.js:266
+#: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:276
+#: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:353
+#: js/file-upload.js:358
 msgid "Upload cancelled."
 msgstr "Įkėlimas atšauktas."
 
-#: js/file-upload.js:398
+#: js/file-upload.js:404
 msgid "Could not get result from server."
 msgstr "Nepavyko gauti rezultato iš serverio."
 
@@ -176,134 +180,138 @@ msgstr "Failo įkėlimas pradėtas. Jei paliksite šį puslapį, įkėlimas nutr
 msgid "URL cannot be empty"
 msgstr "URL negali būti tuščias."
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:1176
 msgid "{new_name} already exists"
 msgstr "{new_name} jau egzistuoja"
 
-#: js/file-upload.js:611
+#: js/file-upload.js:614
 msgid "Could not create file"
 msgstr "Neįmanoma sukurti failo"
 
-#: js/file-upload.js:624
+#: js/file-upload.js:630
 msgid "Could not create folder"
 msgstr "Neįmanoma sukurti aplanko"
 
-#: js/file-upload.js:664
+#: js/file-upload.js:677
 msgid "Error fetching URL"
 msgstr "Klauda gaunant URL"
 
-#: js/fileactions.js:160
+#: js/fileactions.js:168
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/fileactions.js:173
+#: js/fileactions.js:181
 msgid "Delete permanently"
 msgstr "Ištrinti negrįžtamai"
 
-#: js/fileactions.js:234
+#: js/fileactions.js:221
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr "Klaida perkeliant failą"
+#: js/filelist.js:299
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "Klaida"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:602 js/filelist.js:1672
 msgid "Pending"
 msgstr "Laukiantis"
 
-#: js/filelist.js:624
+#: js/filelist.js:1127
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:1135
+msgid "Error moving file"
+msgstr "Klaida perkeliant failą"
+
+#: js/filelist.js:1135
+msgid "Error"
+msgstr "Klaida"
+
+#: js/filelist.js:1201
 msgid "Could not rename file"
 msgstr "Neįmanoma pervadinti failo"
 
-#: js/filelist.js:787
+#: js/filelist.js:1335
 msgid "Error deleting file."
 msgstr "Klaida trinant failą."
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1438 templates/list.php:62
+msgid "Name"
+msgstr "Pavadinimas"
+
+#: js/filelist.js:1439 templates/list.php:75
+msgid "Size"
+msgstr "Dydis"
+
+#: js/filelist.js:1440 templates/list.php:78
+msgid "Modified"
+msgstr "Pakeista"
+
+#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n aplankas"
 msgstr[1] "%n aplankai"
 msgstr[2] "%n aplankų"
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n failas"
 msgstr[1] "%n failai"
 msgstr[2] "%n failų"
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr "{dirs} ir {files}"
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1580 js/filelist.js:1619
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Įkeliamas %n failas"
 msgstr[1] "Įkeliami %n failai"
 msgstr[2] "Įkeliama %n failų"
 
-#: js/files.js:94
+#: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
 msgstr ""
 
-#: js/files.js:115
+#: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Jūsų visa vieta serveryje užimta"
 
-#: js/files.js:119
+#: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Jūsų vieta serveryje beveik visa užimta ({usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:140
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti"
 
-#: js/files.js:136
+#: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Netinkamas privatus raktas Šifravimo programai. Prašome atnaujinti savo privataus rakto slaptažodį asmeniniuose nustatymuose, kad atkurti prieigą prie šifruotų failų."
 
-#: js/files.js:140
+#: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr "Šifravimas buvo išjungtas, bet Jūsų failai vis dar užšifruoti. Prašome eiti į asmeninius nustatymus ir iššifruoti savo failus."
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas."
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr "{dirs} ir {files}"
 
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "Pavadinimas"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "Dydis"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "Pakeista"
-
-#: lib/app.php:86
+#: lib/app.php:103
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s negali būti pervadintas"
 
-#: lib/helper.php:14 templates/index.php:22
+#: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
 msgstr ""
@@ -340,68 +348,75 @@ msgstr "Maksimalus ZIP archyvo failo dydis"
 msgid "Save"
 msgstr "Išsaugoti"
 
-#: templates/index.php:5
+#: templates/appnavigation.php:12
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/appnavigation.php:14
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>"
+
+#: templates/list.php:5
 msgid "New"
 msgstr "Naujas"
 
-#: templates/index.php:8
+#: templates/list.php:8
 msgid "New text file"
 msgstr "Naujas tekstinis failas"
 
-#: templates/index.php:9
+#: templates/list.php:9
 msgid "Text file"
 msgstr "Teksto failas"
 
-#: templates/index.php:12
+#: templates/list.php:12
 msgid "New folder"
 msgstr "Naujas aplankas"
 
-#: templates/index.php:13
+#: templates/list.php:13
 msgid "Folder"
 msgstr "Katalogas"
 
-#: templates/index.php:16
+#: templates/list.php:16
 msgid "From link"
 msgstr "Iš nuorodos"
 
-#: templates/index.php:40
-msgid "Deleted files"
-msgstr "Ištrinti failai"
-
-#: templates/index.php:45
+#: templates/list.php:42
 msgid "Cancel upload"
 msgstr "Atšaukti siuntimą"
 
-#: templates/index.php:51
+#: templates/list.php:48
 msgid "You don’t have permission to upload or create files here"
 msgstr "Jūs neturite leidimo čia įkelti arba kurti failus"
 
-#: templates/index.php:56
+#: templates/list.php:53
 msgid "Nothing in here. Upload something!"
 msgstr "Čia tuščia. Įkelkite ką nors!"
 
-#: templates/index.php:73
+#: templates/list.php:68
 msgid "Download"
 msgstr "Atsisiųsti"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/list.php:80 templates/list.php:81
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: templates/index.php:96
+#: templates/list.php:95
 msgid "Upload too large"
 msgstr "Įkėlimui failas per didelis"
 
-#: templates/index.php:98
+#: templates/list.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje"
 
-#: templates/index.php:103
+#: templates/list.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Skenuojami failai, prašome palaukti."
 
-#: templates/index.php:106
+#: templates/list.php:105
 msgid "Current scanning"
 msgstr "Šiuo metu skenuojama"

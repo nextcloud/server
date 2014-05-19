@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -28,38 +28,34 @@ msgstr "無法永久刪除 %s"
 msgid "Couldn't restore %s"
 msgstr "無法還原 %s"
 
-#: js/filelist.js:3
+#: appinfo/app.php:13 js/filelist.js:34
 msgid "Deleted files"
 msgstr "回收桶"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
-msgid "Error"
-msgstr "錯誤"
-
-#: js/trash.js:264
-msgid "Deleted Files"
-msgstr "已刪除的檔案"
-
-#: lib/trashbin.php:859 lib/trashbin.php:861
-msgid "restored"
-msgstr "已還原"
-
-#: templates/index.php:6
-msgid "Nothing in here. Your trash bin is empty!"
-msgstr "您的回收桶是空的！"
-
-#: templates/index.php:19
-msgid "Name"
-msgstr "名稱"
-
-#: templates/index.php:22 templates/index.php:24
+#: js/app.js:53 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "還原"
 
-#: templates/index.php:30
+#: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
+msgid "Error"
+msgstr "錯誤"
+
+#: lib/trashbin.php:861 lib/trashbin.php:863
+msgid "restored"
+msgstr "已還原"
+
+#: templates/index.php:7
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "您的回收桶是空的！"
+
+#: templates/index.php:18
+msgid "Name"
+msgstr "名稱"
+
+#: templates/index.php:29
 msgid "Deleted"
 msgstr "已刪除"
 
-#: templates/index.php:33 templates/index.php:34
+#: templates/index.php:32 templates/index.php:33
 msgid "Delete"
 msgstr "刪除"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 14:36+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "%s –ის გადატანა ვერ მოხერხდა
 msgid "Could not move %s"
 msgstr "%s –ის გადატანა ვერ მოხერხდა"
 
-#: ajax/newfile.php:58 js/files.js:96
+#: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
 msgstr "ფაილის სახელი არ შეიძლება იყოს ცარიელი."
 
@@ -36,18 +36,18 @@ msgstr "ფაილის სახელი არ შეიძლება �
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "არადაშვებადი სახელი, '\\', '/', '<', '>', ':', '\"', '|', '?' და  '*' არ არის დაიშვებული."
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:60
+#: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -139,28 +139,32 @@ msgstr ""
 msgid "Invalid directory."
 msgstr "დაუშვებელი დირექტორია."
 
-#: appinfo/app.php:11 js/filelist.js:14
+#: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
 msgstr "ფაილები"
 
-#: js/file-upload.js:254
+#: appinfo/app.php:29
+msgid "All files"
+msgstr ""
+
+#: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:266
+#: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:276
+#: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:353
+#: js/file-upload.js:358
 msgid "Upload cancelled."
 msgstr "ატვირთვა შეჩერებულ იქნა."
 
-#: js/file-upload.js:398
+#: js/file-upload.js:404
 msgid "Could not get result from server."
 msgstr ""
 
@@ -173,128 +177,132 @@ msgstr "მიმდინარეობს ფაილის ატვირ�
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:597
+#: js/file-upload.js:559 js/filelist.js:1176
 msgid "{new_name} already exists"
 msgstr "{new_name} უკვე არსებობს"
 
-#: js/file-upload.js:611
+#: js/file-upload.js:614
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:624
+#: js/file-upload.js:630
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:664
+#: js/file-upload.js:677
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:160
+#: js/fileactions.js:168
 msgid "Share"
 msgstr "გაზიარება"
 
-#: js/fileactions.js:173
+#: js/fileactions.js:181
 msgid "Delete permanently"
 msgstr "სრულად წაშლა"
 
-#: js/fileactions.js:234
+#: js/fileactions.js:221
 msgid "Rename"
 msgstr "გადარქმევა"
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error moving file"
-msgstr ""
+#: js/filelist.js:299
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის."
 
-#: js/filelist.js:102 js/files.js:550
-msgid "Error"
-msgstr "შეცდომა"
-
-#: js/filelist.js:258 js/filelist.js:1141
+#: js/filelist.js:602 js/filelist.js:1672
 msgid "Pending"
 msgstr "მოცდის რეჟიმში"
 
-#: js/filelist.js:624
+#: js/filelist.js:1127
+msgid "Error moving file."
+msgstr ""
+
+#: js/filelist.js:1135
+msgid "Error moving file"
+msgstr ""
+
+#: js/filelist.js:1135
+msgid "Error"
+msgstr "შეცდომა"
+
+#: js/filelist.js:1201
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:787
+#: js/filelist.js:1335
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:812 js/filelist.js:888 js/files.js:587
+#: js/filelist.js:1438 templates/list.php:62
+msgid "Name"
+msgstr "სახელი"
+
+#: js/filelist.js:1439 templates/list.php:75
+msgid "Size"
+msgstr "ზომა"
+
+#: js/filelist.js:1440 templates/list.php:78
+msgid "Modified"
+msgstr "შეცვლილია"
+
+#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:813 js/filelist.js:889 js/files.js:593
+#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 
-#: js/filelist.js:820
-msgid "{dirs} and {files}"
-msgstr ""
-
-#: js/filelist.js:1049 js/filelist.js:1088
+#: js/filelist.js:1580 js/filelist.js:1619
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
 
-#: js/files.js:94
+#: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
 msgstr ""
 
-#: js/files.js:115
+#: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!"
 
-#: js/files.js:119
+#: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "თქვენი საცავი თითქმის გადაივსო ({usedSpacePercent}%)"
 
-#: js/files.js:132
+#: js/files.js:140
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr ""
 
-#: js/files.js:136
+#: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr ""
 
-#: js/files.js:140
+#: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
 msgstr ""
 
-#: js/files.js:329
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის."
+#: js/filesummary.js:182
+msgid "{dirs} and {files}"
+msgstr ""
 
-#: js/files.js:568 templates/index.php:67
-msgid "Name"
-msgstr "სახელი"
-
-#: js/files.js:569 templates/index.php:79
-msgid "Size"
-msgstr "ზომა"
-
-#: js/files.js:570 templates/index.php:81
-msgid "Modified"
-msgstr "შეცვლილია"
-
-#: lib/app.php:86
+#: lib/app.php:103
 #, php-format
 msgid "%s could not be renamed"
 msgstr ""
 
-#: lib/helper.php:14 templates/index.php:22
+#: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
 msgstr ""
@@ -331,68 +339,75 @@ msgstr "ZIP ფაილების მაქსიმუმ დასაშვ
 msgid "Save"
 msgstr "შენახვა"
 
-#: templates/index.php:5
+#: templates/appnavigation.php:12
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/appnavigation.php:14
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr ""
+
+#: templates/list.php:5
 msgid "New"
 msgstr "ახალი"
 
-#: templates/index.php:8
+#: templates/list.php:8
 msgid "New text file"
 msgstr ""
 
-#: templates/index.php:9
+#: templates/list.php:9
 msgid "Text file"
 msgstr "ტექსტური ფაილი"
 
-#: templates/index.php:12
+#: templates/list.php:12
 msgid "New folder"
 msgstr "ახალი ფოლდერი"
 
-#: templates/index.php:13
+#: templates/list.php:13
 msgid "Folder"
 msgstr "საქაღალდე"
 
-#: templates/index.php:16
+#: templates/list.php:16
 msgid "From link"
 msgstr "მისამართიდან"
 
-#: templates/index.php:40
-msgid "Deleted files"
-msgstr "წაშლილი ფაილები"
-
-#: templates/index.php:45
+#: templates/list.php:42
 msgid "Cancel upload"
 msgstr "ატვირთვის გაუქმება"
 
-#: templates/index.php:51
+#: templates/list.php:48
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/index.php:56
+#: templates/list.php:53
 msgid "Nothing in here. Upload something!"
 msgstr "აქ არაფერი არ არის. ატვირთე რამე!"
 
-#: templates/index.php:73
+#: templates/list.php:68
 msgid "Download"
 msgstr "ჩამოტვირთვა"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/list.php:80 templates/list.php:81
 msgid "Delete"
 msgstr "წაშლა"
 
-#: templates/index.php:96
+#: templates/list.php:95
 msgid "Upload too large"
 msgstr "ასატვირთი ფაილი ძალიან დიდია"
 
-#: templates/index.php:98
+#: templates/list.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს."
 
-#: templates/index.php:103
+#: templates/list.php:102
 msgid "Files are being scanned, please wait."
 msgstr "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ."
 
-#: templates/index.php:106
+#: templates/list.php:105
 msgid "Current scanning"
 msgstr "მიმდინარე სკანირება"

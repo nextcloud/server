@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Telugu (http://www.transifex.com/projects/p/owncloud/language/te/)\n"
 "MIME-Version: 1.0\n"
@@ -86,43 +86,43 @@ msgstr ""
 msgid "Error"
 msgstr "పొరపాటు"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr ""
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr ""
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr ""
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr ""
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr ""
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr ""
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr ""
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr ""
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr ""
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr[1] ""
 msgid "Invalid Host"
 msgstr ""
 
-#: lib/wizard.php:983
+#: lib/wizard.php:984
 msgid "Could not find the desired feature"
 msgstr ""
 

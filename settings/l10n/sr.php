@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Откажи",
 "Language" => "Језик",
 "Help translate" => " Помозите у превођењу",
-"WebDAV" => "WebDAV",
 "Login Name" => "Корисничко име",
 "Create" => "Направи",
 "Default Storage" => "Подразумевано складиште",

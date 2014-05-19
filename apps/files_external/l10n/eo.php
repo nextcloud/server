@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "Loko",
+"Host" => "Gastigo",
+"Username" => "Uzantonomo",
+"Password" => "Pasvorto",
+"Share" => "Kunhavigi",
+"URL" => "URL",
 "Access granted" => "Alirpermeso donita",
 "Error configuring Dropbox storage" => "Eraro dum agordado de la memorservo Dropbox",
 "Grant access" => "Doni alirpermeson",

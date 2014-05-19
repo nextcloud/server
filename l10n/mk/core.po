@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -59,207 +59,207 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Недела"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Понеделник"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Среда"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Четврток"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Петок"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Сабота"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Јануари"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Февруари"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Март"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Април"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Мај"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Јуни"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Јули"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Август"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Септември"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Октомври"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Ноември"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Декември"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Подесувања"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Снимам..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "пред секунди"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "денеска"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "минатиот месец"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "минатата година"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "пред години"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Избери"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr ""
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Не"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Избери"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr ""
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Во ред"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Конфликт со една датотека"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr ""
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Откажи"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Продолжи"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(сите одбрани)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} одбраните)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Грешка при вчитување на датотеката, шаблонот постои "
 
@@ -291,12 +291,12 @@ msgstr "Споделен"
 msgid "Share"
 msgstr "Сподели"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Грешка"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
@@ -324,107 +324,116 @@ msgstr ""
 msgid "Share link"
 msgstr "Сподели ја врската"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Заштити со лозинка"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Лозинка"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Дозволи јавен аплоуд"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Прати врска по е-пошта на личност"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Прати"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Постави рок на траење"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Рок на траење"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Сподели по е-пошта:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Не се најдени луѓе"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "група"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Повторно споделување не е дозволено"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Споделено во {item} со {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "извести преку електронска пошта"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "може да се измени"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "контрола на пристап"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "креирај"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "избриши"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "сподели"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Предупредување"
 
@@ -667,6 +676,10 @@ msgstr ""
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Направете <strong>администраторска сметка</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Лозинка"
 
 #: templates/installation.php:70
 msgid "Storage & database"

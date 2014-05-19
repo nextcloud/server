@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-22 01:54-0400\n"
-"PO-Revision-Date: 2014-04-21 16:38+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -89,65 +89,65 @@ msgstr "Başarılı"
 msgid "Error"
 msgstr "Hata"
 
-#: js/settings.js:838
+#: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Yapılandırma tamam"
 
-#: js/settings.js:847
+#: js/settings.js:789
 msgid "Configuration incorrect"
 msgstr "Yapılandırma geçersiz"
 
-#: js/settings.js:856
+#: js/settings.js:798
 msgid "Configuration incomplete"
 msgstr "Yapılandırma tamamlanmamış"
 
-#: js/settings.js:873 js/settings.js:882
+#: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
 msgstr "Grupları seç"
 
-#: js/settings.js:876 js/settings.js:885
+#: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
 msgstr "Nesne sınıflarını seç"
 
-#: js/settings.js:879
+#: js/settings.js:821
 msgid "Select attributes"
 msgstr "Nitelikleri seç"
 
-#: js/settings.js:906
+#: js/settings.js:848
 msgid "Connection test succeeded"
 msgstr "Bağlantı testi başarılı oldu"
 
-#: js/settings.js:913
+#: js/settings.js:855
 msgid "Connection test failed"
 msgstr "Bağlantı testi başarısız oldu"
 
-#: js/settings.js:922
+#: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Şu anki sunucu yapılandırmasını silmek istediğinizden emin misiniz?"
 
-#: js/settings.js:923
+#: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Silmeyi onayla"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s grup bulundu"
 msgstr[1] "%s grup bulundu"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s kullanıcı bulundu"
 msgstr[1] "%s kullanıcı bulundu"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Geçersiz Makine"
 
-#: lib/wizard.php:983
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "İstenen özellik bulunamadı"
 

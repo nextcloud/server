@@ -394,13 +394,12 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertNull($this->hookPath);
 
 		$subView->file_put_contents('/foo.txt', 'asd');
-		$this->assertNotNull($this->hookPath);
 		$this->assertEquals('/substorage/foo.txt', $this->hookPath);
 	}
 
 	private $hookPath;
 
-	function dummyHook($params) {
+	public function dummyHook($params) {
 		$this->hookPath = $params['path'];
 	}
 
@@ -442,12 +441,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		return $storage;
 	}
 
-	private $createHookPath;
-
-	function dummyCreateHook($params) {
-		$this->createHookPath = $params['path'];
-	}
-
 	/**
 	 * @medium
 	 */
@@ -466,23 +459,50 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertNull($this->hookPath);
 	}
 
+	private $hookWritePath;
+	private $hookCreatePath;
+	private $hookUpdatePath;
+
+	public function dummyHookWrite($params) {
+		$this->hookWritePath = $params['path'];
+	}
+
+	public function dummyHookUpdate($params) {
+		$this->hookUpdatePath = $params['path'];
+	}
+
+	public function dummyHookCreate($params) {
+		$this->hookCreatePath = $params['path'];
+	}
+
 	public function testEditNoCreateHook() {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$defaultRoot = \OC\Files\Filesystem::getRoot();
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
 		\OC\Files\Filesystem::mount($storage2, array(), $defaultRoot);
-		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyCreateHook');
+		\OC_Hook::connect('OC_Filesystem', 'post_create', $this, 'dummyHookCreate');
+		\OC_Hook::connect('OC_Filesystem', 'post_update', $this, 'dummyHookUpdate');
+		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHookWrite');
 
 		$view = new \OC\Files\View($defaultRoot);
-		$this->hookPath = null;
+		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
-		$this->assertEquals('/asd.txt', $this->createHookPath);
-		$this->createHookPath = null;
+		$this->assertEquals('/asd.txt', $this->hookCreatePath);
+		$this->assertNull($this->hookUpdatePath);
+		$this->assertEquals('/asd.txt', $this->hookWritePath);
+
+		$this->hookWritePath = $this->hookUpdatePath = $this->hookCreatePath = null;
 
 		$view->file_put_contents('/asd.txt', 'foo');
-		$this->assertNull($this->createHookPath);
+		$this->assertNull($this->hookCreatePath);
+		$this->assertEquals('/asd.txt', $this->hookUpdatePath);
+		$this->assertEquals('/asd.txt', $this->hookWritePath);
+
+		\OC_Hook::clear('OC_Filesystem', 'post_create');
+		\OC_Hook::clear('OC_Filesystem', 'post_update');
+		\OC_Hook::clear('OC_Filesystem', 'post_write');
 	}
 
 	/**
@@ -564,5 +584,25 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$info2 = $view->getFileInfo('/test/test');
 		$this->assertSame($info['etag'], $info2['etag']);
+	}
+
+	/**
+	 * @dataProvider absolutePathProvider
+	 */
+	public function testGetAbsolutePath($expectedPath, $relativePath) {
+		$view = new \OC\Files\View('/files');
+		$this->assertEquals($expectedPath, $view->getAbsolutePath($relativePath));
+	}
+
+	function absolutePathProvider() {
+		return array(
+			array('/files/', ''),
+			array('/files/0', '0'),
+			array('/files/false', 'false'),
+			array('/files/true', 'true'),
+			array('/files/', '/'),
+			array('/files/test', 'test'),
+			array('/files/test', '/test'),
+		);
 	}
 }

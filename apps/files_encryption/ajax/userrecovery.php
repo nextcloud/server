@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  *
- * @brief Script to handle admin settings for encrypted key recovery
+ * Script to handle admin settings for encrypted key recovery
  */
 
 use OCA\Encryption;
@@ -19,7 +19,7 @@ if (
 ) {
 
 	$userId = \OCP\USER::getUser();
-	$view = new \OC_FilesystemView('/');
+	$view = new \OC\Files\View('/');
 	$util = new \OCA\Encryption\Util($view, $userId);
 
 	// Save recovery preference to DB

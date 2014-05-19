@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-26 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 14:01+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,13 +18,16 @@ msgstr ""
 "Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:723
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr "You are accessing the server from an untrusted domain."
 
-#: base.php:724
-msgid "Please contact your administrator"
-msgstr "Please contact your administrator"
+#: base.php:686
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php."
 
 #: private/app.php:236
 #, php-format
@@ -74,23 +77,23 @@ msgstr "Invalid image"
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP download is turned off."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Files need to be downloaded one by one."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Back to Files"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Selected files too large to generate zip file."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -276,19 +279,19 @@ msgstr "Set an admin username."
 msgid "Set an admin password."
 msgstr "Set an admin password."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Your web server is not yet properly setup to allow files synchronisation because the WebDAV interface seems to be broken."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Please double check the <a href='%s'>installation guides</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s shared \"%s\" with you"
@@ -330,73 +333,79 @@ msgstr "Sharing %s failed, because the group %s does not exist"
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Sharing %s failed, because %s is not a member of the group %s"
 
-#: private/share/share.php:629
+#: private/share/share.php:618
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr ""
+
+#: private/share/share.php:638
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Sharing %s failed, because sharing with links is not allowed"
 
-#: private/share/share.php:636
+#: private/share/share.php:645
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Share type %s is not valid for %s"
 
-#: private/share/share.php:773
+#: private/share/share.php:783
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Setting permissions for %s failed, because the permissions exceed permissions granted to %s"
 
-#: private/share/share.php:834
+#: private/share/share.php:844
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Setting permissions for %s failed, because the item was not found"
 
-#: private/share/share.php:940
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Sharing backend %s must implement the interface OCP\\Share_Backend"
 
-#: private/share/share.php:947
+#: private/share/share.php:962
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Sharing backend %s not found"
 
-#: private/share/share.php:953
+#: private/share/share.php:968
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Sharing backend for %s not found"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1383
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Sharing %s failed, because the user %s is the original sharer"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1392
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Sharing %s failed, because the permissions exceed permissions granted to %s"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1407
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Sharing %s failed, because resharing is not allowed"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1419
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Sharing %s failed, because the sharing backend for %s could not find its source"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1433
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "Sharing %s failed, because the file could not be found in the file cache"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Could not find category \"%s\""

@@ -30,13 +30,13 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	private $refBackend = null;
 
 	/**
-	 * @brief Constructor
-	 * @param $serverConfigPrefixes array containing the config Prefixes
+	 * Constructor
+	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
-		    $this->backends[$configPrefix] =
+			$this->backends[$configPrefix] =
 				new \OCA\user_ldap\GROUP_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
@@ -45,29 +45,29 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Tries the backends one after the other until a positive result is returned from the specified method
-	 * @param $gid string, the gid connected to the request
-	 * @param $method string, the method of the group backend that shall be called
-	 * @param $parameters an array of parameters to be passed
+	 * Tries the backends one after the other until a positive result is returned from the specified method
+	 * @param string $gid the gid connected to the request
+	 * @param string $method the method of the group backend that shall be called
+	 * @param array $parameters an array of parameters to be passed
 	 * @return mixed, the result of the method or false
 	 */
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach($this->backends as $configPrefix => $backend) {
-		    if($result = call_user_func_array(array($backend, $method), $parameters)) {
+			if($result = call_user_func_array(array($backend, $method), $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
-		    }
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * @brief Asks the backend connected to the server that supposely takes care of the gid from the request.
-	 * @param $gid string, the gid connected to the request
-	 * @param $method string, the method of the group backend that shall be called
-	 * @param $parameters an array of parameters to be passed
-	 * @param $passOnWhen the result matches this variable
+	 * Asks the backend connected to the server that supposely takes care of the gid from the request.
+	 * @param string $gid the gid connected to the request
+	 * @param string $method the method of the group backend that shall be called
+	 * @param array $parameters an array of parameters to be passed
+	 * @param mixed $passOnWhen the result matches this variable
 	 * @return mixed, the result of the method or false
 	 */
 	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
@@ -95,10 +95,10 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief is user in group?
-	 * @param $uid uid of the user
-	 * @param $gid gid of the group
-	 * @returns true/false
+	 * is user in group?
+	 * @param string $uid uid of the user
+	 * @param string $gid gid of the group
+	 * @return bool
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
@@ -107,9 +107,9 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
-	 * @param $uid Name of the user
-	 * @returns array with group names
+	 * Get all groups a user belongs to
+	 * @param string $uid Name of the user
+	 * @return string[] with group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -118,7 +118,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$groups = array();
 
 		foreach($this->backends as $backend) {
-		    $backendGroups = $backend->getUserGroups($uid);
+			$backendGroups = $backend->getUserGroups($uid);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);
 			}
@@ -128,14 +128,14 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all users in a group
-	 * @returns array with user ids
+	 * get a list of all users in a group
+	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users = array();
 
 		foreach($this->backends as $backend) {
-		    $backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
+			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = array_merge($users, $backendUsers);
 			}
@@ -145,10 +145,10 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief returns the number of users in a group, who match the search term
-	 * @param string the internal group name
-	 * @param string optional, a search string
-	 * @returns int | bool
+	 * returns the number of users in a group, who match the search term
+	 * @param string $gid the internal group name
+	 * @param string $search optional, a search string
+	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		return $this->handleRequest(
@@ -156,24 +156,8 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all display names in a group
-	 * @returns array with display names (value) and user ids(key)
-	 */
-	public function displayNamesInGroup($gid, $search, $limit, $offset) {
-		$displayNames = array();
-
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->displayNamesInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$displayNames = array_merge($displayNames, $backendUsers);
-			}
-		}
-		return $displayNames;
-	}
-
-	/**
-	 * @brief get a list of all groups
-	 * @returns array with group names
+	 * get a list of all groups
+	 * @return string[] with group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -181,7 +165,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$groups = array();
 
 		foreach($this->backends as $backend) {
-		    $backendGroups = $backend->getGroups($search, $limit, $offset);
+			$backendGroups = $backend->getGroups($search, $limit, $offset);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);
 			}
@@ -200,9 +184,9 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Check if backend implements actions
-	 * @param $actions bitwise-or'ed actions
-	 * @returns boolean
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
 	 *
 	 * Returns the supported actions as int to be
 	 * compared with OC_USER_BACKEND_CREATE_USER etc.

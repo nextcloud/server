@@ -40,8 +40,13 @@ $TRANSLATIONS = array(
 "%s you may not use dots in the database name" => "%s não é permitido utilizar pontos (.) no nome da base de dados",
 "MS SQL username and/or password not valid: %s" => "Nome de utilizador/password do MySQL é inválido: %s",
 "You need to enter either an existing account or the administrator." => "Precisa de introduzir uma conta existente ou de administrador",
+"MySQL/MariaDB username and/or password not valid" => "Nome de utilizador/password do MySQL/Maria DB inválida",
 "DB Error: \"%s\"" => "Erro na BD: \"%s\"",
 "Offending command was: \"%s\"" => "O comando gerador de erro foi: \"%s\"",
+"MySQL/MariaDB user '%s'@'localhost' exists already." => "O utilizador '%s'@'localhost' do MySQL/MariaDB já existe.",
+"Drop this user from MySQL/MariaDB" => "Eliminar este utilizador do MySQL/MariaDB",
+"MySQL/MariaDB user '%s'@'%%' already exists" => "O utilizador '%s'@'%%' do MySQL/MariaDB já existe",
+"Drop this user from MySQL/MariaDB." => "Eliminar este utilizador do MySQL/MariaDB",
 "Oracle connection could not be established" => "Não foi possível estabelecer a ligação Oracle",
 "Oracle username and/or password not valid" => "Nome de utilizador/password do Oracle inválida",
 "Offending command was: \"%s\", name: %s, password: %s" => "O comando gerador de erro foi: \"%s\", nome: %s, password: %s",
@@ -50,7 +55,9 @@ $TRANSLATIONS = array(
 "Set an admin password." => "Definiar uma password de administrador",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web não está configurado correctamente para autorizar sincronização de ficheiros, pois o interface WebDAV parece estar com problemas.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor verifique <a href='%s'>installation guides</a>.",
-"%s shared »%s« with you" => "%s partilhado »%s« contigo",
+"%s shared »%s« with you" => "%s partilhado »%s« consigo",
+"Sharing %s failed, because the user %s is the item owner" => "A partilha %s falhou, porque o utilizador %s é o proprietário",
+"Sharing %s failed, because the user %s does not exist" => "A partilha %s falhou, porque o utilizador %s nao existe",
 "Could not find category \"%s\"" => "Não foi encontrado a categoria \"%s\"",
 "seconds ago" => "Minutos atrás",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutos atrás"),
@@ -62,7 +69,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","%n meses atrás"),
 "last year" => "ano passado",
 "years ago" => "anos atrás",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Apenas os seguintes caracteres são permitidos no nome de utilizador: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\"",
 "A valid username must be provided" => "Um nome de utilizador válido deve ser fornecido",
-"A valid password must be provided" => "Uma password válida deve ser fornecida"
+"A valid password must be provided" => "Uma password válida deve ser fornecida",
+"The username is already being used" => "O nome de utilizador já está a ser usado"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

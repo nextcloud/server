@@ -7,13 +7,13 @@
 # chohy <chohy@yahoo.com>, 2013
 # chohy <chohy@yahoo.com>, 2013
 # Park Shinjo <peremen@gmail.com>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# 책읽는달팽 <bjh13579@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-25 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +22,15 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:723
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:724
-msgid "Please contact your administrator"
+#: base.php:686
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
 msgstr ""
 
 #: private/app.php:236
@@ -78,23 +81,23 @@ msgstr "잘못된 그림"
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP 다운로드가 비활성화 되었습니다."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "파일을 개별적으로 다운로드해야 합니다."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "파일로 돌아가기"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -170,7 +173,7 @@ msgstr "토큰이 만료되었습니다. 페이지를 새로 고치십시오."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "알려지지 않은 사용자"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -212,7 +215,7 @@ msgstr "기존 계정이나 administrator(관리자)를 입력해야 합니다."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB 사용자 명 혹은 비밀번호가 일치하지 않습니다"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -240,20 +243,20 @@ msgstr "잘못된 명령: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB '%s'@'localhost' 사용자가 이미 존재합니다"
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "MySQL/MariaDB에서 이 사용자 제거하기"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB '%s'@'%%' 사용자가 이미 존재합니다"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "MySQL/MariaDB에서 이 사용자 제거하기"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -280,19 +283,19 @@ msgstr "관리자의 사용자 이름을 설정합니다."
 msgid "Set an admin password."
 msgstr "관리자의 암호를 설정합니다."
 
-#: private/setup.php:202
+#: private/setup.php:164
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다."
 
-#: private/setup.php:203
+#: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 님이 %s을(를) 공유하였습니다"
@@ -334,73 +337,79 @@ msgstr ""
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr ""
 
-#: private/share/share.php:629
+#: private/share/share.php:618
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr ""
+
+#: private/share/share.php:638
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: private/share/share.php:636
+#: private/share/share.php:645
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:773
+#: private/share/share.php:783
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:834
+#: private/share/share.php:844
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:940
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:947
+#: private/share/share.php:962
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:953
+#: private/share/share.php:968
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1367
+#: private/share/share.php:1383
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1376
+#: private/share/share.php:1392
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1391
+#: private/share/share.php:1407
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1403
+#: private/share/share.php:1419
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1417
+#: private/share/share.php:1433
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr ""
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "분류 \"%s\"을(를) 찾을 수 없습니다."
@@ -453,7 +462,7 @@ msgstr "년 전"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "사용자 명에는 다음과 같은 문자만 사용이 가능합니다: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"
@@ -465,4 +474,4 @@ msgstr "올바른 암호를 입력해야 함"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "이 사용자명은 현재 사용중입니다"

@@ -29,7 +29,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	public $pass;
 	public $stateFilesTrashbin;
 	/**
-	 * @var OC_FilesystemView
+	 * @var OC\Files\View
 	 */
 	public $view;
 	public $randomKey;
@@ -68,7 +68,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		\OC_User::setUserId(\Test_Encryption_Keymanager::TEST_USER);
 		$this->userId = \Test_Encryption_Keymanager::TEST_USER;

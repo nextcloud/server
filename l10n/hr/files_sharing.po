@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-05-11 01:55-0400\n"
+"PO-Revision-Date: 2014-05-11 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: js/share.js:13
+#: js/share.js:33
 msgid "Shared by {owner}"
 msgstr ""
 
@@ -57,16 +57,15 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:17
-#, php-format
-msgid "shared by %s"
-msgstr ""
+#: templates/public.php:21
+msgid "Download"
+msgstr "Preuzimanje"
 
-#: templates/public.php:44
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:48
+#: templates/public.php:56
 msgid "Direct link"
 msgstr ""

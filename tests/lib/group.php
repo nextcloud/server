@@ -4,8 +4,8 @@
  *
  * @author Robin Appelman
  * @author Bernhard Posselt
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Robin Appelman <icewind@owncloud.com>
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -107,25 +107,6 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(false, OC_Group::addToGroup($user, $groupNonExistent));
 		$this->assertEquals(array(), OC_Group::getGroups());
-	}
-
-	public function testDisplayNamesInGroup() {
-		OC_Group::useBackend(new OC_Group_Dummy());
-		$userBackend = new \OC_User_Dummy();
-		\OC_User::getManager()->registerBackend($userBackend);
-
-		$group1 = uniqid();
-		$user1 = 'uid1';
-		$user2 = 'uid2';
-		OC_Group::createGroup($group1);
-		$userBackend->createUser($user1, '');
-		$userBackend->createUser($user2, '');
-		OC_Group::addToGroup($user1, $group1);
-		OC_Group::addToGroup($user2, $group1);
-		//Dummy backend does not support setting displaynames, uid will always
-		//be returned. This checks primarily, that the return format is okay.
-		$expected = array($user1 => $user1, $user2 => $user2);
-		$this->assertEquals($expected, OC_Group::displayNamesInGroup($group1));
 	}
 
 	public function testUsersInGroup() {

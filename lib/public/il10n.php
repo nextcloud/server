@@ -53,7 +53,7 @@ interface IL10N {
 	 * Localization
 	 * @param string $type Type of localization
 	 * @param array $data parameters for this localization
-	 * @return String or false
+	 * @return string|false
 	 *
 	 * Returns the localized data.
 	 *
@@ -72,4 +72,18 @@ interface IL10N {
 	 *    - params: timestamp (int/string)
 	 */
 	public function l($type, $data);
+
+
+	/**
+	 * find the best language
+	 * @param array|string $app details below
+	 * @return string language
+	 *
+	 * If $app is an array, ownCloud assumes that these are the available
+	 * languages. Otherwise ownCloud tries to find the files in the l10n
+	 * folder.
+	 *
+	 * If nothing works it returns 'en'
+	 */
+	public function getLanguageCode($app=null);
 }

@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# dixebra <davidlopezcastanon@gmail.com>, 2014
+# Iñigo Varela <ivarela@softastur.org>, 2014
 # Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-23 05:54+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -59,229 +61,229 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Domingu"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Llunes"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Martes"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Xueves"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Vienres"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Sábadu"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Xineru"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Febreru"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Marzu"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Abril"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mayu"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Xunu"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Xunetu"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Agostu"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Setiembre"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Ochobre"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Payares"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Avientu"
 
-#: js/js.js:489
+#: js/js.js:483
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:589
+#: js/js.js:583
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1246
+#: js/js.js:1240
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1247
+#: js/js.js:1241
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1248
+#: js/js.js:1242
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1249
+#: js/js.js:1243
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1250
+#: js/js.js:1244
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1251
+#: js/js.js:1245
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1252
+#: js/js.js:1246
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1253
+#: js/js.js:1247
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1254
+#: js/js.js:1248
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1255
+#: js/js.js:1249
 msgid "years ago"
 msgstr "fai años"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Esbillar"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr ""
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:204
-msgid "Ok"
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Esbillar"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:263
+msgid "Ok"
+msgstr "Aceutar"
+
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "¿Qué ficheros quies caltener?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Encaboxar"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr ""
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Contraseña mui feble"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Contraseña feble"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Contraseña pasable"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Contraseña bona"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Contraseña mui bona"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -291,30 +293,30 @@ msgstr "Compartíu"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
-msgstr ""
+msgstr "Fallu mientres la compartición"
 
 #: js/share.js:171
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Fallu mientres se dexaba de compartir"
 
 #: js/share.js:178
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Fallu mientres camudaben los permisos"
 
 #: js/share.js:188
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Compartíu contigo y col grupu {group} por {owner}"
 
 #: js/share.js:190
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Compartíu contigo por {owner}"
 
 #: js/share.js:214
 msgid "Share with user or group …"
@@ -324,113 +326,122 @@ msgstr ""
 msgid "Share link"
 msgstr "Compartir enllaz"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
-msgstr ""
-
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Contraseña"
-
-#: js/share.js:230
-msgid "Allow Public Upload"
-msgstr ""
-
-#: js/share.js:234
-msgid "Email link to person"
-msgstr ""
+msgstr "Protexer con contraseña"
 
 #: js/share.js:235
-msgid "Send"
-msgstr "Unviar"
-
-#: js/share.js:240
-msgid "Set expiration date"
+msgid "Choose a password for the public link"
 msgstr ""
 
 #: js/share.js:241
+msgid "Allow Public Upload"
+msgstr ""
+
+#: js/share.js:245
+msgid "Email link to person"
+msgstr "Enlláz de corréu electrónicu a la persona"
+
+#: js/share.js:246
+msgid "Send"
+msgstr "Unviar"
+
+#: js/share.js:251
+msgid "Set expiration date"
+msgstr "Afitar la data de caducidá"
+
+#: js/share.js:252
 msgid "Expiration date"
-msgstr ""
+msgstr "Data de caducidá"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
-msgstr ""
+msgstr "Compartir vía corréu electrónicu:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
-msgstr ""
+msgstr "Nun s'atoparon persones"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Recompartir nun ta permitíu"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Compartíu en {item} con {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Fallu desafitando la data de caducidá"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Fallu afitando la fecha de caducidá"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
-msgstr ""
+msgstr "Unviando ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Avisu"
 
 #: js/tags.js:4
 msgid "The object type is not specified."
-msgstr ""
+msgstr "El tipu d'oxetu nun ta especificáu."
 
 #: js/tags.js:13
 msgid "Enter new"
@@ -465,11 +476,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "L'anovamientu fízose con ésitu. Por favor, informa d'esti problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comuña ownCloud</a>."
 
 #: js/update.js:21
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud."
 
 #: lostpassword/controller.php:70
 #, php-format
@@ -484,7 +495,7 @@ msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Usa'l siguiente enllaz pa restablecer la to contraseña: {link}"
 
 #: lostpassword/templates/lostpassword.php:7
 msgid ""
@@ -499,7 +510,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Vas recibir un enllaz vía Corréu-e pa restablecer la to contraseña"
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
 #: templates/login.php:32
@@ -524,19 +535,19 @@ msgstr "Reaniciar"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Restablecióse la contraseña"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Aniciar sesión na páxina"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Contraseña nueva"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Restablecer contraseña"
 
 #: setup/controller.php:140
 #, php-format
@@ -560,15 +571,15 @@ msgstr "Usuarios"
 
 #: strings.php:7 templates/layout.user.php:116
 msgid "Apps"
-msgstr ""
+msgstr "Aplicaciones"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Alministrador"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
@@ -600,11 +611,11 @@ msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Accesu denegáu"
 
 #: templates/404.php:15
 msgid "Cloud not found"
-msgstr ""
+msgstr "Ñube non atopada"
 
 #: templates/altmail.php:2
 #, php-format
@@ -628,7 +639,7 @@ msgstr "¡Salú!"
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "Avisu de seguridá"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -643,19 +654,19 @@ msgstr ""
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Nun ta disponible'l xenerador de númberos al debalu, por favor activa la estensión PHP OpenSSL."
 
 #: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Ensin un xenerador de númberos al debalu, un atacante podría aldovinar los tokens pa restablecer la contraseña y tomar el control de la cuenta."
 
 #: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "El to direutoriu de datos y ficheros seique ye accesible dende internet por mor qu'el ficheru .htaccess nun furrula."
 
 #: templates/installation.php:42
 #, php-format
@@ -666,7 +677,11 @@ msgstr ""
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Crea una <strong>cuenta d'alministrador</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Contraseña"
 
 #: templates/installation.php:70
 msgid "Storage & database"
@@ -674,11 +689,11 @@ msgstr ""
 
 #: templates/installation.php:77
 msgid "Data folder"
-msgstr ""
+msgstr "Carpeta de datos"
 
 #: templates/installation.php:90
 msgid "Configure the database"
-msgstr ""
+msgstr "Configura la base de datos"
 
 #: templates/installation.php:94
 msgid "will be used"
@@ -686,27 +701,27 @@ msgstr "usaráse"
 
 #: templates/installation.php:109
 msgid "Database user"
-msgstr ""
+msgstr "Usuariu de la base de datos"
 
 #: templates/installation.php:118
 msgid "Database password"
-msgstr ""
+msgstr "Contraseña de la base de datos"
 
 #: templates/installation.php:123
 msgid "Database name"
-msgstr ""
+msgstr "Nome de la base de datos"
 
 #: templates/installation.php:132
 msgid "Database tablespace"
-msgstr ""
+msgstr "Espaciu de tables de la base de datos"
 
 #: templates/installation.php:140
 msgid "Database host"
-msgstr ""
+msgstr "Agospiador de la base de datos"
 
 #: templates/installation.php:150
 msgid "Finish setup"
-msgstr ""
+msgstr "Finar la configuración "
 
 #: templates/installation.php:150
 msgid "Finishing …"
@@ -730,7 +745,7 @@ msgstr "Zarrar sesión"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "¡Aniciu de sesión automáticu refugáu!"
 
 #: templates/login.php:10
 msgid ""

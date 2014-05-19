@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Sie greifen von einer nicht vertrauenswürdigen Domain auf den Server zu.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Bitte kontaktieren Sie Ihren Administrator. Wenn Sie aktuell Administrator dieser Instanz sind, konfigurieren Sie bitte die \"trusted_domain\" - Einstellung in config/config.php. Eine Beispielkonfiguration wird unter config/config.sample.php bereit gestellt.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Applikation \"%s\" kann nicht installiert werden, da sie mit dieser ownCloud Version nicht kompatibel ist.",
 "No app name specified" => "Es wurde kein Applikation-Name angegeben",
 "Help" => "Hilfe",
@@ -56,12 +58,14 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
 "Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "%s shared »%s« with you" => "%s hat »%s« mit Ihnen geteilt",
+"Sharing %s failed, because the file does not exist" => "Freigabe von %s fehlgeschlagen, da die Datei nicht existiert",
 "Sharing %s failed, because the user %s is the item owner" => "Freigabe von %s fehlgeschlagen, da der Nutzer %s Besitzer des Objektes ist",
 "Sharing %s failed, because the user %s does not exist" => "Freigabe von %s fehlgeschlagen, da der Nutzer %s nicht existiert",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Freigabe von %s fehlgeschlagen, da der Nutzer %s kein Gruppenmitglied einer der Gruppen von %s ist",
 "Sharing %s failed, because this item is already shared with %s" => "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
 "Sharing %s failed, because the group %s does not exist" => "Freigabe von %s fehlgeschlagen, da die Gruppe %s nicht existiert",
 "Sharing %s failed, because %s is not a member of the group %s" => "Freigabe von %s fehlgeschlagen, da %s kein Mitglied der Gruppe %s ist",
+"You need to provide a password to create a public link, only protected links are allowed" => "Es sind nur geschützte Links zulässig, daher müssen Sie ein Passwort angeben, um einen öffentlichen Link zu generieren",
 "Sharing %s failed, because sharing with links is not allowed" => "Freigabe von %s fehlgeschlagen, da das Teilen von Verknüpfungen nicht erlaubt ist",
 "Share type %s is not valid for %s" => "Freigabetyp %s ist nicht gültig für %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die Berechtigungen, die erteilten Berechtigungen %s überschreiten",

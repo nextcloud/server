@@ -22,9 +22,9 @@
 namespace OC\Share;
 
 class Hooks extends \OC\Share\Constants {
-		/**
+	/**
 	 * Function that is called after a user is deleted. Cleans up the shares of that user.
-	 * @param array arguments
+	 * @param array $arguments
 	 */
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
@@ -42,7 +42,7 @@ class Hooks extends \OC\Share\Constants {
 	/**
 	 * Function that is called after a user is added to a group.
 	 * TODO what does it do?
-	 * @param array arguments
+	 * @param array $arguments
 	 */
 	public static function post_addToGroup($arguments) {
 		// Find the group shares and check if the user needs a unique target
@@ -76,7 +76,7 @@ class Hooks extends \OC\Share\Constants {
 
 	/**
 	 * Function that is called after a user is removed from a group. Shares are cleaned up.
-	 * @param array arguments
+	 * @param array $arguments
 	 */
 	public static function post_removeFromGroup($arguments) {
 		$sql = 'SELECT `id`, `share_type` FROM `*PREFIX*share`'
@@ -95,7 +95,7 @@ class Hooks extends \OC\Share\Constants {
 
 	/**
 	 * Function that is called after a group is removed. Cleans up the shares to that group.
-	 * @param array arguments
+	 * @param array $arguments
 	 */
 	public static function post_deleteGroup($arguments) {
 		$sql = 'SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?';

@@ -3,10 +3,11 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:5px; height:32px; width: 100%; }
+.actions { padding:5px; height:32px; display: inline-block; float: left; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover, .actions .button a:active { color: #333; }
+.actions.hidden { display: none; }
 
 #new {
 	z-index: 1010;
@@ -75,12 +76,47 @@
 	top: 44px;
 	width: 100%;
 }
+
 /* make sure there's enough room for the file actions */
 #body-user #filestable {
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
 }
 #body-user #controls {
 	min-width: 688px; /* 768 (mobile break) - 80 (nav width) */
+}
+
+#filestable tbody tr { background-color:#fff; height:51px; }
+
+.app-files #app-content {
+	position: relative;
+}
+
+/**
+ * Override global #controls styles
+ * to be more flexible / relative
+ */
+#body-user .app-files #controls {
+	left: 310px; /* main nav bar + sidebar */
+	position: fixed;
+	padding-left: 0px;
+}
+
+/* this is mostly for file viewer apps, text editor, etc */
+#body-user .app-files.no-sidebar #controls {
+	left: 0px;
+	padding-left: 80px; /* main nav bar */
+}
+
+.app-files #app-navigation {
+	width: 230px;
+}
+
+.app-files #app-settings {
+	width: 229px; /* DUH */
+}
+
+.app-files #app-settings input {
+	width: 90%;
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
@@ -116,10 +152,29 @@ tr:hover span.extension {
 
 table tr.mouseOver td { background-color:#eee; }
 table th { height:24px; padding:0 8px; color:#999; }
-table th .name {
-	position: absolute;
-	left: 55px;
-	top: 15px;
+table th .columntitle {
+	display: inline-block;
+	padding: 15px;
+	width: 100%;
+	height: 50px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	vertical-align: middle;
+}
+table th .columntitle.name {
+	padding-left: 5px;
+	margin-left: 50px;
+	max-width: 300px;
+}
+/* hover effect on sortable column */
+table th a.columntitle:hover {
+	background-color: #F0F0F0;
+}
+table th .sort-indicator {
+	width: 10px;
+	height: 8px;
+	margin-left: 10px;
+	display: inline-block;
 }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
@@ -139,8 +194,11 @@ table th#headerName {
 }
 table th#headerSize, table td.filesize {
 	min-width: 48px;
-	padding: 0 16px;
 	text-align: right;
+	padding: 0;
+}
+table table td.filesize {
+	padding: 0 16px;
 }
 table th#headerDate, table td.date {
 	-moz-box-sizing: border-box;
@@ -161,9 +219,7 @@ table.multiselect thead {
 	z-index: 10;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	left: 0;
-	padding-left: 80px;
-	width: 100%;
+	left: 310px; /* main nav bar + sidebar */
 }
 
 table.multiselect thead th {
@@ -197,10 +253,6 @@ table td.filename input.filename {
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
 table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0; }
 
-#modified {
-	position: absolute;
-	top: 15px;
-}
 .modified {
 	position: relative;
 	padding-left: 8px;
@@ -254,7 +306,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 /* Use label to have bigger clickable size for checkbox */
 #fileList tr td.filename>input[type="checkbox"] + label,
-#select_all + label {
+.select-all + label {
 	height: 50px;
 	position: absolute;
 	width: 50px;
@@ -268,10 +320,10 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
 }
-#select_all + label {
+.select-all + label {
 	top: 0;
 }
-#select_all {
+.select-all {
 	position: absolute;
 	top: 18px;
 	left: 18px;
@@ -310,7 +362,6 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 /* Actions for selected files */
 .selectedActions {
-	display: none;
 	position: absolute;
 	top: -1px;
 	right: 0;
@@ -319,6 +370,9 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions a {
 	display: inline;
 	padding: 17px 5px;
+}
+.selectedActions a.hidden {
+	display: none;
 }
 .selectedActions a img {
 	position:relative;
@@ -395,7 +449,7 @@ table.dragshadow td.size {
 }
 .mask {
 	z-index: 50;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;

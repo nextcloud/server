@@ -22,15 +22,17 @@ class Image extends Provider {
 		}
 
 		$image = new \OC_Image();
-		//check if file is encrypted
+
 		if($fileInfo['encrypted'] === true) {
-			$image->loadFromData(stream_get_contents($fileview->fopen($path, 'r')));
-		}else{
-			$image->loadFromFile($fileview->getLocalFile($path));
+			$fileName = $fileview->toTmpFile($path);
+		} else {
+			$fileName = $fileview->getLocalFile($path);
 		}
+		$image->loadFromFile($fileName);
 
 		return $image->valid() ? $image : false;
 	}
+
 }
 
 \OC\Preview::registerProvider('OC\Preview\Image');

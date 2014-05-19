@@ -26,7 +26,7 @@ use OC\Hooks\PublicEmitter;
  */
 class Manager extends PublicEmitter {
 	/**
-	 * @var \OC_User_Backend[] $backends
+	 * @var \OC_User_Interface[] $backends
 	 */
 	private $backends = array();
 
@@ -57,7 +57,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * register a user backend
 	 *
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 */
 	public function registerBackend($backend) {
 		$this->backends[] = $backend;
@@ -66,7 +66,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 */
 	public function removeBackend($backend) {
 		$this->cachedUsers = array();
@@ -105,7 +105,7 @@ class Manager extends PublicEmitter {
 	 * get or construct the user object
 	 *
 	 * @param string $uid
-	 * @param \OC_User_Backend $backend
+	 * @param \OC_User_Interface $backend
 	 * @return \OC\User\User
 	 */
 	protected function getUserObject($uid, $backend) {
@@ -174,12 +174,12 @@ class Manager extends PublicEmitter {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
-					$users[] = $this->getUserObject($uid, $backend);
+					$users[$uid] = $this->getUserObject($uid, $backend);
 				}
 			}
 		}
 
-		usort($users, function ($a, $b) {
+		uasort($users, function ($a, $b) {
 			/**
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
@@ -222,7 +222,7 @@ class Manager extends PublicEmitter {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \Exception
-	 * @return bool | \OC\User\User the created user of false
+	 * @return bool|\OC\User\User the created user of false
 	 */
 	public function createUser($uid, $password) {
 		$l = \OC_L10N::get('lib');
@@ -261,7 +261,7 @@ class Manager extends PublicEmitter {
 	/**
 	 * returns how many users per backend exist (if supported by backend)
 	 *
-	 * @return array with backend class as key and count number as value
+	 * @return array an array of backend class as key and count number as value
 	 */
 	public function countUsers() {
 		$userCountStatistics = array();

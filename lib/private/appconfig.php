@@ -89,8 +89,8 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief Get all apps using the config
-	 * @return array with app ids
+	 * Get all apps using the config
+	 * @return array an array of app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
@@ -107,9 +107,9 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief Get the available keys for an app
+	 * Get the available keys for an app
 	 * @param string $app the app we are looking for
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -122,7 +122,7 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief Gets the config value
+	 * Gets the config value
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
@@ -141,7 +141,7 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief check if a key is set in the appconfig
+	 * check if a key is set in the appconfig
 	 * @param string $app
 	 * @param string $key
 	 * @return bool
@@ -152,7 +152,7 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief sets a value in the appconfig
+	 * sets a value in the appconfig
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
@@ -185,7 +185,7 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief Deletes a key
+	 * Deletes a key
 	 * @param string $app app
 	 * @param string $key key
 	 * @return boolean|null
@@ -202,7 +202,7 @@ class AppConfig implements \OCP\IAppConfig {
 	}
 
 	/**
-	 * @brief Remove app from appconfig
+	 * Remove app from appconfig
 	 * @param string $app app
 	 * @return boolean|null
 	 *

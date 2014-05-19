@@ -1,5 +1,11 @@
 <?php
 $TRANSLATIONS = array(
+"Location" => "المكان",
+"Host" => "المضيف",
+"Username" => "إسم المستخدم",
+"Password" => "كلمة السر",
+"Share" => "شارك",
+"URL" => "عنوان الموقع",
 "Saved" => "حفظ",
 "Folder name" => "اسم المجلد",
 "Options" => "خيارات",

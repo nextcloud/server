@@ -43,6 +43,7 @@ class Preview {
 	private $maxY;
 	private $scalingUp;
 	private $mimeType;
+	private $keepAspect = false;
 
 	//filemapper used for deleting previews
 	// index is path, value is fileinfo
@@ -65,7 +66,7 @@ class Preview {
 	protected $info;
 
 	/**
-	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
+	 * check if thumbnail or bigger version of thumbnail of file is cached
 	 * @param string $user userid - if no user is given, OC_User::getUser will be used
 	 * @param string $root path of root
 	 * @param string $file The path to the file where you want a thumbnail from
@@ -110,7 +111,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the path of the file you want a thumbnail from
+	 * returns the path of the file you want a thumbnail from
 	 * @return string
 	 */
 	public function getFile() {
@@ -118,7 +119,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the max width of the preview
+	 * returns the max width of the preview
 	 * @return integer
 	 */
 	public function getMaxX() {
@@ -126,7 +127,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the max height of the preview
+	 * returns the max height of the preview
 	 * @return integer
 	 */
 	public function getMaxY() {
@@ -134,7 +135,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns whether or not scalingup is enabled
+	 * returns whether or not scalingup is enabled
 	 * @return bool
 	 */
 	public function getScalingUp() {
@@ -142,7 +143,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the name of the thumbnailfolder
+	 * returns the name of the thumbnailfolder
 	 * @return string
 	 */
 	public function getThumbnailsFolder() {
@@ -150,7 +151,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the max scale factor
+	 * returns the max scale factor
 	 * @return string
 	 */
 	public function getMaxScaleFactor() {
@@ -158,7 +159,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the max width set in ownCloud's config
+	 * returns the max width set in ownCloud's config
 	 * @return string
 	 */
 	public function getConfigMaxX() {
@@ -166,7 +167,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief returns the max height set in ownCloud's config
+	 * returns the max height set in ownCloud's config
 	 * @return string
 	 */
 	public function getConfigMaxY() {
@@ -188,9 +189,9 @@ class Preview {
 	}
 
 	/**
-	 * @brief set the path of the file you want a thumbnail from
+	 * set the path of the file you want a thumbnail from
 	 * @param string $file
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setFile($file) {
 		$this->file = $file;
@@ -205,7 +206,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief set mime type explicitly
+	 * set mime type explicitly
 	 * @param string $mimeType
 	 */
 	public function setMimetype($mimeType) {
@@ -213,10 +214,10 @@ class Preview {
 	}
 
 	/**
-	 * @brief set the the max width of the preview
+	 * set the the max width of the preview
 	 * @param int $maxX
 	 * @throws \Exception
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setMaxX($maxX = 1) {
 		if ($maxX <= 0) {
@@ -234,10 +235,10 @@ class Preview {
 	}
 
 	/**
-	 * @brief set the the max height of the preview
+	 * set the the max height of the preview
 	 * @param int $maxY
 	 * @throws \Exception
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setMaxY($maxY = 1) {
 		if ($maxY <= 0) {
@@ -255,9 +256,9 @@ class Preview {
 	}
 
 	/**
-	 * @brief set whether or not scalingup is enabled
+	 * set whether or not scalingup is enabled
 	 * @param bool $scalingUp
-	 * @return $this
+	 * @return \OC\Preview $this
 	 */
 	public function setScalingup($scalingUp) {
 		if ($this->getMaxScaleFactor() === 1) {
@@ -267,8 +268,13 @@ class Preview {
 		return $this;
 	}
 
+	public function setKeepAspect($keepAspect) {
+		$this->keepAspect = $keepAspect;
+		return $this;
+	}
+
 	/**
-	 * @brief check if all parameters are valid
+	 * check if all parameters are valid
 	 * @return bool
 	 */
 	public function isFileValid() {
@@ -287,7 +293,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief deletes previews of a file with specific x and y
+	 * deletes previews of a file with specific x and y
 	 * @return bool
 	 */
 	public function deletePreview() {
@@ -297,14 +303,14 @@ class Preview {
 		if($fileInfo !== null && $fileInfo !== false) {
 			$fileId = $fileInfo->getId();
 
-			$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/' . $this->getMaxX() . '-' . $this->getMaxY() . '.png';
+			$previewPath = $this->buildCachePath($fileId);
 			return $this->userView->unlink($previewPath);
 		}
 		return false;
 	}
 
 	/**
-	 * @brief deletes all previews of a file
+	 * deletes all previews of a file
 	 * @return bool
 	 */
 	public function deleteAllPreviews() {
@@ -322,7 +328,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
+	 * check if thumbnail or bigger version of thumbnail of file is cached
 	 * @param int $fileId fileId of the original image
 	 * @return string|false path to thumbnail if it exists or false
 	 */
@@ -330,28 +336,30 @@ class Preview {
 		if (is_null($fileId)) {
 			return false;
 		}
-		
-		$maxX = $this->getMaxX();
-		$maxY = $this->getMaxY();
 
-		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		$preview = $this->buildCachePath($fileId);
 
 		//does a preview with the wanted height and width already exist?
-		if ($this->userView->file_exists($previewPath . $maxX . '-' . $maxY . '.png')) {
-			return $previewPath . $maxX . '-' . $maxY . '.png';
+		if ($this->userView->file_exists($preview)) {
+			return $preview;
 		}
 
 		return $this->isCachedBigger($fileId);
 	}
 
 	/**
-	 * @brief check if a bigger version of thumbnail of file is cached
+	 * check if a bigger version of thumbnail of file is cached
 	 * @param int $fileId fileId of the original image
 	 * @return string|false path to bigger thumbnail if it exists or false
 	*/
 	private function isCachedBigger($fileId) {
 
 		if (is_null($fileId)) {
+			return false;
+		}
+
+		// in order to not loose quality we better generate aspect preserving previews from the original file
+		if ($this->keepAspect) {
 			return false;
 		}
 
@@ -372,9 +380,9 @@ class Preview {
 	}
 
 	/**
-	 * @brief get possible bigger thumbnails of the given image
+	 * get possible bigger thumbnails of the given image
 	 * @param int $fileId fileId of the original image
-	 * @return array of paths to bigger thumbnails
+	 * @return array an array of paths to bigger thumbnails
 	*/
 	private function getPossibleThumbnails($fileId) {
 
@@ -425,12 +433,12 @@ class Preview {
 	 * @return bool
 	 */
 	private function unscalable($x, $y) {
-		
+
 		$maxX = $this->getMaxX();
 		$maxY = $this->getMaxY();
 		$scalingUp = $this->getScalingUp();
 		$maxScaleFactor = $this->getMaxScaleFactor();
-		
+
 		if ($x < $maxX || $y < $maxY) {
 			if ($scalingUp) {
 				$scalefactor = $maxX / $x;
@@ -445,7 +453,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief return a preview of a file
+	 * return a preview of a file
 	 * @return \OC_Image
 	 */
 	public function getPreview() {
@@ -466,12 +474,12 @@ class Preview {
 		$fileId = $fileInfo->getId();
 
 		$cached = $this->isCached($fileId);
-
 		if ($cached) {
 			$stream = $this->userView->fopen($cached, 'r');
 			$image = new \OC_Image();
 			$image->loadFromFileHandle($stream);
 			$this->preview = $image->valid() ? $image : null;
+
 			$this->resizeAndCrop();
 			fclose($stream);
 		}
@@ -497,7 +505,7 @@ class Preview {
 				$this->resizeAndCrop();
 
 				$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
-				$cachePath = $previewPath . $maxX . '-' . $maxY . '.png';
+				$cachePath = $this->buildCachePath($fileId);
 
 				if ($this->userView->is_dir($this->getThumbnailsFolder() . '/') === false) {
 					$this->userView->mkdir($this->getThumbnailsFolder() . '/');
@@ -521,27 +529,19 @@ class Preview {
 	}
 
 	/**
-	 * @brief show preview
+	 * show preview
 	 * @return void
 	 */
-	public function showPreview() {
+	public function showPreview($mimeType = null) {
 		\OCP\Response::enableCaching(3600 * 24); // 24 hours
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
-		$this->preview->show('image/png');
+		$this->preview->show($mimeType);
 	}
 
 	/**
-	 * @brief show preview
-	 * @return void
-	 */
-	public function show() {
-		$this->showPreview();
-	}
-
-	/**
-	 * @brief resize, crop and fix orientation
+	 * resize, crop and fix orientation
 	 * @return void
 	 */
 	private function resizeAndCrop() {
@@ -560,6 +560,11 @@ class Preview {
 
 		$realX = (int)$image->width();
 		$realY = (int)$image->height();
+
+		// compute $maxY using the aspect of the generated preview
+		if ($this->keepAspect) {
+			$y = $x / ($realX / $realY);
+		}
 
 		if ($x === $realX && $y === $realY) {
 			$this->preview = $image;
@@ -610,7 +615,7 @@ class Preview {
 			return;
 		}
 
-		if ($newXSize < $x || $newYSize < $y) {
+		if (($newXSize < $x || $newYSize < $y) && $scalingUp) {
 			if ($newXSize > $x) {
 				$cropX = floor(($newXSize - $x) * 0.5);
 				$image->crop($cropX, 0, $x, $newYSize);
@@ -647,7 +652,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief register a new preview provider to be used
+	 * register a new preview provider to be used
 	 * @param array $options
 	 * @return void
 	 */
@@ -656,7 +661,7 @@ class Preview {
 	}
 
 	/**
-	 * @brief create instances of all the registered preview providers
+	 * create instances of all the registered preview providers
 	 * @return void
 	 */
 	private static function initProviders() {
@@ -742,5 +747,22 @@ class Preview {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param int $fileId
+	 * @return string
+	 */
+	private function buildCachePath($fileId) {
+		$maxX = $this->getMaxX();
+		$maxY = $this->getMaxY();
+
+		$previewPath = $this->getThumbnailsFolder() . '/' . $fileId . '/';
+		$preview = $previewPath . $maxX . '-' . $maxY . '.png';
+		if ($this->keepAspect) {
+			$preview = $previewPath . $maxX . '-with-aspect.png';
+			return $preview;
+		}
+		return $preview;
 	}
 }

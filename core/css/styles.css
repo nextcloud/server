@@ -62,21 +62,11 @@ body {
 .header-right {
 	position: absolute;
 	right: 0;
-	padding-right: 10px;
+	padding: 7px 5px;
 	color: #fff;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	filter: alpha(opacity=50);
-	opacity: .5;
 	height: 100%;
 	max-width: 40%;
 	white-space: nowrap;
-}
-.header-right #details {
-	display: inline-block;
-	margin-top: 6px;
-	width: 100%;
-	text-overflow: ellipsis;
-	overflow: hidden;
 }
 
 /* Profile picture in header */
@@ -202,6 +192,12 @@ input[type="time"] {
 	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
+
+/* correctly align images inside of buttons */
+input img, button img, .button img {
+	vertical-align: text-bottom;
+}
+
 #quota {
 	cursor: default;
 	margin: 30px;
@@ -338,21 +334,6 @@ input[type="submit"].enabled {
 	position:absolute; height:100%; width:100%; padding-left:80px; padding-top: 45px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
-#leftcontent, .leftcontent {
-	position:relative; overflow:auto; width:256px; height:100%;
-	background:#f8f8f8; border-right:1px solid #ddd;
-	-moz-box-sizing:border-box; box-sizing:border-box;
-}
-#leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
-#leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
-#leftcontent li.active, .leftcontent li.active { font-weight:bold; }
-#leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
-#leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
-#rightcontent, .rightcontent { position:fixed; top:89px; left: 336px; overflow:auto }
-
-#controls + .leftcontent{
-	top: 44px;
-}
 
 #emptycontent {
 	font-size: 1.5em;
@@ -371,9 +352,9 @@ input[type="submit"].enabled {
 #body-login #header {
 	padding-top: 100px;
 }
-/* Fix background gradient */
 #body-login {
-	background-attachment: fixed;
+	background-attachment: fixed; /* fix background gradient */
+	height: 100%; /* fix sticky footer */
 }
 
 /* Dark subtle label text */
@@ -538,8 +519,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 #body-login #showAdvanced > img {
-	height: 16px;
-	width: 16px;
 	padding: 4px;
 	box-sizing: border-box;
 }

@@ -40,7 +40,7 @@ if (!OC_Config::getValue('maintenance', false)) {
 			\OC_Util::setupFS();
 		}
 
-		$view = new OC_FilesystemView('/');
+		$view = new OC\Files\View('/');
 
 		$sessionReady = OCA\Encryption\Helper::checkRequirements();
 		if($sessionReady) {

@@ -24,7 +24,7 @@
  */
 
 /**
- * @brief Encryption proxy which handles filesystem operations before and after
+ * Encryption proxy which handles filesystem operations before and after
  *        execution and encrypts, and handles keyfiles accordingly. Used for
  *        webui.
  */
@@ -53,10 +53,11 @@ class Proxy extends \OC_FileProxy {
 	private static function shouldEncrypt($path, $mode = 'w') {
 
 		$userId = Helper::getUser($path);
+		$session = new Session(new \OC\Files\View());
 
 		// don't call the crypt stream wrapper, if...
 		if (
-				\OCP\App::isEnabled('files_encryption') === false // encryption is disabled
+				$session->getInitialized() !== Session::INIT_SUCCESSFUL // encryption successful initialized
 				|| Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
 				|| strpos($path, '/' . $userId . '/files') !== 0 // path is not in files/
 				|| substr($path, 0, 8) === 'crypt://' // we are already in crypt mode
@@ -64,7 +65,7 @@ class Proxy extends \OC_FileProxy {
 			return false;
 		}
 
-		$view = new \OC_FilesystemView('');
+		$view = new \OC\Files\View('');
 		$util = new Util($view, $userId);
 
 		// for write operation we always encrypt the files, for read operations
@@ -78,8 +79,8 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $data
+	 * @param string $path
+	 * @param string $data
 	 * @return bool
 	 */
 	public function preFile_put_contents($path, &$data) {
@@ -89,7 +90,7 @@ class Proxy extends \OC_FileProxy {
 			if (!is_resource($data)) {
 
 				// get root view
-				$view = new \OC_FilesystemView('/');
+				$view = new \OC\Files\View('/');
 
 				// get relative path
 				$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
@@ -100,7 +101,7 @@ class Proxy extends \OC_FileProxy {
 
 				// create random cache folder
 				$cacheFolder = rand();
-				$path_slices = explode('/', \OC_Filesystem::normalizePath($path));
+				$path_slices = explode('/', \OC\Files\Filesystem::normalizePath($path));
 				$path_slices[2] = "cache/".$cacheFolder;
 				$tmpPath = implode('/', $path_slices);
 
@@ -124,7 +125,7 @@ class Proxy extends \OC_FileProxy {
 					// in the post proxy
 					$tmpFileInfo = $view->getFileInfo($tmpPath);
 					if ( isset($tmpFileInfo['size']) ) {
-						self::$unencryptedSizes[\OC_Filesystem::normalizePath($path)] = $tmpFileInfo['size'];
+						self::$unencryptedSizes[\OC\Files\Filesystem::normalizePath($path)] = $tmpFileInfo['size'];
 					}
 
 					// remove our temp file
@@ -143,15 +144,15 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief update file cache with the new unencrypted size after file was written
+	 * update file cache with the new unencrypted size after file was written
 	 * @param string $path
 	 * @param mixed $result
 	 * @return mixed
 	 */
 	public function postFile_put_contents($path, $result) {
-		$normalizedPath = \OC_Filesystem::normalizePath($path);
+		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
 		if ( isset(self::$unencryptedSizes[$normalizedPath]) ) {
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			$view->putFileInfo($normalizedPath,
 					array('encrypted' => true, 'unencrypted_size' => self::$unencryptedSizes[$normalizedPath]));
 			unset(self::$unencryptedSizes[$normalizedPath]);
@@ -167,7 +168,7 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents($path, $data) {
 
 		$plainData = null;
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 
 		// init session
 		$session = new \OCA\Encryption\Session($view);
@@ -211,7 +212,7 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief remember initial fopen mode because sometimes it gets changed during the request
+	 * remember initial fopen mode because sometimes it gets changed during the request
 	 * @param string $path path
 	 * @param string $mode type of access
 	 */
@@ -224,8 +225,8 @@ class Proxy extends \OC_FileProxy {
 
 
 	/**
-	 * @param $path
-	 * @param $result
+	 * @param string $path
+	 * @param resource $result
 	 * @return resource
 	 */
 	public function postFopen($path, &$result) {
@@ -260,8 +261,8 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $data
+	 * @param string $path
+	 * @param array $data
 	 * @return array
 	 */
 	public function postGetFileInfo($path, $data) {
@@ -284,13 +285,13 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @param $path
-	 * @param $size
-	 * @return bool
+	 * @param string $path
+	 * @param int $size
+	 * @return int|bool
 	 */
 	public function postFileSize($path, $size) {
 
-		$view = new \OC_FilesystemView('/');
+		$view = new \OC\Files\View('/');
 
 		$userId = Helper::getUser($path);
 		$util = new Util($view, $userId);
@@ -339,26 +340,24 @@ class Proxy extends \OC_FileProxy {
 				$fileInfo['unencrypted_size'] = $fixSize;
 				// put file info if not .part file
 				if (!Helper::isPartialFilePath($relativePath)) {
-					$view->putFileInfo($path, $fileInfo);
+					$view->putFileInfo($path, array('unencrypted_size' => $fixSize));
 				}
 			}
 			$size = $fileInfo['unencrypted_size'];
 		} else {
-			// self healing if file was removed from file cache
-			if (!$fileInfo) {
-				$fileInfo = array();
-			}
+
+			$fileInfoUpdates = array();
 
 			$fixSize = $util->getFileSize($path);
 			if ($fixSize > 0) {
 				$size = $fixSize;
 
-				$fileInfo['encrypted'] = true;
-				$fileInfo['unencrypted_size'] = $size;
+				$fileInfoUpdates['encrypted'] = true;
+				$fileInfoUpdates['unencrypted_size'] = $size;
 
 				// put file info if not .part file
 				if (!Helper::isPartialFilePath($relativePath)) {
-					$view->putFileInfo($path, $fileInfo);
+					$view->putFileInfo($path, $fileInfoUpdates);
 				}
 			}
 

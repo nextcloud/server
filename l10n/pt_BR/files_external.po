@@ -8,15 +8,175 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-10 01:54-0400\n"
-"PO-Revision-Date: 2014-04-09 16:50+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: appinfo/app.php:34
+msgid "Local"
+msgstr "Local"
+
+#: appinfo/app.php:36
+msgid "Location"
+msgstr "Local"
+
+#: appinfo/app.php:39
+msgid "Amazon S3"
+msgstr "Amazon S3"
+
+#: appinfo/app.php:41
+msgid "Key"
+msgstr "Chave"
+
+#: appinfo/app.php:42
+msgid "Secret"
+msgstr "Secreta"
+
+#: appinfo/app.php:43 appinfo/app.php:51
+msgid "Bucket"
+msgstr "Cesta"
+
+#: appinfo/app.php:47
+msgid "Amazon S3 and compliant"
+msgstr "Amazon S3 e compatível"
+
+#: appinfo/app.php:49
+msgid "Access Key"
+msgstr "Chave de Acesso"
+
+#: appinfo/app.php:50
+msgid "Secret Key"
+msgstr "Chave Secreta"
+
+#: appinfo/app.php:52
+msgid "Hostname (optional)"
+msgstr "Nome do Host (opcional)"
+
+#: appinfo/app.php:53
+msgid "Port (optional)"
+msgstr "Porta (opcional)"
+
+#: appinfo/app.php:54
+msgid "Region (optional)"
+msgstr "Região (opcional)"
+
+#: appinfo/app.php:55
+msgid "Enable SSL"
+msgstr "Habilitar SSL"
+
+#: appinfo/app.php:56
+msgid "Enable Path Style"
+msgstr "Habilitar Estilo do Caminho"
+
+#: appinfo/app.php:63
+msgid "App key"
+msgstr "Chave do Aplicativo"
+
+#: appinfo/app.php:64
+msgid "App secret"
+msgstr "Segredo da Aplicação"
+
+#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
+#: appinfo/app.php:151
+msgid "Host"
+msgstr "Servidor"
+
+#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
+#: appinfo/app.php:142 appinfo/app.php:152
+msgid "Username"
+msgstr "Nome de Usuário"
+
+#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
+#: appinfo/app.php:143 appinfo/app.php:153
+msgid "Password"
+msgstr "Senha"
+
+#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
+#: appinfo/app.php:134 appinfo/app.php:154
+msgid "Root"
+msgstr "Raiz"
+
+#: appinfo/app.php:77
+msgid "Secure ftps://"
+msgstr "Seguro ftps://"
+
+#: appinfo/app.php:84
+msgid "Client ID"
+msgstr "ID do Cliente"
+
+#: appinfo/app.php:85
+msgid "Client secret"
+msgstr "Segredo do cliente"
+
+#: appinfo/app.php:92
+msgid "OpenStack Object Storage"
+msgstr "Armazenamento de Objetos OpenStack"
+
+#: appinfo/app.php:94
+msgid "Username (required)"
+msgstr "Nome do Usuário (requerido)"
+
+#: appinfo/app.php:95
+msgid "Bucket (required)"
+msgstr "Cesta (requerido)"
+
+#: appinfo/app.php:96
+msgid "Region (optional for OpenStack Object Storage)"
+msgstr "Região (opcional para armazenamento de objetos OpenStack)"
+
+#: appinfo/app.php:97
+msgid "API Key (required for Rackspace Cloud Files)"
+msgstr "Chave API (necessário para Rackspace Cloud File)"
+
+#: appinfo/app.php:98
+msgid "Tenantname (required for OpenStack Object Storage)"
+msgstr "Nome Tenant (necessário para armazenamento de objetos OpenStack)"
+
+#: appinfo/app.php:99
+msgid "Password (required for OpenStack Object Storage)"
+msgstr "Senha (necessário para armazenamento de objetos OpenStack)"
+
+#: appinfo/app.php:100
+msgid "Service Name (required for OpenStack Object Storage)"
+msgstr "Nome do Serviço (necessário para armazenamento de objetos OpenStack)"
+
+#: appinfo/app.php:101
+msgid "URL of identity endpoint (required for OpenStack Object Storage)"
+msgstr "Ponto final de identidade da URL (obrigatório para armazenamento de objetos OpenStack)"
+
+#: appinfo/app.php:102
+msgid "Timeout of HTTP requests in seconds (optional)"
+msgstr "Tempo limite de solicitações HTTP em segundos (opcional)"
+
+#: appinfo/app.php:114 appinfo/app.php:123
+msgid "Share"
+msgstr "Compartilhar"
+
+#: appinfo/app.php:119
+msgid "SMB / CIFS using OC login"
+msgstr "SMB / CIFS usando OC logon"
+
+#: appinfo/app.php:122
+msgid "Username as share"
+msgstr "Nome de usuário como compartilhado"
+
+#: appinfo/app.php:131 appinfo/app.php:141
+msgid "URL"
+msgstr "URL"
+
+#: appinfo/app.php:135 appinfo/app.php:145
+msgid "Secure https://"
+msgstr "https:// segura"
+
+#: appinfo/app.php:144
+msgid "Remote subfolder"
+msgstr "Subpasta remota"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -42,29 +202,29 @@ msgstr "Erro ao configurar armazenamento do Google Drive"
 msgid "Saved"
 msgstr "Salvo"
 
-#: lib/config.php:592
+#: lib/config.php:589
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b>"
 
-#: lib/config.php:602
+#: lib/config.php:599
 msgid " and "
 msgstr "e"
 
-#: lib/config.php:624
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> O suporte cURL do PHP não está habilitado ou instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:626
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> O suporte FTP no PHP não está habilitado ou instalado. Montagem de %s não é possível. Por favor, solicite ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:628
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

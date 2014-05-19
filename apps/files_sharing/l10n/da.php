@@ -10,7 +10,7 @@ $TRANSLATIONS = array(
 "the link expired" => "linket udløb",
 "sharing is disabled" => "deling er deaktiveret",
 "For more info, please ask the person who sent this link." => "For yderligere information, kontakt venligst personen der sendte linket. ",
-"shared by %s" => "delt af %s",
+"Download" => "Download",
 "Download %s" => "Download %s",
 "Direct link" => "Direkte link"
 );

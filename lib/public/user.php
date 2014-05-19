@@ -45,10 +45,10 @@ class User {
 
 	/**
 	 * Get a list of all users
-	 * @param string search pattern
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return array with all uids
+	 * @param string $search search pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array an array of all uids
 	 */
 	public static function getUsers( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getUsers( $search, $limit, $offset );
@@ -56,7 +56,7 @@ class User {
 
 	/**
 	 * Get the user display name of the user currently logged in.
-	 * @param string user id or null for current user
+	 * @param string|null $user user id or null for current user
 	 * @return string display name
 	 */
 	public static function getDisplayName( $user = null ) {
@@ -65,10 +65,10 @@ class User {
 
 	/**
 	 * Get a list of all display names and user ids.
-	 * @param string search pattern
-	 * @param int limit
-	 * @param int offset
-	 * @return array with all display names (value) and the correspondig uids (key)
+	 * @param string $search search pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array an array of all display names (value) and the correspondig uids (key)
 	 */
 	public static function getDisplayNames( $search = '', $limit = null, $offset = null ) {
 		return \OC_User::getDisplayNames( $search, $limit, $offset );

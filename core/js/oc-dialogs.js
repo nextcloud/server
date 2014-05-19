@@ -19,7 +19,7 @@
  *
  */
 
-/* global OC, t, alert */
+/* global OC, t, alert, $ */
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -60,6 +60,65 @@ var OCdialogs = {
 	*/
 	confirm:function(text, title, callback, modal) {
 		this.message(text, title, 'notice', OCdialogs.YES_NO_BUTTONS, callback, modal);
+	},
+	/**
+	 * displays prompt dialog
+	 * @param text content of dialog
+	 * @param title dialog title
+	 * @param callback which will be triggered when user presses YES or NO
+	 *        (true or false would be passed to callback respectively)
+	 * @param modal make the dialog modal
+	 * @param name name of the input field
+	 * @param password whether the input should be a password input
+	 */
+	prompt: function (text, title, callback, modal, name, password) {
+		$.when(this._getMessageTemplate()).then(function ($tmpl) {
+			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
+			var dialogId = '#' + dialogName;
+			var $dlg = $tmpl.octemplate({
+				dialog_name: dialogName,
+				title      : title,
+				message    : text,
+				type       : 'notice'
+			});
+			var input = $('<input/>');
+			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input');
+			var label = $('<label/>').attr('for', dialogName + '-input').text(name + ': ');
+			$dlg.append(label);
+			$dlg.append(input);
+			if (modal === undefined) {
+				modal = false;
+			}
+			$('body').append($dlg);
+			var buttonlist = [
+				{
+					text         : t('core', 'Yes'),
+					click        : function () {
+						if (callback !== undefined) {
+							callback(true, input.val());
+						}
+						$(dialogId).ocdialog('close');
+					},
+					defaultButton: true
+				},
+				{
+					text : t('core', 'No'),
+					click: function () {
+						if (callback !== undefined) {
+							callback(false, input.val());
+						}
+						$(dialogId).ocdialog('close');
+					}
+				}
+			];
+
+			$(dialogId).ocdialog({
+				closeOnEscape: true,
+				modal        : modal,
+				buttons      : buttonlist
+			});
+			OCdialogs.dialogsCounter++;
+		});
 	},
 	/**
 	 * show a file picker to pick a file from
