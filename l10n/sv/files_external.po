@@ -6,14 +6,15 @@
 # AsavarTzeth <asavartzeth@gmail.com>, 2014
 # enoch85 <enoch85@gmail.com>, 2014
 # henrikhjelm <mailto@henrikhjelm.se>, 2014
+# medialabs, 2014
 # medialabs, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-19 01:54-0400\n"
+"PO-Revision-Date: 2014-05-18 21:11+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,15 +32,15 @@ msgstr "Plats"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
-msgstr ""
+msgstr "Nyckel"
 
 #: appinfo/app.php:42
 msgid "Secret"
-msgstr ""
+msgstr "Hemlig"
 
 #: appinfo/app.php:43 appinfo/app.php:51
 msgid "Bucket"
@@ -71,7 +72,7 @@ msgstr ""
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Aktivera SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
@@ -103,11 +104,11 @@ msgstr "Lösenord"
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:77
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Säker ftps://"
 
 #: appinfo/app.php:84
 msgid "Client ID"
@@ -175,7 +176,7 @@ msgstr "URL"
 
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
-msgstr ""
+msgstr "Säker https://"
 
 #: appinfo/app.php:144
 msgid "Remote subfolder"

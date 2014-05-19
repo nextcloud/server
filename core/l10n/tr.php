@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "The public link will expire no later than {days} days after it is created" => "Herkese açık bağlantı, oluşturulduktan en geç {days} gün sonra sona erecek",
 "By default the public link will expire after {days} days" => "Öntanımlı olarak herkese açık bağlantı {days} gün sonra sona erecek",
 "Password protect" => "Parola koruması",
+"Choose a password for the public link" => "Herkese açık bağlantı için bir parola seçin",
 "Allow Public Upload" => "Herkes Tarafından Gönderime İzin Ver",
 "Email link to person" => "Bağlantıyı e-posta ile gönder",
 "Send" => "Gönder",

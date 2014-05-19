@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Yükleme başarısız. Dosya bilgisi alınamadı.",
 "Invalid directory." => "Geçersiz dizin.",
 "Files" => "Dosyalar",
+"All files" => "Tüm dosyalar",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Bir dizin veya 0 bayt olduğundan {filename} yüklenemedi",
 "Total file size {size1} exceeds upload limit {size2}" => "Toplam dosya boyutu {size1}, {size2} gönderme sınırını aşıyor",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Yeterince boş alan yok. Gönderdiğiniz boyut {size1} ancak {size2} alan mevcut",

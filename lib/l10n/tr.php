@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "%s paylaşımı, %s ile zaten paylaşıldığından dolayı başarısız oldu",
 "Sharing %s failed, because the group %s does not exist" => "%s paylaşımı, %s grubu mevcut olmadığından başarısız oldu",
 "Sharing %s failed, because %s is not a member of the group %s" => "%s paylaşımı, %s kullanıcısı %s grup üyesi olmadığından başarısız oldu",
+"You need to provide a password to create a public link, only protected links are allowed" => "Herkese açık bir bağlantı oluşturmak için bir parola belirtmeniz gerekiyor. Sadece korunmuş bağlantılara izin verilmektedir",
 "Sharing %s failed, because sharing with links is not allowed" => "%s paylaşımı, bağlantılar ile paylaşım izin verilmediğinden başarısız oldu",
 "Share type %s is not valid for %s" => "%s paylaşım türü %s için geçerli değil",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "%s için izinler, izinler %s için verilen izinleri aştığından dolayı ayarlanamadı",
