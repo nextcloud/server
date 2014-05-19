@@ -78,7 +78,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief Prepares the Access mock for checkPassword tests
+	 * Prepares the Access mock for checkPassword tests
 	 * @param \OCA\user_ldap\lib\Access $access mock
 	 * @return void
 	 */
@@ -186,7 +186,7 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief Prepares the Access mock for getUsers tests
+	 * Prepares the Access mock for getUsers tests
 	 * @param \OCA\user_ldap\lib\Access $access mock
 	 * @return void
 	 */

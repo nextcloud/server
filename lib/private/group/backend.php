@@ -49,7 +49,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	);
 
 	/**
-	* @brief Get all supported actions
+	* Get all supported actions
 	* @return int bitwise-or'ed actions
 	*
 	* Returns the supported actions as int to be
@@ -67,7 +67,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	}
 
 	/**
-	* @brief Check if backend implements actions
+	* Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
 	* @return bool
 	*
@@ -79,7 +79,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	}
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -91,7 +91,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
 	 * @return array an array of group names
 	 *
@@ -103,7 +103,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	}
 
 	/**
-	 * @brief get a list of all groups
+	 * get a list of all groups
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -126,7 +126,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	}
 
 	/**
-	 * @brief get a list of all users in a group
+	 * get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit

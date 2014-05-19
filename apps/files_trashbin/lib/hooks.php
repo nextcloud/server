@@ -29,7 +29,7 @@ namespace OCA\Files_Trashbin;
 class Hooks {
 
 	/**
-	 * @brief Copy files to trash bin
+	 * Copy files to trash bin
 	 * @param array $params
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
@@ -44,7 +44,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief clean up user specific settings if user gets deleted
+	 * clean up user specific settings if user gets deleted
 	 * @param array $params array with uid
 	 *
 	 * This function is connected to the pre_deleteUser signal of OC_Users
@@ -56,7 +56,7 @@ class Hooks {
 			Trashbin::deleteUser($uid);
 			}
 	}
-	
+
 	public static function post_write_hook($params) {
 		Trashbin::resizeTrash(\OCP\User::getUser());
 	}

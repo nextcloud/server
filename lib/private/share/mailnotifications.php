@@ -66,7 +66,7 @@ class MailNotifications {
 	}
 
 	/**
-	 * @brief inform users if a file was shared with them
+	 * inform users if a file was shared with them
 	 *
 	 * @param array $recipientList list of recipients
 	 * @param string $itemSource shared item source
@@ -125,7 +125,7 @@ class MailNotifications {
 	}
 
 	/**
-	 * @brief inform recipient about public link share
+	 * inform recipient about public link share
 	 *
 	 * @param string $recipient recipient email address
 	 * @param string $filename the shared file
@@ -150,7 +150,7 @@ class MailNotifications {
 	}
 
 	/**
-	 * @brief create mail body for plain text and html mail
+	 * create mail body for plain text and html mail
 	 *
 	 * @param string $filename the shared file
 	 * @param string $link link to the shared file

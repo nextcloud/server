@@ -27,7 +27,7 @@ class Shared_Updater {
 	static private $toRemove = array();
 
 	/**
-	 * @brief walk up the users file tree and update the etags
+	 * walk up the users file tree and update the etags
 	 * @param string $user
 	 * @param string $path
 	 */
@@ -78,7 +78,7 @@ class Shared_Updater {
 	}
 
 	/**
-	 * @brief remove all shares for a given file if the file was deleted
+	 * remove all shares for a given file if the file was deleted
 	 *
 	 * @param string $path
 	 */

@@ -1718,7 +1718,7 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief construct select statement
+	 * construct select statement
 	 * @param int $format
 	 * @param boolean $fileDependent ist it a file/folder share or a generla share
 	 * @param string $uidOwner
@@ -1762,7 +1762,7 @@ class Share extends \OC\Share\Constants {
 
 
 	/**
-	 * @brief transform db results
+	 * transform db results
 	 * @param array $row result
 	 */
 	private static function transformDBResults(&$row) {
@@ -1793,7 +1793,7 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief format result
+	 * format result
 	 * @param array $items result
 	 * @param string $column is it a file share or a general share ('file_target' or 'item_target')
 	 * @param \OCP\Share_Backend $backend sharing backend

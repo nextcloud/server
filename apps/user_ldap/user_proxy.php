@@ -30,7 +30,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	private $refBackend = null;
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param array $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
@@ -45,7 +45,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Tries the backends one after the other until a positive result is returned from the specified method
+	 * Tries the backends one after the other until a positive result is returned from the specified method
 	 * @param string $uid the uid connected to the request
 	 * @param string $method the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -68,7 +68,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Asks the backend connected to the server that supposely takes care of the uid from the request.
+	 * Asks the backend connected to the server that supposely takes care of the uid from the request.
 	 * @param string $uid the uid connected to the request
 	 * @param string $method the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -105,7 +105,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Check if backend implements actions
+	 * Check if backend implements actions
 	 * @param int $actions bitwise-or'ed actions
 	 * @return boolean
 	 *
@@ -118,7 +118,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Get a list of all users
+	 * Get a list of all users
 	 * @return string[] with all uids
 	 *
 	 * Get a list of all users.
@@ -136,7 +136,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -145,7 +145,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Check if the password is correct
+	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return bool
@@ -157,7 +157,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief get the user's home directory
+	 * get the user's home directory
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -166,7 +166,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief get display name of the user
+	 * get display name of the user
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
@@ -175,7 +175,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief checks whether the user is allowed to change his avatar in ownCloud
+	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
 	 * @return boolean either the user can or cannot
 	 */
@@ -184,7 +184,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Get a list of all display names
+	 * Get a list of all display names
 	 * @return array with all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
@@ -202,7 +202,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief delete a user
+	 * delete a user
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 *
@@ -220,7 +220,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Count the number of users
+	 * Count the number of users
 	 * @return int|bool
 	 */
 	public function countUsers() {

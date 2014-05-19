@@ -117,7 +117,7 @@ class Configuration {
 	}
 
 	/**
-	 * @brief set LDAP configuration with values delivered by an array, not read
+	 * set LDAP configuration with values delivered by an array, not read
 	 * from configuration. It does not save the configuration! To do so, you
 	 * must call saveConfiguration afterwards.
 	 * @param array $config array that holds the config parameters in an associated
@@ -212,7 +212,7 @@ class Configuration {
 	}
 
 	/**
-	 * @brief saves the current Configuration in the database
+	 * saves the current Configuration in the database
 	 */
 	public function saveConfiguration() {
 		$cta = array_flip($this->getConfigTranslationArray());

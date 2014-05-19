@@ -56,7 +56,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Create a new user
+	 * Create a new user
 	 * @param string $uid The username of the user to create
 	 * @param string $password The password of the new user
 	 * @return bool
@@ -78,7 +78,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief delete a user
+	 * delete a user
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 *
@@ -97,7 +97,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Set password
+	 * Set password
 	 * @param string $uid The username
 	 * @param string $password The new password
 	 * @return bool
@@ -118,7 +118,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Set display name
+	 * Set display name
 	 * @param string $uid The username
 	 * @param string $displayName The new display name
 	 * @return bool
@@ -138,7 +138,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief get display name of the user
+	 * get display name of the user
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
@@ -148,7 +148,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Get a list of all display names
+	 * Get a list of all display names
 	 * @return array an array of  all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
@@ -168,7 +168,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Check if the password is correct
+	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return string
@@ -201,7 +201,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Load an user in the cache
+	 * Load an user in the cache
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -225,7 +225,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Get a list of all users
+	 * Get a list of all users
 	 * @return array an array of all uids
 	 *
 	 * Get a list of all users.
@@ -241,7 +241,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -251,7 +251,7 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief get the user's home directory
+	 * get the user's home directory
 	 * @param string $uid the username
 	 * @return string|false
 	 */

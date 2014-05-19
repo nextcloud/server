@@ -50,7 +50,7 @@ class OC_DB {
 	static private $type=null;
 
 	/**
-	 * @brief connects to the database
+	 * connects to the database
 	 * @return boolean|null true if connection can be established or false on error
 	 *
 	 * Connects to the database as specified in config.php
@@ -190,7 +190,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief Prepare a SQL query
+	 * Prepare a SQL query
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
@@ -202,12 +202,12 @@ class OC_DB {
 	 */
 	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
 		self::connect();
-		
+
 		if ($isManipulation === null) {
 			//try to guess, so we return the number of rows on manipulations
 			$isManipulation = self::isManipulation($query);
 		}
-		
+
 		// return the result
 		try {
 			$result = self::$connection->prepare($query, $limit, $offset);
@@ -222,7 +222,7 @@ class OC_DB {
 	/**
 	 * tries to guess the type of statement based on the first 10 characters
 	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
-	 * 
+	 *
 	 * @param string $sql
 	 * @return bool
 	 */
@@ -245,9 +245,9 @@ class OC_DB {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * @brief execute a prepared statement, on error write log and throw exception
+	 * execute a prepared statement, on error write log and throw exception
 	 * @param mixed $stmt OC_DB_StatementWrapper,
 	 *					  an array with 'sql' and optionally 'limit' and 'offset' keys
 	 *					.. or a simple sql query string
@@ -296,7 +296,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief gets last value of autoincrement
+	 * gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return string id
 	 * @throws DatabaseException
@@ -312,7 +312,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
+	 * Insert a row if a matching row doesn't exists.
 	 * @param string $table The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input An array of fieldname/value pairs
 	 * @return boolean number of updated rows
@@ -339,7 +339,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief saves database schema to xml file
+	 * saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
 	 * @return bool
@@ -352,7 +352,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief Creates tables from XML file
+	 * Creates tables from XML file
 	 * @param string $file file to read structure from
 	 * @return bool
 	 *
@@ -365,7 +365,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief update the database schema
+	 * update the database schema
 	 * @param string $file file to read structure from
 	 * @throws Exception
 	 * @return string|boolean
@@ -382,7 +382,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief drop a table
+	 * drop a table
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
@@ -400,7 +400,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief replaces the ownCloud tables with a new set
+	 * replaces the ownCloud tables with a new set
 	 * @param string $file path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {

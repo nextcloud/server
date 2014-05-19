@@ -44,7 +44,7 @@ class Wizard extends LDAPUtility {
 	const LDAP_NW_TIMEOUT = 4;
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
 	 */
@@ -162,7 +162,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief return the state of the Group Filter Mode
+	 * return the state of the Group Filter Mode
 	 * @return WizardResult
 	 */
 	public function getGroupFilterMode() {
@@ -171,7 +171,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief return the state of the Login Filter Mode
+	 * return the state of the Login Filter Mode
 	 * @return WizardResult
 	 */
 	public function getLoginFilterMode() {
@@ -180,7 +180,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief return the state of the User Filter Mode
+	 * return the state of the User Filter Mode
 	 * @return WizardResult
 	 */
 	public function getUserFilterMode() {
@@ -189,7 +189,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief return the state of the mode of the specified filter
+	 * return the state of the mode of the specified filter
 	 * @param string $confKey contains the access key of the Configuration
 	 */
 	private function getFilterMode($confKey) {
@@ -201,7 +201,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief detects the available LDAP attributes
+	 * detects the available LDAP attributes
 	 * @return array The instance's WizardResult instance
 	 * @throws \Exception
 	 */
@@ -235,7 +235,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief detects the available LDAP groups
+	 * detects the available LDAP groups
 	 * @return WizardResult the instance's WizardResult instance
 	 */
 	public function determineGroupsForGroups() {
@@ -245,7 +245,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief detects the available LDAP groups
+	 * detects the available LDAP groups
 	 * @return WizardResult the instance's WizardResult instance
 	 */
 	public function determineGroupsForUsers() {
@@ -254,7 +254,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief detects the available LDAP groups
+	 * detects the available LDAP groups
 	 * @param string $dbKey
 	 * @param string $confKey
 	 * @param bool $testMemberOf
@@ -310,7 +310,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Detects the available object classes
+	 * Detects the available object classes
 	 * @return WizardResult the instance's WizardResult instance
 	 * @throws \Exception
 	 */
@@ -337,7 +337,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief detects the available object classes
+	 * detects the available object classes
 	 * @return WizardResult
 	 * @throws \Exception
 	 */
@@ -479,7 +479,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief tries to determine a base dn from User DN or LDAP Host
+	 * tries to determine a base dn from User DN or LDAP Host
 	 * @return WizardResult|false WizardResult on success, false otherwise
 	 */
 	public function guessBaseDN() {
@@ -519,7 +519,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief sets the found value for the configuration key in the WizardResult
+	 * sets the found value for the configuration key in the WizardResult
 	 * as well as in the Configuration instance
 	 * @param string $key the configuration key
 	 * @param string $value the (detected) value
@@ -531,7 +531,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Checks, whether a port was entered in the Host configuration
+	 * Checks, whether a port was entered in the Host configuration
 	 * field. In this case the port will be stripped off, but also stored as
 	 * setting.
 	 */
@@ -549,7 +549,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief tries to detect the group member association attribute which is
+	 * tries to detect the group member association attribute which is
 	 * one of 'uniqueMember', 'memberUid', 'member'
 	 * @return string|false, string with the attribute name, false on error
 	 * @throws \Exception
@@ -591,7 +591,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Checks whether for a given BaseDN results will be returned
+	 * Checks whether for a given BaseDN results will be returned
 	 * @param string $base the BaseDN to test
 	 * @return bool true on success, false otherwise
 	 * @throws \Exception
@@ -617,7 +617,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Checks whether the server supports memberOf in LDAP Filter.
+	 * Checks whether the server supports memberOf in LDAP Filter.
 	 * Requires that groups are determined, thus internally called from within
 	 * determineGroups()
 	 * @return bool true if it does, false otherwise
@@ -658,7 +658,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates an LDAP Filter from given configuration
+	 * creates an LDAP Filter from given configuration
 	 * @param integer $filterType int, for which use case the filter shall be created
 	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
 	 * self::LFILTER_GROUP_LIST
@@ -877,7 +877,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief checks whether a valid combination of agent and password has been
+	 * checks whether a valid combination of agent and password has been
 	 * provided (either two values or nothing for anonymous connect)
 	 * @return bool, true if everything is fine, false otherwise
 	 */
@@ -905,7 +905,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief does a cumulativeSearch on LDAP to get different values of a
+	 * does a cumulativeSearch on LDAP to get different values of a
 	 * specified attribute
 	 * @param string[] $filters array, the filters that shall be used in the search
 	 * @param string $attr the attribute of which a list of values shall be returned
@@ -981,7 +981,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief determines if and which $attr are available on the LDAP server
+	 * determines if and which $attr are available on the LDAP server
 	 * @param string[] $objectclasses the objectclasses to use as search filter
 	 * @param string $attr the attribute to look for
 	 * @param string $dbkey the dbkey of the setting the feature is connected to
@@ -1040,7 +1040,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @brief appends a list of values fr
+	 * appends a list of values fr
 	 * @param resource $result the return value from ldap_get_attributes
 	 * @param string $attribute the attribute values to look for
 	 * @param array &$known new values will be appended here

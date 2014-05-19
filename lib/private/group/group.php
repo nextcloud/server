@@ -244,7 +244,7 @@ class Group {
 	}
 
 	/**
-	 * @brief returns all the Users from an array that really exists
+	 * returns all the Users from an array that really exists
 	 * @param string[] $userIds an array containing user IDs
 	 * @return \OC\User\User[] an Array with the userId as Key and \OC\User\User as value
 	 */

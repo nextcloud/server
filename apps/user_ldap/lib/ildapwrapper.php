@@ -28,7 +28,7 @@ interface ILDAPWrapper {
 	//LDAP functions in use
 
 	/**
-	 * @brief Bind to LDAP directory
+	 * Bind to LDAP directory
 	 * @param resource $link LDAP link resource
 	 * @param string $dn an RDN to log in with
 	 * @param string $password the password
@@ -39,7 +39,7 @@ interface ILDAPWrapper {
 	public function bind($link, $dn, $password);
 
 	/**
-	 * @brief connect to an LDAP server
+	 * connect to an LDAP server
 	 * @param string $host The host to connect to
 	 * @param string $port The port to connect to
 	 * @return mixed a link resource on success, otherwise false
@@ -47,7 +47,7 @@ interface ILDAPWrapper {
 	public function connect($host, $port);
 
 	/**
-	 * @brief Send LDAP pagination control
+	 * Send LDAP pagination control
 	 * @param resource $link LDAP link resource
 	 * @param int $pageSize number of results per page
 	 * @param bool $isCritical Indicates whether the pagination is critical of not.
@@ -57,7 +57,7 @@ interface ILDAPWrapper {
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie);
 
 	/**
-	 * @brief Retrieve the LDAP pagination cookie
+	 * Retrieve the LDAP pagination cookie
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @param string $cookie structure sent by LDAP server
@@ -68,7 +68,7 @@ interface ILDAPWrapper {
 	public function controlPagedResultResponse($link, $result, &$cookie);
 
 	/**
-	 * @brief Count the number of entries in a search
+	 * Count the number of entries in a search
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return int|false number of results on success, false otherwise
@@ -76,21 +76,21 @@ interface ILDAPWrapper {
 	public function countEntries($link, $result);
 
 	/**
-	 * @brief Return the LDAP error number of the last LDAP command
+	 * Return the LDAP error number of the last LDAP command
 	 * @param resource $link LDAP link resource
 	 * @return string error message as string
 	 */
 	public function errno($link);
 
 	/**
-	 * @brief Return the LDAP error message of the last LDAP command
+	 * Return the LDAP error message of the last LDAP command
 	 * @param resource $link LDAP link resource
 	 * @return int error code as integer
 	 */
 	public function error($link);
 
 	/**
-	 * @brief Return first result id
+	 * Return first result id
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return Resource an LDAP search result resource
@@ -98,7 +98,7 @@ interface ILDAPWrapper {
 	public function firstEntry($link, $result);
 
 	/**
-	 * @brief Get attributes from a search result entry
+	 * Get attributes from a search result entry
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return array containing the results, false on error
@@ -106,7 +106,7 @@ interface ILDAPWrapper {
 	public function getAttributes($link, $result);
 
 	/**
-	 * @brief Get the DN of a result entry
+	 * Get the DN of a result entry
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return string containing the DN, false on error
@@ -114,7 +114,7 @@ interface ILDAPWrapper {
 	public function getDN($link, $result);
 
 	/**
-	 * @brief Get all result entries
+	 * Get all result entries
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return array containing the results, false on error
@@ -122,7 +122,7 @@ interface ILDAPWrapper {
 	public function getEntries($link, $result);
 
 	/**
-	 * @brief Return next result id
+	 * Return next result id
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP entry result resource
 	 * @return resource an LDAP search result resource
@@ -130,7 +130,7 @@ interface ILDAPWrapper {
 	public function nextEntry($link, $result);
 
 	/**
-	 * @brief Read an entry
+	 * Read an entry
 	 * @param resource $link LDAP link resource
 	 * @param array $baseDN The DN of the entry to read from
 	 * @param string $filter An LDAP filter
@@ -140,7 +140,7 @@ interface ILDAPWrapper {
 	public function read($link, $baseDN, $filter, $attr);
 
 	/**
-	 * @brief Search LDAP tree
+	 * Search LDAP tree
 	 * @param resource $link LDAP link resource
 	 * @param string $baseDN The DN of the entry to read from
 	 * @param string $filter An LDAP filter
@@ -152,7 +152,7 @@ interface ILDAPWrapper {
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
 
 	/**
-	 * @brief Sets the value of the specified option to be $value
+	 * Sets the value of the specified option to be $value
 	 * @param resource $link LDAP link resource
 	 * @param string $option a defined LDAP Server option
 	 * @param int $value the new value for the option
@@ -161,14 +161,14 @@ interface ILDAPWrapper {
 	public function setOption($link, $option, $value);
 
 	/**
-	 * @brief establish Start TLS
+	 * establish Start TLS
 	 * @param resource $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
 	public function startTls($link);
 
 	/**
-	 * @brief Sort the result of a LDAP search
+	 * Sort the result of a LDAP search
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @param string $sortFilter attribute to use a key in sort
@@ -176,7 +176,7 @@ interface ILDAPWrapper {
 	public function sort($link, $result, $sortFilter);
 
 	/**
-	 * @brief Unbind from LDAP directory
+	 * Unbind from LDAP directory
 	 * @param resource $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
@@ -185,19 +185,19 @@ interface ILDAPWrapper {
 	//additional required methods in ownCloud
 
 	/**
-	 * @brief Checks whether the server supports LDAP
+	 * Checks whether the server supports LDAP
 	 * @return bool true if it the case, false otherwise
 	 * */
 	public function areLDAPFunctionsAvailable();
 
 	/**
-	 * @brief Checks whether PHP supports LDAP Paged Results
+	 * Checks whether PHP supports LDAP Paged Results
 	 * @return bool true if it the case, false otherwise
 	 * */
 	public function hasPagedResultSupport();
 
 	/**
-	 * @brief Checks whether the submitted parameter is a resource
+	 * Checks whether the submitted parameter is a resource
 	 * @param resource $resource the resource variable to check
 	 * @return bool true if it is a resource, false otherwise
 	 */

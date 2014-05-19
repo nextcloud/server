@@ -119,7 +119,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief get some information from a given share
+	 * get some information from a given share
 	 * @param int $shareID
 	 * @return array with: item_source, share_type, share_with, item_type, permissions
 	 */

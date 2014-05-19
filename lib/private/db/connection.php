@@ -152,7 +152,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	}
 
 	/**
-	 * @brief Insert a row if a matching row doesn't exists.
+	 * Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
 	 * @return bool The return value from execute()

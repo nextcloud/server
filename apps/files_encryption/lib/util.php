@@ -25,7 +25,7 @@
 namespace OCA\Encryption;
 
 /**
- * @brief Class for utilities relating to encrypted file storage system
+ * Class for utilities relating to encrypted file storage system
  * @param \OC\Files\View $view expected to have OC '/' as root path
  * @param string $userId ID of the logged in user
  * @param int $client indicating status of client side encryption. Currently
@@ -111,7 +111,7 @@ class Util {
 	}
 
 	/**
-	 * @brief check if the users private & public key exists
+	 * check if the users private & public key exists
 	 * @return boolean
 	 */
 	public function userKeysExists() {
@@ -125,7 +125,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Sets up user folders and keys for serverside encryption
+	 * Sets up user folders and keys for serverside encryption
 	 *
 	 * @param string $passphrase to encrypt server-stored private key with
 	 * @return bool
@@ -222,7 +222,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Check whether pwd recovery is enabled for a given user
+	 * Check whether pwd recovery is enabled for a given user
 	 * @return bool 1 = yes, 0 = no, false = no record
 	 *
 	 * @note If records are not being returned, check for a hidden space
@@ -264,7 +264,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Enable / disable pwd recovery for a given user
+	 * Enable / disable pwd recovery for a given user
 	 * @param bool $enabled Whether to enable or disable recovery
 	 * @return bool
 	 */
@@ -300,7 +300,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Find all files and their encryption status within a directory
+	 * Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
 	 * @param bool $found the founded files if called again
 	 * @return mixed false if 0 found, array on success. Keys: name, path
@@ -421,7 +421,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Check if a given path identifies an encrypted file
+	 * Check if a given path identifies an encrypted file
 	 * @param string $path
 	 * @return boolean
 	 */
@@ -463,7 +463,7 @@ class Util {
 	}
 
 	/**
-	 * @brief get the file size of the unencrypted file
+	 * get the file size of the unencrypted file
 	 * @param string $path absolute path
 	 * @return bool
 	 */
@@ -537,7 +537,7 @@ class Util {
 	}
 
 	/**
-	 * @brief fix the file size of the encrypted file
+	 * fix the file size of the encrypted file
 	 * @param string $path absolute path
 	 * @return boolean true / false if file is encrypted
 	 */
@@ -594,7 +594,7 @@ class Util {
 	}
 
 	/**
-	 * @brief encrypt versions from given file
+	 * encrypt versions from given file
 	 * @param array $filelist list of encrypted files, relative to data/user/files
 	 * @return boolean
 	 */
@@ -640,7 +640,7 @@ class Util {
 	}
 
 	/**
-	 * @brief decrypt versions from given file
+	 * decrypt versions from given file
 	 * @param string $filelist list of decrypted files, relative to data/user/files
 	 * @return boolean
 	 */
@@ -686,7 +686,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Decrypt all files
+	 * Decrypt all files
 	 * @return bool
 	 */
 	public function decryptAll() {
@@ -799,7 +799,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Encrypt all files in a directory
+	 * Encrypt all files in a directory
 	 * @param string $dirPath the directory whose files will be encrypted
 	 * @param null $legacyPassphrase
 	 * @param null $newPassphrase
@@ -926,7 +926,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Return important encryption related paths
+	 * Return important encryption related paths
 	 * @param string $pathName Name of the directory to return the path of
 	 * @return string path
 	 */
@@ -970,7 +970,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Filter an array of UIDs to return only ones ready for sharing
+	 * Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
 	 * @return array as multi-dimensional array. keys: ready, unready
 	 */
@@ -1017,7 +1017,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Decrypt a keyfile
+	 * Decrypt a keyfile
 	 * @param string $filePath
 	 * @param string $privateKey
 	 * @return false|string
@@ -1036,7 +1036,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Encrypt keyfile to multiple users
+	 * Encrypt keyfile to multiple users
 	 * @param Session $session
 	 * @param array $users list of users which should be able to access the file
 	 * @param string $filePath path of the file to be shared
@@ -1097,7 +1097,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Find, sanitise and format users sharing a file
+	 * Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
 	 * @param boolean $sharingEnabled
 	 * @param string $filePath path relativ to current users files folder
@@ -1176,7 +1176,7 @@ class Util {
 	}
 
 	/**
-	 * @brief set migration status
+	 * set migration status
 	 * @param int $status
 	 * @return boolean
 	 */
@@ -1199,7 +1199,7 @@ class Util {
 	}
 
 	/**
-	 * @brief start migration mode to initially encrypt users data
+	 * start migration mode to initially encrypt users data
 	 * @return boolean
 	 */
 	public function beginMigration() {
@@ -1221,7 +1221,7 @@ class Util {
 	}
 
 	/**
-	 * @brief close migration mode after users data has been encrypted successfully
+	 * close migration mode after users data has been encrypted successfully
 	 * @return boolean
 	 */
 	public function finishMigration() {
@@ -1237,7 +1237,7 @@ class Util {
 	}
 
 	/**
-	 * @brief check if files are already migrated to the encryption system
+	 * check if files are already migrated to the encryption system
 	 * @return int|false migration status, false = in case of no record
 	 * @note If records are not being returned, check for a hidden space
 	 *       at the start of the uid in db
@@ -1288,7 +1288,7 @@ class Util {
 	}
 
 	/**
-	 * @brief get uid of the owners of the file and the path to the file
+	 * get uid of the owners of the file and the path to the file
 	 * @param string $path Path of the file to check
 	 * @throws \Exception
 	 * @note $shareFilePath must be relative to data/UID/files. Files
@@ -1367,7 +1367,7 @@ class Util {
 	}
 
 	/**
-	 * @brief go recursively through a dir and collect all files and sub files.
+	 * go recursively through a dir and collect all files and sub files.
 	 * @param string $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
@@ -1397,7 +1397,7 @@ class Util {
 	}
 
 	/**
-	 * @brief get owner of the shared files.
+	 * get owner of the shared files.
 	 * @param int $id ID of a share
 	 * @return string owner
 	 */
@@ -1511,7 +1511,7 @@ class Util {
 	}
 
 	/**
-	 * @brief add recovery key to all encrypted files
+	 * add recovery key to all encrypted files
 	 */
 	public function addRecoveryKeys($path = '/') {
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
@@ -1532,7 +1532,7 @@ class Util {
 	}
 
 	/**
-	 * @brief remove recovery key to all encrypted files
+	 * remove recovery key to all encrypted files
 	 */
 	public function removeRecoveryKeys($path = '/') {
 		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
@@ -1550,7 +1550,7 @@ class Util {
 	}
 
 	/**
-	 * @brief decrypt given file with recovery key and encrypt it again to the owner and his new key
+	 * decrypt given file with recovery key and encrypt it again to the owner and his new key
 	 * @param string $file
 	 * @param string $privateKey recovery key to decrypt the file
 	 */
@@ -1598,7 +1598,7 @@ class Util {
 	}
 
 	/**
-	 * @brief collect all files and recover them one by one
+	 * collect all files and recover them one by one
 	 * @param string $path to look for files keys
 	 * @param string $privateKey private recovery key which is used to decrypt the files
 	 */
@@ -1618,7 +1618,7 @@ class Util {
 	}
 
 	/**
-	 * @brief recover users files in case of password lost
+	 * recover users files in case of password lost
 	 * @param string $recoveryPassword
 	 */
 	public function recoverUsersFiles($recoveryPassword) {
@@ -1637,7 +1637,7 @@ class Util {
 	}
 
 	/**
-	 * @brief check if the file is stored on a system wide mount point
+	 * check if the file is stored on a system wide mount point
 	 * @param string $path relative to /data/user with leading '/'
 	 * @return boolean
 	 */
@@ -1654,7 +1654,7 @@ class Util {
 	}
 
 	/**
-	 * @brief decrypt private key and add it to the current session
+	 * decrypt private key and add it to the current session
 	 * @param array $params with 'uid' and 'password'
 	 * @return mixed session or false
 	 */
@@ -1682,7 +1682,7 @@ class Util {
 	}
 
 	/*
-	 * @brief remove encryption related keys from the session
+	 * remove encryption related keys from the session
 	 */
 	public function closeEncryptionSession() {
 		$session = new \OCA\Encryption\Session($this->view);

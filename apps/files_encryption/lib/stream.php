@@ -31,7 +31,7 @@
 namespace OCA\Encryption;
 
 /**
- * @brief Provides 'crypt://' stream wrapper protocol.
+ * Provides 'crypt://' stream wrapper protocol.
  * @note We use a stream wrapper because it is the most secure way to handle
  * decrypted content transfers. There is no safe way to decrypt the entire file
  * somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
@@ -179,7 +179,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Returns the current position of the file pointer
+	 * Returns the current position of the file pointer
 	 * @return int position of the file pointer
 	 */
 	public function stream_tell() {
@@ -246,7 +246,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Encrypt and pad data ready for writing to disk
+	 * Encrypt and pad data ready for writing to disk
 	 * @param string $plainData data to be encrypted
 	 * @param string $key key to use for encryption
 	 * @return string encrypted data on success, false on failure
@@ -267,7 +267,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Fetch the plain encryption key for the file and set it as plainKey property
+	 * Fetch the plain encryption key for the file and set it as plainKey property
 	 * @internal param bool $generate if true, a new key will be generated if none can be found
 	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
@@ -318,7 +318,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Handle plain data from the stream, and write it in 8192 byte blocks
+	 * Handle plain data from the stream, and write it in 8192 byte blocks
 	 * @param string $data data to be written to disk
 	 * @note the data will be written to the path stored in the stream handle, set in stream_open()
 	 * @note $data is only ever be a maximum of 8192 bytes long. This is set by PHP internally. stream_write() is called multiple times in a loop on data larger than 8192 bytes

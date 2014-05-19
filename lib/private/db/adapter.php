@@ -40,7 +40,7 @@ class Adapter {
 	}
 
 	/**
-	 * @brief insert the @input values when they do not exist yet
+	 * insert the @input values when they do not exist yet
 	 * @param string $table name
 	 * @param array $input key->value pairs
 	 * @return int count of inserted rows

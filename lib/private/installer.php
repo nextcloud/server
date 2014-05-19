@@ -52,7 +52,7 @@ class OC_Installer{
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
 	 *
-	 * @brief Installs an app
+	 * Installs an app
 	 * @param array $data with all information
 	 * @throws \Exception
 	 * @return integer
@@ -219,7 +219,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief checks whether or not an app is installed
+	 * checks whether or not an app is installed
 	 * @param string $app app
 	 * @return bool
 	 *
@@ -235,7 +235,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Update an application
+	 * Update an application
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -268,7 +268,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Check if an update for the app is available
+	 * Check if an update for the app is available
 	 * @return string|false false or the version number of the update
 	 *
 	 * The function will check if an update for a version is available
@@ -295,7 +295,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Check if app is already downloaded
+	 * Check if app is already downloaded
 	 * @param string $name name of the application to remove
 	 * @return boolean
 	 *
@@ -311,7 +311,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Removes an app
+	 * Removes an app
 	 * @param string $name name of the application to remove
 	 * @param array $options options
 	 * @return boolean|null
@@ -364,7 +364,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Installs shipped apps
+	 * Installs shipped apps
 	 *
 	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */

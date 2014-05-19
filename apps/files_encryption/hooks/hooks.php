@@ -36,7 +36,7 @@ class Hooks {
 	private static $deleteFiles = array();
 
 	/**
-	 * @brief Startup encryption backend upon user login
+	 * Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login($params) {
@@ -136,7 +136,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief setup encryption backend upon user created
+	 * setup encryption backend upon user created
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function postCreateUser($params) {
@@ -149,7 +149,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief cleanup encryption backend upon user deleted
+	 * cleanup encryption backend upon user deleted
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function postDeleteUser($params) {
@@ -171,7 +171,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief If the password can't be changed within ownCloud, than update the key password in advance.
+	 * If the password can't be changed within ownCloud, than update the key password in advance.
 	 */
 	public static function preSetPassphrase($params) {
 		if (\OCP\App::isEnabled('files_encryption')) {
@@ -182,7 +182,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief Change a user's encryption passphrase
+	 * Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
@@ -259,7 +259,7 @@ class Hooks {
 	}
 
 	/*
-	 * @brief check if files can be encrypted to every user.
+	 * check if files can be encrypted to every user.
 	 */
 	/**
 	 * @param array $params
@@ -398,7 +398,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief mark file as renamed so that we know the original source after the file was renamed
+	 * mark file as renamed so that we know the original source after the file was renamed
 	 * @param array $params with the old path and the new path
 	 */
 	public static function preRename($params) {
@@ -421,7 +421,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
+	 * after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
 	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
@@ -557,7 +557,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief if the file was really deleted we remove the encryption keys
+	 * if the file was really deleted we remove the encryption keys
 	 * @param array $params
 	 * @return boolean|null
 	 */
@@ -597,7 +597,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief remember the file which should be deleted and it's owner
+	 * remember the file which should be deleted and it's owner
 	 * @param array $params
 	 * @return boolean|null
 	 */

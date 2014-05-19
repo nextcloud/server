@@ -90,7 +90,7 @@ abstract class Proxy {
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
-	 * @brief Takes care of the request to the User backend
+	 * Takes care of the request to the User backend
 	 * @param string $id
 	 * @param string $method string, the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed

@@ -42,7 +42,7 @@ class Connection extends LDAPUtility {
 	protected $doNotValidate = false;
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param ILDAPWrapper $ldap
 	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
 	 * @param string $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
@@ -73,7 +73,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief defines behaviour when the instance is cloned
+	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
 		//a cloned instance inherits the connection resource. It may use it,
@@ -117,7 +117,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief initializes the LDAP backend
+	 * initializes the LDAP backend
 	 * @param bool $force read the config settings no matter what
 	 */
 	public function init($force = false) {
@@ -126,7 +126,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Returns the LDAP handler
+	 * Returns the LDAP handler
 	 */
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
@@ -210,7 +210,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Caches the general LDAP configuration.
+	 * Caches the general LDAP configuration.
 	 * @param bool $force optional. true, if the re-read should be forced. defaults
 	 * to false.
 	 * @return null
@@ -223,7 +223,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief set LDAP configuration with values delivered by an array, not read from configuration
+	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
 	 * @param array &$setParameters optional; array where the set fields will be given to
 	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
@@ -243,7 +243,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief saves the current Configuration in the database and empties the
+	 * saves the current Configuration in the database and empties the
 	 * cache
 	 * @return null
 	 */
@@ -253,7 +253,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief get the current LDAP configuration
+	 * get the current LDAP configuration
 	 * @return array
 	 */
 	public function getConfiguration() {
@@ -433,7 +433,7 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Validates the user specified configuration
+	 * Validates the user specified configuration
 	 * @return bool true if configuration seems OK, false otherwise
 	 */
 	private function validateConfiguration() {

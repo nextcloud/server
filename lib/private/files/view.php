@@ -673,7 +673,7 @@ class View {
 	}
 
 	/**
-	 * @brief abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
+	 * abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
 	 * @param string $operation
 	 * @param string $path
 	 * @param array $hooks (optional)

@@ -27,7 +27,7 @@
  */
 abstract class OC_User_Example extends OC_User_Backend {
 	/**
-		* @brief Create a new user
+		* Create a new user
 		* @param string $uid The username of the user to create
 		* @param string $password The password of the new user
 		* @return bool
@@ -38,7 +38,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 	abstract public function createUser($uid, $password);
 
 	/**
-		* @brief Set password
+		* Set password
 		* @param string $uid The username
 		* @param string $password The new password
 		* @return bool
@@ -48,7 +48,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 	abstract public function setPassword($uid, $password);
 
 	/**
-		* @brief Check if the password is correct
+		* Check if the password is correct
 		* @param string $uid The username
 		* @param string $password The password
 		* @return string
@@ -59,7 +59,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 	abstract public function checkPassword($uid, $password);
 
 	/**
-		* @brief get the user's home directory
+		* get the user's home directory
 		* @param string $uid The username
 		* @return string
 		*

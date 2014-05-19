@@ -23,7 +23,7 @@
 
 interface OC_Group_Interface {
 	/**
-	* @brief Check if backend implements actions
+	* Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
 	* @return boolean
 	*
@@ -33,7 +33,7 @@ interface OC_Group_Interface {
 	public function implementsActions($actions);
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -43,7 +43,7 @@ interface OC_Group_Interface {
 	public function inGroup($uid, $gid);
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
 	 * @return array an array of group names
 	 *
@@ -53,7 +53,7 @@ interface OC_Group_Interface {
 	public function getUserGroups($uid);
 
 	/**
-	 * @brief get a list of all groups
+	 * get a list of all groups
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -71,7 +71,7 @@ interface OC_Group_Interface {
 	public function groupExists($gid);
 
 	/**
-	 * @brief get a list of all users in a group
+	 * get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit

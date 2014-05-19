@@ -33,7 +33,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Proxy
- * @brief this class provide basic proxy app tests
+ * this class provide basic proxy app tests
  */
 class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
@@ -91,7 +91,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test if postFileSize returns the unencrypted file size
+	 * test if postFileSize returns the unencrypted file size
 	 */
 	function testPostFileSize() {
 

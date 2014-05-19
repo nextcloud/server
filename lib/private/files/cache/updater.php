@@ -108,7 +108,7 @@ class Updater {
 	}
 
 	/**
-	 * @brief get file owner and path
+	 * get file owner and path
 	 * @param string $filename
 	 * @return string[] with the oweners uid and the owners path
 	 */

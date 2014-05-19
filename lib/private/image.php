@@ -33,7 +33,7 @@ class OC_Image {
 	private $fileInfo;
 
 	/**
-	* @brief Get mime type for an image file.
+	* Get mime type for an image file.
 	* @param string|null $filePath The path to a local image file.
 	* @return string The mime type if the it could be determined, otherwise an empty string.
 	*/
@@ -48,7 +48,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Constructor.
+	 * Constructor.
 	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by
 	 * an imagecreate* function.
 	 * @return \OC_Image False on error
@@ -70,7 +70,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Determine whether the object contains an image resource.
+	* Determine whether the object contains an image resource.
 	* @return bool
 	*/
 	public function valid() { // apparently you can't name a method 'empty'...
@@ -78,7 +78,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Returns the MIME type of the image or an empty string if no image is loaded.
+	* Returns the MIME type of the image or an empty string if no image is loaded.
 	* @return string
 	*/
 	public function mimeType() {
@@ -86,7 +86,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Returns the width of the image or -1 if no image is loaded.
+	* Returns the width of the image or -1 if no image is loaded.
 	* @return int
 	*/
 	public function width() {
@@ -94,7 +94,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Returns the height of the image or -1 if no image is loaded.
+	* Returns the height of the image or -1 if no image is loaded.
 	* @return int
 	*/
 	public function height() {
@@ -102,7 +102,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Returns the width when the image orientation is top-left.
+	* Returns the width when the image orientation is top-left.
 	* @return int
 	*/
 	public function widthTopLeft() {
@@ -125,7 +125,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Returns the height when the image orientation is top-left.
+	* Returns the height when the image orientation is top-left.
 	* @return int
 	*/
 	public function heightTopLeft() {
@@ -148,7 +148,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Outputs the image.
+	 * Outputs the image.
 	 * @param string $mimeType
 	 * @return bool
 	 */
@@ -161,7 +161,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Saves the image.
+	 * Saves the image.
 	 * @param string $filePath
 	 * @param string $mimeType
 	 * @return bool
@@ -181,7 +181,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Outputs/saves the image.
+	 * Outputs/saves the image.
 	 * @param string $filePath
 	 * @param string $mimeType
 	 * @return bool
@@ -259,7 +259,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Prints the image when called as $image().
+	* Prints the image when called as $image().
 	*/
 	public function __invoke() {
 		return $this->show();
@@ -307,7 +307,7 @@ class OC_Image {
 
 	/**
 	* (I'm open for suggestions on better method name ;)
-	* @brief Get the orientation based on EXIF data.
+	* Get the orientation based on EXIF data.
 	* @return int The orientation or -1 if no EXIF data is available.
 	*/
 	public function getOrientation() {
@@ -335,7 +335,7 @@ class OC_Image {
 
 	/**
 	* (I'm open for suggestions on better method name ;)
-	* @brief Fixes orientation based on EXIF data.
+	* Fixes orientation based on EXIF data.
 	* @return bool.
 	*/
 	public function fixOrientation() {
@@ -396,7 +396,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
+	 * Loads an image from a local file, a base64 encoded string or a resource created by an imagecreate* function.
 	 * @param resource|string $imageRef The path to a local file, a base64 encoded string or a resource created by an imagecreate* function or a file resource (file handle    ).
 	 * @return resource|false An image resource or false on error
 	 */
@@ -421,7 +421,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Loads an image from an open file handle.
+	* Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
 	* @param resource $handle
 	* @return resource|false An image resource or false on error
@@ -435,7 +435,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Loads an image from a local file.
+	* Loads an image from a local file.
 	* @param bool|string $imagePath The path to a local file.
 	* @return bool|resource An image resource or false on error
 	*/
@@ -536,7 +536,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Loads an image from a string of data.
+	* Loads an image from a string of data.
 	* @param string $str A string of image data as read from a file.
 	* @return bool|resource An image resource or false on error
 	*/
@@ -561,7 +561,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Loads an image from a base64 encoded string.
+	* Loads an image from a base64 encoded string.
 	* @param string $str A string base64 encoded string of image data.
 	* @return bool|resource An image resource or false on error
 	*/
@@ -729,7 +729,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Resizes the image preserving ratio.
+	* Resizes the image preserving ratio.
 	* @param integer $maxSize The maximum size of either the width or height.
 	* @return bool
 	*/
@@ -793,7 +793,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Crops the image to the middle square. If the image is already square it just returns.
+	* Crops the image to the middle square. If the image is already square it just returns.
 	* @param int $size maximum size for the result (optional)
 	* @return bool for success or failure
 	*/
@@ -852,7 +852,7 @@ class OC_Image {
 	}
 
 	/**
-	* @brief Crops the image from point $x$y with dimension $wx$h.
+	* Crops the image from point $x$y with dimension $wx$h.
 	* @param int $x Horizontal position
 	* @param int $y Vertical position
 	* @param int $w Width
@@ -882,7 +882,7 @@ class OC_Image {
 	}
 
 	/**
-	 * @brief Resizes the image to fit within a boundry while preserving ratio.
+	 * Resizes the image to fit within a boundry while preserving ratio.
 	 * @param integer $maxWidth
 	 * @param integer $maxHeight
 	 * @return bool

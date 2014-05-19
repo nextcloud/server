@@ -86,7 +86,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief The constructor
+	 * The constructor
 	 * @param string $app app requesting l10n
 	 * @param string $lang default: null Language
 	 *
@@ -176,7 +176,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Creates a function that The constructor
+	 * Creates a function that The constructor
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
@@ -235,7 +235,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param string $text The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String Translation or the same text
@@ -248,7 +248,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param string $text_singular the string to translate for exactly one object
 	 * @param string $text_plural the string to translate for n objects
 	 * @param integer $count Number of objects
@@ -277,7 +277,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getTranslations
+	 * getTranslations
 	 * @return array Fetch all translations
 	 *
 	 * Returns an associative array with all translations
@@ -288,7 +288,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getPluralFormString
+	 * getPluralFormString
 	 * @return string containing the gettext "Plural-Forms"-string
 	 *
 	 * Returns a string like "nplurals=2; plural=(n != 1);"
@@ -299,7 +299,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getPluralFormFunction
+	 * getPluralFormFunction
 	 * @return string the plural form function
 	 *
 	 * returned function accepts the argument $n
@@ -313,7 +313,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief get localizations
+	 * get localizations
 	 * @return array Fetch all localizations
 	 *
 	 * Returns an associative array with all localizations
@@ -324,7 +324,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Localization
+	 * Localization
 	 * @param string $type Type of localization
 	 * @param array|int|string $data parameters for this localization
 	 * @return String or false
@@ -379,7 +379,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Choose a language
+	 * Choose a language
 	 * @param array $text Associative Array with possible strings
 	 * @return String
 	 *
@@ -403,9 +403,9 @@ class OC_L10N implements \OCP\IL10N {
 
 
 	/**
-	 * @brief find the best language
+	 * find the best language
 	 * @param array|string $app details below
-	 * @returns string language
+	 * string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
@@ -416,10 +416,10 @@ class OC_L10N implements \OCP\IL10N {
 	public function getLanguageCode($app=null) {
 		return self::findLanguage($app);
 	}
-	
+
 
 	/**
-	 * @brief find the best language
+	 * find the best language
 	 * @param array|string $app details below
 	 * @return string language
 	 *
@@ -492,7 +492,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief find the l10n directory
+	 * find the l10n directory
 	 * @param string $app App that needs to be translated
 	 * @return directory
 	 */
@@ -512,7 +512,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief find all available languages for an app
+	 * find all available languages for an app
 	 * @param string $app App that needs to be translated
 	 * @return array an array of available languages
 	 */

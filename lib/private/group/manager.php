@@ -184,7 +184,7 @@ class Manager extends PublicEmitter {
 	}
 
 	/**
-	 * @brief get a list of all display names in a group
+	 * get a list of all display names in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit

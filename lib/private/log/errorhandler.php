@@ -15,7 +15,7 @@ class ErrorHandler {
 	private static $logger;
 
 	/**
-	 * @brief remove password in URLs
+	 * remove password in URLs
 	 * @param string $msg
 	 * @return string
 	 */

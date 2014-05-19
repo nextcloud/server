@@ -32,7 +32,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Hooks
- * @brief this class provide basic hook app tests
+ * this class provide basic hook app tests
  */
 class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
@@ -259,7 +259,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test rename operation
+	 * test rename operation
 	 */
 	function testRenameHook() {
 

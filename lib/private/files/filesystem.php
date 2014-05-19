@@ -384,7 +384,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief get the relative path of the root data directory for the current user
+	 * get the relative path of the root data directory for the current user
 	 * @return string
 	 *
 	 * Returns path like /admin/files
@@ -502,7 +502,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief check if the directory should be ignored when scanning
+	 * check if the directory should be ignored when scanning
 	 * NOTE: the special directories . and .. would cause never ending recursion
 	 * @param String $dir
 	 * @return boolean
@@ -662,7 +662,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief Fix common problems with a file path
+	 * Fix common problems with a file path
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @return string
