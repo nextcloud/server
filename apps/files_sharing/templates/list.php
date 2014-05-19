@@ -13,16 +13,7 @@
 		<tr>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
-					<input type="checkbox" id="select_all_trash" class="select-all"/>
-					<label for="select_all_trash"></label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
-					<span id="selectedActionsList" class='selectedActions'>
-						<a href="" class="undelete">
-							<img class="svg" alt="<?php p($l->t( 'Restore' )); ?>"
-								 src="<?php print_unescaped(OCP\image_path("core", "actions/history.svg")); ?>" />
-							<?php p($l->t('Restore'))?>
-						</a>
-					</span>
 				</div>
 			</th>
 			<th id="headerSharedWith" class="hidden column-mtime">
