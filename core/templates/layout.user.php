@@ -103,10 +103,6 @@
 						</a>
 					</li>
 				<?php endforeach; ?>
-
-				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
-					<li class="push"></li><!-- for sticky footer of apps management -->
-				<?php endif; ?>
 				</ul>
 
 				<!-- show "More apps" link to app administration directly in app navigation, as sticky footer -->
