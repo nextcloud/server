@@ -1,0 +1,62 @@
+<?php
+/**
+ * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+if (!\OC_App::isEnabled('files_sharing')) {
+	exit;
+}
+
+if (!isset($_GET['t'])) {
+	\OC_Response::setStatus(400); //400 Bad Request
+	exit;
+}
+
+$token = $_GET['t'];
+
+$password = null;
+if (isset($_POST['password'])) {
+	$password = $_POST['password'];
+}
+
+$relativePath = null;
+if (isset($_GET['dir'])) {
+	$relativePath = $_GET['dir'];
+}
+
+$data = \OCA\Files_Sharing\Helper::setupFromToken($token, $relativePath, $password);
+
+$linkItem = $data['linkItem'];
+// Load the files
+$path = $data['realPath'];
+
+$rootInfo = \OC\Files\Filesystem::getFileInfo($path);
+$rootView = new \OC\Files\View('');
+
+/**
+ * @param \OCP\Files\FileInfo $dir
+ * @param \OC\Files\View $view
+ * @return array
+ */
+function getChildInfo($dir, $view) {
+	$children = $view->getDirectoryContent($dir->getPath());
+	$result = array();
+	foreach ($children as $child) {
+		$formated = \OCA\Files\Helper::formatFileInfo($child);
+		if ($child->getType() === 'dir') {
+			$formated['children'] = getChildInfo($child, $view);
+		}
+		$result[] = $formated;
+	}
+	return $result;
+}
+
+$result = \OCA\Files\Helper::formatFileInfo($rootInfo);
+if ($rootInfo->getType() === 'dir') {
+	$result['children'] = getChildInfo($rootInfo, $rootView);
+}
+
+OCP\JSON::success(array('data' => $result));

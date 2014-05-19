@@ -23,6 +23,13 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 );
 
 $mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
-$result = $mount->getStorage()->file_exists('');
+/**
+ * @var \OCA\Files_Sharing\External\Storage $storage
+ */
+$storage = $mount->getStorage();
+$result = $storage->file_exists('');
+if($result){
+	$storage->getScanner()->scanAll();
+}
 
 echo json_encode($result);

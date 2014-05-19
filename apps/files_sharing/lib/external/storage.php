@@ -28,6 +28,11 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 	private $mountPoint;
 
 	/**
+	 * @var string
+	 */
+	private $token;
+
+	/**
 	 * @var \OCA\Files_Sharing\External\Manager
 	 */
 	private $manager;
@@ -41,6 +46,7 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 		$secure = $protocol === 'https';
 		$root .= '/public.php/webdav';
 		$this->mountPoint = $options['mountpoint'];
+		$this->token = $options['token'];
 		parent::__construct(array(
 			'secure' => $secure,
 			'host' => $host,
@@ -62,6 +68,14 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 		return $this->mountPoint;
 	}
 
+	public function getToken() {
+		return $this->token;
+	}
+
+	public function getPassword() {
+		return $this->password;
+	}
+
 	/**
 	 * @brief get id of the mount point
 	 * @return string
@@ -75,6 +89,17 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 			$this->cache = new Cache($this, $this->remote, $this->remoteUser);
 		}
 		return $this->cache;
+	}
+
+	/**
+	 * @param string $path
+	 * @return \OCA\Files_Sharing\External\Scanner
+	 */
+	public function getScanner($path = '') {
+		if (!isset($this->scanner)) {
+			$this->scanner = new Scanner($this);
+		}
+		return $this->scanner;
 	}
 
 	public function rename($path1, $path2) {
