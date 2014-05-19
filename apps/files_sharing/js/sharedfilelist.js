@@ -133,8 +133,7 @@
 					/* jshint camelcase: false */
 					var file = {
 						id: share.file_source,
-						mtime: share.stime * 1000,
-						permissions: share.permissions
+						mtime: share.stime * 1000
 					};
 					if (share.item_type === 'folder') {
 						file.type = 'dir';
@@ -156,11 +155,13 @@
 						file.share.ownerDisplayName = share.displayname_owner;
 						file.name = OC.basename(share.file_target);
 						file.path = OC.dirname(share.file_target);
+						file.permissions = share.permissions;
 					}
 					else {
 						file.share.targetDisplayName = share.share_with_displayname;
 						file.name = OC.basename(share.path);
 						file.path = OC.dirname(share.path);
+						file.permissions = OC.PERMISSION_ALL;
 					}
 					return file;
 				})
