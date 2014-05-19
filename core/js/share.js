@@ -495,6 +495,10 @@ OC.Share={
 	showLink:function(token, password, itemSource) {
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
+		
+		//check itemType
+		var linkSharetype=$('#dropdown').data('item-type');
+		
 		if (! token) {
 			//fallback to pre token link
 			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
@@ -508,7 +512,15 @@ OC.Share={
 			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		} else {
 			//TODO add path param when showing a link to file in a subfolder of a public link share
-			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&t='+token;
+			var service='';
+			if(linkSharetype === 'folder' || linkSharetype === 'file'){
+				service='files';
+			}else{
+				service=linkSharetype;
+			}
+			
+			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
+
 		}
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
