@@ -57,7 +57,7 @@ class Keymanager {
 	/**
 	 * @brief retrieve public key for a specified user
 	 * @param \OC\Files\View $view
-	 * @param $userId
+	 * @param string $userId
 	 * @return string public key or false
 	 */
 	public static function getPublicKey(\OC\Files\View $view, $userId) {
@@ -76,7 +76,7 @@ class Keymanager {
 	/**
 	 * @brief Retrieve a user's public and private key
 	 * @param \OC\Files\View $view
-	 * @param $userId
+	 * @param string $userId
 	 * @return array keys: privateKey, publicKey
 	 */
 	public static function getUserKeys(\OC\Files\View $view, $userId) {
@@ -297,7 +297,7 @@ class Keymanager {
 	 *
 	 * @param \OC\Files\View $view
 	 * @param string $path where the share key is stored
-	 * @param $shareKey
+	 * @param string $shareKey
 	 * @return bool true/false
 	 * @note The keyfile is not encrypted here. Client code must
 	 * asymmetrically encrypt the keyfile before passing it to this method

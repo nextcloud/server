@@ -641,7 +641,7 @@ class Wizard extends LDAPUtility {
 				//assuming only groups have their cn cached :)
 				continue;
 			}
-		    $filter = strtolower($filterPrefix . $dn . $filterSuffix);
+			$filter = strtolower($filterPrefix . $dn . $filterSuffix);
 			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
 			if(!$this->ldap->isResource($rr)) {
 				continue;
@@ -776,7 +776,7 @@ class Wizard extends LDAPUtility {
 				if(is_array($attrsToFilter) && count($attrsToFilter) > 0) {
 					$filterAttributes = '(|';
 					foreach($attrsToFilter as $attribute) {
-					    $filterAttributes .= '(' . $attribute . $loginpart . ')';
+						$filterAttributes .= '(' . $attribute . $loginpart . ')';
 					}
 					$filterAttributes .= ')';
 					$parts++;
@@ -909,7 +909,7 @@ class Wizard extends LDAPUtility {
 	 * specified attribute
 	 * @param string[] $filters array, the filters that shall be used in the search
 	 * @param string $attr the attribute of which a list of values shall be returned
-	 * @param $lfw bool, whether the last filter is a wildcard which shall not
+	 * @param bool $lfw whether the last filter is a wildcard which shall not
 	 * be processed if there were already findings, defaults to true
 	 * @param int $dnReadLimit the amount of how many DNs should be analyzed.
 	 * The lower, the faster
@@ -987,7 +987,7 @@ class Wizard extends LDAPUtility {
 	 * @param string $dbkey the dbkey of the setting the feature is connected to
 	 * @param string $confkey the confkey counterpart for the $dbkey as used in the
 	 * Configuration class
-	 * @param $po boolean, whether the objectClass with most result entries
+	 * @param bool $po whether the objectClass with most result entries
 	 * shall be pre-selected via the result
 	 * @return array, list of found items.
 	 * @throws \Exception
@@ -1041,9 +1041,9 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * @brief appends a list of values fr
-	 * @param $result resource, the return value from ldap_get_attributes
+	 * @param resource $result the return value from ldap_get_attributes
 	 * @param string $attribute the attribute values to look for
-	 * @param &$known array, new values will be appended here
+	 * @param array &$known new values will be appended here
 	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
 	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
 	 */

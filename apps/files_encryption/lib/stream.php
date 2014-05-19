@@ -79,10 +79,10 @@ class Stream {
 	private $privateKey;
 
 	/**
-	 * @param $path raw path relative to data/
-	 * @param $mode
-	 * @param $options
-	 * @param $opened_path
+	 * @param string $path raw path relative to data/
+	 * @param string $mode
+	 * @param int $options
+	 * @param string $opened_path
 	 * @return bool
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
@@ -180,14 +180,14 @@ class Stream {
 
 	/**
 	 * @brief Returns the current position of the file pointer
-	 * @return int  position of the file pointer
+	 * @return int position of the file pointer
 	 */
 	public function stream_tell() {
 		return ftell($this->handle);
 	}
 
 	/**
-	 * @param $offset
+	 * @param int $offset
 	 * @param int $whence
 	 * @return bool true if fseek was successful, otherwise false
 	 */
@@ -202,7 +202,7 @@ class Stream {
 	}
 
 	/**
-	 * @param $count
+	 * @param int $count
 	 * @return bool|string
 	 * @throws \Exception
 	 */
@@ -426,9 +426,9 @@ class Stream {
 
 
 	/**
-	 * @param $option
-	 * @param $arg1
-	 * @param $arg2
+	 * @param int $option
+	 * @param int $arg1
+	 * @param int|null $arg2
 	 */
 	public function stream_set_option($option, $arg1, $arg2) {
 		$return = false;
@@ -454,7 +454,7 @@ class Stream {
 	}
 
 	/**
-	 * @param $mode
+	 * @param int $mode
 	 */
 	public function stream_lock($mode) {
 		return flock($this->handle, $mode);

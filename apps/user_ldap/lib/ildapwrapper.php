@@ -52,15 +52,15 @@ interface ILDAPWrapper {
 	 * @param int $pageSize number of results per page
 	 * @param bool $isCritical Indicates whether the pagination is critical of not.
 	 * @param array $cookie structure sent by LDAP server
-	 * @return true on success, false otherwise
+	 * @return bool true on success, false otherwise
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie);
 
 	/**
 	 * @brief Retrieve the LDAP pagination cookie
-	 * @param $link LDAP link resource
-	 * @param $result LDAP result resource
-	 * @param array $cookie structure sent by LDAP server
+	 * @param resource $link LDAP link resource
+	 * @param resource $result LDAP result resource
+	 * @param string $cookie structure sent by LDAP server
 	 * @return bool true on success, false otherwise
 	 *
 	 * Corresponds to ldap_control_paged_result_response
@@ -162,15 +162,15 @@ interface ILDAPWrapper {
 
 	/**
 	 * @brief establish Start TLS
-	 * @param resource|$link LDAP link resource
+	 * @param resource $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
 	public function startTls($link);
 
 	/**
 	 * @brief Sort the result of a LDAP search
-	 * @param $link LDAP link resource
-	 * @param $result LDAP result resource
+	 * @param resource $link LDAP link resource
+	 * @param resource $result LDAP result resource
 	 * @param string $sortFilter attribute to use a key in sort
 	 */
 	public function sort($link, $result, $sortFilter);

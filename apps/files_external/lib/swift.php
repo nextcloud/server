@@ -23,7 +23,7 @@
 namespace OC\Files\Storage;
 
 set_include_path(get_include_path() . PATH_SEPARATOR .
-        \OC_App::getAppPath('files_external') . '/3rdparty/php-opencloud/lib');
+	\OC_App::getAppPath('files_external') . '/3rdparty/php-opencloud/lib');
 require_once 'openstack.php';
 
 use \OpenCloud;
@@ -31,25 +31,25 @@ use \OpenCloud\Common\Exceptions;
 
 class Swift extends \OC\Files\Storage\Common {
 
-        /**
-         * @var \OpenCloud\ObjectStore
-         */
+	/**
+	 * @var \OpenCloud\ObjectStore
+	 */
 	private $connection;
-        /**
-         * @var \OpenCloud\ObjectStore\Container
-         */
+	/**
+	 * @var \OpenCloud\ObjectStore\Container
+	 */
 	private $container;
-        /**
-         * @var \OpenCloud\OpenStack
-         */
+	/**
+	 * @var \OpenCloud\OpenStack
+	 */
 	private $anchor;
-        /**
-         * @var string
-         */
+	/**
+	 * @var string
+	 */
 	private $bucket;
-        /**
-         * @var array
-         */
+	/**
+	 * @var array
+	 */
 	private static $tmpFiles = array();
 
 	/**

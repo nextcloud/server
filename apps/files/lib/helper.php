@@ -167,7 +167,7 @@ class Helper
 	/**
 	 * Sort the given file info array
 	 *
-	 * @param \OCP\Files\FileInfo[] files to sort
+	 * @param \OCP\Files\FileInfo[] $files files to sort
 	 * @param string $sortAttribute attribute to sort on
 	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @return \OCP\Files\FileInfo[] sorted files

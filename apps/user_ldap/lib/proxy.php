@@ -38,7 +38,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $configPrefix
+	 * @param string $configPrefix
 	 */
 	private function addAccess($configPrefix) {
 		$connector = new Connection($this->ldap, $configPrefix);
@@ -46,7 +46,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $configPrefix
+	 * @param string $configPrefix
 	 * @return mixed
 	 */
 	protected function getAccess($configPrefix) {
@@ -57,7 +57,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $uid
+	 * @param string $uid
 	 * @return string
 	 */
 	protected function getUserCacheKey($uid) {
@@ -65,7 +65,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $gid
+	 * @param string $gid
 	 * @return string
 	 */
 	protected function getGroupCacheKey($gid) {
@@ -73,25 +73,25 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $id
-	 * @param $method
-	 * @param $parameters
+	 * @param string $id
+	 * @param string $method
+	 * @param array $parameters
 	 * @param bool $passOnWhen
 	 * @return mixed
 	 */
 	abstract protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 
 	/**
-	 * @param $id
-	 * @param $method
-	 * @param $parameters
+	 * @param string $id
+	 * @param string $method
+	 * @param array $parameters
 	 * @return mixed
 	 */
 	abstract protected function walkBackends($id, $method, $parameters);
 
 	/**
 	 * @brief Takes care of the request to the User backend
-	 * @param $id
+	 * @param string $id
 	 * @param string $method string, the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
 	 * @param bool $passOnWhen
@@ -106,7 +106,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $key
+	 * @param string|null $key
 	 * @return string
 	 */
 	private function getCacheKey($key) {
@@ -118,7 +118,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
@@ -131,7 +131,7 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return bool
 	 */
 	public function isCached($key) {
@@ -140,8 +140,8 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param $key
-	 * @param $value
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
 		$key   = $this->getCacheKey($key);

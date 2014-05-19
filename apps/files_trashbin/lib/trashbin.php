@@ -96,7 +96,7 @@ class Trashbin {
 	/**
 	 * move file to the trash bin
 	 *
-	 * @param $file_path path to the deleted file/directory relative to the files root directory
+	 * @param string $file_path path to the deleted file/directory relative to the files root directory
 	 */
 	public static function move2trash($file_path) {
 		$user = \OCP\User::getUser();
@@ -155,11 +155,11 @@ class Trashbin {
 	/**
 	 * Move file versions to trash so that they can be restored later
 	 *
-	 * @param $file_path path to original file
-	 * @param $filename of deleted file
+	 * @param string $file_path path to original file
+	 * @param string $filename of deleted file
 	 * @param integer $timestamp when the file was deleted
 	 *
-	 * @return size of stored versions
+	 * @return int size of stored versions
 	 */
 	private static function retainVersions($file_path, $filename, $timestamp) {
 		$size = 0;
@@ -200,11 +200,11 @@ class Trashbin {
 	/**
 	 * Move encryption keys to trash so that they can be restored later
 	 *
-	 * @param $file_path path to original file
-	 * @param $filename of deleted file
+	 * @param string $file_path path to original file
+	 * @param string $filename of deleted file
 	 * @param integer $timestamp when the file was deleted
 	 *
-	 * @return size of encryption keys
+	 * @return int size of encryption keys
 	 */
 	private static function retainEncryptionKeys($file_path, $filename, $timestamp) {
 		$size = 0;
@@ -299,9 +299,9 @@ class Trashbin {
 	/**
 	 * restore files from trash bin
 	 *
-	 * @param $file path to the deleted file
-	 * @param $filename name of the file
-	 * @param $timestamp time when the file was deleted
+	 * @param string $file path to the deleted file
+	 * @param string $filename name of the file
+	 * @param int $timestamp time when the file was deleted
 	 *
 	 * @return bool
 	 */
@@ -376,11 +376,11 @@ class Trashbin {
 	 * @brief restore versions from trash bin
 	 *
 	 * @param \OC\Files\View $view file view
-	 * @param $file complete path to file
-	 * @param $filename name of file once it was deleted
+	 * @param string $file complete path to file
+	 * @param string $filename name of file once it was deleted
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
-	 * @param $location location if file
-	 * @param $timestamp deleteion time
+	 * @param string $location location if file
+	 * @param int $timestamp deleteion time
 	 *
 	 */
 	private static function restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
@@ -424,11 +424,11 @@ class Trashbin {
 	 * @brief restore encryption keys from trash bin
 	 *
 	 * @param \OC\Files\View $view
-	 * @param $file complete path to file
-	 * @param $filename name of file
+	 * @param string $file complete path to file
+	 * @param string $filename name of file
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
-	 * @param $location location of file
-	 * @param $timestamp deleteion time
+	 * @param string $location location of file
+	 * @param int $timestamp deleteion time
 	 *
 	 */
 	private static function restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
@@ -539,10 +539,10 @@ class Trashbin {
 	/**
 	 * @brief delete file from trash bin permanently
 	 *
-	 * @param $filename path to the file
-	 * @param $timestamp of deletion time
+	 * @param string $filename path to the file
+	 * @param int $timestamp of deletion time
 	 *
-	 * @return size of deleted files
+	 * @return int size of deleted files
 	 */
 	public static function delete($filename, $timestamp = null) {
 		$user = \OCP\User::getUser();
@@ -634,9 +634,9 @@ class Trashbin {
 	/**
 	 * check to see whether a file exists in trashbin
 	 *
-	 * @param $filename path to the file
-	 * @param $timestamp of deletion time
-	 * @return true if file exists, otherwise false
+	 * @param string $filename path to the file
+	 * @param int $timestamp of deletion time
+	 * @return bool true if file exists, otherwise false
 	 */
 	public static function file_exists($filename, $timestamp = null) {
 		$user = \OCP\User::getUser();
@@ -656,7 +656,7 @@ class Trashbin {
 	 * @brief deletes used space for trash bin in db if user was deleted
 	 *
 	 * @param type $uid id of deleted user
-	 * @return result of db delete operation
+	 * @return bool result of db delete operation
 	 */
 	public static function deleteUser($uid) {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
@@ -672,7 +672,7 @@ class Trashbin {
 	 * calculate remaining free space for trash bin
 	 *
 	 * @param integer $trashbinSize current size of the trash bin
-	 * @return available free space for trash bin
+	 * @return int available free space for trash bin
 	 */
 	private static function calculateFreeSpace($trashbinSize) {
 		$softQuota = true;
@@ -808,8 +808,8 @@ class Trashbin {
 	/**
 	 * find all versions which belong to the file we want to restore
 	 *
-	 * @param $filename name of the file which should be restored
-	 * @param $timestamp timestamp when the file was deleted
+	 * @param string $filename name of the file which should be restored
+	 * @param int $timestamp timestamp when the file was deleted
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp) {
 		$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_trashbin/versions');
@@ -841,8 +841,8 @@ class Trashbin {
 	/**
 	 * find unique extension for restored file if a file with the same name already exists
 	 *
-	 * @param $location where the file should be restored
-	 * @param $filename name of the file
+	 * @param string $location where the file should be restored
+	 * @param string $filename name of the file
 	 * @param \OC\Files\View $view filesystem view relative to users root directory
 	 * @return string with unique extension
 	 */
@@ -903,7 +903,7 @@ class Trashbin {
 	/**
 	 * get current size of trash bin from a given user
 	 *
-	 * @param $user user who owns the trash bin
+	 * @param string $user user who owns the trash bin
 	 * @return mixed trash bin size or false if no trash bin size is stored
 	 */
 	private static function getTrashbinSize($user) {

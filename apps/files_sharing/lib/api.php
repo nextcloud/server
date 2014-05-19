@@ -386,7 +386,7 @@ class Api {
 	/**
 	 * @brief update password for public link share
 	 * @param array $share information about the share
-	 * @param type $params 'password'
+	 * @param array $params 'password'
 	 * @return \OC_OCS_Result
 	 */
 	private static function updatePassword($share, $params) {
