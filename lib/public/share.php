@@ -226,17 +226,13 @@ class Share extends \OC\Share\Constants {
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string $shareWith User or group the item is being shared with
 	 * @param int $permissions CRUDS
-	 * @param null $itemSourceName
-	 * @throws \Exception
-	 * @internal param \OCP\Item $string type
-	 * @internal param \OCP\Item $string source
-	 * @internal param \OCP\SHARE_TYPE_USER $int , SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @internal param \OCP\User $string or group the item is being shared with
-	 * @internal param \OCP\CRUDS $int permissions
+	 * @param string $itemSourceName
+	 * @param \DateTime $expirationDate
 	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
+	 * @throws \Exception
 	 */
-	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null) {
-		return \OC\Share\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName);
+	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {
+		return \OC\Share\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName, $expirationDate);
 	}
 
 	/**
