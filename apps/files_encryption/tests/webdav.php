@@ -34,7 +34,7 @@ use OCA\Encryption;
 /**
  * Class Test_Encryption_Webdav
  *
- * @brief this class provide basic webdav tests for PUT,GET and DELETE
+ * this class provide basic webdav tests for PUT,GET and DELETE
  */
 class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
@@ -112,7 +112,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav put random file
+	 * test webdav put random file
 	 */
 	function testWebdavPUT() {
 
@@ -167,7 +167,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav get random file
+	 * test webdav get random file
 	 *
 	 * @depends testWebdavPUT
 	 */
@@ -190,7 +190,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav delete random file
+	 * test webdav delete random file
 	 * @depends testWebdavGET
 	 */
 	function testWebdavDELETE($filename) {
@@ -216,7 +216,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief handle webdav request
+	 * handle webdav request
 	 *
 	 * @param bool $body
 	 *

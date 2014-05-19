@@ -959,7 +959,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @brief test moving a shared file out of the Shared folder
+	 * test moving a shared file out of the Shared folder
 	 */
 	function testRename() {
 

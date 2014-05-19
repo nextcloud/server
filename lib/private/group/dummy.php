@@ -27,7 +27,7 @@
 class OC_Group_Dummy extends OC_Group_Backend {
 	private $groups=array();
 	/**
-	 * @brief Try to create a new group
+	 * Try to create a new group
 	 * @param string $gid The name of the group to create
 	 * @return bool
 	 *
@@ -44,7 +44,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief delete a group
+	 * delete a group
 	 * @param string $gid gid of the group to delete
 	 * @return bool
 	 *
@@ -60,7 +60,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -76,7 +76,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Add a user to a group
+	 * Add a user to a group
 	 * @param string $uid Name of the user to add to group
 	 * @param string $gid Name of the group in which add the user
 	 * @return bool
@@ -97,7 +97,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Removes a user from a group
+	 * Removes a user from a group
 	 * @param string $uid Name of the user to remove from group
 	 * @param string $gid Name of the group from which remove the user
 	 * @return bool
@@ -117,7 +117,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
 	 * @return array an array of group names
 	 *
@@ -136,7 +136,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Get a list of all groups
+	 * Get a list of all groups
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -147,7 +147,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Get a list of all users in a group
+	 * Get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
@@ -163,7 +163,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get the number of all users in a group
+	 * get the number of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit

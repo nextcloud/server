@@ -29,7 +29,7 @@ class NavigationManager implements \OCP\INavigationManager {
 	}
 
 	/**
-	 * @brief returns all the added Menu entries
+	 * returns all the added Menu entries
 	 * @return array an array of the added entries
 	 */
 	public function getAll() {
@@ -37,7 +37,7 @@ class NavigationManager implements \OCP\INavigationManager {
 	}
 
 	/**
-	 * @brief removes all the entries
+	 * removes all the entries
 	 */
 	public function clear() {
 		$this->entries = array();
@@ -52,7 +52,7 @@ class NavigationManager implements \OCP\INavigationManager {
 	}
 
 	/**
-	 * @brief gets the active Menu entry
+	 * gets the active Menu entry
 	 * @return string id or empty string
 	 *
 	 * This function returns the id of the active navigation entry (set by

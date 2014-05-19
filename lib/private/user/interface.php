@@ -24,7 +24,7 @@
 interface OC_User_Interface {
 
 	/**
-	* @brief Check if backend implements actions
+	* Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
 	* @return boolean
 	*
@@ -34,14 +34,14 @@ interface OC_User_Interface {
 	public function implementsActions($actions);
 
 	/**
-	* @brief delete a user
+	* delete a user
 	* @param string $uid The username of the user to delete
 	* @return bool
 	*/
 	public function deleteUser($uid);
 
 	/**
-	* @brief Get a list of all users
+	* Get a list of all users
 	* @return array an array of all uids
 	*
 	* Get a list of all users.
@@ -49,21 +49,21 @@ interface OC_User_Interface {
 	public function getUsers($search = '', $limit = null, $offset = null);
 
 	/**
-	* @brief check if a user exists
+	* check if a user exists
 	* @param string $uid the username
 	* @return boolean
 	*/
 	public function userExists($uid);
 
 	/**
-	 * @brief get display name of the user
+	 * get display name of the user
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 */
 	public function getDisplayName($uid);
 
 	/**
-	 * @brief Get a list of all display names
+	 * Get a list of all display names
 	 * @return array an array of  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
@@ -71,7 +71,7 @@ interface OC_User_Interface {
 	public function getDisplayNames($search = '', $limit = null, $offset = null);
 
 	/**
-	 * @brief Check if a user list is available or not
+	 * Check if a user list is available or not
 	 * @return boolean if users can be listed or not
 	 */
 	public function hasUserListings();

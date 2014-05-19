@@ -26,7 +26,7 @@ namespace OCA\user_ldap\lib;
 class Helper {
 
 	/**
-	 * @brief returns prefixes for each saved LDAP/AD server configuration.
+	 * returns prefixes for each saved LDAP/AD server configuration.
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
 	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
@@ -79,7 +79,7 @@ class Helper {
 
 	/**
 	 *
-	 * @brief determines the host for every configured connection
+	 * determines the host for every configured connection
 	 * @return array an array with configprefix as keys
 	 *
 	 */
@@ -106,7 +106,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief deletes a given saved LDAP/AD server configuration.
+	 * deletes a given saved LDAP/AD server configuration.
 	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
@@ -176,7 +176,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief extractsthe domain from a given URL
+	 * extractsthe domain from a given URL
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */

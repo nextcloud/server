@@ -52,7 +52,7 @@ abstract class ResourceLocator {
 	}
 
 	/*
-	 * @brief append the $file resource if exist at $root
+	 * append the $file resource if exist at $root
 	 * @param string $root path to check
 	 * @param string $file the filename
 	 * @param string|null $webroot base for path, default map $root to $webroot

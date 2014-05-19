@@ -75,9 +75,9 @@ interface IL10N {
 
 
 	/**
-	 * @brief find the best language
+	 * find the best language
 	 * @param array|string $app details below
-	 * @returns string language
+	 * @return string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n

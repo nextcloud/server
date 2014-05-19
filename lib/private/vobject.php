@@ -35,7 +35,7 @@ class OC_VObject{
 	}
 
 	/**
-	 * @brief Parses the VObject
+	 * Parses the VObject
 	 * @param string $data VObject as string
 	 * @return Sabre\VObject\Reader|null
 	 */
@@ -54,7 +54,7 @@ class OC_VObject{
 	}
 
 	/**
-	 * @brief Escapes semicolons
+	 * Escapes semicolons
 	 * @param array $value
 	 * @return string
 	 */
@@ -66,7 +66,7 @@ class OC_VObject{
 	}
 
 	/**
-	 * @brief Creates an array out of a multivalue property
+	 * Creates an array out of a multivalue property
 	 * @param string $value
 	 * @return array
 	 */
@@ -112,7 +112,7 @@ class OC_VObject{
 	}
 
 	/**
-	 * @brief Add property to vobject
+	 * Add property to vobject
 	 * @param object $name of property
 	 * @param object $value of property
 	 * @param array|object $parameters of property

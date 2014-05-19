@@ -30,7 +30,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	private $refBackend = null;
 
 	/**
-	 * @brief Constructor
+	 * Constructor
 	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
@@ -45,7 +45,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Tries the backends one after the other until a positive result is returned from the specified method
+	 * Tries the backends one after the other until a positive result is returned from the specified method
 	 * @param string $gid the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -63,7 +63,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Asks the backend connected to the server that supposely takes care of the gid from the request.
+	 * Asks the backend connected to the server that supposely takes care of the gid from the request.
 	 * @param string $gid the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -95,7 +95,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -107,7 +107,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
 	 * @return string[] with group names
 	 *
@@ -128,7 +128,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all users in a group
+	 * get a list of all users in a group
 	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
@@ -145,7 +145,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief returns the number of users in a group, who match the search term
+	 * returns the number of users in a group, who match the search term
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
 	 * @return int|bool
@@ -156,7 +156,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all groups
+	 * get a list of all groups
 	 * @return string[] with group names
 	 *
 	 * Returns a list with all groups
@@ -184,7 +184,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Check if backend implements actions
+	 * Check if backend implements actions
 	 * @param int $actions bitwise-or'ed actions
 	 * @return boolean
 	 *

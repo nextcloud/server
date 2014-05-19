@@ -204,7 +204,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @brief Checks whether the server supports LDAP
+	 * Checks whether the server supports LDAP
 	 * @return boolean if it the case, false otherwise
 	 * */
 	public function areLDAPFunctionsAvailable() {
@@ -212,7 +212,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @brief Checks whether PHP supports LDAP Paged Results
+	 * Checks whether PHP supports LDAP Paged Results
 	 * @return boolean if it the case, false otherwise
 	 * */
 	public function hasPagedResultSupport() {
@@ -222,7 +222,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @brief Checks whether the submitted parameter is a resource
+	 * Checks whether the submitted parameter is a resource
 	 * @param Resource $resource the resource variable to check
 	 * @return bool true if it is a resource, false otherwise
 	 */

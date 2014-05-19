@@ -54,7 +54,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Check if the password is correct
+	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return string
@@ -87,7 +87,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -96,7 +96,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	}
 
 	/**
-	* @brief get the user's home directory
+	* get the user's home directory
 	* @param string $uid the username
 	* @return string|false
 	*/

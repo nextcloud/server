@@ -25,7 +25,7 @@ namespace OCA\Files\Share;
 class Api {
 
 	/**
-	 * @brief get all shares
+	 * get all shares
 	 *
 	 * @param array $params option 'file' to limit the result to a specific file/folder
 	 * @return \OC_OCS_Result share information
@@ -60,7 +60,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get share information for a given share
+	 * get share information for a given share
 	 *
 	 * @param array $params which contains a 'id'
 	 * @return \OC_OCS_Result share information
@@ -76,7 +76,7 @@ class Api {
 	}
 
 	/**
-	 * @brief collect all share information, either of a specific share or all
+	 * collect all share information, either of a specific share or all
 	 *        shares for a given path
 	 * @param array $params
 	 * @return \OC_OCS_Result
@@ -130,7 +130,7 @@ class Api {
 	}
 
 	/**
-	 * @brief add reshares to a array of shares
+	 * add reshares to a array of shares
 	 * @param array $shares array of shares
 	 * @param int $itemSource item source ID
 	 * @return array new shares array which includes reshares
@@ -161,7 +161,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get share from all files in a given folder (non-recursive)
+	 * get share from all files in a given folder (non-recursive)
 	 * @param array $params contains 'path' to the folder
 	 * @return \OC_OCS_Result
 	 */
@@ -196,7 +196,7 @@ class Api {
 	}
 
 	/**
-	 * @brief create a new share
+	 * create a new share
 	 * @param array $params
 	 * @return \OC_OCS_Result
 	 */
@@ -313,7 +313,7 @@ class Api {
 	}
 
 	/**
-	 * @brief update permissions for a share
+	 * update permissions for a share
 	 * @param array $share information about the share
 	 * @param array $params contains 'permissions'
 	 * @return \OC_OCS_Result
@@ -358,7 +358,7 @@ class Api {
 	}
 
 	/**
-	 * @brief enable/disable public upload
+	 * enable/disable public upload
 	 * @param array $share information about the share
 	 * @param array $params contains 'publicUpload' which can be 'yes' or 'no'
 	 * @return \OC_OCS_Result
@@ -384,7 +384,7 @@ class Api {
 	}
 
 	/**
-	 * @brief update password for public link share
+	 * update password for public link share
 	 * @param array $share information about the share
 	 * @param array $params 'password'
 	 * @return \OC_OCS_Result
@@ -438,7 +438,7 @@ class Api {
 	}
 
 	/**
-	 * @brief unshare a file/folder
+	 * unshare a file/folder
 	 * @param array $params contains the shareID 'id' which should be unshared
 	 * @return \OC_OCS_Result
 	 */
@@ -478,7 +478,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get file ID from a given path
+	 * get file ID from a given path
 	 * @param string $path
 	 * @return string fileID or null
 	 */
@@ -495,7 +495,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get itemType
+	 * get itemType
 	 * @param string $path
 	 * @return string type 'file', 'folder' or null of file/folder doesn't exists
 	 */
@@ -513,7 +513,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get some information from a given share
+	 * get some information from a given share
 	 * @param int $shareID
 	 * @return array with: item_source, share_type, share_with, item_type, permissions
 	 */

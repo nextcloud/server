@@ -343,7 +343,7 @@ class Cache extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief this test show the bug resulting if we have no normalizer installed
+	 * this test show the bug resulting if we have no normalizer installed
 	 */
 	public function testWithoutNormalizer() {
 		// folder name "Schön" with U+00F6 (normalized)
@@ -386,7 +386,7 @@ class Cache extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief this test shows that there is no bug if we use the normalizer
+	 * this test shows that there is no bug if we use the normalizer
 	 */
 	public function testWithNormalizer() {
 

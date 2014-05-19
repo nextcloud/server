@@ -24,7 +24,7 @@
  */
 
 /**
- * @brief Encryption proxy which handles filesystem operations before and after
+ * Encryption proxy which handles filesystem operations before and after
  *        execution and encrypts, and handles keyfiles accordingly. Used for
  *        webui.
  */
@@ -144,7 +144,7 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief update file cache with the new unencrypted size after file was written
+	 * update file cache with the new unencrypted size after file was written
 	 * @param string $path
 	 * @param mixed $result
 	 * @return mixed
@@ -212,7 +212,7 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief remember initial fopen mode because sometimes it gets changed during the request
+	 * remember initial fopen mode because sometimes it gets changed during the request
 	 * @param string $path path
 	 * @param string $mode type of access
 	 */

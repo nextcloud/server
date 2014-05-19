@@ -352,7 +352,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief share a folder, than reshare a file within the shared folder and check if we construct the correct path
+	 * share a folder, than reshare a file within the shared folder and check if we construct the correct path
 	 * @medium
 	 */
 	function testGetShareFromFolderReshares() {
@@ -417,7 +417,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief reshare a sub folder and check if we get the correct path
+	 * reshare a sub folder and check if we get the correct path
 	 * @medium
 	 */
 	function testGetShareFromSubFolderReShares() {
@@ -470,7 +470,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief test re-re-share of folder if the path gets constructed correctly
+	 * test re-re-share of folder if the path gets constructed correctly
 	 * @medium
 	 */
 	function testGetShareFromFolderReReShares() {
@@ -538,7 +538,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief test multiple shared folder if the path gets constructed correctly
+	 * test multiple shared folder if the path gets constructed correctly
 	 * @medium
 	 */
 	function testGetShareMultipleSharedFolder() {
@@ -621,7 +621,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief test re-re-share of folder if the path gets constructed correctly
+	 * test re-re-share of folder if the path gets constructed correctly
 	 * @medium
 	 */
 	function testGetShareFromFileReReShares() {
@@ -895,7 +895,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief test unshare of a reshared file
+	 * test unshare of a reshared file
 	 */
 	function testDeleteReshare() {
 
@@ -939,7 +939,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief share a folder which contains a share mount point, should be forbidden
+	 * share a folder which contains a share mount point, should be forbidden
 	 */
 	public function testShareFolderWithAMountPoint() {
 		// user 1 shares a folder with user2

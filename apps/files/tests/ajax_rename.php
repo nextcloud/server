@@ -66,7 +66,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test rename of file/folder
+	 * test rename of file/folder
 	 */
 	function testRenameFolder() {
 		$dir = '/';

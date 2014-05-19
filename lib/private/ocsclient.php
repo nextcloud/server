@@ -29,7 +29,7 @@
 class OC_OCSClient{
 
 	/**
-	 * @brief Get the url of the OCS AppStore server.
+	 * Get the url of the OCS AppStore server.
 	 * @return string of the AppStore server
 	 *
 	 * This function returns the url of the OCS AppStore server. It´s possible
@@ -47,7 +47,7 @@ class OC_OCSClient{
 
 
 	/**
-	 * @brief Get the content of an OCS url call.
+	 * Get the content of an OCS url call.
 	 * @return string of the response
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
 	* @param string $url
@@ -58,7 +58,7 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get all the categories from the OCS server
+	 * Get all the categories from the OCS server
 	 * @return array an array of category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
@@ -91,7 +91,7 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get all the applications from the OCS server
+	 * Get all the applications from the OCS server
 	 * @return array an array of application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
@@ -148,7 +148,7 @@ class OC_OCSClient{
 
 
 	/**
-	 * @brief Get an the applications from the OCS server
+	 * Get an the applications from the OCS server
 	 * @param string $id
 	 * @return array an array of application data
 	 *
@@ -191,7 +191,7 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get the download url for an application from the OCS server
+	 * Get the download url for an application from the OCS server
 	 * @return array an array of application data
 	 *
 	 * This function returns an download url for an applications from the OCS server

@@ -51,7 +51,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief reads a given attribute for an LDAP record identified by a DN
+	 * reads a given attribute for an LDAP record identified by a DN
 	 * @param string $dn the record in question
 	 * @param string $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
@@ -115,7 +115,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief checks whether the given attributes value is probably a DN
+	 * checks whether the given attributes value is probably a DN
 	 * @param string $attr the attribute in question
 	 * @return boolean if so true, otherwise false
 	 */
@@ -129,7 +129,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief sanitizes a DN received from the LDAP server
+	 * sanitizes a DN received from the LDAP server
 	 * @param array $dn the DN in question
 	 * @return array the sanitized DN
 	 */
@@ -185,7 +185,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns the LDAP DN for the given internal ownCloud name of the group
+	 * returns the LDAP DN for the given internal ownCloud name of the group
 	 * @param string $name the ownCloud name in question
 	 * @return string with the LDAP DN on success, otherwise false
 	 */
@@ -200,7 +200,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns the LDAP DN for the given internal ownCloud name of the user
+	 * returns the LDAP DN for the given internal ownCloud name of the user
 	 * @param string $name the ownCloud name in question
 	 * @return string with the LDAP DN on success, otherwise false
 	 */
@@ -216,7 +216,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns the LDAP DN for the given internal ownCloud name
+	 * returns the LDAP DN for the given internal ownCloud name
 	 * @param string $name the ownCloud name in question
 	 * @param boolean $isUser is it a user? otherwise group
 	 * @return string with the LDAP DN on success, otherwise false
@@ -235,7 +235,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
+	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 * @param string $dn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string with the name to use in ownCloud, false on DN outside of search DN
@@ -252,7 +252,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
+	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string with with the name to use in ownCloud
@@ -269,7 +269,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
+	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
@@ -361,7 +361,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief gives back the user names as they are used ownClod internally
+	 * gives back the user names as they are used ownClod internally
 	 * @param array $ldapUsers an array with the ldap Users result in style of array ( array ('dn' => foo, 'uid' => bar), ... )
 	 * @return array an array with the user names to use in ownCloud
 	 *
@@ -372,7 +372,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief gives back the group names as they are used ownClod internally
+	 * gives back the group names as they are used ownClod internally
 	 * @param array $ldapGroups an array with the ldap Groups result in style of array ( array ('dn' => foo, 'cn' => bar), ... )
 	 * @return array an array with the group names to use in ownCloud
 	 *
@@ -452,7 +452,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief caches the user display name
+	 * caches the user display name
 	 * @param string $ocName the internal ownCloud username
 	 * @param string $displayName the display name
 	 */
@@ -462,7 +462,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a unique name for internal ownCloud use for users. Don't call it directly.
+	 * creates a unique name for internal ownCloud use for users. Don't call it directly.
 	 * @param string $name the display name of the object
 	 * @return string with with the name to use in ownCloud or false if unsuccessful
 	 *
@@ -484,7 +484,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a unique name for internal ownCloud use for groups. Don't call it directly.
+	 * creates a unique name for internal ownCloud use for groups. Don't call it directly.
 	 * @param string $name the display name of the object
 	 * @return string with with the name to use in ownCloud or false if unsuccessful.
 	 *
@@ -532,7 +532,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a unique name for internal ownCloud use.
+	 * creates a unique name for internal ownCloud use.
 	 * @param string $name the display name of the object
 	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
 	 * @return string with with the name to use in ownCloud or false if unsuccessful
@@ -551,7 +551,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief retrieves all known groups from the mappings table
+	 * retrieves all known groups from the mappings table
 	 * @return array with the results
 	 *
 	 * retrieves all known groups from the mappings table
@@ -561,7 +561,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief retrieves all known users from the mappings table
+	 * retrieves all known users from the mappings table
 	 * @return array with the results
 	 *
 	 * retrieves all known users from the mappings table
@@ -585,7 +585,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief inserts a new user or group into the mappings table
+	 * inserts a new user or group into the mappings table
 	 * @param string $dn the record in question
 	 * @param string $ocName the name to use in ownCloud
 	 * @param bool $isUser is it a user or a group?
@@ -670,7 +670,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief executes an LDAP search, optimized for Users
+	 * executes an LDAP search, optimized for Users
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -695,7 +695,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief executes an LDAP search, optimized for Groups
+	 * executes an LDAP search, optimized for Groups
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -709,7 +709,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief prepares and executes an LDAP search operation
+	 * prepares and executes an LDAP search operation
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
@@ -755,7 +755,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief processes an LDAP paged search operation
+	 * processes an LDAP paged search operation
 	 * @param array $sr the array containing the LDAP search resources
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
@@ -796,7 +796,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief executes an LDAP search, but counts the results only
+	 * executes an LDAP search, but counts the results only
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
@@ -861,7 +861,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Executes an LDAP search
+	 * Executes an LDAP search
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
@@ -991,7 +991,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	* @brief escapes (user provided) parts for LDAP filter
+	* escapes (user provided) parts for LDAP filter
 	* @param string $input, the provided value
 	* @return string the escaped string
 	*/
@@ -1002,7 +1002,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief combines the input filters with AND
+	 * combines the input filters with AND
 	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
 	 */
@@ -1011,7 +1011,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief combines the input filters with AND
+	 * combines the input filters with AND
 	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
 	 */
@@ -1020,7 +1020,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief combines the input filters with given operator
+	 * combines the input filters with given operator
 	 * @param string[] $filters the filters to connect
 	 * @param string $operator either & or |
 	 * @return string the combined filter
@@ -1038,7 +1038,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a filter part for to perform search for users
+	 * creates a filter part for to perform search for users
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
@@ -1049,7 +1049,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a filter part for to perform search for groups
+	 * creates a filter part for to perform search for groups
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
@@ -1060,7 +1060,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief creates a filter part for searches
+	 * creates a filter part for searches
 	 * @param string $search the search term
 	 * @param string[]|null $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
@@ -1107,7 +1107,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief auto-detects the directory's UUID attribute
+	 * auto-detects the directory's UUID attribute
 	 * @param string $dn a known DN used to check against
 	 * @param bool $isUser
 	 * @param bool $force the detection should be run, even if it is not set to auto
@@ -1183,7 +1183,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief converts a binary ObjectGUID into a string representation
+	 * converts a binary ObjectGUID into a string representation
 	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
 	 * @return string
 	 * @link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198
@@ -1209,7 +1209,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
+	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
 	 * @param string $dn the DN
 	 * @return string
 	 */
@@ -1218,7 +1218,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief checks if the given DN is part of the given base DN(s)
+	 * checks if the given DN is part of the given base DN(s)
 	 * @param string $dn the DN
 	 * @param string[] $bases array containing the allowed base DN or DNs
 	 * @return bool
@@ -1240,7 +1240,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief get a cookie for the next LDAP paged search
+	 * get a cookie for the next LDAP paged search
 	 * @param string $base a string with the base DN for the search
 	 * @param string $filter the search filter to identify the correct search
 	 * @param int $limit the limit (or 'pageSize'), to identify the correct search well
@@ -1265,7 +1265,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief set a cookie for LDAP paged search run
+	 * set a cookie for LDAP paged search run
 	 * @param string $base a string with the base DN for the search
 	 * @param string $filter the search filter to identify the correct search
 	 * @param int $limit the limit (or 'pageSize'), to identify the correct search well
@@ -1281,7 +1281,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Check whether the most recent paged search was successful. It flushed the state var. Use it always after a possible paged search.
+	 * Check whether the most recent paged search was successful. It flushed the state var. Use it always after a possible paged search.
 	 * @return boolean|null true on success, null or false otherwise
 	 */
 	public function getPagedSearchResultState() {
@@ -1291,7 +1291,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief Prepares a paged search, if possible
+	 * Prepares a paged search, if possible
 	 * @param string $filter the LDAP filter for the search
 	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside

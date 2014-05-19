@@ -42,7 +42,7 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * @brief Get the source cache of a shared file or folder
+	 * Get the source cache of a shared file or folder
 	 * @param string $target Shared target file path
 	 * @return \OC\Files\Cache\Cache
 	 */

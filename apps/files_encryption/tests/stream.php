@@ -33,7 +33,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Stream
- * @brief this class provide basic stream tests
+ * this class provide basic stream tests
  */
 class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 
@@ -183,7 +183,7 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * @brief test if stream wrapper can read files outside from the data folder
+	 * test if stream wrapper can read files outside from the data folder
 	 */
 	function testStreamFromLocalFile() {
 

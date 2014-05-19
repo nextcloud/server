@@ -24,13 +24,13 @@
 namespace OCA\Encryption;
 
 /**
- * @brief Class to manage storage and retrieval of encryption keys
+ * Class to manage storage and retrieval of encryption keys
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
 
 	/**
-	 * @brief retrieve the ENCRYPTED private key from a user
+	 * retrieve the ENCRYPTED private key from a user
 	 *
 	 * @param \OC\Files\View $view
 	 * @param string $user
@@ -55,7 +55,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief retrieve public key for a specified user
+	 * retrieve public key for a specified user
 	 * @param \OC\Files\View $view
 	 * @param string $userId
 	 * @return string public key or false
@@ -74,7 +74,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief Retrieve a user's public and private key
+	 * Retrieve a user's public and private key
 	 * @param \OC\Files\View $view
 	 * @param string $userId
 	 * @return array keys: privateKey, publicKey
@@ -89,7 +89,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief Retrieve public keys for given users
+	 * Retrieve public keys for given users
 	 * @param \OC\Files\View $view
 	 * @param array $userIds
 	 * @return array of public keys for the specified users
@@ -109,7 +109,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief store file encryption key
+	 * store file encryption key
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
@@ -167,7 +167,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief retrieve keyfile for an encrypted file
+	 * retrieve keyfile for an encrypted file
 	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string|false $filePath
@@ -210,7 +210,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief Delete a keyfile
+	 * Delete a keyfile
 	 *
 	 * @param \OC\Files\View $view
 	 * @param string $path path of the file the key belongs to
@@ -266,7 +266,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief store private key from the user
+	 * store private key from the user
 	 * @param string $key
 	 * @return bool
 	 * @note Encryption of the private key must be performed by client code
@@ -293,7 +293,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief store share key
+	 * store share key
 	 *
 	 * @param \OC\Files\View $view
 	 * @param string $path where the share key is stored
@@ -319,7 +319,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief store multiple share keys for a single file
+	 * store multiple share keys for a single file
 	 * @param \OC\Files\View $view
 	 * @param \OCA\Encryption\Util $util
 	 * @param string $path
@@ -365,7 +365,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief retrieve shareKey for an encrypted file
+	 * retrieve shareKey for an encrypted file
 	 * @param \OC\Files\View $view
 	 * @param string $userId
 	 * @param \OCA\Encryption\Util $util
@@ -406,7 +406,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief delete all share keys of a given file
+	 * delete all share keys of a given file
 	 * @param \OC\Files\View $view
 	 * @param string $userId owner of the file
 	 * @param string $filePath path to the file, relative to the owners file dir
@@ -445,7 +445,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief Delete a single user's shareKey for a single file
+	 * Delete a single user's shareKey for a single file
 	 */
 	public static function delShareKey(\OC\Files\View $view, $userIds, $filePath) {
 
@@ -486,7 +486,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief recursively delete share keys from given users
+	 * recursively delete share keys from given users
 	 *
 	 * @param string $dir directory
 	 * @param array $userIds user ids for which the share keys should be deleted
@@ -512,7 +512,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief Make preparations to vars and filesystem for saving a keyfile
+	 * Make preparations to vars and filesystem for saving a keyfile
 	 * @param string|boolean $path
 	 * @param string $basePath
 	 */
@@ -542,7 +542,7 @@ class Keymanager {
 	}
 
 	/**
-	 * @brief extract filename from share key name
+	 * extract filename from share key name
 	 * @param string $shareKey (filename.userid.sharekey)
 	 * @return string|false filename or false
 	 */

@@ -56,7 +56,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	protected $info;
 
 	/**
-	 * @brief Sets up the node, expects a full path name
+	 * Sets up the node, expects a full path name
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
 	 */
@@ -71,7 +71,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief  Returns the name of the node
+	 *  Returns the name of the node
 	 * @return string
 	 */
 	public function getName() {
@@ -79,7 +79,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief Renames the node
+	 * Renames the node
 	 * @param string $name The new name
 	 * @throws Sabre_DAV_Exception_BadRequest
 	 * @throws Sabre_DAV_Exception_Forbidden
@@ -116,7 +116,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief Returns the last modification time, as a unix timestamp
+	 * Returns the last modification time, as a unix timestamp
 	 * @return int timestamp as integer
 	 */
 	public function getLastModified() {
@@ -138,7 +138,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief Updates properties on this node,
+	 * Updates properties on this node,
 	 * @see Sabre_DAV_IProperties::updateProperties
 	 * @param array $properties
 	 * @return boolean
@@ -188,7 +188,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief Returns a list of properties for this nodes.;
+	 * Returns a list of properties for this nodes.;
 	 * @param array $properties
 	 * @return array
 	 * @note The properties list is a list of propertynames the client

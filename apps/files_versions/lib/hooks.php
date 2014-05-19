@@ -29,7 +29,7 @@ class Hooks {
 
 
 	/**
-	 * @brief Erase versions of deleted file
+	 * Erase versions of deleted file
 	 * @param array $params
 	 *
 	 * This function is connected to the delete signal of OC_Filesystem
@@ -46,7 +46,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief mark file as "deleted" so that we can clean up the versions if the file is gone
+	 * mark file as "deleted" so that we can clean up the versions if the file is gone
 	 * @param array $params
 	 */
 	public static function pre_remove_hook($params) {
@@ -57,7 +57,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief rename/move versions of renamed/moved files
+	 * rename/move versions of renamed/moved files
 	 * @param array $params array with oldpath and newpath
 	 *
 	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
@@ -75,7 +75,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief clean up user specific settings if user gets deleted
+	 * clean up user specific settings if user gets deleted
 	 * @param array $params array with uid
 	 *
 	 * This function is connected to the pre_deleteUser signal of OC_Users

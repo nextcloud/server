@@ -33,7 +33,7 @@ class OC_Migration_Content{
 	private $tmpfiles=array();
 
 	/**
-	* @brief sets up the
+	* sets up the
 	* @param ZipArchive $zip ZipArchive object
 	* @param object $db a database object (required for exporttype user)
 	* @return bool|null
@@ -46,7 +46,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	 * @brief prepares the db
+	 * prepares the db
 	 * @param string $query the sql query to prepare
 	 */
 	public function prepare( $query ) {
@@ -71,7 +71,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief processes the db query
+	* processes the db query
 	* @param string $query the query to process
 	* @return string of processed query
 	*/
@@ -85,7 +85,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief copys rows to migration.db from the main database
+	* copys rows to migration.db from the main database
 	* @param array $options array of options.
 	* @return bool
 	*/
@@ -127,7 +127,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief saves a sql data set into migration.db
+	* saves a sql data set into migration.db
 	* @param OC_DB_StatementWrapper $data a sql data set returned from self::prepare()->query()
 	* @param array $options array of copyRows options
 	* @return void
@@ -166,7 +166,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief adds a directory to the zip object
+	* adds a directory to the zip object
 	* @param boolean|string $dir string path of the directory to add
 	* @param bool $recursive
 	* @param string $internaldir path of folder to add dir to in zip
@@ -201,7 +201,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief adds a file to the zip from a given string
+	* adds a file to the zip from a given string
 	* @param string $data string of data to add
 	* @param string $path the relative path inside of the zip to save the file to
 	* @return bool
@@ -220,7 +220,7 @@ class OC_Migration_Content{
 	}
 
 	/**
-	* @brief closes the zip, removes temp files
+	* closes the zip, removes temp files
 	* @return bool
 	*/
 	public function finish() {
@@ -235,7 +235,7 @@ class OC_Migration_Content{
 	}
 
 		/**
-	* @brief cleans up after the zip
+	* cleans up after the zip
 	*/
 	private function cleanup() {
 		// Delete tmp files

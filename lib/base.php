@@ -666,7 +666,7 @@ class OC {
 	}
 
 	/**
-	 * @brief Handle the request
+	 * Handle the request
 	 */
 	public static function handleRequest() {
 		$l = \OC_L10N::get('lib');

@@ -62,7 +62,7 @@ class Trashbin {
 
 
 	/**
-	 * @brief copy file to owners trash
+	 * copy file to owners trash
 	 * @param string $sourcePath
 	 * @param string $owner
 	 * @param string $ownerPath
@@ -373,7 +373,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief restore versions from trash bin
+	 * restore versions from trash bin
 	 *
 	 * @param \OC\Files\View $view file view
 	 * @param string $file complete path to file
@@ -421,7 +421,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief restore encryption keys from trash bin
+	 * restore encryption keys from trash bin
 	 *
 	 * @param \OC\Files\View $view
 	 * @param string $file complete path to file
@@ -523,7 +523,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief delete all files from the trash
+	 * delete all files from the trash
 	 */
 	public static function deleteAll() {
 		$user = \OCP\User::getUser();
@@ -537,7 +537,7 @@ class Trashbin {
 
 
 	/**
-	 * @brief delete file from trash bin permanently
+	 * delete file from trash bin permanently
 	 *
 	 * @param string $filename path to the file
 	 * @param int $timestamp of deletion time
@@ -653,7 +653,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief deletes used space for trash bin in db if user was deleted
+	 * deletes used space for trash bin in db if user was deleted
 	 *
 	 * @param type $uid id of deleted user
 	 * @return bool result of db delete operation
@@ -707,7 +707,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief resize trash bin if necessary after a new file was added to ownCloud
+	 * resize trash bin if necessary after a new file was added to ownCloud
 	 * @param string $user user id
 	 */
 	public static function resizeTrash($user) {
@@ -871,7 +871,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief get the size from a given root folder
+	 * get the size from a given root folder
 	 * @param \OC\Files\View $view file view on the root folder
 	 * @return integer size of the folder
 	 */
@@ -925,7 +925,7 @@ class Trashbin {
 	}
 
 	/**
-	 * @brief check if trash bin is empty for a given user
+	 * check if trash bin is empty for a given user
 	 * @param string $user
 	 */
 	public static function isEmpty($user) {

@@ -202,7 +202,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief get default expire settings defined by the admin
+	 * get default expire settings defined by the admin
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 */
 	public static function getDefaultExpireSetting() {
@@ -222,7 +222,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief calculate expire date
+	 * calculate expire date
 	 * @param array $defaultExpireSettings contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 * @param int $creationTime timestamp when the share was created
 	 * @param int $userExpireDate expire timestamp set by the user

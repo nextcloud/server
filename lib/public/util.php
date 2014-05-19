@@ -492,7 +492,7 @@ class Util {
 	}
 
 	/**
-	 * @brief Generates a cryptographic secure pseudo-random string
+	 * Generates a cryptographic secure pseudo-random string
 	 * @param int $length of the random string
 	 * @return string
 	 */
@@ -501,7 +501,7 @@ class Util {
 	}
 
 	/**
-	 * @brief check if a password is required for each public link
+	 * check if a password is required for each public link
 	 * @return boolean
 	 */
 	public static function isPublicLinkPasswordRequired() {

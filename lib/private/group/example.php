@@ -27,7 +27,7 @@
  */
 abstract class OC_Group_Example {
 	/**
-	 * @brief Try to create a new group
+	 * Try to create a new group
 	 * @param string $gid The name of the group to create
 	 * @return bool
 	 *
@@ -37,7 +37,7 @@ abstract class OC_Group_Example {
 	abstract public static function createGroup($gid);
 
 	/**
-	 * @brief delete a group
+	 * delete a group
 	 * @param string $gid gid of the group to delete
 	 * @return bool
 	 *
@@ -46,7 +46,7 @@ abstract class OC_Group_Example {
 	abstract public static function deleteGroup($gid);
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -56,7 +56,7 @@ abstract class OC_Group_Example {
 	abstract public static function inGroup($uid, $gid);
 
 	/**
-	 * @brief Add a user to a group
+	 * Add a user to a group
 	 * @param string $uid Name of the user to add to group
 	 * @param string $gid Name of the group in which add the user
 	 * @return bool
@@ -66,7 +66,7 @@ abstract class OC_Group_Example {
 	abstract public static function addToGroup($uid, $gid);
 
 	/**
-	 * @brief Removes a user from a group
+	 * Removes a user from a group
 	 * @param string $uid Name of the user to remove from group
 	 * @param string $gid Name of the group from which remove the user
 	 * @return bool
@@ -76,7 +76,7 @@ abstract class OC_Group_Example {
 	abstract public static function removeFromGroup($uid, $gid);
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
 	 * @return array an array of group names
 	 *
@@ -86,7 +86,7 @@ abstract class OC_Group_Example {
 	abstract public static function getUserGroups($uid);
 
 	/**
-	 * @brief get a list of all groups
+	 * get a list of all groups
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -95,14 +95,14 @@ abstract class OC_Group_Example {
 	abstract public static function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
-	 * @brief Check if a group exists
+	 * Check if a group exists
 	 * @param string $gid
 	 * @return bool
 	 */
 	abstract public function groupExists($gid);
 
 	/**
-	 * @brief get a list of all users in a group
+	 * get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit

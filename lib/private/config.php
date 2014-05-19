@@ -64,7 +64,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Lists all available config keys
+	 * Lists all available config keys
 	 * @return array an array of key names
 	 *
 	 * This function returns all keys saved in config.php. Please note that it
@@ -75,7 +75,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Gets a value from config.php
+	 * Gets a value from config.php
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
@@ -92,7 +92,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Sets a value
+	 * Sets a value
 	 * @param string $key key
 	 * @param mixed $value value
 	 *
@@ -108,7 +108,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Removes a key from the config
+	 * Removes a key from the config
 	 * @param string $key key
 	 *
 	 * This function removes a key from the config.php.
@@ -125,7 +125,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Loads the config file
+	 * Loads the config file
 	 *
 	 * Reads the config file and saves it to the cache
 	 */
@@ -153,7 +153,7 @@ class Config {
 	}
 
 	/**
-	 * @brief Writes the config file
+	 * Writes the config file
 	 *
 	 * Saves the config to the config file.
 	 *

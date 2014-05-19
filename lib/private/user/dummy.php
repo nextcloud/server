@@ -28,7 +28,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	private $users = array();
 
 	/**
-	 * @brief Create a new user
+	 * Create a new user
 	 * @param string $uid The username of the user to create
 	 * @param string $password The password of the new user
 	 * @return bool
@@ -46,7 +46,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief delete a user
+	 * delete a user
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 *
@@ -62,7 +62,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Set password
+	 * Set password
 	 * @param string $uid The username
 	 * @param string $password The new password
 	 * @return bool
@@ -79,7 +79,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Check if the password is correct
+	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return string
@@ -96,7 +96,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief Get a list of all users
+	 * Get a list of all users
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -109,7 +109,7 @@ class OC_User_Dummy extends OC_User_Backend {
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */

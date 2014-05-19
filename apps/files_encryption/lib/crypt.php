@@ -40,7 +40,7 @@ class Crypt {
 
 
 	/**
-	 * @brief return encryption mode client or server side encryption
+	 * return encryption mode client or server side encryption
 	 * @param string $user name (use system wide setting if name=null)
 	 * @return string 'client' or 'server'
 	 */
@@ -51,7 +51,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Create a new encryption keypair
+	 * Create a new encryption keypair
 	 * @return array publicKey, privatekey
 	 */
 	public static function createKeypair() {
@@ -85,7 +85,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Add arbitrary padding to encrypted data
+	 * Add arbitrary padding to encrypted data
 	 * @param string $data data to be padded
 	 * @return string padded data
 	 * @note In order to end up with data exactly 8192 bytes long we must
@@ -102,7 +102,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Remove arbitrary padding to encrypted data
+	 * Remove arbitrary padding to encrypted data
 	 * @param string $padded padded data to remove padding from
 	 * @return string unpadded data on success, false on error
 	 */
@@ -124,7 +124,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Check if a file's contents contains an IV and is symmetrically encrypted
+	 * Check if a file's contents contains an IV and is symmetrically encrypted
 	 * @param string $content
 	 * @return boolean
 	 * @note see also OCA\Encryption\Util->isEncryptedPath()
@@ -178,7 +178,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Check if a file is encrypted via legacy system
+	 * Check if a file is encrypted via legacy system
 	 * @param boolean $isCatFileContent
 	 * @param string $relPath The path of the file, relative to user/data;
 	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
@@ -208,7 +208,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Symmetrically encrypt a string
+	 * Symmetrically encrypt a string
 	 * @param string $plainContent
 	 * @param string $iv
 	 * @param string $passphrase
@@ -228,7 +228,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Symmetrically decrypt a string
+	 * Symmetrically decrypt a string
 	 * @param string $encryptedContent
 	 * @param string $iv
 	 * @param string $passphrase
@@ -250,7 +250,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Concatenate encrypted data with its IV and padding
+	 * Concatenate encrypted data with its IV and padding
 	 * @param string $content content to be concatenated
 	 * @param string $iv IV to be concatenated
 	 * @return string concatenated content
@@ -264,7 +264,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Split concatenated data and IV into respective parts
+	 * Split concatenated data and IV into respective parts
 	 * @param string $catFile concatenated data to be split
 	 * @return array keys: encrypted, iv
 	 */
@@ -289,7 +289,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Symmetrically encrypts a string and returns keyfile content
+	 * Symmetrically encrypts a string and returns keyfile content
 	 * @param string $plainContent content to be encrypted in keyfile
 	 * @param string $passphrase
 	 * @return false|string encrypted content combined with IV
@@ -321,7 +321,7 @@ class Crypt {
 
 
 	/**
-	 * @brief Symmetrically decrypts keyfile content
+	 * Symmetrically decrypts keyfile content
 	 * @param string $keyfileContent
 	 * @param string $passphrase
 	 * @throws \Exception
@@ -358,7 +358,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Decrypt private key and check if the result is a valid keyfile
+	 * Decrypt private key and check if the result is a valid keyfile
 	 * @param string $encryptedKey encrypted keyfile
 	 * @param string $passphrase to decrypt keyfile
 	 * @return string|false encrypted private key or false
@@ -385,7 +385,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Create asymmetrically encrypted keyfile content using a generated key
+	 * Create asymmetrically encrypted keyfile content using a generated key
 	 * @param string $plainContent content to be encrypted
 	 * @param array $publicKeys array keys must be the userId of corresponding user
 	 * @return array keys: keys (array, key = userId), data
@@ -433,7 +433,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Asymmetrically encrypt a file using multiple public keys
+	 * Asymmetrically encrypt a file using multiple public keys
 	 * @param string $encryptedContent
 	 * @param string $shareKey
 	 * @param mixed $privateKey
@@ -467,7 +467,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Generates a pseudo random initialisation vector
+	 * Generates a pseudo random initialisation vector
 	 * @return String $iv generated IV
 	 */
 	private static function generateIv() {
@@ -496,7 +496,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Generate a pseudo random 256-bit ASCII key, used as file key
+	 * Generate a pseudo random 256-bit ASCII key, used as file key
 	 * @return string|false Generated key
 	 */
 	public static function generateKey() {
@@ -522,7 +522,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief Get the blowfish encryption handler for a key
+	 * Get the blowfish encryption handler for a key
 	 * @param string $key (optional)
 	 * @return \Crypt_Blowfish blowfish object
 	 *
@@ -543,7 +543,7 @@ class Crypt {
 	}
 
 	/**
-	 * @brief decrypts content using legacy blowfish system
+	 * decrypts content using legacy blowfish system
 	 * @param string $content the cleartext message you want to decrypt
 	 * @param string $passphrase
 	 * @return string cleartext content

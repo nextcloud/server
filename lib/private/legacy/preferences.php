@@ -28,7 +28,7 @@ OC_Preferences::$object = new \OC\Preferences(OC_DB::getConnection());
 class OC_Preferences{
 	public static $object;
 	/**
-	 * @brief Get all users using the preferences
+	 * Get all users using the preferences
 	 * @return array an array of user ids
 	 *
 	 * This function returns a list of all users that have at least one entry
@@ -39,7 +39,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Get all apps of a user
+	 * Get all apps of a user
 	 * @param string $user user
 	 * @return integer[] with app ids
 	 *
@@ -51,7 +51,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Get the available keys for an app
+	 * Get the available keys for an app
 	 * @param string $user user
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
@@ -64,7 +64,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Gets the preference
+	 * Gets the preference
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -79,7 +79,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief sets a value in the preferences
+	 * sets a value in the preferences
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -95,7 +95,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Deletes a key
+	 * Deletes a key
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -108,7 +108,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Remove app of user from preferences
+	 * Remove app of user from preferences
 	 * @param string $user user
 	 * @param string $app app
 	 * @return bool
@@ -121,7 +121,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Remove user from preferences
+	 * Remove user from preferences
 	 * @param string $user user
 	 * @return bool
 	 *
@@ -133,7 +133,7 @@ class OC_Preferences{
 	}
 
 	/**
-	 * @brief Remove app from all users
+	 * Remove app from all users
 	 * @param string $app app
 	 * @return bool
 	 *

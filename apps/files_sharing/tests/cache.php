@@ -230,7 +230,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 	}
 
 	/**
-	 * @brief verify if each value from the result matches the expected result
+	 * verify if each value from the result matches the expected result
 	 * @param array $example array with the expected results
 	 * @param array $result array with the results
 	 */
