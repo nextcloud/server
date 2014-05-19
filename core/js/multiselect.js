@@ -161,7 +161,7 @@
 					button.animate({'width':newWidth},undefined,undefined,function(){
 						button.css('width','');
 					});
-					list.animate({'width':newOuterWidth,'left':pos.left+3});
+					list.animate({'width':newOuterWidth,'left':pos.left});
 					self.change();
 				});
 				var li=$('<li></li>');
@@ -272,7 +272,7 @@
 			) {
 				list.css({
 					top:pos.top+button.outerHeight()-5,
-					left:pos.left+3,
+					left:pos.left,
 					width:(button.outerWidth()-2)+'px',
 					'max-height':($(document).height()-(button.offset().top+button.outerHeight()+10))+'px'
 				});
@@ -283,7 +283,7 @@
 				list.css('max-height', $(document).height()-($(document).height()-(pos.top)+50)+'px');
 				list.css({
 					top:pos.top - list.height(),
-					left:pos.left+3,
+					left:pos.left,
 					width:(button.outerWidth()-2)+'px'
 					
 				});
