@@ -27,9 +27,7 @@ OCA.Sharing.App = {
 			}
 		);
 
-		var fileActions = _.extend({}, OCA.Files.FileActions);
-		fileActions.registerDefaultActions(this._inFileList);
-		this._inFileList.setFileActions(fileActions);
+		this._initFileActions(this._inFileList);
 	},
 
 	initSharingOut: function($el) {
@@ -44,9 +42,18 @@ OCA.Sharing.App = {
 			}
 		);
 
-		var fileActions = _.extend({}, OCA.Files.FileActions);
-		fileActions.registerDefaultActions(this._outFileList);
-		this._outFileList.setFileActions(fileActions);
+		this._initFileActions(this._outFileList);
+	},
+
+	_initFileActions: function(fileList) {
+		var fileActions = OCA.Files.FileActions.clone();
+		// when the user clicks on a folder, redirect to the corresponding
+		// folder in the files app
+		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
+			OCA.Files.App.setActiveView('files', {silent: true});
+			OCA.Files.App.fileList.changeDirectory(context.$file.attr('data-path') + '/' + filename, true, true);
+		});
+		fileList.setFileActions(fileActions);
 	}
 };
 

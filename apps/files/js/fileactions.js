@@ -31,6 +31,18 @@
 			this.actions[mime][name]['displayName'] = displayName;
 			this.icons[name] = icon;
 		},
+		/**
+		 * Clones the current file actions handler including the already
+		 * registered actions.
+		 */
+		clone: function() {
+			var fileActions = _.extend({}, this);
+			// need to deep copy the actions as well
+			fileActions.actions = _.extend({}, this.actions);
+			fileActions.defaults = _.extend({}, this.defaults);
+			//fileActions.icons = _.extend({}, this.icons);
+			return fileActions;
+		},
 		clear: function() {
 			this.actions = {};
 			this.defaults = {};
@@ -217,29 +229,29 @@
 		/**
 		 * Register the actions that are used by default for the files app.
 		 */
-		registerDefaultActions: function(fileList) {
+		registerDefaultActions: function() {
 			// TODO: try to find a way to not make it depend on fileList,
 			// maybe get a handler or listener to trigger events on
 			this.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 				return OC.imagePath('core', 'actions/delete');
-			}, function (filename) {
-				fileList.do_delete(filename);
+			}, function (filename, context) {
+				context.fileList.do_delete(filename);
 				$('.tipsy').remove();
 			});
 
 			// t('files', 'Rename')
 			this.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 				return OC.imagePath('core', 'actions/rename');
-			}, function (filename) {
-				fileList.rename(filename);
+			}, function (filename, context) {
+				context.fileList.rename(filename);
 			});
 
-			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-				var dir = fileList.getCurrentDirectory();
+			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
+				var dir = context.fileList.getCurrentDirectory();
 				if (dir !== '/') {
 					dir = dir + '/';
 				}
-				fileList.changeDirectory(dir + filename);
+				context.fileList.changeDirectory(dir + filename);
 			});
 
 			this.setDefault('dir', 'Open');
@@ -252,14 +264,12 @@
 
 			this.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 				return OC.imagePath('core', 'actions/download');
-			}, function (filename) {
-				var url = fileList.getDownloadUrl(filename, fileList.getCurrentDirectory());
+			}, function (filename, context) {
+				var url = context.fileList.getDownloadUrl(filename, context.fileList.getCurrentDirectory());
 				if (url) {
 					OC.redirect(url);
 				}
 			});
-
-			fileList.$fileList.trigger(jQuery.Event("fileActionsReady"));
 		}
 	};
 

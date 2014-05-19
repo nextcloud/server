@@ -10,8 +10,11 @@ OC.Share={
 	 * Loads ALL share statuses from server, stores them in OC.Share.statuses then
 	 * calls OC.Share.updateIcons() to update the files "Share" icon to "Shared"
 	 * according to their share status and share type.
+	 *
+	 * @param itemType item type
+	 * @param fileList file list instance, defaults to OCA.Files.App.fileList
 	 */
-	loadIcons:function(itemType) {
+	loadIcons:function(itemType, fileList) {
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
@@ -19,7 +22,7 @@ OC.Share={
 				$.each(result.data, function(item, data) {
 					OC.Share.statuses[item] = data;
 				});
-				OC.Share.updateIcons(itemType);
+				OC.Share.updateIcons(itemType, fileList);
 			}
 		});
 	},
@@ -27,9 +30,18 @@ OC.Share={
 	 * Updates the files' "Share" icons according to the known
 	 * sharing states stored in OC.Share.statuses.
 	 * (not reloaded from server)
+	 *
+	 * @param itemType item type
+	 * @param fileList file list instance or file list jQuery element,
+	 * defaults to OCA.Files.App.fileList
 	 */
-	updateIcons:function(itemType){
+	updateIcons:function(itemType, fileList){
 		var item;
+		var $fileList = (fileList || OCA.Files.App.fileList);
+		// in case the jQuery element was passed instead
+		if ($fileList.$fileList) {
+			$fileList = $fileList.$fileList;
+		}
 		for (item in OC.Share.statuses){
 			var data = OC.Share.statuses[item];
 
@@ -41,9 +53,9 @@ OC.Share={
 				var image = OC.imagePath('core', 'actions/shared');
 			}
 			if (itemType != 'file' && itemType != 'folder') {
-				$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+				$fileList.find('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 			} else {
-				var file = $('tr[data-id="'+item+'"]');
+				var file = $fileList.find('tr[data-id="'+item+'"]');
 				if (file.length > 0) {
 					var action = $(file).find('.fileactions .action[data-action="Share"]');
 					var img = action.find('img').attr('src', image);
@@ -57,7 +69,7 @@ OC.Share={
 						// Search for possible parent folders that are shared
 						while (path != last) {
 							if (path == data['path'] && !data['link']) {
-								var actions = $('.fileactions .action[data-action="Share"]');
+								var actions = $fileList.find('.fileactions .action[data-action="Share"]');
 								$.each(actions, function(index, action) {
 									var img = $(action).find('img');
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {

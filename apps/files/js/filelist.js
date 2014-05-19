@@ -452,7 +452,7 @@
 
 			while (count > 0 && index < this.files.length) {
 				fileData = this.files[index];
-				tr = this._renderRow(fileData, {updateSummary: false});
+				tr = this._renderRow(fileData, {updateSummary: false, silent: true});
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
@@ -626,7 +626,8 @@
 		 *
 		 * @param fileData map of file attributes
 		 * @param options map of attributes:
-		 * - "updateSummary" true to update the summary after adding (default), false otherwise
+		 * - "updateSummary": true to update the summary after adding (default), false otherwise
+		 * - "silent": true to prevent firing events like "fileActionsReady"
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
@@ -729,7 +730,7 @@
 			}
 
 			// display actions
-			this.fileActions.display(filenameTd, false, this);
+			this.fileActions.display(filenameTd, !options.silent, this);
 
 			if (fileData.isPreviewAvailable) {
 				// lazy load / newly inserted td ?
@@ -790,7 +791,9 @@
 		},
 
 		/**
-		 * Sets the file actions handler
+		 * Sets the file actions handler.
+		 *
+		 * @param fileActions FileActions handler
 		 */
 		setFileActions: function(fileActions) {
 			this.fileActions = fileActions;

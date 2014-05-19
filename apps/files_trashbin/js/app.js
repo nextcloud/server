@@ -39,7 +39,8 @@ OCA.Trashbin.App = {
 
 		fileActions.setDefault('dir', 'Open');
 
-		fileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
+		fileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename, context) {
+			var fileList = context.fileList;
 			var tr = fileList.findFileEl(filename);
 			var deleteAction = tr.children("td.date").children(".action.delete");
 			deleteAction.removeClass('delete-icon').addClass('progress-icon');
@@ -54,7 +55,8 @@ OCA.Trashbin.App = {
 
 		fileActions.register('all', 'Delete', OC.PERMISSION_READ, function() {
 			return OC.imagePath('core', 'actions/delete');
-		}, function(filename) {
+		}, function(filename, context) {
+			var fileList = context.fileList;
 			$('.tipsy').remove();
 			var tr = fileList.findFileEl(filename);
 			var deleteAction = tr.children("td.date").children(".action.delete");

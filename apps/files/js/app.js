@@ -25,7 +25,7 @@
 			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
 
 			// TODO: ideally these should be in a separate class / app (the embedded "all files" app)
-			this.fileActions = OCA.Files.FileActions;
+			this.fileActions = OCA.Files.FileActions.clone();
 			this.files = OCA.Files.Files;
 
 			this.fileList = new OCA.Files.FileList(
@@ -36,7 +36,7 @@
 				}
 			);
 			this.files.initialize();
-			this.fileActions.registerDefaultActions(this.fileList);
+			this.fileActions.registerDefaultActions();
 			this.fileList.setFileActions(this.fileActions);
 
 			// for backward compatibility, the global FileList will
@@ -55,6 +55,14 @@
 		 */
 		getCurrentAppContainer: function() {
 			return this.navigation.getActiveContainer();
+		},
+
+		/**
+		 * Sets the currently active view
+		 * @param viewId view id
+		 */
+		setActiveView: function(viewId, options) {
+			this.navigation.setActiveItem(viewId, options);
 		},
 
 		/**

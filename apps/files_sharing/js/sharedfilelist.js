@@ -47,6 +47,7 @@
 			$tr.find('td.date').before($sharedWith);
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-path', fileData.path);
+			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
 			return $tr;
 		},
 
@@ -58,6 +59,22 @@
 		 */
 		setSharedWithUser: function(state) {
 			this._sharedWithUser = !!state;
+		},
+
+		updateEmptyContent: function() {
+			var dir = this.getCurrentDirectory();
+			if (dir === '/') {
+				// root has special permissions
+				this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+			}
+			else {
+				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);
+			}
+		},
+
+		getDirectoryPermissions: function() {
+			return OC.PERMISSION_READ;
 		},
 
 		reload: function() {

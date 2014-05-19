@@ -8,7 +8,6 @@
  *
  */
 
-/* global FileList, FileActions */
 $(document).ready(function() {
 
 	var sharesLoaded = false;
@@ -31,7 +30,8 @@ $(document).ready(function() {
 			};
 		}
 
-		$('#fileList').on('fileActionsReady',function(){
+		// use delegate to catch the case with multiple file lists
+		$('#content').delegate('#fileList', 'fileActionsReady',function(){
 			// if no share action exists because the admin disabled sharing for this user
 			// we create a share notification action to inform the user about files
 			// shared with him otherwise we just update the existing share action.
@@ -64,44 +64,48 @@ $(document).ready(function() {
 				}
 			})
 
-			// FIXME: these calls are also working on hard-coded
-			// list selectors...
 			if (!sharesLoaded){
-				OC.Share.loadIcons('file');
+				OC.Share.loadIcons('file', $fileList);
 				// assume that we got all shares, so switching directories
 				// will not invalidate that list
 				sharesLoaded = true;
 			}
 			else{
-				OC.Share.updateIcons('file');
+				OC.Share.updateIcons('file', $fileList);
 			}
 		});
 
-		FileActions.register('all', 'Share', OC.PERMISSION_SHARE, OC.imagePath('core', 'actions/share'), function(filename) {
-			var tr = FileList.findFileEl(filename);
+		OCA.Files.FileActions.register(
+				'all',
+				'Share',
+				OC.PERMISSION_SHARE,
+				OC.imagePath('core', 'actions/share'),
+				function(filename, context) {
+
+			var $tr = context.$file;
 			var itemType = 'file';
-			if ($(tr).data('type') == 'dir') {
+			if ($tr.data('type') === 'dir') {
 				itemType = 'folder';
 			}
-			var possiblePermissions = $(tr).data('reshare-permissions');
+			var possiblePermissions = $tr.data('reshare-permissions');
 			if (_.isUndefined(possiblePermissions)) {
-				possiblePermissions = $(tr).data('permissions');
+				possiblePermissions = $tr.data('permissions');
 			}
 
-			var appendTo = $(tr).find('td.filename');
+			var appendTo = $tr.find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {
-				if ($(tr).data('id') != $('#dropdown').attr('data-item-source')) {
+				if ($tr.data('id') !== $('#dropdown').attr('data-item-source')) {
 					OC.Share.hideDropDown(function () {
-						$(tr).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions, filename);
+						$tr.addClass('mouseOver');
+						OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
-				$(tr).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions, filename);
+				$tr.addClass('mouseOver');
+				OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
 			}
 		});
 	}
