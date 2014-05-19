@@ -490,6 +490,12 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
+		if (!self::isAnnotationsWorking()) {
+			$errors[] = array(
+				'error'=>'PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.',
+				'hint'=>'This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.'
+			);
+		}
 
 		if($webServerRestart) {
 			$errors[] = array(
