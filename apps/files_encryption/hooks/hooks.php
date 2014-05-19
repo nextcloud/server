@@ -81,7 +81,7 @@ class Hooks {
 		// Check if first-run file migration has already been performed
 		$ready = false;
 		$migrationStatus = $util->getMigrationStatus();
-		if ($migrationStatus === Util::MIGRATION_OPEN) {
+		if ($migrationStatus === Util::MIGRATION_OPEN && $session !== false) {
 			$ready = $util->beginMigration();
 		} elseif ($migrationStatus === Util::MIGRATION_IN_PROGRESS) {
 			// refuse login as long as the initial encryption is running
@@ -222,10 +222,14 @@ class Hooks {
 				$util = new Util($view, $user);
 				$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
 
+				// we generate new keys if...
+				// ...we have a recovery password and the user enabled the recovery key
+				// ...encryption was activated for the first time (no keys exists)
+				// ...the user doesn't have any files
 				if (($util->recoveryEnabledForUser() && $recoveryPassword)
-						|| !$util->userKeysExists()) {
+						|| !$util->userKeysExists()
+						|| !$view->file_exists($user . '/files')) {
 
-					$recoveryPassword = $params['recoveryPassword'];
 					$newUserPassword = $params['password'];
 
 					// make sure that the users home is mounted
