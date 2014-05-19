@@ -98,8 +98,13 @@
 		 * @param parent "td" element of the file for which to display actions
 		 * @param triggerEvent if true, triggers the fileActionsReady on the file
 		 * list afterwards (false by default)
+		 * @param fileList OCA.Files.FileList instance on which the action is
+		 * done, defaults to OCA.Files.App.fileList
 		 */
-		display: function (parent, triggerEvent) {
+		display: function (parent, triggerEvent, fileList) {
+			if (!fileList) {
+				console.warn('FileActions.display() MUST be called with a OCA.Files.FileList instance');
+			}
 			this.currentFile = parent;
 			var self = this;
 			var actions = this.getActions(this.getCurrentMimeType(), this.getCurrentType(), this.getCurrentPermissions());
@@ -122,7 +127,11 @@
 				self.currentFile = event.data.elem;
 				var file = self.getCurrentFile();
 
-				event.data.actionFunc(file);
+				event.data.actionFunc(file, {
+					$file: $(this).closest('tr'),
+					fileList: fileList || OCA.Files.App.fileList,
+					fileActions: self
+				});
 			};
 
 			var addAction = function (name, action, displayName) {
