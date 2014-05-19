@@ -135,4 +135,18 @@ interface FileInfo {
 	 * @return bool
 	 */
 	public function isShareable();
+
+	/**
+	 * Check if a file or folder is shared
+	 *
+	 * @return bool
+	 */
+	public function isShared();
+
+	/**
+	 * Check if a file or folder is mounted
+	 *
+	 * @return bool
+	 */
+	public function isMounted();
 }

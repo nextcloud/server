@@ -196,4 +196,28 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function isShareable() {
 		return $this->checkPermissions(\OCP\PERMISSION_SHARE);
 	}
+
+	/**
+	 * Check if a file or folder is shared
+	 * @return bool
+	 */
+	public function isShared() {
+		$sid = $this->getStorage()->getId();
+		if (!is_null($sid)) {
+			$sid = explode(':', $sid);
+			return ($sid[0] === 'shared');
+		}
+
+		return false;
+	}
+
+	public function isMounted() {
+		$sid = $this->getStorage()->getId();
+		if (!is_null($sid)) {
+			$sid = explode(':', $sid);
+			return ($sid[0] !== 'local' and $sid[0] !== 'home');
+		}
+
+		return false;
+	}
 }

@@ -37,6 +37,7 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 
 		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}id';
+		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}perm';
 
 		$this->server = $server;
 		$this->server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
@@ -57,15 +58,24 @@ class OC_Connector_Sabre_FilesPlugin extends Sabre_DAV_ServerPlugin
 
 		if ($node instanceof OC_Connector_Sabre_Node) {
 
-			$fileid_propertyname = '{' . self::NS_OWNCLOUD . '}id';
-			if (array_search($fileid_propertyname, $requestedProperties)) {
-				unset($requestedProperties[array_search($fileid_propertyname, $requestedProperties)]);
+			$fileIdPropertyName = '{' . self::NS_OWNCLOUD . '}id';
+			$permissionsPropertyName = '{' . self::NS_OWNCLOUD . '}permissions';
+			if (array_search($fileIdPropertyName, $requestedProperties)) {
+				unset($requestedProperties[array_search($fileIdPropertyName, $requestedProperties)]);
+			}
+			if (array_search($permissionsPropertyName, $requestedProperties)) {
+				unset($requestedProperties[array_search($permissionsPropertyName, $requestedProperties)]);
 			}
 
 			/** @var $node OC_Connector_Sabre_Node */
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {
-				$returnedProperties[200][$fileid_propertyname] = $fileId;
+				$returnedProperties[200][$fileIdPropertyName] = $fileId;
+			}
+
+			$permissions = $node->getDavPermissions();
+			if (!is_null($fileId)) {
+				$returnedProperties[200][$permissionsPropertyName] = $permissions;
 			}
 
 		}

@@ -237,4 +237,36 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 		return null;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getDavPermissions() {
+		$p ='';
+		if ($this->info->isShared()) {
+			$p .= 'S';
+		}
+		if ($this->info->isShareable()) {
+			$p .= 'R';
+		}
+		if ($this->info->isMounted()) {
+			$p .= 'M';
+		}
+		if ($this->info->isDeletable()) {
+			$p .= 'D';
+		}
+		if ($this->info->isDeletable()) {
+			$p .= 'N';
+		}
+		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			if ($this->info->isUpdateable()) {
+				$p .= 'W';
+			}
+		} else {
+			if ($this->info->isUpdateable()) {
+				$p .= 'CK';
+			}
+		}
+		return $p;
+	}
 }
