@@ -37,7 +37,7 @@ $(document).ready(function () {
 		}
 	};
 
-	if (window.FileList && window.FileList.appName === 'Files') {// only run in the files app
+	if (OCA.Files) {// only run in the files app
 		var hash = location.hash;
 		location.hash = '';
 		var remote = getParameterByName(hash, 'remote');
