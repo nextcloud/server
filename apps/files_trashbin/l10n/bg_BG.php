@@ -2,11 +2,10 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Невъзможно перманентното изтриване на %s",
 "Couldn't restore %s" => "Невъзможно възтановяване на %s",
+"Restore" => "Възтановяване",
 "Error" => "Грешка",
-"Deleted Files" => "Изтрити файлове",
 "Nothing in here. Your trash bin is empty!" => "Няма нищо. Кофата е празна!",
 "Name" => "Име",
-"Restore" => "Възтановяване",
 "Deleted" => "Изтрито",
 "Delete" => "Изтриване"
 );

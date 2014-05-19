@@ -3,11 +3,10 @@ $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Methwyd dileu %s yn barhaol",
 "Couldn't restore %s" => "Methwyd adfer %s",
 "Deleted files" => "Ffeiliau ddilewyd",
+"Restore" => "Adfer",
 "Error" => "Gwall",
-"Deleted Files" => "Ffeiliau Ddilewyd",
 "Nothing in here. Your trash bin is empty!" => "Does dim byd yma. Mae eich bin sbwriel yn wag!",
 "Name" => "Enw",
-"Restore" => "Adfer",
 "Deleted" => "Wedi dileu",
 "Delete" => "Dileu"
 );

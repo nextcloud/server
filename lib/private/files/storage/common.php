@@ -317,7 +317,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * clean a path, i.e. remove all redundant '.' and '..'
 	 * making sure that it can't point to higher than '/'
 	 *
-	 * @param $path The path to clean
+	 * @param string $path The path to clean
 	 * @return string cleaned path
 	 */
 	public function cleanPath($path) {
@@ -347,7 +347,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	/**
 	 * get the free space in the storage
 	 *
-	 * @param $path
+	 * @param string $path
 	 * @return int
 	 */
 	public function free_space($path) {

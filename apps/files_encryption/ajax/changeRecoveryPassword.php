@@ -5,7 +5,7 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  *
- * @brief Script to change recovery key password
+ * Script to change recovery key password
  *
  */
 
@@ -23,7 +23,7 @@ $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
 
 $view = new \OC\Files\View('/');
-$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
 
 $proxyStatus = \OC_FileProxy::$enabled;
 \OC_FileProxy::$enabled = false;

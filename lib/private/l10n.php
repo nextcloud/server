@@ -86,7 +86,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief The constructor
+	 * The constructor
 	 * @param string $app app requesting l10n
 	 * @param string $lang default: null Language
 	 *
@@ -134,10 +134,10 @@ class OC_L10N implements \OCP\IL10N {
 			$i18ndir = self::findI18nDir($app);
 			// Localization is in /l10n, Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
-				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
-				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
-				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
+			if((OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
+				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
+				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
+				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
 				)
 				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
@@ -162,7 +162,7 @@ class OC_L10N implements \OCP\IL10N {
 				}
 			}
 
-			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php') && OC_Helper::issubdirectory(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')) {
+			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php') && OC_Helper::isSubDirectory(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')) {
 				// Include the file, save the data from $CONFIG
 				include OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php';
 				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
@@ -176,14 +176,14 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Creates a function that The constructor
+	 * Creates a function that The constructor
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
 	 *
 	 * Parts of the code is copied from Habari:
 	 * https://github.com/habari/system/blob/master/classes/locale.php
-	 * @param $string string
+	 * @param string $string
 	 * @return string
 	 */
 	protected function createPluralFormFunction($string){
@@ -235,7 +235,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param string $text The text we need a translation for
 	 * @param array $parameters default:array() Parameters for sprintf
 	 * @return \OC_L10N_String Translation or the same text
@@ -248,7 +248,7 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Translating
+	 * Translating
 	 * @param string $text_singular the string to translate for exactly one object
 	 * @param string $text_plural the string to translate for n objects
 	 * @param integer $count Number of objects
@@ -277,8 +277,8 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getTranslations
-	 * @returns array Fetch all translations
+	 * getTranslations
+	 * @return array Fetch all translations
 	 *
 	 * Returns an associative array with all translations
 	 */
@@ -288,8 +288,8 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getPluralFormString
-	 * @returns string containing the gettext "Plural-Forms"-string
+	 * getPluralFormString
+	 * @return string containing the gettext "Plural-Forms"-string
 	 *
 	 * Returns a string like "nplurals=2; plural=(n != 1);"
 	 */
@@ -299,8 +299,8 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief getPluralFormFunction
-	 * @returns string the plural form function
+	 * getPluralFormFunction
+	 * @return string the plural form function
 	 *
 	 * returned function accepts the argument $n
 	 */
@@ -313,8 +313,8 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief get localizations
-	 * @returns array Fetch all localizations
+	 * get localizations
+	 * @return array Fetch all localizations
 	 *
 	 * Returns an associative array with all localizations
 	 */
@@ -324,10 +324,10 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Localization
+	 * Localization
 	 * @param string $type Type of localization
-	 * @param array $data parameters for this localization
-	 * @returns String or false
+	 * @param array|int|string $data parameters for this localization
+	 * @return String or false
 	 *
 	 * Returns the localized data.
 	 *
@@ -379,9 +379,9 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief Choose a language
+	 * Choose a language
 	 * @param array $text Associative Array with possible strings
-	 * @returns String
+	 * @return String
 	 *
 	 * $text is an array 'de' => 'hallo welt', 'en' => 'hello world', ...
 	 *
@@ -401,10 +401,27 @@ class OC_L10N implements \OCP\IL10N {
 		self::$language = $lang;
 	}
 
+
 	/**
-	 * @brief find the best language
+	 * find the best language
 	 * @param array|string $app details below
-	 * @returns string language
+	 * string language
+	 *
+	 * If $app is an array, ownCloud assumes that these are the available
+	 * languages. Otherwise ownCloud tries to find the files in the l10n
+	 * folder.
+	 *
+	 * If nothing works it returns 'en'
+	 */
+	public function getLanguageCode($app=null) {
+		return self::findLanguage($app);
+	}
+
+
+	/**
+	 * find the best language
+	 * @param array|string $app details below
+	 * @return string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
@@ -475,9 +492,9 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief find the l10n directory
+	 * find the l10n directory
 	 * @param string $app App that needs to be translated
-	 * @returns directory
+	 * @return directory
 	 */
 	protected static function findI18nDir($app) {
 		// find the i18n dir
@@ -495,9 +512,9 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @brief find all available languages for an app
+	 * find all available languages for an app
 	 * @param string $app App that needs to be translated
-	 * @returns array an array of available languages
+	 * @return array an array of available languages
 	 */
 	public static function findAvailableLanguages($app=null) {
 		$available=array('en');//english is always available
@@ -517,7 +534,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * @param string $app
 	 * @param string $lang
-	 * @returns bool
+	 * @return bool
 	 */
 	public static function languageExists($app, $lang) {
 		if ($lang == 'en') {//english is always available

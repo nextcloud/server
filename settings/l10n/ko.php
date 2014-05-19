@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "저장됨",
 "Email sent" => "이메일 발송됨",
 "Encryption" => "암호화",
 "Unable to load list from App Store" => "앱 스토어에서 목록을 가져올 수 없습니다",
@@ -90,9 +91,8 @@ $TRANSLATIONS = array(
 "Enable Share API" => "공유 API 사용하기",
 "Allow apps to use the Share API" => "앱에서 공유 API를 사용할 수 있도록 허용",
 "Allow links" => "링크 허용",
-"Allow users to share items to the public with links" => "사용자가 개별 항목의 링크를 공유할 수 있도록 허용",
 "Allow public uploads" => "공개 업로드 허용",
-"Allow users to enable others to upload into their publicly shared folders" => "다른 사용자들이 공개된 공유 폴더에 파일 업로드 허용",
+"Allow users to share items to the public with links" => "사용자가 개별 항목의 링크를 공유할 수 있도록 허용",
 "Allow resharing" => "재공유 허용",
 "Allow users to share items shared with them again" => "사용자에게 공유된 항목을 다시 공유할 수 있도록 허용",
 "Allow users to share with anyone" => "누구나와 공유할 수 있도록 허용",
@@ -151,8 +151,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "프로필 이미지로 사용",
 "Language" => "언어",
 "Help translate" => "번역 돕기",
-"WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>",
 "The encryption app is no longer enabled, please decrypt all your files" => "암호화 앱이 비활성화되었습니다. 모든 파일을 복호화해야 합니다.",
 "Log-in password" => "로그인 암호",
 "Decrypt all Files" => "모든 파일 복호화",

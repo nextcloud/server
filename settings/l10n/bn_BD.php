@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Cancel" => "বাতির",
 "Language" => "ভাষা",
 "Help translate" => "অনুবাদ করতে সহায়তা করুন",
-"WebDAV" => "WebDAV",
 "Login Name" => "প্রবেশ",
 "Create" => "তৈরী কর",
 "Default Storage" => "পূর্বনির্ধারিত সংরক্ষণাগার",

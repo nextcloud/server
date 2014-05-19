@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Staðsetning",
-"URL" => "URL",
+"Host" => "Netþjónn",
 "Username" => "Notendanafn",
 "Password" => "Lykilorð",
 "Share" => "Deila",
+"URL" => "URL",
 "Access granted" => "Aðgengi veitt",
 "Error configuring Dropbox storage" => "Villa við að setja upp Dropbox gagnasvæði",
 "Grant access" => "Veita aðgengi",

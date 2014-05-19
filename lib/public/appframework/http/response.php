@@ -3,7 +3,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt, Thomas Tanghus, Bart Visscher
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -92,6 +92,10 @@ class Response {
 	 * @return Response Reference to this object
 	 */
 	public function addHeader($name, $value) {
+		$name = trim($name);  // always remove leading and trailing whitespace
+		                      // to be able to reliably check for security 
+		                      // headers
+
 		if(is_null($value)) {
 			unset($this->headers[$name]);
 		} else {

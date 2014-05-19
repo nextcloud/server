@@ -28,7 +28,7 @@ return array(
 		'wait'=> 0
 	),
 	'owncloud'=>array(
-		'run'=>true,
+		'run'=>false,
 		'host'=>'localhost/owncloud',
 		'user'=>'test',
 		'password'=>'test',

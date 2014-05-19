@@ -7,13 +7,13 @@
 # peishi fang <fangpeishi@gmail.com>, 2014
 # Martin Liu <liuzh66@gmail.com>, 2014
 # modokwang <modokwang@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2013
+# Xuetian Weng <wengxt@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-01 01:55-0400\n"
-"PO-Revision-Date: 2014-04-30 22:51+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:712
+#: base.php:685
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "您正在访问来自不信任域名的服务器。"
 
-#: base.php:713
+#: base.php:686
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -38,11 +38,11 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "App “%s” 无法安装，因为它和当前 ownCloud 版本不兼容。"
 
 #: private/app.php:248
 msgid "No app name specified"
-msgstr ""
+msgstr "没有指定的 App 名称"
 
 #: private/app.php:353
 msgid "Help"
@@ -81,48 +81,48 @@ msgstr "无效的图像"
 msgid "web services under your control"
 msgstr "您控制的web服务"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP 下载已经关闭"
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "需要逐一下载文件"
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "回到文件"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "选择的文件太大，无法生成 zip 文件。"
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
-msgstr ""
+msgstr "请用较小的分块下载文件或者友好地询问您的管理员。"
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "安装 App 时未指定来源"
 
 #: private/installer.php:71
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "从 http 安装 App 时未指定链接"
 
 #: private/installer.php:76
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "从本地文件安装 App 时未指定路径"
 
 #: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "不支持 %s 的压缩格式"
 
 #: private/installer.php:104
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "安装 App 是打开归档失败"
 
 #: private/installer.php:126
 msgid "App does not provide an info.xml file"
@@ -130,25 +130,25 @@ msgstr "应用未提供 info.xml 文件"
 
 #: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "App 无法安装，因为 App 中有非法代码 "
 
 #: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "App 无法安装，因为和当前 ownCloud 版本不兼容"
 
 #: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "App 无法安装，因为 App 包含不允许在非内置 App 中使用的 <shipped>true</shipped> 标签"
 
 #: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "App 无法安装因为 info.xml/version 中的版本和 App 商店版本不同"
 
 #: private/installer.php:170
 msgid "App directory already exists"
@@ -173,7 +173,7 @@ msgstr "Token 过期，请刷新页面。"
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "未知用户"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -215,7 +215,7 @@ msgstr "你需要输入一个数据库中已有的账户或管理员账户。"
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB 数据库用户名和/或密码无效"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -243,20 +243,20 @@ msgstr "冲突命令为：\"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB 用户 '%s'@'localhost' 已存在。"
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "建议从 MySQL/MariaDB 数据库中删除此用户"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB 用户 '%s'@'%%' 已存在"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "建议从 MySQL/MariaDB 数据库中删除此用户。"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -294,8 +294,8 @@ msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 向您分享了 »%s«"
@@ -303,107 +303,113 @@ msgstr "%s 向您分享了 »%s«"
 #: private/share/share.php:498
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "共享 %s 失败，因为文件不存在。"
 
 #: private/share/share.php:523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "共享 %s 失败，因为用户 %s 是对象的拥有者"
 
 #: private/share/share.php:529
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "共享 %s 失败，因为用户 %s 不存在"
 
 #: private/share/share.php:538
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr ""
+msgstr "共享 %s 失败，因为用户 %s 不是 %s 所属的任何组的用户"
 
 #: private/share/share.php:551 private/share/share.php:579
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "共享 %s 失败，因为它已经共享给 %s"
 
 #: private/share/share.php:559
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "共享 %s 失败，因为 %s 组不存在"
 
 #: private/share/share.php:566
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
+msgstr "共享 %s 失败，因为 %s 不是 %s 组的成员"
+
+#: private/share/share.php:618
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
 msgstr ""
 
-#: private/share/share.php:629
+#: private/share/share.php:638
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "共享 %s 失败，因为不允许用链接共享"
 
-#: private/share/share.php:636
+#: private/share/share.php:645
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "%s 不是 %s 的合法共享类型"
 
-#: private/share/share.php:773
+#: private/share/share.php:783
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "设置 %s 权限失败，因为权限超出了 %s 已有权限。"
 
-#: private/share/share.php:834
+#: private/share/share.php:844
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "设置 %s 的权限失败，因为未找到到对应项"
 
-#: private/share/share.php:940
+#: private/share/share.php:955
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "共享后端 %s 必须实现 OCP\\Share_Backend 接口"
 
-#: private/share/share.php:947
+#: private/share/share.php:962
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "未找到共享后端 %s"
 
-#: private/share/share.php:953
+#: private/share/share.php:968
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "%s 的共享后端未找到"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1383
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "共享 %s 失败，因为用户 %s 不是原始共享者"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1392
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "共享 %s 失败，因为权限超过了 %s 已有权限"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1407
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "共享 %s 失败，因为不允许二次共享"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1419
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "共享 %s 失败，因为 %s 使用的共享后端未找到它的来源"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1433
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "共享 %s 失败，因为未在文件缓存中找到文件。"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "无法找到分类 \"%s\""
@@ -456,7 +462,7 @@ msgstr "年前"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "用户名只允许使用以下字符：“a-z”，“A-Z”，“0-9”，和“_.@-”"
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"
@@ -468,4 +474,4 @@ msgstr "必须提供合法的密码"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "用户名已被使用"

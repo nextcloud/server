@@ -40,6 +40,9 @@ if (isset($_GET['dir'])) {
 	$relativePath = $_GET['dir'];
 }
 
+$sortAttribute = isset( $_GET['sort'] ) ? $_GET['sort'] : 'name';
+$sortDirection = isset( $_GET['sortdirection'] ) ? ($_GET['sortdirection'] === 'desc') : false;
+
 $data = \OCA\Files_Sharing\Helper::setupFromToken($token, $relativePath, $password);
 
 $linkItem = $data['linkItem'];
@@ -56,7 +59,7 @@ if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
 $data = array();
 
 // make filelist
-$files = \OCA\Files\Helper::getFiles($dir);
+$files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
 
 $formattedFiles = array();
 foreach ($files as $file) {

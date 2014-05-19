@@ -30,7 +30,6 @@
 		<?php else: ?>
 			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'image'): ?>
 				<div id="imgframe">
-					<img src="<?php p($_['downloadURL']); ?>" alt="" />
 				</div>
 			<?php elseif (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 				<div id="imgframe">

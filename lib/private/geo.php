@@ -7,9 +7,9 @@
  */
 class OC_Geo{
 	/**
-	 * @brief returns the closest timezone to coordinates
-	 * @param $latitude
-	 * @param $longitude
+	 * returns the closest timezone to coordinates
+	 * @param float $latitude
+	 * @param float $longitude
 	 * @return mixed Closest timezone
 	 */
 	public static function timezone($latitude, $longitude) {

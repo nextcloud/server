@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -25,7 +25,7 @@
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
-use OC\AppFramework\Utility\MethodAnnotationReader;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
@@ -53,12 +53,20 @@ class SecurityMiddleware extends Middleware {
 	private $request;
 
 	/**
+	 * @var OC\AppFramework\Utility\ControllerMethodReflector
+	 */
+	private $reflector;
+
+	/**
 	 * @param IAppContainer $app
 	 * @param IRequest $request
+	 * @param ControllerMethodReflector $reflector
 	 */
-	public function __construct(IAppContainer $app, IRequest $request){
+	public function __construct(IAppContainer $app, IRequest $request,
+	                            ControllerMethodReflector $reflector){
 		$this->app = $app;
 		$this->request = $request;
+		$this->reflector = $reflector;
 	}
 
 
@@ -72,28 +80,25 @@ class SecurityMiddleware extends Middleware {
 	 */
 	public function beforeController($controller, $methodName){
 
-		// get annotations from comments
-		$annotationReader = new MethodAnnotationReader($controller, $methodName);
-
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
 		$this->app->getServer()->getNavigationManager()->setActiveEntry($this->app->getAppName());
 
 		// security checks
-		$isPublicPage = $annotationReader->hasAnnotation('PublicPage');
+		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
 		if(!$isPublicPage) {
 			if(!$this->app->isLoggedIn()) {
 				throw new SecurityException('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
 			}
 
-			if(!$annotationReader->hasAnnotation('NoAdminRequired')) {
+			if(!$this->reflector->hasAnnotation('NoAdminRequired')) {
 				if(!$this->app->isAdminUser()) {
 					throw new SecurityException('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
 				}
 			}
 		}
 
-		if(!$annotationReader->hasAnnotation('NoCSRFRequired')) {
+		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			if(!$this->request->passesCSRFCheck()) {
 				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
 			}

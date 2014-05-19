@@ -24,14 +24,14 @@ require_once __DIR__ . '/../lib/versions.php';
 
 /**
  * Class Test_Files_versions
- * @brief this class provide basic files versions test
+ * this class provide basic files versions test
  */
 class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 
 
 	/**
 	 * @medium
-	 * @brief test expire logic
+	 * test expire logic
 	 * @dataProvider versionsProvider
 	 */
 	function testGetExpireList($versions, $sizeOfAllDeletedFiles) {

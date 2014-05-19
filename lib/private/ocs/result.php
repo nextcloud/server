@@ -26,7 +26,7 @@ class OC_OCS_Result{
 
 	/**
 	 * create the OCS_Result object
-	 * @param $data mixed the data to return
+	 * @param mixed $data the data to return
 	 */
 	public function __construct($data=null, $code=100, $message=null) {
 		if ($data === null) {
@@ -42,7 +42,7 @@ class OC_OCS_Result{
 
 	/**
 	 * optionally set the total number of items available
-	 * @param $items int
+	 * @param int $items
 	 */
 	public function setTotalItems(int $items) {
 		$this->items = $items;
@@ -50,7 +50,7 @@ class OC_OCS_Result{
 
 	/**
 	 * optionally set the the number of items per page
-	 * @param $items int
+	 * @param int $items
 	 */
 	public function setItemsPerPage(int $items) {
 		$this->perPage = $items;

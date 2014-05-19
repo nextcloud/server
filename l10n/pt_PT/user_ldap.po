@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgstr "A configuração está correcta, mas não foi possível estabelecer o \"
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "A configuração é inválida. Por favor, veja o log do ownCloud para mais detalhes."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
@@ -130,25 +130,25 @@ msgstr "Deseja realmente apagar as configurações de servidor actuais?"
 msgid "Confirm Deletion"
 msgstr "Confirmar a operação de apagar"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s grupo encontrado"
 msgstr[1] "%s grupos encontrados"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s utilizador encontrado"
 msgstr[1] "%s utilizadores encontrados"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Hospedeiro Inválido"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Não se encontrou a função desejada"
 
@@ -271,7 +271,7 @@ msgstr "Pode especificar o ND Base para utilizadores e grupos no separador Avan�
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Limitar o acesso a %s de utilizadores com estes critérios:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -501,7 +501,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Por defeito, o ownCloud detecta automaticamente o atributo UUID. Este atributo é usado para identificar inequivocamente grupos e utilizadores LDAP. Igualmente, o nome de utilizador interno é criado com base no UUID, se o contrário não for especificado. Pode sobrepor esta definição colocando um atributo à sua escolha. Tenha em atenção que esse atributo deve ser válido tanto para grupos como para utilizadores, e que é único. Deixe em branco para optar pelo comportamento por defeito. Estas alteração apenas terão efeito em novos utilizadores e grupos mapeados (adicionados)."
 
 #: templates/settings.php:58
 msgid "UUID Attribute for Users:"
@@ -527,7 +527,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "O ownCloud usa nomes de utilizadores para guardar e atribuir (meta) dados. Para identificar com precisão os utilizadores, cada utilizador de LDAP tem um nome de utilizador interno. Isto requer um mapeamento entre o utilizador LDAP e o utilizador ownCloud. Adicionalmente, o DN é colocado em cache para reduzir a interação com LDAP, porém não é usado para identificação. Se o DN muda, essas alterações serão vistas pelo ownCloud. O nome interno do ownCloud é usado em todo o lado, no ownCloud. Limpar os mapeamentos deixará vestígios em todo o lado. A limpeza dos mapeamentos não é sensível à configuração, pois afeta todas as configurações de LDAP! Nunca limpe os mapeamentos num ambiente de produção, apenas o faça numa fase de testes ou experimental."
 
 #: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"

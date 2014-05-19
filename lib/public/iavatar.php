@@ -14,14 +14,14 @@ namespace OCP;
 interface IAvatar {
 
 	/**
-	 * @brief get the users avatar
-	 * @param $size integer size in px of the avatar, avatars are square, defaults to 64
+	 * get the users avatar
+	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
 	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	 */
 	function get($size = 64);
 
 	/**
-	 * @brief sets the users avatar
+	 * sets the users avatar
 	 * @param Image $data mixed imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
@@ -31,7 +31,7 @@ interface IAvatar {
 	function set($data);
 
 	/**
-	 * @brief remove the users avatar
+	 * remove the users avatar
 	 * @return void
 	 */
 	function remove();

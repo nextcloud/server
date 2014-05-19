@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,6 +26,7 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 
@@ -37,14 +38,16 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $secException;
 	private $secAjaxException;
 	private $request;
+	private $reader;
 
 	public function setUp() {
 		$api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer', array(), array('test'));
 		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($api, new Request()));
+		$this->reader = new ControllerMethodReflector();
 
 		$this->request = new Request();
-		$this->middleware = new SecurityMiddleware($api, $this->request);
+		$this->middleware = new SecurityMiddleware($api, $this->request, $this->reader);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
@@ -68,7 +71,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		$api->expects($this->any())->method('getServer')
 			->will($this->returnValue($serverMock));
 
-		$sec = new SecurityMiddleware($api, $this->request);
+		$sec = new SecurityMiddleware($api, $this->request, $this->reader);
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
 	}
 
@@ -99,11 +103,12 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				->will($this->returnValue(true));
 		}
 
-		$sec = new SecurityMiddleware($api, $this->request);
+		$sec = new SecurityMiddleware($api, $this->request, $this->reader);
 
 		try {
-			$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest',
-					$method);
+			$controller = '\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest';
+			$this->reader->reflect($controller, $method);
+			$sec->beforeController($controller,	$method);
 		} catch (SecurityException $ex){
 			$this->assertEquals($status, $ex->getCode());
 		}
@@ -184,7 +189,9 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				->method('isLoggedIn')
 				->will($this->returnValue(true));
 
-		$sec = new SecurityMiddleware($api, $this->request);
+		$sec = new SecurityMiddleware($api, $this->request, $this->reader);
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest',
+				'testNoChecks');
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest',
 				'testNoChecks');
 	}
@@ -207,7 +214,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				->will($this->returnValue(true));
 		}
 
-		$sec = new SecurityMiddleware($api, $this->request);
+		$sec = new SecurityMiddleware($api, $this->request, $this->reader);
 
 		if($shouldFail){
 			$this->setExpectedException('\OC\AppFramework\Middleware\Security\SecurityException');
@@ -215,6 +222,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			$this->setExpectedException(null);
 		}
 
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', $method);
 	}
 
@@ -230,7 +238,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
 
-		$sec = new SecurityMiddleware($api, $request);
+		$sec = new SecurityMiddleware($api, $request, $this->reader);
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testCsrfCheck');
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testCsrfCheck');
 	}
 
@@ -246,7 +255,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
 
-		$sec = new SecurityMiddleware($api, $request);
+		$sec = new SecurityMiddleware($api, $request, $this->reader);
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testNoCsrfCheck');
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testNoCsrfCheck');
 	}
 
@@ -261,7 +271,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			->method('passesCSRFCheck')
 			->will($this->returnValue(true));
 
-		$sec = new SecurityMiddleware($api, $request);
+		$sec = new SecurityMiddleware($api, $request, $this->reader);
+		$this->reader->reflect('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testFailCsrfCheck');
 		$sec->beforeController('\OC\AppFramework\Middleware\Security\SecurityMiddlewareTest', 'testFailCsrfCheck');
 	}
 
@@ -318,7 +329,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 		$this->request = new Request(
 			array('server' => array('HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')));
-		$this->middleware = new SecurityMiddleware($api, $this->request);
+		$this->middleware = new SecurityMiddleware($api, $this->request, $this->reader);
 		$response = $this->middleware->afterException($this->controller, 'test',
 				$this->secException);
 

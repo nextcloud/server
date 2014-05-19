@@ -66,6 +66,8 @@ $this->create('core_tags_delete', '/tags/{type}/delete')
 $this->create('js_config', '/core/js/oc.js')
 	->actionInclude('core/js/config.php');
 // Routing
+$this->create('core_ajax_preview', '/core/preview')
+	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->actionInclude('core/ajax/preview.php');
 $this->create('core_lostpassword_index', '/lostpassword/')

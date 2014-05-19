@@ -52,7 +52,7 @@ class Controller {
 
 		if (\OC_App::isEnabled('files_encryption')) {
 			//handle the recovery case
-			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $username);
+			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), $username);
 			$recoveryAdminEnabled = \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 
 			$validRecoveryPassword = false;

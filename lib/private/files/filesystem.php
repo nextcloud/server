@@ -245,7 +245,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param string $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByStorageId($id) {
@@ -256,7 +256,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByNumericId($id) {
@@ -270,7 +270,7 @@ class Filesystem {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array consisting of the storage and the internal path
+	 * @return array an array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
 		if (!self::$mounts) {
@@ -384,7 +384,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief get the relative path of the root data directory for the current user
+	 * get the relative path of the root data directory for the current user
 	 * @return string
 	 *
 	 * Returns path like /admin/files
@@ -502,7 +502,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief check if the directory should be ignored when scanning
+	 * check if the directory should be ignored when scanning
 	 * NOTE: the special directories . and .. would cause never ending recursion
 	 * @param String $dir
 	 * @return boolean
@@ -662,7 +662,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @brief Fix common problems with a file path
+	 * Fix common problems with a file path
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @return string

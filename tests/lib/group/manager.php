@@ -294,10 +294,11 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend);
 
-		$groups = $manager->getUserGroups(new User('user1', null));
+		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(1, count($groups));
 		$group1 = $groups[0];
 		$this->assertEquals('group1', $group1->getGID());
@@ -332,15 +333,163 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
 		$manager = new \OC\Group\Manager($userManager);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
-		$groups = $manager->getUserGroups(new User('user1', null));
+		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(2, count($groups));
 		$group1 = $groups[0];
 		$group2 = $groups[1];
 		$this->assertEquals('group1', $group1->getGID());
 		$this->assertEquals('group2', $group2->getGID());
+	}
+
+	public function testDisplayNamesInGroupMultipleUserBackends() {
+		$userBackend = $this->getMock('\OC_User_Backend');
+
+		$user1 = new User('user1', $userBackend);
+		$user2 = new User('user2', $userBackend);
+		$user3 = new User('user3', $userBackend);
+		$user4 = new User('user33', $userBackend);
+
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
+		 */
+		$backend = $this->getMock('\OC_Group_Database');
+		$backend->expects($this->exactly(1))
+			->method('groupExists')
+			->with('testgroup')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->once())
+			->method('usersInGroup')
+			->with('testgroup', '', -1, 0)
+			->will($this->returnValue(array('user2', 'user33')));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
+		$userManager->expects($this->once())
+			->method('search')
+			->with('user3')
+			->will($this->returnValue(array('user3' => $user3, 'user33' => $user4)));
+
+		$userManager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function($uid) use ($userBackend) {
+				switch($uid) {
+					case 'user1' : return new User('user1', $userBackend);
+					case 'user2' : return new User('user2', $userBackend);
+					case 'user3' : return new User('user3', $userBackend);
+					case 'user33': return new User('user33', $userBackend);
+					default:
+						return null;
+				}
+			}));
+
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		$users = $manager->displayNamesInGroup('testgroup', 'user3');
+		$this->assertEquals(1, count($users));
+		$this->assertTrue(isset($users['user33']));
+	}
+
+	public function testGetUserGroupsWithAddUser() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
+		 */
+		$backend = $this->getMock('\OC_Group_Database');
+		$expectedGroups = array();
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->will($this->returnCallback(function () use (&$expectedGroups) {
+				return $expectedGroups;
+			}));
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(true));
+		$backend->expects($this->once())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->getMock('\OC\User\Manager');
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		// prime cache
+		$user1 = new User('user1', null);
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals(array(), $groups);
+
+		// add user
+		$group = $manager->get('group1');
+		$group->addUser($user1);
+		$expectedGroups = array('group1');
+
+		// check result
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals(1, count($groups));
+		$group1 = $groups[0];
+		$this->assertEquals('group1', $group1->getGID());
+	}
+
+	public function testGetUserGroupsWithRemoveUser() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend
+		 */
+		$backend = $this->getMock('\OC_Group_Database');
+		$expectedGroups = array('group1');
+		$backend->expects($this->any())
+			->method('getUserGroups')
+			->with('user1')
+			->will($this->returnCallback(function () use (&$expectedGroups) {
+				return $expectedGroups;
+			}));
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with('group1')
+			->will($this->returnValue(true));
+		$backend->expects($this->once())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+		$backend->expects($this->once())
+			->method('inGroup')
+			->will($this->returnValue(true));
+		$backend->expects($this->once())
+			->method('removeFromGroup')
+			->will($this->returnValue(true));
+
+		/**
+		 * @var \OC\User\Manager $userManager
+		 */
+		$userManager = $this->getMock('\OC\User\Manager');
+		$manager = new \OC\Group\Manager($userManager);
+		$manager->addBackend($backend);
+
+		// prime cache
+		$user1 = new User('user1', null);
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals(1, count($groups));
+		$group1 = $groups[0];
+		$this->assertEquals('group1', $group1->getGID());
+
+		// remove user
+		$group = $manager->get('group1');
+		$group->removeUser($user1);
+		$expectedGroups = array();
+
+		// check result
+		$groups = $manager->getUserGroups($user1);
+		$this->assertEquals(array(), $groups);
 	}
 }

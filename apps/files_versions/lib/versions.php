@@ -53,7 +53,7 @@ class Storage {
 	/**
 	 * get current size of all versions from a given user
 	 *
-	 * @param $user user who owns the versions
+	 * @param string $user user who owns the versions
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
@@ -69,8 +69,8 @@ class Storage {
 	/**
 	 * write to the database how much space is in use for versions
 	 *
-	 * @param $user owner of the versions
-	 * @param $size size of the versions
+	 * @param string $user owner of the versions
+	 * @param int $size size of the versions
 	 */
 	private static function setVersionsSize($user, $size) {
 		if ( self::getVersionsSize($user) === false) {
@@ -147,7 +147,7 @@ class Storage {
 
 
 	/**
-	 * @brief mark file as deleted so that we can remove the versions if the file is gone
+	 * mark file as deleted so that we can remove the versions if the file is gone
 	 * @param string $path
 	 */
 	public static function markDeletedFile($path) {
@@ -261,11 +261,11 @@ class Storage {
 
 
 	/**
-	 * @brief get a list of all available versions of a file in descending chronological order
+	 * get a list of all available versions of a file in descending chronological order
 	 * @param string $uid user id from the owner of the file
 	 * @param string $filename file to find versions of, relative to the user files dir
 	 * @param string $userFullPath
-	 * @returns array versions newest version first
+	 * @return array versions newest version first
 	 */
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
@@ -307,7 +307,7 @@ class Storage {
 	}
 
 	/**
-	 * @brief translate a timestamp into a string like "5 days ago"
+	 * translate a timestamp into a string like "5 days ago"
 	 * @param int $timestamp
 	 * @return string for example "5 days ago"
 	 */
@@ -334,9 +334,9 @@ class Storage {
 	}
 
 	/**
-	 * @brief deletes used space for files versions in db if user was deleted
+	 * deletes used space for files versions in db if user was deleted
 	 *
-	 * @param type $uid id of deleted user
+	 * @param string $uid id of deleted user
 	 * @return \OC_DB_StatementWrapper of db delete operation
 	 */
 	public static function deleteUser($uid) {
@@ -345,9 +345,9 @@ class Storage {
 	}
 
 	/**
-	 * @brief get the size of all stored versions from a given user
-	 * @param $uid id from the user
-	 * @return size of vesions
+	 * get the size of all stored versions from a given user
+	 * @param string $uid id from the user
+	 * @return int size of versions
 	 */
 	private static function calculateSize($uid) {
 		if (\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED) == 'true') {
@@ -372,7 +372,7 @@ class Storage {
 	}
 
 	/**
-	 * @brief returns all stored file versions from a given user
+	 * returns all stored file versions from a given user
 	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
@@ -420,7 +420,7 @@ class Storage {
 	}
 
 	/**
-	 * @brief get list of files we want to expire
+	 * get list of files we want to expire
 	 * @param array $versions list of versions
 	 * @param integer $time
 	 * @return array containing the list of to deleted versions and the size of them
@@ -477,7 +477,7 @@ class Storage {
 	}
 
 	/**
-	 * @brief Erase a file's versions which exceed the set quota
+	 * Erase a file's versions which exceed the set quota
 	 */
 	private static function expire($filename, $versionsSize = null, $offset = 0) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
@@ -574,12 +574,12 @@ class Storage {
 	}
 
 	/**
-	 * @brief create recursively missing directories
+	 * create recursively missing directories
 	 * @param string $filename $path to a file
 	 * @param \OC\Files\View $view view on data/user/
 	 */
 	private static function createMissingDirectories($filename, $view) {
-		$dirname = \OC_Filesystem::normalizePath(dirname($filename));
+		$dirname = \OC\Files\Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
 		$dir = "/files_versions";
 		foreach ($dirParts as $part) {

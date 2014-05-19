@@ -33,8 +33,8 @@ namespace OCP;
 
 /**
  * Make OC_Helper::imagePath available as a simple function
- * @param string app
- * @param string image
+ * @param string $app
+ * @param string $image
  * @return string to the image
  *
  * @see OC_Helper::imagePath
@@ -46,7 +46,7 @@ function image_path( $app, $image ) {
 
 /**
  * Make OC_Helper::mimetypeIcon available as a simple function
- * @param string mimetype
+ * @param string $mimetype
  * @return string to the image of this file type.
  */
 function mimetype_icon( $mimetype ) {
@@ -55,7 +55,7 @@ function mimetype_icon( $mimetype ) {
 
 /**
  * Make preview_icon available as a simple function
- * @param string path of file
+ * @param string $path path to file
  * @return string to the preview of the image
  */
 function preview_icon( $path ) {
@@ -76,7 +76,7 @@ function publicPreview_icon ( $path, $token ) {
 /**
  * Make OC_Helper::humanFileSize available as a simple function
  * Example: 2048 to 2 kB.
- * @param int size in bytes
+ * @param int $size in bytes
  * @return string size as string
  */
 function human_file_size( $bytes ) {
@@ -86,8 +86,8 @@ function human_file_size( $bytes ) {
 
 /**
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
- * @param int unix timestamp
- * @param boolean date only
+ * @param int $timestamp unix timestamp
+ * @param boolean $dateOnly
  * @return OC_L10N_String human readable interpretation of the timestamp
  */
 function relative_modified_date( $timestamp, $dateOnly = false ) {
@@ -98,7 +98,7 @@ function relative_modified_date( $timestamp, $dateOnly = false ) {
 /**
  * Return a human readable outout for a file size.
  * @deprecated human_file_size() instead
- * @param integer size of a file in byte
+ * @param integer $bytes size of a file in byte
  * @return string human readable interpretation of a file size
  */
 function simple_file_size($bytes) {
@@ -108,9 +108,9 @@ function simple_file_size($bytes) {
 
 /**
  * Generate html code for an options block.
- * @param $options the options
- * @param $selected which one is selected?
- * @param array the parameters
+ * @param array $options the options
+ * @param mixed $selected which one is selected?
+ * @param array $params the parameters
  * @return string html options
  */
 function html_select_options($options, $selected, $params=array()) {
