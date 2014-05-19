@@ -753,6 +753,20 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFiles(testFiles);
 			expect(handler.calledOnce).toEqual(true);
 		});
+		it('triggers "fileActionsReady" event after single add', function() {
+			var handler = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.$fileList.on('fileActionsReady', handler);
+			fileList.add({name: 'test.txt'});
+			expect(handler.calledOnce).toEqual(true);
+		});
+		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
+			var handler = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.$fileList.on('fileActionsReady', handler);
+			fileList.add({name: 'test.txt'}, {silent: true});
+			expect(handler.notCalled).toEqual(true);
+		});
 		it('triggers "updated" event after update', function() {
 			var handler = sinon.stub();
 			fileList.$fileList.on('updated', handler);
