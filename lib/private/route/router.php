@@ -90,7 +90,7 @@ class Router implements IRouter {
 			$files[] = 'settings/routes.php';
 			$files[] = 'core/routes.php';
 			$files[] = 'ocs/routes.php';
-			$this->cacheKey = \OC_Cache::generateCacheKeyFromFiles($files);
+			$this->cacheKey = \OC\Cache::generateCacheKeyFromFiles($files);
 		}
 		return $this->cacheKey;
 	}
@@ -239,7 +239,7 @@ class Router implements IRouter {
 
 	/**
 	 * To isolate the variable scope used inside the $file it is required in it's own method
-	 * @param $file
+	 * @param string $file
 	 */
 	private function requireRouteFile($file) {
 		require_once $file;

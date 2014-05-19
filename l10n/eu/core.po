@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-09 01:55-0400\n"
-"PO-Revision-Date: 2014-05-08 07:50+0000\n"
-"Last-Translator: Hey_neken <mikel@olasagasti.info>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/share.php:87
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Muga data iraganekoa da"
 
 #: ajax/share.php:119 ajax/share.php:161
 #, php-format
@@ -61,79 +61,79 @@ msgstr "Ez dago behin-behineko profil irudirik, saiatu berriro"
 msgid "No crop data provided"
 msgstr "Ez da ebaketarako daturik zehaztu"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Igandea"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Astelehena"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Asteartea"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Asteazkena"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Osteguna"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Ostirala"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Larunbata"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Urtarrila"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Otsaila"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Martxoa"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Apirila"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Maiatza"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Ekaina"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Uztaila"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Abuztua"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Iraila"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Urria"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Azaroa"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Abendua"
 
@@ -193,97 +193,97 @@ msgstr "joan den urtean"
 msgid "years ago"
 msgstr "urte"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Aukeratu"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Bai"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Ez"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Aukeratu"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ados"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Errorea mezu txantiloia kargatzean: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "fitxategi {count}ek konfliktua sortu du"
 msgstr[1] "{count} fitxategik konfliktua sortu dute"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Fitxategi batek konfliktua sortu du"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Fitxategi Berriak"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Dagoeneko existitzen diren fitxategiak"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Ze fitxategi mantendu nahi duzu?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Bi bertsioak hautatzen badituzu, kopiatutako fitxategiaren izenean zenbaki bat atxikituko zaio."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Ezeztatu"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(denak hautatuta)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} hautatuta)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Errorea fitxategia existitzen da txantiloiak kargatzerakoan"
 
 #: js/setup.js:84
 msgid "Very weak password"
-msgstr ""
+msgstr "Pasahitz oso ahula"
 
 #: js/setup.js:85
 msgid "Weak password"
-msgstr ""
+msgstr "Pasahitz ahula"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "Halamoduzko pasahitza"
 
 #: js/setup.js:87
 msgid "Good password"
-msgstr ""
+msgstr "Pasahitz ona"
 
 #: js/setup.js:88
 msgid "Strong password"
-msgstr ""
+msgstr "Pasahitz sendoa"
 
 #: js/share.js:51 js/share.js:66 js/share.js:106
 msgid "Shared"
@@ -293,12 +293,12 @@ msgstr "Elkarbanatuta"
 msgid "Share"
 msgstr "Elkarbanatu"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Errorea"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Errore bat egon da elkarbanatzean"
 
@@ -326,107 +326,116 @@ msgstr "Elkarbanatu erabiltzaile edo taldearekin..."
 msgid "Share link"
 msgstr "Elkarbanatu lotura"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Babestu pasahitzarekin"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Pasahitza"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Gaitu igotze publikoa"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Postaz bidali lotura "
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Bidali"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Ezarri muga data"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Muga data"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Elkarbanatu eposta bidez:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Ez da inor aurkitu"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "taldea"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Berriz elkarbanatzea ez dago baimendua"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "{user}ekin {item}-n elkarbanatuta"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Ez elkarbanatu"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "jakinarazi eposta bidez"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "editatu dezake"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "sarrera kontrola"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "sortu"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "eguneratu"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "ezabatu"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "elkarbanatu"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Bidaltzen ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Eposta bidalia"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Abisua"
 
@@ -482,7 +491,7 @@ msgstr "%s pasahitza berrezarri"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Arazo bat gertatu da posta elektronikoa bidaltzerakoan, mesedez jarri harremanetan zure administrariarekin."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -550,7 +559,7 @@ msgstr ""
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "Emaitza hobeak izateko, mesedez gogoan hartu GNU/Linux zerbitzari bat erabiltzea."
 
 #: strings.php:5
 msgid "Personal"
@@ -670,9 +679,13 @@ msgstr "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sortu <strong>kudeatzaile kontu<strong> bat"
 
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Pasahitza"
+
 #: templates/installation.php:70
 msgid "Storage & database"
-msgstr ""
+msgstr "Biltegia & datubasea"
 
 #: templates/installation.php:77
 msgid "Data folder"

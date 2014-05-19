@@ -393,7 +393,7 @@ class Tags implements \OCP\ITags {
 	*
 	* For hooking up on post_deleteUser
 	*
-	* @param array
+	* @param array $arguments
 	*/
 	public static function post_deleteUser($arguments) {
 		// Find all objectid/tagId pairs.

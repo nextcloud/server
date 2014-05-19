@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Uert",
-"URL" => "URL",
+"Host" => "Host",
 "Username" => "Benotzernumm",
 "Password" => "Passwuert",
 "Share" => "Deelen",
+"URL" => "URL",
 "Folder name" => "Dossiers Numm:",
 "Groups" => "Gruppen",
 "Users" => "Benotzer",

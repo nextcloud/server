@@ -32,7 +32,7 @@ use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Hooks
- * @brief this class provide basic hook app tests
+ * this class provide basic hook app tests
  */
 class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
@@ -40,7 +40,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 	const TEST_ENCRYPTION_HOOKS_USER2 = "test-encryption-hooks-user2";
 
 	/**
-	 * @var \OC_FilesystemView
+	 * @var \OC\Files\View
 	 */
 	public $user1View;     // view on /data/user1/files
 	public $user2View;     // view on /data/user2/files
@@ -83,9 +83,9 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 
 		// init filesystem view
-		$this->user1View = new \OC_FilesystemView('/'. \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1 . '/files');
-		$this->user2View = new \OC_FilesystemView('/'. \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '/files');
-		$this->rootView = new \OC_FilesystemView('/');
+		$this->user1View = new \OC\Files\View('/'. \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1 . '/files');
+		$this->user2View = new \OC\Files\View('/'. \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '/files');
+		$this->rootView = new \OC\Files\View('/');
 
 		// init short data
 		$this->data = 'hats';
@@ -259,7 +259,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test rename operation
+	 * test rename operation
 	 */
 	function testRenameHook() {
 

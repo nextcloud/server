@@ -34,7 +34,6 @@ $TRANSLATIONS = array(
 "Cancel" => "ۋاز كەچ",
 "Share" => "ھەمبەھىر",
 "Error" => "خاتالىق",
-"Password" => "ئىم",
 "Send" => "يوللا",
 "group" => "گۇرۇپپا",
 "Unshare" => "ھەمبەھىرلىمە",
@@ -50,6 +49,7 @@ $TRANSLATIONS = array(
 "Apps" => "ئەپلەر",
 "Help" => "ياردەم",
 "Security Warning" => "بىخەتەرلىك ئاگاھلاندۇرۇش",
+"Password" => "ئىم",
 "Finish setup" => "تەڭشەك تامام",
 "Log out" => "تىزىمدىن چىق"
 );

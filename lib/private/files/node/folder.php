@@ -296,7 +296,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return \OC\Files\Node\Node[]
 	 */
 	public function getById($id) {

@@ -359,10 +359,10 @@ class OC_Mount_Config {
 	* Add a mount point to the filesystem
 	* @param string $mountPoint Mount point
 	* @param string $class Backend class
-	* @param array Backend parameters for the class
+	* @param array $classOptions Backend parameters for the class
 	* @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
 	* @param string $applicable User or group to apply mount to
-	* @param bool Personal or system mount point i.e. is this being called from the personal or admin page
+	* @param bool $isPersonal Personal or system mount point i.e. is this being called from the personal or admin page
 	* @return boolean
 	*/
 	public static function addMountPoint($mountPoint,
@@ -400,28 +400,20 @@ class OC_Mount_Config {
 				'options' => self::encryptPasswords($classOptions))
 			)
 		);
+
 		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : NULL);
-		// Merge the new mount point into the current mount points
-		if (isset($mountPoints[$mountType])) {
-			if (isset($mountPoints[$mountType][$applicable])) {
-				$mountPoints[$mountType][$applicable]
-					= array_merge($mountPoints[$mountType][$applicable], $mount[$applicable]);
-			} else {
-				$mountPoints[$mountType] = array_merge($mountPoints[$mountType], $mount);
-			}
-		} else {
-			$mountPoints[$mountType] = $mount;
-		}
+		$mountPoints = self::mergeMountPoints($mountPoints, $mount, $mountType);
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
+
 		return self::getBackendStatus($class, $classOptions, $isPersonal);
 	}
 
 	/**
 	*
-	* @param string Mount point
-	* @param string MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
-	* @param string User or group to remove mount from
-	* @param bool Personal or system mount point
+	* @param string $mountPoint Mount point
+	* @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
+	* @param string $applicable User or group to remove mount from
+	* @param bool $isPersonal Personal or system mount point
 	* @return bool
 	*/
 	public static function removeMountPoint($mountPoint, $mountType, $applicable, $isPersonal = false) {
@@ -618,9 +610,9 @@ class OC_Mount_Config {
 
 	/**
 	 * Returns a dependency missing message
-	 * @param $l OC_L10N
-	 * @param $module string
-	 * @param $backend string
+	 * @param OC_L10N $l
+	 * @param string $module
+	 * @param string $backend
 	 * @return string
 	 */
 	private static function getSingleDependencyMessage($l, $module, $backend) {
@@ -666,7 +658,7 @@ class OC_Mount_Config {
 	/**
 	 * Encrypt a single password
 	 * @param string $password plain text password
-	 * @return encrypted password
+	 * @return string encrypted password
 	 */
 	private static function encryptPassword($password) {
 		$cipher = self::getCipher();
@@ -678,7 +670,7 @@ class OC_Mount_Config {
 	/**
 	 * Decrypts a single password
 	 * @param string $encryptedPassword encrypted password
-	 * @return plain text password
+	 * @return string plain text password
 	 */
 	private static function decryptPassword($encryptedPassword) {
 		$cipher = self::getCipher();
@@ -687,6 +679,28 @@ class OC_Mount_Config {
 		$cipher->setIV($iv);
 		$binaryPassword = substr($binaryPassword, 16);
 		return $cipher->decrypt($binaryPassword);
+	}
+
+	/**
+	 * Merges mount points
+	 * @param array $data Existing mount points
+	 * @param array $mountPoint New mount point
+	 * @param string $mountType
+	 * @return array
+	 */
+	private static function mergeMountPoints($data, $mountPoint, $mountType) {
+		$applicable = key($mountPoint);
+		if (isset($data[$mountType])) {
+			if (isset($data[$mountType][$applicable])) {
+				$data[$mountType][$applicable]
+					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
+			} else {
+				$data[$mountType] = array_merge($data[$mountType], $mountPoint);
+			}
+		} else {
+			$data[$mountType] = $mountPoint;
+		}
+		return $data;
 	}
 
 	/**

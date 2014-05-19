@@ -24,58 +24,54 @@
 interface OC_User_Interface {
 
 	/**
-	* @brief Check if backend implements actions
+	* Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
-	* @return boolean
 	*/
 	public function implementsActions($actions);
 
 	/**
-	* @brief delete a user
-	* @param $uid The username of the user to delete
-	* @returns true/false
-	*
-	* Deletes a user
-	* @return boolean
+	* delete a user
+	* @param string $uid The username of the user to delete
+	* @return bool
 	*/
 	public function deleteUser($uid);
 
 	/**
-	* @brief Get a list of all users
-	* @returns array with all uids
+	* Get a list of all users
+	* @return array an array of all uids
 	*
 	* Get a list of all users.
 	*/
 	public function getUsers($search = '', $limit = null, $offset = null);
 
 	/**
-	* @brief check if a user exists
+	* check if a user exists
 	* @param string $uid the username
 	* @return boolean
 	*/
 	public function userExists($uid);
 
 	/**
-	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * get display name of the user
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid);
 
 	/**
-	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 * Get a list of all display names
+	 * @return array an array of  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null);
 
 	/**
-	 * @brief Check if a user list is available or not
+	 * Check if a user list is available or not
 	 * @return boolean if users can be listed or not
 	 */
 	public function hasUserListings();

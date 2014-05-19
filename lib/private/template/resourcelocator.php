@@ -52,14 +52,10 @@ abstract class ResourceLocator {
 	}
 
 	/*
-	 * @brief append the $file resource if exist at $root
-	 * @param $root path to check
-	 * @param $file the filename
-	 * @param $web base for path, default map $root to $webroot
-	 */
-	/**
-	 * @param string $file
-	 * @param string|false $webroot
+	 * append the $file resource if exist at $root
+	 * @param string $root path to check
+	 * @param string $file the filename
+	 * @param string|null $webroot base for path, default map $root to $webroot
 	 */
 	protected function appendIfExist($root, $file, $webroot = null) {
 		if (is_file($root.'/'.$file)) {

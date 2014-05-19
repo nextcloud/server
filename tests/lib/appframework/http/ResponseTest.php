@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -42,7 +42,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 
 	public function testAddHeader(){
-		$this->childResponse->addHeader('hello', 'world');
+		$this->childResponse->addHeader(' hello ', 'world');
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('world', $headers['hello']);
 	}

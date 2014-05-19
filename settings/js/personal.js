@@ -212,17 +212,30 @@ $(document).ready(function(){
 		OC.Encryption.decryptAll(privateKeyPassword);
 	});
 
+
+	$('button:button[name="submitRestoreKeys"]').click(function() {
+		$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", true);
+		$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", true);
+		OC.Encryption.restoreKeys();
+	});
+
+	$('button:button[name="submitDeleteKeys"]').click(function() {
+		$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", true);
+		$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", true);
+		OC.Encryption.deleteKeys();
+	});
+
 	$('#decryptAll input:password[name="privateKeyPassword"]').keyup(function(event) {
 		var privateKeyPassword = $('#decryptAll input:password[id="privateKeyPassword"]').val();
 		if (privateKeyPassword !== '' ) {
-			$('#decryptAll button:button[name="submitDecryptAll"]').removeAttr("disabled");
+			$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", false);
 			if(event.which === 13) {
 				$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
 				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", true);
 				OC.Encryption.decryptAll(privateKeyPassword);
 			}
 		} else {
-			$('#decryptAll button:button[name="submitDecryptAll"]').attr("disabled", "true");
+			$('#decryptAll button:button[name="submitDecryptAll"]').prop("disabled", true);
 		}
 	});
 
@@ -294,29 +307,59 @@ $(document).ready(function(){
 
 OC.Encryption = {
 	decryptAll: function(password) {
-		OC.Encryption.msg.startDecrypting('#decryptAll .msg');
+		var message = t('settings', 'Decrypting files... Please wait, this can take some time.');
+		OC.Encryption.msg.start('#decryptAll .msg', message);
 		$.post('ajax/decryptall.php', {password:password}, function(data) {
 			if (data.status === "error") {
-				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
-				$('#decryptAll input:password[name="privateKeyPassword"]').removeAttr("disabled");
+				OC.Encryption.msg.finished('#decryptAll .msg', data);
+				$('#decryptAll input:password[name="privateKeyPassword"]').prop("disabled", false);
 			} else {
-				OC.Encryption.msg.finishedDecrypting('#decryptAll .msg', data);
+				OC.Encryption.msg.finished('#decryptAll .msg', data);
+			}
+			$('#restoreBackupKeys').removeClass('hidden');
+		});
+	},
+
+	deleteKeys: function() {
+		var message = t('settings', 'Delete encryption keys permanently.');
+		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
+		$.post('ajax/deletekeys.php', null, function(data) {
+			if (data.status === "error") {
+				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
+				$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", false);
+				$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", false);
+			} else {
+				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
+			}
+		});
+	},
+
+	restoreKeys: function() {
+		var message = t('settings', 'Restore encryption keys.');
+		OC.Encryption.msg.start('#restoreBackupKeys .msg', message);
+		$.post('ajax/restorekeys.php', {}, function(data) {
+			if (data.status === "error") {
+				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
+				$('#restoreBackupKeys button:button[name="submitDeleteKeys"]').prop("disabled", false);
+				$('#restoreBackupKeys button:button[name="submitRestoreKeys"]').prop("disabled", false);
+			} else {
+				OC.Encryption.msg.finished('#restoreBackupKeys .msg', data);
 			}
 		});
 	}
 };
 
 OC.Encryption.msg={
-	startDecrypting:function(selector){
+	start:function(selector, msg){
 		var spinner = '<img src="'+ OC.imagePath('core', 'loading-small.gif') +'">';
 		$(selector)
-			.html( t('settings', 'Decrypting files... Please wait, this can take some time.') + ' ' + spinner )
+			.html( msg + ' ' + spinner )
 			.removeClass('success')
 			.removeClass('error')
 			.stop(true, true)
 			.show();
 	},
-	finishedDecrypting:function(selector, data){
+	finished:function(selector, data){
 		if( data.status === "success" ){
 			$(selector).html( data.data.message )
 				.addClass('success')

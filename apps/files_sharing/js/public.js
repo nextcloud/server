@@ -8,95 +8,164 @@
  *
  */
 
-/* global OC, FileActions, FileList, Files */
+/* global FileActions, Files */
+/* global dragOptions, folderDropOptions */
+OCA.Sharing = {};
+if (!OCA.Files) {
+	OCA.Files = {};
+}
+OCA.Sharing.PublicApp = {
+	_initialized: false,
 
-$(document).ready(function() {
+	initialize: function($el) {
+		if (this._initialized) {
+			return;
+		}
+		this._initialized = true;
+		// file list mode ?
+		if ($el.find('#filestable')) {
+			this.fileList = new OCA.Files.FileList(
+				$el,
+				{
+					scrollContainer: $(window),
+					dragOptions: dragOptions,
+					folderDropOptions: folderDropOptions
+				}
+			);
+			this.files = OCA.Files.Files;
+			this.files.initialize();
+		}
 
-	var mimetype = $('#mimetype').val();
+		var mimetype = $('#mimetype').val();
 
-	if (typeof FileActions !== 'undefined') {
-		// Show file preview if previewer is available, images are already handled by the template
-		if (mimetype.substr(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
-			// Trigger default action if not download TODO
-			var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
-			if (typeof action !== 'undefined') {
-				action($('#filename').val());
+		if (typeof FileActions !== 'undefined') {
+			// Show file preview if previewer is available, images are already handled by the template
+			if (mimetype.substr(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
+				// Trigger default action if not download TODO
+				var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
+				if (typeof action !== 'undefined') {
+					action($('#filename').val());
+				}
 			}
 		}
-	}
 
-	// dynamically load image previews
-	if (mimetype.substr(0, mimetype.indexOf('/')) === 'image' ) {
+		// dynamically load image previews
+		if (mimetype.substr(0, mimetype.indexOf('/')) === 'image' ) {
 
-		var params = {
-			x: $(document).width() * window.devicePixelRatio,
-			a: 'true',
-			file: encodeURIComponent($('#dir').val() + $('#filename').val()),
-			t: $('#sharingToken').val()
-		};
-
-		var img = $('<img class="publicpreview">');
-		img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
-		img.appendTo('#imgframe');
-	}
-
-	// override since the format is different
-	if (typeof Files !== 'undefined') {
-		Files.getDownloadUrl = function(filename, dir) {
-			if ($.isArray(filename)) {
-				filename = JSON.stringify(filename);
-			}
-			var path = dir || FileList.getCurrentDirectory();
 			var params = {
-				service: 'files',
-				t: $('#sharingToken').val(),
-				path: path,
-				files: filename,
-				download: null
+				x: $(document).width() * window.devicePixelRatio,
+				a: 'true',
+				file: encodeURIComponent($('#dir').val() + $('#filename').val()),
+				t: $('#sharingToken').val()
 			};
-			return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
-		};
 
-		Files.getAjaxUrl = function(action, params) {
-			params = params || {};
-			params.t = $('#sharingToken').val();
-			return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
-		};
+			var img = $('<img class="publicpreview">');
+			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
+			img.appendTo('#imgframe');
+		}
 
-		FileList.linkTo = function(dir) {
-			var params = {
-				service: 'files',
-				t: $('#sharingToken').val(),
-				dir: dir
+		if (this.fileList) {
+			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)
+			this.fileList.getDownloadUrl = function(filename, dir) {
+				if ($.isArray(filename)) {
+					filename = JSON.stringify(filename);
+				}
+				var path = dir || FileList.getCurrentDirectory();
+				var params = {
+					service: 'files',
+					t: $('#sharingToken').val(),
+					path: path,
+					files: filename,
+					download: null
+				};
+				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
 			};
-			return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
-		};
 
-		Files.generatePreviewUrl = function(urlSpec) {
-			urlSpec.t = $('#dirToken').val();
-			return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
-		};
-
-		var file_upload_start = $('#file_upload_start');
-		file_upload_start.on('fileuploadadd', function(e, data) {
-			var fileDirectory = '';
-			if(typeof data.files[0].relativePath !== 'undefined') {
-				fileDirectory = data.files[0].relativePath;
-			}
-
-			// Add custom data to the upload handler
-			data.formData = {
-				requesttoken: $('#publicUploadRequestToken').val(),
-				dirToken: $('#dirToken').val(),
-				subdir: $('input#dir').val(),
-				file_directory: fileDirectory
+			this.fileList.getAjaxUrl = function(action, params) {
+				params = params || {};
+				params.t = $('#sharingToken').val();
+				return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
 			};
+
+			this.fileList.linkTo = function(dir) {
+				var params = {
+					service: 'files',
+					t: $('#sharingToken').val(),
+					dir: dir
+				};
+				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
+			};
+
+			this.fileList.generatePreviewUrl = function(urlSpec) {
+				urlSpec.t = $('#dirToken').val();
+				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
+			};
+
+			var file_upload_start = $('#file_upload_start');
+			file_upload_start.on('fileuploadadd', function(e, data) {
+				var fileDirectory = '';
+				if(typeof data.files[0].relativePath !== 'undefined') {
+					fileDirectory = data.files[0].relativePath;
+				}
+
+				// Add custom data to the upload handler
+				data.formData = {
+					requesttoken: $('#publicUploadRequestToken').val(),
+					dirToken: $('#dirToken').val(),
+					subdir: $('input#dir').val(),
+					file_directory: fileDirectory
+				};
+			});
+
+			this.fileActions = _.extend({}, OCA.Files.FileActions);
+			this.fileActions.registerDefaultActions(this.fileList);
+			delete this.fileActions.actions.all.Share;
+			this.fileList.setFileActions(this.fileActions);
+
+			this.fileList.changeDirectory($('#dir').val() || '/', false, true);
+
+			// URL history handling
+			this.fileList.$el.on('changeDirectory', _.bind(this._onDirectoryChanged, this));
+			OC.Util.History.addOnPopStateHandler(_.bind(this._onUrlChanged, this));
+		}
+
+		$(document).on('click', '#directLink', function() {
+			$(this).focus();
+			$(this).select();
 		});
+
+		// legacy
+		window.FileList = this.fileList;
+	},
+
+	_onDirectoryChanged: function(e) {
+		OC.Util.History.pushState({
+			service: 'files',
+			t: $('#sharingToken').val(),
+			// arghhhh, why is this not called "dir" !?
+			path: e.dir
+		});
+	},
+
+	_onUrlChanged: function(params) {
+		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	}
+};
 
-	$(document).on('click', '#directLink', function() {
-		$(this).focus();
-		$(this).select();
-	});
+$(document).ready(function() {
+	var App = OCA.Sharing.PublicApp;
+	App.initialize($('#preview'));
 
+	// HACK: for oc-dialogs previews that depends on Files:
+	Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
+		return App.fileList.lazyLoadPreview({
+			path: path,
+			mime: mime,
+			callback: ready,
+			width: width,
+			height: height,
+			etag: etag
+		});
+	};
 });
+

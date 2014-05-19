@@ -97,8 +97,8 @@ class Mapper
 	}
 
 	/**
-	 * @param $path
-	 * @param $root
+	 * @param string $path
+	 * @param string $root
 	 * @return false|string
 	 */
 	public function stripRootFolder($path, $root) {

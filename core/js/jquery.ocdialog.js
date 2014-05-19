@@ -67,8 +67,8 @@
 				self.parent = self.$dialog.parent().length > 0 ? self.$dialog.parent() : $('body');
 				var pos = self.parent.position();
 				self.$dialog.css({
-					left: pos.left + (self.parent.width() - self.$dialog.outerWidth())/2,
-					top: pos.top + (self.parent.height() - self.$dialog.outerHeight())/2
+					left: pos.left + ($(window).innerWidth() - self.$dialog.outerWidth())/2,
+					top: pos.top + ($(window).innerHeight() - self.$dialog.outerHeight())/2
 				});
 			});
 
@@ -160,10 +160,16 @@
 			}
 			this.parent = this.$dialog.parent().length > 0 ? this.$dialog.parent() : $('body');
 			content_height = Math.min(content_height, this.parent.height()-20);
-			this.element.css({
-				height: content_height + 'px',
-				width: this.$dialog.innerWidth()-20 + 'px'
-			});
+			if (content_height> 0) {
+				this.element.css({
+					height: content_height + 'px',
+					width: this.$dialog.innerWidth()-20 + 'px'
+				});
+			} else {
+				this.element.css({
+					width : this.$dialog.innerWidth() - 20 + 'px'
+				});
+			}
 		},
 		_createOverlay: function() {
 			if(!this.options.modal) {

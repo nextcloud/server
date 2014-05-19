@@ -44,7 +44,6 @@ $TRANSLATIONS = array(
 "Text file" => "Ffeil destun",
 "Folder" => "Plygell",
 "From link" => "Dolen o",
-"Deleted files" => "Ffeiliau ddilewyd",
 "Cancel upload" => "Diddymu llwytho i fyny",
 "Nothing in here. Upload something!" => "Does dim byd fan hyn. Llwythwch rhywbeth i fyny!",
 "Download" => "Llwytho i lawr",

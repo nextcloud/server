@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "Το Email απεστάλη "
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr "Κατάσταση αποστολής"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr "Μέθοδος πιστοποίησης"
 
@@ -95,17 +95,27 @@ msgstr "Αδυναμία προσθήκης ομάδας"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Τα αρχεία αποκρυπτογραφήθηκαν με επιτυχία"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η αποκρυπτογράφηση των αρχείων, παρακαλώ ελέγξτε το owncloud.log ή ενημερωθείτε από τον διαχειριστή συστημάτων σας"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Δεν ήταν δυνατή η αποκρυπτογράφηση των αρχείων σας, ελέγξτε τον κωδικό πρόσβασής σας και δοκιμάστε πάλι"
+
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Τα κλειδιά κρυπτογράφησης αφαιρέθηκαν οριστικά"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Δεν ήταν δυνατή η οριστική διαγραφή των κλειδιών κρυπτογράφησής σας, παρακαλώ ελέγξτε το owncloud.log ή επικοινωνήστε με τον διαχειριστή σας"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -122,6 +132,16 @@ msgstr "Αδυναμία διαγραφής ομάδας"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Αδυναμία διαγραφής χρήστη"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Η επαναφορά αντιγράφων ασφαλείας έγινε με επιτυχία"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Δεν ήταν δυνατή η επαναφορά των κλειδιών κρυπτογράφησής σας, παρακαλώ ελέγξτε το owncloud.log ή επικοινωνήστε με τον διαχειριστή σας"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -178,7 +198,7 @@ msgstr "Το βασικό πλαίσιο δεν υποστηρίζει αλλα�
 msgid "Unable to change password"
 msgstr "Αδυναμία αλλαγής συνθηματικού"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Αποστέλεται..."
 
@@ -234,33 +254,41 @@ msgstr "Ενημέρωση"
 msgid "Updated"
 msgstr "Ενημερώθηκε"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Επιλογή εικόνας προφίλ"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Πολύ αδύναμο συνθηματικό"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Αδύναμο συνθηματικό"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Μέτριο συνθηματικό"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Καλό συνθηματικό"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Δυνατό συνθηματικό"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Αποκρυπτογράφηση αρχείων... Παρακαλώ περιμένετε, αυτό μπορεί να πάρει κάποιο χρόνο."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -307,7 +335,7 @@ msgstr "Πρέπει να δοθεί έγκυρο συνθηματικό"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Προειδοποίηση: Ο μητρικός κατάλογος του χρήστη \"{user}\" υπάρχει ήδη"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__όνομα_γλώσσας__"
 
@@ -495,148 +523,143 @@ msgstr "Επιτρέπει την χρήση του API διαμοιρασμού
 msgid "Allow links"
 msgstr "Επιτρέπονται οι σύνδεσμοι"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Επιτρέπει τους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Επιτρέπεται το κοινόχρηστο ανέβασμα"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Επιτρέπει τους χρήστες να καθιστούν άλλους χρήστες ικανούς να ανεβάζουν στους κοινόχρηστους φακέλους τους"
+#: templates/admin.php:230
+msgid "Set default expiration date"
+msgstr "Ορισμός ερήμην ημερομηνίας λήξης"
+
+#: templates/admin.php:232
+msgid "Expire after "
+msgstr "Λήξη μετά από"
 
 #: templates/admin.php:235
+msgid "days"
+msgstr "ημέρες"
+
+#: templates/admin.php:238
+msgid "Enforce expiration date"
+msgstr "Επιβολή της ημερομηνίας λήξης"
+
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Επιτρέπει τους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
+
+#: templates/admin.php:252
 msgid "Allow resharing"
 msgstr "Επιτρέπεται ο επαναδιαμοιρασμός"
 
-#: templates/admin.php:236
+#: templates/admin.php:253
 msgid "Allow users to share items shared with them again"
 msgstr "Επιτρέπει στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
 
-#: templates/admin.php:243
+#: templates/admin.php:260
 msgid "Allow users to share with anyone"
 msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός με οποιονδήποτε"
 
-#: templates/admin.php:246
+#: templates/admin.php:263
 msgid "Allow users to only share with users in their groups"
 msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
 
-#: templates/admin.php:253
+#: templates/admin.php:270
 msgid "Allow mail notification"
 msgstr "Επιτρέπονται ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
 
-#: templates/admin.php:254
+#: templates/admin.php:271
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Επιτρέψτε στους χρήστες να στέλνουν ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
 
-#: templates/admin.php:262
-msgid "Set default expiration date"
-msgstr ""
-
-#: templates/admin.php:263
-msgid "Expire after "
-msgstr ""
-
-#: templates/admin.php:266
-msgid "days"
-msgstr ""
-
-#: templates/admin.php:269
-msgid "Enforce expiration date"
-msgstr ""
-
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr ""
-
-#: templates/admin.php:278
+#: templates/admin.php:279
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "Επιβολή χρήσης HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Επιβάλλει τους πελάτες να συνδέονται στο %s μέσω κρυπτογραφημένης σύνδεσης."
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Παρακαλώ συνδεθείτε στο %s σας μέσω HTTPS για να ενεργοποιήσετε ή να απενεργοποιήσετε την επιβολή του SSL."
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
 msgstr "Διακομιστής Email"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr "Χρησιμοποιείται για αποστολή ειδοποιήσεων."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
 msgstr "Από τη διεύθυνση"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr "Απαιτείται πιστοποίηση"
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "Διεύθυνση διακομιστή"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
 msgstr "Θύρα"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr "Πιστοποιητικά"
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr "Όνομα χρήστη SMTP"
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr "Συνθηματικό SMTP"
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr "Δοκιμή ρυθμίσεων email"
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
 msgstr "Αποστολή email"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "Καταγραφές"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "Επίπεδο καταγραφής"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "Περισσότερα"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "Λιγότερα"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "Έκδοση"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -789,28 +812,32 @@ msgstr "Γλώσσα"
 msgid "Help translate"
 msgstr "Βοηθήστε στη μετάφραση"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Χρησιμοποιήστε αυτήν την διεύθυνση για να αποκτήσετε <a href=\"%s\" target=\"_blank\">πρόσβαση στα αρχεία σας μέσω WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Η εφαρμογή κρυπτογράφησης δεν είναι πλέον ενεργοποιημένη, παρακαλώ αποκρυπτογραφήστε όλα τα αρχεία σας"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Συνθηματικό εισόδου"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Αποκρυπτογράφηση όλων των Αρχείων"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "Τα κλειδιά κρυπτογράφησής σας μεταφέρονται σε θέση αντιγράφου ασφαλείας. Αν κάτι πάει στραβά, μπορείτε να τα επαναφέρετε. Διαγράψτε τα οριστικά μόνο αν είστε βέβαιοι ότι όλα τα αρχεία αποκρυπτογραφήθηκαν σωστά."
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Επαναφορά κλειδιών κρυπτογράφησης"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Διαγραφή κλειδιών κρυπτογράφησης"
 
 #: templates/users.php:19
 msgid "Login Name"

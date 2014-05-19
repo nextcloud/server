@@ -54,7 +54,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief create unique target
+	 * create unique target
 	 * @param string $filePath
 	 * @param string $shareWith
 	 * @param string $exclude
@@ -154,7 +154,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief resolve reshares to return the correct source item
+	 * resolve reshares to return the correct source item
 	 * @param array $source
 	 * @return array source item
 	 */

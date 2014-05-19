@@ -6,7 +6,7 @@ if (OC::$CLI) {
 	if (count($argv) === 2) {
 		$file = $argv[1];
 		list(, $user) = explode('/', $file);
-		OCP\JSON::checkUserExists($owner);
+		OCP\JSON::checkUserExists($user);
 		OC_Util::setupFS($user);
 		$view = new \OC\Files\View('');
 		/**

@@ -149,11 +149,11 @@ if (isset($path)) {
 
 			$freeSpace=OCP\Util::freeSpace($path);
 			$uploadLimit=OCP\Util::uploadLimit();
-			$folder = new OCP\Template('files', 'index', '');
+			$folder = new OCP\Template('files', 'list', '');
 			$folder->assign('dir', $getPath);
 			$folder->assign('dirToken', $linkItem['token']);
 			$folder->assign('permissions', OCP\PERMISSION_READ);
-			$folder->assign('isPublic',true);
+			$folder->assign('isPublic', true);
 			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
@@ -162,7 +162,6 @@ if (isset($path)) {
 			$folder->assign('uploadLimit', $uploadLimit); // PHP upload limit
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
-			$folder->assign('disableSharing', true);
 			$folder->assign('trash', false);
 			$tmpl->assign('folder', $folder->fetchPage());
 			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true);

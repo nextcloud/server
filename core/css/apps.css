@@ -178,6 +178,9 @@
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }
+#app-settings.opened #app-settings-content {
+	display: block;
+}
 #app-settings-header {
 	background-color: #eee;
 }

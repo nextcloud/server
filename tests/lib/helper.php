@@ -120,15 +120,15 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	function testIssubdirectory() {
-		$result = OC_Helper::issubdirectory("./data/", "/anotherDirectory/");
+	function testIsSubDirectory() {
+		$result = OC_Helper::isSubDirectory("./data/", "/anotherDirectory/");
 		$this->assertFalse($result);
 
-		$result = OC_Helper::issubdirectory("./data/", "./data/");
+		$result = OC_Helper::isSubDirectory("./data/", "./data/");
 		$this->assertTrue($result);
 
 		mkdir("data/TestSubdirectory", 0777);
-		$result = OC_Helper::issubdirectory("data/TestSubdirectory/", "data");
+		$result = OC_Helper::isSubDirectory("data/TestSubdirectory/", "data");
 		rmdir("data/TestSubdirectory");
 		$this->assertTrue($result);
 	}
@@ -156,7 +156,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 			);
 		$result = OC_Helper::mb_array_change_key_case($arrayStart, MB_CASE_UPPER);
 		$expected = $arrayResult;
-		$this->assertEquals($result, $expected);	
+		$this->assertEquals($result, $expected);
 	}
 
 	function testMb_substr_replace() {
@@ -284,7 +284,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test absolute URL construction
+	 * test absolute URL construction
 	 * @dataProvider provideDocRootURLs
 	 */
 	function testMakeAbsoluteURLDocRoot($url, $expectedResult) {
@@ -296,7 +296,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test absolute URL construction
+	 * test absolute URL construction
 	 * @dataProvider provideSubDirURLs
 	 */
 	function testMakeAbsoluteURLSubDir($url, $expectedResult) {
@@ -326,7 +326,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkTo URL construction
+	 * test linkTo URL construction
 	 * @dataProvider provideDocRootAppUrlParts
 	 */
 	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
@@ -338,7 +338,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkTo URL construction in sub directory
+	 * test linkTo URL construction in sub directory
 	 * @dataProvider provideSubDirAppUrlParts
 	 */
 	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
@@ -366,7 +366,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkToAbsolute URL construction
+	 * test linkToAbsolute URL construction
 	 * @dataProvider provideDocRootAppAbsoluteUrlParts
 	 */
 	public function testLinkToAbsoluteDocRoot($app, $file, $args, $expectedResult) {
@@ -378,7 +378,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkToAbsolute URL construction in sub directory
+	 * test linkToAbsolute URL construction in sub directory
 	 * @dataProvider provideSubDirAppAbsoluteUrlParts
 	 */
 	public function testLinkToAbsoluteSubDir($app, $file, $args, $expectedResult) {
@@ -406,7 +406,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkToRemoteBase URL construction
+	 * test linkToRemoteBase URL construction
 	 */
 	public function testLinkToRemoteBase() {
 		\OC::$WEBROOT = '';
@@ -420,7 +420,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkToRemote URL construction
+	 * test linkToRemote URL construction
 	 */
 	public function testLinkToRemote() {
 		\OC::$WEBROOT = '';
@@ -438,7 +438,7 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkToPublic URL construction
+	 * test linkToPublic URL construction
 	 */
 	public function testLinkToPublic() {
 		\OC::$WEBROOT = '';

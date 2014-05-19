@@ -12,7 +12,6 @@
  * enter: open file/folder
  * delete/backspace: delete file/folder
  *****************************/
-var Files = Files || {};
 (function(Files) {
 	var keys = [];
 	var keyCodes = {
@@ -167,4 +166,4 @@ var Files = Files || {};
 			removeA(keys, event.keyCode);
 		});
 	};
-})(Files);
+})((OCA.Files && OCA.Files.Files) || {});

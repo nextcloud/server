@@ -27,11 +27,11 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "Abbrechen",
 "Share" => "Freigeben",
-"Password" => "Passwort",
 "group" => "Gruppe",
 "Unshare" => "Teilung zurücknehmen",
 "can edit" => "kann bearbeiten",
 "Delete" => "Löschen",
-"Personal" => "Persönlich"
+"Personal" => "Persönlich",
+"Password" => "Passwort"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

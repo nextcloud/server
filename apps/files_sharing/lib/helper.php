@@ -162,7 +162,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief Format a path to be relative to the /user/files/ directory
+	 * Format a path to be relative to the /user/files/ directory
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */

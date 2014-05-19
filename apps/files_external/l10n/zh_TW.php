@@ -2,10 +2,11 @@
 $TRANSLATIONS = array(
 "Local" => "本地",
 "Location" => "地點",
-"URL" => "URL",
+"Host" => "主機",
 "Username" => "使用者名稱：",
 "Password" => "密碼",
 "Share" => "分享",
+"URL" => "URL",
 "Access granted" => "允許存取",
 "Error configuring Dropbox storage" => "設定 Dropbox 儲存時發生錯誤",
 "Grant access" => "允許存取",

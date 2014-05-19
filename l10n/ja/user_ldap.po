@@ -7,14 +7,14 @@
 # plazmism <gomidori@live.jp>, 2013-2014
 # kuromabo <md81bird@hitaki.net>, 2014
 # mikako, 2014
-# tt yn <tetuyano+transi@gmail.com>, 2013
+# tt yn <tetuyano+transi@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-01 01:55-0400\n"
-"PO-Revision-Date: 2014-04-30 18:30+0000\n"
-"Last-Translator: mikako\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,23 +131,23 @@ msgstr "現在のサーバー設定を本当に削除してもよろしいです
 msgid "Confirm Deletion"
 msgstr "削除の確認"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s グループが見つかりました"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s ユーザーが見つかりました"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "無効なホスト"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "望ましい機能は見つかりませんでした"
 
@@ -424,14 +424,14 @@ msgstr "オンに切り替えたら、グループを含むグループがサポ
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "ページ分割サイズ"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "ページ分割サイズは、LDAP検索時にユーザーやグループのリスト一覧データを一括で返すデータ量を指定します。(設定が0の場合には、LDAP検索の分割転送は無効)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

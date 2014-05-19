@@ -36,7 +36,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @breif get id of the mount point
+	 * get id of the mount point
 	 * @return string
 	 */
 	public function getId() {
@@ -44,7 +44,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @breif get file cache of the shared item source
+	 * get file cache of the shared item source
 	 * @return string
 	 */
 	public function getSourceId() {
@@ -52,9 +52,8 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief Get the source file path, permissions, and owner for a shared file
-	 * @param string Shared target file path
-	 * @param string $target
+	 * Get the source file path, permissions, and owner for a shared file
+	 * @param string $target Shared target file path
 	 * @return Returns array with the keys path, permissions, and owner or false if not found
 	 */
 	public function getFile($target) {
@@ -76,9 +75,8 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief Get the source file path for a shared file
-	 * @param string Shared target file path
-	 * @param string $target
+	 * Get the source file path for a shared file
+	 * @param string $target Shared target file path
 	 * @return string source file path or false if not found
 	 */
 	public function getSourcePath($target) {
@@ -100,8 +98,8 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief Get the permissions granted for a shared file
-	 * @param string Shared target file path
+	 * Get the permissions granted for a shared file
+	 * @param string $target Shared target file path
 	 * @return int CRUDS permissions granted
 	 */
 	public function getPermissions($target) {
@@ -265,7 +263,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief Format a path to be relative to the /user/files/ directory
+	 * Format a path to be relative to the /user/files/ directory
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
 	 */
@@ -289,7 +287,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief rename a shared folder/file
+	 * rename a shared folder/file
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @return bool
@@ -483,7 +481,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief return mount point of share, relative to data/user/files
+	 * return mount point of share, relative to data/user/files
 	 * @return string
 	 */
 	public function getMountPoint() {
@@ -491,7 +489,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief get share type
+	 * get share type
 	 * @return integer can be single user share (0) group share (1), unique group share name (2)
 	 */
 	private function getShareType() {
@@ -503,7 +501,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief does the group share already has a user specific unique name
+	 * does the group share already has a user specific unique name
 	 * @return bool
 	 */
 	private function uniqueNameSet() {
@@ -511,14 +509,14 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief the share now uses a unique name of this user
+	 * the share now uses a unique name of this user
 	 */
 	private function setUniqueName() {
 		$this->share['unique_name'] = true;
 	}
 
 	/**
-	 * @brief get share ID
+	 * get share ID
 	 * @return integer unique share ID
 	 */
 	private function getShareId() {
@@ -526,7 +524,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief get the user who shared the file
+	 * get the user who shared the file
 	 * @return string
 	 */
 	public function getSharedFrom() {
@@ -534,7 +532,7 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @brief return share type, can be "file" or "folder"
+	 * return share type, can be "file" or "folder"
 	 * @return string
 	 */
 	public function getItemType() {

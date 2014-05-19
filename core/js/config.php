@@ -25,6 +25,13 @@ foreach(OC_App::getEnabledApps() as $app) {
 	$apps_paths[$app] = OC_App::getAppWebPath($app);
 }
 
+$defaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+$defaultExpireDate = $enforceDefaultExpireDate = null;
+if ($defaultExpireDateEnabled === 'yes') {
+	$defaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
+	$enforceDefaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+}
+
 $array = array(
 	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
 	"oc_isadmin" => OC_User::isAdminUser(OC_User::getUser()) ? 'true' : 'false',
@@ -66,6 +73,15 @@ $array = array(
 			'version'			=> implode('.', OC_Util::getVersion()),
 			'versionstring'		=> OC_Util::getVersionString(),
 		)
+	),
+	"oc_appconfig" => json_encode(
+			array("core" => array(
+				'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
+				'defaultExpireDate' => $defaultExpireDate,
+				'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
+				'enforcePasswordForPublicLink' => \OCP\Util::isPublicLinkPasswordRequired(),
+				)
+			)
 	),
 	"oc_defaults" => json_encode(
 		array(

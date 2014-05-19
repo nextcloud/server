@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,79 +60,79 @@ msgstr "Ühtegi ajutist profiili pilti pole saadaval, proovi uuesti"
 msgid "No crop data provided"
 msgstr "Lõikeandmeid ei leitud"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Pühapäev"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Esmaspäev"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Teisipäev"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Kolmapäev"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Neljapäev"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Reede"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Laupäev"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Jaanuar"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Veebruar"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Märts"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Aprill"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mai"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Juuni"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Juuli"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "August"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "September"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Oktoober"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "November"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Detsember"
 
@@ -192,75 +192,75 @@ msgstr "viimasel aastal"
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Vali"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Viga failivalija malli laadimisel:  {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Vali"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Viga failivalija malli laadimisel:  {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Viga sõnumi malli laadimisel: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} failikonflikt"
 msgstr[1] "{count} failikonflikti"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Üks failikonflikt"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Uued failid"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Juba olemasolevad failid"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Milliseid faile sa soovid alles hoida?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Jätka"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(kõik valitud)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} valitud)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Viga faili olemasolu malli laadimisel"
 
@@ -292,12 +292,12 @@ msgstr "Jagatud"
 msgid "Share"
 msgstr "Jaga"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
@@ -325,107 +325,116 @@ msgstr "Jaga kasutaja või grupiga ..."
 msgid "Share link"
 msgstr "Jaga linki"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Parool"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Luba avalik üleslaadimine"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Saada link isikule e-postiga"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Saada"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grupp"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Jagatud {item} kasutajaga {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "teavita e-postiga"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Viga aegumise kuupäeva määramisel"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Saatmine ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "E-kiri on saadetud"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Hoiatus"
 
@@ -668,6 +677,10 @@ msgstr "Serveri korrektseks seadistuseks palun tutvu <a href=\"%s\" target=\"_bl
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Loo <strong>admini konto</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Parool"
 
 #: templates/installation.php:70
 msgid "Storage & database"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -127,25 +127,25 @@ msgstr "Er du sikker på at du vil slette aktiv tjener-konfigurasjon?"
 msgid "Confirm Deletion"
 msgstr "Bekreft sletting"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s gruppe funnet"
 msgstr[1] "%s grupper funnet"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s bruker funnet"
 msgstr[1] "%s brukere funnet"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Ugyldig tjener"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Fant ikke den ønskede funksjonaliteten"
 

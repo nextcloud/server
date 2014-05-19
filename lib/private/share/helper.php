@@ -25,13 +25,14 @@ class Helper extends \OC\Share\Constants {
 
 	/**
 	 * Generate a unique target for the item
-	 * @param string Item type
-	 * @param string Item source
-	 * @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string User or group the item is being shared with
-	 * @param string User that is the owner of shared item
-	 * @param string The suggested target originating from a reshare (optional)
-	 * @param int The id of the parent group share (optional)
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $shareWith User or group the item is being shared with
+	 * @param string $uidOwner User that is the owner of shared item
+	 * @param string $suggestedTarget The suggested target originating from a reshare (optional)
+	 * @param int $groupParent The id of the parent group share (optional)
+	 * @throws \Exception
 	 * @return string Item target
 	 */
 	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -142,9 +143,9 @@ class Helper extends \OC\Share\Constants {
 
 	/**
 	 * Delete all reshares of an item
-	 * @param int Id of item to delete
-	 * @param bool If true, exclude the parent from the delete (optional)
-	 * @param string The user that the parent was shared with (optinal)
+	 * @param int $parent Id of item to delete
+	 * @param bool $excludeParent If true, exclude the parent from the delete (optional)
+	 * @param string $uidOwner The user that the parent was shared with (optional)
 	 */
 	public static function delete($parent, $excludeParent = false, $uidOwner = null) {
 		$ids = array($parent);
@@ -201,7 +202,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief get default expire settings defined by the admin
+	 * get default expire settings defined by the admin
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 */
 	public static function getDefaultExpireSetting() {
@@ -221,7 +222,7 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	/**
-	 * @brief calculate expire date
+	 * calculate expire date
 	 * @param array $defaultExpireSettings contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 * @param int $creationTime timestamp when the share was created
 	 * @param int $userExpireDate expire timestamp set by the user
@@ -231,7 +232,7 @@ class Helper extends \OC\Share\Constants {
 
 		$expires = false;
 
-		if (isset($defaultExpireSettings['defaultExpireDateSet']) && $defaultExpireSettings['defaultExpireDateSet']) {
+		if (!empty($defaultExpireSettings['defaultExpireDateSet'])) {
 			$expires = $creationTime + $defaultExpireSettings['expireAfterDays'] * 86400;
 		}
 
@@ -239,8 +240,8 @@ class Helper extends \OC\Share\Constants {
 		if (isset($userExpireDate)) {
 			// if the admin decided to enforce the default expire date then we only take
 			// the user defined expire date of it is before the default expire date
-			if ($expires && isset($defaultExpireSettings['enforceExpireDate']) && $defaultExpireSettings['enforceExpireDate']) {
-				$expires = ($userExpireDate < $expires) ? $userExpireDate : $expires;
+			if ($expires && !empty($defaultExpireSettings['enforceExpireDate'])) {
+				$expires = min($userExpireDate, $expires);
 			} else {
 				$expires = $userExpireDate;
 			}

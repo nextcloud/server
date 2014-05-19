@@ -50,7 +50,7 @@ class DB {
 	/**
 	 * Insert a row if a matching row doesn't exists.
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @param $input array
+	 * @param array $input
 	 *
 	 * The input array if in the form:
 	 *

@@ -92,13 +92,13 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * Get the items of item type shared with a user
-	 * @param string Item type
-	 * @param sting user id for which user we want the shares
-	 * @param int Format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param int Number of items to return (optional) Returns all by default
-	 * @param bool include collections (optional)
-	 * @return Return depends on format
+	 * @param string $itemType
+	 * @param string $user for which user we want the shares
+	 * @param int $format (optional) Format type must be defined by the backend
+	 * @param mixed $parameters (optional)
+	 * @param int $limit Number of items to return (optional) Returns all by default
+	 * @param bool $includeCollections (optional)
+	 * @return mixed Return depends on format
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
 		$parameters = null, $limit = -1, $includeCollections = false) {
@@ -111,8 +111,8 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed Parameters (optional)
-	 * @param bool include collections (optional)
+	 * @param mixed $parameters (optional)
+	 * @param bool $includeCollections (optional)
 	 * @return mixed Return depends on format
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
@@ -160,7 +160,7 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
-	 * @return array | bool false will be returned in case the token is unknown or unauthorized
+	 * @return array|bool false will be returned in case the token is unknown or unauthorized
 	 */
 	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		return \OC\Share\Share::getShareByToken($token, $checkPasswordProtection);
@@ -168,8 +168,8 @@ class Share extends \OC\Share\Constants {
 
 	/**
 	 * resolves reshares down to the last real share
-	 * @param $linkItem
-	 * @return $fileOwner
+	 * @param array $linkItem
+	 * @return array file owner
 	 */
 	public static function resolveReShare($linkItem) {
 		return \OC\Share\Share::resolveReShare($linkItem);
@@ -213,7 +213,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $uidOwner
 	 * @param bool $includeCollections
 	 * @param bool $checkExpireDate
-	 * @return Return array of users
+	 * @return array Return array of users
 	 */
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
 		return \OC\Share\Share::getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections, $checkExpireDate);
@@ -226,17 +226,13 @@ class Share extends \OC\Share\Constants {
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string $shareWith User or group the item is being shared with
 	 * @param int $permissions CRUDS
-	 * @param null $itemSourceName
-	 * @throws \Exception
-	 * @internal param \OCP\Item $string type
-	 * @internal param \OCP\Item $string source
-	 * @internal param \OCP\SHARE_TYPE_USER $int , SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @internal param \OCP\User $string or group the item is being shared with
-	 * @internal param \OCP\CRUDS $int permissions
+	 * @param string $itemSourceName
+	 * @param \DateTime $expirationDate
 	 * @return bool|string Returns true on success or false on failure, Returns token on success for links
+	 * @throws \Exception
 	 */
-	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null) {
-		return \OC\Share\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName);
+	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {
+		return \OC\Share\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName, $expirationDate);
 	}
 
 	/**

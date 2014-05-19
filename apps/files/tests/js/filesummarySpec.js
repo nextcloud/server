@@ -20,7 +20,8 @@
 */
 
 /* global FileSummary */
-describe('FileSummary tests', function() {
+describe('OCA.Files.FileSummary tests', function() {
+	var FileSummary = OCA.Files.FileSummary;
 	var $container;
 
 	beforeEach(function() {

@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "One Base DN per line" => "یک پایه DN در هر خط",
 "You can specify Base DN for users and groups in the Advanced tab" => "شما می توانید پایه DN را برای کاربران و گروه ها در زبانه Advanced مشخص کنید.",
 "Back" => "بازگشت",
+"Continue" => "ادامه",
 "Connection Settings" => "تنظیمات اتصال",
 "Configuration Active" => "پیکربندی فعال",
 "When unchecked, this configuration will be skipped." => "زمانیکه انتخاب نشود، این پیکربندی نادیده گرفته خواهد شد.",

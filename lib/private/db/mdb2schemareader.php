@@ -66,7 +66,7 @@ class MDB2SchemaReader {
 	}
 
 	/**
-	 * @param\Doctrine\DBAL\Schema\Schema $schema
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
 	 * @param \SimpleXMLElement $xml
 	 * @throws \DomainException
 	 */
@@ -303,7 +303,7 @@ class MDB2SchemaReader {
 	}
 
 	/**
-	 * @param \SimpleXMLElement | string $xml
+	 * @param \SimpleXMLElement|string $xml
 	 * @return bool
 	 */
 	private function asBool($xml) {

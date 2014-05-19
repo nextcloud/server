@@ -20,11 +20,6 @@
  *
  */
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem');
-
-// Init owncloud
-
 if(!\OC_App::isEnabled('files_sharing')){
 	exit;
 }
@@ -47,6 +42,9 @@ if (isset($_GET['dir'])) {
 	$relativePath = $_GET['dir'];
 }
 
+$sortAttribute = isset( $_GET['sort'] ) ? $_GET['sort'] : 'name';
+$sortDirection = isset( $_GET['sortdirection'] ) ? ($_GET['sortdirection'] === 'desc') : false;
+
 $data = \OCA\Files_Sharing\Helper::setupFromToken($token, $relativePath, $password);
 
 $linkItem = $data['linkItem'];
@@ -64,7 +62,7 @@ $data = array();
 $baseUrl = OCP\Util::linkTo('files_sharing', 'index.php') . '?t=' . urlencode($token) . '&dir=';
 
 // make filelist
-$files = \OCA\Files\Helper::getFiles($dir);
+$files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
 
 $formattedFiles = array();
 foreach ($files as $file) {
