@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  *
- * @brief check migration status
+ * check migration status
  */
 use OCA\Encryption\Util;
 
@@ -18,7 +18,7 @@ $migrationStatus = Util::MIGRATION_COMPLETED;
 if ($loginname !== '' && $password !== '') {
 	$username = \OCP\User::checkPassword($loginname, $password);
 	if ($username) {
-		$util = new Util(new \OC_FilesystemView('/'), $username);
+		$util = new Util(new \OC\Files\View('/'), $username);
 		$migrationStatus = $util->getMigrationStatus();
 	}
 }

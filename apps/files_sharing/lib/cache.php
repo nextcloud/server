@@ -42,7 +42,7 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
-	 * @brief Get the source cache of a shared file or folder
+	 * Get the source cache of a shared file or folder
 	 * @param string $target Shared target file path
 	 * @return \OC\Files\Cache\Cache
 	 */
@@ -80,7 +80,7 @@ class Shared_Cache extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
+	 * @param string|int $file
 	 * @return array
 	 */
 	public function get($file) {
@@ -424,7 +424,7 @@ class Shared_Cache extends Cache {
 	 *
 	 * @param int $id
 	 * @param string $pathEnd (optional) used internally for recursive calls
-	 * @return string | null
+	 * @return string|null
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
@@ -442,6 +442,9 @@ class Shared_Cache extends Cache {
 		}
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getShareById($id) {
 		$item = \OCP\Share::getItemSharedWithBySource('file', $id);
 		if ($item) {
@@ -454,6 +457,9 @@ class Shared_Cache extends Cache {
 		return null;
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	private function getParentInfo($id) {
 		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		$query = \OC_DB::prepare($sql);

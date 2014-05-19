@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Ubicación",
-"URL" => "URL",
+"Host" => "Servidor",
 "Username" => "Nombre de usuario",
 "Password" => "Contraseña",
 "Share" => "Compartir",
+"URL" => "URL",
 "Access granted" => "Acceso concedido",
 "Error configuring Dropbox storage" => "Error configurando el almacenamiento de Dropbox",
 "Grant access" => "Conceder acceso",

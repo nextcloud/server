@@ -36,8 +36,8 @@ class Session {
 
 
 	/**
-	 * @brief if session is started, check if ownCloud key pair is set up, if not create it
-	 * @param \OC_FilesystemView $view
+	 * if session is started, check if ownCloud key pair is set up, if not create it
+	 * @param \OC\Files\View $view
 	 *
 	 * @note The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
@@ -105,7 +105,7 @@ class Session {
 	}
 
 	/**
-	 * @brief Sets user private key to session
+	 * Sets user private key to session
 	 * @param string $privateKey
 	 * @return bool
 	 *
@@ -120,8 +120,8 @@ class Session {
 	}
 
 	/**
-	 * @brief Sets status of encryption app
-	 * @param string $init  INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
+	 * Sets status of encryption app
+	 * @param string $init INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 * @return bool
 	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
@@ -135,7 +135,7 @@ class Session {
 	}
 
 	/**
-	 * @brief remove encryption keys and init status from session
+	 * remove encryption keys and init status from session
 	 */
 	public function closeSession() {
 		\OC::$session->remove('encryptionInitialized');
@@ -144,8 +144,8 @@ class Session {
 
 
 	/**
-	 * @brief Gets status if we already tried to initialize the encryption app
-	 * @returns init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INOITIALIZED
+	 * Gets status if we already tried to initialize the encryption app
+	 * @return string init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 *
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
@@ -158,8 +158,8 @@ class Session {
 	}
 
 	/**
-	 * @brief Gets user or public share private key from session
-	 * @returns string $privateKey The user's plaintext private key
+	 * Gets user or public share private key from session
+	 * @return string $privateKey The user's plaintext private key
 	 *
 	 */
 	public function getPrivateKey() {
@@ -176,7 +176,7 @@ class Session {
 	}
 
 	/**
-	 * @brief Sets public user private key to session
+	 * Sets public user private key to session
 	 * @param string $privateKey
 	 * @return bool
 	 */
@@ -189,8 +189,8 @@ class Session {
 	}
 
 	/**
-	 * @brief Gets public share private key from session
-	 * @returns string $privateKey
+	 * Gets public share private key from session
+	 * @return string $privateKey
 	 *
 	 */
 	public function getPublicSharePrivateKey() {
@@ -204,7 +204,7 @@ class Session {
 
 
 	/**
-	 * @brief Sets user legacy key to session
+	 * Sets user legacy key to session
 	 * @param string $legacyKey
 	 * @return bool
 	 */
@@ -216,8 +216,8 @@ class Session {
 	}
 
 	/**
-	 * @brief Gets user legacy key from session
-	 * @returns string $legacyKey The user's plaintext legacy key
+	 * Gets user legacy key from session
+	 * @return string $legacyKey The user's plaintext legacy key
 	 *
 	 */
 	public function getLegacyKey() {

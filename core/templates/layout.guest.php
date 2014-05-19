@@ -35,14 +35,15 @@
 	<?php flush(); ?>
 	<body id="body-login">
 		<div class="wrapper"><!-- for sticky footer -->
-			<header><div id="header">
-				<div class="logo svg"></div>
-				<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-			</div></header>
+			<div class="v-align"><!-- vertically centred box -->
+				<header><div id="header">
+					<div class="logo svg"></div>
+					<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
+				</div></header>
 
-			<?php print_unescaped($_['content']); ?>
-
+				<?php print_unescaped($_['content']); ?>
 			<div class="push"></div><!-- for sticky footer -->
+			</div>
 		</div>
 
 		<footer>

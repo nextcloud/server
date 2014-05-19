@@ -20,7 +20,9 @@
 */
 
 /* global BreadCrumb */
-describe('BreadCrumb tests', function() {
+describe('OCA.Files.BreadCrumb tests', function() {
+	var BreadCrumb = OCA.Files.BreadCrumb;
+
 	describe('Rendering', function() {
 		var bc;
 		beforeEach(function() {

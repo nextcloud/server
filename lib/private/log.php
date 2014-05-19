@@ -8,6 +8,8 @@
 
 namespace OC;
 
+use \OCP\ILogger;
+
 /**
  * logging utilities
  *
@@ -18,8 +20,24 @@ namespace OC;
  * MonoLog is an example implementing this interface.
  */
 
-class Log {
-	private $logClass;
+class Log implements ILogger {
+
+	private $logger;
+
+	/**
+	 * @param string $logger The logger that should be used
+	 */
+	public function __construct($logger=null) {
+		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
+		if($logger === null) {
+			$this->logger = 'OC_Log_'.ucfirst(\OC_Config::getValue('log_type', 'owncloud'));
+			call_user_func(array($this->logger, 'init'));
+		} else {
+			$this->logger = $logger;
+		}
+
+	}
+
 
 	/**
 	 * System is unusable.
@@ -112,10 +130,6 @@ class Log {
 		$this->log(\OC_Log::DEBUG, $message, $context);
 	}
 
-	public function __construct() {
-		$this->logClass = 'OC_Log_'.ucfirst(\OC_Config::getValue('log_type', 'owncloud'));
-		call_user_func(array($this->logClass, 'init'));
-	}
 
 	/**
 	 * Logs with an arbitrary level.
@@ -130,7 +144,16 @@ class Log {
 		} else {
 			$app = 'no app in context';
 		}
-		$logClass=$this->logClass;
-		$logClass::write($app, $message, $level);
+		// interpolate $message as defined in PSR-3
+		$replace = array();
+		foreach ($context as $key => $val) {
+			$replace['{' . $key . '}'] = $val;
+		}
+
+		// interpolate replacement values into the message and return
+		$message = strtr($message, $replace);
+
+		$logger = $this->logger;
+		$logger::write($app, $message, $level);
 	}
 }

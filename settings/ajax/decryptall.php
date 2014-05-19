@@ -10,7 +10,7 @@ OC_App::loadApp('files_encryption');
 $params = array('uid' => \OCP\User::getUser(),
 				'password' => $_POST['password']);
 
-$view = new OC_FilesystemView('/');
+$view = new OC\Files\View('/');
 $util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
 $l = \OC_L10N::get('settings');
 

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 12:54+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -51,15 +51,15 @@ msgstr "Email inviata"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr "Modalità di invio"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "Cifratura"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr "Metodo di autenticazione"
 
@@ -102,6 +102,16 @@ msgstr "Impossibile decifrare i tuoi file, controlla il file owncloud.log o chie
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Impossibile decifrare i tuoi file, controlla la password e prova ancora"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Chiavi di cifratura eliminate definitivamente"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Impossibile eliminare definitivamente le chiavi di cifratura, controlla il file owncloud.log o chiedi al tuo amministratore"
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email salvata"
@@ -117,6 +127,16 @@ msgstr "Impossibile eliminare il gruppo"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Impossibile eliminare l'utente"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Copie di sicurezza ripristinate correttamente"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Impossibile ripristinare le chiavi di cifratura, controlla il file owncloud.log o chiedi al tuo amministratore"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -173,7 +193,7 @@ msgstr "Il motore non supporta la modifica della password, ma la chiave di cifra
 msgid "Unable to change password"
 msgstr "Impossibile cambiare la password"
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
 msgstr "Invio in corso..."
 
@@ -229,33 +249,41 @@ msgstr "Aggiorna"
 msgid "Updated"
 msgstr "Aggiornato"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Seleziona un'immagine del profilo"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Password molto debole"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Password debole"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Password così-così"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Password buona"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Password forte"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Decifratura dei file in corso... Attendi, potrebbe richiedere del tempo."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Elimina definitivamente le chiavi di cifratura."
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Ripristina le chiavi di cifratura."
 
 #: js/users.js:47
 msgid "deleted"
@@ -302,7 +330,7 @@ msgstr "Deve essere fornita una password valida"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Avviso: la cartella home dell'utente \"{user}\" esiste già"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Italiano"
 
@@ -490,148 +518,143 @@ msgstr "Consenti alle applicazioni di utilizzare le API di condivisione"
 msgid "Allow links"
 msgstr "Consenti collegamenti"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr "Imponi la protezione con password"
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Consenti caricamenti pubblici"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Consenti agli utenti di abilitare altri al caricamento nelle loro cartelle pubbliche condivise"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Consenti la ri-condivisione"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Consenti agli utenti di condividere a loro volta elementi condivisi da altri"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Consenti agli utenti di condividere con chiunque"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Consenti agli utenti di condividere solo con utenti dei loro gruppi"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Consenti le notifiche tramite posta elettronica"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Consenti agli utenti di inviare email di notifica per i file condivisi"
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr "Imposta data di scadenza predefinita"
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr "Scadenza dopo"
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr "giorni"
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr "Forza la data di scadenza"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Le condivisioni scadono in modo predefinito dopo N giorni"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Consenti agli utenti di condividere pubblicamente elementi tramite collegamenti"
 
-#: templates/admin.php:278
+#: templates/admin.php:252
+msgid "Allow resharing"
+msgstr "Consenti la ri-condivisione"
+
+#: templates/admin.php:253
+msgid "Allow users to share items shared with them again"
+msgstr "Consenti agli utenti di condividere a loro volta elementi condivisi da altri"
+
+#: templates/admin.php:260
+msgid "Allow users to share with anyone"
+msgstr "Consenti agli utenti di condividere con chiunque"
+
+#: templates/admin.php:263
+msgid "Allow users to only share with users in their groups"
+msgstr "Consenti agli utenti di condividere solo con utenti dei loro gruppi"
+
+#: templates/admin.php:270
+msgid "Allow mail notification"
+msgstr "Consenti le notifiche tramite posta elettronica"
+
+#: templates/admin.php:271
+msgid "Allow users to send mail notification for shared files"
+msgstr "Consenti agli utenti di inviare email di notifica per i file condivisi"
+
+#: templates/admin.php:279
 msgid "Security"
 msgstr "Protezione"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "Forza HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forza i client a connettersi a %s tramite una connessione cifrata."
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Connettiti al tuo %s tramite HTTPS per abilitare o disabilitare l'applicazione di SSL."
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
 msgstr "Server di posta"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr "Viene utilizzato per inviare le notifiche."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
 msgstr "Indirizzo mittente"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "Indirizzo del server"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
 msgstr "Porta"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr "Credenziali"
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr "Nome utente SMTP"
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr "Password SMTP"
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr "Prova impostazioni email"
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
 msgstr "Invia email"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "Livello di log"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "Altro"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "Meno"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "Versione"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -784,28 +807,32 @@ msgstr "Lingua"
 msgid "Help translate"
 msgstr "Migliora la traduzione"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\">accedere ai tuoi file con WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'applicazione di cifratura non è più abilitata, decifra tutti i tuoi file"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Password di accesso"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Decifra tutti i file"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "Le tue chiavi di cifratura sono state spostate in una posizione sicura. Se qualcosa non dovesse funzionare, potrai ripristinare le chiavi. Eliminale definitivamente solo se sei sicuro che tutti i file siano stati decifrati."
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Ripristina chiavi di cifratura"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Elimina chiavi di cifratura"
 
 #: templates/users.php:19
 msgid "Login Name"

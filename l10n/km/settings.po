@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -26,20 +26,20 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "បាន​រក្សាទុក"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "សាក​ល្បង​ការ​កំណត់​អ៊ីមែល"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "ប្រសិន​បើ​អ្នក​ទទួល​បាន​អ៊ីមែល​នេះ មាន​ន័យ​ថា​ការ​កំណត់​គឺ​បាន​ត្រឹមម​ត្រូវ​ហើយ។"
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "មាន​កំហុស​កើត​ឡើង​នៅ​ពេល​កំពុង​ផ្ញើ​អ៊ីមែល​ចេញ។ សូម​មើល​ការ​កំណត់​របស់​អ្នក​ម្ដង​ទៀត។"
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -47,17 +47,17 @@ msgstr "បាន​ផ្ញើ​អ៊ីមែល"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "អ្នក​ត្រូវ​តែ​កំណត់​អ៊ីមែល​របស់​អ្នក​មុន​នឹង​អាច​ផ្ញើ​អ៊ីមែល​សាកល្បង​បាន។"
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:317
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
 msgid "Encryption"
 msgstr "កូដនីយកម្ម"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:354
 msgid "Authentication method"
 msgstr ""
 
@@ -100,6 +100,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "បាន​រក្សា​ទុក​អ៊ីមែល"
@@ -115,6 +125,16 @@ msgstr "មិន​អាច​លុប​ក្រុម​បាន"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "មិន​អាច​លុប​អ្នក​ប្រើ​បាន"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -144,7 +164,7 @@ msgstr "មិន​អាច​ធ្វើ​បច្ចុប្បន្ន
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
-msgstr ""
+msgstr "ខុស​ពាក្យ​សម្ងាត់"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
@@ -171,9 +191,9 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
-#: js/admin.js:73
+#: js/admin.js:81
 msgid "Sending..."
-msgstr ""
+msgstr "កំពុង​ផ្ញើ..."
 
 #: js/apps.js:45 templates/help.php:4
 msgid "User Documentation"
@@ -181,7 +201,7 @@ msgstr "ឯកសារ​សម្រាប់​អ្នក​ប្រើប
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "កម្រង​ឯកសារ​អភិបាល"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -227,32 +247,40 @@ msgstr "ធ្វើ​បច្ចុប្បន្នភាព"
 msgid "Updated"
 msgstr "បាន​ធ្វើ​បច្ចុប្បន្នភាព"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
-msgstr ""
+msgstr "ជ្រើស​រូបភាព​ប្រវត្តិរូប"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​ខ្សោយ​ណាស់"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​ខ្សោយ"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​ធម្មតា"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​ល្អ"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
+msgstr "ពាក្យ​សម្ងាត់​ខ្លាំង"
+
+#: js/personal.js:310
+msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:313
-msgid "Decrypting files... Please wait, this can take some time."
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users.js:47
@@ -300,7 +328,7 @@ msgstr "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -326,7 +354,7 @@ msgstr ""
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "គ្មាន"
 
 #: templates/admin.php:17
 msgid "Login"
@@ -342,11 +370,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -488,148 +516,143 @@ msgstr "អនុញ្ញាត​ឲ្យ​កម្មវិធី​ប្
 msgid "Allow links"
 msgstr "អនុញ្ញាត​តំណ"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​របស់​ទៅ​សាធារណៈ​ជាមួយ​តំណ"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
-msgstr ""
+msgstr "អនុញ្ញាត​ការ​ផ្ទុក​ឡើង​ជា​សាធារណៈ"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "អនុញ្ញាត​ការ​ចែក​រំលែក​ម្ដង​ទៀត"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​ជាមួយ​នរណា​ម្នាក់"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr ""
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr ""
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​របស់​ទៅ​សាធារណៈ​ជាមួយ​តំណ"
+
+#: templates/admin.php:252
+msgid "Allow resharing"
+msgstr "អនុញ្ញាត​ការ​ចែក​រំលែក​ម្ដង​ទៀត"
+
+#: templates/admin.php:253
+msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:260
+msgid "Allow users to share with anyone"
+msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​ជាមួយ​នរណា​ម្នាក់"
+
+#: templates/admin.php:263
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:270
+msgid "Allow mail notification"
+msgstr ""
+
+#: templates/admin.php:271
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:279
 msgid "Security"
 msgstr "សុវត្ថិភាព"
 
-#: templates/admin.php:291
+#: templates/admin.php:292
 msgid "Enforce HTTPS"
 msgstr "បង្ខំ HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:299
+#: templates/admin.php:300
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:311
+#: templates/admin.php:312
 msgid "Email Server"
-msgstr ""
+msgstr "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល"
 
-#: templates/admin.php:313
+#: templates/admin.php:314
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "From address"
-msgstr ""
+msgstr "ពី​អាសយដ្ឋាន"
 
-#: templates/admin.php:366
+#: templates/admin.php:367
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:371
 msgid "Server address"
 msgstr "អាសយដ្ឋាន​ម៉ាស៊ីន​បម្រើ"
 
-#: templates/admin.php:374
+#: templates/admin.php:375
 msgid "Port"
-msgstr ""
+msgstr "ច្រក"
 
-#: templates/admin.php:379
+#: templates/admin.php:380
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:380
+#: templates/admin.php:381
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:383
+#: templates/admin.php:384
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:388
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:388
+#: templates/admin.php:389
 msgid "Send email"
-msgstr ""
+msgstr "ផ្ញើ​អ៊ីមែល"
 
-#: templates/admin.php:393
+#: templates/admin.php:394
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:394
+#: templates/admin.php:395
 msgid "Log level"
 msgstr "កម្រិត Log"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "More"
 msgstr "ច្រើន​ទៀត"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Less"
 msgstr "តិច"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:434 templates/personal.php:196
 msgid "Version"
 msgstr "កំណែ"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:438 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -706,11 +729,11 @@ msgstr "ពាក្យសម្ងាត់"
 
 #: templates/personal.php:39
 msgid "Your password was changed"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​របស់​អ្នក​ត្រូវ​បាន​ប្ដូរ"
 
 #: templates/personal.php:40
 msgid "Unable to change your password"
-msgstr ""
+msgstr "មិន​អាច​ប្ដូរ​ពាក្យ​សម្ងាត់​របស់​អ្នក​បាន​ទេ"
 
 #: templates/personal.php:42
 msgid "Current password"
@@ -744,19 +767,19 @@ msgstr ""
 
 #: templates/personal.php:89
 msgid "Profile picture"
-msgstr ""
+msgstr "រូបភាព​ប្រវត្តិរូប"
 
 #: templates/personal.php:94
 msgid "Upload new"
-msgstr ""
+msgstr "ផ្ទុកឡើង​ថ្មី"
 
 #: templates/personal.php:96
 msgid "Select new from Files"
-msgstr ""
+msgstr "ជ្រើស​ថ្មី​ពី​ឯកសារ"
 
 #: templates/personal.php:97
 msgid "Remove image"
-msgstr ""
+msgstr "ដក​រូបភាព​ចេញ"
 
 #: templates/personal.php:98
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -782,27 +805,31 @@ msgstr "ភាសា"
 msgid "Help translate"
 msgstr "ជួយ​បក​ប្រែ"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr ""
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
+msgstr "ពាក្យ​សម្ងាត់​ចូល​គណនី"
+
+#: templates/personal.php:161
+msgid "Decrypt all Files"
 msgstr ""
 
-#: templates/personal.php:162
-msgid "Decrypt all Files"
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
 msgstr ""
 
 #: templates/users.php:19
@@ -825,7 +852,7 @@ msgstr ""
 
 #: templates/users.php:40
 msgid "Default Storage"
-msgstr ""
+msgstr "ឃ្លាំង​ផ្ទុក​លំនាំ​ដើម"
 
 #: templates/users.php:42 templates/users.php:137
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -833,7 +860,7 @@ msgstr ""
 
 #: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
-msgstr ""
+msgstr "មិន​កំណត់"
 
 #: templates/users.php:64 templates/users.php:161
 msgid "Other"
@@ -845,7 +872,7 @@ msgstr "ឈ្មោះ​អ្នកប្រើ"
 
 #: templates/users.php:92
 msgid "Storage"
-msgstr ""
+msgstr "ឃ្លាំង​ផ្ទុក"
 
 #: templates/users.php:106
 msgid "change full name"
@@ -853,8 +880,8 @@ msgstr ""
 
 #: templates/users.php:110
 msgid "set new password"
-msgstr ""
+msgstr "កំណត់​ពាក្យ​សម្ងាត់​ថ្មី"
 
 #: templates/users.php:141
 msgid "Default"
-msgstr ""
+msgstr "លំនាំ​ដើម"

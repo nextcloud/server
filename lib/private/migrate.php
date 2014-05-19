@@ -53,7 +53,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief finds and loads the providers
+	* finds and loads the providers
 	*/
 	static private function findProviders() {
 		// Find the providers
@@ -68,7 +68,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @brief exports a user, or owncloud instance
+	 * exports a user, or owncloud instance
 	 * @param string $uid user id of user to export if export type is user, defaults to current
 	 * @param string $type type of export, defualts to user
 	 * @param string $path path to zip output folder
@@ -192,7 +192,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @brief imports a user, or owncloud instance
+	 * imports a user, or owncloud instance
 	 * @param string $path path to zip
 	 * @param string $type type of import (user or instance)
 	 * @param string|null|int $uid userid of new user
@@ -307,7 +307,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief recursively deletes a directory
+	* recursively deletes a directory
 	* @param string $dir path of dir to delete
 	* @param bool $deleteRootToo delete the root directory
 	* @return bool
@@ -332,8 +332,8 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief tries to extract the import zip
-	* @param $path string path to the zip
+	* tries to extract the import zip
+	* @param string $path path to the zip
 	* @return string path to extract location (with a trailing slash) or false on failure
 	*/
 	static private function extractZip( $path ) {
@@ -356,7 +356,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @brief creates a migration.db in the users data dir with their app data in
+	 * creates a migration.db in the users data dir with their app data in
 	 * @return bool whether operation was successfull
 	 */
 	private static function exportAppData( ) {
@@ -406,7 +406,7 @@ class OC_Migrate{
 
 
 	/**
-	 * @brief generates json containing export info, and merges any data supplied
+	 * generates json containing export info, and merges any data supplied
 	 * @param array $array of data to include in the returned json
 	 * @return string
 	 */
@@ -430,7 +430,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @brief connects to migration.db, or creates if not found
+	 * connects to migration.db, or creates if not found
 	 * @param string $path to migration.db, defaults to user data dir
 	 * @return bool whether the operation was successful
 	 */
@@ -460,7 +460,7 @@ class OC_Migrate{
 	}
 
 	/**
-	 * @brief creates the tables in migration.db from an apps database.xml
+	 * creates the tables in migration.db from an apps database.xml
 	 * @param string $appid id of the app
 	 * @return bool whether the operation was successful
 	 */
@@ -498,7 +498,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief tries to create the zip
+	* tries to create the zip
 	* @return bool
 	*/
 	static private function createZip() {
@@ -519,7 +519,7 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief returns an array of apps that support migration
+	* returns an array of apps that support migration
 	* @return array
 	*/
 	static public function getApps() {
@@ -534,11 +534,11 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief imports a new user
+	* imports a new user
 	* @param string $db string path to migration.db
-	* @param $info object of migration info
+	* @param object $info object of migration info
 	* @param string|null|int $uid uid to use
-	* @return array of apps with import statuses, or false on failure.
+	* @return array an array of apps with import statuses, or false on failure.
 	*/
 	public static function importAppData( $db, $info, $uid=null ) {
 		// Check if the db exists

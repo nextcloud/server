@@ -37,7 +37,7 @@ class OC_App{
 	static private $altLogin = array();
 
 	/**
-	 * @brief clean the appid
+	 * clean the appid
 	 * @param string|boolean $app Appid that needs to be cleaned
 	 * @return string
 	 */
@@ -46,7 +46,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief loads all apps
+	 * loads all apps
 	 * @param array $types
 	 * @return bool
 	 *
@@ -187,7 +187,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief checks whether or not an app is enabled
+	 * checks whether or not an app is enabled
 	 * @param string $app app
 	 * @return bool
 	 *
@@ -202,7 +202,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief enables an app
+	 * enables an app
 	 * @param mixed $app app
 	 * @throws \Exception
 	 * @return void
@@ -250,7 +250,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief disables an app
+	 * disables an app
 	 * @param string $app app
 	 * @return boolean|null
 	 *
@@ -269,7 +269,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief adds an entry to the navigation
+	 * adds an entry to the navigation
 	 * @param array $data array containing the data
 	 * @return bool
 	 *
@@ -291,7 +291,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief marks a navigation entry as active
+	 * marks a navigation entry as active
 	 * @param string $id id of the entry
 	 * @return bool
 	 *
@@ -305,9 +305,9 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Get the navigation entries for the $app
+	 * Get the navigation entries for the $app
 	 * @param string $app app
-	 * @return array of the $data added with addNavigationEntry
+	 * @return array an array of the $data added with addNavigationEntry
 	 *
 	 * Warning: destroys the existing entries
 	 */
@@ -321,7 +321,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief gets the active Menu entry
+	 * gets the active Menu entry
 	 * @return string id or empty string
 	 *
 	 * This function returns the id of the active navigation entry (set by
@@ -332,7 +332,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Returns the Settings Navigation
+	 * Returns the Settings Navigation
 	 * @return string
 	 *
 	 * This function returns an array containing all settings pages added. The
@@ -500,7 +500,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Read all app metadata from the info.xml file
+	 * Read all app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array
@@ -567,7 +567,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Returns the navigation
+	 * Returns the navigation
 	 * @return array
 	 *
 	 * This function returns an array containing all entries added. The
@@ -659,8 +659,8 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: get a list of all apps in the apps folder
-	 * @return array or app names (string IDs)
+	 * get a list of all apps in the apps folder
+	 * @return array an array of app names (string IDs)
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {
@@ -692,7 +692,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: Lists all apps, this is used in apps.php
+	 * Lists all apps, this is used in apps.php
 	 * @return array
 	 */
 	public static function listAllApps() {
@@ -766,7 +766,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
+	 * Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
 	 * @return array
 	 */
 	private static function customSort($a, $b) {
@@ -796,7 +796,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: get a list of all apps on apps.owncloud.com
+	 * get a list of all apps on apps.owncloud.com
 	 * @return array, multi-dimensional array of apps.
 	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */

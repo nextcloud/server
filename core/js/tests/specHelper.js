@@ -63,6 +63,9 @@ window.oc_config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false
 };
+window.oc_appconfig = {
+	core: {}
+};
 window.oc_defaults = {};
 
 // global setup for all tests

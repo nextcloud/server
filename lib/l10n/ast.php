@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Help" => "Ayuda",
 "Personal" => "Personal",
 "Settings" => "Axustes",
 "Users" => "Usuarios",

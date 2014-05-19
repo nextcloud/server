@@ -25,7 +25,7 @@
 namespace OC\Files\Storage;
 
 set_include_path(get_include_path() . PATH_SEPARATOR .
-        \OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');
+	\OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');
 require 'aws-autoloader.php';
 
 use Aws\S3\S3Client;

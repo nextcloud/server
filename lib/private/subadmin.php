@@ -31,7 +31,7 @@ OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC_SubAdmin', 'post_deleteGroup
 class OC_SubAdmin{
 
 	/**
-	 * @brief add a SubAdmin
+	 * add a SubAdmin
 	 * @param string $uid uid of the SubAdmin
 	 * @param string $gid gid of the group
 	 * @return boolean
@@ -44,7 +44,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief delete a SubAdmin
+	 * delete a SubAdmin
 	 * @param string $uid uid of the SubAdmin
 	 * @param string $gid gid of the group
 	 * @return boolean
@@ -57,7 +57,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief get groups of a SubAdmin
+	 * get groups of a SubAdmin
 	 * @param string $uid uid of the SubAdmin
 	 * @return array
 	 */
@@ -72,7 +72,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief get SubAdmins of a group
+	 * get SubAdmins of a group
 	 * @param string $gid gid of the group
 	 * @return array
 	 */
@@ -87,7 +87,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief get all SubAdmins
+	 * get all SubAdmins
 	 * @return array
 	 */
 	public static function getAllSubAdmins() {
@@ -101,7 +101,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief checks if a user is a SubAdmin of a group
+	 * checks if a user is a SubAdmin of a group
 	 * @param string $uid uid of the subadmin
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -117,7 +117,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief checks if a user is a SubAdmin
+	 * checks if a user is a SubAdmin
 	 * @param string $uid uid of the subadmin
 	 * @return bool
 	 */
@@ -137,7 +137,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief checks if a user is a accessible by a subadmin
+	 * checks if a user is a accessible by a subadmin
 	 * @param string $subadmin uid of the subadmin
 	 * @param string $user uid of the user
 	 * @return bool
@@ -159,15 +159,15 @@ class OC_SubAdmin{
 	}
 
 	/*
-	 * @brief alias for self::isSubAdminofGroup()
+	 * alias for self::isSubAdminofGroup()
 	 */
 	public static function isGroupAccessible($subadmin, $group) {
 		return self::isSubAdminofGroup($subadmin, $group);
 	}
 
 	/**
-	 * @brief delete all SubAdmins by uid
-	 * @param $parameters
+	 * delete all SubAdmins by uid
+	 * @param array $parameters
 	 * @return boolean
 	 */
 	public static function post_deleteUser($parameters) {
@@ -177,8 +177,8 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief delete all SubAdmins by gid
-	 * @param $parameters
+	 * delete all SubAdmins by gid
+	 * @param array $parameters
 	 * @return boolean
 	 */
 	public static function post_deleteGroup($parameters) {

@@ -54,7 +54,7 @@
 		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
-		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>"/>
+		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>" disabled="disabled"/>
 	</fieldset>
 </form>
 <?php if (!empty($_['alt_login'])) { ?>

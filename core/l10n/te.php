@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Cancel" => "రద్దుచేయి",
 "Continue" => "కొనసాగించు",
 "Error" => "పొరపాటు",
-"Password" => "సంకేతపదం",
 "Send" => "పంపించు",
 "Expiration date" => "కాలం చెల్లు తేదీ",
 "delete" => "తొలగించు",
@@ -49,6 +48,7 @@ $TRANSLATIONS = array(
 "Personal" => "వ్యక్తిగతం",
 "Users" => "వాడుకరులు",
 "Help" => "సహాయం",
+"Password" => "సంకేతపదం",
 "Log out" => "నిష్క్రమించు",
 "Lost your password?" => "మీ సంకేతపదం పోయిందా?"
 );

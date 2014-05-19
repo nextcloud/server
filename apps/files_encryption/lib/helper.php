@@ -24,7 +24,7 @@
 namespace OCA\Encryption;
 
 /**
- * @brief Class to manage registration of hooks an various helper methods
+ * Class to manage registration of hooks an various helper methods
  * @package OCA\Encryption
  */
 class Helper {
@@ -32,7 +32,7 @@ class Helper {
 	private static $tmpFileMapping; // Map tmp files to files in data/user/files
 
 	/**
-	 * @brief register share related hooks
+	 * register share related hooks
 	 *
 	 */
 	public static function registerShareHooks() {
@@ -43,7 +43,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief register user related hooks
+	 * register user related hooks
 	 *
 	 */
 	public static function registerUserHooks() {
@@ -56,7 +56,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief register filesystem related hooks
+	 * register filesystem related hooks
 	 *
 	 */
 	public static function registerFilesystemHooks() {
@@ -68,7 +68,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief register app management related hooks
+	 * register app management related hooks
 	 *
 	 */
 	public static function registerAppHooks() {
@@ -78,7 +78,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief setup user for files_encryption
+	 * setup user for files_encryption
 	 *
 	 * @param Util $util
 	 * @param string $password
@@ -100,9 +100,9 @@ class Helper {
 	}
 
 	/**
-	 * @brief enable recovery
+	 * enable recovery
 	 *
-	 * @param $recoveryKeyId
+	 * @param string $recoveryKeyId
 	 * @param string $recoveryPassword
 	 * @internal param \OCA\Encryption\Util $util
 	 * @internal param string $password
@@ -153,7 +153,7 @@ class Helper {
 			$return = true;
 
 		} else { // get recovery key and check the password
-			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
 			$return = $util->checkRecoveryPassword($recoveryPassword);
 			if ($return) {
 				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
@@ -164,7 +164,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief Check if a path is a .part file
+	 * Check if a path is a .part file
 	 * @param string $path Path that may identify a .part file
 	 * @return bool
 	 */
@@ -181,7 +181,7 @@ class Helper {
 
 
 	/**
-	 * @brief Remove .path extension from a file path
+	 * Remove .path extension from a file path
 	 * @param string $path Path that may identify a .part file
 	 * @return string File path without .part extension
 	 * @note this is needed for reusing keys
@@ -208,13 +208,13 @@ class Helper {
 	}
 
 	/**
-	 * @brief disable recovery
+	 * disable recovery
 	 *
 	 * @param string $recoveryPassword
 	 * @return bool
 	 */
 	public static function adminDisableRecovery($recoveryPassword) {
-		$util = new Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
+		$util = new Util(new \OC\Files\View('/'), \OCP\User::getUser());
 		$return = $util->checkRecoveryPassword($recoveryPassword);
 
 		if ($return) {
@@ -227,7 +227,7 @@ class Helper {
 
 
 	/**
-	 * @brief checks if access is public/anonymous user
+	 * checks if access is public/anonymous user
 	 * @return bool
 	 */
 	public static function isPublicAccess() {
@@ -239,7 +239,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief Format a path to be relative to the /user/files/ directory
+	 * Format a path to be relative to the /user/files/ directory
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */
@@ -259,7 +259,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief try to get the user from the path if no user is logged in
+	 * try to get the user from the path if no user is logged in
 	 * @param string $path
 	 * @return mixed user or false if we couldn't determine a user
 	 */
@@ -294,7 +294,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief get path to the corresponding file in data/user/files if path points
+	 * get path to the corresponding file in data/user/files if path points
 	 *        to a version or to a file in cache
 	 * @param string $path path to a version or a file in the trash
 	 * @return string path to corresponding file relative to data/user/files
@@ -327,12 +327,12 @@ class Helper {
 	}
 
 	/**
-	 * @brief create directory recursively
+	 * create directory recursively
 	 * @param string $path
 	 * @param \OC\Files\View $view
 	 */
 	public static function mkdirr($path, $view) {
-		$dirname = \OC_Filesystem::normalizePath(dirname($path));
+		$dirname = \OC\Files\Filesystem::normalizePath(dirname($path));
 		$dirParts = explode('/', $dirname);
 		$dir = "";
 		foreach ($dirParts as $part) {
@@ -344,7 +344,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief redirect to a error page
+	 * redirect to a error page
 	 * @param Session $session
 	 */
 	public static function redirectToErrorPage($session, $errorCode = null) {
@@ -428,7 +428,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
+	 * glob uses different pattern than regular expressions, escape glob pattern only
 	 * @param string $path unescaped path
 	 * @return string path
 	 */
@@ -437,7 +437,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief remember from which file the tmp file (getLocalFile() call) was created
+	 * remember from which file the tmp file (getLocalFile() call) was created
 	 * @param string $tmpFile path of tmp file
 	 * @param string $originalFile path of the original file relative to data/
 	 */
@@ -446,7 +446,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief get the path of the original file
+	 * get the path of the original file
 	 * @param string $tmpFile path of the tmp file
 	 * @return string|false path of the original file or false
 	 */

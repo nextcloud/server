@@ -54,7 +54,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Отказ",
 "Language" => "Език",
 "Help translate" => "Помогнете с превода",
-"WebDAV" => "WebDAV",
 "Login Name" => "Потребител",
 "Create" => "Създаване",
 "Default Storage" => "Хранилище по подразбиране",

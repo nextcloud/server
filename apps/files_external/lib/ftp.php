@@ -64,7 +64,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 
 	/**
 	 * Unlinks file or directory
-	 * @param string @path
+	 * @param string $path
 	 */
 	public function unlink($path) {
 		if ($this->is_dir($path)) {

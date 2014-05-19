@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Nuligi",
 "Language" => "Lingvo",
 "Help translate" => "Helpu traduki",
-"WebDAV" => "WebDAV",
 "Login Name" => "Ensaluti",
 "Create" => "Krei",
 "Default Storage" => "Defaŭlta konservejo",

@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 er ótakmarkað",
 "Maximum input size for ZIP files" => "Hámarks inntaksstærð fyrir ZIP skrár",
 "Save" => "Vista",
+"WebDAV" => "WebDAV",
 "New" => "Nýtt",
 "Text file" => "Texta skrá",
 "Folder" => "Mappa",

@@ -185,7 +185,7 @@ class OC_Defaults {
 
 	/**
 	 * Returns mail header color
-	 * @return mail header color
+	 * @return string
 	 */
 	public function getMailHeaderColor() {
 		if ($this->themeExist('getMailHeaderColor')) {

@@ -3,12 +3,11 @@ $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "%s не может быть удалён навсегда",
 "Couldn't restore %s" => "%s не может быть восстановлен",
 "Deleted files" => "Удалённые файлы",
+"Restore" => "Восстановить",
 "Error" => "Ошибка",
-"Deleted Files" => "Удаленные файлы",
 "restored" => "восстановлен",
 "Nothing in here. Your trash bin is empty!" => "Здесь ничего нет. Ваша корзина пуста!",
 "Name" => "Имя",
-"Restore" => "Восстановить",
 "Deleted" => "Удалён",
 "Delete" => "Удалить"
 );

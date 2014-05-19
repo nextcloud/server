@@ -41,7 +41,7 @@ class OC_DB_StatementWrapper {
 	 * make execute return the result instead of a bool
 	 *
 	 * @param array $input
-	 * @return \OC_DB_StatementWrapper | int
+	 * @return \OC_DB_StatementWrapper|int
 	 */
 	public function execute($input=array()) {
 		if(OC_Config::getValue( "log_query", false)) {

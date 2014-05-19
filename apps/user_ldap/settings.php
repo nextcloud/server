@@ -71,7 +71,7 @@ $tmpl->assign('settingControls', $sControls);
 $config = new \OCA\user_ldap\lib\Configuration('', false);
 $defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
-    $tmpl->assign($key.'_default', $default);
+	$tmpl->assign($key.'_default', $default);
 }
 
 return $tmpl->fetchPage();

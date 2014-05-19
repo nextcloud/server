@@ -70,7 +70,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Dropbox', array(
 OC_Mount_Config::registerBackend('\OC\Files\Storage\FTP', array(
 	'backend' => 'FTP',
 	'configuration' => array(
-		'host' => (string)$l->t('URL'),
+		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Root'),
@@ -108,7 +108,7 @@ if (!OC_Util::runningOnWindows()) {
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB', array(
 		'backend' => 'SMB / CIFS',
 		'configuration' => array(
-			'host' => (string)$l->t('URL'),
+			'host' => (string)$l->t('Host'),
 			'user' => (string)$l->t('Username'),
 			'password' => '*'.$l->t('Password'),
 			'share' => (string)$l->t('Share'),
@@ -118,7 +118,7 @@ if (!OC_Util::runningOnWindows()) {
 	OC_Mount_Config::registerBackend('\OC\Files\Storage\SMB_OC', array(
 			'backend' => (string)$l->t('SMB / CIFS using OC login'),
 			'configuration' => array(
-				'host' => (string)$l->t('URL'),
+				'host' => (string)$l->t('Host'),
 				'username_as_share' => '!'.$l->t('Username as share'),
 				'share' => '&'.$l->t('Share'),
 				'root' => '&'.$l->t('Root')),
@@ -148,7 +148,7 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\OwnCloud', array(
 OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 	'backend' => 'SFTP',
 	'configuration' => array(
-		'host' => (string)$l->t('URL'),
+		'host' => (string)$l->t('Host'),
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Root'))));

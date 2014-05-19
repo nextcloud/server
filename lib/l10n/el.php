@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Παρακαλώ επικοινωνήστε με τον διαχειριστή συστημάτων σας. Αν είστε διαχειριστής αυτού του στιγμιοτύπο, ρυθμίστε το κλειδί \"trusted_domain\" στο αρχείο config/config.php. Ένα παράδειγμα παρέχεται στο αρχείο config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Η εφαρμογή \"%s\" δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση του ownCloud.",
 "No app name specified" => "Δεν προδιορίστηκε όνομα εφαρμογής",
 "Help" => "Βοήθεια",
@@ -56,6 +58,25 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη.",
 "Please double check the <a href='%s'>installation guides</a>." => "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",
 "%s shared »%s« with you" => "Ο %s διαμοιράστηκε μαζί σας το »%s«",
+"Sharing %s failed, because the file does not exist" => "Ο διαμοιρασμός του %s απέτυχε, γιατί το αρχείο δεν υπάρχει",
+"Sharing %s failed, because the user %s is the item owner" => "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s είναι ο ιδιοκτήτης του αντικειμένου",
+"Sharing %s failed, because the user %s does not exist" => "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν υπάρχει",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν είναι μέλος καμίας ομάδας στην οποία ο χρήστης %s είναι μέλος",
+"Sharing %s failed, because this item is already shared with %s" => "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s",
+"Sharing %s failed, because the group %s does not exist" => "Ο διαμοιρασμός του %s απέτυχε, γιατί η ομάδα χρηστών %s δεν υπάρχει",
+"Sharing %s failed, because %s is not a member of the group %s" => "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν είναι μέλος της ομάδας %s",
+"Sharing %s failed, because sharing with links is not allowed" => "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν επιτρέπεται ο διαμοιρασμός με συνδέσμους",
+"Share type %s is not valid for %s" => "Ο τύπος διαμοιρασμού %s δεν είναι έγκυρος για το %s",
+"Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Ο ορισμός δικαιωμάτων για το %s απέτυχε, γιατί τα δικαιώματα υπερτερούν αυτά που είναι ορισμένα για το %s",
+"Setting permissions for %s failed, because the item was not found" => "Ο ορισμός δικαιωμάτων για το %s απέτυχε, γιατί το αντικείμενο δεν βρέθηκε",
+"Sharing backend %s must implement the interface OCP\\Share_Backend" => "Το σύστημα διαμοιρασμού %s πρέπει να υλοποιεί την διεπαφή OCP\\Share_Backend",
+"Sharing backend %s not found" => "Το σύστημα διαμοιρασμού %s δεν βρέθηκε",
+"Sharing backend for %s not found" => "Το σύστημα διαμοιρασμού για το %s δεν βρέθηκε",
+"Sharing %s failed, because the user %s is the original sharer" => "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο αρχικά από τον χρήστη %s",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "Ο διαμοιρασμός του %s απέτυχε, γιατί τα δικαιώματα υπερτερούν αυτά που είναι ορισμένα για το %s",
+"Sharing %s failed, because resharing is not allowed" => "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν επιτρέπεται ο επαναδιαμοιρασμός",
+"Sharing %s failed, because the sharing backend for %s could not find its source" => "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν ήταν δυνατό να εντοπίσει την πηγή το σύστημα διαμοιρασμού για το %s ",
+"Sharing %s failed, because the file could not be found in the file cache" => "Ο διαμοιρασμός του %s απέτυχε, γιατί το αρχείο δεν βρέθηκε στην προσωρινή αποθήκευση αρχείων",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\"",
 "seconds ago" => "δευτερόλεπτα πριν",
 "_%n minute ago_::_%n minutes ago_" => array("","%n λεπτά πριν"),
@@ -67,7 +88,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","%n μήνες πριν"),
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Μόνο οι παρακάτων χαρακτήρες επιτρέπονται σε ένα όνομα χρήστη: \"a-z\", \"A-Z\", \"0-9\" και \"_.@-\"",
 "A valid username must be provided" => "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
-"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό"
+"A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό",
+"The username is already being used" => "Το όνομα χρήστη είναι κατειλημμένο"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-02 01:55-0400\n"
-"PO-Revision-Date: 2014-05-01 11:10+0000\n"
+"POT-Creation-Date: 2014-05-18 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 07:24+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -86,9 +86,9 @@ msgid "App secret"
 msgstr "Segreto applicazione"
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
-msgid "URL"
-msgstr "URL"
+#: appinfo/app.php:151
+msgid "Host"
+msgstr "Host"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
@@ -169,6 +169,10 @@ msgstr "SMB / CIFS utilizzando le credenziali di OC"
 msgid "Username as share"
 msgstr "Nome utente come condivisione"
 
+#: appinfo/app.php:131 appinfo/app.php:141
+msgid "URL"
+msgstr "URL"
+
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
 msgstr "Sicuro https://"
@@ -201,29 +205,29 @@ msgstr "Errore durante la configurazione dell'archivio Google Drive"
 msgid "Saved"
 msgstr "Salvato"
 
-#: lib/config.php:598
+#: lib/config.php:589
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b>"
 
-#: lib/config.php:608
+#: lib/config.php:599
 msgid " and "
 msgstr "e"
 
-#: lib/config.php:630
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> il supporto a cURL di PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo."
 
-#: lib/config.php:632
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> il supporto a FTP in PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo."
 
-#: lib/config.php:634
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
