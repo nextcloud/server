@@ -18,12 +18,15 @@ OCA.Sharing.PublicApp = {
 	_initialized: false,
 
 	initialize: function($el) {
+		var self = this;
 		if (this._initialized) {
 			return;
 		}
 		this._initialized = true;
+		this.initialDir = $('#dir').val();
+
 		// file list mode ?
-		if ($el.find('#filestable')) {
+		if ($el.find('#filestable').length) {
 			this.fileList = new OCA.Files.FileList(
 				$el,
 				{
@@ -55,7 +58,7 @@ OCA.Sharing.PublicApp = {
 			var params = {
 				x: $(document).width() * window.devicePixelRatio,
 				a: 'true',
-				file: encodeURIComponent($('#dir').val() + $('#filename').val()),
+				file: encodeURIComponent(this.initialDir + $('#filename').val()),
 				t: $('#sharingToken').val()
 			};
 
@@ -112,7 +115,7 @@ OCA.Sharing.PublicApp = {
 				data.formData = {
 					requesttoken: $('#publicUploadRequestToken').val(),
 					dirToken: $('#dirToken').val(),
-					subdir: $('input#dir').val(),
+					subdir: self.fileList.getCurrentDirectory(),
 					file_directory: fileDirectory
 				};
 			});
@@ -122,7 +125,7 @@ OCA.Sharing.PublicApp = {
 			delete this.fileActions.actions.all.Share;
 			this.fileList.setFileActions(this.fileActions);
 
-			this.fileList.changeDirectory($('#dir').val() || '/', false, true);
+			this.fileList.changeDirectory(this.initialDir || '/', false, true);
 
 			// URL history handling
 			this.fileList.$el.on('changeDirectory', _.bind(this._onDirectoryChanged, this));
@@ -156,16 +159,18 @@ $(document).ready(function() {
 	var App = OCA.Sharing.PublicApp;
 	App.initialize($('#preview'));
 
-	// HACK: for oc-dialogs previews that depends on Files:
-	Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
-		return App.fileList.lazyLoadPreview({
-			path: path,
-			mime: mime,
-			callback: ready,
-			width: width,
-			height: height,
-			etag: etag
-		});
-	};
+	if (window.Files) {
+		// HACK: for oc-dialogs previews that depends on Files:
+		Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
+			return App.fileList.lazyLoadPreview({
+				path: path,
+				mime: mime,
+				callback: ready,
+				width: width,
+				height: height,
+				etag: etag
+			});
+		};
+	}
 });
 
