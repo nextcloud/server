@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
+use OCP\Config;
 
 /**
  * Class Scanner
@@ -156,12 +157,16 @@ class Scanner extends BasicEmitter {
 					}
 				}
 				if (!empty($newData)) {
-					$data['fileid'] = $this->cache->put($file, $newData);
+					$addToCache = Config::getSystemValue('allow_scanner_to_affect_cache', true);
+					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'addToCache' => &$addToCache, 'data' => &$newData));
+					if($addToCache) {
+						$data['fileid'] = $this->cache->put($file, $newData);
+					}
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
 					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
 				}
 			} else {
-				$removeFromCache = true;
+				$removeFromCache = Config::getSystemValue('allow_scanner_to_affect_cache', true);
 				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file, 'removeFromCache' => &$removeFromCache));
 				if($removeFromCache) {
 					$this->cache->remove($file);
@@ -248,7 +253,7 @@ class Scanner extends BasicEmitter {
 			$removedChildren = \array_diff($existingChildren, $newChildren);
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
-				$removeFromCache = true;
+				$removeFromCache = Config::getSystemValue('allow_scanner_to_affect_cache', true);
 				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child, 'removeFromCache' => &$removeFromCache));
 				if($removeFromCache) {
 					$this->cache->remove($child);
@@ -271,10 +276,11 @@ class Scanner extends BasicEmitter {
 					$size += $childSize;
 				}
 			}
-			$addToCache = true;
-			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'addToCache' => &$addToCache, 'size' => &$size));
+			$newData = array('size' => $size);
+			$addToCache = Config::getSystemValue('allow_scanner_to_affect_cache', true);
+			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'addToCache' => &$addToCache, 'data' => &$newData));
 			if($addToCache) {
-				$this->cache->put($path, array('size' => $size));
+				$this->cache->put($path, $newData);
 			}
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
