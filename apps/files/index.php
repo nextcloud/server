@@ -74,7 +74,12 @@ if (OC_App::isEnabled('files_encryption')) {
 
 $nav = new OCP\Template('files', 'appnavigation', '');
 
+function sortNavigationItems($item1, $item2) {
+	return $item1['order'] - $item2['order'];
+}
+
 $navItems = \OCA\Files\App::getNavigationManager()->getAll();
+usort($navItems, 'sortNavigationItems');
 $nav->assign('navigationItems', $navItems);
 
 $contentItems = array();

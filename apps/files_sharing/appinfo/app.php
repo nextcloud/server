@@ -28,7 +28,7 @@ OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		"id" => 'sharingin',
 		"appname" => 'files_sharing',
 		"script" => 'list.php',
-		"order" => 3,
+		"order" => 10,
 		"name" => $l->t('Shared with you')
 	)
 );
@@ -37,7 +37,7 @@ OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		"id" => 'sharingout',
 		"appname" => 'files_sharing',
 		"script" => 'list.php',
-		"order" => 4,
+		"order" => 15,
 		"name" => $l->t('Shared with others')
 	)
 );

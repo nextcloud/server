@@ -9,7 +9,7 @@ array(
 	"id" => 'trashbin',
 	"appname" => 'files_trashbin',
 	"script" => 'list.php',
-	"order" => 1,
+	"order" => 50,
 	"name" => $l->t('Deleted files')
 )
 );
