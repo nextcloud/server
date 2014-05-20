@@ -53,7 +53,6 @@ UserManagementFilter.prototype.init = function() {
  * taken care of
  */
 UserManagementFilter.prototype.run = _.debounce(function() {
-		console.log(this);
 		this.userList.empty();
 		this.userList.update(GroupList.getCurrentGID());
 		this.groupList.empty();
