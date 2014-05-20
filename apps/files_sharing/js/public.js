@@ -59,7 +59,8 @@ OCA.Sharing.PublicApp = {
 				x: $(document).width() * window.devicePixelRatio,
 				a: 'true',
 				file: encodeURIComponent(this.initialDir + $('#filename').val()),
-				t: $('#sharingToken').val()
+				t: $('#sharingToken').val(),
+				scalingup: 0
 			};
 
 			var img = $('<img class="publicpreview">');
