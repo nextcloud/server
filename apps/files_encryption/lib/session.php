@@ -100,6 +100,8 @@ class Session {
 			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
 			$this->setPublicSharePrivateKey($privateKey);
 
+			$this->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
+
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 	}

@@ -38,6 +38,7 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	 */
 	protected function validateUserPass($username, $password) {
 		$linkItem = \OCP\Share::getShareByToken($username, false);
+		\OC_User::setIncognitoMode(true);
 		$this->share = $linkItem;
 		if (!$linkItem) {
 			return false;
