@@ -103,5 +103,4 @@ abstract class StreamWrapper extends Common {
 	public function stat($path) {
 		return stat($this->constructUrl($path));
 	}
-
 }

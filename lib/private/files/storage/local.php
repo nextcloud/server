@@ -279,5 +279,19 @@ if (\OC_Util::runningOnWindows()) {
 		public function isLocal() {
 			return true;
 		}
+
+		/**
+		 * Acquire a lock on a file
+		 */
+		public function getLock($path, $lockType) {
+			return true;
+		}
+
+		/**
+		 * Release an existing lock
+		 */
+		public function releaseLock($path) {
+			return true;
+		}
 	}
 }

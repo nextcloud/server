@@ -71,6 +71,16 @@ class OC_Util {
 				return $storage;
 			});
 
+			// Set up flock
+			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, /** @var \OC\Files\Storage\Storage|null $storage */ $storage){
+				// lock files on all local storage
+				if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
+					return new \OC\Files\Storage\Wrapper\LockingWrapper(array('storage' => $storage));
+				} else {
+					return $storage;
+				}
+			});
+
 			$userDir = '/'.$user.'/files';
 			$userRoot = OC_User::getHome($user);
 			$userDirectory = $userRoot . '/files';
