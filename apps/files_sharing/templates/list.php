@@ -4,7 +4,7 @@
 </div>
 <div id='notification'></div>
 
-<div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here.'))?></div>
+<div id="emptycontent" class="hidden"></div>
 
 <input type="hidden" name="dir" value="" id="dir">
 

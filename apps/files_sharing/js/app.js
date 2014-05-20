@@ -28,6 +28,9 @@ OCA.Sharing.App = {
 		);
 
 		this._initFileActions(this._inFileList);
+		this._extendFileList(this._inFileList);
+		this._inFileList.appName = t('files_sharing', 'Shared with you');
+		this._inFileList.$el.find('#emptycontent').text(t('files_sharing', 'No files have been shared with you yet.'));
 	},
 
 	initSharingOut: function($el) {
@@ -43,6 +46,9 @@ OCA.Sharing.App = {
 		);
 
 		this._initFileActions(this._outFileList);
+		this._extendFileList(this._outFileList);
+		this._outFileList.appName = t('files_sharing', 'Shared with others');
+		this._outFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files yet.'));
 	},
 
 	_initFileActions: function(fileList) {
@@ -54,6 +60,11 @@ OCA.Sharing.App = {
 			OCA.Files.App.fileList.changeDirectory(context.$file.attr('data-path') + '/' + filename, true, true);
 		});
 		fileList.setFileActions(fileActions);
+	},
+
+	_extendFileList: function(fileList) {
+		// remove size column from summary
+		fileList.fileSummary.$el.find('.filesize').remove();
 	}
 };
 
