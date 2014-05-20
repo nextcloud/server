@@ -52,12 +52,18 @@ class Api {
 			return self::collectShares($params);
 		}
 
-		$share = \OCP\Share::getItemShared('file', null);
+		$shares = \OCP\Share::getItemShared('file', null);
 
-		if ($share === false) {
+		if ($shares === false) {
 			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
-			return new \OC_OCS_Result($share);
+			foreach ($shares as &$share) {
+				if ($share['item_type'] === 'file') {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+				$newShares[] = $share;
+			}
+			return new \OC_OCS_Result($shares);
 		}
 
 	}
@@ -205,6 +211,11 @@ class Api {
 	private static function getFilesSharedWithMe() {
 		try	{
 			$shares = \OCP\Share::getItemsSharedWith('file');
+			foreach ($shares as &$share) {
+				if ($share['item_type'] === 'file') {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+			}
 			$result = new \OC_OCS_Result($shares);
 		} catch (\Exception $e) {
 			$result = new \OC_OCS_Result(null, 403, $e->getMessage());

@@ -133,7 +133,8 @@
 					/* jshint camelcase: false */
 					var file = {
 						id: share.file_source,
-						mtime: share.stime * 1000
+						mtime: share.stime * 1000,
+						mimetype: share.mimetype
 					};
 					if (share.item_type === 'folder') {
 						file.type = 'dir';
