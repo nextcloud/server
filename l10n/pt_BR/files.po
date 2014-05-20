@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Marcelo Alvarenga <alvarenga@kde.org>, 2014
 # bjamalaro <bjamalaro@yahoo.com.br>, 2013
 # Flávio Veras <flaviove@gmail.com>, 2013-2014
 # tuliouel, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-19 01:54-0400\n"
-"PO-Revision-Date: 2014-05-18 13:53+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-20 01:54-0400\n"
+"PO-Revision-Date: 2014-05-19 21:01+0000\n"
+"Last-Translator: André Marcelo Alvarenga <alvarenga@kde.org>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Impossível mover %s - Um arquivo com este nome já existe"
+msgstr "Impossível mover %s - Já existe um arquivo com esse nome"
 
 #: ajax/move.php:25 ajax/move.php:28
 #, php-format
@@ -64,7 +65,7 @@ msgstr "Não é uma fonte válida"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr "Não é permitido ao servidor abrir URLs, por favor verificar a configuração do servidor."
+msgstr "O servidor não tem permissão para abrir URLs. Por favor, verifique a configuração do servidor."
 
 #: ajax/newfile.php:118
 #, php-format
@@ -156,7 +157,7 @@ msgstr "Incapaz de fazer o envio de {filename}, pois é um diretório ou tem 0 b
 
 #: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr "Tamanho total do arquivo {size1} excede limite de envio {size2}"
+msgstr "O tamanho total do arquivo {size1} excede o limite de envio {size2}"
 
 #: js/file-upload.js:281
 msgid ""
@@ -354,7 +355,7 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr "Use este endereço <a href=\"%s\" target=\"_blank\">para ter acesso a seus Arquivos via WebDAV</a>"
+msgstr "Use este endereço <a href=\"%s\" target=\"_blank\">para ter acesso aos seus Arquivos via WebDAV</a>"
 
 #: templates/list.php:5
 msgid "New"
@@ -390,7 +391,7 @@ msgstr "Você não tem permissão para carregar ou criar arquivos aqui"
 
 #: templates/list.php:53
 msgid "Nothing in here. Upload something!"
-msgstr "Nada aqui.Carrege alguma coisa!"
+msgstr "Nada aqui. Carrege alguma coisa!"
 
 #: templates/list.php:68
 msgid "Download"

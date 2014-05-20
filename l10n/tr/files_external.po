@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-20 01:54-0400\n"
+"PO-Revision-Date: 2014-05-19 14:42+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,12 +90,12 @@ msgstr "Sunucu"
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
 msgid "Username"
-msgstr "Kullanıcı Adı:"
+msgstr "Kullanıcı Adı"
 
 #: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
 #: appinfo/app.php:143 appinfo/app.php:153
 msgid "Password"
-msgstr "Parola:"
+msgstr "Parola"
 
 #: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
 #: appinfo/app.php:134 appinfo/app.php:154

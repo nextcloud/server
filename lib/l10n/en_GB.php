@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "Sharing %s failed, because this item is already shared with %s",
 "Sharing %s failed, because the group %s does not exist" => "Sharing %s failed, because the group %s does not exist",
 "Sharing %s failed, because %s is not a member of the group %s" => "Sharing %s failed, because %s is not a member of the group %s",
+"You need to provide a password to create a public link, only protected links are allowed" => "You need to provide a password to create a public link, only protected links are allowed",
 "Sharing %s failed, because sharing with links is not allowed" => "Sharing %s failed, because sharing with links is not allowed",
 "Share type %s is not valid for %s" => "Share type %s is not valid for %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Setting permissions for %s failed, because the permissions exceed permissions granted to %s",

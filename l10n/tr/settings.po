@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-19 01:54-0400\n"
-"PO-Revision-Date: 2014-05-18 18:22+0000\n"
+"POT-Creation-Date: 2014-05-20 01:54-0400\n"
+"PO-Revision-Date: 2014-05-19 14:42+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -532,11 +532,11 @@ msgstr "Öntanımlı son kullanma tarihini ayarla"
 
 #: templates/admin.php:232
 msgid "Expire after "
-msgstr "Şu süreden sonra süresi dolsun"
+msgstr "Süre"
 
 #: templates/admin.php:235
 msgid "days"
-msgstr "gün"
+msgstr "gün sonra dolsun"
 
 #: templates/admin.php:238
 msgid "Enforce expiration date"
@@ -556,7 +556,7 @@ msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmas
 
 #: templates/admin.php:260
 msgid "Allow users to share with anyone"
-msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
+msgstr "Kullanıcıların herkesle paylaşmasına izin ver"
 
 #: templates/admin.php:263
 msgid "Allow users to only share with users in their groups"
@@ -731,7 +731,7 @@ msgstr "Parola"
 
 #: templates/personal.php:39
 msgid "Your password was changed"
-msgstr "Şifreniz değiştirildi"
+msgstr "Parolanız değiştirildi"
 
 #: templates/personal.php:40
 msgid "Unable to change your password"

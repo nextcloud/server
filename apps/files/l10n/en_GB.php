@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Upload failed. Could not get file info.",
 "Invalid directory." => "Invalid directory.",
 "Files" => "Files",
+"All files" => "All files",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Unable to upload {filename} as it is a directory or has 0 bytes",
 "Total file size {size1} exceeds upload limit {size2}" => "Total file size {size1} exceeds upload limit {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Not enough free space, you are uploading {size1} but only {size2} is left",

@@ -112,6 +112,7 @@ $TRANSLATIONS = array(
 "Enable Share API" => "Enable Share API",
 "Allow apps to use the Share API" => "Allow apps to use the Share API",
 "Allow links" => "Allow links",
+"Enforce password protection" => "Enforce password protection",
 "Allow public uploads" => "Allow public uploads",
 "Set default expiration date" => "Set default expiry date",
 "Expire after " => "Expire after ",

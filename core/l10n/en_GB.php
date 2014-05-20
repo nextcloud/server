@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "The public link will expire no later than {days} days after it is created" => "The public link will expire no later than {days} days after it is created",
 "By default the public link will expire after {days} days" => "By default the public link will expire after {days} days",
 "Password protect" => "Password protect",
+"Choose a password for the public link" => "Choose a password for the public link",
 "Allow Public Upload" => "Allow Public Upload",
 "Email link to person" => "Email link to person",
 "Send" => "Send",
