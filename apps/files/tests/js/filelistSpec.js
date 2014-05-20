@@ -1526,6 +1526,32 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.getSelectedFiles()).toEqual([]);
 		});
 	});
+	describe('File actions', function() {
+		it('Clicking on a file name will trigger default action', function() {
+			var actionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.fileActions.register(
+				'text/plain',
+				'Test',
+				OC.PERMISSION_ALL,
+				function() {
+					// Specify icon for hitory button
+					return OC.imagePath('core','actions/history');
+				},
+				actionStub
+			);
+			fileList.fileActions.setDefault('text/plain', 'Test');
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(actionStub.getCall(0).args[0]).toEqual('One.txt');
+			var context = actionStub.getCall(0).args[1];
+			expect(context.$file.is($tr)).toEqual(true);
+			expect(context.fileList).toBeDefined();
+			expect(context.fileActions).toBeDefined();
+			expect(context.dir).toEqual('/subdir');
+		});
+	});
 	describe('Sorting files', function() {
 		it('Sorts by name by default', function() {
 			fileList.reload();

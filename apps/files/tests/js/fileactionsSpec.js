@@ -152,5 +152,13 @@ describe('OCA.Files.FileActions tests', function() {
 		expect(context.$file.is($tr)).toEqual(true);
 		expect(context.fileList).toBeDefined();
 		expect(context.fileActions).toBeDefined();
+		expect(context.dir).toEqual('/subdir');
+
+		// when data-path is defined
+		actionStub.reset();
+		$tr.attr('data-path', '/somepath');
+		$tr.find('.action-test').click();
+		context = actionStub.getCall(0).args[1];
+		expect(context.dir).toEqual('/somepath');
 	});
 });

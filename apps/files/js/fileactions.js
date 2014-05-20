@@ -138,11 +138,13 @@
 
 				self.currentFile = event.data.elem;
 				var file = self.getCurrentFile();
+				var $tr = $(this).closest('tr');
 
 				event.data.actionFunc(file, {
-					$file: $(this).closest('tr'),
+					$file: $tr,
 					fileList: fileList || OCA.Files.App.fileList,
-					fileActions: self
+					fileActions: self,
+					dir: $tr.attr('data-path') || fileList.getCurrentDirectory()
 				});
 			};
 
@@ -210,7 +212,7 @@
 			}
 
 			if (triggerEvent){
-				$('#fileList').trigger(jQuery.Event("fileActionsReady"));
+				fileList.$fileList.trigger(jQuery.Event("fileActionsReady"));
 			}
 		},
 		getCurrentFile: function () {

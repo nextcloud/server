@@ -251,7 +251,8 @@
 						action(filename, {
 							$file: $tr,
 							fileList: this,
-							fileActions: this.fileActions
+							fileActions: this.fileActions,
+							dir: $tr.attr('data-path') || this.getCurrentDirectory()
 						});
 					}
 				}
