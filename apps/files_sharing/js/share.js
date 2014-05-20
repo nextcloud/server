@@ -9,10 +9,7 @@
  */
 
 $(document).ready(function() {
-
-	var sharesLoaded = false;
-
-	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined') {
+	if (!_.isUndefined(OC.Share) && !_.isUndefined(OCA.Files)) {
 		// TODO: make a separate class for this or a hook or jQuery event ?
 		if (OCA.Files.FileList) {
 			var oldCreateRow = OCA.Files.FileList.prototype._createRow;
@@ -64,18 +61,18 @@ $(document).ready(function() {
 				}
 			})
 
-			if (!sharesLoaded){
+			if (!OCA.Sharing.sharesLoaded){
 				OC.Share.loadIcons('file', $fileList);
 				// assume that we got all shares, so switching directories
 				// will not invalidate that list
-				sharesLoaded = true;
+				OCA.Sharing.sharesLoaded = true;
 			}
 			else{
 				OC.Share.updateIcons('file', $fileList);
 			}
 		});
 
-		OCA.Files.FileActions.register(
+		OCA.Files.fileActions.register(
 				'all',
 				'Share',
 				OC.PERMISSION_SHARE,

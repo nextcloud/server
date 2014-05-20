@@ -125,7 +125,7 @@
 			this.$container = options.scrollContainer || $(window);
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('#fileList');
-			this.fileActions = OCA.Files.FileActions;
+			this._initFileActions(options.fileActions);
 			this.files = [];
 			this._selectedFiles = {};
 			this._selectionSummary = new OCA.Files.FileSummary();
@@ -166,6 +166,14 @@
 			this.setupUploadEvents();
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
+		},
+
+		_initFileActions: function(fileActions) {
+			this.fileActions = fileActions;
+			if (!this.fileActions) {
+				this.fileActions = new OCA.Files.FileActions();
+				this.fileActions.registerDefaultActions();
+			}
 		},
 
 		/**
@@ -248,6 +256,8 @@
 					var action = this.fileActions.getDefault(mime,type, permissions);
 					if (action) {
 						event.preventDefault();
+						// also set on global object for legacy apps
+						window.FileActions.currentFile = this.fileActions.currentFile;
 						action(filename, {
 							$file: $tr,
 							fileList: this,
@@ -789,15 +799,6 @@
 		},
 		linkTo: function(dir) {
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
-		},
-
-		/**
-		 * Sets the file actions handler.
-		 *
-		 * @param fileActions FileActions handler
-		 */
-		setFileActions: function(fileActions) {
-			this.fileActions = fileActions;
 		},
 
 		/**

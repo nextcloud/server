@@ -24,20 +24,27 @@
 		initialize: function() {
 			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
 
-			// TODO: ideally these should be in a separate class / app (the embedded "all files" app)
-			this.fileActions = OCA.Files.FileActions.clone();
+			var fileActions = new OCA.Files.FileActions();
+			// default actions
+			fileActions.registerDefaultActions();
+			// legacy actions
+			fileActions.merge(window.FileActions);
+			// regular actions
+			fileActions.merge(OCA.Files.fileActions);
+
 			this.files = OCA.Files.Files;
 
+			// TODO: ideally these should be in a separate class / app (the embedded "all files" app)
 			this.fileList = new OCA.Files.FileList(
 				$('#app-content-files'), {
 					scrollContainer: $('#app-content'),
 					dragOptions: dragOptions,
-					folderDropOptions: folderDropOptions
+					folderDropOptions: folderDropOptions,
+					fileActions: fileActions,
+					allowLegacyActions: true
 				}
 			);
 			this.files.initialize();
-			this.fileActions.registerDefaultActions();
-			this.fileList.setFileActions(this.fileActions);
 
 			// for backward compatibility, the global FileList will
 			// refer to the one of the "files" view
@@ -146,7 +153,7 @@
 })();
 
 $(document).ready(function() {
-	// wait for other apps/extensions to register their event handlers
+	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function() {
 		OCA.Files.App.initialize();

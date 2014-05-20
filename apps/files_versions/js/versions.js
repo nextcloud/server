@@ -8,7 +8,7 @@
  *
  */
 
-/* global FileActions, scanFiles, escapeHTML, formatDate */
+/* global scanFiles, escapeHTML, formatDate */
 $(document).ready(function(){
 
 	if ($('#isPublic').val()){
@@ -18,9 +18,9 @@ $(document).ready(function(){
 		return;
 	}
 
-	if (typeof FileActions !== 'undefined') {
+	if (OCA.Files) {
 		// Add versions button to 'files/index.php'
-		FileActions.register(
+		OCA.Files.fileActions.register(
 			'file',
 			'Versions',
 			OC.PERMISSION_UPDATE,

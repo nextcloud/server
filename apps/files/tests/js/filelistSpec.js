@@ -21,7 +21,6 @@
 
 describe('OCA.Files.FileList tests', function() {
 	var testFiles, alertStub, notificationStub, fileList;
-	var FileActions = OCA.Files.FileActions;
 
 	/**
 	 * Generate test file data
@@ -117,15 +116,11 @@ describe('OCA.Files.FileList tests', function() {
 		}];
 
 		fileList = new OCA.Files.FileList($('#app-content-files'));
-		FileActions.clear();
-		FileActions.registerDefaultActions(fileList);
-		fileList.setFileActions(FileActions);
 	});
 	afterEach(function() {
 		testFiles = undefined;
 		fileList = undefined;
 
-		FileActions.clear();
 		notificationStub.restore();
 		alertStub.restore();
 	});

@@ -23,11 +23,11 @@ OCA.Sharing.App = {
 			$el,
 			{
 				scrollContainer: $('#app-content'),
-				sharedWithUser: true
+				sharedWithUser: true,
+				fileActions: this._createFileActions()
 			}
 		);
 
-		this._initFileActions(this._inFileList);
 		this._extendFileList(this._inFileList);
 		this._inFileList.appName = t('files_sharing', 'Shared with you');
 		this._inFileList.$el.find('#emptycontent').text(t('files_sharing', 'No files have been shared with you yet.'));
@@ -41,25 +41,31 @@ OCA.Sharing.App = {
 			$el,
 			{
 				scrollContainer: $('#app-content'),
-				sharedWithUser: false
+				sharedWithUser: false,
+				fileActions: this._createFileActions()
 			}
 		);
 
-		this._initFileActions(this._outFileList);
 		this._extendFileList(this._outFileList);
 		this._outFileList.appName = t('files_sharing', 'Shared with others');
 		this._outFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files yet.'));
 	},
 
-	_initFileActions: function(fileList) {
-		var fileActions = OCA.Files.FileActions.clone();
+	_createFileActions: function() {
+		// inherit file actions from the files app
+		var fileActions = new OCA.Files.FileActions();
+		// note: not merging the legacy actions because legacy apps are not
+		// compatible with the sharing overview and need to be adapted first
+		fileActions.merge(OCA.Files.fileActions);
+
 		// when the user clicks on a folder, redirect to the corresponding
-		// folder in the files app
+		// folder in the files app instead of opening it directly
 		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
 			OCA.Files.App.setActiveView('files', {silent: true});
 			OCA.Files.App.fileList.changeDirectory(context.$file.attr('data-path') + '/' + filename, true, true);
 		});
-		fileList.setFileActions(fileActions);
+		fileActions.setDefault('dir', 'Open');
+		return fileActions;
 	},
 
 	_extendFileList: function(fileList) {

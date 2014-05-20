@@ -11,11 +11,40 @@
 /* global trashBinApp */
 (function() {
 
-	var FileActions = {
+	/**
+	 * Construct a new FileActions instance
+	 */
+	var FileActions = function() {
+		this.initialize();
+	}
+	FileActions.prototype = {
 		actions: {},
 		defaults: {},
 		icons: {},
 		currentFile: null,
+		initialize: function() {
+			this.clear();
+		},
+		/**
+		 * Merges the actions from the given fileActions into
+		 * this instance.
+		 *
+		 * @param fileActions instance of OCA.Files.FileActions
+		 */
+		merge: function(fileActions) {
+			var self = this;
+			// merge first level to avoid unintended overwriting
+			_.each(fileActions.actions, function(sourceMimeData, mime) {
+				var targetMimeData = self.actions[mime];
+				if (!targetMimeData) {
+					targetMimeData = {};
+				}
+				self.actions[mime] = _.extend(targetMimeData, sourceMimeData);
+			});
+
+			this.defaults = _.extend(this.defaults, fileActions.defaults);
+			this.icons = _.extend(this.icons, fileActions.icons);
+		},
 		register: function (mime, name, permissions, icon, action, displayName) {
 			if (!this.actions[mime]) {
 				this.actions[mime] = {};
@@ -30,18 +59,6 @@
 			this.actions[mime][name]['permissions'] = permissions;
 			this.actions[mime][name]['displayName'] = displayName;
 			this.icons[name] = icon;
-		},
-		/**
-		 * Clones the current file actions handler including the already
-		 * registered actions.
-		 */
-		clone: function() {
-			var fileActions = _.extend({}, this);
-			// need to deep copy the actions as well
-			fileActions.actions = _.extend({}, this.actions);
-			fileActions.defaults = _.extend({}, this.defaults);
-			//fileActions.icons = _.extend({}, this.icons);
-			return fileActions;
 		},
 		clear: function() {
 			this.actions = {};
@@ -137,6 +154,9 @@
 				event.preventDefault();
 
 				self.currentFile = event.data.elem;
+				// also set on global object for legacy apps
+				window.FileActions.currentFile = self.currentFile;
+
 				var file = self.getCurrentFile();
 				var $tr = $(this).closest('tr');
 
@@ -276,8 +296,25 @@
 	};
 
 	OCA.Files.FileActions = FileActions;
-})();
 
-// for backward compatibility
-window.FileActions = OCA.Files.FileActions;
+	// global file actions to be used by all lists
+	OCA.Files.fileActions = new OCA.Files.FileActions();
+	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
+
+	// for backward compatibility
+	// 
+	// legacy apps are expecting a stateful global FileActions object to register
+	// their actions on. Since legacy apps are very likely to break with other
+	// FileList views than the main one ("All files"), actions registered
+	// through window.FileActions will be limited to the main file list.
+	window.FileActions = OCA.Files.legacyFileActions;
+	window.FileActions.register = function (mime, name, permissions, icon, action, displayName) {
+		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead');
+		OCA.Files.FileActions.prototype.register.call(window.FileActions, mime, name, permissions, icon, action, displayName);
+	};
+	window.FileActions.setDefault = function (mime, name) {
+		console.warn('FileActions.setDefault() is deprecated, please use OCA.Files.fileActions.setDefault() instead');
+		OCA.Files.FileActions.prototype.setDefault.call(window.FileActions, mime, name);
+	};
+})();
 

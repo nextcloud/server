@@ -21,7 +21,7 @@
 
 describe('OCA.Files.FileActions tests', function() {
 	var $filesTable, fileList;
-	var FileActions = OCA.Files.FileActions;
+	var FileActions; 
 
 	beforeEach(function() {
 		// init horrible parameters
@@ -31,10 +31,11 @@ describe('OCA.Files.FileActions tests', function() {
 		// dummy files table
 		$filesTable = $body.append('<table id="filestable"></table>');
 		fileList = new OCA.Files.FileList($('#testArea'));
-		FileActions.registerDefaultActions(fileList);
+		FileActions = new OCA.Files.FileActions();
+		FileActions.registerDefaultActions();
 	});
 	afterEach(function() {
-		FileActions.clear();
+		FileActions = null;
 		fileList = undefined;
 		$('#dir, #permissions, #filestable').remove();
 	});
