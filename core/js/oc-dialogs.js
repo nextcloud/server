@@ -351,7 +351,7 @@ var OCdialogs = {
 
 			conflict.find('.filename').text(original.name);
 			conflict.find('.original .size').text(humanFileSize(original.size));
-			conflict.find('.original .mtime').text(formatDate(original.mtime*1000));
+			conflict.find('.original .mtime').text(formatDate(original.mtime));
 			// ie sucks
 			if (replacement.size && replacement.lastModifiedDate) {
 				conflict.find('.replacement .size').text(humanFileSize(replacement.size));
@@ -374,9 +374,9 @@ var OCdialogs = {
 
 			//set more recent mtime bold
 			// ie sucks
-			if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime*1000) {
+			if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime) {
 				conflict.find('.replacement .mtime').css('font-weight', 'bold');
-			} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime*1000) {
+			} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime) {
 				conflict.find('.original .mtime').css('font-weight', 'bold');
 			} else {
 				//TODO add to same mtime collection?
