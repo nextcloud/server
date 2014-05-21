@@ -213,7 +213,9 @@ class Preferences {
 	 * @return array Mapped values: userid => value
 	 */
 	public function getValueForUsers($app, $key, $users) {
-		if (empty($users) || !is_array($users)) return array();
+		if (empty($users) || !is_array($users)) {
+			return array();
+		}
 
 		$chunked_users = array_chunk($users, 50, true);
 		$placeholders_50 = implode(',', array_fill(0, 50, '?'));
