@@ -41,6 +41,30 @@ class Proxy extends \OC_FileProxy {
 	private static $fopenMode = array(); // remember the fopen mode
 	private static $enableEncryption = false; // Enable encryption for the given path
 
+
+	/**
+	 * check if path is excluded from encryption
+	 *
+	 * @param string $path relative to data/
+	 * @param string $uid user
+	 * @return boolean
+	 */
+	private function isExcludedPath($path, $uid) {
+
+		// files outside of the files-folder are excluded
+		if(strpos($path, '/' . $uid . '/files') !== 0) {
+			return true;
+		}
+
+		// we don't encrypt server-to-server shares
+		list($storage, ) = \OC\Files\Filesystem::resolvePath($path);
+		if ($storage instanceof OCA\Files_Sharing\External\Storage) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Check if a file requires encryption
 	 * @param string $path
@@ -50,7 +74,7 @@ class Proxy extends \OC_FileProxy {
 	 * Tests if server side encryption is enabled, and if we should call the
 	 * crypt stream wrapper for the given file
 	 */
-	private static function shouldEncrypt($path, $mode = 'w') {
+	private function shouldEncrypt($path, $mode = 'w') {
 
 		$userId = Helper::getUser($path);
 		$session = new Session(new \OC\Files\View());
@@ -59,7 +83,7 @@ class Proxy extends \OC_FileProxy {
 		if (
 				$session->getInitialized() !== Session::INIT_SUCCESSFUL // encryption successful initialized
 				|| Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
-				|| strpos($path, '/' . $userId . '/files') !== 0 // path is not in files/
+				|| $this->isExcludedPath($path, $userId) // if path is excluded from encryption
 				|| substr($path, 0, 8) === 'crypt://' // we are already in crypt mode
 		) {
 			return false;
@@ -85,7 +109,7 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preFile_put_contents($path, &$data) {
 
-		if (self::shouldEncrypt($path)) {
+		if ($this->shouldEncrypt($path)) {
 
 			if (!is_resource($data)) {
 
@@ -219,7 +243,7 @@ class Proxy extends \OC_FileProxy {
 	public function preFopen($path, $mode) {
 
 		self::$fopenMode[$path] = $mode;
-		self::$enableEncryption = self::shouldEncrypt($path, $mode);
+		self::$enableEncryption = $this->shouldEncrypt($path, $mode);
 
 	}
 
