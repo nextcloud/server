@@ -145,6 +145,7 @@ class OC_Mount_Config {
 					$options['priority'] = $backends[$options['class']]['priority'];
 				}
 
+				// Override if priority greater
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
 					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
@@ -165,6 +166,7 @@ class OC_Mount_Config {
 					$options['priority'] = $backends[$options['class']]['priority'];
 				}
 
+				// Override if priority greater
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
 					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
@@ -186,6 +188,7 @@ class OC_Mount_Config {
 							$options['priority'] = $backends[$options['class']]['priority'];
 						}
 
+						// Override if priority greater or if priority type different
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
 							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_GROUP) ) {
@@ -210,6 +213,7 @@ class OC_Mount_Config {
 							$options['priority'] = $backends[$options['class']]['priority'];
 						}
 
+						// Override if priority greater or if priority type different
 						if ( (!isset($mountPoints[$mountPoint]))
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
 							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_USER) ) {
