@@ -59,10 +59,21 @@ class Mount {
 	}
 
 	/**
+	 * get complete path to the mount point, relative to data/
+	 *
 	 * @return string
 	 */
 	public function getMountPoint() {
 		return $this->mountPoint;
+	}
+
+	/**
+	 * get name of the mount point
+	 *
+	 * @return string
+	 */
+	public function getMountPointName() {
+		return basename(rtrim($this->mountPoint, '/'));
 	}
 
 	/**

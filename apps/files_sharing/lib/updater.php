@@ -115,11 +115,14 @@ class Shared_Updater {
 	 * @param array $params
 	 */
 	static public function deleteHook($params) {
-		self::correctFolders($params['path']);
-		$fileInfo = \OC\Files\Filesystem::getFileInfo($params['path']);
+		$path = $params['path'];
+		self::correctFolders($path);
+
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
+
 		// mark file as deleted so that we can clean up the share table if
 		// the file was deleted successfully
-		self::$toRemove[$params['path']] =  $fileInfo['fileid'];
+		self::$toRemove[$path] =  $fileInfo['fileid'];
 	}
 
 	/**
