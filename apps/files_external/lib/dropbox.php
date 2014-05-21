@@ -44,7 +44,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $this->root;
 			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
-			$this->dropbox = new \Dropbox_API($oauth, 'dropbox');
+			$this->dropbox = new \Dropbox_API($oauth, 'auto');
 		} else {
 			throw new \Exception('Creating \OC\Files\Storage\Dropbox storage failed');
 		}
