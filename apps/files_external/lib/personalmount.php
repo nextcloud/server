@@ -33,6 +33,8 @@ class PersonalMount extends Mount implements MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount() {
-		return \OC_Mount_Config::removeMountPoint($this->mountPoint, \OC_Mount_Config::MOUNT_TYPE_USER, \OCP\User::getUser(), true);
+		$user = \OCP\User::getUser();
+		$relativeMountPoint = substr($this->getMountPoint(), strlen('/' . $user . '/files/'));
+		return \OC_Mount_Config::removeMountPoint($relativeMountPoint, \OC_Mount_Config::MOUNT_TYPE_USER, $user , true);
 	}
 }

@@ -517,6 +517,7 @@ class OC_Mount_Config {
 		} else {
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
+		$mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
 		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : NULL);
 		// Remove mount point
 		unset($mountPoints[$mountType][$applicable][$mountPoint]);
