@@ -226,7 +226,7 @@ class Preferences {
 			array_unshift($queryParams, $key);
 			array_unshift($queryParams, $app);
 
-			$placeholders = (sizeof($chunk) == 50) ? $placeholders_50 : implode(',', array_fill(0, sizeof($users), '?'));
+			$placeholders = (sizeof($chunk) == 50) ? $placeholders_50 : implode(',', array_fill(0, sizeof($chunk), '?'));
 
 			$query = 'SELECT `userid`, `configvalue` '
 				. ' FROM `*PREFIX*preferences` '
