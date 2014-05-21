@@ -508,7 +508,7 @@
 			this.$el.find('thead').after(this.$fileList);
 
 			this.updateEmptyContent();
-			this.$fileList.trigger(jQuery.Event("fileActionsReady"));
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this}));
 
 			this.fileSummary.calculate(filesArray);
 
@@ -530,7 +530,7 @@
 				type = fileData.type || 'file',
 				mtime = parseInt(fileData.mtime, 10) || new Date().getTime(),
 				mime = fileData.mimetype,
-				path = fileData.path || this.getCurrentDirectory(),
+				path = fileData.path,
 				linkUrl;
 			options = options || {};
 
@@ -549,6 +549,13 @@
 				"data-etag": fileData.etag,
 				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
 			});
+
+			if (!_.isUndefined(path)) {
+				tr.attr('data-path', path);
+			}
+			else {
+				path = this.getCurrentDirectory();
+			}
 
 			if (type === 'dir') {
 				// use default folder icon
@@ -1224,16 +1231,16 @@
 								// reinsert row
 								self.files.splice(tr.index(), 1);
 								tr.remove();
-								self.add(fileInfo, {updateSummary: false});
-								self.$fileList.trigger($.Event('fileActionsReady'));
+								self.add(fileInfo, {updateSummary: false, silent: true});
+								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
 							}
 						});
 					} else {
 						// add back the old file info when cancelled
 						self.files.splice(tr.index(), 1);
 						tr.remove();
-						self.add(oldFileInfo, {updateSummary: false});
-						self.$fileList.trigger($.Event('fileActionsReady'));
+						self.add(oldFileInfo, {updateSummary: false, silent: true});
+						self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
 					}
 				} catch (error) {
 					input.attr('title', error);

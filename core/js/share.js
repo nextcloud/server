@@ -32,27 +32,26 @@ OC.Share={
 	 * (not reloaded from server)
 	 *
 	 * @param itemType item type
-	 * @param fileList file list instance or file list jQuery element,
+	 * @param fileList file list instance
 	 * defaults to OCA.Files.App.fileList
 	 */
 	updateIcons:function(itemType, fileList){
 		var item;
-		var $fileList = (fileList || OCA.Files.App.fileList);
-		// in case the jQuery element was passed instead
-		if ($fileList.$fileList) {
-			$fileList = $fileList.$fileList;
-		}
+		fileList = fileList || OCA.Files.App.fileList;
+		var $fileList = fileList.$fileList;
+		var currentDir = fileList.getCurrentDirectory();
 		for (item in OC.Share.statuses){
+			var image;
 			var data = OC.Share.statuses[item];
 
-			var hasLink = data['link'];
+			var hasLink = data.link;
 			// Links override shared in terms of icon display
 			if (hasLink) {
-				var image = OC.imagePath('core', 'actions/public');
+				image = OC.imagePath('core', 'actions/public');
 			} else {
-				var image = OC.imagePath('core', 'actions/shared');
+				image = OC.imagePath('core', 'actions/shared');
 			}
-			if (itemType != 'file' && itemType != 'folder') {
+			if (itemType !== 'file' && itemType !== 'folder') {
 				$fileList.find('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 			} else {
 				var file = $fileList.find('tr[data-id="'+item+'"]');
@@ -62,17 +61,17 @@ OC.Share={
 					action.addClass('permanent');
 					action.html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 				} else {
-					var dir = $('#dir').val();
+					var dir = currentDir;
 					if (dir.length > 1) {
 						var last = '';
 						var path = dir;
 						// Search for possible parent folders that are shared
 						while (path != last) {
-							if (path == data['path'] && !data['link']) {
+							if (path === data.path && !data.link) {
 								var actions = $fileList.find('.fileactions .action[data-action="Share"]');
 								$.each(actions, function(index, action) {
 									var img = $(action).find('img');
-									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
+									if (img.attr('src') !== OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(action).addClass('permanent');
 										$(action).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
@@ -112,14 +111,18 @@ OC.Share={
 			var file = $('tr').filterAttr('data-id', String(itemSource));
 			if (file.length > 0) {
 				var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-				var img = action.find('img').attr('src', image);
-				if (shares) {
-					action.addClass('permanent');
-					action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
-				} else {
-					action.removeClass('permanent');
-					action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
-				}
+				// in case of multiple lists/rows, there might be more than one visible
+				action.each(function() {
+					var action = $(this);
+					var img = action.find('img').attr('src', image);
+					if (shares) {
+						action.addClass('permanent');
+						action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
+					} else {
+						action.removeClass('permanent');
+						action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
+					}
+				});
 			}
 		}
 		if (shares) {

@@ -43,7 +43,19 @@ module.exports = function(config) {
 		return apps;
 		*/
 		// other apps tests don't run yet... needs further research / clean up
-		return ['files', 'files_trashbin'];
+		return [
+			'files',
+			'files_trashbin',
+			{
+				name: 'files_sharing',
+				srcFiles: [
+					// only test these files, others are not ready and mess
+					// up with the global namespace/classes/state
+					'apps/files_sharing/js/app.js',
+					'apps/files_sharing/js/sharedfilelist.js'
+				],
+				testFiles: ['apps/files_sharing/tests/js/*.js']
+			}];
 	}
 
 	// respect NOCOVERAGE env variable
@@ -110,15 +122,30 @@ module.exports = function(config) {
 		files.push(corePath + 'tests/specs/*.js');
 	}
 
-	for ( var i = 0; i < appsToTest.length; i++ ) {
-		// add app JS
-		var srcFile = 'apps/' + appsToTest[i] + '/js/*.js';
-		files.push(srcFile);
-		if (enableCoverage) {
-			preprocessors[srcFile] = 'coverage';
+	function addApp(app) {
+		// if only a string was specified, expand to structure
+		if (typeof(app) === 'string') {
+			app = {
+				srcFiles: 'apps/' + app + '/js/*.js',
+				testFiles: 'apps/' + app + '/tests/js/*.js'
+			};
 		}
-		// add test specs
-		files.push('apps/' + appsToTest[i] + '/tests/js/*.js');
+
+		// add source files/patterns
+		files = files.concat(app.srcFiles || []);
+		// add test files/patterns
+		files = files.concat(app.testFiles || []);
+		if (enableCoverage) {
+			// add coverage entry for each file/pattern
+			for (var i = 0; i < app.srcFiles.length; i++) {
+				preprocessors[app.srcFiles[i]] = 'coverage';
+			}
+		}
+	}
+
+	// add source files for apps to test
+	for ( var i = 0; i < appsToTest.length; i++ ) {
+		addApp(appsToTest[i]);
 	}
 
 	// serve images to avoid warnings

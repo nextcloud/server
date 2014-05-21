@@ -16,7 +16,7 @@ OCA.Sharing.App = {
 
 	initSharingIn: function($el) {
 		if (this._inFileList) {
-			return;
+			return this._inFileList;
 		}
 
 		this._inFileList = new OCA.Sharing.FileList(
@@ -31,11 +31,12 @@ OCA.Sharing.App = {
 		this._extendFileList(this._inFileList);
 		this._inFileList.appName = t('files_sharing', 'Shared with you');
 		this._inFileList.$el.find('#emptycontent').text(t('files_sharing', 'No files have been shared with you yet.'));
+		return this._inFileList;
 	},
 
 	initSharingOut: function($el) {
 		if (this._outFileList) {
-			return;
+			return this._outFileList;
 		}
 		this._outFileList = new OCA.Sharing.FileList(
 			$el,
@@ -49,6 +50,19 @@ OCA.Sharing.App = {
 		this._extendFileList(this._outFileList);
 		this._outFileList.appName = t('files_sharing', 'Shared with others');
 		this._outFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files yet.'));
+		return this._outFileList;
+	},
+
+	removeSharingIn: function() {
+		if (this._inFileList) {
+			this._inFileList.$fileList.empty();
+		}
+	},
+
+	removeSharingOut: function() {
+		if (this._outFileList) {
+			this._outFileList.$fileList.empty();
+		}
 	},
 
 	_createFileActions: function() {
@@ -56,6 +70,7 @@ OCA.Sharing.App = {
 		var fileActions = new OCA.Files.FileActions();
 		// note: not merging the legacy actions because legacy apps are not
 		// compatible with the sharing overview and need to be adapted first
+		fileActions.registerDefaultActions();
 		fileActions.merge(OCA.Files.fileActions);
 
 		// when the user clicks on a folder, redirect to the corresponding
@@ -75,11 +90,17 @@ OCA.Sharing.App = {
 };
 
 $(document).ready(function() {
-	$('#app-content-sharingin').one('show', function(e) {
+	$('#app-content-sharingin').on('show', function(e) {
 		OCA.Sharing.App.initSharingIn($(e.target));
 	});
-	$('#app-content-sharingout').one('show', function(e) {
+	$('#app-content-sharingin').on('hide', function() {
+		OCA.Sharing.App.removeSharingIn();
+	});
+	$('#app-content-sharingout').on('show', function(e) {
 		OCA.Sharing.App.initSharingOut($(e.target));
+	});
+	$('#app-content-sharingout').on('hide', function() {
+		OCA.Sharing.App.removeSharingOut();
 	});
 });
 

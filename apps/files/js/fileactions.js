@@ -232,7 +232,7 @@
 			}
 
 			if (triggerEvent){
-				fileList.$fileList.trigger(jQuery.Event("fileActionsReady"));
+				fileList.$fileList.trigger(jQuery.Event("fileActionsReady", {fileList: fileList}));
 			}
 		},
 		getCurrentFile: function () {
@@ -252,8 +252,6 @@
 		 * Register the actions that are used by default for the files app.
 		 */
 		registerDefaultActions: function() {
-			// TODO: try to find a way to not make it depend on fileList,
-			// maybe get a handler or listener to trigger events on
 			this.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 				return OC.imagePath('core', 'actions/delete');
 			}, function (filename, context) {
@@ -287,7 +285,8 @@
 			this.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 				return OC.imagePath('core', 'actions/download');
 			}, function (filename, context) {
-				var url = context.fileList.getDownloadUrl(filename, context.fileList.getCurrentDirectory());
+				var dir = context.dir || context.fileList.getCurrentDirectory();
+				var url = context.fileList.getDownloadUrl(filename, dir);
 				if (url) {
 					OC.redirect(url);
 				}
@@ -309,11 +308,13 @@
 	// through window.FileActions will be limited to the main file list.
 	window.FileActions = OCA.Files.legacyFileActions;
 	window.FileActions.register = function (mime, name, permissions, icon, action, displayName) {
-		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead');
-		OCA.Files.FileActions.prototype.register.call(window.FileActions, mime, name, permissions, icon, action, displayName);
+		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead', arguments);
+		OCA.Files.FileActions.prototype.register.call(
+				window.FileActions, mime, name, permissions, icon, action, displayName
+		);
 	};
 	window.FileActions.setDefault = function (mime, name) {
-		console.warn('FileActions.setDefault() is deprecated, please use OCA.Files.fileActions.setDefault() instead');
+		console.warn('FileActions.setDefault() is deprecated, please use OCA.Files.fileActions.setDefault() instead', mime, name);
 		OCA.Files.FileActions.prototype.setDefault.call(window.FileActions, mime, name);
 	};
 })();

@@ -483,7 +483,7 @@ describe('OCA.Files.FileList tests', function() {
 			var $input, request;
 
 			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i]);
+				fileList.add(testFiles[i], {silent: true});
 			}
 
 			// trigger rename prompt

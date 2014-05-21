@@ -166,7 +166,10 @@ OCA.Sharing.PublicApp = {
 
 $(document).ready(function() {
 	var App = OCA.Sharing.PublicApp;
-	App.initialize($('#preview'));
+	// defer app init, to give a chance to plugins to register file actions
+	_.defer(function() {
+		App.initialize($('#preview'));
+	});
 
 	if (window.Files) {
 		// HACK: for oc-dialogs previews that depends on Files:

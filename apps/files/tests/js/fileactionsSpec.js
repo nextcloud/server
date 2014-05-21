@@ -104,7 +104,34 @@ describe('OCA.Files.FileActions tests', function() {
 		$tr.find('.action-download').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
-		expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt');
+		expect(redirectStub.getCall(0).args[0]).toEqual(
+			OC.webroot +
+			'/index.php/apps/files/ajax/download.php' +
+			'?dir=%2Fsubdir&files=testName.txt');
+		redirectStub.restore();
+	});
+	it('takes the file\'s path into account when clicking download', function() {
+		var redirectStub = sinon.stub(OC, 'redirect');
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			path: '/anotherpath/there',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456'
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+
+		$tr.find('.action-download').click();
+
+		expect(redirectStub.calledOnce).toEqual(true);
+		expect(redirectStub.getCall(0).args[0]).toEqual(
+			OC.webroot + '/index.php/apps/files/ajax/download.php' +
+			'?dir=%2Fanotherpath%2Fthere&files=testName.txt'
+		);
 		redirectStub.restore();
 	});
 	it('deletes file when clicking delete', function() {

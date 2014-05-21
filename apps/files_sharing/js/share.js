@@ -28,10 +28,11 @@ $(document).ready(function() {
 		}
 
 		// use delegate to catch the case with multiple file lists
-		$('#content').delegate('#fileList', 'fileActionsReady',function(){
+		$('#content').delegate('#fileList', 'fileActionsReady',function(ev){
 			// if no share action exists because the admin disabled sharing for this user
 			// we create a share notification action to inform the user about files
 			// shared with him otherwise we just update the existing share action.
+			var fileList = ev.fileList;
 			var $fileList = $(this);
 			$fileList.find('[data-share-owner]').each(function() {
 				var $tr = $(this);
@@ -59,16 +60,16 @@ $(document).ready(function() {
 						return $result;
 					});
 				}
-			})
+			});
 
 			if (!OCA.Sharing.sharesLoaded){
-				OC.Share.loadIcons('file', $fileList);
+				OC.Share.loadIcons('file', fileList);
 				// assume that we got all shares, so switching directories
 				// will not invalidate that list
 				OCA.Sharing.sharesLoaded = true;
 			}
 			else{
-				OC.Share.updateIcons('file', $fileList);
+				OC.Share.updateIcons('file', fileList);
 			}
 		});
 

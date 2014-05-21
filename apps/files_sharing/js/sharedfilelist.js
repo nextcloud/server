@@ -43,10 +43,9 @@
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
 			$tr.find('.filesize').remove();
 			var $sharedWith = $('<td class="sharedWith"></td>')
-				.text(fileData.shareColumnInfo);
+				.text(fileData.counterParts.join(', '));
 			$tr.find('td.date').before($sharedWith);
 			$tr.find('td.filename input:checkbox').remove();
-			$tr.attr('data-path', fileData.path);
 			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
 			return $tr;
 		},
@@ -74,7 +73,12 @@
 		},
 
 		getDirectoryPermissions: function() {
-			return OC.PERMISSION_READ;
+			return OC.PERMISSION_READ | OC.PERMISSION_DELETE;
+		},
+
+		updateStorageStatistics: function() {
+			// no op because it doesn't have
+			// storage info like free space / used space
 		},
 
 		reload: function() {
@@ -128,16 +132,16 @@
 			var self = this;
 			// OCS API uses non-camelcased names
 			var files = _.chain(data)
-				// cOnvert share data to file data
+				// convert share data to file data
 				.map(function(share) {
 					/* jshint camelcase: false */
 					var file = {
 						id: share.file_source,
-						mtime: share.stime * 1000,
 						mimetype: share.mimetype
 					};
 					if (share.item_type === 'folder') {
 						file.type = 'dir';
+						file.mimetype = 'httpd/unix-directory';
 					}
 					else {
 						file.type = 'file';
@@ -150,7 +154,8 @@
 					file.share = {
 						id: share.id,
 						type: share.share_type,
-						target: share.share_with
+						target: share.share_with,
+						stime: share.stime * 1000,
 					};
 					if (self._sharedWithUser) {
 						file.share.ownerDisplayName = share.displayname_owner;
@@ -173,28 +178,49 @@
 				// inside the same file object (by file id).
 				.reduce(function(memo, file) {
 					var data = memo[file.id];
+					var counterPart = file.share.ownerDisplayName || file.share.targetDisplayName;
 					if (!data) {
 						data = memo[file.id] = file;
 						data.shares = [file.share];
+						// using a hash to make them unique,
+						// this is only a list to be displayed
+						data.counterParts = {};
+						// counter is cheaper than calling _.keys().length
+						data.counterPartsCount = 0;
+						data.mtime = file.share.stime;
 					}
 					else {
+						// always take the most recent stime
+						if (file.share.stime > data.mtime) {
+							data.mtime = file.share.stime;
+						}
 						data.shares.push(file.share);
 					}
-					// format the share column info output string
-					if (!data.shareColumnInfo) {
-						data.shareColumnInfo = '';
+
+					if (file.share.type === OC.Share.SHARE_TYPE_LINK) {
+						data.hasLinkShare = true;
+					} else if (counterPart && data.counterPartsCount < 10) {
+						// limit counterparts for output
+						data.counterParts[counterPart] = true;
+						data.counterPartsCount++;
 					}
-					else {
-						data.shareColumnInfo += ', ';
-					}
-					// TODO. more accurate detection of name based on type
-					// TODO: maybe better formatting, like "link + 3 users" when more than 1 user
-					data.shareColumnInfo += (file.share.ownerDisplayName || file.share.targetDisplayName || 'link');
+
 					delete file.share;
 					return memo;
 				}, {})
 				// Retrieve only the values of the returned hash
 				.values()
+				// Clean up
+				.each(function(data) {
+					// convert the counterParts map to a flat
+					// array of sorted names
+					data.counterParts = _.chain(data.counterParts).keys().sort().value();
+					if (data.hasLinkShare) {
+						data.counterParts.unshift(t('files_sharing', 'link'));
+						delete data.hasLinkShare;
+					}
+					delete data.counterPartsCount;
+				})
 				// Sort by expected sort comparator
 				.sortBy(this._sortComparator)
 				// Finish the chain by getting the result

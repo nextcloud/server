@@ -73,6 +73,14 @@
 		},
 
 		/**
+		 * Returns the view id of the currently active view
+		 * @return view id
+		 */
+		getActiveView: function() {
+			return this.navigation.getActiveItem();
+		},
+
+		/**
 		 * Setup events based on URL changes
 		 */
 		_setupEvents: function() {
