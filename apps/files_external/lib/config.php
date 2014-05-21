@@ -479,8 +479,13 @@ class OC_Mount_Config {
 
 		// Set default priority if none set
 		if (!isset($mountPoints[$mountType][$applicable][$mountPoint]['priority'])) {
-			$mountPoints[$mountType][$applicable][$mountPoint]['priority']
-				= $backends[$class]['priority'];
+			if (isset($backends[$class]['priority'])) {
+				$mountPoints[$mountType][$applicable][$mountPoint]['priority']
+					= $backends[$class]['priority'];
+			} else {
+				$mountPoints[$mountType][$applicable][$mountPoint]['priority']
+					= 100;
+			}
 		}
 
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
