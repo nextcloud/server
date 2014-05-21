@@ -627,7 +627,8 @@ class OC {
 	public static function registerLogRotate() {
 		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false) && !self::needUpgrade()) {
 			//don't try to do this before we are properly setup
-			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log');
+			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
+			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue('logfile', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log'));
 		}
 	}
 
