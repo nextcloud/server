@@ -31,6 +31,15 @@ class Manager {
 	}
 
 	/**
+	 * @param string $mountPoint
+	 * @param string $target
+	 */
+	public function moveMount($mountPoint, $target){
+		$this->mounts[$target] = $this->mounts[$mountPoint];
+		unset($this->mounts[$mountPoint]);
+	}
+
+	/**
 	 * Find the mount for $path
 	 *
 	 * @param string $path

@@ -16,11 +16,11 @@ class Mount {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
-	private $storage = null;
-	private $class;
-	private $storageId;
-	private $arguments = array();
-	private $mountPoint;
+	protected $storage = null;
+	protected $class;
+	protected $storageId;
+	protected $arguments = array();
+	protected $mountPoint;
 
 	/**
 	 * @var \OC\Files\Storage\Loader $loader
@@ -142,7 +142,7 @@ class Mount {
 		} else {
 			$internalPath = substr($path, strlen($this->mountPoint));
 		}
-		return $internalPath;
+		return (string)$internalPath;
 	}
 
 	/**
