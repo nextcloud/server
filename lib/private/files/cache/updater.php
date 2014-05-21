@@ -83,6 +83,10 @@ class Updater {
 		 * @var string $internalTo
 		 */
 		list($storageFrom, $internalFrom) = self::resolvePath($from);
+		// if it's a moved mountpoint we dont need to do anything
+		if ($internalFrom === '') {
+			return;
+		}
 		list($storageTo, $internalTo) = self::resolvePath($to);
 		if ($storageFrom && $storageTo) {
 			if ($storageFrom === $storageTo) {
