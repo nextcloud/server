@@ -43,6 +43,11 @@ class User {
 	private $home;
 
 	/**
+	 * @var int $lastLogin
+	 */
+	private $lastLogin;
+
+	/**
 	 * @var \OC\AllConfig $config
 	 */
 	private $config;
@@ -64,6 +69,7 @@ class User {
 		} else {
 			$this->enabled = true;
 		}
+		$this->lastLogin = \OC_Preferences::getValue($uid, 'login', 'lastLogin', 0);
 	}
 
 	/**
@@ -105,6 +111,27 @@ class User {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * returns the timestamp of the user's last login or 0 if the user did never
+	 * login
+	 *
+	 * @return int
+	 */
+	public function getLastLogin() {
+		return $this->lastLogin;
+	}
+
+	/**
+	 * updates the timestamp of the most recent login of this user
+	 *
+	 * @return null
+	 */
+	public function updateLastLoginTimestamp() {
+		$this->lastLogin = time();
+		\OC_Preferences::setValue(
+			$this->uid, 'login', 'lastLogin', $this->lastLogin);
 	}
 
 	/**

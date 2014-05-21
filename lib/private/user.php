@@ -236,6 +236,17 @@ class OC_User {
 	}
 
 	/**
+	 * Try to login a user using the magic cookie (remember login)
+	 *
+	 * @param string $uid The username of the user to log in
+	 * @param string $token
+	 * @return bool
+	 */
+	public static function loginWithCookie($uid, $token) {
+		return self::getUserSession()->loginWithCookie($uid, $token);
+	}
+
+	/**
 	 * Try to login a user, assuming authentication
 	 * has already happened (e.g. via Single Sign On).
 	 *

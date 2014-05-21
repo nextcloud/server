@@ -883,30 +883,24 @@ class OC {
 		if (defined("DEBUG") && DEBUG) {
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
-		// confirm credentials in cookie
-		if (isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
-			// delete outdated cookies
+
+		if(OC_User::userExists($_COOKIE['oc_username'])) {
 			self::cleanupLoginTokens($_COOKIE['oc_username']);
-			// get stored tokens
-			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
-			// test cookies token against stored tokens
-			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
-				// replace successfully used token with a new one
-				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
-				$token = OC_Util::generateRandomBytes(32);
-				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
-				// login
-				OC_User::setUserId($_COOKIE['oc_username']);
+			// confirm credentials in cookie
+			$granted = OC_User::loginWithCookie(
+				$_COOKIE['oc_username'], $_COOKIE['oc_token']);
+			if($granted === true) {
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
+			OC_Log::write('core', 'Authentication cookie rejected for user ' .
+				$_COOKIE['oc_username'], OC_Log::WARN);
 			// if you reach this point you have changed your password
 			// or you are an attacker
 			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
-			OC_Log::write('core', 'Authentication cookie rejected for user ' . $_COOKIE['oc_username'], OC_Log::WARN);
 		}
+
 		OC_User::unsetMagicInCookie();
 		return true;
 	}
