@@ -192,8 +192,22 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 		$query->execute(array('AUser', 'testGetUserValues', 'somekey', 'somevalue'));
 
 		$preferences = new OC\Preferences(\OC_DB::getConnection());
-		$values = $preferences->getValueForUsers('testGetUserValues', 'somekey', array('SomeUser', 'AnotherUser', 'NoValueSet'));
+		$users = array('SomeUser', 'AnotherUser', 'NoValueSet');
 
+		$values = $preferences->getValueForUsers('testGetUserValues', 'somekey', $users);
+		$this->assertUserValues($values);
+
+		// Add a lot of users so the array is chunked
+		for ($i = 1; $i <= 75; $i++) {
+			array_unshift($users, 'NoValueBefore#' . $i);
+			array_push($users, 'NoValueAfter#' . $i);
+		}
+
+		$values = $preferences->getValueForUsers('testGetUserValues', 'somekey', $users);
+		$this->assertUserValues($values);
+	}
+
+	protected function assertUserValues($values) {
 		$this->assertEquals(2, sizeof($values));
 
 		$this->assertArrayHasKey('SomeUser', $values);
