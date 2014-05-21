@@ -359,11 +359,15 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
-		if (!($mount instanceof MoveableMount) && $mount->getInternalPath($absolutePath) === '') {
-			// do not allow deleting the storage's root / the mount point
-			// because for some storages it might delete the whole contents
-			// but isn't supposed to work that way
-			return false;
+		if ($mount->getInternalPath($absolutePath) === '') {
+			if ($mount instanceof MoveableMount) {
+				return $mount->removeMount();
+			} else {
+				// do not allow deleting the storage's root / the mount point
+				// because for some storages it might delete the whole contents
+				// but isn't supposed to work that way
+				return false;
+			}
 		}
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
