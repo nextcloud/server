@@ -205,6 +205,10 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 
 		$values = $preferences->getValueForUsers('testGetUserValues', 'somekey', $users);
 		$this->assertUserValues($values);
+
+		// Clean DB after the test
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?');
+		$query->execute(array('testGetUserValues'));
 	}
 
 	protected function assertUserValues($values) {
