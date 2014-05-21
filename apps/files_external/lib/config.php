@@ -104,8 +104,15 @@ class OC_Mount_Config {
 	 */
 	public static function initMountPointsHook($data) {
 		$mountPoints = self::getAbsoluteMountPoints($data['user']);
+		$loader = \OC\Files\Filesystem::getLoader();
+		$manager = \OC\Files\Filesystem::getMountManager();
 		foreach ($mountPoints as $mountPoint => $options) {
-			\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
+			if ($options['personal']){
+				$mount = new \OCA\Files_External\PersonalMount($options['class'], $mountPoint, $options['options'], $loader);
+			} else{
+				$mount = new \OC\Files\Mount\Mount($options['class'], $mountPoint, $options['options'], $loader);
+			}
+			$manager->addMount($mount);
 		}
 	}
 
@@ -135,6 +142,7 @@ class OC_Mount_Config {
 		// Global mount points (is this redundant?)
 		if (isset($mountConfig[self::MOUNT_TYPE_GLOBAL])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_GLOBAL] as $mountPoint => $options) {
+				$options['personal'] = false;
 				$options['options'] = self::decryptPasswords($options['options']);
 				if (!isset($options['priority'])) {
 					$options['priority'] = $backends[$options['class']]['priority'];
@@ -178,6 +186,7 @@ class OC_Mount_Config {
 						foreach ($options as &$option) {
 							$option = self::setUserVars($user, $option);
 						}
+						$options['personal'] = false;
 						$options['options'] = self::decryptPasswords($options['options']);
 						if (!isset($options['priority'])) {
 							$options['priority'] = $backends[$options['class']]['priority'];
@@ -203,6 +212,7 @@ class OC_Mount_Config {
 						foreach ($options as &$option) {
 							$option = self::setUserVars($user, $option);
 						}
+						$options['personal'] = false;
 						$options['options'] = self::decryptPasswords($options['options']);
 						if (!isset($options['priority'])) {
 							$options['priority'] = $backends[$options['class']]['priority'];
@@ -224,6 +234,7 @@ class OC_Mount_Config {
 		$mountConfig = self::readData($user);
 		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
+				$options['personal'] = true;
 				$options['options'] = self::decryptPasswords($options['options']);
 
 				// Always override previous config
@@ -517,6 +528,28 @@ class OC_Mount_Config {
 			}
 		}
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
+		return true;
+	}
+
+	/**
+	 *
+	 * @param string $mountPoint Mount point
+	 * @param string $target The new mount point
+	 * @param string $mountType MOUNT_TYPE_GROUP | MOUNT_TYPE_USER
+	 * @return bool
+	 */
+	public static function movePersonalMountPoint($mountPoint, $target, $mountType) {
+		$mountPoint = rtrim($mountPoint, '/');
+		$user = OCP\User::getUser();
+		$mountPoints = self::readData($user);
+		if (!isset($mountPoints[$mountType][$user][$mountPoint])) {
+			return false;
+		}
+		$mountPoints[$mountType][$user][$target] = $mountPoints[$mountType][$user][$mountPoint];
+		// Remove old mount point
+		unset($mountPoints[$mountType][$user][$mountPoint]);
+
+		self::writeData($user, $mountPoints);
 		return true;
 	}
 
