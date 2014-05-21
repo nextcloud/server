@@ -184,6 +184,25 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 		$preferences->setValue('grg', 'bar', 'foo', 'v2');
 	}
 
+	public function testGetUserValues()
+	{
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*preferences` VALUES(?, ?, ?, ?)');
+		$query->execute(array('SomeUser', 'testGetUserValues', 'somekey', 'somevalue'));
+		$query->execute(array('AnotherUser', 'testGetUserValues', 'somekey', 'someothervalue'));
+		$query->execute(array('AUser', 'testGetUserValues', 'somekey', 'somevalue'));
+
+		$preferences = new OC\Preferences(\OC_DB::getConnection());
+		$values = $preferences->getValueForUsers('testGetUserValues', 'somekey', array('SomeUser', 'AnotherUser', 'NoValueSet'));
+
+		$this->assertEquals(2, sizeof($values));
+
+		$this->assertArrayHasKey('SomeUser', $values);
+		$this->assertEquals('somevalue', $values['SomeUser']);
+
+		$this->assertArrayHasKey('AnotherUser', $values);
+		$this->assertEquals('someothervalue', $values['AnotherUser']);
+	}
+
 	public function testDeleteKey()
 	{
 		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
