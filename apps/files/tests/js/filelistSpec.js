@@ -65,6 +65,8 @@ describe('OCA.Files.FileList tests', function() {
 			'   <div class="actions creatable"></div>' +
 			'   <div class="notCreatable"></div>' +
 			'</div>' +
+			// uploader
+			'<input type="file" id="file_upload_start" name="files[]" multiple="multiple">' +
 			// dummy table
 			// TODO: at some point this will be rendered by the fileList class itself!
 			'<table id="filestable">' +
@@ -1649,6 +1651,135 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.findFileEl('Two.jpg').index()).toEqual(2);
 			expect(fileList.findFileEl('new file.txt').index()).toEqual(1);
 			expect(fileList.findFileEl('Three.pdf').index()).toEqual(0);
+		});
+	});
+	/**
+	 * Test upload mostly by testing the code inside the event handlers
+	 * that were registered on the magic upload object
+	 */
+	describe('file upload', function() {
+		var $uploader;
+
+		beforeEach(function() {
+			// note: this isn't the real blueimp file uploader from jquery.fileupload
+			// but it makes it possible to simulate the event triggering to
+			// test the response of the handlers
+			$uploader = $('#file_upload_start');
+			fileList.setupUploadEvents();
+			fileList.setFiles(testFiles);
+		});
+
+		afterEach(function() {
+			$uploader = null;
+		});
+
+		describe('dropping external files', function() {
+			var uploadData;
+
+			/**
+			 * Simulate drop event on the given target
+			 *
+			 * @param $target target element to drop on
+			 * @return event object including the result
+			 */
+			function dropOn($target, data) {
+				var eventData = {
+					originalEvent: {
+						target: $target
+					}
+				};
+				var ev = new $.Event('fileuploaddrop', eventData);
+				// using triggerHandler instead of trigger so we can pass
+				// extra data
+				$uploader.triggerHandler(ev, data || {});
+				return ev;
+			}
+
+			/**
+			 * Convert form data to a flat list
+			 * 
+			 * @param formData form data array as used by jquery.upload
+			 * @return map based on the array's key values
+			 */
+			function decodeFormData(data) {
+				var map = {};
+				_.each(data.formData(), function(entry) {
+					map[entry.name] = entry.value;
+				});
+				return map;
+			}
+
+			beforeEach(function() {
+				// simulate data structure from jquery.upload
+				uploadData = {
+					files: [{
+						relativePath: 'fileToUpload.txt'
+					}]
+				};
+			});
+			afterEach(function() {
+				uploadData = null;
+			});
+			it('drop on a tr or crumb outside file list does not trigger upload', function() {
+				var $anotherTable = $('<table><tbody><tr><td>outside<div class="crumb">crumb</div></td></tr></table>');
+				var ev;
+				$('#testArea').append($anotherTable);
+				ev = dropOn($anotherTable.find('tr'), uploadData);
+				expect(ev.result).toEqual(false);
+
+				ev = dropOn($anotherTable.find('.crumb'));
+				expect(ev.result).toEqual(false);
+			});
+			it('drop on an element outside file list does not trigger upload', function() {
+				var $anotherEl = $('<div>outside</div>');
+				var ev;
+				$('#testArea').append($anotherEl);
+				ev = dropOn($anotherEl);
+
+				expect(ev.result).toEqual(false);
+			});
+			it('drop on an element inside the table triggers upload', function() {
+				var ev;
+				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
+
+				expect(ev.result).not.toEqual(false);
+			});
+			it('drop on an element inside the table does not trigger upload if no upload permission', function() {
+				$('#permissions').val(0);
+				var ev;
+				ev = dropOn(fileList.$fileList.find('th:first'));
+
+				expect(ev.result).toEqual(false);
+			});
+			it('drop on a file row inside the table triggers upload to current folder', function() {
+				var ev;
+				ev = dropOn(fileList.findFileEl('One.txt').find('td:first'), uploadData);
+
+				expect(ev.result).not.toEqual(false);
+			});
+			it('drop on a folder row inside the table triggers upload to target folder', function() {
+				var ev, formData;
+				ev = dropOn(fileList.findFileEl('somedir').find('td:eq(2)'), uploadData);
+
+				expect(ev.result).not.toEqual(false);
+				expect(uploadData.formData).toBeDefined();
+				formData = decodeFormData(uploadData);
+				expect(formData.dir).toEqual('/subdir/somedir');
+				expect(formData.file_directory).toEqual('fileToUpload.txt');
+				expect(formData.requesttoken).toBeDefined();
+			});
+			it('drop on a breadcrumb inside the table triggers upload to target folder', function() {
+				var ev, formData;
+				fileList.changeDirectory('a/b/c/d');
+				ev = dropOn(fileList.$el.find('.crumb:eq(2)'), uploadData);
+
+				expect(ev.result).not.toEqual(false);
+				expect(uploadData.formData).toBeDefined();
+				formData = decodeFormData(uploadData);
+				expect(formData.dir).toEqual('/a/b');
+				expect(formData.file_directory).toEqual('fileToUpload.txt');
+				expect(formData.requesttoken).toBeDefined();
+			});
 		});
 	});
 });

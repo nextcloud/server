@@ -1517,13 +1517,19 @@
 			fileUploadStart.on('fileuploaddrop', function(e, data) {
 				OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
-				var dropTarget = $(e.originalEvent.target).closest('tr, .crumb');
-				// check if dropped inside this list at all
-				if (dropTarget && !self.$el.has(dropTarget).length) {
+
+				var dropTarget = $(e.originalEvent.target);
+				// check if dropped inside this list and not another one
+				if (dropTarget.length && !self.$el.has(dropTarget).length) {
 					return false;
 				}
 
-				if (dropTarget && (dropTarget.data('type') === 'dir' || dropTarget.hasClass('crumb'))) { // drag&drop upload to folder
+				// find the closest tr or crumb to use as target
+				dropTarget = dropTarget.closest('tr, .crumb');
+
+				// if dropping on tr or crumb, drag&drop upload to folder
+				if (dropTarget && (dropTarget.data('type') === 'dir' ||
+					dropTarget.hasClass('crumb'))) {
 
 					// remember as context
 					data.context = dropTarget;
@@ -1543,7 +1549,7 @@
 					}
 
 					// update folder in form
-					data.formData = function(form) {
+					data.formData = function() {
 						return [
 							{name: 'dir', value: dir},
 							{name: 'requesttoken', value: oc_requesttoken},
@@ -1551,6 +1557,9 @@
 						];
 					};
 				} else {
+					// we are dropping somewhere inside the file list, which will
+					// upload the file to the current directory
+
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
