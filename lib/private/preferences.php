@@ -206,6 +206,43 @@ class Preferences {
 	}
 
 	/**
+	 * Gets the preference for an array of users
+	 * @param string $app
+	 * @param string $key
+	 * @param array $users
+	 * @return array Mapped values: userid => value
+	 */
+	public function getValueForUsers($app, $key, $users) {
+		if (empty($users) || !is_array($users)) {
+			return array();
+		}
+
+		$chunked_users = array_chunk($users, 50, true);
+		$placeholders_50 = implode(',', array_fill(0, 50, '?'));
+
+		$userValues = array();
+		foreach ($chunked_users as $chunk) {
+			$queryParams = $chunk;
+			array_unshift($queryParams, $key);
+			array_unshift($queryParams, $app);
+
+			$placeholders = (sizeof($chunk) == 50) ? $placeholders_50 : implode(',', array_fill(0, sizeof($chunk), '?'));
+
+			$query = 'SELECT `userid`, `configvalue` '
+				. ' FROM `*PREFIX*preferences` '
+				. ' WHERE `appid` = ? AND `configkey` = ?'
+				. ' AND `userid` IN (' . $placeholders . ')';
+			$result = $this->conn->executeQuery($query, $queryParams);
+
+			while ($row = $result->fetch()) {
+				$userValues[$row['userid']] = $row['configvalue'];
+			}
+		}
+
+		return $userValues;
+	}
+
+	/**
 	 * Deletes a key
 	 * @param string $user user
 	 * @param string $app app
