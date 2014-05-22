@@ -36,7 +36,7 @@ class Permissions {
 		$sql = 'SELECT `permissions` FROM `*PREFIX*permissions` WHERE `user` = ? AND `fileid` = ?';
 		$result = \OC_DB::executeAudited($sql, array($user, $fileId));
 		if ($row = $result->fetchRow()) {
-			return $row['permissions'];
+			return $this->updatePermissions($row['permissions']);
 		} else {
 			return -1;
 		}
@@ -78,7 +78,7 @@ class Permissions {
 		$result = \OC_DB::executeAudited($sql, $params);
 		$filePermissions = array();
 		while ($row = $result->fetchRow()) {
-			$filePermissions[$row['fileid']] = $row['permissions'];
+			$filePermissions[$row['fileid']] = $this->updatePermissions($row['permissions']);
 		}
 		return $filePermissions;
 	}
@@ -99,7 +99,7 @@ class Permissions {
 		$result = \OC_DB::executeAudited($sql, array($parentId, $user));
 		$filePermissions = array();
 		while ($row = $result->fetchRow()) {
-			$filePermissions[$row['fileid']] = $row['permissions'];
+			$filePermissions[$row['fileid']] = $this->updatePermissions($row['permissions']);
 		}
 		return $filePermissions;
 	}
@@ -139,5 +139,18 @@ class Permissions {
 			$users[] = $row['user'];
 		}
 		return $users;
+	}
+
+	/**
+	 * check if admin removed the share permission for the user and update the permissions
+	 *
+	 * @param int $permissions
+	 * @return int
+	 */
+	protected function updatePermissions($permissions) {
+		if (\OCP\Util::isSharingDisabledForUser()) {
+			$permissions &= ~\OCP\PERMISSION_SHARE;
+		}
+		return $permissions;
 	}
 }

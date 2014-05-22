@@ -25,9 +25,9 @@ require_once __DIR__ . '/base.php';
 use OCA\Files\Share;
 
 /**
- * Class Test_Files_Sharing_Api
+ * Class Test_Files_Sharing_Proxy
  */
-class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Proxy extends Test_Files_Sharing_Base {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 

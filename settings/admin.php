@@ -10,6 +10,7 @@ OC_Util::checkAdminUser();
 OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "admin" );
 OC_Util::addScript( "settings", "log" );
+OC_Util::addScript( 'core', 'multiselect' );
 OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
@@ -48,6 +49,23 @@ $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enable
 $tmpl->assign('shareDefaultExpireDateSet', OC_Appconfig::getValue('core', 'shareapi_default_expire_date', 'no'));
 $tmpl->assign('shareExpireAfterNDays', OC_Appconfig::getValue('core', 'shareapi_expire_after_n_days', '7'));
 $tmpl->assign('shareEnforceExpireDate', OC_Appconfig::getValue('core', 'shareapi_enforce_expire_date', 'no'));
+$excludeGroups = OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
+$tmpl->assign('shareExcludeGroups', $excludeGroups);
+$allGroups =  OC_Group::getGroups();
+$excludedGroupsList = OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
+$excludedGroups = $excludedGroupsList !== '' ? explode(',', $excludedGroupsList) : array();
+$groups = array();
+foreach ($allGroups as $group) {
+	if (in_array($group, $excludedGroups)) {
+		$groups[$group] = array('gid' => $group,
+			'excluded' => true);
+	} else {
+		$groups[$group] = array('gid' => $group,
+			'excluded' => false);
+	}
+}
+ksort($groups);
+$tmpl->assign('groups', $groups);
 
 
 // Check if connected using HTTPS

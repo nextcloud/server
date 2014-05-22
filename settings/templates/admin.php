@@ -240,9 +240,6 @@ if (!$_['internetconnectionworking']) {
 
 				</div>
 				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
-
-
-
 			</td>
 		</tr>
 		<tr>
@@ -271,7 +268,24 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to send mail notification for shared files')); ?></em>
 			</td>
 		</tr>
-
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
+				<input type="checkbox" name="shareapi_exclude_groups" id="shareapiExcludeGroups"
+				       value="1" <?php if ($_['shareExcludeGroups']) print_unescaped('checked="checked"'); ?> />
+				<label for="shareapiExcludeGroups"><?php p($l->t('Exclude groups from sharing'));?></label><br/>
+				<div id="selectExcludedGroups" class="<?php ($_['shareExcludeGroups']) ? p('indent') : p('hidden indent'); ?>">
+				<select
+					class="groupsselect"
+					id="excludedGroups" data-placeholder="groups"
+					title="<?php p($l->t('Groups'))?>" multiple="multiple">
+					<?php foreach($_["groups"] as $group): ?>
+						<option value="<?php p($group['gid'])?>" <?php if($group['excluded']) { p('selected="selected"'); }?>><?php p($group['gid']);?></option>
+					<?php endforeach;?>
+				</select>
+				</div>
+				<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
+			</td>
+		</tr>
 	</table>
 </div>
 

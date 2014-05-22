@@ -109,6 +109,8 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 		if ($create) {
 			\OC_User::createUser($user, $password);
+			\OC_Group::createGroup('group');
+			\OC_Group::addToGroup($user, 'group');
 		}
 
 		\OC_Util::tearDownFS();

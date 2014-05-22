@@ -171,6 +171,78 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'no');
 	}
 
+	/**
+	 * @medium
+	*/
+	function testSharePermissions() {
+
+		// sharing file to a user should work if shareapi_exclude_groups is set
+		// to no
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'no');
+		$_POST['path'] = $this->filename;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+
+		$result = Share\Api::createShare(array());
+
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+
+		$share = $this->getShareFromId($data['id']);
+
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+
+		$this->assertTrue(!empty($items));
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue($result);
+
+		// exclude groups, but not the group the user belongs to. Sharing should still work
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
+
+		$_POST['path'] = $this->filename;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+
+		$result = Share\Api::createShare(array());
+
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+
+		$share = $this->getShareFromId($data['id']);
+
+		$items = \OCP\Share::getItemShared('file', $share['item_source']);
+
+		$this->assertTrue(!empty($items));
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+
+		$result = \OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue($result);
+
+		// now we exclude the group the user belongs to ('group'), sharing should fail now
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
+
+		$_POST['path'] = $this->filename;
+		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+
+		$result = Share\Api::createShare(array());
+
+		$this->assertFalse($result->succeeded());
+
+		// cleanup
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', '');
+	}
+
 
 	/**
 	 * @medium
