@@ -18,15 +18,20 @@ use OCA\Encryption;
 class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 
 	const TEST_ENCRYPTION_HELPER_USER1 = "test-helper-user1";
+	const TEST_ENCRYPTION_HELPER_USER2 = "test-helper-user2";
 
 	public static function setUpBeforeClass() {
 		// create test user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2, true);
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
 	}
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
+		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2);
+		\OC_Hook::clear();
+		\OC_FileProxy::clearProxies();
 	}
 
 	/**
@@ -81,8 +86,10 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 
 		$path1 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/files/foo/bar.txt";
 		$path2 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/cache/foo/bar.txt";
-		$path3 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/thumbnails/foo";
+		$path3 = "/" . self::TEST_ENCRYPTION_HELPER_USER2 . "/thumbnails/foo";
 		$path4 ="/" . "/" . self::TEST_ENCRYPTION_HELPER_USER1;
+
+		\Test_Encryption_Util::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
 
 		// if we are logged-in every path should return the currently logged-in user
 		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path3));
