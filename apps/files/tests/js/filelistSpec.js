@@ -1730,7 +1730,7 @@ describe('OCA.Files.FileList tests', function() {
 				ev = dropOn($anotherTable.find('.crumb'));
 				expect(ev.result).toEqual(false);
 			});
-			it('drop on an element outside file list does not trigger upload', function() {
+			it('drop on an element outside file list container does not trigger upload', function() {
 				var $anotherEl = $('<div>outside</div>');
 				var ev;
 				$('#testArea').append($anotherEl);
@@ -1741,6 +1741,12 @@ describe('OCA.Files.FileList tests', function() {
 			it('drop on an element inside the table triggers upload', function() {
 				var ev;
 				ev = dropOn(fileList.$fileList.find('th:first'), uploadData);
+
+				expect(ev.result).not.toEqual(false);
+			});
+			it('drop on an element on the table container triggers upload', function() {
+				var ev;
+				ev = dropOn($('#app-content-files'), uploadData);
 
 				expect(ev.result).not.toEqual(false);
 			});

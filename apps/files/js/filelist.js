@@ -1517,10 +1517,9 @@
 			fileUploadStart.on('fileuploaddrop', function(e, data) {
 				OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
-
 				var dropTarget = $(e.originalEvent.target);
-				// check if dropped inside this list and not another one
-				if (dropTarget.length && !self.$el.has(dropTarget).length) {
+				// check if dropped inside this container and not another one
+				if (dropTarget.length && !self.$el.is(dropTarget) && !self.$el.has(dropTarget).length) {
 					return false;
 				}
 
