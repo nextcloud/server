@@ -45,7 +45,7 @@ class Watcher {
 	}
 
 	/**
-	 * @param int $policy either \OC\Files\Cache\Watcher::UPDATE_NEVER, \OC\Files\Cache\Watcher::UPDATE_ONCE, \OC\Files\Cache\Watcher::UPDATE_ALWAYS
+	 * @param int $policy either \OC\Files\Cache\Watcher::CHECK_NEVER, \OC\Files\Cache\Watcher::CHECK_ONCE, \OC\Files\Cache\Watcher::CHECK_ALWAYS
 	 */
 	public function setPolicy($policy) {
 		$this->watchPolicy = $policy;
