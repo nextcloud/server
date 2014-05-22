@@ -151,4 +151,118 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
 	}
+
+	public function testRememberLoginValidToken() {
+		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$session->expects($this->exactly(1))
+			->method('set')
+			->with($this->callback(function($key) {
+						switch($key) {
+							case 'user_id':
+								return true;
+								break;
+							default:
+								return false;
+								break;
+						}
+					},
+					'foo'));
+
+		$manager = $this->getMock('\OC\User\Manager');
+
+		$backend = $this->getMock('OC_User_Dummy');
+
+		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
+
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->will($this->returnValue($user));
+
+		//prepare login token
+		$token = 'goodToken';
+		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+
+		$userSession = $this->getMock(
+			'\OC\User\Session',
+			//override, otherwise tests will fail because of setcookie()
+			array('setMagicInCookie'),
+			//there  are passed as parameters to the constructor
+			array($manager, $session));
+
+		$granted = $userSession->loginWithCookie('foo', $token);
+		//clean up token
+		\OC_Preferences::deleteKey('foo', 'login_token', $token);
+
+		$this->assertSame($granted, true);
+	}
+
+	public function testRememberLoginInvalidToken() {
+		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$session->expects($this->never())
+			->method('set');
+
+		$manager = $this->getMock('\OC\User\Manager');
+
+		$backend = $this->getMock('OC_User_Dummy');
+
+		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
+
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('foo'));
+
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->will($this->returnValue($user));
+
+		//prepare login token
+		$token = 'goodToken';
+		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+
+		$userSession = new \OC\User\Session($manager, $session);
+		$granted = $userSession->loginWithCookie('foo', 'badToken');
+		//clean up token
+		\OC_Preferences::deleteKey('foo', 'login_token', $token);
+
+		$this->assertSame($granted, false);
+	}
+
+	public function testRememberLoginInvalidUser() {
+		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$session->expects($this->never())
+			->method('set');
+
+		$manager = $this->getMock('\OC\User\Manager');
+
+		$backend = $this->getMock('OC_User_Dummy');
+
+		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
+
+		$user->expects($this->never())
+			->method('getUID');
+
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->will($this->returnValue(null));
+
+		//prepare login token
+		$token = 'goodToken';
+		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+
+		$userSession = new \OC\User\Session($manager, $session);
+		$granted = $userSession->loginWithCookie('foo', $token);
+		//clean up token
+		\OC_Preferences::deleteKey('foo', 'login_token', $token);
+
+		$this->assertSame($granted, false);
+
+
+	}
 }
