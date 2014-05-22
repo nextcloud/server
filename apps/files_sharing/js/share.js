@@ -31,8 +31,8 @@ $(document).ready(function() {
 			// we create a share notification action to inform the user about files
 			// shared with him otherwise we just update the existing share action.
 			var allShared;
+			var $fileList = $(this);
 			if (oc_appconfig.core.sharingDisabledForUser) {
-				var $fileList = $(this);
 				allShared = $fileList.find('[data-share-owner]');
 				var shareNotification = '<a class="action action-share-notification permanent"' +
 						' data-action="Share-Notification" href="#" original-title="">' +
