@@ -168,7 +168,17 @@ class Session extends \PHPUnit_Framework_TestCase {
 					},
 					'foo'));
 
-		$manager = $this->getMock('\OC\User\Manager');
+		$managerMethods = get_class_methods('\OC\User\Manager');
+		//keep following methods intact in order to ensure hooks are
+		//working
+		$doNotMock = array('__construct', 'emit', 'listen');
+		foreach($doNotMock as $methodName) {
+			$i = array_search($methodName, $managerMethods, true);
+			if($i !== false) {
+				unset($managerMethods[$i]);
+			}
+		}
+		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('OC_User_Dummy');
 
@@ -177,6 +187,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('foo'));
+		$user->expects($this->once())
+			->method('updateLastLoginTimestamp');
 
 		$manager->expects($this->once())
 			->method('get')
@@ -206,7 +218,17 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$session->expects($this->never())
 			->method('set');
 
-		$manager = $this->getMock('\OC\User\Manager');
+		$managerMethods = get_class_methods('\OC\User\Manager');
+		//keep following methods intact in order to ensure hooks are
+		//working
+		$doNotMock = array('__construct', 'emit', 'listen');
+		foreach($doNotMock as $methodName) {
+			$i = array_search($methodName, $managerMethods, true);
+			if($i !== false) {
+				unset($managerMethods[$i]);
+			}
+		}
+		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('OC_User_Dummy');
 
@@ -215,6 +237,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('foo'));
+		$user->expects($this->never())
+			->method('updateLastLoginTimestamp');
 
 		$manager->expects($this->once())
 			->method('get')
@@ -238,7 +262,17 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$session->expects($this->never())
 			->method('set');
 
-		$manager = $this->getMock('\OC\User\Manager');
+		$managerMethods = get_class_methods('\OC\User\Manager');
+		//keep following methods intact in order to ensure hooks are
+		//working
+		$doNotMock = array('__construct', 'emit', 'listen');
+		foreach($doNotMock as $methodName) {
+			$i = array_search($methodName, $managerMethods, true);
+			if($i !== false) {
+				unset($managerMethods[$i]);
+			}
+		}
+		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('OC_User_Dummy');
 
@@ -246,6 +280,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 		$user->expects($this->never())
 			->method('getUID');
+		$user->expects($this->never())
+			->method('updateLastLoginTimestamp');
 
 		$manager->expects($this->once())
 			->method('get')
@@ -262,7 +298,5 @@ class Session extends \PHPUnit_Framework_TestCase {
 		\OC_Preferences::deleteKey('foo', 'login_token', $token);
 
 		$this->assertSame($granted, false);
-
-
 	}
 }
