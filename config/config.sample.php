@@ -283,5 +283,14 @@ $CONFIG = array(
  * cache directory and "$user" is the user.
  *
  */
-'cache_path' => ''
+'cache_path' => '',
+
+/*
+ * specifies how often the filesystem is checked for changes made outside owncloud
+ * 0 -> never check the filesystem for outside changes, provides a performance increase when it's certain that no changes are made directly to the filesystem
+ * 1 -> check each file or folder at most once per request, recomended for general use if outside changes might happen
+ * 2 -> check every time the filesystem is used, causes a performance hit when using external storages, not recomended for regular use
+ */
+'filesystem_check_changes' => 1
+
 );
