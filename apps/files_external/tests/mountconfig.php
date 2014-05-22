@@ -41,16 +41,22 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
 	const TEST_GROUP1 = 'group1';
+	const TEST_GROUP1B = 'group1b';
 	const TEST_GROUP2 = 'group2';
+	const TEST_GROUP2B = 'group2b';
 
 	public function setUp() {
 		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
 		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
 
 		\OC_Group::createGroup(self::TEST_GROUP1);
+		\OC_Group::createGroup(self::TEST_GROUP1B);
 		\OC_Group::addToGroup(self::TEST_USER1, self::TEST_GROUP1);
+		\OC_Group::addToGroup(self::TEST_USER1, self::TEST_GROUP1B);
 		\OC_Group::createGroup(self::TEST_GROUP2);
+		\OC_Group::createGroup(self::TEST_GROUP2B);
 		\OC_Group::addToGroup(self::TEST_USER2, self::TEST_GROUP2);
+		\OC_Group::addToGroup(self::TEST_USER2, self::TEST_GROUP2B);
 
 		\OC_User::setUserId(self::TEST_USER1);
 		$this->userHome = \OC_User::getHome(self::TEST_USER1);
@@ -81,7 +87,9 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		\OC_User::deleteUser(self::TEST_USER2);
 		\OC_User::deleteUser(self::TEST_USER1);
 		\OC_Group::deleteGroup(self::TEST_GROUP1);
+		\OC_Group::deleteGroup(self::TEST_GROUP1B);
 		\OC_Group::deleteGroup(self::TEST_GROUP2);
+		\OC_Group::deleteGroup(self::TEST_GROUP2B);
 
 		@unlink($this->dataDir . '/mount.json');
 
@@ -634,5 +642,162 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('\OC\Files\Storage\SMB', $config[1]['class']);
 		$this->assertEquals('ext', $config[1]['mountpoint']);
 		$this->assertEquals($options2, $config[1]['options']);
+	}
+
+	public function priorityDataProvider() {
+		return array(
+
+		// test 1 - group vs group
+		array(
+			array(
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_GROUP,
+					'applicable' => self::TEST_GROUP1,
+					'priority' => 50
+				),
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_GROUP,
+					'applicable' => self::TEST_GROUP1B,
+					'priority' => 60
+				)
+			),
+			1
+		),
+		// test 2 - user vs personal
+		array(
+			array(
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_USER,
+					'applicable' => self::TEST_USER1,
+					'priority' => 2000
+				),
+				array(
+					'isPersonal' => true,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_USER,
+					'applicable' => self::TEST_USER1,
+					'priority' => null
+				)
+			),
+			1
+		),
+		// test 3 - all vs group vs user
+		array(
+			array(
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_USER,
+					'applicable' => 'all',
+					'priority' => 70
+				),
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_GROUP,
+					'applicable' => self::TEST_GROUP1,
+					'priority' => 60
+				),
+				array(
+					'isPersonal' => false,
+					'mountType' => OC_Mount_Config::MOUNT_TYPE_USER,
+					'applicable' => self::TEST_USER1,
+					'priority' => 50
+				)
+			),
+			2
+		)
+
+		);
+	}
+
+	/**
+	 * Ensure priorities are being respected
+	 * Test user is self::TEST_USER1
+	 *
+	 * @dataProvider priorityDataProvider
+	 * @param array[] $mounts array of associative array of mount parameters:
+	 *	bool $isPersonal
+	 *	string $mountType
+	 *	string $applicable
+	 *	int|null $priority null for personal
+	 * @param int $expected index of expected visible mount
+	 */
+	public function testPriority($mounts, $expected) {
+		$mountConfig = array(
+			'host' => 'somehost',
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'root' => 'someroot'
+		);
+
+		// Add mount points
+		foreach($mounts as $i => $mount) {
+			$this->assertTrue(
+				OC_Mount_Config::addMountPoint(
+					'/ext',
+					'\OC\Files\Storage\SMB',
+					$mountConfig + array('id' => $i),
+					$mount['mountType'],
+					$mount['applicable'],
+					$mount['isPersonal'],
+					$mount['priority']
+				)
+			);
+		}
+
+		// Get mount points for user
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+
+		$this->assertEquals(1, count($mountPoints));
+		$this->assertEquals($expected, $mountPoints['/'.self::TEST_USER1.'/files/ext']['options']['id']);
+	}
+
+	/**
+	 * Test for persistence of priority when changing mount options
+	 */
+	public function testPriorityPersistence() {
+		$class = '\OC\Files\Storage\SMB';
+		$priority = 123;
+		$mountConfig = array(
+			'host' => 'somehost',
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'root' => 'someroot'
+		);
+
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				$class,
+				$mountConfig,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				self::TEST_USER1,
+				false,
+				$priority
+			)
+		);
+
+		// Check for correct priority
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+		$this->assertEquals($priority,
+			$mountPoints['/'.self::TEST_USER1.'/files/ext']['priority']);
+
+		// Simulate changed mount options (without priority set)
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				$class,
+				$mountConfig,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				self::TEST_USER1,
+				false
+			)
+		);
+
+		// Check for correct priority
+		$mountPoints = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+		$this->assertEquals($priority,
+			$mountPoints['/'.self::TEST_USER1.'/files/ext']['priority']);
 	}
 }
