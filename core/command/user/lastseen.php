@@ -41,7 +41,7 @@ class LastSeen extends Command {
 			$date = new \DateTime();
 			$date->setTimestamp($lastLogin);
 			$output->writeln($user->getUID() .
-				'`s last login: ' . $date->format('d.m.Y h:i'));
+				'`s last login: ' . $date->format('d.m.Y H:i'));
 		}
 	}
 }
