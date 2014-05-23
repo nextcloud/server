@@ -204,6 +204,16 @@ input img, button img, .button img {
 }
 
 
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+
 /* SCROLLING */
 ::-webkit-scrollbar {
 	width: 8px;
@@ -709,8 +719,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	overflow-y: auto;
 	overflow-x: hidden;
 	-moz-box-sizing:border-box; box-sizing:border-box;
-	/* prevent ugly selection effect on accidental selection */
-	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 #apps {
 	height: 100%;
@@ -801,8 +809,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	box-shadow:0 0 7px rgb(29,45,68);
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	/* prevent ugly selection effect on accidental selection */
-	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 	#expanddiv a {
 		display: block;
