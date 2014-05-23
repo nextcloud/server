@@ -34,7 +34,7 @@ class LockingWrapper extends Wrapper {
 	 * @return bool|\OCP\Files\Lock Lock instance on success, false on failure
 	 */
 	protected function getLock($path, $lockType){
-		$path = Filesystem::normalizePath($path);
+		$path = Filesystem::normalizePath($this->storage->getLocalFile($path));
 		if(!isset($this->locks[$path])) {
 			$this->locks[$path] = new Lock($path);
 		}
@@ -48,7 +48,7 @@ class LockingWrapper extends Wrapper {
 	 * @return bool true on success, false on failure
 	 */
 	protected function releaseLock($path, $lockType, $releaseAll = false){
-		$path = Filesystem::normalizePath($path);
+		$path = Filesystem::normalizePath($this->storage->getLocalFile($path));
 		if(isset($this->locks[$path])) {
 			if($releaseAll) {
 				return $this->locks[$path]->releaseAll();
@@ -68,9 +68,7 @@ class LockingWrapper extends Wrapper {
 	 */
 	public function file_get_contents($path) {
 		try {
-			if (!$this->getLock($path, Lock::READ)) {
-				throw new LockNotAcquiredException($path, Lock::READ);
-			}
+			$this->getLock($path, Lock::READ);
 			$result = $this->storage->file_get_contents($path);
 		}
 		catch(\Exception $originalException) {
@@ -78,14 +76,13 @@ class LockingWrapper extends Wrapper {
 			$this->releaseLock($path, Lock::READ);
 			throw $originalException;
 		}
+		$this->releaseLock($path, Lock::READ);
 		return $result;
 	}
 
 	public function file_put_contents($path, $data) {
 		try {
-			if (!$this->getLock($path, Lock::WRITE)) {
-				throw new LockNotAcquiredException($path, Lock::WRITE);
-			}
+			$this->getLock($path, Lock::WRITE);
 			$result = $this->storage->file_put_contents($path, $data);
 		}
 		catch(\Exception $originalException) {
@@ -93,18 +90,15 @@ class LockingWrapper extends Wrapper {
 			$this->releaseLock($path, Lock::WRITE);
 			throw $originalException;
 		}
+		$this->releaseLock($path, Lock::WRITE);
 		return $result;
 	}
 
 
 	public function copy($path1, $path2) {
 		try {
-			if (!$this->getLock($path1, Lock::READ)) {
-				throw new LockNotAcquiredException($path1, Lock::READ);
-			}
-			if (!$this->getLock($path2, Lock::WRITE)) {
-				throw new LockNotAcquiredException($path2, Lock::WRITE);
-			}
+			$this->getLock($path1, Lock::READ);
+			$this->getLock($path2, Lock::WRITE);
 			$result = $this->storage->copy($path1, $path2);
 		}
 		catch(\Exception $originalException) {
@@ -113,17 +107,15 @@ class LockingWrapper extends Wrapper {
 			$this->releaseLock($path2, Lock::WRITE);
 			throw $originalException;
 		}
+		$this->releaseLock($path1, Lock::READ);
+		$this->releaseLock($path2, Lock::WRITE);
 		return $result;
 	}
 
 	public function rename($path1, $path2) {
 		try {
-			if (!$this->getLock($path1, Lock::READ)) {
-				throw new LockNotAcquiredException($path1, Lock::READ);
-			}
-			if (!$this->getLock($path2, Lock::WRITE)) {
-				throw new LockNotAcquiredException($path2, Lock::WRITE);
-			}
+			$this->getLock($path1, Lock::READ);
+			$this->getLock($path2, Lock::WRITE);
 			$result = $this->storage->rename($path1, $path2);
 		}
 		catch(\Exception $originalException) {
@@ -132,6 +124,8 @@ class LockingWrapper extends Wrapper {
 			$this->releaseLock($path2, Lock::WRITE);
 			throw $originalException;
 		}
+		$this->releaseLock($path1, Lock::READ);
+		$this->releaseLock($path2, Lock::WRITE);
 		return $result;
 	}
 
