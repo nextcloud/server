@@ -35,7 +35,7 @@
                 // do nothing if the area is animated
                 if (!area.is(':animated')) {
 
-                    // button slides up the area
+                    // button toggles the area
                     if (button === event.target) {
                         if (area.is(':visible')) {
                             area.slideUp();
@@ -46,7 +46,7 @@
                     // all other areas that have not been clicked but are open
                     // should be slid up
                     } else {
-                        var closest = ($(event.target).closest(areaSelector));
+                        var closest = $(event.target).closest(areaSelector);
                         if (area.is(':visible') && closest[0] !== area[0]) {
                             area.slideUp();
                         }
