@@ -40,8 +40,8 @@ class LastSeen extends Command {
 		} else {
 			$date = new \DateTime();
 			$date->setTimestamp($lastLogin);
-			$output->writeln($user->getUID() . '`s ' .
-				' last login: ' . $date->format('d.m.Y h:i'));
+			$output->writeln($user->getUID() .
+				'`s last login: ' . $date->format('d.m.Y h:i'));
 		}
 	}
 }
