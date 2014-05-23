@@ -205,9 +205,15 @@ input img, button img, .button img {
 
 
 /* SCROLLING */
-::-webkit-scrollbar { width:8px; }
-::-webkit-scrollbar-track-piece { background-color:transparent; }
-::-webkit-scrollbar-thumb { background:#ddd; }
+::-webkit-scrollbar {
+	width: 8px;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: #ccc;
+}
 
 
 /* BUTTONS */
