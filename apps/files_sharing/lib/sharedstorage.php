@@ -517,14 +517,14 @@ class Shared extends \OC\Files\Storage\Common {
 			$parent = dirname($parent);
 		}
 
-		$newMountPoint = \OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint);
+		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
+				\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
+				array(),
+				new \OC\Files\View('/' . \OCP\User::getUser() . '/files')
+				);
 
 		if($newMountPoint !== $share['file_target']) {
-			$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
-					$newMountPoint,
-					array(),
-					new \OC\Files\View('/' . \OCP\User::getUser() . '/files')
-					);
+
 			self::updateFileTarget($newMountPoint, $share);
 			$share['file_target'] = $newMountPoint;
 

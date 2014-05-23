@@ -31,8 +31,8 @@ $(document).ready(function() {
 			// we create a share notification action to inform the user about files
 			// shared with him otherwise we just update the existing share action.
 			var allShared;
+			var $fileList = $(this);
 			if (oc_appconfig.core.sharingDisabledForUser) {
-				var $fileList = $(this);
 				allShared = $fileList.find('[data-share-owner]');
 				var shareNotification = '<a class="action action-share-notification permanent"' +
 						' data-action="Share-Notification" href="#" original-title="">' +
@@ -40,8 +40,13 @@ $(document).ready(function() {
 				$(allShared).find('.fileactions').append(function() {
 					var owner = $(this).closest('tr').attr('data-share-owner');
 					var shareBy = t('files_sharing', 'Shared by {owner}', {owner: owner});
-					return shareNotification + '<span> ' + shareBy + '</span></span>';
+					var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
+					$result.on('click', function() {
+						return false;
+					});
+					return $result;
 				});
+
 			} else {
 				allShared = $fileList.find('[data-share-owner] [data-Action="Share"]');
 				allShared.addClass('permanent');
