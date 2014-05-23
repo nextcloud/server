@@ -196,10 +196,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 						switch($key) {
 							case 'user_id':
 								return true;
-								break;
 							default:
 								return false;
-								break;
 						}
 					},
 					'foo'));

@@ -52,7 +52,7 @@ class Manager extends PublicEmitter {
 				unset($cachedUsers[$i]);
 			}
 		});
-		$this->listen('\OC\User', 'postLogin', function ($user, $pw) {
+		$this->listen('\OC\User', 'postLogin', function ($user) {
 			$user->updateLastLoginTimestamp();
 		});
 		$this->listen('\OC\User', 'postRememberedLogin', function ($user) {
