@@ -5,6 +5,11 @@
 	border: 0;
 }
 
+/* fix height of select boxes for OS X */
+select {
+	min-height: 29px;
+}
+
 .lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }
 .lte8 .delete-icon:hover, .delete-icon:focus {
 	background-image: url('../img/actions/delete-hover.png');
