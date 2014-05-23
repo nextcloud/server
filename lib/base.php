@@ -419,6 +419,8 @@ class OC {
 		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
 
+		self::$session = new \OC\Session\Memory('');
+
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
