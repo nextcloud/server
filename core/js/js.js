@@ -1250,7 +1250,7 @@ OC.Util = {
 	 * @return {string} fixed image path with png extension if SVG is not supported
 	 */
 	replaceSVGIcon: function(file) {
-		if (!OC.Util.hasSVGSupport()) {
+		if (file && !OC.Util.hasSVGSupport()) {
 			var i = file.lastIndexOf('.svg');
 			if (i >= 0) {
 				file = file.substr(0, i) + '.png' + file.substr(i+4);
