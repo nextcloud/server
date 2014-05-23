@@ -19,7 +19,6 @@
 *
 */
 
-/* global BreadCrumb */
 describe('OCA.Files.BreadCrumb tests', function() {
 	var BreadCrumb = OCA.Files.BreadCrumb;
 
@@ -131,48 +130,42 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		});
 	});
 	describe('Resizing', function() {
-		var bc, widthStub, dummyDir,
-			oldUpdateTotalWidth;
+		var bc, dummyDir, widths, oldUpdateTotalWidth;
 
 		beforeEach(function() {
-			dummyDir = '/short name/longer name/looooooooooooonger/even longer long long long longer long/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/last one';
+			dummyDir = '/short name/longer name/looooooooooooonger/' +
+				'even longer long long long longer long/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/last one';
+
+			// using hard-coded widths (pre-measured) to avoid getting different
+			// results on different browsers due to font engine differences
+			widths = [41, 106, 112, 160, 257, 251, 91];
 
 			oldUpdateTotalWidth = BreadCrumb.prototype._updateTotalWidth;
 			BreadCrumb.prototype._updateTotalWidth = function() {
-				// need to set display:block for correct offsetWidth (no CSS loaded here)
-				$('div.crumb').css({
-					'display': 'block',
-					'float': 'left'
+				// pre-set a width to simulate consistent measurement
+				$('div.crumb').each(function(index){
+					$(this).css('width', widths[index]);
 				});
 
 				return oldUpdateTotalWidth.apply(this, arguments);
 			};
 
 			bc = new BreadCrumb();
-			widthStub = sinon.stub($.fn, 'width');
 			// append dummy navigation and controls
 			// as they are currently used for measurements
 			$('#testArea').append(
-				'<div id="navigation" style="width: 80px"></div>',
 				'<div id="controls"></div>'
 			);
-
-			// make sure we know the test screen width
-			$('#testArea').css('width', 1280);
-
-			// use test area as we need it for measurements
 			$('#controls').append(bc.$el);
-			$('#controls').append('<div class="actions"><div>Dummy action with a given width</div></div>');
 		});
 		afterEach(function() {
 			BreadCrumb.prototype._updateTotalWidth = oldUpdateTotalWidth;
-			widthStub.restore();
 			bc = null;
 		});
-		it('Hides breadcrumbs to fit window', function() {
+		it('Hides breadcrumbs to fit max allowed width', function() {
 			var $crumbs;
 
-			widthStub.returns(500);
+			bc.setMaxWidth(500);
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
 			$crumbs = bc.$el.find('.crumb');
@@ -190,19 +183,23 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 		});
-		it('Updates ellipsis on window size increase', function() {
+		it('Updates the breadcrumbs when reducing max allowed width', function() {
 			var $crumbs;
 
-			widthStub.returns(500);
+			// enough space
+			bc.setMaxWidth(1800);
+
+			expect(bc.$el.find('.ellipsis').length).toEqual(0);
+
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
-			$crumbs = bc.$el.find('.crumb');
 
 			// simulate increase
-			$('#testArea').css('width', 1800);
-			bc.resize(1800);
+			bc.setMaxWidth(950);
 
+			$crumbs = bc.$el.find('.crumb');
 			// first one is always visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
 			// second one has ellipsis
@@ -213,37 +210,35 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// subsequent elements are hidden
 			expect($crumbs.eq(2).hasClass('hidden')).toEqual(true);
 			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
-			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
 			// the rest is visible
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 		});
-		it('Updates ellipsis on window size decrease', function() {
+		it('Removes the ellipsis when there is enough space', function() {
 			var $crumbs;
 
-			$('#testArea').css('width', 2000);
-			widthStub.returns(2000);
+			bc.setMaxWidth(500);
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
 			$crumbs = bc.$el.find('.crumb');
 
-			// simulate decrease
-			bc.resize(500);
-			$('#testArea').css('width', 500);
+			// ellipsis
+			expect(bc.$el.find('.ellipsis').length).toEqual(1);
 
-			// first one is always visible
+			// simulate increase
+			bc.setMaxWidth(1800);
+
+			// no ellipsis
+			expect(bc.$el.find('.ellipsis').length).toEqual(0);
+
+			// all are visible
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(false);
-			// second one has ellipsis
 			expect($crumbs.eq(1).hasClass('hidden')).toEqual(false);
-			expect($crumbs.eq(1).find('.ellipsis').length).toEqual(1);
-			// there is only one ellipsis in total
-			expect($crumbs.find('.ellipsis').length).toEqual(1);
-			// subsequent elements are hidden
-			expect($crumbs.eq(2).hasClass('hidden')).toEqual(true);
-			expect($crumbs.eq(3).hasClass('hidden')).toEqual(true);
-			expect($crumbs.eq(4).hasClass('hidden')).toEqual(true);
-			// the rest is visible
-			expect($crumbs.eq(5).hasClass('hidden')).toEqual(true);
+			expect($crumbs.eq(2).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(3).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(4).hasClass('hidden')).toEqual(false);
+			expect($crumbs.eq(5).hasClass('hidden')).toEqual(false);
 			expect($crumbs.eq(6).hasClass('hidden')).toEqual(false);
 		});
 	});
