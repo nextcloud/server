@@ -407,7 +407,7 @@ class OC_Helper {
 		if (is_dir($dir)) {
 			$files = scandir($dir);
 			foreach ($files as $file) {
-				if ($file != "." && $file != "..") {
+				if ($file !== '' && $file !== "." && $file !== "..") {
 					self::rmdirr("$dir/$file");
 				}
 			}
