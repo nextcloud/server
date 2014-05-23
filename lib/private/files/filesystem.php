@@ -152,8 +152,8 @@ class Filesystem {
 	/**
 	 * @param callable $wrapper
 	 */
-	public static function addStorageWrapper($wrapper) {
-		self::getLoader()->addStorageWrapper($wrapper);
+	public static function addStorageWrapper($wrapperName, $wrapper) {
+		self::getLoader()->addStorageWrapper($wrapperName, $wrapper);
 
 		$mounts = self::getMountManager()->getAll();
 		foreach ($mounts as $mount) {

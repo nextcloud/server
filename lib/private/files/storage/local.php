@@ -296,7 +296,19 @@ if (\OC_Util::runningOnWindows()) {
 		 * @return bool
 		 */
 		public function hasUpdated($path, $time) {
-			return $this->filemtime($path) > $time;
+			if ($this->file_exists($path)) {
+				return $this->filemtime($path) > $time;
+			} else {
+				return true;
+			}
 		}
+
+		/**
+		 * {@inheritdoc}
+		 */
+		public function isLocal() {
+			return true;
+		}
+
 	}
 }

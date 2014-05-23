@@ -311,7 +311,7 @@ class Proxy extends \OC_FileProxy {
 			\OC_FileProxy::$enabled = false;
 
 			// get file size
-			$data['size'] = self::postFileSize($path, $data['size']);
+			$data['size'] = self::postFileSize($path, $data['size'], $data);
 
 			// Re-enable the proxy
 			\OC_FileProxy::$enabled = $proxyStatus;
@@ -325,7 +325,7 @@ class Proxy extends \OC_FileProxy {
 	 * @param $size
 	 * @return bool
 	 */
-	public function postFileSize($path, $size) {
+	public function postFileSize($path, $size, $fileInfo = null) {
 
 		$view = new \OC_FilesystemView('/');
 
@@ -359,9 +359,8 @@ class Proxy extends \OC_FileProxy {
 			return $size;
 		}
 
-		$fileInfo = false;
 		// get file info from database/cache if not .part file
-		if (!Helper::isPartialFilePath($path)) {
+		if (empty($fileInfo) && !Helper::isPartialFilePath($path)) {
 			$proxyState = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 			$fileInfo = $view->getFileInfo($path);
@@ -369,7 +368,7 @@ class Proxy extends \OC_FileProxy {
 		}
 
 		// if file is encrypted return real file size
-		if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+		if (isset($fileInfo['encrypted']) && $fileInfo['encrypted'] === true) {
 			// try to fix unencrypted file size if it doesn't look plausible
 			if ((int)$fileInfo['size'] > 0 && (int)$fileInfo['unencrypted_size'] === 0 ) {
 				$fixSize = $util->getFileSize($path);

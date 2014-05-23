@@ -173,7 +173,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Local', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 	}
 
@@ -189,7 +189,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Home', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('home::' . $userId, $homeMount->getId());
 
 		\OC_User::deleteUser($userId);
@@ -214,7 +214,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Home', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 
 		\OC_User::deleteUser($userId);
@@ -225,5 +225,56 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	public function dummyHook($arguments) {
 		$path = $arguments['path'];
 		$this->assertEquals($path, \OC\Files\Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
+	}
+
+	/**
+	 * Test that the default cache dir is part of the user's home
+	 */
+	public function testMountDefaultCacheDir() {
+		$userId = uniqid('user_');
+		$oldCachePath = \OC_Config::getValue('cache_path', '');
+		// no cache path configured
+		\OC_Config::setValue('cache_path', '');
+
+		\OC_User::createUser($userId, $userId);
+		\OC\Files\Filesystem::initMountPoints($userId);
+
+		$this->assertEquals(
+			'/' . $userId . '/',
+			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
+		);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
+		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Home'));
+		$this->assertEquals('cache', $internalPath);
+		\OC_User::deleteUser($userId);
+
+		\OC_Config::setValue('cache_path', $oldCachePath);
+	}
+
+	/**
+	 * Test that an external cache is mounted into
+	 * the user's home
+	 */
+	public function testMountExternalCacheDir() {
+		$userId = uniqid('user_');
+
+		$oldCachePath = \OC_Config::getValue('cache_path', '');
+		// set cache path to temp dir
+		$cachePath = \OC_Helper::tmpFolder() . '/extcache';
+		\OC_Config::setValue('cache_path', $cachePath);
+
+		\OC_User::createUser($userId, $userId);
+		\OC\Files\Filesystem::initMountPoints($userId);
+
+		$this->assertEquals(
+			'/' . $userId . '/cache/',
+			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
+		);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
+		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
+		$this->assertEquals('', $internalPath);
+		\OC_User::deleteUser($userId);
+
+		\OC_Config::setValue('cache_path', $oldCachePath);
 	}
 }

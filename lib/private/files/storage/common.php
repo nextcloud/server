@@ -371,6 +371,15 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isLocal() {
+		// the common implementation returns a temporary file by
+		// default, which is not local
+		return false;
+	}
+
+	/*
 	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
 	 *
 	 * @param string $class

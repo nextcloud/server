@@ -101,11 +101,9 @@ class Hooks {
 				$userView->file_exists('encryption.key')
 				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
 			) {
+					$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
-				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
-
-				$session->setLegacyKey($plainLegacyKey);
-
+					$session->setLegacyKey($plainLegacyKey);
 			}
 
 			// Encrypt existing user files
