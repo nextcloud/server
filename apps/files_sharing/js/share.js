@@ -30,31 +30,34 @@ $(document).ready(function() {
 			// if no share action exists because the admin disabled sharing for this user
 			// we create a share notification action to inform the user about files
 			// shared with him otherwise we just update the existing share action.
-			var allShared;
 			var $fileList = $(this);
-			if (oc_appconfig.core.sharingDisabledForUser) {
-				allShared = $fileList.find('[data-share-owner]');
-				var shareNotification = '<a class="action action-share-notification permanent"' +
-						' data-action="Share-Notification" href="#" original-title="">' +
-						' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
-				$(allShared).find('.fileactions').append(function() {
-					var owner = $(this).closest('tr').attr('data-share-owner');
-					var shareBy = t('files_sharing', 'Shared by {owner}', {owner: owner});
-					var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
-					$result.on('click', function() {
-						return false;
+			$fileList.find('[data-share-owner]').each(function() {
+				var $tr = $(this);
+				var $action;
+				var owner;
+				var message;
+				var permissions = $tr.data('permissions');
+				if(permissions & OC.PERMISSION_SHARE) {
+					$action = $tr.find('[data-Action="Share"]');
+					$action.addClass('permanent');
+					owner = $tr.closest('tr').attr('data-share-owner');
+					message = ' ' + t('files_sharing', 'Shared by {owner}', {owner: owner});
+					$action.find('span').text(message);
+				} else {
+					var shareNotification = '<a class="action action-share-notification permanent"' +
+							' data-action="Share-Notification" href="#" original-title="">' +
+							' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
+					$tr.find('.fileactions').append(function() {
+						var owner = $(this).closest('tr').attr('data-share-owner');
+						var shareBy = t('files_sharing', 'Shared by {owner}', {owner: owner});
+						var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
+						$result.on('click', function() {
+							return false;
+						});
+						return $result;
 					});
-					return $result;
-				});
-
-			} else {
-				allShared = $fileList.find('[data-share-owner] [data-Action="Share"]');
-				allShared.addClass('permanent');
-				allShared.find('span').text(function(){
-					var $owner = $(this).closest('tr').attr('data-share-owner');
-					return ' ' + t('files_sharing', 'Shared by {owner}', {owner: $owner});
-				});
-			}
+				}
+			})
 
 			// FIXME: these calls are also working on hard-coded
 			// list selectors...
