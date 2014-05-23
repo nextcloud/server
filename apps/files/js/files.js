@@ -258,8 +258,9 @@
 			// only possible at the moment if user is logged in or the files app is loaded
 			if (OC.currentUser && OCA.Files.App) {
 				// start on load - we ask the server every 5 minutes
+				var func = _.bind(OCA.Files.App.fileList.updateStorageStatistics, OCA.Files.App.fileList);
 				var updateStorageStatisticsInterval = 5*60*1000;
-				var updateStorageStatisticsIntervalId = setInterval(OCA.Files.App.fileList.updateStorageStatistics, updateStorageStatisticsInterval);
+				var updateStorageStatisticsIntervalId = setInterval(func, updateStorageStatisticsInterval);
 
 				// TODO: this should also stop when switching to another view
 				// Use jquery-visibility to de-/re-activate file stats sync
@@ -267,7 +268,7 @@
 					$(document).on({
 						'show.visibility': function() {
 							if (!updateStorageStatisticsIntervalId) {
-								updateStorageStatisticsIntervalId = setInterval(OCA.Files.App.fileList.updateStorageStatistics, updateStorageStatisticsInterval);
+								updateStorageStatisticsIntervalId = setInterval(func, updateStorageStatisticsInterval);
 							}
 						},
 						'hide.visibility': function() {
