@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Storage;
+use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
 
 /**
@@ -34,6 +35,22 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cachedFiles = array();
 
 	public function __construct($parameters) {
+	}
+
+	/**
+	 * Remove a file of folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	protected function remove($path) {
+		if ($this->is_dir($path)) {
+			return $this->rmdir($path);
+		} else if($this->is_file($path)) {
+			return $this->unlink($path);
+		} else {
+			return false;
+		}
 	}
 
 	public function is_dir($path) {
@@ -137,35 +154,19 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function rename($path1, $path2) {
-		if ($this->file_exists($path2)) {
-			if ($this->is_dir($path2)) {
-				$this->rmdir($path2);
-			} else {
-				$this->unlink($path2);
-			}
-		}
+		$this->remove($path2);
 
 		$this->removeCachedFile($path1);
-		if ($this->is_dir($path1)) {
-			return $this->copy($path1, $path2) and $this->rmdir($path1);
-		} else {
-			return $this->copy($path1, $path2) and $this->unlink($path1);
-		}
+		return $this->copy($path1, $path2) and $this->remove($path1);
 	}
 
 	public function copy($path1, $path2) {
 		if ($this->is_dir($path1)) {
-			if ($this->file_exists($path2)) {
-				if ($this->is_dir($path2)) {
-					$this->rmdir($path2);
-				} else {
-					$this->unlink($path2);
-				}
-			}
+			$this->remove($path2);
 			$dir = $this->opendir($path1);
 			$this->mkdir($path2);
 			while ($file = readdir($dir)) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+				if (!Filesystem::isIgnoredDir($file)) {
 					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
 						return false;
 					}
