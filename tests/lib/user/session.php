@@ -243,8 +243,6 @@ class Session extends \PHPUnit_Framework_TestCase {
 			array($manager, $session));
 
 		$granted = $userSession->loginWithCookie('foo', $token);
-		//clean up token
-		\OC_Preferences::deleteKey('foo', 'login_token', $token);
 
 		$this->assertSame($granted, true);
 	}
@@ -287,8 +285,6 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
-		//clean up token
-		\OC_Preferences::deleteKey('foo', 'login_token', $token);
 
 		$this->assertSame($granted, false);
 	}
@@ -330,8 +326,6 @@ class Session extends \PHPUnit_Framework_TestCase {
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', $token);
-		//clean up token
-		\OC_Preferences::deleteKey('foo', 'login_token', $token);
 
 		$this->assertSame($granted, false);
 	}
