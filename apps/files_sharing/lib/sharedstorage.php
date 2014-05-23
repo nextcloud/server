@@ -102,7 +102,7 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @param string $target Shared target file path
 	 * @return int CRUDS permissions granted
 	 */
-	public function getPermissions($target) {
+	public function getPermissions($target = '') {
 		$permissions = $this->share['permissions'];
 		// part file are always have delete permissions
 		if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {

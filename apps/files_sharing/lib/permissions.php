@@ -27,25 +27,13 @@ class Shared_Permissions extends Permissions {
 	 *
 	 * @param int $fileId
 	 * @param string $user
-	 * @return int (-1 if file no permissions set)
+	 * @return int permissions
 	 */
 	public function get($fileId, $user) {
 
-		if ($fileId == -1) {
-			// if we ask for the mount point return -1 so that we can get the correct
-			// permissions by the path, with the root fileId we have no idea which share is meant
-			return -1;
-		}
-		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE,
-			null, true);
+		$permissions = $this->storage->getPermissions();
 
-		$permission = -1;
-
-		if ($source) {
-			$permission = $this->updatePermissions($source['permissions']);
-		}
-
-		return $permission;
+		return $this->updatePermissions($permissions);
 	}
 
 	/**
@@ -53,16 +41,7 @@ class Shared_Permissions extends Permissions {
 	 * @param string $user
 	 */
 	private function getFile($fileId, $user) {
-		if ($fileId == -1) {
-			return \OCP\PERMISSION_READ;
-		}
-		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE,
-			null, false);
-		if ($source) {
-			return $this->updatePermissions($source['permissions']);
-		} else {
-			return -1;
-		}
+		return $this->get($fileId, $user);
 	}
 
 	/**
@@ -88,7 +67,7 @@ class Shared_Permissions extends Permissions {
 			return array();
 		}
 		foreach ($fileIds as $fileId) {
-			$filePermissions[$fileId] = self::get($fileId, $user);
+			$filePermissions[$fileId] = $this->get($fileId, $user);
 		}
 		return $filePermissions;
 	}
@@ -101,16 +80,15 @@ class Shared_Permissions extends Permissions {
 	 * @return int[]
 	 */
 	public function getDirectoryPermissions($parentId, $user) {
-		// Root of the Shared folder
-		if ($parentId === -1) {
-			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_PERMISSIONS);
-		}
-		$permissions = $this->getFile($parentId, $user);
+
+		$fileCacheId = ($parentId === -1) ? $this->storage->getSourceId() : $parentId;
+
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `parent` = ?');
-		$result = $query->execute(array($parentId));
+		$result = $query->execute(array($fileCacheId));
+		$permissions = $this->get($parentId, $user);
 		$filePermissions = array();
 		while ($row = $result->fetchRow()) {
-			$filePermissions[$row['fileid']] = $this->updatePermissions($permissions);
+			$filePermissions[$row['fileid']] = $permissions;
 		}
 		return $filePermissions;
 	}
