@@ -40,8 +40,13 @@ $(document).ready(function() {
 				$(allShared).find('.fileactions').append(function() {
 					var owner = $(this).closest('tr').attr('data-share-owner');
 					var shareBy = t('files_sharing', 'Shared by {owner}', {owner: owner});
-					return shareNotification + '<span> ' + shareBy + '</span></span>';
+					var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
+					$result.on('click', function() {
+						return false;
+					});
+					return $result;
 				});
+
 			} else {
 				allShared = $fileList.find('[data-share-owner] [data-Action="Share"]');
 				allShared.addClass('permanent');
