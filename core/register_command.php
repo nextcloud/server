@@ -17,3 +17,4 @@ $application->add(new OC\Core\Command\App\Enable());
 $application->add(new OC\Core\Command\App\ListApps());
 $application->add(new OC\Core\Command\Maintenance\Repair(new \OC\Repair()));
 $application->add(new OC\Core\Command\User\Report());
+$application->add(new OC\Core\Command\User\LastSeen());
