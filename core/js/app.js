@@ -55,7 +55,7 @@
             });
 
         });
-    }
+    };
 
 
     $(document).ready(function () {
