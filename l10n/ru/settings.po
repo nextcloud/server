@@ -12,6 +12,7 @@
 # Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
+# anshibanov <shibanovan@yandex.ru>, 2014
 # stushev, 2014
 # unixoid <victor.ashirov@gmail.com>, 2013
 # vsapronov <vladimir.sapronov@gmail.com>, 2013
@@ -24,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -64,15 +65,15 @@ msgstr "Письмо отправлено"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Вы должны настроить свой e-mail пользователя прежде чем отправлять тестовые сообщения."
 
-#: admin/controller.php:116 templates/admin.php:317
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "Отправить сообщение"
 
-#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: admin/controller.php:120 templates/admin.php:354
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "Метод проверки подлинности"
 
@@ -103,17 +104,17 @@ msgstr "Невозможно добавить группу"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Дешифрование файлов прошло успешно"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Ошибка при дешифровании файлов. Обратитесь к вашему системному администратору. Доп информация в owncloud.log"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Ошибка при дешифровании файлов. Проверьте Ваш пароль и повторите попытку"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
@@ -143,7 +144,7 @@ msgstr "Невозможно удалить пользователя"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Резервная копия успешно восстановлена"
 
 #: ajax/restorekeys.php:23
 msgid ""
@@ -206,7 +207,7 @@ msgstr "Используемый механизм не поддерживает 
 msgid "Unable to change password"
 msgstr "Невозможно изменить пароль"
 
-#: js/admin.js:81
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Отправляется ..."
 
@@ -310,8 +311,8 @@ msgstr "отмена"
 msgid "Unable to remove user"
 msgstr "Невозможно удалить пользователя"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Группы"
 
@@ -559,115 +560,124 @@ msgstr ""
 msgid "Allow users to share items to the public with links"
 msgstr "Разрешить пользователям открывать в общий доступ элементы с публичной ссылкой"
 
-#: templates/admin.php:252
+#: templates/admin.php:249
 msgid "Allow resharing"
 msgstr "Разрешить переоткрытие общего доступа"
 
-#: templates/admin.php:253
+#: templates/admin.php:250
 msgid "Allow users to share items shared with them again"
 msgstr "Позволить пользователям открывать общий доступ к эллементам уже открытым в общий доступ"
 
-#: templates/admin.php:260
+#: templates/admin.php:257
 msgid "Allow users to share with anyone"
 msgstr "Разрешить пользователя делать общий доступ любому"
 
-#: templates/admin.php:263
+#: templates/admin.php:260
 msgid "Allow users to only share with users in their groups"
 msgstr "Разрешить пользователям делать общий доступ только для пользователей их групп"
 
-#: templates/admin.php:270
+#: templates/admin.php:267
 msgid "Allow mail notification"
 msgstr "Разрешить уведомление по почте"
 
-#: templates/admin.php:271
+#: templates/admin.php:268
 msgid "Allow users to send mail notification for shared files"
+msgstr "Разрешить пользователю оповещать почтой о расшаренных файлах"
+
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:279
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Безопасность"
 
-#: templates/admin.php:292
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "Принудить к HTTPS"
 
-#: templates/admin.php:294
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Принудить клиентов подключаться к %s через шифрованное соединение."
 
-#: templates/admin.php:300
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Пожалуйста, подключитесь к %s используя HTTPS чтобы включить или отключить принудительное SSL."
 
-#: templates/admin.php:312
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "Сервер почты"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr "Используется для отправки уведомлений."
 
-#: templates/admin.php:345
+#: templates/admin.php:359
 msgid "From address"
 msgstr "Адрес отправителя"
 
-#: templates/admin.php:367
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "Требуется аутентификация "
 
-#: templates/admin.php:371
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Адрес сервера"
 
-#: templates/admin.php:375
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Порт"
 
-#: templates/admin.php:380
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Полномочия"
 
-#: templates/admin.php:381
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "Имя пользователя"
 
-#: templates/admin.php:384
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "Пароль"
 
-#: templates/admin.php:388
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "Тест настроек"
 
-#: templates/admin.php:389
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "Отправить сообщение"
 
-#: templates/admin.php:394
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Журнал"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Уровень детализации журнала"
 
-#: templates/admin.php:427
+#: templates/admin.php:441
 msgid "More"
 msgstr "Больше"
 
-#: templates/admin.php:428
+#: templates/admin.php:442
 msgid "Less"
 msgstr "Меньше"
 
-#: templates/admin.php:434 templates/personal.php:196
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Версия"
 
-#: templates/admin.php:438 templates/personal.php:199
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

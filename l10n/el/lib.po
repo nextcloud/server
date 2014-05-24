@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:685
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
 
-#: base.php:686
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -300,110 +300,115 @@ msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατά�
 msgid "%s shared »%s« with you"
 msgstr "Ο %s διαμοιράστηκε μαζί σας το »%s«"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί το αρχείο δεν υπάρχει"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr ""
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s είναι ο ιδιοκτήτης του αντικειμένου"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν υπάρχει"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν είναι μέλος καμίας ομάδας στην οποία ο χρήστης %s είναι μέλος"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %s"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί η ομάδα χρηστών %s δεν υπάρχει"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί ο χρήστης %s δεν είναι μέλος της ομάδας %s"
 
-#: private/share/share.php:618
+#: private/share/share.php:621
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr ""
 
-#: private/share/share.php:638
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν επιτρέπεται ο διαμοιρασμός με συνδέσμους"
 
-#: private/share/share.php:645
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Ο τύπος διαμοιρασμού %s δεν είναι έγκυρος για το %s"
 
-#: private/share/share.php:783
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Ο ορισμός δικαιωμάτων για το %s απέτυχε, γιατί τα δικαιώματα υπερτερούν αυτά που είναι ορισμένα για το %s"
 
-#: private/share/share.php:844
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Ο ορισμός δικαιωμάτων για το %s απέτυχε, γιατί το αντικείμενο δεν βρέθηκε"
 
-#: private/share/share.php:955
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Το σύστημα διαμοιρασμού %s πρέπει να υλοποιεί την διεπαφή OCP\\Share_Backend"
 
-#: private/share/share.php:962
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Το σύστημα διαμοιρασμού %s δεν βρέθηκε"
 
-#: private/share/share.php:968
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Το σύστημα διαμοιρασμού για το %s δεν βρέθηκε"
 
-#: private/share/share.php:1383
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο αρχικά από τον χρήστη %s"
 
-#: private/share/share.php:1392
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί τα δικαιώματα υπερτερούν αυτά που είναι ορισμένα για το %s"
 
-#: private/share/share.php:1407
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν επιτρέπεται ο επαναδιαμοιρασμός"
 
-#: private/share/share.php:1419
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Ο διαμοιρασμός του %s απέτυχε, γιατί δεν ήταν δυνατό να εντοπίσει την πηγή το σύστημα διαμοιρασμού για το %s "
 
-#: private/share/share.php:1433
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

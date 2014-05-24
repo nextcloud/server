@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "New password" => "新密碼",
 "Email" => "電郵",
 "Cancel" => "取消",
+"Create" => "新增",
 "Username" => "用戶名稱"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

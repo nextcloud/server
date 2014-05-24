@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "L'envoi a échoué. Impossible d'obtenir les informations du fichier.",
 "Invalid directory." => "Dossier invalide.",
 "Files" => "Fichiers",
+"All files" => "Tous les fichiers",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
 "Total file size {size1} exceeds upload limit {size2}" => "La taille totale du fichier {size1} excède la taille maximale d'envoi {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Espace insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",

@@ -7,13 +7,14 @@
 # Cyril Glapa <kyriog@gmail.com>, 2013
 # etiess <etiess@gmail.com>, 2013
 # ptit_boogy <ptit.boogy@gmail.com>, 2014
+# Gauth <gauthier@openux.org>, 2014
 # ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +23,16 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: base.php:685
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Vous accédez au serveur à partir d'un domaine non-approuvé."
 
-#: base.php:686
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Veuillez contacter votre administrateur. Si vous être l'administrateur de cette instance, il faut configurer la variable \"trusted_domain\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php."
 
 #: private/app.php:236
 #, php-format
@@ -300,110 +301,115 @@ msgstr "Veuillez vous référer au <a href='%s'>guide d'installation</a>."
 msgid "%s shared »%s« with you"
 msgstr "%s partagé »%s« avec vous"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "Le partage de %s a échoué car le fichier n'existe pas"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr ""
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "Le partage de %s a échoué car l'utilisateur %s est le propriétaire de l'objet"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "Le partage de %s a échoué car l'utilisateur %s n'existe pas"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "Le partage de %s a échoué car l'utilisateur %s n'est membre d'aucun groupe auquel %s appartient"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "Le partage de %s a échoué car cet objet est déjà partagé avec %s"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "Le partage de %s a échoué car le groupe %s n'existe pas"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Le partage de %s a échoué car %s n'est pas membre du groupe %s"
 
-#: private/share/share.php:618
+#: private/share/share.php:621
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Vous devez fournir un mot de passe pour créer un lien public, seul les liens protégés sont autorisées."
 
-#: private/share/share.php:638
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Le partage de %s a échoué car un partage de lien n'est pas permis"
 
-#: private/share/share.php:645
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Le type de partage %s n'est pas valide pour %s"
 
-#: private/share/share.php:783
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Le réglage des permissions pour %s a échoué car les permissions dépassent celle accordée à %s"
 
-#: private/share/share.php:844
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Le réglage des permissions pour %s a échoué car l'objet n'a pas été trouvé"
 
-#: private/share/share.php:955
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "L'emplacement du partage %s doit implémenter l'interface OCP\\Share_Backend"
 
-#: private/share/share.php:962
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Emplacement de partage %s introuvable"
 
-#: private/share/share.php:968
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "L'emplacement du partage %s est introuvable"
 
-#: private/share/share.php:1383
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Le partage de %s a échoué car l'utilisateur %s est déjà l'utilisateur à l'origine du partage."
 
-#: private/share/share.php:1392
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Le partage de %s a échoué car les permissions dépassent les permissions accordées à %s"
 
-#: private/share/share.php:1407
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Le partage de %s a échoué car le repartage n'est pas autorisé"
 
-#: private/share/share.php:1419
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Le partage %s a échoué parce que la source n'a été trouvée pour le partage %s."
 
-#: private/share/share.php:1433
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

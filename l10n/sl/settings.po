@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "Elektronska pošta je poslana"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:317
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "Način pošiljanja"
 
-#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: admin/controller.php:120 templates/admin.php:354
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "Način overitve"
 
@@ -191,7 +191,7 @@ msgstr "Hrbtišče programa ne podpira spreminjanja gesla, je pa uspešno posodo
 msgid "Unable to change password"
 msgstr "Ni mogoče spremeniti gesla"
 
-#: js/admin.js:81
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Poteka pošiljanje ..."
 
@@ -295,8 +295,8 @@ msgstr "razveljavi"
 msgid "Unable to remove user"
 msgstr "Uporabnika ni mogoče odstraniti"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Skupine"
 
@@ -544,115 +544,124 @@ msgstr ""
 msgid "Allow users to share items to the public with links"
 msgstr "Uporabnikom dovoli souporabo predmetov z javnimi povezavami"
 
-#: templates/admin.php:252
+#: templates/admin.php:249
 msgid "Allow resharing"
 msgstr "Dovoli nadaljnjo souporabo"
 
-#: templates/admin.php:253
+#: templates/admin.php:250
 msgid "Allow users to share items shared with them again"
 msgstr "Uporabnikom dovoli nadaljnjo souporabo predmetov"
 
-#: templates/admin.php:260
+#: templates/admin.php:257
 msgid "Allow users to share with anyone"
 msgstr "Uporabnikom dovoli souporabo s komerkoli"
 
-#: templates/admin.php:263
+#: templates/admin.php:260
 msgid "Allow users to only share with users in their groups"
 msgstr "Uporabnikom dovoli souporabo z ostalimi uporabniki njihove skupine"
 
-#: templates/admin.php:270
+#: templates/admin.php:267
 msgid "Allow mail notification"
 msgstr "Dovoli obvestila preko elektronske pošte"
 
-#: templates/admin.php:271
+#: templates/admin.php:268
 msgid "Allow users to send mail notification for shared files"
 msgstr "Dovoli uporabnikom pošiljati obvestila o souporabi datotek po elektronski pošti."
 
-#: templates/admin.php:279
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Varnost"
 
-#: templates/admin.php:292
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "Zahtevaj uporabo HTTPS"
 
-#: templates/admin.php:294
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vsili povezavo odjemalca z %s preko šifrirane povezave."
 
-#: templates/admin.php:300
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Za nastavljanje šifriranja SSL je treba vzpostaviti povezavo z mestom %s preko protokola HTTPS."
 
-#: templates/admin.php:312
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "Poštni strežnik"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:345
+#: templates/admin.php:359
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:367
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
-#: templates/admin.php:371
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Naslov strežnika"
 
-#: templates/admin.php:375
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Vrata"
 
-#: templates/admin.php:380
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Poverila"
 
-#: templates/admin.php:381
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "Uporabniško ime SMTP"
 
-#: templates/admin.php:384
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "Geslo SMTP"
 
-#: templates/admin.php:388
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "Preizkus nastavitev elektronske pošte"
 
-#: templates/admin.php:389
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "Pošlji elektronsko sporočilo"
 
-#: templates/admin.php:394
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Dnevnik"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Raven beleženja"
 
-#: templates/admin.php:427
+#: templates/admin.php:441
 msgid "More"
 msgstr "Več"
 
-#: templates/admin.php:428
+#: templates/admin.php:442
 msgid "Less"
 msgstr "Manj"
 
-#: templates/admin.php:434 templates/personal.php:196
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Različica"
 
-#: templates/admin.php:438 templates/personal.php:199
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

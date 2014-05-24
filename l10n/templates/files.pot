@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-22 01:54-0400\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgid ""
 "allowed."
 msgstr ""
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -123,19 +123,19 @@ msgstr ""
 msgid "Failed to write to disk"
 msgstr ""
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr ""
 

@@ -4,15 +4,16 @@
 # 
 # Translators:
 # rogerc, 2013-2014
+# Josep Torné <josep@substantiu.com>, 2014
 # rogerc, 2013
 # victek, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-23 12:19+0000\n"
+"Last-Translator: Josep Torné <josep@substantiu.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -354,11 +355,11 @@ msgstr "No es recomana, useu-ho només com a prova! Importeu el certificat SSL d
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
-msgstr "Memòria de cau Time-To-Live"
+msgstr "Memòria cau Time-To-Live"
 
 #: templates/settings.php:28
 msgid "in seconds. A change empties the cache."
-msgstr "en segons. Un canvi buidarà la memòria de cau."
+msgstr "en segons. Un canvi buidarà la memòria cau."
 
 #: templates/settings.php:30
 msgid "Directory Settings"
@@ -526,7 +527,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr "Els noms d'usuari s'usen per desar i assignar (meta)dades. Per tal d'identificar amb precisió i reconèixer els usuaris, cada usuari LDAP tindrà un nom d'usuari intern. Això requereix mapatge del nom d'usuari a l'usuari LDAP. El nom d'usuari creat es mapa a la UUID de l'usuari LDAP. A més, la DN es posa a la memòria de cau per reduir la interacció LDAP, però no s'usa per identificació. En cas que la DN canvïi, els canvis es trobaran. El nom d'usuari intern s'usa a tot arreu. Si esborreu els mapatges quedaran sobrants a tot arreu. Esborrar els mapatges no és sensible a la configuració, afecta a totes les configuracions LDAP! No esborreu mai els mapatges en un entorn de producció, només en un estadi de prova o experimental."
+msgstr "Els noms d'usuari s'usen per desar i assignar (meta)dades. Per tal d'identificar amb precisió i reconèixer els usuaris, cada usuari LDAP tindrà un nom d'usuari intern. Això requereix mapatge del nom d'usuari a l'usuari LDAP. El nom d'usuari creat es mapa a la UUID de l'usuari LDAP. A més, la DN es posa a la memòria cau per reduir la interacció LDAP, però no s'usa per identificació. En cas que la DN canvïi, els canvis es trobaran. El nom d'usuari intern s'usa a tot arreu. Si esborreu els mapatges quedaran sobrants a tot arreu. Esborrar els mapatges no és sensible a la configuració, afecta a totes les configuracions LDAP! No esborreu mai els mapatges en un entorn de producció, només en un estadi de prova o experimental."
 
 #: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # rogerc, 2014
+# Josep Torné <josep@substantiu.com>, 2014
 # rogerc, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-23 12:26+0000\n"
+"Last-Translator: Josep Torné <josep@substantiu.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,161 +24,161 @@ msgstr ""
 msgid "Local"
 msgstr "Local"
 
-#: appinfo/app.php:36
+#: appinfo/app.php:37
 msgid "Location"
 msgstr "Ubicació"
 
-#: appinfo/app.php:39
+#: appinfo/app.php:40
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
-#: appinfo/app.php:41
+#: appinfo/app.php:43
 msgid "Key"
-msgstr ""
+msgstr "Clau"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:44
 msgid "Secret"
-msgstr ""
+msgstr "Secret"
 
-#: appinfo/app.php:43 appinfo/app.php:51
+#: appinfo/app.php:45 appinfo/app.php:54
 msgid "Bucket"
 msgstr ""
 
-#: appinfo/app.php:47
+#: appinfo/app.php:49
 msgid "Amazon S3 and compliant"
 msgstr ""
 
-#: appinfo/app.php:49
-msgid "Access Key"
-msgstr ""
-
-#: appinfo/app.php:50
-msgid "Secret Key"
-msgstr ""
-
 #: appinfo/app.php:52
+msgid "Access Key"
+msgstr "Clau d'accés"
+
+#: appinfo/app.php:53
+msgid "Secret Key"
+msgstr "Clau secreta"
+
+#: appinfo/app.php:55
 msgid "Hostname (optional)"
 msgstr ""
 
-#: appinfo/app.php:53
+#: appinfo/app.php:56
 msgid "Port (optional)"
 msgstr ""
 
-#: appinfo/app.php:54
+#: appinfo/app.php:57
 msgid "Region (optional)"
 msgstr ""
 
-#: appinfo/app.php:55
+#: appinfo/app.php:58
 msgid "Enable SSL"
-msgstr ""
+msgstr "Habilita SSL"
 
-#: appinfo/app.php:56
+#: appinfo/app.php:59
 msgid "Enable Path Style"
 msgstr ""
 
-#: appinfo/app.php:63
+#: appinfo/app.php:67
 msgid "App key"
 msgstr ""
 
-#: appinfo/app.php:64
+#: appinfo/app.php:68
 msgid "App secret"
 msgstr ""
 
-#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:151
+#: appinfo/app.php:78 appinfo/app.php:119 appinfo/app.php:130
+#: appinfo/app.php:163
 msgid "Host"
 msgstr "Equip remot"
 
-#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
-#: appinfo/app.php:142 appinfo/app.php:152
+#: appinfo/app.php:79 appinfo/app.php:120 appinfo/app.php:142
+#: appinfo/app.php:153 appinfo/app.php:164
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
-#: appinfo/app.php:143 appinfo/app.php:153
+#: appinfo/app.php:80 appinfo/app.php:121 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:165
 msgid "Password"
 msgstr "Contrasenya"
 
-#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
-#: appinfo/app.php:134 appinfo/app.php:154
+#: appinfo/app.php:81 appinfo/app.php:123 appinfo/app.php:133
+#: appinfo/app.php:144 appinfo/app.php:166
 msgid "Root"
 msgstr ""
 
-#: appinfo/app.php:77
+#: appinfo/app.php:82
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Protocol segur ftps://"
 
-#: appinfo/app.php:84
+#: appinfo/app.php:90
 msgid "Client ID"
-msgstr ""
+msgstr "Client ID"
 
-#: appinfo/app.php:85
+#: appinfo/app.php:91
 msgid "Client secret"
 msgstr ""
 
-#: appinfo/app.php:92
+#: appinfo/app.php:98
 msgid "OpenStack Object Storage"
 msgstr ""
 
-#: appinfo/app.php:94
+#: appinfo/app.php:101
 msgid "Username (required)"
-msgstr ""
+msgstr "Nom d'usuari (necessari)"
 
-#: appinfo/app.php:95
+#: appinfo/app.php:102
 msgid "Bucket (required)"
 msgstr ""
 
-#: appinfo/app.php:96
+#: appinfo/app.php:103
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:97
+#: appinfo/app.php:104
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr ""
 
-#: appinfo/app.php:98
+#: appinfo/app.php:105
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:99
+#: appinfo/app.php:106
 msgid "Password (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:100
+#: appinfo/app.php:107
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:101
+#: appinfo/app.php:108
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:102
+#: appinfo/app.php:109
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr ""
 
-#: appinfo/app.php:114 appinfo/app.php:123
+#: appinfo/app.php:122 appinfo/app.php:132
 msgid "Share"
 msgstr "Comparteix"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:127
 msgid "SMB / CIFS using OC login"
 msgstr ""
 
-#: appinfo/app.php:122
+#: appinfo/app.php:131
 msgid "Username as share"
-msgstr ""
+msgstr "Nom d'usuari per compartir"
 
-#: appinfo/app.php:131 appinfo/app.php:141
+#: appinfo/app.php:141 appinfo/app.php:152
 msgid "URL"
 msgstr "URL"
 
-#: appinfo/app.php:135 appinfo/app.php:145
+#: appinfo/app.php:145 appinfo/app.php:156
 msgid "Secure https://"
-msgstr ""
+msgstr "Protocol segur https://"
 
-#: appinfo/app.php:144
+#: appinfo/app.php:155
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Subcarpeta remota"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -203,29 +204,29 @@ msgstr "Error en configurar l'emmagatzemament Google Drive"
 msgid "Saved"
 msgstr "Desat"
 
-#: lib/config.php:589
+#: lib/config.php:674
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b> "
 
-#: lib/config.php:599
+#: lib/config.php:684
 msgid " and "
 msgstr "i"
 
-#: lib/config.php:621
+#: lib/config.php:706
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport cURL no està activat o instal·lat a PHP. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:623
+#: lib/config.php:708
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport FTP per PHP no està activat o no està instal·lat. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:625
+#: lib/config.php:710
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

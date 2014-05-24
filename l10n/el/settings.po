@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "Το Email απεστάλη "
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails."
 
-#: admin/controller.php:116 templates/admin.php:317
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "Κατάσταση αποστολής"
 
-#: admin/controller.php:118 templates/admin.php:330 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
-#: admin/controller.php:120 templates/admin.php:354
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "Μέθοδος πιστοποίησης"
 
@@ -198,7 +198,7 @@ msgstr "Το βασικό πλαίσιο δεν υποστηρίζει αλλα�
 msgid "Unable to change password"
 msgstr "Αδυναμία αλλαγής συνθηματικού"
 
-#: js/admin.js:81
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Αποστέλεται..."
 
@@ -302,8 +302,8 @@ msgstr "αναίρεση"
 msgid "Unable to remove user"
 msgstr "Αδυναμία αφαίρεση χρήστη"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Ομάδες"
 
@@ -551,115 +551,124 @@ msgstr "Επιβολή της ημερομηνίας λήξης"
 msgid "Allow users to share items to the public with links"
 msgstr "Επιτρέπει τους χρήστες να διαμοιράζουν δημόσια με συνδέσμους"
 
-#: templates/admin.php:252
+#: templates/admin.php:249
 msgid "Allow resharing"
 msgstr "Επιτρέπεται ο επαναδιαμοιρασμός"
 
-#: templates/admin.php:253
+#: templates/admin.php:250
 msgid "Allow users to share items shared with them again"
 msgstr "Επιτρέπει στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
 
-#: templates/admin.php:260
+#: templates/admin.php:257
 msgid "Allow users to share with anyone"
 msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός με οποιονδήποτε"
 
-#: templates/admin.php:263
+#: templates/admin.php:260
 msgid "Allow users to only share with users in their groups"
 msgstr "Επιτρέπεται στους χρήστες ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
 
-#: templates/admin.php:270
+#: templates/admin.php:267
 msgid "Allow mail notification"
 msgstr "Επιτρέπονται ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
 
-#: templates/admin.php:271
+#: templates/admin.php:268
 msgid "Allow users to send mail notification for shared files"
 msgstr "Επιτρέψτε στους χρήστες να στέλνουν ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για κοινόχρηστα αρχεία"
 
-#: templates/admin.php:279
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Ασφάλεια"
 
-#: templates/admin.php:292
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "Επιβολή χρήσης HTTPS"
 
-#: templates/admin.php:294
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Επιβάλλει τους πελάτες να συνδέονται στο %s μέσω κρυπτογραφημένης σύνδεσης."
 
-#: templates/admin.php:300
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Παρακαλώ συνδεθείτε στο %s σας μέσω HTTPS για να ενεργοποιήσετε ή να απενεργοποιήσετε την επιβολή του SSL."
 
-#: templates/admin.php:312
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "Διακομιστής Email"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr "Χρησιμοποιείται για αποστολή ειδοποιήσεων."
 
-#: templates/admin.php:345
+#: templates/admin.php:359
 msgid "From address"
 msgstr "Από τη διεύθυνση"
 
-#: templates/admin.php:367
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "Απαιτείται πιστοποίηση"
 
-#: templates/admin.php:371
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Διεύθυνση διακομιστή"
 
-#: templates/admin.php:375
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Θύρα"
 
-#: templates/admin.php:380
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Πιστοποιητικά"
 
-#: templates/admin.php:381
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "Όνομα χρήστη SMTP"
 
-#: templates/admin.php:384
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "Συνθηματικό SMTP"
 
-#: templates/admin.php:388
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "Δοκιμή ρυθμίσεων email"
 
-#: templates/admin.php:389
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "Αποστολή email"
 
-#: templates/admin.php:394
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Καταγραφές"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Επίπεδο καταγραφής"
 
-#: templates/admin.php:427
+#: templates/admin.php:441
 msgid "More"
 msgstr "Περισσότερα"
 
-#: templates/admin.php:428
+#: templates/admin.php:442
 msgid "Less"
 msgstr "Λιγότερα"
 
-#: templates/admin.php:434 templates/personal.php:196
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Έκδοση"
 
-#: templates/admin.php:438 templates/personal.php:199
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -18,11 +19,11 @@ msgstr ""
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:685
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:686
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -34,7 +35,7 @@ msgstr ""
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr ""
+msgstr "Nun pue instalase l'aplicación \"%s\" porque nun ye compatible con esta versión d'ownCloud."
 
 #: private/app.php:248
 msgid "No app name specified"
@@ -67,7 +68,7 @@ msgstr "Fallu al anovar \"%s\"."
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Triba de ficheru desconocida"
 
 #: private/avatar.php:71
 msgid "Invalid image"
@@ -75,7 +76,7 @@ msgstr "Imaxe inválida"
 
 #: private/defaults.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "servicios web baxo'l to control"
 
 #: private/files.php:235
 msgid "ZIP download is turned off."
@@ -83,7 +84,7 @@ msgstr ""
 
 #: private/files.php:236
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Los ficheros necesiten descargase ún a ún"
 
 #: private/files.php:237 private/files.php:264
 msgid "Back to Files"
@@ -122,7 +123,7 @@ msgstr ""
 
 #: private/installer.php:126
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "L'aplicación nun apurre un ficheru info.xml"
 
 #: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
@@ -132,7 +133,7 @@ msgstr ""
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "Nun pue instalase l'aplicación porque nun ye compatible con esta versión d'ownCloud."
 
 #: private/installer.php:147
 msgid ""
@@ -153,7 +154,7 @@ msgstr ""
 #: private/installer.php:183
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Nun pue crease la carpeta de l'aplicación. Por favor, igua los permisos. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -169,7 +170,7 @@ msgstr ""
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Usuariu desconocíu"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -248,7 +249,7 @@ msgstr ""
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Yá esiste l'usuariu de MySQL/MariaDB '%s'@'%%'"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
@@ -256,7 +257,7 @@ msgstr ""
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Nun pudo afitase la conexón d'Oracle"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
@@ -294,112 +295,117 @@ msgstr ""
 #: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s compartió »%s« contigo"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr ""
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr ""
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr ""
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr ""
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr ""
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr ""
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr ""
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr ""
 
-#: private/share/share.php:618
+#: private/share/share.php:621
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr ""
 
-#: private/share/share.php:638
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: private/share/share.php:645
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "La triba de compartición %s nun ye válida pa %s"
 
-#: private/share/share.php:783
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:844
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:955
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:962
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Nun s'alcontró'l botón de compartición %s"
 
-#: private/share/share.php:968
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Nun s'alcontró'l botón de partición pa %s"
 
-#: private/share/share.php:1383
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1392
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1407
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1419
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1433
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -462,7 +468,7 @@ msgstr "fai años"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-\""
 
 #: private/user/manager.php:237
 msgid "A valid username must be provided"
@@ -474,4 +480,4 @@ msgstr "Tien d'apurrise una contraseña válida"
 
 #: private/user/manager.php:246
 msgid "The username is already being used"
-msgstr ""
+msgstr "El nome d'usuariu yá ta usándose"

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Email sent" => "ارسال شدہ ای میل ",
+"Invalid request" => "غلط درخواست",
 "Error" => "ایرر",
 "Very weak password" => "بہت کمزور پاسورڈ",
 "Weak password" => "کمزور پاسورڈ",
@@ -14,6 +15,7 @@ $TRANSLATIONS = array(
 "Password" => "پاسورڈ",
 "New password" => "نیا پاسورڈ",
 "Cancel" => "منسوخ کریں",
+"Other" => "دیگر",
 "Username" => "یوزر نیم"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
