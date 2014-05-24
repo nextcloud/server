@@ -7,10 +7,23 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @copyright Bernhard Posselt 2014
  */
-
-(function (document, $) {
+(function (document, $, exports) {
 
     'use strict';
+
+    var buttons = $();
+
+    /**
+     * Allow apps to register buttons at runtime to not impact performance
+     * negatively on document click
+     * @param $ button wrapped in jquery result
+     */
+    exports.Apps = {
+        registerSlideToggleButton: function (button) {
+            buttons = buttons.add(button);
+        }
+    };
+
 
     /**
      * Provides a way to slide down a target area through a button and slide it
@@ -23,7 +36,7 @@
      */
     var registerAppsSlideToggle = function () {
         // use only buttons that are already in the dom
-        var buttons = $('[data-apps-slide-toggle]');
+        buttons = buttons.add($('[data-apps-slide-toggle]'));
 
         $(document).click(function (event) {
 
@@ -62,4 +75,4 @@
         registerAppsSlideToggle();
     });
 
-}(document, jQuery));
+}(document, jQuery, OC));
