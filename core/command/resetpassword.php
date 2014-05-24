@@ -22,12 +22,20 @@ class ResetPassword extends Command {
 				'user',
 				InputArgument::REQUIRED,
 				'Username to reset password'
-			);
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$username = $input->getArgument('user');
+
+		$userManager = \OC::$server->getUserManager();
+		$user = $userManager->get($username);
+		if (is_null($user)) {
+			$output->writeln("<error>There is no user called " . $username . "</error>");
+			return 1;
+		}
+
 		if ($input->isInteractive()) {
 			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
 			$dialog = $this->getHelperSet()->get('dialog');
@@ -36,8 +44,6 @@ class ResetPassword extends Command {
 				'<question>Enter a new password: </question>',
 				false
 			);
-			/** @var $dialog \Symfony\Component\Console\Helper\DialogHelper */
-			$dialog = $this->getHelperSet()->get('dialog');
 			$confirm = $dialog->askHiddenResponse(
 				$output,
 				'<question>Confirm the new password: </question>',
@@ -45,17 +51,20 @@ class ResetPassword extends Command {
 			);
 
 			if ($password === $confirm) {
-				$success = \OC_User::setPassword($username, $password);
+				$success = $user->setPassword($password);
 				if ($success) {
-					$output->writeln("Successfully reset password for " . $username);
+					$output->writeln("<info>Successfully reset password for " . $username . "</info>");
 				} else {
-					$output->writeln("There is no user called " . $username);
+					$output->writeln("<error>Error while resetting password!</error>");
+					return 1;
 				}
 			} else {
-				$output->writeln("Passwords did not match!");
+				$output->writeln("<error>Passwords did not match!</error>");
+				return 1;
 			}
 		} else {
-			$output->writeln("Interactive input is needed for entering a new password!");
+			$output->writeln("<error>Interactive input is needed for entering a new password!</error>");
+			return 1;
 		}
 	}
 }
