@@ -31,14 +31,15 @@ class LockingWrapper extends Wrapper {
 	 * Acquire a lock on a file
 	 * @param string $path Path to file, relative to this storage
 	 * @param integer $lockType A Lock class constant, Lock::READ/Lock::WRITE
+	 * @param null|resource $existingHandle An existing file handle from an fopen()
 	 * @return bool|\OCP\Files\Lock Lock instance on success, false on failure
 	 */
-	protected function getLock($path, $lockType){
+	protected function getLock($path, $lockType, $existingHandle = null){
 		$path = Filesystem::normalizePath($this->storage->getLocalFile($path));
 		if(!isset($this->locks[$path])) {
 			$this->locks[$path] = new Lock($path);
 		}
-		$this->locks[$path]->addLock($lockType);
+		$this->locks[$path]->addLock($lockType, $existingHandle);
 		return $this->locks[$path];
 	}
 
@@ -126,6 +127,51 @@ class LockingWrapper extends Wrapper {
 		}
 		$this->releaseLock($path1, Lock::READ);
 		$this->releaseLock($path2, Lock::WRITE);
+		return $result;
+	}
+
+	public function fopen($path, $mode) {
+		$lockType = Lock::READ;
+		switch ($mode) {
+			case 'r+':
+			case 'rb+':
+			case 'w+':
+			case 'wb+':
+			case 'x+':
+			case 'xb+':
+			case 'a+':
+			case 'ab+':
+			case 'c+':
+			case 'w':
+			case 'wb':
+			case 'x':
+			case 'xb':
+			case 'a':
+			case 'ab':
+			case 'c':
+				$lockType = Lock::WRITE;
+				break;
+		}
+		// The handle for $this->fopen() is used outside of this class, so the handle/lock can't be closed
+		// Instead, it will be closed when the request goes out of scope
+		// Storage doesn't have an fclose()
+		if($result = $this->storage->fopen($path, $mode)) {
+			$this->getLock($path, $lockType, $result);
+		}
+		return $result;
+	}
+
+	public function unlink($path) {
+		try {
+			$this->getLock($path, Lock::WRITE);
+			$result = $this->storage->unlink($path);
+		}
+		catch(\Exception $originalException) {
+			// Need to release the lock before more operations happen in upstream exception handlers
+			$this->releaseLock($path, Lock::WRITE);
+			throw $originalException;
+		}
+		$this->releaseLock($path, Lock::WRITE);
 		return $result;
 	}
 
