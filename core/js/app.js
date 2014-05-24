@@ -18,7 +18,7 @@
      * negatively on document click
      * @param $ button wrapped in jquery result
      */
-    exports.Apps = {
+    exports.App = {
         registerSlideToggleButton: function (button) {
             buttons = buttons.add(button);
         }
