@@ -73,7 +73,7 @@ class OC_Log_Owncloud {
 			$time = $time->format($format);
 			if($minLevel == OC_Log::DEBUG) {
 				if(empty(self::$reqId)) {
-					self::$reqId = uniqid(microtime(true));
+					self::$reqId = uniqid();
 				}
 				$reqId = self::$reqId;
 				$url = $_SERVER['REQUEST_URI'];
