@@ -102,6 +102,6 @@
 		<?php p($l->t('Files are being scanned, please wait.'));?> <span id='scan-count'></span>
 	</h3>
 	<p>
-		<?php p($l->t('Current scanning'));?> <span id='scan-current'></span>
+		<?php p($l->t('Currently scanning'));?> <span id='scan-current'></span>
 	</p>
 </div>
