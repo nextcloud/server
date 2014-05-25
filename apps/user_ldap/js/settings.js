@@ -90,7 +90,7 @@ var LdapConfiguration = {
 						);
 					}
 					$('#ldap_serverconfig_chooser option:selected').removeAttr('selected');
-					var html = '<option value="'+result.configPrefix+'" selected="selected">'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
+					var html = '<option value="'+result.configPrefix+'" selected="selected">'+t('user_ldap','{nbServer}. Server', {nbServer: $('#ldap_serverconfig_chooser option').length})+'</option>';
 					$('#ldap_serverconfig_chooser option:last').before(html);
 					LdapWizard.init();
 				} else {

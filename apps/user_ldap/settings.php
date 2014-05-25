@@ -46,11 +46,13 @@ $wControls = $wControls->fetchPage();
 $sControls = new OCP\Template('user_ldap', 'part.settingcontrols');
 $sControls = $sControls->fetchPage();
 
+$l = \OC_L10N::get('user_ldap');
+
 $wizTabs = array();
-$wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => 'Server');
-$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => 'User Filter');
-$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => 'Login Filter');
-$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => 'Group Filter');
+$wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $l->t('Server'));
+$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('User Filter'));
+$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Filter'));
+$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Group Filter'));
 
 for($i = 0; $i < count($wizTabs); $i++) {
 	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);

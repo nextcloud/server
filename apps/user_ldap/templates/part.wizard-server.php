@@ -3,14 +3,14 @@
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
 		<?php if(count($_['serverConfigurationPrefixes']) === 0 ) {
 			?>
-				<option value="" selected>1. Server</option>');
+				<option value="" selected><?php p($l->t('1. Server'));?></option>');
 			<?php
 		} else {
 			$i = 1;
 			$sel = ' selected';
 			foreach($_['serverConfigurationPrefixes'] as $prefix) {
 				?>
-				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($i++); ?>. Server: <?php p($_['serverConfigurationHosts'][$prefix]); ?></option>
+				<option value="<?php p($prefix); ?>"<?php p($sel); $sel = ''; ?>><?php p($l->t('%s. Server:', array($i++)));?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
 				<?php
 			}
 		}
@@ -18,7 +18,7 @@
 		<option value="NEW"><?php p($l->t('Add Server Configuration'));?></option>
 		</select>
 		<button id="ldap_action_delete_configuration"
-			name="ldap_action_delete_configuration">Delete Configuration</button>
+			name="ldap_action_delete_configuration"><?php p($l->t('Delete Configuration'));?></button>
 		</p>
 
 		<div class="hostPortCombinator">
