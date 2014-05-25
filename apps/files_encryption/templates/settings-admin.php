@@ -34,20 +34,20 @@
 		<input
 			type="password"
 			name="changeRecoveryPassword"
-			id="oldEncryptionRecoveryPassword"
+			id="oldEncryptionRecoveryPassword" />
 		<label for="oldEncryptionRecoveryPassword"><?php p($l->t("Old Recovery key password")); ?></label>
 		<br/>
 		<br/>
 		<input
 			type="password"
 			name="changeRecoveryPassword"
-			id="newEncryptionRecoveryPassword"
+			id="newEncryptionRecoveryPassword" />
 		<label for="newEncryptionRecoveryPassword"><?php p($l->t("New Recovery key password")); ?></label>
 		<br/>
 		<input
 			type="password"
 			name="changeRecoveryPassword"
-			id="repeatedNewEncryptionRecoveryPassword"
+			id="repeatedNewEncryptionRecoveryPassword" />
 		<label for="repeatEncryptionRecoveryPassword"><?php p($l->t("Repeat New Recovery key password")); ?></label>
 		<br/>
 		<button
