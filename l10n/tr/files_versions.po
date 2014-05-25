@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# volkangezer <volkangezer@gmail.com>, 2013
+# volkangezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-10-16 00:26-0400\n"
-"PO-Revision-Date: 2013-10-14 19:10+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 14:42+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,24 +21,24 @@ msgstr ""
 #: ajax/rollbackVersion.php:13
 #, php-format
 msgid "Could not revert: %s"
-msgstr "Geri alınamıyor: %s"
+msgstr "Geri alınamayan: %s"
 
-#: js/versions.js:7
+#: js/versions.js:39
 msgid "Versions"
 msgstr "Sürümler"
 
-#: js/versions.js:53
+#: js/versions.js:61
 msgid "Failed to revert {file} to revision {timestamp}."
 msgstr "{file} dosyası {timestamp} gözden geçirmesine geri alınamadı."
 
-#: js/versions.js:79
+#: js/versions.js:88
 msgid "More versions..."
 msgstr "Daha fazla sürüm..."
 
-#: js/versions.js:116
+#: js/versions.js:126
 msgid "No other versions available"
 msgstr "Başka sürüm mevcut değil"
 
-#: js/versions.js:147
+#: js/versions.js:156
 msgid "Restore"
 msgstr "Geri yükle"

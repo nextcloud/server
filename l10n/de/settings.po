@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 10:12+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -577,12 +577,12 @@ msgstr "Benutzern erlauben Mail-Benachrichtigungen für freigegebene Dateien zu 
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Gruppen von Freigaben ausschließen"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Diese Gruppen können weiterhin Freigaben empfangen, aber selbst keine mehr initiieren."
 
 #: templates/admin.php:293
 msgid "Security"

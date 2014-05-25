@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 13:32+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Lütfen yöneticiniz ile iletişime geçin. Eğer bu örneğin bir yöne
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
-msgstr "ownCloud yazılımının bu sürümü ile uyumlu olmadığı için \"%s\" uygulaması kurulamaz."
+msgstr "ownCloud yazılımının bu sürümü ile uyumlu olmadığı için \"%s\" uygulaması kurulamıyor."
 
 #: private/app.php:248
 msgid "No app name specified"
@@ -78,7 +78,7 @@ msgstr "Geçersiz resim"
 
 #: private/defaults.php:35
 msgid "web services under your control"
-msgstr "kontrolünüzün altındaki web hizmetleri"
+msgstr "denetiminizdeki web hizmetleri"
 
 #: private/files.php:235
 msgid "ZIP download is turned off."
@@ -108,7 +108,7 @@ msgstr "Uygulama kurulurken bir kaynak belirtilmedi"
 
 #: private/installer.php:71
 msgid "No href specified when installing app from http"
-msgstr "Uygulama kuruluyorken http'de href belirtilmedi"
+msgstr "Uygulama http'den kurulurken href belirtilmedi"
 
 #: private/installer.php:76
 msgid "No path specified when installing app from local file"
@@ -121,7 +121,7 @@ msgstr "%s arşiv türü desteklenmiyor"
 
 #: private/installer.php:104
 msgid "Failed to open archive when installing app"
-msgstr "Uygulama kuruluyorken arşiv dosyası açılamadı"
+msgstr "Uygulama kurulurken arşiv dosyası açılamadı"
 
 #: private/installer.php:126
 msgid "App does not provide an info.xml file"
@@ -129,25 +129,25 @@ msgstr "Uygulama info.xml dosyası sağlamıyor"
 
 #: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
-msgstr "Uygulama, izin verilmeyen kodlar barındırdığından kurulamıyor."
+msgstr "Uygulama, izin verilmeyen kodlar barındırdığından kurulamıyor"
 
 #: private/installer.php:141
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr "ownCloud sürümünüz ile uyumsuz olduğu için uygulama kurulamıyor."
+msgstr "ownCloud sürümünüz ile uyumsuz olduğu için uygulama kurulamıyor"
 
 #: private/installer.php:147
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr "Uygulama kurulamıyor. Çünkü \"birlikte gelmeyen\" uygulamalar için <shipped>true</shipped> etiketi içeriyor"
+msgstr "Uygulama, \"birlikte gelmeyen\" uygulamalar için <shipped>true</shipped> etiketi içerdiği için kurulamıyor"
 
 #: private/installer.php:160
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "Uygulama kurulamıyor çünkü info.xml/version ile uygulama markette belirtilen sürüm aynı değil"
+msgstr "Uygulama info.xml/version ile uygulama marketinde belirtilen sürüm aynı olmadığından kurulamıyor"
 
 #: private/installer.php:170
 msgid "App directory already exists"
@@ -160,7 +160,7 @@ msgstr "Uygulama dizini oluşturulamıyor. Lütfen izinleri düzeltin. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
-msgstr "Uygulama etkinleştirilmedi"
+msgstr "Uygulama etkin değil"
 
 #: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
@@ -168,7 +168,7 @@ msgstr "Kimlik doğrulama hatası"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Jetonun süresi geçti. Lütfen sayfayı yenileyin."
+msgstr "Belirteç süresi geçti. Lütfen sayfayı yenileyin."
 
 #: private/json.php:74
 msgid "Unknown user"
@@ -307,7 +307,7 @@ msgstr "%s paylaşımı, dosya mevcut olmadığından başarısız oldu"
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "%s paylaşımını yapma izniniz yok"
 
 #: private/share/share.php:526
 #, php-format

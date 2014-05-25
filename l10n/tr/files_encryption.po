@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-15 01:54-0400\n"
-"PO-Revision-Date: 2014-05-14 23:42+0000\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 14:42+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "PHP 5.3.3 veya daha sürümü ile birlikte OpenSSL ve OpenSSL PHP uzantısının birlikte etkin olduğunu ve doğru bir şekilde yapılandırıldığından emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı"
 
-#: hooks/hooks.php:295
+#: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
 msgstr "Aşağıdaki kullanıcılar şifreleme için ayarlanmadılar:"
 
@@ -136,7 +136,7 @@ msgstr "Etkinleştirildi"
 
 #: templates/settings-admin.php:27 templates/settings-personal.php:58
 msgid "Disabled"
-msgstr "Devre dışı"
+msgstr "Devre Dışı"
 
 #: templates/settings-admin.php:32
 msgid "Change recovery key password:"

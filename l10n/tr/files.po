@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-19 01:54-0400\n"
-"PO-Revision-Date: 2014-05-18 18:22+0000\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 12:42+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -39,15 +39,15 @@ msgstr "Dosya adı boş olamaz."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr "'%s' geçersiz bir dosya adı."
+msgstr "\"%s\" geçersiz bir dosya adı."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir."
+msgstr "Geçersiz isim. '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "Hedef klasör taşındı veya silindi."
@@ -66,7 +66,7 @@ msgstr "Geçerli bir kaynak değil"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr "Sunucunun adresleri açma izi yok, lütfen sunucu yapılandırmasını denetleyin"
+msgstr "Sunucunun adresleri açma izni yok, lütfen sunucu yapılandırmasını denetleyin"
 
 #: ajax/newfile.php:118
 #, php-format
@@ -87,11 +87,11 @@ msgstr "Klasör oluşturulurken hata"
 
 #: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
-msgstr "Yükleme dizini tanımlanamadı."
+msgstr "Yükleme dizini ayarlanamadı."
 
 #: ajax/upload.php:33
 msgid "Invalid Token"
-msgstr "Geçersiz Simge"
+msgstr "Geçersiz Belirteç"
 
 #: ajax/upload.php:75
 msgid "No file was uploaded. Unknown error"
@@ -104,7 +104,7 @@ msgstr "Dosya başarıyla yüklendi, hata oluşmadı"
 #: ajax/upload.php:83
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı."
+msgstr "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı:"
 
 #: ajax/upload.php:85
 msgid ""
@@ -114,7 +114,7 @@ msgstr "Yüklenecek dosyanın boyutu HTML formunda belirtilen MAX_FILE_SIZE limi
 
 #: ajax/upload.php:86
 msgid "The uploaded file was only partially uploaded"
-msgstr "Dosya kısmen karşıya yüklenebildi"
+msgstr "Dosya karşıya kısmen yüklenebildi"
 
 #: ajax/upload.php:87
 msgid "No file was uploaded"
@@ -122,25 +122,25 @@ msgstr "Hiç dosya gönderilmedi"
 
 #: ajax/upload.php:88
 msgid "Missing a temporary folder"
-msgstr "Geçici dizin eksik"
+msgstr "Geçici bir dizin eksik"
 
 #: ajax/upload.php:89
 msgid "Failed to write to disk"
 msgstr "Diske yazılamadı"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "Yeterli disk alanı yok"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Yükleme başarısız. Yüklenen dosya bulunamadı"
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "Yükleme başarısız. Dosya bilgisi alınamadı."
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr "Geçersiz dizin."
 
@@ -154,7 +154,7 @@ msgstr "Tüm dosyalar"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr "Bir dizin veya 0 bayt olduğundan {filename} yüklenemedi"
+msgstr "{filename} bir dizin veya 0 bayt olduğundan yüklenemedi"
 
 #: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
@@ -176,7 +176,7 @@ msgstr "Sunucudan sonuç alınamadı."
 #: js/file-upload.js:490
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur."
+msgstr "Dosya yükleme işlemi sürüyor. Şu anda sayfadan ayrılmak yükleme işlemini iptal edecek."
 
 #: js/file-upload.js:555
 msgid "URL cannot be empty"
@@ -214,9 +214,9 @@ msgstr "Yeniden adlandır"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "İndirmeniz hazırlanıyor. Dosya büyük ise biraz zaman alabilir."
+msgstr "İndirme hazırlanıyor. Dosyalar büyük ise bu biraz zaman alabilir."
 
-#: js/filelist.js:602 js/filelist.js:1672
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr "Bekliyor"
 
@@ -232,39 +232,39 @@ msgstr "Dosya taşıma hatası"
 msgid "Error"
 msgstr "Hata"
 
-#: js/filelist.js:1201
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr "Dosya adlandırılamadı"
 
-#: js/filelist.js:1335
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr "Dosya silinirken hata."
 
-#: js/filelist.js:1438 templates/list.php:62
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "İsim"
 
-#: js/filelist.js:1439 templates/list.php:75
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "Boyut"
 
-#: js/filelist.js:1440 templates/list.php:78
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "Değiştirilme"
 
-#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n dizin"
 msgstr[1] "%n dizin"
 
-#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n dosya"
 msgstr[1] "%n dosya"
 
-#: js/filelist.js:1580 js/filelist.js:1619
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n dosya yükleniyor"
@@ -280,7 +280,7 @@ msgstr "Depolama alanınız dolu, artık dosyalar güncellenmeyecek veya eşitle
 
 #: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr "Depolama alanınız neredeyse dolu ({usedSpacePercent}%)"
+msgstr "Depolama alanınız neredeyse dolu (%{usedSpacePercent})"
 
 #: js/files.js:140
 msgid ""
@@ -321,7 +321,7 @@ msgstr "Dosya işlemleri"
 
 #: templates/admin.php:6
 msgid "Maximum upload size"
-msgstr "Maksimum yükleme boyutu"
+msgstr "Azami yükleme boyutu"
 
 #: templates/admin.php:9
 msgid "max. possible: "
@@ -410,7 +410,7 @@ msgstr "Yükleme çok büyük"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor."
+msgstr "Yüklemeye çalıştığınız dosyalar bu sunucudaki azami yükleme boyutunu aşıyor."
 
 #: templates/list.php:102
 msgid "Files are being scanned, please wait."
@@ -418,4 +418,4 @@ msgstr "Dosyalar taranıyor, lütfen bekleyin."
 
 #: templates/list.php:105
 msgid "Current scanning"
-msgstr "Güncel tarama"
+msgstr "Şu anda taranan"

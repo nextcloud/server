@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 18:31+0000\n"
+"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgstr "Grup zaten mevcut"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Gruba eklenemiyor"
+msgstr "Grup eklenemiyor"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
@@ -207,11 +207,11 @@ msgstr "Yönetici Belgelendirmesi"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
-msgstr "{appversion} Güncelle"
+msgstr "{appversion} sürümüne güncelle"
 
 #: js/apps.js:73 js/apps.js:106 js/apps.js:134
 msgid "Disable"
-msgstr "Devre dışı bırak"
+msgstr "Devre Dışı Bırak"
 
 #: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
 msgid "Enable"
@@ -243,7 +243,7 @@ msgstr "Hata"
 
 #: js/apps.js:153 templates/apps.php:55
 msgid "Update"
-msgstr "Güncelleme"
+msgstr "Güncelle"
 
 #: js/apps.js:156
 msgid "Updated"
@@ -387,7 +387,7 @@ msgstr "Güvenlik Uyarısı"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr "%s konumuna HTTP aracılığıyla erişiyorsunuz. Sunucunuzu HTTPS kullanımını zorlaması üzere yapılandırmanızı şiddetle öneririz."
+msgstr "%s erişiminiz HTTP aracılığıyla yapılıyor. Sunucunuzu, HTTPS kullanımını zorlamak üzere yapılandırmanızı şiddetle öneririz."
 
 #: templates/admin.php:64
 msgid ""
@@ -421,7 +421,7 @@ msgstr "Modül 'fileinfo' kayıp"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
+msgstr "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
 #: templates/admin.php:104
 msgid "Your PHP version is outdated"
@@ -436,11 +436,11 @@ msgstr "PHP sürümünüz eski. Eski sürümlerde sorun olduğundan 5.3.8 veya d
 
 #: templates/admin.php:118
 msgid "Locale not working"
-msgstr "Locale çalışmıyor."
+msgstr "Yerel çalışmıyor"
 
 #: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı"
+msgstr "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı."
 
 #: templates/admin.php:127
 msgid ""
@@ -500,7 +500,7 @@ msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcr
 
 #: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr "Cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
+msgstr "cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
 
 #: templates/admin.php:205
 msgid "Sharing"
@@ -548,7 +548,7 @@ msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantıl
 
 #: templates/admin.php:249
 msgid "Allow resharing"
-msgstr "Paylaşıma izin ver"
+msgstr "Yeniden paylaşıma izin ver"
 
 #: templates/admin.php:250
 msgid "Allow users to share items shared with them again"
@@ -572,12 +572,12 @@ msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi gönder
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Grupları paylaşımdan hariç tut"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır."
 
 #: templates/admin.php:293
 msgid "Security"
@@ -621,7 +621,7 @@ msgstr "Sunucu adresi"
 
 #: templates/admin.php:389
 msgid "Port"
-msgstr "Port"
+msgstr "Bağlantı Noktası"
 
 #: templates/admin.php:394
 msgid "Credentials"
@@ -657,7 +657,7 @@ msgstr "Daha fazla"
 
 #: templates/admin.php:442
 msgid "Less"
-msgstr "Az"
+msgstr "Daha az"
 
 #: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
@@ -699,7 +699,7 @@ msgstr "Uygulama web sitesine bakın"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-lisanslayan <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span> lisanslayan <span class=\"author\"></span>"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
@@ -727,7 +727,7 @@ msgstr "Dosyalarınızı eşitlemek için uygulamaları indirin"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
+msgstr "İlk Çalıştırma Sihirbazı'nı yeniden göster"
 
 #: templates/personal.php:27
 #, php-format
@@ -859,7 +859,7 @@ msgstr "Yönetici Kurtarma Parolası"
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için bir kurtarma paroalsı girin"
+msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için bir kurtarma parolası girin"
 
 #: templates/users.php:40
 msgid "Default Storage"
@@ -871,7 +871,7 @@ msgstr "Lütfen disk alanı kotasını girin (örnek: \"512MB\" veya \"12GB\")"
 
 #: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
-msgstr "Limitsiz"
+msgstr "Sınırsız"
 
 #: templates/users.php:64 templates/users.php:161
 msgid "Other"
@@ -895,4 +895,4 @@ msgstr "yeni parola belirle"
 
 #: templates/users.php:141
 msgid "Default"
-msgstr "Varsayılan"
+msgstr "Öntanımlı"

@@ -59,6 +59,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor, confira os <a href='%s'>guias de instalação</a>.",
 "%s shared »%s« with you" => "%s compartilhou »%s« com você",
 "Sharing %s failed, because the file does not exist" => "Compartilhamento %s falhou, porque o arquivo não existe",
+"You are not allowed to share %s" => "Você não tem permissão para compartilhar %s",
 "Sharing %s failed, because the user %s is the item owner" => "Compartilhamento %s falhou, porque o usuário %s é o proprietário do item",
 "Sharing %s failed, because the user %s does not exist" => "Compartilhamento %s falhou, porque o usuário %s não existe",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Compartilhamento %s falhou, porque o usuário %s não é membro de nenhum grupo que o usuário %s pertença",
