@@ -4,8 +4,8 @@
 		<?php foreach($_['toc'] as $id => $title) { ?>
 			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
 		<?php } ?>
-		<li class="ldapSettingsTabs"><a href="#ldapSettings-2">Expert</a></li>
-		<li class="ldapSettingsTabs"><a href="#ldapSettings-1">Advanced</a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-2"><?php p($l->t('Expert'));?></a></li>
+		<li class="ldapSettingsTabs"><a href="#ldapSettings-1"><?php p($l->t('Advanced'));?></a></li>
 	</ul>
 		<?php if(OCP\App::isEnabled('user_webdavauth')) {
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
