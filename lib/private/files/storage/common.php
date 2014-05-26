@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Storage;
+use OC\Files\Cache\Watcher;
 
 /**
  * Storage backend class for providing common filesystem operation methods
@@ -280,6 +281,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function getWatcher($path = '') {
 		if (!isset($this->watcher)) {
 			$this->watcher = new \OC\Files\Cache\Watcher($this);
+			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
 		}
 		return $this->watcher;
 	}
