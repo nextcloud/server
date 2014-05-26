@@ -319,7 +319,7 @@ class OC {
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript("oc-requesttoken");
-		OC_Util::addScript("app");
+		OC_Util::addScript("apps");
 
 		// avatars
 		if (\OC_Config::getValue('enable_avatars', true) === true) {
