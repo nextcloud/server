@@ -125,8 +125,6 @@ class User {
 
 	/**
 	 * updates the timestamp of the most recent login of this user
-	 *
-	 * @return null
 	 */
 	public function updateLastLoginTimestamp() {
 		$this->lastLogin = time();
