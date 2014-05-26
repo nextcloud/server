@@ -96,6 +96,15 @@ class MDB2SchemaManager {
 	}
 
 	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return string
+	 */
+	public function generateChangeScript($schema) {
+		$migrator = $this->getMigrator();
+		return $migrator->generateChangeScript($schema);
+	}
+
+	/**
 	 * remove all tables defined in a database structure xml file
 	 *
 	 * @param string $file the xml file describing the tables
