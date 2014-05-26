@@ -886,7 +886,7 @@ class OC {
 
 		if(OC_User::userExists($_COOKIE['oc_username'])) {
 			self::cleanupLoginTokens($_COOKIE['oc_username']);
-			// confirm credentials in cookie
+			// verify whether the supplied "remember me" token was valid
 			$granted = OC_User::loginWithCookie(
 				$_COOKIE['oc_username'], $_COOKIE['oc_token']);
 			if($granted === true) {
