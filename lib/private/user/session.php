@@ -22,7 +22,9 @@ use OC\Hooks\Emitter;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user)
  * - preLogin(string $user, string $password)
- * - postLogin(\OC\User\User $user)
+ * - postLogin(\OC\User\User $user, string $password)
+ * - preRememberedLogin(string $uid)
+ * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  *
  * @package OC\User
@@ -178,6 +180,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	 * @return bool
 	 */
 	public function loginWithCookie($uid, $currentToken) {
+		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
 		$user = $this->manager->get($uid);
 		if(is_null($user)) {
 			// user does not exist
