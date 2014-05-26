@@ -121,6 +121,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).toEqual('User Two');
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +
@@ -164,6 +165,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).toEqual('User Two');
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +
@@ -240,6 +242,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +
@@ -282,6 +285,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +
@@ -334,6 +338,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
 					OC.webroot +
@@ -403,6 +408,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			// always use the most recent stime
 			expect($tr.attr('data-mtime')).toEqual('22222000');
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7,8,9');
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot +

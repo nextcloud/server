@@ -47,6 +47,9 @@
 			$tr.find('td.date').before($sharedWith);
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
+			if (this._sharedWithUser) {
+				$tr.attr('data-share-owner', fileData.shares[0].ownerDisplayName);
+			}
 			return $tr;
 		},
 
