@@ -151,7 +151,13 @@ tr:hover span.extension {
 }
 
 table tr.mouseOver td { background-color:#eee; }
-table th { height:24px; padding:0 8px; color:#999; }
+table th { height:24px; padding:0 8px; }
+table th, table th a {
+	color: #999;
+}
+table.multiselect th a {
+	color: #000;
+}
 table th .columntitle {
 	display: inline-block;
 	padding: 15px;
