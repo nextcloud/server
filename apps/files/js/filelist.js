@@ -522,12 +522,6 @@
 				mime = mime || 'httpd/unix-directory';
 			}
 
-			// user should always be able to rename a share mount point
-			var allowRename = 0;
-			if (fileData.isShareMountPoint) {
-				allowRename = OC.PERMISSION_UPDATE;
-			}
-
 			//containing tr
 			var tr = $('<tr></tr>').attr({
 				"data-id" : fileData.id,
@@ -537,7 +531,7 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
-				"data-permissions": fileData.permissions | allowRename || this.getDirectoryPermissions()
+				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
 			});
 
 			if (type === 'dir') {
@@ -936,7 +930,7 @@
 
 		/**
 		 * Lazy load a file's preview.
-		 * 
+		 *
 		 * @param path path of the file
 		 * @param mime mime type
 		 * @param callback callback function to call when the image was loaded
@@ -1639,7 +1633,7 @@
 							if (fileDirectory.length === 1) {
 								fileDirectory = fileDirectory[0];
 
-								// Get the directory 
+								// Get the directory
 								var fd = self.findFileEl(fileDirectory);
 								if (fd.length === 0) {
 									var dir = {
@@ -1655,7 +1649,7 @@
 							} else {
 								fileDirectory = fileDirectory[0];
 							}
-							
+
 							fileDirectory = self.findFileEl(fileDirectory);
 
 							// update folder size

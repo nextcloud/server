@@ -21,6 +21,11 @@ $(document).ready(function() {
 				var tr = oldCreateRow.apply(this, arguments);
 				if (fileData.shareOwner) {
 					tr.attr('data-share-owner', fileData.shareOwner);
+					// user should always be able to rename a mount point
+					if (fileData.isShareMountPoint) {
+						tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
+						tr.attr('data-reshare-permissions', fileData.permissions);
+					}
 				}
 				return tr;
 			};
@@ -78,7 +83,11 @@ $(document).ready(function() {
 			if ($(tr).data('type') == 'dir') {
 				itemType = 'folder';
 			}
-			var possiblePermissions = $(tr).data('permissions');
+			var possiblePermissions = $(tr).data('reshare-permissions');
+			if (_.isUndefined(possiblePermissions)) {
+				possiblePermissions = $(tr).data('permissions');
+			}
+
 			var appendTo = $(tr).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {
