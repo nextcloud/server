@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-23 12:19+0000\n"
-"Last-Translator: Josep Torné <josep@substantiu.com>\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,6 +73,10 @@ msgstr "Voleu prendre l'arranjament de la configuració actual del servidor?"
 #: js/settings.js:84
 msgid "Keep settings?"
 msgstr "Voleu mantenir la configuració?"
+
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -152,6 +156,22 @@ msgstr "Ordinador central no vàlid"
 msgid "Could not find the desired feature"
 msgstr "La característica desitjada no s'ha trobat"
 
+#: settings.php:52
+msgid "Server"
+msgstr ""
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr ""
+
 #: templates/part.settingcontrols.php:2
 msgid "Save"
 msgstr "Desa"
@@ -224,9 +244,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Defineix el filtre a aplicar quan s'intenta iniciar la sessió. %%uid reemplaça el nom d'usuari en l'acció d'inici de sessió. Per exemple: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr ""
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr ""
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "Afegeix la configuració del servidor"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr ""
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -290,6 +323,14 @@ msgstr "Enrera"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Continua"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr ""
 
 #: templates/settings.php:11
 msgid ""

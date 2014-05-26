@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "Delete" => "Forigi",
 "Upload too large" => "Alŝuto tro larĝa",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
-"Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi.",
-"Current scanning" => "Nuna skano"
+"Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

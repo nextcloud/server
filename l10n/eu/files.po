@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 14:36+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "allowed."
 msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "Jatorrizko karpeta mugitu edo ezabatu da."
@@ -125,19 +125,19 @@ msgstr "Aldi bateko karpeta falta da"
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "Ez dago behar aina leku erabilgarri,"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Igoerak huts egin du. Ezin izan da igotako fitxategia aurkitu"
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "Igoerak huts egin du. Ezin izan da fitxategiaren informazioa eskuratu."
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr "Baliogabeko karpeta."
 
@@ -213,7 +213,7 @@ msgid ""
 "big."
 msgstr "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak handiak badira. "
 
-#: js/filelist.js:602 js/filelist.js:1672
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr "Zain"
 
@@ -229,39 +229,39 @@ msgstr "Errorea fitxategia mugitzean"
 msgid "Error"
 msgstr "Errorea"
 
-#: js/filelist.js:1201
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr "Ezin izan da fitxategia berrizendatu"
 
-#: js/filelist.js:1335
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr "Errorea fitxategia ezabatzerakoan."
 
-#: js/filelist.js:1438 templates/list.php:62
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "Izena"
 
-#: js/filelist.js:1439 templates/list.php:75
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/filelist.js:1440 templates/list.php:78
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "karpeta %n"
 msgstr[1] "%n karpeta"
 
-#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "fitxategi %n"
 msgstr[1] "%n fitxategi"
 
-#: js/filelist.js:1580 js/filelist.js:1619
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Fitxategi %n igotzen"
@@ -414,5 +414,5 @@ msgid "Files are being scanned, please wait."
 msgstr "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 
 #: templates/list.php:105
-msgid "Current scanning"
-msgstr "Orain eskaneatzen ari da"
+msgid "Currently scanning"
+msgstr ""

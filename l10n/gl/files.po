@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 12:54+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +44,7 @@ msgid ""
 "allowed."
 msgstr "Nome incorrecto, non se permite «\\», «/», «<», «>», «:», «\"», «|», «?» e «*»."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "O cartafol de destino foi movido ou eliminado."
@@ -125,19 +125,19 @@ msgstr "Falta o cartafol temporal"
 msgid "Failed to write to disk"
 msgstr "Produciuse un erro ao escribir no disco"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "Non hai espazo de almacenamento abondo"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "O envío fracasou. Non foi posíbel atopar o ficheiro enviado"
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "O envío fracasou. Non foi posíbel obter información do ficheiro."
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr "O directorio é incorrecto."
 
@@ -213,7 +213,7 @@ msgid ""
 "big."
 msgstr "Está a prepararse a súa descarga. Isto pode levar bastante tempo se os ficheiros son grandes."
 
-#: js/filelist.js:602 js/filelist.js:1672
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr "Pendentes"
 
@@ -229,39 +229,39 @@ msgstr "Produciuse un erro ao mover o ficheiro"
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1201
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr "Non foi posíbel renomear o ficheiro"
 
-#: js/filelist.js:1335
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr "Produciuse un erro ao eliminar o ficheiro."
 
-#: js/filelist.js:1438 templates/list.php:62
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1439 templates/list.php:75
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/filelist.js:1440 templates/list.php:78
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n cartafol"
 msgstr[1] "%n cartafoles"
 
-#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n ficheiro"
 msgstr[1] "%n ficheiros"
 
-#: js/filelist.js:1580 js/filelist.js:1619
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Cargando %n ficheiro"
@@ -414,5 +414,5 @@ msgid "Files are being scanned, please wait."
 msgstr "Estanse analizando os ficheiros. Agarde."
 
 #: templates/list.php:105
-msgid "Current scanning"
-msgstr "Análise actual"
+msgid "Currently scanning"
+msgstr ""

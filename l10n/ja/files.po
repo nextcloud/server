@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
 # plazmism <gomidori@live.jp>, 2013-2014
 # iLikeIT <dj_dark_junglist@yahoo.com>, 2013
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
 # mikako, 2014
-# pabook <pabook.32@gmail.com>, 2013
+# pabook <inactive+pabook@transifex.com>, 2013
 # tt yn <tetuyano+transi@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 14:36+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgid ""
 "allowed."
 msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。"
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "目標のフォルダは移動されたか、削除されました。"
@@ -131,19 +131,19 @@ msgstr "一時保存フォルダーが見つかりません"
 msgid "Failed to write to disk"
 msgstr "ディスクへの書き込みに失敗しました"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "ストレージに十分な空き容量がありません"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "アップロードに失敗。アップロード済みのファイルを見つけることができませんでした。"
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "アップロードに失敗。ファイル情報を取得できませんでした。"
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
@@ -153,7 +153,7 @@ msgstr "ファイル"
 
 #: appinfo/app.php:29
 msgid "All files"
-msgstr ""
+msgstr "すべてのファイル"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -219,7 +219,7 @@ msgid ""
 "big."
 msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
-#: js/filelist.js:602 js/filelist.js:1672
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr "中断"
 
@@ -235,37 +235,37 @@ msgstr "ファイルの移動エラー"
 msgid "Error"
 msgstr "エラー"
 
-#: js/filelist.js:1201
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr "ファイルの名前変更ができませんでした"
 
-#: js/filelist.js:1335
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr "ファイルの削除エラー。"
 
-#: js/filelist.js:1438 templates/list.php:62
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "名前"
 
-#: js/filelist.js:1439 templates/list.php:75
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "サイズ"
 
-#: js/filelist.js:1440 templates/list.php:78
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個のフォルダー"
 
-#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個のファイル"
 
-#: js/filelist.js:1580 js/filelist.js:1619
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 個のファイルをアップロード中"
@@ -417,5 +417,5 @@ msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
 #: templates/list.php:105
-msgid "Current scanning"
-msgstr "スキャン中"
+msgid "Currently scanning"
+msgstr ""

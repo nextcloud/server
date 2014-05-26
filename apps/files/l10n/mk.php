@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Delete" => "Избриши",
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
-"Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте.",
-"Current scanning" => "Моментално скенирам"
+"Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

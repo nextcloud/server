@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Delete" => "Zmazať",
 "Upload too large" => "Nahrávanie je príliš veľké",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
-"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
-"Current scanning" => "Práve prezerané"
+"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

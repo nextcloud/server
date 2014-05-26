@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Upload mislukt, Kon geen bestandsinfo krijgen.",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
+"All files" => "Alle bestanden",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Kan {filename} niet uploaden omdat het een map is of 0 bytes groot is",
 "Total file size {size1} exceeds upload limit {size2}" => "Totale bestandsgrootte {size1} groter dan uploadlimiet {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Niet genoeg vrije ruimte. U upload {size1}, maar is is slechts {size2} beschikbaar",
@@ -87,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "Verwijder",
 "Upload too large" => "Upload is te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
-"Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
-"Current scanning" => "Er wordt gescand"
+"Files are being scanned, please wait." => "Bestanden worden gescand, even wachten."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

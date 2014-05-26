@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 # tebanpb <peruyero@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 14:36+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgid ""
 "allowed."
 msgstr "Nome inválidu, los caráuteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" nun tán permitíos."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -83,7 +84,7 @@ msgstr ""
 
 #: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
-msgstr "Nun se puede afitar la carpeta de xubida."
+msgstr "Nun pue afitase la carpeta de xubida."
 
 #: ajax/upload.php:33
 msgid "Invalid Token"
@@ -124,21 +125,21 @@ msgstr "Falta una carpeta temporal"
 msgid "Failed to write to disk"
 msgstr "Fallu al escribir al discu"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "Nun hai abondu espaciu disponible"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Xubida fallía.  Nun se pudo atopar el ficheru xubíu."
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "Falló la xubida.  Nun se pudo obtener la información del ficheru."
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
-msgstr "Carpeta non válida."
+msgstr "Direutoriu non válidu."
 
 #: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
@@ -163,7 +164,7 @@ msgstr ""
 
 #: js/file-upload.js:358
 msgid "Upload cancelled."
-msgstr "Xubida encaboxada."
+msgstr "Xuba encaboxada."
 
 #: js/file-upload.js:404
 msgid "Could not get result from server."
@@ -172,7 +173,7 @@ msgstr "Nun se pudo obtener el resultáu del servidor."
 #: js/file-upload.js:490
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "La xubida del ficheru ta en progresu.  Si dexes esta páxina encaboxarase la xubida."
+msgstr "La xuba del ficheru ta en progresu. Si dexes agora la páxina, la xuba nun s'encaboxará."
 
 #: js/file-upload.js:555
 msgid "URL cannot be empty"
@@ -210,9 +211,9 @@ msgstr "Renomar"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr "Ta preparándose la descarga.  Esto podría llevar dalgún tiempu si los ficheros son grandes."
+msgstr "Ta preparándose la to descarga.  Esto podría llevar dalgún tiempu si los ficheros son grandes."
 
-#: js/filelist.js:602 js/filelist.js:1672
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr ""
 
@@ -228,39 +229,39 @@ msgstr "Fallu moviendo'l ficheru"
 msgid "Error"
 msgstr "Fallu"
 
-#: js/filelist.js:1201
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1335
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1438 templates/list.php:62
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1439 templates/list.php:75
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "Tamañu"
 
-#: js/filelist.js:1440 templates/list.php:78
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "Modificáu"
 
-#: js/filelist.js:1450 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1456 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1580 js/filelist.js:1619
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -400,7 +401,7 @@ msgstr "Desaniciar"
 
 #: templates/list.php:95
 msgid "Upload too large"
-msgstr "La xubida ye demasiao grande"
+msgstr "La xuba ye abondo grande"
 
 #: templates/list.php:97
 msgid ""
@@ -413,5 +414,5 @@ msgid "Files are being scanned, please wait."
 msgstr "Tan escaniándose los ficheros, espera por favor."
 
 #: templates/list.php:105
-msgid "Current scanning"
-msgstr "Escanéu actual"
+msgid "Currently scanning"
+msgstr ""

@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "アップロードに失敗。ファイル情報を取得できませんでした。",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
+"All files" => "すべてのファイル",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのため {filename} をアップロードできません",
 "Total file size {size1} exceeds upload limit {size2}" => "合計ファイルサイズ {size1} はアップロード制限 {size2} を超過しています。",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "空き容量が十分でなく、 {size1} をアップロードしていますが、 {size2} しか残っていません。",
@@ -87,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "削除",
 "Upload too large" => "アップロードには大きすぎます。",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
-"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
-"Current scanning" => "スキャン中"
+"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

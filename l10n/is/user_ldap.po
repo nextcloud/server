@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -70,6 +70,10 @@ msgstr ""
 #: js/settings.js:84
 msgid "Keep settings?"
 msgstr "Geyma stillingar ?"
+
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -149,6 +153,22 @@ msgstr ""
 msgid "Could not find the desired feature"
 msgstr ""
 
+#: settings.php:52
+msgid "Server"
+msgstr ""
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr ""
+
 #: templates/part.settingcontrols.php:2
 msgid "Save"
 msgstr "Vista"
@@ -221,8 +241,21 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr ""
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr ""
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
+msgstr ""
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
 msgstr ""
 
 #: templates/part.wizard-server.php:30
@@ -286,6 +319,14 @@ msgstr ""
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
+msgstr ""
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
 msgstr ""
 
 #: templates/settings.php:11

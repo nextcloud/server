@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Izbriši",
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
-"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
-"Current scanning" => "Trenutno poteka preučevanje"
+"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ..."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

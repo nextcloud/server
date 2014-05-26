@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-25 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 14:42+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 21:40+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -47,13 +47,13 @@ msgstr "Parola değiştirilemedi. Eski parolanız doğru olmayabilir."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr "Gizli anahtar parolası başarıyla güncellendi"
+msgstr "Özel anahtar parolası başarıyla güncellendi."
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
-msgstr "Gizli anahtar parolası güncellenemedi. Eski parola hatalı olabilir."
+msgstr "Özel anahtar parolası güncellenemedi. Eski parola hatalı olabilir."
 
 #: files/error.php:12
 msgid ""
@@ -68,13 +68,13 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr "Gizli anahtarınız geçerli değil! Muhtemelen parolanız %s dışarısında değiştirildi (örn. şirket dizininde). Gizli anahtar parolanızı kişisel ayarlarınızda güncelleyerek şifreli dosyalarınıza erişimi kurtarabilirsiniz."
+msgstr "Özel anahtarınız geçerli değil! Muhtemelen parolanız %s dışarısında değiştirildi (örn. şirket dizininde). Gizli anahtar parolanızı kişisel ayarlarınızda güncelleyerek şifreli dosyalarınıza erişimi kurtarabilirsiniz."
 
 #: files/error.php:19
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr "Bu dosya muhtemelen bir paylaşılan dosya olduğundan şifresi çözülemiyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin."
+msgstr "Bu dosya muhtemelen bir paylaşılan dosya olduğundan şifrelemesi kaldırılamıyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin."
 
 #: files/error.php:22 files/error.php:27
 msgid ""
@@ -91,11 +91,11 @@ msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr "PHP 5.3.3 veya daha sürümü ile birlikte OpenSSL ve OpenSSL PHP uzantısının birlikte etkin olduğunu ve doğru bir şekilde yapılandırıldığından emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı"
+msgstr "PHP 5.3.3 veya daha sürümü ile birlikte OpenSSL ve OpenSSL PHP uzantısının birlikte etkin olduğundan ve doğru bir şekilde yapılandırıldığından emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı."
 
 #: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
-msgstr "Aşağıdaki kullanıcılar şifreleme için ayarlanmadılar:"
+msgstr "Aşağıdaki kullanıcılar şifreleme için ayarlanmamış:"
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
@@ -107,11 +107,11 @@ msgstr "İlk şifreleme çalışıyor... Lütfen daha sonra tekrar deneyin."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
-msgstr "Doğrudan şuraya gidin:"
+msgstr "Doğrudan "
 
 #: templates/invalid_private_key.php:8
 msgid "personal settings"
-msgstr "kişisel ayarlar"
+msgstr "kişisel ayarlarınıza gidin"
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"
@@ -128,11 +128,11 @@ msgstr "Kurtarma anahtarı parolası"
 
 #: templates/settings-admin.php:12
 msgid "Repeat Recovery key password"
-msgstr "Kurtarma anahtarı parolasını yenileyin"
+msgstr "Kurtarma anahtarı parolasını yineleyin"
 
 #: templates/settings-admin.php:19 templates/settings-personal.php:50
 msgid "Enabled"
-msgstr "Etkinleştirildi"
+msgstr "Etkin"
 
 #: templates/settings-admin.php:27 templates/settings-personal.php:58
 msgid "Disabled"
@@ -144,15 +144,15 @@ msgstr "Kurtarma anahtarı parolasını değiştir:"
 
 #: templates/settings-admin.php:38
 msgid "Old Recovery key password"
-msgstr "Eski Kurtarma anahtar parolası"
+msgstr "Eski Kurtarma anahtarı parolası"
 
 #: templates/settings-admin.php:45
 msgid "New Recovery key password"
-msgstr "Yeni Kurtarma anahtar parolası"
+msgstr "Yeni Kurtarma anahtarı parolası"
 
 #: templates/settings-admin.php:51
 msgid "Repeat New Recovery key password"
-msgstr "Yeni Kurtarma anahtarı parolasını yenileyin"
+msgstr "Yeni Kurtarma anahtarı parolasını yineleyin"
 
 #: templates/settings-admin.php:56
 msgid "Change Password"

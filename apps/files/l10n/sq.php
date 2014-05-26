@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Delete" => "Fshi",
 "Upload too large" => "Ngarkimi shumë i madh",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skedarët që po mundoheni të ngarkoni e tejkalojnë madhësinë maksimale të lejuar nga serveri.",
-"Files are being scanned, please wait." => "Skanerizimi i skedarit në proces. Ju lutem prisni.",
-"Current scanning" => "Skanimi aktual"
+"Files are being scanned, please wait." => "Skanerizimi i skedarit në proces. Ju lutem prisni."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

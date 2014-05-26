@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "Delete" => "Törlés",
 "Upload too large" => "A feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
-"Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!",
-"Current scanning" => "Ellenőrzés alatt"
+"Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

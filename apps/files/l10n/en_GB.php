@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "Delete",
 "Upload too large" => "Upload too large",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "The files you are trying to upload exceed the maximum size for file uploads on this server.",
-"Files are being scanned, please wait." => "Files are being scanned, please wait.",
-"Current scanning" => "Currently scanning"
+"Files are being scanned, please wait." => "Files are being scanned, please wait."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

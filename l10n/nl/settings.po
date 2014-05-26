@@ -5,15 +5,15 @@
 # Translators:
 # André Koot <meneer@tken.net>, 2013-2014
 # helonaut, 2013
-# kwillems <kwillems@zonnet.nl>, 2013
+# kwillems <kwillems@zonnet.nl>, 2013-2014
 # Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 21:40+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -279,11 +279,11 @@ msgstr "Bestanden worden gedecodeerd... Even geduld alstublieft, dit kan even du
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Verwijder de encryptiesleutels permanent"
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Herstel de encryptiesleutels"
 
 #: js/users.js:47
 msgid "deleted"
@@ -520,7 +520,7 @@ msgstr "Toestaan links"
 
 #: templates/admin.php:223
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Dwing wachtwoordbeveiliging af"
 
 #: templates/admin.php:226
 msgid "Allow public uploads"
@@ -572,12 +572,12 @@ msgstr "Sta gebruikers toe om e-mailnotificaties  te versturen voor gedeelde bes
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Sluit groepen uit van delen"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Deze groepen kunnen gedeelde mappen bestanden ontvangen, maar kunnen ze niet starten."
 
 #: templates/admin.php:293
 msgid "Security"

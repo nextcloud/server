@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 21:40+0000\n"
+"Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,13 +108,13 @@ msgstr "Nebylo možno dešifrovat soubory, zkontrolujte své heslo a zkuste znov
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Šifrovací  klíče trvale smazány"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Nebylo možno trvale smazat vaše šifrovací klíče, zkontrolujte prosím owncloud.log nebo kontaktujte svého administrátora"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -134,13 +134,13 @@ msgstr "Nelze smazat uživatele"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Zálohy úspěšně obnoveny"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Nebylo možno obnovit vaše šifrovací klíče, zkontrolujte prosím owncloud.log nebo kontaktujte svého administrátora"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -283,11 +283,11 @@ msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace mů�
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Trvale smazat šifrovací klíče"
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Obnovit šifrovací klíče"
 
 #: js/users.js:47
 msgid "deleted"
@@ -524,7 +524,7 @@ msgstr "Povolit odkazy"
 
 #: templates/admin.php:223
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Vynutit ochranu heslem"
 
 #: templates/admin.php:226
 msgid "Allow public uploads"
@@ -576,12 +576,12 @@ msgstr "Povolit uživatelům odesílat e-mailová upozornění pro sdílené sou
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Vyjmout skupiny ze sdílení"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet ostatním."
 
 #: templates/admin.php:293
 msgid "Security"
@@ -837,15 +837,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Vaše šifrovací klíče byly zálohovány. Pokud se něco pokazilo, dají se znovu obnovit. Smažte je trvale pouze pokud jste jisti, že jsou všechny vaše soubory bezchybně dešifrovány."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Obnovit Šifrovací Klíče"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Smazat Šifrovací Klíče"
 
 #: templates/users.php:19
 msgid "Login Name"

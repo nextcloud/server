@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Slet",
 "Upload too large" => "Upload er for stor",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
-"Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
-"Current scanning" => "Indlæser"
+"Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

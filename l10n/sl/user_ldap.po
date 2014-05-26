@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -71,6 +71,10 @@ msgstr "Ali naj bodo prevzete nedavne nastavitve strežnika?"
 #: js/settings.js:84
 msgid "Keep settings?"
 msgstr "Ali naj se nastavitve ohranijo?"
+
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -154,6 +158,22 @@ msgstr "Neveljaven gostitelj"
 msgid "Could not find the desired feature"
 msgstr "Želene zmožnosti ni mogoče najti"
 
+#: settings.php:52
+msgid "Server"
+msgstr ""
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr ""
+
 #: templates/part.settingcontrols.php:2
 msgid "Save"
 msgstr "Shrani"
@@ -226,9 +246,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Določi filter, ki bo uveljavljen ob poskusu prijave. %%uid zamenja uporabniško ime pri prijavi, na primer: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr ""
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr ""
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "Dodaj nastavitve strežnika"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr ""
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -292,6 +325,14 @@ msgstr "Nazaj"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Nadaljuj"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr ""
 
 #: templates/settings.php:11
 msgid ""

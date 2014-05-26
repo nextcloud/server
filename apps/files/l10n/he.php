@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "Delete" => "מחיקה",
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
-"Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין.",
-"Current scanning" => "הסריקה הנוכחית"
+"Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

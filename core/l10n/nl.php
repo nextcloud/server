@@ -76,6 +76,7 @@ $TRANSLATIONS = array(
 "The public link will expire no later than {days} days after it is created" => "De openbare link vervalt niet eerder dan {days} dagen na het aanmaken",
 "By default the public link will expire after {days} days" => "Standaard vervalt een openbare link na {days} dagen",
 "Password protect" => "Wachtwoord beveiligd",
+"Choose a password for the public link" => "Kies een wachtwoord voor de openbare link",
 "Allow Public Upload" => "Sta publieke uploads toe",
 "Email link to person" => "E-mail link naar persoon",
 "Send" => "Versturen",

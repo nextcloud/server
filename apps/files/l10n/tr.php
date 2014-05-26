@@ -61,7 +61,7 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Depolama alanınız neredeyse dolu (%{usedSpacePercent})",
 "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
-"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Şifreleme işlemi durduruldu ancak dosyalarınız şifreli. Dosyalarınızın şifresini kaldırmak için lütfen kişisel ayarlar kısmına geçin.",
+"Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Şifreleme işlemi durduruldu ancak dosyalarınız hala şifreli. Dosyalarınızın şifrelemesini kaldırmak için lütfen kişisel ayarlar kısmına geçin.",
 "{dirs} and {files}" => "{dirs} ve {files}",
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
 "Upload (max. %s)" => "Yükle (azami: %s)",
@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "Sil",
 "Upload too large" => "Yükleme çok büyük",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki azami yükleme boyutunu aşıyor.",
-"Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin.",
-"Current scanning" => "Şu anda taranan"
+"Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

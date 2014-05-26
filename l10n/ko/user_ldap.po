@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -72,6 +72,10 @@ msgstr "최근 서버 설정을 다시 불러오시겠습니까?"
 #: js/settings.js:84
 msgid "Keep settings?"
 msgstr "설정을 유지하겠습니까?"
+
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -149,6 +153,22 @@ msgstr "잘못된 호스트"
 msgid "Could not find the desired feature"
 msgstr "필요한 기능을 찾을 수 없음"
 
+#: settings.php:52
+msgid "Server"
+msgstr ""
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr ""
+
 #: templates/part.settingcontrols.php:2
 msgid "Save"
 msgstr "저장"
@@ -221,9 +241,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "로그인을 시도할 때 적용할 필터를 입력하십시오. %%uid는 로그인 동작의 사용자 이름으로 대체됩니다. 예: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr ""
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr ""
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "서버 설정 추가"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr ""
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -287,6 +320,14 @@ msgstr "뒤로"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "계속"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr ""
 
 #: templates/settings.php:11
 msgid ""

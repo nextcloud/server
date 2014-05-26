@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 21:53+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,163 +20,163 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Loka"
 
-#: appinfo/app.php:36
+#: appinfo/app.php:37
 msgid "Location"
 msgstr "Loko"
 
-#: appinfo/app.php:39
+#: appinfo/app.php:40
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
-#: appinfo/app.php:41
+#: appinfo/app.php:43
 msgid "Key"
-msgstr ""
+msgstr "Klavo"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:44
 msgid "Secret"
-msgstr ""
+msgstr "Sekreto"
 
-#: appinfo/app.php:43 appinfo/app.php:51
+#: appinfo/app.php:45 appinfo/app.php:54
 msgid "Bucket"
 msgstr ""
 
-#: appinfo/app.php:47
+#: appinfo/app.php:49
 msgid "Amazon S3 and compliant"
 msgstr ""
 
-#: appinfo/app.php:49
-msgid "Access Key"
-msgstr ""
-
-#: appinfo/app.php:50
-msgid "Secret Key"
-msgstr ""
-
 #: appinfo/app.php:52
-msgid "Hostname (optional)"
-msgstr ""
+msgid "Access Key"
+msgstr "Aliroklavo"
 
 #: appinfo/app.php:53
-msgid "Port (optional)"
-msgstr ""
-
-#: appinfo/app.php:54
-msgid "Region (optional)"
-msgstr ""
+msgid "Secret Key"
+msgstr "Sekretoklavo"
 
 #: appinfo/app.php:55
-msgid "Enable SSL"
-msgstr ""
+msgid "Hostname (optional)"
+msgstr "Gastigonomo (malnepra)"
 
 #: appinfo/app.php:56
+msgid "Port (optional)"
+msgstr "Pordo (malnepra)"
+
+#: appinfo/app.php:57
+msgid "Region (optional)"
+msgstr "Regiono (malnepra)"
+
+#: appinfo/app.php:58
+msgid "Enable SSL"
+msgstr "Kapabligi SSL-on"
+
+#: appinfo/app.php:59
 msgid "Enable Path Style"
 msgstr ""
 
-#: appinfo/app.php:63
+#: appinfo/app.php:67
 msgid "App key"
-msgstr ""
+msgstr "Aplikaĵoklavo"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:68
 msgid "App secret"
-msgstr ""
+msgstr "Aplikaĵosekreto"
 
-#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:151
+#: appinfo/app.php:78 appinfo/app.php:119 appinfo/app.php:130
+#: appinfo/app.php:163
 msgid "Host"
 msgstr "Gastigo"
 
-#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
-#: appinfo/app.php:142 appinfo/app.php:152
+#: appinfo/app.php:79 appinfo/app.php:120 appinfo/app.php:142
+#: appinfo/app.php:153 appinfo/app.php:164
 msgid "Username"
 msgstr "Uzantonomo"
 
-#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
-#: appinfo/app.php:143 appinfo/app.php:153
+#: appinfo/app.php:80 appinfo/app.php:121 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:165
 msgid "Password"
 msgstr "Pasvorto"
 
-#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
-#: appinfo/app.php:134 appinfo/app.php:154
+#: appinfo/app.php:81 appinfo/app.php:123 appinfo/app.php:133
+#: appinfo/app.php:144 appinfo/app.php:166
 msgid "Root"
-msgstr ""
+msgstr "Radiko"
 
-#: appinfo/app.php:77
+#: appinfo/app.php:82
 msgid "Secure ftps://"
-msgstr ""
+msgstr "Sekura ftps://"
 
-#: appinfo/app.php:84
+#: appinfo/app.php:90
 msgid "Client ID"
-msgstr ""
+msgstr "Klientidentigilo"
 
-#: appinfo/app.php:85
+#: appinfo/app.php:91
 msgid "Client secret"
-msgstr ""
+msgstr "Klientosekreto"
 
-#: appinfo/app.php:92
+#: appinfo/app.php:98
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:94
+#: appinfo/app.php:101
 msgid "Username (required)"
-msgstr ""
+msgstr "Uzantonomo (nepra)"
 
-#: appinfo/app.php:95
+#: appinfo/app.php:102
 msgid "Bucket (required)"
 msgstr ""
 
-#: appinfo/app.php:96
+#: appinfo/app.php:103
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Regiono (malnepra por OpenStack Object Storage)"
 
-#: appinfo/app.php:97
+#: appinfo/app.php:104
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API-klavo (nepra por Rackspace Cloud Files)"
 
-#: appinfo/app.php:98
+#: appinfo/app.php:105
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:99
+#: appinfo/app.php:106
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Pasvorto (nepra por OpenStack Object Storage)"
 
-#: appinfo/app.php:100
+#: appinfo/app.php:107
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Servonomo (nepra por OpenStack Object Storage)"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:108
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:102
+#: appinfo/app.php:109
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr ""
 
-#: appinfo/app.php:114 appinfo/app.php:123
+#: appinfo/app.php:122 appinfo/app.php:132
 msgid "Share"
 msgstr "Kunhavigi"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:127
 msgid "SMB / CIFS using OC login"
 msgstr ""
 
-#: appinfo/app.php:122
+#: appinfo/app.php:131
 msgid "Username as share"
 msgstr ""
 
-#: appinfo/app.php:131 appinfo/app.php:141
+#: appinfo/app.php:141 appinfo/app.php:152
 msgid "URL"
 msgstr "URL"
 
-#: appinfo/app.php:135 appinfo/app.php:145
+#: appinfo/app.php:145 appinfo/app.php:156
 msgid "Secure https://"
-msgstr ""
+msgstr "Sekura https://"
 
-#: appinfo/app.php:144
+#: appinfo/app.php:155
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Malloka subdosierujo"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -199,31 +200,31 @@ msgstr "Eraro dum agordado de la memorservo Google Drive"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Konservita"
 
-#: lib/config.php:589
+#: lib/config.php:674
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Noto:</b>"
 
-#: lib/config.php:599
+#: lib/config.php:684
 msgid " and "
-msgstr ""
+msgstr "kaj"
 
-#: lib/config.php:621
+#: lib/config.php:706
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:623
+#: lib/config.php:708
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:625
+#: lib/config.php:710
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -240,7 +241,7 @@ msgstr "Dosierujnomo"
 
 #: templates/settings.php:9
 msgid "External storage"
-msgstr ""
+msgstr "Malena memorilo"
 
 #: templates/settings.php:10
 msgid "Configuration"
@@ -252,15 +253,15 @@ msgstr "Malneproj"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Disponebla por"
 
 #: templates/settings.php:32
 msgid "Add storage"
-msgstr ""
+msgstr "Aldoni memorilon"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Neniu uzanto aŭ grupo"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -285,7 +286,7 @@ msgstr "Kapabligi malenan memorilon de uzanto"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Permesi uzantojn munti la jenajn malenajn memorilojn"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

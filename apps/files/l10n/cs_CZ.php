@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Smazat",
 "Upload too large" => "Odesílaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
-"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
-"Current scanning" => "Aktuální prohledávání"
+"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

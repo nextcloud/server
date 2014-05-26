@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Ezabatu",
 "Upload too large" => "Igoera handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
-"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
-"Current scanning" => "Orain eskaneatzen ari da"
+"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

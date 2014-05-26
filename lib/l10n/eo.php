@@ -22,7 +22,10 @@ $TRANSLATIONS = array(
 "%s enter the database name." => "%s enigu la nomon de la datumbazo.",
 "%s you may not use dots in the database name" => "%s vi ne povas uzi punktojn en la nomo de la datumbazo",
 "MS SQL username and/or password not valid: %s" => "La uzantonomo de MS SQL aŭ la pasvorto ne validas: %s",
+"MySQL/MariaDB username and/or password not valid" => "La MySQL/MariaDB-uzantonomo kajaŭ pasvorto ne validas.",
 "DB Error: \"%s\"" => "Datumbaza eraro: “%s”",
+"MySQL/MariaDB user '%s'@'localhost' exists already." => "La MySQL/MariaDB-uzanto '%s'@'localhost' jam ekzistas.",
+"MySQL/MariaDB user '%s'@'%%' already exists" => "La MySQL/MariaDB-uzanto '%s'@'%%' jam ekzistas",
 "Oracle connection could not be established" => "Konekto al Oracle ne povas stariĝi",
 "Oracle username and/or password not valid" => "La uzantonomo de Oracle aŭ la pasvorto ne validas",
 "PostgreSQL username and/or password not valid" => "La uzantonomo de PostgreSQL aŭ la pasvorto ne validas",
@@ -31,6 +34,7 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita.",
 "Please double check the <a href='%s'>installation guides</a>." => "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
+"You are not allowed to share %s" => "Vi ne permesatas kunhavigi %s",
 "Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”",
 "seconds ago" => "sekundoj antaŭe",
 "_%n minute ago_::_%n minutes ago_" => array("","antaŭ %n minutoj"),
@@ -41,6 +45,10 @@ $TRANSLATIONS = array(
 "last month" => "lastamonate",
 "_%n month ago_::_%n months ago_" => array("","antaŭ %n monatoj"),
 "last year" => "lastajare",
-"years ago" => "jaroj antaŭe"
+"years ago" => "jaroj antaŭe",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Nur la jenaj signoj permesatas en uzantonomo: «a-z», «A-Z», «0-9» kaj «_.@-»",
+"A valid username must be provided" => "Valida uzantonomo devas proviziĝi",
+"A valid password must be provided" => "Valida pasvorto devas proviziĝi",
+"The username is already being used" => "La uzantonomo jam uzatas"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Delete" => "حذف",
 "Upload too large" => "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
-"Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید",
-"Current scanning" => "بازرسی کنونی"
+"Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

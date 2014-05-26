@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Poista",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
-"Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
-"Current scanning" => "Tämänhetkinen tutkinta"
+"Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
