@@ -8,9 +8,17 @@
  * @copyright Bernhard Posselt 2014
  */
 
-(function (document, $) {
+(function (document, $, exports) {
 
     'use strict';
+
+    var dynamicSlideToggleEnabled = false;
+
+    exports.Apps = {
+        enableDynamicSlideToggle: function () {
+            dynamicSlideToggleEnabled = true;
+        }
+    };
 
     /**
      * Provides a way to slide down a target area through a button and slide it
@@ -22,9 +30,13 @@
      * <div class=".slide-area" class="hidden">I'm sliding up</div>
      */
     var registerAppsSlideToggle = function () {
+        var buttons = $('[data-apps-slide-toggle]');
+
         $(document).click(function (event) {
 
-            var buttons = $('[data-apps-slide-toggle]');
+            if (dynamicSlideToggleEnabled) {
+                buttons = $('[data-apps-slide-toggle]');
+            }
 
             buttons.each(function (index, button) {
 
@@ -61,4 +73,4 @@
         registerAppsSlideToggle();
     });
 
-}(document, jQuery));
+}(document, jQuery, OC));
