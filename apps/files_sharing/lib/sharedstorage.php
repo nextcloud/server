@@ -289,8 +289,9 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function rename($path1, $path2) {
 
-		$relPath1 = \OCA\Files_Sharing\Helper::stripUserFilesPath($path1);
-		$relPath2 = \OCA\Files_Sharing\Helper::stripUserFilesPath($path2);
+		// we need the paths relative to data/user/files
+		$relPath1 = $this->getMountPoint() . '/' . $path1;
+		$relPath2 = $this->getMountPoint() . '/' . $path2;
 
 		if ($this->isUpdatable('')) {
 
