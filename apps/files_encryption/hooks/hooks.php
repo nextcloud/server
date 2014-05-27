@@ -34,6 +34,8 @@ class Hooks {
 	private static $renamedFiles = array();
 	// file for which we want to delete the keys after the delete operation was successful
 	private static $deleteFiles = array();
+	// file for which we want to delete the keys after the delete operation was successful
+	private static $umountedFiles = array();
 
 	/**
 	 * Startup encryption backend upon user login
@@ -608,6 +610,59 @@ class Hooks {
 		self::$deleteFiles[$params[\OC\Files\Filesystem::signal_param_path]] = array(
 			'uid' => $owner,
 			'path' => $ownerPath);
+	}
+
+	/**
+	 * remember files/folders which get unmounted
+	 */
+	public static function preUmount($params) {
+		$path = $params[\OC\Files\Filesystem::signal_param_path];
+		$user = \OCP\USER::getUser();
+
+		$view = new \OC\Files\View();
+		$itemType = $view->is_dir('/' . $user . '/files' . $path) ? 'folder' : 'file';
+
+		$util = new Util($view, $user);
+		list($owner, $ownerPath) = $util->getUidAndFilename($path);
+
+		self::$umountedFiles[$params[\OC\Files\Filesystem::signal_param_path]] = array(
+			'uid' => $owner,
+			'path' => $ownerPath,
+			'itemType' => $itemType);
+	}
+
+	public static function postUmount($params) {
+
+		if (!isset(self::$umountedFiles[$params[\OC\Files\Filesystem::signal_param_path]])) {
+			return true;
+		}
+
+		$umountedFile = self::$umountedFiles[$params[\OC\Files\Filesystem::signal_param_path]];
+		$path = $umountedFile['path'];
+		$user = $umountedFile['uid'];
+		$itemType = $umountedFile['itemType'];
+
+		$view = new \OC\Files\View();
+		$util = new Util($view, $user);
+
+		// we don't need to remember the file any longer
+		unset(self::$umountedFiles[$params[\OC\Files\Filesystem::signal_param_path]]);
+
+		// if we unshare a folder we need a list of all (sub-)files
+		if ($itemType === 'folder') {
+			$allFiles = $util->getAllFiles($path);
+		} else {
+			$allFiles = array($path);
+		}
+
+		foreach ($allFiles as $path) {
+
+			// check if the user still has access to the file, otherwise delete share key
+			$sharingUsers = $result = \OCP\Share::getUsersSharingFile($path, $user);
+			if (!in_array(\OCP\User::getUser(), $sharingUsers['users'])) {
+				Keymanager::delShareKey($view, array(\OCP\User::getUser()), $path);
+			}
+		}
 	}
 
 }

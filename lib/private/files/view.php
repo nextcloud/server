@@ -361,7 +361,18 @@ class View {
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount->getInternalPath($absolutePath) === '') {
 			if ($mount instanceof MoveableMount) {
-				return $mount->removeMount();
+				\OC_Hook::emit(
+						Filesystem::CLASSNAME, "umount",
+						array(Filesystem::signal_param_path => $path)
+						);
+				$result = $mount->removeMount();
+				if ($result) {
+					\OC_Hook::emit(
+							Filesystem::CLASSNAME, "post_umount",
+							array(Filesystem::signal_param_path => $path)
+							);
+				}
+				return $result;
 			} else {
 				// do not allow deleting the storage's root / the mount point
 				// because for some storages it might delete the whole contents
