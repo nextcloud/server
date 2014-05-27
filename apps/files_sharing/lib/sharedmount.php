@@ -24,8 +24,9 @@ class SharedMount extends Mount implements MoveableMount {
 
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
-		self::verifyMountPoint($arguments['share']);
-		parent::__construct($storage, $mountpoint, $arguments, $loader);
+		$newMountPoint = self::verifyMountPoint($arguments['share']);
+		$absMountPoint = '/' . \OCP\User::getUser() . '/files' . $newMountPoint;
+		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
 	/**
@@ -51,6 +52,8 @@ class SharedMount extends Mount implements MoveableMount {
 			$share['file_target'] = $newMountPoint;
 			$share['unique_name'] = true;
 		}
+
+		return $newMountPoint;
 	}
 
 	/**
