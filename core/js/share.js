@@ -451,7 +451,7 @@ OC.Share={
 			}
 			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
 			var showCrudsButton;
-			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
+			html += '<a href="#" class="unshare"><img class="svg" alt="'+t('core', 'Unshare')+'" title="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			html += '<span class="username">' + escapeHTML(shareWithDisplayName) + '</span>';
 			var mailNotificationEnabled = $('input:hidden[name=mailNotificationEnabled]').val();
 			if (mailNotificationEnabled === 'yes') {
@@ -464,7 +464,7 @@ OC.Share={
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />'+t('core', 'can edit')+'</label> ';
 			}
-			showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
+			showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" title="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 			html += '<div class="cruds" style="display:none;">';
 				if (possiblePermissions & OC.PERMISSION_CREATE) {
 					html += '<label><input type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.PERMISSION_CREATE+'" />'+t('core', 'create')+'</label>';
