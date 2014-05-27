@@ -231,7 +231,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
-			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
+			if(!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
 					$l->t("App \"%s\" can't be installed because it is not compatible with this version of ownCloud.",
 						array($info['name'])
@@ -898,7 +898,7 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
+			if(!self::isAppCompatible($version, $info)) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" ('.$app.') can\'t be used because it is'
 					.' not compatible with this version of ownCloud',
@@ -909,37 +909,77 @@ class OC_App{
 		}
 	}
 
+	/**
+	 * Ajust the number of version parts of $version1 to match
+	 * the number of version parts of $version2.
+	 *
+	 * @param string $version1 version to adjust
+	 * @param string $version2 version to take the number of parts from
+	 * @return string shortened $version1
+	 */
+	private static function adjustVersionParts($version1, $version2) {
+		$version1 = explode('.', $version1);
+		$version2 = explode('.', $version2);
+		// reduce $version1 to match the number of parts in $version2
+		while (count($version1) > count($version2)) {
+			array_pop($version1);
+		}
+		// if $version1 does not have enough parts, add some
+		while (count($version1) < count($version2)) {
+			$version1[] = '0';
+		}
+		return implode('.', $version1);
+	}
 
 	/**
-	 * Compares the app version with the owncloud version to see if the app
-	 * requires a newer version than the currently active one
-	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
-	 * @param string $appRequired the required version from the xml
-	 * major.minor.bugfix
+	 * Check whether the current ownCloud version matches the given
+	 * application's version requirements.
+	 *
+	 * The comparison is made based on the number of parts that the
+	 * app info version has. For example for ownCloud 6.0.3 if the
+	 * app info version is expecting version 6.0, the comparison is
+	 * made on the first two parts of the ownCloud version.
+	 * This means that it's possible to specify "requiremin" => 6
+	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
+	 *
+	 * @param string $ocVersion ownCloud version to check against
+	 * @param array  $appInfo app info (from xml)
+	 *
 	 * @return boolean true if compatible, otherwise false
 	 */
-	public static function isAppVersionCompatible($owncloudVersions, $appRequired){
-		$appVersions = explode('.', $appRequired);
+	public static function isAppCompatible($ocVersion, $appInfo){
+		$requireMin = '';
+		$requireMax = '';
+		if (isset($appInfo['requiremin'])) {
+			$requireMin = $appInfo['requiremin'];
+		} else if (isset($appInfo['require'])) {
+			$requireMin = $appInfo['require'];
+		}
 
-		for($i=0; $i<count($appVersions); $i++){
-			$appVersion = (int) $appVersions[$i];
+		if (isset($appInfo['requiremax'])) {
+			$requireMax = $appInfo['requiremax'];
+		}
 
-			if(isset($owncloudVersions[$i])){
-				$owncloudVersion = $owncloudVersions[$i];
-			} else {
-				$owncloudVersion = 0;
-			}
+		if (is_array($ocVersion)) {
+			$ocVersion = implode('.', $ocVersion);
+		}
 
-			if($owncloudVersion < $appVersion){
-				return false;
-			} elseif ($owncloudVersion > $appVersion) {
-				return true;
-			}
+		if (!empty($requireMin)
+			&& version_compare(self::adjustVersionParts($ocVersion, $requireMin), $requireMin, '<')
+		) {
+
+			return false;
+		}
+
+		if (!empty($requireMax)
+			&& version_compare(self::adjustVersionParts($ocVersion, $requireMax), $requireMax, '>')
+		) {
+
+			return false;
 		}
 
 		return true;
 	}
-
 
 	/**
 	 * get the installed version of all apps
