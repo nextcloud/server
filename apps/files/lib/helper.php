@@ -113,7 +113,7 @@ class Helper
 		if (\OC::$server->getPreviewManager()->isMimeSupported($i['mimetype'])) {
 			$entry['isPreviewAvailable'] = true;
 		}
-		$entry['name'] = $i['name'];
+		$entry['name'] = $i->getName();
 		$entry['permissions'] = $i['permissions'];
 		$entry['mimetype'] = $i['mimetype'];
 		$entry['size'] = $i['size'];
