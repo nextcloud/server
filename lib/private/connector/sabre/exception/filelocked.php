@@ -17,7 +17,7 @@ class OC_Connector_Sabre_Exception_FileLocked extends Sabre_DAV_Exception {
 	}
 
 	/**
-	 * Returns the HTTP statuscode for this exception
+	 * Returns the HTTP status code for this exception
 	 *
 	 * @return int
 	 */
