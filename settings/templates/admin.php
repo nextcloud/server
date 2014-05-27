@@ -360,7 +360,7 @@ if (!$_['internetconnectionworking']) {
 		<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p($l->t('mail'))?>"
 			   value='<?php p($_['mail_from_address']) ?>' />
 		@
-		<input type="text" name='mail_domain' id="mail_domain" placeholder="<?php p($l->t('example.com'))?>"
+		<input type="text" name='mail_domain' id="mail_domain" placeholder="example.com"
 			   value='<?php p($_['mail_domain']) ?>' />
 	</p>
 
@@ -383,7 +383,7 @@ if (!$_['internetconnectionworking']) {
 
 	<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
 		<label for="mail_smtphost"><?php p($l->t( 'Server address' )); ?></label>
-		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="<?php p($l->t('smtp.example.com'))?>"
+		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="smtp.example.com"
 			   value='<?php p($_['mail_smtphost']) ?>' />
 		:
 		<input type="text" name='mail_smtpport' id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
