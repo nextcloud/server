@@ -177,13 +177,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function filesize($path) {
-		if ($path == '' || $path == '/' || $this->is_dir($path)) {
-			return 0;
-		} else if ($source = $this->getSourcePath($path)) {
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-			return $storage->filesize($internalPath);
-		}
-		return false;
+		$source = $this->getSourcePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+		return $storage->filesize($internalPath);
 	}
 
 	public function isCreatable($path) {
