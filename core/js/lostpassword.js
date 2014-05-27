@@ -46,8 +46,6 @@ OC.Lostpassword = {
 		} else {
 			if (result && result.msg){
 				var sendErrorMsg = result.msg;
-			} else if (result && result.encryption) {
-				var sendErrorMsg = OC.Lostpassword.encryptedMsg;
 			} else {
 				var sendErrorMsg = OC.Lostpassword.sendErrorMsg;
 			}
@@ -103,6 +101,8 @@ OC.Lostpassword = {
 		} else {
 			if (result && result.msg){
 				var resetErrorMsg = result.msg;
+			} else if (result && result.encryption) {
+				var sendErrorMsg = OC.Lostpassword.encryptedMsg;
 			} else {
 				var resetErrorMsg = OC.Lostpassword.resetErrorMsg;
 			}

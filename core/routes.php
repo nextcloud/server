@@ -6,6 +6,45 @@
  * See the COPYING-README file.
  */
 
+use \OCP\AppFramework\App;
+use OC\Core\LostPassword\Controller\LostController;
+use OC\Core\LostPassword\Controller\AjaxController;
+
+class Application extends App {
+	public function __construct(array $urlParams=array()){
+		parent::__construct('core', $urlParams);
+
+		$container = $this->getContainer();
+
+		/**
+		 * Controllers
+		 */
+		$container->registerService('LostController', function($c) {
+			return new LostController(
+				$c->query('AppName'),
+				$c->query('ServerContainer')->getRequest(),
+				$c->query('ServerContainer')->getURLGenerator()
+			);
+		});
+		$container->registerService('AjaxController', function($c) {
+			return new AjaxController(
+				$c->query('AppName'),
+				$c->query('ServerContainer')->getRequest(),
+				$c->query('ServerContainer')->getURLGenerator()
+			);
+		});
+	}
+}
+
+$application = new Application();
+$application->registerRoutes($this, array('routes' => array(
+		array('name' => 'ajax#lost', 'url' => '/core/ajax/password/lost', 'verb' => 'POST'),
+		array('name' => 'ajax#reset', 'url' => '/core/ajax/password/reset/{token}/{user}', 'verb' => 'POST'),
+		array('name' => 'lost#reset', 'url' => '/lostpassword/reset/{token}/{user}', 'verb' => 'GET'),
+	)
+));
+
+
 // Post installation check
 
 /** @var $this OCP\Route\IRouter */
@@ -70,15 +109,6 @@ $this->create('core_ajax_preview', '/core/preview')
 	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->actionInclude('core/ajax/preview.php');
-$this->create('core_ajax_password_lost', '/core/ajax/password/lost')
-	->post()
-	->action('OC\Core\Lostpassword\AjaxController', 'lost');
-$this->create('core_ajax_password_reset', '/core/ajax/password/reset/{token}/{user}')
-	->post()
-	->action('OC\Core\LostPassword\AjaxController', 'resetPassword');
-$this->create('core_lostpassword_reset', '/lostpassword/reset/{token}/{user}')
-	->get()
-	->action('OC\Core\LostPassword\Controller', 'reset');
 
 // Avatar routes
 $this->create('core_avatar_get_tmp', '/avatar/tmp')
