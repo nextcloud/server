@@ -134,7 +134,7 @@ namespace OCP {
 		 */
 		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
 			$cm = \OC::$server->getContactsManager();
-			return $cm->registerAddressBook($address_book);
+			$cm->registerAddressBook($address_book);
 		}
 
 		/**
@@ -142,7 +142,7 @@ namespace OCP {
 		 */
 		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
 			$cm = \OC::$server->getContactsManager();
-			return $cm->unregisterAddressBook($address_book);
+			$cm->unregisterAddressBook($address_book);
 		}
 
 		/**
