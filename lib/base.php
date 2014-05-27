@@ -298,7 +298,7 @@ class OC {
 				foreach ($apps as $appId) {
 					$info = OC_App::getAppInfo($appId);
 					if(!OC_App::isAppCompatible($version, $info)) {
-						$incompatibleApps[] = $info['name'];
+						$incompatibleApps[] = $info;
 					}
 				}
 				$tmpl->assign('appList', $incompatibleApps);

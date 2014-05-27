@@ -8,8 +8,8 @@
 		<div class="section">
 			<div class="title bold"><?php p($l->t('The following apps will be disabled during the upgrade:')) ?></div>
 			<ul class="content appList">
-			<?php foreach ($_['appList'] as $appName) { ?>
-			<li><?php p($appName) ?></li>
+			<?php foreach ($_['appList'] as $appInfo) { ?>
+			<li><?php p($appInfo['name']) ?> (<?php p($appInfo['id']) ?>)</li>
 			<?php } ?>
 			</ul>
 		</div>

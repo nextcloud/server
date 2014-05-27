@@ -15,6 +15,14 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated database'));
 	});
+	$updater->listen('\OC\Updater', 'disabledApps', function ($appList) use ($eventSource, $l) {
+		$list = array();
+		foreach ($appList as $appId) {
+			$info = OC_App::getAppInfo($appId);
+			$list[] = $info['name'] . ' (' . $info['id'] . ')';
+		}
+		$eventSource->send('success', (string)$l->t('Disabled incompatible apps: %s', implode(', ', $list)));
+	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource) {
 		$eventSource->send('failure', $message);
 		$eventSource->close();
