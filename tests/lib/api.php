@@ -29,7 +29,7 @@ class Test_API extends PHPUnit_Framework_TestCase {
 	function dataProviderTestOneResult() {
 		return array(
 			array(100, true),
-			array(101, true),
+			array(101, false),
 			array(997, false),
 		);
 	}
