@@ -3,8 +3,8 @@
 	<id>files_versions</id>
 	<name>Versions</name>
 	<licence>AGPL</licence>
-	<author>Frank Karlitschek</author>
-	<require>4.93</require>
+	<author>Frank Karlitschek, Bjoern Schiessle</author>
+	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<description>
 	ownCloud supports simple version control for files.	The versioning app

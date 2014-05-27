@@ -4,8 +4,8 @@
 	<name>Files</name>
 	<description>File Management</description>
 	<licence>AGPL</licence>
-	<author>Robin Appelman</author>
-	<require>4.93</require>
+	<author>Robin Appelman, Vincent Petry</author>
+	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<standalone/>
 	<default_enable/>
