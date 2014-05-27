@@ -241,8 +241,8 @@ var LdapWizard = {
 				},
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_base');
-					LdapWizard.showInfoBox('Please specify a Base DN');
-					LdapWizard.showInfoBox('Could not determine Base DN');
+					LdapWizard.showInfoBox(t('user_ldap', 'Please specify a Base DN'));
+					LdapWizard.showInfoBox(t('user_ldap', 'Could not determine Base DN'));
 					$('#ldap_base').prop('disabled', false);
 				}
 			);
@@ -273,7 +273,7 @@ var LdapWizard = {
 				function (result) {
 					LdapWizard.hideSpinner('#ldap_port');
 					$('#ldap_port').prop('disabled', false);
-					LdapWizard.showInfoBox('Please specify the port');
+					LdapWizard.showInfoBox(t('user_ldap', 'Please specify the port'));
 				}
 			);
 		}
@@ -688,7 +688,7 @@ var LdapWizard = {
 	},
 
 	showInfoBox: function(text) {
-		$('#ldapWizard1 .ldapWizardInfo').text(t('user_ldap', text));
+		$('#ldapWizard1 .ldapWizardInfo').text(text);
 		$('#ldapWizard1 .ldapWizardInfo').removeClass('invisible');
 		LdapWizard.checkInfoShown = true;
 	},
