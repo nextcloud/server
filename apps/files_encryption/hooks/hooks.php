@@ -658,7 +658,7 @@ class Hooks {
 		foreach ($allFiles as $path) {
 
 			// check if the user still has access to the file, otherwise delete share key
-			$sharingUsers = $result = \OCP\Share::getUsersSharingFile($path, $user);
+			$sharingUsers = \OCP\Share::getUsersSharingFile($path, $user);
 			if (!in_array(\OCP\User::getUser(), $sharingUsers['users'])) {
 				Keymanager::delShareKey($view, array(\OCP\User::getUser()), $path);
 			}
