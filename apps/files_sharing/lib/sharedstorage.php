@@ -128,7 +128,18 @@ class Shared extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * Delete the directory if DELETE permission is granted
+	 * @param string $path
+	 * @return boolean
+	 */
 	public function rmdir($path) {
+
+		// never delete a share mount point
+		if(empty($path)) {
+			return false;
+		}
+
 		if (($source = $this->getSourcePath($path)) && $this->isDeletable($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->rmdir($internalPath);
@@ -256,9 +267,17 @@ class Shared extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	/**
+	 * Delete the file if DELETE permission is granted
+	 * @param string $path
+	 * @return boolean
+	 */
 	public function unlink($path) {
-		// Delete the file if DELETE permission is granted
-		$path = ($path === false) ? '' : $path;
+
+		// never delete a share mount point
+		if (empty($path)) {
+			return false;
+		}
 		if ($source = $this->getSourcePath($path)) {
 			if ($this->isDeletable($path)) {
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);

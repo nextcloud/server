@@ -519,6 +519,11 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 
+		// single file shares should never have delete permissions
+		if ($itemType === 'file') {
+			$permissions = (int)$permissions & ~\OCP\PERMISSION_DELETE;
+		}
+
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
