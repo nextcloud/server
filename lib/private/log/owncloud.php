@@ -69,7 +69,7 @@ class OC_Log_Owncloud {
 				$timezone = new DateTimeZone('UTC');
 			}
 			$time = new DateTime(null, $timezone);
-			// remove username/passswords from URLs before writing the to the log file
+			// remove username/passwords from URLs before writing the to the log file
 			$time = $time->format($format);
 			if($minLevel == OC_Log::DEBUG) {
 				if(empty(self::$reqId)) {
