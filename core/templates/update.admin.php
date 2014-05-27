@@ -1,12 +1,12 @@
 <div class="update">
 	<form name="updateForm" class="updateForm">
-		<h2 class="title bold">
+		<p class="title bold">
 		<?php p($l->t('%s will be updated to version %s.',
 			array($_['productName'], $_['version']))); ?>
-		</h2>
+		</p>
 		<?php if (!empty($_['appList'])) { ?>
-		<div class="section">
-			<div class="title bold"><?php p($l->t('The following apps will be disabled during the upgrade:')) ?></div>
+		<div class="infogroup">
+			<p class="bold"><?php p($l->t('The following apps will be disabled during the upgrade:')) ?></p>
 			<ul class="content appList">
 			<?php foreach ($_['appList'] as $appInfo) { ?>
 			<li><?php p($appInfo['name']) ?> (<?php p($appInfo['id']) ?>)</li>
@@ -15,14 +15,14 @@
 		</div>
 		<?php } ?>
 		<?php if (!empty($_['oldTheme'])) { ?>
-		<div class="section">
-			<div class="title bold"><?php p($l->t('The theme %s has been disabled.', array($_['oldTheme']))) ?></div>
+		<div class="infogroup">
+			<p class="bold"><?php p($l->t('The theme %s has been disabled.', array($_['oldTheme']))) ?></p>
 		</div>
 		<?php } ?>
-		<div class="section">
-			<div class="title bold"><?php p($l->t('Please make sure that the database and the data folder have been backed up before proceeding.')) ?></div>
+		<div class="infogroup">
+			<p class="bold"><?php p($l->t('Please make sure that the database and the data folder have been backed up before proceeding.')) ?></p>
 		</div>
-		<div class="section">
+		<div>
 			<input type="submit" value="<?php p($l->t('Start upgrade')) ?>"></input>
 		</div>
 	</form>
