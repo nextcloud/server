@@ -784,7 +784,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$fileInfo = $this->view->getFileInfo($this->filename);
 
 		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
 
 		// share was successful?
 		$this->assertTrue($result);
@@ -816,9 +816,11 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue(is_array($linkShare));
 		$this->assertTrue(is_array($userShare));
 
-		// update permissions
+		// check if share have expected permissions, single shared files never have
+		// delete permissions
+		$this->assertEquals(\OCP\PERMISSION_ALL & ~\OCP\PERMISSION_DELETE, $userShare['permissions']);
 
-		$this->assertEquals('31', $userShare['permissions']);
+		// update permissions
 
 		$params = array();
 		$params['id'] = $userShare['id'];
@@ -893,7 +895,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$items = \OCP\Share::getItemShared('file', null);
 
 		// make sure that we found a link share and a user share
-		$this->assertEquals(count($items), 1);
+		$this->assertEquals(1, count($items));
 
 		$linkShare = null;
 
