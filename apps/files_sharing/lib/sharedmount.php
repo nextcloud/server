@@ -62,7 +62,7 @@ class SharedMount extends Mount implements MoveableMount {
 	private static function updateFileTarget($newPath, &$share) {
 		// if the user renames a mount point from a group share we need to create a new db entry
 		// for the unique name
-		if ($share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP && $this->uniqueNameSet() === false) {
+		if ($share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP && $share['unique_name'] === false) {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
 			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
 			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
