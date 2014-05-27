@@ -22,6 +22,66 @@ class SharedMount extends Mount implements MoveableMount {
 	 */
 	protected $storage = null;
 
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
+		parent::__construct($storage, $mountpoint, $arguments, $loader);
+
+		self::verifyMountPoint($arguments['share']);
+	}
+
+	/**
+	 * check if the parent folder exists otherwise move the mount point up
+	 */
+	private static function verifyMountPoint(&$share) {
+
+		$mountPoint = basename($share['file_target']);
+		$parent = dirname($share['file_target']);
+
+		while (!\OC\Files\Filesystem::is_dir($parent)) {
+			$parent = dirname($parent);
+		}
+
+		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
+				\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
+				array(),
+				new \OC\Files\View('/' . \OCP\User::getUser() . '/files')
+				);
+
+		if($newMountPoint !== $share['file_target']) {
+			self::updateFileTarget($newMountPoint, $share);
+			$share['file_target'] = $newMountPoint;
+			$share['unique_name'] = true;
+		}
+	}
+
+	/**
+	 * update fileTarget in the database if the mount point changed
+	 * @param string $newPath
+	 * @param array $share reference to the share which should be modified
+	 * @return type
+	 */
+	private static function updateFileTarget($newPath, &$share) {
+		// if the user renames a mount point from a group share we need to create a new db entry
+		// for the unique name
+		if ($share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP && $this->uniqueNameSet() === false) {
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
+			.' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
+			$arguments = array($share['item_type'], $share['item_source'], $share['item_target'],
+				2, \OCP\User::getUser(), $share['uid_owner'], $share['permissions'], $share['stime'], $share['file_source'],
+				$newPath, $share['token'], $share['id']);
+		} else {
+			// rename mount point
+			$query = \OC_DB::prepare(
+					'Update `*PREFIX*share`
+						SET `file_target` = ?
+						WHERE `id` = ?'
+					);
+			$arguments = array($newPath, $share['id']);
+		}
+
+		return $query->execute($arguments);
+	}
+
 	/**
 	 * Format a path to be relative to the /user/files/ directory
 	 *
@@ -66,27 +126,7 @@ class SharedMount extends Mount implements MoveableMount {
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();
 
-		// if the user renames a mount point from a group share we need to create a new db entry
-		// for the unique name
-		if ($this->storage->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && $this->storage->uniqueNameSet() === false) {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`,'
-				. ' `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
-				. ' `file_target`, `token`, `parent`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-			$arguments = array($share['item_type'], $share['item_source'], $share['item_target'],
-				2, \OCP\User::getUser(), $share['uid_owner'], $share['permissions'], $share['stime'], $share['file_source'],
-				$relTargetPath, $share['token'], $share['id']);
-
-		} else {
-			// rename mount point
-			$query = \OC_DB::prepare(
-				'UPDATE `*PREFIX*share`
-					SET `file_target` = ?
-					WHERE `id` = ?'
-			);
-			$arguments = array($relTargetPath, $this->storage->getShareId());
-		}
-
-		$result = $query->execute($arguments);
+		$result = $this->updateFileTarget($relTargetPath, $share);
 
 		if ($result) {
 			$this->setMountPoint($target);
