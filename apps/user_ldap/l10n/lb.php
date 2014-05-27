@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Host" => "Host",
 "Password" => "Passwuert",
 "Back" => "Zeréck",
-"Continue" => "Weider"
+"Continue" => "Weider",
+"Advanced" => "Avancéiert"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

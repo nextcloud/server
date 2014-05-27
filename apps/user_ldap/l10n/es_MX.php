@@ -57,6 +57,7 @@ $TRANSLATIONS = array(
 "users found" => "usuarios encontrados",
 "Back" => "Atrás",
 "Continue" => "Continuar",
+"Advanced" => "Avanzado",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." => "<b>Advertencia:</b> Las apps user_ldap y user_webdavauth son incompatibles. Puede que experimente un comportamiento inesperado. Pregunte al su administrador de sistemas para desactivar uno de ellos.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Advertencia:</b> El módulo LDAP de PHP no está instalado, el sistema no funcionará. Por favor consulte al administrador del sistema para instalarlo.",
 "Connection Settings" => "Configuración de conexión",

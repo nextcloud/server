@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Save" => "حفظ",
 "Help" => "مدد",
 "Password" => "پاسورڈ",
-"Continue" => "جاری"
+"Continue" => "جاری",
+"Advanced" => "ایڈوانسڈ"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

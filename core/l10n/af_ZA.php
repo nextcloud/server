@@ -82,6 +82,7 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Fout met opstel van verval datum",
 "Sending ..." => "Stuur ...",
 "Email sent" => "E-pos gestuur",
+"Warning" => "Waarskuwing",
 "The object type is not specified." => "Hierdie objek tipe is nie gespesifiseer nie.",
 "Add" => "Voeg by",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Die opdatering was nie suksesvol nie. Rapporteer die probleem by <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",

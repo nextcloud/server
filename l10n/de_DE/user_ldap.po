@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-27 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 16:21+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +78,7 @@ msgstr "Einstellungen beibehalten?"
 
 #: js/settings.js:93
 msgid "{nbServer}. Server"
-msgstr ""
+msgstr "{nbServer}. Server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -160,19 +160,19 @@ msgstr "Konnte die gewünschte Funktion nicht finden"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Nutzer-Filter"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Anmeldefilter"
 
 #: settings.php:55
 msgid "Group Filter"
-msgstr ""
+msgstr "Gruppen-Filter"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -248,12 +248,12 @@ msgstr "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. %%uid e
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Server"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Server:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -261,7 +261,7 @@ msgstr "Serverkonfiguration hinzufügen"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Konfiguration löschen"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -328,11 +328,11 @@ msgstr "Fortsetzen"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Experte"
 
 #: templates/settings.php:8
 msgid "Advanced"
-msgstr ""
+msgstr "Fortgeschritten"
 
 #: templates/settings.php:11
 msgid ""

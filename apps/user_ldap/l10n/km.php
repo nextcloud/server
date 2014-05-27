@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Host" => "ម៉ាស៊ីន​ផ្ទុក",
 "Port" => "ច្រក",
 "Password" => "ពាក្យសម្ងាត់",
-"Continue" => "បន្ត"
+"Continue" => "បន្ត",
+"Advanced" => "កម្រិត​ខ្ពស់"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

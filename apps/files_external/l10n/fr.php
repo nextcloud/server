@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Timeout of HTTP requests in seconds (optional)" => "Temps maximal de requête HTTP en seconde (facultatif)",
 "Share" => "Partager",
 "SMB / CIFS using OC login" => "SMB / CIFS utilise le nom d'utilisateur OC",
+"Username as share" => "Nom d'utilisateur du partage",
 "URL" => "URL",
 "Secure https://" => "Sécurisation https://",
 "Remote subfolder" => "Sous-dossier distant",

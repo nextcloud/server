@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Save" => "儲存",
 "Help" => "幫助",
 "Port" => "連接埠",
-"Password" => "密碼"
+"Password" => "密碼",
+"Advanced" => "進階"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

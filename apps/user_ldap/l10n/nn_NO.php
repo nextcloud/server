@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Host" => "Tenar",
 "Password" => "Passord",
 "Back" => "Tilbake",
-"Continue" => "Gå vidare"
+"Continue" => "Gå vidare",
+"Advanced" => "Avansert"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
