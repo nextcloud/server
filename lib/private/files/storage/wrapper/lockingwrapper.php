@@ -10,7 +10,6 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
-use OCP\Files\LockNotAcquiredException;
 use OCP\Files\Lock;
 
 /**
@@ -46,6 +45,8 @@ class LockingWrapper extends Wrapper {
 	/**
 	 * Release an existing lock
 	 * @param string $path Path to file, relative to this storage
+	 * @param integer $lockType The type of lock to release
+	 * @param bool $releaseAll If true, release all outstanding locks
 	 * @return bool true on success, false on failure
 	 */
 	protected function releaseLock($path, $lockType, $releaseAll = false){

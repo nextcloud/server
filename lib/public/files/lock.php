@@ -140,10 +140,9 @@ class Lock {
 	 * Sets $this->lockFile to the specified lock file, indicating that the lock file is IN USE for this lock instance
 	 * Also sets $this->lockFileHandle to a file handle of the lock file
 	 * @param string $filename The name of the file to lock
-	 * @param int $timeout Milliseconds to wait for a valid lock
 	 * @return bool False if lock can't be acquired, true if it can.
 	 */
-	protected function lockLockFile ( $filename, $timeout = 0 ) {
+	protected function lockLockFile ( $filename ) {
 		$lockFile = $this->getLockFile($filename);
 		\OC_Log::write('lock', sprintf('INFO: Locking lock file %s for %s', $lockFile, $filename), \OC_Log::DEBUG);
 
