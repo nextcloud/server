@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-25 01:54-0400\n"
-"PO-Revision-Date: 2014-04-24 12:31+0000\n"
-"Last-Translator: akong <akong@aspa.idv.tw>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,9 +79,9 @@ msgstr "無法解密這個檔案，也許這是分享的檔案。請詢問檔案
 
 #: files/error.php:22 files/error.php:27
 msgid ""
-"Unknown error please check your system settings or contact your "
+"Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr "未知錯誤請檢查您的系統設定或是聯絡您的管理員"
+msgstr ""
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -94,7 +94,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "請確認已安裝 PHP 5.3.3 或是更新的版本以及 OpenSSL 也一併安裝在 PHP extension 裡面並啟用及設置完成。現在，加密功能是停用的。"
 
-#: hooks/hooks.php:295
+#: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
 msgstr "以下的使用者無法設定加密:"
 

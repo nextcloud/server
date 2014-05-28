@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-03 01:55-0400\n"
-"PO-Revision-Date: 2014-04-02 20:30+0000\n"
-"Last-Translator: osztraksajt <osztraksajt@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,9 +80,9 @@ msgstr "Az állományt nem sikerült dekódolni, valószínűleg ez egy megoszto
 
 #: files/error.php:22 files/error.php:27
 msgid ""
-"Unknown error please check your system settings or contact your "
+"Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr "Ismeretlen hiba. Ellenőrizze a rendszer beállításait vagy forduljon a rendszergazdához!"
+msgstr ""
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Kérem gondoskodjon arról, hogy PHP 5.3.3 vagy annál frissebb legyen telepítve, továbbá az OpenSSL a megfelelő PHP-bővítménnyel együtt rendelkezésre álljon és helyesen legyen konfigurálva! A titkosító modul egyelőre kikapcsolásra került."
 
-#: hooks/hooks.php:295
+#: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
 msgstr "A következő felhasználók nem állították be a titkosítást:"
 

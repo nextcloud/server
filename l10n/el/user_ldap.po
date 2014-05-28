@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 06:11+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,18 @@ msgstr "Επιτυχία"
 msgid "Error"
 msgstr "Σφάλμα"
 
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
+
 #: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Η διαμόρφωση είναι εντάξει"
@@ -157,11 +169,11 @@ msgstr "Αδυναμία εύρεσης επιθυμητου χαρακτηρι�
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Διακομιστής"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Φίλτρο χρηστών"
 
 #: settings.php:54
 msgid "Login Filter"
@@ -245,7 +257,7 @@ msgstr "Ορίζει το φίλτρο που θα εφαρμοστεί, ότα�
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Διακομιστής"
 
 #: templates/part.wizard-server.php:13
 #, php-format
@@ -258,7 +270,7 @@ msgstr "Προσθήκη Ρυθμίσεων Διακομιστή"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Απαλοιφή ρυθμίσεων"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -461,7 +473,7 @@ msgstr "Φωλιασμένες ομάδες"
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Όταν ενεργοποιηθεί, οι ομάδες που περιέχουν ομάδες υποστηρίζονται. (Λειτουργεί μόνο αν το χαρακτηριστικό μέλους ομάδες περιέχει Διακεκριμένα Ονόματα.)"
 
 #: templates/settings.php:40
 msgid "Paging chunksize"

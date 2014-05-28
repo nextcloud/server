@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Private key password successfully updated." => "Sandi kunci privat berhasil diperbarui.",
 "Could not update the private key password. Maybe the old password was not correct." => "Tidak dapat memperbarui sandi kunci privat. Kemungkinan sandi lama yang Anda masukkan salah.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Tidak dapat mendekripsi berkas ini, mungkin ini adalah berkas bersama. Silakan meminta pemilik berkas ini untuk membagikan kembali dengan Anda.",
-"Unknown error please check your system settings or contact your administrator" => "Kesalahan tak dikenal, silakan periksa pengaturan sistem Anda atau hubungi admin.",
 "Missing requirements." => "Persyaratan yang hilang.",
 "Following users are not set up for encryption:" => "Pengguna berikut belum diatur untuk enkripsi:",
 "Initial encryption started... This can take some time. Please wait." => "Inisial enskripsi dijalankan... Ini dapat memakan waktu. Silakan tunggu.",

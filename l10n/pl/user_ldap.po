@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 06:11+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "Zachować ustawienia?"
 
 #: js/settings.js:93
 msgid "{nbServer}. Server"
-msgstr ""
+msgstr "{nbServer}. Serwer"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -94,6 +94,18 @@ msgstr "Sukces"
 #: js/settings.js:133
 msgid "Error"
 msgstr "Błąd"
+
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -161,15 +173,15 @@ msgstr "Nie można znaleźć żądanej funkcji"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Serwer"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Filtr użytkownika"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Filtr logowania"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -249,12 +261,12 @@ msgstr "Określa jakiego filtru użyć podczas próby zalogowania. %%uid zastęp
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Serwer"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Serwer:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -262,7 +274,7 @@ msgstr "Dodaj konfigurację servera"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Usuń konfigurację"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -329,7 +341,7 @@ msgstr "Kontynuuj "
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Ekspert"
 
 #: templates/settings.php:8
 msgid "Advanced"

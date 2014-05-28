@@ -11,7 +11,7 @@
 # Gauth <gauthier@openux.org>, 2014
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
-# ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
+# ogre_sympathique, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
 # RyDroid <rydroid_trans@yahoo.fr>, 2013-2014
 # tcit <thomas.citharet@gmail.com>, 2014
@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 09:42+0000\n"
-"Last-Translator: Gauth <gauthier@openux.org>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -619,6 +619,10 @@ msgstr "Ceci est utilisé pour l'envoi des notifications."
 #: templates/admin.php:359
 msgid "From address"
 msgstr "Adresse source"
+
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
 
 #: templates/admin.php:381
 msgid "Authentication required"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-25 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 19:02+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -609,6 +609,10 @@ msgstr "Isto é usado para o envio de notificações."
 #: templates/admin.php:359
 msgid "From address"
 msgstr "Do Endereço"
+
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
 
 #: templates/admin.php:381
 msgid "Authentication required"

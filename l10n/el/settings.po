@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -284,11 +284,11 @@ msgstr "Αποκρυπτογράφηση αρχείων... Παρακαλώ πε
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Οριστική διαγραφή των κλειδιων κρυπτογράφησης."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Επαναφορά των κλειδιών κρυπτογράφησης."
 
 #: js/users.js:47
 msgid "deleted"
@@ -525,7 +525,7 @@ msgstr "Επιτρέπονται οι σύνδεσμοι"
 
 #: templates/admin.php:223
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Επιβολή προστασίας με κωδικό"
 
 #: templates/admin.php:226
 msgid "Allow public uploads"
@@ -577,12 +577,12 @@ msgstr "Επιτρέψτε στους χρήστες να στέλνουν ει�
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Εξαίρεση ομάδων από τον διαμοιρασμό"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Αυτές οι ομάδες θα συνεχίσουν να λαμβάνουν διαμοιρασμούς, αλλά δεν θα είναι δυνατό να τους δημιουργήσουν."
 
 #: templates/admin.php:293
 msgid "Security"
@@ -615,6 +615,10 @@ msgstr "Χρησιμοποιείται για αποστολή ειδοποιή�
 #: templates/admin.php:359
 msgid "From address"
 msgstr "Από τη διεύθυνση"
+
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
 
 #: templates/admin.php:381
 msgid "Authentication required"

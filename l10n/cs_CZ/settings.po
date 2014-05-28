@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-25 21:40+0000\n"
-"Last-Translator: svetlemodry <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -614,6 +614,10 @@ msgstr "Toto se používá pro odesílání upozornění."
 #: templates/admin.php:359
 msgid "From address"
 msgstr "Adresa odesílatele"
+
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
 
 #: templates/admin.php:381
 msgid "Authentication required"

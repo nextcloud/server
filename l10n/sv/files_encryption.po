@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-06 01:55-0400\n"
-"PO-Revision-Date: 2014-04-05 18:30+0000\n"
-"Last-Translator: AsavarTzeth <asavartzeth@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,9 +84,9 @@ msgstr "Kan ej dekryptera denna fil, förmodligen är det en delad fil. Be ägar
 
 #: files/error.php:22 files/error.php:27
 msgid ""
-"Unknown error please check your system settings or contact your "
+"Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr "Oväntat fel, kolla dina system inställningar eller kontakta din administratör"
+msgstr ""
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -99,7 +99,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Kontrollera att PHP 5.3.3 eller senare är installerad och att tillägget OpenSSL PHP är aktiverad och korrekt konfigurerad. Kryptering är tillsvidare inaktiverad."
 
-#: hooks/hooks.php:295
+#: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
 msgstr "Följande användare har inte aktiverat kryptering:"
 

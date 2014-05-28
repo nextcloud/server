@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "Não foi possivel alterar a password. Possivelmente a password antiga não está correcta.",
 "Could not update the private key password. Maybe the old password was not correct." => "Não foi possível alterar a chave. Possivelmente a password antiga não está correcta.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Não foi possível desencriptar este ficheiro, possivelmente é um ficheiro partilhado. Peça ao proprietário do ficheiro para voltar a partilhar o ficheiro consigo.",
-"Unknown error please check your system settings or contact your administrator" => "Erro desconhecido. Verifique por favor as definições do sistema ou contacte o seu administrador",
 "Missing requirements." => "Faltam alguns requisitos.",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "Por favor, certifique-se que PHP 5.3.3 ou mais recente está instalado e que  OpenSSL juntamente com a extensão  PHP está ativada e corretamente configurada. Por agora, a aplicação de  encriptação está desactivada.",
 "Following users are not set up for encryption:" => "Os utilizadores seguintes não estão marcados para cifragem:",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -569,12 +569,12 @@ msgstr "Allow users to send mail notification for shared files"
 
 #: templates/admin.php:275
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Exclude groups from sharing"
 
 #: templates/admin.php:286
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "These groups will still be able to receive shares, but not to initiate them."
 
 #: templates/admin.php:293
 msgid "Security"
@@ -607,6 +607,10 @@ msgstr "This is used for sending out notifications."
 #: templates/admin.php:359
 msgid "From address"
 msgstr "From address"
+
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
 
 #: templates/admin.php:381
 msgid "Authentication required"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-27 07:41+0000\n"
+"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: base.php:695
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Tas accediendo al sirvidor dende un dominiu non confiáu."
 
 #: base.php:696
 msgid ""
@@ -59,7 +59,7 @@ msgstr "Usuarios"
 
 #: private/app.php:402
 msgid "Admin"
-msgstr ""
+msgstr "Almin"
 
 #: private/app.php:880
 #, php-format
@@ -80,7 +80,7 @@ msgstr "servicios web baxo'l to control"
 
 #: private/files.php:235
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Tan deshabilitaes les descargues de ZIP."
 
 #: private/files.php:236
 msgid "Files need to be downloaded one by one."
@@ -92,7 +92,7 @@ msgstr ""
 
 #: private/files.php:262
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Los ficheros esbillaos son milenta grandes pa xenerar un ficheru zip."
 
 #: private/files.php:263
 msgid ""
@@ -129,29 +129,29 @@ msgstr "L'aplicación nun apurre un ficheru info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Nun pue instalase l'aplicación porque nun ye compatible con esta versión d'ownCloud."
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr ""
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nun pue crease la carpeta de l'aplicación. Por favor, igua los permisos. %s"
@@ -284,7 +284,7 @@ msgstr "Afitar contraseña p'almin"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "El sirvidor web entá nun ta configurado pa permitir la sincronización de ficheros yá que la interface WebDAV paez nun tar funcionando."
+msgstr "El to sirvidor web entá nun ta configuráu afayadizamente pa permitir la sincronización de ficheros porque la interfaz WebDAV paez tar rota."
 
 #: private/setup.php:165
 #, php-format
@@ -343,7 +343,7 @@ msgstr ""
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Necesites apurrir una contraseña pa crear un enllaz públicu, namái tan permitíos los enllaces protexíos"
 
 #: private/share/share.php:641
 #, php-format

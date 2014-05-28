@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-27 01:31+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,6 +93,18 @@ msgstr "Başarılı"
 msgid "Error"
 msgstr "Hata"
 
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
+
 #: js/settings.js:780
 msgid "Configuration OK"
 msgstr "Yapılandırma tamam"
@@ -161,11 +173,11 @@ msgstr "Sunucu"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr "Kullanıcı Filtresi"
+msgstr "Kullanıcı Süzgeci"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr "Oturum Filtresi"
+msgstr "Oturum Süzgeci"
 
 #: settings.php:55
 msgid "Group Filter"
