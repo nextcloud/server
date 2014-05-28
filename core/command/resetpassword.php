@@ -14,6 +14,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ResetPassword extends Command {
+
+	/** @var \OC\User\Manager */
+	protected $userManager;
+
+	public function __construct(\OC\User\Manager $userManager) {
+		$this->userManager = $userManager;
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('resetpassword')
@@ -29,8 +38,7 @@ class ResetPassword extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$username = $input->getArgument('user');
 
-		$userManager = \OC::$server->getUserManager();
-		$user = $userManager->get($username);
+		$user = $this->userManager->get($username);
 		if (is_null($user)) {
 			$output->writeln("<error>There is no user called " . $username . "</error>");
 			return 1;
