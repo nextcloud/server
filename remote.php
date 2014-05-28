@@ -26,7 +26,8 @@ try {
 
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(array('authentication', 'filesystem', 'logging'));
+	OC_App::loadApps(array('authentication'));
+	OC_App::loadApps(array('filesystem', 'logging'));
 
 	switch ($app) {
 		case 'core':

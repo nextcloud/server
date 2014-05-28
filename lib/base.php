@@ -715,7 +715,8 @@ class OC {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only authentication, filesystem and logging
-				OC_App::loadApps(array('authentication', 'filesystem', 'logging'));
+				OC_App::loadApps(array('authentication'));
+				OC_App::loadApps(array('filesystem', 'logging'));
 			}
 		}
 
