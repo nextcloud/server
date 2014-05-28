@@ -79,7 +79,9 @@ foreach ($_FILES['files']['error'] as $error) {
 			UPLOAD_ERR_NO_TMP_DIR => $l->t('Missing a temporary folder'),
 			UPLOAD_ERR_CANT_WRITE => $l->t('Failed to write to disk'),
 		);
-		OCP\JSON::error(array('data' => array_merge(array('message' => $errors[$error]), $storageStats)));
+		$errorMessage = $errors[$error];
+		\OCP\Util::writeLog('files', "Upload error: $error - $errorMessage", \OCP\Util::ERROR);
+		OCP\JSON::error(array('data' => array_merge(array('message' => $errorMessage), $storageStats)));
 		exit();
 	}
 }
