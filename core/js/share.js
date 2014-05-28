@@ -37,9 +37,16 @@ OC.Share={
 	 */
 	updateIcons:function(itemType, fileList){
 		var item;
-		fileList = fileList || OCA.Files.App.fileList;
-		var $fileList = fileList.$fileList;
-		var currentDir = fileList.getCurrentDirectory();
+		var $fileList;
+		var currentDir;
+		if (!fileList && OCA.Files) {
+			fileList = OCA.Files.App.fileList;
+		}
+		// fileList is usually only defined in the files app
+		if (fileList) {
+			$fileList = fileList.$fileList;
+			currentDir = fileList.getCurrentDirectory();
+		}
 		for (item in OC.Share.statuses){
 			var image;
 			var data = OC.Share.statuses[item];
