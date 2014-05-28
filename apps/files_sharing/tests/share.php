@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Bjoern Schiessle
- * @copyright 2013 Bjoern Schiessle <schiessle@owncloud.com>
+ * @copyright 2014 Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

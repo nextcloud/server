@@ -293,6 +293,7 @@ class Shared extends \OC\Files\Storage\Common {
 		$relPath1 = $this->getMountPoint() . '/' . $path1;
 		$relPath2 = $this->getMountPoint() . '/' . $path2;
 
+		// check for update permissions on the share
 		if ($this->isUpdatable('')) {
 
 			$pathinfo = pathinfo($relPath1);

@@ -142,6 +142,7 @@ class Mount {
 		} else {
 			$internalPath = substr($path, strlen($this->mountPoint));
 		}
+		// substr returns false instead of an empty string, we always want a string
 		return (string)$internalPath;
 	}
 
