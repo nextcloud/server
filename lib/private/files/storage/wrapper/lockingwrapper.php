@@ -10,7 +10,7 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
-use OCP\Files\Lock;
+use OC\Files\Lock;
 
 /**
  * Class LockingWrapper
@@ -23,7 +23,7 @@ use OCP\Files\Lock;
  */
 class LockingWrapper extends Wrapper {
 
-	/** @var array $locks Holds an array of lock instances indexed by path for this storage */
+	/** @var \OCP\Files\Lock[] $locks Holds an array of lock instances indexed by path for this storage */
 	protected $locks = array();
 
 	/**
