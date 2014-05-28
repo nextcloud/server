@@ -8,10 +8,7 @@ if($state === 'unset') {
 }
 
 $installedVersion = OCP\Config::getAppValue('user_ldap', 'installed_version');
-$enableRawMode = false;
-if (version_compare($installedVersion, '0.4.1', '<')) {
-	$enableRawMode = true;
-}
+$enableRawMode = version_compare($installedVersion, '0.4.1', '<');
 
 $configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
 $ldap = new OCA\user_ldap\lib\LDAP();
