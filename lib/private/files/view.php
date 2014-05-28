@@ -966,7 +966,7 @@ class View {
 							// do not allow renaming/deleting the mount point if they are not shared files/folders
 							// for shared files/folders we use the permissions given by the owner
 							if ($mount instanceof MoveableMount) {
-								$rootEntry['permissions'] = $permissions;
+								$rootEntry['permissions'] = $permissions | \OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE;
 							} else {
 								$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
 							}
