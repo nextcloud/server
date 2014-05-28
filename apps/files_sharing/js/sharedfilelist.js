@@ -42,9 +42,7 @@
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
 			$tr.find('.filesize').remove();
-			var $sharedWith = $('<td class="sharedWith"></td>')
-				.text(fileData.counterParts.join(', '));
-			$tr.find('td.date').before($sharedWith);
+			$tr.find('td.date').before($tr.children('td:first'));
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
 			if (this._sharedWithUser) {

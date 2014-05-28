@@ -128,8 +128,6 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files/ajax/download.php' +
 				'?dir=%2Flocal%20path&files=local%20name.txt'
 			);
-			expect($tr.find('td.sharedWith').text()).toEqual('User Two');
-
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
 		it('render folder shares', function() {
@@ -172,8 +170,6 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files' +
 				'?dir=/local%20path/local%20name'
 			);
-			expect($tr.find('td.sharedWith').text()).toEqual('User Two');
-
 			expect($tr.find('.nametext').text().trim()).toEqual('local name');
 		});
 	});
@@ -249,8 +245,6 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files/ajax/download.php' +
 				'?dir=%2Flocal%20path&files=local%20name.txt'
 			);
-			expect($tr.find('td.sharedWith').text()).toEqual('User Two');
-
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
 		it('render folder shares', function() {
@@ -292,8 +286,6 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files' +
 				'?dir=/local%20path/local%20name'
 			);
-			expect($tr.find('td.sharedWith').text()).toEqual('User Two');
-
 			expect($tr.find('.nametext').text().trim()).toEqual('local name');
 		});
 		it('render link shares', function() {
@@ -344,7 +336,6 @@ describe('OCA.Sharing.FileList tests', function() {
 					OC.webroot +
 					'/index.php/apps/files/ajax/download.php' +
 					'?dir=%2Flocal%20path&files=local%20name.txt');
-			expect($tr.find('td.sharedWith').text()).toEqual('link');
 
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
@@ -415,8 +406,6 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files/ajax/download.php' +
 				'?dir=%2Flocal%20path&files=local%20name.txt'
 			);
-			expect($tr.find('td.sharedWith').text()).toEqual('link, User Three, User Two');
-
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
 	});

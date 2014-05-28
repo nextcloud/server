@@ -16,9 +16,6 @@
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
-			<th id="headerSharedWith" class="hidden column-counterpart">
-				<a id="sharedwith" class="columntitle" data-sort="shareWith"><span><?php p($l->t( 'Shared with' )); ?></span><span class="sort-indicator"></span></a>
-			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Share time' )); ?></span><span class="sort-indicator"></span></a>
 			</th>
