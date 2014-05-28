@@ -21,7 +21,7 @@ if (version_compare($installedVersion, '0.3.5.6', '<')) {
  * should only be able to unshare single files but never to delete them.
  */
 function updateFilePermissions($chunkSize = 99) {
-	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*share` WHERE item_type = ?');
+	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `item_type` = ?');
 	$result = $query->execute(array('file'));
 
 	$updatedRows = array();
