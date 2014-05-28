@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "محل",
-"URL" => "آدرس",
+"Host" => "میزبانی",
 "Username" => "نام کاربری",
 "Password" => "گذرواژه",
 "Share" => "اشتراک‌گذاری",
+"URL" => "آدرس",
 "Access granted" => "مجوز دسترسی صادر شد",
 "Error configuring Dropbox storage" => "خطا به هنگام تنظیم فضای دراپ باکس",
 "Grant access" => " مجوز اعطا دسترسی",

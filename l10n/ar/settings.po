@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "تم ارسال البريد الالكتروني"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "وضعية الإرسال"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "التشفير"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "أسلوب التطابق"
 
@@ -101,6 +101,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "تم حفظ البريد الإلكتروني"
@@ -116,6 +126,16 @@ msgstr "فشل إزالة المجموعة"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "فشل إزالة المستخدم"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -172,7 +192,7 @@ msgstr "Back-end لا يدعم تغيير كلمة المرور, لاكن مفت
 msgid "Unable to change password"
 msgstr "لا يمكن تغيير كلمة المرور"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "جاري الارسال ..."
 
@@ -228,33 +248,41 @@ msgstr "حدث"
 msgid "Updated"
 msgstr "تم التحديث بنجاح"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "اختر صورة الملف الشخصي "
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "كلمة السر ضعيفة جدا"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "كلمة السر ضعيفة"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "كلمة السر جيدة"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "كلمة السر قوية"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "فك تشفير الملفات... يرجى الانتظار, من الممكن ان ياخذ بعض الوقت."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -268,8 +296,8 @@ msgstr "تراجع"
 msgid "Unable to remove user"
 msgstr "تعذر حذف المستخدم"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "مجموعات"
 
@@ -301,7 +329,7 @@ msgstr "يجب ادخال كلمة مرور صحيحة"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "تحذير: المجلد الرئيسي لـ المستخدم \"{user}\" موجود مسبقا"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -489,148 +517,156 @@ msgstr "السماح للتطبيقات بالمشاركة عن طريق الAPI
 msgid "Allow links"
 msgstr "السماح بالعناوين"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "السماح بالرفع للعامة "
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "السماح للمستخدمين بتفعيل الرفع للاخرين من خلال مجلد المشاركة العام "
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "السماح بإعادة المشاركة "
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "السماح بتنبيهات البريد الالكتروني."
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
+
+#: templates/admin.php:249
+msgid "Allow resharing"
+msgstr "السماح بإعادة المشاركة "
+
+#: templates/admin.php:250
+msgid "Allow users to share items shared with them again"
+msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
+
+#: templates/admin.php:257
+msgid "Allow users to share with anyone"
+msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
+
+#: templates/admin.php:260
+msgid "Allow users to only share with users in their groups"
+msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
+
+#: templates/admin.php:267
+msgid "Allow mail notification"
+msgstr "السماح بتنبيهات البريد الالكتروني."
+
+#: templates/admin.php:268
+msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "حماية"
 
-#: templates/admin.php:291
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "فرض HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "اجبار العميل للاتصال بـ %s عن طريق اتصال مشفر"
 
-#: templates/admin.php:299
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "يرجى الاتصال بـ %s عن طريق HTTPS لتفعيل او تعطيل SSL enforcement."
 
-#: templates/admin.php:311
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "خادم البريد الالكتروني"
 
-#: templates/admin.php:313
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:359
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "عنوان الخادم"
 
-#: templates/admin.php:374
+#: templates/admin.php:389
 msgid "Port"
 msgstr "المنفذ"
 
-#: templates/admin.php:379
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:380
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:383
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:388
+#: templates/admin.php:403
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:393
+#: templates/admin.php:408
 msgid "Log"
 msgstr "سجل"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "مستوى السجل"
 
-#: templates/admin.php:426
+#: templates/admin.php:441
 msgid "More"
 msgstr "المزيد"
 
-#: templates/admin.php:427
+#: templates/admin.php:442
 msgid "Less"
 msgstr "أقل"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -783,28 +819,32 @@ msgstr "اللغة"
 msgid "Help translate"
 msgstr "ساعد في الترجمه"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "استخدم هذا العنوان لـ  <a href=\"%s\" target=\"_blank\">الدخول الى ملفاتك عن طريق WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "البرنامج المشفر لم يعد مفعل, يرجى فك التشفير عن كل ملفاتك"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "كلمه سر الدخول"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "فك تشفير جميع الملفات "
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

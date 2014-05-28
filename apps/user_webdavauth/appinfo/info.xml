@@ -7,7 +7,7 @@
 	This app is not compatible with the LDAP user and group backend.</description>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
-	<require>4.93</require>
+	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<types>
 		<authentication/>

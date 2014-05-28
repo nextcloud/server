@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Du ansluter till servern från en osäker domän.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Vänligen kontakta din administratör. Om du är en administratör, konfigurera inställningen \"trusted_domain\" i  config/config.php. En exempelkonfiguration finns i tillgänglig i config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud.",
 "No app name specified" => "Inget appnamn angivet",
 "Help" => "Hjälp",
@@ -56,12 +58,15 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkronisering eftersom WebDAV inte verkar fungera.",
 "Please double check the <a href='%s'>installation guides</a>." => "Var god kontrollera <a href='%s'>installationsguiden</a>.",
 "%s shared »%s« with you" => "%s delade »%s« med dig",
+"Sharing %s failed, because the file does not exist" => "Delning av %s misslyckades på grund av att filen inte existerar",
+"You are not allowed to share %s" => "Du har inte rätt att dela %s",
 "Sharing %s failed, because the user %s is the item owner" => "Delning %s misslyckades därför att användaren %s är den som äger objektet",
 "Sharing %s failed, because the user %s does not exist" => "Delning %s misslyckades därför att användaren %s inte existerar",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Delning %s misslyckades därför att användaren %s inte är medlem i någon utav de grupper som %s är medlem i",
 "Sharing %s failed, because this item is already shared with %s" => "Delning %s misslyckades därför att objektet redan är delat med %s",
 "Sharing %s failed, because the group %s does not exist" => "Delning %s misslyckades därför att gruppen %s inte existerar",
 "Sharing %s failed, because %s is not a member of the group %s" => "Delning %s misslyckades därför att %s inte ingår i gruppen %s",
+"You need to provide a password to create a public link, only protected links are allowed" => "Du måste ange ett lösenord för att skapa en offentlig länk, endast skyddade länkar är tillåtna",
 "Sharing %s failed, because sharing with links is not allowed" => "Delning %s misslyckades därför att delning utav länkar inte är tillåtet",
 "Share type %s is not valid for %s" => "Delningstyp %s är inte giltig för %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Misslyckades att sätta rättigheter för %s därför att rättigheterna överskrider de som är tillåtna för %s",

@@ -51,7 +51,7 @@
 		<label for="remember_login"><?php p($l->t('remember')); ?></label>
 		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
-		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>"/>
+		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>" disabled="disabled"/>
 	</fieldset>
 </form>
 <?php if (!empty($_['alt_login'])) { ?>

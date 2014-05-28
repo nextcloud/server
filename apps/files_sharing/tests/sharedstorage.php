@@ -36,14 +36,61 @@ class Test_Files_Sharing_Storage extends Test_Files_Sharing_Base {
 
 		$this->filename = '/share-api-storage.txt';
 
-		// save file with content
+
 		$this->view->mkdir($this->folder);
+
+		// save file with content
+		$this->view->file_put_contents($this->filename, "root file");
+		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
 	function tearDown() {
-		$this->view->deleteAll($this->folder);
+		$this->view->unlink($this->folder);
+		$this->view->unlink($this->filename);
 
 		parent::tearDown();
+	}
+
+	/**
+	 * @medium
+	 */
+	function testDeleteParentOfMountPoint() {
+
+		// share to user
+		$fileinfo = $this->view->getFileInfo($this->folder);
+		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($user2View->file_exists($this->folder));
+
+		// create a local folder
+		$result = $user2View->mkdir('localfolder');
+		$this->assertTrue($result);
+
+		// move mount point to local folder
+		$result = $user2View->rename($this->folder, '/localfolder/' . $this->folder);
+		$this->assertTrue($result);
+
+		// mount point in the root folder should no longer exist
+		$this->assertFalse($user2View->is_dir($this->folder));
+
+		// delete the local folder
+		$result = $user2View->unlink('/localfolder');
+		$this->assertTrue($result);
+
+		//enforce reload of the mount points
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		//mount point should be back at the root
+		$this->assertTrue($user2View->is_dir($this->folder));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->view->unlink($this->folder);
 	}
 
 	/**
@@ -79,5 +126,44 @@ class Test_Files_Sharing_Storage extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->assertTrue($this->view->file_exists( $this->folder. '/foo.txt'));
+
+		//cleanup
+		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
 	}
+
+	public function testFilesize() {
+
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+		$fileinfoFile = $this->view->getFileInfo($this->filename);
+
+		$folderSize = $this->view->filesize($this->folder);
+		$file1Size = $this->view->filesize($this->folder. $this->filename);
+		$file2Size = $this->view->filesize($this->filename);
+
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::shareItem('file', $fileinfoFile['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// compare file size between user1 and user2, should always be the same
+		$this->assertSame($folderSize, \OC\Files\Filesystem::filesize($this->folder));
+		$this->assertSame($file1Size, \OC\Files\Filesystem::filesize($this->folder . $this->filename));
+		$this->assertSame($file2Size, \OC\Files\Filesystem::filesize($this->filename));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+		$result = \OCP\Share::unshare('file', $fileinfoFile['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
 }

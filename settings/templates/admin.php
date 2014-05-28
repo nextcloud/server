@@ -217,15 +217,29 @@ if (!$_['internetconnectionworking']) {
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
 					   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
-				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
+				<div <?php ($_['allowLinks'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?> id="publicLinkSettings">
+				<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword"
+						   value="1" <?php if ($_['enforceLinkPassword']) print_unescaped('checked="checked"'); ?> />
+				<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
 				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>
-				<em><?php p($l->t('Allow users to enable others to upload into their publicly shared folders')); ?></em>
+
+				<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate"
+				       value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date'));?></label><br/>
+				<div id="setDefaultExpireDate" <?php ($_['shareDefaultExpireDateSet'] === 'no') ? print_unescaped('class="hidden indent"') : print_unescaped('class="indent"');?>>
+					<?php p($l->t( 'Expire after ' )); ?>
+					<input type="text" name='shareapi_expire_after_n_days' id="shareapiExpireAfterNDays" placeholder="<?php p('7')?>"
+						   value='<?php p($_['shareExpireAfterNDays']) ?>' />
+					<?php p($l->t( 'days' )); ?>
+					<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapiEnforceExpireDate"
+						   value="1" <?php if ($_['shareEnforceExpireDate'] == 'yes') print_unescaped('checked="checked"'); ?> />
+					<label for="shareapiEnforceExpireDate"><?php p($l->t('Enforce expiration date'));?></label><br/>
+				</div>
+
+				</div>
+				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
 		<tr>
@@ -254,23 +268,24 @@ if (!$_['internetconnectionworking']) {
 				<em><?php p($l->t('Allow users to send mail notification for shared files')); ?></em>
 			</td>
 		</tr>
-
 		<tr>
-			<td <?php if ($_['shareAPIEnabled'] == 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_default_expire_date" id="shareapi_default_expire_date"
-				       value="1" <?php if ($_['shareDefaultExpireDateSet'] == 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareapi_default_expire_date"><?php p($l->t('Set default expiration date'));?></label><br/>
-				<?php p($l->t( 'Expire after ' )); ?>
-				<input type="text" name='shareapi_expire_after_n_days' id="shareapi_expire_after_n_days" placeholder="<?php p('7')?>"
-					   value='<?php p($_['shareExpireAfterNDays']) ?>' />
-				<?php p($l->t( 'days' )); ?>
-				<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapi_enforce_expire_date"
-				       value="1" <?php if ($_['shareEnforceExpireDate'] == 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareapi_enforce_expire_date"><?php p($l->t('Enforce expiration date'));?></label><br/>
-				<em><?php p($l->t('Expire shares by default after N days')); ?></em>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
+				<input type="checkbox" name="shareapi_exclude_groups" id="shareapiExcludeGroups"
+				       value="1" <?php if ($_['shareExcludeGroups']) print_unescaped('checked="checked"'); ?> />
+				<label for="shareapiExcludeGroups"><?php p($l->t('Exclude groups from sharing'));?></label><br/>
+				<div id="selectExcludedGroups" class="<?php ($_['shareExcludeGroups']) ? p('indent') : p('hidden indent'); ?>">
+				<select
+					class="groupsselect"
+					id="excludedGroups" data-placeholder="groups"
+					title="<?php p($l->t('Groups'))?>" multiple="multiple">
+					<?php foreach($_["groups"] as $group): ?>
+						<option value="<?php p($group['gid'])?>" <?php if($group['excluded']) { p('selected="selected"'); }?>><?php p($group['gid']);?></option>
+					<?php endforeach;?>
+				</select>
+				</div>
+				<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
 			</td>
 		</tr>
-
 	</table>
 </div>
 
@@ -342,10 +357,10 @@ if (!$_['internetconnectionworking']) {
 
 	<p>
 		<label for="mail_from_address"><?php p($l->t( 'From address' )); ?></label>
-		<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p('mail')?>"
+		<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p($l->t('mail'))?>"
 			   value='<?php p($_['mail_from_address']) ?>' />
 		@
-		<input type="text" name='mail_domain' id="mail_domain" placeholder="<?php p('example.com')?>"
+		<input type="text" name='mail_domain' id="mail_domain" placeholder="example.com"
 			   value='<?php p($_['mail_domain']) ?>' />
 	</p>
 
@@ -368,7 +383,7 @@ if (!$_['internetconnectionworking']) {
 
 	<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
 		<label for="mail_smtphost"><?php p($l->t( 'Server address' )); ?></label>
-		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="<?php p('smtp.example.com')?>"
+		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="smtp.example.com"
 			   value='<?php p($_['mail_smtphost']) ?>' />
 		:
 		<input type="text" name='mail_smtpport' id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -48,15 +48,15 @@ msgstr "Vēstule nosūtīta"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Šifrēšana"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr ""
 
@@ -99,6 +99,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-pasts tika saglabāts"
@@ -114,6 +124,16 @@ msgstr "Nevar izdzēst grupu"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Nevar izdzēst lietotāju"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -170,7 +190,7 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr ""
 
@@ -226,33 +246,41 @@ msgstr "Atjaunināt"
 msgid "Updated"
 msgstr "Atjaunināta"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr ""
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr ""
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr ""
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr ""
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Atšifrēju failus... Uzgaidiet tas var ilgt kādu laiku."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -266,8 +294,8 @@ msgstr "atsaukt"
 msgid "Unable to remove user"
 msgstr "Nevar izņemt lietotāju"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Grupas"
 
@@ -299,7 +327,7 @@ msgstr "Jānorāda derīga parole"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__valodas_nosaukums__"
 
@@ -487,148 +515,156 @@ msgstr "Ļauj lietotnēm izmantot koplietošanas API"
 msgid "Allow links"
 msgstr "Atļaut saites"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Ļaut lietotājiem publiski dalīties ar vienumiem, izmantojot saites"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Atļaut publisko augšupielādi"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Ļaut lietotājiem iespējot atļaut citiem augšupielādēt failus viņu publiskajās mapēs"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Atļaut atkārtotu koplietošanu"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Ļaut lietotājiem dalīties ar vienumiem atkārtoti"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Ļaut lietotājiem dalīties ar visiem"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Ļaut lietotājiem dalīties ar lietotājiem to grupās"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr ""
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Ļaut lietotājiem publiski dalīties ar vienumiem, izmantojot saites"
+
+#: templates/admin.php:249
+msgid "Allow resharing"
+msgstr "Atļaut atkārtotu koplietošanu"
+
+#: templates/admin.php:250
+msgid "Allow users to share items shared with them again"
+msgstr "Ļaut lietotājiem dalīties ar vienumiem atkārtoti"
+
+#: templates/admin.php:257
+msgid "Allow users to share with anyone"
+msgstr "Ļaut lietotājiem dalīties ar visiem"
+
+#: templates/admin.php:260
+msgid "Allow users to only share with users in their groups"
+msgstr "Ļaut lietotājiem dalīties ar lietotājiem to grupās"
+
+#: templates/admin.php:267
+msgid "Allow mail notification"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:268
+msgid "Allow users to send mail notification for shared files"
+msgstr ""
+
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Drošība"
 
-#: templates/admin.php:291
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "Uzspiest HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Uzspiest klientiem pieslēgties pie %s caur šifrētu savienojumu."
 
-#: templates/admin.php:299
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Lūdzu slēdzieties pie %s caur HTTPS lai iespējotu vai atspējotu SSL izpildīšanu"
 
-#: templates/admin.php:311
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:313
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:359
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Servera adrese"
 
-#: templates/admin.php:374
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Ports"
 
-#: templates/admin.php:379
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Akreditācijas dati"
 
-#: templates/admin.php:380
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:383
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:388
+#: templates/admin.php:403
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:393
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Žurnāls"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Žurnāla līmenis"
 
-#: templates/admin.php:426
+#: templates/admin.php:441
 msgid "More"
 msgstr "Vairāk"
 
-#: templates/admin.php:427
+#: templates/admin.php:442
 msgid "Less"
 msgstr "Mazāk"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Versija"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -781,28 +817,32 @@ msgstr "Valoda"
 msgid "Help translate"
 msgstr "Palīdzi tulkot"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr ""
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Pieslēgšanās parole"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Atšifrēt visus failus"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

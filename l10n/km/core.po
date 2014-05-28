@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 14:00+0000\n"
-"Last-Translator: សុវិចិត្រ Sovichet ទេព Tep\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,79 +59,79 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "ថ្ងៃអាទិត្យ"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "ថ្ងៃចន្ទ"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "ថ្ងៃអង្គារ"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "ថ្ងៃពុធ"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "ថ្ងៃព្រហស្បតិ៍"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "ថ្ងៃសុក្រ"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "ថ្ងៃសៅរ៍"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "ខែមករា"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "ខែកុម្ភៈ"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "ខែមីនា"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "ខែមេសា"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "ខែឧសភា"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "ខែមិថុនា"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "ខែកក្កដា"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "ខែសីហា"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "ខែកញ្ញា"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "ខែតុលា"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "ខែវិច្ឆិកា"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "ខែធ្នូ"
 
@@ -187,74 +187,74 @@ msgstr "ឆ្នាំ​មុន"
 msgid "years ago"
 msgstr "ឆ្នាំ​មុន"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "ជ្រើស"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr ""
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "ព្រម"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "ទេ"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "ជ្រើស"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr ""
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "ព្រម"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "ឯកសារ​ថ្មី"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "មាន​ឯកសារ​នេះ​រួច​ហើយ"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr ""
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "លើកលែង"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "បន្ត"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(បាន​ជ្រើស​ទាំង​អស់)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "(បាន​ជ្រើស {count})"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr ""
 
@@ -286,12 +286,12 @@ msgstr "បាន​ចែក​រំលែក"
 msgid "Share"
 msgstr "ចែក​រំលែក"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "កំហុស"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "កំហុស​ពេល​ចែក​រំលែក"
 
@@ -319,107 +319,116 @@ msgstr ""
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "ការ​ពារ​ដោយ​ពាក្យ​សម្ងាត់"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "ពាក្យសម្ងាត់"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "អនុញ្ញាត​ការ​ផ្ទុកឡើង​ជា​សាធារណៈ"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "ផ្ញើ"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "កំណត់​ពេល​ផុត​កំណត់"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "ពេល​ផុត​កំណត់"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "ចែក​រំលែក​តាម​អ៊ីមែល៖"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "រក​មិន​ឃើញ​មនុស្ស​ណា​ម្នាក់"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "ក្រុម"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "មិន​អនុញ្ញាត​ឲ្យ​មាន​ការ​ចែក​រំលែក​ឡើង​វិញ"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "បាន​ចែក​រំលែក​ក្នុង {item} ជាមួយ {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "លែង​ចែក​រំលែក"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "អាច​កែប្រែ"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "សិទ្ធិ​បញ្ជា"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "បង្កើត"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "ធ្វើ​បច្ចុប្បន្នភាព"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "លុប"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "ចែក​រំលែក"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "បាន​ការ​ពារ​ដោយ​ពាក្យ​សម្ងាត់"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "កំពុង​ផ្ញើ ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "បាន​ផ្ញើ​អ៊ីមែល"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "បម្រាម"
 
@@ -662,6 +671,10 @@ msgstr ""
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "បង្កើត​<strong>គណនី​អភិបាល</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "ពាក្យសម្ងាត់"
 
 #: templates/installation.php:70
 msgid "Storage & database"

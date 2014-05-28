@@ -2,10 +2,11 @@
 $TRANSLATIONS = array(
 "Location" => "장소",
 "Amazon S3" => "Amazon S3",
-"URL" => "URL",
+"Host" => "호스트",
 "Username" => "사용자 이름",
 "Password" => "암호",
 "Share" => "공유",
+"URL" => "URL",
 "Access granted" => "접근 허가됨",
 "Error configuring Dropbox storage" => "Dropbox 저장소 설정 오류",
 "Grant access" => "접근 권한 부여",

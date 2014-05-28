@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Deleted files" => "Обрисане датотеке",
+"Restore" => "Врати",
 "Error" => "Грешка",
 "Nothing in here. Your trash bin is empty!" => "Овде нема ништа. Корпа за отпатке је празна.",
 "Name" => "Име",
-"Restore" => "Врати",
 "Deleted" => "Обрисано",
 "Delete" => "Обриши"
 );

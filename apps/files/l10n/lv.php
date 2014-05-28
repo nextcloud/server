@@ -44,19 +44,18 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 ir neierobežots",
 "Maximum input size for ZIP files" => "Maksimālais ievades izmērs ZIP datnēm",
 "Save" => "Saglabāt",
+"WebDAV" => "WebDAV",
 "New" => "Jauna",
 "Text file" => "Teksta datne",
 "New folder" => "Jauna mape",
 "Folder" => "Mape",
 "From link" => "No saites",
-"Deleted files" => "Dzēstās datnes",
 "Cancel upload" => "Atcelt augšupielādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
 "Download" => "Lejupielādēt",
 "Delete" => "Dzēst",
 "Upload too large" => "Datne ir par lielu, lai to augšupielādētu",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
-"Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
-"Current scanning" => "Šobrīd tiek caurskatīts"
+"Files are being scanned, please wait." => "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

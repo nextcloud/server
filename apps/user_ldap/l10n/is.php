@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Test Configuration" => "Prúfa uppsetningu",
 "Help" => "Hjálp",
 "Host" => "Netþjónn",
-"Password" => "Lykilorð"
+"Password" => "Lykilorð",
+"Advanced" => "Ítarlegt"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -30,7 +30,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * @return quota value
+	 * @return int quota value
 	 */
 	public function getQuota() {
 		return $this->quota;

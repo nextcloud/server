@@ -26,7 +26,7 @@ interface IRoute {
 	 * The action to execute when this route matches, includes a file like
 	 * it is called directly
 	 *
-	 * @param $file
+	 * @param string $file
 	 * @return void
 	 */
 	public function actionInclude($file);

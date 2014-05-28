@@ -71,13 +71,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 és sense límit",
 "Maximum input size for ZIP files" => "Mida màxima d'entrada per fitxers ZIP",
 "Save" => "Desa",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Useu aquesta adreça per <a href=\"%s\" target=\"_blank\">accedir als fitxers via WebDAV</a>",
 "New" => "Nou",
 "New text file" => "Nou fitxer de text",
 "Text file" => "Fitxer de text",
 "New folder" => "Carpeta nova",
 "Folder" => "Carpeta",
 "From link" => "Des d'enllaç",
-"Deleted files" => "Fitxers esborrats",
 "Cancel upload" => "Cancel·la la pujada",
 "You don’t have permission to upload or create files here" => "No teniu permisos per a pujar o crear els fitxers aquí",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
@@ -85,7 +86,6 @@ $TRANSLATIONS = array(
 "Delete" => "Esborra",
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
-"Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
-"Current scanning" => "Actualment escanejant"
+"Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

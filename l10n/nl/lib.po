@@ -4,15 +4,15 @@
 # 
 # Translators:
 # André Koot <meneer@tken.net>, 2013-2014
-# kwillems <kwillems@zonnet.nl>, 2013
+# kwillems <kwillems@zonnet.nl>, 2013-2014
 # Len <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 09:59+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 21:40+0000\n"
+"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:712
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "U benadert de server vanaf een niet vertrouwd domein."
 
-#: base.php:713
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -79,23 +79,23 @@ msgstr "Ongeldige afbeelding"
 msgid "web services under your control"
 msgstr "Webdiensten in eigen beheer"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "ZIP download is uitgeschakeld."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -292,116 +292,127 @@ msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omda
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s deelde »%s« met jou"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "Delen van %s is mislukt, omdat het bestand niet bestaat"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr "U bent niet bevoegd om %s te delen"
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "Delen van %s is mislukt, omdat de gebruiker %s de eigenaar is"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "Delen van %s is mislukt, omdat gebruiker %s niet bestaat"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "Delen van %s is mislukt, omdat gebruiker %s geen lid is van een groep waar %s lid van is"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "Delen van %s is mislukt, omdat groep %s niet bestaat"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Delen van %s is mislukt, omdat %s geen lid is van groep %s"
 
-#: private/share/share.php:629
+#: private/share/share.php:621
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr "U moet een wachtwoord verstrekken om een openbare koppeling te maken, alleen beschermde links zijn toegestaan"
+
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Delen van %s is mislukt, omdat het delen met links niet is toegestaan"
 
-#: private/share/share.php:636
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Delen van type %s is niet geldig voor %s"
 
-#: private/share/share.php:773
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Instellen van de permissies voor %s is mislukt, omdat de permissies hoger zijn dan de aan %s toegekende permissies"
 
-#: private/share/share.php:834
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Instellen van de permissies voor %s is mislukt, omdat het object niet is gevonden"
 
-#: private/share/share.php:940
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Het share-backend %s moet de OCP\\Share_Backend interface implementeren"
 
-#: private/share/share.php:947
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Het share-backend %s is niet gevonden"
 
-#: private/share/share.php:953
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Het share-backend voor %s is niet gevonden"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Delen van %s is mislukt, omdat gebruiker %s de originele deler is"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Delen van %s is mislukt, omdat de rechten de aan %s toegekende autorisaties overschrijden"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Delen van %s is mislukt, omdat her-delen niet is toegestaan"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Delen van %s is mislukt, omdat de share-backend voor %s de bron niet kon vinden"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "Delen van %s is mislukt, omdat het bestand niet in de bestandscache kon worden gevonden"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Kon categorie \"%s\" niet vinden"

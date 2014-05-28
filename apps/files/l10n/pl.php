@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Nieudane przesłanie. Nie można pobrać informacji o pliku.",
 "Invalid directory." => "Zła ścieżka.",
 "Files" => "Pliki",
+"All files" => "Wszystkie pliki",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Nie można przesłać {filename} być może jest katalogiem lub posiada 0 bajtów",
 "Total file size {size1} exceeds upload limit {size2}" => "Całkowity rozmiar {size1} przekracza limit uploadu {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Brak wolnej przestrzeni, przesyłasz {size1} a pozostało tylko {size2}",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 - bez limitów",
 "Maximum input size for ZIP files" => "Maksymalna wielkość pliku wejściowego ZIP ",
 "Save" => "Zapisz",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Użyj tego adresu do <a href=\"%s\" target=\"_blank\">dostępu do twoich plików przez WebDAV</a>",
 "New" => "Nowy",
 "New text file" => "Nowy plik tekstowy",
 "Text file" => "Plik tekstowy",
 "New folder" => "Nowy folder",
 "Folder" => "Folder",
 "From link" => "Z odnośnika",
-"Deleted files" => "Pliki usunięte",
 "Cancel upload" => "Anuluj wysyłanie",
 "You don’t have permission to upload or create files here" => "Nie masz uprawnień do wczytywania lub tworzenia plików w tym miejscu",
 "Nothing in here. Upload something!" => "Pusto. Wyślij coś!",
@@ -87,6 +89,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Ładowany plik jest za duży",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
 "Files are being scanned, please wait." => "Skanowanie plików, proszę czekać.",
-"Current scanning" => "Aktualnie skanowane"
+"Currently scanning" => "Aktualnie skanowane"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

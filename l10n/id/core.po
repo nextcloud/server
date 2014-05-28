@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,79 +59,79 @@ msgstr "Tidak ada gambar profil sementara yang tersedia, coba lagi"
 msgid "No crop data provided"
 msgstr "Tidak ada data krop tersedia"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Minggu"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Senin"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Selasa"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Rabu"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Kamis"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Jumat"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Sabtu"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Januari"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Februari"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Maret"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "April"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mei"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Juni"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Juli"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Agustus"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "September"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Oktober"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "November"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Desember"
 
@@ -187,74 +187,74 @@ msgstr "tahun kemarin"
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Pilih"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Galat memuat templat berkas pemilih: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Ya"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Tidak"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Pilih"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Galat memuat templat berkas pemilih: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Oke"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Galat memuat templat pesan: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} berkas konflik"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Satu berkas konflik"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Berkas Baru"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Berkas sudah ada"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Berkas mana yang ingin anda pertahankan?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jika anda memilih kedua versi, berkas yang disalin akan memiliki nomor yang ditambahkan sesuai namanya."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Batal"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Lanjutkan"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(semua terpilih)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} terpilih)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Galat memuat templat berkas yang sudah ada"
 
@@ -286,12 +286,12 @@ msgstr "Dibagikan"
 msgid "Share"
 msgstr "Bagikan"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Galat"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:160 js/share.js:824
 msgid "Error while sharing"
 msgstr "Galat ketika membagikan"
 
@@ -319,107 +319,116 @@ msgstr "Bagikan dengan pengguna atau grup ..."
 msgid "Share link"
 msgstr "Bagikan tautan"
 
-#: js/share.js:223
+#: js/share.js:226
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr ""
+
+#: js/share.js:228
+msgid "By default the public link will expire after {days} days"
+msgstr ""
+
+#: js/share.js:233
 msgid "Password protect"
 msgstr "Lindungi dengan sandi"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Sandi"
+#: js/share.js:235
+msgid "Choose a password for the public link"
+msgstr ""
 
-#: js/share.js:230
+#: js/share.js:241
 msgid "Allow Public Upload"
 msgstr "Izinkan Unggahan Publik"
 
-#: js/share.js:234
+#: js/share.js:245
 msgid "Email link to person"
 msgstr "Emailkan tautan ini ke orang"
 
-#: js/share.js:235
+#: js/share.js:246
 msgid "Send"
 msgstr "Kirim"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Set expiration date"
 msgstr "Atur tanggal kedaluwarsa"
 
-#: js/share.js:241
+#: js/share.js:252
 msgid "Expiration date"
 msgstr "Tanggal kedaluwarsa"
 
-#: js/share.js:277
+#: js/share.js:289
 msgid "Share via email:"
 msgstr "Bagian lewat email:"
 
-#: js/share.js:280
+#: js/share.js:292
 msgid "No people found"
 msgstr "Tidak ada orang ditemukan"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:336 js/share.js:397
 msgid "group"
 msgstr "grup"
 
-#: js/share.js:357
+#: js/share.js:369
 msgid "Resharing is not allowed"
 msgstr "Berbagi ulang tidak diizinkan"
 
-#: js/share.js:401
+#: js/share.js:413
 msgid "Shared in {item} with {user}"
 msgstr "Dibagikan dalam {item} dengan {user}"
 
-#: js/share.js:423
+#: js/share.js:435
 msgid "Unshare"
 msgstr "Batalkan berbagi"
 
-#: js/share.js:431
+#: js/share.js:443
 msgid "notify by email"
 msgstr "notifikasi via email"
 
-#: js/share.js:434
+#: js/share.js:446
 msgid "can edit"
 msgstr "dapat sunting"
 
-#: js/share.js:436
+#: js/share.js:448
 msgid "access control"
 msgstr "kontrol akses"
 
-#: js/share.js:439
+#: js/share.js:451
 msgid "create"
 msgstr "buat"
 
-#: js/share.js:442
+#: js/share.js:454
 msgid "update"
 msgstr "perbarui"
 
-#: js/share.js:445
+#: js/share.js:457
 msgid "delete"
 msgstr "hapus"
 
-#: js/share.js:448
+#: js/share.js:460
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:721
+#: js/share.js:742
 msgid "Password protected"
 msgstr "Sandi dilindungi"
 
-#: js/share.js:734
+#: js/share.js:761
 msgid "Error unsetting expiration date"
 msgstr "Galat ketika menghapus tanggal kedaluwarsa"
 
-#: js/share.js:752
+#: js/share.js:782
 msgid "Error setting expiration date"
 msgstr "Galat ketika mengatur tanggal kedaluwarsa"
 
-#: js/share.js:777
+#: js/share.js:811
 msgid "Sending ..."
 msgstr "Mengirim ..."
 
-#: js/share.js:788
+#: js/share.js:822
 msgid "Email sent"
 msgstr "Email terkirim"
 
-#: js/share.js:812
+#: js/share.js:846
 msgid "Warning"
 msgstr "Peringatan"
 
@@ -662,6 +671,10 @@ msgstr "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan l
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Buat sebuah <strong>akun admin</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Sandi"
 
 #: templates/installation.php:70
 msgid "Storage & database"

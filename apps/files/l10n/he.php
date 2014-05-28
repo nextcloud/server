@@ -40,18 +40,17 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 - ללא הגבלה",
 "Maximum input size for ZIP files" => "גודל הקלט המרבי לקובצי ZIP",
 "Save" => "שמירה",
+"WebDAV" => "WebDAV",
 "New" => "חדש",
 "Text file" => "קובץ טקסט",
 "Folder" => "תיקייה",
 "From link" => "מקישור",
-"Deleted files" => "קבצים שנמחקו",
 "Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
 "Download" => "הורדה",
 "Delete" => "מחיקה",
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
-"Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין.",
-"Current scanning" => "הסריקה הנוכחית"
+"Files are being scanned, please wait." => "הקבצים נסרקים, נא להמתין."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

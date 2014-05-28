@@ -132,7 +132,8 @@ table.grid td.date{
 span.securitywarning {color:#C33; font-weight:bold; }
 span.connectionwarning {color:#933; font-weight:bold; }
 table.shareAPI td { padding-bottom: 0.8em; }
-table.shareAPI input#shareapi_expire_after_n_days {width: 25px;}
+table.shareAPI input#shareapiExpireAfterNDays {width: 25px;}
+table.shareAPI .indent { padding-left: 2em; }
 
 #mail_settings p label:first-child {
 	display: inline-block;
@@ -155,6 +156,15 @@ table.shareAPI input#shareapi_expire_after_n_days {width: 25px;}
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
+}
+
+#selectGroups select {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	height: 36px;
+	padding: 7px 10px
 }
 
 span.success {

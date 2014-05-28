@@ -65,13 +65,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 yra neribotas",
 "Maximum input size for ZIP files" => "Maksimalus ZIP archyvo failo dydis",
 "Save" => "Išsaugoti",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>",
 "New" => "Naujas",
 "New text file" => "Naujas tekstinis failas",
 "Text file" => "Teksto failas",
 "New folder" => "Naujas aplankas",
 "Folder" => "Katalogas",
 "From link" => "Iš nuorodos",
-"Deleted files" => "Ištrinti failai",
 "Cancel upload" => "Atšaukti siuntimą",
 "You don’t have permission to upload or create files here" => "Jūs neturite leidimo čia įkelti arba kurti failus",
 "Nothing in here. Upload something!" => "Čia tuščia. Įkelkite ką nors!",
@@ -79,7 +80,6 @@ $TRANSLATIONS = array(
 "Delete" => "Ištrinti",
 "Upload too large" => "Įkėlimui failas per didelis",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje",
-"Files are being scanned, please wait." => "Skenuojami failai, prašome palaukti.",
-"Current scanning" => "Šiuo metu skenuojama"
+"Files are being scanned, please wait." => "Skenuojami failai, prašome palaukti."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

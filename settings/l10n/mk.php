@@ -95,7 +95,6 @@ $TRANSLATIONS = array(
 "Choose as profile image" => "Одбери фотографија за профилот",
 "Language" => "Јазик",
 "Help translate" => "Помогни во преводот",
-"WebDAV" => "WebDAV",
 "Log-in password" => "Лозинка за најавување",
 "Decrypt all Files" => "Дешифрирај ги сите датотеки",
 "Login Name" => "Име за најава",

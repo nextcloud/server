@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-12 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 14:00+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -82,9 +83,9 @@ msgid "App secret"
 msgstr ""
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
-msgid "URL"
-msgstr "URL"
+#: appinfo/app.php:151
+msgid "Host"
+msgstr "ម៉ាស៊ីន​ផ្ទុក"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
@@ -165,6 +166,10 @@ msgstr ""
 msgid "Username as share"
 msgstr ""
 
+#: appinfo/app.php:131 appinfo/app.php:141
+msgid "URL"
+msgstr "URL"
+
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
 msgstr ""
@@ -175,15 +180,15 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
-msgstr ""
+msgstr "បាន​ទទួល​សិទ្ធិ​ចូល"
 
 #: js/dropbox.js:33 js/dropbox.js:97 js/dropbox.js:103
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "កំហុស​ការ​កំណត់​សណ្ឋាន​នៃ​ឃ្លាំងផ្ទុក Dropbox"
 
 #: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
-msgstr ""
+msgstr "ទទួល​សិទ្ធិ​ចូល"
 
 #: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
@@ -197,29 +202,29 @@ msgstr ""
 msgid "Saved"
 msgstr "បាន​រក្សាទុក"
 
-#: lib/config.php:597
+#: lib/config.php:589
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:607
+#: lib/config.php:599
 msgid " and "
 msgstr ""
 
-#: lib/config.php:629
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:631
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:633
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -228,7 +233,7 @@ msgstr ""
 
 #: templates/settings.php:2
 msgid "External Storage"
-msgstr ""
+msgstr "ឃ្លាំងផ្ទុក​ខាងក្រៅ"
 
 #: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
@@ -236,11 +241,11 @@ msgstr "ឈ្មោះ​ថត"
 
 #: templates/settings.php:9
 msgid "External storage"
-msgstr ""
+msgstr "ឃ្លាំងផ្ទុក​ខាងក្រៅ"
 
 #: templates/settings.php:10
 msgid "Configuration"
-msgstr ""
+msgstr "ការ​កំណត់​សណ្ឋាន"
 
 #: templates/settings.php:11
 msgid "Options"
@@ -252,7 +257,7 @@ msgstr ""
 
 #: templates/settings.php:32
 msgid "Add storage"
-msgstr ""
+msgstr "បន្ថែម​ឃ្លាំងផ្ទុក"
 
 #: templates/settings.php:92
 msgid "No user or group"
@@ -260,7 +265,7 @@ msgstr ""
 
 #: templates/settings.php:95
 msgid "All Users"
-msgstr ""
+msgstr "អ្នក​ប្រើ​ទាំងអស់"
 
 #: templates/settings.php:97
 msgid "Groups"

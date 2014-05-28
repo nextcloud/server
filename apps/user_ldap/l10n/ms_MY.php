@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Save" => "Simpan",
 "Help" => "Bantuan",
 "Password" => "Kata laluan",
-"Back" => "Kembali"
+"Back" => "Kembali",
+"Advanced" => "Maju"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

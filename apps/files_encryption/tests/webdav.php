@@ -34,7 +34,7 @@ use OCA\Encryption;
 /**
  * Class Test_Encryption_Webdav
  *
- * @brief this class provide basic webdav tests for PUT,GET and DELETE
+ * this class provide basic webdav tests for PUT,GET and DELETE
  */
 class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
@@ -43,7 +43,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	public $userId;
 	public $pass;
 	/**
-	 * @var \OC_FilesystemView
+	 * @var \OC\Files\View
 	 */
 	public $view;
 	public $dataShort;
@@ -82,7 +82,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView('/');
+		$this->view = new \OC\Files\View('/');
 
 		// init short data
 		$this->dataShort = 'hats';
@@ -112,7 +112,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav put random file
+	 * test webdav put random file
 	 */
 	function testWebdavPUT() {
 
@@ -167,7 +167,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav get random file
+	 * test webdav get random file
 	 *
 	 * @depends testWebdavPUT
 	 */
@@ -190,7 +190,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief test webdav delete random file
+	 * test webdav delete random file
 	 * @depends testWebdavGET
 	 */
 	function testWebdavDELETE($filename) {
@@ -216,7 +216,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @brief handle webdav request
+	 * handle webdav request
 	 *
 	 * @param bool $body
 	 *

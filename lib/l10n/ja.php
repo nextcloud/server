@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "%s の共有に失敗しました。このアイテムは既に %s で共有されています。",
 "Sharing %s failed, because the group %s does not exist" => "%s の共有に失敗しました。グループ %s は存在しません。",
 "Sharing %s failed, because %s is not a member of the group %s" => "%s の共有に失敗しました。%s は、グループ %s のメンバーではありません。",
+"You need to provide a password to create a public link, only protected links are allowed" => "公開用リンクの作成にはパスワードの設定が必要です",
 "Sharing %s failed, because sharing with links is not allowed" => "%s の共有に失敗しました。リンクでの共有は許可されていません。",
 "Share type %s is not valid for %s" => "%s の共有方法は、%s には適用できません。",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "%s の権限設定に失敗しました。%s に許可されている権限を越えています。",

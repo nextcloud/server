@@ -225,7 +225,7 @@ class OC_Files {
 	 * checks if the selected files are within the size constraint. If not, outputs an error page.
 	 *
 	 * @param string $dir
-	 * @param array | string $files
+	 * @param array|string $files
 	 */
 	static function validateZipDownload($dir, $files) {
 		if (!OC_Config::getValue('allowZipDownload', true)) {

@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
 # plazmism <gomidori@live.jp>, 2013-2014
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-10 01:55-0400\n"
-"PO-Revision-Date: 2014-05-10 03:40+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:713
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "あなたはサーバに、信用が付与されていないドメインからアクセスしています。"
 
-#: base.php:714
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -295,110 +295,121 @@ msgstr "WebDAVインターフェースに問題があると思われるため、
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%sが あなたと »%s«を共有しました"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "%s の共有に失敗しました。そのようなファイルは存在しないからです。"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr ""
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "%s の共有に失敗しました。ユーザー %s がアイテム所有者です。"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "%s の共有に失敗しました。ユーザー %s が存在しません。"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "%s の共有に失敗しました。ユーザー %s はどのグループにも属していません。%s は、??のメンバーです。"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "%s の共有に失敗しました。このアイテムは既に %s で共有されています。"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "%s の共有に失敗しました。グループ %s は存在しません。"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "%s の共有に失敗しました。%s は、グループ %s のメンバーではありません。"
 
-#: private/share/share.php:629
+#: private/share/share.php:621
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr "公開用リンクの作成にはパスワードの設定が必要です"
+
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "%s の共有に失敗しました。リンクでの共有は許可されていません。"
 
-#: private/share/share.php:636
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "%s の共有方法は、%s には適用できません。"
 
-#: private/share/share.php:774
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "%s の権限設定に失敗しました。%s に許可されている権限を越えています。"
 
-#: private/share/share.php:835
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "%s の権限設定に失敗しました。アイテムが存在しません。"
 
-#: private/share/share.php:941
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "%s のバックエンドの共有には、OCP\\Share_Backend　インターフェースを実装しなければなりません。"
 
-#: private/share/share.php:948
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "共有バックエンド %s が見つかりません"
 
-#: private/share/share.php:954
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "%s のための共有バックエンドが見つかりません"
 
-#: private/share/share.php:1368
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s の共有に失敗しました。ユーザ %s が元々の共有者であるからです。"
 
-#: private/share/share.php:1377
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s の共有に失敗しました。%s に付与されている許可を超えているからです。"
 
-#: private/share/share.php:1392
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s の共有に失敗しました。再共有が許されていないからです。"
 
-#: private/share/share.php:1404
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s の共有に失敗しました。%s のバックエンド共有に必要なソースが見つかりませんでした。"
 
-#: private/share/share.php:1418
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

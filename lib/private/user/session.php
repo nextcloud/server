@@ -22,7 +22,9 @@ use OC\Hooks\Emitter;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user)
  * - preLogin(string $user, string $password)
- * - postLogin(\OC\User\User $user)
+ * - postLogin(\OC\User\User $user, string $password)
+ * - preRememberedLogin(string $uid)
+ * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  *
  * @package OC\User
@@ -82,7 +84,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	/**
 	 * set the currently active user
 	 *
-	 * @param \OC\User\User $user
+	 * @param \OC\User\User|null $user
 	 */
 	public function setUser($user) {
 		if (is_null($user)) {
@@ -115,7 +117,7 @@ class Session implements Emitter, \OCP\IUserSession {
 	/**
 	 * set the login name
 	 *
-	 * @param string $loginName for the logged in user
+	 * @param string|null $loginName for the logged in user
 	 */
 	public function setLoginName($loginName) {
 		if (is_null($loginName)) {
@@ -171,6 +173,39 @@ class Session implements Emitter, \OCP\IUserSession {
 	}
 
 	/**
+	 * perform login using the magic cookie (remember login)
+	 *
+	 * @param string $uid the username
+	 * @param string $currentToken
+	 * @return bool
+	 */
+	public function loginWithCookie($uid, $currentToken) {
+		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
+		$user = $this->manager->get($uid);
+		if(is_null($user)) {
+			// user does not exist
+			return false;
+		}
+
+		// get stored tokens
+		$tokens = \OC_Preferences::getKeys($uid, 'login_token');
+		// test cookies token against stored tokens
+		if(!in_array($currentToken, $tokens, true)) {
+			return false;
+		}
+		// replace successfully used token with a new one
+		\OC_Preferences::deleteKey($uid, 'login_token', $currentToken);
+		$newToken = \OC_Util::generateRandomBytes(32);
+		\OC_Preferences::setValue($uid, 'login_token', $newToken, time());
+		$this->setMagicInCookie($user->getUID(), $newToken);
+
+		//login
+		$this->setUser($user);
+		$this->manager->emit('\OC\User', 'postRememberedLogin', array($user));
+		return true;
+	}
+
+	/**
 	 * logout the user from the session
 	 */
 	public function logout() {
@@ -191,7 +226,7 @@ class Session implements Emitter, \OCP\IUserSession {
 		$expires = time() + \OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secure_cookie);
 		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secure_cookie, true);
-		setcookie("oc_remember_login", true, $expires, \OC::$WEBROOT, '', $secure_cookie);
+		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secure_cookie);
 	}
 
 	/**

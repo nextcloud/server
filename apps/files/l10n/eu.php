@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 mugarik gabe esan nahi du",
 "Maximum input size for ZIP files" => "ZIP fitxategien gehienezko tamaina",
 "Save" => "Gorde",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s\" target=\"_blank\">helbidea erabili zure fitxategiak WebDAV bidez eskuratzeko</a>",
 "New" => "Berria",
 "New text file" => "Testu fitxategi berria",
 "Text file" => "Testu fitxategia",
 "New folder" => "Karpeta berria",
 "Folder" => "Karpeta",
 "From link" => "Estekatik",
-"Deleted files" => "Ezabatutako fitxategiak",
 "Cancel upload" => "Ezeztatu igoera",
 "You don’t have permission to upload or create files here" => "Ez duzu fitxategiak hona igotzeko edo hemen sortzeko baimenik",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Ezabatu",
 "Upload too large" => "Igoera handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
-"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
-"Current scanning" => "Orain eskaneatzen ari da"
+"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

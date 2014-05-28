@@ -48,19 +48,18 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 є безліміт",
 "Maximum input size for ZIP files" => "Максимальний розмір завантажуємого ZIP файлу",
 "Save" => "Зберегти",
+"WebDAV" => "WebDAV",
 "New" => "Створити",
 "Text file" => "Текстовий файл",
 "New folder" => "Нова тека",
 "Folder" => "Тека",
 "From link" => "З посилання",
-"Deleted files" => "Видалено файлів",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",
 "Delete" => "Видалити",
 "Upload too large" => "Файл занадто великий",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
-"Files are being scanned, please wait." => "Файли скануються, зачекайте, будь-ласка.",
-"Current scanning" => "Поточне сканування"
+"Files are being scanned, please wait." => "Файли скануються, зачекайте, будь-ласка."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

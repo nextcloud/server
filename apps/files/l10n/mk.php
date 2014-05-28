@@ -56,18 +56,17 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 е неограничено",
 "Maximum input size for ZIP files" => "Максимална големина за внес на ZIP датотеки",
 "Save" => "Сними",
+"WebDAV" => "WebDAV",
 "New" => "Ново",
 "Text file" => "Текстуална датотека",
 "Folder" => "Папка",
 "From link" => "Од врска",
-"Deleted files" => "Избришани датотеки",
 "Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
 "Download" => "Преземи",
 "Delete" => "Избриши",
 "Upload too large" => "Фајлот кој се вчитува е преголем",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
-"Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте.",
-"Current scanning" => "Моментално скенирам"
+"Files are being scanned, please wait." => "Се скенираат датотеки, ве молам почекајте."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

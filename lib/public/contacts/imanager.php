@@ -88,7 +88,7 @@ namespace OCP\Contacts {
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
 		 * @param array $options - for future use. One should always have options!
-		 * @return array of contacts which are arrays of key-value-pairs
+		 * @return array an array of contacts which are arrays of key-value-pairs
 		 */
 		function search($pattern, $searchProperties = array(), $options = array());
 
@@ -107,7 +107,7 @@ namespace OCP\Contacts {
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
-		 * @return array representing the contact just created or updated
+		 * @return array an array representing the contact just created or updated
 		 */
 		function createOrUpdate($properties, $address_book_key);
 
@@ -138,11 +138,10 @@ namespace OCP\Contacts {
 		 * In order to improve lazy loading a closure can be registered which will be called in case
 		 * address books are actually requested
 		 *
-		 * @param string $key
 		 * @param \Closure $callable
 		 * @return void
 		 */
-		function register($key, \Closure $callable);
+		function register(\Closure $callable);
 
 		/**
 		 * @return array

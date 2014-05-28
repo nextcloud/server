@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not revert: %s" => "Geri alınamıyor: %s",
+"Could not revert: %s" => "Geri alınamayan: %s",
 "Versions" => "Sürümler",
 "Failed to revert {file} to revision {timestamp}." => "{file} dosyası {timestamp} gözden geçirmesine geri alınamadı.",
 "More versions..." => "Daha fazla sürüm...",

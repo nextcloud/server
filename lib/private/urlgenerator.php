@@ -29,8 +29,8 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	/**
-	 * @brief Creates an url using a defined route
-	 * @param $route
+	 * Creates an url using a defined route
+	 * @param string $route
 	 * @param array $parameters
 	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @return string the url
@@ -43,7 +43,7 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	/**
-	 * @brief Creates an url
+	 * Creates an url
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
@@ -92,7 +92,7 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	/**
-	 * @brief Creates path to an image
+	 * Creates path to an image
 	 * @param string $app app
 	 * @param string $image image name
 	 * @throws \RuntimeException If the image does not exist

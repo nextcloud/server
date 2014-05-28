@@ -44,14 +44,12 @@ $TRANSLATIONS = array(
 "Text file" => "Ffeil destun",
 "Folder" => "Plygell",
 "From link" => "Dolen o",
-"Deleted files" => "Ffeiliau ddilewyd",
 "Cancel upload" => "Diddymu llwytho i fyny",
 "Nothing in here. Upload something!" => "Does dim byd fan hyn. Llwythwch rhywbeth i fyny!",
 "Download" => "Llwytho i lawr",
 "Delete" => "Dileu",
 "Upload too large" => "Maint llwytho i fyny'n rhy fawr",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Mae'r ffeiliau rydych yn ceisio llwytho i fyny'n fwy na maint mwyaf llwytho ffeiliau i fyny ar y gweinydd hwn.",
-"Files are being scanned, please wait." => "Arhoswch, mae ffeiliau'n cael eu sganio.",
-"Current scanning" => "Sganio cyfredol"
+"Files are being scanned, please wait." => "Arhoswch, mae ffeiliau'n cael eu sganio."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

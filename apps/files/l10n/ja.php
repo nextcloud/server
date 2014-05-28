@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "アップロードに失敗。ファイル情報を取得できませんでした。",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
+"All files" => "すべてのファイル",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのため {filename} をアップロードできません",
 "Total file size {size1} exceeds upload limit {size2}" => "合計ファイルサイズ {size1} はアップロード制限 {size2} を超過しています。",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "空き容量が十分でなく、 {size1} をアップロードしていますが、 {size2} しか残っていません。",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0を指定した場合は無制限",
 "Maximum input size for ZIP files" => "ZIPファイルでの最大入力サイズ",
 "Save" => "保存",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください",
 "New" => "新規作成",
 "New text file" => "新規のテキストファイル作成",
 "Text file" => "テキストファイル",
 "New folder" => "新しいフォルダー",
 "Folder" => "フォルダー",
 "From link" => "リンク",
-"Deleted files" => "ゴミ箱",
 "Cancel upload" => "アップロードをキャンセル",
 "You don’t have permission to upload or create files here" => "ここにファイルをアップロードもしくは作成する権限がありません",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
@@ -86,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "削除",
 "Upload too large" => "アップロードには大きすぎます。",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
-"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
-"Current scanning" => "スキャン中"
+"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

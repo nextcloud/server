@@ -65,13 +65,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 = korlátlan",
 "Maximum input size for ZIP files" => "ZIP-fájlok maximális kiindulási mérete",
 "Save" => "Mentés",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Ezt a címet használd, hogy <a href=\"%s\" target=\"_blank\">hozzáférj a fileokhoz WebDAV-on keresztül</a>",
 "New" => "Új",
 "New text file" => "Új szöveges file",
 "Text file" => "Szövegfájl",
 "New folder" => "Új mappa",
 "Folder" => "Mappa",
 "From link" => "Feltöltés linkről",
-"Deleted files" => "Törölt fájlok",
 "Cancel upload" => "A feltöltés megszakítása",
 "You don’t have permission to upload or create files here" => "Önnek nincs jogosultsága ahhoz, hogy ide állományokat töltsön föl, vagy itt újakat hozzon létre",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
@@ -79,7 +80,6 @@ $TRANSLATIONS = array(
 "Delete" => "Törlés",
 "Upload too large" => "A feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
-"Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!",
-"Current scanning" => "Ellenőrzés alatt"
+"Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

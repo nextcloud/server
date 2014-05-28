@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,15 +48,15 @@ msgstr "Sähköposti lähetetty"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "Lähetystila"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Salaus"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "Tunnistautumistapa"
 
@@ -99,6 +99,16 @@ msgstr "Tiedostojen salauksen purkaminen epäonnistui. Tarkista owncloud.log-tie
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Tiedostojen salauksen purkaminen epäonnistui. Tarkista salasanasi ja yritä uudelleen"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Salausavaimet poistettiin pysyvästi"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Sähköposti tallennettu"
@@ -114,6 +124,16 @@ msgstr "Ryhmän poisto epäonnistui"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Käyttäjän poisto epäonnistui"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Varmuuskopiot palautettiin onnistuneesti"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -170,7 +190,7 @@ msgstr ""
 msgid "Unable to change password"
 msgstr "Salasanan vaihto ei onnistunut"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Lähetetään..."
 
@@ -226,33 +246,41 @@ msgstr "Päivitä"
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Valitse profiilikuva"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Erittäin heikko salasana"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Heikko salasana"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Kohtalainen salasana"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Hyvä salasana"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Vahva salasana"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Puretaan tiedostojen salausta... Odota, tämä voi kestää jonkin aikaa."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Poista salausavaimet pysyvästi."
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Palauta salausavaimet."
 
 #: js/users.js:47
 msgid "deleted"
@@ -266,8 +294,8 @@ msgstr "kumoa"
 msgid "Unable to remove user"
 msgstr "Käyttäjän poistaminen ei onnistunut"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Ryhmät"
 
@@ -299,7 +327,7 @@ msgstr "Anna kelvollinen salasana"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Varoitus: käyttäjällä \"{user}\" on jo olemassa kotikansio"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
 
@@ -487,148 +515,156 @@ msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 msgid "Allow links"
 msgstr "Salli linkit"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Salli julkiset lähetykset"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr ""
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Salli uudelleenjakaminen"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Salli sähköposti-ilmoitukset"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista"
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr "Aseta oletusvanhenemispäivä"
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr "Vanhenna"
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr "päivän jälkeen"
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr "Pakota vanhenemispäivä"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Vanhenna jaot oletuksena N päivän jälkeen"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
-#: templates/admin.php:278
+#: templates/admin.php:249
+msgid "Allow resharing"
+msgstr "Salli uudelleenjakaminen"
+
+#: templates/admin.php:250
+msgid "Allow users to share items shared with them again"
+msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
+
+#: templates/admin.php:257
+msgid "Allow users to share with anyone"
+msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
+
+#: templates/admin.php:260
+msgid "Allow users to only share with users in their groups"
+msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
+
+#: templates/admin.php:267
+msgid "Allow mail notification"
+msgstr "Salli sähköposti-ilmoitukset"
+
+#: templates/admin.php:268
+msgid "Allow users to send mail notification for shared files"
+msgstr "Salli käyttäjien lähettää sähköposti-ilmoituksia jaetuista tiedostoista"
+
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr "Kiellä ryhmiä jakamasta"
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr "Nämä ryhmät kykenevät vastaanottamaan jakoja, mutta eivät kuitenkaan itse pysty luoda jakoja."
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Tietoturva"
 
-#: templates/admin.php:291
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "Pakota HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Pakottaa asiakasohjelmistot ottamaan yhteyden %siin salatun yhteyden kautta."
 
-#: templates/admin.php:299
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Yhdistä %siin HTTPS-yhteydellä ottaaksesi käyttöön tai poistaaksesi käytöstä SSL-pakotteen."
 
-#: templates/admin.php:311
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "Sähköpostipalvelin"
 
-#: templates/admin.php:313
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr "Tätä käytetään ilmoitusten lähettämiseen."
 
-#: templates/admin.php:344
+#: templates/admin.php:359
 msgid "From address"
 msgstr "Lähettäjän osoite"
 
-#: templates/admin.php:366
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
-#: templates/admin.php:370
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Palvelimen osoite"
 
-#: templates/admin.php:374
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Portti"
 
-#: templates/admin.php:379
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Tilitiedot"
 
-#: templates/admin.php:380
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "SMTP-käyttäjätunnus"
 
-#: templates/admin.php:383
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "SMTP-salasana"
 
-#: templates/admin.php:387
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "Testaa sähköpostiasetukset"
 
-#: templates/admin.php:388
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "Lähetä sähköpostiviesti"
 
-#: templates/admin.php:393
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Loki"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Lokitaso"
 
-#: templates/admin.php:426
+#: templates/admin.php:441
 msgid "More"
 msgstr "Enemmän"
 
-#: templates/admin.php:427
+#: templates/admin.php:442
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -781,28 +817,32 @@ msgstr "Kieli"
 msgid "Help translate"
 msgstr "Auta kääntämisessä"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Salaussovellus ei ole enää käytössä, joten pura kaikkien tiedostojesi salaus"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Kirjautumissalasana"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Pura kaikkien tiedostojen salaus"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Palauta salausavaimet"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Poista salausavaimet"
 
 #: templates/users.php:19
 msgid "Login Name"

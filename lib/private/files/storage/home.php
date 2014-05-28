@@ -23,7 +23,7 @@ class Home extends Local {
 	protected $user;
 
 	/**
-	 * @brief Construct a Home storage instance
+	 * Construct a Home storage instance
 	 * @param array $arguments array with "user" containing the
 	 * storage owner and "legacy" containing "true" if the storage is
 	 * a legacy storage with "local::" URL instead of the new "home::" one.
@@ -57,7 +57,7 @@ class Home extends Local {
 	}
 
 	/**
-	 * @brief Returns the owner of this home storage
+	 * Returns the owner of this home storage
 	 * @return \OC\User\User owner of this home storage
 	 */
 	public function getUser() {

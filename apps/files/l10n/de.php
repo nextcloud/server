@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Hochladen fehlgeschlagen. Dateiinformationen konnten nicht abgerufen werden.",
 "Invalid directory." => "Ungültiges Verzeichnis.",
 "Files" => "Dateien",
+"All files" => "Alle Dateien",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist",
 "Total file size {size1} exceeds upload limit {size2}" => "Die Gesamt-Größe {size1} überschreitet die Upload-Begrenzung {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Nicht genügend freier Speicherplatz, du möchtest {size1} hochladen, es sind jedoch nur noch {size2} verfügbar.",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 bedeutet unbegrenzt",
 "Maximum input size for ZIP files" => "Maximale Größe für ZIP-Dateien",
 "Save" => "Speichern",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Verwenden Sie diese Adresse, um <a href=\"%s\" target=\"_blank\">via WebDAV auf Ihre Dateien zuzugreifen</a>",
 "New" => "Neu",
 "New text file" => "Neue Textdatei",
 "Text file" => "Textdatei",
 "New folder" => "Neuer Ordner",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
-"Deleted files" => "Gelöschte Dateien",
 "Cancel upload" => "Upload abbrechen",
 "You don’t have permission to upload or create files here" => "Du besitzt hier keine Berechtigung, um Dateien hochzuladen oder zu erstellen",
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
@@ -87,6 +89,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Der Upload ist zu groß",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
 "Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
-"Current scanning" => "Scanne"
+"Currently scanning" => "Durchsuchen läuft"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

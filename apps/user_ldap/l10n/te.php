@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Save" => "భద్రపరచు",
 "Help" => "సహాయం",
 "Password" => "సంకేతపదం",
-"Continue" => "కొనసాగించు"
+"Continue" => "కొనసాగించు",
+"Advanced" => "ఉన్నతం"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 znamená bez omezení",
 "Maximum input size for ZIP files" => "Maximální velikost vstupu pro ZIP soubory",
 "Save" => "Uložit",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Použijte <a href=\"%s\" target=\"_blank\">tuto adresu pro přístup k vašim souborům přes WebDAV</a>",
 "New" => "Nový",
 "New text file" => "Nový textový soubor",
 "Text file" => "Textový soubor",
 "New folder" => "Nová složka",
 "Folder" => "Složka",
 "From link" => "Z odkazu",
-"Deleted files" => "Odstraněné soubory",
 "Cancel upload" => "Zrušit odesílání",
 "You don’t have permission to upload or create files here" => "Nemáte oprávnění zde nahrávat či vytvářet soubory",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Smazat",
 "Upload too large" => "Odesílaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
-"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
-"Current scanning" => "Aktuální prohledávání"
+"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -162,7 +162,7 @@ class Helper {
 	}
 
 	/**
-	 * @brief Format a path to be relative to the /user/files/ directory
+	 * Format a path to be relative to the /user/files/ directory
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */
@@ -179,5 +179,27 @@ class Helper {
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
+	}
+
+	/**
+	 * check if file name already exists and generate unique target
+	 *
+	 * @param string $path
+	 * @param array $excludeList
+	 * @param \OC\Files\View $view
+	 * @return string $path
+	 */
+	public static function generateUniqueTarget($path, $excludeList, $view) {
+		$pathinfo = pathinfo($path);
+		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
+		$name = $pathinfo['filename'];
+		$dir = $pathinfo['dirname'];
+		$i = 2;
+		while ($view->file_exists($path) || in_array($path, $excludeList)) {
+			$path = \OC\Files\Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
+			$i++;
+		}
+
+		return $path;
 	}
 }

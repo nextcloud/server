@@ -65,13 +65,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 significa ilimitado",
 "Maximum input size for ZIP files" => "Tamaño máximo para archivos ZIP de entrada",
 "Save" => "Guardar",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Utilice esta dirección para <a href=\"%s\" target=\"_blank\">acceder a sus archivos vía WebDAV</a>",
 "New" => "Nuevo",
 "New text file" => "Nuevo archivo de texto",
 "Text file" => "Archivo de texto",
 "New folder" => "Nueva carpeta",
 "Folder" => "Carpeta",
 "From link" => "Desde enlace",
-"Deleted files" => "Archivos eliminados",
 "Cancel upload" => "Cancelar subida",
 "You don’t have permission to upload or create files here" => "No tienes permisos para subir o crear archivos aquí.",
 "Nothing in here. Upload something!" => "No hay nada aquí. ¡Suba algo!",
@@ -79,7 +80,6 @@ $TRANSLATIONS = array(
 "Delete" => "Eliminar",
 "Upload too large" => "Subida demasido grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
-"Files are being scanned, please wait." => "Los archivos están siendo escaneados,  por favor espere.",
-"Current scanning" => "Escaneo actual"
+"Files are being scanned, please wait." => "Los archivos están siendo escaneados,  por favor espere."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

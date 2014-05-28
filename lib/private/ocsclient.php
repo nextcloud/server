@@ -29,8 +29,8 @@
 class OC_OCSClient{
 
 	/**
-	 * @brief Get the url of the OCS AppStore server.
-	 * @returns string of the AppStore server
+	 * Get the url of the OCS AppStore server.
+	 * @return string of the AppStore server
 	 *
 	 * This function returns the url of the OCS AppStore server. It´s possible
 	 * to set it in the config file or it will fallback to the default
@@ -47,8 +47,8 @@ class OC_OCSClient{
 
 
 	/**
-	 * @brief Get the content of an OCS url call.
-	 * @returns string of the response
+	 * Get the content of an OCS url call.
+	 * @return string of the response
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
 	* @param string $url
 	*/
@@ -58,8 +58,8 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get all the categories from the OCS server
-	 * @returns array with category ids
+	 * Get all the categories from the OCS server
+	 * @return array an array of category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
@@ -91,11 +91,11 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get all the applications from the OCS server
-	 * @returns array with application data
+	 * Get all the applications from the OCS server
+	 * @return array an array of application data
 	 *
 	 * This function returns a list of all the applications on the OCS server
-	 * @param $categories
+	 * @param array|string $categories
 	 * @param int $page
 	 * @param string $filter
 	 */
@@ -148,9 +148,9 @@ class OC_OCSClient{
 
 
 	/**
-	 * @brief Get an the applications from the OCS server
+	 * Get an the applications from the OCS server
 	 * @param string $id
-	 * @returns array with application data
+	 * @return array an array of application data
 	 *
 	 * This function returns an  applications from the OCS server
 	 */
@@ -191,8 +191,8 @@ class OC_OCSClient{
 	}
 
 	/**
-	 * @brief Get the download url for an application from the OCS server
-	 * @returns array with application data
+	 * Get the download url for an application from the OCS server
+	 * @return array an array of application data
 	 *
 	 * This function returns an download url for an applications from the OCS server
 	 * @param string $id

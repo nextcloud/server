@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "O carregamento falhou. Não foi possível obter a informação do ficheiro.",
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
+"All files" => "Todos os ficheiros",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Incapaz de enviar {filename}, dado que é uma pasta, ou tem 0 bytes",
 "Total file size {size1} exceeds upload limit {size2}" => "O tamanho total do ficheiro {size1} excede o limite de carregamento {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 é ilimitado",
 "Maximum input size for ZIP files" => "Tamanho máximo para ficheiros ZIP",
 "Save" => "Guardar",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Utilize esta ligação para <a href=\"%s\" target=\"_blank\">aceder aos seus ficheiros via WebDAV</a>",
 "New" => "Novo",
 "New text file" => "Novo ficheiro de texto",
 "Text file" => "Ficheiro de texto",
 "New folder" => "Nova Pasta",
 "Folder" => "Pasta",
 "From link" => "Da ligação",
-"Deleted files" => "Ficheiros eliminados",
 "Cancel upload" => "Cancelar envio",
 "You don’t have permission to upload or create files here" => "Você não tem permissão para enviar ou criar ficheiros aqui",
 "Nothing in here. Upload something!" => "Vazio. Envie alguma coisa!",
@@ -86,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "Eliminar",
 "Upload too large" => "Upload muito grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor.",
-"Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde.",
-"Current scanning" => "Análise actual"
+"Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

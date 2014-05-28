@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-07 01:55-0400\n"
-"PO-Revision-Date: 2014-05-05 15:09+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2014-05-24 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:713
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "您正在访问来自不信任域名的服务器。"
 
-#: base.php:714
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -294,116 +294,127 @@ msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV�
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 向您分享了 »%s«"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "共享 %s 失败，因为文件不存在。"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr ""
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "共享 %s 失败，因为用户 %s 是对象的拥有者"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "共享 %s 失败，因为用户 %s 不存在"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "共享 %s 失败，因为用户 %s 不是 %s 所属的任何组的用户"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "共享 %s 失败，因为它已经共享给 %s"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "共享 %s 失败，因为 %s 组不存在"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "共享 %s 失败，因为 %s 不是 %s 组的成员"
 
-#: private/share/share.php:629
+#: private/share/share.php:621
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr ""
+
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "共享 %s 失败，因为不允许用链接共享"
 
-#: private/share/share.php:636
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "%s 不是 %s 的合法共享类型"
 
-#: private/share/share.php:773
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "设置 %s 权限失败，因为权限超出了 %s 已有权限。"
 
-#: private/share/share.php:834
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "设置 %s 的权限失败，因为未找到到对应项"
 
-#: private/share/share.php:940
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "共享后端 %s 必须实现 OCP\\Share_Backend 接口"
 
-#: private/share/share.php:947
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "未找到共享后端 %s"
 
-#: private/share/share.php:953
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "%s 的共享后端未找到"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "共享 %s 失败，因为用户 %s 不是原始共享者"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "共享 %s 失败，因为权限超过了 %s 已有权限"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "共享 %s 失败，因为不允许二次共享"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "共享 %s 失败，因为 %s 使用的共享后端未找到它的来源"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "共享 %s 失败，因为未在文件缓存中找到文件。"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "无法找到分类 \"%s\""

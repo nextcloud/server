@@ -33,7 +33,7 @@ class Http extends BaseHttp {
 	protected $headers;
 
 	/**
-	 * @param $_SERVER $server
+	 * @param array $server $_SERVER
 	 * @param string $protocolVersion the http version to use defaults to HTTP/1.1
 	 */
 	public function __construct($server, $protocolVersion='HTTP/1.1') {

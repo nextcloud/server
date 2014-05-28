@@ -39,10 +39,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief is user in group?
-	 * @param $uid uid of the user
-	 * @param $gid gid of the group
-	 * @returns true/false
+	 * is user in group?
+	 * @param string $uid uid of the user
+	 * @param string $gid gid of the group
+	 * @return bool
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
@@ -126,9 +126,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
-	 * @param $uid Name of the user
-	 * @returns array with group names
+	 * Get all groups a user belongs to
+	 * @param string $uid Name of the user
+	 * @return array with group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -177,8 +177,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		$allGroups = array();
 		if (array_key_exists($dn, $seen)) {
-		    // avoid loops
-		    return array();
+			// avoid loops
+			return array();
 		}
 		$seen[$dn] = true;
 		$filter = $this->access->combineFilterWithAnd(array(
@@ -204,8 +204,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all users in a group
-	 * @returns array with user ids
+	 * get a list of all users in a group
+	 * @return array with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
@@ -285,10 +285,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief returns the number of users in a group, who match the search term
-	 * @param string the internal group name
-	 * @param string optional, a search string
-	 * @returns int | bool
+	 * returns the number of users in a group, who match the search term
+	 * @param string $gid the internal group name
+	 * @param string $search optional, a search string
+	 * @return int|bool
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		$cachekey = 'countUsersInGroup-'.$gid.'-'.$search;
@@ -363,8 +363,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all groups
-	 * @returns array with group names
+	 * get a list of all groups
+	 * @return array with group names
 	 *
 	 * Returns a list with all groups (used by getGroups)
 	 */
@@ -402,8 +402,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @brief get a list of all groups using a paged search
-	 * @returns array with group names
+	 * get a list of all groups using a paged search
+	 * @return array with group names
 	 *
 	 * Returns a list with all groups
    	 * Uses a paged search if available to override a
@@ -480,9 +480,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	* @brief Check if backend implements actions
-	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	* Check if backend implements actions
+	* @param int $actions bitwise-or'ed actions
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.

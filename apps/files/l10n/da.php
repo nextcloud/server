@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 er ubegrænset",
 "Maximum input size for ZIP files" => "Maksimal størrelse på ZIP filer",
 "Save" => "Gem",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Brug denne adresse for at <a href=\"%s\" target=\"_blank\">tilgå dine filer via WebDAV</a>",
 "New" => "Ny",
 "New text file" => "Ny tekstfil",
 "Text file" => "Tekstfil",
 "New folder" => "Ny Mappe",
 "Folder" => "Mappe",
 "From link" => "Fra link",
-"Deleted files" => "Slettede filer",
 "Cancel upload" => "Fortryd upload",
 "You don’t have permission to upload or create files here" => "Du har ikke tilladelse til at uploade eller oprette filer her",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Slet",
 "Upload too large" => "Upload er for stor",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
-"Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
-"Current scanning" => "Indlæser"
+"Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

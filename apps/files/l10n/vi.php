@@ -63,13 +63,13 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 là không giới hạn",
 "Maximum input size for ZIP files" => "Kích thước tối đa cho các tập tin ZIP",
 "Save" => "Lưu",
+"WebDAV" => "WebDAV",
 "New" => "Tạo mới",
 "New text file" => "File text mới",
 "Text file" => "Tập tin văn bản",
 "New folder" => "Tạo thư mục",
 "Folder" => "Thư mục",
 "From link" => "Từ liên kết",
-"Deleted files" => "File đã bị xóa",
 "Cancel upload" => "Hủy upload",
 "You don’t have permission to upload or create files here" => "Bạn không có quyền upload hoặc tạo files ở đây",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "Delete" => "Xóa",
 "Upload too large" => "Tập tin tải lên quá lớn",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
-"Files are being scanned, please wait." => "Tập tin đang được quét ,vui lòng chờ.",
-"Current scanning" => "Hiện tại đang quét"
+"Files are being scanned, please wait." => "Tập tin đang được quét ,vui lòng chờ."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

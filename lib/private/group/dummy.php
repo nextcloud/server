@@ -27,11 +27,11 @@
 class OC_Group_Dummy extends OC_Group_Backend {
 	private $groups=array();
 	/**
-	 * @brief Try to create a new group
+	 * Try to create a new group
 	 * @param string $gid The name of the group to create
-	 * @returns true/false
+	 * @return bool
 	 *
-	 * Trys to create a new group. If the group name already exists, false will
+	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
 	public function createGroup($gid) {
@@ -44,9 +44,9 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief delete a group
-	 * @param $gid gid of the group to delete
-	 * @returns true/false
+	 * delete a group
+	 * @param string $gid gid of the group to delete
+	 * @return bool
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
@@ -60,10 +60,10 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief is user in group?
-	 * @param $uid uid of the user
-	 * @param $gid gid of the group
-	 * @returns true/false
+	 * is user in group?
+	 * @param string $uid uid of the user
+	 * @param string $gid gid of the group
+	 * @return bool
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
@@ -76,10 +76,10 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Add a user to a group
-	 * @param $uid Name of the user to add to group
-	 * @param $gid Name of the group in which add the user
-	 * @returns true/false
+	 * Add a user to a group
+	 * @param string $uid Name of the user to add to group
+	 * @param string $gid Name of the group in which add the user
+	 * @return bool
 	 *
 	 * Adds a user to a group.
 	 */
@@ -97,10 +97,10 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Removes a user from a group
-	 * @param $uid NameUSER of the user to remove from group
-	 * @param $gid Name of the group from which remove the user
-	 * @returns true/false
+	 * Removes a user from a group
+	 * @param string $uid Name of the user to remove from group
+	 * @param string $gid Name of the group from which remove the user
+	 * @return bool
 	 *
 	 * removes the user from a group.
 	 */
@@ -117,9 +117,9 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
-	 * @param $uid Name of the user
-	 * @returns array with group names
+	 * Get all groups a user belongs to
+	 * @param string $uid Name of the user
+	 * @return array an array of group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -136,18 +136,23 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get a list of all groups
-	 * @returns array with group names
-	 *
-	 * Returns a list with all groups
+	 * Get a list of all groups
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array an array of group names
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->groups);
 	}
 
 	/**
-	 * @brief get a list of all users in a group
-	 * @returns array with user ids
+	 * Get a list of all users in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array an array of user IDs
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {
@@ -158,8 +163,12 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get the number of all users in a group
-	 * @returns int | bool
+	 * get the number of all users in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return int
 	 */
 	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {

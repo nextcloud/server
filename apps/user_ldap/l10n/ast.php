@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "For anonymous access, leave DN and Password empty." => "Pa un accesu anónimu, dexar el DN y la contraseña baleros.",
 "users found" => "usuarios alcontraos",
 "Continue" => "Continuar",
+"Advanced" => "Avanzáu",
 "Connection Settings" => "Axustes de conexón",
 "Configuration Active" => "Configuración activa",
 "When unchecked, this configuration will be skipped." => "Cuando nun tea conseñáu, saltaráse esta configuración.",

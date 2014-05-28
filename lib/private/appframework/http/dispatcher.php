@@ -126,11 +126,11 @@ class Dispatcher {
 		// valid types that will be casted
 		$types = array('int', 'integer', 'bool', 'boolean', 'float');
 
-		foreach($this->reflector->getParameters() as $param) {
+		foreach($this->reflector->getParameters() as $param => $default) {
 
 			// try to get the parameter from the request object and cast
 			// it to the type annotated in the @param annotation
-			$value = $this->request->getParam($param);
+			$value = $this->request->getParam($param, $default);
 			$type = $this->reflector->getType($param);
 			
 			// if this is submitted using GET or a POST form, 'false' should be 

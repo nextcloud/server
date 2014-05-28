@@ -69,6 +69,8 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	  * even if there are no HTTP Basic Auth headers.
 	  * In other case, just fallback to the parent implementation.
 	  *
+	  * @param Sabre_DAV_Server $server
+	  * @param $realm
 	  * @return bool
 	  */
 	public function authenticate(Sabre_DAV_Server $server, $realm) {

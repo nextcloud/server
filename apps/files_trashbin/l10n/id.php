@@ -3,11 +3,10 @@ $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Tidak dapat menghapus permanen %s",
 "Couldn't restore %s" => "Tidak dapat memulihkan %s",
 "Deleted files" => "Berkas yang dihapus",
+"Restore" => "Pulihkan",
 "Error" => "Galat",
-"Deleted Files" => "Berkas yang Dihapus",
 "Nothing in here. Your trash bin is empty!" => "Tempat sampah anda kosong!",
 "Name" => "Nama",
-"Restore" => "Pulihkan",
 "Deleted" => "Dihapus",
 "Delete" => "Hapus"
 );

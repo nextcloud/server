@@ -68,8 +68,8 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Get all users using the preferences
-	 * @return array with user ids
+	 * Get all users using the preferences
+	 * @return array an array of user ids
 	 *
 	 * This function returns a list of all users that have at least one entry
 	 * in the preferences table.
@@ -109,7 +109,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Get all apps of an user
+	 * Get all apps of an user
 	 * @param string $user user
 	 * @return integer[] with app ids
 	 *
@@ -122,10 +122,10 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Get the available keys for an app
+	 * Get the available keys for an app
 	 * @param string $user user
 	 * @param string $app the app we are looking for
-	 * @return array with key names
+	 * @return array an array of key names
 	 *
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
@@ -140,7 +140,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Gets the preference
+	 * Gets the preference
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -160,7 +160,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief sets a value in the preferences
+	 * sets a value in the preferences
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -206,7 +206,44 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Deletes a key
+	 * Gets the preference for an array of users
+	 * @param string $app
+	 * @param string $key
+	 * @param array $users
+	 * @return array Mapped values: userid => value
+	 */
+	public function getValueForUsers($app, $key, $users) {
+		if (empty($users) || !is_array($users)) {
+			return array();
+		}
+
+		$chunked_users = array_chunk($users, 50, true);
+		$placeholders_50 = implode(',', array_fill(0, 50, '?'));
+
+		$userValues = array();
+		foreach ($chunked_users as $chunk) {
+			$queryParams = $chunk;
+			array_unshift($queryParams, $key);
+			array_unshift($queryParams, $app);
+
+			$placeholders = (sizeof($chunk) == 50) ? $placeholders_50 : implode(',', array_fill(0, sizeof($chunk), '?'));
+
+			$query = 'SELECT `userid`, `configvalue` '
+				. ' FROM `*PREFIX*preferences` '
+				. ' WHERE `appid` = ? AND `configkey` = ?'
+				. ' AND `userid` IN (' . $placeholders . ')';
+			$result = $this->conn->executeQuery($query, $queryParams);
+
+			while ($row = $result->fetch()) {
+				$userValues[$row['userid']] = $row['configvalue'];
+			}
+		}
+
+		return $userValues;
+	}
+
+	/**
+	 * Deletes a key
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
@@ -227,7 +264,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Remove app of user from preferences
+	 * Remove app of user from preferences
 	 * @param string $user user
 	 * @param string $app app
 	 *
@@ -246,7 +283,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Remove user from preferences
+	 * Remove user from preferences
 	 * @param string $user user
 	 *
 	 * Removes all keys in preferences belonging to the user.
@@ -261,7 +298,7 @@ class Preferences {
 	}
 
 	/**
-	 * @brief Remove app from all users
+	 * Remove app from all users
 	 * @param string $app app
 	 *
 	 * Removes all keys in preferences belonging to the app.

@@ -4,11 +4,13 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
+$sortAttribute = isset( $_GET['sort'] ) ? $_GET['sort'] : 'name';
+$sortDirection = isset( $_GET['sortdirection'] ) ? ($_GET['sortdirection'] === 'desc') : false;
 $data = array();
 
 // make filelist
 try {
-	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir);
+	$files = \OCA\Files_Trashbin\Helper::getTrashFiles($dir, $sortAttribute, $sortDirection);
 } catch (Exception $e) {
 	header("HTTP/1.0 404 Not Found");
 	exit();

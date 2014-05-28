@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "০ এর অর্থ অসীম",
 "Maximum input size for ZIP files" => "ZIP ফাইলের ইনপুটের সর্বোচ্চ আকার",
 "Save" => "সংরক্ষণ",
+"WebDAV" => "WebDAV",
 "New" => "নতুন",
 "Text file" => "টেক্সট ফাইল",
 "Folder" => "ফোল্ডার",
@@ -45,7 +46,6 @@ $TRANSLATIONS = array(
 "Delete" => "মুছে",
 "Upload too large" => "আপলোডের আকারটি অনেক বড়",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন ",
-"Files are being scanned, please wait." => "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।",
-"Current scanning" => "বর্তমান স্ক্যানিং"
+"Files are being scanned, please wait." => "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

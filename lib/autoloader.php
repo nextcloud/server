@@ -147,7 +147,7 @@ class Autoloader {
 	}
 
 	/**
-	 * @brief Sets the optional low-latency cache for class to path mapping.
+	 * Sets the optional low-latency cache for class to path mapping.
 	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
 	 */
 	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {

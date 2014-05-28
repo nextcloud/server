@@ -31,12 +31,12 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * @brief Creates an url using a defined route
-	 * @param $route
+	 * Creates an url using a defined route
+	 * @param string $route
 	 * @param array $parameters
 	 * @return
 	 * @internal param array $args with param=>value, will be appended to the returned url
-	 * @returns string the url
+	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -45,7 +45,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates an url
+	 * Creates an url
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
@@ -68,7 +68,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates an absolute url
+	 * Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
@@ -84,7 +84,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Makes an $url absolute
+	 * Makes an $url absolute
 	 * @param string $url the url
 	 * @return string the absolute url
 	 *
@@ -95,7 +95,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates an url for remote use
+	 * Creates an url for remote use
 	 * @param string $service id
 	 * @return string the url
 	 *
@@ -106,7 +106,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates an absolute url for remote use
+	 * Creates an absolute url for remote use
 	 * @param string $service id
 	 * @param bool $add_slash
 	 * @return string the url
@@ -121,7 +121,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates an absolute url for public use
+	 * Creates an absolute url for public use
 	 * @param string $service id
 	 * @param bool $add_slash
 	 * @return string the url
@@ -138,7 +138,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Creates path to an image
+	 * Creates path to an image
 	 * @param string $app app
 	 * @param string $image image name
 	 * @return string the url
@@ -150,7 +150,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief get path to icon of file type
+	 * get path to icon of file type
 	 * @param string $mimetype mimetype
 	 * @return string the url
 	 *
@@ -264,7 +264,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief get path to preview of file
+	 * get path to preview of file
 	 * @param string $path path
 	 * @return string the url
 	 *
@@ -279,7 +279,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Make a human file size
+	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
 	 *
@@ -314,7 +314,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Make a php file size
+	 * Make a php file size
 	 * @param int $bytes file size in bytes
 	 * @return string a php parseable file size
 	 *
@@ -340,7 +340,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Make a computer file size
+	 * Make a computer file size
 	 * @param string $str file size in human readable format
 	 * @return int a file size in bytes
 	 *
@@ -377,7 +377,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recursive copying of folders
+	 * Recursive copying of folders
 	 * @param string $src source folder
 	 * @param string $dest target folder
 	 *
@@ -399,7 +399,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recursive deletion of folders
+	 * Recursive deletion of folders
 	 * @param string $dir path to the folder
 	 * @return bool
 	 */
@@ -407,7 +407,7 @@ class OC_Helper {
 		if (is_dir($dir)) {
 			$files = scandir($dir);
 			foreach ($files as $file) {
-				if ($file != "." && $file != "..") {
+				if ($file !== '' && $file !== "." && $file !== "..") {
 					self::rmdirr("$dir/$file");
 				}
 			}
@@ -485,7 +485,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
+	 * Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
 	 * @param string $s name of the var to escape, if set.
 	 * @param string $d default value.
 	 * @return string the print-safe value.
@@ -495,7 +495,7 @@ class OC_Helper {
 	/**
 	 * detect if a given program is found in the search PATH
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @param bool $path
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
@@ -670,8 +670,8 @@ class OC_Helper {
 	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
-	 * @param $path
-	 * @param $filename
+	 * @param string $path
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileName($path, $filename) {
@@ -682,8 +682,8 @@ class OC_Helper {
 	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
-	 * @param $path
-	 * @param $filename
+	 * @param string $path
+	 * @param string $filename
 	 * @return string
 	 */
 	public static function buildNotExistingFileNameForView($path, $filename, \OC\Files\View $view) {
@@ -726,7 +726,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Checks if $sub is a subdirectory of $parent
+	 * Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
@@ -752,7 +752,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	 *
 	 * @param array $input The array to work on
 	 * @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
@@ -773,9 +773,9 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	 * replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
 	 *
-	 * @param $string
+	 * @param string $string
 	 * @param string $replacement The replacement string.
 	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
 	 * @param int $length Length of the part to be replaced
@@ -794,7 +794,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Replace all occurrences of the search string with the replacement string
+	 * Replace all occurrences of the search string with the replacement string
 	 *
 	 * @param string $search The value being searched for, otherwise known as the needle.
 	 * @param string $replace The replacement
@@ -816,7 +816,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief performs a search in a nested array
+	 * performs a search in a nested array
 	 * @param array $haystack the array to be searched
 	 * @param string $needle the search string
 	 * @param string $index optional, only search this key name
@@ -858,7 +858,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
 	 * @param int $freeSpace the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
@@ -873,7 +873,7 @@ class OC_Helper {
 
 	/**
 	 * Calculate free space left within user quota
-	 * 
+	 *
 	 * @param string $dir the current folder where the user currently operates
 	 * @return int number of bytes representing
 	 */

@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Upload failed. Could not get file info.",
 "Invalid directory." => "Invalid directory.",
 "Files" => "Files",
+"All files" => "All files",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Unable to upload {filename} as it is a directory or has 0 bytes",
 "Total file size {size1} exceeds upload limit {size2}" => "Total file size {size1} exceeds upload limit {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Not enough free space, you are uploading {size1} but only {size2} is left",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 is unlimited",
 "Maximum input size for ZIP files" => "Maximum input size for ZIP files",
 "Save" => "Save",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>",
 "New" => "New",
 "New text file" => "New text file",
 "Text file" => "Text file",
 "New folder" => "New folder",
 "Folder" => "Folder",
 "From link" => "From link",
-"Deleted files" => "Deleted files",
 "Cancel upload" => "Cancel upload",
 "You don’t have permission to upload or create files here" => "You don’t have permission to upload or create files here",
 "Nothing in here. Upload something!" => "Nothing in here. Upload something!",
@@ -87,6 +89,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Upload too large",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "The files you are trying to upload exceed the maximum size for file uploads on this server.",
 "Files are being scanned, please wait." => "Files are being scanned, please wait.",
-"Current scanning" => "Currently scanning"
+"Currently scanning" => "Currently scanning"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

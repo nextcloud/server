@@ -58,12 +58,12 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 signifas senlime",
 "Maximum input size for ZIP files" => "Maksimuma enirgrando por ZIP-dosieroj",
 "Save" => "Konservi",
+"WebDAV" => "WebDAV",
 "New" => "Nova",
 "Text file" => "Tekstodosiero",
 "New folder" => "Nova dosierujo",
 "Folder" => "Dosierujo",
 "From link" => "El ligilo",
-"Deleted files" => "Forigitaj dosieroj",
 "Cancel upload" => "Nuligi alŝuton",
 "You don’t have permission to upload or create files here" => "Vi ne havas permeson alŝuti aŭ krei dosierojn ĉi tie",
 "Nothing in here. Upload something!" => "Nenio estas ĉi tie. Alŝutu ion!",
@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "Delete" => "Forigi",
 "Upload too large" => "Alŝuto tro larĝa",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
-"Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi.",
-"Current scanning" => "Nuna skano"
+"Files are being scanned, please wait." => "Dosieroj estas skanataj, bonvolu atendi."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

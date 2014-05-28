@@ -19,7 +19,7 @@ class TemplateManager {
 	 * get the path of the template for a mimetype
 	 *
 	 * @param string $mimetype
-	 * @return string | null
+	 * @return string|null
 	 */
 	public function getTemplatePath($mimetype) {
 		if (isset($this->templates[$mimetype])) {

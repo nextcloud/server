@@ -10,7 +10,7 @@ class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkTo URL construction
+	 * test linkTo URL construction
 	 * @dataProvider provideDocRootAppUrlParts
 	 */
 	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
@@ -24,7 +24,7 @@ class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test linkTo URL construction in sub directory
+	 * test linkTo URL construction in sub directory
 	 * @dataProvider provideSubDirAppUrlParts
 	 */
 	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
@@ -54,7 +54,7 @@ class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test absolute URL construction
+	 * test absolute URL construction
 	 * @dataProvider provideDocRootURLs
 	 */
 	function testGetAbsoluteURLDocRoot($url, $expectedResult) {
@@ -68,7 +68,7 @@ class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @small
-	 * @brief test absolute URL construction
+	 * test absolute URL construction
 	 * @dataProvider provideSubDirURLs
 	 */
 	function testGetAbsoluteURLSubDir($url, $expectedResult) {

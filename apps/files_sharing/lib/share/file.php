@@ -54,7 +54,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief create unique target
+	 * create unique target
 	 * @param string $filePath
 	 * @param string $shareWith
 	 * @param string $exclude
@@ -75,16 +75,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$excludeList = array_merge($excludeList, $exclude);
 		}
 
-		$pathinfo = pathinfo($target);
-		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
-		$name = $pathinfo['filename'];
-		$i = 2;
-		while ($view->file_exists($target) || in_array($target, $excludeList)) {
-			$target = '/' . $name . ' ('.$i.')' . $ext;
-			$i++;
-		}
-
-		return $target;
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
@@ -154,7 +145,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief resolve reshares to return the correct source item
+	 * resolve reshares to return the correct source item
 	 * @param array $source
 	 * @return array source item
 	 */

@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "암호화 앱이 초기화되지 않았습니다! 암호화 앱이 다시 활성화된 것 같습니다. 암호화 앱을 초기화하려면 로그아웃했다 다시 로그인하십시오.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "개인 키가 올바르지 않습니다! 암호가 %s(예: 회사 디렉터리) 외부에서 변경된 것 같습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 수정하십시오.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "이 파일을 복호화할 수 없습니다. 공유된 파일일 수도 있습니다. 파일 소유자에게 공유를 다시 요청하십시오.",
-"Unknown error please check your system settings or contact your administrator" => "알 수 없는 오류. 시스템 설정을 확인하거나 관리자에게 문의하십시오.",
 "Missing requirements." => "요구 사항이 부족합니다.",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "PHP 5.3.3 이상 설치 여부, PHP의 OpenSSL 확장 기능 활성화 및 설정 여부를 확인하십시오. 암호화 앱이 비활성화 되었습니다.",
 "Following users are not set up for encryption:" => "다음 사용자는 암호화를 사용할 수 없습니다:",

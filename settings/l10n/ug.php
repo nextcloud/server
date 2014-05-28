@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "Cancel" => "ۋاز كەچ",
 "Language" => "تىل",
 "Help translate" => "تەرجىمىگە ياردەم",
-"WebDAV" => "WebDAV",
 "Login Name" => "تىزىمغا كىرىش ئاتى",
 "Create" => "قۇر",
 "Default Storage" => "كۆڭۈلدىكى ساقلىغۇچ",

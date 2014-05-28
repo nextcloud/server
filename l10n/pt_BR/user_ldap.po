@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,6 +72,10 @@ msgstr "Tomar parámetros de recente configuração de servidor?"
 msgid "Keep settings?"
 msgstr "Manter ajustes?"
 
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr "{nbServer}. Servidor"
+
 #: js/settings.js:99
 msgid "Cannot add server configuration"
 msgstr "Impossível adicionar a configuração do servidor"
@@ -87,6 +91,18 @@ msgstr "Sucesso"
 #: js/settings.js:133
 msgid "Error"
 msgstr "Erro"
+
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -128,27 +144,43 @@ msgstr "Você quer realmente deletar as atuais Configurações de Servidor?"
 msgid "Confirm Deletion"
 msgstr "Confirmar Exclusão"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "grupo% s encontrado"
 msgstr[1] "grupos% s encontrado"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "usuário %s encontrado"
 msgstr[1] "usuários %s encontrados"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Host inválido"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Não foi possível encontrar a função desejada"
+
+#: settings.php:52
+msgid "Server"
+msgstr "Servidor"
+
+#: settings.php:53
+msgid "User Filter"
+msgstr "Filtro de Usuário"
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr "Filtro de Login"
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr "Filtro de Grupo"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -222,9 +254,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Define o filtro a ser aplicado, o login é feito. %%uid substitui o nome do usuário na ação de login. Exemplo: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr "1. Servidor"
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr "%s. Servidor:"
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "Adicionar Configuração de Servidor"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr "Excluir Configuração"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -288,6 +333,14 @@ msgstr "Voltar"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Continuar"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr "Especialista"
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr "Avançado"
 
 #: templates/settings.php:11
 msgid ""

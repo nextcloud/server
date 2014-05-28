@@ -119,7 +119,7 @@ class API implements IApi{
 	}
 
 	/**
-	 * @brief connects a function to a hook
+	 * connects a function to a hook
 	 * @param string $signalClass class name of emitter
 	 * @param string $signalName name of signal
 	 * @param string $slotClass class name of slot
@@ -133,10 +133,10 @@ class API implements IApi{
 	}
 
 	/**
-	 * @brief Emits a signal. To get data from the slot use references!
+	 * Emits a signal. To get data from the slot use references!
 	 * @param string $signalClass class name of emitter
 	 * @param string $signalName name of signal
-	 * @param array $params defautl: array() array with additional data
+	 * @param array $params default: array() array with additional data
 	 * @return bool, true if slots exists or false if not
 	 */
 	public function emitHook($signalClass, $signalName, $params = array()) {
@@ -144,7 +144,7 @@ class API implements IApi{
 	}
 
 	/**
-	 * @brief clear hooks
+	 * clear hooks
 	 * @param string $signalClass
 	 * @param string $signalName
 	 */

@@ -8,7 +8,7 @@ class OC_Hook{
 	static private $registered = array();
 
 	/**
-	 * @brief connects a function to a hook
+	 * connects a function to a hook
 	 * @param string $signalclass class name of emitter
 	 * @param string $signalname name of signal
 	 * @param string $slotclass class name of slot
@@ -42,10 +42,10 @@ class OC_Hook{
 	}
 
 	/**
-	 * @brief emits a signal
+	 * emits a signal
 	 * @param string $signalclass class name of emitter
 	 * @param string $signalname name of signal
-	 * @param array $params defautl: array() array with additional data
+	 * @param mixed $params default: array() array with additional data
 	 * @return bool, true if slots exists or false if not
 	 *
 	 * Emits a signal. To get data from the slot use references!

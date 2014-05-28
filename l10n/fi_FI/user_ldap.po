@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +24,11 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Palvelinmäärityksen poistaminen epäonnistui"
 
 #: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Määritys on kelvollinen ja yhteys kyettiin muodostamaan!"
 
 #: ajax/testConfiguration.php:42
 msgid ""
@@ -70,6 +71,10 @@ msgstr ""
 msgid "Keep settings?"
 msgstr "Säilytetäänkö asetukset?"
 
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
+
 #: js/settings.js:99
 msgid "Cannot add server configuration"
 msgstr "Palvelinasetusten lisäys epäonnistui"
@@ -86,17 +91,29 @@ msgstr "Onnistui!"
 msgid "Error"
 msgstr "Virhe"
 
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
+
 #: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "Määritykset OK"
 
 #: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Määritykset väärin"
 
 #: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Määritykset puutteelliset"
 
 #: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
@@ -120,33 +137,49 @@ msgstr "Yhteystesti epäonnistui"
 
 #: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Haluatko varmasti poistaa nykyisen palvelinmäärityksen?"
 
 #: js/settings.js:865
 msgid "Confirm Deletion"
 msgstr "Vahvista poisto"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s ryhmä löytynyt"
+msgstr[1] "%s ryhmää löytynyt"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s käyttäjä löytynyt"
+msgstr[1] "%s käyttäjää löytynyt"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr ""
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr ""
+
+#: settings.php:52
+msgid "Server"
+msgstr "Palvelin"
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr "Ryhmien suodatus"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -154,7 +187,7 @@ msgstr "Tallenna"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
-msgstr ""
+msgstr "Testaa määritys"
 
 #: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
@@ -195,7 +228,7 @@ msgstr ""
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "ryhmää löytynyt"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
@@ -203,11 +236,11 @@ msgstr ""
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP-käyttäjätunnus:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP-sähköpostiosoite:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
@@ -220,8 +253,21 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr "1. Palvelin"
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr "%s. Palvelin:"
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
+msgstr "Lisää palvelinmääritys"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
 msgstr ""
 
 #: templates/part.wizard-server.php:30
@@ -277,7 +323,7 @@ msgstr ""
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "käyttäjää löytynyt"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -286,6 +332,14 @@ msgstr "Takaisin"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Jatka"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr "Lisäasetukset"
 
 #: templates/settings.php:11
 msgid ""
@@ -324,7 +378,7 @@ msgstr ""
 
 #: templates/settings.php:24
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Varmuuskopioinnin (replikoinnin) portti"
 
 #: templates/settings.php:25
 msgid "Disable Main Server"
@@ -332,11 +386,11 @@ msgstr "Poista pääpalvelin käytöstä"
 
 #: templates/settings.php:25
 msgid "Only connect to the replica server."
-msgstr ""
+msgstr "Yhdistä vain replikointipalvelimeen."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Kirjainkoosta piittamaton LDAP-palvelin (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

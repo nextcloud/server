@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Delete" => "මකා දමන්න",
 "Upload too large" => "උඩුගත කිරීම විශාල වැඩිය",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
-"Files are being scanned, please wait." => "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න",
-"Current scanning" => "වර්තමාන පරික්ෂාව"
+"Files are being scanned, please wait." => "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

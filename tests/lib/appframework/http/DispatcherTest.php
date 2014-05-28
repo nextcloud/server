@@ -40,11 +40,11 @@ class TestController extends Controller {
 	 * @param int $int
 	 * @param bool $bool
 	 */
-	public function exec($int, $bool) {
+	public function exec($int, $bool, $test=4, $test2=1) {
 		$this->registerResponder('text', function($in) {
 			return new JSONResponse(array('text' => $in));
 		});
-		return array($int, $bool);
+		return array($int, $bool, $test, $test2);
 	}
 }
 
@@ -262,6 +262,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			}));
 	}
 
+
 	public function testControllerParametersInjected() {
 		$this->request = new Request(array(
 			'post' => array(
@@ -280,8 +281,32 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true]', $response[2]);
+		$this->assertEquals('[3,true,4,1]', $response[2]);
 	}
+
+
+	public function testControllerParametersInjectedDefaultOverwritten() {
+		$this->request = new Request(array(
+			'post' => array(
+				'int' => '3',
+				'bool' => 'false',
+				'test2' => 7
+			),
+			'method' => 'POST'
+		));
+		$this->dispatcher = new Dispatcher(
+			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->request
+		);
+		$controller = new TestController('app', $this->request);
+
+		// reflector is supposed to be called once
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'exec');
+
+		$this->assertEquals('[3,true,4,7]', $response[2]);
+	}
+
 
 
 	public function testResponseTransformedByUrlFormat() {
@@ -305,7 +330,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,false]}', $response[2]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
 	}
 
 
@@ -331,7 +356,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,false]}', $response[2]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
 	}
 
 
@@ -359,7 +384,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,true]}', $response[2]);
+		$this->assertEquals('{"text":[3,true,4,1]}', $response[2]);
 	}
+
+
+
 
 }

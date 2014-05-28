@@ -71,13 +71,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 znamená neobmedzené",
 "Maximum input size for ZIP files" => "Najväčšia veľkosť ZIP súborov",
 "Save" => "Uložiť",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Použite túto linku <a href=\"%s\" target=\"_blank\">pre prístup k vašim súborom cez WebDAV</a>",
 "New" => "Nový",
 "New text file" => "Nový textový súbor",
 "Text file" => "Textový súbor",
 "New folder" => "Nový priečinok",
 "Folder" => "Priečinok",
 "From link" => "Z odkazu",
-"Deleted files" => "Zmazané súbory",
 "Cancel upload" => "Zrušiť odosielanie",
 "You don’t have permission to upload or create files here" => "Nemáte oprávnenie sem nahrávať alebo vytvoriť súbory",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
@@ -85,7 +86,6 @@ $TRANSLATIONS = array(
 "Delete" => "Zmazať",
 "Upload too large" => "Nahrávanie je príliš veľké",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
-"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
-"Current scanning" => "Práve prezerané"
+"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

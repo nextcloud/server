@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "Email 已寄出"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "在準備要寄出測試郵件時您需要設定您的使用者郵件。"
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "寄送模式"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "驗證方式"
 
@@ -100,6 +100,16 @@ msgstr "無法解密您的檔案，請檢查您的 owncloud.log 或是詢問您�
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "無法解密您的檔案，確認您的密碼並再重試一次"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email已儲存"
@@ -115,6 +125,16 @@ msgstr "群組刪除錯誤"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "使用者刪除錯誤"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -171,7 +191,7 @@ msgstr "後端不支援變更密碼，但成功更新使用者的加密金鑰"
 msgid "Unable to change password"
 msgstr "無法修改密碼"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "寄送中..."
 
@@ -227,33 +247,41 @@ msgstr "更新"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "選擇大頭貼"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "非常弱的密碼"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "弱的密碼"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "普通的密碼"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "好的密碼"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "很強的密碼"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "檔案解密中，請稍候。"
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -267,8 +295,8 @@ msgstr "復原"
 msgid "Unable to remove user"
 msgstr "無法刪除用戶"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "群組"
 
@@ -300,7 +328,7 @@ msgstr "一定要提供一個有效的密碼"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：使用者 {user} 的家目錄已經存在"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -488,148 +516,156 @@ msgstr "允許 apps 使用分享 API"
 msgid "Allow links"
 msgstr "允許連結"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "允許使用者以結連公開分享檔案"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "允許任何人上傳"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "允許使用者將他們公開分享的資料夾設定為「任何人皆可上傳」"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "允許轉貼分享"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "允許使用者分享其他使用者分享給他的檔案"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "允許使用者與任何人分享檔案"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "僅允許使用者在群組內分享"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "允許郵件通知"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "允許使用者寄送有關分享檔案的郵件通知"
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "允許使用者以結連公開分享檔案"
+
+#: templates/admin.php:249
+msgid "Allow resharing"
+msgstr "允許轉貼分享"
+
+#: templates/admin.php:250
+msgid "Allow users to share items shared with them again"
+msgstr "允許使用者分享其他使用者分享給他的檔案"
+
+#: templates/admin.php:257
+msgid "Allow users to share with anyone"
+msgstr "允許使用者與任何人分享檔案"
+
+#: templates/admin.php:260
+msgid "Allow users to only share with users in their groups"
+msgstr "僅允許使用者在群組內分享"
+
+#: templates/admin.php:267
+msgid "Allow mail notification"
+msgstr "允許郵件通知"
+
+#: templates/admin.php:268
+msgid "Allow users to send mail notification for shared files"
+msgstr "允許使用者寄送有關分享檔案的郵件通知"
+
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:291
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "強迫用戶端使用加密連線連接到 %s"
 
-#: templates/admin.php:299
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。"
 
-#: templates/admin.php:311
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "郵件伺服器"
 
-#: templates/admin.php:313
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr "這是使用於寄送通知。"
 
-#: templates/admin.php:344
+#: templates/admin.php:359
 msgid "From address"
 msgstr "寄件地址"
 
-#: templates/admin.php:366
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "必須驗證"
 
-#: templates/admin.php:370
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "伺服器位址"
 
-#: templates/admin.php:374
+#: templates/admin.php:389
 msgid "Port"
 msgstr "連接埠"
 
-#: templates/admin.php:379
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "認證"
 
-#: templates/admin.php:380
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "SMTP 帳號"
 
-#: templates/admin.php:383
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "SMTP 密碼"
 
-#: templates/admin.php:387
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "測試郵件設定"
 
-#: templates/admin.php:388
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "寄送郵件"
 
-#: templates/admin.php:393
+#: templates/admin.php:408
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:426
+#: templates/admin.php:441
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:427
+#: templates/admin.php:442
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -782,28 +818,32 @@ msgstr "語言"
 msgid "Help translate"
 msgstr "幫助翻譯"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存取檔案</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "加密的軟體不能長時間啟用，請解密所有您的檔案"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "登入密碼"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "解密所有檔案"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

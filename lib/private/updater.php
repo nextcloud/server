@@ -35,7 +35,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * Check if a new version is available
 	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
-	 * @return array | bool
+	 * @return array|bool
 	 */
 	public function check($updaterUrl) {
 

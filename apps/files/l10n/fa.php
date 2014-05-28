@@ -43,19 +43,19 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 نامحدود است",
 "Maximum input size for ZIP files" => "حداکثرمقدار برای بار گزاری پرونده های فشرده",
 "Save" => "ذخیره",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "از این آدرس استفاده کنید تا <a href=\"%s\" target=\"_blank\">بتوانید به فایل‌های خود توسط WebDAV دسترسی پیدا کنید</a>",
 "New" => "جدید",
 "Text file" => "فایل متنی",
 "New folder" => "پوشه جدید",
 "Folder" => "پوشه",
 "From link" => "از پیوند",
-"Deleted files" => "فایل های حذف شده",
 "Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "دانلود",
 "Delete" => "حذف",
 "Upload too large" => "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
-"Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید",
-"Current scanning" => "بازرسی کنونی"
+"Files are being scanned, please wait." => "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

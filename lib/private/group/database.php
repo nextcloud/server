@@ -43,7 +43,7 @@
 class OC_Group_Database extends OC_Group_Backend {
 
 	/**
-	 * @brief Try to create a new group
+	 * Try to create a new group
 	 * @param string $gid The name of the group to create
 	 * @return bool
 	 *
@@ -69,7 +69,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief delete a group
+	 * delete a group
 	 * @param string $gid gid of the group to delete
 	 * @return bool
 	 *
@@ -88,7 +88,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief is user in group?
+	 * is user in group?
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -104,7 +104,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Add a user to a group
+	 * Add a user to a group
 	 * @param string $uid Name of the user to add to group
 	 * @param string $gid Name of the group in which add the user
 	 * @return bool
@@ -123,7 +123,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Removes a user from a group
+	 * Removes a user from a group
 	 * @param string $uid Name of the user to remove from group
 	 * @param string $gid Name of the group from which remove the user
 	 * @return bool
@@ -138,9 +138,9 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief Get all groups a user belongs to
+	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -159,11 +159,11 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get a list of all groups
+	 * get a list of all groups
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with group names
+	 * @return array an array of group names
 	 *
 	 * Returns a list with all groups
 	 */
@@ -192,12 +192,12 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get a list of all users in a group
+	 * get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array with user ids
+	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
 		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?',
@@ -212,12 +212,11 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
-	 * @brief get the number of all users matching the search string in a group
+	 * get the number of all users matching the search string in a group
 	 * @param string $gid
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return int | false
+	 * @return int|false
+	 * @throws DatabaseException
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');

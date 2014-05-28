@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 er ótakmarkað",
 "Maximum input size for ZIP files" => "Hámarks inntaksstærð fyrir ZIP skrár",
 "Save" => "Vista",
+"WebDAV" => "WebDAV",
 "New" => "Nýtt",
 "Text file" => "Texta skrá",
 "Folder" => "Mappa",
@@ -45,7 +46,6 @@ $TRANSLATIONS = array(
 "Delete" => "Eyða",
 "Upload too large" => "Innsend skrá er of stór",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
-"Files are being scanned, please wait." => "Verið er að skima skrár, vinsamlegast hinkraðu.",
-"Current scanning" => "Er að skima"
+"Files are being scanned, please wait." => "Verið er að skima skrár, vinsamlegast hinkraðu."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

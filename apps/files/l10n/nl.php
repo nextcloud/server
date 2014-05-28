@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Upload mislukt, Kon geen bestandsinfo krijgen.",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
+"All files" => "Alle bestanden",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Kan {filename} niet uploaden omdat het een map is of 0 bytes groot is",
 "Total file size {size1} exceeds upload limit {size2}" => "Totale bestandsgrootte {size1} groter dan uploadlimiet {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Niet genoeg vrije ruimte. U upload {size1}, maar is is slechts {size2} beschikbaar",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 is ongelimiteerd",
 "Maximum input size for ZIP files" => "Maximale grootte voor ZIP bestanden",
 "Save" => "Bewaren",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Gebruik deze link <a href=\"%s\" target=\"_blank\">om uw bestanden via WebDAV te benaderen</a>",
 "New" => "Nieuw",
 "New text file" => "Nieuw tekstbestand",
 "Text file" => "Tekstbestand",
 "New folder" => "Nieuwe map",
 "Folder" => "Map",
 "From link" => "Vanaf link",
-"Deleted files" => "Verwijderde bestanden",
 "Cancel upload" => "Upload afbreken",
 "You don’t have permission to upload or create files here" => "U hebt geen toestemming om hier te uploaden of bestanden te maken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
@@ -86,7 +88,6 @@ $TRANSLATIONS = array(
 "Delete" => "Verwijder",
 "Upload too large" => "Upload is te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
-"Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
-"Current scanning" => "Er wordt gescand"
+"Files are being scanned, please wait." => "Bestanden worden gescand, even wachten."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

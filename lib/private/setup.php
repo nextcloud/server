@@ -152,7 +152,7 @@ class OC_Setup {
 	}
 
 	/**
-	 * @brief Post installation checks
+	 * Post installation checks
 	 */
 	public static function postSetupCheck($params) {
 		// setup was successful -> webdav testing now

@@ -4,8 +4,8 @@
 	<name>Share Files</name>
 	<description>File sharing between users</description>
 	<licence>AGPL</licence>
-	<author>Michael Gapczynski</author>
-	<require>4.93</require>
+	<author>Michael Gapczynski, Bjoern Schiessle</author>
+	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<default_enable/>
 	<types>

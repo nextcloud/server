@@ -21,47 +21,103 @@
  */
 
 require_once __DIR__ . '/../appinfo/update.php';
+require_once __DIR__ . '/base.php';
 
 /**
  * Class Test_Files_Sharing_Updater
  */
-class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
+class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
+
+	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
 	function setUp() {
-		// some previous tests didn't clean up and therefore this has to be done here
-		// FIXME: DIRTY HACK - TODO: find tests, that don't clean up and fix it there
-		$this->tearDown();
+		parent::setUp();
 
-		// add items except one - because this is the test case for the broken share table
-		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (`storage`, `path_hash`, ' .
-			'`parent`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`) ' .
-			'VALUES (1, ?, 1, 1, 1, 1, 1, 1)');
-		$items = array(1, 3);
-		$fileIds = array();
-		foreach($items as $item) {
-			// the number is used as path_hash
-			$addItems->execute(array($item));
-			$fileIds[] = \OC_DB::insertId('*PREFIX*filecache');
-		}
+		$this->folder = self::TEST_FOLDER_NAME;
 
-		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`file_source`, `item_type`, `uid_owner`) VALUES (?, \'file\', 1)');
-		// the number is used as item_source
-		$addShares->execute(array($fileIds[0]));
-		$addShares->execute(array(200)); // id of "deleted" file
-		$addShares->execute(array($fileIds[1]));
+		$this->filename = '/share-api-test.txt';
+
+		// save file with content
+		$this->view->file_put_contents($this->filename, $this->data);
+		$this->view->mkdir($this->folder);
+		$this->view->file_put_contents($this->folder . '/' . $this->filename, $this->data);
 	}
 
 	function tearDown() {
+		$this->view->unlink($this->filename);
+		$this->view->deleteAll($this->folder);
+
 		$removeShares = \OC_DB::prepare('DELETE FROM `*PREFIX*share`');
 		$removeShares->execute();
 		$removeItems = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache`');
 		$removeItems->execute();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * test deletion of a folder which contains share mount points. Share mount
+	 * points should move up to the parent before the folder gets deleted so
+	 * that the mount point doesn't end up at the trash bin
+	 */
+	function testDeleteParentFolder() {
+		$status = \OC_App::isEnabled('files_trashbin');
+		\OC_App::enable('files_trashbin');
+
+		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		OC_FileProxy::register(new OCA\Files\Share\Proxy());
+
+		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
+		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);
+
+		\OCP\Share::shareItem('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// check if user2 can see the shared folder
+		$this->assertTrue($view->file_exists($this->folder));
+
+		$view->mkdir("localFolder");
+		$view->file_put_contents("localFolder/localFile.txt", "local file");
+
+		$view->rename($this->folder, 'localFolder/' . $this->folder);
+
+		// share mount point should now be moved to the subfolder
+		$this->assertFalse($view->file_exists($this->folder));
+		$this->assertTrue($view->file_exists('localFolder/' .$this->folder));
+
+		$view->unlink('localFolder');
+
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// mount point should move up again
+		$this->assertTrue($view->file_exists($this->folder));
+
+		// trashbin should contain the local file but not the mount point
+		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
+		$dirContent = $rootView->getDirectoryContent('files_trashbin/files');
+		$this->assertSame(1, count($dirContent));
+		$firstElement = reset($dirContent);
+		$ext = pathinfo($firstElement['path'], PATHINFO_EXTENSION);
+		$this->assertTrue($rootView->file_exists('files_trashbin/files/localFolder.' . $ext . '/localFile.txt'));
+		$this->assertFalse($rootView->file_exists('files_trashbin/files/localFolder.' . $ext . '/' . $this->folder));
+
+		//cleanup
+		$rootView->deleteAll('files_trashin');
+
+		if ($status === false) {
+			\OC_App::disable('files_trashbin');
+		}
 	}
 
 	/**
 	 * @medium
 	 */
 	function testRemoveBrokenShares() {
+
+		$this->prepareFileCache();
+
 		// check if there are just 3 shares (see setUp - precondition: empty table)
 		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
 		$result = $countShares->execute()->fetchOne();
@@ -114,6 +170,7 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
+		// cleanup
 		$this->cleanupSharedTable();
 
 	}
@@ -123,6 +180,9 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 		$query->execute();
 	}
 
+	/**
+	 * prepare sharing table for testRemoveSharedFolder()
+	 */
 	private function prepareDB() {
 		$this->cleanupSharedTable();
 		// add items except one - because this is the test case for the broken share table
@@ -143,4 +203,32 @@ class Test_Files_Sharing_Updater extends \PHPUnit_Framework_TestCase {
 			$addItems->execute($item);
 		}
 	}
+
+	/**
+	 * prepare file cache for testRemoveBrokenShares()
+	 */
+	private function prepareFileCache() {
+		// some previous tests didn't clean up and therefore this has to be done here
+		// FIXME: DIRTY HACK - TODO: find tests, that don't clean up and fix it there
+		$this->tearDown();
+
+		// add items except one - because this is the test case for the broken share table
+		$addItems = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache` (`storage`, `path_hash`, ' .
+			'`parent`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`) ' .
+			'VALUES (1, ?, 1, 1, 1, 1, 1, 1)');
+		$items = array(1, 3);
+		$fileIds = array();
+		foreach($items as $item) {
+			// the number is used as path_hash
+			$addItems->execute(array($item));
+			$fileIds[] = \OC_DB::insertId('*PREFIX*filecache');
+		}
+
+		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`file_source`, `item_type`, `uid_owner`) VALUES (?, \'file\', 1)');
+		// the number is used as item_source
+		$addShares->execute(array($fileIds[0]));
+		$addShares->execute(array(200)); // id of "deleted" file
+		$addShares->execute(array($fileIds[1]));
+	}
+
 }

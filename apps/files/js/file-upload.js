@@ -346,7 +346,7 @@ OC.Upload = {
 						// noone set update parameters, we set the minimum
 						data.formData = {
 							requesttoken: oc_requesttoken,
-							dir: $('#dir').val(),
+							dir: FileList.getCurrentDirectory(),
 							file_directory: fileDirectory
 						};
 					}
@@ -460,7 +460,6 @@ OC.Upload = {
 
 					$('#uploadprogresswrapper input.stop').fadeOut();
 					$('#uploadprogressbar').fadeOut();
-					Files.updateStorageStatistics();
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					OC.Upload.log('progress handle fileuploadfail', e, data);
@@ -471,8 +470,6 @@ OC.Upload = {
 					}
 				});
 
-			} else {
-				console.log('skipping file progress because your browser is broken');
 			}
 		}
 
@@ -595,7 +592,7 @@ OC.Upload = {
 					if (FileList.lastAction) {
 						FileList.lastAction();
 					}
-					var name = getUniqueName(newname);
+					var name = FileList.getUniqueName(newname);
 					if (newname !== name) {
 						FileList.checkName(name, newname, true);
 						var hidden = true;
@@ -607,7 +604,7 @@ OC.Upload = {
 							$.post(
 								OC.filePath('files', 'ajax', 'newfile.php'),
 								{
-									dir: $('#dir').val(),
+									dir: FileList.getCurrentDirectory(),
 									filename: name
 								},
 								function(result) {
@@ -623,7 +620,7 @@ OC.Upload = {
 							$.post(
 								OC.filePath('files','ajax','newfolder.php'),
 								{
-									dir: $('#dir').val(),
+									dir: FileList.getCurrentDirectory(),
 									foldername: name
 								},
 								function(result) {
@@ -648,7 +645,7 @@ OC.Upload = {
 							} else { //or the domain
 								localName = (localName.match(/:\/\/(.[^\/]+)/)[1]).replace('www.', '');
 							}
-							localName = getUniqueName(localName);
+							localName = FileList.getUniqueName(localName);
 							//IE < 10 does not fire the necessary events for the progress bar.
 							if ($('html.lte9').length === 0) {
 								$('#uploadprogressbar').progressbar({value: 0});
@@ -658,7 +655,7 @@ OC.Upload = {
 							var eventSource = new OC.EventSource(
 								OC.filePath('files', 'ajax', 'newfile.php'),
 								{
-									dir: $('#dir').val(),
+									dir: FileList.getCurrentDirectory(),
 									source: name,
 									filename: localName
 								}

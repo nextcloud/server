@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
-"URL" => "網址",
 "Username" => "用戶名稱",
 "Password" => "密碼",
 "Share" => "分享",
+"URL" => "網址",
 "Folder name" => "資料夾名稱",
+"Options" => "選項",
 "Groups" => "群組",
 "Users" => "用戶",
 "Delete" => "刪除"

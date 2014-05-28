@@ -15,16 +15,16 @@ class OC_Avatar implements \OCP\IAvatar {
 	private $view;
 
 	/**
-	 * @brief constructor
-	 * @param $user string user to do avatar-management with
+	 * constructor
+	 * @param string $user user to do avatar-management with
 	*/
 	public function __construct ($user) {
 		$this->view = new \OC\Files\View('/'.$user);
 	}
 
 	/**
-	 * @brief get the users avatar
-	 * @param $size integer size in px of the avatar, avatars are square, defaults to 64
+	 * get the users avatar
+	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
 	 * @return boolean|\OC_Image containing the avatar or false if there's no image
 	*/
 	public function get ($size = 64) {
@@ -43,8 +43,8 @@ class OC_Avatar implements \OCP\IAvatar {
 	}
 
 	/**
-	 * @brief sets the users avatar
-	 * @param $data mixed OC_Image, imagedata or path to set a new avatar
+	 * sets the users avatar
+	 * @param \OC_Image|resource|string $data OC_Image, imagedata or path to set a new avatar
 	 * @throws Exception if the provided file is not a jpg or png image
 	 * @throws Exception if the provided image is not valid
 	 * @throws \OC\NotSquareException if the image is not square
@@ -81,7 +81,7 @@ class OC_Avatar implements \OCP\IAvatar {
 	}
 
 	/**
-	 * @brief remove the users avatar
+	 * remove the users avatar
 	 * @return void
 	*/
 	public function remove () {

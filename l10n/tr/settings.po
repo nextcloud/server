@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-11 01:55-0400\n"
-"PO-Revision-Date: 2014-05-11 05:02+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-posta gönderildi"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarlamanız gerekiyor."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:331
 msgid "Send mode"
 msgstr "Gönderme kipi"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:368
 msgid "Authentication method"
 msgstr "Kimlik doğrulama yöntemi"
 
@@ -86,21 +86,31 @@ msgstr "Grup zaten mevcut"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Gruba eklenemiyor"
+msgstr "Grup eklenemiyor"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr "Dosya şifresi başarıyla çözüldü"
+msgstr "Dosyaların şifrelemesi başarıyla kaldırıldı"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr "Dosyalarınızın şifresi kaldırılamadı, lütfen owncloud.log dosyasına bakın veya yöneticinizle iletişime geçin."
+msgstr "Dosyalarınızın şifrelemesi kaldırılamadı, lütfen owncloud.log dosyasına bakın veya yöneticinizle iletişime geçin"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr "Dosyalarınızın şifresi kaldırılamadı, parolanızı denetleyip yeniden deneyin."
+msgstr "Dosyalarınızın şifrelemesi kaldırılamadı, parolanızı denetleyip yeniden deneyin"
+
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Şifreleme anahtarları kalıcı olarak silindi"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Şifreleme anahtarlarınız kalıcı olarak silinemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -117,6 +127,16 @@ msgstr "Grup silinemiyor"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kullanıcı silinemiyor"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Yedekler başarıyla geri yüklendi"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Şifreleme anahtarlarınız geri yüklenemedi, lütfen owncloud.log dosyasını denetleyin veya yöneticinize danışın"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -156,7 +176,7 @@ msgstr "Kullanıcı girilmedi"
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr "Lütfen bir yönetici kurtarma parolası girin, aksi takdirde tüm kullanıcı verisi kaybedilecek"
+msgstr "Lütfen yönetici kurtarma parolasını girin, aksi takdirde tüm kullanıcı verisi kaybedilecek"
 
 #: changepassword/controller.php:73
 msgid ""
@@ -173,7 +193,7 @@ msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme 
 msgid "Unable to change password"
 msgstr "Parola değiştirilemiyor"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Gönderiliyor..."
 
@@ -187,11 +207,11 @@ msgstr "Yönetici Belgelendirmesi"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
-msgstr "{appversion} Güncelle"
+msgstr "{appversion} sürümüne güncelle"
 
 #: js/apps.js:73 js/apps.js:106 js/apps.js:134
 msgid "Disable"
-msgstr "Devre dışı bırak"
+msgstr "Devre Dışı Bırak"
 
 #: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
 msgid "Enable"
@@ -223,39 +243,47 @@ msgstr "Hata"
 
 #: js/apps.js:153 templates/apps.php:55
 msgid "Update"
-msgstr "Güncelleme"
+msgstr "Güncelle"
 
 #: js/apps.js:156
 msgid "Updated"
 msgstr "Güncellendi"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Bir profil fotoğrafı seçin"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Çok güçsüz parola"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Güçsüz parola"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Normal parola"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "İyi parola"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Güçlü parola"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr "Dosyaların şifresi çözülüyor... Lütfen bekleyin, bu biraz zaman alabilir."
+msgstr "Dosyaların şifrelemesi kaldırılıyor... Lütfen bekleyin, bu biraz zaman alabilir."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Şifreleme anahtarlarını kalıcı olarak sil."
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Şifreleme anahtarlarını geri yükle."
 
 #: js/users.js:47
 msgid "deleted"
@@ -269,8 +297,8 @@ msgstr "geri al"
 msgid "Unable to remove user"
 msgstr "Kullanıcı kaldırılamıyor"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Gruplar"
 
@@ -302,7 +330,7 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Uyarı: \"{user}\" kullanıcısı için zaten bir Ev dizini mevcut"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Türkçe"
 
@@ -359,7 +387,7 @@ msgstr "Güvenlik Uyarısı"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr "%s konumuna HTTP aracılığıyla erişiyorsunuz. Sunucunuzu HTTPS kullanımını zorlaması üzere yapılandırmanızı şiddetle öneririz."
+msgstr "%s erişiminiz HTTP aracılığıyla yapılıyor. Sunucunuzu, HTTPS kullanımını zorlamak üzere yapılandırmanızı şiddetle öneririz."
 
 #: templates/admin.php:64
 msgid ""
@@ -393,7 +421,7 @@ msgstr "Modül 'fileinfo' kayıp"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
+msgstr "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
 #: templates/admin.php:104
 msgid "Your PHP version is outdated"
@@ -408,11 +436,11 @@ msgstr "PHP sürümünüz eski. Eski sürümlerde sorun olduğundan 5.3.8 veya d
 
 #: templates/admin.php:118
 msgid "Locale not working"
-msgstr "Locale çalışmıyor."
+msgstr "Yerel çalışmıyor"
 
 #: templates/admin.php:123
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı"
+msgstr "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı."
 
 #: templates/admin.php:127
 msgid ""
@@ -472,7 +500,7 @@ msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcr
 
 #: templates/admin.php:200
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr "Cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
+msgstr "cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
 
 #: templates/admin.php:205
 msgid "Sharing"
@@ -490,148 +518,156 @@ msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 msgid "Allow links"
 msgstr "Bağlantılara izin ver"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
+#: templates/admin.php:223
+msgid "Enforce password protection"
+msgstr "Parola korumasını zorla"
 
-#: templates/admin.php:227
+#: templates/admin.php:226
 msgid "Allow public uploads"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Kullanıcıların, herkese açık dizinlerine, başkalarının dosya yüklemelerini etkinleştirmelerine izin ver"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Paylaşıma izin ver"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Kullanıcıların her şeyi paylaşmalarına izin ver"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Posta bilgilendirmesine izin ver"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
-
-#: templates/admin.php:262
+#: templates/admin.php:230
 msgid "Set default expiration date"
 msgstr "Öntanımlı son kullanma tarihini ayarla"
 
-#: templates/admin.php:263
+#: templates/admin.php:232
 msgid "Expire after "
-msgstr "Şu süreden sonra süresi dolsun"
+msgstr "Süre"
 
-#: templates/admin.php:266
+#: templates/admin.php:235
 msgid "days"
-msgstr "gün"
+msgstr "gün sonra dolsun"
 
-#: templates/admin.php:269
+#: templates/admin.php:238
 msgid "Enforce expiration date"
 msgstr "Son kullanma tarihini zorla"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Paylaşımların süresini öntanımlı olarak N günden sonra doldur"
+#: templates/admin.php:242
+msgid "Allow users to share items to the public with links"
+msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
 
-#: templates/admin.php:278
+#: templates/admin.php:249
+msgid "Allow resharing"
+msgstr "Yeniden paylaşıma izin ver"
+
+#: templates/admin.php:250
+msgid "Allow users to share items shared with them again"
+msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
+
+#: templates/admin.php:257
+msgid "Allow users to share with anyone"
+msgstr "Kullanıcıların herkesle paylaşmasına izin ver"
+
+#: templates/admin.php:260
+msgid "Allow users to only share with users in their groups"
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
+
+#: templates/admin.php:267
+msgid "Allow mail notification"
+msgstr "Posta bilgilendirmesine izin ver"
+
+#: templates/admin.php:268
+msgid "Allow users to send mail notification for shared files"
+msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
+
+#: templates/admin.php:275
+msgid "Exclude groups from sharing"
+msgstr "Grupları paylaşma eyleminden hariç tut"
+
+#: templates/admin.php:286
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır."
+
+#: templates/admin.php:293
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:291
+#: templates/admin.php:306
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
-#: templates/admin.php:299
+#: templates/admin.php:314
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın."
 
-#: templates/admin.php:311
+#: templates/admin.php:326
 msgid "Email Server"
 msgstr "E-Posta Sunucusu"
 
-#: templates/admin.php:313
+#: templates/admin.php:328
 msgid "This is used for sending out notifications."
 msgstr "Bu, bildirimler gönderilirken kullanılır."
 
-#: templates/admin.php:344
+#: templates/admin.php:359
 msgid "From address"
 msgstr "Kimden adresi"
 
-#: templates/admin.php:366
+#: templates/admin.php:360
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:381
 msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
-#: templates/admin.php:370
+#: templates/admin.php:385
 msgid "Server address"
 msgstr "Sunucu adresi"
 
-#: templates/admin.php:374
+#: templates/admin.php:389
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:379
+#: templates/admin.php:394
 msgid "Credentials"
 msgstr "Kimlik Bilgileri"
 
-#: templates/admin.php:380
+#: templates/admin.php:395
 msgid "SMTP Username"
 msgstr "SMTP Kullanıcı Adı"
 
-#: templates/admin.php:383
+#: templates/admin.php:398
 msgid "SMTP Password"
 msgstr "SMTP Parolası"
 
-#: templates/admin.php:387
+#: templates/admin.php:402
 msgid "Test email settings"
 msgstr "E-posta ayarlarını sına"
 
-#: templates/admin.php:388
+#: templates/admin.php:403
 msgid "Send email"
 msgstr "E-posta gönder"
 
-#: templates/admin.php:393
+#: templates/admin.php:408
 msgid "Log"
 msgstr "Günlük"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:426
+#: templates/admin.php:441
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:427
+#: templates/admin.php:442
 msgid "Less"
-msgstr "Az"
+msgstr "Daha az"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:448 templates/personal.php:196
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:452 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -667,7 +703,7 @@ msgstr "Uygulama web sitesine bakın"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-lisanslayan <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span> ile lisanslayan: <span class=\"author\"></span>"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
@@ -691,11 +727,11 @@ msgstr "Ticari Destek"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Dosyalarınızı eşitlemek için uygulamayı indirin"
+msgstr "Dosyalarınızı eşitlemek için uygulamaları indirin"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr "İlk Çalıştırma Sihirbazını yeniden göster"
+msgstr "İlk Çalıştırma Sihirbazı'nı yeniden göster"
 
 #: templates/personal.php:27
 #, php-format
@@ -708,7 +744,7 @@ msgstr "Parola"
 
 #: templates/personal.php:39
 msgid "Your password was changed"
-msgstr "Şifreniz değiştirildi"
+msgstr "Parolanız değiştirildi"
 
 #: templates/personal.php:40
 msgid "Unable to change your password"
@@ -784,28 +820,32 @@ msgstr "Dil"
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr "Şifreleme uygulaması artık etkin değil, tüm dosyalarınızın şifrelemesini kaldırın"
+msgstr "Şifreleme uygulaması artık etkin değil, lütfen tüm dosyalarınızın şifrelemesini kaldırın"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Oturum açma parolası"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
-msgstr "Tüm dosyaların şifresini çöz"
+msgstr "Tüm Dosyaların Şifrelemesini Kaldır"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "Şifreleme anahtarlarınız yedek bir konuma taşındı. Eğer bir şeyler yanlış gittiyse, anahtarlarınızı geri yükleyebilirsiniz. Bu anahtarları, sadece tüm dosyalarınızın şifrelemelerinin düzgün bir şekilde kaldırıldığından eminseniz kalıcı olarak silin."
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Şifreleme Anahtarlarını Geri Yükle"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Şifreleme Anahtarlarını Sil"
 
 #: templates/users.php:19
 msgid "Login Name"
@@ -823,7 +863,7 @@ msgstr "Yönetici Kurtarma Parolası"
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için bir kurtarma paroalsı girin"
+msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için kurtarma parolasını girin"
 
 #: templates/users.php:40
 msgid "Default Storage"
@@ -835,7 +875,7 @@ msgstr "Lütfen disk alanı kotasını girin (örnek: \"512MB\" veya \"12GB\")"
 
 #: templates/users.php:46 templates/users.php:146
 msgid "Unlimited"
-msgstr "Limitsiz"
+msgstr "Sınırsız"
 
 #: templates/users.php:64 templates/users.php:161
 msgid "Other"
@@ -859,4 +899,4 @@ msgstr "yeni parola belirle"
 
 #: templates/users.php:141
 msgid "Default"
-msgstr "Varsayılan"
+msgstr "Öntanımlı"

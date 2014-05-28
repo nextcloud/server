@@ -24,7 +24,7 @@ function print_unescaped($string) {
 }
 
 /**
- * @brief make OC_Helper::linkTo available as a simple function
+ * make OC_Helper::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
  * @param array $args array with param=>value, will be appended to the returned url
@@ -45,7 +45,7 @@ function link_to_docs($key) {
 }
 
 /**
- * @brief make OC_Helper::imagePath available as a simple function
+ * make OC_Helper::imagePath available as a simple function
  * @param string $app app
  * @param string $image image
  * @return string link to the image
@@ -57,7 +57,7 @@ function image_path( $app, $image ) {
 }
 
 /**
- * @brief make OC_Helper::mimetypeIcon available as a simple function
+ * make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
  *
@@ -68,10 +68,10 @@ function mimetype_icon( $mimetype ) {
 }
 
 /**
- * @brief make preview_icon available as a simple function
+ * make preview_icon available as a simple function
  * Returns the path to the preview of the image.
- * @param $path path of file
- * @returns link to the preview
+ * @param string $path path of file
+ * @return link to the preview
  *
  * For further information have a look at OC_Helper::previewIcon
  */
@@ -87,7 +87,7 @@ function publicPreview_icon ( $path, $token ) {
 }
 
 /**
- * @brief make OC_Helper::humanFileSize available as a simple function
+ * make OC_Helper::humanFileSize available as a simple function
  * @param int $bytes size in bytes
  * @return string size as string
  *
@@ -98,7 +98,7 @@ function human_file_size( $bytes ) {
 }
 
 /**
- * @brief Strips the timestamp of its time value
+ * Strips the timestamp of its time value
  * @param int $timestamp UNIX timestamp to strip
  * @return $timestamp without time value
  */
@@ -109,7 +109,7 @@ function strip_time($timestamp){
 }
 
 /**
- * @brief Formats timestamp relatively to the current time using
+ * Formats timestamp relatively to the current time using
  * a human-friendly format like "x minutes ago" or "yesterday"
  * @param int $timestamp timestamp to format
  * @param int $fromTime timestamp to compare from, defaults to current time
