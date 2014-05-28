@@ -8,7 +8,9 @@
  *
  */
 
-OCA.Sharing = {};
+if (!OCA.Sharing) {
+	OCA.Sharing = {};
+}
 OCA.Sharing.App = {
 
 	_inFileList: null,
