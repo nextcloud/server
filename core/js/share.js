@@ -48,23 +48,26 @@ OC.Share={
 			currentDir = fileList.getCurrentDirectory();
 		}
 		for (item in OC.Share.statuses){
-			var image;
+			var image = OC.imagePath('core', 'actions/shared');
 			var data = OC.Share.statuses[item];
-
 			var hasLink = data.link;
 			// Links override shared in terms of icon display
 			if (hasLink) {
 				image = OC.imagePath('core', 'actions/public');
-			} else {
-				image = OC.imagePath('core', 'actions/shared');
 			}
 			if (itemType !== 'file' && itemType !== 'folder') {
 				$fileList.find('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 			} else {
 				var file = $fileList.find('tr[data-id="'+item+'"]');
+				var shareFolder = OC.imagePath('core', 'filetypes/folder-shared');
+				var img;
 				if (file.length > 0) {
+					var type = file.data('type');
+					if (type === 'dir') {
+						file.children('.filename').css('background-image', 'url('+shareFolder+')');
+					}
 					var action = $(file).find('.fileactions .action[data-action="Share"]');
-					var img = action.find('img').attr('src', image);
+					img = action.find('img').attr('src', image);
 					action.addClass('permanent');
 					action.html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 				} else {
@@ -76,14 +79,21 @@ OC.Share={
 						while (path != last) {
 							if (path === data.path && !data.link) {
 								var actions = $fileList.find('.fileactions .action[data-action="Share"]');
-								$.each(actions, function(index, action) {
-									var img = $(action).find('img');
+								var files = $fileList.find('.filename');
+								var i;
+								for (i = 0; i < actions.length; i++) {
+									img = $(actions[i]).find('img');
 									if (img.attr('src') !== OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
-										$(action).addClass('permanent');
-										$(action).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
+										$(actions[i]).addClass('permanent');
+										$(actions[i]).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 									}
-								});
+								}
+								for(i = 0; i < files.length; i++) {
+									if ($(files[i]).closest('tr').data('type') === 'dir') {
+										$(files[i]).css('background-image', 'url('+shareFolder+')');
+									}
+								}
 							}
 							last = path;
 							path = OC.Share.dirname(path);
@@ -117,6 +127,14 @@ OC.Share={
 		} else {
 			var file = $('tr').filterAttr('data-id', String(itemSource));
 			if (file.length > 0) {
+				var type = file.data('type');
+				var shareFolder = OC.imagePath('core', 'filetypes/folder');
+				if (type === 'dir' && shares) {
+					shareFolder = OC.imagePath('core', 'filetypes/folder-shared');
+					file.children('.filename').css('background-image', 'url('+shareFolder+')');
+				} else if (type === 'dir') {
+					file.children('.filename').css('background-image', 'url('+shareFolder+')');
+				}
 				var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
 				// in case of multiple lists/rows, there might be more than one visible
 				action.each(function() {
@@ -517,10 +535,10 @@ OC.Share={
 	showLink:function(token, password, itemSource) {
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
-		
+
 		//check itemType
 		var linkSharetype=$('#dropdown').data('item-type');
-		
+
 		if (! token) {
 			//fallback to pre token link
 			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
@@ -540,7 +558,7 @@ OC.Share={
 			}else{
 				service=linkSharetype;
 			}
-			
+
 			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
 
 		}
