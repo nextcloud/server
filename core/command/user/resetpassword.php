@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Core\Command;
+namespace OC\Core\Command\User;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +25,7 @@ class ResetPassword extends Command {
 
 	protected function configure() {
 		$this
-			->setName('resetpassword')
+			->setName('user:resetpassword')
 			->setDescription('Resets the password of the named user')
 			->addArgument(
 				'user',
