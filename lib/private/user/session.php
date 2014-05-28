@@ -22,7 +22,9 @@ use OC\Hooks\Emitter;
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user)
  * - preLogin(string $user, string $password)
- * - postLogin(\OC\User\User $user)
+ * - postLogin(\OC\User\User $user, string $password)
+ * - preRememberedLogin(string $uid)
+ * - postRememberedLogin(\OC\User\User $user)
  * - logout()
  *
  * @package OC\User
@@ -168,6 +170,39 @@ class Session implements Emitter, \OCP\IUserSession {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * perform login using the magic cookie (remember login)
+	 *
+	 * @param string $uid the username
+	 * @param string $currentToken
+	 * @return bool
+	 */
+	public function loginWithCookie($uid, $currentToken) {
+		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
+		$user = $this->manager->get($uid);
+		if(is_null($user)) {
+			// user does not exist
+			return false;
+		}
+
+		// get stored tokens
+		$tokens = \OC_Preferences::getKeys($uid, 'login_token');
+		// test cookies token against stored tokens
+		if(!in_array($currentToken, $tokens, true)) {
+			return false;
+		}
+		// replace successfully used token with a new one
+		\OC_Preferences::deleteKey($uid, 'login_token', $currentToken);
+		$newToken = \OC_Util::generateRandomBytes(32);
+		\OC_Preferences::setValue($uid, 'login_token', $newToken, time());
+		$this->setMagicInCookie($user->getUID(), $newToken);
+
+		//login
+		$this->setUser($user);
+		$this->manager->emit('\OC\User', 'postRememberedLogin', array($user));
+		return true;
 	}
 
 	/**
