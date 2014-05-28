@@ -38,6 +38,7 @@ class ResetPassword extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$username = $input->getArgument('user');
 
+		/** @var $user \OC\User\User */
 		$user = $this->userManager->get($username);
 		if (is_null($user)) {
 			$output->writeln("<error>There is no user called " . $username . "</error>");
