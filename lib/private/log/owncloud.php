@@ -76,8 +76,8 @@ class OC_Log_Owncloud {
 					self::$reqId = uniqid();
 				}
 				$reqId = self::$reqId;
-				$url = $_SERVER['REQUEST_URI'];
-				$method = $_SERVER['REQUEST_METHOD'];
+				$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
+				$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
 				$entry = compact('reqId', 'app', 'message', 'level', 'time', 'method', 'url');
 			}
 			else {
