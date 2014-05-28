@@ -320,14 +320,9 @@ class Hooks {
 
 			$sharingEnabled = \OCP\Share::isEnabled();
 
-			// get the path including mount point only if not a shared folder
-			list($storage, ) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/files' . $path);
-
-			if (!($storage instanceof \OC\Files\Storage\Local)) {
-				$mountPoint = 'files' . $storage->getMountPoint();
-			} else {
-				$mountPoint = '';
-			}
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mount = $mountManager->find('/' . $userId . '/files' . $path);
+			$mountPoint = $mount->getMountPoint();
 
 			// if a folder was shared, get a list of all (sub-)folders
 			if ($params['itemType'] === 'folder') {
@@ -370,14 +365,9 @@ class Hooks {
 				}
 			}
 
-			// get the path including mount point only if not a shared folder
-			list($storage, ) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/files' . $path);
-
-			if (!($storage instanceof \OC\Files\Storage\Local)) {
-				$mountPoint = 'files' . $storage->getMountPoint();
-			} else {
-				$mountPoint = '';
-			}
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mount = $mountManager->find('/' . $userId . '/files' . $path);
+			$mountPoint = $mount->getMountPoint();
 
 			// if we unshare a folder we need a list of all (sub-)files
 			if ($params['itemType'] === 'folder') {
