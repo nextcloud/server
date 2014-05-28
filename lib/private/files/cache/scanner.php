@@ -26,22 +26,22 @@ class Scanner extends BasicEmitter {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
-	private $storage;
+	protected $storage;
 
 	/**
 	 * @var string $storageId
 	 */
-	private $storageId;
+	protected $storageId;
 
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
-	private $cache;
+	protected $cache;
 
 	/**
 	 * @var \OC\Files\Cache\Permissions $permissionsCache
 	 */
-	private $permissionsCache;
+	protected $permissionsCache;
 
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
