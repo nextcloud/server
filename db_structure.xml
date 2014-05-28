@@ -257,7 +257,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
-				<length>512</length>
+				<length>4000</length>
 			</field>
 
 			<field>
