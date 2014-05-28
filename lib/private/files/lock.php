@@ -20,6 +20,7 @@ namespace OC\Files;
 
 use OCP\Config;
 use OC\Files\Filesystem;
+use OCP\Files\LockNotAcquiredException;
 
 /**
  * Class Lock
