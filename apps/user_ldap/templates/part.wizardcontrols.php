@@ -7,7 +7,7 @@
 	<button class="ldap_action_continue" name="ldap_action_continue" type="button">
 		<?php p($l->t('Continue'));?>
 	</button>
-	<a href="<?php p($theme->getDocBaseUrl()); ?>/server/7.0/go.php?to=admin-ldap"
+	<a href="<?php p(\OC_Helper::linkToDocs('admin-ldap')); ?>"
 		target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('', 'actions/info.png')); ?>"
 			style="height:1.75ex" />
