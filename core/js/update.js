@@ -18,7 +18,6 @@
 		 * @param $el progress list element
 		 */
 		start: function($el) {
-			var self = this;
 			if (this._started) {
 				return;
 			}
@@ -51,12 +50,16 @@
 				.addClass('error bold')
 				.append('<br />')
 				.append(t('core', 'The update was unsuccessful.' +
-				   'Please report this issue to the <a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'))
+					'Please report this issue to the ' +
+					'<a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'))
 				.appendTo($el);
 			});
-			updateEventSource.listen('done', function(message) {
+			updateEventSource.listen('done', function() {
 				// FIXME: use product name
-				$('<span>').addClass('bold').append('<br />').append(t('core', 'The update was successful. Redirecting you to ownCloud now.')).appendTo($el);
+				$('<span>').addClass('bold')
+					.append('<br />')
+					.append(t('core', 'The update was successful. Redirecting you to ownCloud now.'))
+					.appendTo($el);
 				setTimeout(function () {
 					OC.redirect(OC.webroot);
 				}, 3000);
@@ -73,11 +76,10 @@
 })();
 
 $(document).ready(function() {
-	$('.updateForm').on('submit', function(ev) {
-		ev.preventDefault();
+	$('.updateButton').on('click', function() {
 		var $progressEl = $('.updateProgress');
 		$progressEl.removeClass('hidden');
-		$('.updateForm').addClass('hidden');
+		$('.updateOverview').addClass('hidden');
 		OC.Update.start($progressEl);
 		return false;
 	});

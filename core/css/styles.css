@@ -370,7 +370,7 @@ input[type="submit"].enabled {
 	opacity: .6;
 }
 
-#body-login .update .title {
+#body-login .update h2 {
 	font-weight: bold;
 	font-size: 18px;
 	margin-bottom: 30px;
