@@ -430,7 +430,7 @@ class View {
 				$storage1 = $mount->getStorage();
 				$internalPath1 = $mount->getInternalPath($absolutePath1 . $postFix1);
 				list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
-				if ($internalPath1 == '' and $mount instanceof MoveableMount) {
+				if ($internalPath1 === '' and $mount instanceof MoveableMount) {
 					/**
 					 * @var \OC\Files\Mount\Mount | \OC\Files\Mount\MoveableMount $mount
 					 */
