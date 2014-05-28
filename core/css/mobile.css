@@ -8,6 +8,10 @@
 .header-appname {
 	display: none;
 }
+/* slightly different caret position when appname isn’t shown */
+#header .icon-caret {
+	height: 15px;
+}
 
 #body-login .wrapper {
 	display: -webkit-box;

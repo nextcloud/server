@@ -7,21 +7,20 @@
 	display: inline-block;
 	position: relative;
 	color: #fff;
-	font-size: 26px;
-	opacity: .4;
+	font-size: 15px;
 	margin-left: 5px;
 }
 /* show caret indicator next to logo to make clear it is tappable */
 #header .icon-caret {
 	display: inline-block;
 	width: 12px;
-	height: 14px;
+	height: 8px;
 }
 .header-appname,
 #header .icon-caret {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
-	filter: alpha(opacity=45);
-	opacity: .45;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	filter: alpha(opacity=75);
+	opacity: .75;
 }
 /* do not show menu toggle on public share links as there is no menu */
 #body-public #header .icon-caret {
