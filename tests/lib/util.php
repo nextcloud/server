@@ -95,7 +95,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 	function testGetDefaultEmailAddress() {
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
-		$this->assertEquals('no-reply@localhost.localdomain', $email);
+		$this->assertEquals('no-reply@localhost', $email);
 	}
 
 	function testGetDefaultEmailAddressFromConfig() {
