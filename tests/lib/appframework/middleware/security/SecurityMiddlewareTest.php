@@ -119,11 +119,17 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		} catch (SecurityException $ex){
 			$this->assertEquals($status, $ex->getCode());
 		}
+
+		// add assertion if everything should work fine otherwise phpunit will
+		// complain
+		if ($status === 0) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function testAjaxStatusLoggedInCheck() {
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusLoggedInCheck',
+			__FUNCTION__,
 			'isLoggedIn',
 			Http::STATUS_UNAUTHORIZED
 		);
@@ -131,11 +137,10 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 */
 	public function testAjaxNotAdminCheck() {
 		$this->ajaxExceptionStatus(
-			'testAjaxNotAdminCheck',
+			__FUNCTION__,
 			'isAdminUser',
 			Http::STATUS_FORBIDDEN
 		);
@@ -146,7 +151,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testAjaxStatusCSRFCheck() {
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusCSRFCheck',
+			__FUNCTION__,
 			'passesCSRFCheck',
 			Http::STATUS_PRECONDITION_FAILED
 		);
@@ -158,22 +163,22 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testAjaxStatusAllGood() {
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusAllGood',
+			__FUNCTION__,
 			'isLoggedIn',
 			0
 		);
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusAllGood',
+			__FUNCTION__,
 			'isAdminUser',
 			0
 		);
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusAllGood',
+			__FUNCTION__,
 			'isSubAdminUser',
 			0
 		);
 		$this->ajaxExceptionStatus(
-			'testAjaxStatusAllGood',
+			__FUNCTION__,
 			'passesCSRFCheck',
 			0
 		);
@@ -215,7 +220,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 		if($shouldFail){
 			$this->setExpectedException('\OC\AppFramework\Middleware\Security\SecurityException');
 		} else {
-			$this->setExpectedException(null);
+			$this->assertTrue(true);
 		}
 
 		$this->reader->reflect(__CLASS__, $method);
