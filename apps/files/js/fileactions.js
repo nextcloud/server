@@ -180,7 +180,7 @@
 				if (typeof trashBinApp !== 'undefined' && trashBinApp) {
 					html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
 				} else {
-					html = '<a href="#" class="action delete delete-icon" />';
+					html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete delete-icon" />';
 				}
 				var element = $(html);
 				element.data('action', actions['Delete']);
