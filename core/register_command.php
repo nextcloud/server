@@ -12,7 +12,7 @@ $application->add(new OC\Core\Command\Db\GenerateChangeScript());
 $application->add(new OC\Core\Command\Db\ConvertType(OC_Config::getObject(), new \OC\DB\ConnectionFactory()));
 $application->add(new OC\Core\Command\Upgrade());
 $application->add(new OC\Core\Command\Maintenance\SingleUser());
-$application->add(new OC\Core\Command\Maintenance\MMode());
+$application->add(new OC\Core\Command\Maintenance\Mode());
 $application->add(new OC\Core\Command\App\Disable());
 $application->add(new OC\Core\Command\App\Enable());
 $application->add(new OC\Core\Command\App\ListApps());

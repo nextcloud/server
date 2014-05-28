@@ -14,11 +14,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MMode extends Command {
+class Mode extends Command {
 
 	protected function configure() {
 		$this
-			->setName('maintenance:mmode')
+			->setName('maintenance:mode')
 			->setDescription('set maintenance mode')
 			->addOption(
 				'on',
