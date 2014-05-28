@@ -6,44 +6,15 @@
  * See the COPYING-README file.
  */
 
-use \OCP\AppFramework\App;
-use OC\Core\LostPassword\Controller\LostController;
-use OC\Core\LostPassword\Controller\AjaxController;
-
-class Application extends App {
-	public function __construct(array $urlParams=array()){
-		parent::__construct('core', $urlParams);
-
-		$container = $this->getContainer();
-
-		/**
-		 * Controllers
-		 */
-		$container->registerService('LostController', function($c) {
-			return new LostController(
-				$c->query('AppName'),
-				$c->query('ServerContainer')->getRequest(),
-				$c->query('ServerContainer')->getURLGenerator()
-			);
-		});
-		$container->registerService('AjaxController', function($c) {
-			return new AjaxController(
-				$c->query('AppName'),
-				$c->query('ServerContainer')->getRequest(),
-				$c->query('ServerContainer')->getURLGenerator()
-			);
-		});
-	}
-}
+use OC\Core\LostPassword\Application;
 
 $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
-		array('name' => 'ajax#lost', 'url' => '/core/ajax/password/lost', 'verb' => 'POST'),
-		array('name' => 'ajax#reset', 'url' => '/core/ajax/password/reset/{token}/{user}', 'verb' => 'POST'),
-		array('name' => 'lost#reset', 'url' => '/lostpassword/reset/{token}/{user}', 'verb' => 'GET'),
+		array('name' => 'lost#lost', 'url' => '/core/ajax/password/lost', 'verb' => 'POST'),
+		array('name' => 'lost#reset', 'url' => '/lostpassword/reset/{token}/{uid}', 'verb' => 'GET'),
+		array('name' => 'lost#resetPassword', 'url' => '/core/ajax/password/reset/{token}/{user}', 'verb' => 'POST'),
 	)
 ));
-
 
 // Post installation check
 

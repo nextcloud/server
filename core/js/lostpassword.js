@@ -30,24 +30,26 @@ OC.Lostpassword = {
 			$('#submit').trigger('click');
 		} else {
 			$.post(
-					OC.filePath('core', 'ajax', 'password/lost'), 
-					{ 
+					OC.filePath('core', 'ajax', 'password/lost'),
+					{
 						user : $('#user').val(),
 						proceed: $('#encrypted-continue').attr('checked') ? 'Yes' : 'No'
-					}, 
+					},
 					OC.Lostpassword.sendLinkDone
 			);
 		}
 	},
 			
 	sendLinkDone : function(result){
+		var sendErrorMsg;
+		
 		if (result && result.status === 'success'){
 			OC.Lostpassword.sendLinkSuccess();
 		} else {
 			if (result && result.msg){
-				var sendErrorMsg = result.msg;
+				sendErrorMsg = result.msg;
 			} else {
-				var sendErrorMsg = OC.Lostpassword.sendErrorMsg;
+				sendErrorMsg = OC.Lostpassword.sendErrorMsg;
 			}
 			OC.Lostpassword.sendLinkError(sendErrorMsg);
 		}
@@ -80,7 +82,7 @@ OC.Lostpassword = {
 		if ($('#password').val()){
 			$.post(
 					$('#password').parents('form').attr('action'),
-					{ 
+					{
 						password : $('#password').val()
 					},
 					OC.Lostpassword.resetDone
@@ -89,6 +91,7 @@ OC.Lostpassword = {
 	},
 			
 	resetDone : function(result){
+		var resetErrorMsg;
 		if (result && result.status === 'success'){
 			$.post(
 					OC.webroot + '/',
@@ -100,11 +103,11 @@ OC.Lostpassword = {
 			);
 		} else {
 			if (result && result.msg){
-				var resetErrorMsg = result.msg;
+				resetErrorMsg = result.msg;
 			} else if (result && result.encryption) {
-				var sendErrorMsg = OC.Lostpassword.encryptedMsg;
+				resetErrorMsg = OC.Lostpassword.encryptedMsg;
 			} else {
-				var resetErrorMsg = OC.Lostpassword.resetErrorMsg;
+				resetErrorMsg = OC.Lostpassword.resetErrorMsg;
 			}
 			OC.Lostpassword.resetError(resetErrorMsg);
 		}
