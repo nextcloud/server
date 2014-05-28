@@ -138,9 +138,12 @@ class Scanner extends BasicEmitter {
 											$parent = '';
 										}
 										$parentCacheData = $this->cache->get($parent);
-										$this->cache->update($parentCacheData['fileid'], array(
-											'etag' => $this->storage->getETag($parent),
-										));
+										\OC_Hook::emit('Scanner', 'updateCache', array('file' => $file, 'data' => $data));
+										if(Config::getSystemValue('filesystem_check_enable', true)) {
+											$this->cache->update($parentCacheData['fileid'], array(
+												'etag' => $this->storage->getETag($parent),
+											));
+										}
 									}
 								}
 							}
@@ -157,18 +160,16 @@ class Scanner extends BasicEmitter {
 					}
 				}
 				if (!empty($newData)) {
-					$addToCache = Config::getSystemValue('filesystem_check_enable', true);
-					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'addToCache' => &$addToCache, 'data' => &$newData));
-					if($addToCache) {
+					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'data' => $newData));
+					if(Config::getSystemValue('filesystem_check_enable', true)) {
 						$data['fileid'] = $this->cache->put($file, $newData);
 					}
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
 					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
 				}
 			} else {
-				$removeFromCache = Config::getSystemValue('filesystem_check_enable', true);
-				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file, 'removeFromCache' => &$removeFromCache));
-				if($removeFromCache) {
+				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file));
+				if(Config::getSystemValue('filesystem_check_enable', true)) {
 					$this->cache->remove($file);
 				}
 			}
@@ -253,9 +254,8 @@ class Scanner extends BasicEmitter {
 			$removedChildren = \array_diff($existingChildren, $newChildren);
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
-				$removeFromCache = Config::getSystemValue('filesystem_check_enable', true);
-				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child, 'removeFromCache' => &$removeFromCache));
-				if($removeFromCache) {
+				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child));
+				if(Config::getSystemValue('filesystem_check_enable', true)) {
 					$this->cache->remove($child);
 				}
 			}
@@ -277,9 +277,8 @@ class Scanner extends BasicEmitter {
 				}
 			}
 			$newData = array('size' => $size);
-			$addToCache = Config::getSystemValue('filesystem_check_enable', true);
-			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'addToCache' => &$addToCache, 'data' => &$newData));
-			if($addToCache) {
+			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'data' => $newData));
+			if(Config::getSystemValue('filesystem_check_enable', true)) {
 				$this->cache->put($path, $newData);
 			}
 		}
@@ -308,7 +307,10 @@ class Scanner extends BasicEmitter {
 		$lastPath = null;
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
-			$this->cache->correctFolderSize($path);
+			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
+			if(Config::getSystemValue('filesystem_check_enable', true)) {
+				$this->cache->correctFolderSize($path);
+			}
 			$lastPath = $path;
 		}
 	}
