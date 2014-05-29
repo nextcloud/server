@@ -935,39 +935,6 @@ function object(o) {
 }
 
 /**
- * Fills height of window. (more precise than height: 100%;)
- * @param selector
- */
-function fillHeight(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	var height = parseFloat($(window).height())-selector.offset().top;
-	selector.css('height', height + 'px');
-	if(selector.outerHeight() > selector.height()){
-		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
-	}
-	console.warn("This function is deprecated! Use CSS instead");
-}
-
-/**
- * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
- * @param selector
- */
-function fillWindow(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	fillHeight(selector);
-	var width = parseFloat($(window).width())-selector.offset().left;
-	selector.css('width', width + 'px');
-	if(selector.outerWidth() > selector.width()){
-		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
-	}
-	console.warn("This function is deprecated! Use CSS instead");
-}
-
-/**
  * Initializes core
  */
 function initCore() {
