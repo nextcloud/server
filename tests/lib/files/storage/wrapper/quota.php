@@ -133,4 +133,10 @@ class Quota extends \Test\Files\Storage\Storage {
 		$this->assertEquals('user-space', $meta['wrapper_type']);
 		fclose($stream);
 	}
+
+	public function testInstanceOfStorageWrapper() {
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
+	}
 }

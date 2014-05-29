@@ -315,4 +315,12 @@ interface Storage {
 	 * @return string
 	 */
 	public function getETag($path);
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class);
 }
