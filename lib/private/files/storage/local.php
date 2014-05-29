@@ -164,7 +164,14 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function unlink($path) {
-			return $this->delTree($path);
+			if ($this->is_dir($path)) {
+				return $this->rmdir($path);
+			} else if ($this->is_file($path)) {
+				return unlink($this->datadir . $path);
+			} else {
+				return false;
+			}
+
 		}
 
 		public function rename($path1, $path2) {
@@ -177,20 +184,21 @@ if (\OC_Util::runningOnWindows()) {
 				return false;
 			}
 
-			if ($return = rename($this->datadir . $path1, $this->datadir . $path2)) {
+			if ($this->is_dir($path2)) {
+				$this->rmdir($path2);
+			} else if ($this->is_file($path2)) {
+				$this->unlink($path2);
 			}
-			return $return;
+
+			return rename($this->datadir . $path1, $this->datadir . $path2);
 		}
 
 		public function copy($path1, $path2) {
-			if ($this->is_dir($path2)) {
-				if (!$this->file_exists($path2)) {
-					$this->mkdir($path2);
-				}
-				$source = substr($path1, strrpos($path1, '/') + 1);
-				$path2 .= $source;
+			if ($this->is_dir($path1)) {
+				return parent::copy($path1, $path2);
+			} else {
+				return copy($this->datadir . $path1, $this->datadir . $path2);
 			}
-			return copy($this->datadir . $path1, $this->datadir . $path2);
 		}
 
 		public function fopen($path, $mode) {
@@ -208,30 +216,6 @@ if (\OC_Util::runningOnWindows()) {
 					case 'a':
 						break;
 				}
-			}
-			return $return;
-		}
-
-		/**
-		 * @param string $dir
-		 */
-		private function delTree($dir) {
-			$dirRelative = $dir;
-			$dir = $this->datadir . $dir;
-			if (!file_exists($dir)) return true;
-			if (!is_dir($dir) || is_link($dir)) return unlink($dir);
-			foreach (scandir($dir) as $item) {
-				if ($item == '.' || $item == '..') continue;
-				if (is_file($dir . '/' . $item)) {
-					if (unlink($dir . '/' . $item)) {
-					}
-				} elseif (is_dir($dir . '/' . $item)) {
-					if (!$this->delTree($dirRelative . "/" . $item)) {
-						return false;
-					};
-				}
-			}
-			if ($return = rmdir($dir)) {
 			}
 			return $return;
 		}
