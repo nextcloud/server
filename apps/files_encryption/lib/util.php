@@ -1384,10 +1384,11 @@ class Util {
 				// getDirectoryContent() returns the paths relative to the mount points, so we need
 				// to re-construct the complete path
 				$path = ($mountPoint !== '') ? $mountPoint . '/' .  $c['path'] : $c['path'];
+				$path = \OC\Files\Filesystem::normalizePath($path);
 				if ($c['type'] === 'dir') {
-					$dirList[] = substr($path, strlen("files"));
+					$dirList[] = substr($path, strlen('/' . \OCP\User::getUser() . "/files"));
 				} else {
-					$result[] = substr($path, strlen("files"));
+					$result[] = substr($path, strlen('/' . \OCP\User::getUser() . "/files"));
 				}
 			}
 
