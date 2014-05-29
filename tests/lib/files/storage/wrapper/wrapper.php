@@ -23,4 +23,9 @@ class Wrapper extends \Test\Files\Storage\Storage {
 	public function tearDown() {
 		\OC_Helper::rmdirr($this->tmpDir);
 	}
+
+	public function testInstanceOfStorageWrapper() {
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
+	}
 }
