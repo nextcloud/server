@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 14:12+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +101,7 @@ msgstr ""
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Määritä portti"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -268,7 +268,7 @@ msgstr "Lisää palvelinmääritys"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Poista määritys"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"

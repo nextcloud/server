@@ -134,6 +134,7 @@ $TRANSLATIONS = array(
 "Email Server" => "E-Posta Sunucusu",
 "This is used for sending out notifications." => "Bu, bildirimler gönderilirken kullanılır.",
 "From address" => "Kimden adresi",
+"mail" => "posta",
 "Authentication required" => "Kimlik doğrulama gerekli",
 "Server address" => "Sunucu adresi",
 "Port" => "Port",

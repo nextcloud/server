@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 19:11+0000\n"
+"Last-Translator: henrikhjelm <mailto@henrikhjelm.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -622,7 +622,7 @@ msgstr "Från adress"
 
 #: templates/admin.php:360
 msgid "mail"
-msgstr ""
+msgstr "mail"
 
 #: templates/admin.php:381
 msgid "Authentication required"
@@ -846,7 +846,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Dina krypteringsnycklar flyttas till en backup. Om något gick fel kan du återställa nycklarna. Bara ta bort dem permanent om du är säker på att alla filer dekrypteras korrekt."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"

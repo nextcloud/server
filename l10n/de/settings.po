@@ -10,15 +10,16 @@
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
 # stefanniedermann <stefan.niedermann@googlemail.com>, 2014
 # noxin <transifex.com@davidmainzer.com>, 2013
+# nickvergessen <transifex@schilljs.com>, 2014
 # Mirodin <blobbyjj@ymail.com>, 2013
 # kabum <uu.kabum@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 15:51+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr "Gespeichert"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr "E-Mail-Einstellungen teste"
+msgstr "E-Mail-Einstellungen testen"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
@@ -618,7 +619,7 @@ msgstr "Absender-Adresse"
 
 #: templates/admin.php:360
 msgid "mail"
-msgstr ""
+msgstr "Mail"
 
 #: templates/admin.php:381
 msgid "Authentication required"
@@ -642,11 +643,11 @@ msgstr "SMTP Benutzername"
 
 #: templates/admin.php:398
 msgid "SMTP Password"
-msgstr "SMTP Passwor"
+msgstr "SMTP Passwort"
 
 #: templates/admin.php:402
 msgid "Test email settings"
-msgstr "Teste E-Mail-Einstellunge"
+msgstr "Teste E-Mail-Einstellungen"
 
 #: templates/admin.php:403
 msgid "Send email"

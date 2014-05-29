@@ -4,15 +4,15 @@
 # 
 # Translators:
 # muro <janne.morsky@metropolia.fi>, 2013
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013-2014
 # nahka <nahkaz@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 14:13+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +81,7 @@ msgstr ""
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Tuntematon virhe. Tarkista järjestelmän asetukset tai ole yhteydessä ylläpitäjään."
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -100,11 +100,11 @@ msgstr "Seuraavat käyttäjät eivät ole määrittäneet salausta:"
 
 #: js/detect-migration.js:21
 msgid "Initial encryption started... This can take some time. Please wait."
-msgstr ""
+msgstr "Ensimmäinen salauskerta käynnistetty... Tämä saattaa kestää hetken."
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "Ensimmäinen salauskerta on meneillään... Yritä myöhemmin uudelleen."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
@@ -161,7 +161,7 @@ msgstr "Vaihda salasana"
 
 #: templates/settings-personal.php:8
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Yksityisen avaimesi salasana ei enää täsmää kirjautumisen salasanaasi:"
 
 #: templates/settings-personal.php:11
 msgid "Set your old private key password to your current log-in password."
@@ -171,7 +171,7 @@ msgstr ""
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi."
 
 #: templates/settings-personal.php:21
 msgid "Old log-in password"
@@ -183,7 +183,7 @@ msgstr "Nykyinen kirjautumis-salasana"
 
 #: templates/settings-personal.php:32
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Päivitä yksityisen avaimen salasana"
 
 #: templates/settings-personal.php:41
 msgid "Enable password recovery:"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: templates/settings-personal.php:59
 msgid "File recovery settings updated"
-msgstr ""
+msgstr "Tiedostopalautuksen asetukset päivitetty"
 
 #: templates/settings-personal.php:60
 msgid "Could not update file recovery"

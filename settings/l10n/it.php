@@ -134,6 +134,7 @@ $TRANSLATIONS = array(
 "Email Server" => "Server di posta",
 "This is used for sending out notifications." => "Viene utilizzato per inviare le notifiche.",
 "From address" => "Indirizzo mittente",
+"mail" => "posta",
 "Authentication required" => "Autenticazione richiesta",
 "Server address" => "Indirizzo del server",
 "Port" => "Porta",

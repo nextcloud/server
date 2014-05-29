@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 20:42+0000\n"
+"Last-Translator: henrikhjelm <mailto@henrikhjelm.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,15 +102,15 @@ msgstr "Fel"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Vänligen ange en Base DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Det gick inte att avgöra Base DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Specificera en port"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -176,15 +176,15 @@ msgstr "Det gick inte hitta den önskade funktionen"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Användar filter"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Login Filtrer"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -264,12 +264,12 @@ msgstr "Definierar filter som tillämpas vid inloggning. %%uid ersätter använd
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1.Server"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Server:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -277,7 +277,7 @@ msgstr "Lägg till serverinställning"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Radera Konfiguration"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -344,7 +344,7 @@ msgstr "Fortsätt"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Expert"
 
 #: templates/settings.php:8
 msgid "Advanced"
