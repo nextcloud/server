@@ -83,8 +83,8 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 
 		$this['Dispatcher'] = $this->share(function($c) {
 			return new Dispatcher(
-				$c['Protocol'], 
-				$c['MiddlewareDispatcher'], 
+				$c['Protocol'],
+				$c['MiddlewareDispatcher'],
 				$c['ControllerMethodReflector'],
 				$c['Request']
 			);
@@ -97,9 +97,14 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		$app = $this;
 		$this['SecurityMiddleware'] = $this->share(function($c) use ($app){
 			return new SecurityMiddleware(
-				$app, 
-				$c['Request'], 
-				$c['ControllerMethodReflector']
+				$c['Request'],
+				$c['ControllerMethodReflector'],
+				$app->getServer()->getNavigationManager(),
+				$app->getServer()->getURLGenerator(),
+				$app->getServer()->getLogger(),
+				$c['AppName'],
+				$app->isLoggedIn(),
+				$app->isAdminUser()
 			);
 		});
 
