@@ -442,4 +442,15 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function instanceOfStorage($class) {
 		return is_a($this, $class) or $this->storage->instanceOfStorage($class);
 	}
+
+	/**
+	 * Pass any methods custom to specific storage implementations to the wrapped storage
+	 *
+	 * @param string $method
+	 * @param array $args
+	 * @return mixed
+	 */
+	public function __call($method, $args) {
+		return call_user_func_array(array($this->storage, $method), $args);
+	}
 }
