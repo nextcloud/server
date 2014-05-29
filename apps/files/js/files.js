@@ -285,6 +285,9 @@
 					$settings.find('input').focus();
 				}
 			});
+			$('#webdavurl').on('click', function () {
+				$('#webdavurl').select();
+			});
 
 			//scroll to and highlight preselected file
 			/*
