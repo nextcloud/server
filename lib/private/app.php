@@ -889,8 +889,14 @@ class OC_App{
 	 * ownCloud version. disable them if not.
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
+	 *
+	 * @param array $apps optional app id list to check, uses all enabled apps
+	 * when not specified
+	 *
+	 * @return array containing the list of ids of the disabled apps
 	 */
 	public static function checkAppsRequirements($apps = array()) {
+		$disabledApps = array();
 		if (empty($apps)) {
 			$apps = OC_App::getEnabledApps();
 		}
@@ -905,8 +911,10 @@ class OC_App{
 					OC_Log::ERROR);
 				OC_App::disable( $app );
 				OC_Hook::emit('update', 'success', 'Disabled '.$info['name'].' app because it is not compatible');
+				$disabledApps[] = $app;
 			}
 		}
+		return $disabledApps;
 	}
 
 	/**

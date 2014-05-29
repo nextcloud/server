@@ -284,11 +284,26 @@ class OC {
 	public static function checkUpgrade($showTemplate = true) {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
+				$version = OC_Util::getVersion();
+				$oldTheme = OC_Config::getValue('theme');
 				OC_Config::setValue('theme', '');
 				OC_Util::addScript('config'); // needed for web root
 				OC_Util::addScript('update');
 				$tmpl = new OC_Template('', 'update.admin', 'guest');
 				$tmpl->assign('version', OC_Util::getVersionString());
+
+				// get third party apps
+				$apps = OC_App::getEnabledApps();
+				$incompatibleApps = array();
+				foreach ($apps as $appId) {
+					$info = OC_App::getAppInfo($appId);
+					if(!OC_App::isAppCompatible($version, $info)) {
+						$incompatibleApps[] = $info;
+					}
+				}
+				$tmpl->assign('appList', $incompatibleApps);
+				$tmpl->assign('productName', 'ownCloud'); // for now
+				$tmpl->assign('oldTheme', $oldTheme);
 				$tmpl->printPage();
 				exit();
 			} else {

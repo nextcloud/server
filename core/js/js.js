@@ -175,9 +175,13 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	PERMISSION_ALL:31,
+	/* jshint camelcase: false */
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
+	config: oc_config,
+	appConfig: oc_appconfig || {},
+	theme: oc_defaults || {},
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	
 	/**

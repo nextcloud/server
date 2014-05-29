@@ -370,6 +370,16 @@ input[type="submit"].enabled {
 	opacity: .6;
 }
 
+#body-login .update h2 {
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 30px;
+}
+
+#body-login .infogroup {
+	margin-bottom: 15px;
+}
+
 #body-login p#message img {
 	vertical-align: middle;
 	padding: 5px;

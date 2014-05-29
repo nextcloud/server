@@ -134,7 +134,10 @@ class Updater extends BasicEmitter {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
 		\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
-		\OC_App::checkAppsRequirements();
+		$disabledApps = \OC_App::checkAppsRequirements();
+		if (!empty($disabledApps)) {
+			$this->emit('\OC\Updater', 'disabledApps', array($disabledApps));
+		}
 		// load all apps to also upgrade enabled apps
 		\OC_App::loadApps();
 
