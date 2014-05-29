@@ -57,7 +57,10 @@ class OC_Util {
 				// set up quota for home storages, even for other users
 				// which can happen when using sharing
 
-				if ($storage instanceof \OC\Files\Storage\Home) {
+				/**
+				 * @var \OC\Files\Storage\Storage $storage
+				 */
+				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')) {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OC\Files\SPACE_UNLIMITED) {

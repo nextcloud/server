@@ -57,7 +57,7 @@ class Proxy extends \OC_FileProxy {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$mountedShares = $mountManager->findIn($path);
 		foreach ($mountedShares as $mount) {
-			if ($mount->getStorage() instanceof \OC\Files\Storage\Shared) {
+			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Shared')) {
 				$mountPoint = $mount->getMountPoint();
 				$mountPointName = $mount->getMountPointName();
 				$target = \OCA\Files_Sharing\Helper::generateUniqueTarget(dirname($path) . '/' . $mountPointName, array(), $view);
