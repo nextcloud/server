@@ -118,7 +118,7 @@ $(document).ready(function(){
 		OC.msg.startSaving('#mail_settings_msg');
 		var post = $( "#mail_settings" ).serialize();
 		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
-			OC.msg.finishedSaving('#mail_settings .msg', data);
+			OC.msg.finishedSaving('#mail_settings_msg', data);
 		});
 	});
 

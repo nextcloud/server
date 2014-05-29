@@ -323,9 +323,9 @@ if (!$_['internetconnectionworking']) {
 </div>
 
 <div id="mail_settings" class="section">
-	<h2><?php p($l->t('Email Server'));?> <span id="mail_settings_msg" class="msg"></span></h2>
+	<h2><?php p($l->t('Email Server'));?></h2>
 
-	<p><?php p($l->t('This is used for sending out notifications.')); ?></p>
+	<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
 
 	<p>
 		<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label>
