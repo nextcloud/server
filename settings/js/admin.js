@@ -83,6 +83,9 @@ $(document).ready(function(){
 	$('#allowLinks').change(function() {
 		$("#publicLinkSettings").toggleClass('hidden', !this.checked);
 	});
+	$('#allowResharing').change(function() {
+		$("#resharingSettings").toggleClass('hidden', !this.checked);
+	});
 
 	$('#security').change(function(){
 		$.post(OC.filePath('settings','ajax','setsecurity.php'), { enforceHTTPS: $('#forcessl').val() },function(){} );
