@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Log out" => "প্রস্থান",
 "Lost your password?" => "কূটশব্দ হারিয়েছেন?",
 "remember" => "মনে রাখ",
-"Log in" => "প্রবেশ",
-"Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।"
+"Log in" => "প্রবেশ"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

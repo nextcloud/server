@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Nuk është specifikuar tipi i objektit.",
 "Delete" => "Elimino",
 "Add" => "Shto",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitetin ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i.",
 "%s password reset" => "Kodi i %s -it u rivendos",
 "Use the following link to reset your password: {link}" => "Përdorni lidhjen në vijim për të rivendosur kodin: {link}",
@@ -121,7 +120,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Ke humbur kodin?",
 "remember" => "kujto",
 "Log in" => "Hyrje",
-"Alternative Logins" => "Hyrje alternative",
-"Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
+"Alternative Logins" => "Hyrje alternative"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

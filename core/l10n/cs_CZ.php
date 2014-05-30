@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Chyba při načítání šablony dialogu: {error}",
 "No tags selected for deletion." => "Žádné štítky nebyly vybrány ke smazání.",
 "Please reload the page." => "Načtěte stránku znovu, prosím.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">evidence chyb ownCloud</a>",
 "The update was successful. Redirecting you to ownCloud now." => "Aktualizace byla úspěšná. Přesměrovávám na ownCloud.",
 "%s password reset" => "reset hesla %s",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Při odesílání e-mailu nastala chyba, kontaktujte prosím svého administrátora.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "To znamená, že pouze správci systému mohou aplikaci používat.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontaktujte, prosím, správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",
 "Thank you for your patience." => "Děkuji za trpělivost.",
-"Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat.",
 "This ownCloud instance is currently being updated, which may take a while." => "Tato instalace ownCloud je právě aktualizována, může to chvíli trvat.",
 "Please reload this page after a short time to continue using ownCloud." => "Pro pokračování načtěte, prosím, stránku po chvíli znovu."
 );

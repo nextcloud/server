@@ -96,7 +96,6 @@ $TRANSLATIONS = array(
 "Add" => "Adder",
 "Edit tags" => "Modifica etiquettas",
 "Please reload the page." => "Pro favor recarga le pagina.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Le actualisation terminava sin successo. Pro favor tu reporta iste problema al  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Le actualisation terminava con successo. On redirige nunc a tu ownCloud.",
 "%s password reset" => "%s contrasigno re-fixate",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Un problema ha occurrite quando on inviava le message de e-posta, pro favor continge tu administrator.",

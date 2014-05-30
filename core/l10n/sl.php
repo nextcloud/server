@@ -106,7 +106,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Napaka nalaganja predloge pogovornega okna: {error}",
 "No tags selected for deletion." => "Ni izbranih oznak za izbris.",
 "Please reload the page." => "Stran je treba ponovno naložiti",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud.",
 "%s password reset" => "Ponastavitev gesla %s",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Prišlo je do napake med pošiljanjem elektronskega sporočila. Stopite v stik s skrbnikom sistema.",
@@ -178,7 +177,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "To pomeni, da lahko oblak uporabljajo le osebe s skrbniškimi dovoljenji.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
 "Thank you for your patience." => "Hvala za potrpežljivost!",
-"Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno.",
 "This ownCloud instance is currently being updated, which may take a while." => "Nastavitev oblaka ownCloud se trenutno posodablja. Opravilo je lahko dolgotrajno ...",
 "Please reload this page after a short time to continue using ownCloud." => "Ponovno naložite to stran po krajšem preteku časa in nadaljujte z uporabo oblaka ownCloud."
 );

@@ -104,7 +104,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Помилка при завантаженні шаблону діалогу: {error}",
 "No tags selected for deletion." => "Жодних тегів не обрано для видалення.",
 "Please reload the page." => "Будь ласка, перезавантажте сторінку.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
 "%s password reset" => "%s пароль скинуто",
 "Use the following link to reset your password: {link}" => "Використовуйте наступне посилання для скидання пароля: {link}",
@@ -172,7 +171,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Це означає, що лише адміністратори можуть використовувати цей екземпляр.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Зверніться до системного адміністратора, якщо це повідомлення зберігається або з'являєтья несподівано.",
 "Thank you for your patience." => "Дякуємо за ваше терпіння.",
-"Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час.",
 "This ownCloud instance is currently being updated, which may take a while." => "Цей ownCloud зараз оновлюється, це може тривати певний час.",
 "Please reload this page after a short time to continue using ownCloud." => "Будь ласка, перезавантажте незабаром цю сторінку, щоб продовжити користуватися OwnCloud."
 );

@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "대화 상자 템플릿을 불러오는 중 오류 발생: {error}",
 "No tags selected for deletion." => "삭제할 태그를 선택하지 않았습니다.",
 "Please reload the page." => "페이지를 새로 고치십시오.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
 "The update was successful. Redirecting you to ownCloud now." => "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
 "%s password reset" => "%s 암호 재설정",
 "Use the following link to reset your password: {link}" => "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
@@ -171,7 +170,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오",
 "Thank you for your patience." => "기다려 주셔서 감사합니다.",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오.",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud 인스턴스가 현재 업데이트 중입니다. 잠시만 기다려 주십시오.",
 "Please reload this page after a short time to continue using ownCloud." => "잠시 후 페이지를 다시 불러온 다음 ownCloud를 사용해 주십시오."
 );

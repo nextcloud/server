@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Error loading dialog template: {error}",
 "No tags selected for deletion." => "No tags selected for deletion.",
 "Please reload the page." => "Please reload the page.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "The update was successful. Redirecting you to ownCloud now.",
 "%s password reset" => "%s password reset",
 "A problem has occurred whilst sending the email, please contact your administrator." => "A problem has occurred whilst sending the email, please contact your administrator.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "This means only administrators can use the instance.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contact your system administrator if this message persists or appeared unexpectedly.",
 "Thank you for your patience." => "Thank you for your patience.",
-"Updating ownCloud to version %s, this may take a while." => "Updating ownCloud to version %s, this may take a while.",
 "This ownCloud instance is currently being updated, which may take a while." => "This ownCloud instance is currently being updated, which may take a while.",
 "Please reload this page after a short time to continue using ownCloud." => "Please reload this page after a short time to continue using ownCloud."
 );

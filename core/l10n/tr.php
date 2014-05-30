@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "İletişim şablonu yüklenirken hata: {error}",
 "No tags selected for deletion." => "Silmek için bir etiket seçilmedi.",
 "Please reload the page." => "Lütfen sayfayı yeniden yükleyin.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Güncelleme başarısız oldu. Lütfen bu hatayı <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud topluluğu</a>na bildirin.",
 "The update was successful. Redirecting you to ownCloud now." => "Güncelleme başarılı. Şimdi ownCloud'a yönlendiriliyorsunuz.",
 "%s password reset" => "%s parola sıfırlama",
 "A problem has occurred whilst sending the email, please contact your administrator." => "E-posta gönderilirken bir hata oluştu. Lütfen yöneticinizle iletişime geçin.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Bu, örneği sadece yöneticiler kullanabilir demektir.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Eğer bu ileti görünmeye devam ederse veya beklenmedik şekilde ortaya çıkmışsa sistem yöneticinizle iletişime geçin.",
 "Thank you for your patience." => "Sabrınız için teşekkür ederiz.",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud %s sürümüne güncelleniyor. Biraz zaman alabilir.",
 "This ownCloud instance is currently being updated, which may take a while." => "Bu ownCloud örneği şu anda güncelleniyor, bu biraz zaman alabilir.",
 "Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin."
 );

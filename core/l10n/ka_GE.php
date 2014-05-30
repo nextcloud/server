@@ -72,7 +72,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "ობიექტის ტიპი არ არის მითითებული.",
 "Delete" => "წაშლა",
 "Add" => "დამატება",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "განახლება ვერ განხორციელდა. გთხოვთ შეგვატყობინოთ ამ პრობლემის შესახებ აქ: <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე.",
 "Use the following link to reset your password: {link}" => "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
 "You will receive a link to reset your password via Email." => "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე",
@@ -111,7 +110,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "დაგავიწყდათ პაროლი?",
 "remember" => "დამახსოვრება",
 "Log in" => "შესვლა",
-"Alternative Logins" => "ალტერნატიული Login–ი",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
+"Alternative Logins" => "ალტერნატიული Login–ი"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

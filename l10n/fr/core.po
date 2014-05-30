@@ -8,7 +8,7 @@
 # etiess <etiess@gmail.com>, 2013
 # Gauth <gauthier@openux.org>, 2014
 # msoko <sokolovitch@yahoo.com>, 2013
-# ogre_sympathique <ogre.sympathique@speed.1s.fr>, 2013
+# ogre_sympathique, 2013
 # plachance <patlachance@gmail.com>, 2013
 # red0ne <red-0ne@smarty-concept.com>, 2013
 # RyDroid <rydroid_trans@yahoo.fr>, 2013
@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-23 00:34+0000\n"
-"Last-Translator: Gauth <gauthier@openux.org>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +46,11 @@ msgstr "Basculé en mode production (non maintenance)"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Base de données mise à jour"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -143,59 +148,59 @@ msgstr "novembre"
 msgid "December"
 msgstr "décembre"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Enregistrement..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "il y a %n minute"
 msgstr[1] "il y a %n minutes"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Il y a %n heure"
 msgstr[1] "Il y a %n heures"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "il y a %n jour"
 msgstr[1] "il y a %n jours"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Il y a %n mois"
 msgstr[1] "Il y a %n mois"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -473,18 +478,19 @@ msgstr "Erreur de chargement du modèle de dialogue : {error}"
 msgid "No tags selected for deletion."
 msgstr "Aucune balise sélectionnée pour la suppression."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Veuillez recharger la page."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "La mise à jour a échoué. Veuillez signaler ce problème à la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">communauté ownCloud</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud."
 
@@ -814,8 +820,27 @@ msgstr "Merci de votre patience."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

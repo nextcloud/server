@@ -106,7 +106,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Errorea elkarrizketa txantiloia kargatzean: {errorea}",
 "No tags selected for deletion." => "Ez dira ezabatzeko etiketak hautatu.",
 "Please reload the page." => "Mesedez birkargatu orria.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
 "%s password reset" => "%s pasahitza berrezarri",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Arazo bat gertatu da posta elektronikoa bidaltzerakoan, mesedez jarri harremanetan zure administrariarekin.",
@@ -177,7 +176,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Honek administradoreak bakarrik erabili dezakeela esan nahi du.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
 "Thank you for your patience." => "Milesker zure patzientziagatik.",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake.",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud instantzia hau eguneratzen ari da, honek denbora har dezake.",
 "Please reload this page after a short time to continue using ownCloud." => "Mesedez birkargatu orri hau denbora gutxi barru ownCloud erabiltzen jarraitzeko."
 );

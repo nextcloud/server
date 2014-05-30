@@ -85,7 +85,6 @@ $TRANSLATIONS = array(
 "Warning" => "Waarskuwing",
 "The object type is not specified." => "Hierdie objek tipe is nie gespesifiseer nie.",
 "Add" => "Voeg by",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Die opdatering was nie suksesvol nie. Rapporteer die probleem by <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Die opdatering was suksesvol. Jy word nou aan ownCloud terug gelei.",
 "%s password reset" => "%s wagwoord herstel",
 "Use the following link to reset your password: {link}" => "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
@@ -132,7 +131,6 @@ $TRANSLATIONS = array(
 "remember" => "onthou",
 "Log in" => "Teken aan",
 "Alternative Logins" => "Alternatiewe aantekeninge",
-"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Halo daar,<br><br>wou jou net laat weet dat %s <strong>%s</strong> met jou gedeel het.<br><a href=\"%s\">Sien alles!</a><br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Opdatering a ownCloud versie %s - dit kan 'n tydjie vat."
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Halo daar,<br><br>wou jou net laat weet dat %s <strong>%s</strong> met jou gedeel het.<br><a href=\"%s\">Sien alles!</a><br><br>"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

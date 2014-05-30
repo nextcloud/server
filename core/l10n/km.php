@@ -114,7 +114,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "បាត់​ពាក្យ​សម្ងាត់​របស់​អ្នក?",
 "remember" => "ចងចាំ",
 "Log in" => "ចូល",
-"Alternative Logins" => "ការ​ចូល​ជំនួស",
-"Updating ownCloud to version %s, this may take a while." => "ការ​ធ្វើ​បច្ចុប្បន្នភាព ownCloud ទៅ​កំណែ %s អាច​ចំណាយ​ពេល​មួយ​សំទុះ។"
+"Alternative Logins" => "ការ​ចូល​ជំនួស"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

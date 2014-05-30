@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -201,6 +201,10 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
+#: js/fileactions.js:183 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr ""
+
 #: js/fileactions.js:221
 msgid "Rename"
 msgstr ""
@@ -390,10 +394,6 @@ msgstr ""
 
 #: templates/list.php:68
 msgid "Download"
-msgstr ""
-
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
 msgstr ""
 
 #: templates/list.php:95

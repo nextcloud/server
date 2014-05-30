@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Virhe ladatessa keskustelupohja: {error}",
 "No tags selected for deletion." => "Tunnisteita ei valittu poistettavaksi.",
 "Please reload the page." => "Päivitä sivu.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-yhteisölle</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi.",
 "%s password reset" => "%s salasanan nollaus",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Sähköpostia lähettäessä tapahtui virhe, ota yhteys järjestelmän ylläpitäjään.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ownCloudia.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
 "Thank you for your patience." => "Kiitos kärsivällisyydestäsi.",
-"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
 "This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",
 "Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä."
 );

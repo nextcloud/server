@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Delete" => "Läschen",
 "Add" => "Dobäisetzen",
 "Edit tags" => "Tags editéieren",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Den Update war net erfollegräich. Mell dëse Problem w.e.gl der<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Den Update war erfollegräich.  Du gëss elo bei d'ownCloud ëmgeleet.",
 "%s password reset" => "%s Passwuert ass nei gesat",
 "Use the following link to reset your password: {link}" => "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
@@ -138,7 +137,6 @@ $TRANSLATIONS = array(
 "remember" => "verhalen",
 "Log in" => "Umellen",
 "Alternative Logins" => "Alternativ Umeldungen",
-"Thank you for your patience." => "Merci fir deng Gedold.",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud gëtt op d'Versioun %s aktualiséiert, dat kéint e Moment daueren."
+"Thank you for your patience." => "Merci fir deng Gedold."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

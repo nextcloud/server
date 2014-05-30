@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 18:13+0000\n"
-"Last-Translator: leostandards100 <mrshah_300@yahoo.com>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Language: ur_PK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
 msgstr "ختم ہونے کی تاریخ ماضی میں ہے."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -38,6 +38,11 @@ msgstr "بحالی موڈ بند ہے"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "اپ ڈیٹ ہوئ ڈیٹا بیس"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -57,7 +62,7 @@ msgstr ""
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "کوئی کروپ ڈیٹا ميسر نہیں "
 
 #: js/config.php:43
 msgid "Sunday"
@@ -135,59 +140,59 @@ msgstr "نومبر"
 msgid "December"
 msgstr "دسمبر"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "ترتیبات"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "محفوظ ھو رہا ہے ..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "سیکنڈز پہلے"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n منٹس پہلے"
+msgstr[1] "%n منٹس پہلے"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "آج"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "کل"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "پچھلے مہنیے"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "پچھلے سال"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "سالوں پہلے"
 
@@ -218,12 +223,12 @@ msgstr ""
 #: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{گنتی} فائل متصادم "
+msgstr[1] "{گنتی} فائل متصادم "
 
 #: js/oc-dialogs.js:425
 msgid "One file conflict"
-msgstr ""
+msgstr "اایک فائل متصادم ہے"
 
 #: js/oc-dialogs.js:431
 msgid "New Files"
@@ -235,7 +240,7 @@ msgstr "پہلے سے موجودجدید فائلیں"
 
 #: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "آپ کون سی فائلیں رکھنا چاہتے ہیں  ؟"
 
 #: js/oc-dialogs.js:435
 msgid ""
@@ -291,149 +296,149 @@ msgstr "اشتراک شدہ"
 msgid "Share"
 msgstr "اشتراک"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
+#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
 #: templates/installation.php:10
 msgid "Error"
 msgstr "خرابی"
 
-#: js/share.js:160 js/share.js:824
+#: js/share.js:175 js/share.js:863
 msgid "Error while sharing"
 msgstr "اشتراک کے دوران خرابی "
 
-#: js/share.js:171
+#: js/share.js:186
 msgid "Error while unsharing"
 msgstr "اشترک ختم کرنے کے دوران خرابی"
 
-#: js/share.js:178
+#: js/share.js:193
 msgid "Error while changing permissions"
 msgstr "اختیارات کو تبدیل کرنے کے دوران  خرابی "
 
-#: js/share.js:188
+#: js/share.js:203
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "آپ اور گروہ سے مشترق شدہ {گروہ } سے {مالک}"
 
-#: js/share.js:190
+#: js/share.js:205
 msgid "Shared with you by {owner}"
 msgstr "اشتراک شدہ آپ سے{مالک}"
 
-#: js/share.js:214
+#: js/share.js:229
 msgid "Share with user or group …"
 msgstr "صارف یا مجموعہ کے ساتھ اشتراک کریں ..."
 
-#: js/share.js:220
+#: js/share.js:235
 msgid "Share link"
 msgstr "اشتراک لنک"
 
-#: js/share.js:226
+#: js/share.js:241
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:228
+#: js/share.js:243
 msgid "By default the public link will expire after {days} days"
 msgstr "ڈیفالٹ میں عوامی لنک ختم ہو جائے گا {دن} دن"
 
-#: js/share.js:233
+#: js/share.js:248
 msgid "Password protect"
 msgstr "محفوظ پاسورڈ"
 
-#: js/share.js:235
+#: js/share.js:250
 msgid "Choose a password for the public link"
 msgstr "عوامی لنک کے لئےپاس ورڈ منتخب کریں"
 
-#: js/share.js:241
+#: js/share.js:256
 msgid "Allow Public Upload"
 msgstr "پبلک اپ لوڈ کرنے کی اجازت دیں"
 
-#: js/share.js:245
+#: js/share.js:260
 msgid "Email link to person"
 msgstr "شحص کے لیے ای میل لنک"
 
-#: js/share.js:246
+#: js/share.js:261
 msgid "Send"
 msgstr "بھجیں"
 
-#: js/share.js:251
+#: js/share.js:266
 msgid "Set expiration date"
 msgstr "تاریخ معیاد سیٹ کریں"
 
-#: js/share.js:252
+#: js/share.js:267
 msgid "Expiration date"
 msgstr "تاریخ معیاد"
 
-#: js/share.js:289
+#: js/share.js:304
 msgid "Share via email:"
 msgstr "ای میل کے زریعے ارسال کریں"
 
-#: js/share.js:292
+#: js/share.js:307
 msgid "No people found"
 msgstr "کوئ شخص موجود نہیں "
 
-#: js/share.js:336 js/share.js:397
+#: js/share.js:355 js/share.js:416
 msgid "group"
 msgstr "مجموعہ"
 
-#: js/share.js:369
+#: js/share.js:388
 msgid "Resharing is not allowed"
 msgstr "دوبارہ اشتراک کی اجازت نہیں"
 
-#: js/share.js:413
+#: js/share.js:432
 msgid "Shared in {item} with {user}"
 msgstr "شراکت میں {آئٹم}اور {مستخدم}"
 
-#: js/share.js:435
+#: js/share.js:454
 msgid "Unshare"
 msgstr "شئیرنگ ختم کریں"
 
-#: js/share.js:443
+#: js/share.js:462
 msgid "notify by email"
 msgstr "ای میل کے ذریعے مطلع کریں"
 
-#: js/share.js:446
+#: js/share.js:465
 msgid "can edit"
 msgstr "تبدیل کر سکے ھیں"
 
-#: js/share.js:448
+#: js/share.js:467
 msgid "access control"
 msgstr "اسیس کنٹرول"
 
-#: js/share.js:451
+#: js/share.js:470
 msgid "create"
 msgstr "نیا بنائیں"
 
-#: js/share.js:454
+#: js/share.js:473
 msgid "update"
 msgstr "اپ ڈیٹ"
 
-#: js/share.js:457
+#: js/share.js:476
 msgid "delete"
 msgstr "ختم کریں"
 
-#: js/share.js:460
+#: js/share.js:479
 msgid "share"
 msgstr "شئیر کریں"
 
-#: js/share.js:742
+#: js/share.js:781
 msgid "Password protected"
 msgstr "پاسورڈ سے محفوظ کیا گیا ہے"
 
-#: js/share.js:761
+#: js/share.js:800
 msgid "Error unsetting expiration date"
 msgstr "خرابی غیر تصحیح تاریخ معیاد"
 
-#: js/share.js:782
+#: js/share.js:821
 msgid "Error setting expiration date"
 msgstr "خرابی  تصحیح تاریخ معیاد"
 
-#: js/share.js:811
+#: js/share.js:850
 msgid "Sending ..."
 msgstr "ارسال ہو رہا ھے"
 
-#: js/share.js:822
+#: js/share.js:861
 msgid "Email sent"
 msgstr "ارسال شدہ ای میل "
 
-#: js/share.js:846
+#: js/share.js:885
 msgid "Warning"
 msgstr "انتباہ"
 
@@ -465,18 +470,19 @@ msgstr ""
 msgid "No tags selected for deletion."
 msgstr ""
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "براہ مہربانی صفحہ دوبارہ لوڈ کریں."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "اپ ڈیٹ نا کامیاب تھی۔ براہ مہربانی اس مسلے کو رپورٹ کریں اس پے  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>. "
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "اپ ڈیٹ کامیاب تھی۔ اپ کو اون کلوڈ سے منسلک کیا جا رہا ہے"
 
@@ -500,7 +506,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "آپ کا پاس ورڈ ری سیٹ کرنےکا لنک آپ کی ای میل ميں بھیجح دیا گیا ہے .<br> اگر آپ اسکو معقول وقت کے اندر وصول نہیں کرتے ، آپ سپیم/جنک کے فولڈرز دیکھیں .<br> اگر وہ وہاں نہیں ہے تو اپنے مقامی منتظم سے کہیں ۔"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -646,7 +652,7 @@ msgstr "آپ کا پی ایچ پی ورین نل بائٹ کے حملے کے خ�
 #: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr " براہ مہربانی %s کو بحفاظت استعمال کرنے کے پی ایچ پی کی تنصیب اپڈیٹ کریں"
 
 #: templates/installation.php:33
 msgid ""
@@ -664,7 +670,7 @@ msgstr "ایک محفوظ بے ترتیب نمبر جنریٹر کے بغیر ا
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "آپ کی ڈیٹا ڈائریکٹری اور فائلیں امکان ہےانٹرنیٹ سے قابل رسائی ہیں کیونکہ htaccess. فائل کام نہیں کرتا ہے"
 
 #: templates/installation.php:42
 #, php-format
@@ -806,8 +812,27 @@ msgstr "آپ کے صبر کا شکریہ"
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "اون کلوڈ اپ ڈیٹ ہو رہا ہے ورژن %s میں, یہ تھوڑی دیر لےگا"
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

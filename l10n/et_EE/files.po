@@ -4,14 +4,14 @@
 # 
 # Translators:
 # pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
-# Rivo Zängov <eraser@eraser.ee>, 2013
+# Rivo Zängov <eraser@eraser.ee>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-29 15:18+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgstr "Failid"
 
 #: appinfo/app.php:29
 msgid "All files"
-msgstr ""
+msgstr "Kõik failid"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -179,7 +179,7 @@ msgstr "Faili üleslaadimine on töös. Lehelt lahkumine katkestab selle ülesla
 msgid "URL cannot be empty"
 msgstr "URL ei saa olla tühi"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1170
 msgid "{new_name} already exists"
 msgstr "{new_name} on juba olemas"
 
@@ -203,6 +203,10 @@ msgstr "Jaga"
 msgid "Delete permanently"
 msgstr "Kustuta jäädavalt"
 
+#: js/fileactions.js:183 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Kustuta"
+
 #: js/fileactions.js:221
 msgid "Rename"
 msgstr "Nimeta ümber"
@@ -213,55 +217,55 @@ msgid ""
 "big."
 msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. "
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:596 js/filelist.js:1665
 msgid "Pending"
 msgstr "Ootel"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1121
 msgid "Error moving file."
-msgstr ""
+msgstr "Viga faili liigutamisel."
 
-#: js/filelist.js:1135
+#: js/filelist.js:1129
 msgid "Error moving file"
 msgstr "Viga faili eemaldamisel"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1129
 msgid "Error"
 msgstr "Viga"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1207
 msgid "Could not rename file"
 msgstr "Ei suuda faili ümber nimetada"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1328
 msgid "Error deleting file."
 msgstr "Viga faili kustutamisel."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1431 templates/list.php:62
 msgid "Name"
 msgstr "Nimi"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1432 templates/list.php:75
 msgid "Size"
 msgstr "Suurus"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1433 templates/list.php:78
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1443 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kataloog"
 msgstr[1] "%n kataloogi"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1449 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fail"
 msgstr[1] "%n faili"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1573 js/filelist.js:1612
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Laadin üles %n faili"
@@ -395,10 +399,6 @@ msgstr "Siin pole midagi. Lae midagi üles!"
 msgid "Download"
 msgstr "Lae alla"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Kustuta"
-
 #: templates/list.php:95
 msgid "Upload too large"
 msgstr "Üleslaadimine on liiga suur"
@@ -415,4 +415,4 @@ msgstr "Faile skannitakse, palun oota."
 
 #: templates/list.php:105
 msgid "Currently scanning"
-msgstr ""
+msgstr "Praegu skännimisel"

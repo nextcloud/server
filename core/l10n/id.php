@@ -105,7 +105,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Galat memuat templat dialog: {error}",
 "No tags selected for deletion." => "Tidak ada tag yang terpilih untuk dihapus.",
 "Please reload the page." => "Silakan muat ulang halaman.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Pembaruan gagal. Silakan laporkan masalah ini ke <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitas ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
 "%s password reset" => "%s sandi diatur ulang",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Terjadi masalah saat mengirim email, silakan hubungi administrator Anda.",
@@ -176,7 +175,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Ini berarti hanya administrator yang dapat menggunakan ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
 "Thank you for your patience." => "Terima kasih atas kesabaran anda.",
-"Updating ownCloud to version %s, this may take a while." => "Memperbarui ownCloud ke versi %s, prosesnya akan berlangsung beberapa saat.",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud ini sedang diperbarui, yang mungkin memakan waktu cukup lama.",
 "Please reload this page after a short time to continue using ownCloud." => "Muat ulang halaman ini setelah beberapa saat untuk tetap menggunakan ownCloud."
 );

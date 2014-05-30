@@ -4,14 +4,14 @@
 # 
 # Translators:
 # pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
-# Rivo Zängov <eraser@eraser.ee>, 2013
+# Rivo Zängov <eraser@eraser.ee>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-29 15:18+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:710
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sa kasutad serverit usalduseta asukohast"
 
-#: base.php:696
+#: base.php:711
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Palun võta ühendust oma saidi administraatoriga. Kui sa oled ise administraator, siis seadista failis config/config.php sätet \"trusted_domain\". Näidis seadistused leiad failist config/config.sample.php."
 
 #: private/app.php:236
 #, php-format
@@ -129,29 +129,29 @@ msgstr "Rakend ei paku ühtegi info.xml faili"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Rakendit ei saa paigaldada, kuna sisaldab lubamatud koodi"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Rakendit ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga."
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Rakendit ei saa paigaldada, kuna see sisaldab \n<shipped>\n\ntrue\n</shipped>\nmärgendit, mis pole lubatud mitte veetud (non shipped) rakendites"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Rakendit ei saa paigaldada, kuna selle versioon info.xml/version pole sama, mis on märgitud rakendite laos."
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Rakendi kataloog on juba olemas"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Ei saa luua rakendi kataloogi. Palun korrigeeri õigusi. %s"
@@ -305,7 +305,7 @@ msgstr "%s jagamine ebaõnnestus, kuna faili pole olemas"
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Sul pole lubatud %s jagada"
 
 #: private/share/share.php:526
 #, php-format
@@ -464,20 +464,20 @@ msgstr "viimasel aastal"
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Kasutajanimes on lubatud ainult järgnevad tähemärgid: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Sisesta nõuetele vastav kasutajatunnus"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Sisesta nõuetele vastav parool"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Kasutajanimi on juba kasutuses"

@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Hiba a párbeszédpanel-sablon betöltésekor: {error}",
 "No tags selected for deletion." => "Nincs törlésre kijelölt címke.",
 "Please reload the page." => "Kérjük frissítse az oldalt!",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A frissítés nem sikerült. Kérem értesítse erről a problémáról az <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud közösséget</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz.",
 "%s password reset" => "%s jelszó visszaállítás",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Hiba történt e-mail küldése közben. Érdemes az adminisztrátort értesíteni.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse a rendszergazda segítségét!",
 "Thank you for your patience." => "Köszönjük a türelmét.",
-"Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet.",
 "This ownCloud instance is currently being updated, which may take a while." => "Az ownCloud frissítés elkezdődött, ez eltarthat egy ideig.",
 "Please reload this page after a short time to continue using ownCloud." => "Frissitse az oldalt egy kis idő múlva, ha folytatni kívánja az ownCloud használatát."
 );

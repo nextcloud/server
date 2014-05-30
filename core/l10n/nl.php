@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Fout bij laden dialoog sjabloon: {error}",
 "No tags selected for deletion." => "Geen tags geselecteerd voor verwijdering.",
 "Please reload the page." => "Herlaad deze pagina.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "De update is niet geslaagd. Meld dit probleem bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud.",
 "%s password reset" => "%s wachtwoord reset",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Er ontstond een probleem bij het versturen van het e-mailbericht, neem contact op met uw beheerder.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Dat betekent dat alleen beheerders deze installatie kunnen gebruiken.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen.",
 "Thank you for your patience." => "Bedankt voor uw geduld.",
-"Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren...",
 "This ownCloud instance is currently being updated, which may take a while." => "Deze ownCloud dienst wordt nu bijgewerkt, dat kan even duren.",
 "Please reload this page after a short time to continue using ownCloud." => "Laad deze pagina straks opnieuw om verder te gaan met ownCloud."
 );

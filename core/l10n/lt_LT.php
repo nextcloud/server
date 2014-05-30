@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Klaida įkeliant dialogo ruošinį: {error}",
 "No tags selected for deletion." => "Trynimui nepasirinkta jokia žymė.",
 "Please reload the page." => "Prašome perkrauti puslapį.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud.",
 "%s password reset" => "%s slaptažodžio atnaujinimas",
 "Use the following link to reset your password: {link}" => "Slaptažodio atkūrimui naudokite šią nuorodą: {link}",
@@ -165,7 +164,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Tai reiškia, kad tik administratorius gali naudotis sistema.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
 "Thank you for your patience." => "Dėkojame už jūsų kantrumą.",
-"Updating ownCloud to version %s, this may take a while." => "Atnaujinama ownCloud į %s versiją. tai gali šiek tiek užtrukti.",
 "This ownCloud instance is currently being updated, which may take a while." => "Šiuo metu vyksta ownCloud atnaujinamas, tai gali šiek tiek užtrukti.",
 "Please reload this page after a short time to continue using ownCloud." => "Po trupučio laiko atnaujinkite šį puslapį kad galėtumėte toliau naudoti ownCloud."
 );

@@ -102,7 +102,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Feil ved lasting av dialogmal: {error}",
 "No tags selected for deletion." => "Ingen merkelapper valgt for sletting.",
 "Please reload the page." => "Vennligst last siden på nytt.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Oppdateringen mislyktes. Vennligst rapporter dette problemet til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Oppdateringen var vellykket. Du omdirigeres nå til ownCloud.",
 "%s password reset" => "%s nullstilling av passord",
 "Use the following link to reset your password: {link}" => "Bruk følgende lenke for å tilbakestille passordet ditt: {link}",
@@ -170,7 +169,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Dette betyr at kun administratorer kan bruke instansen.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Kontakt systemadministratoren hvis denne meldingen var uventet eller ikke forsvinner.",
 "Thank you for your patience." => "Takk for din tålmodighet.",
-"Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til versjon %s, dette kan ta en stund.",
 "This ownCloud instance is currently being updated, which may take a while." => "Denne ownCloud-instansen oppdateres for øyeblikket, noe som kan ta litt tid.",
 "Please reload this page after a short time to continue using ownCloud." => "Vennligst last denne siden på nytt om en liten stund for å fortsette å bruke ownCloud."
 );

@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "請更改你的密碼以保護你的帳戶",
 "Lost your password?" => "忘記密碼",
 "remember" => "記住",
-"Log in" => "登入",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud (ver. %s)更新中, 請耐心等侯"
+"Log in" => "登入"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

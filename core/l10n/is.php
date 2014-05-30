@@ -106,7 +106,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "Vinsamlegast breyttu lykilorðinu þínu til að tryggja öryggi þitt.",
 "Lost your password?" => "Týndir þú lykilorðinu?",
 "remember" => "muna eftir mér",
-"Log in" => "<strong>Skrá inn</strong>",
-"Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
+"Log in" => "<strong>Skrá inn</strong>"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

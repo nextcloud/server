@@ -9,6 +9,7 @@
 # henrikhjelm <mailto@henrikhjelm.se>, 2014
 # Jan Busk, 2013
 # Jonas Erlandsson <jonas.erlandsson@gmail.com>, 2013
+# medialabs, 2014
 # kallemooo <karl.h.thoren@gmail.com>, 2013
 # lagre, 2014
 # Magnus Höglund <magnus@linux.com>, 2013
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 20:42+0000\n"
-"Last-Translator: henrikhjelm <mailto@henrikhjelm.se>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-29 19:02+0000\n"
+"Last-Translator: medialabs\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,7 +83,7 @@ msgstr "Behåll inställningarna?"
 
 #: js/settings.js:93
 msgid "{nbServer}. Server"
-msgstr ""
+msgstr "{nbServer}. Server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"

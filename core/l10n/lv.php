@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Nav norādīts objekta tips.",
 "Delete" => "Dzēst",
 "Add" => "Pievienot",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atjaunināšana beidzās nesekmīgi. Lūdzu, ziņojiet par šo problēmu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kopienai</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud.",
 "%s password reset" => "%s paroles maiņa",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo saiti, lai mainītu paroli: {link}",
@@ -120,7 +119,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Aizmirsāt paroli?",
 "remember" => "atcerēties",
 "Log in" => "Ierakstīties",
-"Alternative Logins" => "Alternatīvās pieteikšanās",
-"Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."
+"Alternative Logins" => "Alternatīvās pieteikšanās"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

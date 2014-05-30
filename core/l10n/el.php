@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφάλμα}",
 "No tags selected for deletion." => "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή.",
 "Please reload the page." => "Παρακαλώ επαναφορτώστε τη σελίδα.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
 "%s password reset" => "%s επαναφορά κωδικού πρόσβασης",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Παρουσιάστηκε σφάλμα κατά την αποστολή email, παρακαλώ επικοινωνήστε με τον διαχειριστή.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Αυτό σημαίνει ότι μόνο διαχειριστές μπορούν να χρησιμοποιήσουν την εγκατάσταση.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
 "Thank you for your patience." => "Σας ευχαριστούμε για την υπομονή σας.",
-"Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο.",
 "This ownCloud instance is currently being updated, which may take a while." => "Αυτή η εγκατάσταση ownCloud ενημερώνεται, το οποίο μπορεί να πάρει κάποιο χρόνο.",
 "Please reload this page after a short time to continue using ownCloud." => "Παρακαλώ ανανεώστε αυτή τη σελίδα μετά από ένα σύντομο χρονικό διάστημα ώστε να συνεχίσετε να χρησιμοποιείτε το ownCloud."
 );

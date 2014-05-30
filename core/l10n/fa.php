@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "نوع شی تعیین نشده است.",
 "Delete" => "حذف",
 "Add" => "افزودن",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
 "The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید.",
@@ -128,7 +127,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "آیا گذرواژه تان را به یاد نمی آورید؟",
 "remember" => "بیاد آوری",
 "Log in" => "ورود",
-"Alternative Logins" => "ورود متناوب",
-"Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
+"Alternative Logins" => "ورود متناوب"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

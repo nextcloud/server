@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "Промените лозинку да бисте обезбедили налог.",
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
-"Log in" => "Пријава",
-"Updating ownCloud to version %s, this may take a while." => "Надоградња ownCloud-а на верзију %s, сачекајте тренутак."
+"Log in" => "Пријава"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

@@ -81,7 +81,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Tipul obiectului nu este specificat.",
 "Delete" => "Șterge",
 "Add" => "Adaugă",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Actualizare reușită. Ești redirecționat către ownCloud.",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Linkul pentru resetarea parolei tale a fost trimis pe email. <br>Daca nu ai primit email-ul intr-un timp rezonabil, verifica folderul spam/junk. <br>Daca nu sunt acolo intreaba administratorul local.",
@@ -127,7 +126,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Ai uitat parola?",
 "remember" => "amintește",
 "Log in" => "Autentificare",
-"Alternative Logins" => "Conectări alternative",
-"Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
+"Alternative Logins" => "Conectări alternative"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

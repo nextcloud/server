@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-19 01:54-0400\n"
-"PO-Revision-Date: 2014-05-18 13:53+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
 msgstr "A data de vencimento passou."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Não foi possível enviar e-mail para os seguintes usuários: %s"
@@ -39,6 +39,11 @@ msgstr "Desligar o modo de manutenção"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Atualizar o banco de dados"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -136,59 +141,59 @@ msgstr "novembro"
 msgid "December"
 msgstr "dezembro"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Salvando..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " ha %n minuto"
 msgstr[1] "ha %n minutos"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "ha %n hora"
 msgstr[1] "ha %n horas"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "ha %n dia"
 msgstr[1] "ha %n dias"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "ha %n mês"
 msgstr[1] "ha %n meses"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -292,149 +297,149 @@ msgstr "Compartilhados"
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:761
+#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:160 js/share.js:824
+#: js/share.js:175 js/share.js:863
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
-#: js/share.js:171
+#: js/share.js:186
 msgid "Error while unsharing"
 msgstr "Erro ao descompartilhar"
 
-#: js/share.js:178
+#: js/share.js:193
 msgid "Error while changing permissions"
 msgstr "Erro ao mudar permissões"
 
-#: js/share.js:188
+#: js/share.js:203
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartilhado com você e com o grupo {group} por {owner}"
 
-#: js/share.js:190
+#: js/share.js:205
 msgid "Shared with you by {owner}"
 msgstr "Compartilhado com você por {owner}"
 
-#: js/share.js:214
+#: js/share.js:229
 msgid "Share with user or group …"
 msgstr "Compartilhar com usuário ou grupo ..."
 
-#: js/share.js:220
+#: js/share.js:235
 msgid "Share link"
 msgstr "Compartilher link"
 
-#: js/share.js:226
+#: js/share.js:241
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "O link público irá expirar não antes de {days} depois de ser criado"
 
-#: js/share.js:228
+#: js/share.js:243
 msgid "By default the public link will expire after {days} days"
 msgstr "Por padrão o link público irá expirar após {days} dias"
 
-#: js/share.js:233
+#: js/share.js:248
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:235
+#: js/share.js:250
 msgid "Choose a password for the public link"
 msgstr "Escolha uma senha para o link público"
 
-#: js/share.js:241
+#: js/share.js:256
 msgid "Allow Public Upload"
 msgstr "Permitir upload público"
 
-#: js/share.js:245
+#: js/share.js:260
 msgid "Email link to person"
 msgstr "Enviar link por e-mail"
 
-#: js/share.js:246
+#: js/share.js:261
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:251
+#: js/share.js:266
 msgid "Set expiration date"
 msgstr "Definir data de expiração"
 
-#: js/share.js:252
+#: js/share.js:267
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:289
+#: js/share.js:304
 msgid "Share via email:"
 msgstr "Compartilhar via e-mail:"
 
-#: js/share.js:292
+#: js/share.js:307
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:336 js/share.js:397
+#: js/share.js:355 js/share.js:416
 msgid "group"
 msgstr "grupo"
 
-#: js/share.js:369
+#: js/share.js:388
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:413
+#: js/share.js:432
 msgid "Shared in {item} with {user}"
 msgstr "Compartilhado em {item} com {user}"
 
-#: js/share.js:435
+#: js/share.js:454
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:443
+#: js/share.js:462
 msgid "notify by email"
 msgstr "notificar por e-mail"
 
-#: js/share.js:446
+#: js/share.js:465
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:448
+#: js/share.js:467
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:451
+#: js/share.js:470
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:454
+#: js/share.js:473
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:457
+#: js/share.js:476
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:460
+#: js/share.js:479
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:742
+#: js/share.js:781
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:761
+#: js/share.js:800
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:782
+#: js/share.js:821
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:811
+#: js/share.js:850
 msgid "Sending ..."
 msgstr "Enviando ..."
 
-#: js/share.js:822
+#: js/share.js:861
 msgid "Email sent"
 msgstr "E-mail enviado"
 
-#: js/share.js:846
+#: js/share.js:885
 msgid "Warning"
 msgstr "Aviso"
 
@@ -466,18 +471,19 @@ msgstr "Erro carregando diálogo de formatação:{error}"
 msgid "No tags selected for deletion."
 msgstr "Nenhuma etiqueta selecionada para deleção."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Por favor recarregue a página"
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "A atualização falhou. Por favor, relate este problema para a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade ownCloud</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A atualização teve êxito. Você será redirecionado ao ownCloud agora."
 
@@ -807,8 +813,27 @@ msgstr "Obrigado pela sua paciência."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Atualizando ownCloud para a versão %s, isto pode levar algum tempo."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

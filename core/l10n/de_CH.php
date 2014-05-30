@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Der Objekttyp ist nicht angegeben.",
 "Delete" => "Löschen",
 "Add" => "Hinzufügen",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet.",
 "%s password reset" => "%s-Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {link}",
@@ -124,7 +123,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Passwort vergessen?",
 "remember" => "merken",
 "Log in" => "Einloggen",
-"Alternative Logins" => "Alternative Logins",
-"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
+"Alternative Logins" => "Alternative Logins"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

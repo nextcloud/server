@@ -42,6 +42,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Ошибка получения URL",
 "Share" => "Открыть доступ",
 "Delete permanently" => "Удалить окончательно",
+"Delete" => "Удалить",
 "Rename" => "Переименовать",
 "Your download is being prepared. This might take some time if the files are big." => "Идёт подготовка к скачиванию. Это может занять некоторое время, если файлы большого размера.",
 "Pending" => "Ожидание",
@@ -85,9 +86,9 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "У вас нет прав для загрузки или создания файлов здесь.",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",
-"Delete" => "Удалить",
 "Upload too large" => "Файл слишком велик",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
-"Files are being scanned, please wait." => "Подождите, файлы сканируются."
+"Files are being scanned, please wait." => "Подождите, файлы сканируются.",
+"Currently scanning" => "В настоящее время сканируется"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

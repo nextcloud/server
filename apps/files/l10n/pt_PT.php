@@ -42,6 +42,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Erro ao obter URL",
 "Share" => "Partilhar",
 "Delete permanently" => "Eliminar permanentemente",
+"Delete" => "Eliminar",
 "Rename" => "Renomear",
 "Your download is being prepared. This might take some time if the files are big." => "O seu download está a ser preparado. Este processo pode demorar algum tempo se os ficheiros forem grandes.",
 "Pending" => "Pendente",
@@ -85,9 +86,9 @@ $TRANSLATIONS = array(
 "You don’t have permission to upload or create files here" => "Você não tem permissão para enviar ou criar ficheiros aqui",
 "Nothing in here. Upload something!" => "Vazio. Envie alguma coisa!",
 "Download" => "Transferir",
-"Delete" => "Eliminar",
 "Upload too large" => "Upload muito grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor.",
-"Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde."
+"Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde.",
+"Currently scanning" => "A analisar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

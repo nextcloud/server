@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "加载对话框模板出错: {error}",
 "No tags selected for deletion." => "请选择要删除的标签。",
 "Please reload the page." => "请重新加载页面。",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。",
 "The update was successful. Redirecting you to ownCloud now." => "更新成功。正在重定向至 ownCloud。",
 "%s password reset" => "重置 %s 的密码",
 "A problem has occurred whilst sending the email, please contact your administrator." => "发送电子邮件时发生问题，请和管理员联系。",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "这意味着只有管理员才能在实例上操作。",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "如果这个消息一直存在或不停出现，请联系你的系统管理员。",
 "Thank you for your patience." => "感谢让你久等了。",
-"Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。",
 "This ownCloud instance is currently being updated, which may take a while." => "当前ownCloud实例正在更新，可能需要一段时间。",
 "Please reload this page after a short time to continue using ownCloud." => "请稍后重新加载这个页面，以继续使用ownCloud。"
 );

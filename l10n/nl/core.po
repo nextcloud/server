@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-25 21:40+0000\n"
-"Last-Translator: kwillems <kwillems@zonnet.nl>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,6 +40,11 @@ msgstr "Onderhoudsmodus uitgeschakeld"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Database bijgewerkt"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -137,59 +142,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Opslaan"
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] "%n minuten geleden"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] "%n uur geleden"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] "%n dagen geleden"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] "%n maanden geleden"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -467,18 +472,19 @@ msgstr "Fout bij laden dialoog sjabloon: {error}"
 msgid "No tags selected for deletion."
 msgstr "Geen tags geselecteerd voor verwijdering."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Herlaad deze pagina."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "De update is niet geslaagd. Meld dit probleem bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
 
@@ -808,8 +814,27 @@ msgstr "Bedankt voor uw geduld."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Updaten ownCloud naar versie %s, dit kan even duren..."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

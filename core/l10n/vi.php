@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Lỗi khi tải mẫu hội thoại: {error}",
 "No tags selected for deletion." => "Không có thẻ nào được chọn để xóa",
 "Please reload the page." => "Vui lòng tải lại trang.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Cập nhật không thành công . Vui lòng thông báo đến <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\"> Cộng đồng ownCloud </a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud.",
 "%s password reset" => "%s thiết lập lại mật khẩu",
 "Use the following link to reset your password: {link}" => "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
@@ -164,7 +163,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
 "Thank you for your patience." => "Cảm ơn sự kiên nhẫn của bạn.",
-"Updating ownCloud to version %s, this may take a while." => "Cập nhật ownCloud lên phiên bản %s, có thể sẽ mất thời gian",
 "This ownCloud instance is currently being updated, which may take a while." => "Phiên bản ownCloud này hiện đang được cập nhật, có thể sẽ mất một ít thời gian.",
 "Please reload this page after a short time to continue using ownCloud." => "Xin vui lòng tải lại trang này để tiếp tục sử dụng ownCloud."
 );

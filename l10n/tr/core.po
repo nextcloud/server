@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-20 01:54-0400\n"
-"PO-Revision-Date: 2014-05-19 15:03+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,6 +41,11 @@ msgstr "Bakım kipi kapatıldı"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Veritabanı güncellendi"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -138,59 +143,59 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "saniyeler önce"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n dakika önce"
 msgstr[1] "%n dakika önce"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n saat önce"
 msgstr[1] "%n saat önce"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n gün önce"
 msgstr[1] "%n gün önce"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n ay önce"
 msgstr[1] "%n ay önce"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "yıllar önce"
 
@@ -468,18 +473,19 @@ msgstr "İletişim şablonu yüklenirken hata: {error}"
 msgid "No tags selected for deletion."
 msgstr "Silmek için bir etiket seçilmedi."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Lütfen sayfayı yeniden yükleyin."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "Güncelleme başarısız oldu. Lütfen bu hatayı <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud topluluğu</a>na bildirin."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Güncelleme başarılı. Şimdi ownCloud'a yönlendiriliyorsunuz."
 
@@ -809,8 +815,27 @@ msgstr "Sabrınız için teşekkür ederiz."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "ownCloud %s sürümüne güncelleniyor. Biraz zaman alabilir."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

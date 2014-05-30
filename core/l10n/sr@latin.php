@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Tip objekta nije zadan.",
 "Delete" => "Obriši",
 "Add" => "Dodaj",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Ažuriranje nije uspelo. Molimo obavestite <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud zajednicu</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Ažuriranje je uspelo. Prosleđivanje na ownCloud.",
 "Use the following link to reset your password: {link}" => "Koristite sledeći link za reset lozinke: {link}",
 "You will receive a link to reset your password via Email." => "Dobićete vezu za resetovanje lozinke putem e-pošte.",

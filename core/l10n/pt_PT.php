@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error loading dialog template: {error}" => "Erro ao carregar modelo de diálogo: {error}",
 "No tags selected for deletion." => "Não foram escolhidas etiquetas para apagar.",
 "Please reload the page." => "Por favor recarregue a página.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A actualização falhou. Por favor reporte este incidente seguindo este link <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora.",
 "%s password reset" => "%s reposição da password",
 "A problem has occurred whilst sending the email, please contact your administrator." => "Ocorreu um problema com o envio do e-mail, por favor contactar o administrador.",
@@ -181,7 +180,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Isto significa que apenas os administradores podem usar a instância.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte o seu administrador de sistema se esta mensagem continuar a aparecer ou apareceu inesperadamente.",
 "Thank you for your patience." => "Obrigado pela sua paciência.",
-"Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar.",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta instância do ownCloud está a ser actualizada, poderá demorar algum tempo.",
 "Please reload this page after a short time to continue using ownCloud." => "Por favo recarregue esta página após algum tempo para continuar a usar ownCloud."
 );

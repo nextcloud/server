@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "Edit tags" => "編輯標籤",
 "Error loading dialog template: {error}" => "載入對話樣板出錯：{error}",
 "No tags selected for deletion." => "沒有選擇要刪除的標籤",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "升級失敗，請將此問題回報 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社群</a>。",
 "The update was successful. Redirecting you to ownCloud now." => "升級成功，正將您重新導向至 ownCloud 。",
 "%s password reset" => "%s 密碼重設",
 "Use the following link to reset your password: {link}" => "請至以下連結重設您的密碼： {link}",
@@ -165,7 +164,6 @@ $TRANSLATIONS = array(
 "Alternative Logins" => "其他登入方法",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "若這個訊息持續出現，請聯絡系統管理員",
 "Thank you for your patience." => "感謝您的耐心",
-"Updating ownCloud to version %s, this may take a while." => "正在將 ownCloud 升級至版本 %s ，這可能需要一點時間。",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud 正在升級，請稍待一會。",
 "Please reload this page after a short time to continue using ownCloud." => "請稍後重新載入這個頁面就可以繼續使用 ownCloud"
 );

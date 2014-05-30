@@ -72,7 +72,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "סוג הפריט לא צוין.",
 "Delete" => "מחיקה",
 "Add" => "הוספה",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "תהליך העדכון לא הושלם בהצלחה. נא דווח את הבעיה ב<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">קהילת ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "תהליך העדכון הסתיים בהצלחה. עכשיו מנתב אותך אל ownCloud.",
 "Use the following link to reset your password: {link}" => "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "הקישור לאיפוס הססמה שלך נשלח אליך בדוא״ל.<br>אם לא קיבלת את הקישור תוך זמן סביר, מוטב לבדוק את תיבת הזבל שלך.<br>אם ההודעה לא שם, כדאי לשאול את מנהל הרשת שלך .",
@@ -116,7 +115,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "שכחת את ססמתך?",
 "remember" => "שמירת הססמה",
 "Log in" => "כניסה",
-"Alternative Logins" => "כניסות אלטרנטיביות",
-"Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה."
+"Alternative Logins" => "כניסות אלטרנטיביות"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

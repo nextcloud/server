@@ -8,7 +8,7 @@ $TRANSLATIONS = array(
 "restored" => "geri yüklendi",
 "Nothing in here. Your trash bin is empty!" => "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!",
 "Name" => "İsim",
-"Deleted" => "Silindi",
+"Deleted" => "Silinme",
 "Delete" => "Sil"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

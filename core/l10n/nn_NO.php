@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Objekttypen er ikkje spesifisert.",
 "Delete" => "Slett",
 "Add" => "Legg til",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Oppdateringa er fullført. Sender deg vidare til ownCloud no.",
 "%s password reset" => "%s passordnullstilling",
 "Use the following link to reset your password: {link}" => "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}",
@@ -137,7 +136,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Gløymt passordet?",
 "remember" => "hugs",
 "Log in" => "Logg inn",
-"Alternative Logins" => "Alternative innloggingar",
-"Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til utgåve %s, dette kan ta ei stund."
+"Alternative Logins" => "Alternative innloggingar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Nid yw'r math o wrthrych wedi cael ei nodi.",
 "Delete" => "Dileu",
 "Add" => "Ychwanegu",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Methodd y diweddariad. Adroddwch y mater hwn i <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">gymuned ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
 "Use the following link to reset your password: {link}" => "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol.",
@@ -113,7 +112,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Wedi colli'ch cyfrinair?",
 "remember" => "cofio",
 "Log in" => "Mewngofnodi",
-"Alternative Logins" => "Mewngofnodiadau Amgen",
-"Updating ownCloud to version %s, this may take a while." => "Yn diweddaru owncloud i fersiwn %s, gall hyn gymryd amser."
+"Alternative Logins" => "Mewngofnodiadau Amgen"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;";

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-27 07:21+0000\n"
-"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,19 +32,24 @@ msgstr "Nun pudo dunviase'l corréu a los usuarios siguientes: %s"
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Activáu el mou de mantenimientu"
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Apagáu el mou de mantenimientu"
 
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Base de datos anovada"
 
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
+
 #: avatar/controller.php:62
 msgid "No image or file provided"
-msgstr ""
+msgstr "Nun s'especificó nenguna imaxe o ficheru"
 
 #: avatar/controller.php:81
 msgid "Unknown filetype"
@@ -56,11 +61,11 @@ msgstr "Imaxe inválida"
 
 #: avatar/controller.php:115 avatar/controller.php:142
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Nengún perfil d'imaxe temporal disponible, intentalo de nueves"
 
 #: avatar/controller.php:135
 msgid "No crop data provided"
-msgstr ""
+msgstr "Nun s'apurrió'l retayu de datos"
 
 #: js/config.php:43
 msgid "Sunday"
@@ -138,59 +143,59 @@ msgstr "Payares"
 msgid "December"
 msgstr "Avientu"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "fai años"
 
@@ -208,7 +213,7 @@ msgstr "Esbillar"
 
 #: js/oc-dialogs.js:210
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Fallu cargando'l ficheru de plantía d'escoyeta: {error}"
 
 #: js/oc-dialogs.js:263
 msgid "Ok"
@@ -216,17 +221,17 @@ msgstr "Aceutar"
 
 #: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Fallu cargando'l mensaxe de la plantía: {error}"
 
 #: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} conflictu de ficheru"
+msgstr[1] "{count} conflictos de ficheru "
 
 #: js/oc-dialogs.js:425
 msgid "One file conflict"
-msgstr ""
+msgstr "Conflictu nun ficheru"
 
 #: js/oc-dialogs.js:431
 msgid "New Files"
@@ -244,7 +249,7 @@ msgstr "¿Qué ficheros quies caltener?"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Si seleiciones dames versiones, el ficheru copiáu tendrá un númberu amestáu al so nome"
 
 #: js/oc-dialogs.js:443
 msgid "Cancel"
@@ -346,7 +351,7 @@ msgstr "Escueyi una contraseña pal enllaz públicu"
 
 #: js/share.js:256
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Permitir xuba pública"
 
 #: js/share.js:260
 msgid "Email link to person"
@@ -468,25 +473,26 @@ msgstr ""
 msgid "No tags selected for deletion."
 msgstr ""
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Por favor, recarga la páxina"
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "L'anovamientu fízose con ésitu. Por favor, informa d'esti problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comuña ownCloud</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud."
 
 #: lostpassword/controller.php:70
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "%s restablecer contraseña"
 
 #: lostpassword/controller.php:72
 msgid ""
@@ -674,7 +680,7 @@ msgstr "El to direutoriu de datos y ficheros seique ye accesible dende internet 
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pa informase de cómo configurar el so sirvidor, por favor güeya la  <a href=\"%s\" target=\"_blank\">documentación</a>."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
@@ -752,11 +758,11 @@ msgstr "¡Aniciu de sesión automáticu refugáu!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "¡Si nun camudó la so contraseña últimamente, la so cuenta pue tar comprometida!"
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Por favor, camude la so contraseña p'asegurar la so cuenta de nueves"
 
 #: templates/login.php:17
 msgid "Server side authentication failed!"
@@ -809,8 +815,27 @@ msgstr "Gracies pola to paciencia."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Anovando ownCloud a la versión %s, esto pue tardar un pocoñín"
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

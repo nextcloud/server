@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "Edit tags" => "Redakti etikedojn",
 "No tags selected for deletion." => "Neniu etikedo elektitas por forigo.",
 "Please reload the page." => "Bonvolu reŝargi la paĝon.",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La ĝisdatigo estis malsukcese. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouda komunumo</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "La ĝisdatigo estis sukcesa. Alidirektante nun al ownCloud.",
 "Use the following link to reset your password: {link}" => "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
 "Request failed!<br>Did you make sure your email/username was right?" => "La peto malsukcesis!<br />Ĉu vi certiĝis, ke via retpoŝto/uzantonomo ĝustas?",
@@ -141,7 +140,6 @@ $TRANSLATIONS = array(
 "remember" => "memori",
 "Log in" => "Ensaluti",
 "Alternative Logins" => "Alternativaj ensalutoj",
-"Thank you for your patience." => "Dankon pro via pacienco.",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud ĝisdatiĝas al eldono %s, tio ĉi povas daŭri je iom da tempo."
+"Thank you for your patience." => "Dankon pro via pacienco."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-27 13:52+0000\n"
-"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,6 +48,11 @@ msgstr "Η κατάσταση συντήρησης απενεργοποιήθη�
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Ενημερωμένη βάση δεδομένων"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -145,59 +150,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -475,18 +480,19 @@ msgstr "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφά
 msgid "No tags selected for deletion."
 msgstr "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Παρακαλώ επαναφορτώστε τη σελίδα."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
@@ -816,8 +822,27 @@ msgstr "Σας ευχαριστούμε για την υπομονή σας."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""
