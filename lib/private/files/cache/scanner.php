@@ -167,7 +167,7 @@ class Scanner extends BasicEmitter {
 				}
 				if (!empty($newData)) {
 					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'data' => $newData));
-					if(!Config::getSystemValue('filesystem_cache_readonly', false)) {
+					if($this->cacheActive) {
 						$data['fileid'] = $this->cache->put($file, $newData);
 					}
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
