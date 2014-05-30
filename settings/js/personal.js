@@ -26,7 +26,7 @@ jQuery.fn.keyUpDelayedOrEnter = function(callback){
 		}
 	}, 1000));
 
-	this.keypress(function () {
+	this.keypress(function (event) {
 		if (event.keyCode === 13 && that.val() !== '' ){
 			event.preventDefault();
 			cb();
