@@ -142,11 +142,11 @@ class Cache {
 		} else {
 			//fix types
 			$data['fileid'] = (int)$data['fileid'];
-			$data['size'] = (int)$data['size'];
+			$data['size'] = 0 + $data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
-            $data['unencrypted_size'] = (int)$data['unencrypted_size'];
+            $data['unencrypted_size'] = 0 + $data['unencrypted_size'];
 			$data['storage'] = $this->storageId;
 			$data['mimetype'] = $this->getMimetype($data['mimetype']);
 			$data['mimepart'] = $this->getMimetype($data['mimepart']);
@@ -532,9 +532,9 @@ class Cache {
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
 				list($sum, $min, $unencryptedSum) = array_values($row);
-				$sum = (int)$sum;
-				$min = (int)$min;
-				$unencryptedSum = (int)$unencryptedSum;
+				$sum = 0 + $sum;
+				$min = 0 + $min;
+				$unencryptedSum = 0 + $unencryptedSum;
 				if ($min === -1) {
 					$totalSize = $min;
 				} else {
