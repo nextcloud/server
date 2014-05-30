@@ -99,7 +99,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
 		} catch (\OCP\Files\LockNotAcquiredException $e) {
 			// the file is currently being written to by another process
-			throw new OC_Connector_Sabre_Exception_FileLocked(sprintf('Target file %s is locked by another process. %s', $e->path, $e->getMessage()), $e->getCode(), $e);
+			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// rename to correct path
