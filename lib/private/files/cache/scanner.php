@@ -44,6 +44,11 @@ class Scanner extends BasicEmitter {
 	 */
 	private $permissionsCache;
 
+	/**
+	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
+	 */
+	protected $cacheActive;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
@@ -55,6 +60,7 @@ class Scanner extends BasicEmitter {
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->permissionsCache = $storage->getPermissionsCache();
+		$this->cacheActive = !Config::getSystemValue('filesystem_cache_readonly', false);
 	}
 
 	/**
@@ -139,7 +145,7 @@ class Scanner extends BasicEmitter {
 										}
 										$parentCacheData = $this->cache->get($parent);
 										\OC_Hook::emit('Scanner', 'updateCache', array('file' => $file, 'data' => $data));
-										if(Config::getSystemValue('filesystem_check_enable', true)) {
+										if($this->cacheActive) {
 											$this->cache->update($parentCacheData['fileid'], array(
 												'etag' => $this->storage->getETag($parent),
 											));
@@ -161,7 +167,7 @@ class Scanner extends BasicEmitter {
 				}
 				if (!empty($newData)) {
 					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'data' => $newData));
-					if(Config::getSystemValue('filesystem_check_enable', true)) {
+					if(!Config::getSystemValue('filesystem_cache_readonly', false)) {
 						$data['fileid'] = $this->cache->put($file, $newData);
 					}
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
@@ -169,7 +175,7 @@ class Scanner extends BasicEmitter {
 				}
 			} else {
 				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file));
-				if(Config::getSystemValue('filesystem_check_enable', true)) {
+				if($this->cacheActive) {
 					$this->cache->remove($file);
 				}
 			}
@@ -255,7 +261,7 @@ class Scanner extends BasicEmitter {
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
 				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child));
-				if(Config::getSystemValue('filesystem_check_enable', true)) {
+				if($this->cacheActive) {
 					$this->cache->remove($child);
 				}
 			}
@@ -278,7 +284,7 @@ class Scanner extends BasicEmitter {
 			}
 			$newData = array('size' => $size);
 			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'data' => $newData));
-			if(Config::getSystemValue('filesystem_check_enable', true)) {
+			if($this->cacheActive) {
 				$this->cache->put($path, $newData);
 			}
 		}
@@ -308,10 +314,18 @@ class Scanner extends BasicEmitter {
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
 			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
-			if(Config::getSystemValue('filesystem_check_enable', true)) {
+			if($this->cacheActive) {
 				$this->cache->correctFolderSize($path);
 			}
 			$lastPath = $path;
 		}
+	}
+
+	/**
+	 * Set whether the cache is affected by scan operations
+	 * @param boolean $active The active state of the cache
+	 */
+	public function setCacheActive($active) {
+		$this->cacheActive = $active;
 	}
 }

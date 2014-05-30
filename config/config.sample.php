@@ -293,7 +293,7 @@ $CONFIG = array(
  */
 'filesystem_check_changes' => 1,
 
-/* specifies whether changes in the filesystem outside of owncloud affect cached data about those files */
-'filesystem_check_enable' => 1,
+/* If true, prevent owncloud from changing the cache due to changes in the filesystem for all storage */
+'filesystem_cache_readonly' => false,
 
 );
