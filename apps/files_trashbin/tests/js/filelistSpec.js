@@ -21,7 +21,6 @@
 
 describe('OCA.Trashbin.FileList tests', function() {
 	var testFiles, alertStub, notificationStub, fileList;
-	var FileActions = OCA.Files.FileActions;
 
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
@@ -87,14 +86,18 @@ describe('OCA.Trashbin.FileList tests', function() {
 			etag: '456'
 		}];
 
-		fileList = new OCA.Trashbin.FileList($('#app-content-trashbin'));
-		OCA.Trashbin.App.registerFileActions(fileList);
+		// register file actions like the trashbin App does
+		var fileActions = OCA.Trashbin.App._createFileActions(fileList);
+		fileList = new OCA.Trashbin.FileList(
+			$('#app-content-trashbin'), {
+				fileActions: fileActions
+			}
+		);
 	});
 	afterEach(function() {
 		testFiles = undefined;
 		fileList = undefined;
 
-		FileActions.clear();
 		$('#dir').remove();
 		notificationStub.restore();
 		alertStub.restore();

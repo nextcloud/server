@@ -10,8 +10,11 @@ OC.Share={
 	 * Loads ALL share statuses from server, stores them in OC.Share.statuses then
 	 * calls OC.Share.updateIcons() to update the files "Share" icon to "Shared"
 	 * according to their share status and share type.
+	 *
+	 * @param itemType item type
+	 * @param fileList file list instance, defaults to OCA.Files.App.fileList
 	 */
-	loadIcons:function(itemType) {
+	loadIcons:function(itemType, fileList) {
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
@@ -19,7 +22,7 @@ OC.Share={
 				$.each(result.data, function(item, data) {
 					OC.Share.statuses[item] = data;
 				});
-				OC.Share.updateIcons(itemType);
+				OC.Share.updateIcons(itemType, fileList);
 			}
 		});
 	},
@@ -27,40 +30,55 @@ OC.Share={
 	 * Updates the files' "Share" icons according to the known
 	 * sharing states stored in OC.Share.statuses.
 	 * (not reloaded from server)
+	 *
+	 * @param itemType item type
+	 * @param fileList file list instance
+	 * defaults to OCA.Files.App.fileList
 	 */
-	updateIcons:function(itemType){
+	updateIcons:function(itemType, fileList){
 		var item;
+		var $fileList;
+		var currentDir;
+		if (!fileList && OCA.Files) {
+			fileList = OCA.Files.App.fileList;
+		}
+		// fileList is usually only defined in the files app
+		if (fileList) {
+			$fileList = fileList.$fileList;
+			currentDir = fileList.getCurrentDirectory();
+		}
 		for (item in OC.Share.statuses){
+			var image;
 			var data = OC.Share.statuses[item];
 
-			var hasLink = data['link'];
+			var hasLink = data.link;
 			// Links override shared in terms of icon display
 			if (hasLink) {
-				var image = OC.imagePath('core', 'actions/public');
+				image = OC.imagePath('core', 'actions/public');
 			} else {
-				var image = OC.imagePath('core', 'actions/shared');
+				image = OC.imagePath('core', 'actions/shared');
 			}
-			if (itemType != 'file' && itemType != 'folder') {
-				$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+			if (itemType !== 'file' && itemType !== 'folder') {
+				$fileList.find('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 			} else {
-				var file = $('tr[data-id="'+item+'"]');
+				var file = $fileList.find('tr[data-id="'+item+'"]');
 				if (file.length > 0) {
 					var action = $(file).find('.fileactions .action[data-action="Share"]');
 					var img = action.find('img').attr('src', image);
 					action.addClass('permanent');
 					action.html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
 				} else {
-					var dir = $('#dir').val();
+					var dir = currentDir;
 					if (dir.length > 1) {
 						var last = '';
 						var path = dir;
 						// Search for possible parent folders that are shared
 						while (path != last) {
-							if (path == data['path'] && !data['link']) {
-								var actions = $('.fileactions .action[data-action="Share"]');
+							if (path === data.path && !data.link) {
+								var actions = $fileList.find('.fileactions .action[data-action="Share"]');
 								$.each(actions, function(index, action) {
 									var img = $(action).find('img');
-									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
+									if (img.attr('src') !== OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										$(action).addClass('permanent');
 										$(action).html(' <span>'+t('core', 'Shared')+'</span>').prepend(img);
@@ -100,14 +118,18 @@ OC.Share={
 			var file = $('tr').filterAttr('data-id', String(itemSource));
 			if (file.length > 0) {
 				var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-				var img = action.find('img').attr('src', image);
-				if (shares) {
-					action.addClass('permanent');
-					action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
-				} else {
-					action.removeClass('permanent');
-					action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
-				}
+				// in case of multiple lists/rows, there might be more than one visible
+				action.each(function() {
+					var action = $(this);
+					var img = action.find('img').attr('src', image);
+					if (shares) {
+						action.addClass('permanent');
+						action.html(' <span>'+ escapeHTML(t('core', 'Shared'))+'</span>').prepend(img);
+					} else {
+						action.removeClass('permanent');
+						action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
+					}
+				});
 			}
 		}
 		if (shares) {

@@ -19,9 +19,18 @@ OCA.Sharing.PublicApp = {
 
 	initialize: function($el) {
 		var self = this;
+		var fileActions;
 		if (this._initialized) {
 			return;
 		}
+		fileActions = new OCA.Files.FileActions();
+		// default actions
+		fileActions.registerDefaultActions();
+		// legacy actions
+		fileActions.merge(window.FileActions);
+		// regular actions
+		fileActions.merge(OCA.Files.fileActions);
+
 		this._initialized = true;
 		this.initialDir = $('#dir').val();
 
@@ -32,7 +41,8 @@ OCA.Sharing.PublicApp = {
 				{
 					scrollContainer: $(window),
 					dragOptions: dragOptions,
-					folderDropOptions: folderDropOptions
+					folderDropOptions: folderDropOptions,
+					fileActions: fileActions
 				}
 			);
 			this.files = OCA.Files.Files;
@@ -121,10 +131,8 @@ OCA.Sharing.PublicApp = {
 				};
 			});
 
-			this.fileActions = _.extend({}, OCA.Files.FileActions);
-			this.fileActions.registerDefaultActions(this.fileList);
-			delete this.fileActions.actions.all.Share;
-			this.fileList.setFileActions(this.fileActions);
+			// do not allow sharing from the public page
+			delete this.fileList.fileActions.actions.all.Share;
 
 			this.fileList.changeDirectory(this.initialDir || '/', false, true);
 
@@ -158,7 +166,10 @@ OCA.Sharing.PublicApp = {
 
 $(document).ready(function() {
 	var App = OCA.Sharing.PublicApp;
-	App.initialize($('#preview'));
+	// defer app init, to give a chance to plugins to register file actions
+	_.defer(function() {
+		App.initialize($('#preview'));
+	});
 
 	if (window.Files) {
 		// HACK: for oc-dialogs previews that depends on Files:

@@ -26,8 +26,8 @@
 		return name;
 	}
 
-	var FileList = function($el) {
-		this.initialize($el);
+	var FileList = function($el, options) {
+		this.initialize($el, options);
 	};
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
 		id: 'trashbin',

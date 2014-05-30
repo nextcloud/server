@@ -19,27 +19,26 @@ OCA.Trashbin.App = {
 		this._initialized = true;
 		this.fileList = new OCA.Trashbin.FileList(
 			$('#app-content-trashbin'), {
-				scrollContainer: $('#app-content')
+				scrollContainer: $('#app-content'),
+				fileActions: this._createFileActions()
 			}
 		);
-		this.registerFileActions(this.fileList);
 	},
 
-	registerFileActions: function(fileList) {
-		var self = this;
-		var fileActions = _.extend({}, OCA.Files.FileActions);
-		fileActions.clear();
-		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-			var dir = fileList.getCurrentDirectory();
+	_createFileActions: function() {
+		var fileActions = new OCA.Files.FileActions();
+		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
+			var dir = context.fileList.getCurrentDirectory();
 			if (dir !== '/') {
 				dir = dir + '/';
 			}
-			fileList.changeDirectory(dir + filename);
+			context.fileList.changeDirectory(dir + filename);
 		});
 
 		fileActions.setDefault('dir', 'Open');
 
-		fileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename) {
+		fileActions.register('all', 'Restore', OC.PERMISSION_READ, OC.imagePath('core', 'actions/history'), function(filename, context) {
+			var fileList = context.fileList;
 			var tr = fileList.findFileEl(filename);
 			var deleteAction = tr.children("td.date").children(".action.delete");
 			deleteAction.removeClass('delete-icon').addClass('progress-icon');
@@ -54,7 +53,8 @@ OCA.Trashbin.App = {
 
 		fileActions.register('all', 'Delete', OC.PERMISSION_READ, function() {
 			return OC.imagePath('core', 'actions/delete');
-		}, function(filename) {
+		}, function(filename, context) {
+			var fileList = context.fileList;
 			$('.tipsy').remove();
 			var tr = fileList.findFileEl(filename);
 			var deleteAction = tr.children("td.date").children(".action.delete");
@@ -67,7 +67,7 @@ OCA.Trashbin.App = {
 				_.bind(fileList._removeCallback, fileList)
 			);
 		});
-		fileList.setFileActions(fileActions);
+		return fileActions;
 	}
 };
 

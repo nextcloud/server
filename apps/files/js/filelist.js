@@ -125,7 +125,7 @@
 			this.$container = options.scrollContainer || $(window);
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('#fileList');
-			this.fileActions = OCA.Files.FileActions;
+			this._initFileActions(options.fileActions);
 			this.files = [];
 			this._selectedFiles = {};
 			this._selectionSummary = new OCA.Files.FileSummary();
@@ -166,6 +166,14 @@
 			this.setupUploadEvents();
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
+		},
+
+		_initFileActions: function(fileActions) {
+			this.fileActions = fileActions;
+			if (!this.fileActions) {
+				this.fileActions = new OCA.Files.FileActions();
+				this.fileActions.registerDefaultActions();
+			}
 		},
 
 		/**
@@ -248,7 +256,14 @@
 					var action = this.fileActions.getDefault(mime,type, permissions);
 					if (action) {
 						event.preventDefault();
-						action(filename);
+						// also set on global object for legacy apps
+						window.FileActions.currentFile = this.fileActions.currentFile;
+						action(filename, {
+							$file: $tr,
+							fileList: this,
+							fileActions: this.fileActions,
+							dir: $tr.attr('data-path') || this.getCurrentDirectory()
+						});
 					}
 				}
 			}
@@ -448,7 +463,7 @@
 
 			while (count > 0 && index < this.files.length) {
 				fileData = this.files[index];
-				tr = this._renderRow(fileData, {updateSummary: false});
+				tr = this._renderRow(fileData, {updateSummary: false, silent: true});
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
@@ -493,7 +508,7 @@
 			this.$el.find('thead').after(this.$fileList);
 
 			this.updateEmptyContent();
-			this.$fileList.trigger(jQuery.Event("fileActionsReady"));
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this}));
 
 			this.fileSummary.calculate(filesArray);
 
@@ -515,6 +530,7 @@
 				type = fileData.type || 'file',
 				mtime = parseInt(fileData.mtime, 10) || new Date().getTime(),
 				mime = fileData.mimetype,
+				path = fileData.path,
 				linkUrl;
 			options = options || {};
 
@@ -534,6 +550,13 @@
 				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
 			});
 
+			if (!_.isUndefined(path)) {
+				tr.attr('data-path', path);
+			}
+			else {
+				path = this.getCurrentDirectory();
+			}
+
 			if (type === 'dir') {
 				// use default folder icon
 				icon = icon || OC.imagePath('core', 'filetypes/folder');
@@ -550,10 +573,10 @@
 
 			// linkUrl
 			if (type === 'dir') {
-				linkUrl = this.linkTo(this.getCurrentDirectory() + '/' + name);
+				linkUrl = this.linkTo(path + '/' + name);
 			}
 			else {
-				linkUrl = this.getDownloadUrl(name, this.getCurrentDirectory());
+				linkUrl = this.getDownloadUrl(name, path);
 			}
 			td.append('<input id="select-' + this.id + '-' + fileData.id +
 				'" type="checkbox" /><label for="select-' + this.id + '-' + fileData.id + '"></label>');
@@ -621,7 +644,8 @@
 		 *
 		 * @param fileData map of file attributes
 		 * @param options map of attributes:
-		 * - "updateSummary" true to update the summary after adding (default), false otherwise
+		 * - "updateSummary": true to update the summary after adding (default), false otherwise
+		 * - "silent": true to prevent firing events like "fileActionsReady"
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
@@ -693,6 +717,7 @@
 			options = options || {};
 			var type = fileData.type || 'file',
 				mime = fileData.mimetype,
+				path = fileData.path || this.getCurrentDirectory(),
 				permissions = parseInt(fileData.permissions, 10) || 0;
 
 			if (fileData.isShareMountPoint) {
@@ -723,13 +748,13 @@
 			}
 
 			// display actions
-			this.fileActions.display(filenameTd, false);
+			this.fileActions.display(filenameTd, !options.silent, this);
 
 			if (fileData.isPreviewAvailable) {
 				// lazy load / newly inserted td ?
 				if (!fileData.icon) {
 					this.lazyLoadPreview({
-						path: this.getCurrentDirectory() + '/' + fileData.name,
+						path: path + '/' + fileData.name,
 						mime: mime,
 						etag: fileData.etag,
 						callback: function(url) {
@@ -740,7 +765,7 @@
 				else {
 					// set the preview URL directly
 					var urlSpec = {
-							file: this.getCurrentDirectory() + '/' + fileData.name,
+							file: path + '/' + fileData.name,
 							c: fileData.etag
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
@@ -781,13 +806,6 @@
 		},
 		linkTo: function(dir) {
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
-		},
-
-		/**
-		 * Sets the file actions handler
-		 */
-		setFileActions: function(fileActions) {
-			this.fileActions = fileActions;
 		},
 
 		/**
@@ -1213,16 +1231,16 @@
 								// reinsert row
 								self.files.splice(tr.index(), 1);
 								tr.remove();
-								self.add(fileInfo, {updateSummary: false});
-								self.$fileList.trigger($.Event('fileActionsReady'));
+								self.add(fileInfo, {updateSummary: false, silent: true});
+								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
 							}
 						});
 					} else {
 						// add back the old file info when cancelled
 						self.files.splice(tr.index(), 1);
 						tr.remove();
-						self.add(oldFileInfo, {updateSummary: false});
-						self.$fileList.trigger($.Event('fileActionsReady'));
+						self.add(oldFileInfo, {updateSummary: false, silent: true});
+						self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
 					}
 				} catch (error) {
 					input.attr('title', error);

@@ -41,6 +41,10 @@ describe('OCA.Files.App tests', function() {
 			'</div>'
 		);
 
+		window.FileActions = new OCA.Files.FileActions();
+		OCA.Files.legacyFileActions = window.FileActions;
+		OCA.Files.fileActions = new OCA.Files.FileActions();
+
 		pushStateStub = sinon.stub(OC.Util.History, 'pushState');
 		parseUrlQueryStub = sinon.stub(OC.Util.History, 'parseUrlQuery');
 		parseUrlQueryStub.returns({});
@@ -51,8 +55,6 @@ describe('OCA.Files.App tests', function() {
 		App.navigation = null;
 		App.fileList = null;
 		App.files = null;
-		App.fileActions.clear();
-		App.fileActions = null;
 
 		pushStateStub.restore();
 		parseUrlQueryStub.restore();
@@ -63,6 +65,53 @@ describe('OCA.Files.App tests', function() {
 			expect(App.fileList).toBeDefined();
 			expect(App.fileList.fileActions.actions.all).toBeDefined();
 			expect(App.fileList.$el.is('#app-content-files')).toEqual(true);
+		});
+		it('merges the legacy file actions with the default ones', function() {
+			var legacyActionStub = sinon.stub();
+			var actionStub = sinon.stub();
+			// legacy action
+			window.FileActions.register(
+					'all',
+					'LegacyTest',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					legacyActionStub
+			);
+			// legacy action to be overwritten
+			window.FileActions.register(
+					'all',
+					'OverwriteThis',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					legacyActionStub
+			);
+
+			// regular file actions
+			OCA.Files.fileActions.register(
+					'all',
+					'RegularTest',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+
+			// overwrite
+			OCA.Files.fileActions.register(
+					'all',
+					'OverwriteThis',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+
+			App.initialize();
+
+			var actions = App.fileList.fileActions.actions;
+			expect(actions.all.OverwriteThis.action).toBe(actionStub);
+			expect(actions.all.LegacyTest.action).toBe(legacyActionStub);
+			expect(actions.all.RegularTest.action).toBe(actionStub);
+			// default one still there
+			expect(actions.dir.Open.action).toBeDefined();
 		});
 	});
 

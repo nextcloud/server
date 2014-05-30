@@ -31,6 +31,9 @@ class Api {
 	 * @return \OC_OCS_Result share information
 	 */
 	public static function getAllShares($params) {
+		if (isset($_GET['shared_with_me']) && $_GET['shared_with_me'] !== 'false') {
+				return self::getFilesSharedWithMe();
+			}
 		// if a file is specified, get the share for this file
 		if (isset($_GET['path'])) {
 			$params['itemSource'] = self::getFileId($_GET['path']);
@@ -49,12 +52,20 @@ class Api {
 			return self::collectShares($params);
 		}
 
-		$share = \OCP\Share::getItemShared('file', null);
+		$shares = \OCP\Share::getItemShared('file', null);
 
-		if ($share === false) {
+		if ($shares === false) {
 			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
-			return new \OC_OCS_Result($share);
+			foreach ($shares as &$share) {
+				// file_target might not be set if the target user hasn't mounted
+				// the filesystem yet
+				if ($share['item_type'] === 'file' && isset($share['file_target'])) {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+				$newShares[] = $share;
+			}
+			return new \OC_OCS_Result($shares);
 		}
 
 	}
@@ -193,6 +204,27 @@ class Api {
 		}
 
 		return new \OC_OCS_Result($result);
+	}
+
+	/**
+	 * get files shared with the user
+	 * @return \OC_OCS_Result
+	 */
+	private static function getFilesSharedWithMe() {
+		try	{
+			$shares = \OCP\Share::getItemsSharedWith('file');
+			foreach ($shares as &$share) {
+				if ($share['item_type'] === 'file') {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+			}
+			$result = new \OC_OCS_Result($shares);
+		} catch (\Exception $e) {
+			$result = new \OC_OCS_Result(null, 403, $e->getMessage());
+		}
+
+		return $result;
+
 	}
 
 	/**

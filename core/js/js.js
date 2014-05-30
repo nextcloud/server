@@ -211,7 +211,16 @@ var OC={
 	linkToRemote:function(service) {
 		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
 	},
-	
+
+	/**
+	 * Gets the base path for the given OCS API service.
+	 * @param {string} service name
+	 * @return {string} OCS API base path
+	 */
+	linkToOCS: function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.webroot + '/ocs/v1.php/' + service + '/';
+	},
+
 	/**
 	 * Generates the absolute url for the given relative url, which can contain parameters.
 	 * @param {string} url
@@ -1241,7 +1250,7 @@ OC.Util = {
 	 * @return {string} fixed image path with png extension if SVG is not supported
 	 */
 	replaceSVGIcon: function(file) {
-		if (!OC.Util.hasSVGSupport()) {
+		if (file && !OC.Util.hasSVGSupport()) {
 			var i = file.lastIndexOf('.svg');
 			if (i >= 0) {
 				file = file.substr(0, i) + '.png' + file.substr(i+4);

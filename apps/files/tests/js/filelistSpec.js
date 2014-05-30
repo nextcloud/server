@@ -21,7 +21,6 @@
 
 describe('OCA.Files.FileList tests', function() {
 	var testFiles, alertStub, notificationStub, fileList;
-	var FileActions = OCA.Files.FileActions;
 
 	/**
 	 * Generate test file data
@@ -117,15 +116,11 @@ describe('OCA.Files.FileList tests', function() {
 		}];
 
 		fileList = new OCA.Files.FileList($('#app-content-files'));
-		FileActions.clear();
-		FileActions.registerDefaultActions(fileList);
-		fileList.setFileActions(FileActions);
 	});
 	afterEach(function() {
 		testFiles = undefined;
 		fileList = undefined;
 
-		FileActions.clear();
 		notificationStub.restore();
 		alertStub.restore();
 	});
@@ -488,7 +483,7 @@ describe('OCA.Files.FileList tests', function() {
 			var $input, request;
 
 			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i]);
+				fileList.add(testFiles[i], {silent: true});
 			}
 
 			// trigger rename prompt
@@ -752,6 +747,20 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.$fileList.on('fileActionsReady', handler);
 			fileList.setFiles(testFiles);
 			expect(handler.calledOnce).toEqual(true);
+		});
+		it('triggers "fileActionsReady" event after single add', function() {
+			var handler = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.$fileList.on('fileActionsReady', handler);
+			fileList.add({name: 'test.txt'});
+			expect(handler.calledOnce).toEqual(true);
+		});
+		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
+			var handler = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.$fileList.on('fileActionsReady', handler);
+			fileList.add({name: 'test.txt'}, {silent: true});
+			expect(handler.notCalled).toEqual(true);
 		});
 		it('triggers "updated" event after update', function() {
 			var handler = sinon.stub();
@@ -1510,6 +1519,32 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.reload();
 			expect(fileList.$el.find('.select-all').prop('checked')).toEqual(false);
 			expect(fileList.getSelectedFiles()).toEqual([]);
+		});
+	});
+	describe('File actions', function() {
+		it('Clicking on a file name will trigger default action', function() {
+			var actionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.fileActions.register(
+				'text/plain',
+				'Test',
+				OC.PERMISSION_ALL,
+				function() {
+					// Specify icon for hitory button
+					return OC.imagePath('core','actions/history');
+				},
+				actionStub
+			);
+			fileList.fileActions.setDefault('text/plain', 'Test');
+			var $tr = fileList.findFileEl('One.txt');
+			$tr.find('td.filename>a.name').click();
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(actionStub.getCall(0).args[0]).toEqual('One.txt');
+			var context = actionStub.getCall(0).args[1];
+			expect(context.$file.is($tr)).toEqual(true);
+			expect(context.fileList).toBeDefined();
+			expect(context.fileActions).toBeDefined();
+			expect(context.dir).toEqual('/subdir');
 		});
 	});
 	describe('Sorting files', function() {

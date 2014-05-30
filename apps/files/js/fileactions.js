@@ -11,11 +11,40 @@
 /* global trashBinApp */
 (function() {
 
-	var FileActions = {
+	/**
+	 * Construct a new FileActions instance
+	 */
+	var FileActions = function() {
+		this.initialize();
+	}
+	FileActions.prototype = {
 		actions: {},
 		defaults: {},
 		icons: {},
 		currentFile: null,
+		initialize: function() {
+			this.clear();
+		},
+		/**
+		 * Merges the actions from the given fileActions into
+		 * this instance.
+		 *
+		 * @param fileActions instance of OCA.Files.FileActions
+		 */
+		merge: function(fileActions) {
+			var self = this;
+			// merge first level to avoid unintended overwriting
+			_.each(fileActions.actions, function(sourceMimeData, mime) {
+				var targetMimeData = self.actions[mime];
+				if (!targetMimeData) {
+					targetMimeData = {};
+				}
+				self.actions[mime] = _.extend(targetMimeData, sourceMimeData);
+			});
+
+			this.defaults = _.extend(this.defaults, fileActions.defaults);
+			this.icons = _.extend(this.icons, fileActions.icons);
+		},
 		register: function (mime, name, permissions, icon, action, displayName) {
 			if (!this.actions[mime]) {
 				this.actions[mime] = {};
@@ -98,8 +127,13 @@
 		 * @param parent "td" element of the file for which to display actions
 		 * @param triggerEvent if true, triggers the fileActionsReady on the file
 		 * list afterwards (false by default)
+		 * @param fileList OCA.Files.FileList instance on which the action is
+		 * done, defaults to OCA.Files.App.fileList
 		 */
-		display: function (parent, triggerEvent) {
+		display: function (parent, triggerEvent, fileList) {
+			if (!fileList) {
+				console.warn('FileActions.display() MUST be called with a OCA.Files.FileList instance');
+			}
 			this.currentFile = parent;
 			var self = this;
 			var actions = this.getActions(this.getCurrentMimeType(), this.getCurrentType(), this.getCurrentPermissions());
@@ -120,9 +154,18 @@
 				event.preventDefault();
 
 				self.currentFile = event.data.elem;
-				var file = self.getCurrentFile();
+				// also set on global object for legacy apps
+				window.FileActions.currentFile = self.currentFile;
 
-				event.data.actionFunc(file);
+				var file = self.getCurrentFile();
+				var $tr = $(this).closest('tr');
+
+				event.data.actionFunc(file, {
+					$file: $tr,
+					fileList: fileList || OCA.Files.App.fileList,
+					fileActions: self,
+					dir: $tr.attr('data-path') || fileList.getCurrentDirectory()
+				});
 			};
 
 			var addAction = function (name, action, displayName) {
@@ -189,7 +232,7 @@
 			}
 
 			if (triggerEvent){
-				$('#fileList').trigger(jQuery.Event("fileActionsReady"));
+				fileList.$fileList.trigger(jQuery.Event("fileActionsReady", {fileList: fileList}));
 			}
 		},
 		getCurrentFile: function () {
@@ -208,29 +251,27 @@
 		/**
 		 * Register the actions that are used by default for the files app.
 		 */
-		registerDefaultActions: function(fileList) {
-			// TODO: try to find a way to not make it depend on fileList,
-			// maybe get a handler or listener to trigger events on
+		registerDefaultActions: function() {
 			this.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 				return OC.imagePath('core', 'actions/delete');
-			}, function (filename) {
-				fileList.do_delete(filename);
+			}, function (filename, context) {
+				context.fileList.do_delete(filename);
 				$('.tipsy').remove();
 			});
 
 			// t('files', 'Rename')
 			this.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 				return OC.imagePath('core', 'actions/rename');
-			}, function (filename) {
-				fileList.rename(filename);
+			}, function (filename, context) {
+				context.fileList.rename(filename);
 			});
 
-			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-				var dir = fileList.getCurrentDirectory();
+			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
+				var dir = context.fileList.getCurrentDirectory();
 				if (dir !== '/') {
 					dir = dir + '/';
 				}
-				fileList.changeDirectory(dir + filename);
+				context.fileList.changeDirectory(dir + filename);
 			});
 
 			this.setDefault('dir', 'Open');
@@ -243,20 +284,38 @@
 
 			this.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 				return OC.imagePath('core', 'actions/download');
-			}, function (filename) {
-				var url = fileList.getDownloadUrl(filename, fileList.getCurrentDirectory());
+			}, function (filename, context) {
+				var dir = context.dir || context.fileList.getCurrentDirectory();
+				var url = context.fileList.getDownloadUrl(filename, dir);
 				if (url) {
 					OC.redirect(url);
 				}
 			});
-
-			fileList.$fileList.trigger(jQuery.Event("fileActionsReady"));
 		}
 	};
 
 	OCA.Files.FileActions = FileActions;
-})();
 
-// for backward compatibility
-window.FileActions = OCA.Files.FileActions;
+	// global file actions to be used by all lists
+	OCA.Files.fileActions = new OCA.Files.FileActions();
+	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
+
+	// for backward compatibility
+	// 
+	// legacy apps are expecting a stateful global FileActions object to register
+	// their actions on. Since legacy apps are very likely to break with other
+	// FileList views than the main one ("All files"), actions registered
+	// through window.FileActions will be limited to the main file list.
+	window.FileActions = OCA.Files.legacyFileActions;
+	window.FileActions.register = function (mime, name, permissions, icon, action, displayName) {
+		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead', arguments);
+		OCA.Files.FileActions.prototype.register.call(
+				window.FileActions, mime, name, permissions, icon, action, displayName
+		);
+	};
+	window.FileActions.setDefault = function (mime, name) {
+		console.warn('FileActions.setDefault() is deprecated, please use OCA.Files.fileActions.setDefault() instead', mime, name);
+		OCA.Files.FileActions.prototype.setDefault.call(window.FileActions, mime, name);
+	};
+})();
 
