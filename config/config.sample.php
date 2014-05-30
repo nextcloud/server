@@ -3,7 +3,7 @@
 /**
  * This configuration file is only provided to document the different configuration options and their usage.
  * DO NOT COMPLETELY BASE YOUR CONFIGURATION FILE ON THIS SAMPLE. THIS MAY BREAK YOUR INSTANCE.
- * Instead copy configurations switches that you consider important for your instance manually to your configuration.
+ * Instead, manually copy configurations' switches that you consider important for your instance to your configuration.
  */
 
 /* Only enable this for local development and not in productive environments */
