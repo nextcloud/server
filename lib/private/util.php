@@ -516,6 +516,12 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
+		if (!self::isAnnotationsWorking()) {
+			$errors[] = array(
+				'error'=>'PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.',
+				'hint'=>'This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.'
+			);
+		}
 
 		if($webServerRestart) {
 			$errors[] = array(
@@ -993,6 +999,18 @@ class OC_Util {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Check if it's possible to get the inline annotations
+	 *
+	 * @return bool
+	 */
+	public static function isAnnotationsWorking() {
+		$reflection = new \ReflectionMethod(__METHOD__);
+		$docs = $reflection->getDocComment();
+
+		return (is_string($docs) && strlen($docs) > 50);
 	}
 
 	/**

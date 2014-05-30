@@ -83,6 +83,21 @@ if (!$_['isWebDavWorking']) {
 <?php
 }
 
+// Are doc blocks accessible?
+if (!$_['isAnnotationsWorking']) {
+	?>
+<div class="section">
+	<h2><?php p($l->t('Setup Warning'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.')); ?>
+		<?php p($l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')); ?>
+	</span>
+
+</div>
+<?php
+}
+
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
