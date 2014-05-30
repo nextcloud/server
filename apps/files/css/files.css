@@ -91,6 +91,11 @@
 	position: relative;
 }
 
+/* fit app list view heights */
+.app-files #app-content>.viewcontainer {
+	height: 100%;
+}
+
 /**
  * Override global #controls styles
  * to be more flexible / relative
