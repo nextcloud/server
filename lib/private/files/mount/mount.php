@@ -161,6 +161,6 @@ class Mount {
 	 * @param callable $wrapper
 	 */
 	public function wrapStorage($wrapper) {
-		$this->storage = $wrapper($this->mountPoint, $this->storage);
+		$this->storage = $wrapper($this->mountPoint, $this->getStorage());
 	}
 }

@@ -155,4 +155,10 @@ class Quota extends \Test\Files\Storage\Storage {
 
 		$this->assertEquals(1024 - 50, $instance->free_space(''));
 	}
+
+	public function testInstanceOfStorageWrapper() {
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
+		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
+	}
 }

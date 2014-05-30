@@ -7,6 +7,7 @@
  */
 
 namespace OC\Files\Storage;
+
 use OC\Files\Filesystem;
 use OC\Files\Cache\Watcher;
 
@@ -21,7 +22,6 @@ use OC\Files\Cache\Watcher;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-
 abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cache;
 	protected $scanner;
@@ -46,7 +46,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected function remove($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} else if($this->is_file($path)) {
+		} else if ($this->is_file($path)) {
 			return $this->unlink($path);
 		} else {
 			return false;
@@ -411,5 +411,15 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	protected function removeCachedFile($path) {
 		unset($this->cachedFiles[$path]);
+	}
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class) {
+		return is_a($this, $class);
 	}
 }

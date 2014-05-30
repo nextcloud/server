@@ -327,4 +327,12 @@ interface Storage {
 	 * @return bool true if the files are stored locally, false otherwise
 	 */
 	public function isLocal();
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class);
 }

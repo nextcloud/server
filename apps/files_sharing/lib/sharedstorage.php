@@ -300,7 +300,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 		// it shouldn't be possible to move a Shared storage into another one
 		list($targetStorage, ) = \OC\Files\Filesystem::resolvePath($targetPath);
-		if ($targetStorage instanceof \OC\Files\Storage\Shared) {
+		if ($targetStorage->instanceOfStorage('\OC\Files\Storage\Shared')) {
 			\OCP\Util::writeLog('file sharing',
 					'It is not allowed to move one mount point into another one',
 					\OCP\Util::DEBUG);
