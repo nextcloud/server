@@ -400,6 +400,21 @@
 				</field>
 			</index>
 
+			<index>
+				<name>fs_storage_size</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>size</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>fileid</name>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
