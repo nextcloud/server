@@ -131,7 +131,7 @@ describe('Core base tests', function() {
 		it('Returns a sanitized string if a string containing HTML is given', function() {
 			expect(escapeHTML('There needs to be a <script>alert(\"Unit\" + \'test\')</script> for it!')).toEqual('There needs to be a &lt;script&gt;alert(&quot;Unit&quot; + &#039;test&#039;)&lt;/script&gt; for it!');
 		});
-		it('Returns the string without modification if no potential dangerous character is passed.', function() {
+		it('Returns the string without modification if no potentially dangerous character is passed.', function() {
 			expect(escapeHTML('This is a good string without HTML.')).toEqual('This is a good string without HTML.');
 		});
 	});
