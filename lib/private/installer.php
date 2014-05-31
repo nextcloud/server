@@ -482,6 +482,9 @@ class OC_Installer{
 			return false;
 		}
 		OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
+		if (array_key_exists('ocsid', $info)) {
+			OC_Appconfig::setValue($app, 'ocsid', $info['ocsid']);
+		}
 
 		//set remote/public handelers
 		foreach($info['remote'] as $name=>$path) {
