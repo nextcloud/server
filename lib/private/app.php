@@ -248,11 +248,6 @@ class OC_App{
 			return false;
 		}
 
-		$disable = self::disable($app);
-		if (!$disable) {
-			return false;
-		}
-
 		return OC_Installer::removeApp($app);
 	}
 
@@ -784,10 +779,12 @@ class OC_App{
 					$info['internal']=true;
 					$info['internallabel']='Internal App';
 					$info['internalclass']='';
+					$info['removable'] = false;
 				} else {
 					$info['internal']=false;
 					$info['internallabel']='3rd Party';
 					$info['internalclass']='externalapp';
+					$info['removable'] = true;
 				}
 
 				$info['update'] = OC_Installer::isUpdateAvailable($app);
@@ -797,7 +794,7 @@ class OC_App{
 				$appList[] = $info;
 			}
 		}
-		$remoteApps = OC_App::getAppstoreApps();
+		$remoteApps = self::getAppstoreApps();
 		if ( $remoteApps ) {
 			// Remove duplicates
 			foreach ( $appList as $app ) {
@@ -876,6 +873,7 @@ class OC_App{
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
 				$app1[$i]['update'] = false;
+				$app1[$i]['removable'] = false;
 				if($app['label']=='recommended') {
 					$app1[$i]['internallabel'] = 'Recommended';
 					$app1[$i]['internalclass'] = 'recommendedapp';

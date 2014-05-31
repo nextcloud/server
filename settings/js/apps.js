@@ -69,6 +69,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('input.update').hide();
 		}
 
+		if (app.removable !== false) {
+			page.find('input.uninstall').show();
+			page.find('input.uninstall').data('appid', app.id);
+			page.find('input.uninstall').attr('value', t('settings', 'Uninstall App'));
+		} else {
+			page.find('input.uninstall').hide();
+		}
+
 		page.find('input.enable').show();
 		page.find('input.enable').val((app.active) ? t('settings', 'Disable') : t('settings', 'Enable'));
 		page.find('input.enable').data('appid', app.id);
@@ -155,6 +163,19 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			else {
 				element.val(t('settings','Updated'));
 				element.hide();
+			}
+		},'json');
+	},
+	uninstallApp:function(appid, element) {
+		console.log('uninstall app:', appid, element);
+		element.val(t('settings','Uninstalling ....'));
+		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appid},function(result) {
+			if(!result || result.status !== 'success') {
+				OC.Settings.Apps.showErrorMessage(t('settings','Error while uninstalling app'),t('settings','Error'));
+				element.val(t('settings','Uninstall'));
+			} else {
+				OC.Settings.Apps.removeNavigation(appid);
+				appitem.removeClass('active');
 			}
 		},'json');
 	},
@@ -278,6 +299,13 @@ $(document).ready(function(){
 		var appid=$(this).data('appid');
 		if(appid) {
 			OC.Settings.Apps.updateApp(appid, element);
+		}
+	});
+	$('#app-content input.uninstall').click(function(){
+		var element = $(this);
+		var appid=$(this).data('appid');
+		if(appid) {
+			OC.Settings.Apps.uninstallApp(appid, element);
 		}
 	});
 

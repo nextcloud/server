@@ -366,19 +366,25 @@ class OC_Installer{
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
 	public static function isDownloaded( $name ) {
-
-		$downloaded=false;
 		foreach(OC::$APPSROOTS as $dir) {
-			if(is_dir($dir['path'].'/'.$name)) $downloaded=true;
+			$dirToTest  = $dir['path'];
+			$dirToTest .= '/';
+			$dirToTest .= $name;
+			$dirToTest .= '/';
+
+			if (is_dir($dirToTest)) {
+				return true;
+			}
 		}
-		return($downloaded);
+
+		return false;
 	}
 
 	/**
 	 * Removes an app
 	 * @param string $name name of the application to remove
 	 * @param array $options options
-	 * @return boolean|null
+	 * @return boolean
 	 *
 	 * This function removes an app. $options is an associative array. The
 	 * following keys are optional:ja
@@ -420,9 +426,11 @@ class OC_Installer{
 			$appdir=OC_App::getInstallPath().'/'.$name;
 			OC_Helper::rmdirr($appdir);
 
+			return true;
 		}else{
 			OC_Log::write('core', 'can\'t remove app '.$name.'. It is not installed.', OC_Log::ERROR);
 
+			return false;
 		}
 
 	}
