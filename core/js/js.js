@@ -179,9 +179,9 @@ var OC={
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
-	config: oc_config,
-	appConfig: oc_appconfig || {},
-	theme: oc_defaults || {},
+	config: window.oc_config,
+	appConfig: window.oc_appconfig || {},
+	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	
 	/**
