@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 14:18+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-posta gönderildi"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarlamanız gerekiyor."
 
-#: admin/controller.php:116 templates/admin.php:331
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "Gönderme kipi"
 
-#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: admin/controller.php:120 templates/admin.php:368
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "Kimlik doğrulama yöntemi"
 
@@ -297,7 +297,7 @@ msgstr "geri al"
 msgid "Unable to remove user"
 msgstr "Kullanıcı kaldırılamıyor"
 
-#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
 #: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Gruplar"
@@ -336,23 +336,23 @@ msgstr "Türkçe"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr "Her şey (Ölümcül konular, hatalar, uyarılar, bilgi, hata ayıklama)"
+msgstr "Her şey (Ciddi sorunlar, hatalar, uyarılar, bilgi, hata ayıklama)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr "Bilgi, uyarılar, hatalar ve ölümcül konular"
+msgstr "Bilgi, uyarılar, hatalar ve ciddi sorunlar"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr "Uyarılar, hatalar ve ölümcül konular"
+msgstr "Uyarılar, hatalar ve ciddi sorunlar"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr "Hatalar ve ölümcül konular"
+msgstr "Hatalar ve ciddi sorunlar"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr "Sadece ölümcül konular"
+msgstr "Sadece ciddi sorunlar"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
@@ -398,7 +398,7 @@ msgid ""
 "root."
 msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu belge kök dizini dışına almanızı şiddetle tavsiye ederiz."
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "Kurulum Uyarısı"
 
@@ -413,53 +413,65 @@ msgstr "Web sunucunuz dosya eşitlemesine izin vermek üzere düzgün bir şekil
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> tekrar kontrol edin."
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "Modül 'fileinfo' kayıp"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "PHP sürümünüz eski"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "PHP sürümünüz eski. Eski sürümlerde sorun olduğundan 5.3.8 veya daha yeni bir sürüme güncellemenizi şiddetle tavsiye ederiz. Bu kurulumun da doğru çalışmaması da olasıdır."
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "Yerel çalışmıyor"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Sistem yereli, UTF-8 destekleyenlerden biri olarak ayarlanamadı."
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Bu, dosya adlarında belirli karakterlerde problem olabileceği anlamına gelir."
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Şu dillerden birini desteklemesi için sisteminize gerekli paketleri kurmanızı şiddetle tavsiye ederiz: %s."
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "İnternet bağlantısı çalışmıyor"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -468,206 +480,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Bu sunucunun çalışan bir internet bağlantısı yok. Bu, harici depolama alanı bağlama, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacak demektir. Uzak dosyalara erişim ve e-posta ile bildirim gönderme de çalışmayacaktır. Eğer bu özelliklerin tamamını kullanmak istiyorsanız, sunucu için internet bağlantısını etkinleştirmenizi öneriyoruz."
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Son cron %s zamanında çalıştırıldı."
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Son cron %s zamanında çalıştırıldı. Bu bir saatten daha uzun bir süre, bir şeyler yanlış gibi görünüyor."
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "Cron henüz çalıştırılmadı!"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php, http üzerinden her 15 dakikada bir çağrılması için webcron hizmetine kaydedilir."
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron hizmetini kullan."
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "Paylaşım"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "Paylaşım API'sini etkinleştir"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "Bağlantılara izin ver"
 
-#: templates/admin.php:223
+#: templates/admin.php:238
 msgid "Enforce password protection"
 msgstr "Parola korumasını zorla"
 
-#: templates/admin.php:226
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: templates/admin.php:230
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr "Öntanımlı son kullanma tarihini ayarla"
 
-#: templates/admin.php:232
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "Süre"
 
-#: templates/admin.php:235
+#: templates/admin.php:250
 msgid "days"
 msgstr "gün sonra dolsun"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr "Son kullanma tarihini zorla"
 
-#: templates/admin.php:242
+#: templates/admin.php:257
 msgid "Allow users to share items to the public with links"
 msgstr "Kullanıcıların ögeleri paylaşması için herkese açık bağlantılara izin ver"
 
-#: templates/admin.php:249
+#: templates/admin.php:264
 msgid "Allow resharing"
 msgstr "Yeniden paylaşıma izin ver"
 
-#: templates/admin.php:250
+#: templates/admin.php:265
 msgid "Allow users to share items shared with them again"
 msgstr "Kullanıcıların kendileri ile paylaşılan ögeleri yeniden paylaşmasına izin ver"
 
-#: templates/admin.php:257
+#: templates/admin.php:272
 msgid "Allow users to share with anyone"
 msgstr "Kullanıcıların herkesle paylaşmasına izin ver"
 
-#: templates/admin.php:260
+#: templates/admin.php:275
 msgid "Allow users to only share with users in their groups"
 msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 msgid "Allow mail notification"
 msgstr "Posta bilgilendirmesine izin ver"
 
-#: templates/admin.php:268
+#: templates/admin.php:283
 msgid "Allow users to send mail notification for shared files"
 msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
 
-#: templates/admin.php:275
+#: templates/admin.php:290
 msgid "Exclude groups from sharing"
 msgstr "Grupları paylaşma eyleminden hariç tut"
 
-#: templates/admin.php:286
+#: templates/admin.php:301
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır."
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:306
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:308
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
-#: templates/admin.php:314
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın."
 
-#: templates/admin.php:326
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "E-Posta Sunucusu"
 
-#: templates/admin.php:328
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "Bu, bildirimler gönderilirken kullanılır."
 
-#: templates/admin.php:359
+#: templates/admin.php:374
 msgid "From address"
 msgstr "Kimden adresi"
 
-#: templates/admin.php:360
+#: templates/admin.php:375
 msgid "mail"
 msgstr "posta"
 
-#: templates/admin.php:381
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
-#: templates/admin.php:385
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "Sunucu adresi"
 
-#: templates/admin.php:389
+#: templates/admin.php:404
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "Kimlik Bilgileri"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "SMTP Kullanıcı Adı"
 
-#: templates/admin.php:398
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "SMTP Parolası"
 
-#: templates/admin.php:402
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "E-posta ayarlarını sına"
 
-#: templates/admin.php:403
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "E-posta gönder"
 
-#: templates/admin.php:408
+#: templates/admin.php:423
 msgid "Log"
 msgstr "Günlük"
 
-#: templates/admin.php:409
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:441
+#: templates/admin.php:456
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:442
+#: templates/admin.php:457
 msgid "Less"
 msgstr "Daha az"
 
-#: templates/admin.php:448 templates/personal.php:196
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:452 templates/personal.php:199
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

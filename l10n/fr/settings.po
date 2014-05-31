@@ -11,7 +11,7 @@
 # Gauth <gauthier@openux.org>, 2014
 # lyly95, 2013
 # Mystyle <maelvstyle@gmail.com>, 2013
-# ogre_sympathique, 2013
+# ogre_sympathique, 2013-2014
 # red0ne <red-0ne@smarty-concept.com>, 2013
 # RyDroid <rydroid_trans@yahoo.fr>, 2013-2014
 # tcit <thomas.citharet@gmail.com>, 2014
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -60,15 +60,15 @@ msgstr "Email envoyé"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Vous devez configurer votre e-mail d'utilisateur avant de pouvoir envoyer des e-mails de test."
 
-#: admin/controller.php:116 templates/admin.php:331
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "Mode d'envoi"
 
-#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: admin/controller.php:120 templates/admin.php:368
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "Méthode d'authentification"
 
@@ -306,7 +306,7 @@ msgstr "annuler"
 msgid "Unable to remove user"
 msgstr "Impossible de retirer l'utilisateur"
 
-#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
 #: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Groupes"
@@ -407,7 +407,7 @@ msgid ""
 "root."
 msgstr "Votre dossier de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce dossier de données ne soit plus accessible, ou bien de le déplacer à l'extérieur de la racine du serveur web."
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "Avertissement, problème de configuration"
 
@@ -422,53 +422,65 @@ msgstr "Votre serveur web, n'est pas correctement configuré pour permettre la s
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Veuillez consulter à nouveau les <a href=\"%s\">guides d'installation</a>."
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "Module 'fileinfo' manquant"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Le module PHP 'fileinfo' est manquant. Il est vivement recommandé de l'activer afin d'obtenir de meilleurs résultats pour la détection des types de fichiers."
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "Votre version de PHP est trop ancienne"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Votre version de PHP est trop ancienne. Nous vous recommandons fortement de migrer vers une version 5.3.8 ou plus récente encore, car les versions antérieures sont réputées problématiques. Il est possible que cette installation ne fonctionne pas correctement."
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "Localisation non fonctionnelle"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Les paramètres régionaux ne peuvent pas être configurés avec un qui supporte UTF-8."
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Cela signifie qu'il pourrait y avoir des problèmes avec certains caractères dans les noms de fichier."
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Nous conseillons vivement d'installer les paquets requis sur votre système pour supporter l'un des paramètres régionaux suivants : %s."
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "La connexion internet ne fonctionne pas"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -477,206 +489,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Ce serveur ne peut se connecter à internet. Cela signifie que certaines fonctionnalités, telles que le montage de supports de stockage distants, les notifications de mises à jour ou l'installation d'applications tierces ne fonctionneront pas. L'accès aux fichiers à distance, ainsi que les notifications par mails ne seront pas fonctionnels également. Il est recommandé d'activer la connexion internet pour ce serveur si vous souhaitez disposer de l'ensemble des fonctionnalités offertes."
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Le dernier cron s'est exécuté à %s."
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Le dernier cron s'est exécuté à %s. Cela fait plus d'une heure, quelque chose a du mal se passer."
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "Le cron n'a pas encore été exécuté !"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "Exécute une tâche à chaque chargement de page"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.php toutes les 15 minutes via http."
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Utilise le service cron du système pour appeler le fichier cron.php toutes les 15 minutes."
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "Partage"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "Activer l'API de partage"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "Autoriser les applications à utiliser l'API de partage"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "Autoriser les liens"
 
-#: templates/admin.php:223
+#: templates/admin.php:238
 msgid "Enforce password protection"
 msgstr "Appliquer la protection par mot de passe"
 
-#: templates/admin.php:226
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "Autoriser les téléversements publics"
 
-#: templates/admin.php:230
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr "Spécifier la date d'expiration par défaut"
 
-#: templates/admin.php:232
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "Expire après"
 
-#: templates/admin.php:235
+#: templates/admin.php:250
 msgid "days"
 msgstr "jours"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr "Impose la date d'expiration"
 
-#: templates/admin.php:242
+#: templates/admin.php:257
 msgid "Allow users to share items to the public with links"
 msgstr "Autoriser les utilisateurs à partager des éléments publiquement à l'aide de liens"
 
-#: templates/admin.php:249
+#: templates/admin.php:264
 msgid "Allow resharing"
 msgstr "Autoriser le repartage"
 
-#: templates/admin.php:250
+#: templates/admin.php:265
 msgid "Allow users to share items shared with them again"
 msgstr "Autoriser les utilisateurs à partager des éléments qui ont été partagés avec eux"
 
-#: templates/admin.php:257
+#: templates/admin.php:272
 msgid "Allow users to share with anyone"
 msgstr "Autoriser les utilisateurs à partager avec tout le monde"
 
-#: templates/admin.php:260
+#: templates/admin.php:275
 msgid "Allow users to only share with users in their groups"
 msgstr "Autoriser les utilisateurs à partager avec des utilisateurs de leur groupe uniquement"
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 msgid "Allow mail notification"
 msgstr "Autoriser les notifications par couriel"
 
-#: templates/admin.php:268
+#: templates/admin.php:283
 msgid "Allow users to send mail notification for shared files"
 msgstr "Autoriser les utilisateurs à envoyer une notification par courriel concernant les fichiers partagés"
 
-#: templates/admin.php:275
+#: templates/admin.php:290
 msgid "Exclude groups from sharing"
 msgstr "Exclure  les groupes du partage"
 
-#: templates/admin.php:286
+#: templates/admin.php:301
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Ces groupes restent autorisés à partager, mais ne peuvent pas les initier"
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 msgid "Security"
 msgstr "Sécurité"
 
-#: templates/admin.php:306
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "Forcer HTTPS"
 
-#: templates/admin.php:308
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forcer les clients à se connecter à %s via une connexion chiffrée."
 
-#: templates/admin.php:314
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Veuillez vous connecter à cette instance %s via HTTPS pour activer ou désactiver SSL."
 
-#: templates/admin.php:326
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "Serveur mail"
 
-#: templates/admin.php:328
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "Ceci est utilisé pour l'envoi des notifications."
 
-#: templates/admin.php:359
+#: templates/admin.php:374
 msgid "From address"
 msgstr "Adresse source"
 
-#: templates/admin.php:360
+#: templates/admin.php:375
 msgid "mail"
-msgstr ""
+msgstr "courriel"
 
-#: templates/admin.php:381
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "Authentification requise"
 
-#: templates/admin.php:385
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "Adresse du serveur"
 
-#: templates/admin.php:389
+#: templates/admin.php:404
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "Informations d'identification"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "Nom d'utilisateur SMTP"
 
-#: templates/admin.php:398
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "Mot de passe SMTP"
 
-#: templates/admin.php:402
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "Paramètres de test d'e-mail"
 
-#: templates/admin.php:403
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "Envoyer un e-mail"
 
-#: templates/admin.php:408
+#: templates/admin.php:423
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:409
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "Niveau de log"
 
-#: templates/admin.php:441
+#: templates/admin.php:456
 msgid "More"
 msgstr "Plus"
 
-#: templates/admin.php:442
+#: templates/admin.php:457
 msgid "Less"
 msgstr "Moins"
 
-#: templates/admin.php:448 templates/personal.php:196
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:452 templates/personal.php:199
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

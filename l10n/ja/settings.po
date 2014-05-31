@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -53,15 +53,15 @@ msgstr "メールを送信しました"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。"
 
-#: admin/controller.php:116 templates/admin.php:331
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "送信モード"
 
-#: admin/controller.php:118 templates/admin.php:344 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "暗号化"
 
-#: admin/controller.php:120 templates/admin.php:368
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "認証方法"
 
@@ -299,7 +299,7 @@ msgstr "元に戻す"
 msgid "Unable to remove user"
 msgstr "ユーザーを削除できません"
 
-#: js/users.js:101 templates/admin.php:280 templates/users.php:24
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
 #: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "グループ"
@@ -400,7 +400,7 @@ msgid ""
 "root."
 msgstr "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにウェブサーバーを設定するか、ウェブサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。"
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "セットアップ警告"
 
@@ -415,53 +415,65 @@ msgstr "WebDAVインターフェースに問題があると思われるため、
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "<a href=\"%s\">installation guides</a>をもう一度チェックするようにお願いいたします。"
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "モジュール 'fileinfo' が見つかりません"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。"
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "PHPバーションが古くなっています。"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "PHPバーションが古くなっています。古いバージョンには既知の問題があるため、5.3.8以降のバージョンにアップデートすることを強く推奨します。このインストール状態では正常に動作しない可能性があります。"
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "ロケールが動作していません"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "システムロケールを UTF-8 をサポートするロケールに設定できません。"
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "これは、ファイル名の特定の文字に問題があることを意味しています。"
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。"
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "インターネット接続が動作していません"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -470,206 +482,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "このサーバーはインターネットに接続していません。この場合、外部ストレージのマウント、更新の通知やサードパーティアプリといったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信と言った機能も利用できないかもしれません。全ての機能を利用したいのであれば、このサーバーからインターネットに接続できるようにすることをお勧めします。"
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "直近では %s に cron が実行されました。"
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "直近では %s に cron が実行されました。これは今から１時間以上前なので、なんらかの問題が発生しているようです。"
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "cron は未だ実行されていません！"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "各ページの読み込み時にタスクを実行する"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.phpは、HTTP経由で15分ごとにcron.phpを実行するようwebcronサービスに登録されています"
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "システムのcronサービスを利用して15分ごとにcron.phpファイルを実行します。"
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "共有"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "共有APIを有効にする"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "アプリからの共有APIの利用を許可する"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "リンクを許可する"
 
-#: templates/admin.php:223
+#: templates/admin.php:238
 msgid "Enforce password protection"
 msgstr "常にパスワード保護を有効にする"
 
-#: templates/admin.php:226
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:230
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr "有効期限の既定値を設定"
 
-#: templates/admin.php:232
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "無効になるまで"
 
-#: templates/admin.php:235
+#: templates/admin.php:250
 msgid "days"
 msgstr "日"
 
-#: templates/admin.php:238
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr "有効期限を反映させる"
 
-#: templates/admin.php:242
+#: templates/admin.php:257
 msgid "Allow users to share items to the public with links"
 msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
 
-#: templates/admin.php:249
+#: templates/admin.php:264
 msgid "Allow resharing"
 msgstr "再共有を許可する"
 
-#: templates/admin.php:250
+#: templates/admin.php:265
 msgid "Allow users to share items shared with them again"
 msgstr "ユーザーが共有しているアイテムの再共有を許可する"
 
-#: templates/admin.php:257
+#: templates/admin.php:272
 msgid "Allow users to share with anyone"
 msgstr "ユーザーに誰とでも共有することを許可する"
 
-#: templates/admin.php:260
+#: templates/admin.php:275
 msgid "Allow users to only share with users in their groups"
 msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
 
-#: templates/admin.php:267
+#: templates/admin.php:282
 msgid "Allow mail notification"
 msgstr "メール通知を許可"
 
-#: templates/admin.php:268
+#: templates/admin.php:283
 msgid "Allow users to send mail notification for shared files"
 msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
 
-#: templates/admin.php:275
+#: templates/admin.php:290
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:286
+#: templates/admin.php:301
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:293
+#: templates/admin.php:308
 msgid "Security"
 msgstr "セキュリティ"
 
-#: templates/admin.php:306
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "常にHTTPSを使用する"
 
-#: templates/admin.php:308
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "クライアントから %sへの接続を常に暗号化します。"
 
-#: templates/admin.php:314
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s へ接続してください。"
 
-#: templates/admin.php:326
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "メールサーバー"
 
-#: templates/admin.php:328
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "これは通知の送信に使われます。"
 
-#: templates/admin.php:359
+#: templates/admin.php:374
 msgid "From address"
 msgstr "アドレスから"
 
-#: templates/admin.php:360
+#: templates/admin.php:375
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:381
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "要求される認証"
 
-#: templates/admin.php:385
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "サーバーアドレス"
 
-#: templates/admin.php:389
+#: templates/admin.php:404
 msgid "Port"
 msgstr "ポート"
 
-#: templates/admin.php:394
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "資格情報"
 
-#: templates/admin.php:395
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "SMTP ユーザー名"
 
-#: templates/admin.php:398
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "SMTP パスワード"
 
-#: templates/admin.php:402
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "メールテスト設定"
 
-#: templates/admin.php:403
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "メールを送信"
 
-#: templates/admin.php:408
+#: templates/admin.php:423
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:409
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:441
+#: templates/admin.php:456
 msgid "More"
 msgstr "もっと見る"
 
-#: templates/admin.php:442
+#: templates/admin.php:457
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:448 templates/personal.php:196
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:452 templates/personal.php:199
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

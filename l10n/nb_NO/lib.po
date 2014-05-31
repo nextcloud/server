@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 20:01+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,16 +19,16 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:710
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Du aksesserer serveren fra et ikke tiltrodd domene."
 
-#: base.php:696
+#: base.php:711
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Vennligst kontakt administratoren. Hvis du er administrator for denne instansen, konfigurer innstillingen \"trusted_domain\" i config/config.php. En eksempelkonfigurasjon er gitt i config/config.sample.php."
 
 #: private/app.php:236
 #, php-format
@@ -129,29 +129,29 @@ msgstr "App-en inneholder ikke filen info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "App kan ikke installeres på grunn av ulovlig kode i appen."
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "App kan ikke installeres fordi den ikke er kompatibel med denne versjonen av ownCloud"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "App kan ikke installeres fordi den inneholder tag <shipped>true</shipped> som ikke er tillatt for apper som ikke leveres med systemet"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "App kan ikke installeres fordi versjonen i info.xml/version ikke er den samme som versjonen som rapporteres fra app-butikken"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "App-mappe finnes allerede"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Kan ikke opprette app-mappe.  Vennligst ordne opp i tillatelser. %s"
@@ -170,7 +170,7 @@ msgstr "Symbol utløpt. Vennligst last inn siden på nytt."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Ukjent bruker"
 
 #: private/search/provider/file.php:18 private/search/provider/file.php:36
 msgid "Files"
@@ -212,7 +212,7 @@ msgstr "Du må legge inn enten en eksisterende konto eller administratoren."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB-brukernavn og/eller -passord ikke gyldig"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -240,20 +240,20 @@ msgstr "Kommandoen som feilet: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL/MariaDB-bruker '%s'@'localhost' finnes allerede."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Fjern denne brukeren fra MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL/MariaDB-bruker '%s'@'%%' finnes allerede"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Fjern denne brukeren fra MySQL/MariaDB."
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -300,116 +300,116 @@ msgstr "%s delte »%s« med deg"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Deling av %s feilet, fordi filen ikke eksisterer"
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Du har ikke lov til å dele %s"
 
 #: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "Deling av %s feilet, fordi brukeren %s er eier av elementet"
 
 #: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "Deling av %s feilet, fordi brukeren %s ikke finnes"
 
 #: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr ""
+msgstr "Deling av %s feilet, fordi brukeren %s ikke er medlem av noen grupper som %s er medlem av"
 
 #: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "Deling av %s feilet, fordi dette elementet allerede er delt med %s"
 
 #: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "Deling av %s feilet, fordi gruppen %s ikke finnes"
 
 #: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "Deling av %s feilet, fordi %s ikke er medlem av gruppen %s"
 
 #: private/share/share.php:621
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Du må oppgi et passord for å lage en offentlig lenke. Bare beskyttede lenker er tillatt"
 
 #: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "Deling av %s feilet, fordi deling med lenker ikke er tillatt"
 
 #: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "Delingstype %s er ikke gyldig for %s"
 
 #: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Setting av tillatelser for %s feilet, fordi tillatelsene gikk ut over tillatelsene som er gitt til %s"
 
 #: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Setting av tillatelser for %s feilet, fordi elementet ikke ble funnet"
 
 #: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "Delings-server %s må implementere grensesnittet OCP\\Share_Backend"
 
 #: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Delings-server %s ikke funnet"
 
 #: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Delings-server for %s ikke funnet"
 
 #: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Deling av %s feilet, fordi brukeren %s er den opprinnelige eieren"
 
 #: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Deling av %s feilet, fordi tillatelsene går utover tillatelsene som er gitt til %s"
 
 #: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Deling av %s feilet, fordi videre-deling ikke er tillatt"
 
 #: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Deling av %s feilet, fordi delings-serveren for %s ikke kunne finne kilden"
 
 #: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Deling av %s feilet, fordi filen ikke ble funnet i fil-mellomlageret"
 
 #: private/tags.php:183
 #, php-format
@@ -464,20 +464,20 @@ msgstr "forrige år"
 msgid "years ago"
 msgstr "år siden"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Oppgi et gyldig brukernavn"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Oppgi et gyldig passord"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
-msgstr ""
+msgstr "Brukernavnet er allerede i bruk"

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 19:21+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Filnavn kan ikke være tomt."
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" er et ugyldig filnavn."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
@@ -49,7 +49,7 @@ msgstr "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke ti
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Målmappen er blitt flyttet eller slettet."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
@@ -149,7 +149,7 @@ msgstr "Filer"
 
 #: appinfo/app.php:29
 msgid "All files"
-msgstr ""
+msgstr "Alle filer"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -157,12 +157,12 @@ msgstr "Kan ikke laste opp {filename} fordi det er en mappe eller har 0 bytes"
 
 #: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Total filstørrelse {size1} overstiger grense for opplasting {size2}"
 
 #: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Ikke nok ledig plass. Du laster opp size1} men bare {size2} er ledig"
 
 #: js/file-upload.js:358
 msgid "Upload cancelled."
@@ -181,7 +181,7 @@ msgstr "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen."
 msgid "URL cannot be empty"
 msgstr "URL kan ikke være tom"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} finnes allerede"
 
@@ -197,73 +197,77 @@ msgstr "Klarte ikke å opprette mappe"
 msgid "Error fetching URL"
 msgstr "Feil ved henting av URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Del"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Slett permanent"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Slett"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Gi nytt navn"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Nedlastingen din klargjøres. Hvis filene er store kan dette ta litt tid."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Ventende"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
-msgstr ""
+msgstr "Feil ved flytting av fil."
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Feil ved flytting av fil"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Feil"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Klarte ikke å gi nytt navn til fil"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Feil ved sletting av fil."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Navn"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:75
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:78
 msgid "Modified"
 msgstr "Endret"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
 msgstr[1] "%n filer"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Laster opp %n fil"
@@ -271,7 +275,7 @@ msgstr[1] "Laster opp %n filer"
 
 #: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" er et uglydig filnavn."
 
 #: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -312,7 +316,7 @@ msgstr "Kunne ikke gi nytt navn til %s"
 #: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Opplasting (maks. %s)"
 
 #: templates/admin.php:4
 msgid "File handling"
@@ -397,10 +401,6 @@ msgstr "Ingenting her. Last opp noe!"
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Slett"
-
 #: templates/list.php:95
 msgid "Upload too large"
 msgstr "Filen er for stor"
@@ -417,4 +417,4 @@ msgstr "Skanner filer, vennligst vent."
 
 #: templates/list.php:105
 msgid "Currently scanning"
-msgstr ""
+msgstr "Skanner nå"

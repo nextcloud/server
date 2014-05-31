@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "mappings cleared" => "associations supprimées",
 "Success" => "Succès",
 "Error" => "Erreur",
+"Please specify the port" => "Veuillez indiquer le port",
 "Configuration OK" => "Configuration OK",
 "Configuration incorrect" => "Configuration incorrecte",
 "Configuration incomplete" => "Configuration incomplète",

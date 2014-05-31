@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 19:21+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgstr "Kan ikke dekryptere denne filen. Dette er sannsynligvis en delt fil. Sp�
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Ukjent feil. Sjekk systeminnstillingene eller kontakt administratoren."
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -102,7 +102,7 @@ msgstr "Første gangs kryptering startet... Dette kan ta litt tid. Vennligst ven
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "Førstegangs kryptering kjører... Prøv igjen senere."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

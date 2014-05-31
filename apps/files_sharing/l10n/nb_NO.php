@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "deling er deaktivert",
 "For more info, please ask the person who sent this link." => "For mer informasjon, spør personen som sendte lenken.",
 "Download" => "Last ned",
+"Download %s" => "Last ned %s",
 "Direct link" => "Direkte lenke"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
