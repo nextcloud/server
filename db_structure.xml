@@ -970,6 +970,18 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			<index>
+				<name>file_target_index</name>
+				<field>
+					<name>file_target</name>
+				</field>
+				<field>
+					<name>uid_owner</name>
+				</field>
+				<field>
+					<name>share_type</name>
+				</field>
+			</index>
 		</declaration>
 
 	</table>
