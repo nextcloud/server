@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "L'envoi a échoué. Impossible d'obtenir les informations du fichier.",
 "Invalid directory." => "Dossier invalide.",
 "Files" => "Fichiers",
+"All files" => "Tous les fichiers",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
 "Total file size {size1} exceeds upload limit {size2}" => "La taille totale du fichier {size1} excède la taille maximale d'envoi {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Espace insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",
@@ -72,13 +73,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 est illimité",
 "Maximum input size for ZIP files" => "Taille maximale pour les fichiers ZIP",
 "Save" => "Sauvegarder",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Utiliser cette adresse pour <a href=\"%s\" target=\"_blank\"> accéder à vos fichiers par WebDAV</a>",
 "New" => "Nouveau",
 "New text file" => "Nouveau fichier texte",
 "Text file" => "Fichier texte",
 "New folder" => "Nouveau dossier",
 "Folder" => "Dossier",
 "From link" => "Depuis le lien",
-"Deleted files" => "Fichiers supprimés",
 "Cancel upload" => "Annuler l'envoi",
 "You don’t have permission to upload or create files here" => "Vous n'avez pas la permission de téléverser ou de créer des fichiers ici",
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
@@ -87,6 +89,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Téléversement trop volumineux",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",
 "Files are being scanned, please wait." => "Les fichiers sont en cours d'analyse, veuillez patienter.",
-"Current scanning" => "Analyse en cours"
+"Currently scanning" => "Analyse en cours de traitement"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

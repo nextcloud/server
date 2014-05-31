@@ -33,7 +33,7 @@ body {
 	z-index: 100;
 	height: 45px;
 	line-height: 2.5em;
-	background: #1d2d44 url('../img/noise.png') repeat;
+	background-color: #1d2d44;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -41,12 +41,12 @@ body {
 #body-login {
 	text-align: center;
 	background: #1d2d44; /* Old browsers */
-	background: url('../img/noise.png'), -moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
-	background: url('../img/noise.png'), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
-	background: url('../img/noise.png'), -webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
-	background: url('../img/noise.png'), -o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
-	background: url('../img/noise.png'), -ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
-	background: url('../img/noise.png'), linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
+	background: -moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
+	background: linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
 
@@ -204,10 +204,26 @@ input img, button img, .button img {
 }
 
 
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+
 /* SCROLLING */
-::-webkit-scrollbar { width:8px; }
-::-webkit-scrollbar-track-piece { background-color:transparent; }
-::-webkit-scrollbar-thumb { background:#ddd; }
+::-webkit-scrollbar {
+	width: 8px;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: #ccc;
+}
 
 
 /* BUTTONS */
@@ -352,9 +368,9 @@ input[type="submit"].enabled {
 #body-login #header {
 	padding-top: 100px;
 }
-/* Fix background gradient */
 #body-login {
-	background-attachment: fixed;
+	background-attachment: fixed; /* fix background gradient */
+	height: 100%; /* fix sticky footer */
 }
 
 /* Dark subtle label text */
@@ -368,6 +384,16 @@ input[type="submit"].enabled {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);
 	opacity: .6;
+}
+
+#body-login .update h2 {
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 30px;
+}
+
+#body-login .infogroup {
+	margin-bottom: 15px;
 }
 
 #body-login p#message img {
@@ -699,12 +725,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	width: 80px;
 	margin-top:45px;
 	z-index: 75;
-	background: #383c43 url('../img/noise.png') repeat;
+	background-color: #383c43;
 	overflow-y: auto;
 	overflow-x: hidden;
 	-moz-box-sizing:border-box; box-sizing:border-box;
-	/* prevent ugly selection effect on accidental selection */
-	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 #apps {
 	height: 100%;
@@ -791,12 +815,10 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 #expanddiv {
 	position:absolute; right:0; top:45px; z-index:76; display:none;
-	background:#383c43 url('../img/noise.png') repeat;
+	background-color: #383c43;
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	box-shadow:0 0 7px rgb(29,45,68);
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	/* prevent ugly selection effect on accidental selection */
-	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 	#expanddiv a {
 		display: block;

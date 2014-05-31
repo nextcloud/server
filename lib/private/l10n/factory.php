@@ -20,8 +20,8 @@ class Factory {
 
 	/**
 	 * get an L10N instance
-	 * @param $app string
-	 * @param $lang string|null
+	 * @param string $app
+	 * @param string|null $lang
 	 * @return \OC_L10N
 	 */
 	public function get($app) {

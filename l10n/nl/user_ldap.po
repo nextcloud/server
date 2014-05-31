@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 09:59+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 07:32+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -73,6 +73,10 @@ msgstr "Overnemen instellingen van de recente serverconfiguratie?"
 msgid "Keep settings?"
 msgstr "Instellingen bewaren?"
 
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr "{nbServer}. Server"
+
 #: js/settings.js:99
 msgid "Cannot add server configuration"
 msgstr "Kon de serverconfiguratie niet toevoegen"
@@ -88,6 +92,18 @@ msgstr "Succes"
 #: js/settings.js:133
 msgid "Error"
 msgstr "Fout"
+
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr "Geef een Base DN op"
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr "Kon de Base DN niet vaststellen"
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr "Geef de poort op"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -129,27 +145,43 @@ msgstr "Wilt u werkelijk de huidige Serverconfiguratie verwijderen?"
 msgid "Confirm Deletion"
 msgstr "Bevestig verwijderen"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s groep gevonden"
 msgstr[1] "%s groepen gevonden"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s gebruiker gevonden"
 msgstr[1] "%s gebruikers gevonden"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Ongeldige server"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Kon de gewenste functie niet vinden"
+
+#: settings.php:52
+msgid "Server"
+msgstr "Server"
+
+#: settings.php:53
+msgid "User Filter"
+msgstr "Gebruikersfilter"
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr "Inlogfilter"
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr "Groep Filter"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -223,9 +255,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Definiëert het toe te passen filter als er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam bij het inloggen. Bijvoorbeeld: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr "1. Server"
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr "%s. Server:"
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "Toevoegen serverconfiguratie"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr "Verwijder configuratie"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -289,6 +334,14 @@ msgstr "Terug"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Verder"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr "Expert"
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr "Geavanceerd"
 
 #: templates/settings.php:11
 msgid ""

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:33+0000\n"
+"POT-Creation-Date: 2014-05-25 01:54-0400\n"
+"PO-Revision-Date: 2014-05-24 10:12+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:712
+#: base.php:695
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Du greifst von einer nicht vertrauenswürdigen Domain auf den Server zu."
 
-#: base.php:713
+#: base.php:696
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -82,23 +82,23 @@ msgstr "Ungültiges Bild"
 msgid "web services under your control"
 msgstr "Web-Services unter Deiner Kontrolle"
 
-#: private/files.php:232
+#: private/files.php:235
 msgid "ZIP download is turned off."
 msgstr "Der ZIP-Download ist deaktiviert."
 
-#: private/files.php:233
+#: private/files.php:236
 msgid "Files need to be downloaded one by one."
 msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
-#: private/files.php:234 private/files.php:261
+#: private/files.php:237 private/files.php:264
 msgid "Back to Files"
 msgstr "Zurück zu \"Dateien\""
 
-#: private/files.php:259
+#: private/files.php:262
 msgid "Selected files too large to generate zip file."
 msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
-#: private/files.php:260
+#: private/files.php:263
 msgid ""
 "Please download the files separately in smaller chunks or kindly ask your "
 "administrator."
@@ -295,116 +295,127 @@ msgstr "Dein Web-Server ist noch nicht für Datei-Synchronisation bereit, weil d
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bitte prüfe die <a href='%s'>Installationsanleitungen</a>."
 
-#: private/share/mailnotifications.php:72
-#: private/share/mailnotifications.php:118
+#: private/share/mailnotifications.php:91
+#: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s teilte »%s« mit Dir"
 
-#: private/share/share.php:498
+#: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr "Freigabe von %s fehlgeschlagen, da die Datei nicht existiert"
 
-#: private/share/share.php:523
+#: private/share/share.php:501
+#, php-format
+msgid "You are not allowed to share %s"
+msgstr "Die Freigabe von %s ist Dir nicht erlaubt"
+
+#: private/share/share.php:526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s Besitzer des Objektes ist"
 
-#: private/share/share.php:529
+#: private/share/share.php:532
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s nicht existiert"
 
-#: private/share/share.php:538
+#: private/share/share.php:541
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s kein Gruppenmitglied einer der Gruppen von %s ist"
 
-#: private/share/share.php:551 private/share/share.php:579
+#: private/share/share.php:554 private/share/share.php:582
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird"
 
-#: private/share/share.php:559
+#: private/share/share.php:562
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "Freigabe von %s fehlgeschlagen, da die Gruppe %s nicht existiert"
 
-#: private/share/share.php:566
+#: private/share/share.php:569
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Freigabe von %s fehlgeschlagen, da %s kein Mitglied der Gruppe %s ist"
 
-#: private/share/share.php:629
+#: private/share/share.php:621
+msgid ""
+"You need to provide a password to create a public link, only protected links"
+" are allowed"
+msgstr "Es sind nur geschützte Links zulässig, daher müssen Sie ein Passwort angeben, um einen öffentlichen Link zu generieren"
+
+#: private/share/share.php:641
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Freigabe von %s fehlgeschlagen, da das Teilen von Verknüpfungen nicht erlaubt ist"
 
-#: private/share/share.php:636
+#: private/share/share.php:648
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Freigabetyp %s ist nicht gültig für %s"
 
-#: private/share/share.php:773
+#: private/share/share.php:787
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die Berechtigungen, die erteilten Berechtigungen %s überschreiten"
 
-#: private/share/share.php:834
+#: private/share/share.php:848
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da das Objekt nicht gefunden wurde"
 
-#: private/share/share.php:940
+#: private/share/share.php:959
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Freigabe-Backend %s muss in der OCP\\Share_Backend - Schnittstelle implementiert werden"
 
-#: private/share/share.php:947
+#: private/share/share.php:966
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Freigabe-Backend %s nicht gefunden"
 
-#: private/share/share.php:953
+#: private/share/share.php:972
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Freigabe-Backend für %s nicht gefunden"
 
-#: private/share/share.php:1367
+#: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s der offizielle Freigeber ist"
 
-#: private/share/share.php:1376
+#: private/share/share.php:1397
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Freigabe von %s fehlgeschlagen, da die Berechtigungen die erteilten Berechtigungen %s überschreiten"
 
-#: private/share/share.php:1391
+#: private/share/share.php:1413
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Freigabe von %s fehlgeschlagen, da das nochmalige Freigeben einer Freigabe nicht erlaubt ist"
 
-#: private/share/share.php:1403
+#: private/share/share.php:1425
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Freigabe von %s fehlgeschlagen, da das Freigabe-Backend für %s nicht in dieser Quelle gefunden werden konnte"
 
-#: private/share/share.php:1417
+#: private/share/share.php:1439
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr "Freigabe von %s fehlgeschlagen, da die Datei im Datei-Cache nicht gefunden werden konnte"
 
-#: private/tags.php:193
+#: private/tags.php:183
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr "Die Kategorie \"%s\" konnte nicht gefunden werden."

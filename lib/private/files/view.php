@@ -11,7 +11,7 @@
  * working with files within that view (e.g. read, write, delete, etc.). Each
  * view is restricted to a set of directories via a virtual root. The default view
  * uses the currently logged in user's data directory as root (parts of
- * OC_Filesystem are merely a wrapper for OC_FilesystemView).
+ * OC_Filesystem are merely a wrapper for OC\Files\View).
  *
  * Apps that need to access files outside of the user data folders (to modify files
  * belonging to a user other than the one currently logged in, for example) should
@@ -29,15 +29,14 @@ use OC\Files\Cache\Updater;
 
 class View {
 	private $fakeRoot = '';
-	private $internal_path_cache = array();
-	private $storage_cache = array();
 
 	public function __construct($root = '') {
 		$this->fakeRoot = $root;
 	}
 
 	public function getAbsolutePath($path = '/') {
-		if (!$path) {
+		$this->assertPathLength($path);
+		if ($path === '') {
 			$path = '/';
 		}
 		if ($path[0] !== '/') {
@@ -77,6 +76,7 @@ class View {
 	 * @return string
 	 */
 	public function getRelativePath($path) {
+		$this->assertPathLength($path);
 		if ($this->fakeRoot == '') {
 			return $path;
 		}
@@ -109,7 +109,7 @@ class View {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array consisting of the storage and the internal path
+	 * @return array an array consisting of the storage and the internal path
 	 */
 	public function resolvePath($path) {
 		$a = $this->getAbsolutePath($path);
@@ -168,6 +168,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return resource
+	 */
 	public function opendir($path) {
 		return $this->basicOperation('opendir', $path, array('read'));
 	}
@@ -204,6 +208,7 @@ class View {
 	}
 
 	public function readfile($path) {
+		$this->assertPathLength($path);
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
@@ -428,7 +433,7 @@ class View {
 					if ($this->is_dir($path1)) {
 						$result = $this->copy($path1, $path2);
 						if ($result === true) {
-							$result = $storage1->unlink($internalPath1);
+							$result = $storage1->rmdir($internalPath1);
 						}
 					} else {
 						$source = $this->fopen($path1 . $postFix1, 'r');
@@ -552,6 +557,11 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param string $mode
+	 * @return resource
+	 */
 	public function fopen($path, $mode) {
 		$hooks = array();
 		switch ($mode) {
@@ -586,6 +596,7 @@ class View {
 	}
 
 	public function toTmpFile($path) {
+		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
 			$source = $this->fopen($path, 'r');
 			if ($source) {
@@ -602,7 +613,7 @@ class View {
 	}
 
 	public function fromTmpFile($tmpFile, $path) {
-
+		$this->assertPathLength($path);
 		if (Filesystem::isValidPath($path)) {
 
 			// Get directory that the file is going into
@@ -631,6 +642,7 @@ class View {
 	}
 
 	public function getMimeType($path) {
+		$this->assertPathLength($path);
 		return $this->basicOperation('getMimeType', $path);
 	}
 
@@ -660,11 +672,12 @@ class View {
 	}
 
 	public function free_space($path = '/') {
+		$this->assertPathLength($path);
 		return $this->basicOperation('free_space', $path);
 	}
 
 	/**
-	 * @brief abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
+	 * abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
 	 * @param string $operation
 	 * @param string $path
 	 * @param array $hooks (optional)
@@ -796,9 +809,10 @@ class View {
 	 * @param string $path
 	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return \OC\Files\FileInfo | false
+	 * @return \OC\Files\FileInfo|false
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
+		$this->assertPathLength($path);
 		$data = array();
 		if (!Filesystem::isValidPath($path)) {
 			return $data;
@@ -869,6 +883,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
+		$this->assertPathLength($directory);
 		$result = array();
 		if (!Filesystem::isValidPath($directory)) {
 			return $result;
@@ -991,12 +1006,13 @@ class View {
 	 * change file metadata
 	 *
 	 * @param string $path
-	 * @param array | \OCP\Files\FileInfo $data
+	 * @param array|\OCP\Files\FileInfo $data
 	 * @return int
 	 *
 	 * returns the fileid of the updated file
 	 */
 	public function putFileInfo($path, $data) {
+		$this->assertPathLength($path);
 		if ($data instanceof FileInfo) {
 			$data = $data->getData();
 		}
@@ -1143,5 +1159,13 @@ class View {
 			}
 		}
 		return null;
+	}
+
+	private function assertPathLength($path) {
+		$maxLen = min(PHP_MAXPATHLEN, 4000);
+		$pathLen = strlen($path);
+		if ($pathLen > $maxLen) {
+			throw new \OCP\Files\InvalidPathException("Path length($pathLen) exceeds max path length($maxLen): $path");
+		}
 	}
 }

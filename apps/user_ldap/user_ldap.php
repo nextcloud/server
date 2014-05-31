@@ -69,9 +69,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief reads jpegPhoto and set is as avatar if available
-	 * @param $uid string ownCloud user name
-	 * @param $dn string the user's LDAP DN
+	 * reads jpegPhoto and set is as avatar if available
+	 * @param string $uid ownCloud user name
+	 * @param string $dn the user's LDAP DN
 	 * @return void
 	 */
 	private function updateAvatar($uid, $dn) {
@@ -117,8 +117,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief checks whether the user is allowed to change his avatar in ownCloud
-	 * @param $uid string the ownCloud user name
+	 * checks whether the user is allowed to change his avatar in ownCloud
+	 * @param string $uid the ownCloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
@@ -135,9 +135,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief reads the image from LDAP that shall be used as Avatar
-	 * @param $uid string, the ownCloud user name
-	 * @param $dn string, the user DN
+	 * reads the image from LDAP that shall be used as Avatar
+	 * @param string $uid the ownCloud user name
+	 * @param string $dn the user DN
 	 * @return string data (provided by LDAP) | false
 	 */
 	private function getAvatarImage($uid, $dn) {
@@ -155,7 +155,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Check if the password is correct
+	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return boolean
@@ -199,8 +199,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Get a list of all users
-	 * @returns array with all uids
+	 * Get a list of all users
+	 * @return string[] with all uids
 	 *
 	 * Get a list of all users.
 	 */
@@ -240,7 +240,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief check if a user exists
+	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -271,9 +271,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	* @brief delete a user
-	* @param $uid The username of the user to delete
-	* @returns true/false
+	* delete a user
+	* @param string $uid The username of the user to delete
+	* @return bool
 	*
 	* Deletes a user
 	*/
@@ -282,7 +282,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	* @brief get the user's home directory
+	* get the user's home directory
 	* @param string $uid the username
 	* @return boolean
 	*/
@@ -325,9 +325,9 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief get display name of the user
-	 * @param $uid user ID of the user
-	 * @return display name
+	 * get display name of the user
+	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
 		if(!$this->userExists($uid)) {
@@ -352,8 +352,8 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
-	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 * Get a list of all display names
+	 * @return array with all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -372,10 +372,10 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		return $displayNames;
 	}
 
-		/**
-	* @brief Check if backend implements actions
-	* @param $actions bitwise-or'ed actions
-	* @returns boolean
+	/**
+	* Check if backend implements actions
+	* @param int $actions bitwise-or'ed actions
+	* @return boolean
 	*
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
@@ -399,7 +399,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	/**
 	 * counts the users in LDAP
 	 *
-	 * @return int | bool
+	 * @return int|bool
 	 */
 	public function countUsers() {
 		$filter = \OCP\Util::mb_str_replace(

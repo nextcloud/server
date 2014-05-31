@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Impossível mover %s - Um arquivo com este nome já existe",
+"Could not move %s - File with this name already exists" => "Impossível mover %s - Já existe um arquivo com esse nome",
 "Could not move %s" => "Impossível mover %s",
 "File name cannot be empty." => "O nome do arquivo não pode estar vazio.",
 "\"%s\" is an invalid file name." => "\"%s\" é um nome de arquivo inválido.",
@@ -8,7 +8,7 @@ $TRANSLATIONS = array(
 "The target folder has been moved or deleted." => "A pasta de destino foi movida ou excluída.",
 "The name %s is already used in the folder %s. Please choose a different name." => "O nome %s já é usado na pasta %s. Por favor, escolha um nome diferente.",
 "Not a valid source" => "Não é uma fonte válida",
-"Server is not allowed to open URLs, please check the server configuration" => "Não é permitido ao servidor abrir URLs, por favor verificar a configuração do servidor.",
+"Server is not allowed to open URLs, please check the server configuration" => "O servidor não tem permissão para abrir URLs. Por favor, verifique a configuração do servidor.",
 "Error while downloading %s to %s" => "Erro ao baixar %s para %s",
 "Error when creating the file" => "Erro ao criar o arquivo",
 "Folder name cannot be empty." => "O nome da pasta não pode estar vazio.",
@@ -28,8 +28,9 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Falha no envio. Não foi possível obter informações do arquivo.",
 "Invalid directory." => "Diretório inválido.",
 "Files" => "Arquivos",
+"All files" => "Todos os arquivos",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Incapaz de fazer o envio de {filename}, pois é um diretório ou tem 0 bytes",
-"Total file size {size1} exceeds upload limit {size2}" => "Tamanho total do arquivo {size1} excede limite de envio {size2}",
+"Total file size {size1} exceeds upload limit {size2}" => "O tamanho total do arquivo {size1} excede o limite de envio {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Não há espaço suficiente, você está enviando {size1} mas resta apenas {size2}",
 "Upload cancelled." => "Envio cancelado.",
 "Could not get result from server." => "Não foi possível obter o resultado do servidor.",
@@ -72,21 +73,22 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 para ilimitado",
 "Maximum input size for ZIP files" => "Tamanho máximo para arquivo ZIP",
 "Save" => "Guardar",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Use este endereço <a href=\"%s\" target=\"_blank\">para ter acesso aos seus Arquivos via WebDAV</a>",
 "New" => "Novo",
 "New text file" => "Novo arquivo texto",
 "Text file" => "Arquivo texto",
 "New folder" => "Nova pasta",
 "Folder" => "Pasta",
 "From link" => "Do link",
-"Deleted files" => "Arquivos apagados",
 "Cancel upload" => "Cancelar upload",
 "You don’t have permission to upload or create files here" => "Você não tem permissão para carregar ou criar arquivos aqui",
-"Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",
+"Nothing in here. Upload something!" => "Nada aqui. Carrege alguma coisa!",
 "Download" => "Baixar",
 "Delete" => "Excluir",
 "Upload too large" => "Upload muito grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor.",
 "Files are being scanned, please wait." => "Arquivos sendo escaneados, por favor aguarde.",
-"Current scanning" => "Scanning atual"
+"Currently scanning" => "Atualmente escaneando"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

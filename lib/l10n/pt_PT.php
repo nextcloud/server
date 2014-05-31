@@ -56,6 +56,8 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web não está configurado correctamente para autorizar sincronização de ficheiros, pois o interface WebDAV parece estar com problemas.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor verifique <a href='%s'>installation guides</a>.",
 "%s shared »%s« with you" => "%s partilhado »%s« consigo",
+"Sharing %s failed, because the user %s is the item owner" => "A partilha %s falhou, porque o utilizador %s é o proprietário",
+"Sharing %s failed, because the user %s does not exist" => "A partilha %s falhou, porque o utilizador %s nao existe",
 "Could not find category \"%s\"" => "Não foi encontrado a categoria \"%s\"",
 "seconds ago" => "Minutos atrás",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minutos atrás"),
@@ -67,7 +69,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","%n meses atrás"),
 "last year" => "ano passado",
 "years ago" => "anos atrás",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Apenas os seguintes caracteres são permitidos no nome de utilizador: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\"",
 "A valid username must be provided" => "Um nome de utilizador válido deve ser fornecido",
-"A valid password must be provided" => "Uma password válida deve ser fornecida"
+"A valid password must be provided" => "Uma password válida deve ser fornecida",
+"The username is already being used" => "O nome de utilizador já está a ser usado"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

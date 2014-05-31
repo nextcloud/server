@@ -65,13 +65,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0은 무제한입니다",
 "Maximum input size for ZIP files" => "ZIP 파일 최대 크기",
 "Save" => "저장",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>",
 "New" => "새로 만들기",
 "New text file" => "새 텍스트 파일",
 "Text file" => "텍스트 파일",
 "New folder" => "새 폴더",
 "Folder" => "폴더",
 "From link" => "링크에서",
-"Deleted files" => "삭제된 파일",
 "Cancel upload" => "업로드 취소",
 "You don’t have permission to upload or create files here" => "여기에 파일을 업로드하거나 만들 권한이 없습니다",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",
@@ -79,7 +80,6 @@ $TRANSLATIONS = array(
 "Delete" => "삭제",
 "Upload too large" => "업로드한 파일이 너무 큼",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
-"Files are being scanned, please wait." => "파일을 검색하고 있습니다. 기다려 주십시오.",
-"Current scanning" => "현재 검색"
+"Files are being scanned, please wait." => "파일을 검색하고 있습니다. 기다려 주십시오."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

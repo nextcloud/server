@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# asieriko <asieriko@gmail.com>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-16 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:34
 msgid "Local"
-msgstr ""
+msgstr "Bertakoa"
 
 #: appinfo/app.php:36
 msgid "Location"
@@ -28,7 +29,7 @@ msgstr "Kokapena"
 
 #: appinfo/app.php:39
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:41
 msgid "Key"
@@ -60,7 +61,7 @@ msgstr ""
 
 #: appinfo/app.php:53
 msgid "Port (optional)"
-msgstr ""
+msgstr "Portua (hautazkoa)"
 
 #: appinfo/app.php:54
 msgid "Region (optional)"
@@ -68,7 +69,7 @@ msgstr ""
 
 #: appinfo/app.php:55
 msgid "Enable SSL"
-msgstr ""
+msgstr "Gaitu SSL"
 
 #: appinfo/app.php:56
 msgid "Enable Path Style"
@@ -83,9 +84,9 @@ msgid "App secret"
 msgstr ""
 
 #: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
-msgid "URL"
-msgstr "URL"
+#: appinfo/app.php:151
+msgid "Host"
+msgstr "Hostalaria"
 
 #: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
 #: appinfo/app.php:142 appinfo/app.php:152
@@ -166,6 +167,10 @@ msgstr ""
 msgid "Username as share"
 msgstr ""
 
+#: appinfo/app.php:131 appinfo/app.php:141
+msgid "URL"
+msgstr "URL"
+
 #: appinfo/app.php:135 appinfo/app.php:145
 msgid "Secure https://"
 msgstr ""
@@ -196,31 +201,31 @@ msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
-msgstr ""
+msgstr "Gordeta"
 
-#: lib/config.php:598
+#: lib/config.php:589
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>Oharra:</b>"
 
-#: lib/config.php:608
+#: lib/config.php:599
 msgid " and "
-msgstr ""
+msgstr "eta"
 
-#: lib/config.php:630
+#: lib/config.php:621
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:632
+#: lib/config.php:623
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:634
+#: lib/config.php:625
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -257,7 +262,7 @@ msgstr "Gehitu biltegiratzea"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "Talde edo erabiltzailerik ez"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -282,7 +287,7 @@ msgstr "Gaitu erabiltzaileentzako Kanpo Biltegiratzea"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

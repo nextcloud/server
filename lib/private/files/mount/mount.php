@@ -28,7 +28,7 @@ class Mount {
 	private $loader;
 
 	/**
-	 * @param string | \OC\Files\Storage\Storage $storage
+	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional)\
 	 * @param \OC\Files\Storage\Loader $loader
@@ -59,10 +59,21 @@ class Mount {
 	}
 
 	/**
+	 * get complete path to the mount point, relative to data/
+	 *
 	 * @return string
 	 */
 	public function getMountPoint() {
 		return $this->mountPoint;
+	}
+
+	/**
+	 * get name of the mount point
+	 *
+	 * @return string
+	 */
+	public function getMountPointName() {
+		return basename(rtrim($this->mountPoint, '/'));
 	}
 
 	/**
@@ -150,6 +161,6 @@ class Mount {
 	 * @param callable $wrapper
 	 */
 	public function wrapStorage($wrapper) {
-		$this->storage = $wrapper($this->mountPoint, $this->storage);
+		$this->storage = $wrapper($this->mountPoint, $this->getStorage());
 	}
 }

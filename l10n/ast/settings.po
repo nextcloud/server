@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Iñigo Varela <ivarela@softastur.org>, 2014
+# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,15 +49,15 @@ msgstr "Corréu-e unviáu"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Tienes de configurar la direición de corréu-e enantes de poder unviar mensaxes de prueba."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "Mou d'unviu"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "Cifráu"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "Métodu d'autenticación"
 
@@ -99,6 +100,16 @@ msgstr "Nun pudieron descifrase sus ficheros. Revisa'l owncloud.log o consulta c
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Nun pudieron descifrase los ficheros. Revisa la contraseña ya inténtalo dempués"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Desaniciaes dafechu les claves de cifráu"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Nun pudieron desaniciase dafechu les tos claves d'encriptación, por favor comprueba'l to owncloud.log o entruga a un alministrador"
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Corréu-e guardáu"
@@ -114,6 +125,16 @@ msgstr "Nun pudo desaniciase'l grupu"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Nun pudo desaniciase l'usuariu"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Nun pudieron restaurase dafechu les tos claves d'encriptación, por favor comprueba'l to owncloud.log o entruga a un alministrador"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -170,7 +191,7 @@ msgstr "El back-end nun sofita cambeos de contraseña, pero la contraseña de ci
 msgid "Unable to change password"
 msgstr "Nun pudo camudase la contraseña"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Unviando..."
 
@@ -226,33 +247,41 @@ msgstr "Anovar"
 msgid "Updated"
 msgstr "Anováu"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Esbillar una imaxe de perfil"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Contraseña mui feble"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Contraseña feble"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Contraseña pasable"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Contraseña bona"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Contraseña mui bona"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Descifrando ficheros... Espera por favor, esto pue llevar daqué de tiempu."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Desanciar dafechu les claves de cifráu."
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Restaurar claves de cifráu."
 
 #: js/users.js:47
 msgid "deleted"
@@ -266,8 +295,8 @@ msgstr "desfacer"
 msgid "Unable to remove user"
 msgstr "Imposible desaniciar al usuariu"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Grupos"
 
@@ -299,7 +328,7 @@ msgstr "Tien d'apurrise una contraseña válida"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Avisu: el direutoriu d'aniciu pal usuariu \"{user}\" yá esiste."
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Asturianu"
 
@@ -367,7 +396,7 @@ msgid ""
 "root."
 msgstr "El direutoriu de datos y ficheros ye dablemente accesible dende Internet, darréu que'l ficheru .htaccess nun ta funcionando. Suxerímoste que configures el sirvidor web de mou que'l direutoriu de datos nun seya accesible o que muevas talu direutoriu fuera del raigañu de documentos del sirvidor web."
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "Avisu de configuración"
 
@@ -382,53 +411,65 @@ msgstr "El sirvidor web entá nun ta configurado pa permitir la sincronización 
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Por favor, vuelvi a comprobar les <a href=\"%s\">guíes de instalación</a>."
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "Nun s'atopó'l módulu \"fileinfo\""
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Nun s'atopó'l módulu PHP 'fileinfo'. Encamentámoste qu'habilites esti módulu pa obtener meyores resultaos cola deteición de tribes MIME."
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "La versión de PHP nun ta anovada"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "La versión de PHP caducó. Suxerímose que l'anueves a 5.3.8 o a una más nueva porque davezu, les versiones vieyes nun funcionen bien. Puede ser qu'esta instalación nun tea funcionando bien."
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "La configuración rexonal nun ta funcionando"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Nun se pue escoyer una configuración rexonal que sofite UTF-8."
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Esto significa que pue haber problemes con ciertos caráuteres nos nomes de los ficheros."
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Ye enforma recomendable instalar los paquetes necesarios pa poder soportar una de les siguientes configuraciones rexonales: %s. "
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "La conexón a Internet nun ta funcionando"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -437,198 +478,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Esti sirvidor nun tien conexón a Internet. Esto significa que dalgunes de les carauterístiques nun van funcionar, como'l montaxe d'almacenamiento esternu, les notificaciones sobre anovamientos, la instalación d'aplicaciones de terceros, l'accesu a los ficheros de mou remotu o l'unviu de correos-e de notificación. Suxerimos habilitar una conexón a Internet nesti sirvidor pa esfrutar de toles funciones."
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Cron executóse per cabera vegada a les %s."
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Cron executóse per cabera vegada a les %s. Esto foi hai más d'una hora, daqué anda mal."
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "¡Cron entá nun s'executó!"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "Executar una xera con cada páxina cargada"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php rexístrase nun serviciu webcron pa llamar a cron.php cada 15 minutos al traviés de HTTP."
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Usa'l serviciu cron del sistema pa llamar al ficheru cron.php cada 15 minutos."
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "Compartiendo"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "Activar API de Compartición"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "Permitir a les aplicaciones usar la API de Compartición"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "Permitir enllaces"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Permitir a los usuarios compartir elementos col públicu per aciu d'enllaces"
+#: templates/admin.php:238
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "Permitir xubes públiques"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Permitir a los usuarios habilitar a otros pa xubir ficheros nes sos carpetes compartíes públicamente"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Permitir re-compartición"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Permitir a los usuarios compartir de nuevu elementos ya compartíos"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Permitir a los usuarios compartir con cualesquier persona"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Permitir a los usuarios compartir namái colos usuarios nos sos grupos"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Permitir notificaciones per corréu-e"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Permitir a los usuarios unviar mensaxes de notificación pa ficheros compartíos"
-
-#: templates/admin.php:262
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr "Afitar la data d'espiración predeterminada"
 
-#: templates/admin.php:263
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "Caduca dempués de"
 
-#: templates/admin.php:266
+#: templates/admin.php:250
 msgid "days"
 msgstr "díes"
 
-#: templates/admin.php:269
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr "Facer cumplir la data de caducidá"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Ficheros compartíos caduquen dempués de N díes"
+#: templates/admin.php:257
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir a los usuarios compartir elementos col públicu per aciu d'enllaces"
 
-#: templates/admin.php:278
+#: templates/admin.php:264
+msgid "Allow resharing"
+msgstr "Permitir re-compartición"
+
+#: templates/admin.php:265
+msgid "Allow users to share items shared with them again"
+msgstr "Permitir a los usuarios compartir de nuevu elementos ya compartíos"
+
+#: templates/admin.php:272
+msgid "Allow users to share with anyone"
+msgstr "Permitir a los usuarios compartir con cualesquier persona"
+
+#: templates/admin.php:275
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir a los usuarios compartir namái colos usuarios nos sos grupos"
+
+#: templates/admin.php:282
+msgid "Allow mail notification"
+msgstr "Permitir notificaciones per corréu-e"
+
+#: templates/admin.php:283
+msgid "Allow users to send mail notification for shared files"
+msgstr "Permitir a los usuarios unviar mensaxes de notificación pa ficheros compartíos"
+
+#: templates/admin.php:290
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:301
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:308
 msgid "Security"
 msgstr "Seguridá"
 
-#: templates/admin.php:291
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "Forciar HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forciar a los veceros a coneutase a %s per duana d'una conexón cifrada."
 
-#: templates/admin.php:299
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor, conéutate a %s al traviés de HTTPS p'habilitar o deshabilitar l'aplicación de SSL."
 
-#: templates/admin.php:311
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "Sirvidor de corréu-e"
 
-#: templates/admin.php:313
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "Esto úsase pa unviar notificaciones."
 
-#: templates/admin.php:344
+#: templates/admin.php:374
 msgid "From address"
 msgstr "Dende la direición"
 
-#: templates/admin.php:366
+#: templates/admin.php:375
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "Necesítase autenticación"
 
-#: templates/admin.php:370
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "Direición del sirvidor"
 
-#: templates/admin.php:374
+#: templates/admin.php:404
 msgid "Port"
 msgstr "Puertu"
 
-#: templates/admin.php:379
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: templates/admin.php:380
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "Nome d'usuariu SMTP"
 
-#: templates/admin.php:383
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: templates/admin.php:387
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "Probar configuración de corréu electrónicu"
 
-#: templates/admin.php:388
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "Unviar mensaxe"
 
-#: templates/admin.php:393
+#: templates/admin.php:423
 msgid "Log"
 msgstr "Rexistru"
 
-#: templates/admin.php:394
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "Nivel de rexistru"
 
-#: templates/admin.php:426
+#: templates/admin.php:456
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:427
+#: templates/admin.php:457
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -781,28 +830,32 @@ msgstr "Llingua"
 msgid "Help translate"
 msgstr "Ayúdanos nes traducciones"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Usa esta direición pa <a href=\"%s/server/5.0/user_manual/files/files.html\" target=\"_blank\">acceder a los ficheros a traviés de WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'aplicación de cifráu yá nun ta activada, descifra tolos ficheros"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Contraseña d'accesu"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Descifrar ficheros"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Restaurar claves de cifráu."
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Desaniciar claves de cifráu"
 
 #: templates/users.php:19
 msgid "Login Name"

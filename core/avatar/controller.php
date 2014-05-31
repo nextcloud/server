@@ -71,7 +71,7 @@ class Controller {
 			$image = new \OC_Image($newAvatar);
 
 			if ($image->valid()) {
-				\OC_Cache::set('tmpavatar', $image->data(), 7200);
+				\OC\Cache::set('tmpavatar', $image->data(), 7200);
 				\OC_JSON::error(array("data" => "notsquare"));
 			} else {
 				$l = new \OC_L10n('core');
@@ -109,7 +109,7 @@ class Controller {
 		\OC_JSON::checkLoggedIn();
 		\OC_JSON::callCheck();
 
-		$tmpavatar = \OC_Cache::get('tmpavatar');
+		$tmpavatar = \OC\Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
 			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary profile picture available, try again")) ));
@@ -136,7 +136,7 @@ class Controller {
 			return;
 		}
 
-		$tmpavatar = \OC_Cache::get('tmpavatar');
+		$tmpavatar = \OC\Cache::get('tmpavatar');
 		if (is_null($tmpavatar)) {
 			$l = new \OC_L10n('core');
 			\OC_JSON::error(array("data" => array("message" => $l->t("No temporary profile picture available, try again")) ));
@@ -149,7 +149,7 @@ class Controller {
 			$avatar = new \OC_Avatar($user);
 			$avatar->set($image->data());
 			// Clean up
-			\OC_Cache::remove('tmpavatar');
+			\OC\Cache::remove('tmpavatar');
 			\OC_JSON::success();
 		} catch (\Exception $e) {
 			\OC_JSON::error(array("data" => array("message" => $e->getMessage()) ));

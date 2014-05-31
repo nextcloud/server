@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -31,38 +31,34 @@ msgstr "%s を完全に削除できませんでした"
 msgid "Couldn't restore %s"
 msgstr "%s を復元できませんでした"
 
-#: js/filelist.js:3
+#: appinfo/app.php:13 js/filelist.js:34
 msgid "Deleted files"
 msgstr "ゴミ箱"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
-msgid "Error"
-msgstr "エラー"
-
-#: js/trash.js:264
-msgid "Deleted Files"
-msgstr "ゴミ箱"
-
-#: lib/trashbin.php:859 lib/trashbin.php:861
-msgid "restored"
-msgstr "復元済"
-
-#: templates/index.php:6
-msgid "Nothing in here. Your trash bin is empty!"
-msgstr "ここには何もありません。ゴミ箱は空です！"
-
-#: templates/index.php:19
-msgid "Name"
-msgstr "名前"
-
-#: templates/index.php:22 templates/index.php:24
+#: js/app.js:53 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "復元"
 
-#: templates/index.php:30
+#: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
+msgid "Error"
+msgstr "エラー"
+
+#: lib/trashbin.php:861 lib/trashbin.php:863
+msgid "restored"
+msgstr "復元済"
+
+#: templates/index.php:7
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "ここには何もありません。ゴミ箱は空です！"
+
+#: templates/index.php:18
+msgid "Name"
+msgstr "名前"
+
+#: templates/index.php:29
 msgid "Deleted"
 msgstr "削除済み"
 
-#: templates/index.php:33 templates/index.php:34
+#: templates/index.php:32 templates/index.php:33
 msgid "Delete"
 msgstr "削除"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "تم ارسال البريد الالكتروني"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "وضعية الإرسال"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "التشفير"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "أسلوب التطابق"
 
@@ -101,6 +101,16 @@ msgstr ""
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr ""
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr ""
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "تم حفظ البريد الإلكتروني"
@@ -116,6 +126,16 @@ msgstr "فشل إزالة المجموعة"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "فشل إزالة المستخدم"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr ""
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -172,7 +192,7 @@ msgstr "Back-end لا يدعم تغيير كلمة المرور, لاكن مفت
 msgid "Unable to change password"
 msgstr "لا يمكن تغيير كلمة المرور"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "جاري الارسال ..."
 
@@ -228,33 +248,41 @@ msgstr "حدث"
 msgid "Updated"
 msgstr "تم التحديث بنجاح"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "اختر صورة الملف الشخصي "
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "كلمة السر ضعيفة جدا"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "كلمة السر ضعيفة"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr ""
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "كلمة السر جيدة"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "كلمة السر قوية"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "فك تشفير الملفات... يرجى الانتظار, من الممكن ان ياخذ بعض الوقت."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr ""
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr ""
 
 #: js/users.js:47
 msgid "deleted"
@@ -268,8 +296,8 @@ msgstr "تراجع"
 msgid "Unable to remove user"
 msgstr "تعذر حذف المستخدم"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "مجموعات"
 
@@ -301,7 +329,7 @@ msgstr "يجب ادخال كلمة مرور صحيحة"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "تحذير: المجلد الرئيسي لـ المستخدم \"{user}\" موجود مسبقا"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -369,7 +397,7 @@ msgid ""
 "root."
 msgstr "مجلد data و ملفاتك يمكن الوصول لها عن طريق الانترنت. ملف .htaccess لا يمكن تشغيلة. نحن نقترح باصرار ان تعيد اعداد خادمك لمنع الدخول الى بياناتك عن طريق الانترنت او بالامكان ان تنقل مجلد data خارج document root بشكل مؤقت. "
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "تحذير في التنصيب"
 
@@ -384,53 +412,65 @@ msgstr "اعدادات خادمك غير صحيحة بشكل تسمح لك بم�
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "يرجى التحقق <a href=\"%s\">دليل التثبيت</a>."
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "الموديل 'fileinfo' مفقود"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق "
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "اصدار PHP الخاص بك قديم"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "اصدار PHP الخاص بك قديم. نحن نقترح لك باصرار ان يتم ترقية الاصدار الى  5.3.8 او احدث بسبب ان الاصدارات القديمة معروفة انها مهمشة. من الممكن ان التنزيل قد لا يتم بصورة صحيحة."
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "اللغه لا تعمل"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "لا يمكن تعيين لغة النظام الى احد اللغات التي تدعم UTF-8."
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف."
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "نحن باصرار نقترح ان تثبت الحزم المطلوبة في نظامك لدعم احد هذة اللغات: %s."
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "الاتصال بالانترنت لا يعمل"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -439,198 +479,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "هذا الخادم لا يوجد لدية اتصال انترنت. هذا يعني ان بعض الميزات مثل mounting التخزين الخارجي , تنبيهات عن التحديثات او تنزيلات برامج الطرف الثالث3  لا تعمل. الدخول للملفات البعيدة و ارسال تنبيهات البريد الالكتروني ممكن ان لا تعمل ايضا. نحن نقترح بتفعيل اتصال الانترنت لهذا الخادم لتتمكن من الاستفادة من كل الميزات"
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "مجدول"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr ""
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr ""
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr ""
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه"
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "استخدم نظام خدمة cron لـ استدعاء ملف cron.php كل 15 دقيقة "
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "مشاركة"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "السماح بالمشاركة عن طريق الAPI "
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "السماح للتطبيقات بالمشاركة عن طريق الAPI"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "السماح بالعناوين"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
+#: templates/admin.php:238
+msgid "Enforce password protection"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "السماح بالرفع للعامة "
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "السماح للمستخدمين بتفعيل الرفع للاخرين من خلال مجلد المشاركة العام "
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "السماح بإعادة المشاركة "
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "السماح بتنبيهات البريد الالكتروني."
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr ""
-
-#: templates/admin.php:262
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:250
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:269
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
+#: templates/admin.php:257
+msgid "Allow users to share items to the public with links"
+msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
+
+#: templates/admin.php:264
+msgid "Allow resharing"
+msgstr "السماح بإعادة المشاركة "
+
+#: templates/admin.php:265
+msgid "Allow users to share items shared with them again"
+msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
+
+#: templates/admin.php:272
+msgid "Allow users to share with anyone"
+msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
+
+#: templates/admin.php:275
+msgid "Allow users to only share with users in their groups"
+msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
+
+#: templates/admin.php:282
+msgid "Allow mail notification"
+msgstr "السماح بتنبيهات البريد الالكتروني."
+
+#: templates/admin.php:283
+msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:290
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:301
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:308
 msgid "Security"
 msgstr "حماية"
 
-#: templates/admin.php:291
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "فرض HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "اجبار العميل للاتصال بـ %s عن طريق اتصال مشفر"
 
-#: templates/admin.php:299
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "يرجى الاتصال بـ %s عن طريق HTTPS لتفعيل او تعطيل SSL enforcement."
 
-#: templates/admin.php:311
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "خادم البريد الالكتروني"
 
-#: templates/admin.php:313
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:344
+#: templates/admin.php:374
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:375
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "عنوان الخادم"
 
-#: templates/admin.php:374
+#: templates/admin.php:404
 msgid "Port"
 msgstr "المنفذ"
 
-#: templates/admin.php:379
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:380
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:383
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:388
+#: templates/admin.php:418
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:393
+#: templates/admin.php:423
 msgid "Log"
 msgstr "سجل"
 
-#: templates/admin.php:394
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "مستوى السجل"
 
-#: templates/admin.php:426
+#: templates/admin.php:456
 msgid "More"
 msgstr "المزيد"
 
-#: templates/admin.php:427
+#: templates/admin.php:457
 msgid "Less"
 msgstr "أقل"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -783,28 +831,32 @@ msgstr "اللغة"
 msgid "Help translate"
 msgstr "ساعد في الترجمه"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "استخدم هذا العنوان لـ  <a href=\"%s\" target=\"_blank\">الدخول الى ملفاتك عن طريق WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "البرنامج المشفر لم يعد مفعل, يرجى فك التشفير عن كل ملفاتك"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "كلمه سر الدخول"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "فك تشفير جميع الملفات "
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr ""
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr ""
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr ""
 
 #: templates/users.php:19
 msgid "Login Name"

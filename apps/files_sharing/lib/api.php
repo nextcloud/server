@@ -25,12 +25,15 @@ namespace OCA\Files\Share;
 class Api {
 
 	/**
-	 * @brief get all shares
+	 * get all shares
 	 *
 	 * @param array $params option 'file' to limit the result to a specific file/folder
 	 * @return \OC_OCS_Result share information
 	 */
 	public static function getAllShares($params) {
+		if (isset($_GET['shared_with_me']) && $_GET['shared_with_me'] !== 'false') {
+				return self::getFilesSharedWithMe();
+			}
 		// if a file is specified, get the share for this file
 		if (isset($_GET['path'])) {
 			$params['itemSource'] = self::getFileId($_GET['path']);
@@ -49,18 +52,26 @@ class Api {
 			return self::collectShares($params);
 		}
 
-		$share = \OCP\Share::getItemShared('file', null);
+		$shares = \OCP\Share::getItemShared('file', null);
 
-		if ($share === false) {
+		if ($shares === false) {
 			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
-			return new \OC_OCS_Result($share);
+			foreach ($shares as &$share) {
+				// file_target might not be set if the target user hasn't mounted
+				// the filesystem yet
+				if ($share['item_type'] === 'file' && isset($share['file_target'])) {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+				$newShares[] = $share;
+			}
+			return new \OC_OCS_Result($shares);
 		}
 
 	}
 
 	/**
-	 * @brief get share information for a given share
+	 * get share information for a given share
 	 *
 	 * @param array $params which contains a 'id'
 	 * @return \OC_OCS_Result share information
@@ -76,7 +87,7 @@ class Api {
 	}
 
 	/**
-	 * @brief collect all share information, either of a specific share or all
+	 * collect all share information, either of a specific share or all
 	 *        shares for a given path
 	 * @param array $params
 	 * @return \OC_OCS_Result
@@ -130,7 +141,7 @@ class Api {
 	}
 
 	/**
-	 * @brief add reshares to a array of shares
+	 * add reshares to a array of shares
 	 * @param array $shares array of shares
 	 * @param int $itemSource item source ID
 	 * @return array new shares array which includes reshares
@@ -161,7 +172,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get share from all files in a given folder (non-recursive)
+	 * get share from all files in a given folder (non-recursive)
 	 * @param array $params contains 'path' to the folder
 	 * @return \OC_OCS_Result
 	 */
@@ -196,7 +207,28 @@ class Api {
 	}
 
 	/**
-	 * @breif create a new share
+	 * get files shared with the user
+	 * @return \OC_OCS_Result
+	 */
+	private static function getFilesSharedWithMe() {
+		try	{
+			$shares = \OCP\Share::getItemsSharedWith('file');
+			foreach ($shares as &$share) {
+				if ($share['item_type'] === 'file') {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				}
+			}
+			$result = new \OC_OCS_Result($shares);
+		} catch (\Exception $e) {
+			$result = new \OC_OCS_Result(null, 403, $e->getMessage());
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * create a new share
 	 * @param array $params
 	 * @return \OC_OCS_Result
 	 */
@@ -313,7 +345,7 @@ class Api {
 	}
 
 	/**
-	 * @brief update permissions for a share
+	 * update permissions for a share
 	 * @param array $share information about the share
 	 * @param array $params contains 'permissions'
 	 * @return \OC_OCS_Result
@@ -358,7 +390,7 @@ class Api {
 	}
 
 	/**
-	 * @brief enable/disable public upload
+	 * enable/disable public upload
 	 * @param array $share information about the share
 	 * @param array $params contains 'publicUpload' which can be 'yes' or 'no'
 	 * @return \OC_OCS_Result
@@ -384,9 +416,9 @@ class Api {
 	}
 
 	/**
-	 * @brief update password for public link share
+	 * update password for public link share
 	 * @param array $share information about the share
-	 * @param type $params 'password'
+	 * @param array $params 'password'
 	 * @return \OC_OCS_Result
 	 */
 	private static function updatePassword($share, $params) {
@@ -418,13 +450,18 @@ class Api {
 			return  new \OC_OCS_Result(null, 404, "share doesn't exists, can't change password");
 		}
 
-		$result = \OCP\Share::shareItem(
-				$itemType,
-				$itemSource,
-				\OCP\Share::SHARE_TYPE_LINK,
-				$shareWith,
-				$permissions
-				);
+		try {
+			$result = \OCP\Share::shareItem(
+					$itemType,
+					$itemSource,
+					\OCP\Share::SHARE_TYPE_LINK,
+					$shareWith,
+					$permissions
+					);
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 403, $e->getMessage());
+		}
+
 		if($result) {
 			return new \OC_OCS_Result();
 		}
@@ -433,7 +470,7 @@ class Api {
 	}
 
 	/**
-	 * @brief unshare a file/folder
+	 * unshare a file/folder
 	 * @param array $params contains the shareID 'id' which should be unshared
 	 * @return \OC_OCS_Result
 	 */
@@ -473,7 +510,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get file ID from a given path
+	 * get file ID from a given path
 	 * @param string $path
 	 * @return string fileID or null
 	 */
@@ -490,7 +527,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get itemType
+	 * get itemType
 	 * @param string $path
 	 * @return string type 'file', 'folder' or null of file/folder doesn't exists
 	 */
@@ -508,7 +545,7 @@ class Api {
 	}
 
 	/**
-	 * @brief get some information from a given share
+	 * get some information from a given share
 	 * @param int $shareID
 	 * @return array with: item_source, share_type, share_with, item_type, permissions
 	 */

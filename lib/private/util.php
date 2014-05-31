@@ -13,7 +13,7 @@ class OC_Util {
 	private static $fsSetup=false;
 
 	/**
-	 * @brief Can be set up
+	 * Can be set up
 	 * @param string $user
 	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
@@ -57,7 +57,10 @@ class OC_Util {
 				// set up quota for home storages, even for other users
 				// which can happen when using sharing
 
-				if ($storage instanceof \OC\Files\Storage\Home) {
+				/**
+				 * @var \OC\Files\Storage\Storage $storage
+				 */
+				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')) {
 					$user = $storage->getUser()->getUID();
 					$quota = OC_Util::getUserQuota($user);
 					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
@@ -87,6 +90,39 @@ class OC_Util {
 	}
 
 	/**
+	 * check if a password is required for each public link
+	 * @return boolean
+	 */
+	public static function isPublicLinkPasswordRequired() {
+		$appConfig = \OC::$server->getAppConfig();
+		$enforcePassword = $appConfig->getValue('core', 'shareapi_enforce_links_password', 'no');
+		return ($enforcePassword === 'yes') ? true : false;
+	}
+
+	/**
+	 * check if sharing is disabled for the current user
+	 *
+	 * @return boolean
+	 */
+	public static function isSharingDisabledForUser() {
+		if (\OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+			$user = \OCP\User::getUser();
+			$groupsList = \OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
+			$excludedGroups = explode(',', $groupsList);
+			$usersGroups = \OC_Group::getUserGroups($user);
+			if (!empty($usersGroups)) {
+				$remainingGroups = array_diff($usersGroups, $excludedGroups);
+				// if the user is only in groups which are disabled for sharing then
+				// sharing is also disabled for the user
+				if (empty($remainingGroups)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get the quota of a user
 	 * @param string $user
 	 * @return int Quota bytes
@@ -105,7 +141,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief copies the user skeleton files into the fresh user home files
+	 * copies the user skeleton files into the fresh user home files
 	 * @param string $userDirectory
 	 */
 	public static function copySkeleton($userDirectory) {
@@ -113,7 +149,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief copies a directory recursively
+	 * copies a directory recursively
 	 * @param string $source
 	 * @param string $target
 	 * @return void
@@ -143,7 +179,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief get the current installed version of ownCloud
+	 * get the current installed version of ownCloud
 	 * @return array
 	 */
 	public static function getVersion() {
@@ -152,7 +188,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief get the current installed version string of ownCloud
+	 * get the current installed version string of ownCloud
 	 * @return string
 	 */
 	public static function getVersionString() {
@@ -213,7 +249,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief add a javascript file
+	 * add a javascript file
 	 *
 	 * @param string $application
 	 * @param string|null $file filename
@@ -232,7 +268,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief add a css file
+	 * add a css file
 	 *
 	 * @param string $application
 	 * @param string|null $file filename
@@ -251,7 +287,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Add a custom element to the header
+	 * Add a custom element to the header
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
@@ -266,7 +302,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief formats a timestamp in the "right" way
+	 * formats a timestamp in the "right" way
 	 *
 	 * @param int $timestamp
 	 * @param bool $dateOnly option to omit time from the result
@@ -286,7 +322,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief check if the current server configuration is suitable for ownCloud
+	 * check if the current server configuration is suitable for ownCloud
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
@@ -480,6 +516,12 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
+		if (!self::isAnnotationsWorking()) {
+			$errors[] = array(
+				'error'=>'PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.',
+				'hint'=>'This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.'
+			);
+		}
 
 		if($webServerRestart) {
 			$errors[] = array(
@@ -530,7 +572,7 @@ class OC_Util {
 
 
 	/**
-	 * @brief check if there are still some encrypted files stored
+	 * check if there are still some encrypted files stored
 	 * @return boolean
 	 */
 	public static function encryptedFiles() {
@@ -551,7 +593,28 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check for correct file permissions of data directory
+	 * check if a backup from the encryption keys exists
+	 * @return boolean
+	 */
+	public static function backupKeysExists() {
+		//check if encryption was enabled in the past
+		$backupExists = false;
+		if (OC_App::isEnabled('files_encryption') === false) {
+			$view = new OC\Files\View('/' . OCP\User::getUser());
+			$backupPath = '/files_encryption/keyfiles.backup';
+			if ($view->is_dir($backupPath)) {
+				$dircontent = $view->getDirectoryContent($backupPath);
+				if (!empty($dircontent)) {
+					$backupExists = true;
+				}
+			}
+		}
+
+		return $backupExists;
+	}
+
+	/**
+	 * Check for correct file permissions of data directory
 	 * @param string $dataDirectory
 	 * @return array arrays with error messages and hints
 	 */
@@ -624,7 +687,7 @@ class OC_Util {
 
 
 	/**
-	 * @brief Check if the app is enabled, redirects to home if not
+	 * Check if the app is enabled, redirects to home if not
 	 * @param string $app
 	 * @return void
 	 */
@@ -651,7 +714,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the user is a admin, redirects to home if not
+	 * Check if the user is a admin, redirects to home if not
 	 * @return void
 	 */
 	public static function checkAdminUser() {
@@ -684,7 +747,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the user is a subadmin, redirects to home if not
+	 * Check if the user is a subadmin, redirects to home if not
 	 * @return null|boolean $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
@@ -697,7 +760,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Redirect to the user default page
+	 * Redirect to the user default page
 	 * @return void
 	 */
 	public static function redirectToDefaultPage() {
@@ -721,7 +784,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief get an id unique for this instance
+	 * get an id unique for this instance
 	 * @return string
 	 */
 	public static function getInstanceId() {
@@ -735,7 +798,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Static lifespan (in seconds) when a request token expires.
+	 * Static lifespan (in seconds) when a request token expires.
 	 * @see OC_Util::callRegister()
 	 * @see OC_Util::isCallRegistered()
 	 * @description
@@ -746,7 +809,7 @@ class OC_Util {
 	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
 	/**
-	 * @brief Register an get/post call. Important to prevent CSRF attacks.
+	 * Register an get/post call. Important to prevent CSRF attacks.
 	 * @todo Write howto: CSRF protection guide
 	 * @return string Generated token.
 	 * @description
@@ -771,7 +834,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid.
+	 * Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
 	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::callRegister()
@@ -781,7 +844,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid. Exit if not.
+	 * Check an ajax get/post call if the request token is valid. Exit if not.
 	 * @todo Write howto
 	 * @return void
 	 */
@@ -792,13 +855,13 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Public function to sanitize HTML
+	 * Public function to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|array of strings
-	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
+	 * @param string|array &$value
+	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
 		if (is_array($value)) {
@@ -811,7 +874,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Public function to encode url parameters
+	 * Public function to encode url parameters
 	 *
 	 * This function is used to encode path to file before output.
 	 * Encoding is done according to RFC 3986 with one exception:
@@ -827,7 +890,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the .htaccess file is working
+	 * Check if the .htaccess file is working
 	 * @throws OC\HintException If the testfile can't get written.
 	 * @return bool
 	 * @description Check if the .htaccess file is working by creating a test
@@ -837,7 +900,7 @@ class OC_Util {
 		if (!\OC_Config::getValue("check_for_working_htaccess", true)) {
 			return true;
 		}
-		
+
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
@@ -875,7 +938,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief test if webDAV is working properly
+	 * test if webDAV is working properly
 	 * @return bool
 	 * @description
 	 * The basic assumption is that if the server returns 401/Not Authenticated for an unauthenticated PROPFIND
@@ -939,7 +1002,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the PHP module fileinfo is loaded.
+	 * Check if it's possible to get the inline annotations
+	 *
+	 * @return bool
+	 */
+	public static function isAnnotationsWorking() {
+		$reflection = new \ReflectionMethod(__METHOD__);
+		$docs = $reflection->getDocComment();
+
+		return (is_string($docs) && strlen($docs) > 50);
+	}
+
+	/**
+	 * Check if the PHP module fileinfo is loaded.
 	 * @return bool
 	 */
 	public static function fileInfoLoaded() {
@@ -947,7 +1022,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if a PHP version older then 5.3.8 is installed.
+	 * Check if a PHP version older then 5.3.8 is installed.
 	 * @return bool
 	 */
 	public static function isPHPoutdated() {
@@ -955,7 +1030,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the ownCloud server can connect to the internet
+	 * Check if the ownCloud server can connect to the internet
 	 * @return bool
 	 */
 	public static function isInternetConnectionWorking() {
@@ -987,7 +1062,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Check if the connection to the internet is disabled on purpose
+	 * Check if the connection to the internet is disabled on purpose
 	 * @return string
 	 */
 	public static function isInternetConnectionEnabled(){
@@ -995,7 +1070,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief clear all levels of output buffering
+	 * clear all levels of output buffering
 	 * @return void
 	 */
 	public static function obEnd(){
@@ -1006,9 +1081,9 @@ class OC_Util {
 
 
 	/**
-	 * @brief Generates a cryptographic secure pseudo-random string
-	 * @param Int $length of the random string
-	 * @return String
+	 * Generates a cryptographic secure pseudo-random string
+	 * @param int $length of the random string
+	 * @return string
 	 * Please also update secureRNGAvailable if you change something here
 	 */
 	public static function generateRandomBytes($length = 30) {
@@ -1043,7 +1118,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Checks if a secure random number generator is available
+	 * Checks if a secure random number generator is available
 	 * @return bool
 	 */
 	public static function secureRNGAvailable() {
@@ -1082,7 +1157,7 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
-			
+
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy', '') != '') {
@@ -1091,17 +1166,16 @@ class OC_Util {
 			if(OC_Config::getValue('proxyuserpwd', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
-			
-			if (ini_get('open_basedir') === '' && ini_get('safe_mode' === 'Off')) { 
+
+			if (ini_get('open_basedir') === '' && ini_get('safe_mode') === 'Off') {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 				curl_setopt($curl, CURLOPT_MAXREDIRS, $max_redirects);
 				$data = curl_exec($curl);
 			} else {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
 				$mr = $max_redirects;
-				if ($mr > 0) { 
+				if ($mr > 0) {
 					$newURL = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-					
 					$rcurl = curl_copy_handle($curl);
 					curl_setopt($rcurl, CURLOPT_HEADER, true);
 					curl_setopt($rcurl, CURLOPT_NOBODY, true);
@@ -1125,9 +1199,9 @@ class OC_Util {
 					curl_close($rcurl);
 					if ($mr > 0) {
 						curl_setopt($curl, CURLOPT_URL, $newURL);
-					} 
+					}
 				}
-				
+
 				if($mr == 0 && $max_redirects > 0) {
 					$data = false;
 				} else {
@@ -1196,7 +1270,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Clear the opcode cache if one exists
+	 * Clear the opcode cache if one exists
 	 * This is necessary for writing to the config file
 	 * in case the opcode cache does not re-validate files
 	 * @return void
@@ -1267,7 +1341,7 @@ class OC_Util {
 
 	/**
 	 * Returns whether the given file name is valid
-	 * @param $file string file name to check
+	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
 	 */
 	public static function isValidFileName($file) {

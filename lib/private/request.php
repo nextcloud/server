@@ -16,9 +16,9 @@ class OC_Request {
 	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
 
 	/**
-	 * @brief Check overwrite condition
+	 * Check overwrite condition
 	 * @param string $type
-	 * @returns bool
+	 * @return bool
 	 */
 	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
@@ -27,7 +27,7 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Checks whether a domain is considered as trusted from the list
+	 * Checks whether a domain is considered as trusted from the list
 	 * of trusted domains. If no trusted domains have been configured, returns
 	 * true.
 	 * This is used to prevent Host Header Poisoning.
@@ -47,9 +47,9 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Returns the unverified server host from the headers without checking
+	 * Returns the unverified server host from the headers without checking
 	 * whether it is a trusted domain
-	 * @returns string the server host
+	 * @return string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -87,9 +87,9 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Returns the server host from the headers, or the first configured
+	 * Returns the server host from the headers, or the first configured
 	 * trusted domain if the host isn't in the trusted list
-	 * @returns string the server host
+	 * @return string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -120,8 +120,8 @@ class OC_Request {
 	}
 
 	/**
-	* @brief Returns the server protocol
-	* @returns string the server protocol
+	* Returns the server protocol
+	* @return string the server protocol
 	*
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
@@ -142,8 +142,8 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Returns the request uri
-	 * @returns string the request uri
+	 * Returns the request uri
+	 * @return string the request uri
 	 *
 	 * Returns the request uri, even if the website uses one or more
 	 * reverse proxies
@@ -158,7 +158,7 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Returns the script name
+	 * Returns the script name
 	 * @return string the script name
 	 *
 	 * Returns the script name, even if the website uses one or more
@@ -176,7 +176,7 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief get Path info from request
+	 * get Path info from request
 	 * @return string Path info or false when not found
 	 */
 	public static function getPathInfo() {
@@ -200,7 +200,7 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief get Path info from request, not urldecoded
+	 * get Path info from request, not urldecoded
 	 * @throws Exception
 	 * @return string Path info or false when not found
 	 */
@@ -242,7 +242,7 @@ class OC_Request {
 	}
 
 	/**
-	 * @brief Check if the requester sent along an mtime
+	 * Check if the requester sent along an mtime
 	 * @return false or an mtime
 	 */
 	static public function hasModificationTime () {

@@ -175,9 +175,13 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	PERMISSION_ALL:31,
+	/* jshint camelcase: false */
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
+	config: oc_config,
+	appConfig: oc_appconfig || {},
+	theme: oc_defaults || {},
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	
 	/**
@@ -207,7 +211,16 @@ var OC={
 	linkToRemote:function(service) {
 		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
 	},
-	
+
+	/**
+	 * Gets the base path for the given OCS API service.
+	 * @param {string} service name
+	 * @return {string} OCS API base path
+	 */
+	linkToOCS: function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.webroot + '/ocs/v1.php/' + service + '/';
+	},
+
 	/**
 	 * Generates the absolute url for the given relative url, which can contain parameters.
 	 * @param {string} url
@@ -935,39 +948,6 @@ function object(o) {
 }
 
 /**
- * Fills height of window. (more precise than height: 100%;)
- * @param selector
- */
-function fillHeight(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	var height = parseFloat($(window).height())-selector.offset().top;
-	selector.css('height', height + 'px');
-	if(selector.outerHeight() > selector.height()){
-		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
-	}
-	console.warn("This function is deprecated! Use CSS instead");
-}
-
-/**
- * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
- * @param selector
- */
-function fillWindow(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	fillHeight(selector);
-	var width = parseFloat($(window).width())-selector.offset().left;
-	selector.css('width', width + 'px');
-	if(selector.outerWidth() > selector.width()){
-		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
-	}
-	console.warn("This function is deprecated! Use CSS instead");
-}
-
-/**
  * Initializes core
  */
 function initCore() {
@@ -1270,7 +1250,7 @@ OC.Util = {
 	 * @return {string} fixed image path with png extension if SVG is not supported
 	 */
 	replaceSVGIcon: function(file) {
-		if (!OC.Util.hasSVGSupport()) {
+		if (file && !OC.Util.hasSVGSupport()) {
 			var i = file.lastIndexOf('.svg');
 			if (i >= 0) {
 				file = file.substr(0, i) + '.png' + file.substr(i+4);
@@ -1317,6 +1297,114 @@ OC.Util = {
 		});
 	}
 };
+
+/**
+ * Utility class for the history API,
+ * includes fallback to using the URL hash when
+ * the browser doesn't support the history API.
+ */
+OC.Util.History = {
+	_handlers: [],
+
+	/**
+	 * Push the current URL parameters to the history stack
+	 * and change the visible URL.
+	 * Note: this includes a workaround for IE8/IE9 that uses
+	 * the hash part instead of the search part.
+	 *
+	 * @param params to append to the URL, can be either a string
+	 * or a map
+	 */
+	pushState: function(params) {
+		var strParams;
+		if (typeof(params) === 'string') {
+			strParams = params;
+		}
+		else {
+			strParams = OC.buildQueryString(params);
+		}
+		if (window.history.pushState) {
+			var url = location.pathname + '?' + strParams;
+			window.history.pushState(params, '', url);
+		}
+		// use URL hash for IE8
+		else {
+			window.location.hash = '?' + strParams;
+			// inhibit next onhashchange that just added itself
+			// to the event queue
+			this._cancelPop = true;
+		}
+	},
+
+	/**
+	 * Add a popstate handler
+	 *
+	 * @param handler function
+	 */
+	addOnPopStateHandler: function(handler) {
+		this._handlers.push(handler);
+	},
+
+	/**
+	 * Parse a query string from the hash part of the URL.
+	 * (workaround for IE8 / IE9)
+	 */
+	_parseHashQuery: function() {
+		var hash = window.location.hash,
+			pos = hash.indexOf('?');
+		if (pos >= 0) {
+			return hash.substr(pos + 1);
+		}
+		return '';
+	},
+
+	_decodeQuery: function(query) {
+		return query.replace(/\+/g, ' ');
+	},
+
+	/**
+	 * Parse the query/search part of the URL.
+	 * Also try and parse it from the URL hash (for IE8)
+	 *
+	 * @return map of parameters
+	 */
+	parseUrlQuery: function() {
+		var query = this._parseHashQuery(),
+			params;
+		// try and parse from URL hash first
+		if (query) {
+			params = OC.parseQueryString(this._decodeQuery(query));
+		}
+		// else read from query attributes
+		if (!params) {
+			params = OC.parseQueryString(this._decodeQuery(location.search));
+		}
+		return params || {};
+	},
+
+	_onPopState: function(e) {
+		if (this._cancelPop) {
+			this._cancelPop = false;
+			return;
+		}
+		var params;
+		if (!this._handlers.length) {
+			return;
+		}
+		params = (e && e.state) || this.parseUrlQuery() || {};
+		for (var i = 0; i < this._handlers.length; i++) {
+			this._handlers[i](params);
+		}
+	}
+};
+
+// fallback to hashchange when no history support
+if (window.history.pushState) {
+	window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History);
+}
+else {
+	$(window).on('hashchange', _.bind(OC.Util.History._onPopState, OC.Util.History));
+}
 
 /**
  * Get a variable by name
@@ -1366,6 +1454,11 @@ OC.set=function(name, value) {
 		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
 	}
 })();
+
+/**
+ * Namespace for apps
+ */
+window.OCA = {};
 
 /**
  * select a range in an input field

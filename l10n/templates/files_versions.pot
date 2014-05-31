@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-05 01:55-0400\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,22 +22,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr ""
 
-#: js/versions.js:39
+#: js/versions.js:48
 msgid "Versions"
 msgstr ""
 
-#: js/versions.js:61
+#: js/versions.js:70
 msgid "Failed to revert {file} to revision {timestamp}."
 msgstr ""
 
-#: js/versions.js:88
+#: js/versions.js:97
 msgid "More versions..."
 msgstr ""
 
-#: js/versions.js:126
+#: js/versions.js:135
 msgid "No other versions available"
 msgstr ""
 
-#: js/versions.js:156
+#: js/versions.js:165
 msgid "Restore"
 msgstr ""

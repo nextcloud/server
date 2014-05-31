@@ -33,10 +33,12 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	private $path;
 
 	public function isValidSource($itemSource, $uidOwner) {
-		$query = \OC_DB::prepare('SELECT `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-		$result = $query->execute(array($itemSource));
-		if ($row = $result->fetchRow()) {
-			$this->path = $row['name'];
+		$path = \OC\Files\Filesystem::getPath($itemSource);
+		if ($path) {
+			// FIXME: attributes should not be set here,
+			// keeping this pattern for now to avoid unexpected
+			// regressions
+			$this->path = basename($path);
 			return true;
 		}
 		return false;
@@ -52,7 +54,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief create unique target
+	 * create unique target
 	 * @param string $filePath
 	 * @param string $shareWith
 	 * @param string $exclude
@@ -73,16 +75,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$excludeList = array_merge($excludeList, $exclude);
 		}
 
-		$pathinfo = pathinfo($target);
-		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
-		$name = $pathinfo['filename'];
-		$i = 2;
-		while ($view->file_exists($target) || in_array($target, $excludeList)) {
-			$target = '/' . $name . ' ('.$i.')' . $ext;
-			$i++;
-		}
-
-		return $target;
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
@@ -152,7 +145,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
-	 * @brief resolve reshares to return the correct source item
+	 * resolve reshares to return the correct source item
 	 * @param array $source
 	 * @return array source item
 	 */
@@ -181,8 +174,13 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return $source;
 	}
 
+	/**
+	 * @param string $target
+	 * @param string $mountPoint
+	 * @param string $itemType
+	 * @return array|false source item
+	 */
 	public static function getSource($target, $mountPoint, $itemType) {
-
 		if ($itemType === 'folder') {
 			$source = \OCP\Share::getItemSharedWith('folder', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 			if ($source && $target !== '') {

@@ -9,7 +9,7 @@
 	</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
-	<require>4.93</require>
+	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<types>
 		<authentication/>

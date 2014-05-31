@@ -31,9 +31,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("Šomēnes, %n mēneši","Pirms %n mēneša","Pirms %n mēnešiem"),
 "last year" => "gājušajā gadā",
 "years ago" => "gadus atpakaļ",
-"Choose" => "Izvēlieties",
 "Yes" => "Jā",
 "No" => "Nē",
+"Choose" => "Izvēlieties",
 "Ok" => "Labi",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
 "New Files" => "Jaunās datnes",
@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "{owner} dalījās ar jums un grupu {group}",
 "Shared with you by {owner}" => "{owner} dalījās ar jums",
 "Password protect" => "Aizsargāt ar paroli",
-"Password" => "Parole",
 "Allow Public Upload" => "Ļaut publisko augšupielādi.",
 "Email link to person" => "Sūtīt saiti personai pa e-pastu",
 "Send" => "Sūtīt",
@@ -74,7 +73,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Nav norādīts objekta tips.",
 "Delete" => "Dzēst",
 "Add" => "Pievienot",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Atjaunināšana beidzās nesekmīgi. Lūdzu, ziņojiet par šo problēmu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kopienai</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud.",
 "%s password reset" => "%s paroles maiņa",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo saiti, lai mainītu paroli: {link}",
@@ -103,6 +101,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Vairāk informācijai kā konfigurēt serveri, lūdzu skatiet <a href=\"%s\" target=\"_blank\">dokumentāciju</a>.",
 "Create an <strong>admin account</strong>" => "Izveidot <strong>administratora kontu</strong>",
+"Password" => "Parole",
 "Data folder" => "Datu mape",
 "Configure the database" => "Konfigurēt datubāzi",
 "will be used" => "tiks izmantots",
@@ -120,7 +119,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Aizmirsāt paroli?",
 "remember" => "atcerēties",
 "Log in" => "Ierakstīties",
-"Alternative Logins" => "Alternatīvās pieteikšanās",
-"Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."
+"Alternative Logins" => "Alternatīvās pieteikšanās"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

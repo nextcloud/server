@@ -57,7 +57,7 @@ class Memcached extends Cache {
 
 	public function hasKey($key) {
 		self::$cache->get($this->getNamespace() . $key);
-		return self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND;
+		return self::$cache->getResultCode() === \Memcached::RES_SUCCESS;
 	}
 
 	public function remove($key) {

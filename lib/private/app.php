@@ -42,7 +42,7 @@ class OC_App{
 	static private $altLogin = array();
 
 	/**
-	 * @brief clean the appid
+	 * clean the appid
 	 * @param string|boolean $app Appid that needs to be cleaned
 	 * @return string
 	 */
@@ -51,7 +51,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief loads all apps
+	 * loads all apps
 	 * @param array $types
 	 * @return bool
 	 *
@@ -192,7 +192,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief checks whether or not an app is enabled
+	 * checks whether or not an app is enabled
 	 * @param string $app app
 	 * @return bool
 	 *
@@ -207,7 +207,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief enables an app
+	 * enables an app
 	 * @param mixed $app app
 	 * @throws \Exception
 	 * @return void
@@ -257,7 +257,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief disables an app
+	 * disables an app
 	 * @param string $app app
 	 * @return null
 	 *
@@ -271,7 +271,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief adds an entry to the navigation
+	 * adds an entry to the navigation
 	 * @param array $data array containing the data
 	 * @return bool
 	 *
@@ -293,7 +293,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief marks a navigation entry as active
+	 * marks a navigation entry as active
 	 * @param string $id id of the entry
 	 * @return bool
 	 *
@@ -307,9 +307,9 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Get the navigation entries for the $app
+	 * Get the navigation entries for the $app
 	 * @param string $app app
-	 * @return array of the $data added with addNavigationEntry
+	 * @return array an array of the $data added with addNavigationEntry
 	 *
 	 * Warning: destroys the existing entries
 	 */
@@ -323,7 +323,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief gets the active Menu entry
+	 * gets the active Menu entry
 	 * @return string id or empty string
 	 *
 	 * This function returns the id of the active navigation entry (set by
@@ -334,7 +334,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Returns the Settings Navigation
+	 * Returns the Settings Navigation
 	 * @return string
 	 *
 	 * This function returns an array containing all settings pages added. The
@@ -559,7 +559,7 @@ class OC_App{
 
 
 	/**
-	 * @brief Read all app metadata from the info.xml file
+	 * Read all app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array
@@ -626,7 +626,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Returns the navigation
+	 * Returns the navigation
 	 * @return array
 	 *
 	 * This function returns an array containing all entries added. The
@@ -717,8 +717,8 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: get a list of all apps in the apps folder
-	 * @return array or app names (string IDs)
+	 * get a list of all apps in the apps folder
+	 * @return array an array of app names (string IDs)
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {
@@ -750,7 +750,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: Lists all apps, this is used in apps.php
+	 * Lists all apps, this is used in apps.php
 	 * @return array
 	 */
 	public static function listAllApps() {
@@ -824,7 +824,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
+	 * Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
 	 * @return array
 	 */
 	private static function customSort($a, $b) {
@@ -854,7 +854,7 @@ class OC_App{
 	}
 
 	/**
-	 * @brief: get a list of all apps on apps.owncloud.com
+	 * get a list of all apps on apps.owncloud.com
 	 * @return array, multi-dimensional array of apps.
 	 *     Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
@@ -959,8 +959,14 @@ class OC_App{
 	 * ownCloud version. disable them if not.
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
+	 *
+	 * @param array $apps optional app id list to check, uses all enabled apps
+	 * when not specified
+	 *
+	 * @return array containing the list of ids of the disabled apps
 	 */
 	public static function checkAppsRequirements($apps = array()) {
+		$disabledApps = array();
 		if (empty($apps)) {
 			$apps = OC_App::getEnabledApps();
 		}
@@ -968,48 +974,90 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
+			if(!self::isAppCompatible($version, $info)) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" ('.$app.') can\'t be used because it is'
 					.' not compatible with this version of ownCloud',
 					OC_Log::ERROR);
 				OC_App::disable( $app );
 				OC_Hook::emit('update', 'success', 'Disabled '.$info['name'].' app because it is not compatible');
+				$disabledApps[] = $app;
 			}
 		}
+		return $disabledApps;
 	}
 
+	/**
+	 * Ajust the number of version parts of $version1 to match
+	 * the number of version parts of $version2.
+	 *
+	 * @param string $version1 version to adjust
+	 * @param string $version2 version to take the number of parts from
+	 * @return string shortened $version1
+	 */
+	private static function adjustVersionParts($version1, $version2) {
+		$version1 = explode('.', $version1);
+		$version2 = explode('.', $version2);
+		// reduce $version1 to match the number of parts in $version2
+		while (count($version1) > count($version2)) {
+			array_pop($version1);
+		}
+		// if $version1 does not have enough parts, add some
+		while (count($version1) < count($version2)) {
+			$version1[] = '0';
+		}
+		return implode('.', $version1);
+	}
 
 	/**
-	 * Compares the app version with the owncloud version to see if the app
-	 * requires a newer version than the currently active one
-	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
-	 * @param string $appRequired the required version from the xml
-	 * major.minor.bugfix
+	 * Check whether the current ownCloud version matches the given
+	 * application's version requirements.
+	 *
+	 * The comparison is made based on the number of parts that the
+	 * app info version has. For example for ownCloud 6.0.3 if the
+	 * app info version is expecting version 6.0, the comparison is
+	 * made on the first two parts of the ownCloud version.
+	 * This means that it's possible to specify "requiremin" => 6
+	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
+	 *
+	 * @param string $ocVersion ownCloud version to check against
+	 * @param array  $appInfo app info (from xml)
+	 *
 	 * @return boolean true if compatible, otherwise false
 	 */
-	public static function isAppVersionCompatible($owncloudVersions, $appRequired){
-		$appVersions = explode('.', $appRequired);
+	public static function isAppCompatible($ocVersion, $appInfo){
+		$requireMin = '';
+		$requireMax = '';
+		if (isset($appInfo['requiremin'])) {
+			$requireMin = $appInfo['requiremin'];
+		} else if (isset($appInfo['require'])) {
+			$requireMin = $appInfo['require'];
+		}
 
-		for($i=0; $i<count($appVersions); $i++){
-			$appVersion = (int) $appVersions[$i];
+		if (isset($appInfo['requiremax'])) {
+			$requireMax = $appInfo['requiremax'];
+		}
 
-			if(isset($owncloudVersions[$i])){
-				$owncloudVersion = $owncloudVersions[$i];
-			} else {
-				$owncloudVersion = 0;
-			}
+		if (is_array($ocVersion)) {
+			$ocVersion = implode('.', $ocVersion);
+		}
 
-			if($owncloudVersion < $appVersion){
-				return false;
-			} elseif ($owncloudVersion > $appVersion) {
-				return true;
-			}
+		if (!empty($requireMin)
+			&& version_compare(self::adjustVersionParts($ocVersion, $requireMin), $requireMin, '<')
+		) {
+
+			return false;
+		}
+
+		if (!empty($requireMax)
+			&& version_compare(self::adjustVersionParts($ocVersion, $requireMax), $requireMax, '>')
+		) {
+
+			return false;
 		}
 
 		return true;
 	}
-
 
 	/**
 	 * get the installed version of all apps
@@ -1054,7 +1102,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info = self::getAppInfo($app);
 			$version=OC_Util::getVersion();
-			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
+			if(!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
 					$l->t("App \"%s\" can't be installed because it is not compatible with this version of ownCloud.",
 						array($info['name'])

@@ -11,7 +11,7 @@
 # henrikhjelm <mailto@henrikhjelm.se>, 2014
 # Jan Busk, 2013
 # Jan Busk, 2013
-# medialabs, 2013
+# medialabs, 2013-2014
 # kallemooo <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # medialabs, 2013
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -60,15 +60,15 @@ msgstr "E-post skickat"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Du behöver ställa in din användares e-postadress före du kan skicka test e-post."
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "Sändningsläge"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "Autentiseringsmetod"
 
@@ -111,6 +111,16 @@ msgstr "Det gick inte att dekryptera dina filer, kontrollera din owncloud.log el
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "Det gick inte att dekryptera filerna, kontrollera ditt lösenord och försök igen"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "Krypteringsnycklar raderades permanent"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "Det gick inte att permanent ta bort dina krypteringsnycklar, kontrollera din owncloud.log eller fråga din administratör"
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-post sparad"
@@ -126,6 +136,16 @@ msgstr "Kan inte radera grupp"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "Kan inte radera användare"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "Återställning av säkerhetskopior lyckades"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "Kan inte återställa dina krypteringsnycklar, vänligen kontrollera din owncloud.log eller fråga din administratör."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -182,7 +202,7 @@ msgstr "Gränssnittet stödjer inte byte av lösenord, men användarnas krypteri
 msgid "Unable to change password"
 msgstr "Kunde inte ändra lösenord"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Skickar..."
 
@@ -238,33 +258,41 @@ msgstr "Uppdatera"
 msgid "Updated"
 msgstr "Uppdaterad"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "Välj en profilbild"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "Väldigt svagt lösenord"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "Svagt lösenord"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "Okej lösenord"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "Bra lösenord"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "Starkt lösenord"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "Dekrypterar filer... Vänligen vänta, detta kan ta en stund."
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "Radera krypteringsnycklar permanent"
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "Återställ krypteringsnycklar"
 
 #: js/users.js:47
 msgid "deleted"
@@ -278,8 +306,8 @@ msgstr "ångra"
 msgid "Unable to remove user"
 msgstr "Kan inte ta bort användare"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "Grupper"
 
@@ -311,7 +339,7 @@ msgstr "Ett giltigt lösenord måste anges"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Varning: Hem katalogen för varje användare \"{användare}\" finns redan"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -379,7 +407,7 @@ msgid ""
 "root."
 msgstr "Din datakatalog och dina filer är förmodligen åtkomliga från internet. Filen .htaccess fungerar inte. Vi rekommenderar starkt att du konfigurerar din webbserver så att datakatalogen inte längre är åtkomlig eller du flyttar datakatalogen utanför webbserverns rotkatalog."
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "Installationsvarning"
 
@@ -394,53 +422,65 @@ msgstr "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkro
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Vänligen dubbelkolla igenom <a href=\"%s\">installationsguiden</a>."
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "Modulen \"fileinfo\" saknas"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ."
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "Din PHP version är föråldrad"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Din PHP version är föråldrad. Vi rekommenderar starkt att uppdatera till 5.3.8 eller nyare eftersom äldre versioner är obrukbara. Det är möjligt att denna installation inte fungerar korrekt."
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "Locale fungerar inte"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Systemspråk kan inte ställas in till ett som stödjer UTF-8."
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Detta betyder att där kan komma att uppstå problem med vissa tecken i filnamn."
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Vi rekommenderar starkt att installera de paket som krävs på ditt system för att stödja en av följande systemspråk: %s."
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "Internetförbindelsen fungerar inte"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -449,198 +489,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Servern har ingen fungerande internetanslutning. Detta innebär att en del av de funktioner som montering av extern lagring, notifieringar om uppdateringar eller installation av 3: e part appar inte fungerar. Åtkomst till filer och skicka e-postmeddelanden fungerar troligen inte heller. Vi rekommenderar starkt att aktivera en internetuppkoppling för denna server om du vill ha alla funktioner."
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Sista cron kördes vid %s"
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Sista cron kördes vid %s. Detta är mer än en timme sedan, något verkar fel."
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "Cron kördes inte ännu!"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "Exekvera en uppgift vid varje sidladdning"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php är registrerad som en webcron service att ropa på cron.php varje 15 minuter över http."
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Använd systemets cron service att ropa på cron.php filen varje 15 minuter."
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "Dela"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "Aktivera delat API"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "Tillåt applikationer att använda delat API"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "Tillåt länkar"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "Tillåt delning till allmänheten via publika länkar"
+#: templates/admin.php:238
+msgid "Enforce password protection"
+msgstr "Tillämpa lösenordskydd"
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "Tillåt offentlig uppladdning"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "Tillåt användare att aktivera\nTillåt användare att göra det möjligt för andra att ladda upp till sina offentligt delade mappar"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "Tillåt vidaredelning"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "Tillåt användare att dela vidare filer som delats med dem"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "Tillåt delning med alla"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "Tillåt bara delning med användare i egna grupper"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "Tillåt e-post notifikation"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "Tillåt användare att skicka mailnotifieringar för delade filer"
-
-#: templates/admin.php:262
+#: templates/admin.php:245
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Ställ in standardutgångsdatum"
 
-#: templates/admin.php:263
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "Förfaller efter"
 
-#: templates/admin.php:266
+#: templates/admin.php:250
 msgid "days"
 msgstr "dagar"
 
-#: templates/admin.php:269
+#: templates/admin.php:253
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Tillämpa förfallodatum"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "Låt delningar förfalla som standard efter N dagar"
+#: templates/admin.php:257
+msgid "Allow users to share items to the public with links"
+msgstr "Tillåt delning till allmänheten via publika länkar"
 
-#: templates/admin.php:278
+#: templates/admin.php:264
+msgid "Allow resharing"
+msgstr "Tillåt vidaredelning"
+
+#: templates/admin.php:265
+msgid "Allow users to share items shared with them again"
+msgstr "Tillåt användare att dela vidare filer som delats med dem"
+
+#: templates/admin.php:272
+msgid "Allow users to share with anyone"
+msgstr "Tillåt delning med alla"
+
+#: templates/admin.php:275
+msgid "Allow users to only share with users in their groups"
+msgstr "Tillåt bara delning med användare i egna grupper"
+
+#: templates/admin.php:282
+msgid "Allow mail notification"
+msgstr "Tillåt e-post notifikation"
+
+#: templates/admin.php:283
+msgid "Allow users to send mail notification for shared files"
+msgstr "Tillåt användare att skicka mailnotifieringar för delade filer"
+
+#: templates/admin.php:290
+msgid "Exclude groups from sharing"
+msgstr "Exkludera grupp från att dela"
+
+#: templates/admin.php:301
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr "Dessa grupper kommer fortfarande kunna ta emot delningar, men inte skapa delningar."
+
+#: templates/admin.php:308
 msgid "Security"
 msgstr "Säkerhet"
 
-#: templates/admin.php:291
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "Kräv HTTPS"
 
-#: templates/admin.php:293
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tvingar klienterna att ansluta till %s via en krypterad anslutning."
 
-#: templates/admin.php:299
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Anslut till din %s via HTTPS för att aktivera/deaktivera SSL"
 
-#: templates/admin.php:311
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "E-postserver"
 
-#: templates/admin.php:313
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "Detta används för att skicka ut notifieringar."
 
-#: templates/admin.php:344
+#: templates/admin.php:374
 msgid "From address"
 msgstr "Från adress"
 
-#: templates/admin.php:366
+#: templates/admin.php:375
+msgid "mail"
+msgstr "mail"
+
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "Autentisering krävs"
 
-#: templates/admin.php:370
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "Serveradress"
 
-#: templates/admin.php:374
+#: templates/admin.php:404
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:379
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "Inloggningsuppgifter"
 
-#: templates/admin.php:380
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "SMTP användarnamn"
 
-#: templates/admin.php:383
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "SMTP lösenord"
 
-#: templates/admin.php:387
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "Testa e-post inställninggar"
 
-#: templates/admin.php:388
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "Skicka e-post"
 
-#: templates/admin.php:393
+#: templates/admin.php:423
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:394
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "Nivå på loggning"
 
-#: templates/admin.php:426
+#: templates/admin.php:456
 msgid "More"
 msgstr "Mer"
 
-#: templates/admin.php:427
+#: templates/admin.php:457
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -793,28 +841,32 @@ msgstr "Språk"
 msgid "Help translate"
 msgstr "Hjälp att översätta"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "Använd denna adress till <a href=\"%s\" target=\"_blank\">nå dina Filer via WebDAV</a>"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Krypteringsapplikationen är inte längre aktiverad, vänligen dekryptera alla dina filer"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "Inloggningslösenord"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "Dekryptera alla filer"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "Dina krypteringsnycklar flyttas till en backup. Om något gick fel kan du återställa nycklarna. Bara ta bort dem permanent om du är säker på att alla filer dekrypteras korrekt."
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "Återställ krypteringsnycklar"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "Radera krypteringsnycklar"
 
 #: templates/users.php:19
 msgid "Login Name"

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "elkarbanatzea ez dago gaituta",
 "For more info, please ask the person who sent this link." => "Informazio gehiagorako, mesedez eskatu lotura hau bidali zuen pertsonari",
 "Download" => "Deskargatu",
+"Download %s" => "Deskargatu %s",
 "Direct link" => "Lotura zuzena"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

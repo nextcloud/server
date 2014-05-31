@@ -56,7 +56,7 @@ class OC_Installer{
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
 	 *
-	 * @brief Installs an app
+	 * Installs an app
 	 * @param array $data with all information
 	 * @throws \Exception
 	 * @return integer
@@ -303,10 +303,7 @@ class OC_Installer{
 		}
 
 		// check if the app is compatible with this version of ownCloud
-		if(
-			!isset($info['require'])
-				or !OC_App::isAppVersionCompatible(OC_Util::getVersion(), $info['require'])
-		) {
+		if(!OC_App::isAppCompatible(OC_Util::getVersion(), $info)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because it is not compatible with this version of ownCloud"));
 		}
@@ -362,7 +359,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Check if app is already downloaded
+	 * Check if app is already downloaded
 	 * @param string $name name of the application to remove
 	 * @return boolean
 	 *
@@ -378,9 +375,9 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Removes an app
+	 * Removes an app
 	 * @param string $name name of the application to remove
-	 * @param $options array with options
+	 * @param array $options options
 	 * @return boolean|null
 	 *
 	 * This function removes an app. $options is an associative array. The
@@ -431,7 +428,7 @@ class OC_Installer{
 	}
 
 	/**
-	 * @brief Installs shipped apps
+	 * Installs shipped apps
 	 *
 	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */

@@ -48,19 +48,18 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "o është pa limit",
 "Maximum input size for ZIP files" => "Maksimumi hyrës i skedarëve ZIP",
 "Save" => "Ruaj",
+"WebDAV" => "WebDAV",
 "New" => "E re",
 "Text file" => "Skedar tekst",
 "New folder" => "Dosje e're",
 "Folder" => "Dosje",
 "From link" => "Nga lidhja",
-"Deleted files" => "Skedarë të fshirë ",
 "Cancel upload" => "Anullo ngarkimin",
 "Nothing in here. Upload something!" => "Këtu nuk ka asgje. Ngarko dicka",
 "Download" => "Shkarko",
 "Delete" => "Fshi",
 "Upload too large" => "Ngarkimi shumë i madh",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Skedarët që po mundoheni të ngarkoni e tejkalojnë madhësinë maksimale të lejuar nga serveri.",
-"Files are being scanned, please wait." => "Skanerizimi i skedarit në proces. Ju lutem prisni.",
-"Current scanning" => "Skanimi aktual"
+"Files are being scanned, please wait." => "Skanerizimi i skedarit në proces. Ju lutem prisni."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

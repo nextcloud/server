@@ -27,7 +27,7 @@ class Shared_Updater {
 	static private $toRemove = array();
 
 	/**
-	 * @brief walk up the users file tree and update the etags
+	 * walk up the users file tree and update the etags
 	 * @param string $user
 	 * @param string $path
 	 */
@@ -38,14 +38,13 @@ class Shared_Updater {
 		\OC\Files\Filesystem::initMountPoints($user);
 		$view = new \OC\Files\View('/' . $user);
 		if ($view->file_exists($path)) {
-			while ($path !== '/') {
+			while ($path !== dirname($path)) {
 				$etag = $view->getETag($path);
 				$view->putFileInfo($path, array('etag' => $etag));
 				$path = dirname($path);
 			}
 		} else {
-			error_log("error!" . 'can not update etags on ' . $path . ' for user ' . $user);
-			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user, \OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user . '. Path does not exists', \OCP\Util::DEBUG);
 		}
 	}
 
@@ -55,6 +54,12 @@ class Shared_Updater {
 	* @param string $target
 	*/
 	static public function correctFolders($target) {
+
+		// ignore part files
+		if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
+			return false;
+		}
+
 		// Correct Shared folders of other users shared with
 		$shares = \OCA\Files_Sharing\Helper::getSharesFromItem($target);
 
@@ -73,7 +78,7 @@ class Shared_Updater {
 	}
 
 	/**
-	 * @brief remove all shares for a given file if the file was deleted
+	 * remove all shares for a given file if the file was deleted
 	 *
 	 * @param string $path
 	 */
@@ -110,11 +115,14 @@ class Shared_Updater {
 	 * @param array $params
 	 */
 	static public function deleteHook($params) {
-		self::correctFolders($params['path']);
-		$fileInfo = \OC\Files\Filesystem::getFileInfo($params['path']);
+		$path = $params['path'];
+		self::correctFolders($path);
+
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($path);
+
 		// mark file as deleted so that we can clean up the share table if
 		// the file was deleted successfully
-		self::$toRemove[$params['path']] =  $fileInfo['fileid'];
+		self::$toRemove[$path] =  $fileInfo['fileid'];
 	}
 
 	/**

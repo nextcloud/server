@@ -19,12 +19,12 @@ if (!isset($_)) { //also provide standalone error page
 				$errorMsg = $l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				break;
 			default:
-				$errorMsg = $l->t("Unknown error please check your system settings or contact your administrator");
+				$errorMsg = $l->t("Unknown error. Please check your system settings or contact your administrator");
 				break;
 		}
 	} else {
 		$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
-		$errorMsg = $l->t("Unknown error please check your system settings or contact your administrator");
+		$errorMsg = $l->t("Unknown error. Please check your system settings or contact your administrator");
 	}
 
 	if (isset($_GET['p']) && $_GET['p'] === '1') {

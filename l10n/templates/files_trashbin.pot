@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-05 01:55-0400\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,38 +27,34 @@ msgstr ""
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/filelist.js:3
+#: appinfo/app.php:13 js/filelist.js:34
 msgid "Deleted files"
 msgstr ""
 
-#: js/filelist.js:88 js/filelist.js:132 js/filelist.js:181
-msgid "Error"
-msgstr ""
-
-#: js/trash.js:48 templates/index.php:22 templates/index.php:24
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr ""
 
-#: js/trash.js:107
-msgid "Deleted Files"
+#: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
+msgid "Error"
 msgstr ""
 
 #: lib/trashbin.php:861 lib/trashbin.php:863
 msgid "restored"
 msgstr ""
 
-#: templates/index.php:6
+#: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
 msgstr ""
 
-#: templates/index.php:19
+#: templates/index.php:18
 msgid "Name"
 msgstr ""
 
-#: templates/index.php:30
+#: templates/index.php:29
 msgid "Deleted"
 msgstr ""
 
-#: templates/index.php:33 templates/index.php:34
+#: templates/index.php:32 templates/index.php:33
 msgid "Delete"
 msgstr ""

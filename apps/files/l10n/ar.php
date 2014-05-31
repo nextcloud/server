@@ -52,19 +52,19 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 = غير محدود",
 "Maximum input size for ZIP files" => "الحد الأقصى المسموح به لملفات ZIP",
 "Save" => "حفظ",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "استخدم هذا العنوان لـ  <a href=\"%s\" target=\"_blank\">الدخول الى ملفاتك عن طريق WebDAV</a>",
 "New" => "جديد",
 "Text file" => "ملف",
 "New folder" => "مجلد جديد",
 "Folder" => "مجلد",
 "From link" => "من رابط",
-"Deleted files" => "حذف الملفات",
 "Cancel upload" => "إلغاء رفع الملفات",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Download" => "تحميل",
 "Delete" => "إلغاء",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم.",
-"Files are being scanned, please wait." => "يرجى الانتظار , جاري فحص الملفات .",
-"Current scanning" => "الفحص الحالي"
+"Files are being scanned, please wait." => "يرجى الانتظار , جاري فحص الملفات ."
 );
 $PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

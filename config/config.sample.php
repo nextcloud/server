@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This configuration file is only provided to document the different configuration options and their usage.
+ * DO NOT COMPLETELY BASE YOUR CONFIGURATION FILE ON THIS SAMPLE. THIS MAY BREAK YOUR INSTANCE.
+ * Instead, manually copy configurations' switches that you consider important for your instance to your configuration.
+ */
+
 /* Only enable this for local development and not in productive environments */
 /* This will disable the minifier and outputs some additional debug informations */
 define("DEBUG", true);
@@ -283,5 +289,17 @@ $CONFIG = array(
  * cache directory and "$user" is the user.
  *
  */
-'cache_path' => ''
+'cache_path' => '',
+
+/*
+ * specifies how often the filesystem is checked for changes made outside owncloud
+ * 0 -> never check the filesystem for outside changes, provides a performance increase when it's certain that no changes are made directly to the filesystem
+ * 1 -> check each file or folder at most once per request, recomended for general use if outside changes might happen
+ * 2 -> check every time the filesystem is used, causes a performance hit when using external storages, not recomended for regular use
+ */
+'filesystem_check_changes' => 1,
+
+/* If true, prevent owncloud from changing the cache due to changes in the filesystem for all storage */
+'filesystem_cache_readonly' => false,
+
 );

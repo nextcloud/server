@@ -8,8 +8,10 @@
 # lord93 <lordakryl@gmail.com>, 2013
 # foool <andrglad@mail.ru>, 2013
 # Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
+# Gennady <mxiru@mail.ru>, 2014
 # jekader <jekader@gmail.com>, 2013
 # Mescalinich <insider.junk@gmail.com>, 2013
+# ppzabortsev <ppz2001@mail.ru>, 2014
 # stushev, 2013
 # eurekafag <rkfg@rkfg.me>, 2013
 # sk.avenger <sk.avenger@adygnet.ru>, 2013
@@ -24,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 14:42+0000\n"
+"Last-Translator: ppzabortsev <ppz2001@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,11 +36,11 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
 msgstr "Дата истечения срока действия в прошлом."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Невозможно отправить письмо следующим пользователям: %s"
@@ -54,6 +56,11 @@ msgstr "Режим отладки отключён"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "База данных обновлена"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -75,212 +82,212 @@ msgstr "Временная картинка профиля недоступна,
 msgid "No crop data provided"
 msgstr "Не указана информация о кадрировании"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Понедельник"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Среда"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Четверг"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Пятница"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Суббота"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Январь"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Февраль"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Март"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Апрель"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Май"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Июнь"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Июль"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "Август"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "Сентябрь"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Октябрь"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "Ноябрь"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Декабрь"
 
-#: js/js.js:483
+#: js/js.js:496
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:583
+#: js/js.js:596
 msgid "Saving..."
 msgstr "Сохранение..."
 
-#: js/js.js:1240
+#: js/js.js:1220
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:1241
+#: js/js.js:1221
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минуту назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: js/js.js:1242
+#: js/js.js:1222
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: js/js.js:1243
+#: js/js.js:1223
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:1244
+#: js/js.js:1224
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:1245
+#: js/js.js:1225
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: js/js.js:1246
+#: js/js.js:1226
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:1247
+#: js/js.js:1227
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: js/js.js:1248
+#: js/js.js:1228
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:1249
+#: js/js.js:1229
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Выбрать"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Ошибка при загрузке шаблона выбора файлов: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Нет"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Выбрать"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Ошибка при загрузке шаблона выбора файлов: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ок"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Ошибка загрузки шаблона сообщений: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} конфликт в файлах"
 msgstr[1] "{count} конфликта в файлах"
 msgstr[2] "{count} конфликтов в файлах"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Один конфликт в файлах"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Новые файлы"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
-msgstr ""
+msgstr "Существующие файлы"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Какие файлы вы хотите сохранить?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "При выборе обоих версий,  к названию копируемого файла будет добавлена цифра"
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Отменить"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Продолжить"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(выбраны все)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} выбрано)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Ошибка при загрузке шаблона существующего файла"
 
@@ -304,148 +311,157 @@ msgstr "Хороший пароль"
 msgid "Strong password"
 msgstr "Устойчивый к взлому пароль"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:69 js/share.js:84 js/share.js:127
 msgid "Shared"
 msgstr "Общие"
 
-#: js/share.js:109
+#: js/share.js:130
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:197 js/share.js:885
 msgid "Error while sharing"
 msgstr "Ошибка при открытии доступа"
 
-#: js/share.js:171
+#: js/share.js:208
 msgid "Error while unsharing"
 msgstr "Ошибка при закрытии доступа"
 
-#: js/share.js:178
+#: js/share.js:215
 msgid "Error while changing permissions"
 msgstr "Ошибка при смене разрешений"
 
-#: js/share.js:188
+#: js/share.js:225
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} открыл доступ для Вас и группы {group} "
 
-#: js/share.js:190
+#: js/share.js:227
 msgid "Shared with you by {owner}"
 msgstr "{owner} открыл доступ для Вас"
 
-#: js/share.js:214
+#: js/share.js:251
 msgid "Share with user or group …"
 msgstr "Поделиться с пользователем или группой..."
 
-#: js/share.js:220
+#: js/share.js:257
 msgid "Share link"
 msgstr "Поделиться ссылкой"
 
-#: js/share.js:223
+#: js/share.js:263
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr "Срок действия публичной ссылки истекает не позже чем через {days} дней, после её создания"
+
+#: js/share.js:265
+msgid "By default the public link will expire after {days} days"
+msgstr "По умолчанию срок действия публичной ссылки истекает через {days} дней"
+
+#: js/share.js:270
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Пароль"
+#: js/share.js:272
+msgid "Choose a password for the public link"
+msgstr "Выберите пароль для публичной ссылки"
 
-#: js/share.js:230
+#: js/share.js:278
 msgid "Allow Public Upload"
-msgstr "Разрешить открытую загрузку"
+msgstr "Разрешить загрузку"
 
-#: js/share.js:234
+#: js/share.js:282
 msgid "Email link to person"
 msgstr "Почтовая ссылка на персону"
 
-#: js/share.js:235
+#: js/share.js:283
 msgid "Send"
 msgstr "Отправить"
 
-#: js/share.js:240
+#: js/share.js:288
 msgid "Set expiration date"
 msgstr "Установить срок доступа"
 
-#: js/share.js:241
+#: js/share.js:289
 msgid "Expiration date"
 msgstr "Дата окончания"
 
-#: js/share.js:277
+#: js/share.js:326
 msgid "Share via email:"
 msgstr "Поделится через электронную почту:"
 
-#: js/share.js:280
+#: js/share.js:329
 msgid "No people found"
 msgstr "Ни один человек не найден"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:377 js/share.js:438
 msgid "group"
 msgstr "группа"
 
-#: js/share.js:357
+#: js/share.js:410
 msgid "Resharing is not allowed"
 msgstr "Общий доступ не разрешен"
 
-#: js/share.js:401
+#: js/share.js:454
 msgid "Shared in {item} with {user}"
 msgstr "Общий доступ к {item} с {user}"
 
-#: js/share.js:423
+#: js/share.js:476
 msgid "Unshare"
 msgstr "Закрыть общий доступ"
 
-#: js/share.js:431
+#: js/share.js:484
 msgid "notify by email"
 msgstr "уведомить по почте"
 
-#: js/share.js:434
+#: js/share.js:487
 msgid "can edit"
 msgstr "может редактировать"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:439
+#: js/share.js:492
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:442
+#: js/share.js:495
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:445
+#: js/share.js:498
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:448
+#: js/share.js:501
 msgid "share"
 msgstr "открыть доступ"
 
-#: js/share.js:721
+#: js/share.js:803
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:734
+#: js/share.js:822
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:752
+#: js/share.js:843
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
-#: js/share.js:777
+#: js/share.js:872
 msgid "Sending ..."
 msgstr "Отправляется ..."
 
-#: js/share.js:788
+#: js/share.js:883
 msgid "Email sent"
 msgstr "Письмо отправлено"
 
-#: js/share.js:812
+#: js/share.js:907
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -477,18 +493,19 @@ msgstr "Ошибка загрузки шаблона диалога: {error}"
 msgid "No tags selected for deletion."
 msgstr "Не выбраны меток для удаления."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Пожалуйста, перезагрузите страницу."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
@@ -635,7 +652,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Здравствуйте,\n\nпросто даём вам знать, что %s расшарил %s для вас.\nПосмотреть: %s\n\n"
+msgstr "Здравствуйте,\n\n%s предоставил Вам доступ к %s.\nПосмотреть: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -644,7 +661,7 @@ msgstr "Доступ пропадет в %s"
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr "Приветствуем!"
+msgstr "Удачи!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
@@ -688,6 +705,10 @@ msgstr "Для информации, как правильно настроит�
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>учётную запись администратора</strong>"
+
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Пароль"
 
 #: templates/installation.php:70
 msgid "Storage & database"
@@ -792,7 +813,7 @@ msgstr "Альтернативные имена пользователя"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr "Здравствуйте,<br><br>просто даём вам знать, что %s открыл доступ к %s для вас.<br><a href=\"%s\">Посмотреть!</a><br><br>"
+msgstr "Здравствуйте,<br><br>%s предоставил Вам доступ к <strong>%s</strong>.<br><a href=\"%s\">Посмотреть</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
@@ -814,8 +835,27 @@ msgstr "Спасибо за терпение."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Идёт обновление ownCloud до версии %s. Это может занять некоторое время."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

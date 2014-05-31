@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
+ * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -44,8 +44,10 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp(){
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
-					array(), array('test'));
+		$this->api = $this->getMockBuilder(
+				'OC\AppFramework\DependencyInjection\DIContainer')
+				->disableOriginalConstructor()
+				->getMock();
 
 		$this->controller = $this->getMock('OCP\AppFramework\Controller',
 				array(), array($this->api, new Request()));

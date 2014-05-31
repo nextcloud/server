@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-03 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 05:55+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/projects/p/owncloud/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,32 @@ msgstr ""
 "Language: es_CR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/share.js:33
+#: appinfo/app.php:32 js/app.js:32
+msgid "Shared with you"
+msgstr ""
+
+#: appinfo/app.php:41 js/app.js:51
+msgid "Shared with others"
+msgstr ""
+
+#: js/app.js:33
+msgid "No files have been shared with you yet."
+msgstr ""
+
+#: js/app.js:52
+msgid "You haven't shared any files yet."
+msgstr ""
+
+#: js/share.js:47 js/share.js:55
 msgid "Shared by {owner}"
+msgstr ""
+
+#: js/sharedfilelist.js:116
+msgid "Shared by"
+msgstr ""
+
+#: js/sharedfilelist.js:220
+msgid "link"
 msgstr ""
 
 #: templates/authenticate.php:4
@@ -31,6 +55,14 @@ msgstr ""
 
 #: templates/authenticate.php:10
 msgid "Password"
+msgstr ""
+
+#: templates/list.php:16
+msgid "Name"
+msgstr ""
+
+#: templates/list.php:20
+msgid "Share time"
 msgstr ""
 
 #: templates/part.404.php:3
@@ -61,11 +93,11 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:53
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:57
+#: templates/public.php:56
 msgid "Direct link"
 msgstr ""

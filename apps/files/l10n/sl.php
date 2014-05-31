@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 predstavlja neomejeno vrednost",
 "Maximum input size for ZIP files" => "Največja vhodna velikost za datoteke ZIP",
 "Save" => "Shrani",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Uporabite naslov <a href=\"%s\" target=\"_blank\"> za dostop do datotek rpeko sistema WebDAV</a>.",
 "New" => "Novo",
 "New text file" => "Nova besedilna datoteka",
 "Text file" => "Besedilna datoteka",
 "New folder" => "Nova mapa",
 "Folder" => "Mapa",
 "From link" => "Iz povezave",
-"Deleted files" => "Izbrisane datoteke",
 "Cancel upload" => "Prekliči pošiljanje",
 "You don’t have permission to upload or create files here" => "Ni ustreznih dovoljenj za pošiljanje ali ustvarjanje datotek na tem mestu.",
 "Nothing in here. Upload something!" => "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Izbriši",
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
-"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
-"Current scanning" => "Trenutno poteka preučevanje"
+"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ..."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

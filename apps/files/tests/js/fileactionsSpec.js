@@ -19,35 +19,46 @@
 *
 */
 
-/* global OC, FileActions, FileList */
-describe('FileActions tests', function() {
-	var $filesTable;
+describe('OCA.Files.FileActions tests', function() {
+	var $filesTable, fileList;
+	var FileActions; 
 
 	beforeEach(function() {
 		// init horrible parameters
-		var $body = $('body');
+		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
 		// dummy files table
 		$filesTable = $body.append('<table id="filestable"></table>');
-		FileList.files = [];
+		fileList = new OCA.Files.FileList($('#testArea'));
+		FileActions = new OCA.Files.FileActions();
+		FileActions.registerDefaultActions();
 	});
 	afterEach(function() {
+		FileActions = null;
+		fileList = undefined;
 		$('#dir, #permissions, #filestable').remove();
+	});
+	it('calling clear() clears file actions', function() {
+		FileActions.clear();
+		expect(FileActions.actions).toEqual({});
+		expect(FileActions.defaults).toEqual({});
+		expect(FileActions.icons).toEqual({});
+		expect(FileActions.currentFile).toBe(null);
 	});
 	it('calling display() sets file actions', function() {
 		var fileData = {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
 		};
 
 		// note: FileActions.display() is called implicitly
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 
 		// actions defined after call
 		expect($tr.find('.action.action-download').length).toEqual(1);
@@ -61,15 +72,15 @@ describe('FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
+		var $tr = fileList.add(fileData);
 
-		FileActions.display($tr.find('td.filename'), true);
-		FileActions.display($tr.find('td.filename'), true);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		// actions defined after cal
 		expect($tr.find('.action.action-download').length).toEqual(1);
@@ -82,37 +93,100 @@ describe('FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
-		FileActions.display($tr.find('td.filename'), true);
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		$tr.find('.action-download').click();
 
 		expect(redirectStub.calledOnce).toEqual(true);
-		expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files/ajax/download.php?dir=%2Fsubdir&files=testName.txt');
+		expect(redirectStub.getCall(0).args[0]).toEqual(
+			OC.webroot +
+			'/index.php/apps/files/ajax/download.php' +
+			'?dir=%2Fsubdir&files=testName.txt');
 		redirectStub.restore();
 	});
-	it('deletes file when clicking delete', function() {
-		var deleteStub = sinon.stub(FileList, 'do_delete');
+	it('takes the file\'s path into account when clicking download', function() {
+		var redirectStub = sinon.stub(OC, 'redirect');
 		var fileData = {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
-			mimetype: 'plain/text',
+			path: '/anotherpath/there',
+			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
 			mtime: '123456'
 		};
-		var $tr = FileList.add(fileData);
-		FileActions.display($tr.find('td.filename'), true);
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+
+		$tr.find('.action-download').click();
+
+		expect(redirectStub.calledOnce).toEqual(true);
+		expect(redirectStub.getCall(0).args[0]).toEqual(
+			OC.webroot + '/index.php/apps/files/ajax/download.php' +
+			'?dir=%2Fanotherpath%2Fthere&files=testName.txt'
+		);
+		redirectStub.restore();
+	});
+	it('deletes file when clicking delete', function() {
+		var deleteStub = sinon.stub(fileList, 'do_delete');
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456'
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.display($tr.find('td.filename'), true, fileList);
 
 		$tr.find('.action.delete').click();
 
 		expect(deleteStub.calledOnce).toEqual(true);
 		deleteStub.restore();
+	});
+	it('passes context to action handler', function() {
+		var actionStub = sinon.stub();
+		var fileData = {
+			id: 18,
+			type: 'file',
+			name: 'testName.txt',
+			mimetype: 'text/plain',
+			size: '1234',
+			etag: 'a01234c',
+			mtime: '123456'
+		};
+		var $tr = fileList.add(fileData);
+		FileActions.register(
+				'all',
+				'Test',
+				OC.PERMISSION_READ,
+				OC.imagePath('core', 'actions/test'),
+				actionStub
+		);
+		FileActions.display($tr.find('td.filename'), true, fileList);
+		$tr.find('.action-test').click();
+		expect(actionStub.calledOnce).toEqual(true);
+		expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');
+		var context = actionStub.getCall(0).args[1];
+		expect(context.$file.is($tr)).toEqual(true);
+		expect(context.fileList).toBeDefined();
+		expect(context.fileActions).toBeDefined();
+		expect(context.dir).toEqual('/subdir');
+
+		// when data-path is defined
+		actionStub.reset();
+		$tr.attr('data-path', '/somepath');
+		$tr.find('.action-test').click();
+		context = actionStub.getCall(0).args[1];
+		expect(context.dir).toEqual('/somepath');
 	});
 });

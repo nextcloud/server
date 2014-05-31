@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 17:20+0000\n"
+"POT-Creation-Date: 2014-05-26 01:54-0400\n"
+"PO-Revision-Date: 2014-05-25 09:53+0000\n"
 "Last-Translator: volkangezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,155 +22,159 @@ msgstr ""
 msgid "Local"
 msgstr "Yerel"
 
-#: appinfo/app.php:36
+#: appinfo/app.php:37
 msgid "Location"
 msgstr "Konum"
 
-#: appinfo/app.php:39
+#: appinfo/app.php:40
 msgid "Amazon S3"
 msgstr "Amazon S3"
 
-#: appinfo/app.php:41
+#: appinfo/app.php:43
 msgid "Key"
 msgstr "Anahtar"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:44
 msgid "Secret"
 msgstr "Parola"
 
-#: appinfo/app.php:43 appinfo/app.php:51
+#: appinfo/app.php:45 appinfo/app.php:54
 msgid "Bucket"
 msgstr "Bucket"
 
-#: appinfo/app.php:47
+#: appinfo/app.php:49
 msgid "Amazon S3 and compliant"
 msgstr "Amazon S3 ve uyumlu olanlar"
 
-#: appinfo/app.php:49
+#: appinfo/app.php:52
 msgid "Access Key"
 msgstr "Erişim Anahtarı"
 
-#: appinfo/app.php:50
+#: appinfo/app.php:53
 msgid "Secret Key"
 msgstr "Gizli Anahtar"
 
-#: appinfo/app.php:52
+#: appinfo/app.php:55
 msgid "Hostname (optional)"
 msgstr "Makine Adı (isteğe bağlı)"
 
-#: appinfo/app.php:53
+#: appinfo/app.php:56
 msgid "Port (optional)"
 msgstr "Bağl. Nok. (isteğe bağlı)"
 
-#: appinfo/app.php:54
+#: appinfo/app.php:57
 msgid "Region (optional)"
 msgstr "Bölge (isteğe bağlı)"
 
-#: appinfo/app.php:55
+#: appinfo/app.php:58
 msgid "Enable SSL"
 msgstr "SSL'yi Etkinleştir"
 
-#: appinfo/app.php:56
+#: appinfo/app.php:59
 msgid "Enable Path Style"
 msgstr "Yol Biçemini Etkinleştir"
 
-#: appinfo/app.php:63
+#: appinfo/app.php:67
 msgid "App key"
 msgstr "Uyg. anahtarı"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:68
 msgid "App secret"
 msgstr "Uyg. parolası"
 
-#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:131 appinfo/app.php:141 appinfo/app.php:151
-msgid "URL"
-msgstr "URL"
+#: appinfo/app.php:78 appinfo/app.php:119 appinfo/app.php:130
+#: appinfo/app.php:163
+msgid "Host"
+msgstr "Sunucu"
 
-#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
-#: appinfo/app.php:142 appinfo/app.php:152
+#: appinfo/app.php:79 appinfo/app.php:120 appinfo/app.php:142
+#: appinfo/app.php:153 appinfo/app.php:164
 msgid "Username"
-msgstr "Kullanıcı Adı:"
+msgstr "Kullanıcı Adı"
 
-#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
-#: appinfo/app.php:143 appinfo/app.php:153
+#: appinfo/app.php:80 appinfo/app.php:121 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:165
 msgid "Password"
-msgstr "Parola:"
+msgstr "Parola"
 
-#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
-#: appinfo/app.php:134 appinfo/app.php:154
+#: appinfo/app.php:81 appinfo/app.php:123 appinfo/app.php:133
+#: appinfo/app.php:144 appinfo/app.php:166
 msgid "Root"
 msgstr "Kök"
 
-#: appinfo/app.php:77
+#: appinfo/app.php:82
 msgid "Secure ftps://"
 msgstr "Güvenli ftps://"
 
-#: appinfo/app.php:84
+#: appinfo/app.php:90
 msgid "Client ID"
 msgstr "İstemci Kimliğ"
 
-#: appinfo/app.php:85
+#: appinfo/app.php:91
 msgid "Client secret"
 msgstr "İstemci parolası"
 
-#: appinfo/app.php:92
+#: appinfo/app.php:98
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Nesne Depolama"
 
-#: appinfo/app.php:94
+#: appinfo/app.php:101
 msgid "Username (required)"
 msgstr "Kullanıcı adı (gerekli)"
 
-#: appinfo/app.php:95
+#: appinfo/app.php:102
 msgid "Bucket (required)"
 msgstr "Bucket (gerekli)"
 
-#: appinfo/app.php:96
+#: appinfo/app.php:103
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Bölge (OpenStack Nesne Depolaması için isteğe bağlı)"
 
-#: appinfo/app.php:97
+#: appinfo/app.php:104
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr "API Anahtarı (Rackspace Bulut Dosyaları için gerekli)"
 
-#: appinfo/app.php:98
+#: appinfo/app.php:105
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr "Kiracı Adı (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:99
+#: appinfo/app.php:106
 msgid "Password (required for OpenStack Object Storage)"
 msgstr "Parola (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:100
+#: appinfo/app.php:107
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr "Hizmet Adı (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:108
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Kimlik uç nokta adresi (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:102
+#: appinfo/app.php:109
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr "Saniye cinsinden HTTP istek zaman aşımı (isteğe bağlı)"
 
-#: appinfo/app.php:114 appinfo/app.php:123
+#: appinfo/app.php:122 appinfo/app.php:132
 msgid "Share"
 msgstr "Paylaş"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:127
 msgid "SMB / CIFS using OC login"
 msgstr "OC oturumu kullanarak SMB / CIFS"
 
-#: appinfo/app.php:122
+#: appinfo/app.php:131
 msgid "Username as share"
 msgstr "Paylaşım olarak kullanıcı adı"
 
-#: appinfo/app.php:135 appinfo/app.php:145
+#: appinfo/app.php:141 appinfo/app.php:152
+msgid "URL"
+msgstr "URL"
+
+#: appinfo/app.php:145 appinfo/app.php:156
 msgid "Secure https://"
 msgstr "Güvenli https://"
 
-#: appinfo/app.php:144
+#: appinfo/app.php:155
 msgid "Remote subfolder"
 msgstr "Uzak alt klasör"
 
@@ -198,29 +202,29 @@ msgstr "Google Drive depo yapılandırma hatası"
 msgid "Saved"
 msgstr "Kaydedildi"
 
-#: lib/config.php:598
+#: lib/config.php:674
 msgid "<b>Note:</b> "
 msgstr "<b>Not:</b> "
 
-#: lib/config.php:608
+#: lib/config.php:684
 msgid " and "
 msgstr "ve"
 
-#: lib/config.php:630
+#: lib/config.php:706
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Not:</b> PHP'de cURL desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin."
 
-#: lib/config.php:632
+#: lib/config.php:708
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Not:</b> PHP'de FTP desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin."
 
-#: lib/config.php:634
+#: lib/config.php:710
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

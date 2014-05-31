@@ -31,6 +31,11 @@ class App {
 	private $l10n;
 
 	/**
+	 * @var \OCP\INavigationManager
+	 */
+	private static $navigationManager;
+
+	/**
 	 * @var \OC\Files\View
 	 */
 	private $view;
@@ -38,6 +43,18 @@ class App {
 	public function __construct($view, $l10n) {
 		$this->view = $view;
 		$this->l10n = $l10n;
+	}
+
+	/**
+	 * Returns the app's navigation manager
+	 *
+	 * @return \OCP\INavigationManager
+	 */
+	public static function getNavigationManager() {
+		if (self::$navigationManager === null) {
+			self::$navigationManager = new \OC\NavigationManager();
+		}
+		return self::$navigationManager;
 	}
 
 	/**

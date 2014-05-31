@@ -19,7 +19,7 @@
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<shipped>true</shipped>
-	<require>4.9</require>
+	<requiremin>4.9</requiremin>
 	<default_enable/>
 	<types>
 		<filesystem/>

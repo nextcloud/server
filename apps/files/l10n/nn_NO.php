@@ -50,19 +50,18 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 er ubegrensa",
 "Maximum input size for ZIP files" => "Maksimal storleik for ZIP-filer",
 "Save" => "Lagre",
+"WebDAV" => "WebDAV",
 "New" => "Ny",
 "Text file" => "Tekst fil",
 "New folder" => "Ny mappe",
 "Folder" => "Mappe",
 "From link" => "Frå lenkje",
-"Deleted files" => "Sletta filer",
 "Cancel upload" => "Avbryt opplasting",
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
 "Download" => "Last ned",
 "Delete" => "Slett",
 "Upload too large" => "For stor opplasting",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",
-"Files are being scanned, please wait." => "Skannar filer, ver venleg og vent.",
-"Current scanning" => "Køyrande skanning"
+"Files are being scanned, please wait." => "Skannar filer, ver venleg og vent."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

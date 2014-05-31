@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:03+0000\n"
-"Last-Translator: pstast <petr@stastny.eu>\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,6 +77,10 @@ msgstr "Převzít nastavení z nedávné konfigurace serveru?"
 msgid "Keep settings?"
 msgstr "Ponechat nastavení?"
 
+#: js/settings.js:93
+msgid "{nbServer}. Server"
+msgstr ""
+
 #: js/settings.js:99
 msgid "Cannot add server configuration"
 msgstr "Nelze přidat nastavení serveru"
@@ -92,6 +96,18 @@ msgstr "Úspěch"
 #: js/settings.js:133
 msgid "Error"
 msgstr "Chyba"
+
+#: js/settings.js:244
+msgid "Please specify a Base DN"
+msgstr ""
+
+#: js/settings.js:245
+msgid "Could not determine Base DN"
+msgstr ""
+
+#: js/settings.js:276
+msgid "Please specify the port"
+msgstr ""
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -133,7 +149,7 @@ msgstr "Opravdu si přejete smazat současné nastavení serveru?"
 msgid "Confirm Deletion"
 msgstr "Potvrdit smazání"
 
-#: lib/wizard.php:79 lib/wizard.php:93
+#: lib/wizard.php:83 lib/wizard.php:97
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -141,7 +157,7 @@ msgstr[0] "nalezena %s skupina"
 msgstr[1] "nalezeny %s skupiny"
 msgstr[2] "nalezeno %s skupin"
 
-#: lib/wizard.php:122
+#: lib/wizard.php:130
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -149,13 +165,29 @@ msgstr[0] "nalezen %s uživatel"
 msgstr[1] "nalezeni %s uživatelé"
 msgstr[2] "nalezeno %s uživatelů"
 
-#: lib/wizard.php:784 lib/wizard.php:796
+#: lib/wizard.php:825 lib/wizard.php:837
 msgid "Invalid Host"
 msgstr "Neplatný hostitel"
 
-#: lib/wizard.php:984
+#: lib/wizard.php:1025
 msgid "Could not find the desired feature"
 msgstr "Nelze nalézt požadovanou vlastnost"
+
+#: settings.php:52
+msgid "Server"
+msgstr ""
+
+#: settings.php:53
+msgid "User Filter"
+msgstr ""
+
+#: settings.php:54
+msgid "Login Filter"
+msgstr ""
+
+#: settings.php:55
+msgid "Group Filter"
+msgstr "Filtr skupin"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -229,9 +261,22 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad: \"uid=%%uid\""
 
+#: templates/part.wizard-server.php:6
+msgid "1. Server"
+msgstr ""
+
+#: templates/part.wizard-server.php:13
+#, php-format
+msgid "%s. Server:"
+msgstr ""
+
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
 msgstr "Přidat nastavení serveru"
+
+#: templates/part.wizard-server.php:21
+msgid "Delete Configuration"
+msgstr ""
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -295,6 +340,14 @@ msgstr "Zpět"
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
 msgstr "Pokračovat"
+
+#: templates/settings.php:7
+msgid "Expert"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Advanced"
+msgstr "Pokročilé"
 
 #: templates/settings.php:11
 msgid ""

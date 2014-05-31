@@ -31,7 +31,7 @@
 namespace OCA\Encryption;
 
 /**
- * @brief Provides 'crypt://' stream wrapper protocol.
+ * Provides 'crypt://' stream wrapper protocol.
  * @note We use a stream wrapper because it is the most secure way to handle
  * decrypted content transfers. There is no safe way to decrypt the entire file
  * somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
@@ -79,10 +79,10 @@ class Stream {
 	private $privateKey;
 
 	/**
-	 * @param $path raw path relative to data/
-	 * @param $mode
-	 * @param $options
-	 * @param $opened_path
+	 * @param string $path raw path relative to data/
+	 * @param string $mode
+	 * @param int $options
+	 * @param string $opened_path
 	 * @return bool
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
@@ -91,7 +91,7 @@ class Stream {
 		$this->newFile = false;
 
 		if (!isset($this->rootView)) {
-			$this->rootView = new \OC_FilesystemView('/');
+			$this->rootView = new \OC\Files\View('/');
 		}
 
 		$this->session = new \OCA\Encryption\Session($this->rootView);
@@ -179,15 +179,15 @@ class Stream {
 	}
 
 	/**
-	 * @brief Returns the current position of the file pointer
-	 * @return int  position of the file pointer
+	 * Returns the current position of the file pointer
+	 * @return int position of the file pointer
 	 */
 	public function stream_tell() {
 		return ftell($this->handle);
 	}
 
 	/**
-	 * @param $offset
+	 * @param int $offset
 	 * @param int $whence
 	 * @return bool true if fseek was successful, otherwise false
 	 */
@@ -202,7 +202,7 @@ class Stream {
 	}
 
 	/**
-	 * @param $count
+	 * @param int $count
 	 * @return bool|string
 	 * @throws \Exception
 	 */
@@ -246,7 +246,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Encrypt and pad data ready for writing to disk
+	 * Encrypt and pad data ready for writing to disk
 	 * @param string $plainData data to be encrypted
 	 * @param string $key key to use for encryption
 	 * @return string encrypted data on success, false on failure
@@ -267,7 +267,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Fetch the plain encryption key for the file and set it as plainKey property
+	 * Fetch the plain encryption key for the file and set it as plainKey property
 	 * @internal param bool $generate if true, a new key will be generated if none can be found
 	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
@@ -318,7 +318,7 @@ class Stream {
 	}
 
 	/**
-	 * @brief Handle plain data from the stream, and write it in 8192 byte blocks
+	 * Handle plain data from the stream, and write it in 8192 byte blocks
 	 * @param string $data data to be written to disk
 	 * @note the data will be written to the path stored in the stream handle, set in stream_open()
 	 * @note $data is only ever be a maximum of 8192 bytes long. This is set by PHP internally. stream_write() is called multiple times in a loop on data larger than 8192 bytes
@@ -426,9 +426,9 @@ class Stream {
 
 
 	/**
-	 * @param $option
-	 * @param $arg1
-	 * @param $arg2
+	 * @param int $option
+	 * @param int $arg1
+	 * @param int|null $arg2
 	 */
 	public function stream_set_option($option, $arg1, $arg2) {
 		$return = false;
@@ -454,7 +454,7 @@ class Stream {
 	}
 
 	/**
-	 * @param $mode
+	 * @param int $mode
 	 */
 	public function stream_lock($mode) {
 		return flock($this->handle, $mode);

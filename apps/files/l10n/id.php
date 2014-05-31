@@ -63,13 +63,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 berarti tidak terbatas",
 "Maximum input size for ZIP files" => "Ukuran masukan maksimum untuk berkas ZIP",
 "Save" => "Simpan",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\">mengakses Berkas via WebDAV</a>",
 "New" => "Baru",
 "New text file" => "Berkas teks baru",
 "Text file" => "Berkas teks",
 "New folder" => "Map baru",
 "Folder" => "Folder",
 "From link" => "Dari tautan",
-"Deleted files" => "Berkas yang dihapus",
 "Cancel upload" => "Batal pengunggahan",
 "You don’t have permission to upload or create files here" => "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
 "Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
@@ -77,7 +78,6 @@ $TRANSLATIONS = array(
 "Delete" => "Hapus",
 "Upload too large" => "Yang diunggah terlalu besar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
-"Files are being scanned, please wait." => "Berkas sedang dipindai, silakan tunggu.",
-"Current scanning" => "Yang sedang dipindai"
+"Files are being scanned, please wait." => "Berkas sedang dipindai, silakan tunggu."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

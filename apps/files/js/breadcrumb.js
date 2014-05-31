@@ -159,7 +159,11 @@
 			this.totalWidth = 64;
 			// FIXME: this class should not know about global elements
 			if ( $('#navigation').length ) {
-				this.totalWidth += $('#navigation').get(0).offsetWidth;
+				this.totalWidth += $('#navigation').outerWidth();
+			}
+
+			if ( $('#app-navigation').length && !$('#app-navigation').hasClass('hidden')) {
+				this.totalWidth += $('#app-navigation').outerWidth();
 			}
 			this.hiddenBreadcrumbs = 0;
 
@@ -167,8 +171,8 @@
 				this.totalWidth += $(this.breadcrumbs[i]).get(0).offsetWidth;
 			}
 
-			$.each($('#controls .actions>div'), function(index, action) {
-				self.totalWidth += $(action).get(0).offsetWidth;
+			$.each($('#controls .actions'), function(index, action) {
+				self.totalWidth += $(action).outerWidth();
 			});
 
 		},
@@ -236,6 +240,6 @@
 		}
 	};
 
-	window.BreadCrumb = BreadCrumb;
+	OCA.Files.BreadCrumb = BreadCrumb;
 })();
 

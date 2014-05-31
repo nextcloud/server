@@ -2,11 +2,12 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Nun pudo desaniciase %s dafechu",
 "Couldn't restore %s" => "Nun pudo restaurase %s",
+"Deleted files" => "Ficheros desaniciaos",
+"Restore" => "Restaurar",
 "Error" => "Fallu",
-"Deleted Files" => "Ficheros desaniciaos",
+"restored" => "recuperóse",
 "Nothing in here. Your trash bin is empty!" => "Nun hai un res equí. La papelera ta balera!",
 "Name" => "Nome",
-"Restore" => "Restaurar",
 "Deleted" => "Desaniciáu",
 "Delete" => "Desaniciar"
 );

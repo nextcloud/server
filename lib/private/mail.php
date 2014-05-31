@@ -12,8 +12,6 @@
  * A class to handle mail sending.
  */
 
-require_once 'class.phpmailer.php';
-
 class OC_Mail {
 
 	/**

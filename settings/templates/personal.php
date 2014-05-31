@@ -133,21 +133,20 @@ if($_['passwordChangeSupported']) {
 	<?php endif; ?>
 </form>
 
-<div class="section">
-	<h2><?php p($l->t('WebDAV'));?></h2>
-	<code><?php print_unescaped(OC_Helper::linkToRemote('webdav')); ?></code><br />
-	<em><?php print_unescaped($l->t('Use this address to <a href="%s" target="_blank">access your Files via WebDAV</a>', array(link_to_docs('user-webdav'))));?></em>
-</div>
-
 <?php foreach($_['forms'] as $form) {
 	print_unescaped($form);
 };?>
 
 <?php if($_['enableDecryptAll']): ?>
-<div class="section" id="decryptAll">
+<div class="section">
+
 	<h2>
 		<?php p( $l->t( 'Encryption' ) ); ?>
 	</h2>
+
+	<?php if($_['filesStillEncrypted']): ?>
+
+	<div id="decryptAll">
 	<?php p($l->t( "The encryption app is no longer enabled, please decrypt all your files" )); ?>
 	<p>
 		<input
@@ -164,8 +163,34 @@ if($_['passwordChangeSupported']) {
 		<span class="msg"></span>
 	</p>
 	<br />
+	</div>
+
+	<?php endif; ?>
+
+
+
+	<div id="restoreBackupKeys" <?php $_['backupKeysExists'] ? '' : print_unescaped("class='hidden'") ?>>
+
+	<?php p($l->t( "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly." )); ?>
+	<p>
+		<button
+			type="button"
+			name="submitRestoreKeys"><?php p($l->t( "Restore Encryption Keys" )); ?>
+		</button>
+		<button
+			type="button"
+			name="submitDeleteKeys"><?php p($l->t( "Delete Encryption Keys" )); ?>
+		</button>
+		<span class="msg"></span>
+
+	</p>
+	<br />
+
+	</div>
+
+
 </div>
-<?php endif; ?>
+	<?php endif; ?>
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>

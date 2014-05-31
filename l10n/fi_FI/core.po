@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 06:21+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
 msgstr "Päättymispäivä on menneisyydessä."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s"
@@ -40,6 +40,11 @@ msgstr "Ylläpitotila laitettu pois päältä"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Tietokanta ajan tasalla"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr "Yhteensopimattomat sovellukset poistettiin käytöstä: %s"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -61,207 +66,207 @@ msgstr "Väliaikaista profiilikuvaa ei ole käytettävissä, yritä uudelleen"
 msgid "No crop data provided"
 msgstr "Puutteellinen tieto"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "sunnuntai"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "maanantai"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "tiistai"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "keskiviikko"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "torstai"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "perjantai"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "lauantai"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "tammikuu"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "helmikuu"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "maaliskuu"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "huhtikuu"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "toukokuu"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "kesäkuu"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "heinäkuu"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "elokuu"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "syyskuu"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "lokakuu"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "marraskuu"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "joulukuu"
 
-#: js/js.js:483
+#: js/js.js:496
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:583
+#: js/js.js:596
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: js/js.js:1240
+#: js/js.js:1220
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:1241
+#: js/js.js:1221
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuutti sitten"
 msgstr[1] "%n minuuttia sitten"
 
-#: js/js.js:1242
+#: js/js.js:1222
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tunti sitten"
 msgstr[1] "%n tuntia sitten"
 
-#: js/js.js:1243
+#: js/js.js:1223
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:1244
+#: js/js.js:1224
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:1245
+#: js/js.js:1225
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päivä sitten"
 msgstr[1] "%n päivää sitten"
 
-#: js/js.js:1246
+#: js/js.js:1226
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:1247
+#: js/js.js:1227
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuukausi sitten"
 msgstr[1] "%n kuukautta sitten"
 
-#: js/js.js:1248
+#: js/js.js:1228
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:1249
+#: js/js.js:1229
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Valitse"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Virhe ladatessa tiedostopohjia: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Kyllä"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Valitse"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Virhe ladatessa tiedostopohjia: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Virhe ladatessa viestipohjaa: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} tiedoston ristiriita"
 msgstr[1] "{count} tiedoston ristiriita"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Yhden tiedoston ristiriita"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Uudet tiedostot"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Jo olemassa olevat tiedostot"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Mitkä tiedostot haluat säilyttää?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jos valitset kummatkin versiot, kopioidun tiedoston nimeen lisätään numero."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Peru"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Jatka"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(kaikki valittu)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} valittu)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Virhe ladatessa mallipohjaa"
 
@@ -285,148 +290,157 @@ msgstr "Hyvä salasana"
 msgid "Strong password"
 msgstr "Vahva salasana"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:69 js/share.js:84 js/share.js:127
 msgid "Shared"
 msgstr "Jaettu"
 
-#: js/share.js:109
+#: js/share.js:130
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Virhe"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:197 js/share.js:885
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
-#: js/share.js:171
+#: js/share.js:208
 msgid "Error while unsharing"
 msgstr "Virhe jakoa peruttaessa"
 
-#: js/share.js:178
+#: js/share.js:215
 msgid "Error while changing permissions"
 msgstr "Virhe oikeuksia muuttaessa"
 
-#: js/share.js:188
+#: js/share.js:225
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta"
 
-#: js/share.js:190
+#: js/share.js:227
 msgid "Shared with you by {owner}"
 msgstr "Jaettu kanssasi käyttäjän {owner} toimesta"
 
-#: js/share.js:214
+#: js/share.js:251
 msgid "Share with user or group …"
 msgstr "Jaa käyttäjän tai ryhmän kanssa…"
 
-#: js/share.js:220
+#: js/share.js:257
 msgid "Share link"
 msgstr "Jaa linkki"
 
-#: js/share.js:223
+#: js/share.js:263
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr "Julkinen linkki vanhenee {days} päivän jälkeen sen luomisesta"
+
+#: js/share.js:265
+msgid "By default the public link will expire after {days} days"
+msgstr "Oletuksena julkinen linkki vanhenee {days} päivässä"
+
+#: js/share.js:270
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Salasana"
+#: js/share.js:272
+msgid "Choose a password for the public link"
+msgstr "Valitse salasana julkiselle linkille"
 
-#: js/share.js:230
+#: js/share.js:278
 msgid "Allow Public Upload"
 msgstr "Salli julkinen lähetys"
 
-#: js/share.js:234
+#: js/share.js:282
 msgid "Email link to person"
 msgstr "Lähetä linkki sähköpostitse"
 
-#: js/share.js:235
+#: js/share.js:283
 msgid "Send"
 msgstr "Lähetä"
 
-#: js/share.js:240
+#: js/share.js:288
 msgid "Set expiration date"
 msgstr "Aseta päättymispäivä"
 
-#: js/share.js:241
+#: js/share.js:289
 msgid "Expiration date"
 msgstr "Päättymispäivä"
 
-#: js/share.js:277
+#: js/share.js:326
 msgid "Share via email:"
 msgstr "Jaa sähköpostilla:"
 
-#: js/share.js:280
+#: js/share.js:329
 msgid "No people found"
 msgstr "Henkilöitä ei löytynyt"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:377 js/share.js:438
 msgid "group"
 msgstr "ryhmä"
 
-#: js/share.js:357
+#: js/share.js:410
 msgid "Resharing is not allowed"
 msgstr "Jakaminen uudelleen ei ole salittu"
 
-#: js/share.js:401
+#: js/share.js:454
 msgid "Shared in {item} with {user}"
 msgstr "{item} on jaettu {user} kanssa"
 
-#: js/share.js:423
+#: js/share.js:476
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/share.js:431
+#: js/share.js:484
 msgid "notify by email"
 msgstr "ilmoita sähköpostitse"
 
-#: js/share.js:434
+#: js/share.js:487
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "access control"
 msgstr "Pääsyn hallinta"
 
-#: js/share.js:439
+#: js/share.js:492
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:442
+#: js/share.js:495
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:445
+#: js/share.js:498
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:448
+#: js/share.js:501
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:721
+#: js/share.js:803
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:734
+#: js/share.js:822
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:752
+#: js/share.js:843
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:777
+#: js/share.js:872
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:788
+#: js/share.js:883
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
 
-#: js/share.js:812
+#: js/share.js:907
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -458,18 +472,19 @@ msgstr "Virhe ladatessa keskustelupohja: {error}"
 msgid "No tags selected for deletion."
 msgstr "Tunnisteita ei valittu poistettavaksi."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr "Päivitetään {productName} versioon {version}, tämä saattaa kestää hetken."
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Päivitä sivu."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-yhteisölle</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr "Päivitys epäonnistui."
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi."
 
@@ -670,6 +685,10 @@ msgstr "Lisätietoja palvelimen asetuksien määrittämisestä on saatavilla <a 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
 
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Salasana"
+
 #: templates/installation.php:70
 msgid "Storage & database"
 msgstr "Tallennus ja tietokanta"
@@ -795,8 +814,27 @@ msgstr "Kiitos kärsivällisyydestäsi."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
+msgid "%s will be updated to version %s."
+msgstr "%s päivitetään versioon %s."
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr "Seuraavat sovellukset poistetaan käytöstä:"
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr "Teema %s on poistettu käytöstä."
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr "Varmista ennen jatkamista, että tietokanta, asetuskansio ja datakansio on varmuuskopioitu."
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr "Käynnistä päivitys"
 
 #: templates/update.user.php:3
 msgid ""

@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Lähetys epäonnistui. Lähettävää tiedostoa ei löydetty.",
 "Invalid directory." => "Virheellinen kansio.",
 "Files" => "Tiedostot",
+"All files" => "Kaikki tiedostot",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Kohdetta {filename} ei voi lähettää, koska se on joko kansio tai sen koko on 0 tavua",
 "Total file size {size1} exceeds upload limit {size2}" => "Yhteiskoko {size1} ylittää lähetysrajan {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Ei riittävästi vapaata tilaa. Lähetyksesi koko on {size1}, mutta vain {size2} on jäljellä",
@@ -71,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 on rajoittamaton",
 "Maximum input size for ZIP files" => "ZIP-tiedostojen enimmäiskoko",
 "Save" => "Tallenna",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",
 "New" => "Uusi",
 "New text file" => "Uusi tekstitiedosto",
 "Text file" => "Tekstitiedosto",
 "New folder" => "Uusi kansio",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
-"Deleted files" => "Poistetut tiedostot",
 "Cancel upload" => "Peru lähetys",
 "You don’t have permission to upload or create files here" => "Käyttöoikeutesi eivät riitä tiedostojen lähettämiseen tai kansioiden luomiseen tähän sijaintiin",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
@@ -86,6 +88,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
-"Current scanning" => "Tämänhetkinen tutkinta"
+"Currently scanning" => "Tutkitaan parhaillaan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

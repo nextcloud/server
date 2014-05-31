@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# សុវិចិត្រ Sovichet ទេព Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-16 01:55-0400\n"
-"PO-Revision-Date: 2014-04-16 05:41+0000\n"
+"POT-Creation-Date: 2014-05-17 01:54-0400\n"
+"PO-Revision-Date: 2014-05-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -20,45 +21,41 @@ msgstr ""
 #: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "មិន​អាច​លុប %s ចោល​ជា​អចិន្ត្រៃយ៍​ទេ"
 
 #: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "មិន​អាច​ស្ដារ %s ឡើង​វិញ​បាន​ទេ"
 
-#: js/filelist.js:3
+#: appinfo/app.php:13 js/filelist.js:34
 msgid "Deleted files"
-msgstr ""
+msgstr "ឯកសារ​ដែល​បាន​លុប"
 
-#: js/trash.js:33 js/trash.js:124 js/trash.js:173
-msgid "Error"
-msgstr "កំហុស"
-
-#: js/trash.js:264
-msgid "Deleted Files"
-msgstr ""
-
-#: lib/trashbin.php:859 lib/trashbin.php:861
-msgid "restored"
-msgstr ""
-
-#: templates/index.php:6
-msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
-
-#: templates/index.php:19
-msgid "Name"
-msgstr "ឈ្មោះ"
-
-#: templates/index.php:22 templates/index.php:24
+#: js/app.js:53 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "ស្ដារ​មក​វិញ"
 
-#: templates/index.php:30
-msgid "Deleted"
-msgstr ""
+#: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
+msgid "Error"
+msgstr "កំហុស"
 
-#: templates/index.php:33 templates/index.php:34
+#: lib/trashbin.php:861 lib/trashbin.php:863
+msgid "restored"
+msgstr "បាន​ស្ដារ​វិញ"
+
+#: templates/index.php:7
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ធុង​សំរាម​របស់​អ្នក​គឺ​ទទេ!"
+
+#: templates/index.php:18
+msgid "Name"
+msgstr "ឈ្មោះ"
+
+#: templates/index.php:29
+msgid "Deleted"
+msgstr "បាន​លុប"
+
+#: templates/index.php:32 templates/index.php:33
 msgid "Delete"
 msgstr "លុប"

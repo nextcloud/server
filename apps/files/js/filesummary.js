@@ -190,6 +190,6 @@
 			this.$el.append($summary);
 		}
 	};
-	window.FileSummary = FileSummary;
+	OCA.Files.FileSummary = FileSummary;
 })();
 

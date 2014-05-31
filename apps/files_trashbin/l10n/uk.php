@@ -3,12 +3,11 @@ $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Неможливо видалити %s назавжди",
 "Couldn't restore %s" => "Неможливо відновити %s",
 "Deleted files" => "Видалено файлів",
+"Restore" => "Відновити",
 "Error" => "Помилка",
-"Deleted Files" => "Видалено Файлів",
 "restored" => "відновлено",
 "Nothing in here. Your trash bin is empty!" => "Нічого немає. Ваший кошик для сміття пустий!",
 "Name" => "Ім'я",
-"Restore" => "Відновити",
 "Deleted" => "Видалено",
 "Delete" => "Видалити"
 );

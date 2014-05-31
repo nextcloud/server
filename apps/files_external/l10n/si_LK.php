@@ -1,10 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "ස්ථානය",
-"URL" => "URL",
+"Host" => "සත්කාරකය",
 "Username" => "පරිශීලක නම",
 "Password" => "මුර පදය",
 "Share" => "බෙදා හදා ගන්න",
+"URL" => "URL",
 "Access granted" => "පිවිසීමට හැක",
 "Error configuring Dropbox storage" => "Dropbox ගබඩාව වින්‍යාස කිරීමේ දෝශයක් ඇත",
 "Grant access" => "පිවිසුම ලබාදෙන්න",

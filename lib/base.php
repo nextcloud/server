@@ -175,7 +175,7 @@ class OC {
 			OC::$SERVERROOT . '/lib/private' . PATH_SEPARATOR .
 			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
 			OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
-			implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
+			implode(PATH_SEPARATOR, $paths) . PATH_SEPARATOR .
 			get_include_path() . PATH_SEPARATOR .
 			OC::$SERVERROOT
 		);
@@ -210,34 +210,6 @@ class OC {
 			}
 			exit();
 		}
-	}
-
-	/*
-	* This function adds some security related headers to all requests served via base.php
-	* The implementation of this function has to happen here to ensure that all third-party 
-	* components (e.g. SabreDAV) also benefit from this headers.
-	*/
-	public static function addSecurityHeaders() {
-		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
-		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-
-		// iFrame Restriction Policy
-		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
-		if($xFramePolicy) {
-			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
-		}
-
-		// Content Security Policy
-		// If you change the standard policy, please also change it in config.sample.php
-		$policy = OC_Config::getValue('custom_csp_policy',
-			'default-src \'self\'; '
-			.'script-src \'self\' \'unsafe-eval\'; '
-			.'style-src \'self\' \'unsafe-inline\'; '
-			.'frame-src *; '
-			.'img-src *; '
-			.'font-src \'self\' data:; '
-			.'media-src *');
-		header('Content-Security-Policy:'.$policy);
 	}
 
 	public static function checkSSL() {
@@ -312,11 +284,26 @@ class OC {
 	public static function checkUpgrade($showTemplate = true) {
 		if (self::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
+				$version = OC_Util::getVersion();
+				$oldTheme = OC_Config::getValue('theme');
 				OC_Config::setValue('theme', '');
 				OC_Util::addScript('config'); // needed for web root
 				OC_Util::addScript('update');
 				$tmpl = new OC_Template('', 'update.admin', 'guest');
 				$tmpl->assign('version', OC_Util::getVersionString());
+
+				// get third party apps
+				$apps = OC_App::getEnabledApps();
+				$incompatibleApps = array();
+				foreach ($apps as $appId) {
+					$info = OC_App::getAppInfo($appId);
+					if(!OC_App::isAppCompatible($version, $info)) {
+						$incompatibleApps[] = $info;
+					}
+				}
+				$tmpl->assign('appList', $incompatibleApps);
+				$tmpl->assign('productName', 'ownCloud'); // for now
+				$tmpl->assign('oldTheme', $oldTheme);
 				$tmpl->printPage();
 				exit();
 			} else {
@@ -378,9 +365,17 @@ class OC {
 		//set the session object to a dummy session so code relying on the session existing still works
 		self::$session = new \OC\Session\Memory('');
 
+		// Let the session name be changed in the initSession Hook
+		$sessionName = OC_Util::getInstanceId();
+
 		try {
-			// set the session name to the instance id - which is unique
-			self::$session = new \OC\Session\Internal(OC_Util::getInstanceId());
+			// Allow session apps to create a custom session object
+			$useCustomSession = false;
+			OC_Hook::emit('OC', 'initSession', array('session' => &self::$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession));
+			if(!$useCustomSession) {
+				// set the session name to the instance id - which is unique
+				self::$session = new \OC\Session\Internal($sessionName);
+			}
 			// if session cant be started break with http 500 error
 		} catch (Exception $e) {
 			//show the user a detailed error page
@@ -537,6 +532,7 @@ class OC {
 		self::$server = new \OC\Server();
 
 		self::initTemplateEngine();
+		OC_App::loadApps(array('session'));
 		if (!self::$CLI) {
 			self::initSession();
 		} else {
@@ -545,7 +541,7 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::addSecurityHeaders();
+		OC_Response::addSecurityHeaders();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -613,7 +609,7 @@ class OC {
 		if (!is_null(self::$REQUESTEDFILE)) {
 			$subdir = OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . self::$REQUESTEDFILE;
 			$parent = OC_App::getAppPath(OC::$REQUESTEDAPP);
-			if (!OC_Helper::issubdirectory($subdir, $parent)) {
+			if (!OC_Helper::isSubDirectory($subdir, $parent)) {
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');
 				exit;
@@ -646,7 +642,8 @@ class OC {
 	public static function registerLogRotate() {
 		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false) && !self::needUpgrade()) {
 			//don't try to do this before we are properly setup
-			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log');
+			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
+			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue('logfile', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log'));
 		}
 	}
 
@@ -655,8 +652,8 @@ class OC {
 	 */
 	public static function registerFilesystemHooks() {
 		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC\Files\Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC\Files\Filesystem', 'isBlacklisted');
 	}
 
 	/**
@@ -685,7 +682,7 @@ class OC {
 	}
 
 	/**
-	 * @brief Handle the request
+	 * Handle the request
 	 */
 	public static function handleRequest() {
 		$l = \OC_L10N::get('lib');
@@ -902,30 +899,24 @@ class OC {
 		if (defined("DEBUG") && DEBUG) {
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
-		// confirm credentials in cookie
-		if (isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
-			// delete outdated cookies
+
+		if(OC_User::userExists($_COOKIE['oc_username'])) {
 			self::cleanupLoginTokens($_COOKIE['oc_username']);
-			// get stored tokens
-			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
-			// test cookies token against stored tokens
-			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
-				// replace successfully used token with a new one
-				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
-				$token = OC_Util::generateRandomBytes(32);
-				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
-				// login
-				OC_User::setUserId($_COOKIE['oc_username']);
+			// verify whether the supplied "remember me" token was valid
+			$granted = OC_User::loginWithCookie(
+				$_COOKIE['oc_username'], $_COOKIE['oc_token']);
+			if($granted === true) {
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
+			OC_Log::write('core', 'Authentication cookie rejected for user ' .
+				$_COOKIE['oc_username'], OC_Log::WARN);
 			// if you reach this point you have changed your password
 			// or you are an attacker
 			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
-			OC_Log::write('core', 'Authentication cookie rejected for user ' . $_COOKIE['oc_username'], OC_Log::WARN);
 		}
+
 		OC_User::unsetMagicInCookie();
 		return true;
 	}

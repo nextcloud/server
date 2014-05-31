@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 este nelimitat",
 "Maximum input size for ZIP files" => "Dimensiunea maximă de intrare pentru fișierele ZIP",
 "Save" => "Salvează",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Folosește această adresă <a href=\"%s\" target=\"_blank\">pentru acces la fișierele tale folosind WebDAV</a>",
 "New" => "Nou",
 "New text file" => "Un nou fișier text",
 "Text file" => "Fișier text",
 "New folder" => "Un nou dosar",
 "Folder" => "Dosar",
 "From link" => "De la adresa",
-"Deleted files" => "Fișiere șterse",
 "Cancel upload" => "Anulează încărcarea",
 "You don’t have permission to upload or create files here" => "Nu aveti permisiunea de a incarca sau crea fisiere aici",
 "Nothing in here. Upload something!" => "Nimic aici. Încarcă ceva!",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "Șterge",
 "Upload too large" => "Fișierul încărcat este prea mare",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
-"Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteaptă.",
-"Current scanning" => "În curs de scanare"
+"Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteaptă."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

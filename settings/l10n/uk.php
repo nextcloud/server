@@ -96,7 +96,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Відмінити",
 "Language" => "Мова",
 "Help translate" => "Допомогти з перекладом",
-"WebDAV" => "WebDAV",
 "Login Name" => "Ім'я Логіну",
 "Create" => "Створити",
 "Default Storage" => "сховище за замовчуванням",

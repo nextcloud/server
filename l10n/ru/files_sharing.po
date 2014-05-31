@@ -3,7 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# jekader <jekader@gmail.com>, 2014
 # mogarych <mogarych@mail.ru>, 2014
+# ppzabortsev <ppz2001@mail.ru>, 2014
 # Victor Bravo <>, 2013
 # not_your_conscience <hex.void@gmail.com>, 2013
 # Den4md <denstarr@mail.md>, 2013
@@ -11,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -21,13 +23,37 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/share.js:33
+#: appinfo/app.php:32 js/app.js:32
+msgid "Shared with you"
+msgstr ""
+
+#: appinfo/app.php:41 js/app.js:51
+msgid "Shared with others"
+msgstr ""
+
+#: js/app.js:33
+msgid "No files have been shared with you yet."
+msgstr ""
+
+#: js/app.js:52
+msgid "You haven't shared any files yet."
+msgstr ""
+
+#: js/share.js:47 js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Доступ открыл {owner}"
 
+#: js/sharedfilelist.js:116
+msgid "Shared by"
+msgstr ""
+
+#: js/sharedfilelist.js:220
+msgid "link"
+msgstr ""
+
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr "Общий ресурс защищён паролем"
+msgstr "Для доступа к информации необходимо ввести пароль"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
@@ -37,9 +63,17 @@ msgstr "Неверный пароль. Попробуйте еще раз."
 msgid "Password"
 msgstr "Пароль"
 
+#: templates/list.php:16
+msgid "Name"
+msgstr ""
+
+#: templates/list.php:20
+msgid "Share time"
+msgstr ""
+
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr "К сожалению, эта ссылка, похоже не будет работать больше."
+msgstr "Эта ссылка устарела и более не действительна."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
@@ -51,25 +85,25 @@ msgstr "объект был удалён"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr "срок ссылки истёк"
+msgstr "срок действия ссылки истёк"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr "общий доступ отключён"
+msgstr "доступ к информации заблокирован"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr "Пожалуйста, обратитесь к отправителю данной ссылки."
+msgstr "Для получения дополнительной информации, пожалуйста, свяжитесь с тем, кто отправил Вам эту ссылку."
 
 #: templates/public.php:21
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/public.php:53
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Скачать %s"
 
-#: templates/public.php:57
+#: templates/public.php:56
 msgid "Direct link"
 msgstr "Прямая ссылка"

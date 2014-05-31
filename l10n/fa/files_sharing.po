@@ -4,12 +4,13 @@
 # 
 # Translators:
 # miki_mika1362 <miki_mika1362@yahoo.com>, 2013
+# hajibaba <majid.hajibaba@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:12+0000\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -18,13 +19,37 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/share.js:33
+#: appinfo/app.php:32 js/app.js:32
+msgid "Shared with you"
+msgstr ""
+
+#: appinfo/app.php:41 js/app.js:51
+msgid "Shared with others"
+msgstr ""
+
+#: js/app.js:33
+msgid "No files have been shared with you yet."
+msgstr ""
+
+#: js/app.js:52
+msgid "You haven't shared any files yet."
+msgstr ""
+
+#: js/share.js:47 js/share.js:55
 msgid "Shared by {owner}"
 msgstr "اشتراک گذارنده {owner}"
 
+#: js/sharedfilelist.js:116
+msgid "Shared by"
+msgstr ""
+
+#: js/sharedfilelist.js:220
+msgid "link"
+msgstr ""
+
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "این اشتراک توسط رمز عبور محافظت می شود"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
@@ -34,39 +59,47 @@ msgstr "رمزعبور اشتباه می باشد. دوباره امتحان ک�
 msgid "Password"
 msgstr "گذرواژه"
 
+#: templates/list.php:16
+msgid "Name"
+msgstr ""
+
+#: templates/list.php:20
+msgid "Share time"
+msgstr ""
+
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "متاسفانه این پیوند دیگر کار نمی کند"
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "ممکن است به این دلایل باشد:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "این مورد حذف شده است"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "این پیوند منقضی شده است"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "قابلیت اشتراک گذاری غیرفعال است"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید."
 
 #: templates/public.php:21
 msgid "Download"
 msgstr "دانلود"
 
-#: templates/public.php:53
+#: templates/public.php:52
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "دانلود %s"
 
-#: templates/public.php:57
+#: templates/public.php:56
 msgid "Direct link"
-msgstr ""
+msgstr "پیوند مستقیم"

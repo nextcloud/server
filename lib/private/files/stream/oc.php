@@ -18,7 +18,15 @@ class OC {
 	static private $rootView;
 
 	private $path;
+
+	/**
+	 * @var resource
+	 */
 	private $dirSource;
+
+	/**
+	 * @var resource
+	 */
 	private $fileSource;
 	private $meta;
 

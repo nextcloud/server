@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-01 01:55-0400\n"
-"PO-Revision-Date: 2014-04-30 18:30+0000\n"
-"Last-Translator: mikako\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +53,15 @@ msgstr "メールを送信しました"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。"
 
-#: admin/controller.php:116 templates/admin.php:316
+#: admin/controller.php:116 templates/admin.php:346
 msgid "Send mode"
 msgstr "送信モード"
 
-#: admin/controller.php:118 templates/admin.php:329 templates/personal.php:149
+#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
 msgid "Encryption"
 msgstr "暗号化"
 
-#: admin/controller.php:120 templates/admin.php:353
+#: admin/controller.php:120 templates/admin.php:383
 msgid "Authentication method"
 msgstr "認証方法"
 
@@ -104,6 +104,16 @@ msgstr "ファイルを復号化することができませんでした。ownclo
 msgid "Couldn't decrypt your files, check your password and try again"
 msgstr "ファイルを復号化することができませんでした。パスワードを確認のうえ再試行してください。"
 
+#: ajax/deletekeys.php:14
+msgid "Encryption keys deleted permanently"
+msgstr "暗号化キーは完全に削除されます"
+
+#: ajax/deletekeys.php:16
+msgid ""
+"Couldn't permanently delete your encryption keys, please check your "
+"owncloud.log or ask your administrator"
+msgstr "暗号化キーを完全に削除できませんでした。owncloud.logを確認するか、管理者に問い合わせてください。"
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "メールアドレスを保存しました"
@@ -119,6 +129,16 @@ msgstr "グループを削除できません"
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
 msgstr "ユーザーを削除できません"
+
+#: ajax/restorekeys.php:14
+msgid "Backups restored successfully"
+msgstr "バックアップの復元に成功しました"
+
+#: ajax/restorekeys.php:23
+msgid ""
+"Couldn't restore your encryption keys, please check your owncloud.log or ask"
+" your administrator"
+msgstr "暗号化キーを復元できませんでした。owncloud.logを確認するか、管理者に問い合わせてください。"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -175,7 +195,7 @@ msgstr "バックエンドはパスワード変更をサポートしていませ
 msgid "Unable to change password"
 msgstr "パスワードを変更できません"
 
-#: js/admin.js:73
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "送信中…"
 
@@ -231,33 +251,41 @@ msgstr "アップデート"
 msgid "Updated"
 msgstr "アップデート済み"
 
-#: js/personal.js:243
+#: js/personal.js:256
 msgid "Select a profile picture"
 msgstr "プロファイル画像を選択"
 
-#: js/personal.js:274
+#: js/personal.js:287
 msgid "Very weak password"
 msgstr "非常に弱いパスワード"
 
-#: js/personal.js:275
+#: js/personal.js:288
 msgid "Weak password"
 msgstr "弱いパスワード"
 
-#: js/personal.js:276
+#: js/personal.js:289
 msgid "So-so password"
 msgstr "まずまずのパスワード"
 
-#: js/personal.js:277
+#: js/personal.js:290
 msgid "Good password"
 msgstr "良好なパスワード"
 
-#: js/personal.js:278
+#: js/personal.js:291
 msgid "Strong password"
 msgstr "強いパスワード"
 
-#: js/personal.js:313
+#: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr "ファイルを複合中... しばらくお待ちください、この処理には少し時間がかかるかもしれません。"
+
+#: js/personal.js:324
+msgid "Delete encryption keys permanently."
+msgstr "暗号化キーを永久に削除する。"
+
+#: js/personal.js:338
+msgid "Restore encryption keys."
+msgstr "暗号化キーを復元する。"
 
 #: js/users.js:47
 msgid "deleted"
@@ -271,8 +299,8 @@ msgstr "元に戻す"
 msgid "Unable to remove user"
 msgstr "ユーザーを削除できません"
 
-#: js/users.js:101 templates/users.php:24 templates/users.php:88
-#: templates/users.php:116
+#: js/users.js:101 templates/admin.php:295 templates/users.php:24
+#: templates/users.php:88 templates/users.php:116
 msgid "Groups"
 msgstr "グループ"
 
@@ -304,7 +332,7 @@ msgstr "有効なパスワードを指定する必要があります"
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告: ユーザー \"{user}\" のホームディレクトリはすでに存在します"
 
-#: personal.php:48 personal.php:49
+#: personal.php:50 personal.php:51
 msgid "__language_name__"
 msgstr "Japanese (日本語)"
 
@@ -372,7 +400,7 @@ msgid ""
 "root."
 msgstr "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにウェブサーバーを設定するか、ウェブサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。"
 
-#: templates/admin.php:75
+#: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
 msgstr "セットアップ警告"
 
@@ -387,53 +415,65 @@ msgstr "WebDAVインターフェースに問題があると思われるため、
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "<a href=\"%s\">installation guides</a>をもう一度チェックするようにお願いいたします。"
 
-#: templates/admin.php:90
+#: templates/admin.php:93
+msgid ""
+"PHP is apparently setup to strip inline doc blocks. This will make several "
+"core apps inaccessible."
+msgstr ""
+
+#: templates/admin.php:94
+msgid ""
+"This is probably caused by a cache/accelerator such as Zend OPcache or "
+"eAccelerator."
+msgstr ""
+
+#: templates/admin.php:105
 msgid "Module 'fileinfo' missing"
 msgstr "モジュール 'fileinfo' が見つかりません"
 
-#: templates/admin.php:93
+#: templates/admin.php:108
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。"
 
-#: templates/admin.php:104
+#: templates/admin.php:119
 msgid "Your PHP version is outdated"
 msgstr "PHPバーションが古くなっています。"
 
-#: templates/admin.php:107
+#: templates/admin.php:122
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "PHPバーションが古くなっています。古いバージョンには既知の問題があるため、5.3.8以降のバージョンにアップデートすることを強く推奨します。このインストール状態では正常に動作しない可能性があります。"
 
-#: templates/admin.php:118
+#: templates/admin.php:133
 msgid "Locale not working"
 msgstr "ロケールが動作していません"
 
-#: templates/admin.php:123
+#: templates/admin.php:138
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "システムロケールを UTF-8 をサポートするロケールに設定できません。"
 
-#: templates/admin.php:127
+#: templates/admin.php:142
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "これは、ファイル名の特定の文字に問題があることを意味しています。"
 
-#: templates/admin.php:131
+#: templates/admin.php:146
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。"
 
-#: templates/admin.php:143
+#: templates/admin.php:158
 msgid "Internet connection not working"
 msgstr "インターネット接続が動作していません"
 
-#: templates/admin.php:146
+#: templates/admin.php:161
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -442,198 +482,206 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "このサーバーはインターネットに接続していません。この場合、外部ストレージのマウント、更新の通知やサードパーティアプリといったいくつかの機能が使えません。また、リモート接続でのファイルアクセス、通知メールの送信と言った機能も利用できないかもしれません。全ての機能を利用したいのであれば、このサーバーからインターネットに接続できるようにすることをお勧めします。"
 
-#: templates/admin.php:160
+#: templates/admin.php:175
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:167
+#: templates/admin.php:182
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "直近では %s に cron が実行されました。"
 
-#: templates/admin.php:170
+#: templates/admin.php:185
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "直近では %s に cron が実行されました。これは今から１時間以上前なので、なんらかの問題が発生しているようです。"
 
-#: templates/admin.php:174
+#: templates/admin.php:189
 msgid "Cron was not executed yet!"
 msgstr "cron は未だ実行されていません！"
 
-#: templates/admin.php:184
+#: templates/admin.php:199
 msgid "Execute one task with each page loaded"
 msgstr "各ページの読み込み時にタスクを実行する"
 
-#: templates/admin.php:192
+#: templates/admin.php:207
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.phpは、HTTP経由で15分ごとにcron.phpを実行するようwebcronサービスに登録されています"
 
-#: templates/admin.php:200
+#: templates/admin.php:215
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "システムのcronサービスを利用して15分ごとにcron.phpファイルを実行します。"
 
-#: templates/admin.php:205
+#: templates/admin.php:220
 msgid "Sharing"
 msgstr "共有"
 
-#: templates/admin.php:211
+#: templates/admin.php:226
 msgid "Enable Share API"
 msgstr "共有APIを有効にする"
 
-#: templates/admin.php:212
+#: templates/admin.php:227
 msgid "Allow apps to use the Share API"
 msgstr "アプリからの共有APIの利用を許可する"
 
-#: templates/admin.php:219
+#: templates/admin.php:234
 msgid "Allow links"
 msgstr "リンクを許可する"
 
-#: templates/admin.php:220
-msgid "Allow users to share items to the public with links"
-msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
+#: templates/admin.php:238
+msgid "Enforce password protection"
+msgstr "常にパスワード保護を有効にする"
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:228
-msgid ""
-"Allow users to enable others to upload into their publicly shared folders"
-msgstr "公開している共有フォルダーへのアップロードを共有しているメンバーにも許可"
-
-#: templates/admin.php:235
-msgid "Allow resharing"
-msgstr "再共有を許可する"
-
-#: templates/admin.php:236
-msgid "Allow users to share items shared with them again"
-msgstr "ユーザーが共有しているアイテムの再共有を許可する"
-
-#: templates/admin.php:243
-msgid "Allow users to share with anyone"
-msgstr "ユーザーに誰とでも共有することを許可する"
-
-#: templates/admin.php:246
-msgid "Allow users to only share with users in their groups"
-msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
-
-#: templates/admin.php:253
-msgid "Allow mail notification"
-msgstr "メール通知を許可"
-
-#: templates/admin.php:254
-msgid "Allow users to send mail notification for shared files"
-msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
-
-#: templates/admin.php:262
+#: templates/admin.php:245
 msgid "Set default expiration date"
 msgstr "有効期限の既定値を設定"
 
-#: templates/admin.php:263
+#: templates/admin.php:247
 msgid "Expire after "
 msgstr "無効になるまで"
 
-#: templates/admin.php:266
+#: templates/admin.php:250
 msgid "days"
 msgstr "日"
 
-#: templates/admin.php:269
+#: templates/admin.php:253
 msgid "Enforce expiration date"
 msgstr "有効期限を反映させる"
 
-#: templates/admin.php:270
-msgid "Expire shares by default after N days"
-msgstr "既定値では N 日後に共有を無効にします"
+#: templates/admin.php:257
+msgid "Allow users to share items to the public with links"
+msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
 
-#: templates/admin.php:278
+#: templates/admin.php:264
+msgid "Allow resharing"
+msgstr "再共有を許可する"
+
+#: templates/admin.php:265
+msgid "Allow users to share items shared with them again"
+msgstr "ユーザーが共有しているアイテムの再共有を許可する"
+
+#: templates/admin.php:272
+msgid "Allow users to share with anyone"
+msgstr "ユーザーに誰とでも共有することを許可する"
+
+#: templates/admin.php:275
+msgid "Allow users to only share with users in their groups"
+msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
+
+#: templates/admin.php:282
+msgid "Allow mail notification"
+msgstr "メール通知を許可"
+
+#: templates/admin.php:283
+msgid "Allow users to send mail notification for shared files"
+msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
+
+#: templates/admin.php:290
+msgid "Exclude groups from sharing"
+msgstr ""
+
+#: templates/admin.php:301
+msgid ""
+"These groups will still be able to receive shares, but not to initiate them."
+msgstr ""
+
+#: templates/admin.php:308
 msgid "Security"
 msgstr "セキュリティ"
 
-#: templates/admin.php:291
+#: templates/admin.php:321
 msgid "Enforce HTTPS"
 msgstr "常にHTTPSを使用する"
 
-#: templates/admin.php:293
+#: templates/admin.php:323
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "クライアントから %sへの接続を常に暗号化します。"
 
-#: templates/admin.php:299
+#: templates/admin.php:329
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s へ接続してください。"
 
-#: templates/admin.php:311
+#: templates/admin.php:341
 msgid "Email Server"
 msgstr "メールサーバー"
 
-#: templates/admin.php:313
+#: templates/admin.php:343
 msgid "This is used for sending out notifications."
 msgstr "これは通知の送信に使われます。"
 
-#: templates/admin.php:344
+#: templates/admin.php:374
 msgid "From address"
 msgstr "アドレスから"
 
-#: templates/admin.php:366
+#: templates/admin.php:375
+msgid "mail"
+msgstr ""
+
+#: templates/admin.php:396
 msgid "Authentication required"
 msgstr "要求される認証"
 
-#: templates/admin.php:370
+#: templates/admin.php:400
 msgid "Server address"
 msgstr "サーバーアドレス"
 
-#: templates/admin.php:374
+#: templates/admin.php:404
 msgid "Port"
 msgstr "ポート"
 
-#: templates/admin.php:379
+#: templates/admin.php:409
 msgid "Credentials"
 msgstr "資格情報"
 
-#: templates/admin.php:380
+#: templates/admin.php:410
 msgid "SMTP Username"
 msgstr "SMTP ユーザー名"
 
-#: templates/admin.php:383
+#: templates/admin.php:413
 msgid "SMTP Password"
 msgstr "SMTP パスワード"
 
-#: templates/admin.php:387
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr "メールテスト設定"
 
-#: templates/admin.php:388
+#: templates/admin.php:418
 msgid "Send email"
 msgstr "メールを送信"
 
-#: templates/admin.php:393
+#: templates/admin.php:423
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:394
+#: templates/admin.php:424
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:426
+#: templates/admin.php:456
 msgid "More"
 msgstr "もっと見る"
 
-#: templates/admin.php:427
+#: templates/admin.php:457
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:433 templates/personal.php:171
+#: templates/admin.php:463 templates/personal.php:196
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:437 templates/personal.php:174
+#: templates/admin.php:467 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -786,28 +834,32 @@ msgstr "言語"
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:137
-msgid "WebDAV"
-msgstr "WebDAV"
-
-#: templates/personal.php:139
-#, php-format
-msgid ""
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
-"WebDAV</a>"
-msgstr "<a href=\"%s\" target=\"_blank\">WebDAV 経由でファイルにアクセス</a> するにはこのアドレスを利用してください"
-
-#: templates/personal.php:151
+#: templates/personal.php:150
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
-#: templates/personal.php:157
+#: templates/personal.php:156
 msgid "Log-in password"
 msgstr "ログインパスワード"
 
-#: templates/personal.php:162
+#: templates/personal.php:161
 msgid "Decrypt all Files"
 msgstr "すべてのファイルを複合する"
+
+#: templates/personal.php:174
+msgid ""
+"Your encryption keys are moved to a backup location. If something went wrong"
+" you can restore the keys. Only delete them permanently if you are sure that"
+" all files are decrypted correctly."
+msgstr "暗号化キーはバックアップ場所に移動されました。何か問題があった場合は、キーを復元することができます。すべてのファイルが正しく復号化されたことが確信できる場合にのみ、キーを完全に削除してください。"
+
+#: templates/personal.php:178
+msgid "Restore Encryption Keys"
+msgstr "暗号化キーを復元する"
+
+#: templates/personal.php:182
+msgid "Delete Encryption Keys"
+msgstr "暗号化キーを削除する"
 
 #: templates/users.php:19
 msgid "Login Name"

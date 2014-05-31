@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Sa kasutad serverit usalduseta asukohast",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Palun võta ühendust oma saidi administraatoriga. Kui sa oled ise administraator, siis seadista failis config/config.php sätet \"trusted_domain\". Näidis seadistused leiad failist config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Rakendit \"%s\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga.",
 "No app name specified" => "Ühegi rakendi nime pole määratletud",
 "Help" => "Abiinfo",
@@ -58,6 +59,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
 "%s shared »%s« with you" => "%s jagas sinuga »%s«",
 "Sharing %s failed, because the file does not exist" => "%s jagamine ebaõnnestus, kuna faili pole olemas",
+"You are not allowed to share %s" => "Sul pole lubatud %s jagada",
 "Sharing %s failed, because the user %s is the item owner" => "%s jagamine ebaõnnestus, kuna kuna kasutaja %s on üksuse omanik",
 "Sharing %s failed, because the user %s does not exist" => "%s jagamine ebaõnnestus, kuna kasutajat %s pole olemas",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "%s jagamine ebaõnnestus, kuna kasutaja %s pole ühegi grupi liige, millede liige on %s",

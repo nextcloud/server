@@ -34,9 +34,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n muaj më parë","%n muaj më parë"),
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
-"Choose" => "Zgjidh",
 "Yes" => "Po",
 "No" => "Jo",
+"Choose" => "Zgjidh",
 "Ok" => "Në rregull",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "Anulo",
@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "Ndarë me ju dhe me grupin {group} nga {owner}",
 "Shared with you by {owner}" => "Ndarë me ju nga {owner}",
 "Password protect" => "Mbro me kod",
-"Password" => "Kodi",
 "Allow Public Upload" => "Lejo Ngarkimin Publik",
 "Email link to person" => "Dërgo email me lidhjen",
 "Send" => "Dërgo",
@@ -75,7 +74,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Nuk është specifikuar tipi i objektit.",
 "Delete" => "Elimino",
 "Add" => "Shto",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitetin ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i.",
 "%s password reset" => "Kodi i %s -it u rivendos",
 "Use the following link to reset your password: {link}" => "Përdorni lidhjen në vijim për të rivendosur kodin: {link}",
@@ -104,6 +102,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Dosja dhe skedarët e të dhënave tuaja mbase janë të arritshme nga interneti sepse skedari .htaccess nuk po punon.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, ju lutem shikoni <a href=\"%s\" target=\"_blank\">dokumentacionin</a>.",
 "Create an <strong>admin account</strong>" => "Krijo një <strong>llogari administruesi</strong>",
+"Password" => "Kodi",
 "Data folder" => "Emri i dosjes",
 "Configure the database" => "Konfiguro database-in",
 "will be used" => "do të përdoret",
@@ -121,7 +120,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Ke humbur kodin?",
 "remember" => "kujto",
 "Log in" => "Hyrje",
-"Alternative Logins" => "Hyrje alternative",
-"Updating ownCloud to version %s, this may take a while." => "Po azhurnoj ownCloud-in me versionin %s. Mund të zgjasi pak."
+"Alternative Logins" => "Hyrje alternative"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

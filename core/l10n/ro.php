@@ -34,9 +34,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","",""),
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
-"Choose" => "Alege",
 "Yes" => "Da",
 "No" => "Nu",
+"Choose" => "Alege",
 "Ok" => "Ok",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
 "One file conflict" => "Un conflict de fișier",
@@ -55,7 +55,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "Distribuie cu tine si grupul {group} de {owner}",
 "Shared with you by {owner}" => "Distribuie cu tine de {owner}",
 "Password protect" => "Protejare cu parolă",
-"Password" => "Parolă",
 "Allow Public Upload" => "Permiteţi încărcarea publică.",
 "Email link to person" => "Expediază legătura prin poșta electronică",
 "Send" => "Expediază",
@@ -82,7 +81,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Tipul obiectului nu este specificat.",
 "Delete" => "Șterge",
 "Add" => "Adaugă",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Actualizare reușită. Ești redirecționat către ownCloud.",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Linkul pentru resetarea parolei tale a fost trimis pe email. <br>Daca nu ai primit email-ul intr-un timp rezonabil, verifica folderul spam/junk. <br>Daca nu sunt acolo intreaba administratorul local.",
@@ -110,6 +108,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Directorul tău de date și fișiere sunt probabil accesibile de pe Internet, deoarece fișierul .htaccess nu funcționează.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Pentru informații despre cum să configurezi serverul, vezi <a href=\"%s\" target=\"_blank\">documentația</a>.",
 "Create an <strong>admin account</strong>" => "Crează un <strong>cont de administrator</strong>",
+"Password" => "Parolă",
 "Data folder" => "Director date",
 "Configure the database" => "Configurează baza de date",
 "will be used" => "vor fi folosite",
@@ -127,7 +126,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Ai uitat parola?",
 "remember" => "amintește",
 "Log in" => "Autentificare",
-"Alternative Logins" => "Conectări alternative",
-"Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
+"Alternative Logins" => "Conectări alternative"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

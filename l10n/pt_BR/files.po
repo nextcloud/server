@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Marcelo Alvarenga <alvarenga@kde.org>, 2014
 # bjamalaro <bjamalaro@yahoo.com.br>, 2013
 # Flávio Veras <flaviove@gmail.com>, 2013-2014
 # tuliouel, 2013
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-04 01:55-0400\n"
-"PO-Revision-Date: 2014-05-03 06:11+0000\n"
+"POT-Creation-Date: 2014-05-27 01:54-0400\n"
+"PO-Revision-Date: 2014-05-26 13:41+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +24,14 @@ msgstr ""
 #: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Impossível mover %s - Um arquivo com este nome já existe"
+msgstr "Impossível mover %s - Já existe um arquivo com esse nome"
 
 #: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
 msgstr "Impossível mover %s"
 
-#: ajax/newfile.php:58 js/files.js:96
+#: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
 msgstr "O nome do arquivo não pode estar vazio."
 
@@ -39,18 +40,18 @@ msgstr "O nome do arquivo não pode estar vazio."
 msgid "\"%s\" is an invalid file name."
 msgstr "\"%s\" é um nome de arquivo inválido."
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:103
+#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:155
-#: lib/app.php:60
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
+#: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "A pasta de destino foi movida ou excluída."
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:69
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -64,7 +65,7 @@ msgstr "Não é uma fonte válida"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr "Não é permitido ao servidor abrir URLs, por favor verificar a configuração do servidor."
+msgstr "O servidor não tem permissão para abrir URLs. Por favor, verifique a configuração do servidor."
 
 #: ajax/newfile.php:118
 #, php-format
@@ -126,44 +127,48 @@ msgstr "Pasta temporária não encontrada"
 msgid "Failed to write to disk"
 msgstr "Falha ao escrever no disco"
 
-#: ajax/upload.php:107
+#: ajax/upload.php:109
 msgid "Not enough storage available"
 msgstr "Espaço de armazenamento insuficiente"
 
-#: ajax/upload.php:169
+#: ajax/upload.php:171
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Falha no envio. Não foi possível encontrar o arquivo enviado"
 
-#: ajax/upload.php:179
+#: ajax/upload.php:181
 msgid "Upload failed. Could not get file info."
 msgstr "Falha no envio. Não foi possível obter informações do arquivo."
 
-#: ajax/upload.php:194
+#: ajax/upload.php:196
 msgid "Invalid directory."
 msgstr "Diretório inválido."
 
-#: appinfo/app.php:11 js/filelist.js:14
+#: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
 msgstr "Arquivos"
 
-#: js/file-upload.js:254
+#: appinfo/app.php:29
+msgid "All files"
+msgstr "Todos os arquivos"
+
+#: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Incapaz de fazer o envio de {filename}, pois é um diretório ou tem 0 bytes"
 
-#: js/file-upload.js:266
+#: js/file-upload.js:270
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr "Tamanho total do arquivo {size1} excede limite de envio {size2}"
+msgstr "O tamanho total do arquivo {size1} excede o limite de envio {size2}"
 
-#: js/file-upload.js:276
+#: js/file-upload.js:281
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr "Não há espaço suficiente, você está enviando {size1} mas resta apenas {size2}"
 
-#: js/file-upload.js:353
+#: js/file-upload.js:358
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:398
+#: js/file-upload.js:404
 msgid "Could not get result from server."
 msgstr "Não foi possível obter o resultado do servidor."
 
@@ -176,120 +181,120 @@ msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:559 js/filelist.js:963
+#: js/file-upload.js:559 js/filelist.js:1176
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
-#: js/file-upload.js:611
+#: js/file-upload.js:614
 msgid "Could not create file"
 msgstr "Não foi possível criar o arquivo"
 
-#: js/file-upload.js:624
+#: js/file-upload.js:630
 msgid "Could not create folder"
 msgstr "Não foi possível criar a pasta"
 
-#: js/file-upload.js:664
+#: js/file-upload.js:677
 msgid "Error fetching URL"
 msgstr "Erro ao buscar URL"
 
-#: js/fileactions.js:160
+#: js/fileactions.js:168
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/fileactions.js:173
+#: js/fileactions.js:181
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:234
+#: js/fileactions.js:221
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:221
+#: js/filelist.js:299
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/filelist.js:502 js/filelist.js:1422
+#: js/filelist.js:602 js/filelist.js:1671
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:916
+#: js/filelist.js:1127
 msgid "Error moving file."
 msgstr "Erro movendo o arquivo."
 
-#: js/filelist.js:924
+#: js/filelist.js:1135
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/filelist.js:924
+#: js/filelist.js:1135
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:988
+#: js/filelist.js:1213
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:1122
+#: js/filelist.js:1334
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1224 templates/index.php:67
+#: js/filelist.js:1437 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1225 templates/index.php:79
+#: js/filelist.js:1438 templates/list.php:75
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1226 templates/index.php:81
+#: js/filelist.js:1439 templates/list.php:78
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1235 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1241 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:1330 js/filelist.js:1369
+#: js/filelist.js:1579 js/filelist.js:1618
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"
 msgstr[1] "Enviando %n arquivos"
 
-#: js/files.js:94
+#: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
 msgstr "\"{name}\" é um nome de arquivo inválido."
 
-#: js/files.js:115
+#: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!"
 
-#: js/files.js:119
+#: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 
-#: js/files.js:133
+#: js/files.js:140
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
 msgstr "App de encriptação está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
 
-#: js/files.js:137
+#: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
 msgstr "Chave do App de Encriptação é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
 
-#: js/files.js:141
+#: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
@@ -299,12 +304,12 @@ msgstr "Encriptação foi desabilitada mas seus arquivos continuam encriptados. 
 msgid "{dirs} and {files}"
 msgstr "{dirs} e {files}"
 
-#: lib/app.php:86
+#: lib/app.php:103
 #, php-format
 msgid "%s could not be renamed"
 msgstr "%s não pode ser renomeado"
 
-#: lib/helper.php:14 templates/index.php:22
+#: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
 msgstr "Envio (max. %s)"
@@ -341,68 +346,75 @@ msgstr "Tamanho máximo para arquivo ZIP"
 msgid "Save"
 msgstr "Guardar"
 
-#: templates/index.php:5
+#: templates/appnavigation.php:12
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/appnavigation.php:14
+#, php-format
+msgid ""
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
+"WebDAV</a>"
+msgstr "Use este endereço <a href=\"%s\" target=\"_blank\">para ter acesso aos seus Arquivos via WebDAV</a>"
+
+#: templates/list.php:5
 msgid "New"
 msgstr "Novo"
 
-#: templates/index.php:8
+#: templates/list.php:8
 msgid "New text file"
 msgstr "Novo arquivo texto"
 
-#: templates/index.php:9
+#: templates/list.php:9
 msgid "Text file"
 msgstr "Arquivo texto"
 
-#: templates/index.php:12
+#: templates/list.php:12
 msgid "New folder"
 msgstr "Nova pasta"
 
-#: templates/index.php:13
+#: templates/list.php:13
 msgid "Folder"
 msgstr "Pasta"
 
-#: templates/index.php:16
+#: templates/list.php:16
 msgid "From link"
 msgstr "Do link"
 
-#: templates/index.php:40
-msgid "Deleted files"
-msgstr "Arquivos apagados"
-
-#: templates/index.php:45
+#: templates/list.php:42
 msgid "Cancel upload"
 msgstr "Cancelar upload"
 
-#: templates/index.php:51
+#: templates/list.php:48
 msgid "You don’t have permission to upload or create files here"
 msgstr "Você não tem permissão para carregar ou criar arquivos aqui"
 
-#: templates/index.php:56
+#: templates/list.php:53
 msgid "Nothing in here. Upload something!"
-msgstr "Nada aqui.Carrege alguma coisa!"
+msgstr "Nada aqui. Carrege alguma coisa!"
 
-#: templates/index.php:73
+#: templates/list.php:68
 msgid "Download"
 msgstr "Baixar"
 
-#: templates/index.php:84 templates/index.php:85
+#: templates/list.php:80 templates/list.php:81
 msgid "Delete"
 msgstr "Excluir"
 
-#: templates/index.php:98
+#: templates/list.php:95
 msgid "Upload too large"
 msgstr "Upload muito grande"
 
-#: templates/index.php:100
+#: templates/list.php:97
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor."
 
-#: templates/index.php:105
+#: templates/list.php:102
 msgid "Files are being scanned, please wait."
 msgstr "Arquivos sendo escaneados, por favor aguarde."
 
-#: templates/index.php:108
-msgid "Current scanning"
-msgstr "Scanning atual"
+#: templates/list.php:105
+msgid "Currently scanning"
+msgstr "Atualmente escaneando"

@@ -44,19 +44,18 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 bedeutet unbegrenzt",
 "Maximum input size for ZIP files" => "Maximale Grösse für ZIP-Dateien",
 "Save" => "Speichern",
+"WebDAV" => "WebDAV",
 "New" => "Neu",
 "Text file" => "Textdatei",
 "New folder" => "Neues Verzeichnis",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
-"Deleted files" => "Gelöschte Dateien",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Laden Sie etwas hoch!",
 "Download" => "Herunterladen",
 "Delete" => "Löschen",
 "Upload too large" => "Der Upload ist zu gross",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgrösse für Uploads auf diesem Server.",
-"Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
-"Current scanning" => "Scanne"
+"Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

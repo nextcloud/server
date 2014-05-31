@@ -34,9 +34,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("","","","","",""),
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
-"Choose" => "اختيار",
 "Yes" => "نعم",
 "No" => "لا",
+"Choose" => "اختيار",
 "Ok" => "موافق",
 "_{count} file conflict_::_{count} file conflicts_" => array("","","","","",""),
 "Cancel" => "الغاء",
@@ -54,7 +54,6 @@ $TRANSLATIONS = array(
 "Shared with you by {owner}" => "شورك معك من قبل {owner}",
 "Share link" => "شارك الرابط",
 "Password protect" => "حماية كلمة السر",
-"Password" => "كلمة المرور",
 "Allow Public Upload" => "اسمح بالرفع للعامة",
 "Email link to person" => "ارسل الرابط بالبريد الى صديق",
 "Send" => "أرسل",
@@ -81,7 +80,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "نوع العنصر غير محدد.",
 "Delete" => "إلغاء",
 "Add" => "اضف",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "حصل خطأ في عملية التحديث, يرجى ارسال تقرير بهذه المشكلة الى <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "تم التحديث بنجاح , يتم اعادة توجيهك الان الى Owncloud",
 "%s password reset" => "تمت إعادة ضبط كلمة مرور %s",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
@@ -109,6 +107,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "مجلدات البيانات والملفات الخاصة قد تكون قابلة للوصول اليها عن طريق شبكة الانترنت وذلك بسبب ان ملف .htaccess  لا يعمل بشكل صحيح.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "لمزيد من المعلومات عن كيفية إعداد خادمك، يرجى الاطلاع على <a href=\"%s\" target=\"_blank\">صفحة المساعدة</a>.",
 "Create an <strong>admin account</strong>" => "أضف </strong>مستخدم رئيسي <strong>",
+"Password" => "كلمة المرور",
 "Data folder" => "مجلد المعلومات",
 "Configure the database" => "أسس قاعدة البيانات",
 "will be used" => "سيتم استخدمه",
@@ -125,7 +124,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "هل نسيت كلمة السر؟",
 "remember" => "تذكر",
 "Log in" => "أدخل",
-"Alternative Logins" => "اسماء دخول بديلة",
-"Updating ownCloud to version %s, this may take a while." => "جاري تحديث Owncloud الى اصدار %s , قد يستغرق هذا بعض الوقت."
+"Alternative Logins" => "اسماء دخول بديلة"
 );
 $PLURAL_FORMS = "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;";

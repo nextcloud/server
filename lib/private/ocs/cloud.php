@@ -57,8 +57,8 @@ class OC_OCS_Cloud {
 	 *   </quota>
 	 * </data>
 	 *
-	 * @param $parameters object should contain parameter 'userid' which identifies
-	 *                           the user from whom the information will be returned
+	 * @param array $parameters should contain parameter 'userid' which identifies
+	 *                          the user from whom the information will be returned
 	 */
 	public static function getUser($parameters) {
 		$return  = array();

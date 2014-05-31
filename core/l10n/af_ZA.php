@@ -37,9 +37,9 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n maande gelede","%n maande gelede"),
 "last year" => "verlede jaar",
 "years ago" => "jare gelede",
-"Choose" => "Kies",
 "Yes" => "Ja",
 "No" => "Nee",
+"Choose" => "Kies",
 "Ok" => "OK",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "New Files" => "Nuwe leêrs",
@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "Met jou en die groep {group} gedeel deur {owner}",
 "Shared with you by {owner}" => "Met jou gedeel deur {owner}",
 "Password protect" => "Beskerm met Wagwoord",
-"Password" => "Wagwoord",
 "Allow Public Upload" => "Laat Publieke Oplaai toe",
 "Email link to person" => "E-pos aan persoon",
 "Send" => "Stuur",
@@ -83,9 +82,9 @@ $TRANSLATIONS = array(
 "Error setting expiration date" => "Fout met opstel van verval datum",
 "Sending ..." => "Stuur ...",
 "Email sent" => "E-pos gestuur",
+"Warning" => "Waarskuwing",
 "The object type is not specified." => "Hierdie objek tipe is nie gespesifiseer nie.",
 "Add" => "Voeg by",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Die opdatering was nie suksesvol nie. Rapporteer die probleem by <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Die opdatering was suksesvol. Jy word nou aan ownCloud terug gelei.",
 "%s password reset" => "%s wagwoord herstel",
 "Use the following link to reset your password: {link}" => "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
@@ -113,6 +112,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Jou data gids en leers is moontlik toeganklik vanaf die internet omdat die .htaccess leer nie werk nie.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Vir inligting oor hoe om jou bediener behoorlik op te stel, sien asseblief die<a href=\"%s\" target=\"_blank\">dokumentasie</a>.",
 "Create an <strong>admin account</strong>" => "Skep `n <strong>admin-rekening</strong>",
+"Password" => "Wagwoord",
 "Data folder" => "Data vouer",
 "Configure the database" => "Stel databasis op",
 "will be used" => "sal gebruik word",
@@ -131,7 +131,6 @@ $TRANSLATIONS = array(
 "remember" => "onthou",
 "Log in" => "Teken aan",
 "Alternative Logins" => "Alternatiewe aantekeninge",
-"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Halo daar,<br><br>wou jou net laat weet dat %s <strong>%s</strong> met jou gedeel het.<br><a href=\"%s\">Sien alles!</a><br><br>",
-"Updating ownCloud to version %s, this may take a while." => "Opdatering a ownCloud versie %s - dit kan 'n tydjie vat."
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Halo daar,<br><br>wou jou net laat weet dat %s <strong>%s</strong> met jou gedeel het.<br><a href=\"%s\">Sien alles!</a><br><br>"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

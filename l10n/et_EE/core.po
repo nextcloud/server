@@ -4,14 +4,14 @@
 # 
 # Translators:
 # pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
-# Rivo Zängov <eraser@eraser.ee>, 2013
+# Rivo Zängov <eraser@eraser.ee>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-05-30 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
 msgstr "Aegumise kuupäev on minevikus."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s "
@@ -39,6 +39,11 @@ msgstr "Haldusrežiimis välja lülitatud"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Uuendatud andmebaas"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr ""
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -60,207 +65,207 @@ msgstr "Ühtegi ajutist profiili pilti pole saadaval, proovi uuesti"
 msgid "No crop data provided"
 msgstr "Lõikeandmeid ei leitud"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Pühapäev"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Esmaspäev"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Teisipäev"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Kolmapäev"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Neljapäev"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Reede"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Laupäev"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Jaanuar"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Veebruar"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Märts"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "Aprill"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mai"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Juuni"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Juuli"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "August"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "September"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Oktoober"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "November"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:483
+#: js/js.js:487
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:583
+#: js/js.js:587
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/js.js:1240
+#: js/js.js:1211
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:1241
+#: js/js.js:1212
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut tagasi"
 msgstr[1] "%n minutit tagasi"
 
-#: js/js.js:1242
+#: js/js.js:1213
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tund tagasi"
 msgstr[1] "%n tundi tagasi"
 
-#: js/js.js:1243
+#: js/js.js:1214
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:1244
+#: js/js.js:1215
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:1245
+#: js/js.js:1216
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päev tagasi"
 msgstr[1] "%n päeva tagasi"
 
-#: js/js.js:1246
+#: js/js.js:1217
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:1247
+#: js/js.js:1218
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuu tagasi"
 msgstr[1] "%n kuud tagasi"
 
-#: js/js.js:1248
+#: js/js.js:1219
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:1249
+#: js/js.js:1220
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Vali"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Viga failivalija malli laadimisel:  {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Vali"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Viga failivalija malli laadimisel:  {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Viga sõnumi malli laadimisel: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} failikonflikt"
 msgstr[1] "{count} failikonflikti"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "Üks failikonflikt"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
 msgstr "Uued failid"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
 msgstr "Juba olemasolevad failid"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Milliseid faile sa soovid alles hoida?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Jätka"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(kõik valitud)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} valitud)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Viga faili olemasolu malli laadimisel"
 
@@ -292,140 +297,149 @@ msgstr "Jagatud"
 msgid "Share"
 msgstr "Jaga"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:175 js/share.js:863
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
-#: js/share.js:171
+#: js/share.js:186
 msgid "Error while unsharing"
 msgstr "Viga jagamise lõpetamisel"
 
-#: js/share.js:178
+#: js/share.js:193
 msgid "Error while changing permissions"
 msgstr "Viga õiguste muutmisel"
 
-#: js/share.js:188
+#: js/share.js:203
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jagatud sinu ja {group} grupiga {owner} poolt"
 
-#: js/share.js:190
+#: js/share.js:205
 msgid "Shared with you by {owner}"
 msgstr "Sinuga jagas {owner}"
 
-#: js/share.js:214
+#: js/share.js:229
 msgid "Share with user or group …"
 msgstr "Jaga kasutaja või grupiga ..."
 
-#: js/share.js:220
+#: js/share.js:235
 msgid "Share link"
 msgstr "Jaga linki"
 
-#: js/share.js:223
+#: js/share.js:241
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr "Avalik link aegub mitte hiljem kui pärast {days} päeva selle loomist"
+
+#: js/share.js:243
+msgid "By default the public link will expire after {days} days"
+msgstr "Avalik link aegub vaikimisi pärast {days} päeva"
+
+#: js/share.js:248
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Parool"
+#: js/share.js:250
+msgid "Choose a password for the public link"
+msgstr "Vali avaliku lingi jaoks parool"
 
-#: js/share.js:230
+#: js/share.js:256
 msgid "Allow Public Upload"
 msgstr "Luba avalik üleslaadimine"
 
-#: js/share.js:234
+#: js/share.js:260
 msgid "Email link to person"
 msgstr "Saada link isikule e-postiga"
 
-#: js/share.js:235
+#: js/share.js:261
 msgid "Send"
 msgstr "Saada"
 
-#: js/share.js:240
+#: js/share.js:266
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:241
+#: js/share.js:267
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:277
+#: js/share.js:304
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:280
+#: js/share.js:307
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:355 js/share.js:416
 msgid "group"
 msgstr "grupp"
 
-#: js/share.js:357
+#: js/share.js:388
 msgid "Resharing is not allowed"
 msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:401
+#: js/share.js:432
 msgid "Shared in {item} with {user}"
 msgstr "Jagatud {item} kasutajaga {user}"
 
-#: js/share.js:423
+#: js/share.js:454
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:431
+#: js/share.js:462
 msgid "notify by email"
 msgstr "teavita e-postiga"
 
-#: js/share.js:434
+#: js/share.js:465
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:436
+#: js/share.js:467
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:439
+#: js/share.js:470
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:442
+#: js/share.js:473
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:445
+#: js/share.js:476
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:448
+#: js/share.js:479
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:721
+#: js/share.js:781
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:734
+#: js/share.js:800
 msgid "Error unsetting expiration date"
 msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:752
+#: js/share.js:821
 msgid "Error setting expiration date"
 msgstr "Viga aegumise kuupäeva määramisel"
 
-#: js/share.js:777
+#: js/share.js:850
 msgid "Sending ..."
 msgstr "Saatmine ..."
 
-#: js/share.js:788
+#: js/share.js:861
 msgid "Email sent"
 msgstr "E-kiri on saadetud"
 
-#: js/share.js:812
+#: js/share.js:885
 msgid "Warning"
 msgstr "Hoiatus"
 
@@ -457,18 +471,19 @@ msgstr "Viga dialoogi malli laadimisel: {error}"
 msgid "No tags selected for deletion."
 msgstr "Kustutamiseks pole ühtegi silti valitud."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr ""
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Palun laadi see uuesti."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr ""
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi."
 
@@ -669,6 +684,10 @@ msgstr "Serveri korrektseks seadistuseks palun tutvu <a href=\"%s\" target=\"_bl
 msgid "Create an <strong>admin account</strong>"
 msgstr "Loo <strong>admini konto</strong>"
 
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Parool"
+
 #: templates/installation.php:70
 msgid "Storage & database"
 msgstr "Andmehoidla ja andmebaas"
@@ -794,8 +813,27 @@ msgstr "Täname kannatlikkuse eest."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "ownCloudi uuendamine versioonile %s. See võib veidi aega võtta."
+msgid "%s will be updated to version %s."
+msgstr ""
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr ""
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr ""
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr ""
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr ""
 
 #: templates/update.user.php:3
 msgid ""

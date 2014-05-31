@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Loco",
-"URL" => "URL",
 "Username" => "Nomine de usator",
 "Password" => "Contrasigno",
 "Share" => "Compartir",
+"URL" => "URL",
 "Folder name" => "Nomine de dossier",
 "Groups" => "Gruppos",
 "Users" => "Usatores",

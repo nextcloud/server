@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "You are accessing the server from an untrusted domain." => "Přistupujete na server z nedůvěryhodné domény.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Kontaktujte prosím správce. Pokud jste správce této instalace, nastavte \"trusted_domain\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud.",
 "No app name specified" => "Nebyl zadan název aplikace",
 "Help" => "Nápověda",
@@ -65,6 +66,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because the group %s does not exist" => "Sdílení položky %s selhalo, protože skupina %s neexistuje",
 "Sharing %s failed, because %s is not a member of the group %s" => "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s",
 "Sharing %s failed, because sharing with links is not allowed" => "Sdílení položky %s selhalo, protože sdílení pomocí linků není povoleno",
+"Share type %s is not valid for %s" => "Sdílení typu %s není korektní pro %s",
 "Setting permissions for %s failed, because the item was not found" => "Nastavení práv pro %s selhalo, protože položka nebyla nalezena",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\"",
 "seconds ago" => "před pár sekundami",

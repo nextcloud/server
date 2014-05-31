@@ -36,8 +36,10 @@ class HomeCache extends Cache {
 			$result = \OC_DB::executeAudited($sql, array($id, $this->getNumericStorageId()));
 			if ($row = $result->fetchRow()) {
 				list($sum, $unencryptedSum) = array_values($row);
-				$totalSize = (int)$sum;
-				$unencryptedSize = (int)$unencryptedSum;
+				$totalSize = 0 + $sum;
+				$unencryptedSize = 0 + $unencryptedSum;
+				$entry['size'] += 0;
+				$entry['unencrypted_size'] += 0;
 				if ($entry['size'] !== $totalSize) {
 					$this->update($id, array('size' => $totalSize));
 				}

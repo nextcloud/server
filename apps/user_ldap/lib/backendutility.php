@@ -29,8 +29,8 @@ abstract class BackendUtility {
 	protected $access;
 
 	/**
-	 * @brief constructor, make sure the subclasses call this one!
-	 * @param $access an instance of Access for LDAP interaction
+	 * constructor, make sure the subclasses call this one!
+	 * @param Access $access an instance of Access for LDAP interaction
 	 */
 	public function __construct(Access $access) {
 		$this->access = $access;

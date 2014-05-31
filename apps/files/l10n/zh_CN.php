@@ -72,13 +72,14 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 为无限制",
 "Maximum input size for ZIP files" => "ZIP 文件的最大输入大小",
 "Save" => "保存",
+"WebDAV" => "WebDAV",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "使用这个地址 <a href=\"%s\" target=\"_blank\">通过 WebDAV 访问您的文件</a>",
 "New" => "新建",
 "New text file" => "创建文本文件",
 "Text file" => "文本文件",
 "New folder" => "添加文件夹",
 "Folder" => "文件夹",
 "From link" => "来自链接",
-"Deleted files" => "已删除文件",
 "Cancel upload" => "取消上传",
 "You don’t have permission to upload or create files here" => "您没有权限来上传湖州哦和创建文件",
 "Nothing in here. Upload something!" => "这里还什么都没有。上传些东西吧！",
@@ -86,7 +87,6 @@ $TRANSLATIONS = array(
 "Delete" => "删除",
 "Upload too large" => "上传文件过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您正尝试上传的文件超过了此服务器可以上传的最大容量限制",
-"Files are being scanned, please wait." => "文件正在被扫描，请稍候。",
-"Current scanning" => "当前扫描"
+"Files are being scanned, please wait." => "文件正在被扫描，请稍候。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

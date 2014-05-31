@@ -8,6 +8,9 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Filesystem;
+use OC\Files\Cache\Watcher;
+
 /**
  * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.
@@ -19,7 +22,6 @@ namespace OC\Files\Storage;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-
 abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cache;
 	protected $scanner;
@@ -33,6 +35,22 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cachedFiles = array();
 
 	public function __construct($parameters) {
+	}
+
+	/**
+	 * Remove a file of folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	protected function remove($path) {
+		if ($this->is_dir($path)) {
+			return $this->rmdir($path);
+		} else if ($this->is_file($path)) {
+			return $this->unlink($path);
+		} else {
+			return false;
+		}
 	}
 
 	public function is_dir($path) {
@@ -81,6 +99,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function isSharable($path) {
+		if (\OC_Util::isSharingDisabledForUser()) {
+			return false;
+		}
+
 		return $this->isReadable($path);
 	}
 
@@ -132,20 +154,33 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function rename($path1, $path2) {
-		if ($this->copy($path1, $path2)) {
-			$this->removeCachedFile($path1);
-			return $this->unlink($path1);
-		} else {
-			return false;
-		}
+		$this->remove($path2);
+
+		$this->removeCachedFile($path1);
+		return $this->copy($path1, $path2) and $this->remove($path1);
 	}
 
 	public function copy($path1, $path2) {
-		$source = $this->fopen($path1, 'r');
-		$target = $this->fopen($path2, 'w');
-		list($count, $result) = \OC_Helper::streamCopy($source, $target);
-		$this->removeCachedFile($path2);
-		return $result;
+		if ($this->is_dir($path1)) {
+			$this->remove($path2);
+			$dir = $this->opendir($path1);
+			$this->mkdir($path2);
+			while ($file = readdir($dir)) {
+				if (!Filesystem::isIgnoredDir($file)) {
+					if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file)) {
+						return false;
+					}
+				}
+			}
+			closedir($dir);
+			return true;
+		} else {
+			$source = $this->fopen($path1, 'r');
+			$target = $this->fopen($path2, 'w');
+			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			$this->removeCachedFile($path2);
+			return $result;
+		}
 	}
 
 	public function getMimeType($path) {
@@ -276,6 +311,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function getWatcher($path = '') {
 		if (!isset($this->watcher)) {
 			$this->watcher = new \OC\Files\Cache\Watcher($this);
+			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
 		}
 		return $this->watcher;
 	}
@@ -317,7 +353,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * clean a path, i.e. remove all redundant '.' and '..'
 	 * making sure that it can't point to higher than '/'
 	 *
-	 * @param $path The path to clean
+	 * @param string $path The path to clean
 	 * @return string cleaned path
 	 */
 	public function cleanPath($path) {
@@ -347,7 +383,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	/**
 	 * get the free space in the storage
 	 *
-	 * @param $path
+	 * @param string $path
 	 * @return int
 	 */
 	public function free_space($path) {
@@ -375,5 +411,15 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	protected function removeCachedFile($path) {
 		unset($this->cachedFiles[$path]);
+	}
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class) {
+		return is_a($this, $class);
 	}
 }

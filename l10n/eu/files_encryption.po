@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-03-11 01:54-0400\n"
-"PO-Revision-Date: 2014-03-11 05:55+0000\n"
+"POT-Creation-Date: 2014-05-28 01:54-0400\n"
+"PO-Revision-Date: 2014-05-28 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -79,9 +79,9 @@ msgstr "Ezin izan da fitxategi hau deszifratu, ziurrenik elkarbanatutako fitxate
 
 #: files/error.php:22 files/error.php:27
 msgid ""
-"Unknown error please check your system settings or contact your "
+"Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr "Errore ezezaguna mesedez egiaztatu zure sistemaren ezarpenak edo harremanetan jarri zure administradorearekin"
+msgstr ""
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -94,7 +94,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Mesedez ziurtatu PHP 5.3.3 edo berriago bat instalatuta dagoela eta OpenSSL PHP hedapenarekin gaitua eta ongi konfiguratuta dagoela. Oraingoz, enkriptazio aplikazioa desgaituta dago."
 
-#: hooks/hooks.php:295
+#: hooks/hooks.php:299
 msgid "Following users are not set up for encryption:"
 msgstr "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:"
 
@@ -114,91 +114,91 @@ msgstr "Joan zuzenean zure"
 msgid "personal settings"
 msgstr "ezarpen pertsonalak"
 
-#: templates/settings-admin.php:4 templates/settings-personal.php:3
+#: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"
 msgstr "Enkriptazioa"
 
-#: templates/settings-admin.php:7
+#: templates/settings-admin.php:5
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Gaitu berreskurapen gakoa (erabiltzaileen fitxategiak berreskuratzea ahalbidetzen du pasahitza galtzen badute ere):"
 
-#: templates/settings-admin.php:11
+#: templates/settings-admin.php:9
 msgid "Recovery key password"
 msgstr "Berreskuratze gako pasahitza"
 
-#: templates/settings-admin.php:14
+#: templates/settings-admin.php:12
 msgid "Repeat Recovery key password"
 msgstr "Errepikatu berreskuratze gakoaren pasahitza"
 
-#: templates/settings-admin.php:21 templates/settings-personal.php:51
+#: templates/settings-admin.php:19 templates/settings-personal.php:50
 msgid "Enabled"
 msgstr "Gaitua"
 
-#: templates/settings-admin.php:29 templates/settings-personal.php:59
+#: templates/settings-admin.php:27 templates/settings-personal.php:58
 msgid "Disabled"
 msgstr "Ez-gaitua"
 
-#: templates/settings-admin.php:34
+#: templates/settings-admin.php:32
 msgid "Change recovery key password:"
 msgstr "Aldatu berreskuratze gako pasahitza:"
 
-#: templates/settings-admin.php:40
+#: templates/settings-admin.php:38
 msgid "Old Recovery key password"
 msgstr "Berreskuratze gako pasahitz zaharra"
 
-#: templates/settings-admin.php:47
+#: templates/settings-admin.php:45
 msgid "New Recovery key password"
 msgstr "Berreskuratze gako pasahitz berria"
 
-#: templates/settings-admin.php:53
+#: templates/settings-admin.php:51
 msgid "Repeat New Recovery key password"
 msgstr "Errepikatu berreskuratze gako berriaren pasahitza"
 
-#: templates/settings-admin.php:58
+#: templates/settings-admin.php:56
 msgid "Change Password"
 msgstr "Aldatu Pasahitza"
 
-#: templates/settings-personal.php:9
+#: templates/settings-personal.php:8
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Zure gako pribatuaren pasahitza ez da dagoeneko zure sarrera pasahitza:"
 
-#: templates/settings-personal.php:12
+#: templates/settings-personal.php:11
 msgid "Set your old private key password to your current log-in password."
 msgstr "Ezarri zure gako pribatu zaharraren pasahitza zure oraingo sarrerako psahitzara."
 
-#: templates/settings-personal.php:14
+#: templates/settings-personal.php:13
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Ez baduzu zure pasahitz zaharra gogoratzen eskatu zure administratzaileari zure fitxategiak berreskuratzeko."
 
-#: templates/settings-personal.php:22
+#: templates/settings-personal.php:21
 msgid "Old log-in password"
 msgstr "Sartzeko pasahitz zaharra"
 
-#: templates/settings-personal.php:28
+#: templates/settings-personal.php:27
 msgid "Current log-in password"
 msgstr "Sartzeko oraingo pasahitza"
 
-#: templates/settings-personal.php:33
+#: templates/settings-personal.php:32
 msgid "Update Private Key Password"
 msgstr "Eguneratu gako pribatu pasahitza"
 
-#: templates/settings-personal.php:42
+#: templates/settings-personal.php:41
 msgid "Enable password recovery:"
 msgstr "Gaitu pasahitz berreskuratzea:"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Aukera hau gaituz zure enkriptatutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:59
 msgid "File recovery settings updated"
 msgstr "Fitxategi berreskuratze ezarpenak eguneratuak"
 
-#: templates/settings-personal.php:61
+#: templates/settings-personal.php:60
 msgid "Could not update file recovery"
 msgstr "Ezin da fitxategi berreskuratzea eguneratu"

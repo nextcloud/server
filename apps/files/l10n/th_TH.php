@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "0 is unlimited" => "0 หมายถึงไม่จำกัด",
 "Maximum input size for ZIP files" => "ขนาดไฟล์ ZIP สูงสุด",
 "Save" => "บันทึก",
+"WebDAV" => "WebDAV",
 "New" => "อัพโหลดไฟล์ใหม่",
 "Text file" => "ไฟล์ข้อความ",
 "New folder" => "โฟลเดอร์ใหม่",
@@ -50,7 +51,6 @@ $TRANSLATIONS = array(
 "Delete" => "ลบ",
 "Upload too large" => "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
-"Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
-"Current scanning" => "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"
+"Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

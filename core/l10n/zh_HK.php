@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "{owner}與你及群組的分享",
 "Shared with you by {owner}" => "{owner}與你的分享",
 "Password protect" => "密碼保護",
-"Password" => "密碼",
 "Send" => "傳送",
 "Set expiration date" => "設定分享期限",
 "Expiration date" => "分享期限",
@@ -72,6 +71,7 @@ $TRANSLATIONS = array(
 "Help" => "幫助",
 "Cloud not found" => "未找到Cloud",
 "Create an <strong>admin account</strong>" => "建立管理員帳戶",
+"Password" => "密碼",
 "Configure the database" => "設定資料庫",
 "will be used" => "將被使用",
 "Database user" => "資料庫帳戶",
@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "Please change your password to secure your account again." => "請更改你的密碼以保護你的帳戶",
 "Lost your password?" => "忘記密碼",
 "remember" => "記住",
-"Log in" => "登入",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud (ver. %s)更新中, 請耐心等侯"
+"Log in" => "登入"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

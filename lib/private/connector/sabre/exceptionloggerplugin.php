@@ -11,6 +11,17 @@
 
 class OC_Connector_Sabre_ExceptionLoggerPlugin extends Sabre_DAV_ServerPlugin
 {
+	private $nonFatalExceptions = array(
+		'Sabre_DAV_Exception_NotAuthenticated' => true,
+		// the sync client uses this to find out whether files exist,
+		// so it is not always an error, log it as debug
+		'Sabre_DAV_Exception_NotFound' => true,
+		// this one mostly happens when the same file is uploaded at
+		// exactly the same time from two clients, only one client
+		// wins, the second one gets "Precondition failed"
+		'Sabre_DAV_Exception_PreconditionFailed' => true,
+	);
+
 	private $appName;
 
 	/**
@@ -43,8 +54,10 @@ class OC_Connector_Sabre_ExceptionLoggerPlugin extends Sabre_DAV_ServerPlugin
 	 */
 	public function logException($e) {
 		$exceptionClass = get_class($e);
-		if ($exceptionClass !== 'Sabre_DAV_Exception_NotAuthenticated') {
-			\OCP\Util::logException($this->appName, $e);
+		$level = \OCP\Util::FATAL;
+		if (isset($this->nonFatalExceptions[$exceptionClass])) {
+			$level = \OCP\Util::DEBUG;
 		}
+		\OCP\Util::logException($this->appName, $e, $level);
 	}
 }

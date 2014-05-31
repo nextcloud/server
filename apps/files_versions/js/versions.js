@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+/* global scanFiles, escapeHTML, formatDate */
 $(document).ready(function(){
 
 	if ($('#isPublic').val()){
@@ -7,21 +18,20 @@ $(document).ready(function(){
 		return;
 	}
 
-	if (typeof FileActions !== 'undefined') {
+	if (OCA.Files) {
 		// Add versions button to 'files/index.php'
-		FileActions.register(
-			'file'
-			, 'Versions'
-			, OC.PERMISSION_UPDATE
-			, function() {
+		OCA.Files.fileActions.register(
+			'file',
+			'Versions',
+			OC.PERMISSION_UPDATE,
+			function() {
 				// Specify icon for hitory button
 				return OC.imagePath('core','actions/history');
-			}
-			,function(filename){
+			}, function(filename, context){
 				// Action to perform when clicked
 				if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
-				var file = $('#dir').val().replace(/(?!<=\/)$|\/$/, '/' + filename);
+				var file = context.dir.replace(/(?!<=\/)$|\/$/, '/' + filename);
 				var createDropDown = true;
 				// Check if drop down is already visible for a different file
 				if (($('#dropdown').length > 0) ) {
@@ -33,10 +43,9 @@ $(document).ready(function(){
 				}
 
 				if(createDropDown === true) {
-					createVersionsDropdown(filename, file);
+					createVersionsDropdown(filename, file, context.fileList);
 				}
-			}
-			, t('files_versions', 'Versions')
+			}, t('files_versions', 'Versions')
 		);
 	}
 
@@ -75,7 +84,7 @@ function goToVersionPage(url){
 	window.location.assign(url);
 }
 
-function createVersionsDropdown(filename, files) {
+function createVersionsDropdown(filename, files, fileList) {
 
 	var start = 0;
 	var fileEl;
@@ -88,7 +97,7 @@ function createVersionsDropdown(filename, files) {
 	html += '<input type="button" value="'+ t('files_versions', 'More versions...') + '" name="show-more-versions" id="show-more-versions" style="display: none;" />';
 
 	if (filename) {
-		fileEl = FileList.findFileEl(filename);
+		fileEl = fileList.findFileEl(filename);
 		fileEl.addClass('mouseOver');
 		$(html).appendTo(fileEl.find('td.filename'));
 	} else {

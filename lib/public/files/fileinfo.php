@@ -104,7 +104,7 @@ interface FileInfo {
 	/**
 	 * Check whether this is a file or a folder
 	 *
-	 * @return \OCP\Files\FileInfo::TYPE_FILE | \OCP\Files\FileInfo::TYPE_FOLDER
+	 * @return \OCP\Files\FileInfo::TYPE_FILE|\OCP\Files\FileInfo::TYPE_FOLDER
 	 */
 	public function getType();
 
@@ -135,4 +135,18 @@ interface FileInfo {
 	 * @return bool
 	 */
 	public function isShareable();
+
+	/**
+	 * Check if a file or folder is shared
+	 *
+	 * @return bool
+	 */
+	public function isShared();
+
+	/**
+	 * Check if a file or folder is mounted
+	 *
+	 * @return bool
+	 */
+	public function isMounted();
 }

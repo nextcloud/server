@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-30 01:55-0400\n"
-"PO-Revision-Date: 2014-04-29 10:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-05-31 01:54-0400\n"
+"PO-Revision-Date: 2014-05-30 18:31+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:87
+#: ajax/share.php:88
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Utløpsdato er tilbake i tid."
 
-#: ajax/share.php:119 ajax/share.php:161
+#: ajax/share.php:120 ajax/share.php:162
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Klarte ikke å sende mail til følgende brukere: %s"
@@ -41,6 +41,11 @@ msgstr "Slo av vedlikeholdsmodus"
 #: ajax/update.php:16
 msgid "Updated database"
 msgstr "Oppdaterte databasen"
+
+#: ajax/update.php:24
+#, php-format
+msgid "Disabled incompatible apps: %s"
+msgstr "Deaktiverte ukompatible apper: %s"
 
 #: avatar/controller.php:62
 msgid "No image or file provided"
@@ -62,207 +67,207 @@ msgstr "Foreløpig profilbilde ikke tilgjengelig. Prøv igjen"
 msgid "No crop data provided"
 msgstr "Ingen beskjæringsinformasjon angitt"
 
-#: js/config.php:36
+#: js/config.php:43
 msgid "Sunday"
 msgstr "Søndag"
 
-#: js/config.php:37
+#: js/config.php:44
 msgid "Monday"
 msgstr "Mandag"
 
-#: js/config.php:38
+#: js/config.php:45
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: js/config.php:39
+#: js/config.php:46
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: js/config.php:40
+#: js/config.php:47
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: js/config.php:41
+#: js/config.php:48
 msgid "Friday"
 msgstr "Fredag"
 
-#: js/config.php:42
+#: js/config.php:49
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: js/config.php:47
+#: js/config.php:54
 msgid "January"
 msgstr "Januar"
 
-#: js/config.php:48
+#: js/config.php:55
 msgid "February"
 msgstr "Februar"
 
-#: js/config.php:49
+#: js/config.php:56
 msgid "March"
 msgstr "Mars"
 
-#: js/config.php:50
+#: js/config.php:57
 msgid "April"
 msgstr "April"
 
-#: js/config.php:51
+#: js/config.php:58
 msgid "May"
 msgstr "Mai"
 
-#: js/config.php:52
+#: js/config.php:59
 msgid "June"
 msgstr "Juni"
 
-#: js/config.php:53
+#: js/config.php:60
 msgid "July"
 msgstr "Juli"
 
-#: js/config.php:54
+#: js/config.php:61
 msgid "August"
 msgstr "August"
 
-#: js/config.php:55
+#: js/config.php:62
 msgid "September"
 msgstr "September"
 
-#: js/config.php:56
+#: js/config.php:63
 msgid "October"
 msgstr "Oktober"
 
-#: js/config.php:57
+#: js/config.php:64
 msgid "November"
 msgstr "November"
 
-#: js/config.php:58
+#: js/config.php:65
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:483
+#: js/js.js:496
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: js/js.js:583
+#: js/js.js:596
 msgid "Saving..."
 msgstr "Lagrer..."
 
-#: js/js.js:1240
+#: js/js.js:1220
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:1241
+#: js/js.js:1221
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minutt siden"
 msgstr[1] "%n minutter siden"
 
-#: js/js.js:1242
+#: js/js.js:1222
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time siden"
 msgstr[1] "%n timer siden"
 
-#: js/js.js:1243
+#: js/js.js:1223
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:1244
+#: js/js.js:1224
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1245
+#: js/js.js:1225
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dager siden"
 
-#: js/js.js:1246
+#: js/js.js:1226
 msgid "last month"
 msgstr "forrige måned"
 
-#: js/js.js:1247
+#: js/js.js:1227
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dager siden"
 
-#: js/js.js:1248
+#: js/js.js:1228
 msgid "last year"
 msgstr "i fjor"
 
-#: js/js.js:1249
+#: js/js.js:1229
 msgid "years ago"
 msgstr "år siden"
 
-#: js/oc-dialogs.js:125
-msgid "Choose"
-msgstr "Velg"
-
-#: js/oc-dialogs.js:151
-msgid "Error loading file picker template: {error}"
-msgstr "Feil ved lasting av filvelger-mal: {error}"
-
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:187
+#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
 msgid "No"
 msgstr "Nei"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:184
+msgid "Choose"
+msgstr "Velg"
+
+#: js/oc-dialogs.js:210
+msgid "Error loading file picker template: {error}"
+msgstr "Feil ved lasting av filvelger-mal: {error}"
+
+#: js/oc-dialogs.js:263
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:283
 msgid "Error loading message template: {error}"
 msgstr "Feil ved lasting av meldingsmal: {error}"
 
-#: js/oc-dialogs.js:352
+#: js/oc-dialogs.js:411
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} filkonflikt"
 msgstr[1] "{count} filkonflikter"
 
-#: js/oc-dialogs.js:366
+#: js/oc-dialogs.js:425
 msgid "One file conflict"
 msgstr "En filkonflikt"
 
-#: js/oc-dialogs.js:372
+#: js/oc-dialogs.js:431
 msgid "New Files"
-msgstr ""
+msgstr "Nye filer"
 
-#: js/oc-dialogs.js:373
+#: js/oc-dialogs.js:432
 msgid "Already existing files"
-msgstr ""
+msgstr "Allerede eksisterende filer"
 
-#: js/oc-dialogs.js:375
+#: js/oc-dialogs.js:434
 msgid "Which files do you want to keep?"
 msgstr "Hvilke filer vil du beholde?"
 
-#: js/oc-dialogs.js:376
+#: js/oc-dialogs.js:435
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Hvis du velger begge versjonene vil den kopierte filen få et nummer lagt til i navnet."
 
-#: js/oc-dialogs.js:384
+#: js/oc-dialogs.js:443
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:394
+#: js/oc-dialogs.js:453
 msgid "Continue"
 msgstr "Fortsett"
 
-#: js/oc-dialogs.js:441 js/oc-dialogs.js:454
+#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
 msgid "(all selected)"
 msgstr "(alle valgt)"
 
-#: js/oc-dialogs.js:444 js/oc-dialogs.js:458
+#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
 msgid "({count} selected)"
 msgstr "({count} valgt)"
 
-#: js/oc-dialogs.js:466
+#: js/oc-dialogs.js:525
 msgid "Error loading file exists template"
 msgstr "Feil ved lasting av \"filen eksisterer\"-mal"
 
@@ -276,7 +281,7 @@ msgstr "Svakt passord"
 
 #: js/setup.js:86
 msgid "So-so password"
-msgstr ""
+msgstr "So-so-passord"
 
 #: js/setup.js:87
 msgid "Good password"
@@ -286,148 +291,157 @@ msgstr "Bra passord"
 msgid "Strong password"
 msgstr "Sterkt passord"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:69 js/share.js:84 js/share.js:127
 msgid "Shared"
 msgstr "Delt"
 
-#: js/share.js:109
+#: js/share.js:130
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:158 js/share.js:171 js/share.js:178 js/share.js:734
+#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Feil"
 
-#: js/share.js:160 js/share.js:790
+#: js/share.js:197 js/share.js:885
 msgid "Error while sharing"
 msgstr "Feil under deling"
 
-#: js/share.js:171
+#: js/share.js:208
 msgid "Error while unsharing"
 msgstr "Feil ved oppheving av deling"
 
-#: js/share.js:178
+#: js/share.js:215
 msgid "Error while changing permissions"
 msgstr "Feil ved endring av tillatelser"
 
-#: js/share.js:188
+#: js/share.js:225
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Delt med deg og gruppen {group} av {owner}"
 
-#: js/share.js:190
+#: js/share.js:227
 msgid "Shared with you by {owner}"
 msgstr "Delt med deg av {owner}"
 
-#: js/share.js:214
+#: js/share.js:251
 msgid "Share with user or group …"
 msgstr "Del med bruker eller gruppe …"
 
-#: js/share.js:220
+#: js/share.js:257
 msgid "Share link"
 msgstr "Del lenke"
 
-#: js/share.js:223
+#: js/share.js:263
+msgid ""
+"The public link will expire no later than {days} days after it is created"
+msgstr "Den offentlige lenken vil utløpe senest {days} dager etter at den lages"
+
+#: js/share.js:265
+msgid "By default the public link will expire after {days} days"
+msgstr "Som standard vil den offentlige lenken utløpe etter {days} dager"
+
+#: js/share.js:270
 msgid "Password protect"
 msgstr "Passordbeskyttet"
 
-#: js/share.js:225 templates/installation.php:60 templates/login.php:40
-msgid "Password"
-msgstr "Passord"
+#: js/share.js:272
+msgid "Choose a password for the public link"
+msgstr "Velg et passord for den offentlige lenken"
 
-#: js/share.js:230
+#: js/share.js:278
 msgid "Allow Public Upload"
 msgstr "Tillat Offentlig Opplasting"
 
-#: js/share.js:234
+#: js/share.js:282
 msgid "Email link to person"
 msgstr "Email lenke til person"
 
-#: js/share.js:235
+#: js/share.js:283
 msgid "Send"
 msgstr "Send"
 
-#: js/share.js:240
+#: js/share.js:288
 msgid "Set expiration date"
 msgstr "Set utløpsdato"
 
-#: js/share.js:241
+#: js/share.js:289
 msgid "Expiration date"
 msgstr "Utløpsdato"
 
-#: js/share.js:277
+#: js/share.js:326
 msgid "Share via email:"
 msgstr "Del på epost"
 
-#: js/share.js:280
+#: js/share.js:329
 msgid "No people found"
 msgstr "Ingen personer funnet"
 
-#: js/share.js:324 js/share.js:385
+#: js/share.js:377 js/share.js:438
 msgid "group"
 msgstr "gruppe"
 
-#: js/share.js:357
+#: js/share.js:410
 msgid "Resharing is not allowed"
 msgstr "Videredeling er ikke tillatt"
 
-#: js/share.js:401
+#: js/share.js:454
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:423
+#: js/share.js:476
 msgid "Unshare"
 msgstr "Avslutt deling"
 
-#: js/share.js:431
+#: js/share.js:484
 msgid "notify by email"
 msgstr "Varsle på email"
 
-#: js/share.js:434
+#: js/share.js:487
 msgid "can edit"
 msgstr "kan endre"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "access control"
 msgstr "tilgangskontroll"
 
-#: js/share.js:439
+#: js/share.js:492
 msgid "create"
 msgstr "opprett"
 
-#: js/share.js:442
+#: js/share.js:495
 msgid "update"
 msgstr "oppdater"
 
-#: js/share.js:445
+#: js/share.js:498
 msgid "delete"
 msgstr "slett"
 
-#: js/share.js:448
+#: js/share.js:501
 msgid "share"
 msgstr "del"
 
-#: js/share.js:721
+#: js/share.js:803
 msgid "Password protected"
 msgstr "Passordbeskyttet"
 
-#: js/share.js:734
+#: js/share.js:822
 msgid "Error unsetting expiration date"
 msgstr "Feil ved nullstilling av utløpsdato"
 
-#: js/share.js:752
+#: js/share.js:843
 msgid "Error setting expiration date"
 msgstr "Kan ikke sette utløpsdato"
 
-#: js/share.js:777
+#: js/share.js:872
 msgid "Sending ..."
 msgstr "Sender..."
 
-#: js/share.js:788
+#: js/share.js:883
 msgid "Email sent"
 msgstr "E-post sendt"
 
-#: js/share.js:812
+#: js/share.js:907
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -459,18 +473,19 @@ msgstr "Feil ved lasting av dialogmal: {error}"
 msgid "No tags selected for deletion."
 msgstr "Ingen merkelapper valgt for sletting."
 
-#: js/update.js:8
+#: js/update.js:30
+msgid "Updating {productName} to version {version}, this may take a while."
+msgstr "Oppdaterer {productName} til versjon {version}. Dette kan ta litt tid."
+
+#: js/update.js:43
 msgid "Please reload the page."
 msgstr "Vennligst last siden på nytt."
 
-#: js/update.js:17
-msgid ""
-"The update was unsuccessful. Please report this issue to the <a "
-"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
-"community</a>."
-msgstr "Oppdateringen mislyktes. Vennligst rapporter dette problemet til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>."
+#: js/update.js:52
+msgid "The update was unsuccessful."
+msgstr "Oppdateringen var vellykket."
 
-#: js/update.js:21
+#: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Oppdateringen var vellykket. Du omdirigeres nå til ownCloud."
 
@@ -483,7 +498,7 @@ msgstr "%s nullstilling av passord"
 msgid ""
 "A problem has occurred whilst sending the email, please contact your "
 "administrator."
-msgstr ""
+msgstr "Et problem oppstod ved sending av mailen. Kontakt administratoren."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -546,12 +561,12 @@ msgstr "Tilbakestill passord"
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Mac OS X støttes ikke og %s vil ikke fungere korrekt på denne plattformen. Bruk på egen risiko!"
 
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "For beste resultat, vurder å bruke en GNU/Linux-server i stedet."
 
 #: strings.php:5
 msgid "Personal"
@@ -671,6 +686,10 @@ msgstr "For informasjon om hvordan du setter opp serveren din riktig, se <a href
 msgid "Create an <strong>admin account</strong>"
 msgstr "opprett en <strong>administrator-konto</strong>"
 
+#: templates/installation.php:60 templates/login.php:40
+msgid "Password"
+msgstr "Passord"
+
 #: templates/installation.php:70
 msgid "Storage & database"
 msgstr "Lagring og database"
@@ -774,7 +793,7 @@ msgstr "Alternative innlogginger"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hei der,<br><br>bare informerer om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
@@ -796,8 +815,27 @@ msgstr "Takk for din tålmodighet."
 
 #: templates/update.admin.php:3
 #, php-format
-msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Oppdaterer ownCloud til versjon %s, dette kan ta en stund."
+msgid "%s will be updated to version %s."
+msgstr "%s vil bli oppdatert til versjon %s."
+
+#: templates/update.admin.php:7
+msgid "The following apps will be disabled:"
+msgstr "Følgende apps vil bli deaktivert:"
+
+#: templates/update.admin.php:17
+#, php-format
+msgid "The theme %s has been disabled."
+msgstr "Temaet %s har blitt deaktivert."
+
+#: templates/update.admin.php:21
+msgid ""
+"Please make sure that the database, the config folder and the data folder "
+"have been backed up before proceeding."
+msgstr "Forsikre deg om at databasen, config-mappen og datamappen er blitt sikkerhetskopiert før du fortsetter."
+
+#: templates/update.admin.php:23
+msgid "Start update"
+msgstr "Start oppdatering"
 
 #: templates/update.user.php:3
 msgid ""

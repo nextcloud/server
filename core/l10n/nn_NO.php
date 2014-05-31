@@ -40,10 +40,10 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n månad sidan","%n månadar sidan"),
 "last year" => "i fjor",
 "years ago" => "år sidan",
-"Choose" => "Vel",
-"Error loading file picker template: {error}" => "Klarte ikkje å lasta filplukkarmal: {error}",
 "Yes" => "Ja",
 "No" => "Nei",
+"Choose" => "Vel",
+"Error loading file picker template: {error}" => "Klarte ikkje å lasta filplukkarmal: {error}",
 "Ok" => "Greitt",
 "Error loading message template: {error}" => "Klarte ikkje å lasta meldingsmal: {error}",
 "_{count} file conflict_::_{count} file conflicts_" => array("{count} filkonflikt","{count} filkonfliktar"),
@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "Shared with you and the group {group} by {owner}" => "Delt med deg og gruppa {group} av {owner}",
 "Shared with you by {owner}" => "Delt med deg av {owner}",
 "Password protect" => "Passordvern",
-"Password" => "Passord",
 "Allow Public Upload" => "Tillat offentleg opplasting",
 "Email link to person" => "Send lenkja over e-post",
 "Send" => "Send",
@@ -91,7 +90,6 @@ $TRANSLATIONS = array(
 "The object type is not specified." => "Objekttypen er ikkje spesifisert.",
 "Delete" => "Slett",
 "Add" => "Legg til",
-"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
 "The update was successful. Redirecting you to ownCloud now." => "Oppdateringa er fullført. Sender deg vidare til ownCloud no.",
 "%s password reset" => "%s passordnullstilling",
 "Use the following link to reset your password: {link}" => "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}",
@@ -120,6 +118,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> for meir informasjon om korleis du konfigurerer tenaren din.",
 "Create an <strong>admin account</strong>" => "Lag ein <strong>admin-konto</strong>",
+"Password" => "Passord",
 "Data folder" => "Datamappe",
 "Configure the database" => "Set opp databasen",
 "will be used" => "vil verta nytta",
@@ -137,7 +136,6 @@ $TRANSLATIONS = array(
 "Lost your password?" => "Gløymt passordet?",
 "remember" => "hugs",
 "Log in" => "Logg inn",
-"Alternative Logins" => "Alternative innloggingar",
-"Updating ownCloud to version %s, this may take a while." => "Oppdaterer ownCloud til utgåve %s, dette kan ta ei stund."
+"Alternative Logins" => "Alternative innloggingar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
