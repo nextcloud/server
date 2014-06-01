@@ -251,28 +251,18 @@ class AppConfig implements \OCP\IAppConfig {
 			return false;
 		}
 
-		$fields = '`configvalue`';
-		$where = 'WHERE';
-		$params = array();
 		if ($app !== false) {
-			$fields .= ', `configkey`';
-			$where .= ' `appid` = ?';
-			$params[] = $app;
-			$key = 'configkey';
+			return $this->getAppValues($app);
 		} else {
-			$fields .= ', `appid`';
-			$where .= ' `configkey` = ?';
-			$params[] = $key;
-			$key = 'appid';
-		}
-		$query = 'SELECT ' . $fields . ' FROM `*PREFIX*appconfig` ' . $where;
-		$result = $this->conn->executeQuery($query, $params);
+			$query = 'SELECT `configvalue`, `appid` FROM `*PREFIX*appconfig` WHERE `configkey` = ?';
+			$result = $this->conn->executeQuery($query, array($key));
 
-		$values = array();
-		while ($row = $result->fetch((\PDO::FETCH_ASSOC))) {
-			$values[$row[$key]] = $row['configvalue'];
-		}
+			$values = array();
+			while ($row = $result->fetch((\PDO::FETCH_ASSOC))) {
+				$values[$row['appid']] = $row['configvalue'];
+			}
 
-		return $values;
+			return $values;
+		}
 	}
 }
