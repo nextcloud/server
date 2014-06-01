@@ -57,14 +57,6 @@ abstract class Controller {
 	 * constructor of the controller
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
-	 * @param string $corsMethods: comma seperated string of HTTP verbs which 
-	 * should be allowed for websites or webapps when calling your API, defaults to
-	 * 'PUT, POST, GET, DELETE, PATCH'
-	 * @param string $corsAllowedHeaders: comma seperated string of HTTP headers
-	 * which should be allowed for websites or webapps when calling your API, 
-	 * defaults to 'Authorization, Content-Type, Accept'
-	 * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
-	 * request should be cached, defaults to 1728000 seconds
 	 */
 	public function __construct($appName, 
 	                            IRequest $request){
@@ -146,7 +138,7 @@ abstract class Controller {
 
 	/**
 	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or throuh the URL by the route
+	 * (as GET or POST) or through the URL by the route
 	 * @deprecated use $this->request instead
 	 * @return array the array with all parameters
 	 */
