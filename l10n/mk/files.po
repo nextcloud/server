@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "Подигање на датотека е во тек. Напуштењ�
 msgid "URL cannot be empty"
 msgstr "URL-то не може да биде празно"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} веќе постои"
 
@@ -194,73 +194,77 @@ msgstr "Не можам да креирам папка"
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Сподели"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Трајно избришани"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Избриши"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Преименувај"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Вашето преземање се подготвува. Ова може да потрае до колку датотеките се големи."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Чека"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Грешка при префрлање на датотека"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Грешка"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Не можам да ја преименувам датотеката"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Име"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:75
 msgid "Size"
 msgstr "Големина"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:78
 msgid "Modified"
 msgstr "Променето"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -393,10 +397,6 @@ msgstr "Тука нема ништо. Снимете нешто!"
 #: templates/list.php:68
 msgid "Download"
 msgstr "Преземи"
-
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Избриши"
 
 #: templates/list.php:95
 msgid "Upload too large"

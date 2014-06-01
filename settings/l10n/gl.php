@@ -91,6 +91,8 @@ $TRANSLATIONS = array(
 "Setup Warning" => "Configurar os avisos",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Volva comprobar as <a href=\"%s\">guías de instalación</a>",
+"PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." => "Parece que PHP foi configuración para substituír bloques de documentos en liña. Isto fará que varios aplicativos sexan inaccesíbeis.",
+"This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." => "Isto probabelmente se debe unha caché/acelerador como Zend OPcache ou eAccelerator.",
 "Module 'fileinfo' missing" => "Non se atopou o módulo «fileinfo»",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME.",
 "Your PHP version is outdated" => "A versión de PHP está desactualizada",

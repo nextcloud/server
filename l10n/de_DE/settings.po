@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 13:36+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -423,13 +423,13 @@ msgstr "Bitte prüfen Sie nochmals die <a href=\"%s\">Installationsanleitungen</
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP ist offenbar so konfiguriert, dass PHPDoc-Blöcke in der Anweisung entfernt werden. Dadurch sind mehrere Kern-Apps nicht erreichbar."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Dies wird wahrscheinlich durch Zwischenspeicher/Beschleuniger wie z.B. OPcache oder eAccelerator verursacht."
 
 #: templates/admin.php:105
 msgid "Module 'fileinfo' missing"

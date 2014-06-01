@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending mis
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} er þegar til"
 
@@ -193,73 +193,77 @@ msgstr ""
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Deila"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Eyða"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Endurskýra"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Bíður"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Villa"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Nafn"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:75
 msgid "Size"
 msgstr "Stærð"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:78
 msgid "Modified"
 msgstr "Breytt"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -392,10 +396,6 @@ msgstr "Ekkert hér. Settu eitthvað inn!"
 #: templates/list.php:68
 msgid "Download"
 msgstr "Niðurhal"
-
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Eyða"
 
 #: templates/list.php:95
 msgid "Upload too large"

@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "Bendrina {owner}",
+"Shared by" => "Dalinasi",
 "This share is password-protected" => "Turinys apsaugotas slaptažodžiu",
 "The password is wrong. Try again." => "Netinka slaptažodis: Bandykite dar kartą.",
 "Password" => "Slaptažodis",
+"Name" => "Pavadinimas",
 "Sorry, this link doesn’t seem to work anymore." => "Atleiskite, panašu, kad nuoroda yra neveiksni.",
 "Reasons might be:" => "Galimos priežastys:",
 "the item was removed" => "elementas buvo pašalintas",

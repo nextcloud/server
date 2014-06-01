@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 18:11+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -180,7 +180,7 @@ msgstr "Caricamento del file in corso. La chiusura della pagina annullerà il ca
 msgid "URL cannot be empty"
 msgstr "L'URL non può essere vuoto."
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} esiste già"
 
@@ -196,73 +196,77 @@ msgstr "Impossibile creare la cartella"
 msgid "Error fetching URL"
 msgstr "Errore durante il recupero dello URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Condividi"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Elimina"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Rinomina"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Il tuo scaricamento è in fase di preparazione. Ciò potrebbe richiedere del tempo se i file sono grandi."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "In corso"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Errore durante lo spostamento del file."
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Errore durante lo spostamento del file"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Errore"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Impossibile rinominare il file"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Errore durante l'eliminazione del file."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:75
 msgid "Size"
 msgstr "Dimensione"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:78
 msgid "Modified"
 msgstr "Modificato"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n cartella"
 msgstr[1] "%n cartelle"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n file"
 msgstr[1] "%n file"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Caricamento di %n file in corso"
@@ -395,10 +399,6 @@ msgstr "Non c'è niente qui. Carica qualcosa!"
 #: templates/list.php:68
 msgid "Download"
 msgstr "Scarica"
-
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Elimina"
 
 #: templates/list.php:95
 msgid "Upload too large"

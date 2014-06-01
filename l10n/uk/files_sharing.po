@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Опублікував {owner}"
 
 #: js/sharedfilelist.js:116
 msgid "Shared by"
-msgstr ""
+msgstr "Опубліковано"
 
 #: js/sharedfilelist.js:220
 msgid "link"
@@ -60,7 +60,7 @@ msgstr "Пароль"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Ім'я"
 
 #: templates/list.php:20
 msgid "Share time"

@@ -91,6 +91,8 @@ $TRANSLATIONS = array(
 "Setup Warning" => "Kurulum Uyarısı",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web sunucunuz dosya eşitlemesine izin vermek üzere düzgün bir şekilde yapılandırılmamış. WebDAV arayüzü sorunlu görünüyor.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Lütfen <a href='%s'>kurulum kılavuzlarını</a> tekrar kontrol edin.",
+"PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." => "PHP satırıçi doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu, bazı çekirdek (core) uygulamalarını erişilemez yapacak.",
+"This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." => "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlandırıcı nedeniyle gerçekleşir.",
 "Module 'fileinfo' missing" => "Modül 'fileinfo' kayıp",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz.",
 "Your PHP version is outdated" => "PHP sürümünüz eski",

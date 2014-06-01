@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 10:04+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedos
 msgid "URL cannot be empty"
 msgstr "Osoite ei voi olla tyhjä"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} on jo olemassa"
 
@@ -197,73 +197,77 @@ msgstr "Kansion luominen epäonnistui"
 msgid "Error fetching URL"
 msgstr "Virhe noutaessa verkko-osoitetta"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Jaa"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Poista pysyvästi"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+msgid "Delete"
+msgstr "Poista"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Odottaa"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Virhe tiedostoa siirrettäessä."
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Virhe tiedostoa siirrettäessä"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Virhe"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Tiedoston nimeäminen uudelleen epäonnistui"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Virhe tiedostoa poistaessa."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Nimi"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:75
 msgid "Size"
 msgstr "Koko"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:78
 msgid "Modified"
 msgstr "Muokattu"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kansio"
 msgstr[1] "%n kansiota"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n tiedosto"
 msgstr[1] "%n tiedostoa"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Lähetetään %n tiedosto"
@@ -396,10 +400,6 @@ msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 #: templates/list.php:68
 msgid "Download"
 msgstr "Lataa"
-
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Poista"
 
 #: templates/list.php:95
 msgid "Upload too large"

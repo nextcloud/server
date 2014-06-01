@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} مەۋجۇت",
 "Share" => "ھەمبەھىر",
 "Delete permanently" => "مەڭگۈلۈك ئۆچۈر",
+"Delete" => "ئۆچۈر",
 "Rename" => "ئات ئۆزگەرت",
 "Pending" => "كۈتۈۋاتىدۇ",
 "Error" => "خاتالىق",
@@ -30,7 +31,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "يۈكلەشتىن ۋاز كەچ",
 "Nothing in here. Upload something!" => "بۇ جايدا ھېچنېمە يوق. Upload something!",
 "Download" => "چۈشۈر",
-"Delete" => "ئۆچۈر",
 "Upload too large" => "يۈكلەندىغىنى بەك چوڭ"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Delt af {owner}"
 
 #: js/sharedfilelist.js:116
 msgid "Shared by"
-msgstr ""
+msgstr "Delt af"
 
 #: js/sharedfilelist.js:220
 msgid "link"
@@ -62,7 +62,7 @@ msgstr "Kodeord"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: templates/list.php:20
 msgid "Share time"

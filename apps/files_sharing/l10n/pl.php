@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "Udostępnione przez {owner}",
+"Shared by" => "Udostępniane przez",
 "This share is password-protected" => "Udział ten jest chroniony hasłem",
 "The password is wrong. Try again." => "To hasło jest niewłaściwe. Spróbuj ponownie.",
 "Password" => "Hasło",
+"Name" => "Nazwa",
 "Sorry, this link doesn’t seem to work anymore." => "Przepraszamy ale wygląda na to, że ten link już nie działa.",
 "Reasons might be:" => "Możliwe powody:",
 "the item was removed" => "element został usunięty",

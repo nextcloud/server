@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "មាន​ឈ្មោះ {new_name} រួច​ហើយ",
 "Share" => "ចែក​រំលែក",
 "Delete permanently" => "លុប​ជា​អចិន្ត្រៃយ៍",
+"Delete" => "លុប",
 "Rename" => "ប្ដូរ​ឈ្មោះ",
 "Your download is being prepared. This might take some time if the files are big." => "ការ​ទាញយក​របស់​អ្នក​កំពុង​ត្រូវ​បាន​រៀបចំ​ហើយ។ នេះ​អាច​ចំណាយ​ពេល​មួយ​សំទុះ ប្រសិន​បើ​ឯកសារ​ធំ។",
 "Pending" => "កំពុង​រង់ចាំ",
@@ -31,7 +32,6 @@ $TRANSLATIONS = array(
 "Cancel upload" => "បោះបង់​ការ​ផ្ទុកឡើង",
 "Nothing in here. Upload something!" => "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ផ្ទុក​ឡើង​អ្វី​មួយ!",
 "Download" => "ទាញយក",
-"Delete" => "លុប",
 "Upload too large" => "ផ្ទុក​ឡើង​ធំ​ពេក"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

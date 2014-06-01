@@ -91,6 +91,8 @@ $TRANSLATIONS = array(
 "Setup Warning" => "Setup Warning",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Your web server is not yet properly setup to allow files synchronisation because the WebDAV interface seems to be broken.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Please double check the <a href=\"%s\">installation guides</a>.",
+"PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." => "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.",
+"This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." => "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.",
 "Module 'fileinfo' missing" => "Module 'fileinfo' missing",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "The PHP module 'fileinfo' is missing. We strongly recommend enabling this module to get best results with mime-type detection.",
 "Your PHP version is outdated" => "Your PHP version is outdated",
