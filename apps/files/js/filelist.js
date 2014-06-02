@@ -613,7 +613,7 @@
 
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
-				simpleSize = humanFileSize(parseInt(fileData.size, 10));
+				simpleSize = humanFileSize(parseInt(fileData.size, 10), true);
 				sizeColor = Math.round(160-Math.pow((fileData.size/(1024*1024)),2));
 			} else {
 				simpleSize = t('files', 'Pending');
