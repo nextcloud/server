@@ -458,4 +458,13 @@ class Util {
 	public static function maxUploadFilesize($dir) {
 		return \OC_Helper::maxUploadFilesize($dir);
 	}
+
+	/**
+	 * @brief Generates a cryptographic secure pseudo-random string
+	 * @param Int $length of the random string
+	 * @return String
+	 */
+	public static function generateRandomBytes($length = 30) {
+		return \OC_Util::generateRandomBytes($length);
+	}
 }

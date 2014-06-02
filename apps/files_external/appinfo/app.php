@@ -24,5 +24,6 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 }
 
 // connecting hooks
-OCP\Util::connectHook( 'OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login' );
+OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
+OCP\Util::connectHook('OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login');
 
