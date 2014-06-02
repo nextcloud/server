@@ -69,6 +69,7 @@ class User {
 		} else {
 			$this->enabled = true;
 		}
+		$this->lastLogin = \OC_Preferences::getValue($uid, 'login', 'lastLogin', 0);
 	}
 
 	/**
