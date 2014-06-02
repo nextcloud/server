@@ -17,12 +17,12 @@
 
 		<li>
 			<a href="http://owncloud.org/support" target="_blank">
-				<?php p($l->t( 'Online Documentation' )); ?>
+				<?php p($l->t( 'Online Documentation' )); ?> ↗
 			</a>
 		</li>
 		<li>
 			<a href="https://forum.owncloud.org" target="_blank">
-				<?php p($l->t( 'Forum' )); ?>
+				<?php p($l->t( 'Forum' )); ?> ↗
 			</a>
 		</li>
 
@@ -30,14 +30,14 @@
 		<li>
 			<a href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md"
 				target="_blank">
-				<?php p($l->t( 'Bugtracker' )); ?>
+				<?php p($l->t( 'Bugtracker' )); ?> ↗
 			</a>
 		</li>
 	<?php } ?>
 
 	<li>
 		<a href="https://owncloud.com" target="_blank">
-			<?php p($l->t( 'Commercial Support' )); ?>
+			<?php p($l->t( 'Commercial Support' )); ?> ↗
 		</a>
 	</li>
 </div>
