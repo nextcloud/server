@@ -47,6 +47,7 @@ OC.Share={
 			$fileList = fileList.$fileList;
 			currentDir = fileList.getCurrentDirectory();
 		}
+		// TODO: iterating over the files might be more efficient
 		for (item in OC.Share.statuses){
 			var image = OC.imagePath('core', 'actions/share');
 			var data = OC.Share.statuses[item];
@@ -63,7 +64,7 @@ OC.Share={
 				var shareFolder = OC.imagePath('core', 'filetypes/folder-shared');
 				var img;
 				if (file.length > 0) {
-					this.markFileAsShared(file, true, image);
+					this.markFileAsShared(file, true, hasLink);
 				} else {
 					var dir = currentDir;
 					if (dir.length > 1) {
@@ -122,7 +123,11 @@ OC.Share={
 		} else {
 			var $tr = $('tr').filterAttr('data-id', String(itemSource));
 			if ($tr.length > 0) {
-				this.markFileAsShared($tr, shares, image);
+				// it might happen that multiple lists exist in the DOM
+				// with the same id
+				$tr.each(function() {
+					OC.Share.markFileAsShared($(this), shares, link);
+				});
 			}
 		}
 		if (shares) {
@@ -133,13 +138,14 @@ OC.Share={
 		}
 	},
 	/**
-	 * Marks/unmarks a given file as shared
+	 * Marks/unmarks a given file as shared by changing its action icon
+	 * and folder icon.
 	 *
 	 * @param $tr file element to mark as shared
-	 * @param state true to mark as shared, false to unmark
-	 * @param image image to use for the icon
+	 * @param hasShares whether shares are available
+	 * @param hasLink whether link share is available
 	 */
-	markFileAsShared: function($tr, state, image) {
+	markFileAsShared: function($tr, hasShares, hasLink) {
 		var action = $tr.find('.fileactions .action[data-action="Share"]');
 		var type = $tr.data('type');
 		var img = action.find('img');
@@ -147,14 +153,22 @@ OC.Share={
 		var recipients;
 		var owner;
 		var shareFolderIcon;
-		if (type === 'dir' && state) {
-			shareFolderIcon = OC.imagePath('core', 'filetypes/folder-shared');
+		var image = OC.imagePath('core', 'actions/share');
+		// update folder icon
+		if (type === 'dir' && (hasShares || hasLink)) {
+			if (hasLink) {
+				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-public');
+			}
+			else {
+				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-shared');
+			}
 			$tr.children('.filename').css('background-image', 'url(' + shareFolderIcon + ')');
 		} else if (type === 'dir') {
 			shareFolderIcon = OC.imagePath('core', 'filetypes/folder');
 			$tr.children('.filename').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
-		if (state) {
+		// update share action text / icon
+		if (hasShares) {
 			recipients = $tr.attr('data-share-recipients');
 			owner = $tr.attr('data-share-owner');
 
@@ -162,7 +176,6 @@ OC.Share={
 			message = t('core', 'Shared');
 			if (owner && !recipients) {
 				message = t('files_sharing', 'Shared by {owner}', {owner: owner});
-				image = image || OC.imagePath('core', 'actions/share');
 			}
 			if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: recipients});
@@ -172,6 +185,9 @@ OC.Share={
 		else {
 			action.removeClass('permanent');
 			action.html(' <span>'+ escapeHTML(t('core', 'Share'))+'</span>').prepend(img);
+		}
+		if (hasLink) {
+			image = OC.imagePath('core', 'actions/public');
 		}
 		img.attr('src', image);
 	},
@@ -756,6 +772,7 @@ $(document).ready(function() {
 			if ($('#linkText').val() !== '') {
 				OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
 					OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
+					$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: OC.Share.itemShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 					if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 						$('#expiration').hide('blind');

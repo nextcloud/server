@@ -13,6 +13,16 @@ describe('OCA.Sharing.Util tests', function() {
 	var fileList;
 	var testFiles;
 
+	function getImageUrl($el) {
+		// might be slightly different cross-browser
+		var url = $el.css('background-image');
+		var r = url.match(/url\(['"]?([^'")]*)['"]?\)/);
+		if (!r) {
+			return url;
+		}
+		return r[1];
+	}
+
 	beforeEach(function() {
 		// back up prototype, as it will be extended by
 		// the sharing code
@@ -59,6 +69,7 @@ describe('OCA.Sharing.Util tests', function() {
 	afterEach(function() {
 		OCA.Files.FileList.prototype = oldFileListPrototype;
 		delete OCA.Sharing.sharesLoaded;
+		delete OC.Share.droppedDown;
 		OC.Share.statuses = {};
 	});
 
@@ -67,7 +78,121 @@ describe('OCA.Sharing.Util tests', function() {
 	});
 	describe('Share action icon', function() {
 		it('do not shows share text when not shared', function() {
-			var $action;
+			var $action, $tr;
+			OC.Share.statuses = {};
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: 31,
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.hasClass('permanent')).toEqual(false);
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder.svg');
+			expect($action.find('img').length).toEqual(1);
+		});
+		it('shows simple share text with share icon', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: 31,
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
+			expect($action.find('img').length).toEqual(1);
+		});
+		it('shows simple share text with public icon when shared with link', function() {
+			var $action, $tr;
+			OC.Share.statuses = {1: {link: true, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: 31,
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('public.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-public.svg');
+			expect($action.find('img').length).toEqual(1);
+		});
+		it('shows owner name when owner is available', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: 31,
+				shareOwner: 'User One',
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
+		});
+		it('shows recipients when recipients are available', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: 31,
+				recipientsDisplayName: 'User One, User Two',
+				etag: 'abc'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-share');
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared with User One, User Two');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
+			expect($action.find('img').length).toEqual(1);
+		});
+	});
+	describe('Share action', function() {
+		var showDropDownStub;
+
+		beforeEach(function() {
+			showDropDownStub = sinon.stub(OC.Share, 'showDropDown', function() {
+				$('#testArea').append($('<div id="dropdown"></div>'));
+			});
+		});
+		afterEach(function() {
+			showDropDownStub.restore();
+		});
+		it('adds share icon after sharing a non-shared file', function() {
+			var $action, $tr;
 			OC.Share.statuses = {};
 			fileList.setFiles([{
 				id: 1,
@@ -80,11 +205,31 @@ describe('OCA.Sharing.Util tests', function() {
 				etag: 'abc'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
+			$tr = fileList.$el.find('tr:first');
+
 			expect($action.hasClass('permanent')).toEqual(false);
+
+			$tr.find('.action-share').click();
+
+			expect(showDropDownStub.calledOnce).toEqual(true);
+
+			// simulate what the dropdown does
+			var itemShares = {};
+			itemShares[OC.Share.SHARE_TYPE_USER] = ['User One', 'User Two'];
+			itemShares[OC.Share.SHARE_TYPE_GROUP] = ['Group One', 'Group Two'];
+			OC.Share.itemShares = itemShares;
+			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+
+			expect($tr.attr('data-share-recipients')).toEqual('Group One, Group Two, User One, User Two');
+
+			OC.Share.updateIcon('file', 1);
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared with Group One, Group Two, User One, User Two');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
-		it('shows simple share text with share icon', function() {
-			var $action;
+		it('removes share icon after unsharing a shared file', function() {
+			var $action, $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
 			fileList.setFiles([{
 				id: 1,
 				type: 'file',
@@ -96,13 +241,31 @@ describe('OCA.Sharing.Util tests', function() {
 				etag: 'abc'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
+			$tr = fileList.$el.find('tr:first');
+
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared');
+
+			$tr.find('.action-share').click();
+
+			expect(showDropDownStub.calledOnce).toEqual(true);
+
+			// simulate what the dropdown does
+			var itemShares = {};
+			itemShares[OC.Share.SHARE_TYPE_USER] = ['User One', 'User Two', 'User Three'];
+			OC.Share.itemShares = itemShares;
+			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+
+			expect($tr.attr('data-share-recipients')).toEqual('User One, User Three, User Two');
+
+			OC.Share.updateIcon('file', 1);
+
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared with User One, User Three, User Two');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
-		it('shows simple share text with public icon when shared with link', function() {
-			var $action;
-			OC.Share.statuses = {1: {link: true, path: '/subdir'}};
+		it('updates share icon after modifying shares on a shared file', function() {
+			var $action, $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
 			fileList.setFiles([{
 				id: 1,
 				type: 'file',
@@ -111,55 +274,27 @@ describe('OCA.Sharing.Util tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: 31,
-				etag: 'abc'
+				etag: 'abc',
+				recipients: 'User One, User Two'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
+			$tr = fileList.$el.find('tr:first');
+
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('public.svg');
-		});
-		it('shows owner name when owner is available', function() {
-			var $action;
-			fileList.setFiles([{
-				id: 1,
-				type: 'file',
-				name: 'One.txt',
-				path: '/subdir',
-				mimetype: 'text/plain',
-				size: 12,
-				permissions: 31,
-				shareOwner: 'User One',
-				etag: 'abc'
-			}]);
-			$action = fileList.$el.find('tbody tr:first .action-share');
-			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared by User One');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
-		});
-		it('shows recipients when recipients are available', function() {
-			var $action;
-			fileList.setFiles([{
-				id: 1,
-				type: 'file',
-				name: 'One.txt',
-				path: '/subdir',
-				mimetype: 'text/plain',
-				size: 12,
-				permissions: 31,
-				recipientsDisplayName: 'User One, User Two',
-				etag: 'abc'
-			}]);
-			$action = fileList.$el.find('tbody tr:first .action-share');
-			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared with User One, User Two');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
-		});
-	});
-	describe('Share action', function() {
-		// TODO: test file action / dropdown trigger
-		it('updates share icon when shares were changed in dropdown', function() {
-			fileList.setFiles(testFiles);
-			fileList.$el.find('tr:first .action-share').click();
+
+			$tr.find('.action-share').click();
+
+			expect(showDropDownStub.calledOnce).toEqual(true);
+
+			// simulate what the dropdown does
+			var itemShares = {};
+			OC.Share.itemShares = itemShares;
+			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+
+			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+
+			OC.Share.updateIcon('file', 1);
+			expect($action.hasClass('permanent')).toEqual(false);
 		});
 	});
 	describe('formatRecipients', function() {
