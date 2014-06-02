@@ -464,9 +464,9 @@ input[name='password-clone'] {
 	width: 223px !important;
 	padding-left: 36px !important;
 }
-#adminlogin~img,
+#adminlogin+label+img,
 #adminpass-icon,
-#user~img,
+#user+label+img,
 #password-icon {
 	position: absolute;
 	left: 16px;
