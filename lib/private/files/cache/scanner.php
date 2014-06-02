@@ -189,6 +189,7 @@ class Scanner extends BasicEmitter {
 	 */
 	protected function updateCache($path, $data) {
 		\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'data' => $data));
+		$this->emit('\OC\Files\Cache\Scanner', 'updateCache', array($path, $this->storageId, $data));
 		if ($this->cacheActive) {
 			$this->cache->put($path, $data);
 		}
