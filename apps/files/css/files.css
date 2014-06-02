@@ -267,7 +267,7 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0
 
 .modified {
 	position: relative;
-	padding-left: 8px;
+	padding-left: 15px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 90%;
