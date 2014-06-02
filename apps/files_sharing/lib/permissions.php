@@ -63,9 +63,7 @@ class Shared_Permissions extends Permissions {
 	 * @return int[]
 	 */
 	public function getMultiple($fileIds, $user) {
-		if (count($fileIds) === 0) {
-			return array();
-		}
+		$filePermissions = array();
 		foreach ($fileIds as $fileId) {
 			$filePermissions[$fileId] = $this->get($fileId, $user);
 		}
