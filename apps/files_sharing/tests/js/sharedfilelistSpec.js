@@ -9,7 +9,8 @@
  */
 
 describe('OCA.Sharing.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+	var testFiles, alertStub, notificationStub, fileList, fileActions;
+	var oldFileListPrototype;
 
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
@@ -45,10 +46,17 @@ describe('OCA.Sharing.FileList tests', function() {
 			'<div id="emptycontent">Empty content message</div>' +
 			'</div>'
 		);
+		// back up prototype, as it will be extended by
+		// the sharing code
+		oldFileListPrototype = _.extend({}, OCA.Files.FileList.prototype);
+		fileActions = new OCA.Files.FileActions();
+		OCA.Sharing.Util.initialize(fileActions);
 	});
 	afterEach(function() {
+		OCA.Files.FileList.prototype = oldFileListPrototype;
 		testFiles = undefined;
 		fileList = undefined;
+		fileActions = undefined;
 
 		notificationStub.restore();
 		alertStub.restore();

@@ -46,7 +46,7 @@
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
 			if (this._sharedWithUser) {
-				$tr.attr('data-share-owner', fileData.shares[0].ownerDisplayName);
+				$tr.attr('data-share-owner', fileData.shareOwner);
 			}
 			return $tr;
 		},
@@ -159,7 +159,7 @@
 						stime: share.stime * 1000,
 					};
 					if (self._sharedWithUser) {
-						file.share.ownerDisplayName = share.displayname_owner;
+						file.shareOwner = share.displayname_owner;
 						file.name = OC.basename(share.file_target);
 						file.path = OC.dirname(share.file_target);
 						file.permissions = share.permissions;
