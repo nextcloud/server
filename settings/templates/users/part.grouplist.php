@@ -14,7 +14,7 @@
 	<!-- Everyone -->
 	<li data-gid="" class="isgroup">
 		<a href="#">
-			<span>
+			<span class="groupname">
 				<?php p($l->t('Everyone')); ?>
 			</span>
 		</a>

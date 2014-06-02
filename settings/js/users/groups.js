@@ -107,6 +107,7 @@ GroupList = {
 							}
 							else {
 								var $li = GroupList.addGroup(group.name, group.usercount);
+
 								$li.addClass('appear transparent');
 								lis.push($li);
 							}
@@ -119,7 +120,9 @@ GroupList = {
 						GroupList.noMoreEntries = true;
 					}
 					_.defer(function () {
-						$(lis).removeClass('transparent');
+						$(lis).each(function () {
+							this.removeClass('transparent')
+						});
 					});
 				}
 				GroupList.updating = false;
