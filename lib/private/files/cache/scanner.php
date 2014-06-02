@@ -123,10 +123,10 @@ class Scanner extends BasicEmitter {
 					if ($reuseExisting) {
 						// prevent empty etag
 						$etag = $cacheData['etag'];
-						$propagateETagChange = false;
 						if (empty($etag)) {
 							$etag = $data['etag'];
-							$propagateETagChange = true;
+						} else {
+							$etag = $cacheData['etag'];
 						}
 						// only reuse data if the file hasn't explicitly changed
 						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
@@ -135,22 +135,6 @@ class Scanner extends BasicEmitter {
 							}
 							if ($reuseExisting & self::REUSE_ETAG) {
 								$data['etag'] = $etag;
-								if ($propagateETagChange) {
-									$parent = $file;
-									while ($parent !== '') {
-										$parent = dirname($parent);
-										if ($parent === '.') {
-											$parent = '';
-										}
-										$parentCacheData = $this->cache->get($parent);
-										\OC_Hook::emit('Scanner', 'updateCache', array('file' => $file, 'data' => $data));
-										if($this->cacheActive) {
-											$this->cache->update($parentCacheData['fileid'], array(
-												'etag' => $this->storage->getETag($parent),
-											));
-										}
-									}
-								}
 							}
 						}
 						// Only update metadata that has changed
@@ -165,22 +149,50 @@ class Scanner extends BasicEmitter {
 					}
 				}
 				if (!empty($newData)) {
-					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'data' => $newData));
-					if($this->cacheActive) {
-						$data['fileid'] = $this->cache->put($file, $newData);
-					}
+					$data['fileid'] = $this->addToCache($file, $newData);
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
 					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
 				}
 			} else {
-				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file));
-				if($this->cacheActive) {
-					$this->cache->remove($file);
-				}
+				$this->removeFromCache($file);
 			}
 			return $data;
 		}
 		return null;
+	}
+
+	protected function removeFromCache($path) {
+		\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $path));
+		$this->emit('\OC\Files\Cache\Scanner', 'removeFromCache', array($path));
+		if ($this->cacheActive) {
+			$this->cache->remove($path);
+		}
+	}
+
+	/**
+	 * @param string $path
+	 * @param array $data
+	 * @return int the id of the added file
+	 */
+	protected function addToCache($path, $data) {
+		\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'data' => $data));
+		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', array($path, $this->storageId, $data));
+		if ($this->cacheActive) {
+			return $this->cache->put($path, $data);
+		} else {
+			return -1;
+		}
+	}
+
+	/**
+	 * @param string $path
+	 * @param array $data
+	 */
+	protected function updateCache($path, $data) {
+		\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'data' => $data));
+		if ($this->cacheActive) {
+			$this->cache->put($path, $data);
+		}
 	}
 
 	/**
@@ -243,8 +255,7 @@ class Scanner extends BasicEmitter {
 									$size += $data['size'];
 								}
 							}
-						}
-						catch (\Doctrine\DBAL\DBALException $ex){
+						} catch (\Doctrine\DBAL\DBALException $ex) {
 							// might happen if inserting duplicate while a scanning
 							// process is running in parallel
 							// log and ignore
@@ -257,13 +268,10 @@ class Scanner extends BasicEmitter {
 			$removedChildren = \array_diff($existingChildren, $newChildren);
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
-				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child));
-				if($this->cacheActive) {
-					$this->cache->remove($child);
-				}
+				$this->removeFromCache($child);
 			}
 			\OC_DB::commit();
-			if ($exceptionOccurred){
+			if ($exceptionOccurred) {
 				// It might happen that the parallel scan process has already
 				// inserted mimetypes but those weren't available yet inside the transaction
 				// To make sure to have the updated mime types in such cases,
@@ -279,11 +287,7 @@ class Scanner extends BasicEmitter {
 					$size += $childSize;
 				}
 			}
-			$newData = array('size' => $size);
-			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'data' => $newData));
-			if($this->cacheActive) {
-				$this->cache->put($path, $newData);
-			}
+			$this->updateCache($path, array('size' => $size));
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
 		return $size;
@@ -293,7 +297,8 @@ class Scanner extends BasicEmitter {
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
 	 *       prevents unfinished put requests to be scanned
-	 * @param String $file
+	 *
+	 * @param string $file
 	 * @return boolean
 	 */
 	public static function isPartialFile($file) {
@@ -311,7 +316,7 @@ class Scanner extends BasicEmitter {
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
 			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
-			if($this->cacheActive) {
+			if ($this->cacheActive) {
 				$this->cache->correctFolderSize($path);
 			}
 			$lastPath = $path;
@@ -320,6 +325,7 @@ class Scanner extends BasicEmitter {
 
 	/**
 	 * Set whether the cache is affected by scan operations
+	 *
 	 * @param boolean $active The active state of the cache
 	 */
 	public function setCacheActive($active) {
