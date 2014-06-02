@@ -116,6 +116,12 @@
 	width: 230px;
 }
 
+/* move Deleted Files to bottom of sidebar */
+.nav-trashbin {
+	position: absolute !important;
+	bottom: 0;
+}
+
 .app-files #app-settings {
 	width: 229px; /* DUH */
 }
@@ -155,8 +161,9 @@ tr:hover span.extension {
 	color: #777;
 }
 
-table tr.mouseOver td { background-color:#eee; }
-table th { height:24px; padding:0 8px; }
+table tr.mouseOver td {
+	background-color: #eee;
+}
 table th, table th a {
 	color: #999;
 }
@@ -179,7 +186,7 @@ table th .columntitle.name {
 }
 /* hover effect on sortable column */
 table th a.columntitle:hover {
-	background-color: #F0F0F0;
+	color: #000;
 }
 table th .sort-indicator {
 	width: 10px;
@@ -266,7 +273,7 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0
 
 .modified {
 	position: relative;
-	padding-left: 8px;
+	padding-left: 15px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 90%;

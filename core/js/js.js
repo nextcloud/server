@@ -183,7 +183,8 @@ var OC={
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
-	
+	menuSpeed: 100,
+
 	/**
 	 * Get an absolute url to a file in an app
 	 * @param {string} app the id of the app the file belongs to
@@ -531,7 +532,7 @@ var OC={
 		$toggle.addClass('menutoggle');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.hide();
+				$menuEl.slideUp(OC.menuSpeed);
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
 				return false;
@@ -541,7 +542,7 @@ var OC={
 				// close it
 				OC._currentMenu.hide();
 			}
-			$menuEl.show();
+			$menuEl.slideToggle(OC.menuSpeed);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 			return false;
@@ -554,7 +555,7 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.hide();
+			$menuEl.slideUp(OC.menuSpeed);
 			OC._currentMenu = null;
 			OC._currentMenuToggle = null;
 		}
@@ -1068,7 +1069,7 @@ function initCore() {
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle(200);
+		$('#settings #expanddiv').slideToggle(OC.menuSpeed);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
@@ -1076,7 +1077,7 @@ function initCore() {
 	});
 	//hide the user menu when clicking outside it
 	$(document).click(function(){
-		$('#settings #expanddiv').slideUp(200);
+		$('#settings #expanddiv').slideUp(OC.menuSpeed);
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
@@ -1097,7 +1098,7 @@ function initCore() {
 			return false;
 		}
 		if (OC._currentMenu) {
-			OC._currentMenu.hide();
+			OC._currentMenu.slideUp(OC.menuSpeed);
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;

@@ -7,7 +7,7 @@
 
 /* fix height of select boxes for OS X */
 select {
-	min-height: 29px;
+	height: 32px;
 }
 
 .lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }

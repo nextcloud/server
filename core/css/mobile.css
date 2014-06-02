@@ -111,10 +111,13 @@
 
 
 
-/* shift to account for missing navigation */
+/* shift to account for missing app list */
 #body-user #controls,
 #body-settings #controls {
 	padding-left: 0;
+}
+#body-user .app-files #controls {
+	left: 230px !important; /* sidebar only */
 }
 
 /* don’t require a minimum width for controls bar */
