@@ -15,17 +15,17 @@ use \OCP\AppFramework\Http\TemplateResponse;
 class LostController extends Controller {
 	
 	protected $urlGenerator;
-	protected $userManager;
+	protected $userClass;
 	protected $defaults;
 	protected $l10n;
 	protected $from;
 	protected $isDataEncrypted;
 	
-	public function __construct($appName, IRequest $request, IURLGenerator $urlGenerator, $userManager,
+	public function __construct($appName, IRequest $request, IURLGenerator $urlGenerator, $userClass,
 			$defaults, $l10n, $from, $isDataEncrypted) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
+		$this->userClass = $userClass;
 		$this->defaults = $defaults;
 		$this->l10n = $l10n;
 		$this->from = $from;
@@ -39,14 +39,15 @@ class LostController extends Controller {
 	 * @param string $token
 	 * @param string $uid
 	 */
-	public function reset($token, $uid) {
+	public function resetform($token, $uid) {
 		// Someone wants to reset their password:
 		if($this->checkToken($uid, $token)) {
 			return new TemplateResponse(
 				'core/lostpassword', 
 				'resetpassword', 
 				array(
-					'link' => $link
+					'link' => $this->getLink('core.lost.setPassword', $uid, $token),
+					'isEncrypted' => $this->isDataEncrypted,
 				), 
 				'guest'
 			);
@@ -56,8 +57,8 @@ class LostController extends Controller {
 				'core/lostpassword', 
 				'lostpassword', 
 				array(
-					'isEncrypted' => $this->isDataEncrypted, 
-					'link' => $this->getResetPasswordLink($uid, $token)
+					'isEncrypted' => $this->isDataEncrypted,
+					'link' => $this->getLink('core.lost.setPassword', $uid, $token)
 				),
 				'guest'
 			);
@@ -69,7 +70,7 @@ class LostController extends Controller {
 	 * 
 	 * @param bool $proceed
 	 */
-	public function lost($user, $proceed){
+	public function email($user, $proceed){
 		$response = new JSONResponse(array('status'=>'success'));
 		try {
 			$this->sendEmail($user, $proceed);
@@ -91,17 +92,18 @@ class LostController extends Controller {
 	/**
 	 * @PublicPage
 	 */
-	public function resetPassword($user, $password, $token) {
+	public function setPassword($token, $uid, $password) {
 		$response = new JSONResponse(array('status'=>'success'));
 		try {
-			if (!$this->checkToken($user, $token)) {
+			if (!$this->checkToken($uid, $token)) {
 				throw new \RuntimeException('');
 			}
-			if (!$this->userManager->setPassword($user, $newPassword)) {
+			$userClass = $this->userClass;
+			if (!$userClass::setPassword($uid, $password)) {
 				throw new \RuntimeException('');
 			}
-			\OC_Preferences::deleteKey($user, 'owncloud', 'lostpassword');
-			$this->userManager->unsetMagicInCookie();
+			\OC_Preferences::deleteKey($uid, 'owncloud', 'lostpassword');
+			$userClass::unsetMagicInCookie();
 		} catch (Exception $e){
 			$response->setData(array(
 				'status' => 'error',
@@ -116,7 +118,7 @@ class LostController extends Controller {
 			throw new EncryptedDataException();
 		}
 
-		if (!$this->userManager->userExists($user)) {
+		if (!$this->userClass->userExists($user)) {
 			throw new \Exception($this->l10n->t('Couldn’t send reset email. Please make sure your username is correct.'));
 		}
 		$token = hash('sha256', \OC_Util::generateRandomBytes(30));
@@ -126,7 +128,7 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn’t send reset email because there is no email address for this username. Please contact your administrator.'));
 		}
 		
-		$link = $this->getResetPasswordLink($user, $token);
+		$link = $this->getLink('core.lost.resetform', $user, $token);
 		echo $link;
 		$tmpl = new \OC_Template('core/lostpassword', 'email');
 		$tmpl->assign('link', $link, false);
@@ -138,12 +140,12 @@ class LostController extends Controller {
 		}
 	}
 
-	protected function getResetPasswordLink($user, $token){
+	protected function getLink($route, $user, $token){
 		$parameters = array(
 			'token' => $token, 
 			'uid' => $user
 		);
-		$link = $this->urlGenerator->linkToRoute('core.lost.reset', $parameters);
+		$link = $this->urlGenerator->linkToRoute($route, $parameters);
 		return $this->urlGenerator->getAbsoluteUrl($link);
 	}
 

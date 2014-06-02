@@ -25,9 +25,9 @@ class Application extends App {
 		$container->registerService('LostController', function($c) {
 			return new LostController(
 				$c->query('AppName'),
-				$c->query('ServerContainer')->getRequest(),
+				$c->query('Request'),
 				$c->query('ServerContainer')->getURLGenerator(),
-				$c->query('ServerContainer')->getUserManager(),
+				'\OC_User',
 				new \OC_Defaults(),
 				$c->query('ServerContainer')->getL10N('core'),
 				\OCP\Util::getDefaultEmailAddress('lostpassword-noreply'),

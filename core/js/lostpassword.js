@@ -30,7 +30,7 @@ OC.Lostpassword = {
 			$('#submit').trigger('click');
 		} else {
 			$.post(
-					OC.filePath('core', 'ajax', 'password/lost'),
+					OC.generateUrl('/lostpassword/email'),
 					{
 						user : $('#user').val(),
 						proceed: $('#encrypted-continue').attr('checked') ? 'Yes' : 'No'

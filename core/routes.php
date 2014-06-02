@@ -10,9 +10,9 @@ use OC\Core\LostPassword\Application;
 
 $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
-		array('name' => 'lost#lost', 'url' => '/core/ajax/password/lost', 'verb' => 'POST'),
-		array('name' => 'lost#reset', 'url' => '/lostpassword/reset/{token}/{uid}', 'verb' => 'GET'),
-		array('name' => 'lost#resetPassword', 'url' => '/core/ajax/password/reset/{token}/{user}', 'verb' => 'POST'),
+		array('name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'),
+		array('name' => 'lost#resetform', 'url' => '/lostpassword/reset/form/{token}/{uid}', 'verb' => 'GET'),
+		array('name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{uid}', 'verb' => 'POST'),
 	)
 ));
 
