@@ -33,6 +33,5 @@ $uploadLimit=OCP\Util::uploadLimit();
 $tmpl = new OCP\Template('files', 'list', '');
 $tmpl->assign('uploadLimit', $uploadLimit); // PHP upload limit
 $tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
-$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 $tmpl->printPage();
 
