@@ -53,7 +53,7 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
-			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
+			\OC\Files\Filesystem::addStorageWrapper('oc_quota', function($mountPoint, $storage){
 				// set up quota for home storages, even for other users
 				// which can happen when using sharing
 
@@ -72,7 +72,7 @@ class OC_Util {
 			});
 
 			// Set up flock
-			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, /** @var \OC\Files\Storage\Storage|null $storage */ $storage){
+			\OC\Files\Filesystem::addStorageWrapper('oc_flock', function($mountPoint, /** @var \OC\Files\Storage\Storage|null $storage */ $storage){
 				// lock files on all local storage
 				if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
 					return new \OC\Files\Storage\Wrapper\LockingWrapper(array('storage' => $storage));

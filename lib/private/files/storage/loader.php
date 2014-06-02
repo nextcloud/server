@@ -21,8 +21,8 @@ class Loader {
 	 *
 	 * @param callable $callback
 	 */
-	public function addStorageWrapper($callback) {
-		$this->storageWrappers[] = $callback;
+	public function addStorageWrapper($wrapperName, $callback) {
+		$this->storageWrappers[$wrapperName] = $callback;
 	}
 
 	/**
