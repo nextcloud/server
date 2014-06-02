@@ -71,6 +71,16 @@ class Config {
 	}
 
 	/**
+	 * Deletes a value from config.php
+	 * @param string $key key
+	 *
+	 * This function deletes the value from config.php.
+	 */
+	public static function deleteSystemValue( $key ) {
+		return \OC_Config::deleteKey( $key );
+	}
+
+	/**
 	 * Gets the config value
 	 * @param string $app app
 	 * @param string $key key
