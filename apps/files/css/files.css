@@ -180,7 +180,7 @@ table th .columntitle.name {
 }
 /* hover effect on sortable column */
 table th a.columntitle:hover {
-	background-color: #F0F0F0;
+	color: #000;
 }
 table th .sort-indicator {
 	width: 10px;
