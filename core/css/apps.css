@@ -19,6 +19,7 @@
 	padding-bottom: 44px;
 }
 #app-navigation > ul {
+	position: relative;
 	height: 100%;
 	overflow: auto;
 	-moz-box-sizing: border-box; box-sizing: border-box;

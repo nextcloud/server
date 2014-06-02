@@ -116,6 +116,12 @@
 	width: 230px;
 }
 
+/* move Deleted Files to bottom of sidebar */
+.nav-trashbin {
+	position: absolute !important;
+	bottom: 0;
+}
+
 .app-files #app-settings {
 	width: 229px; /* DUH */
 }
