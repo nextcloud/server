@@ -8,6 +8,8 @@
 
 namespace OC\Files\Utils;
 
+use OC\Files\View;
+use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\Hooks\PublicEmitter;
 
@@ -27,10 +29,16 @@ class Scanner extends PublicEmitter {
 	private $user;
 
 	/**
+	 * @var \OC\Files\Cache\ChangePropagator
+	 */
+	protected $propagator;
+
+	/**
 	 * @param string $user
 	 */
 	public function __construct($user) {
 		$this->user = $user;
+		$this->propagator = new ChangePropagator(new View(''));
 	}
 
 	/**
@@ -67,6 +75,15 @@ class Scanner extends PublicEmitter {
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
 		});
+
+		// propagate etag and mtimes when files are changed or removed
+		$propagator = $this->propagator;
+		$propagatorListener = function ($path) use ($mount, $propagator) {
+			$fullPath = Filesystem::normalizePath($mount->getMountPoint() . $path);
+			$propagator->addChange($fullPath);
+		};
+		$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', $propagatorListener);
+		$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', $propagatorListener);
 	}
 
 	public function backgroundScan($dir) {
@@ -79,6 +96,7 @@ class Scanner extends PublicEmitter {
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
 		}
+		$this->propagator->propagateChanges(time());
 	}
 
 	public function scan($dir) {
@@ -89,8 +107,9 @@ class Scanner extends PublicEmitter {
 			}
 			$scanner = $mount->getStorage()->getScanner();
 			$this->attachListener($mount);
-			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG);
+			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 		}
+		$this->propagator->propagateChanges(time());
 	}
 }
 

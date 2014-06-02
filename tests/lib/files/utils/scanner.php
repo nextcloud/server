@@ -8,6 +8,7 @@
 
 namespace Test\Files\Utils;
 
+use OC\Files\Filesystem;
 use OC\Files\Mount\Mount;
 use OC\Files\Storage\Temporary;
 
@@ -26,6 +27,14 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 
 	protected function getMounts($dir) {
 		return $this->mounts;
+	}
+
+	public function getPropagator() {
+		return $this->propagator;
+	}
+
+	public function setPropagator($propagator) {
+		$this->propagator = $propagator;
 	}
 }
 
@@ -70,5 +79,52 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$scanner->scan('');
 		$new = $cache->get('folder/bar.txt');
 		$this->assertEquals($old, $new);
+	}
+
+	public function testChangePropagator() {
+		/**
+		 * @var \OC\Files\Cache\ChangePropagator $propagator
+		 */
+		$propagator = $this->getMock('\OC\Files\Cache\ChangePropagator', array('propagateChanges'), array(), '', false);
+
+		$storage = new Temporary(array());
+		$mount = new Mount($storage, '/foo');
+		Filesystem::getMountManager()->addMount($mount);
+		$cache = $storage->getCache();
+
+		$storage->mkdir('folder');
+		$storage->file_put_contents('foo.txt', 'qwerty');
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+
+		$scanner = new TestScanner('');
+		$originalPropagator = $scanner->getPropagator();
+		$scanner->setPropagator($propagator);
+		$scanner->addMount($mount);
+
+		$scanner->scan('');
+
+		$this->assertEquals(array('/foo', '/foo/foo.txt', '/foo/folder', '/foo/folder/bar.txt'), $propagator->getChanges());
+		$this->assertEquals(array('/', '/foo', '/foo/folder'), $propagator->getAllParents());
+
+		$cache->put('foo.txt', array('mtime' => time() - 50));
+
+		$propagator = $this->getMock('\OC\Files\Cache\ChangePropagator', array('propagateChanges'), array(), '', false);
+		$scanner->setPropagator($propagator);
+		$storage->file_put_contents('foo.txt', 'asdasd');
+
+		$scanner->scan('');
+
+		$this->assertEquals(array('/foo/foo.txt'), $propagator->getChanges());
+		$this->assertEquals(array('/', '/foo'), $propagator->getAllParents());
+
+		$scanner->setPropagator($originalPropagator);
+
+		$oldInfo = $cache->get('');
+		$cache->put('foo.txt', array('mtime' => time() - 70));
+		$storage->file_put_contents('foo.txt', 'asdasd');
+
+		$scanner->scan('');
+		$newInfo = $cache->get('');
+		$this->assertNotEquals($oldInfo['etag'], $newInfo['etag']);
 	}
 }
