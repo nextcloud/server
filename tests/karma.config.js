@@ -52,7 +52,8 @@ module.exports = function(config) {
 					// only test these files, others are not ready and mess
 					// up with the global namespace/classes/state
 					'apps/files_sharing/js/app.js',
-					'apps/files_sharing/js/sharedfilelist.js'
+					'apps/files_sharing/js/sharedfilelist.js',
+					'apps/files_sharing/js/share.js'
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			}];

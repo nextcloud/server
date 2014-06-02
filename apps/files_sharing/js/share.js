@@ -13,7 +13,7 @@
 		OCA.Sharing = {};
 	}
 	OCA.Sharing.Util = {
-		initialize: function() {
+		initialize: function(fileActions) {
 			if (!_.isUndefined(OC.Share) && !_.isUndefined(OCA.Files)) {
 				// TODO: make a separate class for this or a hook or jQuery event ?
 				if (OCA.Files.FileList) {
@@ -27,6 +27,9 @@
 								tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
 								tr.attr('data-reshare-permissions', fileData.permissions);
 							}
+						}
+						if (fileData.recipientsDisplayName) {
+							tr.attr('data-share-recipients', fileData.recipientsDisplayName);
 						}
 						return tr;
 					};
@@ -72,7 +75,7 @@
 					}
 				});
 
-				OCA.Files.fileActions.register(
+				fileActions.register(
 						'all',
 						'Share',
 						OC.PERMISSION_SHARE,
@@ -109,11 +112,7 @@
 						// is called automatically after this event
 						var userShares = ev.itemShares[OC.Share.SHARE_TYPE_USER] || [];
 						var groupShares = ev.itemShares[OC.Share.SHARE_TYPE_GROUP] || [];
-						var linkShares = ev.itemShares[OC.Share.SHARE_TYPE_LINK] || [];
 						var recipients = _.union(userShares, groupShares);
-						if (linkShares.length > 0) {
-							recipients.unshift(t('files_sharing', 'Public'));
-						}
 						// only update the recipients if they existed before
 						// (some file lists don't have them)
 						if (!_.isUndefined($tr.attr('data-share-recipients'))) {
@@ -131,7 +130,7 @@
 		},
 
 		/**
-		 * Formats a recipient array to be displayed.
+		 * Formats a recipients array to be displayed.
 		 * The first four recipients will be shown and the
 		 * other ones will be shown as "+x" where "x" is the number of
 		 * remaining recipients.
@@ -146,7 +145,9 @@
 			if (!_.isNumber(count)) {
 				count = recipients.length;
 			}
-			text = _.first(recipients, maxRecipients).join(', ');
+			// TODO: use natural sort
+			recipients = _.first(recipients, maxRecipients).sort();
+			text = recipients.join(', ');
 			if (count > maxRecipients) {
 				text += ', +' + (count - maxRecipients);
 			}
@@ -156,6 +157,9 @@
 })();
 
 $(document).ready(function() {
-	OCA.Sharing.Util.initialize();
+	// FIXME: HACK: do not init when running unit tests, need a better way
+	if (!window.TESTING) {
+		OCA.Sharing.Util.initialize(OCA.Files.fileActions);
+	}
 });
 

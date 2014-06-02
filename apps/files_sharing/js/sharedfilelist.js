@@ -48,9 +48,6 @@
 			if (this._sharedWithUser) {
 				$tr.attr('data-share-owner', fileData.shares[0].ownerDisplayName);
 			}
-			if (fileData.recipientsDisplayName) {
-				$tr.attr('data-share-recipients', fileData.recipientsDisplayName);
-			}
 			return $tr;
 		},
 
@@ -201,11 +198,9 @@
 						data.shares.push(file.share);
 					}
 
-					if (file.share.type === OC.Share.SHARE_TYPE_LINK) {
-						data.hasLinkShare = true;
-					} else if (recipient) {
+					if (recipient) {
 						// limit counterparts for output
-						if (data.recipientsCount < 3) {
+						if (data.recipientsCount < 4) {
 							// only store the first ones, they will be the only ones
 							// displayed
 							data.recipients[recipient] = true;
@@ -222,11 +217,7 @@
 				.each(function(data) {
 					// convert the recipients map to a flat
 					// array of sorted names
-					data.recipients = _.chain(data.recipients).keys().sort().value();
-					if (data.hasLinkShare) {
-						data.recipients.unshift(t('files_sharing', 'Public'));
-						delete data.hasLinkShare;
-					}
+					data.recipients = _.keys(data.recipients);
 					data.recipientsDisplayName = OCA.Sharing.Util.formatRecipients(
 						data.recipients,
 						data.recipientsCount

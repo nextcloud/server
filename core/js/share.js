@@ -48,7 +48,7 @@ OC.Share={
 			currentDir = fileList.getCurrentDirectory();
 		}
 		for (item in OC.Share.statuses){
-			var image = OC.imagePath('core', 'actions/shared');
+			var image = OC.imagePath('core', 'actions/share');
 			var data = OC.Share.statuses[item];
 			var hasLink = data.link;
 			// Links override shared in terms of icon display
@@ -113,7 +113,7 @@ OC.Share={
 					}
 				} else if (OC.Share.itemShares[index].length > 0) {
 					shares = true;
-					image = OC.imagePath('core', 'actions/shared');
+					image = OC.imagePath('core', 'actions/share');
 				}
 			}
 		});
@@ -165,17 +165,7 @@ OC.Share={
 				image = image || OC.imagePath('core', 'actions/share');
 			}
 			if (recipients) {
-				image = image || OC.imagePath('core', 'actions/shared');
-				if (owner) {
-					message = ' ' + t(
-						'files_sharing',
-						'Shared by {owner} with You, {recipients}',
-						{owner: owner, recipients: recipients}
-					);
-				}
-				else {
-					message = t('core', 'Shared with {recipients}', {recipients: recipients});
-				}
+				message = t('core', 'Shared with {recipients}', {recipients: recipients});
 			}
 			action.html(' <span>'+ message + '</span>').prepend(img);
 		}
