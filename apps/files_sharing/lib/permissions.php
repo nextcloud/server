@@ -79,7 +79,11 @@ class Shared_Permissions extends Permissions {
 	 */
 	public function getDirectoryPermissions($parentId, $user) {
 
-		$fileCacheId = ($parentId === -1) ? $this->storage->getSourceId() : $parentId;
+		if ($parentId === -1 && $this->storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+			$fileCacheId =  $this->storage->getSourceId();
+		} else {
+			$fileCacheId = $parentId;
+		}
 
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `parent` = ?');
 		$result = $query->execute(array($fileCacheId));
