@@ -252,7 +252,7 @@ describe('OCA.Files.FileList tests', function() {
 				size: '0'
 			};
 			var $tr = fileList.add(fileData);
-			expect($tr.find('.filesize').text()).toEqual('0 B');
+			expect($tr.find('.filesize').text()).toEqual('0 kB');
 		});
 		it('adds new file to the end of the list', function() {
 			var $tr;

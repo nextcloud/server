@@ -500,6 +500,19 @@ describe('Core base tests', function() {
 					expect(OC.Util.humanFileSize(data[i][0])).toEqual(data[i][1]);
 				}
 			});
+			it('renders file sizes with the correct unit for small sizes', function() {
+				var data = [
+					[0, '0 kB'],
+					[125, '< 1 kB'],
+					[128000, '125 kB'],
+					[128000000, '122.1 MB'],
+					[128000000000, '119.2 GB'],
+					[128000000000000, '116.4 TB']
+				];
+				for (var i = 0; i < data.length; i++) {
+					expect(OC.Util.humanFileSize(data[i][0], true)).toEqual(data[i][1]);
+				}
+			});
 		});
 	});
 });
