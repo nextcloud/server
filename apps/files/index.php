@@ -123,6 +123,5 @@ $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('appNavigation', $nav);
 $tmpl->assign('appContents', $contentItems);
-$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 
 $tmpl->printPage();

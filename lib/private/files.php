@@ -108,7 +108,6 @@ class OC_Files {
 				$xsendfile = false;
 			}
 		} else {
-			self::validateZipDownload($dir, $files);
 			$zip = new ZipStreamer(false);
 		}
 		OC_Util::obEnd();
@@ -217,53 +216,6 @@ class OC_Files {
 				fclose($fh);
 			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				self::zipAddDir($file, $zip, $internalDir);
-			}
-		}
-	}
-
-	/**
-	 * checks if the selected files are within the size constraint. If not, outputs an error page.
-	 *
-	 * @param string $dir
-	 * @param array|string $files
-	 */
-	static function validateZipDownload($dir, $files) {
-		if (!OC_Config::getValue('allowZipDownload', true)) {
-			$l = OC_L10N::get('lib');
-			header("HTTP/1.0 409 Conflict");
-			OC_Template::printErrorPage(
-					$l->t('ZIP download is turned off.'),
-					$l->t('Files need to be downloaded one by one.')
-						. '<br/><a href="'.OCP\Util::linkTo('files', 'index.php', array('dir' => $dir)).'">' . $l->t('Back to Files') . '</a>'
-			);
-			exit;
-		}
-
-		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
-		if ($zipLimit > 0) {
-			$totalsize = 0;
-			if(!is_array($files)) {
-				$files = array($files);
-			}
-			foreach ($files as $file) {
-				$path = $dir . '/' . $file;
-				if(\OC\Files\Filesystem::is_dir($path)) {
-					foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
-						$totalsize += $i['size'];
-					}
-				} else {
-					$totalsize += \OC\Files\Filesystem::filesize($path);
-				}
-			}
-			if ($totalsize > $zipLimit) {
-				$l = OC_L10N::get('lib');
-				header("HTTP/1.0 409 Conflict");
-				OC_Template::printErrorPage(
-						$l->t('Selected files too large to generate zip file.'),
-						$l->t('Please download the files separately in smaller chunks or kindly ask your administrator.')
-						. '<br/><a href="'.OCP\Util::linkTo('files', 'index.php', array('dir' => $dir)).'">' . $l->t('Back to Files') . '</a>'
-				);
-				exit;
 			}
 		}
 	}

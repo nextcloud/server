@@ -67,7 +67,7 @@ describe('OCA.Sharing.App tests', function() {
 				expect(fileActions.actions.all).toBeDefined();
 				expect(fileActions.actions.all.Delete).toBeDefined();
 				expect(fileActions.actions.all.Rename).toBeDefined();
-				expect(fileActions.actions.file.Download).toBeDefined();
+				expect(fileActions.actions.all.Download).toBeDefined();
 
 				expect(fileActions.defaults.dir).toEqual('Open');
 			});
