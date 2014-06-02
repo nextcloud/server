@@ -164,7 +164,9 @@ class LockingWrapper extends Wrapper {
 
 	public function unlink($path) {
 		try {
-			$this->getLock($path, Lock::WRITE);
+			if (\OC\Files\Filesystem::is_file($path)) {
+				$this->getLock($path, Lock::WRITE);
+			}
 			$result = $this->storage->unlink($path);
 		}
 		catch(\Exception $originalException) {
