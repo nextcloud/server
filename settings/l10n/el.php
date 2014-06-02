@@ -134,6 +134,7 @@ $TRANSLATIONS = array(
 "Email Server" => "Διακομιστής Email",
 "This is used for sending out notifications." => "Χρησιμοποιείται για αποστολή ειδοποιήσεων.",
 "From address" => "Από τη διεύθυνση",
+"mail" => "ταχυδρομείο",
 "Authentication required" => "Απαιτείται πιστοποίηση",
 "Server address" => "Διεύθυνση διακομιστή",
 "Port" => "Θύρα",

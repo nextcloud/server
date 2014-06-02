@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Shared with you" => "Dies wurde mit Dir geteilt",
-"Shared with others" => "Dies wurde mit anderen geteilt",
+"Shared with you" => "Mit Dir geteilt",
+"Shared with others" => "Von Dir geteilt",
 "No files have been shared with you yet." => "Es wurden bis jetzt keine Dateien mit Dir geteilt.",
 "You haven't shared any files yet." => "Du hast bis jetzt keine Dateien mit anderen geteilt.",
 "Shared by {owner}" => "Geteilt von {owner}",
