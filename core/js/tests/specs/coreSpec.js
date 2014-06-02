@@ -359,8 +359,10 @@ describe('Core base tests', function() {
 		var oldMatchMedia;
 		var $toggle;
 		var $navigation;
+		var clock;
 
 		beforeEach(function() {
+			clock = sinon.useFakeTimers();
 			oldMatchMedia = OC._matchMedia;
 			// a separate method was needed because window.matchMedia
 			// cannot be stubbed due to a bug in PhantomJS:
@@ -376,6 +378,7 @@ describe('Core base tests', function() {
 
 		afterEach(function() {
 			OC._matchMedia = oldMatchMedia;
+			clock.restore();
 		});
 		it('Sets up menu toggle in mobile mode', function() {
 			OC._matchMedia.returns({matches: true});
@@ -413,8 +416,10 @@ describe('Core base tests', function() {
 			$navigation.hide(); // normally done through media query triggered CSS
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(true);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(false);
 		});
 		it('Clicking menu toggle does not toggle navigation in desktop mode', function() {
@@ -448,6 +453,7 @@ describe('Core base tests', function() {
 			window.initCore();
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(true);
 			mq.matches = false;
 			$(window).trigger('resize');
@@ -456,6 +462,7 @@ describe('Core base tests', function() {
 			$(window).trigger('resize');
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(true);
 		});
 	});
