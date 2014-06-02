@@ -124,6 +124,17 @@ describe('Core base tests', function() {
 			expect(OC.dirname('/subdir/')).toEqual('/subdir');
 		});
 	});
+	describe('escapeHTML', function() {
+		it('Returns nothing if no string was given', function() {
+			expect(escapeHTML('')).toEqual('');
+		});
+		it('Returns a sanitized string if a string containing HTML is given', function() {
+			expect(escapeHTML('There needs to be a <script>alert(\"Unit\" + \'test\')</script> for it!')).toEqual('There needs to be a &lt;script&gt;alert(&quot;Unit&quot; + &#039;test&#039;)&lt;/script&gt; for it!');
+		});
+		it('Returns the string without modification if no potentially dangerous character is passed.', function() {
+			expect(escapeHTML('This is a good string without HTML.')).toEqual('This is a good string without HTML.');
+		});
+	});
 	describe('Link functions', function() {
 		var TESTAPP = 'testapp';
 		var TESTAPP_ROOT = OC.webroot + '/appsx/testapp';
