@@ -24,7 +24,7 @@
  * (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * use server side events with caution, to many open requests can hang the
+ * use server side events with caution, too many open requests can hang the
  * server
  */
 
