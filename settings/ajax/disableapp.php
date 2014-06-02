@@ -1,5 +1,5 @@
 <?php
-OC_JSON::checkAdminUser();
+OCP\JSON::checkAdminUser();
 OCP\JSON::callCheck();
 
 if (!array_key_exists('appid', $_POST)) {

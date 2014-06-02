@@ -77,7 +77,7 @@ class OC_Installer{
 			throw new \Exception($l->t("App directory already exists"));
 		}
 
-		if(isset($data['pretent']) and $data['pretent']==true) {
+		if(!empty($data['pretent'])) {
 			return false;
 		}
 
@@ -176,7 +176,7 @@ class OC_Installer{
 				'appdata' => $appdata
 			);
 		} else {
-			throw new \Exception('Could fetch app info!');
+			throw new \Exception('Could not fetch app info!');
 		}
 
 		list($extractDir, $path) = self::downloadApp($info);

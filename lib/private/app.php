@@ -462,11 +462,10 @@ class OC_App{
 			}
 		}
 
-		if (count($possibleApps) === 0) {
+		if (empty($possibleApps)) {
 			return false;
 		} elseif(count($possibleApps) === 1) {
-			reset($possibleApps);
-			$dir = current($possibleApps);
+			$dir = array_shift($possibleApps);
 			$app_dir[$appId] = $dir;
 			return $dir;
 		} else {
@@ -485,7 +484,6 @@ class OC_App{
 			//TODO - write test
 		}
 	}
-
 
 	/**
 	 * Get the directory for the given app.
@@ -511,7 +509,6 @@ class OC_App{
 		return is_writable($path);
 	}
 
-
 	/**
 	 * Get the path for the given app on the access
 	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
@@ -535,7 +532,6 @@ class OC_App{
 		return self::getAppVersionByPath($file);
 	}
 
-
 	/**
 	 * get app's version based on it's path
 	 * @param string $path
@@ -544,8 +540,8 @@ class OC_App{
 	public static function getAppVersionByPath($path) {
 		$versionFile = $path . '/appinfo/version';
 		$infoFile = $path . '/appinfo/info.xml';
-		if(is_file($versionFile) && $version = trim(file_get_contents($versionFile))) {
-			return $version;
+		if(is_file($versionFile)) {
+			return trim(file_get_contents($versionFile));
 		}else{
 			$appData=self::getAppInfo($infoFile, true);
 			return isset($appData['version'])? $appData['version'] : '';
@@ -884,27 +880,27 @@ class OC_App{
 
 
 				// rating img
-				if ($app['score'] >= 0 && $app['score'] < 5) {
+				if ($app['score'] < 5) {
 					$img = OC_Helper::imagePath( "core", "rating/s1.png" );
-				} elseif ($app['score'] >= 5 && $app['score'] < 15) {
+				} elseif ($app['score'] < 15) {
 					$img = OC_Helper::imagePath( "core", "rating/s2.png" );
-				} elseif($app['score'] >= 15 && $app['score'] < 25) {
+				} elseif($app['score'] < 25) {
 					$img = OC_Helper::imagePath( "core", "rating/s3.png" );
-				} elseif($app['score'] >= 25 && $app['score'] < 35) {
+				} elseif($app['score'] < 35) {
 					$img = OC_Helper::imagePath( "core", "rating/s4.png" );
-				} elseif($app['score'] >= 35 && $app['score'] < 45) {
+				} elseif($app['score'] < 45) {
 					$img = OC_Helper::imagePath( "core", "rating/s5.png" );
-				} elseif($app['score'] >= 45 && $app['score'] < 55) {
+				} elseif($app['score'] < 55) {
 					$img = OC_Helper::imagePath( "core", "rating/s6.png" );
-				} elseif($app['score'] >= 55 && $app['score'] < 65) {
+				} elseif($app['score'] < 65) {
 					$img = OC_Helper::imagePath( "core", "rating/s7.png" );
-				} elseif($app['score'] >= 65 && $app['score'] < 75) {
+				} elseif($app['score'] < 75) {
 					$img = OC_Helper::imagePath( "core", "rating/s8.png" );
-				} elseif($app['score'] >= 75 && $app['score'] < 85) {
+				} elseif($app['score'] < 85) {
 					$img = OC_Helper::imagePath( "core", "rating/s9.png" );
-				} elseif($app['score'] >= 85 && $app['score'] < 95) {
+				} elseif($app['score'] < 95) {
 					$img = OC_Helper::imagePath( "core", "rating/s10.png" );
-				} elseif($app['score'] >= 95 && $app['score'] < 100) {
+				} elseif($app['score'] < 100) {
 					$img = OC_Helper::imagePath( "core", "rating/s11.png" );
 				}
 
@@ -1102,7 +1098,7 @@ class OC_App{
 			$version=OC_Util::getVersion();
 			if(!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
-					$l->t("App \"%s\" can't be installed because it is not compatible with this version of ownCloud.",
+					$l->t('App \"%s\" can\'t be installed because it is not compatible with this version of ownCloud.',
 						array($info['name'])
 					)
 				);
