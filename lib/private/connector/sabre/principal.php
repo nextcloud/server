@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-class OC_Connector_Sabre_Principal implements Sabre\DAVACL\IPrincipalBackend {
+class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	/**
 	 * Returns a list of principals based on a prefix.
 	 *

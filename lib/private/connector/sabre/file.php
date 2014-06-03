@@ -117,15 +117,6 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
-		// rename to correct path
-		$renameOkay = $this->fileView->rename($partpath, $this->path);
-		$fileExists = $this->fileView->file_exists($this->path);
-		if ($renameOkay === false || $fileExists === false) {
-			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-			$this->fileView->unlink($partpath);
-			throw new \Sabre\DAV\Exception('Could not rename part file to final file');
-		}
-
 		// allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {
