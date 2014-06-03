@@ -730,6 +730,8 @@ class Trashbin {
 	 */
 	private static function expire($trashbinSize, $user) {
 
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
+
 		// let the admin disable auto expire
 		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
 		if ($autoExpire === false) {
@@ -740,17 +742,16 @@ class Trashbin {
 		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
-		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash` WHERE `user`=?');
-		$result = $query->execute(array($user))->fetchAll();
-
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation', self::DEFAULT_RETENTION_OBLIGATION);
 
 		$limit = time() - ($retention_obligation * 86400);
 
-		foreach ($result as $r) {
-			$timestamp = $r['timestamp'];
-			$filename = $r['id'];
-			if ($r['timestamp'] < $limit) {
+		$dirContent = $view->getDirectoryContent('/files');
+
+		foreach ($dirContent as $file) {
+			$timestamp = $file['mtime'];
+			$filename = pathinfo($file['name'], PATHINFO_FILENAME);
+			if ($timestamp < $limit) {
 				$size += self::delete($filename, $timestamp);
 				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" fom trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
 			}
