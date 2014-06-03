@@ -513,14 +513,23 @@ class Cache {
 	public function search($pattern) {
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
+		
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`,
+					`mimetype`, `mimepart`, `size`, `mtime`,
+					`encrypted`, `unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache`
+				WHERE `storage` = ? AND ';
+		if(\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+			//remove starting and ending % from the pattern
+			$pattern = trim($pattern, '%');
+			$sql .= 'REGEXP_LIKE(`name`, ?, \'i\')';
+		} else {
+			$sql .= '`name` LIKE ?';
+		}
 
-		$result = \OC_DB::executeAudited('
-			SELECT `fileid`, `storage`, `path`, `parent`, `name`,
-				`mimetype`, `mimepart`, `size`, `mtime`,
-				`encrypted`, `unencrypted_size`, `etag`
-			FROM `*PREFIX*filecache`
-			WHERE `name` LIKE ? AND `storage` = ?',
-			array($pattern, $this->numericId)
+		$result = \OC_DB::executeAudited(
+			$sql,
+			array($this->numericId, $pattern)
 		);
 		$files = array();
 		while ($row = $result->fetchRow()) {
