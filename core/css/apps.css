@@ -278,3 +278,12 @@ button.loading {
 .appear.transparent {
 	opacity: 0;
 }
+
+
+/* do not use italic typeface style, instead lighter color */
+em {
+	font-style: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
