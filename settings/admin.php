@@ -88,6 +88,11 @@ $tmpl->assign('forms', array());
 foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
+
+// TODO - replace by:
+// > 5 users OR > 1000 files
+$tmpl->assign('databaseOverload', true);
+
 $tmpl->printPage();
 
 /**
