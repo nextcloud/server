@@ -129,7 +129,6 @@ class LostController extends Controller {
 		}
 		
 		$link = $this->getLink('core.lost.resetform', $user, $token);
-		echo $link;
 		$tmpl = new \OC_Template('core/lostpassword', 'email');
 		$tmpl->assign('link', $link, false);
 		$msg = $tmpl->fetchPage();
